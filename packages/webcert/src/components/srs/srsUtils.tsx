@@ -85,8 +85,8 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
   const filteredPredictions = getFilteredPredictions(predictions)
   return (
     filteredPredictions &&
-    filteredPredictions[0] &&
-    filteredPredictions[0].probabilityOverLimit &&
+    !!filteredPredictions[0] &&
+    !!filteredPredictions[0].probabilityOverLimit &&
     filteredPredictions[0].probabilityOverLimit > 0
   )
 }

@@ -1,24 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
+  resetState,
   setDiagnosisCodes,
   setDiagnosisListValue,
   toggleSRSFunctionDisabler,
+  updateCareProviderId,
   updateCertificateId,
   updateError,
   updateIsCertificateRenewed,
-  updatePatientId,
-  updateSrsInfo,
-  updateSickLeaveChoice,
-  updateSrsQuestions,
-  updateSrsPredictions,
-  updateRiskOpinion,
-  updateUnitId,
-  updateCareProviderId,
-  resetState,
   updateLoading,
+  updatePatientId,
+  updateRiskOpinion,
+  updateSickLeaveChoice,
+  updateSrsAnswers,
+  updateSrsInfo,
+  updateSrsPredictions,
+  updateSrsQuestions,
+  updateUnitId,
 } from './srsActions'
-import { SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
 export interface SRSState {
@@ -37,6 +38,7 @@ export interface SRSState {
   srsPredictions: SrsPrediction[]
   riskOpinion: string
   loading: boolean
+  answers: SrsAnswer[]
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -56,6 +58,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     srsPredictions: [],
     riskOpinion: '',
     loading: false,
+    answers: [],
   }
 }
 
@@ -108,6 +111,9 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateLoading, (state, action) => {
       state.loading = action.payload
+    })
+    .addCase(updateSrsAnswers, (state, action) => {
+      state.answers = action.payload
     })
     .addCase(updateIsCertificateRenewed, (state, action) => {
       state.isCertificateRenewed = action.payload

@@ -38,6 +38,7 @@ import {
   updateIsCertificateRenewed,
   updateLoading,
   updatePatientId,
+  updateSrsAnswers,
   updateSrsInfo,
   updateSrsPredictions,
   updateSrsQuestions,
@@ -46,11 +47,11 @@ import {
 import {
   Certificate,
   CertificateDataValueType,
-  ValueDiagnosisList,
-  SrsInfoForDiagnosis,
   isRenewedChild,
-  SrsQuestion,
   SrsEvent,
+  SrsInfoForDiagnosis,
+  SrsQuestion,
+  ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { getMainDiagnosisCode } from '../../components/srs/srsUtils'
@@ -110,6 +111,14 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
   dispatch(updateSrsInfo(action.payload))
   dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
   dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+
+  if (
+    action.payload.predictions.length > 0 &&
+    action.payload.predictions[0].questionsResponses &&
+    action.payload.predictions[0].questionsResponses.length > 0
+  ) {
+    dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
+  }
 }
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: PayloadAction<string>): void => {
@@ -159,6 +168,13 @@ export const handleGetPredictionsSuccess: Middleware<Dispatch> = ({ dispatch }: 
 ): void => {
   dispatch(updateError(false))
   dispatch(updateSrsPredictions(action.payload.predictions))
+  if (
+    action.payload.predictions.length > 0 &&
+    action.payload.predictions[0].questionsResponses &&
+    action.payload.predictions[0].questionsResponses.length > 0
+  ) {
+    dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
+  }
 }
 
 export const handleSetRiskOpinion: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
