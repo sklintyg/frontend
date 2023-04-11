@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
@@ -18,6 +18,13 @@ export function CurrentSickLeaves() {
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = !!user && !!user.roles.LAKARE
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/')
+    }
+  }, [user, userLoading, navigate])
 
   useEffect(
     () => () => {

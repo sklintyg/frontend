@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { Patient } from '../schemas/patientSchema'
-import { Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -65,7 +65,10 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
-    getPopulatedFilters: builder.query<{ activeDoctors: Lakare[] }, void>({
+    getPopulatedFilters: builder.query<
+      { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
+      void
+    >({
       query: () => ({
         url: 'sickleaves/filters',
       }),

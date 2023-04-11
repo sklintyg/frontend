@@ -13,7 +13,7 @@ const initialState: SickLeaveState = {
   showPersonalInformation: true,
   ascending: false,
   currentColumn: SickLeaveColumn.Startdatum,
-  filter: { doctorIds: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
+  filter: { doctorIds: [], diagnoses: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
 }
 
 const sickLeaveSlice = createSlice({
@@ -26,8 +26,8 @@ const sickLeaveSlice = createSlice({
     resetFilters(state) {
       state.filter = initialState.filter
     },
-    updateFilter(state, { payload }: PayloadAction<SickLeaveFilter>) {
-      state.filter = payload
+    updateFilter(state, { payload }: PayloadAction<Partial<SickLeaveFilter>>) {
+      Object.assign(state.filter, payload)
     },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
       state.showPersonalInformation = payload

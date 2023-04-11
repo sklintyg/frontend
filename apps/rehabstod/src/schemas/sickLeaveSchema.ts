@@ -83,15 +83,30 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareNamn: z.string(),
 })
 
+export const diagnosKategoriSchema = z.object({
+  letter: z.string(),
+  number: z.number(),
+})
+
+export const diagnosKapitelSchema = z.object({
+  to: diagnosKategoriSchema,
+  from: diagnosKategoriSchema,
+  name: z.string(),
+  id: z.string(),
+})
+
 export const sickLeaveFilterSchema = z.object({
   doctorIds: z.array(z.string()),
   toSickLeaveLength: z.number(),
   fromSickLeaveLength: z.number(),
+  diagnoses: z.array(diagnosKapitelSchema),
 })
 
-export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
-export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
-export type SickLeaveDiagnosis = z.infer<typeof sickLeaveDiagnosisSchema>
+export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
+export type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
 export type Lakare = z.infer<typeof lakareSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
 export type RiskSignal = z.infer<typeof riskSignalSchema>
+export type SickLeaveDiagnosis = z.infer<typeof sickLeaveDiagnosisSchema>
+export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
+export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
