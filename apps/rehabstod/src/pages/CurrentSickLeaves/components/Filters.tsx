@@ -1,12 +1,13 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActiveSickLeavesRequest } from '../../../store/types/sickLeave'
+import { ActiveSickLeavesRequest, DiagnosKapitel } from '../../../store/types/sickLeave'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { RootState } from '../../../store/store'
 import { updateFilter } from '../sickLeaveSlice'
+import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
 
 export function Filters({
   onSearch,
@@ -34,6 +35,10 @@ export function Filters({
     dispatch(updateFilter({ ...filterRequest, doctorIds }))
   }
 
+  const onDiagnosesChange = (diagnoses: DiagnosKapitel[]) => {
+    dispatch(updateFilter({ ...filterRequest, diagnoses }))
+  }
+
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
@@ -42,14 +47,23 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          {!isDoctor && (
-            <DoctorFilter
-              onChange={onDoctorChange}
-              doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
-              selected={filterRequest ? filterRequest.doctorIds : []}
-              description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
+          <div className="flex gap-2">
+            <DiagnosisFilter
+              onChange={onDiagnosesChange}
+              allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
+              enabledDiagnoses={(populatedFilters && populatedFilters.enabledDiagnosisChapters) || []}
+              selected={filterRequest.diagnoses}
+              description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
             />
-          )}
+            {!isDoctor && (
+              <DoctorFilter
+                onChange={onDoctorChange}
+                doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
+                selected={filterRequest ? filterRequest.doctorIds : []}
+                description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
+              />
+            )}
+          </div>
           <TimePeriodFilter
             title="Välj sjukskrivningslängd"
             onFromChange={onFromTimeChange}

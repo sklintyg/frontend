@@ -74,12 +74,27 @@ export interface RiskSignal {
   riskKategori: number
 }
 
+export interface DiagnosKategori {
+  letter: string
+  number: number
+}
+
+export interface DiagnosKapitel {
+  to: DiagnosKategori
+  from: DiagnosKategori
+  name: string
+  id: string
+}
+
 export interface ActiveSickLeavesRequest {
   doctorIds: string[]
+  diagnoses: DiagnosKapitel[]
   toSickLeaveLength: number
   fromSickLeaveLength: number
 }
 
 export interface PopulateFiltersResponse {
   activeDoctors: Lakare[]
+  allDiagnosisChapters: DiagnosKapitel[]
+  enabledDiagnosisChapters: DiagnosKapitel[]
 }

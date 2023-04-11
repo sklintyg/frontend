@@ -13,7 +13,7 @@ const initialState: SickLeaveState = {
   showPersonalInformation: true,
   ascending: false,
   currentColumn: SickLeaveColumn.Startdatum,
-  filterRequest: { doctorIds: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
+  filterRequest: { doctorIds: [], diagnoses: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
 }
 
 const sickLeaveSlice = createSlice({
