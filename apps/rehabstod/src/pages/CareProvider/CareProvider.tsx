@@ -35,7 +35,7 @@ export function CareProvider() {
   return !isLoading && user ? (
     <div className="my-16 w-full px-4 md:w-1/2 md:px-0">
       <div className="mb-7">
-        <h1 className="ids-heading-1 pt-8 pb-4">Välj enhet</h1>
+        <h1 className="ids-heading-1 py-4">Välj enhet</h1>
         <p className="ids-preamble my-5">
           Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
           inloggning.

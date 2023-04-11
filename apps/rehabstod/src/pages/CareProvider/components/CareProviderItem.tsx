@@ -1,4 +1,4 @@
-import { Radio } from '../../../components/Form/Radio'
+import { IDSRadio } from '@frontend/ids-react-ts'
 import { Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
@@ -19,31 +19,38 @@ export function CareProviderItem({
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.id}>
-                  <div className="flex items-center">
-                    <label htmlFor={reception.id} className={`ml-10 cursor-pointer ${selectedRadio === reception.id ? 'font-bold' : ''} `}>
-                      {reception.namn}
+                <div key={reception.namn} className="flex items-center">
+                  <IDSRadio>
+                    <input
+                      type="radio"
+                      name="selectedUnit"
+                      value={unit.namn}
+                      id={reception.namn}
+                      onChange={(event) => handleChooseUnit(event, provider, unit)}
+                    />
+                    <label
+                      htmlFor={reception.namn}
+                      className={`cursor-pointer items-center ${selectedRadio === reception.namn ? 'font-bold' : ''}`}>
+                      <span className="ml-5"> {reception.namn}</span>
                     </label>
-                    <div className="ml-auto">
-                      <Radio
-                        name="selectedUnit"
-                        value={unit.namn}
-                        id={reception.id}
-                        onChange={(event) => handleChooseUnit(event, provider, unit)}
-                      />
-                    </div>
-                  </div>
+                  </IDSRadio>
                 </div>
               ))}
             </CareProviderAccordion>
           ) : (
-            <div className="flex items-center justify-between">
-              <label htmlFor={unit.id} className={`ml-10 cursor-pointer ${selectedRadio === unit.id ? 'font-bold' : ''} `}>
-                {unit.namn}
-              </label>
-              <div>
-                <Radio name="selectedUnit" value={unit.namn} id={unit.id} onChange={(event) => handleChooseUnit(event, provider, unit)} />
-              </div>
+            <div className="flex items-center">
+              <IDSRadio>
+                <input
+                  type="radio"
+                  name="selectedUnit"
+                  value={unit.namn}
+                  id={unit.namn}
+                  onChange={(event) => handleChooseUnit(event, provider, unit)}
+                />
+                <label htmlFor={unit.namn} className={` cursor-pointer ${selectedRadio === unit.namn ? 'font-bold' : ''}`}>
+                  {unit.namn}
+                </label>
+              </IDSRadio>
             </div>
           )}
         </div>

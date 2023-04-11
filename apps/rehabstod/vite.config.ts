@@ -27,7 +27,7 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
-    plugins: [react(), basicSsl()],
+    plugins: [react()].concat(https ? [basicSsl()] : []),
     server: {
       host,
       https,

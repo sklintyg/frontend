@@ -1,3 +1,5 @@
 export * from './IDSHeader'
 export * from './IDSHeaderAvatar'
 export * from './IDSHeaderItem'
+export * from './IDSHeaderNav'
+export * from './IDSHeaderNavItem'
