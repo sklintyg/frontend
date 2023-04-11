@@ -1,4 +1,6 @@
-import { IDSTooltip } from '@frontend/ids-react-ts'
+import { Tooltip } from '../Tooltip/Tooltip'
+import { TooltipContent } from '../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { SortingIcon } from './SortingIcon'
 
 export function TableHeaderCell<T extends string>({
@@ -34,14 +36,14 @@ export function TableHeaderCell<T extends string>({
         </span>
       )}
       {description && (
-        <IDSTooltip>
-          <span slot="trigger">
-            {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
-          </span>
-          <p slot="tooltip" className="max-w-xs whitespace-normal md:max-w-sm">
-            {description}
-          </p>
-        </IDSTooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <span>
+              {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>{description}</TooltipContent>
+        </Tooltip>
       )}
     </th>
   )
