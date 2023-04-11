@@ -100,8 +100,13 @@ export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: Mid
   )
 }
 
+export const handleGetRecommendationsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateLoading(true))
+}
+
 export const handleGetRecommendationsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
+  dispatch(updateLoading(false))
 }
 
 export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -119,6 +124,8 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
   ) {
     dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
   }
+
+  dispatch(updateLoading(false))
 }
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: PayloadAction<string>): void => {
@@ -258,6 +265,7 @@ const middlewareMethods = {
   [getSRSCodesSuccess.type]: handleGetSRSCodesSuccess,
   [getSRSCodesStarted.type]: handleGetSRSCodesStarted,
   [getRecommendations.type]: handleGetRecommendations,
+  [getRecommendationsStarted.type]: handleGetRecommendationsStarted,
   [getRecommendationsError.type]: handleGetRecommendationsError,
   [getRecommendationsSuccess.type]: handleGetRecommendationsSuccess,
   [getQuestions.type]: handleGetQuestions,
