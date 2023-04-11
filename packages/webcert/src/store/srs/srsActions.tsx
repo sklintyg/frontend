@@ -96,6 +96,7 @@ export interface PredictionsRequest {
   code: string
   certificateId: string
   answers: SrsAnswer[]
+  daysIntoSickLeave: number | undefined
 }
 
 export interface RiskOpinionRequest {

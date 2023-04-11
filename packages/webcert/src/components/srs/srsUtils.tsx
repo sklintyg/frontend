@@ -46,7 +46,8 @@ export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
 
   const diagnosisCode = predictions[0].diagnosisCode
   return predictions.filter(
-    (prediction) => prediction.diagnosisCode.includes(diagnosisCode) || diagnosisCode.includes(prediction.diagnosisCode)
+    (prediction) =>
+      (prediction.diagnosisCode && prediction.diagnosisCode.includes(diagnosisCode)) || diagnosisCode.includes(prediction.diagnosisCode)
   )
 }
 

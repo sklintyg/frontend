@@ -149,7 +149,11 @@ export const handleGetPredictions: Middleware<Dispatch> = ({ dispatch }: Middlew
 ): void => {
   dispatch(
     apiCallBegan({
-      url: `/api/srs/${action.payload.certificateId}/${action.payload.patientId}/${action.payload.code}?prediktion=true&atgard=false&statistik=false`,
+      url: `/api/srs/${action.payload.certificateId}/${action.payload.patientId}/${
+        action.payload.code
+      }?prediktion=true&atgard=false&statistik=false${
+        action.payload.daysIntoSickLeave ? '/daysIntoSickLeave=' + action.payload.daysIntoSickLeave : ''
+      }`,
       method: 'POST',
       data: action.payload.answers,
       onStart: getPredictionsStarted.type,

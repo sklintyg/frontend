@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getCertificateId,
   getDiagnosisListValue,
+  getIsCertificateRenewed,
   getPatientId,
   getPreviousAnswers,
   getSickLeaveChoice,
@@ -47,6 +48,7 @@ const SrsRisk: React.FC = () => {
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const valueDiagnosis = useSelector(getDiagnosisListValue)
   const previousAnswers = useSelector(getPreviousAnswers)
+  const isCertificateRenewal = useSelector(getIsCertificateRenewed)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   const getIcon = () => {
@@ -80,6 +82,7 @@ const SrsRisk: React.FC = () => {
         certificateId: certificateId,
         code: getMainDiagnosisCode(valueDiagnosis),
         answers: answers,
+        daysIntoSickLeave: isCertificateRenewal ? 45 : undefined,
       })
     )
 
