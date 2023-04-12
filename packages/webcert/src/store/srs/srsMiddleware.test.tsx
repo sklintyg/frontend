@@ -106,6 +106,7 @@ describe('Test certificate middleware', () => {
       certificateId: 'id',
       patientId: 'pid',
       code: 'j20',
+      daysIntoSickLeave: undefined,
     }
 
     it('should set error if api error', async () => {
@@ -137,6 +138,7 @@ describe('Test certificate middleware', () => {
       code: 'code',
       certificateId: 'certificateId',
       answers: [fakeSrsAnswer()],
+      daysIntoSickLeave: undefined,
     }
 
     it('should set error if api error', async () => {
@@ -160,6 +162,21 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(getPredictions(request))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.srsPredictions).toEqual(expectedResponse.predictions)
+    })
+
+    it('should perform api call to correct endpoint if daysIntoSickLeave is missing', async () => {
+      testStore.dispatch(getPredictions(request))
+      await flushPromises()
+      expect(fakeAxios.history.post[0].url).toEqual('/api/srs/certificateId/patientId/code?prediktion=true&atgard=false&statistik=false')
+    })
+
+    it('should perform api call to correct endpoint if daysIntoSickLeave is set', async () => {
+      request.daysIntoSickLeave = 45
+      testStore.dispatch(getPredictions(request))
+      await flushPromises()
+      expect(fakeAxios.history.post[0].url).toEqual(
+        '/api/srs/certificateId/patientId/code?prediktion=true&atgard=false&statistik=false&daysIntoSickLeave=45'
+      )
     })
   })
 
