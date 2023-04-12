@@ -14,6 +14,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+import { vi } from 'vitest'
 
 let store: EnhancedStore
 const renderComponent = () => {
@@ -27,6 +28,7 @@ const renderComponent = () => {
 describe('SrsRisk', () => {
   beforeEach(() => {
     store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
+    HTMLElement.prototype.scrollIntoView = vi.fn()
   })
 
   afterEach(() => {
@@ -93,7 +95,7 @@ describe('SrsRisk', () => {
       expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
     })
 
-    it('should show chevron down icon when button has not been pressed', () => {
+    it('should show chevron up icon when button has not been pressed', () => {
       renderComponent()
       userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
