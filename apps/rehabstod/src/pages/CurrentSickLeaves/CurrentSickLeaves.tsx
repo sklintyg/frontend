@@ -1,6 +1,7 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
@@ -11,12 +12,20 @@ import { reset, resetFilters, sortOnColumn, toggleAscending, updateShowPersonalI
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
+  const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = !!user && !!user.roles.LAKARE
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/')
+    }
+  }, [user, userLoading, navigate])
 
   useEffect(
     () => () => {
@@ -24,6 +33,10 @@ export function CurrentSickLeaves() {
     },
     [dispatch]
   )
+
+  if (patientId) {
+    return <Outlet />
+  }
 
   return (
     <div className="ids-content py-10">
