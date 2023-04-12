@@ -7,6 +7,7 @@ import { LayoutHeaderTab } from './LayoutHeaderTab'
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
+  const sithsUrl = '/saml/login/alias/siths-rs2'
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -48,7 +49,7 @@ export function LayoutHeader() {
 
       {!isLoading && !user && (
         <IDSHeaderItem type="inera-admin" separator-left icon="user">
-          <Link to="login">Logga in</Link>
+          <a href={sithsUrl}>Logga in</a>
         </IDSHeaderItem>
       )}
     </IDSHeader>
