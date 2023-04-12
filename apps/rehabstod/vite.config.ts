@@ -10,13 +10,15 @@ export default ({ mode }: UserConfig) => {
     ...loadEnv(mode ?? 'development', process.cwd()),
   }
 
-  const https =
-    process.env.VITE_HTTPS === 'true'
+  const localCert =
+    fs.existsSync('cert/key.pem') && fs.existsSync('cert/cert.pem')
       ? {
-          key: fs.existsSync('cert/key.pem') && fs.readFileSync('cert/key.pem'),
-          cert: fs.existsSync('cert/cert.pem') && fs.readFileSync('cert/cert.pem'),
+          key: fs.readFileSync('cert/key.pem'),
+          cert: fs.readFileSync('cert/cert.pem'),
         }
       : false
+
+  const https = process.env.VITE_HTTPS === 'true' ? localCert : false
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
