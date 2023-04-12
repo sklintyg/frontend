@@ -5,13 +5,16 @@ import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
-  process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
+  process.env = {
+    ...process.env,
+    ...loadEnv(mode ?? 'development', process.cwd()),
+  }
 
   const https =
     process.env.VITE_HTTPS === 'true'
       ? {
-          key: fs.readFileSync('cert/key.pem'),
-          cert: fs.readFileSync('cert/cert.pem'),
+          key: fs.existsSync('cert/key.pem') && fs.readFileSync('cert/key.pem'),
+          cert: fs.existsSync('cert/cert.pem') && fs.readFileSync('cert/cert.pem'),
         }
       : false
   const hmr = !(process.env.VITE_HMR === 'false')

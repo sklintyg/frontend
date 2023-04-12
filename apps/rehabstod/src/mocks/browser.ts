@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { faker } from '@faker-js/faker'
 import { setupWorker } from 'msw'
 import { handlers } from './handlers'
