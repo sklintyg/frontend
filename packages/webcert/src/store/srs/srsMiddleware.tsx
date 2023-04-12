@@ -82,7 +82,6 @@ export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
 ): void => {
   dispatch(updateError(false))
   dispatch(setDiagnosisCodes(Object.values(action.payload)))
-  dispatch(updateLoading(false))
 }
 
 export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
