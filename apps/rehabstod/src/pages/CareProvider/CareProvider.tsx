@@ -22,8 +22,7 @@ export function CareProvider() {
 
     if (isChecked && selectedRadio) {
       UpdateUserPreferences({
-        valdVardgivare: selectedProvider.namn || '',
-        valdVardenhet: selectedRadio,
+        standardenhet: selectedUnit.id,
       })
     }
     changeUnit({
@@ -41,8 +40,7 @@ export function CareProvider() {
     setIsChecked(event.target.checked)
     if (isChecked && selectedRadio) {
       UpdateUserPreferences({
-        valdVardgivare: selectedProvider?.namn || '',
-        valdVardenhet: selectedRadio,
+        standardenhet: selectedUnit.id,
       })
     }
   }

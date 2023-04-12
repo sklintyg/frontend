@@ -1,7 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
+import {
+  Link,
+  Ping,
+  User,
+  UserPreferences,
+  Vardenhet,
+  Vardgivare,
+} from '../schemas'
 import { getCookie } from '../utils/cookies'
-import { ActiveSickLeavesRequest, PopulateFiltersResponse, SickLeaveInfo } from './types/sickLeave'
+import {
+  ActiveSickLeavesRequest,
+  PopulateFiltersResponse,
+  SickLeaveInfo,
+} from './types/sickLeave'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -20,17 +31,26 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet }>({
+    changeUnit: builder.mutation<
+      User,
+      { vardgivare: Vardgivare; vardenhet: Vardenhet }
+    >({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
         body: { id: vardenhet.id },
       }),
       invalidatesTags: ['SickLeavesFilter'],
-      async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { vardgivare, vardenhet },
+        { dispatch, queryFulfilled }
+      ) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, { valdVardgivare: vardgivare, valdVardenhet: vardenhet })
+            Object.assign(draft, {
+              valdVardgivare: vardgivare,
+              valdVardenhet: vardenhet,
+            })
           )
         )
         try {
@@ -40,13 +60,17 @@ export const api = createApi({
         }
       },
     }),
-    updateUserPreferences: builder.mutation<User, { valdVardgivare: string; valdVardenhet: string }>({
-      query: ({ valdVardgivare, valdVardenhet }) => ({
+    updateUserPreferences: builder.mutation<
+      UserPreferences,
+      { standardenhet: string }
+    >({
+      query: ({ standardenhet }) => ({
         url: 'user/preferences',
-        method: 'PUT',
-        body: { valdVardgivare, valdVardenhet },
+        method: 'POST',
+        body: { standardenhet },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'User'],
+      transformResponse: (response: { content: UserPreferences }) =>
+        response.content,
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -70,7 +94,8 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
+      transformResponse: (response: { content: SickLeaveInfo[] }) =>
+        response.content,
     }),
     getPopulatedFilters: builder.query<PopulateFiltersResponse, void>({
       query: () => ({
