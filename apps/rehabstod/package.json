@@ -16,7 +16,7 @@
     "mkcert": "mkcert -key-file cert/key.pem -cert-file cert/cert.pem rs2.rs.localtest.me"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "vitest related --run"
+    "*.{js,jsx,ts,tsx}": "yarn test related --run"
   },
   "dependencies": {
     "@frontend/fake": "*",
