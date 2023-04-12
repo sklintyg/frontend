@@ -2,10 +2,10 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
-import { Link, linkSchema } from '../../schemas'
-import { patientSchema } from '../../schemas/patientSchema'
-import { lakareSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
-import { fakeUser } from '../../utils/fake'
+import { Link, linkSchema } from '../schemas'
+import { patientSchema } from '../schemas/patientSchema'
+import { lakareSchema, sickLeaveInfoSchema } from '../schemas/sickLeaveSchema'
+import { fakeUser } from '../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
@@ -19,13 +19,9 @@ export const handlers = [
       ctx.status(200),
       ctx.json<Record<string, Link>>({
         ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod' }),
-        ineraNationellKundservice: fakeLink({
-          text: 'ineraNationellKundservice',
-        }),
+        ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice' }),
         ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
-        ineraBehandlingPersonuppgifter: fakeLink({
-          text: 'ineraBehandlingPersonuppgifter',
-        }),
+        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
       })
     )
   ),
