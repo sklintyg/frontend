@@ -3,8 +3,7 @@ import { IDSTooltip } from '@frontend/ids-react-ts'
 export function DiagnosisInfo({ code, description, isSubDiagnosis }: { code: string; description: string; isSubDiagnosis: boolean }) {
   return (
     <IDSTooltip>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-      <div slot="trigger" tabIndex={0}>
+      <div slot="trigger">
         {code} {!isSubDiagnosis && description}
       </div>
       <div slot="tooltip">

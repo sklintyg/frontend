@@ -1,6 +1,6 @@
 import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
+import { SickLeaveColumn } from '../../../schemas/sickLeaveSchema'
 import { useGetUserQuery } from '../../../store/api'
-import { SickLeaveColumn } from '../../../store/types/sickLeave'
 
 export function TableHeaderRow({
   showPersonalInformation,

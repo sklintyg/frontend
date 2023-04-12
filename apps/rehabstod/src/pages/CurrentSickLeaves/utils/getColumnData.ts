@@ -1,4 +1,4 @@
-import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
+import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 
 export function getColumnData(column: SickLeaveColumn, sickLeave: SickLeaveInfo) {
   switch (column) {

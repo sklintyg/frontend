@@ -2,8 +2,8 @@ import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../store/store'
-import { selectFilter, selectLogin, selectUnit, updateFreetext } from '../../store/welcomeSlice'
 import { useWelcome } from './useWelcome'
+import { selectFilter, selectLogin, selectUnit, updateFreetext } from './welcomeSlice'
 
 export function Welcome() {
   const { selectedLogin, selectedUnit, freeText, selectedFilter } = useSelector((state: RootState) => state.welcome)

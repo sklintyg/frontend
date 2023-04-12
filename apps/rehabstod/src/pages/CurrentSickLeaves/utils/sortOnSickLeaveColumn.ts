@@ -1,4 +1,4 @@
-import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
+import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { getColumnData } from './getColumnData'
 
 export function sortOnSickLeaveColumn(column: SickLeaveColumn) {

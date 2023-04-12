@@ -1,11 +1,12 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { isBefore, subDays } from 'date-fns'
-import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
+import { useNavigate } from 'react-router-dom'
+import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { getColumnData } from '../utils/getColumnData'
 import { DiagnosisInfo } from './DiagnosisInfo'
+import { EndDateInfo } from './EndDateInfo'
 import { MaxColspanRow } from './MaxColspanRow'
 import { SickLeaveDegreeInfo } from './SickLeaveDegreeInfo'
-import { EndDateInfo } from './EndDateInfo'
 
 export function TableBodyRows({
   isLoading,
@@ -20,7 +21,8 @@ export function TableBodyRows({
   unitId: string
   isDoctor: boolean
 }) {
-  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}.`
+  const navigate = useNavigate()
+  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
     'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
   const EMPTY_TEXT_REHABCOORDINATOR = `Det finns inga pågående sjukfall på ${unitId}.`
@@ -49,8 +51,23 @@ export function TableBodyRows({
     <>
       {sickLeaves.map((sickLeave) => (
         <tr
+          tabIndex={0}
+          onKeyDown={({ code, currentTarget }) => {
+            if (['Enter', 'Space'].includes(code)) {
+              navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)
+            }
+            if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
+              ;(currentTarget.previousElementSibling as HTMLElement).focus()
+            }
+            if (code === 'ArrowDown' && currentTarget.nextElementSibling) {
+              ;(currentTarget.nextElementSibling as HTMLElement).focus()
+            }
+          }}
+          onClick={() => navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)}
           key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
-          className={`${isDateBeforeToday(sickLeave.slut) ? 'italic' : ''}`}>
+          className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
+            isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
+          }`}>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
@@ -58,9 +75,9 @@ export function TableBodyRows({
           <td>
             <DiagnosisInfo code={sickLeave.diagnos.kod} description={sickLeave.diagnos.beskrivning} isSubDiagnosis={false} />
             {sickLeave.biDiagnoser.map((diagnosis, index) => (
-              <>
+              <div key={diagnosis.kod}>
                 {index > 0 && ','} <DiagnosisInfo code={diagnosis.kod} description={diagnosis.beskrivning} isSubDiagnosis />
-              </>
+              </div>
             ))}
           </td>
           <td>{getColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
