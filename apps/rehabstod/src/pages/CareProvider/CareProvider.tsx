@@ -20,7 +20,7 @@ export function CareProvider() {
   const handleClick = () => {
     if (!user || !selectedUnit || !selectedProvider) return
 
-    if (isChecked && selectedRadio) {
+    if (isChecked && selectedUnit) {
       UpdateUserPreferences({
         standardenhet: selectedUnit.id,
       })
@@ -38,7 +38,7 @@ export function CareProvider() {
 
   const handleCheck = (event: { target: { checked: boolean } }) => {
     setIsChecked(event.target.checked)
-    if (isChecked && selectedRadio) {
+    if (isChecked && selectedUnit) {
       UpdateUserPreferences({
         standardenhet: selectedUnit.id,
       })

@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getCookie } from '../utils/cookies'
-import { Link, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import {
+  Link,
+  Ping,
+  User,
+  UserPreferences,
+  Vardenhet,
+  Vardgivare,
+} from '../schemas'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
-import { getCookie } from '../utils/cookies'
-
+import {
+  DiagnosKapitel,
+  Lakare,
+  SickLeaveFilter,
+  SickLeaveInfo,
+} from '../schemas/sickLeaveSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -23,10 +33,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<
-      User,
-      { vardgivare: Vardgivare; vardenhet: Vardenhet }
-    >({
+     changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
@@ -52,17 +59,13 @@ export const api = createApi({
         }
       },
     }),
-    updateUserPreferences: builder.mutation<
-      UserPreferences,
-      { standardenhet: string }
-    >({
+    updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
       query: ({ standardenhet }) => ({
         url: 'user/preferences',
         method: 'POST',
         body: { standardenhet },
       }),
-      transformResponse: (response: { content: UserPreferences }) =>
-        response.content,
+      transformResponse: (response: { content: UserPreferences }) => response.content,
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -86,8 +89,7 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) =>
-        response.content,
+      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
     getPopulatedFilters: builder.query<
       { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
