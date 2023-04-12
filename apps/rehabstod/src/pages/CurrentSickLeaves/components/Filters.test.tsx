@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { Filters } from './Filters'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { Filters } from './Filters'
 
 let onSearch: () => void
 let onReset: () => void

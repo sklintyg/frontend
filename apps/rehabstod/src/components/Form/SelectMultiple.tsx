@@ -23,7 +23,7 @@ export function SelectMultiple({
     <>
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
-      <IDSSelectMultiple placeholder={placeholder}>
+      <IDSSelectMultiple placeholder={placeholder} className="text-sm">
         <IDSCheckboxGroup compact>{options}</IDSCheckboxGroup>
       </IDSSelectMultiple>
     </>
