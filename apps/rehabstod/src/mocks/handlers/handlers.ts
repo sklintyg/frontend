@@ -21,7 +21,7 @@ export const handlers = [
         ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod' }),
         ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice' }),
         ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
-        ineraPersonuppgifter: fakeLink({ text: 'ineraPersonuppgifter' }),
+        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
       })
     )
   ),
