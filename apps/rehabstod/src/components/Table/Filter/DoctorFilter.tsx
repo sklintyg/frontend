@@ -1,6 +1,6 @@
-import { SelectMultiple } from '../../Form/SelectMultiple'
-import { Lakare } from '../../../store/types/sickLeave'
+import { Lakare } from '../../../schemas/sickLeaveSchema'
 import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
 
 export function DoctorFilter({
   onChange,
