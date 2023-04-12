@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
 import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
+import { hasCurrentRiskDataPoint } from '../srsUtils'
 
 interface Props {
   previousAnswers: SrsAnswer[]
@@ -57,7 +58,12 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
           />
         )
       })}
-      <CustomButton text="Beräkna" buttonStyle="secondary" onClick={() => onClick(answers)} />
+      <CustomButton
+        text="Beräkna"
+        buttonStyle="secondary"
+        onClick={() => onClick(answers)}
+        disabled={hasCurrentRiskDataPoint(predictions)}
+      />
     </div>
   )
 }

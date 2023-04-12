@@ -46,7 +46,8 @@ export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
 
   const diagnosisCode = predictions[0].diagnosisCode
   return predictions.filter(
-    (prediction) => prediction.diagnosisCode.includes(diagnosisCode) || diagnosisCode.includes(prediction.diagnosisCode)
+    (prediction) =>
+      (prediction.diagnosisCode && prediction.diagnosisCode.includes(diagnosisCode)) || diagnosisCode.includes(prediction.diagnosisCode)
   )
 }
 
@@ -85,8 +86,8 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
   const filteredPredictions = getFilteredPredictions(predictions)
   return (
     filteredPredictions &&
-    filteredPredictions[0] &&
-    filteredPredictions[0].probabilityOverLimit &&
+    !!filteredPredictions[0] &&
+    !!filteredPredictions[0].probabilityOverLimit &&
     filteredPredictions[0].probabilityOverLimit > 0
   )
 }
