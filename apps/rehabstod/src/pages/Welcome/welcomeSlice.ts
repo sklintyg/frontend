@@ -30,4 +30,4 @@ const welcomeSlice = createSlice({
 })
 
 export const { selectLogin, selectUnit, selectFilter, updateFreetext } = welcomeSlice.actions
-export const welcomeReducer = welcomeSlice.reducer
+export const { name: welcomeReducerPath, reducer: welcomeReducer } = welcomeSlice

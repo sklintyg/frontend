@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
+import { z } from 'zod'
 import { Link, linkSchema } from '../../schemas'
+import { patientSchema } from '../../schemas/patientSchema'
+import { lakareSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)
@@ -18,7 +21,7 @@ export const handlers = [
         ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod' }),
         ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice' }),
         ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
-        ineraPersonuppgifter: fakeLink({ text: 'ineraPersonuppgifter' }),
+        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
       })
     )
   ),
@@ -34,5 +37,15 @@ export const handlers = [
         authenticated: true,
       })
     )
+  ),
+
+  rest.post('/api/sjukfall/patient', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(patientSchema)()))),
+
+  rest.post('/api/sickleaves/active', (_, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))
+  ),
+
+  rest.post('/api/sickleaves/filters', (_, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ activeDoctors: z.array(lakareSchema) }))()))
   ),
 ]

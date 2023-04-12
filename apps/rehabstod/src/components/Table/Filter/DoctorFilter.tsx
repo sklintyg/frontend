@@ -1,6 +1,6 @@
-import { SelectMultiple } from '../../Form/SelectMultiple'
-import { Lakare } from '../../../store/types/sickLeave'
+import { Lakare } from '../../../schemas/sickLeaveSchema'
 import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
 
 export function DoctorFilter({
   onChange,
@@ -39,24 +39,26 @@ export function DoctorFilter({
   }
 
   return (
-    <SelectMultiple
-      id="doctorFilter"
-      label="Läkare"
-      description={description}
-      placeholder={getPlaceholder()}
-      options={
-        doctors
-          ? doctors.map((doctor) => (
-              <Checkbox
-                id={doctor.hsaId}
-                key={doctor.hsaId}
-                checked={selected.some((id) => id === doctor.hsaId)}
-                label={doctor.namn}
-                onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
-              />
-            ))
-          : null
-      }
-    />
+    <div className="flex-1">
+      <SelectMultiple
+        id="doctorFilter"
+        label="Läkare"
+        description={description}
+        placeholder={getPlaceholder()}
+        options={
+          doctors
+            ? doctors.map((doctor) => (
+                <Checkbox
+                  id={doctor.hsaId}
+                  key={doctor.hsaId}
+                  checked={selected.some((id) => id === doctor.hsaId)}
+                  label={doctor.namn}
+                  onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
+                />
+              ))
+            : null
+        }
+      />
+    </div>
   )
 }
