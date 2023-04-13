@@ -35,8 +35,8 @@ export function Filters({
     dispatch(updateFilter({ doctorIds }))
   }
 
-  const onDiagnosesChange = (diagnoses: DiagnosKapitel[]) => {
-    dispatch(updateFilter({ diagnoses }))
+  const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
+    dispatch(updateFilter({ diagnosisChapters }))
   }
 
   return (
@@ -52,7 +52,7 @@ export function Filters({
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
               enabledDiagnoses={(populatedFilters && populatedFilters.enabledDiagnosisChapters) || []}
-              selected={filter.diagnoses}
+              selected={filter.diagnosisChapters}
               description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
             />
             {!isDoctor && (
