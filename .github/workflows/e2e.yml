@@ -6,7 +6,7 @@ on:
 jobs:
   webcert-e2e:
     runs-on: ubuntu-20.04
-    container: cypress/base:14.19.0
+    container: cypress/base:18.15.0
     steps:
       - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v4
