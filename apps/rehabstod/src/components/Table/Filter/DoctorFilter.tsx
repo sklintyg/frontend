@@ -1,4 +1,4 @@
-import { Lakare } from '../../../schemas/sickLeaveSchema'
+import { Lakare } from '../../../schemas/lakareSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 

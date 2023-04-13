@@ -65,7 +65,7 @@ export function TableBodyRows({
             }
           }}
           onClick={() => navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)}
-          key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
+          key={sickLeave.patient.id}
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
           }`}>
