@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SrsRiskForm from './SrsRiskForm'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon, SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '@frontend/common'
@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getCertificateId,
   getDiagnosisListValue,
+  getIsCertificateRenewed,
   getPatientId,
+  getPreviousAnswers,
   getSickLeaveChoice,
-  getSrsPredictions,
 } from '../../../store/srs/srsSelectors'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
-import { getPredictions, logSrsInteraction } from '../../../store/srs/srsActions'
+import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
 import { getMainDiagnosisCode } from '../srsUtils'
 
 const StyledButton = styled.button`
@@ -40,14 +41,14 @@ export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
 const SrsRisk: React.FC = () => {
   const dispatch = useDispatch()
   const [expanded, setExpanded] = useState(false)
+  const ref = useRef<null | HTMLDivElement>(null)
 
   const patientId = useSelector(getPatientId)
   const certificateId = useSelector(getCertificateId)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
-  const predictions = useSelector(getSrsPredictions)
   const valueDiagnosis = useSelector(getDiagnosisListValue)
-
-  const previousAnswers = predictions.length > 0 ? predictions[0].questionsResponses : undefined
+  const previousAnswers = useSelector(getPreviousAnswers)
+  const isCertificateRenewal = useSelector(getIsCertificateRenewed)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   const getIcon = () => {
@@ -81,16 +82,22 @@ const SrsRisk: React.FC = () => {
         certificateId: certificateId,
         code: getMainDiagnosisCode(valueDiagnosis),
         answers: answers,
+        daysIntoSickLeave: isCertificateRenewal ? 45 : undefined,
       })
     )
 
+    dispatch(updateSrsAnswers(answers))
     dispatch(logSrsInteraction(SrsEvent.SRS_CALCULATE_CLICKED))
     setExpanded(false)
+
+    if (ref.current) {
+      ref.current.scrollIntoView()
+    }
   }
 
   return (
-    <>
-      <SrsRiskGraph />
+    <div ref={ref}>
+      <SrsRiskGraph ref={ref} />
       <SrsRiskOpinion />
       <StyledButton
         className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200' : 'iu-bg-information-light'}`}
@@ -100,11 +107,11 @@ const SrsRisk: React.FC = () => {
       </StyledButton>
       {expanded && (
         <>
-          <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} onClick={onCalculateRisk} />
+          <SrsRiskForm previousAnswers={previousAnswers} onClick={onCalculateRisk} />
           <BottomBorder className="iu-bg-information-light" />
         </>
       )}
-    </>
+    </div>
   )
 }
 
