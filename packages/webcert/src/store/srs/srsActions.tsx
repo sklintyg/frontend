@@ -71,6 +71,8 @@ export const updateSrsQuestions = createAction<SrsQuestion[]>(`${SRS} Update SRS
 
 export const updateSrsPredictions = createAction<SrsPrediction[]>(`${SRS} Update SRS predictions`)
 
+export const updateSrsAnswers = createAction<SrsAnswer[]>(`${SRS} Update SRS answers`)
+
 export const updateLoading = createAction<boolean>(`${SRS} Update loading`)
 
 export const resetState = createAction(`${SRS} Reset state`)
@@ -94,6 +96,7 @@ export interface PredictionsRequest {
   code: string
   certificateId: string
   answers: SrsAnswer[]
+  daysIntoSickLeave: number | undefined
 }
 
 export interface RiskOpinionRequest {
