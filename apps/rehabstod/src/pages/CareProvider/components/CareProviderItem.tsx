@@ -1,5 +1,6 @@
 import { IDSRadio } from '@frontend/ids-react-ts'
 import { Vardenhet, Vardgivare } from '../../../schemas'
+import { classNames } from '../../../utils/classNames'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 export function CareProviderItem({
@@ -19,7 +20,7 @@ export function CareProviderItem({
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.namn} className="flex items-center">
+                <div key={reception.id} className="flex items-center">
                   <IDSRadio>
                     <input
                       type="radio"
@@ -31,7 +32,7 @@ export function CareProviderItem({
                     />
                     <label
                       htmlFor={reception.namn}
-                      className={`cursor-pointer items-center ${selectedRadio === reception.namn ? 'font-bold' : ''}`}>
+                      className={classNames('cursor-pointer', 'items-center', selectedRadio === reception.namn && 'font-bold')}>
                       <span className="ml-5"> {reception.namn}</span>
                     </label>
                   </IDSRadio>
