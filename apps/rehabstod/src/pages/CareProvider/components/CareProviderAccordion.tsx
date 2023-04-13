@@ -25,6 +25,7 @@ export function CareProviderAccordion({
               name="selectedUnit"
               value={unit.namn}
               id={unit.namn}
+              checked={selectedRadio === unit.namn}
               onClick={(e) => {
                 const detailsEl = e.currentTarget.closest('details')
                 if (detailsEl) {

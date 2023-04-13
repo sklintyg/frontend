@@ -26,6 +26,7 @@ export function CareProviderItem({
                       name="selectedUnit"
                       value={unit.namn}
                       id={reception.namn}
+                      checked={selectedRadio === reception.namn}
                       onChange={(event) => handleChooseUnit(event, provider, unit)}
                     />
                     <label
@@ -45,6 +46,7 @@ export function CareProviderItem({
                   name="selectedUnit"
                   value={unit.namn}
                   id={unit.namn}
+                  checked={selectedRadio === unit.namn}
                   onChange={(event) => handleChooseUnit(event, provider, unit)}
                 />
                 <label htmlFor={unit.namn} className={` cursor-pointer ${selectedRadio === unit.namn ? 'font-bold' : ''}`}>
