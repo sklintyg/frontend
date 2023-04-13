@@ -22,6 +22,9 @@ export function PatientHeader({ patient }: { patient: Patient }) {
               <span>{intyg.patient.id},</span>
               <span>{intyg.patient.alder},</span>
               <span>{intyg.patient.kon}</span>
+              <span color="neutral-20" className="space-x-2">
+                |
+              </span>
               <span>
                 Uppskattad dag i sjukfallet: <span className="font-bold">{countSickDays(new Date(intyg.start), new Date(intyg.slut))}</span>
               </span>
