@@ -17,14 +17,19 @@ export function CareProvider() {
   const [selectedRadio, setSelectedRadio] = useState<string | null>(user?.valdVardenhet?.namn || null)
   const [isChecked, setIsChecked] = useState(false)
 
-  const handleClick = () => {
-    if (!user || !selectedUnit || !selectedProvider) return
-
+  const handleUpdatePreferences = () => {
     if (isChecked && selectedUnit) {
       UpdateUserPreferences({
         standardenhet: selectedUnit.id,
       })
     }
+  }
+
+  const handleClick = () => {
+    if (!user || !selectedUnit || !selectedProvider) return
+
+    handleUpdatePreferences()
+
     changeUnit({
       vardgivare: selectedProvider,
       vardenhet: {
@@ -38,11 +43,7 @@ export function CareProvider() {
 
   const handleCheck = (event: { target: { checked: boolean } }) => {
     setIsChecked(event.target.checked)
-    if (isChecked && selectedUnit) {
-      UpdateUserPreferences({
-        standardenhet: selectedUnit.id,
-      })
-    }
+    handleUpdatePreferences()
   }
 
   const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet) => {
