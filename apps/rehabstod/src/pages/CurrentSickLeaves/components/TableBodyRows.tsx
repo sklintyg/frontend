@@ -1,12 +1,13 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
-import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
+import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
+import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
+import { DiagnosisCell } from '../../../components/Table/DiagnosisCell'
+import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
-import { getColumnData } from '../utils/getColumnData'
-import { DiagnosisInfo } from './DiagnosisInfo'
-import { EndDateInfo } from './EndDateInfo'
+import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
+import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
-import { SickLeaveDegreeInfo } from './SickLeaveDegreeInfo'
 
 export function TableBodyRows({
   isLoading,
@@ -22,6 +23,8 @@ export function TableBodyRows({
   isDoctor: boolean
 }) {
   const navigate = useNavigate()
+  const { sortTableList } = useTableContext()
+
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
     'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
@@ -45,11 +48,9 @@ export function TableBodyRows({
     return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
-  const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
-
   return (
     <>
-      {sickLeaves.map((sickLeave) => (
+      {sortTableList(sickLeaves, getSickLeavesColumnData).map((sickLeave) => (
         <tr
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
@@ -68,28 +69,21 @@ export function TableBodyRows({
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
           }`}>
-          {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
-          <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
-          {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
-          <td>{getColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
-          <td>
-            <DiagnosisInfo code={sickLeave.diagnos.kod} description={sickLeave.diagnos.beskrivning} isSubDiagnosis={false} />
-            {sickLeave.biDiagnoser.map((diagnosis, index) => (
-              <div key={diagnosis.kod}>
-                {index > 0 && ','} <DiagnosisInfo code={diagnosis.kod} description={diagnosis.beskrivning} isSubDiagnosis />
-              </div>
-            ))}
-          </td>
-          <td>{getColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
+          {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
+          {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
+          <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
           <td>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
           </td>
-          <td>{getColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</td>
-          <td>{getColumnData(SickLeaveColumn.Intyg, sickLeave)}</td>
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</td>
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Intyg, sickLeave)}</td>
           <td>
             <SickLeaveDegreeInfo degrees={sickLeave.grader} />
           </td>
-          <td>{getColumnData(SickLeaveColumn.Läkare, sickLeave)}</td>
+          <td>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</td>
         </tr>
       ))}
     </>

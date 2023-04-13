@@ -1,6 +1,6 @@
 import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 
-export function getColumnData(column: SickLeaveColumn, sickLeave: SickLeaveInfo) {
+export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo) {
   switch (column) {
     case SickLeaveColumn.Personnummer:
       return sickLeave.patient.id

@@ -1,10 +1,15 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
+import { classNames } from '../../utils/classNames'
+import { useTableContext } from './hooks/useTableContext'
 
-export function SortingIcon({ ascending, sorting }: { ascending: boolean; sorting: boolean }) {
+export function SortingIcon({ column }: { column: string }) {
+  const { ascending, column: currentColumn } = useTableContext()
+  const sorting = currentColumn === column
+
   return (
     <div className="relative ml-1 inline-block h-3 w-6">
       <IDSIcon
-        className={`absolute right-0 ${sorting && !ascending && 'hidden'}`}
+        className={classNames('absolute', !sorting && 'right-0', sorting && !ascending && 'hidden')}
         name="arrow"
         rotate="270"
         width="14"
@@ -13,7 +18,7 @@ export function SortingIcon({ ascending, sorting }: { ascending: boolean; sortin
         color2="currentColor"
       />
       <IDSIcon
-        className={`absolute left-0 ${sorting && ascending && 'hidden'}`}
+        className={classNames('absolute', !sorting && 'left-0', sorting && ascending && 'hidden')}
         name="arrow"
         rotate="90"
         width="14"

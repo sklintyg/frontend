@@ -1,19 +1,20 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Table } from '../../components/Table/Table'
+import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, resetFilters, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
-import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
+import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveSlice'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
-  const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
+  const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useGetSickLeavesMutation()
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
@@ -56,37 +57,26 @@ export function CurrentSickLeaves() {
           dispatch(updateShowPersonalInformation(checked))
         }}
         showPersonalInformation={showPersonalInformation}
-        totalNumber={(currentSickLeaves ?? []).length}
-        listLength={(currentSickLeaves ?? []).length}
+        totalNumber={(sickLeaves ?? []).length}
+        listLength={(sickLeaves ?? []).length}
         daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
 
-      <table className="ids-table overflow-visible rounded-md text-sm">
+      <Table column={SickLeaveColumn.Startdatum}>
         <thead>
-          <TableHeaderRow
-            ascending={ascending}
-            currentColumn={currentColumn}
-            showPersonalInformation={showPersonalInformation}
-            onColumnSort={(column) => {
-              if (currentColumn !== column) {
-                dispatch(sortOnColumn(column))
-              } else {
-                dispatch(toggleAscending())
-              }
-            }}
-          />
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>
         <tbody style={{ overflowWrap: 'anywhere' }}>
           <TableBodyRows
             isDoctor={isDoctor}
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
-            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+            sickLeaves={sickLeaves}
             unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
           />
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
