@@ -10,6 +10,7 @@ const fakeHSA = () =>
 export { faker } from '@faker-js/faker'
 
 export const stringMap = {
+  id: faker.datatype.uuid,
   hsaId: fakeHSA,
   forvaldEnhet: fakeHSA,
   unitId: fakeHSA,

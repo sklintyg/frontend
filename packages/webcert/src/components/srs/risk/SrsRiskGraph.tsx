@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import {
   getIsCertificateRenewed,
@@ -73,7 +73,7 @@ const CustomizedLabel = (props: LabelProps) => {
   )
 }
 
-const SrsRiskGraph: React.FC = () => {
+const SrsRiskGraph = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const predictions = useSelector(getSrsPredictions)
   const riskOpinion = useSelector(getRiskOpinion)
   const isCertificateRenewal = useSelector(getIsCertificateRenewed)
@@ -95,7 +95,7 @@ const SrsRiskGraph: React.FC = () => {
   }
 
   return (
-    <>
+    <div ref={ref}>
       <p className="iu-fw-bold">
         Risken gäller {diagnosisCode} {diagnosisDescription}
       </p>
@@ -116,8 +116,8 @@ const SrsRiskGraph: React.FC = () => {
         </Bar>
         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
       </BarChart>
-    </>
+    </div>
   )
-}
+})
 
 export default SrsRiskGraph
