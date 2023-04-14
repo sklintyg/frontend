@@ -1,5 +1,4 @@
 import { LabelProps, Pie, PieChart } from 'recharts'
-import { useGetSickLeavesSummaryQuery } from '../../../store/api'
 
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props
@@ -10,17 +9,11 @@ function renderCustomizedLabel(props: LabelProps) {
   )
 }
 
-export function TotalSickLeavesGraph() {
-  const { data: summary } = useGetSickLeavesSummaryQuery()
-
-  if (!summary) {
-    return null
-  }
-
+export function TotalSickLeavesGraph({ total }: { total: number }) {
   const data = [
     {
       name: 'Total',
-      value: summary.total,
+      value: total,
     },
   ]
 
