@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getCookie } from '../utils/cookies'
 import { Link, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, Lakare, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -85,6 +85,11 @@ export const api = createApi({
       }),
       providesTags: ['SickLeavesFilter'],
     }),
+    getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
+      query: () => ({
+        url: 'sickleaves/summary',
+      }),
+    }),
     getSickLeavePatient: builder.query<Patient, { patientId: string }>({
       query: ({ patientId }) => ({
         url: 'sjukfall/patient',
@@ -105,4 +110,5 @@ export const {
   useGetSickLeavesMutation,
   useUpdateUserPreferencesMutation,
   useGetUserQuery,
+  useGetSickLeavesSummaryQuery,
 } = api
