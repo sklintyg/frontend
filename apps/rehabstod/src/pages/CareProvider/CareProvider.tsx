@@ -26,18 +26,17 @@ export function CareProvider() {
   }
 
   const handleClick = () => {
-    if (!user || !selectedUnit || !selectedProvider) return
-
     handleUpdatePreferences()
 
-    changeUnit({
-      vardgivare: selectedProvider,
-      vardenhet: {
-        ...selectedUnit,
-        id: selectedUnit.id,
-      },
-    })
-
+    if (selectedUnit && selectedProvider) {
+      changeUnit({
+        vardgivare: selectedProvider,
+        vardenhet: {
+          ...selectedUnit,
+          id: selectedUnit.id,
+        },
+      })
+    }
     navigate('/')
   }
 
@@ -53,9 +52,9 @@ export function CareProvider() {
   }
 
   return !isLoading && user ? (
-    <div className="my-16 w-full px-4 md:w-1/2 md:px-0">
+    <div className="w-full py-10 px-4 md:w-1/2 md:px-0">
       <div className="mb-7">
-        <h1 className="ids-heading-1 pt-8 pb-4">Välj enhet</h1>
+        <h1 className="ids-heading-1 ids-small pb-4">Välj enhet</h1>
         <p className="ids-preamble my-5">
           Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
           inloggning.
@@ -79,12 +78,10 @@ export function CareProvider() {
       ) : null}
       <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} description="" id="" />
       <IDSButtonGroup>
-        <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')}>
+        <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
           Avbryt
         </IDSButton>
-        <IDSButton disabled={!selectedRadio} onClick={handleClick}>
-          Välj
-        </IDSButton>
+        <IDSButton onClick={handleClick}>Välj</IDSButton>
       </IDSButtonGroup>
     </div>
   ) : null

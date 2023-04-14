@@ -20,7 +20,7 @@ export function CareProviderItem({
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.id} className="flex items-center">
+                <div key={reception.id} className="ml-5 flex items-center">
                   <IDSRadio>
                     <input
                       type="radio"
@@ -32,8 +32,8 @@ export function CareProviderItem({
                     />
                     <label
                       htmlFor={reception.namn}
-                      className={classNames('cursor-pointer', 'items-center', selectedRadio === reception.namn && 'font-bold')}>
-                      <span className="ml-5"> {reception.namn}</span>
+                      className={classNames('cursor-pointer', 'items-center', 'mb-0', selectedRadio === reception.namn && 'font-bold')}>
+                      <span className=""> {reception.namn}</span>
                     </label>
                   </IDSRadio>
                 </div>
