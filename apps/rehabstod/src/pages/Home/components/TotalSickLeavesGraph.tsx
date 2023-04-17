@@ -1,4 +1,5 @@
 import { LabelProps, Pie, PieChart } from 'recharts'
+import { TooltipIcon } from '../../../components/TooltipIcon/TooltipIcon'
 
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props
@@ -19,7 +20,16 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
 
   return (
     <>
-      <h2 className="ids-heading-4">Antal sjukfall</h2>
+      <h2 className="ids-heading-4">
+        Antal sjukfall{' '}
+        <TooltipIcon
+          description={`Antal sjukfall just nu ${Date.now()}`}
+          name="question"
+          size="s"
+          className="relative top-1"
+          color="neutral"
+        />
+      </h2>
       <div>
         <PieChart width={300} height={200} className="m-auto">
           <Pie
@@ -28,7 +38,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
             dataKey="value"
             nameKey="name"
             outerRadius={70}
-            fill="#40775E"
+            fill="var(--IDS-COLOR-ACCENT-40)"
             label={renderCustomizedLabel}
             labelLine={false}
             stroke="none"

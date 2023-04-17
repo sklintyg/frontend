@@ -107,9 +107,20 @@ export const genderSummarySchema = z.object({
   gender: z.string(),
   percentage: z.number(),
 })
+
+export const sickLeaveDegreeSummarySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  count: z.number(),
+  percentage: z.number(),
+})
+
 export const sickLeaveSummary = z.object({
   total: z.number(),
   genders: z.array(genderSummarySchema),
+  sickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  maleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  femaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
 })
 
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
@@ -122,3 +133,4 @@ export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
 export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>
 export type GenderSummary = z.infer<typeof genderSummarySchema>
+export type SickLeaveDegreeSummary = z.infer<typeof sickLeaveDegreeSummarySchema>

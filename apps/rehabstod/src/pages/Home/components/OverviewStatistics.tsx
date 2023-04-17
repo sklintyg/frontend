@@ -4,6 +4,7 @@ import { TotalSickLeavesGraph } from './TotalSickLeavesGraph'
 import { GenderDivisionGraph } from './GenderDivisionGraph'
 import { StatisticsInformationCard } from './StatisticsInformationCard'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
+import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
 
 export function OverviewStatistics() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -18,9 +19,9 @@ export function OverviewStatistics() {
 
   if (summary && summary.total === 0) {
     return isDoctor ? (
-      <IDSAlert>Du har inga pågående sjukfall på {unitId}</IDSAlert>
+      <IDSAlert className="py-10">Du har inga pågående sjukfall på {unitId}.</IDSAlert>
     ) : (
-      <IDSAlert>Det finns inga pågående sjukfall på {unitId}</IDSAlert>
+      <IDSAlert className="py-10">Det finns inga pågående sjukfall på {unitId}.</IDSAlert>
     )
   }
 
@@ -34,6 +35,9 @@ export function OverviewStatistics() {
       </IDSCard>
       <IDSCard>
         <StatisticsInformationCard />
+      </IDSCard>
+      <IDSCard fill className="col-span-3">
+        <SickLeaveDegreesCard summary={summary} />
       </IDSCard>
     </div>
   )
