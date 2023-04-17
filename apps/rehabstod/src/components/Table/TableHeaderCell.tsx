@@ -10,6 +10,7 @@ export function TableHeaderCell<T extends string>({
   column,
   currentColumn,
   onColumnSort,
+  width,
 }: {
   title: string
   description?: string
@@ -17,9 +18,11 @@ export function TableHeaderCell<T extends string>({
   column: T
   currentColumn: string
   onColumnSort: (column: T) => void
+  width?: string
 }) {
   return (
     <th
+      style={{ width: width ?? '25%' }}
       tabIndex={0}
       onKeyDown={({ code, currentTarget }) => {
         if (code === 'Enter' || code === 'Space') {
@@ -33,7 +36,7 @@ export function TableHeaderCell<T extends string>({
         }
       }}
       onClick={() => onColumnSort(column)}
-      className="cursor-pointer select-none whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
+      className="cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
       {!description && (
         <span className="align-middle">
           {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
