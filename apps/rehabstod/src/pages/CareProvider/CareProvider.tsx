@@ -14,7 +14,9 @@ export function CareProvider() {
 
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
-  const [selectedRadio, setSelectedRadio] = useState<string | null>(user?.valdVardenhet?.namn || null)
+
+  const firstUnit = user?.vardgivare[0]?.vardenheter[0]?.namn || ''
+  const [selectedRadio, setSelectedRadio] = useState<string>(user?.valdVardenhet?.namn || firstUnit)
   const [isChecked, setIsChecked] = useState(false)
 
   const handleUpdatePreferences = () => {
@@ -53,7 +55,7 @@ export function CareProvider() {
 
   return !isLoading && user ? (
     <div className="w-full py-10 px-4 md:w-1/2 md:px-0">
-      <div className="mb-7">
+      <div className="mb-6">
         <h1 className="ids-heading-1 ids-small pb-4">Välj enhet</h1>
         <p className="ids-preamble my-5">
           Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter

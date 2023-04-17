@@ -13,7 +13,7 @@ export function CareProviderItem({
   handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
 }) {
   return (
-    <div>
+    <div className="mb-6">
       <h4 className="ids-heading-4 border-neutral-90 my-2 border-b pb-2">{provider.namn}</h4>
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
@@ -40,7 +40,7 @@ export function CareProviderItem({
               ))}
             </CareProviderAccordion>
           ) : (
-            <div className="flex items-center">
+            <div className="border-neutral-90 my-2 flex items-center border-b">
               <IDSRadio>
                 <input
                   type="radio"
