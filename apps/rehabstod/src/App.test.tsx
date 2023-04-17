@@ -12,7 +12,4 @@ test('full app rendering/navigating', async () => {
   await waitForElementToBeRemoved(document.querySelector('ids-spinner'))
 
   expect(screen.getByText(/välkommen till rehabstöd/i)).toBeInTheDocument()
-
-  await user.click(screen.getByTestId('login-btn'))
-  expect(screen.getByText(/den här sidan hittades inte/i)).toBeInTheDocument()
 })

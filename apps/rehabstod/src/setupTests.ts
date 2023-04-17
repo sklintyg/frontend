@@ -1,11 +1,14 @@
 import { faker } from '@frontend/fake'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
+import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
 import { store } from './store/store'
+
+window.open = vi.fn()
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
