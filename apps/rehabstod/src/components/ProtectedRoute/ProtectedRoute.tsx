@@ -1,14 +1,18 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useGetUserQuery } from '../../store/api'
 
-export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Element | null {
+export function ProtectedRoute({ children, requireUnit }: { children: ReactNode; requireUnit?: boolean }): JSX.Element | null {
   const { data: user, isLoading } = useGetUserQuery()
 
   if (isLoading) {
     return null
   }
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
+  if (requireUnit) {
+    return user?.valdVardenhet != null ? <>{children}</> : <Navigate to="/enhet" replace />
+  }
+
   return user != null ? <>{children}</> : <Navigate to="/" replace />
 }

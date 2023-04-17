@@ -26,7 +26,7 @@ export function App() {
         <Route
           path="/pagaende-sjukfall"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireUnit>
               <CurrentSickLeaves />
             </ProtectedRoute>
           }>
@@ -35,7 +35,7 @@ export function App() {
         <Route
           path="/lakarutlatanden"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireUnit>
               <MedicalOpinion />
             </ProtectedRoute>
           }>
