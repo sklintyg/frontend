@@ -1,10 +1,7 @@
 import { Legend, Pie, PieChart } from 'recharts'
 import { SickLeaveDegreeSummary } from '../../../schemas/sickLeaveSchema'
 
-export function SickLeaveDegreeGraph({
-                                       sickLeaveDegrees,
-                                       small,
-                                     }: { sickLeaveDegrees: SickLeaveDegreeSummary[]; small?: boolean }) {
+export function SickLeaveDegreeGraph({ sickLeaveDegrees, small }: { sickLeaveDegrees: SickLeaveDegreeSummary[]; small?: boolean }) {
   const colors = ['var(--IDS-COLOR-ACCENT-40)', 'var(--IDS-COLOR-PRIMARY-40)', 'var(--IDS-COLOR-GRAPHIC)', 'var(--IDS-COLOR-ALTERNATIVE)']
 
   const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
@@ -22,19 +19,19 @@ export function SickLeaveDegreeGraph({
           layout={!small ? 'vertical' : undefined}
           verticalAlign={!small ? 'middle' : undefined}
           align={!small ? 'right' : undefined}
-          className='text-xs'
-          {/* eslint-disable-next-line react/no-unstable-nested-components */}
-          formatter={(name) => <span className='text-neutral-40 text-xs'>{name}</span>}
+          className="text-xs"
+          /* eslint-disable-next-line react/no-unstable-nested-components */
+          formatter={(name) => <span className="text-neutral-40 text-xs">{name}</span>}
         />
         <Pie
           data={data}
-          color='#000000'
-          dataKey='value'
-          nameKey='name'
+          color="#000000"
+          dataKey="value"
+          nameKey="name"
           outerRadius={small ? 30 : 60}
           labelLine={false}
-          stroke='none'
-          className='mx-5'
+          stroke="none"
+          className="mx-5"
         />
       </PieChart>
     </div>
