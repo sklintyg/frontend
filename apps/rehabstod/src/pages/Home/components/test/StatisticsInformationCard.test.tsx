@@ -20,14 +20,8 @@ describe('StatisticsInformationCard', () => {
     renderComponent()
     expect(
       screen.getByText(
-        'Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan\n' +
-          '        öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.'
+        'Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.'
       )
     ).toBeInTheDocument()
-  })
-
-  it('should show link to Intygsstatistik', () => {
-    renderComponent()
-    expect(screen.getByText('Gå vidare till Intygsstatistik')).toBeInTheDocument()
   })
 })

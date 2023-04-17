@@ -1,14 +1,9 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { useGetLinksQuery, useGetSickLeavesSummaryQuery } from '../../../store/api'
+import { useGetLinksQuery } from '../../../store/api'
 import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
 
 export function StatisticsInformationCard() {
-  const { data: summary } = useGetSickLeavesSummaryQuery()
   const { data: links } = useGetLinksQuery()
-
-  if (!summary) {
-    return null
-  }
 
   return (
     <>
