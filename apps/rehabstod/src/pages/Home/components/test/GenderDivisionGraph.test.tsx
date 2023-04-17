@@ -6,10 +6,12 @@ const genders = [
   {
     gender: 'F',
     percentage: 40,
+    count: 40,
   },
   {
     gender: 'M',
     percentage: 60,
+    count: 60,
   },
 ]
 
