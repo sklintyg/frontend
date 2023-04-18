@@ -48,6 +48,10 @@ export function TableBodyRows({
     return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
+  const navigateToPatient = (id: string) => {
+    navigate(`/pagaende-sjukfall/${btoa(id.replace('-', ''))}`)
+  }
+
   return (
     <>
       {sortTableList(sickLeaves, getSickLeavesColumnData).map((sickLeave) => (
@@ -55,7 +59,7 @@ export function TableBodyRows({
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
             if (['Enter', 'Space'].includes(code)) {
-              navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)
+              navigateToPatient(sickLeave.patient.id)
             }
             if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
               ;(currentTarget.previousElementSibling as HTMLElement).focus()
@@ -64,7 +68,7 @@ export function TableBodyRows({
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)}
+          onClick={() => navigateToPatient(sickLeave.patient.id)}
           key={sickLeave.patient.id}
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''

@@ -45,6 +45,27 @@ export const api = createApi({
         }
       },
     }),
+    giveConsent: builder.mutation<User, { pdlConsentGiven: boolean }>({
+      query: ({ pdlConsentGiven }) => ({
+        url: 'user/giveconsent',
+        method: 'POST',
+        body: { consentGiven: pdlConsentGiven },
+      }),
+      async onQueryStarted({ pdlConsentGiven }, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getUser', undefined, (draft) =>
+            Object.assign(draft, {
+              pdlConsentGiven,
+            })
+          )
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
+    }),
     updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
       query: ({ standardenhet }) => ({
         url: 'user/preferences',
@@ -106,4 +127,5 @@ export const {
   useGetSickLeavesMutation,
   useUpdateUserPreferencesMutation,
   useGetUserQuery,
+  useGiveConsentMutation,
 } = api
