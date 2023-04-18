@@ -15,7 +15,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -44,13 +44,14 @@ export const api = createApi({
         }
       },
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
-      query: ({ standardenhet }) => ({
+    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+      query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
-        body: { standardenhet },
+        body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
+      invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -68,13 +69,15 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.mutation<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
+        providesTags: ['SickLeaves'],
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
+      providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
       { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
@@ -89,6 +92,7 @@ export const api = createApi({
       query: () => ({
         url: 'sickleaves/summary',
       }),
+      providesTags: ['SickLeaveSummary'],
     }),
     getSickLeavePatient: builder.query<Patient, { patientId: string }>({
       query: ({ patientId }) => ({
@@ -107,7 +111,7 @@ export const {
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
-  useGetSickLeavesMutation,
+  useLazyGetSickLeavesQuery,
   useUpdateUserPreferencesMutation,
   useGetUserQuery,
   useGetSickLeavesSummaryQuery,
