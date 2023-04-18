@@ -29,7 +29,7 @@ export function TableHeaderRow({
       )}
       <TableHeaderCell
         title="Ålder"
-        width="92px"
+        width="98px"
         column={SickLeaveColumn.Ålder}
         ascending={ascending}
         currentColumn={currentColumn}
@@ -65,7 +65,7 @@ Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den 
       />
       <TableHeaderCell
         title="Startdatum"
-        width="138px"
+        width="146px"
         description={`Datum då sjukfallet började på ${user?.valdVardenhet?.id}. Alla intyg för samma patient som följer på varandra med max ${user?.preferences?.maxAntalDagarSedanSjukfallAvslut} dagars uppehåll räknas till samma sjukfall. Max antal dagars uppehåll mellan intyg kan ställas in i inställningar.`}
         column={SickLeaveColumn.Startdatum}
         ascending={ascending}
@@ -83,7 +83,7 @@ Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den 
       />
       <TableHeaderCell
         title="Längd"
-        width="98px"
+        width="102px"
         description="Sjukfallets totala längd i dagar, från startdatum till slutdatum. Eventuella dagar mellan intyg räknas inte med."
         column={SickLeaveColumn.Längd}
         ascending={ascending}

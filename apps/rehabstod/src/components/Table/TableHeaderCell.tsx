@@ -21,37 +21,30 @@ export function TableHeaderCell<T extends string>({
   width?: string
 }) {
   return (
-    <th
-      style={{ width: width ?? '25%' }}
-      tabIndex={0}
-      onKeyDown={({ code, currentTarget }) => {
-        if (code === 'Enter' || code === 'Space') {
-          onColumnSort(column)
-        }
-        if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
-          ;(currentTarget.previousElementSibling as HTMLElement).focus()
-        }
-        if (code === 'ArrowRight' && currentTarget.nextElementSibling) {
-          ;(currentTarget.nextElementSibling as HTMLElement).focus()
-        }
-      }}
-      onClick={() => onColumnSort(column)}
-      className="cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
-      {!description && (
-        <span className="align-middle">
-          {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
-        </span>
-      )}
-      {description && (
-        <Tooltip>
-          <TooltipTrigger>
-            <span>
-              {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
-            </span>
-          </TooltipTrigger>
-          <TooltipContent>{description}</TooltipContent>
-        </Tooltip>
-      )}
-    </th>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <th
+          style={{ width: width ?? '25%' }}
+          tabIndex={0}
+          onKeyDown={({ code, currentTarget }) => {
+            if (code === 'Enter' || code === 'Space') {
+              onColumnSort(column)
+            }
+            if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
+              ;(currentTarget.previousElementSibling as HTMLElement).focus()
+            }
+            if (code === 'ArrowRight' && currentTarget.nextElementSibling) {
+              ;(currentTarget.nextElementSibling as HTMLElement).focus()
+            }
+          }}
+          onClick={() => onColumnSort(column)}
+          className="cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
+          <span>
+            {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
+          </span>
+          {description && <TooltipContent>{description}</TooltipContent>}
+        </th>
+      </TooltipTrigger>
+    </Tooltip>
   )
 }
