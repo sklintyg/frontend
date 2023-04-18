@@ -1,3 +1,4 @@
+import { IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
@@ -61,32 +62,33 @@ export function CurrentSickLeaves() {
         daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
-
-      <table className="ids-table overflow-visible rounded-md text-sm">
-        <thead>
-          <TableHeaderRow
-            ascending={ascending}
-            currentColumn={currentColumn}
-            showPersonalInformation={showPersonalInformation}
-            onColumnSort={(column) => {
-              if (currentColumn !== column) {
-                dispatch(sortOnColumn(column))
-              } else {
-                dispatch(toggleAscending())
-              }
-            }}
-          />
-        </thead>
-        <tbody style={{ overflowWrap: 'anywhere' }}>
-          <TableBodyRows
-            isDoctor={isDoctor}
-            isLoading={isLoading}
-            showPersonalInformation={showPersonalInformation}
-            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
-            unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-          />
-        </tbody>
-      </table>
+      <IDSContainer gutterless className="overflow-y-auto">
+        <table className="ids-table w-full whitespace-nowrap rounded-md">
+          <thead>
+            <TableHeaderRow
+              ascending={ascending}
+              currentColumn={currentColumn}
+              showPersonalInformation={showPersonalInformation}
+              onColumnSort={(column) => {
+                if (currentColumn !== column) {
+                  dispatch(sortOnColumn(column))
+                } else {
+                  dispatch(toggleAscending())
+                }
+              }}
+            />
+          </thead>
+          <tbody style={{ overflowWrap: 'anywhere' }}>
+            <TableBodyRows
+              isDoctor={isDoctor}
+              isLoading={isLoading}
+              showPersonalInformation={showPersonalInformation}
+              sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+              unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+            />
+          </tbody>
+        </table>
+      </IDSContainer>
     </div>
   )
 }
