@@ -19,11 +19,11 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
           <td>
             <EndDateInfo date={certificate.slut} isDateAfterToday={isDateBeforeToday(certificate.slut)} />
           </td>
-          <td className="whitespace-nowrap">{certificate.dagar} dagar</td>
+          <td>{certificate.dagar} dagar</td>
           <td>
             <SickLeaveDegreeInfo degrees={certificate.grader} />
           </td>
-          <td className="whitespace-nowrap">Komplettering ({certificate.obesvaradeKompl})</td>
+          <td>Komplettering ({certificate.obesvaradeKompl})</td>
           <td>{certificate.lakare.namn}</td>
           <td>{certificate.sysselsattning.join(' ')}</td>
           <td>
