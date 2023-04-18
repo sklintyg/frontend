@@ -6,6 +6,7 @@ import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
 import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
+import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 
 export function OverviewStatistics() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -42,6 +43,9 @@ export function OverviewStatistics() {
       </IDSCard>
       <IDSCard fill className="col-span-3">
         <CountSickLeaveDegreesCard summary={summary} />
+      </IDSCard>
+      <IDSCard fill className="col-span-3">
+        <SickLeaveLengthsCard summary={summary} />
       </IDSCard>
     </div>
   )
