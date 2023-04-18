@@ -5,6 +5,7 @@ import { GenderDivisionGraph } from './GenderDivisionGraph'
 import { StatisticsInformationCard } from './StatisticsInformationCard'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
 import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
+import { CountSickLeaveDegreesCard } from './CountSickLeaveDegreesCard'
 
 export function OverviewStatistics() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -38,6 +39,9 @@ export function OverviewStatistics() {
       </IDSCard>
       <IDSCard fill className="col-span-3">
         <SickLeaveDegreesCard summary={summary} />
+      </IDSCard>
+      <IDSCard fill className="col-span-3">
+        <CountSickLeaveDegreesCard summary={summary} />
       </IDSCard>
     </div>
   )

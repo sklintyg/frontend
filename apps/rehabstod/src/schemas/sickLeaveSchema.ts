@@ -121,6 +121,9 @@ export const sickLeaveSummary = z.object({
   sickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
   maleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
   femaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countMaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countFemaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
 })
 
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
