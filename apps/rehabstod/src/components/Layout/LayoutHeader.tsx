@@ -1,13 +1,16 @@
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
+import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const sithsUrl = '/saml/login/alias/siths-rs2'
+  const [showSettingsDialog, setShowSettingsDialog] = useState('false')
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -26,10 +29,16 @@ export function LayoutHeader() {
                 <IDSIcon height="20" width="20" name="swap" />
                 <Link to="/enhet">Byt vårdenhet</Link>
               </IDSLink>
-              <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 text-primary-40">
-                <IDSIcon height="20" width="20" name="cog" />
-                <Link to="/settings">Inställningar</Link>
-              </IDSLink>
+              <SettingsDialog
+                show={showSettingsDialog}
+                onClose={() => setShowSettingsDialog('false')}
+                preferences={user ? user.preferences : undefined}>
+                <IDSLink trigger="" color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 text-primary-40">
+                  <IDSIcon height="20" width="20" name="cog" />
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                  <a onClick={() => setShowSettingsDialog('true')}>Inställningar</a>
+                </IDSLink>
+              </SettingsDialog>
               <hr className="border-neutral-40" />
               <button onClick={logout} className="ids-mt-5 text-primary-40 flex w-full items-center" type="submit">
                 <div className="mr-2.5">
