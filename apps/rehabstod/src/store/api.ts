@@ -51,20 +51,7 @@ export const api = createApi({
         method: 'POST',
         body: { consentGiven: pdlConsentGiven },
       }),
-      async onQueryStarted({ pdlConsentGiven }, { dispatch, queryFulfilled }) {
-        dispatch(
-          api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, {
-              pdlConsentGiven,
-            })
-          )
-        )
-        try {
-          await queryFulfilled
-        } catch {
-          dispatch(api.util.invalidateTags(['User']))
-        }
-      },
+      invalidatesTags: ['User'],
     }),
     updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
       query: ({ standardenhet }) => ({

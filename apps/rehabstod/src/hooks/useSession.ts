@@ -11,7 +11,7 @@ export function useSession() {
   })
 
   useEffect(() => {
-    if (user && user?.pdlConsentGiven === false) {
+    if (user && user.pdlConsentGiven === false) {
       giveConsent({ pdlConsentGiven: true })
     }
     if (user && session && !session.authenticated) {
