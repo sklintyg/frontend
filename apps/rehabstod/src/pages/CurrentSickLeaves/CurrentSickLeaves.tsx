@@ -59,8 +59,8 @@ export function CurrentSickLeaves() {
         showPersonalInformation={showPersonalInformation}
         totalNumber={(sickLeaves ?? []).length}
         listLength={(sickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
       <Table column={SickLeaveColumn.Startdatum}>
