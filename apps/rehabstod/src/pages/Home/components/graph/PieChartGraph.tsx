@@ -18,7 +18,7 @@ export function PieChartGraph({ data, small }: { data: { value: number; name: st
         nameKey="name"
         outerRadius={small ? 30 : 60}
         labelLine={false}
-        stroke="none"
+        stroke="white"
         className="mx-5"
       />
     </PieChart>
