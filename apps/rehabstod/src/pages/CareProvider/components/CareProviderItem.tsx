@@ -1,5 +1,6 @@
 import { IDSRadio } from '@frontend/ids-react-ts'
 import { Vardenhet, Vardgivare } from '../../../schemas'
+import { classNames } from '../../../utils/classNames'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 export function CareProviderItem({
@@ -12,14 +13,14 @@ export function CareProviderItem({
   handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
 }) {
   return (
-    <div>
+    <div className="mb-6">
       <h4 className="ids-heading-4 border-neutral-90 my-2 border-b pb-2">{provider.namn}</h4>
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.namn} className="flex items-center">
+                <div key={reception.id} className="ml-5 flex items-center">
                   <IDSRadio>
                     <input
                       type="radio"
@@ -31,15 +32,15 @@ export function CareProviderItem({
                     />
                     <label
                       htmlFor={reception.namn}
-                      className={`cursor-pointer items-center ${selectedRadio === reception.namn ? 'font-bold' : ''}`}>
-                      <span className="ml-5"> {reception.namn}</span>
+                      className={classNames('cursor-pointer', 'items-center', 'mb-0', selectedRadio === reception.namn && 'font-bold')}>
+                      <span className=""> {reception.namn}</span>
                     </label>
                   </IDSRadio>
                 </div>
               ))}
             </CareProviderAccordion>
           ) : (
-            <div className="flex items-center">
+            <div className="border-neutral-90 my-2 flex items-center border-b">
               <IDSRadio>
                 <input
                   type="radio"

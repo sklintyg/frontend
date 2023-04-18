@@ -10,7 +10,7 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="flex-1">
-        <IDSContainer gutterless>
+        <IDSContainer>
           <Outlet />
         </IDSContainer>
       </main>
