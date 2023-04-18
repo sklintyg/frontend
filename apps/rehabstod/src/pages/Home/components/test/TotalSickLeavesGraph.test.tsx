@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { TotalSickLeavesGraph } from '../TotalSickLeavesGraph'
+import { TotalSickLeavesGraph } from '../graph/TotalSickLeavesGraph'
 
 const renderComponent = () => {
   renderWithRouter(<TotalSickLeavesGraph total={5} />)

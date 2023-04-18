@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { GenderDivisionGraph } from '../GenderDivisionGraph'
+import { GenderDivisionGraph } from '../graph/GenderDivisionGraph'
 
 const genders = [
   {

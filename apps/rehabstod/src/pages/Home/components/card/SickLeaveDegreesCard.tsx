@@ -1,5 +1,5 @@
-import { SickLeaveSummary } from '../../../schemas/sickLeaveSchema'
-import { SickLeaveDegreeGraph } from './SickLeaveDegreeGraph'
+import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { SickLeaveDegreeGraph } from '../graph/SickLeaveDegreeGraph'
 
 export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {

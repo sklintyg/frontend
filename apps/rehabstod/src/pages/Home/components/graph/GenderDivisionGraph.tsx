@@ -1,4 +1,4 @@
-import { Gender, GenderSummary } from '../../../schemas/sickLeaveSchema'
+import { Gender, GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { GenderGraph } from './GenderGraph'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {

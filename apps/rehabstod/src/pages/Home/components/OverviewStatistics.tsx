@@ -1,11 +1,11 @@
 import { IDSAlert, IDSCard } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
-import { TotalSickLeavesGraph } from './TotalSickLeavesGraph'
-import { GenderDivisionGraph } from './GenderDivisionGraph'
-import { StatisticsInformationCard } from './StatisticsInformationCard'
+import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
+import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
+import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
-import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
-import { CountSickLeaveDegreesCard } from './CountSickLeaveDegreesCard'
+import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
+import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 
 export function OverviewStatistics() {
   const { isLoading, data: user } = useGetUserQuery()

@@ -1,5 +1,5 @@
 import { LabelProps, Pie, PieChart } from 'recharts'
-import { TooltipIcon } from '../../../components/TooltipIcon/TooltipIcon'
+import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props

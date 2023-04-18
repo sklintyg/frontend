@@ -1,6 +1,6 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { useGetLinksQuery } from '../../../store/api'
-import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
+import { useGetLinksQuery } from '../../../../store/api'
+import { DynamicLink } from '../../../../components/DynamicLink/DynamicLink'
 
 export function StatisticsInformationCard() {
   const { data: links } = useGetLinksQuery()

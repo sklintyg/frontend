@@ -1,4 +1,4 @@
-import { Gender, GenderSummary } from '../../../schemas/sickLeaveSchema'
+import { Gender, GenderSummary } from '../../../../schemas/sickLeaveSchema'
 
 export function GenderGraph({ gender }: { gender: GenderSummary | undefined }) {
   if (!gender) {
