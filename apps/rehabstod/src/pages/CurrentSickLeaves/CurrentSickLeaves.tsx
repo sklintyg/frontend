@@ -1,4 +1,3 @@
-import { IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
@@ -64,22 +63,20 @@ export function CurrentSickLeaves() {
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
 
-      <IDSContainer gutterless className="overflow-y-auto">
-        <Table column={SickLeaveColumn.Startdatum}>
-          <thead>
-            <TableHeaderRow showPersonalInformation={showPersonalInformation} />
-          </thead>
-          <tbody style={{ overflowWrap: 'anywhere' }}>
-            <TableBodyRows
-              isDoctor={isDoctor}
-              isLoading={isLoading}
-              showPersonalInformation={showPersonalInformation}
-              sickLeaves={sickLeaves}
-              unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-            />
-          </tbody>
-        </Table>
-      </IDSContainer>
+      <Table column={SickLeaveColumn.Startdatum}>
+        <thead>
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
+        </thead>
+        <tbody className="whitespace-normal break-words">
+          <TableBodyRows
+            isDoctor={isDoctor}
+            isLoading={isLoading}
+            showPersonalInformation={showPersonalInformation}
+            sickLeaves={sickLeaves}
+            unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+          />
+        </tbody>
+      </Table>
     </div>
   )
 }

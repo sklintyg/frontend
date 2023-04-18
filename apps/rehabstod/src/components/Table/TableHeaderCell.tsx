@@ -1,10 +1,21 @@
+import { classNames } from '../../utils/classNames'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { useTableContext } from './hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
-export function TableHeaderCell({ description, column, width }: { column: string; description?: string; width?: string }) {
+export function TableHeaderCell({
+  description,
+  column,
+  width,
+  stickyRight = false,
+}: {
+  column: string
+  description?: string
+  width?: string
+  stickyRight?: boolean
+}) {
   const { sortOnColumn } = useTableContext()
 
   return (
@@ -25,7 +36,16 @@ export function TableHeaderCell({ description, column, width }: { column: string
             }
           }}
           onClick={() => sortOnColumn(column)}
-          className="cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
+          className={classNames(
+            'cursor-pointer',
+            'select-none',
+            'overflow-hidden',
+            'text-ellipsis',
+            'whitespace-nowrap',
+            'first:rounded-tl-md',
+            'last:rounded-tr-md',
+            stickyRight && 'sticky right-0 z-20'
+          )}>
           <span>
             {column} <SortingIcon column={column} />
           </span>

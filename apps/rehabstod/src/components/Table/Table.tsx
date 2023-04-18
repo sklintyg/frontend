@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { IDSContainer } from '@frontend/ids-react-ts'
 import React, { createContext, useCallback, useMemo, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 
@@ -43,7 +44,9 @@ export function Table({ children, ...options }: { children: React.ReactNode } & 
 
   return (
     <TableContext.Provider value={table}>
-      <table className="ids-table w-full whitespace-nowrap rounded-md text-sm">{children}</table>
+      <IDSContainer gutterless className="relative overflow-auto">
+        <table className="ids-table w-full overflow-visible whitespace-nowrap rounded-md text-sm">{children}</table>
+      </IDSContainer>
     </TableContext.Provider>
   )
 }

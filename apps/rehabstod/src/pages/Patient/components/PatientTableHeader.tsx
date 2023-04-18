@@ -5,19 +5,16 @@ export function PatientTableHeader() {
   return (
     <thead>
       <tr>
-        <TableHeaderCell column={SickLeaveColumn.Num} />
-        <TableHeaderCell
-          column={SickLeaveColumn.Diagnos}
-          description="Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den som påverkar arbetsförmågan mest först. För muspekaren över diagnoskoden för att se diagnos i text."
-        />
-        <TableHeaderCell column={SickLeaveColumn.Startdatum} />
-        <TableHeaderCell column={SickLeaveColumn.Slutdatum} />
-        <TableHeaderCell column={SickLeaveColumn.Längd} />
-        <TableHeaderCell column={SickLeaveColumn.Grad} />
-        <TableHeaderCell column={SickLeaveColumn.Ärenden} />
-        <TableHeaderCell column={SickLeaveColumn.Läkare} />
-        <TableHeaderCell column={SickLeaveColumn.Sysselsättning} />
-        <TableHeaderCell column={SickLeaveColumn.Intyg} />
+        <TableHeaderCell column={SickLeaveColumn.Num} width="62px" />
+        <TableHeaderCell column={SickLeaveColumn.Diagnos} width="255px" />
+        <TableHeaderCell column={SickLeaveColumn.Startdatum} width="146px" />
+        <TableHeaderCell column={SickLeaveColumn.Slutdatum} width="146px" />
+        <TableHeaderCell column={SickLeaveColumn.Längd} width="96px" />
+        <TableHeaderCell column={SickLeaveColumn.Grad} width="102px" />
+        <TableHeaderCell column={SickLeaveColumn.Ärenden} width="134px" />
+        <TableHeaderCell column={SickLeaveColumn.Läkare} width="114px" />
+        <TableHeaderCell column={SickLeaveColumn.Sysselsättning} width="169px" />
+        <TableHeaderCell column={SickLeaveColumn.Intyg} stickyRight width="96px" />
       </tr>
     </thead>
   )

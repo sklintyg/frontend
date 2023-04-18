@@ -53,11 +53,11 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
-      query: ({ standardenhet }) => ({
+    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+      query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
-        body: { standardenhet },
+        body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
     }),
@@ -112,7 +112,7 @@ export const {
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
   useGetSickLeavesMutation,
-  useUpdateUserPreferencesMutation,
   useGetUserQuery,
   useGiveConsentMutation,
+  useUpdateUserPreferencesMutation,
 } = api
