@@ -9,12 +9,12 @@ export function TableHeaderCell({
   description,
   column,
   width,
-  stickyRight = false,
+  sticky,
 }: {
   column: string
   description?: string
   width?: string
-  stickyRight?: boolean
+  sticky?: 'left' | 'top' | 'right'
 }) {
   const { sortOnColumn } = useTableContext()
 
@@ -44,7 +44,9 @@ export function TableHeaderCell({
             'whitespace-nowrap',
             'first:rounded-tl-md',
             'last:rounded-tr-md',
-            stickyRight && 'sticky right-0 z-20'
+            'bg-secondary-90',
+            sticky != null && `sticky z-20`,
+            classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}>
           <span>
             {column} <SortingIcon column={column} />

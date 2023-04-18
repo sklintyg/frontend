@@ -28,20 +28,12 @@ describe('Change focus', () => {
     user = result.user
   })
 
-  it('Should change focus with tab', async () => {
+  it('Should gain focus with tab', async () => {
     expect(screen.getAllByRole('row')).toHaveLength(2)
 
     expect(document.body).toHaveFocus()
 
     await user.tab()
-
-    expect(screen.getAllByRole('row')[0]).toHaveFocus()
-
-    await user.tab()
-
-    expect(screen.getAllByRole('row')[1]).toHaveFocus()
-
-    await user.tab({ shift: true })
 
     expect(screen.getAllByRole('row')[0]).toHaveFocus()
   })

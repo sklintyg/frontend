@@ -14,7 +14,7 @@ export function PatientTableHeader() {
         <TableHeaderCell column={SickLeaveColumn.Ärenden} width="134px" />
         <TableHeaderCell column={SickLeaveColumn.Läkare} width="114px" />
         <TableHeaderCell column={SickLeaveColumn.Sysselsättning} width="169px" />
-        <TableHeaderCell column={SickLeaveColumn.Intyg} stickyRight width="96px" />
+        <TableHeaderCell column={SickLeaveColumn.Intyg} sticky="right" width="96px" />
       </tr>
     </thead>
   )
