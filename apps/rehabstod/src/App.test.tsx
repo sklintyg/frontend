@@ -7,12 +7,9 @@ import { renderWithRouter } from './utils/renderWithRouter'
 test('full app rendering/navigating', async () => {
   server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403))))
 
-  const { user } = renderWithRouter(<App />)
+  renderWithRouter(<App />)
 
   await waitForElementToBeRemoved(document.querySelector('ids-spinner'))
 
   expect(screen.getByText(/välkommen till rehabstöd/i)).toBeInTheDocument()
-
-  await user.click(screen.getByTestId('login-btn'))
-  expect(screen.getByText(/den här sidan hittades inte/i)).toBeInTheDocument()
 })

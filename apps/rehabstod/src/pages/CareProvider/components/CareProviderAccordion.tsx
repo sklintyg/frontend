@@ -16,7 +16,7 @@ export function CareProviderAccordion({
   children: ReactNode
 }) {
   return (
-    <details className="group">
+    <details className="border-neutral-90 group my-2 border-b pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between">
           <IDSRadio>
@@ -25,6 +25,7 @@ export function CareProviderAccordion({
               name="selectedUnit"
               value={unit.namn}
               id={unit.namn}
+              checked={selectedRadio === unit.namn}
               onClick={(e) => {
                 const detailsEl = e.currentTarget.closest('details')
                 if (detailsEl) {

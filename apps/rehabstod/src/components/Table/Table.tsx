@@ -43,7 +43,7 @@ export function Table({ children, ...options }: { children: React.ReactNode } & 
 
   return (
     <TableContext.Provider value={table}>
-      <table className="ids-table min-w-full table-fixed overflow-visible rounded-md text-sm">{children}</table>
+      <table className="ids-table w-full whitespace-nowrap rounded-md text-sm">{children}</table>
     </TableContext.Provider>
   )
 }

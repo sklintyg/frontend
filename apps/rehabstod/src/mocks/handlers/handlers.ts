@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { Link, linkSchema } from '../../schemas'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
-import { sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
+import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)
@@ -22,7 +22,7 @@ export const handlers = [
         ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod' }),
         ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice' }),
         ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
-        ineraPersonuppgifter: fakeLink({ text: 'ineraPersonuppgifter' }),
+        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
       })
     )
   ),
@@ -48,5 +48,20 @@ export const handlers = [
 
   rest.post('/api/sickleaves/filters', (_, res, ctx) =>
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ activeDoctors: z.array(lakareSchema) }))()))
+  ),
+
+  rest.get('/api/sickleaves/filters', (_, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json(
+        fakerFromSchema(
+          z.object({
+            activeDoctors: z.array(lakareSchema),
+            allDiagnosisChapters: z.array(diagnosKapitelSchema),
+            enabledDiagnosisChapters: z.array(diagnosKapitelSchema),
+          })
+        )()
+      )
+    )
   ),
 ]

@@ -11,5 +11,5 @@ it('Should present user once logged in', async () => {
 
   await waitForElementToBeRemoved(document.querySelector('ids-spinner'))
 
-  expect(screen.getByText('Hej Edvin Lundqvist')).toBeInTheDocument()
+  expect(screen.getByText('Hej Karolina Ek PhD')).toBeInTheDocument()
 })

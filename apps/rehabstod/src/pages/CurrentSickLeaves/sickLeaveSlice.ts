@@ -9,7 +9,7 @@ export interface SickLeaveState {
 
 const initialState: SickLeaveState = {
   showPersonalInformation: true,
-  filter: { doctorIds: [], diagnoses: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
+  filter: { doctorIds: [], diagnosisChapters: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
 }
 
 const sickLeaveSlice = createSlice({

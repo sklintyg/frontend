@@ -96,7 +96,7 @@ export const sickLeaveFilterSchema = z.object({
   doctorIds: z.array(z.string()),
   toSickLeaveLength: z.number(),
   fromSickLeaveLength: z.number(),
-  diagnoses: z.array(diagnosKapitelSchema),
+  diagnosisChapters: z.array(diagnosKapitelSchema),
 })
 
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>

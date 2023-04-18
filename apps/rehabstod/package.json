@@ -18,6 +18,7 @@
     "*.{js,jsx,ts,tsx}": "yarn test related --run"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.23.0",
     "@frontend/fake": "*",
     "@frontend/ids-react-ts": "*",
     "@reduxjs/toolkit": "^1.9.3",

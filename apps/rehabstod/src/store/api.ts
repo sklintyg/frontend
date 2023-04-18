@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
@@ -32,7 +32,10 @@ export const api = createApi({
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, { valdVardgivare: vardgivare, valdVardenhet: vardenhet })
+            Object.assign(draft, {
+              valdVardgivare: vardgivare,
+              valdVardenhet: vardenhet,
+            })
           )
         )
         try {
@@ -41,6 +44,14 @@ export const api = createApi({
           dispatch(api.util.invalidateTags(['User']))
         }
       },
+    }),
+    updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
+      query: ({ standardenhet }) => ({
+        url: 'user/preferences',
+        method: 'POST',
+        body: { standardenhet },
+      }),
+      transformResponse: (response: { content: UserPreferences }) => response.content,
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -93,5 +104,6 @@ export const {
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
   useGetSickLeavesMutation,
+  useUpdateUserPreferencesMutation,
   useGetUserQuery,
 } = api

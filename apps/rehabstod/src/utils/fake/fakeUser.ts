@@ -8,6 +8,7 @@ export const fakeUserPreferences = fakerFromSchema(userPreferencesSchema)
 export const fakeUserFeature = fakerFromSchema(userFeatureSchema)
 
 export const fakeUser = fakerFromSchemaFactory(userSchema, {
+  authenticationScheme: 'urn:inera:rehabstod:siths:fake',
   valdVardgivare: fakeVardgivare(),
   valdVardenhet: fakeVardenhet(),
   vardgivare: Array.from({ length: 3 }, fakeVardgivare),
