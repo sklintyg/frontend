@@ -12,6 +12,8 @@ export function LayoutFooter() {
 
       <p slot="link-col-1">
         <DynamicLink type="footer" link={links?.ineraManualRehabstod} />
+      </p>
+      <p slot="link-col-1">
         <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
       </p>
 

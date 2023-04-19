@@ -3,8 +3,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
 import { Link, linkSchema } from '../../schemas'
+import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
-import { diagnosKapitelSchema, lakareSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
+import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)

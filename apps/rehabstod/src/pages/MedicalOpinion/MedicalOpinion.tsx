@@ -1,3 +1,4 @@
+import { IDSContainer } from '@frontend/ids-react-ts'
 import { Outlet, useParams } from 'react-router-dom'
 
 export function MedicalOpinion() {
@@ -8,8 +9,10 @@ export function MedicalOpinion() {
   }
 
   return (
-    <div className="ids-content py-10">
-      <h1 className="ids-heading-2">Läkarutlåtande</h1>
-    </div>
+    <IDSContainer>
+      <div className="ids-content py-10">
+        <h1 className="ids-heading-2">Läkarutlåtande</h1>
+      </div>
+    </IDSContainer>
   )
 }
