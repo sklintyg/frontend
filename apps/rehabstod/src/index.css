@@ -56,3 +56,15 @@
 .ids-content .ids-preamble:not(:last-child) {
   margin-bottom: 2.5rem;
 }
+
+.ids-content ::-webkit-scrollbar {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 0.625rem;
+  background-color: var(--IDS-COLOR-NEUTRAL-99);
+}
+
+.ids-content ::-webkit-scrollbar-thumb {
+  background-color: var(--IDS-COLOR-ACCENT-40);
+  border-radius: 0.625rem;
+}
