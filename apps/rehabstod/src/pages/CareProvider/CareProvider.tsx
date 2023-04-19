@@ -11,9 +11,10 @@ export function CareProvider() {
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
   const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
-
-  const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(null)
-  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
+  const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
+    user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
+  )
+  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
 
   const firstUnit = user?.vardgivare[0]?.vardenheter[0]?.namn || ''
   const [selectedRadio, setSelectedRadio] = useState<string>(user?.valdVardenhet?.namn || firstUnit)
