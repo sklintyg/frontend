@@ -44,7 +44,7 @@ export function Table({ children, ...options }: { children: React.ReactNode } & 
 
   return (
     <TableContext.Provider value={table}>
-      <IDSContainer gutterless className="overflow-auto pb-4">
+      <IDSContainer gutterless className="overflow-auto pb-4 pt-1">
         <div className="relative">
           <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
         </div>
