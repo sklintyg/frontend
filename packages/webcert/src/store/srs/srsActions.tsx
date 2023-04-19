@@ -73,7 +73,9 @@ export const updateSrsPredictions = createAction<SrsPrediction[]>(`${SRS} Update
 
 export const updateSrsAnswers = createAction<SrsAnswer[]>(`${SRS} Update SRS answers`)
 
-export const updateLoading = createAction<boolean>(`${SRS} Update loading`)
+export const updateLoadingCodes = createAction<boolean>(`${SRS} Update loading codes`)
+
+export const updateLoadingRecommendations = createAction<boolean>(`${SRS} Update loading recommendations`)
 
 export const resetState = createAction(`${SRS} Reset state`)
 
