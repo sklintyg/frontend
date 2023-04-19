@@ -1,4 +1,4 @@
-import { IDSButton, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
@@ -29,7 +29,9 @@ export function Home() {
   }
 
   return user ? (
-    <OverviewStatistics />
+    <IDSContainer>
+      <OverviewStatistics />
+    </IDSContainer>
   ) : (
     <PageHero icon="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>

@@ -2,7 +2,7 @@ import { IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
@@ -14,7 +14,7 @@ import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading

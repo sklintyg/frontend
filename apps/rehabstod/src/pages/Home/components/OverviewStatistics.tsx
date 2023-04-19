@@ -1,4 +1,4 @@
-import { IDSAlert, IDSCard } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
@@ -7,16 +7,25 @@ import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/ap
 import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
+import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 
 export function OverviewStatistics() {
-  const { isLoading, data: user } = useGetUserQuery()
-  const { data: summary } = useGetSickLeavesSummaryQuery()
+  const { isLoading: loadingUser, data: user } = useGetUserQuery()
+  const { isLoading: loadingSummary, data: summary } = useGetSickLeavesSummaryQuery()
   const navigate = useNavigate()
   const unitId = user && user.valdVardenhet ? user.valdVardenhet.id : ''
   const isDoctor = user && user.roles.LAKARE
 
-  if (!isLoading && (!user || !user.valdVardenhet)) {
+  if (!loadingUser && (!user || !user.valdVardenhet)) {
     navigate('/')
+  }
+
+  if (loadingSummary) {
+    return (
+      <p className="p-10">
+        Laddar översikt ... <IDSSpinner />
+      </p>
+    )
   }
 
   if (summary && summary.total === 0) {
@@ -28,7 +37,7 @@ export function OverviewStatistics() {
   }
 
   return (
-    <div className="ids-content grid auto-rows-fr grid-cols-3 gap-4 py-10">
+    <div className="ids-content grid grid-cols-3 gap-4 py-10">
       <IDSCard fill>
         <TotalSickLeavesGraph total={summary ? summary.total : 0} />
       </IDSCard>
@@ -37,6 +46,9 @@ export function OverviewStatistics() {
       </IDSCard>
       <IDSCard>
         <StatisticsInformationCard />
+      </IDSCard>
+      <IDSCard fill className="col-span-3">
+        <DiagnosisGroupsCard summary={summary} />
       </IDSCard>
       <IDSCard fill className="col-span-3">
         <SickLeaveDegreesCard summary={summary} />

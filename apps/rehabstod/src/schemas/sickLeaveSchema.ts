@@ -122,9 +122,24 @@ export const sickLeaveLengthSummarySchema = z.object({
   percentage: z.number(),
 })
 
+export const diagnosGruppSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  kapitelList: z.array(diagnosKapitelSchema),
+})
+
+export const diagnosGruppStatSchema = z.object({
+  grupp: diagnosGruppSchema,
+  count: z.number(),
+  percentage: z.number(),
+})
+
 export const sickLeaveSummary = z.object({
   total: z.number(),
   genders: z.array(genderSummarySchema),
+  groups: z.array(diagnosGruppStatSchema),
+  maleDiagnosisGroups: z.array(diagnosGruppStatSchema),
+  femaleDiagnosisGroups: z.array(diagnosGruppStatSchema),
   sickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
   maleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
   femaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
@@ -148,3 +163,5 @@ export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>
 export type GenderSummary = z.infer<typeof genderSummarySchema>
 export type SickLeaveDegreeSummary = z.infer<typeof sickLeaveDegreeSummarySchema>
 export type SickLeaveLengthSummary = z.infer<typeof sickLeaveLengthSummarySchema>
+export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
+export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>

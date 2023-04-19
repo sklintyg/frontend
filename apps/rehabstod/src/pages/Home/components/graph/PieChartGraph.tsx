@@ -1,17 +1,29 @@
 import { Legend, Pie, PieChart } from 'recharts'
+import { useEffect, useState } from 'react'
 
-export function PieChartGraph({ data, small }: { data: { value: number; name: string; fill: string }[]; small?: boolean }) {
+export function PieChartGraph({
+  data,
+  small,
+  disableLegend,
+}: {
+  data: { value: number; name: string; fill: string }[]
+  small?: boolean
+  disableLegend?: boolean
+}) {
+  const [loaded, setLoaded] = useState(false)
+  const getLegend = (name: string) => <span className="text-neutral-40 text-xs">{name}</span>
+
+  // Fix for: https://github.com/recharts/recharts/issues/511
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true)
+    }, 0)
+  }, [])
+
   return (
     <PieChart width={small ? 300 : 500} height={200}>
-      <Legend
-        layout={!small ? 'vertical' : undefined}
-        verticalAlign={!small ? 'middle' : undefined}
-        align={!small ? 'right' : undefined}
-        className="text-xs"
-        /* eslint-disable-next-line react/no-unstable-nested-components */
-        formatter={(name) => <span className="text-neutral-40 text-xs">{name}</span>}
-      />
       <Pie
+        isAnimationActive={false}
         data={data}
         color="#000000"
         dataKey="value"
@@ -19,8 +31,16 @@ export function PieChartGraph({ data, small }: { data: { value: number; name: st
         outerRadius={small ? 30 : 60}
         labelLine={false}
         stroke="white"
-        className="mx-5"
       />
+      {!disableLegend && (
+        <Legend
+          layout={!small ? 'vertical' : undefined}
+          verticalAlign={!small ? 'middle' : undefined}
+          align={!small ? 'right' : undefined}
+          className="text-xs"
+          formatter={(name) => getLegend(name)}
+        />
+      )}
     </PieChart>
   )
 }

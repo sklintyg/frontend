@@ -1,4 +1,6 @@
 import { screen } from '@testing-library/react'
+import { format } from 'date-fns'
+import userEvent from '@testing-library/user-event'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
 import { TotalSickLeavesGraph } from '../graph/TotalSickLeavesGraph'
 
@@ -21,5 +23,11 @@ describe('TotalSickLeavesGraph', () => {
   it('should show total graph', () => {
     renderComponent()
     expect(screen.getByRole('region')).toBeInTheDocument()
+  })
+
+  it('should show tooltip', async () => {
+    renderComponent()
+    await userEvent.hover(screen.getByTestId('tooltipIcon'))
+    expect(screen.getByText(`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`)).toBeInTheDocument()
   })
 })
