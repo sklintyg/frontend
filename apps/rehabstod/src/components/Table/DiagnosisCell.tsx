@@ -12,7 +12,7 @@ export function DiagnosisCell({ diagnos, biDiagnoser }: { diagnos: SickLeaveDiag
           <span>
             {diagnos.kod} {diagnos.beskrivning}
           </span>
-          {biDiagnoser.length > 0 && ` ${biDiagnoser.map(({ kod }) => kod).join(', ')}`}
+          {biDiagnoser.length > 0 && `, ${biDiagnoser.map(({ kod }) => kod).join(', ')}`}
         </td>
       </TooltipTrigger>
       <TooltipContent>
