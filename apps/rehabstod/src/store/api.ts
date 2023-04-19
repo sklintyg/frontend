@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Link, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
@@ -22,7 +23,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet }>({
+    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
