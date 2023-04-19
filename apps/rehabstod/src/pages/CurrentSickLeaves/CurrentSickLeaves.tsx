@@ -39,56 +39,58 @@ export function CurrentSickLeaves() {
   }
 
   return (
-    <div className="ids-content py-10">
-      <h1 className="ids-heading-2">Pågående sjukfall</h1>
-      <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
-      <hr className="opacity-40" />
+    <IDSContainer>
+      <div className="ids-content py-10">
+        <h1 className="ids-heading-2">Pågående sjukfall</h1>
+        <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
+        <hr className="opacity-40" />
 
-      <Filters
-        onSearch={(request) => triggerGetSickLeaves(request)}
-        onReset={() => {
-          dispatch(resetFilters())
-        }}
-        isDoctor={isDoctor}
-      />
+        <Filters
+          onSearch={(request) => triggerGetSickLeaves(request)}
+          onReset={() => {
+            dispatch(resetFilters())
+          }}
+          isDoctor={isDoctor}
+        />
 
-      <TableInfo
-        onShowPersonalInformationChange={(checked) => {
-          dispatch(updateShowPersonalInformation(checked))
-        }}
-        showPersonalInformation={showPersonalInformation}
-        totalNumber={(currentSickLeaves ?? []).length}
-        listLength={(currentSickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
-      />
-      <IDSContainer gutterless className="overflow-y-auto">
-        <table className="ids-table w-full whitespace-nowrap rounded-md">
-          <thead>
-            <TableHeaderRow
-              ascending={ascending}
-              currentColumn={currentColumn}
-              showPersonalInformation={showPersonalInformation}
-              onColumnSort={(column) => {
-                if (currentColumn !== column) {
-                  dispatch(sortOnColumn(column))
-                } else {
-                  dispatch(toggleAscending())
-                }
-              }}
-            />
-          </thead>
-          <tbody style={{ overflowWrap: 'anywhere' }}>
-            <TableBodyRows
-              isDoctor={isDoctor}
-              isLoading={isLoading}
-              showPersonalInformation={showPersonalInformation}
-              sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
-              unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-            />
-          </tbody>
-        </table>
-      </IDSContainer>
-    </div>
+        <TableInfo
+          onShowPersonalInformationChange={(checked) => {
+            dispatch(updateShowPersonalInformation(checked))
+          }}
+          showPersonalInformation={showPersonalInformation}
+          totalNumber={(currentSickLeaves ?? []).length}
+          listLength={(currentSickLeaves ?? []).length}
+          daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+          daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        />
+        <IDSContainer gutterless className="overflow-y-auto">
+          <table className="ids-table w-full rounded-md text-sm">
+            <thead>
+              <TableHeaderRow
+                ascending={ascending}
+                currentColumn={currentColumn}
+                showPersonalInformation={showPersonalInformation}
+                onColumnSort={(column) => {
+                  if (currentColumn !== column) {
+                    dispatch(sortOnColumn(column))
+                  } else {
+                    dispatch(toggleAscending())
+                  }
+                }}
+              />
+            </thead>
+            <tbody style={{ overflowWrap: 'anywhere' }}>
+              <TableBodyRows
+                isDoctor={isDoctor}
+                isLoading={isLoading}
+                showPersonalInformation={showPersonalInformation}
+                sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+                unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+              />
+            </tbody>
+          </table>
+        </IDSContainer>
+      </div>
+    </IDSContainer>
   )
 }

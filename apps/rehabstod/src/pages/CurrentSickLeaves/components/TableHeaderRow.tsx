@@ -101,7 +101,7 @@ Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den 
       />
       <TableHeaderCell
         title="Grad"
-        width="98px"
+        width="136px"
         description="Sjukskrivningsgrad i nuvarande intyg. Om intyget innehåller flera grader anges de i tidsföljd med den just nu gällande graden i fetstil."
         column={SickLeaveColumn.Grad}
         ascending={ascending}
