@@ -6,7 +6,7 @@ import { useGetUserQuery } from '../../store/api'
 export function ProtectedRoute({ children, requireUnit }: { children: ReactNode; requireUnit?: boolean }): JSX.Element | null {
   const { data: user, isLoading } = useGetUserQuery()
 
-  if (isLoading) {
+  if (isLoading || user?.pdlConsentGiven === false) {
     return null
   }
 
