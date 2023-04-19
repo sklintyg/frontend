@@ -1,4 +1,3 @@
-import { IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
@@ -40,46 +39,44 @@ export function CurrentSickLeaves() {
   }
 
   return (
-    <IDSContainer>
-      <div className="ids-content py-10">
-        <h1 className="ids-heading-2">Pågående sjukfall</h1>
-        <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
-        <hr className="opacity-40" />
+    <div className="ids-content m-auto max-w-7xl flex-1 py-10 px-2.5">
+      <h1 className="ids-heading-2">Pågående sjukfall</h1>
+      <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
+      <hr className="opacity-40" />
 
-        <Filters
-          onSearch={(request) => triggerGetSickLeaves(request)}
-          onReset={() => {
-            dispatch(resetFilters())
-          }}
-          isDoctor={isDoctor}
-        />
+      <Filters
+        onSearch={(request) => triggerGetSickLeaves(request)}
+        onReset={() => {
+          dispatch(resetFilters())
+        }}
+        isDoctor={isDoctor}
+      />
 
-        <TableInfo
-          onShowPersonalInformationChange={(checked) => {
-            dispatch(updateShowPersonalInformation(checked))
-          }}
-          showPersonalInformation={showPersonalInformation}
-          totalNumber={(sickLeaves ?? []).length}
-          listLength={(sickLeaves ?? []).length}
-          daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-          daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
-        />
+      <TableInfo
+        onShowPersonalInformationChange={(checked) => {
+          dispatch(updateShowPersonalInformation(checked))
+        }}
+        showPersonalInformation={showPersonalInformation}
+        totalNumber={(sickLeaves ?? []).length}
+        listLength={(sickLeaves ?? []).length}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+      />
 
-        <Table column={SickLeaveColumn.Startdatum}>
-          <thead>
-            <TableHeaderRow showPersonalInformation={showPersonalInformation} />
-          </thead>
-          <tbody className="whitespace-normal break-words">
-            <TableBodyRows
-              isDoctor={isDoctor}
-              isLoading={isLoading}
-              showPersonalInformation={showPersonalInformation}
-              sickLeaves={sickLeaves}
-              unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-            />
-          </tbody>
-        </Table>
-      </div>
-    </IDSContainer>
+      <Table column={SickLeaveColumn.Startdatum}>
+        <thead>
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
+        </thead>
+        <tbody className="whitespace-normal break-words">
+          <TableBodyRows
+            isDoctor={isDoctor}
+            isLoading={isLoading}
+            showPersonalInformation={showPersonalInformation}
+            sickLeaves={sickLeaves}
+            unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+          />
+        </tbody>
+      </Table>
+    </div>
   )
 }
