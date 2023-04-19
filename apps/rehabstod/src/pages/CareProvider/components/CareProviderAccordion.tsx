@@ -15,14 +15,17 @@ export function CareProviderAccordion({
   handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
   children: ReactNode
 }) {
-  useEffect(() => {
-    const element = document.getElementById(unit.id)
-    if (
-      element &&
+  function selectedUnitIsSubUnit() {
+    return (
       unit.mottagningar &&
       unit.mottagningar.length > 0 &&
       unit.mottagningar.filter((reception) => reception.namn === selectedRadio).length > 0
-    ) {
+    )
+  }
+
+  useEffect(() => {
+    const element = document.getElementById(unit.id)
+    if (element && selectedUnitIsSubUnit()) {
       element.setAttribute('open', '')
     }
   })
