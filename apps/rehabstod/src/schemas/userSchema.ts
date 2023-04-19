@@ -9,7 +9,7 @@ export const userPreferencesSchema = z.object({
   sjukfallTableColumns: z.string(),
   lakarutlatandenTableColumns: z.string(),
   maxAntalDagarSedanSjukfallAvslut: z.string(),
-  standardenhet: z.null(),
+  standardenhet: z.nullable(z.string()),
   maxAntalDagarMellanIntyg: z.string(),
 })
 

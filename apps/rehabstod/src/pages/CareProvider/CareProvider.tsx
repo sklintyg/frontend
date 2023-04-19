@@ -20,8 +20,9 @@ export function CareProvider() {
   const [isChecked, setIsChecked] = useState(false)
 
   const handleUpdatePreferences = () => {
-    if (isChecked && selectedUnit) {
+    if (user && isChecked && selectedUnit) {
       UpdateUserPreferences({
+        ...user.preferences,
         standardenhet: selectedUnit.id,
       })
     }
