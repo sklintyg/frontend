@@ -44,7 +44,6 @@ export function TableHeaderCell({
             'whitespace-nowrap',
             'first:rounded-tl-md',
             'last:rounded-tr-md',
-            'bg-secondary-90',
             sticky != null && `sticky z-20`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}>

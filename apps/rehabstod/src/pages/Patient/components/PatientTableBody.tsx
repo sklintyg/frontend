@@ -23,7 +23,7 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
           <td className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</td>
           <td>{certificate.lakare.namn}</td>
           <td>{certificate.sysselsattning.join(' ')}</td>
-          <td className="sticky right-0 z-10 bg-white">
+          <td className="sticky right-0 z-10">
             {/* TODO: Make link work */}
             <IDSLink>
               <a href={`webcert/${certificate.intygsId}`} target="_blank" rel="noreferrer">
