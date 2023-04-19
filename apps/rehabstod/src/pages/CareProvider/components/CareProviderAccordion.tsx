@@ -1,5 +1,5 @@
 import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Vardenhet, Vardgivare } from '../../../schemas'
 
 export function CareProviderAccordion({
@@ -15,8 +15,23 @@ export function CareProviderAccordion({
   handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
   children: ReactNode
 }) {
+  function selectedUnitIsSubUnit() {
+    return (
+      unit.mottagningar &&
+      unit.mottagningar.length > 0 &&
+      unit.mottagningar.filter((reception) => reception.namn === selectedRadio).length > 0
+    )
+  }
+
+  useEffect(() => {
+    const element = document.getElementById(unit.id)
+    if (element && selectedUnitIsSubUnit()) {
+      element.setAttribute('open', '')
+    }
+  })
+
   return (
-    <details className="border-neutral-90 group my-2 border-b pb-2">
+    <details id={unit.id} className="border-neutral-90 group my-2 border-b pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between">
           <IDSRadio>

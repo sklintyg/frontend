@@ -26,9 +26,16 @@ function TestComponent() {
 
 describe('useLogout', () => {
   it('Should call /logout and redirect to welcome screen for fake user', async () => {
-    server.use(rest.post('/logout', (req, res, ctx) => res(ctx.status(302))))
+    server.use(
+      rest.get(`/api/user`, (_, res, ctx) =>
+        res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'urn:inera:rehabstod:siths:fake' })))
+      )
+    )
+    server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))
 
     const { user } = renderWithRouter(<TestComponent />)
+
+    await waitForRequest('GET', '/api/user')
 
     const pendingRequest = waitForRequest('POST', '/logout')
 
@@ -45,11 +52,13 @@ describe('useLogout', () => {
 
   it('Should open siths logout URL for regular user', async () => {
     server.use(rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'other' })))))
-    server.use(rest.post('/logout', (req, res, ctx) => res(ctx.status(302))))
+    server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))
 
     const openSpy = vi.spyOn(window, 'open')
 
     const { user } = renderWithRouter(<TestComponent />)
+
+    await waitForRequest('GET', '/api/user')
 
     expect(screen.getByText('Logout')).toBeInTheDocument()
 

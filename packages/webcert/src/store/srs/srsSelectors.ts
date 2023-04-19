@@ -27,7 +27,7 @@ export const getSrsQuestions = (state: RootState): SrsQuestion[] => state.ui.uiS
 
 export const getRiskOpinion = (state: RootState): string => state.ui.uiSRS.riskOpinion
 
-export const getLoading = (state: RootState): boolean => state.ui.uiSRS.loading
+export const getLoading = (state: RootState): boolean => state.ui.uiSRS.loadingCodes
 
 export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
   state.ui.uiSRS.srsPredictions.length > 0
