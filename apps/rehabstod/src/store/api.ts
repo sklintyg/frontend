@@ -92,6 +92,13 @@ export const api = createApi({
         body: { patientId },
       }),
     }),
+    createDefaultTestData: builder.mutation<string, void>({
+      query: () => ({
+        url: '/testability/createDefault',
+        method: 'POST',
+      }),
+      transformResponse: (response: { content: string }) => response.content,
+    }),
   }),
 })
 
@@ -105,4 +112,5 @@ export const {
   useGetSickLeavesMutation,
   useUpdateUserPreferencesMutation,
   useGetUserQuery,
+  useCreateDefaultTestDataMutation,
 } = api
