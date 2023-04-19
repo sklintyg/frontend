@@ -28,7 +28,10 @@ export function useWelcome() {
     () =>
       missions
         .map(({ hsaId, fakeProperties }) => ({ hsaId, ...fakeProperties, logins: fakeProperties?.logins ?? [] }))
-        .filter(({ allowedInApplications }) => allowedInApplications?.includes(AllowedInApplication.RS))
+        .filter(
+          ({ allowedInApplications }) => allowedInApplications?.includes(AllowedInApplication.RS) || allowedInApplications?.length === 0
+        )
+        .sort((a, b) => a.logins[0].beskrivning.localeCompare(b.logins[0].beskrivning))
         .filter(({ env }) => (selectedFilter === 'all' ? true : selectedFilter === env))
         .map(({ hsaId, logins }) => logins.map(({ forvaldEnhet, beskrivning }) => ({ hsaId, forvaldEnhet, beskrivning })))
         .flat(),
