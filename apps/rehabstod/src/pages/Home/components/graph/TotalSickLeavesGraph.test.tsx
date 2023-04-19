@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react'
 import { format } from 'date-fns'
 import userEvent from '@testing-library/user-event'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { TotalSickLeavesGraph } from '../graph/TotalSickLeavesGraph'
+import { TotalSickLeavesGraph } from './TotalSickLeavesGraph'
 
 const renderComponent = () => {
   renderWithRouter(<TotalSickLeavesGraph total={5} />)

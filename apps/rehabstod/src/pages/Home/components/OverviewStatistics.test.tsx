@@ -1,5 +1,5 @@
-import { OverviewStatistics } from '../OverviewStatistics'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { OverviewStatistics } from './OverviewStatistics'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 const renderComponent = () => {
   renderWithRouter(<OverviewStatistics />)

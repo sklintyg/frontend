@@ -1,5 +1,4 @@
 import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { useNavigate } from 'react-router-dom'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
 import { StatisticsInformationCard } from './card/StatisticsInformationCard'
@@ -10,15 +9,10 @@ import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 
 export function OverviewStatistics() {
-  const { isLoading: loadingUser, data: user } = useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const { isLoading: loadingSummary, data: summary } = useGetSickLeavesSummaryQuery()
-  const navigate = useNavigate()
   const unitId = user && user.valdVardenhet ? user.valdVardenhet.id : ''
   const isDoctor = user && user.roles.LAKARE
-
-  if (!loadingUser && (!user || !user.valdVardenhet)) {
-    navigate('/')
-  }
 
   if (loadingSummary) {
     return (
@@ -29,10 +23,10 @@ export function OverviewStatistics() {
   }
 
   if (summary && summary.total === 0) {
-    return isDoctor ? (
-      <IDSAlert className="py-10">Du har inga pågående sjukfall på {unitId}.</IDSAlert>
-    ) : (
-      <IDSAlert className="py-10">Det finns inga pågående sjukfall på {unitId}.</IDSAlert>
+    return (
+      <IDSAlert className="py-10">
+        {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {unitId}.
+      </IDSAlert>
     )
   }
 

@@ -5,6 +5,7 @@ import { PageHero } from '../../components/PageHero/PageHero'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { OverviewStatistics } from './components/OverviewStatistics'
+import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 
 export function Home() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -30,7 +31,9 @@ export function Home() {
 
   return user ? (
     <IDSContainer>
-      <OverviewStatistics />
+      <ProtectedRoute requireUnit>
+        <OverviewStatistics />
+      </ProtectedRoute>
     </IDSContainer>
   ) : (
     <PageHero icon="user">

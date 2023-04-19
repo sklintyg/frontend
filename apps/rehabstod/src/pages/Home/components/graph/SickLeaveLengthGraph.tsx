@@ -7,7 +7,7 @@ export function SickLeaveLengthGraph({ sickLeaveLengths, small }: { sickLeaveLen
   const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
     value: Math.round(degree.percentage),
     name: `${degree.name} (${degree.count}st, ${Math.round(degree.percentage)}%)`,
-    fill: colors[index],
+    fill: colors[index % colors.length],
   })
 
   const data = sickLeaveLengths.map((degree, index) => getDataPoint(degree, index))

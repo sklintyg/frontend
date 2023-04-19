@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { SickLeaveDegreesCard } from '../card/SickLeaveDegreesCard'
+import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
 import { fakeSickLeaveSummary } from '../../../../utils/fake/fakeSickLeave'
 
 const renderComponent = () => {
