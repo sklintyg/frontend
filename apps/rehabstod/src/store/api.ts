@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { getCookie } from '../utils/cookies'
+
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -44,11 +46,19 @@ export const api = createApi({
         }
       },
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, { standardenhet: string }>({
-      query: ({ standardenhet }) => ({
+    giveConsent: builder.mutation<User, { pdlConsentGiven: boolean }>({
+      query: ({ pdlConsentGiven }) => ({
+        url: 'user/giveconsent',
+        method: 'POST',
+        body: { consentGiven: pdlConsentGiven },
+      }),
+      invalidatesTags: ['User'],
+    }),
+    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+      query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
-        body: { standardenhet },
+        body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
     }),
@@ -103,6 +113,7 @@ export const {
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
   useGetSickLeavesMutation,
-  useUpdateUserPreferencesMutation,
   useGetUserQuery,
+  useGiveConsentMutation,
+  useUpdateUserPreferencesMutation,
 } = api
