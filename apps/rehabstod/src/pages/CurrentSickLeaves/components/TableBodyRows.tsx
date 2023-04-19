@@ -24,6 +24,7 @@ export function TableBodyRows({
 }) {
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
+  const numColumns = showPersonalInformation ? 11 : 9
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
@@ -34,18 +35,18 @@ export function TableBodyRows({
 
   if (isLoading) {
     return (
-      <MaxColspanRow>
+      <MaxColspanRow colspan={numColumns}>
         <IDSSpinner />
       </MaxColspanRow>
     )
   }
 
   if (sickLeaves == null) {
-    return <MaxColspanRow>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={numColumns}>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   if (sickLeaves.length === 0) {
-    return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={numColumns}>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   const navigateToPatient = (id: string) => {
