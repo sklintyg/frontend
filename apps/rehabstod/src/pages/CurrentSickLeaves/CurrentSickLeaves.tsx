@@ -39,7 +39,7 @@ export function CurrentSickLeaves() {
   }
 
   return (
-    <div className="ids-content m-auto max-w-7xl flex-1 py-10 px-2.5">
+    <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <h1 className="ids-heading-2">Pågående sjukfall</h1>
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />

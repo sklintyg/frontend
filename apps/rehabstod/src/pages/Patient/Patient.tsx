@@ -17,7 +17,7 @@ export function Patient() {
   return (
     <>
       {patient && <PatientHeader patient={patient} />}
-      <div className="ids-content m-auto max-w-7xl flex-1 py-10 px-2.5">
+      <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
         <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
         <PatientSickLeaves sickLeaves={currentSickLeaves} />
 
