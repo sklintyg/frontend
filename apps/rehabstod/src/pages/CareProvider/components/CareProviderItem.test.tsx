@@ -17,7 +17,7 @@ function renderComponent() {
 }
 
 it('renders without error', () => {
-  renderComponent()
+  expect(() => renderComponent()).not.toThrow()
 })
 
 it('should display care unit', () => {
