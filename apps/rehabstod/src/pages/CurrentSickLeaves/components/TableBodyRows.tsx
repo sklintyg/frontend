@@ -72,7 +72,7 @@ export function TableBodyRows({
           <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
-          <td>
+          <td className="flex flex-wrap">
             <DiagnosisInfo code={sickLeave.diagnos.kod} description={sickLeave.diagnos.beskrivning} isSubDiagnosis={false} />
             {sickLeave.biDiagnoser.map((diagnosis, index) => (
               <div key={diagnosis.kod}>
