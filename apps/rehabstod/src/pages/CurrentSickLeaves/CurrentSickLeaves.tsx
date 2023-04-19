@@ -64,7 +64,7 @@ export function CurrentSickLeaves() {
           daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
         />
         <IDSContainer gutterless className="overflow-y-auto">
-          <table className="ids-table w-full whitespace-nowrap rounded-md">
+          <table className="ids-table w-full rounded-md text-sm">
             <thead>
               <TableHeaderRow
                 ascending={ascending}
