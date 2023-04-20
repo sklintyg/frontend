@@ -30,11 +30,16 @@ export function LayoutHeader() {
                 <Link to="/enhet">Byt vårdenhet</Link>
               </IDSLink>
               <IDSDialog dismissible headline="Inställningar" show={showSettingsDialog}>
-                <IDSLink trigger="" color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 text-primary-40">
-                  <IDSIcon height="20" width="20" name="cog" />
-                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-                  <a onClick={() => setShowSettingsDialog('true')}>Inställningar</a>
-                </IDSLink>
+                <button
+                  trigger=""
+                  onClick={() => setShowSettingsDialog('true')}
+                  className="ids-my-5 text-primary-40 flex w-full items-center"
+                  type="submit">
+                  <div className="mr-2.5">
+                    <IDSIcon color="currentColor" color2="currentColor" height="20" width="20" name="cog" />
+                  </div>
+                  <div className="flex-auto text-left">Inställningar</div>
+                </button>
                 <SettingsDialogContent onClose={() => setShowSettingsDialog('false')} preferences={user ? user.preferences : undefined} />
               </IDSDialog>
               <hr className="border-neutral-40" />
