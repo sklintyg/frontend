@@ -79,6 +79,11 @@ export function TableBodyRows({
           {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
           <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
           <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
+          <td>
+            {sickLeave.sysselsattning.map(
+              (occupation, index) => `${occupation}${index !== sickLeave.sysselsattning.length - 1 ? ', ' : ''}`
+            )}
+          </td>
           <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
           <td>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
