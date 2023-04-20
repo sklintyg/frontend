@@ -2,7 +2,7 @@ import { IDSAlert, IDSButton, IDSButtonGroup, IDSContainer } from '@frontend/ids
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
-import { Vardenhet, Vardgivare } from '../../schemas'
+import { Mottagning, Vardenhet, Vardgivare } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery, useUpdateUserPreferencesMutation } from '../../store/api'
 import { CareProviderItem } from './components/CareProviderItem'
 
@@ -11,17 +11,17 @@ export function CareProvider() {
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
   const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
-
-  const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null>(null)
-  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
-
-  const firstUnit = user?.vardgivare[0]?.vardenheter[0]?.namn || ''
-  const [selectedRadio, setSelectedRadio] = useState<string>(user?.valdVardenhet?.namn || firstUnit)
+  const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
+    user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
+  )
+  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
+  const [selectedRadio, setSelectedRadio] = useState<string>(selectedUnit?.namn ?? '')
   const [isChecked, setIsChecked] = useState(false)
 
   const handleUpdatePreferences = () => {
-    if (isChecked && selectedUnit) {
+    if (user && isChecked && selectedUnit) {
       UpdateUserPreferences({
+        ...user.preferences,
         standardenhet: selectedUnit.id,
       })
     }
@@ -47,7 +47,7 @@ export function CareProvider() {
     handleUpdatePreferences()
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet) => {
+  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
     setSelectedProvider(provider)
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
@@ -60,7 +60,7 @@ export function CareProvider() {
           <h1 className="ids-heading-1 ids-small pb-4">Välj enhet</h1>
           <p className="ids-preamble my-5">
             Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
-            inloggning.
+            inloggning.{' '}
           </p>
           {user.roleSwitchPossible && (
             <IDSAlert className="mb-5">

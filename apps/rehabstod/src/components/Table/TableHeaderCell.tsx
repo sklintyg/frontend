@@ -1,25 +1,23 @@
+import { classNames } from '../../utils/classNames'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
+import { useTableContext } from './hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
-export function TableHeaderCell<T extends string>({
-  title,
+export function TableHeaderCell({
   description,
-  ascending,
   column,
-  currentColumn,
-  onColumnSort,
   width,
+  sticky,
 }: {
-  title: string
+  column: string
   description?: string
-  ascending: boolean
-  column: T
-  currentColumn: string
-  onColumnSort: (column: T) => void
   width?: string
+  sticky?: 'left' | 'top' | 'right'
 }) {
+  const { sortOnColumn } = useTableContext()
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -28,7 +26,7 @@ export function TableHeaderCell<T extends string>({
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
             if (code === 'Enter' || code === 'Space') {
-              onColumnSort(column)
+              sortOnColumn(column)
             }
             if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
               ;(currentTarget.previousElementSibling as HTMLElement).focus()
@@ -37,10 +35,20 @@ export function TableHeaderCell<T extends string>({
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => onColumnSort(column)}
-          className="cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
+          onClick={() => sortOnColumn(column)}
+          className={classNames(
+            'cursor-pointer',
+            'select-none',
+            'overflow-hidden',
+            'text-ellipsis',
+            'whitespace-nowrap',
+            'first:rounded-tl-md',
+            'last:rounded-tr-md',
+            sticky != null && `sticky z-20`,
+            classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
+          )}>
           <span>
-            {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
+            {column} <SortingIcon column={column} />
           </span>
           {description && <TooltipContent>{description}</TooltipContent>}
         </th>
