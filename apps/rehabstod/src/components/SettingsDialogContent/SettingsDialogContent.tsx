@@ -1,20 +1,10 @@
-import { IDSButton, IDSButtonGroup, IDSDialog } from '@frontend/ids-react-ts'
-import { ReactNode, useState } from 'react'
+import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
+import { useState } from 'react'
 import { NumberInput } from '../Form/NumberInput'
 import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { UserPreferences } from '../../schemas'
 
-export function SettingsDialog({
-  preferences,
-  children,
-  show,
-  onClose,
-}: {
-  preferences: UserPreferences | undefined
-  children: ReactNode
-  show: string
-  onClose: () => void
-}) {
+export function SettingsDialogContent({ preferences, onClose }: { preferences: UserPreferences | undefined; onClose: () => void }) {
   const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
   const [savedPreferences, setSavedPreferences] = useState<UserPreferences | undefined>(preferences)
   const minDaysBetweenSickLeaves = 0
@@ -40,8 +30,7 @@ export function SettingsDialog({
     isValueBetweenLimits(maxDaysBetweenSickLeaves, minDaysBetweenSickLeaves, savedPreferences.maxAntalDagarMellanIntyg)
 
   return (
-    <IDSDialog dismissible headline="Inställningar" show={show}>
-      {children}
+    <>
       <div>
         <h2 className="ids-heading-4">Visa nyligen avslutade sjukfall</h2>
         <p>
@@ -91,6 +80,6 @@ export function SettingsDialog({
           Spara
         </IDSButton>
       </IDSButtonGroup>
-    </IDSDialog>
+    </>
   )
 }

@@ -1,8 +1,5 @@
-import { IDSButton } from '@frontend/ids-react-ts'
-import { useState } from 'react'
 import { Checkbox } from '../../../components/Form/Checkbox'
-import { SettingsDialog } from '../../../components/SettingsDialog/SettingsDialog'
-import { useGetUserQuery } from '../../../store/api'
+import { SettingsDialog } from './SettingsDialog'
 
 export function TableInfo({
   onShowPersonalInformationChange,
@@ -19,9 +16,6 @@ export function TableInfo({
   daysBetweenCertificates: string
   daysAfterSickLeaveEnd: string
 }) {
-  const { data: user } = useGetUserQuery()
-  const [showSettingsDialog, setShowSettingsDialog] = useState('false')
-
   return (
     <div className="mb-5">
       <Checkbox
@@ -49,14 +43,7 @@ export function TableInfo({
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
         </p>
         <p className="mx-2">|</p>
-        <SettingsDialog
-          show={showSettingsDialog}
-          onClose={() => setShowSettingsDialog('false')}
-          preferences={user ? user.preferences : undefined}>
-          <IDSButton trigger="" tertiary size="s" onClick={() => setShowSettingsDialog('true')}>
-            Ändra
-          </IDSButton>
-        </SettingsDialog>
+        <SettingsDialog />
       </div>
     </div>
   )
