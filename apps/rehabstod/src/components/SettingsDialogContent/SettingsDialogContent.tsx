@@ -5,7 +5,7 @@ import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { UserPreferences } from '../../schemas'
 
 export function SettingsDialogContent({ preferences, onClose }: { preferences: UserPreferences | undefined; onClose: () => void }) {
-  const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
+  const [updateUserPreferences] = useUpdateUserPreferencesMutation()
   const [savedPreferences, setSavedPreferences] = useState<UserPreferences | undefined>(preferences)
   const minDaysBetweenSickLeaves = 0
   const maxDaysBetweenSickLeaves = 90
@@ -20,7 +20,7 @@ export function SettingsDialogContent({ preferences, onClose }: { preferences: U
 
   const onSave = () => {
     if (savedPreferences) {
-      UpdateUserPreferences(savedPreferences)
+      updateUserPreferences(savedPreferences)
       onClose()
     }
   }

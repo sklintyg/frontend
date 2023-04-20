@@ -18,7 +18,7 @@ export function NumberInput({
 }: {
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onBlur: () => void
+  onBlur?: () => void
   description?: string
   id: string
   value: number | string
