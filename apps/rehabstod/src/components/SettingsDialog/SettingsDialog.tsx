@@ -26,7 +26,7 @@ export function SettingsDialog({
     return null
   }
 
-  const isValueBetweenLimits = (max: number, min: number, value: string) => Number(value) <= max && Number(value) >= min
+  const isValueBetweenLimits = (max: number, min: number, value: string) => value && Number(value) <= max && Number(value) >= min
 
   const onSave = () => {
     if (savedPreferences) {
@@ -57,7 +57,7 @@ export function SettingsDialog({
             })
           }
           id="daysAfterSickLeaveEnd"
-          value={savedPreferences.maxAntalDagarSedanSjukfallAvslut ? Number(savedPreferences.maxAntalDagarSedanSjukfallAvslut) : 0}
+          value={savedPreferences.maxAntalDagarSedanSjukfallAvslut}
           max={maxDaysFinishedSickLeave}
           min={minDaysFinishedSickLeave}
           className="w-72"
@@ -77,7 +77,7 @@ export function SettingsDialog({
             })
           }
           id="daysBetweenSickLeaves"
-          value={Number(savedPreferences.maxAntalDagarMellanIntyg)}
+          value={savedPreferences.maxAntalDagarMellanIntyg}
           max={maxDaysBetweenSickLeaves}
           min={minDaysBetweenSickLeaves}
           className="w-72"

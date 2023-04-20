@@ -49,12 +49,6 @@ describe('SettingsDialog', () => {
     expect(screen.getByText('Spara')).not.toBeDisabled()
   })
 
-  it('should disable save button if input is over limit', async () => {
-    renderComponent('true')
-    await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '800')
-    expect(screen.getByText('Spara')).toBeDisabled()
-  })
-
   describe('days after finished sick leaves', () => {
     it('should render title', () => {
       renderComponent('true')
@@ -79,6 +73,25 @@ describe('SettingsDialog', () => {
       renderComponent('true')
       await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '5')
       expect(screen.getByLabelText('Max antal dagar sedan avslut')).toHaveValue(5)
+    })
+
+    it('should disable save button if input is over limit', async () => {
+      renderComponent('true')
+      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '800')
+      expect(screen.getByText('Spara')).toBeDisabled()
+    })
+
+    it('should disable save button if input is under limit', async () => {
+      renderComponent('true')
+      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '-6')
+      expect(screen.getByText('Spara')).toBeDisabled()
+    })
+
+    it('should disable save button if input is empty limit', async () => {
+      renderComponent('true')
+      await userEvent.clear(screen.getByLabelText('Max antal dagar sedan avslut'))
+      expect(screen.getByLabelText('Max antal dagar sedan avslut')).toHaveValue(null)
+      expect(screen.getByText('Spara')).toBeDisabled()
     })
   })
 
@@ -106,6 +119,25 @@ describe('SettingsDialog', () => {
       renderComponent('true')
       await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '5')
       expect(screen.getByLabelText('Dagar mellan intyg')).toHaveValue(5)
+    })
+
+    it('should disable save button if input is over limit', async () => {
+      renderComponent('true')
+      await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '800')
+      expect(screen.getByText('Spara')).toBeDisabled()
+    })
+
+    it('should disable save button if input is under limit', async () => {
+      renderComponent('true')
+      await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '-5')
+      expect(screen.getByText('Spara')).toBeDisabled()
+    })
+
+    it('should disable save button if input is empty limit', async () => {
+      renderComponent('true')
+      await userEvent.clear(screen.getByLabelText('Dagar mellan intyg'))
+      expect(screen.getByLabelText('Dagar mellan intyg')).toHaveValue(null)
+      expect(screen.getByText('Spara')).toBeDisabled()
     })
   })
 })

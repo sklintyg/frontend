@@ -17,10 +17,10 @@ export function NumberInput({
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description?: string
   id: string
-  value: number
+  value: number | string
   isRange?: boolean
-  max: number
-  min: number
+  max?: number
+  min?: number
   className?: string
 }) {
   return (
