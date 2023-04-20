@@ -1,6 +1,7 @@
 import { IDSDialog, IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef } from 'react'
+import { IDSDialog as IDSDialogElement } from '@inera/ids-core/components/dialog/dialog-element'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
@@ -10,7 +11,7 @@ export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const sithsUrl = '/saml/login/alias/siths-rs2'
-  const [showSettingsDialog, setShowSettingsDialog] = useState('false')
+  const ref = useRef<IDSDialogElement>(null)
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -29,10 +30,10 @@ export function LayoutHeader() {
                 <IDSIcon height="20" width="20" name="swap" />
                 <Link to="/enhet">Byt vårdenhet</Link>
               </IDSLink>
-              <IDSDialog dismissible headline="Inställningar" show={showSettingsDialog}>
+              <IDSDialog dismissible headline="Inställningar" ref={ref}>
                 <button
                   trigger=""
-                  onClick={() => setShowSettingsDialog('true')}
+                  onClick={() => ref.current?.showDialog()}
                   className="ids-my-5 text-primary-40 flex w-full items-center"
                   type="submit">
                   <div className="mr-2.5">
@@ -40,7 +41,7 @@ export function LayoutHeader() {
                   </div>
                   <div className="flex-auto text-left">Inställningar</div>
                 </button>
-                <SettingsDialogContent onClose={() => setShowSettingsDialog('false')} preferences={user ? user.preferences : undefined} />
+                <SettingsDialogContent onClose={() => ref.current?.hideDialog()} preferences={user ? user.preferences : undefined} />
               </IDSDialog>
               <hr className="border-neutral-40" />
               <button onClick={logout} className="ids-mt-5 text-primary-40 flex w-full items-center" type="submit">
