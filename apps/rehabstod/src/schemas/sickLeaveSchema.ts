@@ -99,6 +99,55 @@ export const sickLeaveFilterSchema = z.object({
   diagnosisChapters: z.array(diagnosKapitelSchema),
 })
 
+export const genderSummarySchema = z.object({
+  count: z.number(),
+  gender: z.string(),
+  percentage: z.number(),
+})
+
+export const sickLeaveDegreeSummarySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  count: z.number(),
+  percentage: z.number(),
+})
+
+export const sickLeaveLengthSummarySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  count: z.number(),
+  percentage: z.number(),
+})
+
+export const diagnosGruppSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  kapitelList: z.array(diagnosKapitelSchema),
+})
+
+export const diagnosGruppStatSchema = z.object({
+  grupp: diagnosGruppSchema,
+  count: z.number(),
+  percentage: z.number(),
+})
+
+export const sickLeaveSummary = z.object({
+  total: z.number(),
+  genders: z.array(genderSummarySchema),
+  groups: z.array(diagnosGruppStatSchema),
+  maleDiagnosisGroups: z.array(diagnosGruppStatSchema),
+  femaleDiagnosisGroups: z.array(diagnosGruppStatSchema),
+  sickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  maleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  femaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countMaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  countFemaleSickLeaveDegrees: z.array(sickLeaveDegreeSummarySchema),
+  sickLeaveLengths: z.array(sickLeaveLengthSummarySchema),
+  maleSickLeaveLengths: z.array(sickLeaveLengthSummarySchema),
+  femaleSickLeaveLengths: z.array(sickLeaveLengthSummarySchema),
+})
+
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
 export type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
@@ -106,3 +155,9 @@ export type RiskSignal = z.infer<typeof riskSignalSchema>
 export type SickLeaveDiagnosis = z.infer<typeof sickLeaveDiagnosisSchema>
 export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
+export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>
+export type GenderSummary = z.infer<typeof genderSummarySchema>
+export type SickLeaveDegreeSummary = z.infer<typeof sickLeaveDegreeSummarySchema>
+export type SickLeaveLengthSummary = z.infer<typeof sickLeaveLengthSummarySchema>
+export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
+export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>

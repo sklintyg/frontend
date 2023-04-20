@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -17,7 +17,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -61,6 +61,7 @@ export const api = createApi({
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
+      invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -78,13 +79,15 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.mutation<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
+        providesTags: ['SickLeaves'],
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
+      providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
       { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
@@ -94,6 +97,12 @@ export const api = createApi({
         url: 'sickleaves/filters',
       }),
       providesTags: ['SickLeavesFilter'],
+    }),
+    getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
+      query: () => ({
+        url: 'sickleaves/summary',
+      }),
+      providesTags: ['SickLeaveSummary'],
     }),
     getSickLeavePatient: builder.query<Patient, { patientId: string }>({
       query: ({ patientId }) => ({
@@ -112,8 +121,9 @@ export const {
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
-  useGetSickLeavesMutation,
-  useGetUserQuery,
-  useGiveConsentMutation,
+  useLazyGetSickLeavesQuery,
   useUpdateUserPreferencesMutation,
+  useGetUserQuery,
+  useGetSickLeavesSummaryQuery,
+  useGiveConsentMutation,
 } = api
