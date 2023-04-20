@@ -16,7 +16,7 @@ export function TableHeaderRow({ showPersonalInformation }: { showPersonalInform
         description="Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den som påverkar arbetsförmågan mest först. För muspekaren över diagnoskoden för att se diagnos i text."
         width="255px"
       />
-      <TableHeaderCell column={SickLeaveColumn.Sysselsättning} description="" width="136px" />
+      <TableHeaderCell column={SickLeaveColumn.Sysselsättning} description="" width="240px" />
       <TableHeaderCell
         column={SickLeaveColumn.Startdatum}
         description={`Datum då sjukfallet började på ${user?.valdVardenhet?.id}. Alla intyg för samma patient som följer på varandra med max ${user?.preferences?.maxAntalDagarSedanSjukfallAvslut} dagars uppehåll räknas till samma sjukfall. Max antal dagars uppehåll mellan intyg kan ställas in i inställningar.`}

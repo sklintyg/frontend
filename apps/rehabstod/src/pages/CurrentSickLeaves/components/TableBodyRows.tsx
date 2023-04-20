@@ -1,3 +1,4 @@
+import React from 'react'
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
@@ -80,9 +81,12 @@ export function TableBodyRows({
           <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
           <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
           <td>
-            {sickLeave.sysselsattning.map(
-              (occupation, index) => `${occupation}${index !== sickLeave.sysselsattning.length - 1 ? ', ' : ''}`
-            )}
+            {sickLeave.sysselsattning.map((occupation, index) => (
+              <React.Fragment key={occupation}>
+                {occupation}
+                {index !== sickLeave.sysselsattning.length - 1 ? <br /> : ''}
+              </React.Fragment>
+            ))}
           </td>
           <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
           <td>
