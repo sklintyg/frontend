@@ -1,7 +1,7 @@
 import { IDSDialog, IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useRef } from 'react'
-import { IDSDialog as IDSDialogElement } from '@inera/ids-core/components/dialog/dialog-element'
+import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
