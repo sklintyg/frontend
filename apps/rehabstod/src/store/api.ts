@@ -29,7 +29,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter'],
+      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>

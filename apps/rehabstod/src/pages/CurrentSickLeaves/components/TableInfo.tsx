@@ -1,5 +1,5 @@
-import { IDSButton } from '@frontend/ids-react-ts'
 import { Checkbox } from '../../../components/Form/Checkbox'
+import { SettingsDialog } from './SettingsDialog'
 
 export function TableInfo({
   onShowPersonalInformationChange,
@@ -36,16 +36,14 @@ export function TableInfo({
         </p>
         <p className="mx-2">|</p>
         <p>
-          <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan sjukfall
+          <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
         </p>
         <p className="mx-2">|</p>
         <p>
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
         </p>
         <p className="mx-2">|</p>
-        <IDSButton tertiary size="s" className="p-0">
-          Ändra
-        </IDSButton>
+        <SettingsDialog />
       </div>
     </div>
   )
