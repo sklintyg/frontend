@@ -1,9 +1,11 @@
-import { IDSButton, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
+import { OverviewStatistics } from './components/OverviewStatistics'
+import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 
 export function Home() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -28,16 +30,11 @@ export function Home() {
   }
 
   return user ? (
-    <PageHero icon="user">
-      <p className="ids-preamble">Hej {user.namn}</p>
-
-      <p className="ids-body">Vårdgivare: {user.valdVardgivare?.namn}</p>
-      <p className="ids-body">Vårdenhet: {user.valdVardenhet?.namn}</p>
-
-      <IDSButton type="submit" onclick={logout}>
-        Logga ut
-      </IDSButton>
-    </PageHero>
+    <IDSContainer>
+      <ProtectedRoute requireUnit>
+        <OverviewStatistics />
+      </ProtectedRoute>
+    </IDSContainer>
   ) : (
     <PageHero icon="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>

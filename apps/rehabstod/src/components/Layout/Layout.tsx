@@ -1,4 +1,3 @@
-import { IDSContainer } from '@frontend/ids-react-ts'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { LayoutFooter } from './LayoutFooter'
@@ -10,9 +9,7 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="flex-1">
-        <IDSContainer>
-          <Outlet />
-        </IDSContainer>
+        <Outlet />
       </main>
       <LayoutFooter />
     </div>

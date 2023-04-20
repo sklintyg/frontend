@@ -2,6 +2,7 @@ import { fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
 import { Route, Routes } from 'react-router-dom'
+import { Table } from '../../../components/Table/Table'
 import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
@@ -11,7 +12,7 @@ describe('Change focus', () => {
 
   beforeEach(() => {
     const result = renderWithRouter(
-      <table>
+      <Table>
         <tbody>
           <TableBodyRows
             isLoading={false}
@@ -21,26 +22,18 @@ describe('Change focus', () => {
             isDoctor={false}
           />
         </tbody>
-      </table>
+      </Table>
     )
 
     user = result.user
   })
 
-  it('Should change focus with tab', async () => {
+  it('Should gain focus with tab', async () => {
     expect(screen.getAllByRole('row')).toHaveLength(2)
 
     expect(document.body).toHaveFocus()
 
     await user.tab()
-
-    expect(screen.getAllByRole('row')[0]).toHaveFocus()
-
-    await user.tab()
-
-    expect(screen.getAllByRole('row')[1]).toHaveFocus()
-
-    await user.tab({ shift: true })
 
     expect(screen.getAllByRole('row')[0]).toHaveFocus()
   })
@@ -69,7 +62,7 @@ describe('Navigate', () => {
         <Route
           path="/"
           element={
-            <table>
+            <Table>
               <tbody>
                 <TableBodyRows
                   isLoading={false}
@@ -79,7 +72,7 @@ describe('Navigate', () => {
                   isDoctor={false}
                 />
               </tbody>
-            </table>
+            </Table>
           }
         />
         <Route path={`/pagaende-sjukfall/${btoa('aperiam')}`} element={<p>Patient Route</p>} />

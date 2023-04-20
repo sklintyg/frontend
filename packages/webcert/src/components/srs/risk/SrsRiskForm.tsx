@@ -27,6 +27,7 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
   const questions = useSelector(getSrsQuestions)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')
+  const [hasAnsweredQuestion, setHasAnsweredQuestion] = useState(false)
 
   const [answers, setAnswers] = useState(
     questions.map((question) => {
@@ -38,6 +39,7 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
     const newAnswers = answers.filter((answer) => answer.questionId !== questionId)
     newAnswers.push({ questionId: questionId, answerId: answerId })
     setAnswers(newAnswers)
+    setHasAnsweredQuestion(true)
   }
 
   return (
@@ -62,7 +64,7 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
         text="Beräkna"
         buttonStyle="secondary"
         onClick={() => onClick(answers)}
-        disabled={hasCurrentRiskDataPoint(predictions)}
+        disabled={hasCurrentRiskDataPoint(predictions) && !hasAnsweredQuestion}
       />
     </div>
   )

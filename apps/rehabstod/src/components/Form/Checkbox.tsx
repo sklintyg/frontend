@@ -19,7 +19,9 @@ export function Checkbox({
 }) {
   return (
     <IDSCheckbox>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className="cursor-pointer">
+        {label}
+      </label>
       {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
       <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} />
     </IDSCheckbox>

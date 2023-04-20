@@ -9,7 +9,7 @@ export function TooltipIcon({ description, ...iconProps }: { description: string
   return (
     <Tooltip>
       <TooltipTrigger>
-        <IDSIcon colorpreset={1} {...iconProps} />
+        <IDSIcon colorpreset={1} tabIndex={0} {...iconProps} />
       </TooltipTrigger>
       <TooltipContent>{description}</TooltipContent>
     </Tooltip>

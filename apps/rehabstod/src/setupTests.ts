@@ -8,7 +8,14 @@ import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
 import { store } from './store/store'
 
-window.open = vi.fn()
+global.open = vi.fn()
+
+// Used by floating-ui
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}))
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
