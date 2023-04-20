@@ -36,7 +36,7 @@ export function TableInfo({
         </p>
         <p className="mx-2">|</p>
         <p>
-          <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan sjukfall
+          <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
         </p>
         <p className="mx-2">|</p>
         <p>
