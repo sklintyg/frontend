@@ -36,7 +36,8 @@ import {
   updateCertificateId,
   updateError,
   updateIsCertificateRenewed,
-  updateLoading,
+  updateLoadingCodes,
+  updateLoadingRecommendations,
   updatePatientId,
   updateSrsAnswers,
   updateSrsInfo,
@@ -69,12 +70,12 @@ export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
 }
 
 export const handleGetSRSCodesStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(updateLoading(true))
+  dispatch(updateLoadingCodes(true))
 }
 
 export const handleGetSRSCodesError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
-  dispatch(updateLoading(false))
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -82,6 +83,7 @@ export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
 ): void => {
   dispatch(updateError(false))
   dispatch(setDiagnosisCodes(Object.values(action.payload)))
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -100,12 +102,12 @@ export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: Mid
 }
 
 export const handleGetRecommendationsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(updateLoading(true))
+  dispatch(updateLoadingRecommendations(true))
 }
 
 export const handleGetRecommendationsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
-  dispatch(updateLoading(false))
+  dispatch(updateLoadingRecommendations(false))
 }
 
 export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -124,7 +126,7 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
     dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
   }
 
-  dispatch(updateLoading(false))
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: PayloadAction<string>): void => {

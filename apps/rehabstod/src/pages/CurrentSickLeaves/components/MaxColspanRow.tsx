@@ -1,10 +1,9 @@
 import { ReactNode } from 'react'
-import { SickLeaveColumn } from '../../../schemas/sickLeaveSchema'
 
-export function MaxColspanRow({ children }: { children: ReactNode }) {
+export function MaxColspanRow({ colspan, children }: { colspan: number; children: ReactNode }) {
   return (
     <tr>
-      <td colSpan={Object.values(SickLeaveColumn).length}>{children}</td>
+      <td colSpan={colspan}>{children}</td>
     </tr>
   )
 }
