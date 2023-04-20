@@ -15,9 +15,7 @@ export function CareProvider() {
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )
   const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
-
-  const firstUnit = user?.vardgivare[0]?.vardenheter[0]?.namn || ''
-  const [selectedRadio, setSelectedRadio] = useState<string>(user?.valdVardenhet?.namn || firstUnit)
+  const [selectedRadio, setSelectedRadio] = useState<string>(selectedUnit?.namn ?? '')
   const [isChecked, setIsChecked] = useState(false)
 
   const handleUpdatePreferences = () => {
