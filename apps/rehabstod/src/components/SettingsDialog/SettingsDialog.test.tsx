@@ -44,6 +44,17 @@ describe('SettingsDialog', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
+  it('should not have save button disabled as default', () => {
+    renderComponent('true')
+    expect(screen.getByText('Spara')).not.toBeDisabled()
+  })
+
+  it('should disable save button if input is over limit', async () => {
+    renderComponent('true')
+    await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '800')
+    expect(screen.getByText('Spara')).toBeDisabled()
+  })
+
   describe('days after finished sick leaves', () => {
     it('should render title', () => {
       renderComponent('true')

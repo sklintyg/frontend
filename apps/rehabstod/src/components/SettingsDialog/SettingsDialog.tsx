@@ -17,17 +17,27 @@ export function SettingsDialog({
 }) {
   const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
   const [savedPreferences, setSavedPreferences] = useState<UserPreferences | undefined>(preferences)
+  const minDaysBetweenSickLeaves = 0
+  const maxDaysBetweenSickLeaves = 90
+  const minDaysFinishedSickLeave = 0
+  const maxDaysFinishedSickLeave = 14
 
   if (!savedPreferences) {
     return null
   }
 
+  const isValueBetweenLimits = (max: number, min: number, value: string) => Number(value) <= max && Number(value) >= min
+
   const onSave = () => {
     if (savedPreferences) {
       UpdateUserPreferences(savedPreferences)
+      onClose()
     }
-    onClose()
   }
+
+  const isSaveEnabled = () =>
+    isValueBetweenLimits(maxDaysFinishedSickLeave, minDaysFinishedSickLeave, savedPreferences.maxAntalDagarSedanSjukfallAvslut) &&
+    isValueBetweenLimits(maxDaysBetweenSickLeaves, minDaysBetweenSickLeaves, savedPreferences.maxAntalDagarMellanIntyg)
 
   return (
     <IDSDialog dismissible headline="Inställningar" show={show}>
@@ -48,8 +58,8 @@ export function SettingsDialog({
           }
           id="daysAfterSickLeaveEnd"
           value={savedPreferences.maxAntalDagarSedanSjukfallAvslut ? Number(savedPreferences.maxAntalDagarSedanSjukfallAvslut) : 0}
-          max={14}
-          min={0}
+          max={maxDaysFinishedSickLeave}
+          min={minDaysFinishedSickLeave}
           className="w-72"
         />
       </div>
@@ -67,9 +77,9 @@ export function SettingsDialog({
             })
           }
           id="daysBetweenSickLeaves"
-          value={savedPreferences.maxAntalDagarMellanIntyg ? Number(savedPreferences.maxAntalDagarMellanIntyg) : 0}
-          max={90}
-          min={0}
+          value={Number(savedPreferences.maxAntalDagarMellanIntyg)}
+          max={maxDaysBetweenSickLeaves}
+          min={minDaysBetweenSickLeaves}
           className="w-72"
         />
       </div>
@@ -77,7 +87,9 @@ export function SettingsDialog({
         <IDSButton secondary onClick={onClose}>
           Avbryt
         </IDSButton>
-        <IDSButton onClick={onSave}>Spara</IDSButton>
+        <IDSButton onClick={onSave} disabled={!isSaveEnabled()}>
+          Spara
+        </IDSButton>
       </IDSButtonGroup>
     </IDSDialog>
   )
