@@ -11,7 +11,7 @@ import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()
   const { isLoading: loadingSummary, data: summary } = useGetSickLeavesSummaryQuery()
-  const unitId = user && user.valdVardenhet ? user.valdVardenhet.id : ''
+  const unit = user && user.valdVardenhet ? user.valdVardenhet.namn : ''
   const isDoctor = user && user.roles.LAKARE
 
   if (loadingSummary) {
@@ -25,7 +25,7 @@ export function OverviewStatistics() {
   if (summary && summary.total === 0) {
     return (
       <IDSAlert className="py-10">
-        {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {unitId}.
+        {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {unit}.
       </IDSAlert>
     )
   }

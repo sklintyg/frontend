@@ -1,28 +1,30 @@
-import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
-import { SickLeaveDegreeGraph } from '../graph/SickLeaveDegreeGraph'
+import { SickLeaveDegreeSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { idsGraphColors } from '../../assets/Colors'
+import { StatisticsCard } from './StatisticsCard'
 
 export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {
     return null
   }
 
+  const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
+    id: degree.id.toString(),
+    value: Math.round(degree.percentage),
+    name: `${degree.id} % sjukskrivningsgrad (${degree.count}st, ${Math.round(degree.percentage)}%)`,
+    fill: idsGraphColors[index % idsGraphColors.length],
+  })
+
+  const generateData = (data: SickLeaveDegreeSummary[]) => data.map((group, index) => getDataPoint(group, index))
+
+  const parentData = generateData(summary.sickLeaveDegrees)
+
   return (
-    <>
-      <h2 className="ids-heading-4">Aktuell sjukskrivningsgrad</h2>
-      <p>Hur stor andel av sjukfallen som tillhör en viss sjukskrivningsgrad.</p>
-      <div className="flex justify-between">
-        <SickLeaveDegreeGraph sickLeaveDegrees={summary.sickLeaveDegrees} />
-        <div className="flex">
-          <div>
-            <p className="ids-heading-4 text-center">Män</p>
-            <SickLeaveDegreeGraph sickLeaveDegrees={summary.maleSickLeaveDegrees} small />
-          </div>
-          <div>
-            <p className="ids-heading-4 text-center">Kvinnor</p>
-            <SickLeaveDegreeGraph sickLeaveDegrees={summary.femaleSickLeaveDegrees} small />
-          </div>
-        </div>
-      </div>
-    </>
+    <StatisticsCard
+      parentData={parentData}
+      maleData={generateData(summary.maleSickLeaveDegrees)}
+      femaleData={generateData(summary.femaleSickLeaveDegrees)}
+      title="Aktuell sjukskrivningsgrad"
+      subTitle="Hur stor andel av sjukfallen som tillhör en viss sjukskrivningsgrad."
+    />
   )
 }

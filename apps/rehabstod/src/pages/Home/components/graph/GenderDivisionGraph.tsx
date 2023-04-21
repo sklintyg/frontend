@@ -1,17 +1,30 @@
 import { Gender, GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { GenderGraph } from './GenderGraph'
+import { idsGraphColors } from '../../assets/Colors'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   const female = genders.find((gender) => gender.gender === Gender.F)
   const male = genders.find((gender) => gender.gender === Gender.M)
 
+  if (!female || !male) {
+    return null
+  }
+
   return (
     <div>
       <h2 className="ids-heading-4">Könsfördelning totalt</h2>
-      <div className="flex items-center justify-center py-3">
+      <div className="flex items-center justify-center">
         <GenderGraph gender={female} />
         <GenderGraph gender={male} />
       </div>
+      <ul className="ml-5 list-disc">
+        <li className="text-2xl" style={{ color: idsGraphColors[4] }}>
+          <span className="text-neutral-40 align-middle text-xs">{`Män (${male.count} st, ${Math.round(male.percentage)}%)`}</span>
+        </li>
+        <li className="text-2xl" style={{ color: idsGraphColors[3] }}>
+          <span className="text-neutral-40 align-middle text-xs">{`Kvinnor (${female.count}st, ${Math.round(female.percentage)} %)`}</span>
+        </li>
+      </ul>
     </div>
   )
 }
