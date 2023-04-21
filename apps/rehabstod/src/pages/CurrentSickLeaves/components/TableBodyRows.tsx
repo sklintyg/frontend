@@ -1,5 +1,5 @@
-import React from 'react'
 import { IDSSpinner } from '@frontend/ids-react-ts'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -25,7 +25,7 @@ export function TableBodyRows({
 }) {
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
-  const numColumns = showPersonalInformation ? 11 : 9
+  const numColumns = showPersonalInformation ? 12 : 10
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
