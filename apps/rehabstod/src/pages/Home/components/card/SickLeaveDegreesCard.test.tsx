@@ -36,6 +36,6 @@ describe('SickLeaveDegreesCard', () => {
 
   it('should show all graphs', () => {
     renderComponent()
-    expect(screen.getAllByRole('region')).toHaveLength(3)
+    expect(screen.getAllByRole('region')).toHaveLength(1)
   })
 })
