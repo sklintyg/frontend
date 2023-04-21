@@ -29,6 +29,7 @@ export const Input = React.forwardRef<HTMLInputElement, React.HTMLProps<HTMLInpu
         hasIcon ? 'pl-5 pr-12' : 'px-5',
         getStyle({ error, disabled })
       )}
+      disabled={disabled}
       {...props}
     />
   )
