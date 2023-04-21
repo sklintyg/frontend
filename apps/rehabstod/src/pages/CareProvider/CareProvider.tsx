@@ -79,7 +79,7 @@ export function CareProvider() {
             Du har valt <span className="font-bold">{selectedRadio}</span>
           </p>
         ) : null}
-        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} description="" id="" />
+        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
         <IDSButtonGroup>
           <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
