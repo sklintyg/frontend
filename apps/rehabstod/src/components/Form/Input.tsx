@@ -9,12 +9,12 @@ interface InputProps {
 }
 
 const getStyle = ({ error, disabled }: Record<string, boolean>) => {
-  if (error) {
-    return 'bg-error-99 border-error-40'
-  }
-
   if (disabled) {
     return 'bg-white border-neutral-40'
+  }
+
+  if (error) {
+    return 'bg-error-99 border-error-40'
   }
 
   return 'bg-secondary-95 border-accent-40'
