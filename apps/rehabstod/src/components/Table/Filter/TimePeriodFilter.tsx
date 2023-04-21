@@ -41,7 +41,7 @@ export function TimePeriodFilter({
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
-      <div className="flex gap-3">
+      <div className="flex w-72 gap-3">
         <NumberInput
           label="Från"
           onBlur={() => onFromChange(convertTimePeriodValue(from, minLimit, to, minLimit))}
