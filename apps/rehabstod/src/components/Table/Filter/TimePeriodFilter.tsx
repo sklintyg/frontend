@@ -37,22 +37,18 @@ export function TimePeriodFilter({
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
-      <div className="flex gap-3">
+      <div className="flex w-72 gap-3">
         <NumberInput
-          id="timePeriodFromFilter"
           label="Från"
           onChange={(event) => onFromChange(convertTimePeriodValue(event.currentTarget.value, minLimit, to))}
           value={from}
-          isRange
           max={to}
           min={minLimit}
         />
         <NumberInput
-          id="timePeriodToFilter"
           label="Till"
           onChange={(event) => onToChange(convertTimePeriodValue(event.currentTarget.value, from, maxLimit))}
           value={to}
-          isRange
           max={maxLimit}
           min={from}
         />

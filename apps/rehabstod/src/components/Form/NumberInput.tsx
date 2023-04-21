@@ -1,32 +1,29 @@
-import { IDSInput } from '@frontend/ids-react-ts'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useId } from 'react'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
+import { Input } from './Input'
 
 export function NumberInput({
   label,
   onChange,
   description,
-  id,
   value,
-  isRange,
   max,
   min,
 }: {
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description?: string
-  id: string
   value: number
-  isRange: boolean
   max: number
   min: number
 }) {
+  const id = useId()
   return (
-    <IDSInput className={`${isRange && 'flex items-baseline gap-3'}`}>
+    <div className="flex w-full items-baseline gap-3">
       <label htmlFor={id}>
         {label} {description && <TooltipIcon description={description} name="question" size="s" />}
       </label>
-      <input type="number" onChange={onChange} value={value} className="border-accent-40 rounded border p-2" max={max} min={min} />
-    </IDSInput>
+      <Input id={id} type="number" onChange={onChange} value={value} max={max} min={min} />
+    </div>
   )
 }

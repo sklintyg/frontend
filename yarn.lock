@@ -734,10 +734,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@inera/ids-core@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@inera/ids-core/-/ids-core-2.5.0.tgz#6e32627d3deec50288696c4d964264a3c4076e11"
-  integrity sha512-90PqqWGkiaKDeALA6wmKz+/96BXqScI0+w5wT3PMxGcMjmmtKdEZ0C/sVaaD9wZ54XPP0ihDFL7dYXheqgV3Vg==
+"@inera/ids-core@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@inera/ids-core/-/ids-core-2.6.0.tgz#5434092362b9b4ec0a3a2e64cf4815c0e6c4109a"
+  integrity sha512-eOndnTY+UOmYQv3hzJKjfV729mL5SEvYJV5vQnFsD/in5rEio0WdsxbjnmGhU7EanlX+eZHmhNJuvV7zkSH0RQ==
   dependencies:
     lit "^2.0.0-rc.2"
     tslib "2.3.1"
