@@ -20,12 +20,12 @@ export function SettingsDialogContent({ preferences, onClose }: { preferences: U
   const isMaxAntalDagarMellanIntygValid = isValueBetweenLimits(
     maxDaysBetweenSickLeaves,
     minDaysBetweenSickLeaves,
-    Number(savedPreferences.maxAntalDagarMellanIntyg)
+    parseInt(savedPreferences.maxAntalDagarMellanIntyg, 10)
   )
   const isMaxAntalDagarSedanSjukfallAvslutValid = isValueBetweenLimits(
     maxDaysFinishedSickLeave,
     minDaysFinishedSickLeave,
-    Number(savedPreferences.maxAntalDagarSedanSjukfallAvslut)
+    parseInt(savedPreferences.maxAntalDagarSedanSjukfallAvslut, 10)
   )
   const isSaveEnabled = isMaxAntalDagarSedanSjukfallAvslutValid && isMaxAntalDagarMellanIntygValid
 
