@@ -11,24 +11,28 @@ export function TimePeriodFilter({
 }: {
   title: string
   description: string
-  onFromChange: (value: number) => void
-  onToChange: (value: number) => void
-  to: number
-  from: number
+  onFromChange: (value: string) => void
+  onToChange: (value: string) => void
+  to: string
+  from: string
 }) {
-  const maxLimit = 365
-  const minLimit = 1
+  const maxLimit = '365'
+  const minLimit = '1'
 
-  const convertTimePeriodValue = (value: string, min: number, max: number) => {
-    if (Number(value) < min) {
+  const convertTimePeriodValue = (value: string, min: string, max: string, defaultValue: string) => {
+    if (value === '' || value === '0') {
+      return defaultValue
+    }
+
+    if (Number(value) < Number(min)) {
       return min
     }
 
-    if (Number(value) > max) {
+    if (Number(value) > Number(max)) {
       return max
     }
 
-    return Number(value)
+    return value
   }
 
   return (
@@ -40,17 +44,25 @@ export function TimePeriodFilter({
       <div className="flex w-72 gap-3">
         <NumberInput
           label="Från"
-          onChange={(event) => onFromChange(convertTimePeriodValue(event.currentTarget.value, minLimit, to))}
-          value={from}
+          onBlur={() => onFromChange(convertTimePeriodValue(from, minLimit, to, minLimit))}
+          onChange={(event) => onFromChange(event?.currentTarget.value)}
+          value={from === '0' ? '' : from}
+          isRange
           max={to}
           min={minLimit}
+          classNameInput="w-20"
+          novalidation
         />
         <NumberInput
           label="Till"
-          onChange={(event) => onToChange(convertTimePeriodValue(event.currentTarget.value, from, maxLimit))}
-          value={to}
+          onBlur={() => onToChange(convertTimePeriodValue(to, from, maxLimit, maxLimit))}
+          onChange={(event) => onToChange(event.currentTarget.value)}
+          value={to === '0' ? '' : to}
+          isRange
           max={maxLimit}
           min={from}
+          classNameInput="w-20"
+          novalidation
         />
       </div>
     </>

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { Table } from '../../components/Table/Table'
 import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
-import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
@@ -13,8 +13,8 @@ import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveS
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useGetSickLeavesMutation()
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
@@ -59,8 +59,8 @@ export function CurrentSickLeaves() {
         showPersonalInformation={showPersonalInformation}
         totalNumber={(sickLeaves ?? []).length}
         listLength={(sickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
       <Table column={SickLeaveColumn.Startdatum}>
