@@ -8,22 +8,16 @@ interface InputProps {
   disabled?: boolean
 }
 
-const styles = {
-  default: 'bg-secondary-95 border-accent-40',
-  error: 'bg-error-99 border-error-40',
-  disabled: 'bg-white border-neutral-40',
-}
-
-const getStyle = ({ error, disabled }: { error: boolean; disabled: boolean }) => {
+const getStyle = ({ error, disabled }: Record<string, boolean>) => {
   if (error) {
-    return styles.error
+    return 'bg-error-99 border-error-40'
   }
 
   if (disabled) {
-    return styles.disabled
+    return 'bg-white border-neutral-40'
   }
 
-  return styles.default
+  return 'bg-secondary-95 border-accent-40'
 }
 
 export const Input = React.forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputElement> & InputProps>(
