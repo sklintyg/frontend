@@ -10,7 +10,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
   const getDataPoint = (length: SickLeaveLengthSummary, index: number) => ({
     id: length.id.toString(),
     value: Math.round(length.percentage),
-    name: `${length.name} (${length.count}st, ${Math.round(length.percentage)}%)`,
+    name: `${length.name} (${length.count} st, ${Math.round(length.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
   })
 

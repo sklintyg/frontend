@@ -10,7 +10,7 @@ export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | 
   const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
     id: degree.id.toString(),
     value: Math.round(degree.percentage),
-    name: `${degree.id} % sjukskrivningsgrad (${degree.count}st, ${Math.round(degree.percentage)}%)`,
+    name: `${degree.id} % sjukskrivningsgrad (${degree.count} st, ${Math.round(degree.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
   })
 
