@@ -1,3 +1,4 @@
+export { IDSHeaderAvatar as IDSHeaderAvatarElement } from '@inera/ids-core/components/header/avatar/header-avatar-element'
 export * from './IDSHeader'
 export * from './IDSHeaderAvatar'
 export * from './IDSHeaderItem'
