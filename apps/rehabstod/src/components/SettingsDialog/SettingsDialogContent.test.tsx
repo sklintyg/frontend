@@ -7,10 +7,12 @@ import { fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
 let onClose: () => void
+let onChange: () => void
 
 const renderComponent = () => {
   onClose = vi.fn()
-  renderWithRouter(<SettingsDialogContent onClose={onClose} preferences={preferences} />)
+  onChange = vi.fn()
+  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} />)
 }
 
 describe('SettingsDialog', () => {
@@ -55,38 +57,38 @@ describe('SettingsDialog', () => {
       renderComponent()
       expect(
         screen.getByText(
-          'Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen. Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade. Välj 0-14 dagar.'
+          'Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen. Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade.'
         )
       ).toBeInTheDocument()
     })
 
     it('should render input', () => {
       renderComponent()
-      expect(screen.getByText('Max antal dagar sedan avslut')).toBeInTheDocument()
+      expect(screen.getByText('Max antal dagar sedan avslut (0-14 dagar)')).toBeInTheDocument()
     })
 
-    it('should change value in input if user types', async () => {
+    it('should call on change change if user types in input', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '5')
-      expect(screen.getByLabelText('Max antal dagar sedan avslut')).toHaveValue(5)
+      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)'), '5')
+      expect(onChange).toHaveBeenLastCalledWith({ ...preferences, maxAntalDagarSedanSjukfallAvslut: '5' })
     })
 
     it('should disable save button if input is over limit', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '800')
+      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)'), '800')
       expect(screen.getByText('Spara')).toBeDisabled()
     })
 
     it('should disable save button if input is under limit', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut'), '-6')
+      await userEvent.type(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)'), '-6')
       expect(screen.getByText('Spara')).toBeDisabled()
     })
 
     it('should disable save button if input is empty limit', async () => {
       renderComponent()
-      await userEvent.clear(screen.getByLabelText('Max antal dagar sedan avslut'))
-      expect(screen.getByLabelText('Max antal dagar sedan avslut')).toHaveValue(null)
+      await userEvent.clear(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)'))
+      expect(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)')).toHaveValue(null)
       expect(screen.getByText('Spara')).toBeDisabled()
     })
   })
@@ -100,39 +102,37 @@ describe('SettingsDialog', () => {
     it('should render text', () => {
       renderComponent()
       expect(
-        screen.getByText(
-          'Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall. Välj 0-90 dagar.'
-        )
+        screen.getByText('Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.')
       ).toBeInTheDocument()
     })
 
     it('should render input', () => {
       renderComponent()
-      expect(screen.getByText('Dagar mellan intyg')).toBeInTheDocument()
+      expect(screen.getByText('Dagar mellan intyg (0-90 dagar)')).toBeInTheDocument()
     })
 
-    it('should change value in input if user types', async () => {
+    it('should call on change if user types in input', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '5')
-      expect(screen.getByLabelText('Dagar mellan intyg')).toHaveValue(5)
+      await userEvent.type(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'), '5')
+      expect(onChange).toHaveBeenLastCalledWith({ ...preferences, maxAntalDagarMellanIntyg: '5' })
     })
 
     it('should disable save button if input is over limit', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '800')
+      await userEvent.type(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'), '800')
       expect(screen.getByText('Spara')).toBeDisabled()
     })
 
     it('should disable save button if input is under limit', async () => {
       renderComponent()
-      await userEvent.type(screen.getByLabelText('Dagar mellan intyg'), '-5')
+      await userEvent.type(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'), '-5')
       expect(screen.getByText('Spara')).toBeDisabled()
     })
 
     it('should disable save button if input is empty limit', async () => {
       renderComponent()
-      await userEvent.clear(screen.getByLabelText('Dagar mellan intyg'))
-      expect(screen.getByLabelText('Dagar mellan intyg')).toHaveValue(null)
+      await userEvent.clear(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'))
+      expect(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)')).toHaveValue(null)
       expect(screen.getByText('Spara')).toBeDisabled()
     })
   })
