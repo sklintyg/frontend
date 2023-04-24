@@ -19,10 +19,10 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
       </div>
       <ul className="ml-5 list-disc">
         <li className="text-2xl" style={{ color: idsGraphColors[4] }}>
-          <span className="text-neutral-40 align-middle text-xs">{`Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`}</span>
+          <span className="text-neutral-20 align-middle text-xs">{`Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`}</span>
         </li>
         <li className="text-2xl" style={{ color: idsGraphColors[3] }}>
-          <span className="text-neutral-40 align-middle text-xs">{`Män (${male.count} st, ${Math.round(male.percentage)}%)`}</span>
+          <span className="text-neutral-20 align-middle text-xs">{`Män (${male.count} st, ${Math.round(male.percentage)}%)`}</span>
         </li>
       </ul>
     </div>
