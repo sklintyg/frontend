@@ -5,7 +5,7 @@ export function EndDateInfo({ date, isDateAfterToday }: { date: string; isDateAf
     <p>{date}</p>
   ) : (
     <IDSTooltip>
-      <p className="underline" style={{ textDecorationColor: 'red' }} slot="trigger">
+      <p style={{ fontWeight: 'bold' }} slot="trigger">
         {date}
       </p>
       <p slot="tooltip">Sjukfallet är avslutat</p>
