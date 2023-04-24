@@ -12,9 +12,9 @@ export function TextList({ data, parentData }: { parentData: SummaryDataPoint[];
             <li
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={dataPoint.description ? 0 : undefined}
-              className="text-2xl"
+              className="leading-tight marker:text-2xl"
               style={{ color: parentData && parentData.find((point) => point.id === dataPoint.id)?.fill }}>
-              <span className="text-neutral-20 align-middle text-xs">{dataPoint.name}</span>
+              <span className="text-neutral-20 align-top text-xs">{dataPoint.name}</span>
             </li>
           </TooltipTrigger>
           {dataPoint.description && <TooltipContent>{dataPoint.description}</TooltipContent>}

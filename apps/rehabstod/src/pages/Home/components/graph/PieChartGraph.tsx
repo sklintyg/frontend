@@ -26,7 +26,14 @@ export function PieChartGraph({ data }: { data: { id: string; value: number; nam
         labelLine={false}
         stroke={data.length > 1 ? 'white' : 'none'}
       />
-      <Legend layout="vertical" verticalAlign="middle" align="right" className="text-xs" formatter={(name) => getLegend(name)} />
+      <Legend
+        wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
+        layout="vertical"
+        verticalAlign="middle"
+        align="right"
+        className="text-xs"
+        formatter={(name) => getLegend(name)}
+      />
     </PieChart>
   )
 }
