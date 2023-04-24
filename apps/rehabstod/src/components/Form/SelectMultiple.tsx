@@ -40,7 +40,7 @@ export function SelectMultiple({
       size({
         apply({ rects, elements, availableHeight }) {
           Object.assign(elements.floating.style, {
-            maxHeight: `${Math.min(availableHeight, 400)}px`,
+            maxHeight: `${Math.min(availableHeight, 600)}px`,
             width: `${rects.reference.width}px`,
           })
         },
@@ -89,10 +89,11 @@ export function SelectMultiple({
                 top: y ?? 0,
                 left: x ?? 0,
                 minWidth: 100,
+                maxHeight: 600,
                 outline: 0,
               }}
               {...getFloatingProps()}>
-              <div className="w-full overflow-auto">
+              <div className="h-auto w-full overflow-auto">
                 <IDSCheckboxGroup compact>{options}</IDSCheckboxGroup>
               </div>
             </div>
