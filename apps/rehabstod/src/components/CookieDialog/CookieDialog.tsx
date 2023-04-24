@@ -9,7 +9,7 @@ export function CookieDialog({ children }: { children: ReactNode }) {
   return (
     <IDSDialog dismissible headline="Om kakor (cookies)">
       {children}
-      <div className="ids-content">
+      <div className="ids-content text-base">
         <p className="ids-body">
           Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår
           användning av kakor.
