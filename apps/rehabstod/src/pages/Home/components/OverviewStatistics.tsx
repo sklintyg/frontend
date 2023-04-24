@@ -31,28 +31,32 @@ export function OverviewStatistics() {
   }
 
   return (
-    <div className="ids-content grid grid-cols-3 gap-4 py-10">
-      <IDSCard fill>
-        <TotalSickLeavesGraph total={summary ? summary.total : 0} />
-      </IDSCard>
-      <IDSCard fill>
-        <GenderDivisionGraph genders={summary ? summary.genders : []} />
-      </IDSCard>
-      <IDSCard>
-        <StatisticsInformationCard />
-      </IDSCard>
-      <IDSCard fill className="col-span-3">
-        <DiagnosisGroupsCard summary={summary} />
-      </IDSCard>
-      <IDSCard fill className="col-span-3">
-        <SickLeaveDegreesCard summary={summary} />
-      </IDSCard>
-      <IDSCard fill className="col-span-3">
-        <CountSickLeaveDegreesCard summary={summary} />
-      </IDSCard>
-      <IDSCard fill className="col-span-3">
-        <SickLeaveLengthsCard summary={summary} />
-      </IDSCard>
+    <div className="ids-content py-10">
+      <h1 className="ids-heading-2">Översikt över pågående sjukfall just nu</h1>
+      <h2 className="ids-heading-3 mb-10">{unit}</h2>
+      <div className="grid grid-cols-3 gap-4">
+        <IDSCard fill>
+          <TotalSickLeavesGraph total={summary ? summary.total : 0} />
+        </IDSCard>
+        <IDSCard fill>
+          <GenderDivisionGraph genders={summary ? summary.genders : []} />
+        </IDSCard>
+        <IDSCard>
+          <StatisticsInformationCard />
+        </IDSCard>
+        <IDSCard fill className="col-span-3">
+          <DiagnosisGroupsCard summary={summary} />
+        </IDSCard>
+        <IDSCard fill className="col-span-3">
+          <SickLeaveDegreesCard summary={summary} />
+        </IDSCard>
+        <IDSCard fill className="col-span-3">
+          <CountSickLeaveDegreesCard summary={summary} />
+        </IDSCard>
+        <IDSCard fill className="col-span-3">
+          <SickLeaveLengthsCard summary={summary} />
+        </IDSCard>
+      </div>
     </div>
   )
 }
