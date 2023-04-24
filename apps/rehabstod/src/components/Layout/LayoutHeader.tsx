@@ -14,7 +14,7 @@ export function LayoutHeader() {
   const ref = useRef<IDSDialogElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" unresponsive className="z-50">
+    <IDSHeader type="inera-admin" unresponsive className="z-40">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
