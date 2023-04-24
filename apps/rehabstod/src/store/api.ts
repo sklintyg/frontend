@@ -61,7 +61,7 @@ export const api = createApi({
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter'],
+      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({

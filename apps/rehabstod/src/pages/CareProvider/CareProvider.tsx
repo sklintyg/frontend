@@ -27,9 +27,9 @@ export function CareProvider() {
     }
   }
 
-  const handleChangeUnit = () => {
+  const handleChangeUnit = async () => {
     if (selectedUnit && selectedProvider) {
-      changeUnit({
+      await changeUnit({
         vardgivare: selectedProvider,
         vardenhet: {
           ...selectedUnit,
@@ -39,9 +39,9 @@ export function CareProvider() {
     }
   }
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    await handleChangeUnit()
     handleUpdatePreferences()
-    handleChangeUnit()
     navigate('/')
   }
 
