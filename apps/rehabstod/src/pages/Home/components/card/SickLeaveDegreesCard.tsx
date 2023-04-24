@@ -24,7 +24,7 @@ export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | 
       maleData={generateData(summary.maleSickLeaveDegrees)}
       femaleData={generateData(summary.femaleSickLeaveDegrees)}
       title="Aktuell sjukskrivningsgrad"
-      subTitle="Hur stor andel av sjukfallen som tillhör en viss sjukskrivningsgrad."
+      subTitle="Andel sjukfall fördelat på sjukskrivningsgrad."
     />
   )
 }

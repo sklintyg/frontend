@@ -22,8 +22,8 @@ export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSumma
       parentData={parentData}
       maleData={generateData(summary.countMaleSickLeaveDegrees)}
       femaleData={generateData(summary.countFemaleSickLeaveDegrees)}
-      title="Sjukfall med fler än en sjukskrivningsgrad"
-      subTitle="Visar hur stor del av sjukfallen som har fler än en sjukskrivningsgrad."
+      title="Fler än en sjukskrivningsgrad"
+      subTitle="Andel sjukfall som har fler än en sjukskrivningsgrad."
     />
   )
 }

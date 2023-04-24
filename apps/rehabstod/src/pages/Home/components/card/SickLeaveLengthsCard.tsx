@@ -23,7 +23,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
       maleData={generateData(summary.maleSickLeaveLengths)}
       femaleData={generateData(summary.femaleSickLeaveLengths)}
       title="Sjukskrivningslängd"
-      subTitle="Se hur många och hur stor procentsats av sjukfallen som har en viss sjukskrivningslängd."
+      subTitle="Andel sjukfall fördelat på sjukskrivningslängd."
     />
   )
 }

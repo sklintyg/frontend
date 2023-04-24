@@ -21,7 +21,7 @@ describe('SickLeaveLengthsCard', () => {
 
   it('should show sub title', () => {
     renderComponent()
-    expect(screen.getByText('Se hur många och hur stor procentsats av sjukfallen som har en viss sjukskrivningslängd.')).toBeInTheDocument()
+    expect(screen.getByText('Andel sjukfall fördelat på sjukskrivningslängd.')).toBeInTheDocument()
   })
 
   it('should show male sub title', () => {

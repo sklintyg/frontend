@@ -26,7 +26,7 @@ export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | u
       maleData={generateData(summary.maleDiagnosisGroups)}
       femaleData={generateData(summary.femaleDiagnosisGroups)}
       title="Diagnosgrupp"
-      subTitle="Hur stor andel av sjukfallen som tillhör en viss diagnosgrupp."
+      subTitle="Andel sjukfall fördelat på diagnosgrupp."
     />
   )
 }
