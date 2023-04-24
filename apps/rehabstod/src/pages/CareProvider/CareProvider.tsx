@@ -27,9 +27,7 @@ export function CareProvider() {
     }
   }
 
-  const handleClick = () => {
-    handleUpdatePreferences()
-
+  const handleChangeUnit = () => {
     if (selectedUnit && selectedProvider) {
       changeUnit({
         vardgivare: selectedProvider,
@@ -39,12 +37,16 @@ export function CareProvider() {
         },
       })
     }
+  }
+
+  const handleClick = () => {
+    handleUpdatePreferences()
+    handleChangeUnit()
     navigate('/')
   }
 
   const handleCheck = (event: { target: { checked: boolean } }) => {
     setIsChecked(event.target.checked)
-    handleUpdatePreferences()
   }
 
   const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
