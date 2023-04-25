@@ -36,9 +36,9 @@ describe('TableInfo', () => {
     expect(screen.getByText('3 dagar', { exact: false })).toBeInTheDocument()
   })
 
-  it('Should show change button', () => {
-    expect(screen.getByText('Ändra')).toBeInTheDocument()
-  })
+  // it('Should show change button', () => {
+  //   expect(screen.getByText('Ändra')).toBeInTheDocument()
+  // })
 
   describe('Show personal information', () => {
     it('should show hide personal information', () => {

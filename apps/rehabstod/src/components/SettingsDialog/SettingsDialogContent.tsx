@@ -1,37 +1,43 @@
 import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
-import { useState } from 'react'
 import { UserPreferences } from '../../schemas'
 import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { isValueBetweenLimits } from '../../utils/isValueBetweenLimits'
-import { NumberInput } from '../Form/NumberInput'
+import { FormattedNumberInput } from '../Form/FormattedNumberInput'
 
-export function SettingsDialogContent({ preferences, onClose }: { preferences: UserPreferences | undefined; onClose: () => void }) {
+export function SettingsDialogContent({
+  preferences,
+  onClose,
+  onChange,
+}: {
+  preferences: UserPreferences | undefined
+  onClose: () => void
+  onChange: (preferences: UserPreferences) => void
+}) {
   const [updateUserPreferences] = useUpdateUserPreferencesMutation()
-  const [savedPreferences, setSavedPreferences] = useState<UserPreferences | undefined>(preferences)
   const minDaysBetweenSickLeaves = 0
   const maxDaysBetweenSickLeaves = 90
   const minDaysFinishedSickLeave = 0
   const maxDaysFinishedSickLeave = 14
 
-  if (!savedPreferences) {
+  if (!preferences) {
     return null
   }
 
   const isMaxAntalDagarMellanIntygValid = isValueBetweenLimits(
     maxDaysBetweenSickLeaves,
     minDaysBetweenSickLeaves,
-    parseInt(savedPreferences.maxAntalDagarMellanIntyg, 10)
+    parseInt(preferences.maxAntalDagarMellanIntyg, 10)
   )
   const isMaxAntalDagarSedanSjukfallAvslutValid = isValueBetweenLimits(
     maxDaysFinishedSickLeave,
     minDaysFinishedSickLeave,
-    parseInt(savedPreferences.maxAntalDagarSedanSjukfallAvslut, 10)
+    parseInt(preferences.maxAntalDagarSedanSjukfallAvslut, 10)
   )
   const isSaveEnabled = isMaxAntalDagarSedanSjukfallAvslutValid && isMaxAntalDagarMellanIntygValid
 
   const onSave = () => {
-    if (savedPreferences) {
-      updateUserPreferences(savedPreferences)
+    if (preferences) {
+      updateUserPreferences(preferences)
       onClose()
     }
   }
@@ -42,42 +48,40 @@ export function SettingsDialogContent({ preferences, onClose }: { preferences: U
         <h2 className="ids-heading-4">Visa nyligen avslutade sjukfall</h2>
         <p>
           Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen.
-          Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade. Välj 0-14 dagar.
+          Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade.
         </p>
         <div className="w-72">
-          <NumberInput
-            label="Max antal dagar sedan avslut"
-            onChange={(event) =>
-              setSavedPreferences({
-                ...savedPreferences,
-                maxAntalDagarSedanSjukfallAvslut: event.currentTarget.value,
+          <FormattedNumberInput
+            label="Max antal dagar sedan avslut  (0-14 dagar)"
+            onChange={(value) =>
+              onChange({
+                ...preferences,
+                maxAntalDagarSedanSjukfallAvslut: value,
               })
             }
-            error={!isMaxAntalDagarSedanSjukfallAvslutValid}
-            value={savedPreferences.maxAntalDagarSedanSjukfallAvslut}
-            max={maxDaysFinishedSickLeave}
-            min={minDaysFinishedSickLeave}
+            value={preferences.maxAntalDagarSedanSjukfallAvslut}
+            max={maxDaysFinishedSickLeave.toString()}
+            min={minDaysFinishedSickLeave.toString()}
+            defaultValue={preferences.maxAntalDagarSedanSjukfallAvslut}
           />
         </div>
       </div>
       <div className="py-5">
         <h2 className="ids-heading-4">Antal dagar mellan intyg</h2>
-        <p>
-          Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall. Välj 0-90 dagar.
-        </p>
+        <p>Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.</p>
         <div className="w-72">
-          <NumberInput
-            label="Dagar mellan intyg"
-            onChange={(event) =>
-              setSavedPreferences({
-                ...savedPreferences,
-                maxAntalDagarMellanIntyg: event.currentTarget.value,
+          <FormattedNumberInput
+            label="Dagar mellan intyg (0-90 dagar)"
+            onChange={(value) =>
+              onChange({
+                ...preferences,
+                maxAntalDagarMellanIntyg: value,
               })
             }
-            error={!isMaxAntalDagarMellanIntygValid}
-            value={savedPreferences.maxAntalDagarMellanIntyg}
-            max={maxDaysBetweenSickLeaves}
-            min={minDaysBetweenSickLeaves}
+            value={preferences.maxAntalDagarMellanIntyg}
+            max={maxDaysBetweenSickLeaves.toString()}
+            min={minDaysBetweenSickLeaves.toString()}
+            defaultValue={preferences.maxAntalDagarMellanIntyg}
           />
         </div>
       </div>
