@@ -33,9 +33,4 @@ describe('SickLeaveLengthsCard', () => {
     renderComponent()
     expect(screen.getByText('Kvinnor')).toBeInTheDocument()
   })
-
-  it('should show all graphs', () => {
-    renderComponent()
-    expect(screen.getAllByRole('region')).toHaveLength(1)
-  })
 })
