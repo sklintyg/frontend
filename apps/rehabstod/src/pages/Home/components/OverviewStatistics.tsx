@@ -7,12 +7,13 @@ import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
+import { UserUrval } from '../../../schemas'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()
   const { isLoading: loadingSummary, data: summary } = useGetSickLeavesSummaryQuery()
   const unitId = user && user.valdVardenhet ? user.valdVardenhet.id : ''
-  const isDoctor = user && user.roles.LAKARE
+  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
   if (loadingSummary) {
     return (

@@ -17,7 +17,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -29,7 +29,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter'],
+      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -61,7 +61,7 @@ export const api = createApi({
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
+      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -110,6 +110,14 @@ export const api = createApi({
         method: 'POST',
         body: { patientId },
       }),
+      providesTags: ['SickLeavePatient'],
+    }),
+    createDefaultTestData: builder.mutation<string, void>({
+      query: () => ({
+        url: '/testability/createDefault',
+        method: 'POST',
+      }),
+      transformResponse: (response: { content: string }) => response.content,
     }),
   }),
 })
@@ -124,6 +132,7 @@ export const {
   useLazyGetSickLeavesQuery,
   useUpdateUserPreferencesMutation,
   useGetUserQuery,
+  useCreateDefaultTestDataMutation,
   useGetSickLeavesSummaryQuery,
   useGiveConsentMutation,
 } = api

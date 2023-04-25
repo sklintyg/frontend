@@ -10,6 +10,7 @@ import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
 import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveSlice'
+import { UserUrval } from '../../schemas'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -18,7 +19,7 @@ export function CurrentSickLeaves() {
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
-  const isDoctor = !!user && !!user.roles.LAKARE
+  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -59,8 +60,8 @@ export function CurrentSickLeaves() {
         showPersonalInformation={showPersonalInformation}
         totalNumber={(sickLeaves ?? []).length}
         listLength={(sickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
       <Table column={SickLeaveColumn.Startdatum}>

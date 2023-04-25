@@ -52,6 +52,10 @@ export const userSchema = z.object({
   preferences: userPreferencesSchema,
 })
 
+export enum UserUrval {
+  ISSUED_BY_ME = 'ISSUED_BY_ME',
+}
+
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
 export type SrsFeature = z.infer<typeof srsFeatureSchema>
 export type LakareRole = z.infer<typeof lakareRoleSchema>
