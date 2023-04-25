@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import { fakePatient } from '../../../utils/fake/fakePatient'
-import { PatientHeader } from './PatientHeader'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore } from '@reduxjs/toolkit'
+import { fakePatient } from '../../../utils/fake/fakePatient'
+import { PatientHeader } from './PatientHeader'
 
 describe('PatientHeader', () => {
   const patient = fakePatient()
+
   function renderPatientHeader(showPersonalInformation: boolean) {
     const initialState = { sickLeave: { showPersonalInformation } }
     const store = createStore(() => initialState)
