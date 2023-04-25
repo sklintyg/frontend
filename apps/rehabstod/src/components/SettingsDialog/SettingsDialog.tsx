@@ -1,18 +1,23 @@
-import { IDSDialog, IDSIcon } from '@frontend/ids-react-ts'
-import { useEffect, useRef, useState } from 'react'
+import { IDSDialog, IDSHeaderAvatarElement, IDSIcon } from '@frontend/ids-react-ts'
+import { RefObject, useEffect, useRef, useState } from 'react'
 import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { SettingsDialogContent } from './SettingsDialogContent'
 import { User, UserPreferences } from '../../schemas'
 
-export function SettingsDialog({ user }: { user: User }) {
+export function SettingsDialog({ user, avatarRef }: { user: User; avatarRef: RefObject<IDSHeaderAvatarElement> }) {
   const ref = useRef<IDSDialogElement>(null)
   const [savedPreferences, setSavedPreferences] = useState<UserPreferences | undefined>(user.preferences)
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.addEventListener('changedVisibility', () => setSavedPreferences(user.preferences))
+      ref.current.addEventListener('changedVisibility', () => {
+        setSavedPreferences(user.preferences)
+        if (avatarRef.current?.expanded && ref.current?.show === 'false') {
+          avatarRef.current?.tooggleExpand()
+        }
+      })
     }
-  }, [ref, user.preferences])
+  }, [ref, user.preferences, avatarRef])
 
   if (!user.preferences || !savedPreferences) {
     return null
