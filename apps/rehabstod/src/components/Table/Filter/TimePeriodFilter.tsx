@@ -16,7 +16,7 @@ export function TimePeriodFilter({
   to: string
   from: string
 }) {
-  const maxLimit = '365'
+  const maxLimit = '10000'
   const minLimit = '1'
 
   return (
@@ -25,7 +25,7 @@ export function TimePeriodFilter({
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
-      <div className="flex w-72 gap-3">
+      <div className="flex w-80 gap-3">
         <FormattedNumberInput
           label="Från"
           onChange={(value) => onFromChange(value)}
