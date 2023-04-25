@@ -1,4 +1,4 @@
-import { Legend, Pie, PieChart } from 'recharts'
+import { Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react'
 
 export function PieChartGraph({ data }: { data: { id: string; value: number; name: string; fill: string }[] }) {
@@ -13,27 +13,28 @@ export function PieChartGraph({ data }: { data: { id: string; value: number; nam
   }, [])
 
   return (
-    <PieChart width={500} height={200}>
-      <Pie
-        isAnimationActive={false}
-        cx="100"
-        cy="100"
-        data={data}
-        color="#000000"
-        dataKey="value"
-        nameKey="name"
-        outerRadius={60}
-        labelLine={false}
-        stroke={data.length > 1 ? 'white' : 'none'}
-      />
-      <Legend
-        wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
-        layout="vertical"
-        verticalAlign="middle"
-        align="right"
-        className="text-xs"
-        formatter={(name) => getLegend(name)}
-      />
-    </PieChart>
+    <ResponsiveContainer width={500} height="100%">
+      <PieChart>
+        <Pie
+          isAnimationActive={false}
+          cx="100"
+          data={data}
+          color="#000000"
+          dataKey="value"
+          nameKey="name"
+          outerRadius={60}
+          labelLine={false}
+          stroke={data.length > 1 ? 'white' : 'none'}
+        />
+        <Legend
+          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
+          layout="vertical"
+          verticalAlign="middle"
+          align="right"
+          className="text-xs"
+          formatter={(name) => getLegend(name)}
+        />
+      </PieChart>
+    </ResponsiveContainer>
   )
 }
