@@ -23,7 +23,7 @@ const renderComponent = (value = '10') => {
         onChange={onChange}
         defaultValue={defaultValue}
       />
-      <button>Button</button>
+      <button type="submit">Button</button>
     </>
   )
 }
