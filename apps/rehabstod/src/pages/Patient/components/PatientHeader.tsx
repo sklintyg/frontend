@@ -11,6 +11,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   const currentSickness = patient.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
+  const startDate = currentSickness?.start && isDateBeforeToday(currentSickness.start) ? new Date(currentSickness.start) : null
 
   const handleClick = () => {
     navigate('/pagaende-sjukfall')
@@ -36,15 +37,16 @@ export function PatientHeader({ patient }: { patient: Patient }) {
               <span>
                 Uppskattad dag i sjukfallet:{' '}
                 <span className="font-bold">
-                  {formatDuration(
-                    intervalToDuration({
-                      start: new Date(currentSickness.start),
-                      end: new Date(),
-                    }),
-                    {
-                      format: ['years', 'days'],
-                    }
-                  )}{' '}
+                  {startDate &&
+                    formatDuration(
+                      intervalToDuration({
+                        start: new Date(startDate),
+                        end: new Date(),
+                      }),
+                      {
+                        format: ['years', 'days'],
+                      }
+                    )}{' '}
                 </span>
               </span>
             </div>
