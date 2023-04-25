@@ -50,7 +50,7 @@ export function SettingsDialogContent({
           Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen.
           Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade.
         </p>
-        <div className="w-72">
+        <div className="w-80">
           <FormattedNumberInput
             label="Max antal dagar sedan avslut  (0-14 dagar)"
             onChange={(value) =>
@@ -69,7 +69,7 @@ export function SettingsDialogContent({
       <div className="py-5">
         <h2 className="ids-heading-4">Antal dagar mellan intyg</h2>
         <p>Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.</p>
-        <div className="w-72">
+        <div className="w-80">
           <FormattedNumberInput
             label="Dagar mellan intyg (0-90 dagar)"
             onChange={(value) =>
