@@ -51,7 +51,7 @@ describe('CurrentSickLeavesFilters', () => {
       renderComponent()
       await userEvent.clear(screen.getAllByRole('spinbutton')[1])
       await userEvent.click(screen.getAllByRole('spinbutton')[0])
-      expect(screen.getAllByRole('spinbutton')[1]).toHaveValue(365)
+      expect(screen.getAllByRole('spinbutton')[1]).toHaveValue(10000)
     })
 
     it('should set default value for from if user removes value and clicks outside textbox', async () => {
