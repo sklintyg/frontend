@@ -1,28 +1,29 @@
-import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
 
 export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo) {
   switch (column) {
-    case SickLeaveColumn.Personnummer:
+    case SjukfallColumn.Personnummer:
       return sickLeave.patient.id
-    case SickLeaveColumn.Ålder:
+    case SjukfallColumn.Ålder:
       return sickLeave.patient.alder
-    case SickLeaveColumn.Namn:
+    case SjukfallColumn.Namn:
       return sickLeave.patient.namn
-    case SickLeaveColumn.Kön:
+    case SjukfallColumn.Kön:
       return sickLeave.patient.kon === 'F' ? 'Kvinna' : 'Man'
-    case SickLeaveColumn.Diagnos:
+    case SjukfallColumn.Diagnos:
       return sickLeave.diagnos.kod
-    case SickLeaveColumn.Startdatum:
+    case SjukfallColumn.Startdatum:
       return sickLeave.start
-    case SickLeaveColumn.Slutdatum:
+    case SjukfallColumn.Slutdatum:
       return sickLeave.slut
-    case SickLeaveColumn.Längd:
+    case SjukfallColumn.Längd:
       return sickLeave.dagar
-    case SickLeaveColumn.Intyg:
+    case SjukfallColumn.Intyg:
       return sickLeave.intyg
-    case SickLeaveColumn.Grad:
+    case SjukfallColumn.Grad:
       return sickLeave.aktivGrad
-    case SickLeaveColumn.Läkare:
+    case SjukfallColumn.Läkare:
       return sickLeave.lakare.namn
     default:
       return undefined

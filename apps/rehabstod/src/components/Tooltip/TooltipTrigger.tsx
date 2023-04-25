@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useMergeRefs } from '@floating-ui/react'
 import React from 'react'
 import { useTooltipContext } from './hooks/useTooltipContext'

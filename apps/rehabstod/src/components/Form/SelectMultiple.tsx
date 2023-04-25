@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import {
   autoUpdate,
   flip,
@@ -20,12 +19,12 @@ import { Input } from './Input'
 export function SelectMultiple({
   label,
   description,
-  options,
+  children,
   placeholder,
 }: {
   label: string
   description: string
-  options: ReactNode
+  children: ReactNode
   placeholder: string
 }) {
   const [open, setOpen] = useState(false)
@@ -53,7 +52,7 @@ export function SelectMultiple({
   const { getFloatingProps } = useInteractions([dismiss, role])
   const id = useId()
 
-  if (!options || (options instanceof Array && options.length === 0)) {
+  if (!children || (children instanceof Array && children.length === 0)) {
     return null
   }
 
@@ -93,7 +92,7 @@ export function SelectMultiple({
               }}
               {...getFloatingProps()}>
               <div className="w-full overflow-auto">
-                <IDSCheckboxGroup compact>{options}</IDSCheckboxGroup>
+                <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
               </div>
             </div>
           </FloatingFocusManager>

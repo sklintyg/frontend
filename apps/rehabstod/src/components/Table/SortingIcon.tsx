@@ -3,8 +3,8 @@ import { classNames } from '../../utils/classNames'
 import { useTableContext } from './hooks/useTableContext'
 
 export function SortingIcon({ column }: { column: string }) {
-  const { ascending, column: currentColumn } = useTableContext()
-  const sorting = currentColumn === column
+  const { ascending, sortColumn } = useTableContext()
+  const sorting = sortColumn === column
 
   return (
     <div className="relative ml-1 inline-block h-3">

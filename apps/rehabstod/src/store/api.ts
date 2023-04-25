@@ -54,7 +54,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+    updateUserPreferences: builder.mutation<UserPreferences, Partial<UserPreferences>>({
       query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
@@ -62,6 +62,14 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
       invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
+    }),
+    updatePatientTableColumns: builder.mutation<UserPreferences, UserPreferences['patientTableColumns']>({
+      query: (patientTableColumns) => ({
+        url: 'user/preferences',
+        method: 'POST',
+        body: { patientTableColumns },
+      }),
+      invalidatesTags: ['User'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -123,15 +131,17 @@ export const api = createApi({
 
 export const {
   useChangeUnitMutation,
+  useCreateDefaultTestDataMutation,
   useFakeLogoutMutation,
   useGetLinksQuery,
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
-  useLazyGetSickLeavesQuery,
-  useUpdateUserPreferencesMutation,
-  useGetUserQuery,
-  useCreateDefaultTestDataMutation,
+  useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
+  useGetUserQuery,
   useGiveConsentMutation,
+  useLazyGetSickLeavesQuery,
+  useUpdatePatientTableColumnsMutation,
+  useUpdateUserPreferencesMutation,
 } = api

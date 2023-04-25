@@ -1,13 +1,13 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
-import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
-import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { RootState } from '../../../store/store'
 import { updateFilter } from '../sickLeaveSlice'
+import { DiagnosisFilter } from './filter/DiagnosisFilter'
+import { DoctorFilter } from './filter/DoctorFilter'
+import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,

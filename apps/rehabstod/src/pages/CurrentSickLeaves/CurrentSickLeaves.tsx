@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { Table } from '../../components/Table/Table'
-import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
-import { RootState, useAppDispatch } from '../../store/store'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { useAppDispatch } from '../../store/hooks'
+import { SjukfallColumn } from '../../store/slices/sjukfallTableColumnsSlice'
+import { RootState } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
@@ -63,7 +64,7 @@ export function CurrentSickLeaves() {
         daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
-      <Table column={SickLeaveColumn.Startdatum}>
+      <Table sortColumn={SjukfallColumn.Startdatum}>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>

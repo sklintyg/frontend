@@ -1,11 +1,14 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { DiagnosisCell } from '../../../components/Table/DiagnosisCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
-import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { TableCell } from '../../../components/Table/TableCell'
+import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
@@ -25,7 +28,6 @@ export function TableBodyRows({
 }) {
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
-  const numColumns = showPersonalInformation ? 12 : 10
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
@@ -36,18 +38,18 @@ export function TableBodyRows({
 
   if (isLoading) {
     return (
-      <MaxColspanRow colspan={numColumns}>
+      <MaxColspanRow>
         <IDSSpinner />
       </MaxColspanRow>
     )
   }
 
   if (sickLeaves == null) {
-    return <MaxColspanRow colspan={numColumns}>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   if (sickLeaves.length === 0) {
-    return <MaxColspanRow colspan={numColumns}>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   const navigateToPatient = (id: string) => {
@@ -75,29 +77,31 @@ export function TableBodyRows({
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
           }`}>
-          {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
-          {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
-          <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
-          <td>
+          {showPersonalInformation && <TableCell>{getSickLeavesColumnData(SjukfallColumn.Personnummer, sickLeave)}</TableCell>}
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Ålder, sickLeave)} år</TableCell>
+          {showPersonalInformation && <TableCell>{getSickLeavesColumnData(SjukfallColumn.Namn, sickLeave)}</TableCell>}
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Kön, sickLeave)}</TableCell>
+          <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
+            <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
+          </TableCell>
+          <TableCell>
             {sickLeave.sysselsattning.map((occupation, index) => (
               <React.Fragment key={occupation}>
                 {occupation}
                 {index !== sickLeave.sysselsattning.length - 1 ? <br /> : ''}
               </React.Fragment>
             ))}
-          </td>
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
-          <td>
+          </TableCell>
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Startdatum, sickLeave)}</TableCell>
+          <TableCell>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
-          </td>
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</td>
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Intyg, sickLeave)}</td>
-          <td>
+          </TableCell>
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Längd, sickLeave)} dagar</TableCell>
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Intyg, sickLeave)}</TableCell>
+          <TableCell>
             <SickLeaveDegreeInfo degrees={sickLeave.grader} />
-          </td>
-          <td>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</td>
+          </TableCell>
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Läkare, sickLeave)}</TableCell>
         </tr>
       ))}
     </>
