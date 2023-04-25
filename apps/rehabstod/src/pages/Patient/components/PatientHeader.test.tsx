@@ -4,8 +4,6 @@ import { PatientHeader } from './PatientHeader'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore } from '@reduxjs/toolkit'
-import { vi } from 'vitest'
-import userEvent from '@testing-library/user-event'
 
 describe('PatientHeader', () => {
   const patient = fakePatient()
