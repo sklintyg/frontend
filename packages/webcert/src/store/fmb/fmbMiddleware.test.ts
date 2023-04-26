@@ -4,6 +4,7 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   fakeCertificateConfig,
+  fakeCertificateValue,
   fakeDiagnosesElement,
   fakeSickLeavePeriod,
   Patient,
@@ -152,6 +153,53 @@ describe('Test FMB middleware', () => {
       await flushPromises()
 
       expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
+
+    it('shall not show sick leave period warning sick leave period is not valid', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(
+        setSickLeavePeriodValue(
+          fakeCertificateValue.dateRangeList({
+            list: [
+              {
+                to: '2022-01-01',
+                from: '2',
+                id: 'HALFTEN',
+              },
+            ],
+          })
+        )
+      )
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+
+      expect(fakeAxios.history.post.length).toEqual(0)
+    })
+
+    it('shall only send valid sick leave periods in sick leave period warning request', async () => {
+      const value = fakeCertificateValue.dateRangeList({
+        list: [
+          { to: '2022-01-01', from: '2', id: 'HALFTEN' },
+          { to: '2022-01-01', from: '2020-01-01', id: 'HELT_NEDSATT' },
+        ],
+      })
+      const expectedValue = { ...value }
+      expectedValue.list = value.list.slice().filter((item) => item.id === 'HELT_NEDSATT')
+
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, { message: 'warning message' })
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(setSickLeavePeriodValue(value))
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+      expect(JSON.parse(fakeAxios.history.post[0].data).dateRangeList).toEqual(expectedValue)
     })
 
     it('shall show sick leave period warning if updated element is date range list', async () => {
