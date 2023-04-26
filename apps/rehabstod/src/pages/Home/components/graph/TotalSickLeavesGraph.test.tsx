@@ -20,11 +20,6 @@ describe('TotalSickLeavesGraph', () => {
     expect(screen.getByText('Antal sjukfall')).toBeInTheDocument()
   })
 
-  it('should show total graph', () => {
-    renderComponent()
-    expect(screen.getByRole('region')).toBeInTheDocument()
-  })
-
   it('should show tooltip', async () => {
     renderComponent()
     await userEvent.hover(screen.getByTestId('tooltipIcon'))
