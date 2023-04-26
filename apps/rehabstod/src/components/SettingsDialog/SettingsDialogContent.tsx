@@ -4,6 +4,7 @@ import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { isValueBetweenLimits } from '../../utils/isValueBetweenLimits'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
 import { SelectMultiple } from '../Form/SelectMultiple'
+import { SettingsDialogUnits } from './SettingsDialogUnits'
 
 export function SettingsDialogContent({
   preferences,
@@ -94,8 +95,8 @@ export function SettingsDialogContent({
         <div className="mt-5 w-80">
           <SelectMultiple
             label="Förvald enhet"
-            description=""
-            options="test"
+            description="Välj den förvalda enheten som du vill logga in på. Vill du ta bort den förvalda enheten så välj alternativet 'Ingen'"
+            options={<SettingsDialogUnits user={user} />}
             placeholder={user && user.valdVardenhet ? user.valdVardenhet.namn : 'Ingen'}
           />
         </div>
