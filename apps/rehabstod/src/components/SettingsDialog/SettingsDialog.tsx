@@ -39,6 +39,7 @@ export function SettingsDialog({ user, avatarRef }: { user: User; avatarRef: Ref
         onClose={() => ref.current?.hideDialog()}
         preferences={savedPreferences}
         onChange={(preferences) => setSavedPreferences(preferences)}
+        user={user}
       />
     </IDSDialog>
   )

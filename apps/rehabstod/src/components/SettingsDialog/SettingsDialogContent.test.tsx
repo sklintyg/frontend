@@ -3,16 +3,17 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { SettingsDialogContent } from './SettingsDialogContent'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { fakeUserPreferences } from '../../utils/fake'
+import { fakeUser, fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
+const user = fakeUser()
 let onClose: () => void
 let onChange: () => void
 
 const renderComponent = () => {
   onClose = vi.fn()
   onChange = vi.fn()
-  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} />)
+  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} user={user} />)
 }
 
 describe('SettingsDialog', () => {
@@ -134,6 +135,24 @@ describe('SettingsDialog', () => {
       await userEvent.clear(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'))
       expect(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)')).toHaveValue(null)
       expect(screen.getByText('Spara')).toBeDisabled()
+    })
+  })
+  describe('selected care unit', () => {
+    it('should render title', () => {
+      renderComponent()
+      expect(screen.getAllByText('Förvald enhet')[0]).toBeInTheDocument()
+    })
+    it('should render label', () => {
+      renderComponent()
+      expect(screen.getAllByText('Förvald enhet')[1]).toBeInTheDocument()
+    })
+    it('should render text', () => {
+      renderComponent()
+      expect(
+        screen.getByText(
+          'Välj en enhet som du automatiskt ska bli inloggad på vid start av Rehabstöd. Du kan fortfarande byta enhet när du loggat in.'
+        )
+      ).toBeInTheDocument()
     })
   })
 })
