@@ -3,7 +3,7 @@ import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
 import { apiCallBegan } from '../api/apiActions'
-import { forwardCertificateSuccess } from '../certificate/certificateActions'
+import { deleteCertificateSuccess, forwardCertificateSuccess } from '../certificate/certificateActions'
 import {
   clearActiveList,
   clearActiveListConfig,
@@ -57,6 +57,7 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
+import { getUserStatistics } from '../user/userActions'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
@@ -292,6 +293,11 @@ const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) 
 
 const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateListItemAsForwarded(action.payload.certificate.metadata.id))
+  dispatch(getUserStatistics())
+}
+
+const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(getUserStatistics())
 }
 
 const middlewareMethods = {
@@ -330,6 +336,7 @@ const middlewareMethods = {
   [updateListConfig.type]: handleUpdateListConfig,
   [updateListConfigSuccess.type]: handleUpdateListConfigSuccess,
   [updateUnhandledCertificatesListConfig.type]: handleUpdateUnhandledCertificatesListConfig,
+  [deleteCertificateSuccess.type]: handleDeleteCertificateSuccess,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
