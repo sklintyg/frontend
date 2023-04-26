@@ -111,8 +111,15 @@ function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
   return diagnosisCodes
 }
 
-const hasValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
-  return sickLeaveValue.list.some((value) => value.from && value.to && isDateRangeValid(value.from, value.to))
+const filterOnValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
+  if (!sickLeaveValue || !sickLeaveValue.list) {
+    return sickLeaveValue
+  }
+
+  return {
+    ...sickLeaveValue,
+    list: sickLeaveValue.list.slice().filter((value) => value.from && value.to && isDateRangeValid(value.from, value.to)),
+  }
 }
 
 const getValidationForSickLeavePeriod = (
@@ -121,12 +128,13 @@ const getValidationForSickLeavePeriod = (
   diagnoses: ValueDiagnosisList,
   dispatch: Dispatch
 ): void => {
-  if (sickLeaveValue && diagnoses && hasValidSickLeaveValue(sickLeaveValue) && diagnoses.list.length > 0) {
+  const filteredSickLeaveValue = filterOnValidSickLeaveValue(sickLeaveValue)
+  if (filteredSickLeaveValue && diagnoses && filteredSickLeaveValue.list.length > 0 && diagnoses.list.length > 0) {
     dispatch(
       validateSickLeavePeriod({
         icd10Codes: getDiagnosisCodes(diagnoses),
         personId: personId,
-        dateRangeList: sickLeaveValue,
+        dateRangeList: filteredSickLeaveValue,
       })
     )
   } else {

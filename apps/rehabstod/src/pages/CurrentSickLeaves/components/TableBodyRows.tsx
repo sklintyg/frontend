@@ -80,14 +80,7 @@ export function TableBodyRows({
           {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
           <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
           <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
-          <td>
-            {sickLeave.sysselsattning.map((occupation, index) => (
-              <React.Fragment key={occupation}>
-                {occupation}
-                {index !== sickLeave.sysselsattning.length - 1 ? <br /> : ''}
-              </React.Fragment>
-            ))}
-          </td>
+          <td className="whitespace-pre">{getSickLeavesColumnData(SickLeaveColumn.Sysselsättning, sickLeave)}</td>
           <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
           <td>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
