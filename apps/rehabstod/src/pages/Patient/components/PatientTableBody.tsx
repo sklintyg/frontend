@@ -6,6 +6,7 @@ import { useTableContext } from '../../../components/Table/hooks/useTableContext
 import { TableCell } from '../../../components/Table/TableCell'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
+import { allPatientColumns } from '../../../store/slices/patientTableColumnsSelectors'
 import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
@@ -66,14 +67,14 @@ function PatientTableCellResolver({
 
 export function PatientTableBody({ certificates }: { certificates: PatientSjukfallIntyg[] }) {
   const { sortTableList } = useTableContext()
-  const columns = useAppSelector((state) => state.patientTableColumns)
+  const columns = useAppSelector(allPatientColumns)
 
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(certificates, getCertificateColumnData).map((certificate) => (
         <tr key={`${certificate.start}${certificate.slut}`}>
           {columns
-            .filter(({ enabled }) => enabled)
+            .filter(({ visible: checked }) => checked)
             .map(({ name }) => (
               <PatientTableCellResolver
                 key={name}

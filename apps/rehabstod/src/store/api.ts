@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
@@ -63,11 +63,11 @@ export const api = createApi({
       transformResponse: (response: { content: UserPreferences }) => response.content,
       invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
     }),
-    updatePatientTableColumns: builder.mutation<UserPreferences, UserPreferences['patientTableColumns']>({
-      query: (patientTableColumns) => ({
+    updateTableColumns: builder.mutation<UserPreferences, { id: UserPreferencesTableSettings; columns: string }>({
+      query: ({ id, columns }) => ({
         url: 'user/preferences',
         method: 'POST',
-        body: { patientTableColumns },
+        body: { [id]: columns },
       }),
       invalidatesTags: ['User'],
     }),
@@ -142,6 +142,6 @@ export const {
   useGetUserQuery,
   useGiveConsentMutation,
   useLazyGetSickLeavesQuery,
-  useUpdatePatientTableColumnsMutation,
+  useUpdateTableColumnsMutation,
   useUpdateUserPreferencesMutation,
 } = api

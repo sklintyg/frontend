@@ -15,7 +15,10 @@ export enum SjukfallColumn {
   Läkare = 'Läkare',
 }
 
-export const sjukfallTableColumnsSlice = createTableColumnSlice('sjukfallTableColumns', Object.values(SjukfallColumn))
+export const { slice: sjukfallTableColumnsSlice, getSelectors: getSjukfallTableColumnsSelectors } = createTableColumnSlice(
+  'sjukfallTableColumns',
+  Object.values(SjukfallColumn)
+)
 
-export const { enableColumn, disableColumn, toggleAll, moveColumn } = sjukfallTableColumnsSlice.actions
+export const { showColumn, hideColumn, checkAllColumns, uncheckAllColumns } = sjukfallTableColumnsSlice.actions
 export const { name: sjukfallTableColumnsReducerPath, reducer: sjukfallTableColumnsReducer } = sjukfallTableColumnsSlice

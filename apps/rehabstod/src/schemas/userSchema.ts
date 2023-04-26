@@ -53,6 +53,11 @@ export const userSchema = z.object({
 })
 
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
+export type UserPreferencesTableSettings =
+  | 'lakarutlatandeUnitTableColumns'
+  | 'patientTableColumns'
+  | 'sjukfallTableColumns'
+  | 'lakarutlatandenTableColumns'
 export type SrsFeature = z.infer<typeof srsFeatureSchema>
 export type LakareRole = z.infer<typeof lakareRoleSchema>
 export type UserRole = z.infer<typeof userRoleSchema>

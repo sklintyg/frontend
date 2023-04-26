@@ -13,7 +13,10 @@ export enum PatientColumn {
   Intyg = 'Intyg',
 }
 
-export const patientTableColumnsSlice = createTableColumnSlice('patientTableColumns', Object.values(PatientColumn))
+export const { slice: patientTableColumnsSlice, getSelectors: getPatientTableColumnsSelectors } = createTableColumnSlice(
+  'patientTableColumns',
+  Object.values(PatientColumn)
+)
 
-export const { enableColumn, disableColumn, toggleAll, moveColumn } = patientTableColumnsSlice.actions
+export const { showColumn, hideColumn, checkAllColumns, uncheckAllColumns } = patientTableColumnsSlice.actions
 export const { name: patientTableColumnsReducerPath, reducer: patientTableColumnsReducer } = patientTableColumnsSlice

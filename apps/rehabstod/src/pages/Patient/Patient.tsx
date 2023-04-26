@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { PatientHeader } from './components/PatientHeader'
-import { PatientModifyTable } from './components/PatientModifyTable'
+import { PatientModifyTableColumns } from './components/PatientModifyTableColumns'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
 
 export function Patient() {
@@ -18,7 +18,7 @@ export function Patient() {
     <>
       {patient && <PatientHeader patient={patient} />}
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-        <PatientModifyTable />
+        <PatientModifyTableColumns />
         <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
         <PatientSickLeaves sickLeaves={currentSickLeaves} />
 

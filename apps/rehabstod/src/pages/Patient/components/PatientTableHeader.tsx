@@ -1,5 +1,6 @@
 import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
+import { allPatientColumns } from '../../../store/slices/patientTableColumnsSelectors'
 import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
@@ -23,19 +24,19 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
     case PatientColumn.Sysselsättning:
       return <TableHeaderCell column={column} width="169px" />
     case PatientColumn.Intyg:
-      return <TableHeaderCell column={column} width="96px" />
+      return <TableHeaderCell column={column} width="96px" sticky="right" />
     default:
       return null
   }
 }
 
 export function PatientTableHeader() {
-  const columns = useAppSelector((state) => state.patientTableColumns)
+  const columns = useAppSelector(allPatientColumns)
   return (
     <thead>
       <tr>
         {columns
-          .filter(({ enabled }) => enabled)
+          .filter(({ visible: checked }) => checked)
           .map(({ name }) => (
             <PatientTableHeaderResolver key={name} column={name} />
           ))}
