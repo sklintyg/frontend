@@ -13,7 +13,7 @@ export function PieChartGraph({ data }: { data: { id: string; value: number; nam
   }, [])
 
   return (
-    <ResponsiveContainer width={500} height="100%">
+    <ResponsiveContainer width={500} height="100%" minHeight="150px">
       <PieChart>
         <Pie
           isAnimationActive={false}
