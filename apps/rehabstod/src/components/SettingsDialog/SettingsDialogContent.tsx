@@ -96,7 +96,17 @@ export function SettingsDialogContent({
           <SelectMultiple
             label="Förvald enhet"
             description="Välj den förvalda enheten som du vill logga in på. Vill du ta bort den förvalda enheten så välj alternativet 'Ingen'"
-            options={<SettingsDialogUnits user={user} />}
+            options={
+              <SettingsDialogUnits
+                user={user}
+                onChange={(value) =>
+                  onChange({
+                    ...preferences,
+                    standardenhet: value,
+                  })
+                }
+              />
+            }
             placeholder={user && user.valdVardenhet ? user.valdVardenhet.namn : 'Ingen'}
           />
         </div>
