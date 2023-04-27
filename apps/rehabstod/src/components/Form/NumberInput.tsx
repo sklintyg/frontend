@@ -1,4 +1,4 @@
-import { ChangeEvent, useId } from 'react'
+import { ChangeEvent, KeyboardEventHandler, useId } from 'react'
 import { classNames } from '../../utils/classNames'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { Input } from './Input'
@@ -7,6 +7,7 @@ export function NumberInput({
   label,
   onChange,
   onBlur,
+  onKeyDown,
   description,
   value,
   max,
@@ -17,6 +18,7 @@ export function NumberInput({
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
   description?: string
   value: number | string
   inline?: boolean
@@ -30,7 +32,17 @@ export function NumberInput({
       <label htmlFor={id}>
         {label} {description && <TooltipIcon description={description} name="question" size="s" />}
       </label>
-      <Input type="number" error={error} onChange={onChange} onBlur={onBlur} value={value} max={max} min={min} id={id} />
+      <Input
+        type="number"
+        error={error}
+        onChange={onChange}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        value={value}
+        max={max}
+        min={min}
+        id={id}
+      />
     </div>
   )
 }
