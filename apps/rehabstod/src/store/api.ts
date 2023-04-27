@@ -62,6 +62,20 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
       invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient'],
+      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getUser', undefined, (draft) =>
+            Object.assign(draft, {
+              preferences,
+            })
+          )
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({

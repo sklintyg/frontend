@@ -22,7 +22,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   }
 
   return (
-    <div className="bg-secondary-95 sticky top-0">
+    <div className="bg-secondary-95 sticky top-0 z-30">
       <IDSContainer>
         <div className="flex items-center space-x-2 py-4">
           <IDSIcon size="s" name="user" />
