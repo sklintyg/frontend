@@ -27,11 +27,9 @@ export function CareProvider() {
     }
   }
 
-  const handleClick = () => {
-    handleUpdatePreferences()
-
+  const handleChangeUnit = async () => {
     if (selectedUnit && selectedProvider) {
-      changeUnit({
+      await changeUnit({
         vardgivare: selectedProvider,
         vardenhet: {
           ...selectedUnit,
@@ -39,12 +37,16 @@ export function CareProvider() {
         },
       })
     }
+  }
+
+  const handleClick = async () => {
+    await handleChangeUnit()
+    handleUpdatePreferences()
     navigate('/')
   }
 
   const handleCheck = (event: { target: { checked: boolean } }) => {
     setIsChecked(event.target.checked)
-    handleUpdatePreferences()
   }
 
   const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
@@ -79,7 +81,7 @@ export function CareProvider() {
             Du har valt <span className="font-bold">{selectedRadio}</span>
           </p>
         ) : null}
-        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} description="" id="" />
+        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
         <IDSButtonGroup>
           <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt

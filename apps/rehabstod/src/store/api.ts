@@ -17,7 +17,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -61,7 +61,21 @@ export const api = createApi({
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
+      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient'],
+      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getUser', undefined, (draft) =>
+            Object.assign(draft, {
+              preferences,
+            })
+          )
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -110,6 +124,7 @@ export const api = createApi({
         method: 'POST',
         body: { patientId },
       }),
+      providesTags: ['SickLeavePatient'],
     }),
     createDefaultTestData: builder.mutation<string, void>({
       query: () => ({

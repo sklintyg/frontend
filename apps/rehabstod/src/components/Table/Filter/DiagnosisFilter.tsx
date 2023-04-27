@@ -20,6 +20,10 @@ export function DiagnosisFilter({
       return 'Välj i listan'
     }
 
+    if (selected.length === 1) {
+      return `${selected[0].id}: ${selected[0].name} `
+    }
+
     return `${selected.length} valda`
   }
 
@@ -38,7 +42,6 @@ export function DiagnosisFilter({
   return (
     <div className="flex-1">
       <SelectMultiple
-        id="doctorFilter"
         label="Diagnos"
         description={description}
         placeholder={getPlaceholder()}
@@ -46,8 +49,7 @@ export function DiagnosisFilter({
           allDiagnoses
             ? allDiagnoses.map((diagnosis) => (
                 <Checkbox
-                  id={diagnosis.id ? diagnosis.id : diagnosis.name}
-                  key={diagnosis.id ? diagnosis.id : diagnosis.name}
+                  key={diagnosis.id ?? diagnosis.name}
                   disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
                   checked={selected.some((selectedDiagnosis) => diagnosis.id === selectedDiagnosis.id)}
                   label={diagnosis.id ? `${diagnosis.id}: ${diagnosis.name}` : diagnosis.name}

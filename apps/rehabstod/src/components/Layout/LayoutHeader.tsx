@@ -1,17 +1,18 @@
-import { IDSDialog, IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import { useRef } from 'react'
-import { IDSDialogElement } from '@frontend/ids-react-ts/src'
+import { useRef, useState } from 'react'
+import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
-import { SettingsDialogContent } from '../SettingsDialogContent/SettingsDialogContent'
+import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const sithsUrl = '/saml/login/alias/siths-rs2'
-  const ref = useRef<IDSDialogElement>(null)
+  const avatarRef = useRef<IDSHeaderAvatarElement>(null)
+  const [isOpen] = useState(false)
 
   return (
     <IDSHeader type="inera-admin" unresponsive className="z-40">
@@ -24,25 +25,13 @@ export function LayoutHeader() {
           <IDSHeaderItem type="inera-admin" icon="question">
             <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
-          <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn}>
+          <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn} expanded={isOpen} ref={avatarRef}>
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
                 <IDSIcon height="20" width="20" name="swap" />
                 <Link to="/enhet">Byt vårdenhet</Link>
               </IDSLink>
-              <IDSDialog dismissible headline="Inställningar" ref={ref}>
-                <button
-                  trigger=""
-                  onClick={() => ref.current?.showDialog()}
-                  className="ids-my-5 text-primary-40 flex w-full items-center"
-                  type="submit">
-                  <div className="mr-2.5">
-                    <IDSIcon color="currentColor" color2="currentColor" height="20" width="20" name="cog" />
-                  </div>
-                  <div className="flex-auto text-left">Inställningar</div>
-                </button>
-                <SettingsDialogContent onClose={() => ref.current?.hideDialog()} preferences={user ? user.preferences : undefined} />
-              </IDSDialog>
+              <SettingsDialog user={user} avatarRef={avatarRef} />
               <hr className="border-neutral-40" />
               <button onClick={logout} className="ids-mt-5 text-primary-40 flex w-full items-center" type="submit">
                 <div className="mr-2.5">

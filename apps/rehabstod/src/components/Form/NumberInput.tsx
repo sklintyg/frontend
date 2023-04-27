@@ -1,49 +1,36 @@
-import { IDSInput } from '@frontend/ids-react-ts'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useId } from 'react'
+import { classNames } from '../../utils/classNames'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
+import { Input } from './Input'
 
 export function NumberInput({
   label,
   onChange,
   onBlur,
   description,
-  id,
   value,
-  isRange,
   max,
   min,
-  className,
-  classNameInput,
-  novalidation,
+  error,
+  inline = false,
 }: {
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   description?: string
-  id: string
   value: number | string
-  isRange?: boolean
+  inline?: boolean
   max?: number | string
   min?: number | string
-  className?: string
-  classNameInput?: string
-  novalidation?: boolean
+  error?: boolean
 }) {
+  const id = useId()
   return (
-    <IDSInput className={`${isRange && 'flex items-baseline gap-3'} ${className}`} novalidation={novalidation}>
+    <div className={classNames(inline && 'flex items-baseline gap-3', 'w-full')}>
       <label htmlFor={id}>
         {label} {description && <TooltipIcon description={description} name="question" size="s" />}
       </label>
-      <input
-        type="number"
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value}
-        className={`border-accent-40 rounded border p-2 ${classNameInput}`}
-        max={max}
-        min={min}
-        id={id}
-      />
-    </IDSInput>
+      <Input type="number" error={error} onChange={onChange} onBlur={onBlur} value={value} max={max} min={min} id={id} />
+    </div>
   )
 }

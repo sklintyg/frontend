@@ -19,7 +19,6 @@ export function TableInfo({
   return (
     <div className="mb-5">
       <Checkbox
-        id="showPersonalInformationCheckbox"
         label="Visa personuppgifter"
         checked={showPersonalInformation}
         description="Visar eller döljer patienternas namn och personnummer i tabellen."

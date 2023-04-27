@@ -1,5 +1,5 @@
-import React from 'react'
 import { IDSSpinner } from '@frontend/ids-react-ts'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -25,7 +25,7 @@ export function TableBodyRows({
 }) {
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
-  const numColumns = showPersonalInformation ? 11 : 9
+  const numColumns = showPersonalInformation ? 12 : 10
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
@@ -80,14 +80,7 @@ export function TableBodyRows({
           {showPersonalInformation && <td>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
           <td>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
           <DiagnosisCell diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
-          <td>
-            {sickLeave.sysselsattning.map((occupation, index) => (
-              <React.Fragment key={occupation}>
-                {occupation}
-                {index !== sickLeave.sysselsattning.length - 1 ? <br /> : ''}
-              </React.Fragment>
-            ))}
-          </td>
+          <td className="whitespace-pre">{getSickLeavesColumnData(SickLeaveColumn.Sysselsättning, sickLeave)}</td>
           <td>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
           <td>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
