@@ -7,19 +7,24 @@ import { updateShowPersonalInformation } from '../../CurrentSickLeaves/sickLeave
 
 describe('PatientHeader', () => {
   function renderPatientHeader(showPersonalInformation: boolean) {
-    const patient = fakePatient()
-    patient.sjukfallList[0].intyg[0] = {
-      ...patient.sjukfallList[0].intyg[0],
-      start: '2023-04-25',
-      slut: '2023-05-01',
-      patient: {
-        ...patient.sjukfallList[0].intyg[0].patient,
-        alder: 30,
-        kon: 'Kvinna',
-        namn: 'Olle',
-        id: '123',
-      },
-    }
+    const patient = fakePatient({
+      sjukfallList: [
+        {
+          intyg: [
+            {
+              start: '2023-04-25',
+              slut: '2023-05-01',
+              patient: {
+                alder: 30,
+                kon: 'Kvinna',
+                namn: 'Olle',
+                id: '123',
+              },
+            },
+          ],
+        },
+      ],
+    })
     store.dispatch(updateShowPersonalInformation(showPersonalInformation))
     renderWithRouter(<PatientHeader patient={patient} />)
   }
