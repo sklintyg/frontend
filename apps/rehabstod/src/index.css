@@ -113,3 +113,8 @@
 .ids-table tr:last-child td:last-child {
   border-bottom-right-radius: 0.375rem !important;
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
