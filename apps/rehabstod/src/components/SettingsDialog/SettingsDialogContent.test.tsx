@@ -140,11 +140,7 @@ describe('SettingsDialog', () => {
   describe('selected care unit', () => {
     it('should render title', () => {
       renderComponent()
-      expect(screen.getAllByText('Förvald enhet')[0]).toBeInTheDocument()
-    })
-    it('should render label', () => {
-      renderComponent()
-      expect(screen.getAllByText('Förvald enhet')[1]).toBeInTheDocument()
+      expect(screen.getByText('Förvald enhet')).toBeInTheDocument()
     })
     it('should render text', () => {
       renderComponent()

@@ -21,6 +21,10 @@ export function SelectCareUnits({ onChange, preferences }: { onChange: (value: s
     return units
   }
 
+  if (!user) {
+    return null
+  }
+
   return (
     <IDSSelect>
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -29,7 +33,7 @@ export function SelectCareUnits({ onChange, preferences }: { onChange: (value: s
         name="options"
         className="text-neutral-20 my-3 box-border w-full truncate rounded border py-3 px-5 text-left"
         onChange={(event) => onChange(event.currentTarget.value)}
-        value={preferences.standardenhet ? preferences.standardenhet : 'Ingen förvald enhet'}>
+        value={preferences.standardenhet ?? 'Ingen förvald enhet'}>
         <option className="ml-2" value="Ingen förvald enhet">
           Ingen förvald enhet
         </option>
