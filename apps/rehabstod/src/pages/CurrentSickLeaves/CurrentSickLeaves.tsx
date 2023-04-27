@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
 import { UserUrval } from '../../schemas'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { SjukfallColumn } from '../../store/slices/sjukfallTableColumnsSlice'
-import { RootState } from '../../store/store'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { TableBodyRows } from './components/TableBodyRows'
@@ -17,7 +15,7 @@ import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveS
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
-  const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
+  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading

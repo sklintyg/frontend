@@ -73,7 +73,7 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
       {sortTableList(certificates, getCertificateColumnData).map((certificate) => (
         <tr key={`${certificate.start}${certificate.slut}`}>
           {columns
-            .filter(({ visible: checked }) => checked)
+            .filter(({ visible }) => visible)
             .map(({ name }) => (
               <PatientTableCellResolver
                 key={name}

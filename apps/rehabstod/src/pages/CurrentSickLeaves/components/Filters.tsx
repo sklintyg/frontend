@@ -1,9 +1,9 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { RootState } from '../../../store/store'
+import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../sickLeaveSlice'
 import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
@@ -20,7 +20,7 @@ export function Filters({
 }) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const { filter } = useSelector((state: RootState) => state.sickLeave)
+  const { filter } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 
   const onFromTimeChange = (value: string) => {
