@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
+import { UserUrval } from '../../schemas'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'
 import { SjukfallColumn } from '../../store/slices/sjukfallTableColumnsSlice'
@@ -12,7 +13,6 @@ import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
 import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveSlice'
-import { UserUrval } from '../../schemas'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -55,18 +55,24 @@ export function CurrentSickLeaves() {
         isDoctor={isDoctor}
       />
 
-      <ModifySicknessTableColumns />
+      <div className="flex">
+        <div className="w-full">
+          <TableInfo
+            onShowPersonalInformationChange={(checked) => {
+              dispatch(updateShowPersonalInformation(checked))
+            }}
+            showPersonalInformation={showPersonalInformation}
+            totalNumber={(sickLeaves ?? []).length}
+            listLength={(sickLeaves ?? []).length}
+            daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+            daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+          />
+        </div>
 
-      <TableInfo
-        onShowPersonalInformationChange={(checked) => {
-          dispatch(updateShowPersonalInformation(checked))
-        }}
-        showPersonalInformation={showPersonalInformation}
-        totalNumber={(sickLeaves ?? []).length}
-        listLength={(sickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-      />
+        <div className="mb-5 w-96 self-end">
+          <ModifySicknessTableColumns />
+        </div>
+      </div>
 
       <Table sortColumn={SjukfallColumn.Startdatum}>
         <thead>

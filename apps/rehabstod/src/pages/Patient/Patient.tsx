@@ -18,7 +18,9 @@ export function Patient() {
     <>
       {patient && <PatientHeader patient={patient} />}
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-        <ModifyPatientTableColumns />
+        <div className="ml-auto w-96">
+          <ModifyPatientTableColumns />
+        </div>
         <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
         <PatientSickLeaves sickLeaves={currentSickLeaves} />
 
