@@ -1,11 +1,13 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
-import { GenerateMockOptions } from '@anatine/zod-mock'
+import { faker, fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
 import { patientSchema, patientSjukfallSchema } from '../../schemas/patientSchema'
 
-const fakePatientSjukfall = fakerFromSchema(patientSjukfallSchema)
+const fakePatientSjukfallFactory = fakerFromSchema(patientSjukfallSchema)
 
-export const fakePatient = fakerFromSchema(patientSchema, {
-  sjukfallList: Array.from({ length: faker.datatype.number({ min: 1, max: 5 }) }, fakePatientSjukfall),
+export const fakePatient = fakerFromSchemaFactory(patientSchema, {
+  sjukfallList: Array.from(
+    { length: faker.datatype.number({ min: 1, max: 5 }) },
+    fakePatientSjukfallFactory
+  ),
   srsError: faker.datatype.boolean(),
   kompletteringInfoError: faker.datatype.boolean(),
-} as Omit<GenerateMockOptions, 'sjfMetaData'>)
+})

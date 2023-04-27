@@ -1,26 +1,13 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { createStore } from '@reduxjs/toolkit'
+import { screen } from '@testing-library/react'
 import { fakePatient } from '../../../utils/fake/fakePatient'
 import { PatientHeader } from './PatientHeader'
+import { store } from '../../../store/store'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { updateShowPersonalInformation } from '../../CurrentSickLeaves/sickLeaveSlice'
 
 describe('PatientHeader', () => {
-  const patient = fakePatient()
-
   function renderPatientHeader(showPersonalInformation: boolean) {
-    const initialState = { sickLeave: { showPersonalInformation } }
-    const store = createStore(() => initialState)
-    return render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PatientHeader patient={patient} />
-        </MemoryRouter>
-      </Provider>
-    )
-  }
-
-  beforeEach(() => {
+    const patient = fakePatient()
     patient.sjukfallList[0].intyg[0] = {
       ...patient.sjukfallList[0].intyg[0],
       start: '2023-04-25',
@@ -33,7 +20,9 @@ describe('PatientHeader', () => {
         id: '123',
       },
     }
-  })
+    store.dispatch(updateShowPersonalInformation(showPersonalInformation))
+    renderWithRouter(<PatientHeader patient={patient} />)
+  }
 
   it('Should render only age and gender if showPersonalInformation is false', async () => {
     renderPatientHeader(false)
