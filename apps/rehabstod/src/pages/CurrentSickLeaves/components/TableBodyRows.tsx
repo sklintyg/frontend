@@ -1,5 +1,4 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
@@ -84,14 +83,7 @@ export function TableBodyRows({
           <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
             <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
           </TableCell>
-          <TableCell>
-            {sickLeave.sysselsattning.map((occupation, index) => (
-              <React.Fragment key={occupation}>
-                {occupation}
-                {index !== sickLeave.sysselsattning.length - 1 ? <br /> : ''}
-              </React.Fragment>
-            ))}
-          </TableCell>
+          <TableCell>{getSickLeavesColumnData(SjukfallColumn.Sysselsättning, sickLeave)}</TableCell>
           <TableCell>{getSickLeavesColumnData(SjukfallColumn.Startdatum, sickLeave)}</TableCell>
           <TableCell>
             <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />

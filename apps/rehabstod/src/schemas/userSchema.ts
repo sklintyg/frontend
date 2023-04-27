@@ -52,6 +52,10 @@ export const userSchema = z.object({
   preferences: userPreferencesSchema,
 })
 
+export enum UserUrval {
+  ISSUED_BY_ME = 'ISSUED_BY_ME',
+}
+
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
 export type UserPreferencesTableSettings =
   | 'lakarutlatandeUnitTableColumns'

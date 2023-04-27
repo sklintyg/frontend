@@ -4,7 +4,7 @@ export function MaleIcon() {
       width="35"
       height="100"
       viewBox="0 0 35 100"
-      fill="var(--IDS-COLOR-PRIMARY-30)"
+      fill="#088191"
       xmlns="http://www.w3.org/2000/svg"
       className="mx-auto"
       data-testid="iconMale">

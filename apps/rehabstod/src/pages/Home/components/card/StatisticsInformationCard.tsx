@@ -8,7 +8,7 @@ export function StatisticsInformationCard() {
   return (
     <>
       <h2 className="ids-heading-4">Här kan du hitta mer statistik</h2>
-      <div className="py-3">
+      <div className="py-7">
         <p>
           Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan
           öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.

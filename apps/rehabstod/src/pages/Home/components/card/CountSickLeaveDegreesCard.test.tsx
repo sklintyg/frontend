@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
 import { fakeSickLeaveSummary } from '../../../../utils/fake/fakeSickLeave'
+import { CountSickLeaveDegreesCard } from './CountSickLeaveDegreesCard'
 
 const renderComponent = () => {
-  renderWithRouter(<SickLeaveDegreesCard summary={fakeSickLeaveSummary()} />)
+  renderWithRouter(<CountSickLeaveDegreesCard summary={fakeSickLeaveSummary()} />)
 }
 
-describe('SickLeaveDegreesCard', () => {
+describe('CountSickLeaveDegreesCard', () => {
   beforeEach(() => {})
 
   it('should render without errors', () => {
@@ -16,12 +16,12 @@ describe('SickLeaveDegreesCard', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText('Aktuell sjukskrivningsgrad')).toBeInTheDocument()
+    expect(screen.getByText('Fler än en sjukskrivningsgrad')).toBeInTheDocument()
   })
 
   it('should show sub title', () => {
     renderComponent()
-    expect(screen.getByText('Andel sjukfall fördelat på sjukskrivningsgrad.')).toBeInTheDocument()
+    expect(screen.getByText('Andel sjukfall som har fler än en sjukskrivningsgrad.')).toBeInTheDocument()
   })
 
   it('should show male sub title', () => {
