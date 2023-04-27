@@ -68,7 +68,6 @@ function PatientTableCellResolver({
 export function PatientTableBody({ certificates }: { certificates: PatientSjukfallIntyg[] }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
-
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(certificates, getCertificateColumnData).map((certificate) => (

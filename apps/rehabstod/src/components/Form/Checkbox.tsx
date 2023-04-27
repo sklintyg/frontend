@@ -8,12 +8,14 @@ export function Checkbox({
   onChange,
   description,
   disabled,
+  compact,
 }: {
   label: string
   checked: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description?: string
   disabled?: boolean
+  compact?: boolean
 }) {
   const id = useId()
   const ref = useRef<IDSCheckboxElement>(null)
@@ -23,7 +25,7 @@ export function Checkbox({
   }, [checked])
 
   return (
-    <IDSCheckbox ref={ref}>
+    <IDSCheckbox ref={ref} compact={compact}>
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>

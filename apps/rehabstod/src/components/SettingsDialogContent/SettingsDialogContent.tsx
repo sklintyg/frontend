@@ -81,6 +81,7 @@ export function SettingsDialogContent({ preferences, onClose }: { preferences: U
           />
         </div>
       </div>
+
       <IDSButtonGroup className="justify-center pt-5">
         <IDSButton secondary onClick={onClose}>
           Avbryt

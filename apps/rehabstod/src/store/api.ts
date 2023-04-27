@@ -63,11 +63,11 @@ export const api = createApi({
       transformResponse: (response: { content: UserPreferences }) => response.content,
       invalidatesTags: ['User', 'SickLeaves', 'SickLeaveSummary', 'SickLeavesFilter'],
     }),
-    updateTableColumns: builder.mutation<UserPreferences, { id: UserPreferencesTableSettings; columns: string }>({
-      query: ({ id, columns }) => ({
+    updateTableColumns: builder.mutation<UserPreferences, Partial<Pick<UserPreferences, UserPreferencesTableSettings>>>({
+      query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
-        body: { [id]: columns },
+        body: preferences,
       }),
       invalidatesTags: ['User'],
     }),

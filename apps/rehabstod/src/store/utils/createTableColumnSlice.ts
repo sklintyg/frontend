@@ -6,6 +6,7 @@ import { api } from '../api'
 export function createTableColumnSlice<T extends UserPreferencesTableSettings>(sliceName: T, columns: string[]) {
   const columnsAdapter = createEntityAdapter<TableColumn>({
     selectId: ({ name }) => name,
+    sortComparer: (a, b) => (a.index < b.index ? -1 : 1),
   })
 
   function getSelectors<V>(selectState: (state: V) => EntityState<TableColumn>) {
@@ -22,12 +23,17 @@ export function createTableColumnSlice<T extends UserPreferencesTableSettings>(s
 
   const { selectAll } = columnsAdapter.getSelectors()
 
+  const initialState = columnsAdapter.getInitialState()
+
   return {
     getSelectors,
     slice: createSlice({
       name: sliceName,
-      initialState: columnsAdapter.getInitialState(),
+      initialState,
       reducers: {
+        reset() {
+          return initialState
+        },
         showColumn(state, { payload }: PayloadAction<string>) {
           columnsAdapter.updateOne(state, { id: payload, changes: { visible: true } })
         },
@@ -52,28 +58,37 @@ export function createTableColumnSlice<T extends UserPreferencesTableSettings>(s
             selectAll(state).map((column) => ({ id: column.name, changes: { visible: false } }))
           )
         },
-        // moveColumn(state, { payload: { column, direction } }: PayloadAction<{ column: string; direction: 'left' | 'right' }>) {
-        //   const from = state.entities.findIndex(({ name }) => name === column)
-        //   const to = direction === 'right' ? from + 1 : from - 1
-        //   state.entities.splice(to, 0, ...state.entities.splice(from, 1))
-        // },
-      },
-      extraReducers: (builder) => {
-        builder.addMatcher(api.endpoints.getUser.matchFulfilled, (state, { payload }) => {
-          const preferences = payload.preferences[sliceName]
-          const savedColumns = (preferences?.split(';').filter(Boolean) ?? []).map((col) => {
-            const [name, visible] = col.split(':')
-            return { name, visible: visible === '1' }
-          })
-
+        moveColumn(state, { payload: { column, direction } }: PayloadAction<{ column: string; direction: 'left' | 'right' }>) {
+          const enteties = columnsAdapter.getSelectors().selectAll(state)
+          const from = enteties.findIndex(({ name }) => name === column)
+          enteties.splice(direction === 'right' ? from + 1 : from - 1, 0, ...enteties.splice(from, 1))
           columnsAdapter.setAll(
             state,
-            columns.map((name, index) => ({
-              ...{ name, visible: true, disabled: false },
-              ...savedColumns.find((column) => name === column.name),
-              index,
-            }))
+            enteties.map((col, index) => ({ ...col, index }))
           )
+        },
+      },
+      extraReducers: (builder) => {
+        /**
+         * When table preferences is loaded for the first time columns get's parsed and populated.
+         * Rest of the session will store changes to user preferences but continue to use local state.
+         */
+        builder.addMatcher(api.endpoints.getUser.matchFulfilled, (state, { payload }) => {
+          if (columnsAdapter.getSelectors().selectTotal(state) === 0) {
+            const preferences = payload.preferences[sliceName]
+            const savedColumns = (preferences?.split(';').filter(Boolean) ?? []).map((col, index) => {
+              const [name, visible] = col.split(':')
+              return { name, index, visible: visible === '1' }
+            })
+
+            columnsAdapter.setAll(
+              state,
+              columns.map((name, index) => ({
+                ...{ name, visible: true, disabled: false, index },
+                ...savedColumns.find((column) => name === column.name),
+              }))
+            )
+          }
         })
       },
     }),

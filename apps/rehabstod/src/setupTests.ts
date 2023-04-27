@@ -6,6 +6,8 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
+import { resetPatientTableColumns } from './store/slices/patientTableColumnsSlice'
+import { resetSjukfallTableColumns } from './store/slices/sjukfallTableColumnsSlice'
 import { store } from './store/store'
 
 global.open = vi.fn()
@@ -41,6 +43,10 @@ afterEach(() => {
   // Reset api states
   store.dispatch(api.util.resetApiState())
   store.dispatch(hsaApi.util.resetApiState())
+
+  // Reset slice states
+  store.dispatch(resetPatientTableColumns())
+  store.dispatch(resetSjukfallTableColumns())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.

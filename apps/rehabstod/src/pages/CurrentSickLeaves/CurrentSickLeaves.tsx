@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../store/hooks'
 import { SjukfallColumn } from '../../store/slices/sjukfallTableColumnsSlice'
 import { RootState } from '../../store/store'
 import { Filters } from './components/Filters'
+import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
@@ -52,6 +53,8 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
+
+      <ModifySicknessTableColumns />
 
       <TableInfo
         onShowPersonalInformationChange={(checked) => {

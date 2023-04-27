@@ -1,11 +1,11 @@
 import { IDSDialog, IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
-import { useRef } from 'react'
 import { IDSDialogElement } from '@frontend/ids-react-ts/src'
+import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
-import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { SettingsDialogContent } from '../SettingsDialogContent/SettingsDialogContent'
+import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()

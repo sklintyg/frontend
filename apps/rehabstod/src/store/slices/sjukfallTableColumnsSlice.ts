@@ -20,5 +20,12 @@ export const { slice: sjukfallTableColumnsSlice, getSelectors: getSjukfallTableC
   Object.values(SjukfallColumn)
 )
 
-export const { showColumn, hideColumn, checkAllColumns, uncheckAllColumns } = sjukfallTableColumnsSlice.actions
+export const {
+  reset: resetSjukfallTableColumns,
+  showColumn,
+  hideColumn,
+  checkAllColumns,
+  uncheckAllColumns,
+  moveColumn,
+} = sjukfallTableColumnsSlice.actions
 export const { name: sjukfallTableColumnsReducerPath, reducer: sjukfallTableColumnsReducer } = sjukfallTableColumnsSlice

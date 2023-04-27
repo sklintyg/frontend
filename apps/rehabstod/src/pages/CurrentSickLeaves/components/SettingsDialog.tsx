@@ -1,6 +1,6 @@
 import { IDSButton, IDSDialog } from '@frontend/ids-react-ts'
-import { useRef } from 'react'
 import { IDSDialogElement } from '@frontend/ids-react-ts/src'
+import { useRef } from 'react'
 import { SettingsDialogContent } from '../../../components/SettingsDialogContent/SettingsDialogContent'
 import { useGetUserQuery } from '../../../store/api'
 
