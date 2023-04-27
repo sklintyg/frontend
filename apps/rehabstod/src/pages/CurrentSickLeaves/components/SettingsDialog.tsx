@@ -1,9 +1,9 @@
 import { IDSButton, IDSDialog } from '@frontend/ids-react-ts'
-import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { useEffect, useRef, useState } from 'react'
+import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { SettingsDialogContent } from '../../../components/SettingsDialog/SettingsDialogContent'
-import { UserPreferences } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
+import { UserPreferences } from '../../../schemas'
 
 export function SettingsDialog() {
   const { data: user } = useGetUserQuery()

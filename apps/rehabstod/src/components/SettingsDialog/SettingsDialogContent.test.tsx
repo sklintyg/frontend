@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { fakeUserPreferences } from '../../utils/fake'
-import { renderWithRouter } from '../../utils/renderWithRouter'
+import userEvent from '@testing-library/user-event'
 import { SettingsDialogContent } from './SettingsDialogContent'
+import { renderWithRouter } from '../../utils/renderWithRouter'
+import { fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
 let onClose: () => void
