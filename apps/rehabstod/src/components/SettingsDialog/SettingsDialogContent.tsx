@@ -1,10 +1,9 @@
 import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
-import { User, UserPreferences } from '../../schemas'
+import { Mottagning, User, UserPreferences, Vardenhet } from '../../schemas'
 import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { isValueBetweenLimits } from '../../utils/isValueBetweenLimits'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
-import { SelectMultiple } from '../Form/SelectMultiple'
-import { SettingsDialogUnits } from './SettingsDialogUnits'
+import { SelectCareUnits } from '../Form/SelectCareUnits'
 
 export function SettingsDialogContent({
   preferences,
@@ -44,6 +43,19 @@ export function SettingsDialogContent({
       updateUserPreferences(preferences)
       onClose()
     }
+  }
+
+  function getUnits(): (Vardenhet | Mottagning)[] {
+    const units: (Vardenhet | Mottagning)[] = []
+    user.vardgivare.forEach((careProvider) => {
+      careProvider.vardenheter.forEach((careUnit) => {
+        units.push(careUnit)
+        if (careUnit.mottagningar && careUnit.mottagningar.length > 0) {
+          careUnit.mottagningar.forEach((reception) => units.push(reception))
+        }
+      })
+    })
+    return units
   }
 
   return (
@@ -93,21 +105,15 @@ export function SettingsDialogContent({
         <h2 className="ids-heading-4">Förvald enhet</h2>
         <p>Välj en enhet som du automatiskt ska bli inloggad på vid start av Rehabstöd. Du kan fortfarande byta enhet när du loggat in. </p>
         <div className="mt-5 w-80">
-          <SelectMultiple
-            label="Förvald enhet"
-            description="Välj den förvalda enheten som du vill logga in på. Vill du ta bort den förvalda enheten så välj alternativet 'Ingen'"
-            options={
-              <SettingsDialogUnits
-                user={user}
-                onChange={(value) =>
-                  onChange({
-                    ...preferences,
-                    standardenhet: value,
-                  })
-                }
-              />
+          <SelectCareUnits
+            preferences={preferences}
+            content={getUnits()}
+            onChange={(value) =>
+              onChange({
+                ...preferences,
+                standardenhet: value !== 'Ingen förvald enhet' ? value : null,
+              })
             }
-            placeholder={user && user.valdVardenhet ? user.valdVardenhet.namn : 'Ingen'}
           />
         </div>
       </div>
