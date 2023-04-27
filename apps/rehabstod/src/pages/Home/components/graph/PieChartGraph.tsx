@@ -1,9 +1,10 @@
 import { Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react'
+import classes from './PieChartGraph.css'
 
 export function PieChartGraph({ data }: { data: { id: string; value: number; name: string; fill: string }[] }) {
   const [loaded, setLoaded] = useState(false)
-  const getLegend = (name: string) => <span className="text-neutral-20 text-xs">{name}</span>
+  const getLegend = (name: string) => <span className="text-neutral-20 text-sm">{name}</span>
 
   // Fix for: https://github.com/recharts/recharts/issues/511
   useEffect(() => {
@@ -13,7 +14,7 @@ export function PieChartGraph({ data }: { data: { id: string; value: number; nam
   }, [])
 
   return (
-    <ResponsiveContainer width={500} height="100%" minHeight="150px">
+    <ResponsiveContainer width={500} height="100%" minHeight="150px" className={classes}>
       <PieChart>
         <Pie
           isAnimationActive={false}
@@ -27,11 +28,13 @@ export function PieChartGraph({ data }: { data: { id: string; value: number; nam
           stroke={data.length > 1 ? 'white' : 'none'}
         />
         <Legend
+          iconType="circle"
+          iconSize={11}
           wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
           layout="vertical"
           verticalAlign="middle"
           align="right"
-          className="text-xs"
+          className="pb-3"
           formatter={(name) => getLegend(name)}
         />
       </PieChart>
