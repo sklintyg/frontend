@@ -70,7 +70,7 @@ export function SettingsDialogContent({
       <div className="py-5">
         <h2 className="ids-heading-4">Antal dagar mellan intyg</h2>
         <p className="pb-4">
-          Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.
+          Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.{' '}
         </p>
         <div className="w-80">
           <FormattedNumberInput
@@ -94,7 +94,7 @@ export function SettingsDialogContent({
           Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj &quot;Ingen förvald enhet&quot; i listan för att
           rensa ditt val.{' '}
         </p>
-        <div className="mt-5 w-80">
+        <div className="w-80">
           <SelectCareUnits
             preferences={preferences}
             onChange={(value) =>
