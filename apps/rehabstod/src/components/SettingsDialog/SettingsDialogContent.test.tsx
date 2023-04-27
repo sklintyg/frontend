@@ -3,10 +3,9 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { SettingsDialogContent } from './SettingsDialogContent'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { fakeUser, fakeUserPreferences } from '../../utils/fake'
+import { fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
-const user = fakeUser()
 
 let onClose: () => void
 let onChange: () => void
@@ -14,7 +13,7 @@ let onChange: () => void
 const renderComponent = () => {
   onClose = vi.fn()
   onChange = vi.fn()
-  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} user={user} />)
+  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} />)
 }
 
 describe('SettingsDialog', () => {
@@ -151,7 +150,7 @@ describe('SettingsDialog', () => {
       renderComponent()
       expect(
         screen.getByText(
-          'Välj en enhet som du automatiskt ska bli inloggad på vid start av Rehabstöd. Du kan fortfarande byta enhet när du loggat in.'
+          'Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj "Ingen förvald enhet" i listan för att rensa ditt val.'
         )
       ).toBeInTheDocument()
     })

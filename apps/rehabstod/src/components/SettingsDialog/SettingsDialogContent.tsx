@@ -1,5 +1,5 @@
 import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
-import { Mottagning, User, UserPreferences, Vardenhet } from '../../schemas'
+import { UserPreferences } from '../../schemas'
 import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { isValueBetweenLimits } from '../../utils/isValueBetweenLimits'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
@@ -9,12 +9,10 @@ export function SettingsDialogContent({
   preferences,
   onClose,
   onChange,
-  user,
 }: {
   preferences: UserPreferences | undefined
   onClose: () => void
   onChange: (preferences: UserPreferences) => void
-  user: User
 }) {
   const [updateUserPreferences] = useUpdateUserPreferencesMutation()
   const minDaysBetweenSickLeaves = 0
@@ -43,19 +41,6 @@ export function SettingsDialogContent({
       updateUserPreferences(preferences)
       onClose()
     }
-  }
-
-  function getUnits(): (Vardenhet | Mottagning)[] {
-    const units: (Vardenhet | Mottagning)[] = []
-    user.vardgivare.forEach((careProvider) => {
-      careProvider.vardenheter.forEach((careUnit) => {
-        units.push(careUnit)
-        if (careUnit.mottagningar && careUnit.mottagningar.length > 0) {
-          careUnit.mottagningar.forEach((reception) => units.push(reception))
-        }
-      })
-    })
-    return units
   }
 
   return (
@@ -103,11 +88,13 @@ export function SettingsDialogContent({
       </div>
       <div className="py-5">
         <h2 className="ids-heading-4">Förvald enhet</h2>
-        <p>Välj en enhet som du automatiskt ska bli inloggad på vid start av Rehabstöd. Du kan fortfarande byta enhet när du loggat in. </p>
+        <p>
+          Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj &quot;Ingen förvald enhet&quot; i listan för att
+          rensa ditt val.{' '}
+        </p>
         <div className="mt-5 w-80">
           <SelectCareUnits
             preferences={preferences}
-            content={getUnits()}
             onChange={(value) =>
               onChange({
                 ...preferences,

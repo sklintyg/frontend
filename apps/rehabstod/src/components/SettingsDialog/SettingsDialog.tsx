@@ -41,7 +41,6 @@ export function SettingsDialog({ user, avatarRef }: { user: User; avatarRef: Ref
         onChange={(preferences) => {
           setSavedPreferences(preferences)
         }}
-        user={user}
       />
     </IDSDialog>
   )
