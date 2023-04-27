@@ -3,7 +3,7 @@ import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { allSjukfallColumns, sjukfallColumnsString } from '../../../store/slices/sjukfallTableColumnsSelectors'
-import { checkAllColumns, hideColumn, moveColumn, showColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { hideColumn, moveColumn, showAllColumns, showColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
 
 export function ModifySicknessTableColumns() {
   const dispatch = useAppDispatch()
@@ -28,7 +28,7 @@ export function ModifySicknessTableColumns() {
         dispatch(moveColumn({ column, direction }))
       }}
       onShowAll={() => {
-        dispatch(checkAllColumns())
+        dispatch(showAllColumns())
       }}
     />
   )

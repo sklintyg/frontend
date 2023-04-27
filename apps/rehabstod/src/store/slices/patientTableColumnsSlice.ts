@@ -22,8 +22,8 @@ export const {
   reset: resetPatientTableColumns,
   showColumn,
   hideColumn,
-  checkAllColumns,
-  uncheckAllColumns,
+  showAllColumns,
+  hideAllColumns,
   moveColumn,
 } = patientTableColumnsSlice.actions
 export const { name: patientTableColumnsReducerPath, reducer: patientTableColumnsReducer } = patientTableColumnsSlice

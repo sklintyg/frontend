@@ -46,13 +46,13 @@ export function createTableColumnSlice<T extends UserPreferencesTableSettings>(s
         disableColumn(state, { payload }: PayloadAction<string>) {
           columnsAdapter.updateOne(state, { id: payload, changes: { disabled: true } })
         },
-        checkAllColumns(state) {
+        showAllColumns(state) {
           columnsAdapter.updateMany(
             state,
             selectAll(state).map((column) => ({ id: column.name, changes: { visible: true } }))
           )
         },
-        uncheckAllColumns(state) {
+        hideAllColumns(state) {
           columnsAdapter.updateMany(
             state,
             selectAll(state).map((column) => ({ id: column.name, changes: { visible: false } }))

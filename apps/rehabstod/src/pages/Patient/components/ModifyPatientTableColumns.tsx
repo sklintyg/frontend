@@ -3,7 +3,7 @@ import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumnsSelectors'
-import { checkAllColumns, hideColumn, moveColumn, PatientColumn, showColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { hideColumn, moveColumn, PatientColumn, showAllColumns, showColumn } from '../../../store/slices/patientTableColumnsSlice'
 
 export function ModifyPatientTableColumns() {
   const dispatch = useAppDispatch()
@@ -28,7 +28,7 @@ export function ModifyPatientTableColumns() {
         dispatch(moveColumn({ column, direction }))
       }}
       onShowAll={() => {
-        dispatch(checkAllColumns())
+        dispatch(showAllColumns())
       }}
     />
   )
