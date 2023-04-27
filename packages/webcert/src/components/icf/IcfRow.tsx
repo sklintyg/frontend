@@ -36,9 +36,12 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   }
 
   const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    const element = document.getElementById(event.currentTarget.id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    const dropdown = document.getElementById(`icfScrollContainer-${parentId}`)
+    const checkbox = document.getElementById(event.currentTarget.id)
+
+    if (dropdown && checkbox) {
+      dropdown.scrollIntoView({ block: 'nearest', behavior: 'auto' })
+      checkbox.scrollIntoView({ block: 'nearest', behavior: 'auto' })
     }
   }
 
