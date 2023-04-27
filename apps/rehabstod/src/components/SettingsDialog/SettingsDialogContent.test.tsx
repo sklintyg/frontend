@@ -7,6 +7,7 @@ import { fakeUser, fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
 const user = fakeUser()
+
 let onClose: () => void
 let onChange: () => void
 

@@ -44,7 +44,7 @@ export function SettingsDialogContent({
       onClose()
     }
   }
-
+  
   function getUnits(): (Vardenhet | Mottagning)[] {
     const units: (Vardenhet | Mottagning)[] = []
     user.vardgivare.forEach((careProvider) => {
