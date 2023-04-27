@@ -51,7 +51,7 @@ export function SettingsDialogContent({
           Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen.
           Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade.{' '}
         </p>
-        <div className="mt-5  w-80">
+        <div className="w-80">
           <FormattedNumberInput
             label="Max antal dagar sedan avslut  (0-14 dagar)"
             onChange={(value) =>
