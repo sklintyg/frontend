@@ -4,7 +4,7 @@ export function FemaleIcon() {
       width="44"
       height="100"
       viewBox="0 0 44 100"
-      fill="var(--IDS-COLOR-ACCENT-40)"
+      fill="#D17200"
       xmlns="http://www.w3.org/2000/svg"
       className="mx-auto"
       data-testid="iconFemale">

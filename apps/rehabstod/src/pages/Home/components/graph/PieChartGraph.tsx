@@ -1,17 +1,10 @@
-import { Legend, Pie, PieChart } from 'recharts'
+import { Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react'
+import classes from './PieChartGraph.css'
 
-export function PieChartGraph({
-  data,
-  small,
-  disableLegend,
-}: {
-  data: { value: number; name: string; fill: string }[]
-  small?: boolean
-  disableLegend?: boolean
-}) {
+export function PieChartGraph({ data }: { data: { id: string; value: number; name: string; fill: string }[] }) {
   const [loaded, setLoaded] = useState(false)
-  const getLegend = (name: string) => <span className="text-neutral-40 text-xs">{name}</span>
+  const getLegend = (name: string) => <span className="text-neutral-20 text-sm">{name}</span>
 
   // Fix for: https://github.com/recharts/recharts/issues/511
   useEffect(() => {
@@ -21,26 +14,30 @@ export function PieChartGraph({
   }, [])
 
   return (
-    <PieChart width={small ? 300 : 500} height={200}>
-      <Pie
-        isAnimationActive={false}
-        data={data}
-        color="#000000"
-        dataKey="value"
-        nameKey="name"
-        outerRadius={small ? 30 : 60}
-        labelLine={false}
-        stroke="white"
-      />
-      {!disableLegend && (
+    <ResponsiveContainer width={500} height="100%" minHeight="150px" className={classes}>
+      <PieChart>
+        <Pie
+          isAnimationActive={false}
+          cx="100"
+          data={data}
+          color="#000000"
+          dataKey="value"
+          nameKey="name"
+          outerRadius={60}
+          labelLine={false}
+          stroke={data.length > 1 ? 'white' : 'none'}
+        />
         <Legend
-          layout={!small ? 'vertical' : undefined}
-          verticalAlign={!small ? 'middle' : undefined}
-          align={!small ? 'right' : undefined}
-          className="text-xs"
+          iconType="circle"
+          iconSize={11}
+          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
+          layout="vertical"
+          verticalAlign="middle"
+          align="right"
+          className="pb-3"
           formatter={(name) => getLegend(name)}
         />
-      )}
-    </PieChart>
+      </PieChart>
+    </ResponsiveContainer>
   )
 }
