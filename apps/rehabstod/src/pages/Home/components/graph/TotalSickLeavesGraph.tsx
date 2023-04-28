@@ -5,7 +5,7 @@ import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props
   return (
-    <text x={150} y={115} fill="white" textAnchor="middle" dominantBaseline="central">
+    <text x={150} y={100} fill="white" textAnchor="middle" dominantBaseline="central">
       {`${value} st`}
     </text>
   )
@@ -37,7 +37,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         />
       </h2>
       <div>
-        <PieChart width={300} height={228} className="m-auto">
+        <PieChart width={300} height={200} className="m-auto">
           <Pie
             isAnimationActive={false}
             data={data}
