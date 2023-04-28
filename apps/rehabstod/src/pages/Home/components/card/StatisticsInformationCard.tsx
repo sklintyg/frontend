@@ -15,7 +15,7 @@ export function StatisticsInformationCard() {
           Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan
           öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.
         </p>
-        <div className="flex pt-5 pb-14">
+        <div className="flex pb-20 pt-5">
           {links && links.statistiktjanstenTooltip && (
             <Tooltip>
               <TooltipTrigger>
