@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
 import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 import { hasCurrentRiskDataPoint } from '../srsUtils'
+import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
 
 interface Props {
   previousAnswers: SrsAnswer[]
@@ -27,11 +28,15 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
   const questions = useSelector(getSrsQuestions)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')
-  const [hasAnsweredQuestion, setHasAnsweredQuestion] = useState(false)
+  const hasUpdatedAnswers = useSelector(getHasUpdatedAnswers)
+  const dispatch = useDispatch()
 
   const [answers, setAnswers] = useState(
     questions.map((question) => {
-      return { questionId: question.questionId, answerId: getDefaultOptionId(question, usesOldPredictionModel, previousAnswers) }
+      return {
+        questionId: question.questionId,
+        answerId: getDefaultOptionId(question, usesOldPredictionModel, previousAnswers),
+      }
     })
   )
 
@@ -39,7 +44,12 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
     const newAnswers = answers.filter((answer) => answer.questionId !== questionId)
     newAnswers.push({ questionId: questionId, answerId: answerId })
     setAnswers(newAnswers)
-    setHasAnsweredQuestion(true)
+    dispatch(updateHasUpdatedAnswers(true))
+  }
+
+  const calculateRisk = () => {
+    onClick(answers)
+    dispatch(updateHasUpdatedAnswers(false))
   }
 
   return (
@@ -63,8 +73,8 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
       <CustomButton
         text="Beräkna"
         buttonStyle="secondary"
-        onClick={() => onClick(answers)}
-        disabled={hasCurrentRiskDataPoint(predictions) && !hasAnsweredQuestion}
+        onClick={calculateRisk}
+        disabled={hasCurrentRiskDataPoint(predictions) && !hasUpdatedAnswers}
       />
     </div>
   )

@@ -39,9 +39,9 @@ export function Home() {
     <PageHero icon="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
       <p className="ids-preamble">
-        Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Här får du en
-        överblick över antingen alla pågående sjukfall på din vårdenhet, om du är rehabkoordinator eller alla pågående sjukfall där du
-        skrivit det senaste intyget, om du är läkare.
+        Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Är du
+        rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där du har
+        skrivit det senaste intyget.
       </p>
       <IDSButton data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
         Logga in
