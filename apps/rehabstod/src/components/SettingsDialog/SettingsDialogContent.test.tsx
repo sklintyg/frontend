@@ -12,7 +12,9 @@ let onChange: () => void
 const renderComponent = () => {
   onClose = vi.fn()
   onChange = vi.fn()
-  renderWithRouter(<SettingsDialogContent onClose={onClose} onChange={onChange} preferences={preferences} />)
+  renderWithRouter(
+    <SettingsDialogContent onClose={onClose} onChange={onChange} savedPreferences={preferences} userPreferences={fakeUserPreferences()} />
+  )
 }
 
 describe('SettingsDialog', () => {
