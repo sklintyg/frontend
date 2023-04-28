@@ -87,6 +87,8 @@ export const logSrsInteractionError = createAction(`${SRS} Log SRS interaction e
 
 export const logSrsInteractionSuccess = createAction<string>(`${SRS} Log SRS interaction success`)
 
+export const updateHasUpdatedAnswers = createAction<boolean>(`${SRS} Update has updated answers`)
+
 export interface RecommendationsRequest {
   patientId: string
   code: string
