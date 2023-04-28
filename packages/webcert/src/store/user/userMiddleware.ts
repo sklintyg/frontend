@@ -2,7 +2,7 @@ import { ResourceLinkType } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
-import { deleteCertificateSuccess, forwardCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'
+import { deleteCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'
 import { stopPoll } from '../session/sessionActions'
 import {
   acknowledgeSubscription,
@@ -40,6 +40,7 @@ import {
   updateUserResourceLinks,
   updateUserStatistics,
 } from './userActions'
+import { handleQuestionSuccess } from '../question/questionActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -202,7 +203,7 @@ const handleAcknowledgeSubscriptionSuccess: Middleware<Dispatch> = ({ dispatch }
   dispatch(removeResourceLink(ResourceLinkType.SUBSCRIPTION_WARNING))
 }
 
-const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+const handleHandleQuestionSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(getUserStatistics())
 }
 
@@ -230,7 +231,7 @@ const middlewareMethods = {
   [acknowledgeSubscription.type]: handleAcknowledgeSubscription,
   [acknowledgeSubscriptionSuccess.type]: handleAcknowledgeSubscriptionSuccess,
   [deleteCertificateSuccess.type]: handleDeleteCertificateSuccess,
-  [forwardCertificateSuccess.type]: handleForwardCertificateSuccess,
+  [handleQuestionSuccess.type]: handleHandleQuestionSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
