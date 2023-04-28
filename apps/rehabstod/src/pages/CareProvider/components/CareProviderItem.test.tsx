@@ -1,12 +1,14 @@
+import { faker } from '@faker-js/faker'
+import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
-import { Mock, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { CareProviderItem } from './CareProviderItem'
+import { Mock, vi } from 'vitest'
+import { Mottagning, Vardenhet, vardenhetSchema } from '../../../schemas'
 import { fakeVardgivare } from '../../../utils/fake'
-import { Mottagning, Vardenhet } from '../../../schemas'
+import { CareProviderItem } from './CareProviderItem'
 
 let handleChooseUnit: Mock<unknown[], unknown>
-const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin' })
+const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.datatype.uuid() })] })
 let selectedRadio: string | null
 beforeEach(() => {
   handleChooseUnit = vi.fn()
