@@ -98,10 +98,10 @@ export function SettingsDialogContent({
         </p>
         <div className="w-80">
           <SelectCareUnits
-            preferences={preferences}
+            preferences={savedPreferences}
             onChange={(value) =>
               onChange({
-                ...preferences,
+                ...savedPreferences,
                 standardenhet: value !== 'Ingen förvald enhet' ? value : null,
               })
             }
