@@ -13,13 +13,11 @@ export function SelectCareUnits({ onChange, preferences }: { onChange: (value: s
 
   return (
     <IDSSelect>
-      <label className="mb-0" htmlFor={id}>
-        Förvald enhet
-      </label>
+      <label htmlFor={id}>Förvald enhet</label>
       <select
         id={id}
         name="options"
-        className="text-neutral-20 my-3 box-border w-full truncate rounded border py-3 px-5 text-left"
+        className="text-neutral-20 box-border w-full truncate rounded border py-3 px-5 text-left"
         onChange={(event) => onChange(event.currentTarget.value)}
         value={preferences.standardenhet ?? 'Ingen förvald enhet'}>
         <option className="ml-2" value="Ingen förvald enhet">
