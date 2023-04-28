@@ -6,6 +6,7 @@ import { renderWithRouter } from '../../utils/renderWithRouter'
 import { fakeUserPreferences } from '../../utils/fake'
 
 const preferences = fakeUserPreferences()
+
 let onClose: () => void
 let onChange: () => void
 
@@ -136,6 +137,20 @@ describe('SettingsDialog', () => {
       await userEvent.clear(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)'))
       expect(screen.getByLabelText('Dagar mellan intyg (0-90 dagar)')).toHaveValue(null)
       expect(screen.getByText('Spara')).toBeDisabled()
+    })
+  })
+  describe('selected care unit', () => {
+    it('should render title', () => {
+      renderComponent()
+      expect(screen.getByText('Förvald enhet')).toBeInTheDocument()
+    })
+    it('should render text', () => {
+      renderComponent()
+      expect(
+        screen.getByText(
+          'Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj "Ingen förvald enhet" i listan för att rensa ditt val.'
+        )
+      ).toBeInTheDocument()
     })
   })
 })
