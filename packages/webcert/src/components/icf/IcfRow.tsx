@@ -1,6 +1,5 @@
 import { Checkbox, IcfCode } from '@frontend/common'
 import React, { useState } from 'react'
-import { scroller } from 'react-scroll'
 import styled from 'styled-components'
 
 const TitleWrapper = styled.div`
@@ -36,14 +35,12 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
     }
   }
 
-  const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    scroller.scrollTo(event.currentTarget.id, {
-      duration: 500,
-      delay: 100,
-      smooth: true,
-      containerId: 'icfScrollContainer-' + parentId,
-      offset: -100,
-    })
+  const handleCheckboxFocus = () => {
+    const dropdown = document.getElementById(`icfScrollContainer-${parentId}`)
+
+    if (dropdown) {
+      dropdown.scrollIntoView({ behavior: 'auto', inline: 'nearest', block: 'nearest' })
+    }
   }
 
   const handleShowMore = () => {
