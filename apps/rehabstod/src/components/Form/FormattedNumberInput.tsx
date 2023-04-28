@@ -54,6 +54,9 @@ export function FormattedNumberInput({
           event.preventDefault()
         }
       }}
+      onPaste={(event) => {
+        event.preventDefault()
+      }}
     />
   )
 }

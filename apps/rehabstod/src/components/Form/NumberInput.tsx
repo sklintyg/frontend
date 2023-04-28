@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEventHandler, useId } from 'react'
+import { ChangeEvent, ClipboardEventHandler, KeyboardEventHandler, useId } from 'react'
 import { classNames } from '../../utils/classNames'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { Input } from './Input'
@@ -8,6 +8,7 @@ export function NumberInput({
   onChange,
   onBlur,
   onKeyDown,
+  onPaste,
   description,
   value,
   max,
@@ -19,6 +20,7 @@ export function NumberInput({
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
+  onPaste?: ClipboardEventHandler<HTMLInputElement>
   description?: string
   value: number | string
   inline?: boolean
@@ -38,6 +40,7 @@ export function NumberInput({
         onChange={onChange}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
+        onPaste={onPaste}
         value={value}
         max={max}
         min={min}
