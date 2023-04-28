@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import _ from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
 
 export interface SickLeaveState {
@@ -28,7 +28,7 @@ const sickLeaveSlice = createSlice({
     },
     updateFilter(state, { payload }: PayloadAction<Partial<SickLeaveFilter>>) {
       Object.assign(state.filter, payload)
-      state.hasAppliedFilters = !_.isEqual(initialState.filter, state.filter)
+      state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
       state.showPersonalInformation = payload
