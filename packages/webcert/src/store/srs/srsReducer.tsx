@@ -8,6 +8,7 @@ import {
   updateCareProviderId,
   updateCertificateId,
   updateError,
+  updateHasUpdatedAnswers,
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
@@ -41,6 +42,7 @@ export interface SRSState {
   loadingCodes: boolean
   loadingRecommendations: boolean
   answers: SrsAnswer[]
+  hasUpdatedAnswers: boolean
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -62,6 +64,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     loadingCodes: false,
     loadingRecommendations: false,
     answers: [],
+    hasUpdatedAnswers: true,
   }
 }
 
@@ -126,6 +129,9 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
       if (action.payload) {
         state.sickLeaveChoice = SrsSickLeaveChoice.EXTENSION
       }
+    })
+    .addCase(updateHasUpdatedAnswers, (state, action) => {
+      state.hasUpdatedAnswers = action.payload
     })
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
 )
