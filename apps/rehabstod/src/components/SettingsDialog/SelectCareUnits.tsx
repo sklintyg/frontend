@@ -13,7 +13,9 @@ export function SelectCareUnits({ onChange, preferences }: { onChange: (value: s
 
   return (
     <IDSSelect>
-      <label htmlFor={id}>Förvald enhet</label>
+      <label className="mb-0" htmlFor={id}>
+        Förvald enhet
+      </label>
       <select
         id={id}
         name="options"
