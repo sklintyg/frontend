@@ -3,7 +3,7 @@ import { UserPreferences } from '../../schemas'
 import { useUpdateUserPreferencesMutation } from '../../store/api'
 import { isValueBetweenLimits } from '../../utils/isValueBetweenLimits'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
-import { SelectCareUnits } from '../Form/SelectCareUnits'
+import { SelectCareUnits } from './SelectCareUnits'
 
 export function SettingsDialogContent({
   preferences,

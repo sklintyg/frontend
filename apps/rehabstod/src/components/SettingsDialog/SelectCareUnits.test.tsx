@@ -7,6 +7,7 @@ import { fakeUser, fakeUserPreferences } from '../../utils/fake'
 import { server } from '../../mocks/server'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { User } from '../../schemas'
+import { getUnitsForUser } from '../../utils/getUnitsForUser'
 
 const preferences = fakeUserPreferences()
 let onChange: (value: string) => void
@@ -15,21 +16,6 @@ beforeEach(() => {
   onChange = vi.fn()
   user = fakeUser()
 })
-
-function getNumberOfUnitsInFakeUser(): number {
-  let numberOfUnits = 1
-  user.vardgivare.forEach((careProvider) => {
-    careProvider.vardenheter.forEach((careUnit) => {
-      numberOfUnits += 1
-      if (careUnit.mottagningar && careUnit.mottagningar.length > 0) {
-        careUnit.mottagningar.forEach(() => {
-          numberOfUnits += 1
-        })
-      }
-    })
-  })
-  return numberOfUnits
-}
 
 it('should display Ingen forvald enhet option', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(user))))
@@ -42,26 +28,26 @@ it('should display options with care units related to user', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(user))))
   renderWithRouter(<SelectCareUnits onChange={onChange} preferences={preferences} />)
 
-  expect(await screen.findAllByRole('option')).toHaveLength(getNumberOfUnitsInFakeUser())
+  expect(await screen.findAllByRole('option')).toHaveLength(getUnitsForUser(user).length + 1)
 })
 
 it('should display standardenhet from preferences in select as default value', async () => {
-  const { id } = user.vardgivare[0].vardenheter[0]
-  const name = user.vardgivare[0].vardenheter[0].namn
-  const userPreferences = fakeUserPreferences({ standardenhet: id })
+  const unit = user.vardgivare[0].vardenheter.filter((units) => units.id !== undefined)[0]
+  const userPreferences = fakeUserPreferences({ standardenhet: unit.id })
 
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(user))))
   renderWithRouter(<SelectCareUnits onChange={onChange} preferences={userPreferences} />)
 
-  expect(await screen.findByDisplayValue(name)).toBeInTheDocument()
+  expect(await screen.findByDisplayValue(unit.namn)).toBeInTheDocument()
 })
 
 it('should call onChange if option is selected', async () => {
-  const unit = user.vardgivare[0].vardenheter[0]
+  const unit = user.vardgivare[0].vardenheter.filter((units) => units.id !== undefined)[0]
 
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(user))))
   renderWithRouter(<SelectCareUnits onChange={onChange} preferences={preferences} />)
-
-  await userEvent.selectOptions(await screen.findByRole('combobox'), await screen.findByText(unit.namn))
+  const options = await screen.findAllByText(unit.namn)
+  const option = options[0]
+  await userEvent.selectOptions(await screen.findByRole('combobox'), option)
   expect(onChange).toHaveBeenCalledWith(unit.id)
 })
