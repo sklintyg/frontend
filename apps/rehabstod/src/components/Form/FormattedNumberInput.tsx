@@ -21,7 +21,8 @@ export function FormattedNumberInput({
   error?: boolean
   defaultValue: string
 }) {
-  const convertTimePeriodValue = (originalValue: string, minLimit: string, maxLimit: string, valueDefault: string) => {
+  const numbersRegex = /([0-9]|\b)+/
+  const convertValue = (originalValue: string, minLimit: string, maxLimit: string, valueDefault: string) => {
     if (originalValue === '') {
       return valueDefault
     }
@@ -41,13 +42,21 @@ export function FormattedNumberInput({
     <NumberInput
       label={label}
       onChange={(event) => onChange(event.currentTarget.value)}
-      onBlur={() => onChange(convertTimePeriodValue(value, min, max, defaultValue))}
+      onBlur={() => onChange(convertValue(value, min, max, defaultValue))}
       value={value}
       max={max}
       min={min}
       description={description}
       error={error}
       inline={inline}
+      onKeyDown={(event) => {
+        if (!numbersRegex.test(event.key)) {
+          event.preventDefault()
+        }
+      }}
+      onPaste={(event) => {
+        event.preventDefault()
+      }}
     />
   )
 }

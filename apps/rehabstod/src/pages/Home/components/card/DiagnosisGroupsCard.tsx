@@ -1,28 +1,29 @@
-import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
-import { DiagnosisGroupGraph } from '../graph/DiagnosisGroupGraph'
+import { DiagnosGruppStat, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { idsGraphColors } from '../../assets/Colors'
+import { StatisticsCard } from './StatisticsCard'
 
 export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {
     return null
   }
 
+  const getDataPoint = (group: DiagnosGruppStat, index: number) => ({
+    id: group.grupp.id,
+    value: Math.round(group.percentage),
+    name: `${group.grupp.id.replaceAll(',', ', ')} ${group.grupp.name} (${group.count} st, ${Math.round(group.percentage)}%)`,
+    fill: idsGraphColors[index % idsGraphColors.length],
+  })
+  const generateData = (data: DiagnosGruppStat[]) => data.map((group, index) => getDataPoint(group, index))
+
+  const parentData = generateData(summary.groups)
+
   return (
-    <>
-      <h2 className="ids-heading-4">Diagnosgrupp</h2>
-      <p>Hur stor andel av sjukfallen som tillhör en viss diagnosgrupp.</p>
-      <div className="flex justify-between">
-        <DiagnosisGroupGraph diagnosisGroups={summary.groups} />
-        <div className="flex">
-          <div>
-            <p className="ids-heading-4 text-center">Män</p>
-            <DiagnosisGroupGraph diagnosisGroups={summary.maleDiagnosisGroups} small />
-          </div>
-          <div>
-            <p className="ids-heading-4 text-center">Kvinnor</p>
-            <DiagnosisGroupGraph diagnosisGroups={summary.femaleDiagnosisGroups} small />
-          </div>
-        </div>
-      </div>
-    </>
+    <StatisticsCard
+      parentData={parentData}
+      maleData={generateData(summary.maleDiagnosisGroups)}
+      femaleData={generateData(summary.femaleDiagnosisGroups)}
+      title="Diagnosgrupp"
+      subTitle="Andel sjukfall fördelat på diagnosgrupp."
+    />
   )
 }

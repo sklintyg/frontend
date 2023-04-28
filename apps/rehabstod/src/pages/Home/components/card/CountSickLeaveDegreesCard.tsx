@@ -1,28 +1,29 @@
-import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
-import { CountSickLeaveDegreeGraph } from '../graph/CountSickLeaveDegreeGraph'
+import { SickLeaveDegreeSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { idsGraphColors } from '../../assets/Colors'
+import { StatisticsCard } from './StatisticsCard'
 
 export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {
     return null
   }
 
+  const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
+    id: degree.id.toString(),
+    value: Math.round(degree.percentage),
+    name: `${degree.name} (${degree.count} st, ${Math.round(degree.percentage)}%)`,
+    fill: idsGraphColors[index % idsGraphColors.length],
+  })
+
+  const generateData = (degrees: SickLeaveDegreeSummary[]) => degrees.map((degree, index) => getDataPoint(degree, index))
+  const parentData = generateData(summary.countSickLeaveDegrees)
+
   return (
-    <>
-      <h2 className="ids-heading-4">Sjukfall med fler än en sjukskrivningsgrad</h2>
-      <p>Visar hur stor del av sjukfallen som har fler än en sjukskrivningsgrad.</p>
-      <div className="flex justify-between">
-        <CountSickLeaveDegreeGraph sickLeaveDegrees={summary.countSickLeaveDegrees} />
-        <div className="flex">
-          <div>
-            <p className="ids-heading-4 text-center">Män</p>
-            <CountSickLeaveDegreeGraph sickLeaveDegrees={summary.countMaleSickLeaveDegrees} small />
-          </div>
-          <div>
-            <p className="ids-heading-4 text-center">Kvinnor</p>
-            <CountSickLeaveDegreeGraph sickLeaveDegrees={summary.countFemaleSickLeaveDegrees} small />
-          </div>
-        </div>
-      </div>
-    </>
+    <StatisticsCard
+      parentData={parentData}
+      maleData={generateData(summary.countMaleSickLeaveDegrees)}
+      femaleData={generateData(summary.countFemaleSickLeaveDegrees)}
+      title="Fler än en sjukskrivningsgrad"
+      subTitle="Andel sjukfall som har fler än en sjukskrivningsgrad."
+    />
   )
 }

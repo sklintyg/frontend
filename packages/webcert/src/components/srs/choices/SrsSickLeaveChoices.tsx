@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react'
 import { RadioButton, SrsSickLeaveChoice } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsCertificateRenewed, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
-import { updateSickLeaveChoice } from '../../../store/srs/srsActions'
+import { updateHasUpdatedAnswers, updateSickLeaveChoice } from '../../../store/srs/srsActions'
 import { getSickLeaveChoicesLabel } from '../srsUtils'
 
 const SrsSickLeaveChoices: React.FC = () => {
@@ -13,6 +13,7 @@ const SrsSickLeaveChoices: React.FC = () => {
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSickLeaveChoice(SrsSickLeaveChoice[event.currentTarget.value as keyof typeof SrsSickLeaveChoice]))
+    dispatch(updateHasUpdatedAnswers(true))
   }
   return (
     <div role="radiogroup" className="ic-radio-group-horizontal iu-mb-400">
