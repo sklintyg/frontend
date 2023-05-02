@@ -62,8 +62,8 @@ export const sjfItemSchema = z.object({
 })
 
 export const sjfMetaDataSchema = z.object({
-  vardenheterInomVGMedSparr: z.array(z.unknown()),
-  andraVardgivareMedSparr: z.array(z.unknown()),
+  vardenheterInomVGMedSparr: z.array(z.string()),
+  andraVardgivareMedSparr: z.array(z.string()),
   kraverSamtycke: z.array(sjfItemSchema),
   kraverInteSamtycke: z.array(sjfItemSchema),
   samtyckeFinns: z.boolean(),

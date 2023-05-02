@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { fakerFromSchema } from '@frontend/fake'
 import { PatientOverview } from './PatientOverview'
-import { sjfMetaDataSchema } from '../../../../schemas/patientSchema'
+import { SjfMetaData, sjfMetaDataSchema } from '../../../../schemas/patientSchema'
 
 const renderComponent = () => {
-  render(<PatientOverview sjfMetaData={fakerFromSchema(sjfMetaDataSchema)} patientId="191212121212" />)
+  render(<PatientOverview sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData} patientId="191212121212" />)
 }
 
 describe('PatientOverview', () => {
