@@ -7,12 +7,14 @@ export function PatientOverviewCard({
   subTitle,
   description,
   items,
+  includedItems,
   onGetInformation,
 }: {
   title: string
   subTitle: string
   description: string
   items: SjfItem[]
+  includedItems: string[]
   onGetInformation: (id: string) => void
 }) {
   const [expanded, setExpanded] = useState(false)
@@ -39,9 +41,13 @@ export function PatientOverviewCard({
         {items.map((item) => (
           <div key={item.itemId} className="flex justify-between pb-3">
             <p>{item.itemName}</p>
-            <IDSButton tertiary onClick={() => onGetInformation(item.itemId)}>
-              Hämta
-            </IDSButton>
+            {includedItems.find((id) => id === item.itemId) ? (
+              <p>Hämtad</p>
+            ) : (
+              <IDSButton tertiary onClick={() => onGetInformation(item.itemId)}>
+                Hämta
+              </IDSButton>
+            )}
           </div>
         ))}
       </>

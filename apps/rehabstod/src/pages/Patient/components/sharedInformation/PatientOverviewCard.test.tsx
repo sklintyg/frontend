@@ -28,7 +28,14 @@ let onGetInformation: (id: string) => void
 const renderComponent = () => {
   onGetInformation = vi.fn()
   render(
-    <PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={ITEMS} onGetInformation={onGetInformation} />
+    <PatientOverviewCard
+      title={TITLE}
+      subTitle={SUB_TITLE}
+      description={DESCRIPTION}
+      items={ITEMS}
+      onGetInformation={onGetInformation}
+      includedItems={[]}
+    />
   )
 }
 
@@ -94,13 +101,50 @@ describe('PatientOverviewCard', () => {
         expect(onGetInformation).toHaveBeenCalledWith(ITEMS[0].itemId)
       })
     })
+
+    describe('with collected information', () => {
+      beforeEach(async () => {
+        onGetInformation = vi.fn()
+        render(
+          <PatientOverviewCard
+            title={TITLE}
+            subTitle={SUB_TITLE}
+            description={DESCRIPTION}
+            items={ITEMS}
+            onGetInformation={onGetInformation}
+            includedItems={[ITEMS[0].itemId]}
+          />
+        )
+        await userEvent.click(screen.getByText('Visa'))
+      })
+
+      it('should show list of items', () => {
+        expect(screen.getByText(ITEMS[0].itemName)).toBeInTheDocument()
+        expect(screen.getByText(ITEMS[1].itemName)).toBeInTheDocument()
+      })
+
+      it('should show button to get patient information for item not included in included items', () => {
+        expect(screen.getAllByText('Hämta')).toHaveLength(ITEMS.length - 1)
+      })
+
+      it('should show that information has been collected', () => {
+        expect(screen.getAllByText('Hämtad')).toHaveLength(1)
+      })
+    })
   })
 
   describe('has no information', () => {
     beforeEach(() => {
       onGetInformation = vi.fn()
       render(
-        <PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={[]} onGetInformation={onGetInformation} />
+        <PatientOverviewCard
+          title={TITLE}
+          subTitle={SUB_TITLE}
+          description={DESCRIPTION}
+          items={[]}
+          onGetInformation={onGetInformation}
+          includedItems={[]}
+        />
       )
     })
 

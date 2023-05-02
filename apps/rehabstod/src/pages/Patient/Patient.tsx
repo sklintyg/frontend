@@ -24,7 +24,7 @@ export function Patient() {
 
         <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
         <PatientSickLeaves sickLeaves={earlierSickLeaves} />
-        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId || ''} />
+        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patient ? patient.sjukfallList[0].intyg[0].patient.id : ''} />
       </div>
     </>
   )

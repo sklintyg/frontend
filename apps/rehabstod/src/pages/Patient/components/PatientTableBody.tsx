@@ -17,12 +17,10 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
           <td>{certificate.start}</td>
           <td>{certificate.slut}</td>
           <td>{certificate.dagar} dagar</td>
-          <td>
-            <SickLeaveDegreeInfo degrees={certificate.grader} />
-          </td>
+          <SickLeaveDegreeInfo degrees={certificate.grader} />
           <td className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</td>
-          <td>{certificate.lakare.namn}</td>
-          <td>{certificate.sysselsattning.join(' ')}</td>
+          <td>{certificate.lakare ? certificate.lakare.namn : 'Okänt'}</td>
+          <td>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</td>
           <td className="sticky right-0 z-10">
             {/* TODO: Make link work */}
             <IDSLink>
