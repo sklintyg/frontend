@@ -5,6 +5,7 @@ import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
+import { PatientOverview } from './components/sharedInformation/PatientOverview'
 
 export function Patient() {
   const { patientId } = useParams()
@@ -23,6 +24,7 @@ export function Patient() {
 
         <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
         <PatientSickLeaves sickLeaves={earlierSickLeaves} />
+        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId || ''} />
       </div>
     </>
   )

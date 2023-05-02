@@ -4,7 +4,7 @@ import { PatientOverview } from './PatientOverview'
 import { sjfMetaDataSchema } from '../../../../schemas/patientSchema'
 
 const renderComponent = () => {
-  render(<PatientOverview sjfMetaData={fakerFromSchema(sjfMetaDataSchema)} />)
+  render(<PatientOverview sjfMetaData={fakerFromSchema(sjfMetaDataSchema)} patientId="191212121212" />)
 }
 
 describe('PatientOverview', () => {

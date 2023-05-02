@@ -1,10 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { PatientOverviewCard } from './PatientOverviewCard'
 
 const TITLE = 'Title'
 const SUB_TITLE = 'Sub title'
 const DESCRIPTION = 'Description'
+
 const ITEM_1 = {
   bidrarTillAktivtSjukfall: true,
   includedInSjukfall: true,
@@ -20,8 +22,14 @@ const ITEM_2 = {
   itemType: 'VARDGIVARE',
 }
 const ITEMS = [ITEM_1, ITEM_2]
+
+let onGetInformation: (id: string) => void
+
 const renderComponent = () => {
-  render(<PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={ITEMS} />)
+  onGetInformation = vi.fn()
+  render(
+    <PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={ITEMS} onGetInformation={onGetInformation} />
+  )
 }
 
 describe('PatientOverviewCard', () => {
@@ -46,13 +54,13 @@ describe('PatientOverviewCard', () => {
 
     it('should show expand button', () => {
       renderComponent()
-      expect(screen.getByText('Visa mig')).toBeInTheDocument()
+      expect(screen.getByText('Visa')).toBeInTheDocument()
     })
 
     describe('expanded', () => {
       beforeEach(async () => {
         renderComponent()
-        await userEvent.click(screen.getByText('Visa mig'))
+        await userEvent.click(screen.getByText('Visa'))
       })
 
       it('should show title', () => {
@@ -77,14 +85,23 @@ describe('PatientOverviewCard', () => {
       })
 
       it('should not show expand button', () => {
-        expect(screen.queryByText('Visa mig')).not.toBeInTheDocument()
+        expect(screen.queryByText('Visa')).not.toBeInTheDocument()
+      })
+
+      it('should call on get information when clicking get button', async () => {
+        await userEvent.click(screen.getAllByText('Hämta')[0])
+        expect(onGetInformation).toHaveBeenCalledTimes(1)
+        expect(onGetInformation).toHaveBeenCalledWith(ITEMS[0].itemId)
       })
     })
   })
 
   describe('has no information', () => {
     beforeEach(() => {
-      render(<PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={[]} />)
+      onGetInformation = vi.fn()
+      render(
+        <PatientOverviewCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={[]} onGetInformation={onGetInformation} />
+      )
     })
 
     it('should show title', () => {
@@ -104,7 +121,7 @@ describe('PatientOverviewCard', () => {
     })
 
     it('should not show expand button', () => {
-      expect(screen.queryByText('Visa mig')).not.toBeInTheDocument()
+      expect(screen.queryByText('Visa')).not.toBeInTheDocument()
     })
   })
 })
