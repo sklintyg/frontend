@@ -1,5 +1,5 @@
-import { NumberInput } from '../../Form/NumberInput'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
+import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
 
 export function TimePeriodFilter({
   title,
@@ -16,24 +16,8 @@ export function TimePeriodFilter({
   to: string
   from: string
 }) {
-  const maxLimit = '365'
+  const maxLimit = '10000'
   const minLimit = '1'
-
-  const convertTimePeriodValue = (value: string, min: string, max: string, defaultValue: string) => {
-    if (value === '' || value === '0') {
-      return defaultValue
-    }
-
-    if (Number(value) < Number(min)) {
-      return min
-    }
-
-    if (Number(value) > Number(max)) {
-      return max
-    }
-
-    return value
-  }
 
   return (
     <>
@@ -41,24 +25,24 @@ export function TimePeriodFilter({
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
-      <div className="flex w-72 gap-3">
-        <NumberInput
+      <div className="flex w-80 gap-3">
+        <FormattedNumberInput
           label="Från"
-          onBlur={() => onFromChange(convertTimePeriodValue(from, minLimit, to, minLimit))}
-          onChange={(event) => onFromChange(event?.currentTarget.value)}
+          onChange={(value) => onFromChange(value)}
           value={from === '0' ? '' : from}
           inline
           max={to}
           min={minLimit}
+          defaultValue={minLimit}
         />
-        <NumberInput
+        <FormattedNumberInput
           label="Till"
-          onBlur={() => onToChange(convertTimePeriodValue(to, from, maxLimit, maxLimit))}
-          onChange={(event) => onToChange(event.currentTarget.value)}
+          onChange={(value) => onToChange(value)}
           value={to === '0' ? '' : to}
           inline
           max={maxLimit}
           min={from}
+          defaultValue={maxLimit}
         />
       </div>
     </>

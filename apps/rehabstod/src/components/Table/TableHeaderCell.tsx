@@ -22,7 +22,7 @@ export function TableHeaderCell({
     <Tooltip>
       <TooltipTrigger asChild>
         <th
-          style={{ width: width ?? '25%' }}
+          style={{ width: width ?? '25%', zIndex: 11 }}
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
             if (code === 'Enter' || code === 'Space') {
