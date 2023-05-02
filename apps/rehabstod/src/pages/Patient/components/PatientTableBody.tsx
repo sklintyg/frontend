@@ -43,7 +43,9 @@ function PatientTableCellResolver({
       )
     case PatientColumn.Ärenden:
       return (
-        <TableCell className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</TableCell>
+        <TableCell>
+          <span className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</span>
+        </TableCell>
       )
     case PatientColumn.Läkare:
       return <TableCell>{certificate.lakare.namn}</TableCell>
@@ -51,7 +53,7 @@ function PatientTableCellResolver({
       return <TableCell>{certificate.sysselsattning.join(' ')}</TableCell>
     case PatientColumn.Intyg:
       return (
-        <TableCell className="sticky right-0 z-10">
+        <TableCell sticky="right">
           {/* TODO: Make link work */}
           <IDSLink>
             <a href={`webcert/${certificate.intygsId}`} target="_blank" rel="noreferrer">
@@ -70,20 +72,23 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
   const columns = useAppSelector(allPatientColumns)
   return (
     <tbody className="whitespace-normal break-words">
-      {sortTableList(certificates, getCertificateColumnData).map((certificate) => (
-        <tr key={`${certificate.start}${certificate.slut}`}>
-          {columns
-            .filter(({ visible }) => visible)
-            .map(({ name }) => (
-              <PatientTableCellResolver
-                key={name}
-                column={name}
-                certificate={certificate}
-                rowIndex={certificates.indexOf(certificate) + 1}
-              />
-            ))}
-        </tr>
-      ))}
+      {sortTableList(certificates, getCertificateColumnData).map(
+        (certificate) =>
+          columns.length > 0 && (
+            <tr key={`${certificate.start}${certificate.slut}`}>
+              {columns
+                .filter(({ visible }) => visible)
+                .map(({ name }) => (
+                  <PatientTableCellResolver
+                    key={name}
+                    column={name}
+                    certificate={certificate}
+                    rowIndex={certificates.indexOf(certificate) + 1}
+                  />
+                ))}
+            </tr>
+          )
+      )}
     </tbody>
   )
 }

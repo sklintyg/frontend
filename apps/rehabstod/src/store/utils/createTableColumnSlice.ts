@@ -34,6 +34,12 @@ export function createTableColumnSlice<T extends UserPreferencesTableSettings>(s
         reset() {
           return initialState
         },
+        setColumnDefaults(state) {
+          columnsAdapter.setAll(
+            state,
+            columns.map((name, index) => ({ name, visible: true, disabled: false, index }))
+          )
+        },
         showColumn(state, { payload }: PayloadAction<string>) {
           columnsAdapter.updateOne(state, { id: payload, changes: { visible: true } })
         },

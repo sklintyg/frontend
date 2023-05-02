@@ -103,34 +103,37 @@ export function TableBodyRows({
 
   return (
     <>
-      {sortTableList(sickLeaves, getSickLeavesColumnData).map((sickLeave) => (
-        <tr
-          tabIndex={0}
-          onKeyDown={({ code, currentTarget }) => {
-            if (['Enter', 'Space'].includes(code)) {
-              navigateToPatient(sickLeave.patient.id)
-            }
-            if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
-              ;(currentTarget.previousElementSibling as HTMLElement).focus()
-            }
-            if (code === 'ArrowDown' && currentTarget.nextElementSibling) {
-              ;(currentTarget.nextElementSibling as HTMLElement).focus()
-            }
-          }}
-          onClick={() => navigateToPatient(sickLeave.patient.id)}
-          key={sickLeave.patient.id}
-          className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
-            isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
-          }`}>
-          {columns
-            .filter(({ visible }) => visible)
-            .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Personnummer))
-            .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Namn))
-            .map(({ name }) => (
-              <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
-            ))}
-        </tr>
-      ))}
+      {sortTableList(sickLeaves, getSickLeavesColumnData).map(
+        (sickLeave) =>
+          columns.length > 0 && (
+            <tr
+              tabIndex={0}
+              onKeyDown={({ code, currentTarget }) => {
+                if (['Enter', 'Space'].includes(code)) {
+                  navigateToPatient(sickLeave.patient.id)
+                }
+                if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
+                  ;(currentTarget.previousElementSibling as HTMLElement).focus()
+                }
+                if (code === 'ArrowDown' && currentTarget.nextElementSibling) {
+                  ;(currentTarget.nextElementSibling as HTMLElement).focus()
+                }
+              }}
+              onClick={() => navigateToPatient(sickLeave.patient.id)}
+              key={sickLeave.patient.id}
+              className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
+                isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
+              }`}>
+              {columns
+                .filter(({ visible }) => visible)
+                .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Personnummer))
+                .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Namn))
+                .map(({ name }) => (
+                  <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
+                ))}
+            </tr>
+          )
+      )}
     </>
   )
 }

@@ -10,7 +10,10 @@ import { resetPatientTableColumns } from './store/slices/patientTableColumnsSlic
 import { resetSjukfallTableColumns } from './store/slices/sjukfallTableColumnsSlice'
 import { store } from './store/store'
 
-global.open = vi.fn()
+Object.assign(global, global, {
+  open: vi.fn(),
+  scrollTo: vi.fn(),
+})
 
 // Used by floating-ui
 global.ResizeObserver = vi.fn().mockImplementation(() => ({

@@ -34,13 +34,15 @@ export function PatientTableHeader() {
   const columns = useAppSelector(allPatientColumns)
   return (
     <thead>
-      <tr>
-        {columns
-          .filter(({ visible: checked }) => checked)
-          .map(({ name }) => (
-            <PatientTableHeaderResolver key={name} column={name} />
-          ))}
-      </tr>
+      {columns.length > 0 && (
+        <tr>
+          {columns
+            .filter(({ visible: checked }) => checked)
+            .map(({ name }) => (
+              <PatientTableHeaderResolver key={name} column={name} />
+            ))}
+        </tr>
+      )}
     </thead>
   )
 }

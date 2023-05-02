@@ -76,6 +76,10 @@ function HeaderCellResolver({ column }: { column: string }) {
 export function TableHeaderRow({ showPersonalInformation }: { showPersonalInformation: boolean }) {
   const columns = useAppSelector(allSjukfallColumns)
 
+  if (columns.length === 0) {
+    return null
+  }
+
   return (
     <tr>
       {columns

@@ -19,7 +19,7 @@ export function ModifyTableColumns({
   const numVisible = columns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
   const getPlaceholder = () => {
     if (isAllSelected) {
-      return 'Visa alla'
+      return 'Alla valda'
     }
 
     if (selectedColumns.length === 1) {
@@ -27,7 +27,7 @@ export function ModifyTableColumns({
       return name
     }
 
-    return `Visa ${selectedColumns.length} kolumner`
+    return `Visar ${selectedColumns.length} kolumner`
   }
 
   return (
@@ -38,7 +38,7 @@ export function ModifyTableColumns({
       <Checkbox
         checked={isAllSelected}
         disabled={isAllSelected}
-        label="Markera alla"
+        label="Välj alla"
         onChange={() => {
           if (!isAllSelected) {
             onShowAll()
