@@ -30,7 +30,8 @@ export function SettingsDialog() {
       <SettingsDialogContent
         onChange={(preferences) => setSavedPreferences(preferences)}
         onClose={() => ref.current?.hideDialog()}
-        preferences={savedPreferences}
+        savedPreferences={savedPreferences}
+        userPreferences={user.preferences}
       />
     </IDSDialog>
   )

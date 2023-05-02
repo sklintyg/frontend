@@ -36,10 +36,10 @@ export function OverviewStatistics() {
       <h1 className="ids-heading-2">Översikt över pågående sjukfall just nu</h1>
       <h2 className="ids-heading-3 mb-10">{unit}</h2>
       <div className="grid grid-cols-3 gap-4">
-        <IDSCard fill>
+        <IDSCard fill className="bg-secondary-95">
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />
         </IDSCard>
-        <IDSCard fill>
+        <IDSCard fill className="bg-secondary-95">
           <GenderDivisionGraph genders={summary ? summary.genders : []} />
         </IDSCard>
         <IDSCard>
