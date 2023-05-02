@@ -98,7 +98,7 @@ export function SettingsDialogContent({
         </p>
         <div className="w-80">
           <SelectCareUnits
-            preferences={savedPreferences}
+            standardenhet={savedPreferences.standardenhet}
             onChange={(value) =>
               onChange({
                 ...savedPreferences,
