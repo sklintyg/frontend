@@ -1,8 +1,8 @@
+import classNames from 'classnames'
 import * as React from 'react'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import NumberOfHitsText from './NumberOfHitsText'
-import classNames from 'classnames'
 
 interface Props {
   page: number
@@ -145,7 +145,9 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
             onClick={() => handlePreviousClick()}>
             Föregående
           </button>
-          <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
+          <div aria-activedescendant={'page-button-' + page} tabIndex={-1}>
+            {getNumbers()}
+          </div>
           <button
             disabled={isNextDisabled()}
             className={classNames({ 'iu-color-grey-400': isNextDisabled() })}
