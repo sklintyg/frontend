@@ -1,4 +1,6 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { OpenInformationWithConsent } from './OpenInformationWithConsent'
 
 const ITEM_1 = {
@@ -43,6 +45,11 @@ const renderComponent = (hasConsent: boolean) => {
   )
 }
 describe('OpenInformationWithConsent', () => {
+  beforeEach(() => {
+    onGiveConsent = vi.fn()
+    onGetInformation = vi.fn()
+  })
+
   it('should render without problems', () => {
     expect(() => renderComponent(true)).not.toThrow()
   })
@@ -56,15 +63,14 @@ describe('OpenInformationWithConsent', () => {
       expect(screen.getByText(ITEMS[0].itemName)).toBeInTheDocument()
       expect(screen.getByText(ITEMS[1].itemName)).toBeInTheDocument()
       expect(screen.getByText(ITEMS[2].itemName)).toBeInTheDocument()
-      expect(screen.getByText(ITEMS[3].itemName)).toBeInTheDocument()
     })
 
     it('should show button to get patient information for each item that does not have includedInSjukfall true', () => {
-      expect(screen.getAllByText('Hämta')).toHaveLength(2)
+      expect(screen.getAllByText('Hämta')).toHaveLength(1)
     })
 
     it('should not render form', () => {
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+      expect(screen.queryByRole('spinbutton')).not.toBeInTheDocument()
       expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
       expect(screen.queryByRole('radio')).not.toBeInTheDocument()
     })
@@ -73,14 +79,54 @@ describe('OpenInformationWithConsent', () => {
       expect(screen.queryByText('Avbryt')).not.toBeInTheDocument()
       expect(screen.queryByText('Patienten ger samtycke')).not.toBeInTheDocument()
     })
+
+    it('should not render modal links', () => {
+      expect(screen.queryByText('Om samtycke')).not.toBeInTheDocument()
+      expect(screen.queryByText('Om sammanhållen journalföring')).not.toBeInTheDocument()
+    })
   })
 
   describe('hasNoConsent', () => {
+    beforeEach(() => {
+      renderComponent(false)
+    })
+
     it('should render list of items', () => {
       expect(screen.getByText(ITEMS[0].itemName)).toBeInTheDocument()
       expect(screen.getByText(ITEMS[1].itemName)).toBeInTheDocument()
       expect(screen.getByText(ITEMS[2].itemName)).toBeInTheDocument()
-      expect(screen.getByText(ITEMS[3].itemName)).toBeInTheDocument()
+    })
+
+    it('should render form', () => {
+      expect(screen.getByRole('spinbutton')).toBeInTheDocument()
+      expect(screen.getByRole('checkbox')).toBeInTheDocument()
+      expect(screen.getAllByRole('radio')).toHaveLength(2)
+    })
+
+    it('should render buttons', () => {
+      expect(screen.queryByText('Avbryt')).toBeInTheDocument()
+      expect(screen.queryByText('Patienten ger samtycke')).toBeInTheDocument()
+    })
+
+    it('should render modal links', () => {
+      expect(screen.getByText('Om samtycke')).toBeInTheDocument()
+      expect(screen.getByText('Om sammanhållen journalföring')).toBeInTheDocument()
+    })
+
+    it('should render error if pressing button without checking checkbox', async () => {
+      await userEvent.click(screen.getByText('Patienten ger samtycke'))
+      expect(screen.getByText('Du behöver kryssa i rutan för att kunna fortsätta')).toBeInTheDocument()
+    })
+
+    it('should not call give consent if pressing button without checking checkbox', async () => {
+      await userEvent.click(screen.getByText('Patienten ger samtycke'))
+      expect(onGiveConsent).not.toHaveBeenCalled()
+    })
+
+    it('should call give consent if pressing button with checked checkbox', async () => {
+      await userEvent.click(screen.getByRole('checkbox'))
+      await userEvent.click(screen.getByText('Patienten ger samtycke'))
+      expect(onGiveConsent).toHaveBeenCalledTimes(1)
     })
   })
 })
