@@ -141,6 +141,24 @@ export const api = createApi({
       }),
       invalidatesTags: ['SickLeavePatient'],
     }),
+    addVardgivare: builder.mutation<string[], { patientId: string; vardgivareId: string }>({
+      query: ({ patientId, vardgivareId }) => ({
+        url: 'sjukfall/patient/addVardgivare',
+        method: 'POST',
+        body: { patientId, vardgivareId },
+      }),
+      invalidatesTags: ['SickLeavePatient'],
+    }),
+    giveSjfConsent: builder.mutation<
+      { registeredBy: string; responseCode: string; responseMessage: string },
+      { days: number; onlyCurrentUser: boolean; patientId: string }
+    >({
+      query: ({ days: number, onlyCurrentUser: boolean, patientId: string }) => ({
+        url: 'consent',
+        method: 'POST',
+        body: { days: number, onlyCurrentUser: boolean, patientId: string },
+      }),
+    }),
   }),
 })
 
@@ -158,4 +176,6 @@ export const {
   useGetSickLeavesSummaryQuery,
   useGiveConsentMutation,
   useAddVardenhetMutation,
+  useAddVardgivareMutation,
+  useGiveSjfConsentMutation,
 } = api

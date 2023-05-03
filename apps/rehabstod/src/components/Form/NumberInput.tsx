@@ -14,6 +14,7 @@ export function NumberInput({
   max,
   min,
   error,
+  disabled,
   inline = false,
 }: {
   label: string
@@ -26,6 +27,7 @@ export function NumberInput({
   inline?: boolean
   max?: number | string
   min?: number | string
+  disabled: boolean
   error?: boolean
 }) {
   const id = useId()
@@ -45,6 +47,7 @@ export function NumberInput({
         max={max}
         min={min}
         id={id}
+        disabled={disabled}
       />
     </div>
   )

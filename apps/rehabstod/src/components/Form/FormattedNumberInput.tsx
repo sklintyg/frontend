@@ -10,6 +10,7 @@ export function FormattedNumberInput({
   error,
   inline = false,
   defaultValue,
+  disabled,
 }: {
   label: string
   onChange: (value: string) => void
@@ -20,6 +21,7 @@ export function FormattedNumberInput({
   min: string
   error?: boolean
   defaultValue: string
+  disabled?: boolean
 }) {
   const numbersRegex = /([0-9]|\b)+/
   const convertValue = (originalValue: string, minLimit: string, maxLimit: string, valueDefault: string) => {
@@ -40,6 +42,7 @@ export function FormattedNumberInput({
 
   return (
     <NumberInput
+      disabled={!!disabled}
       label={label}
       onChange={(event) => onChange(event.currentTarget.value)}
       onBlur={() => onChange(convertValue(value, min, max, defaultValue))}

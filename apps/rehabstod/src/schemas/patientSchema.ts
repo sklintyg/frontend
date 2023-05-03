@@ -79,6 +79,11 @@ export const patientSchema = z.object({
   kompletteringInfoError: z.boolean(),
 })
 
+export enum PatientOverviewApprovalChoices {
+  ONLYCURRENT = 'ONLYCURRENT',
+  ALL = 'ALL',
+}
+
 export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
