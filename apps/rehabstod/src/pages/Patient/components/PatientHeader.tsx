@@ -11,7 +11,6 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   const currentSickness = patient.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
-  const startDate = currentSickness?.start && isDateBeforeToday(currentSickness.start) ? new Date(currentSickness.start) : null
 
   const handleClick = () => {
     navigate('/pagaende-sjukfall')
@@ -30,7 +29,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
             {showPersonalInformation && <span className="font-bold">{firstCertificate.patient.namn},</span>}
             {showPersonalInformation && <span>{firstCertificate.patient.id},</span>}
             <span>{firstCertificate.patient.alder} år,</span> <span>{firstCertificate.patient.kon === 'F' ? 'kvinna' : 'man'}</span>
-            {startDate && (
+            {currentSickness && (
               <>
                 <span color="neutral-20" className="space-x-2">
                   |
