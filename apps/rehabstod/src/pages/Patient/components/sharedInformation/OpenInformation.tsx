@@ -7,7 +7,7 @@ export function OpenInformation({ items, onGetInformation }: { items: SjfItem[];
       {items.map((item) => (
         <div key={item.itemId} className="flex justify-between pb-3">
           <p>{item.itemName}</p>
-          {item.includedInSjukfall ? <p>Hämtat</p> : <GetOpenInformationButton onClick={onGetInformation} item={item} />}
+          {item.includedInSjukfall ? <p className="italic">Hämtat</p> : <GetOpenInformationButton onClick={onGetInformation} item={item} />}
         </div>
       ))}
     </>
