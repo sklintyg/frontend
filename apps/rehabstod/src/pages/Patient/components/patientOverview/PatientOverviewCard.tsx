@@ -9,19 +9,23 @@ export function PatientOverviewCard({
   description,
   isEmpty,
   children,
+  open,
+  onOpen,
 }: {
   title: string
   subTitle: string
   description: string
   isEmpty: boolean
   children: ReactNode
+  open?: boolean
+  onOpen: () => void
 }) {
   return (
     <IDSCard fill>
       <h4 className="ids-heading-4">{title}</h4>
       <hr />
       {!isEmpty ? (
-        <ExpandableCard description={description} subTitle={subTitle}>
+        <ExpandableCard description={description} subTitle={subTitle} open={open} onOpen={onOpen}>
           {children}
         </ExpandableCard>
       ) : (

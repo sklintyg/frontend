@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PatientOverviewCard } from '../PatientOverviewCard'
 import { SjfItem } from '../../../../../schemas/patientSchema'
 import { OpenInformationWithConsent } from './OpenInformationWithConsent'
@@ -19,9 +20,18 @@ export function OpenInformationWithConsentCard({
   description: string
   hasGivenConsent?: boolean
 }) {
+  const [expanded, setExpanded] = useState(false)
+
   return (
-    <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={!items || items.length === 0}>
+    <PatientOverviewCard
+      title={title}
+      subTitle={subTitle}
+      description={description}
+      isEmpty={!items || items.length === 0}
+      onOpen={() => setExpanded(true)}
+      open={expanded}>
       <OpenInformationWithConsent
+        onClose={() => setExpanded(false)}
         onGiveConsent={onGiveConsent}
         hasConsent={!!hasGivenConsent}
         items={items}

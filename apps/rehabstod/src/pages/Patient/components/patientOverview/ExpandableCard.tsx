@@ -1,14 +1,34 @@
 import { ReactNode, useState } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
 
-export function ExpandableCard({ description, subTitle, children }: { description: string; subTitle: string; children: ReactNode }) {
+export function ExpandableCard({
+  description,
+  subTitle,
+  children,
+  open,
+  onOpen,
+}: {
+  description: string
+  subTitle: string
+  children: ReactNode
+  open?: boolean
+  onOpen?: () => void
+}) {
   const [expanded, setExpanded] = useState(false)
 
-  if (!expanded) {
+  const handleOnClick = () => {
+    if (onOpen) {
+      onOpen()
+    } else {
+      setExpanded(true)
+    }
+  }
+
+  if (open ? !open : !expanded) {
     return (
       <>
         <p className="py-5">{description}</p>
-        <IDSButton onClick={() => setExpanded(true)} className="flex justify-center">
+        <IDSButton onClick={handleOnClick} className="flex justify-center">
           Visa
         </IDSButton>
       </>

@@ -13,11 +13,13 @@ export function OpenInformationWithConsent({
   items,
   onGetInformation,
   onGiveConsent,
+  onClose,
   hasConsent,
 }: {
   items: SjfItem[]
   onGetInformation: (id: string) => void
   onGiveConsent: (days: string, onlyCurrentUser: boolean) => void
+  onClose: () => void
   hasConsent: boolean
 }) {
   const [checkedConsent, setCheckedConsent] = useState(false)
@@ -56,6 +58,7 @@ export function OpenInformationWithConsent({
           max="365"
           min="1"
           defaultValue="7"
+          bright
         />
         <p>dagar</p>
       </div>
@@ -77,12 +80,14 @@ export function OpenInformationWithConsent({
         <AboutPatientOverviewDialog />
       </div>
       <IDSButtonGroup className="flex justify-center">
-        <IDSButton secondary>Avbryt</IDSButton>
+        <IDSButton secondary onClick={onClose}>
+          Avbryt
+        </IDSButton>
         <div>
           <IDSButton onClick={handleGiveConsent}>Patienten ger samtycke</IDSButton>
-          {showError && <p className="text-error-40">Checkboxen för samtycke måste kryssas i för att fortsätta.</p>}
         </div>
       </IDSButtonGroup>
+      {showError && <p className="text-error-40 pt-3 text-center">Checkboxen för samtycke måste kryssas i för att fortsätta.</p>}
     </>
   )
 }
