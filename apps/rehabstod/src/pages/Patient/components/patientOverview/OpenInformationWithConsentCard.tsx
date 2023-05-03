@@ -1,29 +1,29 @@
 import { PatientOverviewCard } from './PatientOverviewCard'
 import { SjfItem } from '../../../../schemas/patientSchema'
-import { OpenInformationWithApproval } from './OpenInformationWithApproval'
+import { OpenInformationWithConsent } from './OpenInformationWithConsent'
 
-export function OpenInformationWithApprovalCard({
+export function OpenInformationWithConsentCard({
   items,
   onGetInformation,
-  onGiveApproval,
+  onGiveConsent,
   title,
   subTitle,
   description,
-  hasGivenApproval,
+  hasGivenConsent,
 }: {
   items: SjfItem[]
   onGetInformation: (id: string) => void
-  onGiveApproval: (days: string, onlyCurrentUser: boolean) => void
+  onGiveConsent: (days: string, onlyCurrentUser: boolean) => void
   title: string
   subTitle: string
   description: string
-  hasGivenApproval?: boolean
+  hasGivenConsent?: boolean
 }) {
   return (
     <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={!items || items.length === 0}>
-      <OpenInformationWithApproval
-        onGiveApproval={onGiveApproval}
-        hasApproval={!!hasGivenApproval}
+      <OpenInformationWithConsent
+        onGiveConsent={onGiveConsent}
+        hasConsent={!!hasGivenConsent}
         items={items}
         onGetInformation={onGetInformation}
       />

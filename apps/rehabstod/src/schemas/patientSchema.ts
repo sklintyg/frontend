@@ -79,7 +79,7 @@ export const patientSchema = z.object({
   kompletteringInfoError: z.boolean(),
 })
 
-export enum PatientOverviewApprovalChoices {
+export enum PatientOverviewConsentChoices {
   ONLYCURRENT = 'ONLYCURRENT',
   ALL = 'ALL',
 }

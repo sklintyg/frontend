@@ -2,7 +2,7 @@ import { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/api'
 import { OpenInformationCard } from './OpenInformationCard'
 import { BlockedInformationCard } from './BlockedInformationCard'
-import { OpenInformationWithApprovalCard } from './OpenInformationWithApprovalCard'
+import { OpenInformationWithConsentCard } from './OpenInformationWithConsentCard'
 
 export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMetaData | undefined; patientId: string }) {
   const [addUnit] = useAddVardenhetMutation()
@@ -36,14 +36,14 @@ export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMe
         items={sjfMetaData.kraverInteSamtycke}
         onGetInformation={handleGetCareUnitInformation}
       />
-      <OpenInformationWithApprovalCard
+      <OpenInformationWithConsentCard
         items={sjfMetaData.kraverSamtycke}
         title="Ospärrad information hos annan vårdgivare"
         subTitle="Vårdgivare med information"
         description="Det finns ospärrad information hos en annan vårdgivare. Du kan klicka nedan för att visa vilka vårdgivare som har ospärrad information. Patientens samtycke krävs för att du ska kunna ta del av informationen."
-        hasGivenApproval={sjfMetaData.samtyckeFinns}
+        hasGivenConsent={sjfMetaData.samtyckeFinns}
         onGetInformation={handleGetCareGiverInformation}
-        onGiveApproval={handleGiveConsent}
+        onGiveConsent={handleGiveConsent}
       />
       <BlockedInformationCard
         title="Spärrad information inom vårdgivare"
