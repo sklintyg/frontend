@@ -1,5 +1,5 @@
-import { IDSButton } from '@frontend/ids-react-ts'
 import { SjfItem } from '../../../../schemas/patientSchema'
+import { GetOpenInformationButton } from './GetOpenInformationButton'
 
 export function OpenInformation({ items, onGetInformation }: { items: SjfItem[]; onGetInformation: (id: string) => void }) {
   return (
@@ -7,13 +7,7 @@ export function OpenInformation({ items, onGetInformation }: { items: SjfItem[];
       {items.map((item) => (
         <div key={item.itemId} className="flex justify-between pb-3">
           <p>{item.itemName}</p>
-          {item.bidrarTillAktivtSjukfall ? (
-            <p>Hämtad</p>
-          ) : (
-            <IDSButton tertiary onClick={() => onGetInformation(item.itemId)}>
-              Hämta
-            </IDSButton>
-          )}
+          {item.includedInSjukfall ? <p>Hämtat</p> : <GetOpenInformationButton onClick={onGetInformation} item={item} />}
         </div>
       ))}
     </>

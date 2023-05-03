@@ -15,7 +15,7 @@ export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMe
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <OpenInformationCard
         title="Ospärrad information inom vårdgivare"
         subTitle="Vårdenhet att hämta information från"

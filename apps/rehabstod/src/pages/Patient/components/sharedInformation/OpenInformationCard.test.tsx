@@ -24,14 +24,22 @@ const ITEM_2 = {
 }
 
 const ITEM_3 = {
-  bidrarTillAktivtSjukfall: false,
-  includedInSjukfall: true,
+  bidrarTillAktivtSjukfall: true,
+  includedInSjukfall: false,
   itemName: 'Name 3',
   itemId: 'Id3',
   itemType: 'VARDGIVARE',
 }
 
-const ITEMS = [ITEM_1, ITEM_2, ITEM_3]
+const ITEM_4 = {
+  bidrarTillAktivtSjukfall: false,
+  includedInSjukfall: false,
+  itemName: 'Name 4',
+  itemId: 'Id4',
+  itemType: 'VARDGIVARE',
+}
+
+const ITEMS = [ITEM_1, ITEM_2, ITEM_3, ITEM_4]
 
 let onGetInformation: (id: string) => void
 
@@ -81,8 +89,18 @@ describe('OpenInformationCard', () => {
       expect(screen.getByText(ITEMS[1].itemName)).toBeInTheDocument()
     })
 
-    it('should show button to get patient information for each item that does not have bidrarTillAktivtSjukfall true', () => {
-      expect(screen.getAllByText('Hämta')).toHaveLength(1)
+    it('should show button to get patient information for each item that does not have includedInSjukfall true', () => {
+      expect(screen.getAllByText('Hämta')).toHaveLength(2)
+    })
+
+    it('should not call get information if clicking on item with bidrarTillAktivtSjukfall false', async () => {
+      await userEvent.click(screen.getAllByText('Hämta')[1])
+      expect(onGetInformation).toHaveBeenCalledTimes(0)
+    })
+
+    it('should open modal if clicking on item with bidrarTillAktivtSjukfall false', async () => {
+      await userEvent.click(screen.getAllByText('Hämta')[1])
+      expect(screen.getByText('Vårdgivarens intyg tillhör inte pågående sjukfall och inhämtas därför inte.')).toBeInTheDocument()
     })
 
     it('should call on get information when clicking get button', async () => {
@@ -92,7 +110,7 @@ describe('OpenInformationCard', () => {
     })
 
     it('should show that information has been collected', () => {
-      expect(screen.getAllByText('Hämtad')).toHaveLength(2)
+      expect(screen.getAllByText('Hämtat')).toHaveLength(2)
     })
   })
 
