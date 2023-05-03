@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import { OpenInformation } from './OpenInformation'
 import { BlockedInformation } from './BlockedInformation'
 
 const ITEMS = ['1', 'V2', 'Test test 3']
@@ -8,7 +7,7 @@ const renderComponent = () => {
   render(<BlockedInformation items={ITEMS} />)
 }
 
-describe('OpenInformation', () => {
+describe('BlockedInformation', () => {
   it('should render component without errors', () => {
     expect(() => renderComponent()).not.toThrow()
   })
