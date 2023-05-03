@@ -7,7 +7,7 @@ import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsen
 export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMetaData | undefined; patientId: string }) {
   const [addUnit] = useAddVardenhetMutation()
   const [addCareGiver] = useAddVardgivareMutation()
-  const [giveConsent] = useGiveSjfConsentMutation()
+  const [giveConsent, { data: responseCode }] = useGiveSjfConsentMutation()
 
   if (!sjfMetaData || !patientId) {
     return null
@@ -41,7 +41,7 @@ export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMe
         title="Ospärrad information hos annan vårdgivare"
         subTitle="Vårdgivare med information"
         description="Det finns ospärrad information hos en annan vårdgivare. Du kan klicka nedan för att visa vilka vårdgivare som har ospärrad information. Patientens samtycke krävs för att du ska kunna ta del av informationen."
-        hasGivenConsent={sjfMetaData.samtyckeFinns}
+        hasGivenConsent={sjfMetaData.samtyckeFinns || responseCode === 'OK'}
         onGetInformation={handleGetCareGiverInformation}
         onGiveConsent={handleGiveConsent}
       />

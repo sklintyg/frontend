@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup, IDSErrorMessage } from '@frontend/ids-react-ts'
 import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
 import { Checkbox } from '../../../../../components/Form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
@@ -14,13 +14,13 @@ export function OpenInformationWithConsent({
   onGetInformation,
   onGiveConsent,
   onClose,
-  hasConsent,
+  hasGivenConsent,
 }: {
   items: SjfItem[]
   onGetInformation: (id: string) => void
   onGiveConsent: (days: string, onlyCurrentUser: boolean) => void
   onClose: () => void
-  hasConsent: boolean
+  hasGivenConsent: boolean
 }) {
   const [checkedConsent, setCheckedConsent] = useState(false)
   const [daysOfConsent, setDaysOfConsent] = useState('7')
@@ -35,7 +35,7 @@ export function OpenInformationWithConsent({
     }
   }
 
-  return !hasConsent ? (
+  return hasGivenConsent ? (
     <OpenInformation items={items} onGetInformation={onGetInformation} />
   ) : (
     <>
@@ -49,8 +49,11 @@ export function OpenInformationWithConsent({
           setShowError(false)
         }}
         className="bg-white"
+        compact
+        valid={`${!showError}`}
       />
-      <div className="flex w-44 items-center gap-3">
+      {showError && <IDSErrorMessage>Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
+      <div className="ml-10 -mt-5 flex w-44 items-center gap-3">
         <FormattedNumberInput
           label=""
           onChange={(value) => setDaysOfConsent(value)}
@@ -87,7 +90,6 @@ export function OpenInformationWithConsent({
           <IDSButton onClick={handleGiveConsent}>Patienten ger samtycke</IDSButton>
         </div>
       </IDSButtonGroup>
-      {showError && <p className="text-error-40 pt-3 text-center">Checkboxen för samtycke måste kryssas i för att fortsätta.</p>}
     </>
   )
 }

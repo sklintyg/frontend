@@ -18,7 +18,7 @@ export function OpenInformationWithConsentCard({
   title: string
   subTitle: string
   description: string
-  hasGivenConsent?: boolean
+  hasGivenConsent: boolean
 }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -33,7 +33,7 @@ export function OpenInformationWithConsentCard({
       <OpenInformationWithConsent
         onClose={() => setExpanded(false)}
         onGiveConsent={onGiveConsent}
-        hasConsent={!!hasGivenConsent}
+        hasGivenConsent={hasGivenConsent}
         items={items}
         onGetInformation={onGetInformation}
       />
