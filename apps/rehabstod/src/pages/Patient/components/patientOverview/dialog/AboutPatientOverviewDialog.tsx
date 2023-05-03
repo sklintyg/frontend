@@ -3,7 +3,7 @@ import { LinkWithDialog } from '../../../../../components/LinkWithDialog/LinkWit
 export function AboutPatientOverviewDialog() {
   return (
     <LinkWithDialog title="Om sammanhållen journalföring">
-      <div>
+      <div className="flex flex-col gap-4">
         <p>
           Med sammanhållen journalföring avses möjligheten för en vårdgivare att läsa journaluppgifter från en annan vårdgivare direkt, på
           elektronisk väg.
