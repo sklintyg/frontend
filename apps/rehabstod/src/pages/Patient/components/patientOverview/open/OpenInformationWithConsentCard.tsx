@@ -28,8 +28,8 @@ export function OpenInformationWithConsentCard({
       subTitle={subTitle}
       description={description}
       isEmpty={!items || items.length === 0}
-      onOpen={() => setExpanded(true)}
-      open={expanded}>
+      onExpand={() => setExpanded(true)}
+      expanded={expanded}>
       <OpenInformationWithConsent
         onClose={() => setExpanded(false)}
         onGiveConsent={onGiveConsent}

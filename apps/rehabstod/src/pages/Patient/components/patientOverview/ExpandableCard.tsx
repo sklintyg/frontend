@@ -5,26 +5,26 @@ export function ExpandableCard({
   description,
   subTitle,
   children,
-  open,
-  onOpen,
+  expanded,
+  onExpand,
 }: {
   description: string
   subTitle: string
   children: ReactNode
-  open?: boolean
-  onOpen?: () => void
+  expanded?: boolean
+  onExpand?: () => void
 }) {
-  const [expanded, setExpanded] = useState(false)
+  const [localExpanded, setLocalExpanded] = useState(false)
 
   const handleOnClick = () => {
-    if (onOpen) {
-      onOpen()
+    if (onExpand) {
+      onExpand()
     } else {
-      setExpanded(true)
+      setLocalExpanded(true)
     }
   }
 
-  if (open ? !open : !expanded) {
+  if (expanded ? !expanded : !localExpanded) {
     return (
       <>
         <p className="py-5">{description}</p>
