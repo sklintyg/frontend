@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
-import { PatientOverviewConsentChoices, SjfItem } from '../../../../schemas/patientSchema'
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { FormattedNumberInput } from '../../../../components/Form/FormattedNumberInput'
-import { RadioButton } from '../../../../components/Form/RadioButton'
+import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
+import { Checkbox } from '../../../../../components/Form/Checkbox'
+import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
+import { RadioButton } from '../../../../../components/Form/RadioButton'
 import { OpenInformation } from './OpenInformation'
-import { BlockedInformation } from './BlockedInformation'
+import { BlockedInformation } from '../blocked/BlockedInformation'
+import { AboutConsentDialog } from '../dialog/AboutConsentDialog'
+import { AboutPatientOverviewDialog } from '../dialog/AboutPatientOverviewDialog'
 
 export function OpenInformationWithConsent({
   items,
@@ -31,12 +33,12 @@ export function OpenInformationWithConsent({
     }
   }
 
-  return hasConsent ? (
+  return !hasConsent ? (
     <OpenInformation items={items} onGetInformation={onGetInformation} />
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} />
-      <h4 className="ids-heading-4 pt-5">Samtycke sammanhållen journalföring</h4>
+      <h4 className="ids-heading-4 pt-2">Samtycke sammanhållen journalföring</h4>
       <Checkbox
         label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
         checked={checkedConsent}
@@ -57,7 +59,7 @@ export function OpenInformationWithConsent({
         />
         <p>dagar</p>
       </div>
-      <h4 className="ids-heading-4">Vem har samtycke?</h4>
+      <h4 className="ids-heading-4 pt-3">Vem har samtycke?</h4>
       <RadioButton
         label="Bara jag"
         onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
@@ -70,6 +72,10 @@ export function OpenInformationWithConsent({
         value={PatientOverviewConsentChoices.ALL}
         checked={consentId === PatientOverviewConsentChoices.ALL}
       />
+      <div className="pt-3 pb-5">
+        <AboutConsentDialog />
+        <AboutPatientOverviewDialog />
+      </div>
       <IDSButtonGroup className="flex justify-center">
         <IDSButton secondary>Avbryt</IDSButton>
         <div>

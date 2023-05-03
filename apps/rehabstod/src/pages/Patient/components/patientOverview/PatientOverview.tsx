@@ -1,8 +1,8 @@
 import { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/api'
-import { OpenInformationCard } from './OpenInformationCard'
-import { BlockedInformationCard } from './BlockedInformationCard'
-import { OpenInformationWithConsentCard } from './OpenInformationWithConsentCard'
+import { OpenInformationCard } from './open/OpenInformationCard'
+import { BlockedInformationCard } from './blocked/BlockedInformationCard'
+import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
 
 export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMetaData | undefined; patientId: string }) {
   const [addUnit] = useAddVardenhetMutation()

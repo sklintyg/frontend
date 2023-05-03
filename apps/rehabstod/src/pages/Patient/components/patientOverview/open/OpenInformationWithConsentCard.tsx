@@ -1,5 +1,5 @@
-import { PatientOverviewCard } from './PatientOverviewCard'
-import { SjfItem } from '../../../../schemas/patientSchema'
+import { PatientOverviewCard } from '../PatientOverviewCard'
+import { SjfItem } from '../../../../../schemas/patientSchema'
 import { OpenInformationWithConsent } from './OpenInformationWithConsent'
 
 export function OpenInformationWithConsentCard({

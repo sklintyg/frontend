@@ -1,6 +1,6 @@
 import { OpenInformation } from './OpenInformation'
-import { PatientOverviewCard } from './PatientOverviewCard'
-import { SjfItem } from '../../../../schemas/patientSchema'
+import { PatientOverviewCard } from '../PatientOverviewCard'
+import { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function OpenInformationCard({
   items,

@@ -1,7 +1,7 @@
 import { IDSButton, IDSDialog } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { IDSDialogElement } from '@frontend/ids-react-ts/src'
-import { SjfItem } from '../../../../schemas/patientSchema'
+import { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onClick: (id: string) => void }) {
   const ref = useRef<IDSDialogElement>(null)
