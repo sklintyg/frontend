@@ -18,11 +18,19 @@ export function Patient() {
     <>
       {patient && <PatientHeader patient={patient} />}
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-        <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
-        <PatientSickLeaves sickLeaves={currentSickLeaves} />
+        {currentSickLeaves.length > 0 && (
+          <>
+            <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
+            <PatientSickLeaves sickLeaves={currentSickLeaves} />
+          </>
+        )}
 
-        <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
-        <PatientSickLeaves sickLeaves={earlierSickLeaves} />
+        {earlierSickLeaves.length > 0 && (
+          <>
+            <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
+            <PatientSickLeaves sickLeaves={earlierSickLeaves} />
+          </>
+        )}
       </div>
     </>
   )

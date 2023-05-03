@@ -1,11 +1,11 @@
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
-import { useRef } from 'react'
 import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
+import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
-import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
+import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -14,7 +14,7 @@ export function LayoutHeader() {
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" unresponsive className="z-40">
+    <IDSHeader type="inera-admin" unresponsive className="z-40 bg-white">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
