@@ -13,7 +13,7 @@ export function BlockedInformationCard({
   description: string
 }) {
   return (
-    <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={items.length === 0}>
+    <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={!items || items.length === 0}>
       <BlockedInformation items={items} />
     </PatientOverviewCard>
   )

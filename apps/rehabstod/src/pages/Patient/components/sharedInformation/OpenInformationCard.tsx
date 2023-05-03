@@ -16,7 +16,7 @@ export function OpenInformationCard({
   description: string
 }) {
   return (
-    <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={items.length === 0}>
+    <PatientOverviewCard title={title} subTitle={subTitle} description={description} isEmpty={!items || items.length === 0}>
       <OpenInformation items={items} onGetInformation={onGetInformation} />
     </PatientOverviewCard>
   )

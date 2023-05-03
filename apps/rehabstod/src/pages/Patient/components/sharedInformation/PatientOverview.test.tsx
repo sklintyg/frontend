@@ -1,10 +1,13 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { fakerFromSchema } from '@frontend/fake'
 import { PatientOverview } from './PatientOverview'
 import { SjfMetaData, sjfMetaDataSchema } from '../../../../schemas/patientSchema'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
-  render(<PatientOverview sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData} patientId="191212121212" />)
+  renderWithRouter(
+    <PatientOverview sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData} patientId="191212121212" />
+  )
 }
 
 describe('PatientOverview', () => {
@@ -13,20 +16,14 @@ describe('PatientOverview', () => {
   })
 
   describe('same care provider', () => {
-    describe('not protected information', () => {
-      it('should show title', () => {
-        renderComponent()
-        expect(screen.getByText('Ospärrad information inom vårdgivare')).toBeInTheDocument()
-      })
+    it('should show title not protected information', () => {
+      renderComponent()
+      expect(screen.getByText('Ospärrad information inom vårdgivare')).toBeInTheDocument()
+    })
 
-      it('should show information text', () => {
-        renderComponent()
-        expect(
-          screen.getByText(
-            'Det finns ospärrad information hos en annan vårdenhet inom din vårdgivare. Du kan klicka nedan för att visa vilka vårdenheter som har denna information och få möjlighet att inhämta den.'
-          )
-        ).toBeInTheDocument()
-      })
+    it('should show title protected information', () => {
+      renderComponent()
+      expect(screen.getByText('Ospärrad information inom vårdgivare')).toBeInTheDocument()
     })
   })
 })

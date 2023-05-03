@@ -20,8 +20,8 @@ const ITEM_2 = {
 }
 
 const ITEM_3 = {
-  bidrarTillAktivtSjukfall: false,
-  includedInSjukfall: true,
+  bidrarTillAktivtSjukfall: true,
+  includedInSjukfall: false,
   itemName: 'Name 3',
   itemId: 'Id3',
   itemType: 'VARDGIVARE',
@@ -48,14 +48,14 @@ describe('OpenInformation', () => {
     expect(screen.getByText(ITEMS[2].itemName)).toBeInTheDocument()
   })
 
-  it('should show button to get patient information for each item that has bidrarTillAktivtSjukfall false', () => {
+  it('should show button to get patient information for each item that has includedInAktivtSjukfall false', () => {
     renderComponent()
     expect(screen.getAllByText('Hämta')).toHaveLength(1)
   })
 
-  it('should show message of gotten information for each item that has bidrarTillAktivtSjukfall true', () => {
+  it('should show message of gotten information for each item that has includedInAktivtSjukfall true', () => {
     renderComponent()
-    expect(screen.getAllByText('Hämtad')).toHaveLength(2)
+    expect(screen.getAllByText('Hämtat')).toHaveLength(2)
   })
 
   it('should call on get information when clicking get button', async () => {
