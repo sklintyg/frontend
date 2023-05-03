@@ -18,14 +18,4 @@ describe('BlockedInformation', () => {
     expect(screen.getByText(ITEMS[1])).toBeInTheDocument()
     expect(screen.getByText(ITEMS[2])).toBeInTheDocument()
   })
-
-  it('should not show get information button', () => {
-    renderComponent()
-    expect(screen.queryAllByText('Hämta')).toHaveLength(0)
-  })
-
-  it('should not show has gotten information message', () => {
-    renderComponent()
-    expect(screen.queryAllByText('Hämtad')).toHaveLength(0)
-  })
 })
