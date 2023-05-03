@@ -133,6 +133,14 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: string }) => response.content,
     }),
+    addVardenhet: builder.mutation<string[], { patientId: string; vardenhetId: string }>({
+      query: ({ patientId, vardenhetId }) => ({
+        url: 'sjukfall/patient/addVardenhet',
+        method: 'POST',
+        body: { patientId, vardenhetId },
+      }),
+      invalidatesTags: ['SickLeavePatient'],
+    }),
   }),
 })
 
@@ -149,4 +157,5 @@ export const {
   useCreateDefaultTestDataMutation,
   useGetSickLeavesSummaryQuery,
   useGiveConsentMutation,
+  useAddVardenhetMutation,
 } = api
