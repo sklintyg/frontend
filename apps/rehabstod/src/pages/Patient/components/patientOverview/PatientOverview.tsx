@@ -26,7 +26,7 @@ export function PatientOverview({ sjfMetaData, patientId }: { sjfMetaData: SjfMe
       />
       <BlockedInformationCard
         title="Spärrad information inom vårdgivare"
-        subTitle="Vårdenhet att hämta information från"
+        subTitle="Vårdenheter"
         description="Det finns spärrad information hos en annan vårdenhet inom din vårdgivare. Endast patienten kan få spärren hävd genom att kontakta den enhet där spärren sattes. Du kan klicka nedan för att visa vilka vårdenheter som har spärrad information hos sig."
         items={sjfMetaData.vardenheterInomVGMedSparr}
       />
