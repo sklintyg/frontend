@@ -4,9 +4,9 @@ import {
   getResourceLink,
   isDateRangeValid,
   ResourceLinkType,
-  ValueType,
   ValueDateRangeList,
   ValueDiagnosisList,
+  ValueType,
 } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
@@ -65,7 +65,11 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
     return
   }
 
-  dispatch(setPatientId(action.payload.metadata.patient.personId.id))
+  if (action.payload.metadata.patient.reserveId && action.payload.metadata.patient.previousPersonId) {
+    dispatch(setPatientId(action.payload.metadata.patient.previousPersonId.id))
+  } else {
+    dispatch(setPatientId(action.payload.metadata.patient.personId.id))
+  }
 
   for (const questionId in action.payload.data) {
     if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
@@ -107,8 +111,15 @@ function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
   return diagnosisCodes
 }
 
-const hasValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
-  return sickLeaveValue.list.some((value) => value.from && value.to && isDateRangeValid(value.from, value.to))
+const filterOnValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
+  if (!sickLeaveValue || !sickLeaveValue.list) {
+    return sickLeaveValue
+  }
+
+  return {
+    ...sickLeaveValue,
+    list: sickLeaveValue.list.slice().filter((value) => value.from && value.to && isDateRangeValid(value.from, value.to)),
+  }
 }
 
 const getValidationForSickLeavePeriod = (
@@ -117,12 +128,13 @@ const getValidationForSickLeavePeriod = (
   diagnoses: ValueDiagnosisList,
   dispatch: Dispatch
 ): void => {
-  if (sickLeaveValue && diagnoses && hasValidSickLeaveValue(sickLeaveValue) && diagnoses.list.length > 0) {
+  const filteredSickLeaveValue = filterOnValidSickLeaveValue(sickLeaveValue)
+  if (filteredSickLeaveValue && diagnoses && filteredSickLeaveValue.list.length > 0 && diagnoses.list.length > 0) {
     dispatch(
       validateSickLeavePeriod({
         icd10Codes: getDiagnosisCodes(diagnoses),
         personId: personId,
-        dateRangeList: sickLeaveValue,
+        dateRangeList: filteredSickLeaveValue,
       })
     )
   } else {

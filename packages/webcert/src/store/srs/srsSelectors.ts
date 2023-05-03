@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { SrsInformationChoice, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import { SrsAnswer, SrsInformationChoice, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
 import { SrsInfoForDiagnosis } from '@frontend/common/src/types/srs'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
@@ -27,7 +27,9 @@ export const getSrsQuestions = (state: RootState): SrsQuestion[] => state.ui.uiS
 
 export const getRiskOpinion = (state: RootState): string => state.ui.uiSRS.riskOpinion
 
-export const getLoading = (state: RootState): boolean => state.ui.uiSRS.loading
+export const getLoading = (state: RootState): boolean => state.ui.uiSRS.loadingCodes
+
+export const getHasUpdatedAnswers = (state: RootState): boolean => state.ui.uiSRS.hasUpdatedAnswers
 
 export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
   state.ui.uiSRS.srsPredictions.length > 0
@@ -35,6 +37,8 @@ export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
     : state.ui.uiSRS.srsInfo
     ? state.ui.uiSRS.srsInfo.predictions
     : []
+
+export const getPreviousAnswers = (state: RootState): SrsAnswer[] => state.ui.uiSRS.answers
 
 export const getDiagnosisDescription = (informationChoice: SrsInformationChoice) => (state: RootState): string => {
   const srsInfo = state.ui.uiSRS.srsInfo

@@ -1,13 +1,15 @@
-import { screen } from '@testing-library/react'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { rest } from 'msw'
 import { App } from './App'
+import { server } from './mocks/server'
 import { renderWithRouter } from './utils/renderWithRouter'
 
-// eslint-disable-next-line jest/no-disabled-tests
-test.skip('full app rendering/navigating', async () => {
-  const { user } = renderWithRouter(<App />)
+test('full app rendering/navigating', async () => {
+  server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403))))
+
+  renderWithRouter(<App />)
+
+  await waitForElementToBeRemoved(document.querySelector('ids-spinner'))
 
   expect(screen.getByText(/välkommen till rehabstöd/i)).toBeInTheDocument()
-
-  await user.click(screen.getByTestId('login-btn'))
-  expect(screen.getByText(/den här sidan hittades inte/i)).toBeInTheDocument()
 })

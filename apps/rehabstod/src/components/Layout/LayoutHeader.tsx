@@ -1,14 +1,20 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
+import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
+import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
+  const sithsUrl = '/saml/login/alias/siths-rs2'
+  const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" unresponsive>
+    <IDSHeader type="inera-admin" unresponsive className="z-40 bg-white">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
@@ -16,19 +22,17 @@ export function LayoutHeader() {
       {!isLoading && user && (
         <>
           <IDSHeaderItem type="inera-admin" icon="question">
-            <Link to="/">Om rehabstöd</Link>
+            <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
-          <IDSHeaderAvatar type="inera-admin" username={user.namn}>
-            <span slot="avatar-text">{user.valdVardenhet?.namn}</span>
+          <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn} ref={avatarRef}>
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
                 <IDSIcon height="20" width="20" name="swap" />
-                <Link to="/">Byt vårdenhet</Link>
+                <Link to="/enhet" onClick={() => avatarRef.current?.tooggleExpand()}>
+                  Byt vårdenhet
+                </Link>
               </IDSLink>
-              <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 text-primary-40">
-                <IDSIcon height="20" width="20" name="cog" />
-                <Link to="/settings">Inställningar</Link>
-              </IDSLink>
+              <SettingsDialog user={user} avatarRef={avatarRef} />
               <hr className="border-neutral-40" />
               <button onClick={logout} className="ids-mt-5 text-primary-40 flex w-full items-center" type="submit">
                 <div className="mr-2.5">
@@ -38,12 +42,17 @@ export function LayoutHeader() {
               </button>
             </div>
           </IDSHeaderAvatar>
+          <IDSHeaderNav type="inera-admin">
+            <LayoutHeaderTab title="Översikt" to="/" />
+            <LayoutHeaderTab title="Pågående sjukfall" to="/pagaende-sjukfall" />
+            <LayoutHeaderTab title="Läkarutlåtanden" to="/lakarutlatanden" />
+          </IDSHeaderNav>
         </>
       )}
 
       {!isLoading && !user && (
         <IDSHeaderItem type="inera-admin" separator-left icon="user">
-          <Link to="login">Logga in</Link>
+          <a href={sithsUrl}>Logga in</a>
         </IDSHeaderItem>
       )}
     </IDSHeader>

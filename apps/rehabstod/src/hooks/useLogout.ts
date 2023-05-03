@@ -1,19 +1,19 @@
 import { useNavigate } from 'react-router-dom'
-
-function fakeLogout() {
-  return fetch('/logout', {
-    body: new FormData(),
-    method: 'post',
-  })
-}
+import { useFakeLogoutMutation, useGetUserQuery } from '../store/api'
 
 export function useLogout() {
+  const { data: user } = useGetUserQuery()
+  const [fakeLogout] = useFakeLogoutMutation()
   const navigate = useNavigate()
 
   return {
     logout: () => {
-      fakeLogout()
-      navigate('/welcome')
+      if (!user || user.authenticationScheme === 'urn:inera:rehabstod:siths:fake') {
+        fakeLogout()
+        navigate('/welcome')
+      } else {
+        window.open('/saml/logout', '_self')
+      }
     },
   }
 }

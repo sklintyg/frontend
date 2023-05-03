@@ -4,9 +4,11 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   fakeCertificateConfig,
+  fakeCertificateValue,
   fakeDiagnosesElement,
   fakeSickLeavePeriod,
   Patient,
+  PersonId,
   ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
@@ -153,6 +155,53 @@ describe('Test FMB middleware', () => {
       expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
     })
 
+    it('shall not show sick leave period warning sick leave period is not valid', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(
+        setSickLeavePeriodValue(
+          fakeCertificateValue.dateRangeList({
+            list: [
+              {
+                to: '2022-01-01',
+                from: '2',
+                id: 'HALFTEN',
+              },
+            ],
+          })
+        )
+      )
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+
+      expect(fakeAxios.history.post.length).toEqual(0)
+    })
+
+    it('shall only send valid sick leave periods in sick leave period warning request', async () => {
+      const value = fakeCertificateValue.dateRangeList({
+        list: [
+          { to: '2022-01-01', from: '2', id: 'HALFTEN' },
+          { to: '2022-01-01', from: '2020-01-01', id: 'HELT_NEDSATT' },
+        ],
+      })
+      const expectedValue = { ...value }
+      expectedValue.list = value.list.slice().filter((item) => item.id === 'HELT_NEDSATT')
+
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, { message: 'warning message' })
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(setSickLeavePeriodValue(value))
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+      expect(JSON.parse(fakeAxios.history.post[0].data).dateRangeList).toEqual(expectedValue)
+    })
+
     it('shall show sick leave period warning if updated element is date range list', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const response = { message: 'warning message' }
@@ -190,6 +239,41 @@ describe('Test FMB middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
       expect(fakeAxios.history.get.length).toBe(0)
+    })
+    it('should use previousPersonId if reserveId is true and previousPersonId exists', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '201212121212'
+      const patientId = {
+        type: 'patientId',
+        id: expectedPersonId,
+      } as PersonId
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = true
+      certificate.metadata.patient.previousPersonId = patientId
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
+    })
+    it('should use personId if reserveId is true and previousPersonId is missing', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '1912121212'
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = true
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
+    })
+    it('should use personId if reserveId is false', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '1912121212'
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = false
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
   })
 

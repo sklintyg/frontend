@@ -8,27 +8,35 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
-    "test:coverage": "vitest run --coverage",
-    "test:no-watch": "vitest run",
-    "test": "vitest",
+    "test:ci": "yarn test --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
+    "test:coverage": "yarn test run --coverage",
+    "test:no-watch": "yarn test run",
+    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "vitest related --run"
+    "*.{js,jsx,ts,tsx}": "yarn test related --run"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.23.0",
+    "@frontend/fake": "*",
     "@frontend/ids-react-ts": "*",
     "@reduxjs/toolkit": "^1.9.3",
+    "date-fns": "^2.29.3",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
-    "sort-by": "^1.2.0"
+    "recharts": "^2.5.0",
+    "sort-by": "^1.2.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.10.0",
+    "@faker-js/faker": "^7.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -37,14 +45,20 @@
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
+    "deepmerge-ts": "^5.0.0",
     "eslint": "^8.34.0",
     "eslint-config-react": "*",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-tailwindcss": "^3.10.1",
+    "jsdom": "^21.1.1",
+    "msw": "^1.2.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
+    "ts-essentials": "^9.3.1",
     "typescript": "^4.9.3",
     "vite": "^4.1.1",
-    "vitest": "^0.29.2"
+    "vitest": "^0.29.2",
+    "whatwg-fetch": "^3.6.2"
   }
 }

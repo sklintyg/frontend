@@ -23,7 +23,7 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@inera/ids-core": "^2.4.0",
+    "@inera/ids-core": "^2.6.0",
     "@lit-labs/react": "^1.1.1",
     "react": "^18.2.0"
   },

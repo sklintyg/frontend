@@ -1,26 +1,30 @@
 import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '../../store/store'
 import { useWelcome } from './useWelcome'
+import { selectFilter, selectLogin, selectUnit, updateFreetext } from './welcomeSlice'
+import { useCreateDefaultTestDataMutation } from '../../store/api'
 
 export function Welcome() {
-  const [selectedLogin, setSelectedLogin] = useState<string>()
-  const [selectedUnit, setSelectedUnit] = useState<string>()
-  const [freeText, setFreetext] = useState<string | null>(null)
-  const { isLoading, fakeLogins, selectedFilter, setSelectedFilter } = useWelcome()
+  const { selectedLogin, selectedUnit, freeText, selectedFilter } = useSelector((state: RootState) => state.welcome)
+  const dispatch = useAppDispatch()
+  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response }] = useCreateDefaultTestDataMutation()
+  const { isLoading, fakeLogins } = useWelcome()
 
   useEffect(() => {
     if (fakeLogins.length > 0) {
       if (!fakeLogins.find(({ hsaId }) => hsaId === selectedLogin)) {
-        setSelectedLogin(fakeLogins[0].hsaId)
+        dispatch(selectLogin(fakeLogins[0].hsaId))
       }
 
       if (!fakeLogins.find(({ forvaldEnhet }) => forvaldEnhet === selectedUnit)) {
-        setSelectedUnit(fakeLogins[0].forvaldEnhet)
+        dispatch(selectUnit(fakeLogins[0].forvaldEnhet))
       }
     }
-  }, [fakeLogins, selectedLogin, selectedUnit])
+  }, [dispatch, fakeLogins, selectedLogin, selectedUnit])
 
-  if (isLoading) {
+  if (isLoading || testDataLoading) {
     return <>Loading</>
   }
 
@@ -48,7 +52,7 @@ export function Welcome() {
                     value={id}
                     id={id}
                     onChange={(event) => {
-                      setSelectedFilter(event.target.value)
+                      dispatch(selectFilter(event.target.value))
                     }}
                     name="filter"
                     checked={selectedFilter === id}
@@ -61,12 +65,12 @@ export function Welcome() {
               Login
               <select
                 id="fakelogin"
-                onChange={(event) => {
-                  const select = event.target
-                  const [hsaId, unitId] = select.children[select.selectedIndex].id.split('_')
-                  setSelectedLogin(hsaId)
-                  setSelectedUnit(unitId)
-                  setFreetext(null)
+                onChange={({ target }) => {
+                  const selected = target.children[target.selectedIndex]
+                  const [hsaId, unitId] = selected.id.split('_')
+                  dispatch(selectLogin(hsaId))
+                  dispatch(selectUnit(unitId))
+                  dispatch(updateFreetext(null))
                 }}
                 className="border-accent-40 w-full rounded border p-2">
                 {fakeLogins.map(({ hsaId, forvaldEnhet, beskrivning }) => (
@@ -79,16 +83,24 @@ export function Welcome() {
           </div>
           <div className="w-6/12 flex-auto">
             <form id="loginForm" action="/fake" method="POST" acceptCharset="UTF-8">
-              <textarea
-                id="userJsonDisplay"
-                name="userJsonDisplay"
-                value={freeText != null ? freeText : JSON.stringify({ hsaId: selectedLogin, enhetId: selectedUnit }, null, 2)}
-                onChange={(event) => setFreetext(event.target.value)}
-                className="border-accent-40 w-full whitespace-nowrap rounded border p-2"
-                rows={4}
-              />
+              <label htmlFor="userJsonDisplay">
+                Result
+                <textarea
+                  id="userJsonDisplay"
+                  name="userJsonDisplay"
+                  value={freeText != null ? freeText : JSON.stringify({ hsaId: selectedLogin, enhetId: selectedUnit }, null, 2)}
+                  onChange={(event) => dispatch(updateFreetext(event.target.value))}
+                  className="border-accent-40 w-full whitespace-nowrap rounded border p-2"
+                  rows={4}
+                />
+              </label>
+
               <IDSButton type="submit">Logga in</IDSButton>
             </form>
+            <div className="mt-12">
+              <IDSButton onClick={() => triggerDefaultTestDataQuery()}>Skapa testdata</IDSButton>
+            </div>
+            <div className="mt-4">{response ?? <p>{response}</p>}</div>
           </div>
         </div>
       </div>

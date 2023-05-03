@@ -4,8 +4,6 @@
 name: Frontend CI
 
 on:
-  push:
-    branches: [master, 'project/**']
   pull_request:
     branches: [master, 'project/**']
 

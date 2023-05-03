@@ -1,9 +1,16 @@
 import { render, screen } from '@testing-library/react'
 import SrsPanel, { SRS_TITLE } from './SrsPanel'
 import { Provider } from 'react-redux'
-import { logSrsInteraction, setDiagnosisCodes, updateError, updateSrsInfo } from '../../../store/srs/srsActions'
+import {
+  logSrsInteraction,
+  setDiagnosisCodes,
+  updateError,
+  updateSrsInfo,
+  updateSrsPredictions,
+  updateSrsQuestions,
+} from '../../../store/srs/srsActions'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
+import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations/SrsRecommendations'
 import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from '../choices/SrsInformationChoices'
 import userEvent from '@testing-library/user-event'
@@ -13,6 +20,8 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+import { SRS_RISK_BUTTON_TEXT } from '../risk/SrsRisk'
+import { vi } from 'vitest'
 
 const renderComponent = () => {
   render(
@@ -27,6 +36,7 @@ let store: EnhancedStore
 describe('SrsPanel', () => {
   beforeEach(() => {
     store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
+    HTMLElement.prototype.scrollIntoView = vi.fn()
   })
 
   afterEach(() => {
@@ -138,6 +148,19 @@ describe('SrsPanel', () => {
       renderComponent()
       expect(screen.getByText('Risken gäller', { exact: false })).toBeInTheDocument()
     })
+
+    it('should enable risk form button if switching sick leave choice', async () => {
+      renderComponent()
+      store.dispatch(updateSrsPredictions([fakeSrsPrediction()]))
+      store.dispatch(updateSrsQuestions([fakeSrsQuestion()]))
+
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText('Beräkna'))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      expect(screen.getByText('Beräkna')).toBeDisabled()
+      await userEvent.click(screen.getByLabelText('Förlängning'))
+      expect(screen.getByText('Beräkna')).toBeEnabled()
+    })
   })
 
   describe('SRS Information Choices', () => {
@@ -164,7 +187,7 @@ describe('SrsPanel', () => {
       expect(button).toHaveClass('ic-button--primary')
     })
 
-    it('should render statistics choice', () => {
+    it('should set statistics button to secondary button as default', () => {
       renderComponent()
       const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
       expect(button).not.toHaveClass('ic-button--primary')
