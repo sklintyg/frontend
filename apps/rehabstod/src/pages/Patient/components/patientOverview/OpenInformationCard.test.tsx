@@ -100,7 +100,7 @@ describe('OpenInformationCard', () => {
 
     it('should open modal if clicking on item with bidrarTillAktivtSjukfall false', async () => {
       await userEvent.click(screen.getAllByText('Hämta')[1])
-      expect(screen.getByText('Vårdgivarens intyg tillhör inte pågående sjukfall och inhämtas därför inte.')).toBeInTheDocument()
+      expect(screen.getByText('Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.')).toBeInTheDocument()
     })
 
     it('should call on get information when clicking get button', async () => {
