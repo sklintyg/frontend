@@ -31,7 +31,7 @@ export function Patient() {
             <PatientSickLeaves sickLeaves={earlierSickLeaves} />
           </>
         )}
-        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patient ? patient.sjukfallList[0].intyg[0].patient.id : ''} />
+        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId ? atob(patientId) : ''} />
       </div>
     </>
   )
