@@ -18,7 +18,7 @@ export function PatientOverviewCard({
   isEmpty: boolean
   children: ReactNode
   expanded?: boolean
-  onExpand: () => void
+  onExpand?: () => void
 }) {
   return (
     <IDSCard fill>
