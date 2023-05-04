@@ -92,9 +92,9 @@ describe('OpenInformationWithConsent', () => {
     })
 
     it('should render list of items', () => {
-      expect(screen.getByText(ITEMS[0].itemName)).toBeInTheDocument()
-      expect(screen.getByText(ITEMS[1].itemName)).toBeInTheDocument()
-      expect(screen.getByText(ITEMS[2].itemName)).toBeInTheDocument()
+      expect(screen.getByText(ITEMS[0].itemName, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(ITEMS[1].itemName, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(ITEMS[2].itemName, { exact: false })).toBeInTheDocument()
     })
 
     it('should render form', () => {
@@ -109,7 +109,7 @@ describe('OpenInformationWithConsent', () => {
 
     it('should have radio button for only user checked as default', () => {
       expect(screen.getByLabelText('Bara jag')).toBeChecked()
-      expect(screen.getByLabelText('All behörig vårdpersonal på enheten')).not.toBeChecked()
+      expect(screen.getByLabelText('All behörig personal på vårdenheten')).not.toBeChecked()
     })
 
     it('should have default value 7 for number of days of consent', () => {
