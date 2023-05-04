@@ -21,18 +21,16 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
       <div className="w-80">
         <IDSSelect>
           <label htmlFor={id}>Välj enhet</label>
-          <div>
-            <Select id={id} onChange={(event) => onChange(event.currentTarget.value)} value={standardenhet ?? 'Ingen förvald enhet'}>
-              <option className="ml-2" value="Ingen förvald enhet">
-                Ingen förvald enhet
+          <Select id={id} onChange={(event) => onChange(event.currentTarget.value)} value={standardenhet ?? 'Ingen förvald enhet'}>
+            <option className="ml-2" value="Ingen förvald enhet">
+              Ingen förvald enhet
+            </option>
+            {getUnitsForUser(user).map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.namn}
               </option>
-              {getUnitsForUser(user).map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.namn}
-                </option>
-              ))}
-            </Select>
-          </div>
+            ))}
+          </Select>
         </IDSSelect>
       </div>
     </div>
