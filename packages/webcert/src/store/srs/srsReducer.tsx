@@ -8,8 +8,10 @@ import {
   updateCareProviderId,
   updateCertificateId,
   updateError,
+  updateHasUpdatedAnswers,
   updateIsCertificateRenewed,
-  updateLoading,
+  updateLoadingCodes,
+  updateLoadingRecommendations,
   updatePatientId,
   updateRiskOpinion,
   updateSickLeaveChoice,
@@ -37,8 +39,10 @@ export interface SRSState {
   isCertificateRenewed: boolean
   srsPredictions: SrsPrediction[]
   riskOpinion: string
-  loading: boolean
+  loadingCodes: boolean
+  loadingRecommendations: boolean
   answers: SrsAnswer[]
+  hasUpdatedAnswers: boolean
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -57,8 +61,10 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     srsQuestions: [],
     srsPredictions: [],
     riskOpinion: '',
-    loading: false,
+    loadingCodes: false,
+    loadingRecommendations: false,
     answers: [],
+    hasUpdatedAnswers: true,
   }
 }
 
@@ -109,8 +115,11 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateCareProviderId, (state, action) => {
       state.careProviderId = action.payload
     })
-    .addCase(updateLoading, (state, action) => {
-      state.loading = action.payload
+    .addCase(updateLoadingCodes, (state, action) => {
+      state.loadingCodes = action.payload
+    })
+    .addCase(updateLoadingRecommendations, (state, action) => {
+      state.loadingRecommendations = action.payload
     })
     .addCase(updateSrsAnswers, (state, action) => {
       state.answers = action.payload
@@ -120,6 +129,9 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
       if (action.payload) {
         state.sickLeaveChoice = SrsSickLeaveChoice.EXTENSION
       }
+    })
+    .addCase(updateHasUpdatedAnswers, (state, action) => {
+      state.hasUpdatedAnswers = action.payload
     })
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
 )

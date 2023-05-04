@@ -1,18 +1,12 @@
 import { z } from 'zod'
+import { lakareSchema } from './lakareSchema'
+import { sickLeaveDiagnosisSchema } from './sickLeaveSchema'
 
 export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
   riskKategori: z.number(),
   riskDescription: z.string(),
   berakningstidpunkt: z.string(),
-})
-
-export const patientDiagnosSchema = z.object({
-  intygsVarde: z.string(),
-  kod: z.string(),
-  namn: z.null(),
-  beskrivning: z.string(),
-  kapitel: z.string(),
 })
 
 export const patientSjukfallIntygSchema = z.object({
@@ -27,14 +21,14 @@ export const patientSjukfallIntygSchema = z.object({
     alder: z.number(),
     responseFromPu: z.null(),
   }),
-  diagnos: patientDiagnosSchema,
-  bidiagnoser: z.array(z.unknown()),
+  diagnos: sickLeaveDiagnosisSchema,
+  bidiagnoser: z.array(sickLeaveDiagnosisSchema),
   start: z.string(),
   slut: z.string(),
   signeringsTidpunkt: z.string(),
   dagar: z.number(),
   grader: z.array(z.number()),
-  lakare: z.object({ hsaId: z.string(), namn: z.string() }),
+  lakare: lakareSchema,
   sysselsattning: z.array(z.string()),
   aktivtIntyg: z.boolean(),
   intygsId: z.string(),
@@ -59,19 +53,19 @@ export const patientSjukfallSchema = z.object({
   intyg: z.array(patientSjukfallIntygSchema),
 })
 
-const sjfMetaDataSchema = z.object({
-  vardenheterInomVGMedSparr: z.array(z.unknown()),
-  andraVardgivareMedSparr: z.array(z.unknown()),
-  kraverSamtycke: z.array(
-    z.object({
-      itemType: z.string(),
-      itemId: z.string(),
-      itemName: z.string(),
-      includedInSjukfall: z.boolean(),
-      bidrarTillAktivtSjukfall: z.boolean(),
-    })
-  ),
-  kraverInteSamtycke: z.array(z.unknown()),
+export const sjfItemSchema = z.object({
+  bidrarTillAktivtSjukfall: z.boolean(),
+  includedInSjukfall: z.boolean(),
+  itemId: z.string(),
+  itemName: z.string(),
+  itemType: z.string(),
+})
+
+export const sjfMetaDataSchema = z.object({
+  vardenheterInomVGMedSparr: z.array(z.string()),
+  andraVardgivareMedSparr: z.array(z.string()),
+  kraverSamtycke: z.array(sjfItemSchema),
+  kraverInteSamtycke: z.array(sjfItemSchema),
   samtyckeFinns: z.boolean(),
   blockingServiceError: z.boolean(),
   consentServiceError: z.boolean(),
@@ -86,7 +80,8 @@ export const patientSchema = z.object({
 })
 
 export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
-export type PatientDiagnos = z.infer<typeof patientDiagnosSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
 export type Patient = z.infer<typeof patientSchema>
+export type SjfMetaData = z.infer<typeof sjfMetaDataSchema>
+export type SjfItem = z.infer<typeof sjfItemSchema>

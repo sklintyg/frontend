@@ -1,23 +1,25 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { Table } from '../../components/Table/Table'
+import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, resetFilters, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
-import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
+import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveSlice'
+import { UserUrval } from '../../schemas'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
-  const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
+  const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
-  const isDoctor = !!user && !!user.roles.LAKARE
+  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export function CurrentSickLeaves() {
   }
 
   return (
-    <div className="ids-content py-10">
+    <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <h1 className="ids-heading-2">Pågående sjukfall</h1>
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />
@@ -56,37 +58,26 @@ export function CurrentSickLeaves() {
           dispatch(updateShowPersonalInformation(checked))
         }}
         showPersonalInformation={showPersonalInformation}
-        totalNumber={(currentSickLeaves ?? []).length}
-        listLength={(currentSickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        totalNumber={(sickLeaves ?? []).length}
+        listLength={(sickLeaves ?? []).length}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
-      <table className="ids-table overflow-visible rounded-md text-sm">
+      <Table column={SickLeaveColumn.Startdatum}>
         <thead>
-          <TableHeaderRow
-            ascending={ascending}
-            currentColumn={currentColumn}
-            showPersonalInformation={showPersonalInformation}
-            onColumnSort={(column) => {
-              if (currentColumn !== column) {
-                dispatch(sortOnColumn(column))
-              } else {
-                dispatch(toggleAscending())
-              }
-            }}
-          />
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>
-        <tbody style={{ overflowWrap: 'anywhere' }}>
+        <tbody className="whitespace-normal break-words">
           <TableBodyRows
             isDoctor={isDoctor}
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
-            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+            sickLeaves={sickLeaves}
             unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
           />
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

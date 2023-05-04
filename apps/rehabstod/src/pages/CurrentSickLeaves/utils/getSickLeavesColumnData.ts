@@ -1,6 +1,6 @@
 import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 
-export function getColumnData(column: SickLeaveColumn, sickLeave: SickLeaveInfo) {
+export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo) {
   switch (column) {
     case SickLeaveColumn.Personnummer:
       return sickLeave.patient.id
@@ -24,6 +24,8 @@ export function getColumnData(column: SickLeaveColumn, sickLeave: SickLeaveInfo)
       return sickLeave.aktivGrad
     case SickLeaveColumn.Läkare:
       return sickLeave.lakare.namn
+    case SickLeaveColumn.Sysselsättning:
+      return sickLeave.sysselsattning.map((occupation) => occupation).join('\n')
     default:
       return undefined
   }

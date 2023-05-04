@@ -1,4 +1,4 @@
-import { Lakare } from '../../../schemas/sickLeaveSchema'
+import { Lakare } from '../../../schemas/lakareSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 
@@ -41,7 +41,6 @@ export function DoctorFilter({
   return (
     <div className="flex-1">
       <SelectMultiple
-        id="doctorFilter"
         label="Läkare"
         description={description}
         placeholder={getPlaceholder()}
@@ -49,7 +48,6 @@ export function DoctorFilter({
           doctors
             ? doctors.map((doctor) => (
                 <Checkbox
-                  id={doctor.hsaId}
                   key={doctor.hsaId}
                   checked={selected.some((id) => id === doctor.hsaId)}
                   label={doctor.namn}

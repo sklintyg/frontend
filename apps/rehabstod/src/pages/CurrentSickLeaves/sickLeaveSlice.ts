@@ -1,19 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SickLeaveColumn, SickLeaveFilter } from '../../schemas/sickLeaveSchema'
+import isEqual from 'lodash/isEqual'
+import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
 
 export interface SickLeaveState {
   showPersonalInformation: boolean
-  ascending: boolean
-  currentColumn: SickLeaveColumn
   filter: SickLeaveFilter
+
+  hasAppliedFilters: boolean
 }
 
 const initialState: SickLeaveState = {
   showPersonalInformation: true,
-  ascending: false,
-  currentColumn: SickLeaveColumn.Startdatum,
-  filter: { doctorIds: [], diagnosisChapters: [], fromSickLeaveLength: 1, toSickLeaveLength: 365 },
+  filter: { doctorIds: [], diagnosisChapters: [], fromSickLeaveLength: 1, toSickLeaveLength: 10000 },
+  hasAppliedFilters: false,
 }
 
 const sickLeaveSlice = createSlice({
@@ -28,19 +28,13 @@ const sickLeaveSlice = createSlice({
     },
     updateFilter(state, { payload }: PayloadAction<Partial<SickLeaveFilter>>) {
       Object.assign(state.filter, payload)
+      state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
       state.showPersonalInformation = payload
     },
-    toggleAscending(state) {
-      state.ascending = !state.ascending
-    },
-    sortOnColumn(state, { payload }: PayloadAction<SickLeaveColumn>) {
-      state.currentColumn = payload
-      state.ascending = initialState.ascending
-    },
   },
 })
 
-export const { reset, resetFilters, updateShowPersonalInformation, toggleAscending, sortOnColumn, updateFilter } = sickLeaveSlice.actions
+export const { reset, resetFilters, updateShowPersonalInformation, updateFilter } = sickLeaveSlice.actions
 export const { name: sickLeaveReducerPath, reducer: sickLeaveReducer } = sickLeaveSlice

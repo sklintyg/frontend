@@ -19,16 +19,19 @@
     "*.{js,jsx,ts,tsx}": "yarn test related --run"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.23.0",
     "@frontend/fake": "*",
     "@frontend/ids-react-ts": "*",
     "@reduxjs/toolkit": "^1.9.3",
     "date-fns": "^2.29.3",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
+    "recharts": "^2.5.0",
     "sort-by": "^1.2.0",
     "zod": "^3.21.4"
   },

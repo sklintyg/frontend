@@ -1,52 +1,58 @@
-import { IDSTooltip } from '@frontend/ids-react-ts'
+import { classNames } from '../../utils/classNames'
+import { Tooltip } from '../Tooltip/Tooltip'
+import { TooltipContent } from '../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
+import { useTableContext } from './hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
-export function TableHeaderCell<T extends string>({
-  title,
+export function TableHeaderCell({
   description,
-  ascending,
   column,
-  currentColumn,
-  onColumnSort,
+  width,
+  sticky,
 }: {
-  title: string
+  column: string
   description?: string
-  ascending: boolean
-  column: T
-  currentColumn: string
-  onColumnSort: (column: T) => void
+  width?: string
+  sticky?: 'left' | 'top' | 'right'
 }) {
+  const { sortOnColumn } = useTableContext()
+
   return (
-    <th
-      tabIndex={0}
-      onKeyDown={({ code, currentTarget }) => {
-        if (code === 'Enter' || code === 'Space') {
-          onColumnSort(column)
-        }
-        if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
-          ;(currentTarget.previousElementSibling as HTMLElement).focus()
-        }
-        if (code === 'ArrowRight' && currentTarget.nextElementSibling) {
-          ;(currentTarget.nextElementSibling as HTMLElement).focus()
-        }
-      }}
-      onClick={() => onColumnSort(column)}
-      className="cursor-pointer select-none whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
-      {!description && (
-        <span className="align-middle">
-          {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
-        </span>
-      )}
-      {description && (
-        <IDSTooltip>
-          <span slot="trigger">
-            {title} <SortingIcon ascending={ascending} sorting={currentColumn === column} />
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <th
+          style={{ width: width ?? '25%', zIndex: 11 }}
+          tabIndex={0}
+          onKeyDown={({ code, currentTarget }) => {
+            if (code === 'Enter' || code === 'Space') {
+              sortOnColumn(column)
+            }
+            if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
+              ;(currentTarget.previousElementSibling as HTMLElement).focus()
+            }
+            if (code === 'ArrowRight' && currentTarget.nextElementSibling) {
+              ;(currentTarget.nextElementSibling as HTMLElement).focus()
+            }
+          }}
+          onClick={() => sortOnColumn(column)}
+          className={classNames(
+            'cursor-pointer',
+            'select-none',
+            'overflow-hidden',
+            'text-ellipsis',
+            'whitespace-nowrap',
+            'first:rounded-tl-md',
+            'last:rounded-tr-md',
+            sticky != null && `sticky z-20`,
+            classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
+          )}>
+          <span>
+            {column} <SortingIcon column={column} />
           </span>
-          <p slot="tooltip" className="max-w-xs whitespace-normal md:max-w-sm">
-            {description}
-          </p>
-        </IDSTooltip>
-      )}
-    </th>
+          {description && <TooltipContent>{description}</TooltipContent>}
+        </th>
+      </TooltipTrigger>
+    </Tooltip>
   )
 }

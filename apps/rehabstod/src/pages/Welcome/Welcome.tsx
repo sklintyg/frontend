@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../store/store'
 import { useWelcome } from './useWelcome'
 import { selectFilter, selectLogin, selectUnit, updateFreetext } from './welcomeSlice'
+import { useCreateDefaultTestDataMutation } from '../../store/api'
 
 export function Welcome() {
   const { selectedLogin, selectedUnit, freeText, selectedFilter } = useSelector((state: RootState) => state.welcome)
   const dispatch = useAppDispatch()
-
+  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response }] = useCreateDefaultTestDataMutation()
   const { isLoading, fakeLogins } = useWelcome()
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export function Welcome() {
     }
   }, [dispatch, fakeLogins, selectedLogin, selectedUnit])
 
-  if (isLoading) {
+  if (isLoading || testDataLoading) {
     return <>Loading</>
   }
 
@@ -96,6 +97,10 @@ export function Welcome() {
 
               <IDSButton type="submit">Logga in</IDSButton>
             </form>
+            <div className="mt-12">
+              <IDSButton onClick={() => triggerDefaultTestDataQuery()}>Skapa testdata</IDSButton>
+            </div>
+            <div className="mt-4">{response ?? <p>{response}</p>}</div>
           </div>
         </div>
       </div>

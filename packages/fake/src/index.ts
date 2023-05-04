@@ -1,6 +1,6 @@
 import { generateMock, GenerateMockOptions } from '@anatine/zod-mock'
 import { faker } from '@faker-js/faker'
-import { deepmerge } from 'deepmerge-ts'
+import { deepmergeCustom, DeepMergeLeafURI } from 'deepmerge-ts'
 import { DeepPartial } from 'ts-essentials'
 import { z, ZodTypeAny } from 'zod'
 
@@ -27,8 +27,14 @@ export const stringMap = {
   alder: () => `${faker.datatype.number({ max: 110 })}`,
 }
 
+const customDeepmerge = deepmergeCustom<{
+  DeepMergeArraysURI: DeepMergeLeafURI
+}>({
+  mergeArrays: false,
+})
+
 export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: GenerateMockOptions) {
-  return (data?: DeepPartial<z.infer<T>>) => deepmerge(generateMock(schema, { stringMap, faker, ...options }), data ?? {})
+  return (data?: DeepPartial<z.infer<T>>) => customDeepmerge(generateMock(schema, { stringMap, faker, ...options }), data ?? {})
 }
 
 export function fakerFromSchemaFactory<T extends ZodTypeAny>(

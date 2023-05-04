@@ -23,12 +23,12 @@ export function Filters({
   const { filter } = useSelector((state: RootState) => state.sickLeave)
   const dispatch = useDispatch()
 
-  const onFromTimeChange = (value: number) => {
-    dispatch(updateFilter({ fromSickLeaveLength: value }))
+  const onFromTimeChange = (value: string) => {
+    dispatch(updateFilter({ fromSickLeaveLength: Number(value) }))
   }
 
-  const onToTimeChange = (value: number) => {
-    dispatch(updateFilter({ toSickLeaveLength: value }))
+  const onToTimeChange = (value: string) => {
+    dispatch(updateFilter({ toSickLeaveLength: Number(value) }))
   }
 
   const onDoctorChange = (doctorIds: string[]) => {
@@ -68,8 +68,8 @@ export function Filters({
             title="Välj sjukskrivningslängd"
             onFromChange={onFromTimeChange}
             onToChange={onToTimeChange}
-            to={filter.toSickLeaveLength}
-            from={filter.fromSickLeaveLength}
+            to={filter.toSickLeaveLength.toString()}
+            from={filter.fromSickLeaveLength.toString()}
             description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
           />
           <div className="flex justify-end">

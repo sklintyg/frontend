@@ -9,7 +9,7 @@ export const userPreferencesSchema = z.object({
   sjukfallTableColumns: z.string(),
   lakarutlatandenTableColumns: z.string(),
   maxAntalDagarSedanSjukfallAvslut: z.string(),
-  standardenhet: z.null(),
+  standardenhet: z.nullable(z.string()),
   maxAntalDagarMellanIntyg: z.string(),
 })
 
@@ -51,6 +51,10 @@ export const userSchema = z.object({
   features: userFeatureSchema,
   preferences: userPreferencesSchema,
 })
+
+export enum UserUrval {
+  ISSUED_BY_ME = 'ISSUED_BY_ME',
+}
 
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
 export type SrsFeature = z.infer<typeof srsFeatureSchema>
