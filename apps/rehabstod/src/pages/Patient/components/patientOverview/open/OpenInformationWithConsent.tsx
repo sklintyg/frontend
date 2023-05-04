@@ -35,7 +35,7 @@ export function OpenInformationWithConsent({
     }
   }
 
-  return !hasGivenConsent ? (
+  return hasGivenConsent ? (
     <OpenInformation items={items} onGetInformation={onGetInformation} />
   ) : (
     <>
