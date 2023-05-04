@@ -22,11 +22,7 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
         <IDSSelect>
           <label htmlFor={id}>Välj enhet</label>
           <div>
-            <Select
-              id={id}
-              name="options"
-              onChange={(event) => onChange(event.currentTarget.value)}
-              value={standardenhet ?? 'Ingen förvald enhet'}>
+            <Select id={id} onChange={(event) => onChange(event.currentTarget.value)} value={standardenhet ?? 'Ingen förvald enhet'}>
               <option className="ml-2" value="Ingen förvald enhet">
                 Ingen förvald enhet
               </option>
