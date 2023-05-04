@@ -9,11 +9,11 @@ export function FormattedNumberInput({
   value,
   defaultValue,
   ...props
-}: Omit<ComponentProps<typeof NumberInput>, 'onChange'> & {
+}: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
   defaultValue: string
   min: string
   max: string
-  value: string
+  value?: string
   onChange: (value: string) => void
 }) {
   const numbersRegex = /([0-9]|\b)+/
@@ -22,9 +22,7 @@ export function FormattedNumberInput({
   return (
     <NumberInput
       type="number"
-      onChange={(event) => {
-        onChange(Number(event.currentTarget.value).toString())
-      }}
+      onChange={({ currentTarget }) => onChange(currentTarget.value)}
       onBlur={() => onChange(convertValue(Number(value), Number(min), Number(max)).toString())}
       value={value ? Number(value).toString() : value}
       min={min}
