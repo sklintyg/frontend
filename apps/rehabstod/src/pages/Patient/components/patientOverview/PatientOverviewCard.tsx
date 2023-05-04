@@ -22,7 +22,7 @@ export function PatientOverviewCard({
 }) {
   return (
     <IDSCard fill>
-      <h4 className="ids-heading-4">{title}</h4>
+      <h3 className="ids-heading-4">{title}</h3>
       <hr />
       {!isEmpty ? (
         <ExpandableCard description={description} subTitle={subTitle} expanded={expanded} onExpand={onExpand}>

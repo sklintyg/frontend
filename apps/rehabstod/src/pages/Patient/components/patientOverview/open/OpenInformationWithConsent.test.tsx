@@ -103,6 +103,19 @@ describe('OpenInformationWithConsent', () => {
       expect(screen.getAllByRole('radio')).toHaveLength(2)
     })
 
+    it('should have checkbox as unchecked as default', () => {
+      expect(screen.getByRole('checkbox')).not.toBeChecked()
+    })
+
+    it('should have radio button for only user checked as default', () => {
+      expect(screen.getByLabelText('Bara jag')).toBeChecked()
+      expect(screen.getByLabelText('All behörig vårdpersonal på enheten')).not.toBeChecked()
+    })
+
+    it('should have default value 7 for number of days of consent', () => {
+      expect(screen.getByRole('spinbutton')).toHaveValue(7)
+    })
+
     it('should render buttons', () => {
       expect(screen.queryByText('Avbryt')).toBeInTheDocument()
       expect(screen.queryByText('Patienten ger samtycke')).toBeInTheDocument()

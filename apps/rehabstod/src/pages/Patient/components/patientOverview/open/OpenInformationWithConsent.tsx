@@ -35,11 +35,11 @@ export function OpenInformationWithConsent({
     }
   }
 
-  return hasGivenConsent ? (
+  return !hasGivenConsent ? (
     <OpenInformation items={items} onGetInformation={onGetInformation} />
   ) : (
     <>
-      <BlockedInformation items={items.map((item) => item.itemName)} />
+      <BlockedInformation items={items.map((item) => item.itemName)} inline />
       <h4 className="ids-heading-4 pt-2">Samtycke sammanhållen journalföring</h4>
       <Checkbox
         label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
@@ -52,7 +52,7 @@ export function OpenInformationWithConsent({
         compact
         valid={`${!showError}`}
       />
-      {showError && <IDSErrorMessage>Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
+      {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
       <div className="ml-10 -mt-5 flex w-44 items-center gap-3">
         <FormattedNumberInput
           label=""
