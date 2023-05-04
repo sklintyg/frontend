@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import { server } from '../../mocks/server'
 import { updateSettings } from '../../store/slices/settings.slice'
 import { store } from '../../store/store'
-import { fakeUser } from '../../utils/fake'
+import { fakeUser } from '../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { SettingsDialog } from './SettingsDialog'
 

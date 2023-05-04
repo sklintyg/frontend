@@ -6,7 +6,7 @@ import { Link, linkSchema } from '../../schemas'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
 import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
-import { fakeUser } from '../../utils/fake'
+import { fakeUser } from '../../utils/fake/fakeUser'
 
 const fakeLink = fakerFromSchema(linkSchema)
 

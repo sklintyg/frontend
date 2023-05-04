@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { format } from 'date-fns'
 import { updateShowPersonalInformation } from '../../../store/slices/sickLeave.slice'

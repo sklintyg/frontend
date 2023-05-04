@@ -3,7 +3,7 @@ import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { server, waitForRequest } from '../mocks/server'
-import { fakeUser } from '../utils/fake'
+import { fakeUser } from '../utils/fake/fakeUser'
 import { renderWithRouter } from '../utils/renderWithRouter'
 import { useLogout } from './useLogout'
 
