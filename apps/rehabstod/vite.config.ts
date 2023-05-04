@@ -1,13 +1,24 @@
 /* eslint-disable import/no-default-export */
-import basicSsl from '@vitejs/plugin-basic-ssl'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
 import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
-  process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
+  process.env = {
+    ...process.env,
+    ...loadEnv(mode ?? 'development', process.cwd()),
+  }
 
-  const https = process.env.VITE_HTTPS === 'true'
+  const localCert =
+    fs.existsSync('cert/key.pem') && fs.existsSync('cert/cert.pem')
+      ? {
+          key: fs.readFileSync('cert/key.pem'),
+          cert: fs.readFileSync('cert/cert.pem'),
+        }
+      : false
+
+  const https = process.env.VITE_HTTPS === 'true' ? localCert : false
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
@@ -27,7 +38,7 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
-    plugins: [react()].concat(https ? [basicSsl()] : []),
+    plugins: [react()],
     server: {
       host,
       https,

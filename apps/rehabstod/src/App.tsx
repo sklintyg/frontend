@@ -9,6 +9,11 @@ import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
 
+if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
+  const { worker } = await import('./mocks/browser')
+  worker.start()
+}
+
 export function App() {
   return (
     <Routes>

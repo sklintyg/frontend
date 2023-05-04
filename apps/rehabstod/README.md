@@ -2,6 +2,16 @@
 
 [Rehabstöd](https://www.inera.se/tjanster/alla-tjanster-a-o/intygstjanster/rehabstod/) application.
 
+## Self signed certificate
+
+For running with locally-trusted development certificates, install [mkcert](https://github.com/FiloSottile/mkcert) and run `mkcert -install`. Click "yes" when prompted.
+
+Create a certificate for `rs2.rs.localtest.me` with:
+
+```bash
+yarn workspace @frontend/rehabstod mkcert
+```
+
 ## Application structure
 
 ```text
@@ -49,6 +59,18 @@ VITE_WS_PROTOCOL=wss
 Start the application with `yarn workspace @frontend/rehabstod dev` for only webcert or `yarn start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://rs2.rs.localtest.me/welcome>
 
 Read more about environment files over at [Vite](https://vitejs.dev/guide/env-and-mode.html#env-files).
+
+## Run client with mocked service worker
+
+Useful for quickly getting mocked backend response data.
+
+Update `.env.development.local` with
+
+```bash
+VITE_USE_MOCKS=true
+VITE_HTTPS=true
+VITE_WS_PROTOCOL=wss
+```
 
 ## Resources
 
