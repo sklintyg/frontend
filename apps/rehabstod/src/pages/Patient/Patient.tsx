@@ -10,7 +10,7 @@ import { PatientOverview } from './components/patientOverview/PatientOverview'
 export function Patient() {
   const { patientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient } = useGetSickLeavePatientQuery(patientId ? { patientId: atob(patientId) } : skipToken)
+  const { data: patient } = useGetSickLeavePatientQuery(patientId ? { patientId } : skipToken)
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
@@ -31,7 +31,7 @@ export function Patient() {
             <PatientSickLeaves sickLeaves={earlierSickLeaves} />
           </>
         )}
-        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId ? atob(patientId) : ''} />
+        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId || ''} />
       </div>
     </>
   )
