@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
-import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
+import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { RootState } from '../../../store/store'
 import { updateFilter } from '../sickLeaveSlice'
@@ -23,12 +23,8 @@ export function Filters({
   const { filter } = useSelector((state: RootState) => state.sickLeave)
   const dispatch = useDispatch()
 
-  const onFromTimeChange = (value: string) => {
-    dispatch(updateFilter({ fromSickLeaveLength: Number(value) }))
-  }
-
-  const onToTimeChange = (value: string) => {
-    dispatch(updateFilter({ toSickLeaveLength: Number(value) }))
+  const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
+    dispatch(updateFilter({ sickLeaveLengthIntervals: intervals }))
   }
 
   const onDoctorChange = (doctorIds: string[]) => {
@@ -65,12 +61,9 @@ export function Filters({
             )}
           </div>
           <TimePeriodFilter
-            title="Välj sjukskrivningslängd"
-            onFromChange={onFromTimeChange}
-            onToChange={onToTimeChange}
-            to={filter.toSickLeaveLength.toString()}
-            from={filter.fromSickLeaveLength.toString()}
+            label="Sjukskrivningslängd"
             description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+            onChange={onSickLeaveLengthIntervalsChange}
           />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>

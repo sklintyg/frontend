@@ -1,50 +1,91 @@
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
-import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
+import { useState } from 'react'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { Checkbox } from '../../Form/Checkbox'
+import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 
 export function TimePeriodFilter({
-  title,
+  label,
   description,
-  onFromChange,
-  onToChange,
-  to,
-  from,
+  onChange,
 }: {
-  title: string
+  label: string
   description: string
-  onFromChange: (value: string) => void
-  onToChange: (value: string) => void
-  to: string
-  from: string
+  onChange: (intervals: SickLeaveLengthInterval[]) => void
 }) {
-  const maxLimit = '10000'
-  const minLimit = '1'
+  const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>([])
+
+  enum TimePeriodMetric {
+    DAYS = 'DAYS',
+    YEARS = 'YEARS',
+  }
+
+  interface TimePeriodOption {
+    from: number | null
+    to: number | null
+    metric: TimePeriodMetric
+    id: number
+  }
+
+  const availableOptions = [
+    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
+    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
+    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
+    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
+    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
+    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
+    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
+  ]
+
+  const getLabel = (option: TimePeriodOption) => {
+    const metricLabel = option.metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'
+
+    if (option.to) {
+      return `${option.from}-${option.to} ${metricLabel}`
+    }
+
+    return `Över ${option.from} ${metricLabel}`
+  }
+
+  const convertTimePeriod = (period: TimePeriodOption) => {
+    if (period.metric === TimePeriodMetric.YEARS) {
+      return {
+        to: !period.to ? period.to : period.to * 365,
+        from: !period.from ? period.from : period.from * 365,
+      }
+    }
+
+    return {
+      to: period.to,
+      from: period.from,
+    }
+  }
+
+  const handleOnChange = (option: TimePeriodOption, isAdded: boolean) => {
+    let options
+    if (isAdded) {
+      options = chosenOptions.slice()
+      options.push(option)
+    } else {
+      options = chosenOptions.filter((chosenOption) => chosenOption.id !== option.id)
+    }
+
+    setChosenOptions(options)
+    onChange(options.map((o) => convertTimePeriod(o)))
+  }
 
   return (
-    <>
-      <div>
-        <span>{title}</span>
-        <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
-      </div>
-      <div className="flex w-80 gap-3">
-        <FormattedNumberInput
-          label="Från"
-          onChange={(value) => onFromChange(value)}
-          value={from === '0' ? '' : from}
-          inline
-          max={to}
-          min={minLimit}
-          defaultValue={minLimit}
+    <SelectMultiple
+      label={label}
+      description={description}
+      options={availableOptions.map((option) => (
+        <Checkbox
+          key={`${option.to}${option.from}${option.id}`}
+          label={getLabel(option)}
+          onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
+          checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
         />
-        <FormattedNumberInput
-          label="Till"
-          onChange={(value) => onToChange(value)}
-          value={to === '0' ? '' : to}
-          inline
-          max={maxLimit}
-          min={from}
-          defaultValue={maxLimit}
-        />
-      </div>
-    </>
+      ))}
+      placeholder="Välj"
+    />
   )
 }
