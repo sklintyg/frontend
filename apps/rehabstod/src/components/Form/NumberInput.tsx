@@ -1,4 +1,4 @@
-import { ChangeEvent, ClipboardEventHandler, KeyboardEventHandler, useId } from 'react'
+import { ChangeEvent, ClipboardEventHandler, KeyboardEventHandler, ReactEventHandler, useId } from 'react'
 import { classNames } from '../../utils/classNames'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { Input } from './Input'
@@ -18,7 +18,7 @@ export function NumberInput({
 }: {
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onBlur?: () => void
+  onBlur?: ReactEventHandler<HTMLInputElement>
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
   onPaste?: ClipboardEventHandler<HTMLInputElement>
   description?: string

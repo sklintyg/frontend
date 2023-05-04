@@ -6,8 +6,8 @@ import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { updateFilter } from '../../../store/slices/sickLeave.slice'
 import { RootState } from '../../../store/store'
-import { updateFilter } from '../sickLeaveSlice'
 
 export function Filters({
   onSearch,

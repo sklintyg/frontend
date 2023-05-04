@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { screen } from '@testing-library/react'
 import { format } from 'date-fns'
+import { updateShowPersonalInformation } from '../../../store/slices/sickLeave.slice'
 import { store } from '../../../store/store'
 import { fakePatient } from '../../../utils/fake/fakePatient'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { updateShowPersonalInformation } from '../../CurrentSickLeaves/sickLeaveSlice'
 import { PatientHeader } from './PatientHeader'
 
 describe('PatientHeader', () => {

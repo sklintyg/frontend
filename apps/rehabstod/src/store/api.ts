@@ -54,7 +54,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+    updateUserPreferences: builder.mutation<UserPreferences, Partial<UserPreferences>>({
       query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',

@@ -1,26 +1,26 @@
 import { render, screen } from '@testing-library/react'
-import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { FormattedNumberInput } from './FormattedNumberInput'
 
-const max = '365'
-const min = '1'
+const max = 365
+const min = 1
 const defaultValue = '100'
 const label = 'label'
 const description = 'description'
-let onChange: (value: string) => void
+let onChange: (value: number) => void
 
 const renderComponent = (value = '10') => {
   onChange = vi.fn()
   render(
     <>
       <FormattedNumberInput
+        onChange={onChange}
         max={max}
         min={min}
         value={value}
         label={label}
         description={description}
-        onChange={onChange}
         defaultValue={defaultValue}
       />
       <button type="submit">Button</button>
@@ -56,7 +56,7 @@ describe('FormattedNumberInput', () => {
     expect(onChange).toHaveBeenLastCalledWith(min)
   })
 
-  it('should set value to max limit on blur if input is under limit', async () => {
+  it('should set value to max limit on blur if input is over limit', async () => {
     renderComponent('1000')
     await userEvent.click(screen.getByLabelText(label))
     await userEvent.click(screen.getByRole('button'))

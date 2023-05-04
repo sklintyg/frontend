@@ -2,15 +2,30 @@ import { z } from 'zod'
 import { vardenhetSchema } from './vardenhetSchema'
 import { vardgivareSchema } from './vardgivareSchema'
 
+export const DAYS_BETWEEN_SICK_LEAVES = {
+  MIN: 0,
+  MAX: 90,
+}
+export const DAYS_FINISHED_SICK_LEAVE = {
+  MIN: 0,
+  MAX: 14,
+}
+
 export const userPreferencesSchema = z.object({
   lakarutlatandeUnitTableColumns: z.string(),
   pdlConsentGiven: z.string(),
   patientTableColumns: z.string(),
   sjukfallTableColumns: z.string(),
   lakarutlatandenTableColumns: z.string(),
-  maxAntalDagarSedanSjukfallAvslut: z.string(),
+  maxAntalDagarSedanSjukfallAvslut: z
+    .string()
+    .min(DAYS_FINISHED_SICK_LEAVE.MIN)
+    .max(DAYS_FINISHED_SICK_LEAVE.MAX),
   standardenhet: z.nullable(z.string()),
-  maxAntalDagarMellanIntyg: z.string(),
+  maxAntalDagarMellanIntyg: z
+    .string()
+    .min(DAYS_BETWEEN_SICK_LEAVES.MIN)
+    .max(DAYS_BETWEEN_SICK_LEAVES.MAX),
 })
 
 export const srsFeatureSchema = z.object({

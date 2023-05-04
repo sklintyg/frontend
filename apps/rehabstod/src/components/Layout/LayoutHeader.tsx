@@ -4,10 +4,13 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
-import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
+import { useAppDispatch } from '../../store/hooks'
+import { showSettingsDialog } from '../../store/slices/settings.slice'
+import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
+  const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const sithsUrl = '/saml/login/alias/siths-rs2'
@@ -32,14 +35,16 @@ export function LayoutHeader() {
                   Byt vårdenhet
                 </Link>
               </IDSLink>
-              <SettingsDialog user={user} avatarRef={avatarRef} />
-              <hr className="border-neutral-40" />
-              <button onClick={logout} className="ids-mt-5 text-primary-40 flex w-full items-center" type="submit">
-                <div className="mr-2.5">
-                  <IDSIcon color="currentColor" color2="currentColor" height="20" width="20" name="user" />
-                </div>
-                <div className="flex-auto text-left">Logga ut</div>
-              </button>
+              <HeaderAvatarMenuButton
+                onClick={() => {
+                  avatarRef.current?.tooggleExpand()
+                  dispatch(showSettingsDialog())
+                }}
+                label="Inställningar"
+                icon="cog"
+              />
+              <hr className="border-neutral-40 mb-5" />
+              <HeaderAvatarMenuButton label="Logga ut" icon="user" onClick={logout} />
             </div>
           </IDSHeaderAvatar>
           <IDSHeaderNav type="inera-admin">

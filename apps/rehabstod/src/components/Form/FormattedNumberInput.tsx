@@ -1,54 +1,30 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import { ComponentProps } from 'react'
 import { NumberInput } from './NumberInput'
 
 export function FormattedNumberInput({
-  label,
   onChange,
-  description,
-  value,
-  max,
   min,
-  error,
-  inline = false,
+  max,
   defaultValue,
-}: {
-  label: string
-  onChange: (value: string) => void
-  description?: string
-  value: string
-  inline?: boolean
-  max: string
-  min: string
-  error?: boolean
+  ...props
+}: Omit<ComponentProps<typeof NumberInput>, 'onChange'> & {
   defaultValue: string
+  min: number
+  max: number
+  onChange: (value: number) => void
 }) {
   const numbersRegex = /([0-9]|\b)+/
-  const convertValue = (originalValue: string, minLimit: string, maxLimit: string, valueDefault: string) => {
-    if (originalValue === '') {
-      return valueDefault
-    }
-
-    if (Number(originalValue) < Number(minLimit)) {
-      return minLimit
-    }
-
-    if (Number(originalValue) > Number(maxLimit)) {
-      return maxLimit
-    }
-
-    return originalValue
-  }
+  const convertValue = (value: number | undefined, minLimit: number, maxLimit: number): number =>
+    value != null ? Math.max(minLimit, Math.min(value, maxLimit)) : parseInt(defaultValue, 10)
 
   return (
     <NumberInput
-      label={label}
-      onChange={(event) => onChange(event.currentTarget.value)}
-      onBlur={() => onChange(convertValue(value, min, max, defaultValue))}
-      value={value}
-      max={max}
+      onChange={(event) => onChange(parseInt(event.currentTarget.value, 10))}
+      onBlur={() => onChange(convertValue(Number(props.value), min, max))}
       min={min}
-      description={description}
-      error={error}
-      inline={inline}
+      max={max}
+      {...props}
       onKeyDown={(event) => {
         if (!numbersRegex.test(event.key)) {
           event.preventDefault()
