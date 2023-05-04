@@ -47,9 +47,7 @@ export const handlers = [
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))
   ),
 
-  rest.post('/api/sickleaves/filters', (_, res, ctx) =>
-    res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ activeDoctors: z.array(lakareSchema) }))()))
-  ),
+  rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
   rest.get('/api/sickleaves/filters', (_, res, ctx) =>
     res(

@@ -18,7 +18,7 @@ export function FormattedNumberInput({
 }) {
   const numbersRegex = /([0-9]|\b)+/
   const convertValue = (val: number | undefined, minLimit: number, maxLimit: number): number =>
-    val != null ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
+    val != null && Boolean(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
   return (
     <NumberInput
       type="number"
@@ -26,7 +26,7 @@ export function FormattedNumberInput({
         onChange(Number(event.currentTarget.value).toString())
       }}
       onBlur={() => onChange(convertValue(Number(value), Number(min), Number(max)).toString())}
-      value={Number(value).toString()}
+      value={value ? Number(value).toString() : value}
       min={min}
       max={max}
       {...props}
