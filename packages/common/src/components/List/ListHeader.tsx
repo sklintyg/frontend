@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { BoxShadowContainer } from '../../styles/styledComponents'
 import styled from 'styled-components'
+import { BoxShadowContainer } from '../../styles/styledComponents'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -18,7 +18,7 @@ const ListHeader: React.FC<Props> = ({ title, description, icon }) => {
     <BoxShadowContainer>
       <div className="ic-container iu-py-300">
         <Wrapper className="iu-flex">
-          <img src={icon} className="iu-mr-gutter iu-height-600" />
+          <img src={icon} className="iu-mr-gutter iu-height-600" alt="icon" />
           <div>
             <h2>{title}</h2>
             <p>{description}</p>

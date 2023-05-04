@@ -4,6 +4,9 @@ import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 
 export function DiagnosisCell({ diagnos, biDiagnoser }: { diagnos: SickLeaveDiagnosis; biDiagnoser: SickLeaveDiagnosis[] }) {
+  if (!diagnos) {
+    return <td>Okänt</td>
+  }
   return (
     <Tooltip>
       <TooltipTrigger asChild>

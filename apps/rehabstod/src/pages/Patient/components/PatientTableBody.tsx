@@ -21,8 +21,8 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
             <SickLeaveDegreeInfo degrees={certificate.grader} />
           </td>
           <td className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</td>
-          <td>{certificate.lakare.namn}</td>
-          <td>{certificate.sysselsattning.join(' ')}</td>
+          <td>{certificate.lakare ? certificate.lakare.namn : 'Okänt'}</td>
+          <td>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</td>
           <td className="sticky right-0 z-10">
             {/* TODO: Make link work */}
             <IDSLink>

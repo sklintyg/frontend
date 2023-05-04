@@ -5,6 +5,7 @@ import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
+import { PatientOverview } from './components/patientOverview/PatientOverview'
 
 export function Patient() {
   const { patientId } = useParams()
@@ -24,13 +25,13 @@ export function Patient() {
             <PatientSickLeaves sickLeaves={currentSickLeaves} />
           </>
         )}
-
         {earlierSickLeaves.length > 0 && (
           <>
             <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
             <PatientSickLeaves sickLeaves={earlierSickLeaves} />
           </>
         )}
+        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId ? atob(patientId) : ''} />
       </div>
     </>
   )
