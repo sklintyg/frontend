@@ -1,8 +1,9 @@
+import { ComponentProps } from 'react'
 import { DAYS_BETWEEN_SICK_LEAVES } from '../../schemas'
 import { useGetUserQuery } from '../../store/api'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
 
-export function DaysBetweenSickLeaves({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<typeof FormattedNumberInput>, 'value' | 'onChange'>) {
   const { data: user, isLoading } = useGetUserQuery()
   if (!user || isLoading) {
     return null
@@ -19,8 +20,8 @@ export function DaysBetweenSickLeaves({ value, onChange }: { value: number; onCh
           label="Dagar mellan intyg (0-90 dagar)"
           onChange={onChange}
           value={value}
-          max={DAYS_BETWEEN_SICK_LEAVES.MAX}
-          min={DAYS_BETWEEN_SICK_LEAVES.MIN}
+          max={DAYS_BETWEEN_SICK_LEAVES.MAX.toString()}
+          min={DAYS_BETWEEN_SICK_LEAVES.MIN.toString()}
           defaultValue={user.preferences.maxAntalDagarMellanIntyg}
         />
       </div>

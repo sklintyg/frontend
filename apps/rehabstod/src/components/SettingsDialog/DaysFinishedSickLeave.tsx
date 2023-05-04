@@ -1,8 +1,9 @@
+import { ComponentProps } from 'react'
 import { DAYS_FINISHED_SICK_LEAVE } from '../../schemas/userSchema'
 import { useGetUserQuery } from '../../store/api'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
 
-export function DaysFinishedSickLeave({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+export function DaysFinishedSickLeave({ value, onChange }: Pick<ComponentProps<typeof FormattedNumberInput>, 'value' | 'onChange'>) {
   const { data: user, isLoading } = useGetUserQuery()
   if (!user || isLoading) {
     return null
@@ -20,8 +21,8 @@ export function DaysFinishedSickLeave({ value, onChange }: { value: number; onCh
           label="Max antal dagar sedan avslut  (0-14 dagar)"
           onChange={onChange}
           value={value}
-          max={DAYS_FINISHED_SICK_LEAVE.MAX}
-          min={DAYS_FINISHED_SICK_LEAVE.MIN}
+          max={DAYS_FINISHED_SICK_LEAVE.MAX.toString()}
+          min={DAYS_FINISHED_SICK_LEAVE.MIN.toString()}
           defaultValue={user.preferences.maxAntalDagarSedanSjukfallAvslut}
         />
       </div>

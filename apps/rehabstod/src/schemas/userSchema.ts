@@ -17,15 +17,9 @@ export const userPreferencesSchema = z.object({
   patientTableColumns: z.string(),
   sjukfallTableColumns: z.string(),
   lakarutlatandenTableColumns: z.string(),
-  maxAntalDagarSedanSjukfallAvslut: z
-    .string()
-    .min(DAYS_FINISHED_SICK_LEAVE.MIN)
-    .max(DAYS_FINISHED_SICK_LEAVE.MAX),
+  maxAntalDagarSedanSjukfallAvslut: z.string(),
   standardenhet: z.nullable(z.string()),
-  maxAntalDagarMellanIntyg: z
-    .string()
-    .min(DAYS_BETWEEN_SICK_LEAVES.MIN)
-    .max(DAYS_BETWEEN_SICK_LEAVES.MAX),
+  maxAntalDagarMellanIntyg: z.string(),
 })
 
 export const srsFeatureSchema = z.object({

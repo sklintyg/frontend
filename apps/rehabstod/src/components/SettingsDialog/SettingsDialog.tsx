@@ -1,7 +1,8 @@
 import { IDSButton, IDSDialog, IDSDialogActions } from '@frontend/ids-react-ts'
 import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { useEffect, useRef } from 'react'
-import { userPreferencesSchema } from '../../schemas'
+import { z } from 'zod'
+import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../schemas'
 import { useGetUserQuery, useUpdateUserPreferencesMutation } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { hideSettingsDialog, resetSettings, showSettingsDialog, updateSettings } from '../../store/slices/settings.slice'
@@ -17,14 +18,18 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
   const [updateUserPreferences] = useUpdateUserPreferencesMutation()
   const close = () => ref.current?.hideDialog()
 
-  const isMaxAntalDagarMellanIntygValid = userPreferencesSchema.shape.maxAntalDagarMellanIntyg.safeParse(
-    preferences.maxAntalDagarMellanIntyg
-  ).success
-  const isMaxAntalDagarSedanSjukfallAvslutValid = userPreferencesSchema.shape.maxAntalDagarSedanSjukfallAvslut.safeParse(
-    preferences.maxAntalDagarSedanSjukfallAvslut
-  ).success
+  const isMaxAntalDagarMellanIntygValid = z.coerce
+    .number()
+    .max(DAYS_BETWEEN_SICK_LEAVES.MAX)
+    .min(DAYS_BETWEEN_SICK_LEAVES.MIN)
+    .safeParse(preferences.maxAntalDagarMellanIntyg)
+  const isMaxAntalDagarSedanSjukfallAvslutValid = z.coerce
+    .number()
+    .max(DAYS_FINISHED_SICK_LEAVE.MAX)
+    .min(DAYS_FINISHED_SICK_LEAVE.MIN)
+    .safeParse(preferences.maxAntalDagarSedanSjukfallAvslut)
 
-  const isSaveEnabled = isMaxAntalDagarSedanSjukfallAvslutValid && isMaxAntalDagarMellanIntygValid
+  const isSaveEnabled = isMaxAntalDagarSedanSjukfallAvslutValid.success && isMaxAntalDagarMellanIntygValid.success
 
   const onSave = () => {
     if (preferences) {
@@ -79,14 +84,16 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
     <IDSDialog dismissible headline="Inställningar" ref={ref}>
       {preferences.maxAntalDagarSedanSjukfallAvslut && (
         <DaysFinishedSickLeave
-          value={parseInt(preferences.maxAntalDagarSedanSjukfallAvslut, 10)}
-          onChange={(value) => dispatch(updateSettings({ maxAntalDagarSedanSjukfallAvslut: value.toString() }))}
+          value={preferences.maxAntalDagarSedanSjukfallAvslut}
+          onChange={(maxAntalDagarSedanSjukfallAvslut) => {
+            dispatch(updateSettings({ maxAntalDagarSedanSjukfallAvslut }))
+          }}
         />
       )}
       {preferences.maxAntalDagarMellanIntyg && (
         <DaysBetweenSickLeaves
-          value={parseInt(preferences.maxAntalDagarMellanIntyg, 10)}
-          onChange={(value) => dispatch(updateSettings({ maxAntalDagarMellanIntyg: value.toString() }))}
+          value={preferences.maxAntalDagarMellanIntyg}
+          onChange={(maxAntalDagarMellanIntyg) => dispatch(updateSettings({ maxAntalDagarMellanIntyg }))}
         />
       )}
       <SelectCareUnits

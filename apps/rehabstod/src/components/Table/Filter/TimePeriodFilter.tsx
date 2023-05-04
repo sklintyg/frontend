@@ -1,5 +1,5 @@
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
+import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 
 export function TimePeriodFilter({
   title,
