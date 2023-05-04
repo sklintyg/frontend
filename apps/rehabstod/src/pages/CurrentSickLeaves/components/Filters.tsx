@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
-import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
+import { TimePeriodFilter, TimePeriodMetric } from '../../../components/Table/Filter/TimePeriodFilter'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { RootState } from '../../../store/store'
@@ -35,6 +35,16 @@ export function Filters({
     dispatch(updateFilter({ diagnosisChapters }))
   }
 
+  const sickLeaveLengthIntervals = [
+    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
+    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
+    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
+    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
+    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
+    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
+    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
+  ]
+
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
@@ -64,6 +74,7 @@ export function Filters({
             label="Sjukskrivningslängd"
             description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
             onChange={onSickLeaveLengthIntervalsChange}
+            availableOptions={sickLeaveLengthIntervals}
           />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>

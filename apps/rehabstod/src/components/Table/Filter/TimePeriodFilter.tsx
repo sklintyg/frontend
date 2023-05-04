@@ -3,47 +3,51 @@ import { SelectMultiple } from '../../Form/SelectMultiple'
 import { Checkbox } from '../../Form/Checkbox'
 import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 
+export enum TimePeriodMetric {
+  DAYS = 'DAYS',
+  YEARS = 'YEARS',
+}
+
+export interface TimePeriodOption {
+  from: number | null
+  to: number | null
+  metric: TimePeriodMetric
+  id: number
+}
+
 export function TimePeriodFilter({
   label,
   description,
   onChange,
+  availableOptions,
 }: {
   label: string
   description: string
   onChange: (intervals: SickLeaveLengthInterval[]) => void
+  availableOptions: TimePeriodOption[]
 }) {
   const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>([])
-
-  enum TimePeriodMetric {
-    DAYS = 'DAYS',
-    YEARS = 'YEARS',
-  }
-
-  interface TimePeriodOption {
-    from: number | null
-    to: number | null
-    metric: TimePeriodMetric
-    id: number
-  }
-
-  const availableOptions = [
-    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
-    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
-    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
-    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
-    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
-    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
-    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
-  ]
 
   const getLabel = (option: TimePeriodOption) => {
     const metricLabel = option.metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'
 
-    if (option.to) {
+    if (option.to && option.from) {
       return `${option.from}-${option.to} ${metricLabel}`
     }
 
-    return `Över ${option.from} ${metricLabel}`
+    return `${!option.to ? `Över ${option.from}` : `Under ${option.to}`} ${metricLabel}`
+  }
+
+  const getPlaceholder = () => {
+    if (chosenOptions.length === 0) {
+      return 'Välj'
+    }
+
+    if (chosenOptions.length === 1) {
+      return getLabel(chosenOptions[0])
+    }
+
+    return `${chosenOptions.length} valda`
   }
 
   const convertTimePeriod = (period: TimePeriodOption) => {
@@ -85,7 +89,7 @@ export function TimePeriodFilter({
           checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
         />
       ))}
-      placeholder="Välj"
+      placeholder={getPlaceholder()}
     />
   )
 }

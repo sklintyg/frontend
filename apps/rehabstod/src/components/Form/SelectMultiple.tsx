@@ -70,6 +70,7 @@ export function SelectMultiple({
           aria-expanded={open}
           value={placeholder}
           onClick={() => setOpen(!open)}
+          data-testid="selectMultiple"
         />
         <IDSIcon
           size="xs"
