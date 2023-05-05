@@ -12,7 +12,7 @@ export interface SickLeaveState {
 
 const initialState: SickLeaveState = {
   showPersonalInformation: true,
-  filter: { doctorIds: [], diagnosisChapters: [], sickLeaveLengthIntervals: [] },
+  filter: { doctorIds: [], diagnosisChapters: [], sickLeaveLengthIntervals: [], toPatientAge: 150, fromPatientAge: 1 },
   hasAppliedFilters: false,
 }
 

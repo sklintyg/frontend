@@ -79,6 +79,7 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareId: z.string(),
   vardGivareNamn: z.string(),
   sysselsattning: z.array(z.string()),
+  uid: z.string(),
 })
 
 export const diagnosKategoriSchema = z.object({
@@ -102,6 +103,8 @@ export const sickLeaveFilterSchema = z.object({
   doctorIds: z.array(z.string()),
   sickLeaveLengthIntervals: z.array(sickLeaveLengthIntervalSchema),
   diagnosisChapters: z.array(diagnosKapitelSchema),
+  fromPatientAge: z.number(),
+  toPatientAge: z.number(),
 })
 
 export const genderSummarySchema = z.object({

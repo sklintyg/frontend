@@ -8,6 +8,7 @@ import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { RootState } from '../../../store/store'
 import { updateFilter } from '../sickLeaveSlice'
+import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
 
 export function Filters({
   onSearch,
@@ -53,7 +54,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -69,6 +70,24 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
+            <TimePeriodFilter
+              title="Välj sjukskrivningslängd"
+              onFromChange={onFromTimeChange}
+              onToChange={onToTimeChange}
+              to={filter.toSickLeaveLength.toString()}
+              from={filter.fromSickLeaveLength.toString()}
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+            />
+            <RangeFilter
+              title="Åldersspann"
+              description="Filtrerar på patientens nuvarande ålder."
+              onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
+              onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
+              to={filter.toPatientAge.toString()}
+              from={filter.fromPatientAge.toString()}
+              max="150"
+              min="1"
+            />
           </div>
           <TimePeriodFilter
             label="Sjukskrivningslängd"

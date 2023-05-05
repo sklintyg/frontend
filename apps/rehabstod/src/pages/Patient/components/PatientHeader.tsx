@@ -1,5 +1,5 @@
 import { IDSButton, IDSContainer, IDSIcon } from '@frontend/ids-react-ts'
-import { isBefore, subDays } from 'date-fns'
+import { differenceInDays, isBefore, parseISO, subDays } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Patient } from '../../../schemas/patientSchema'
@@ -35,7 +35,8 @@ export function PatientHeader({ patient }: { patient: Patient }) {
                   |
                 </span>
                 <span>
-                  Uppskattad dag i sjukfallet: <span className="font-bold">{currentSickness.dagar} dagar</span>
+                  Uppskattad dag i sjukfallet:{' '}
+                  <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar</span>
                 </span>
               </>
             )}

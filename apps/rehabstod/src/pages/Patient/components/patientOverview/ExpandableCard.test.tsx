@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { ExpandableCard } from './ExpandableCard'
 
 const SUB_TITLE = 'Sub title'
@@ -29,7 +30,7 @@ describe('ExpandableCard', () => {
       expect(screen.getByText('Visa')).toBeInTheDocument()
     })
 
-    describe('expanded', () => {
+    describe('local expanded', () => {
       beforeEach(async () => {
         renderComponent()
         await userEvent.click(screen.getByText('Visa'))
@@ -47,5 +48,26 @@ describe('ExpandableCard', () => {
         expect(screen.getByText(SUB_TITLE)).toBeInTheDocument()
       })
     })
+
+    it('should expand if expandable as property is sent as true', () => {
+      render(
+        <ExpandableCard description={DESCRIPTION} subTitle={SUB_TITLE} expanded>
+          Children
+        </ExpandableCard>
+      )
+      expect(screen.getByText(SUB_TITLE)).toBeInTheDocument()
+    })
+  })
+
+  it('should call on expanded if sent as property and clicked on show', async () => {
+    const onExpand = vi.fn()
+    render(
+      <ExpandableCard description={DESCRIPTION} subTitle={SUB_TITLE} onExpand={onExpand}>
+        Children
+      </ExpandableCard>
+    )
+
+    await userEvent.click(screen.getByText('Visa'))
+    expect(onExpand).toHaveBeenCalledTimes(1)
   })
 })

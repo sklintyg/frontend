@@ -59,7 +59,7 @@ export function TableBodyRows({
   }
 
   const navigateToPatient = (id: string) => {
-    navigate(`/pagaende-sjukfall/${btoa(id.replace('-', ''))}`)
+    navigate(`/pagaende-sjukfall/${id}`)
   }
 
   return (
@@ -69,7 +69,7 @@ export function TableBodyRows({
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
             if (['Enter', 'Space'].includes(code)) {
-              navigateToPatient(sickLeave.patient.id)
+              navigateToPatient(sickLeave.uid)
             }
             if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
               ;(currentTarget.previousElementSibling as HTMLElement).focus()
@@ -78,7 +78,7 @@ export function TableBodyRows({
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => navigateToPatient(sickLeave.patient.id)}
+          onClick={() => navigateToPatient(sickLeave.uid)}
           key={sickLeave.patient.id}
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
