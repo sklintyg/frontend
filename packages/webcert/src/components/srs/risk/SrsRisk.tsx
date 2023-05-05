@@ -15,7 +15,11 @@ import SrsRiskOpinion from './SrsRiskOpinion'
 import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
 import { getMainDiagnosisCode } from '../srsUtils'
 
-const StyledButton = styled.button`
+interface StyledButtonProps {
+  disabled: boolean
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   font-size: 1.375em;
   font-family: inherit;
   width: calc(100% + 40px);
@@ -28,6 +32,7 @@ const StyledButton = styled.button`
   font-weight: 700;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%);
   text-align: left;
+  cursor: ${(props) => props.disabled && 'not-allowed'} !important;
 `
 
 const BottomBorder = styled.div`
@@ -98,7 +103,7 @@ const SrsRisk: React.FC = () => {
       <SrsRiskGraph ref={ref} />
       <SrsRiskOpinion />
       <StyledButton
-        className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200' : 'iu-bg-information-light'}`}
+        className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200 disabled' : 'iu-bg-information-light'}`}
         onClick={onButtonClicked}
         disabled={isCalculatingRiskDisabled}>
         {SRS_RISK_BUTTON_TEXT} {getIcon()}
