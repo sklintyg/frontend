@@ -59,7 +59,7 @@ export function PatientOverview({
         title="Ospärrad information hos annan vårdgivare"
         subTitle="Vårdgivare med information"
         description="Det finns ospärrad information hos en annan vårdgivare. Du kan klicka nedan för att visa vilka vårdgivare som har ospärrad information. Patientens samtycke krävs för att du ska kunna ta del av informationen."
-        hasGivenConsent={sjfMetaData.samtyckeFinns || responseCode === 'OK'}
+        hasGivenConsent={sjfMetaData.samtyckeFinns}
         onGetInformation={handleGetCareGiverInformation}
         onGiveConsent={handleGiveConsent}
       />

@@ -30,7 +30,7 @@ export function Patient() {
         )}
         <PatientOverview
           sjfMetaData={patient?.sjfMetaData}
-          patientId={encryptedPatientId || ''}
+          patientId={firstCertificate ? firstCertificate.patient.id : ''}
           isPersonResponseMissing={
             firstCertificate
               ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||

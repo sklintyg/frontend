@@ -149,13 +149,34 @@ export const api = createApi({
       }),
       invalidatesTags: ['SickLeavePatient'],
     }),
-    giveSjfConsent: builder.mutation<string, { days: number; onlyCurrentUser: boolean; patientId: string }>({
+    giveSjfConsent: builder.mutation<
+      { registeredBy: string; responseCode: string; responseMessage: string },
+      { days: number; onlyCurrentUser: boolean; patientId: string }
+    >({
       query: ({ days, onlyCurrentUser, patientId }) => ({
         url: 'consent',
         method: 'POST',
         body: { days, onlyCurrentUser, patientId },
       }),
-      transformResponse: (response: { registeredBy: string; responseCode: string; responseMessage: string }) => response.responseCode,
+      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { responseCode },
+          } = await queryFulfilled
+          dispatch(
+            api.util.updateQueryData('getSickLeavePatient', { patientId }, (draft) =>
+              Object.assign(draft, {
+                sjfMetaData: {
+                  ...(draft.sjfMetaData ?? {}),
+                  samtyckeFinns: responseCode,
+                },
+              })
+            )
+          )
+        } catch {
+          dispatch(api.util.invalidateTags(['SickLeavePatient']))
+        }
+      },
     }),
   }),
 })
