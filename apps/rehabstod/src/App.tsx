@@ -30,7 +30,7 @@ export function App() {
               <CurrentSickLeaves />
             </ProtectedRoute>
           }>
-          <Route path=":patientId" element={<Patient />} />
+          <Route path=":encryptedPatientId" element={<Patient />} />
         </Route>
         <Route
           path="/lakarutlatanden"
