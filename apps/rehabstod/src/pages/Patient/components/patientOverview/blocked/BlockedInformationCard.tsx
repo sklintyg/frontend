@@ -1,4 +1,4 @@
-import { PatientOverviewCard } from './PatientOverviewCard'
+import { PatientOverviewCard } from '../PatientOverviewCard'
 import { BlockedInformation } from './BlockedInformation'
 
 export function BlockedInformationCard({

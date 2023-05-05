@@ -14,7 +14,9 @@ export function NumberInput({
   max,
   min,
   error,
+  disabled,
   inline = false,
+  bright = false,
 }: {
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
@@ -26,7 +28,9 @@ export function NumberInput({
   inline?: boolean
   max?: number | string
   min?: number | string
+  disabled: boolean
   error?: boolean
+  bright?: boolean
 }) {
   const id = useId()
   return (
@@ -45,6 +49,8 @@ export function NumberInput({
         max={max}
         min={min}
         id={id}
+        disabled={disabled}
+        bright={bright}
       />
     </div>
   )
