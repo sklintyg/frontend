@@ -70,14 +70,6 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
-            <TimePeriodFilter
-              title="Välj sjukskrivningslängd"
-              onFromChange={onFromTimeChange}
-              onToChange={onToTimeChange}
-              to={filter.toSickLeaveLength.toString()}
-              from={filter.fromSickLeaveLength.toString()}
-              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-            />
             <RangeFilter
               title="Åldersspann"
               description="Filtrerar på patientens nuvarande ålder."
@@ -88,14 +80,14 @@ export function Filters({
               max="150"
               min="1"
             />
+            <TimePeriodFilter
+              label="Sjukskrivningslängd"
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+              onChange={onSickLeaveLengthIntervalsChange}
+              availableOptions={sickLeaveLengthIntervals}
+              selectedOptions={filter.sickLeaveLengthIntervals}
+            />
           </div>
-          <TimePeriodFilter
-            label="Sjukskrivningslängd"
-            description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-            onChange={onSickLeaveLengthIntervalsChange}
-            availableOptions={sickLeaveLengthIntervals}
-            selectedOptions={filter.sickLeaveLengthIntervals}
-          />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>
