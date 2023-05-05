@@ -14,9 +14,17 @@ const availableOptions = [
 ]
 let onChange: (intervals: SickLeaveLengthInterval[]) => void
 
-const renderComponent = () => {
+const renderComponent = (selectedOptions: SickLeaveLengthInterval[] = []) => {
   onChange = vi.fn()
-  render(<TimePeriodFilter label={TITLE} description={DESCRIPTION} onChange={onChange} availableOptions={availableOptions} />)
+  render(
+    <TimePeriodFilter
+      label={TITLE}
+      description={DESCRIPTION}
+      onChange={onChange}
+      availableOptions={availableOptions}
+      selectedOptions={selectedOptions}
+    />
+  )
 }
 
 describe('TimePeriodFilter', () => {
@@ -42,6 +50,12 @@ describe('TimePeriodFilter', () => {
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     expect(onChange).toHaveBeenLastCalledWith([])
+  })
+
+  it('should have selected options checked by default', async () => {
+    renderComponent([{ from: 1, to: 2 }])
+    await userEvent.click(screen.getByRole('button'))
+    expect(screen.getAllByRole('checkbox')[0]).toBeChecked()
   })
 
   describe('open dropdown', () => {
@@ -74,15 +88,15 @@ describe('TimePeriodFilter', () => {
   describe('placeholder', () => {
     it('should have default placeholder if none is chosen', () => {
       renderComponent()
-      expect(screen.getByTestId('selectMultiple')).toHaveValue('Välj')
+      expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
     })
 
     it('should have label if one option is chosen', async () => {
       renderComponent()
       await userEvent.click(screen.getByRole('button'))
       await userEvent.click(screen.getByLabelText('1-2 dagar'))
-      await userEvent.click(screen.getByTestId('selectMultiple'))
-      expect(screen.getByTestId('selectMultiple')).toHaveValue('1-2 dagar')
+      await userEvent.click(screen.getByLabelText(TITLE))
+      expect(screen.getByLabelText(TITLE)).toHaveValue('1-2 dagar')
     })
 
     it('should show label x chosen if more than one chosen option', async () => {
@@ -90,8 +104,8 @@ describe('TimePeriodFilter', () => {
       await userEvent.click(screen.getByRole('button'))
       await userEvent.click(screen.getByLabelText('1-2 dagar'))
       await userEvent.click(screen.getByLabelText('10-20 år'))
-      await userEvent.click(screen.getByTestId('selectMultiple'))
-      expect(screen.getByTestId('selectMultiple')).toHaveValue('2 valda')
+      await userEvent.click(screen.getByLabelText(TITLE))
+      expect(screen.getByLabelText(TITLE)).toHaveValue('2 valda')
     })
   })
 })

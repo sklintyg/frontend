@@ -20,13 +20,17 @@ export function TimePeriodFilter({
   description,
   onChange,
   availableOptions,
+  selectedOptions,
 }: {
   label: string
   description: string
   onChange: (intervals: SickLeaveLengthInterval[]) => void
   availableOptions: TimePeriodOption[]
+  selectedOptions: SickLeaveLengthInterval[]
 }) {
-  const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>([])
+  const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>(
+    availableOptions.filter((option) => selectedOptions.find((selected) => selected.from === option.from && selected.to === option.to))
+  )
 
   const getLabel = (option: TimePeriodOption) => {
     const metricLabel = option.metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'

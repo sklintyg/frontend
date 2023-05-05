@@ -94,6 +94,7 @@ export function Filters({
             description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
             onChange={onSickLeaveLengthIntervalsChange}
             availableOptions={sickLeaveLengthIntervals}
+            selectedOptions={filter.sickLeaveLengthIntervals}
           />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
