@@ -84,6 +84,12 @@ export enum PatientOverviewConsentChoices {
   ALL = 'ALL',
 }
 
+export enum PuResponse {
+  FOUND = 'FOUND',
+  NOT_FOUND = 'NOT_FOUND',
+  FOUND_NO_NAME = 'FOUND_NO_NAME',
+}
+
 export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>

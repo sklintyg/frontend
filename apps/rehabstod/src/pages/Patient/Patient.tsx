@@ -6,6 +6,7 @@ import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
+import { PuResponse } from '../../schemas/patientSchema'
 
 export function Patient() {
   const { patientId } = useParams()
@@ -14,6 +15,8 @@ export function Patient() {
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
+  const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
+  const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
 
   return (
     <>
@@ -31,7 +34,16 @@ export function Patient() {
             <PatientSickLeaves sickLeaves={earlierSickLeaves} />
           </>
         )}
-        <PatientOverview sjfMetaData={patient?.sjfMetaData} patientId={patientId ? atob(patientId) : ''} />
+        <PatientOverview
+          sjfMetaData={patient?.sjfMetaData}
+          patientId={patientId ? atob(patientId) : ''}
+          isPersonResponseMissing={
+            firstCertificate
+              ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
+                firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
+              : false
+          }
+        />
       </div>
     </>
   )
