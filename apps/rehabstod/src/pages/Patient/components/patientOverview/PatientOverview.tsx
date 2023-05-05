@@ -16,7 +16,7 @@ export function PatientOverview({
 }) {
   const [addUnit] = useAddVardenhetMutation()
   const [addCareGiver] = useAddVardgivareMutation()
-  const [giveConsent, { data: responseCode }] = useGiveSjfConsentMutation()
+  const [giveConsent] = useGiveSjfConsentMutation()
 
   const PROTECTED_PERSON_ALERT =
     'För patient med skyddade personuppgifter kan ingen ytterligare information hämtas från andra vårdenheter eller andra vårdgivare.'
