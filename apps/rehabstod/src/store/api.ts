@@ -158,7 +158,7 @@ export const api = createApi({
         method: 'POST',
         body: { days, onlyCurrentUser, patientId },
       }),
-      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ patientId }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { responseCode },
