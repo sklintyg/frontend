@@ -28,12 +28,6 @@ export function Patient() {
             <PatientSickLeaves sickLeaves={currentSickLeaves} />
           </>
         )}
-        {earlierSickLeaves.length > 0 && (
-          <>
-            <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
-            <PatientSickLeaves sickLeaves={earlierSickLeaves} />
-          </>
-        )}
         <PatientOverview
           sjfMetaData={patient?.sjfMetaData}
           patientId={patientId ? atob(patientId) : ''}
@@ -44,6 +38,12 @@ export function Patient() {
               : false
           }
         />
+        {earlierSickLeaves.length > 0 && (
+          <>
+            <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
+            <PatientSickLeaves sickLeaves={earlierSickLeaves} />
+          </>
+        )}
       </div>
     </>
   )

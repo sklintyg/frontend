@@ -48,7 +48,6 @@ export function OpenInformationWithConsent({
           setCheckedConsent(event.currentTarget.checked)
           setShowError(false)
         }}
-        className="bg-white"
         compact
         valid={`${!showError}`}
       />

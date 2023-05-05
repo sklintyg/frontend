@@ -150,10 +150,10 @@ export const api = createApi({
       invalidatesTags: ['SickLeavePatient'],
     }),
     giveSjfConsent: builder.mutation<string, { days: number; onlyCurrentUser: boolean; patientId: string }>({
-      query: ({ days: number, onlyCurrentUser: boolean, patientId: string }) => ({
+      query: ({ days, onlyCurrentUser, patientId }) => ({
         url: 'consent',
         method: 'POST',
-        body: { days: number, onlyCurrentUser: boolean, patientId: string },
+        body: { days, onlyCurrentUser, patientId },
       }),
       transformResponse: (response: { registeredBy: string; responseCode: string; responseMessage: string }) => response.responseCode,
     }),
