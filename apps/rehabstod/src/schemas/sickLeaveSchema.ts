@@ -79,6 +79,7 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareId: z.string(),
   vardGivareNamn: z.string(),
   sysselsattning: z.array(z.string()),
+  uid: z.string(),
 })
 
 export const diagnosKategoriSchema = z.object({
