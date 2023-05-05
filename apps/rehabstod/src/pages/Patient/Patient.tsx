@@ -9,9 +9,9 @@ import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PuResponse } from '../../schemas/patientSchema'
 
 export function Patient() {
-  const { patientId } = useParams()
+  const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient } = useGetSickLeavePatientQuery(patientId ? { patientId: atob(patientId) } : skipToken)
+  const { data: patient } = useGetSickLeavePatientQuery(encryptedPatientId ? { patientId: encryptedPatientId } : skipToken)
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
@@ -30,7 +30,7 @@ export function Patient() {
         )}
         <PatientOverview
           sjfMetaData={patient?.sjfMetaData}
-          patientId={patientId ? atob(patientId) : ''}
+          patientId={encryptedPatientId || ''}
           isPersonResponseMissing={
             firstCertificate
               ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
