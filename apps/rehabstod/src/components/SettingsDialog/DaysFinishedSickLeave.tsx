@@ -18,7 +18,7 @@ export function DaysFinishedSickLeave({ value, onChange }: Pick<ComponentProps<t
       </p>
       <div className="w-80">
         <FormattedNumberInput
-          label="Max antal dagar sedan avslut  (0-14 dagar)"
+          label="Max antal dagar sedan avslut (0-14 dagar)"
           onChange={onChange}
           value={value}
           max={DAYS_FINISHED_SICK_LEAVE.MAX.toString()}
