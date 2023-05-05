@@ -54,12 +54,16 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
     function handleVisibilityChanged() {
       if (showDialog && dialogEl?.show === 'false') {
         dispatch(hideSettingsDialog())
+        updateUserPreferences(preferences)
       }
       if (!showDialog && dialogEl?.show === 'true') {
         dispatch(showSettingsDialog())
       }
       if (onVisibilityChanged) {
         onVisibilityChanged(dialogEl?.show === 'true')
+      }
+      if (dialogEl?.show === 'true') {
+        dialogEl?.querySelector('input')?.focus()
       }
     }
 
@@ -74,7 +78,7 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
 
     dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
     return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
-  }, [dispatch, onVisibilityChanged, showDialog])
+  }, [dispatch, onVisibilityChanged, preferences, showDialog, updateUserPreferences])
 
   if (!user) {
     return null

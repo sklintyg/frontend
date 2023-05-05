@@ -18,12 +18,13 @@ export function FormattedNumberInput({
 }) {
   const numbersRegex = /([0-9]|\b)+/
   const convertValue = (val: number | undefined, minLimit: number, maxLimit: number): number =>
-    val != null && Boolean(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
+    val != null && !Number.isNaN(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
+
   return (
     <NumberInput
       type="number"
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
-      onBlur={() => onChange(convertValue(Number(value), Number(min), Number(max)).toString())}
+      onBlur={() => onChange(convertValue(value === '' ? NaN : Number(value), Number(min), Number(max)).toString())}
       value={value ? Number(value).toString() : value}
       min={min}
       max={max}

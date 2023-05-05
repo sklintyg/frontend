@@ -48,9 +48,11 @@ export function TableInfo({
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
         </span>
         <TableInfoDivider />
-        <IDSButton onClick={() => dispatch(showSettingsDialog())} tertiary size="s">
-          Ändra
-        </IDSButton>
+        <div>
+          <IDSButton onClick={() => dispatch(showSettingsDialog())} tertiary size="s">
+            Ändra
+          </IDSButton>
+        </div>
       </div>
     </div>
   )

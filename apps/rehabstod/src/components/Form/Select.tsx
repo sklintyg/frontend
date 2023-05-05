@@ -24,7 +24,7 @@ export const Select = React.forwardRef<HTMLSelectElement, React.HTMLProps<HTMLSe
     <select
       ref={ref}
       className={classNames(
-        'text-neutral-20 appearance-none truncate box-border w-full rounded border py-3 text-left my-3 pl-5 pr-12',
+        'text-neutral-20 appearance-none truncate box-border w-full rounded border py-3 text-left pl-5 pr-12',
         getStyle({ error, disabled })
       )}
       disabled={disabled}
