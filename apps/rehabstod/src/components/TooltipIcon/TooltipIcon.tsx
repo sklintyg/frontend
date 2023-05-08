@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { IDSIcon } from '@frontend/ids-react-ts'
 import { ComponentProps } from 'react'
 import { Tooltip } from '../Tooltip/Tooltip'

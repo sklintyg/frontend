@@ -1,39 +1,38 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { IDSContainer } from '@frontend/ids-react-ts'
 import React, { createContext, useCallback, useMemo, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 
 interface TableOptions {
   ascending?: boolean
-  column?: string
+  sortColumn?: string
 }
 
 function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
-  const [column, setColumn] = useState(options.column ?? '')
+  const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
 
   const sortOnColumn = useCallback(
     (desiredColumn: string) => {
-      if (desiredColumn !== column) {
-        setColumn(desiredColumn)
+      if (desiredColumn !== sortColumn) {
+        setSortColumn(desiredColumn)
         setAscending(options.ascending ?? false)
       } else {
         setAscending(!ascending)
       }
     },
-    [ascending, column, options.ascending]
+    [ascending, sortColumn, options.ascending]
   )
 
-  const sortTableList = getTableSorter(column, ascending)
+  const sortTableList = getTableSorter(sortColumn, ascending)
 
   return useMemo(
     () => ({
       ascending,
-      column,
+      sortColumn,
       sortOnColumn,
       sortTableList,
     }),
-    [ascending, column, sortOnColumn, sortTableList]
+    [ascending, sortColumn, sortOnColumn, sortTableList]
   )
 }
 

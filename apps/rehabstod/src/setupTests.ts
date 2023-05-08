@@ -6,9 +6,14 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
+import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
+import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
-global.open = vi.fn()
+Object.assign(global, global, {
+  open: vi.fn(),
+  scrollTo: vi.fn(),
+})
 
 // Used by floating-ui
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
@@ -41,6 +46,10 @@ afterEach(() => {
   // Reset api states
   store.dispatch(api.util.resetApiState())
   store.dispatch(hsaApi.util.resetApiState())
+
+  // Reset slice states
+  store.dispatch(resetPatientTableColumns())
+  store.dispatch(resetSickLeaveTableColumns())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.
