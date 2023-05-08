@@ -13,14 +13,14 @@ describe('StatisticsInformationCard', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText('Här kan du hitta mer statistik')).toBeInTheDocument()
+    expect(screen.getByText('Använd Intygsstatistik för att se mer statistik')).toBeInTheDocument()
   })
 
   it('should show text', () => {
     renderComponent()
     expect(
       screen.getByText(
-        'Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.'
+        'När du klickar på länken nedan öppnas Intygsstatistik i en ny flik. Om du har behörighet till Intygsstatistik blir du automatiskt inloggad på samma enhet.'
       )
     ).toBeInTheDocument()
   })

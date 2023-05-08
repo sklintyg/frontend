@@ -55,7 +55,7 @@ import {
   ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getMainDiagnosisCode } from '../../components/srs/srsUtils'
+import { getFilteredPredictions, getMainDiagnosisCode } from '../../components/srs/srsUtils'
 
 export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -118,12 +118,15 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
   dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
   dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
 
-  if (
-    action.payload.predictions.length > 0 &&
-    action.payload.predictions[0].questionsResponses &&
-    action.payload.predictions[0].questionsResponses.length > 0
-  ) {
-    dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
+  const filteredPredictions = getFilteredPredictions(action.payload.predictions)
+
+  if (filteredPredictions.length > 0) {
+    const predictionWithQuestionResponses = filteredPredictions.find(
+      (prediction) => prediction.questionsResponses && prediction.questionsResponses.length > 0
+    )
+    if (predictionWithQuestionResponses) {
+      dispatch(updateSrsAnswers(predictionWithQuestionResponses.questionsResponses))
+    }
   }
 
   dispatch(updateLoadingCodes(false))
