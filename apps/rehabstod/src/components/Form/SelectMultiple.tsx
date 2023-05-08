@@ -34,12 +34,11 @@ export function SelectMultiple({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(1),
       flip({ padding: 10 }),
       size({
-        apply({ rects, elements, availableHeight }) {
+        apply({ rects, elements }) {
           Object.assign(elements.floating.style, {
-            maxHeight: `${Math.min(availableHeight, 400)}px`,
             width: `${rects.reference.width}px`,
           })
         },
@@ -81,7 +80,7 @@ export function SelectMultiple({
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
             <div
-              className="ids-content z-20 -mt-1 flex rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              className="ids-content z-40 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
               ref={refs.setFloating}
               style={{
                 position: strategy,
@@ -91,7 +90,7 @@ export function SelectMultiple({
                 outline: 0,
               }}
               {...getFloatingProps()}>
-              <div className="w-full overflow-auto">
+              <div className="relative max-h-96 overflow-auto">
                 <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
               </div>
             </div>

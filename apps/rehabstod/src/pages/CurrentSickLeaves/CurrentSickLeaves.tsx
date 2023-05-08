@@ -16,7 +16,7 @@ export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
-  const { patientId } = useParams()
+  const { encryptedPatientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
@@ -35,7 +35,7 @@ export function CurrentSickLeaves() {
     [dispatch]
   )
 
-  if (patientId) {
+  if (encryptedPatientId) {
     return <Outlet />
   }
 

@@ -48,9 +48,9 @@ function PatientTableCellResolver({
         </TableCell>
       )
     case PatientColumn.Läkare:
-      return <TableCell>{certificate.lakare.namn}</TableCell>
+      return <TableCell>{certificate.lakare ? certificate.lakare.namn : 'Okänt'}</TableCell>
     case PatientColumn.Sysselsättning:
-      return <TableCell>{certificate.sysselsattning.join(' ')}</TableCell>
+      return <TableCell>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</TableCell>
     case PatientColumn.Intyg:
       return (
         <TableCell sticky="right">

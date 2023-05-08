@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import ArrowToggle from './ArrowToggle'
 
-const Link = styled.button`
+const LinkButton = styled.button`
   text-decoration: none;
 `
 
@@ -56,9 +56,9 @@ const ExpandableBox: React.FC<Props> = ({ isExpanded, linkText, onClickLink }) =
       <ArrowToggle onClick={handleToggle} className="iu-ml-300" isUp={isExpanded} />
       {isExpanded && (
         <ExpandedDiv>
-          <Link className="ic-link" type="button" onClick={handleClick}>
+          <LinkButton className="ic-link" type="button" onClick={handleClick}>
             {linkText}
-          </Link>
+          </LinkButton>
         </ExpandedDiv>
       )}
     </RelativeDiv>

@@ -74,7 +74,7 @@ describe('Navigate', () => {
                 <TableBodyRows
                   isLoading={false}
                   showPersonalInformation
-                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ patient: { id: 'aperiam' } })]}
+                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ uid: 'aperiam' })]}
                   unitId="Alfa Vårdenhet"
                   isDoctor={false}
                 />
@@ -82,7 +82,7 @@ describe('Navigate', () => {
             </Table>
           }
         />
-        <Route path={`/pagaende-sjukfall/${btoa('aperiam')}`} element={<p>Patient Route</p>} />
+        <Route path="/pagaende-sjukfall/aperiam" element={<p>Patient Route</p>} />
       </Routes>
     )
 

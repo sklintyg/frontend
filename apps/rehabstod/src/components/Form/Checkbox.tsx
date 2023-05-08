@@ -8,14 +8,18 @@ export function Checkbox({
   onChange,
   description,
   disabled,
-  compact,
+  valid = 'true',
+  compact = false,
+  required = false,
 }: {
   label: string
   checked: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description?: string
   disabled?: boolean
+  valid?: 'true' | 'false'
   compact?: boolean
+  required?: boolean
 }) {
   const id = useId()
   const ref = useRef<IDSCheckboxElement>(null)
@@ -25,12 +29,12 @@ export function Checkbox({
   }, [checked])
 
   return (
-    <IDSCheckbox ref={ref} compact={compact}>
+    <IDSCheckbox ref={ref} valid={valid} compact={compact}>
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>
       {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
-      <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} />
+      <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} required={required} />
     </IDSCheckbox>
   )
 }

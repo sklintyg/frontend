@@ -20,7 +20,7 @@ export function TimePeriodFilter({
   const minLimit = '1'
 
   return (
-    <>
+    <div>
       <div>
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
@@ -45,6 +45,6 @@ export function TimePeriodFilter({
           defaultValue={maxLimit}
         />
       </div>
-    </>
+    </div>
   )
 }
