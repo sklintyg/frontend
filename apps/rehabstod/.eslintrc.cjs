@@ -32,6 +32,7 @@ module.exports = {
       },
     ],
     'react/no-unknown-property': ['error', { ignore: ['trigger'] }],
+    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': [
       'error',
       {

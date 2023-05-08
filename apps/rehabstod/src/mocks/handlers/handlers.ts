@@ -2,7 +2,7 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
-import { Link, linkSchema } from '../../schemas'
+import { Link, linkSchema, userPreferencesSchema } from '../../schemas'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
 import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
@@ -14,6 +14,8 @@ export const handlers = [
   rest.post('/logout', (req, res, ctx) => res(ctx.status(302))),
 
   rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
+
+  rest.post(`/api/user/preferences`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userPreferencesSchema)()))),
 
   rest.get('/api/config/links', (req, res, ctx) =>
     res(
