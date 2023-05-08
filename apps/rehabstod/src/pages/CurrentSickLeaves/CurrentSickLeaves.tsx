@@ -1,22 +1,23 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { Table } from '../../components/Table/Table'
+import { UserUrval } from '../../schemas'
 import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
-import { RootState, useAppDispatch } from '../../store/store'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { useAppDispatch } from '../../store/hooks'
+import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
+import { RootState } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, resetFilters, updateShowPersonalInformation } from './sickLeaveSlice'
-import { UserUrval } from '../../schemas'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
-  const { patientId } = useParams()
+  const { encryptedPatientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
@@ -35,7 +36,7 @@ export function CurrentSickLeaves() {
     [dispatch]
   )
 
-  if (patientId) {
+  if (encryptedPatientId) {
     return <Outlet />
   }
 

@@ -21,7 +21,9 @@ export function StatisticsInformationCard() {
               <TooltipTrigger>
                 <IDSLink>
                   <IDSIcon name="arrow" />
-                  <a href={links.statistiktjanstenTooltip.url}>{links.statistiktjanstenTooltip.text}</a>
+                  <a target="_blank" href={links.statistiktjanstenTooltip.url} rel="noreferrer">
+                    {links.statistiktjanstenTooltip.text}
+                  </a>
                   <IDSIcon slot="append-icon" name="external" size="xs" className="my-auto" />
                 </IDSLink>
               </TooltipTrigger>

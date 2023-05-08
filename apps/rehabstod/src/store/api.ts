@@ -54,7 +54,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
+    updateUserPreferences: builder.mutation<UserPreferences, Partial<UserPreferences>>({
       query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
@@ -141,6 +141,43 @@ export const api = createApi({
       }),
       invalidatesTags: ['SickLeavePatient'],
     }),
+    addVardgivare: builder.mutation<string[], { patientId: string; vardgivareId: string }>({
+      query: ({ patientId, vardgivareId }) => ({
+        url: 'sjukfall/patient/addVardgivare',
+        method: 'POST',
+        body: { patientId, vardgivareId },
+      }),
+      invalidatesTags: ['SickLeavePatient'],
+    }),
+    giveSjfConsent: builder.mutation<
+      { registeredBy: string; responseCode: string; responseMessage: string },
+      { days: number; onlyCurrentUser: boolean; patientId: string }
+    >({
+      query: ({ days, onlyCurrentUser, patientId }) => ({
+        url: 'consent',
+        method: 'POST',
+        body: { days, onlyCurrentUser, patientId },
+      }),
+      async onQueryStarted({ patientId }, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { responseCode },
+          } = await queryFulfilled
+          dispatch(
+            api.util.updateQueryData('getSickLeavePatient', { patientId }, (draft) =>
+              Object.assign(draft, {
+                sjfMetaData: {
+                  ...(draft.sjfMetaData ?? {}),
+                  samtyckeFinns: responseCode,
+                },
+              })
+            )
+          )
+        } catch {
+          dispatch(api.util.invalidateTags(['SickLeavePatient']))
+        }
+      },
+    }),
   }),
 })
 
@@ -158,4 +195,6 @@ export const {
   useGetSickLeavesSummaryQuery,
   useGiveConsentMutation,
   useAddVardenhetMutation,
+  useAddVardgivareMutation,
+  useGiveSjfConsentMutation,
 } = api

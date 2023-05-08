@@ -1,10 +1,9 @@
-import { faker } from '@faker-js/faker'
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Mock, vi } from 'vitest'
 import { Mottagning, Vardenhet, vardenhetSchema } from '../../../schemas'
-import { fakeVardgivare } from '../../../utils/fake'
+import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderItem } from './CareProviderItem'
 
 let handleChooseUnit: Mock<unknown[], unknown>

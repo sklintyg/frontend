@@ -1,5 +1,11 @@
+import { IDSButton } from '@frontend/ids-react-ts'
 import { Checkbox } from '../../../components/Form/Checkbox'
-import { SettingsDialog } from './SettingsDialog'
+import { useAppDispatch } from '../../../store/hooks'
+import { showSettingsDialog } from '../../../store/slices/settings.slice'
+
+export function TableInfoDivider() {
+  return <span className="mx-1">|</span>
+}
 
 export function TableInfo({
   onShowPersonalInformationChange,
@@ -16,6 +22,8 @@ export function TableInfo({
   daysBetweenCertificates: string
   daysAfterSickLeaveEnd: string
 }) {
+  const dispatch = useAppDispatch()
+
   return (
     <div className="mb-5">
       <Checkbox
@@ -27,22 +35,24 @@ export function TableInfo({
         }}
       />
       <div className="flex gap-1">
-        <p>
+        <span>
           Visar{' '}
           <span className="font-bold">
             {listLength} av {totalNumber}
           </span>
-        </p>
-        <p className="mx-1">|</p>
-        <p>
-          <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
-        </p>
-        <p className="mx-1">|</p>
-        <p>
+        </span>
+        <TableInfoDivider />
+        <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
+        <TableInfoDivider />
+        <span>
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
-        </p>
-        <p className="mx-1">|</p>
-        <SettingsDialog />
+        </span>
+        <TableInfoDivider />
+        <div>
+          <IDSButton onClick={() => dispatch(showSettingsDialog())} tertiary size="s">
+            Ändra
+          </IDSButton>
+        </div>
       </div>
     </div>
   )

@@ -79,6 +79,7 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareId: z.string(),
   vardGivareNamn: z.string(),
   sysselsattning: z.array(z.string()),
+  uid: z.string(),
 })
 
 export const diagnosKategoriSchema = z.object({
@@ -93,11 +94,17 @@ export const diagnosKapitelSchema = z.object({
   id: z.string(),
 })
 
+export const sickLeaveLengthIntervalSchema = z.object({
+  to: z.nullable(z.number()),
+  from: z.nullable(z.number()),
+})
+
 export const sickLeaveFilterSchema = z.object({
   doctorIds: z.array(z.string()),
-  toSickLeaveLength: z.number(),
-  fromSickLeaveLength: z.number(),
+  sickLeaveLengthIntervals: z.array(sickLeaveLengthIntervalSchema),
   diagnosisChapters: z.array(diagnosKapitelSchema),
+  fromPatientAge: z.number(),
+  toPatientAge: z.number(),
 })
 
 export const genderSummarySchema = z.object({
@@ -171,3 +178,4 @@ export type SickLeaveLengthSummary = z.infer<typeof sickLeaveLengthSummarySchema
 export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
 export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
+export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>

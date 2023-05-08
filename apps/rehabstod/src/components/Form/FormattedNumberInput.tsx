@@ -1,54 +1,34 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import { ComponentProps } from 'react'
 import { NumberInput } from './NumberInput'
 
 export function FormattedNumberInput({
-  label,
   onChange,
-  description,
-  value,
-  max,
   min,
-  error,
-  inline = false,
+  max,
+  value,
   defaultValue,
-}: {
-  label: string
-  onChange: (value: string) => void
-  description?: string
-  value: string
-  inline?: boolean
-  max: string
-  min: string
-  error?: boolean
+  ...props
+}: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
   defaultValue: string
+  min: string
+  max: string
+  value?: string
+  onChange: (value: string) => void
 }) {
   const numbersRegex = /([0-9]|\b)+/
-  const convertValue = (originalValue: string, minLimit: string, maxLimit: string, valueDefault: string) => {
-    if (originalValue === '') {
-      return valueDefault
-    }
-
-    if (Number(originalValue) < Number(minLimit)) {
-      return minLimit
-    }
-
-    if (Number(originalValue) > Number(maxLimit)) {
-      return maxLimit
-    }
-
-    return originalValue
-  }
+  const convertValue = (val: number | undefined, minLimit: number, maxLimit: number): number =>
+    val != null && !Number.isNaN(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
 
   return (
     <NumberInput
-      label={label}
-      onChange={(event) => onChange(event.currentTarget.value)}
-      onBlur={() => onChange(convertValue(value, min, max, defaultValue))}
-      value={value}
-      max={max}
+      type="number"
+      onChange={({ currentTarget }) => onChange(currentTarget.value)}
+      onBlur={() => onChange(convertValue(value === '' ? NaN : Number(value), Number(min), Number(max)).toString())}
+      value={value ? Number(value).toString() : value}
       min={min}
-      description={description}
-      error={error}
-      inline={inline}
+      max={max}
+      {...props}
       onKeyDown={(event) => {
         if (!numbersRegex.test(event.key)) {
           event.preventDefault()
