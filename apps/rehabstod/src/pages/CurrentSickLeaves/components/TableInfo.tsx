@@ -26,22 +26,22 @@ export function TableInfo({
           onShowPersonalInformationChange(checked)
         }}
       />
-      <div className="flex">
+      <div className="flex gap-1">
         <p>
           Visar{' '}
           <span className="font-bold">
             {listLength} av {totalNumber}
           </span>
         </p>
-        <p className="mx-2">|</p>
+        <p className="mx-1">|</p>
         <p>
           <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
         </p>
-        <p className="mx-2">|</p>
+        <p className="mx-1">|</p>
         <p>
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
         </p>
-        <p className="mx-2">|</p>
+        <p className="mx-1">|</p>
         <SettingsDialog />
       </div>
     </div>
