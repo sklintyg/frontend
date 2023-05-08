@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
+import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { updateFilter } from '../../../store/slices/sickLeave.slice'
 import { RootState } from '../../../store/store'
-import { updateFilter } from '../sickLeaveSlice'
-import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
 
 export function Filters({
   onSearch,

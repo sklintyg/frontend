@@ -6,7 +6,6 @@ interface InputProps {
   hasIcon?: boolean
   error?: boolean
   disabled?: boolean
-
   bright?: boolean
 }
 

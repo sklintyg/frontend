@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'
-import { fakeUser } from '../../utils/fake'
+import { fakeUser } from '../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { CareProvider } from './CareProvider'
 
