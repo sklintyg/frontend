@@ -1,5 +1,5 @@
-import { IDSCheckbox } from '@frontend/ids-react-ts'
-import { ChangeEvent, useId } from 'react'
+import { IDSCheckbox, IDSCheckboxElement } from '@frontend/ids-react-ts'
+import { ChangeEvent, useEffect, useId, useRef } from 'react'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
 export function Checkbox({
@@ -22,9 +22,14 @@ export function Checkbox({
   required?: boolean
 }) {
   const id = useId()
+  const ref = useRef<IDSCheckboxElement>(null)
+
+  useEffect(() => {
+    ref.current?.updateIsChecked()
+  }, [checked])
 
   return (
-    <IDSCheckbox valid={valid} compact={compact}>
+    <IDSCheckbox ref={ref} valid={valid} compact={compact}>
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>

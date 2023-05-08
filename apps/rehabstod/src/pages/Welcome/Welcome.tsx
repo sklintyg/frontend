@@ -1,14 +1,12 @@
 import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useCreateDefaultTestDataMutation } from '../../store/api'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { selectFilter, selectLogin, selectUnit, updateFreetext } from '../../store/slices/welcome.slice'
-import { RootState } from '../../store/store'
 import { useWelcome } from './useWelcome'
 
 export function Welcome() {
-  const { selectedLogin, selectedUnit, freeText, selectedFilter } = useSelector((state: RootState) => state.welcome)
+  const { selectedLogin, selectedUnit, freeText, selectedFilter } = useAppSelector((state) => state.welcome)
   const dispatch = useAppDispatch()
   const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response }] = useCreateDefaultTestDataMutation()
   const { isLoading, fakeLogins } = useWelcome()

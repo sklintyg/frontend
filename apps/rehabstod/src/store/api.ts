@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
@@ -76,6 +76,14 @@ export const api = createApi({
           dispatch(api.util.invalidateTags(['User']))
         }
       },
+    }),
+    updateTableColumns: builder.mutation<UserPreferences, Partial<Pick<UserPreferences, UserPreferencesTableSettings>>>({
+      query: (preferences) => ({
+        url: 'user/preferences',
+        method: 'POST',
+        body: preferences,
+      }),
+      invalidatesTags: ['User'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -183,17 +191,19 @@ export const api = createApi({
 
 export const {
   useChangeUnitMutation,
+  useCreateDefaultTestDataMutation,
   useFakeLogoutMutation,
   useGetLinksQuery,
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
-  useLazyGetSickLeavesQuery,
-  useUpdateUserPreferencesMutation,
-  useGetUserQuery,
-  useCreateDefaultTestDataMutation,
+  useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
+  useGetUserQuery,
   useGiveConsentMutation,
+  useLazyGetSickLeavesQuery,
+  useUpdateTableColumnsMutation,
+  useUpdateUserPreferencesMutation,
   useAddVardenhetMutation,
   useAddVardgivareMutation,
   useGiveSjfConsentMutation,
