@@ -52,9 +52,9 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
     const isShown = (dialogEl?.show ?? 'false') !== 'false'
 
     function handleVisibilityChanged() {
+      dispatch(updateSettings(user?.preferences ?? {}))
       if (showDialog && dialogEl?.show === 'false') {
         dispatch(hideSettingsDialog())
-        updateUserPreferences(preferences)
       }
       if (!showDialog && dialogEl?.show === 'true') {
         dispatch(showSettingsDialog())
@@ -78,7 +78,7 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
 
     dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
     return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
-  }, [dispatch, onVisibilityChanged, preferences, showDialog, updateUserPreferences])
+  }, [dispatch, onVisibilityChanged, showDialog, user?.preferences])
 
   if (!user) {
     return null
