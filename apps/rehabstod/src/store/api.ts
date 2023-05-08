@@ -118,11 +118,11 @@ export const api = createApi({
       }),
       providesTags: ['SickLeaveSummary'],
     }),
-    getSickLeavePatient: builder.query<Patient, { patientId: string }>({
-      query: ({ patientId }) => ({
+    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string | null; patientId: string | null }>({
+      query: ({ encryptedPatientId }) => ({
         url: 'sjukfall/patient',
         method: 'POST',
-        body: { patientId },
+        body: { encryptedPatientId },
       }),
       providesTags: ['SickLeavePatient'],
     }),
@@ -164,7 +164,7 @@ export const api = createApi({
             data: { responseCode },
           } = await queryFulfilled
           dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { patientId }, (draft) =>
+            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId: null, patientId }, (draft) =>
               Object.assign(draft, {
                 sjfMetaData: {
                   ...(draft.sjfMetaData ?? {}),
