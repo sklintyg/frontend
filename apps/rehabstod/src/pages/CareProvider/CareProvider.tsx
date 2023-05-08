@@ -10,7 +10,7 @@ export function CareProvider() {
   const navigate = useNavigate()
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
-  const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
+  const [updateUserPreferences] = useUpdateUserPreferencesMutation()
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )
@@ -20,8 +20,7 @@ export function CareProvider() {
 
   const handleUpdatePreferences = () => {
     if (user && isChecked && selectedUnit) {
-      UpdateUserPreferences({
-        ...user.preferences,
+      updateUserPreferences({
         standardenhet: selectedUnit.id,
       })
     }
