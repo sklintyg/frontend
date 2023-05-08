@@ -2,6 +2,7 @@ import { ComponentProps } from 'react'
 import { DAYS_BETWEEN_SICK_LEAVES } from '../../schemas'
 import { useGetUserQuery } from '../../store/api'
 import { FormattedNumberInput } from '../Form/FormattedNumberInput'
+import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<typeof FormattedNumberInput>, 'value' | 'onChange'>) {
   const { data: user, isLoading } = useGetUserQuery()
@@ -10,11 +11,9 @@ export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<t
   }
 
   return (
-    <div className="[&:not(:last-child)]:mb-5">
-      <h2 className="ids-heading-4">Antal dagar mellan intyg</h2>
-      <p className="pb-4">
-        Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.
-      </p>
+    <SettingsDialogInput
+      title="Antal dagar mellan intyg"
+      description="Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall.">
       <div className="w-80">
         <FormattedNumberInput
           label="Dagar mellan intyg (0-90 dagar)"
@@ -25,6 +24,6 @@ export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<t
           defaultValue={user.preferences.maxAntalDagarMellanIntyg}
         />
       </div>
-    </div>
+    </SettingsDialogInput>
   )
 }
