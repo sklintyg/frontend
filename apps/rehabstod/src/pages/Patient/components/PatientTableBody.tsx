@@ -6,8 +6,8 @@ import { useTableContext } from '../../../components/Table/hooks/useTableContext
 import { TableCell } from '../../../components/Table/TableCell'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
-import { allPatientColumns } from '../../../store/slices/patientTableColumnsSelectors'
-import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
 

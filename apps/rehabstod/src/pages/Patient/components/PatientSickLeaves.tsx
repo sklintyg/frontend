@@ -1,6 +1,6 @@
 import { Table } from '../../../components/Table/Table'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
-import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { PatientAccordion } from './PatientAccordion'
 import { PatientTableBody } from './PatientTableBody'
 import { PatientTableHeader } from './PatientTableHeader'

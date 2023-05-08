@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 import { useAppSelector } from '../../../store/hooks'
-import { allSjukfallColumns } from '../../../store/slices/sjukfallTableColumnsSelectors'
+import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 
 export function MaxColspanRow({ children }: { children: ReactNode }) {
-  const columns = useAppSelector(allSjukfallColumns)
+  const columns = useAppSelector(allSickLeaveColumns)
   const colspan = columns.filter(({ visible: checked }) => checked).length
   return (
     <tr>

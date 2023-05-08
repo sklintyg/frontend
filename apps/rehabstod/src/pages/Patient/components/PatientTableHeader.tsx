@@ -1,7 +1,7 @@
 import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
-import { allPatientColumns } from '../../../store/slices/patientTableColumnsSelectors'
-import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
   switch (column) {

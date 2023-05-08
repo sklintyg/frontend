@@ -1,22 +1,22 @@
 import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
-import { allSjukfallColumns } from '../../../store/slices/sjukfallTableColumnsSelectors'
-import { SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function HeaderCellResolver({ column }: { column: string }) {
   const { data: user } = useGetUserQuery()
 
   switch (column) {
-    case SjukfallColumn.Personnummer:
+    case SickLeaveColumn.Personnummer:
       return <TableHeaderCell column={column} width="178px" />
-    case SjukfallColumn.Ålder:
+    case SickLeaveColumn.Ålder:
       return <TableHeaderCell column={column} width="98px" />
-    case SjukfallColumn.Namn:
+    case SickLeaveColumn.Namn:
       return <TableHeaderCell column={column} width="136px" />
-    case SjukfallColumn.Kön:
+    case SickLeaveColumn.Kön:
       return <TableHeaderCell column={column} width="86px" />
-    case SjukfallColumn.Diagnos:
+    case SickLeaveColumn.Diagnos:
       return (
         <TableHeaderCell
           column={column}
@@ -24,9 +24,9 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="255px"
         />
       )
-    case SjukfallColumn.Sysselsättning:
+    case SickLeaveColumn.Sysselsättning:
       return <TableHeaderCell column={column} description="" width="240px" />
-    case SjukfallColumn.Startdatum:
+    case SickLeaveColumn.Startdatum:
       return (
         <TableHeaderCell
           column={column}
@@ -34,7 +34,7 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="146px"
         />
       )
-    case SjukfallColumn.Slutdatum:
+    case SickLeaveColumn.Slutdatum:
       return (
         <TableHeaderCell
           column={column}
@@ -42,7 +42,7 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="146px"
         />
       )
-    case SjukfallColumn.Längd:
+    case SickLeaveColumn.Längd:
       return (
         <TableHeaderCell
           column={column}
@@ -50,9 +50,9 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="102px"
         />
       )
-    case SjukfallColumn.Intyg:
+    case SickLeaveColumn.Intyg:
       return <TableHeaderCell column={column} description="Antalet intyg som ingår i sjukfallet." width="98px" />
-    case SjukfallColumn.Grad:
+    case SickLeaveColumn.Grad:
       return (
         <TableHeaderCell
           column={column}
@@ -60,7 +60,7 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="98px"
         />
       )
-    case SjukfallColumn.Läkare:
+    case SickLeaveColumn.Läkare:
       return (
         <TableHeaderCell
           column={column}
@@ -74,7 +74,7 @@ function HeaderCellResolver({ column }: { column: string }) {
 }
 
 export function TableHeaderRow({ showPersonalInformation }: { showPersonalInformation: boolean }) {
-  const columns = useAppSelector(allSjukfallColumns)
+  const columns = useAppSelector(allSickLeaveColumns)
 
   if (columns.length === 0) {
     return null
@@ -84,8 +84,8 @@ export function TableHeaderRow({ showPersonalInformation }: { showPersonalInform
     <tr>
       {columns
         .filter(({ visible }) => visible)
-        .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Personnummer))
-        .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Namn))
+        .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
+        .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
         .map(({ name }) => (
           <HeaderCellResolver key={name} column={name} />
         ))}

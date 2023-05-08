@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react'
 import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { allSjukfallColumns, sjukfallColumnsString } from '../../../store/slices/sjukfallTableColumnsSelectors'
-import { hideColumn, moveColumn, showAllColumns, showColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { allSickLeaveColumns, sickLeaveColumnsString } from '../../../store/slices/sickLeaveTableColumns.selector'
+import { hideColumn, moveColumn, showAllColumns, showColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 export function ModifySicknessTableColumns() {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
-  const columns = useAppSelector(allSjukfallColumns)
-  const columnString = useAppSelector(sjukfallColumnsString)
+  const columns = useAppSelector(allSickLeaveColumns)
+  const columnString = useAppSelector(sickLeaveColumnsString)
   const [updateTableColumns] = useUpdateTableColumnsMutation()
   const lastRequest = useRef<ReturnType<typeof updateTableColumns>>()
 

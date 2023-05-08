@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
 import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
-import { hideColumn, SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
@@ -143,12 +143,12 @@ it('Should be possible to hide columns', async () => {
   expect(await screen.findAllByRole('row')).toHaveLength(10)
   expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
 
-  await act(() => store.dispatch(hideColumn(SjukfallColumn.Grad)))
+  await act(() => store.dispatch(hideColumn(SickLeaveColumn.Grad)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
 
-  await act(() => store.dispatch(hideColumn(SjukfallColumn.Intyg)))
+  await act(() => store.dispatch(hideColumn(SickLeaveColumn.Intyg)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
 
-  await act(() => store.dispatch(hideColumn(SjukfallColumn.Diagnos)))
+  await act(() => store.dispatch(hideColumn(SickLeaveColumn.Diagnos)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(9)
 })

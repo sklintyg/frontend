@@ -4,7 +4,7 @@ import { Table } from '../../components/Table/Table'
 import { UserUrval } from '../../schemas'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { SjukfallColumn } from '../../store/slices/sjukfallTableColumnsSlice'
+import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { TableBodyRows } from './components/TableBodyRows'
@@ -72,7 +72,7 @@ export function CurrentSickLeaves() {
         </div>
       </div>
 
-      <Table sortColumn={SjukfallColumn.Startdatum}>
+      <Table sortColumn={SickLeaveColumn.Startdatum}>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>

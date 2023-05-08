@@ -1,6 +1,6 @@
 import { createTableColumnSlice } from '../utils/createTableColumnSlice'
 
-export enum SjukfallColumn {
+export enum SickLeaveColumn {
   Personnummer = 'Personnummer',
   Ålder = 'Ålder',
   Namn = 'Namn',
@@ -15,17 +15,17 @@ export enum SjukfallColumn {
   Läkare = 'Läkare',
 }
 
-export const { slice: sjukfallTableColumnsSlice, getSelectors: getSjukfallTableColumnsSelectors } = createTableColumnSlice(
+export const { slice: sickLeaveTableColumnsSlice, getSelectors: getSjukfallTableColumnsSelectors } = createTableColumnSlice(
   'sjukfallTableColumns',
-  Object.values(SjukfallColumn)
+  Object.values(SickLeaveColumn)
 )
 
 export const {
-  reset: resetSjukfallTableColumns,
+  reset: resetSickLeaveTableColumns,
   showColumn,
   hideColumn,
   showAllColumns,
   hideAllColumns,
   moveColumn,
-} = sjukfallTableColumnsSlice.actions
-export const { name: sjukfallTableColumnsReducerPath, reducer: sjukfallTableColumnsReducer } = sjukfallTableColumnsSlice
+} = sickLeaveTableColumnsSlice.actions
+export const { name: sickLeaveTableColumnsReducerPath, reducer: sickLeaveTableColumnsReducer } = sickLeaveTableColumnsSlice

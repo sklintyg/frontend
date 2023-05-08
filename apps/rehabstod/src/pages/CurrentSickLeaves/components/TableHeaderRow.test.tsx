@@ -1,7 +1,7 @@
 import { act, screen } from '@testing-library/react'
 import { Table } from '../../../components/Table/Table'
 import { api } from '../../../store/api'
-import { hideColumn, SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableHeaderRow } from './TableHeaderRow'
@@ -22,7 +22,7 @@ it('Should render all columns', async () => {
   expect(await screen.findAllByRole('columnheader')).toHaveLength(12)
 })
 
-it.each(Object.values(SjukfallColumn))('Should render and hide %s column', async (column) => {
+it.each(Object.values(SickLeaveColumn))('Should render and hide %s column', async (column) => {
   renderWithRouter(
     <Table>
       <thead>

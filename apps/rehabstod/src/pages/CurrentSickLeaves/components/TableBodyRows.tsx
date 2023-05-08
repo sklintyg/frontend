@@ -8,50 +8,50 @@ import { useTableContext } from '../../../components/Table/hooks/useTableContext
 import { TableCell } from '../../../components/Table/TableCell'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
-import { allSjukfallColumns } from '../../../store/slices/sjukfallTableColumnsSelectors'
-import { SjukfallColumn } from '../../../store/slices/sjukfallTableColumnsSlice'
+import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
 
 function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
   switch (column) {
-    case SjukfallColumn.Personnummer:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Personnummer, sickLeave)}</TableCell>
-    case SjukfallColumn.Ålder:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Ålder, sickLeave)} år</TableCell>
-    case SjukfallColumn.Namn:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Namn, sickLeave)}</TableCell>
-    case SjukfallColumn.Kön:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Kön, sickLeave)}</TableCell>
-    case SjukfallColumn.Diagnos:
+    case SickLeaveColumn.Personnummer:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</TableCell>
+    case SickLeaveColumn.Ålder:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Ålder, sickLeave)} år</TableCell>
+    case SickLeaveColumn.Namn:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</TableCell>
+    case SickLeaveColumn.Kön:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</TableCell>
+    case SickLeaveColumn.Diagnos:
       return (
         <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
           <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
         </TableCell>
       )
-    case SjukfallColumn.Sysselsättning:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Sysselsättning, sickLeave)}</TableCell>
-    case SjukfallColumn.Startdatum:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Startdatum, sickLeave)}</TableCell>
-    case SjukfallColumn.Slutdatum:
+    case SickLeaveColumn.Sysselsättning:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Sysselsättning, sickLeave)}</TableCell>
+    case SickLeaveColumn.Startdatum:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</TableCell>
+    case SickLeaveColumn.Slutdatum:
       return (
         <TableCell>
           <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
         </TableCell>
       )
-    case SjukfallColumn.Längd:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Längd, sickLeave)} dagar</TableCell>
-    case SjukfallColumn.Intyg:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Intyg, sickLeave)}</TableCell>
-    case SjukfallColumn.Grad:
+    case SickLeaveColumn.Längd:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</TableCell>
+    case SickLeaveColumn.Intyg:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Intyg, sickLeave)}</TableCell>
+    case SickLeaveColumn.Grad:
       return (
         <TableCell>
           <SickLeaveDegreeInfo degrees={sickLeave.grader} />
         </TableCell>
       )
-    case SjukfallColumn.Läkare:
-      return <TableCell>{getSickLeavesColumnData(SjukfallColumn.Läkare, sickLeave)}</TableCell>
+    case SickLeaveColumn.Läkare:
+      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</TableCell>
     default:
       return null
   }
@@ -72,7 +72,7 @@ export function TableBodyRows({
 }) {
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
-  const columns = useAppSelector(allSjukfallColumns)
+  const columns = useAppSelector(allSickLeaveColumns)
   const { hasAppliedFilters } = useAppSelector((state) => state.sickLeave)
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}.`
@@ -132,8 +132,8 @@ export function TableBodyRows({
               }`}>
               {columns
                 .filter(({ visible }) => visible)
-                .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Personnummer))
-                .filter(({ name }) => !(showPersonalInformation === false && name === SjukfallColumn.Namn))
+                .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
+                .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
                 .map(({ name }) => (
                   <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
                 ))}

@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react'
 import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumnsSelectors'
-import { hideColumn, moveColumn, PatientColumn, showAllColumns, showColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
+import { hideColumn, moveColumn, PatientColumn, showAllColumns, showColumn } from '../../../store/slices/patientTableColumns.slice'
 
 export function ModifyPatientTableColumns() {
   const dispatch = useAppDispatch()

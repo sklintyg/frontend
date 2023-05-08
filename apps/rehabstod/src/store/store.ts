@@ -4,8 +4,8 @@ import { welcomeReducer, welcomeReducerPath } from '../pages/Welcome/welcomeSlic
 import { api } from './api'
 import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
-import { patientTableColumnsReducer, patientTableColumnsReducerPath } from './slices/patientTableColumnsSlice'
-import { sjukfallTableColumnsReducer, sjukfallTableColumnsReducerPath } from './slices/sjukfallTableColumnsSlice'
+import { patientTableColumnsReducer, patientTableColumnsReducerPath } from './slices/patientTableColumns.slice'
+import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from './slices/sickLeaveTableColumns.slice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     [hsaApi.reducerPath]: hsaApi.reducer,
     [sickLeaveReducerPath]: sickLeaveReducer,
     [welcomeReducerPath]: welcomeReducer,
-    [sjukfallTableColumnsReducerPath]: sjukfallTableColumnsReducer,
+    [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsReducer,
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),

@@ -1,5 +1,5 @@
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
-import { PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 
 export function getCertificateColumnData(column: string, certificate: PatientSjukfallIntyg, list: PatientSjukfallIntyg[]) {
   switch (column) {

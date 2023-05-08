@@ -1,7 +1,7 @@
 import { act, screen } from '@testing-library/react'
 import { Table } from '../../../components/Table/Table'
 import { api } from '../../../store/api'
-import { hideColumn, PatientColumn } from '../../../store/slices/patientTableColumnsSlice'
+import { hideColumn, PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { PatientTableHeader } from './PatientTableHeader'
