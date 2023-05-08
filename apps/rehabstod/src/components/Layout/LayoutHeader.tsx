@@ -17,7 +17,7 @@ export function LayoutHeader() {
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" unresponsive className="z-40 bg-white">
+    <IDSHeader type="inera-admin" unresponsive className="z-40 bg-white print:hidden">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
