@@ -1,14 +1,14 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
-import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
-import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
-import { TimePeriodFilter, TimePeriodMetric } from '../../../components/Table/Filter/TimePeriodFilter'
+import { useDispatch } from 'react-redux'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
-import { RootState } from '../../../store/store'
+import { DiagnosisFilter } from './filter/DiagnosisFilter'
+import { DoctorFilter } from './filter/DoctorFilter'
+import { RangeFilter } from './filter/RangeFilter'
+import { TimePeriodFilter, TimePeriodMetric } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,
@@ -21,7 +21,7 @@ export function Filters({
 }) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const { filter } = useSelector((state: RootState) => state.sickLeave)
+  const { filter } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {

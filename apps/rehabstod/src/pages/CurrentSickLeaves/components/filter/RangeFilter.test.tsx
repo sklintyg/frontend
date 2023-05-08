@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { RangeFilter } from './RangeFilter'
 
 const TITLE = 'title'
@@ -56,12 +56,5 @@ describe('RangeFilter', () => {
     await userEvent.clear(screen.getAllByRole('spinbutton')[0])
     await userEvent.type(screen.getAllByRole('spinbutton')[0], '15')
     expect(onFromChange).toHaveBeenLastCalledWith('15')
-  })
-
-  it.skip('should call on to change when changing to input', async () => {
-    renderComponent('1', '100')
-    await userEvent.clear(screen.getAllByRole('spinbutton')[1])
-    await userEvent.type(screen.getAllByRole('spinbutton')[1], '20')
-    expect(onToChange).toHaveBeenLastCalledWith('20')
   })
 })

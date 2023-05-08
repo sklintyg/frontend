@@ -16,7 +16,7 @@ export function TableHeaderCell({
   width?: string
   sticky?: 'left' | 'top' | 'right'
 }) {
-  const { sortOnColumn } = useTableContext()
+  const { sortOnColumn, ascending } = useTableContext()
 
   return (
     <Tooltip>
@@ -24,6 +24,9 @@ export function TableHeaderCell({
         <th
           style={{ width: width ?? '25%', zIndex: 11 }}
           tabIndex={0}
+          role="columnheader"
+          scope="col"
+          aria-sort={ascending ? 'ascending' : 'descending'}
           onKeyDown={({ code, currentTarget }) => {
             if (code === 'Enter' || code === 'Space') {
               sortOnColumn(column)
@@ -44,6 +47,7 @@ export function TableHeaderCell({
             'whitespace-nowrap',
             'first:rounded-tl-md',
             'last:rounded-tr-md',
+            'border-l-0',
             sticky != null && `sticky z-20`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}>

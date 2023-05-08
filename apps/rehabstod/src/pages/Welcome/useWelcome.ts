@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 import { AllowedInApplication, MedarbetarUppdrag, Person } from '../../schemas/hsa'
+import { useAppSelector } from '../../store/hooks'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
-import { RootState } from '../../store/store'
 
 export function useWelcome() {
-  const { selectedFilter } = useSelector((state: RootState) => state.welcome)
+  const { selectedFilter } = useAppSelector((state) => state.welcome)
   const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()
   const { isLoading: isLoadingPerson, data: people } = useGetPersonQuery()
   const isLoading = isLoadingMedarbetarUppdrag || isLoadingPerson

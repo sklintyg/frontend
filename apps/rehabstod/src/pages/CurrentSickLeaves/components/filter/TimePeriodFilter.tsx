@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { SelectMultiple } from '../../Form/SelectMultiple'
-import { Checkbox } from '../../Form/Checkbox'
-import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
+import { Checkbox } from '../../../../components/Form/Checkbox'
+import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
+import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
 
 export enum TimePeriodMetric {
   DAYS = 'DAYS',
@@ -82,10 +82,8 @@ export function TimePeriodFilter({
   }
 
   return (
-    <SelectMultiple
-      label={label}
-      description={description}
-      options={availableOptions.map((option) => (
+    <SelectMultiple label={label} description={description} placeholder={getPlaceholder()}>
+      {availableOptions.map((option) => (
         <Checkbox
           key={`${option.to}${option.from}${option.id}`}
           label={getLabel(option)}
@@ -93,7 +91,6 @@ export function TimePeriodFilter({
           checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
         />
       ))}
-      placeholder={getPlaceholder()}
-    />
+    </SelectMultiple>
   )
 }
