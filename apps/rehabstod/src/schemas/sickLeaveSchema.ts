@@ -147,6 +147,11 @@ export const summaryDataPointSchema = z.object({
   description: z.optional(z.string()),
 })
 
+export const sickLeaveResponseSchema = z.object({
+  content: z.array(sickLeaveInfoSchema),
+  total: z.number(),
+})
+
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
 export type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
@@ -162,3 +167,4 @@ export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
 export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
+export type SickLeaveResponse = z.infer<typeof sickLeaveResponseSchema>

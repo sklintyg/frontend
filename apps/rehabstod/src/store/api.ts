@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, SickLeaveFilter, SickLeaveResponse, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -101,14 +101,13 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<SickLeaveResponse, SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
         providesTags: ['SickLeaves'],
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<

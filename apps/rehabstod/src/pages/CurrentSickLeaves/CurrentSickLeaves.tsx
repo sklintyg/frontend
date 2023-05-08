@@ -14,7 +14,7 @@ import { TableInfo } from './components/TableInfo'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeavesResponse }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { encryptedPatientId } = useParams()
   const dispatch = useAppDispatch()
@@ -60,8 +60,8 @@ export function CurrentSickLeaves() {
               dispatch(updateShowPersonalInformation(checked))
             }}
             showPersonalInformation={showPersonalInformation}
-            totalNumber={(sickLeaves ?? []).length}
-            listLength={(sickLeaves ?? []).length}
+            totalNumber={sickLeavesResponse ? sickLeavesResponse.total : 0}
+            listLength={(sickLeavesResponse ? sickLeavesResponse.content : []).length}
             daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
             daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
           />
@@ -81,7 +81,7 @@ export function CurrentSickLeaves() {
             isDoctor={isDoctor}
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
-            sickLeaves={sickLeaves}
+            sickLeaves={sickLeavesResponse ? sickLeavesResponse.content : []}
             unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
           />
         </tbody>
