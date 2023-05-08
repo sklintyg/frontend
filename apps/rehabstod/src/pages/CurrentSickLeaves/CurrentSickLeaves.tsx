@@ -65,7 +65,7 @@ export function CurrentSickLeaves() {
         daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
       />
 
-      <Table column={SickLeaveColumn.Startdatum}>
+      <Table column={SickLeaveColumn.Startdatum} ascending>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>
