@@ -72,7 +72,7 @@ export function CurrentSickLeaves() {
         </div>
       </div>
 
-      <Table sortColumn={SickLeaveColumn.Startdatum}>
+      <Table sortColumn={SickLeaveColumn.Startdatum} ascending>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>
