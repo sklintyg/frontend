@@ -2,6 +2,15 @@ import { z } from 'zod'
 import { vardenhetSchema } from './vardenhetSchema'
 import { vardgivareSchema } from './vardgivareSchema'
 
+export const DAYS_BETWEEN_SICK_LEAVES = {
+  MIN: 0,
+  MAX: 90,
+}
+export const DAYS_FINISHED_SICK_LEAVE = {
+  MIN: 0,
+  MAX: 14,
+}
+
 export const userPreferencesSchema = z.object({
   lakarutlatandeUnitTableColumns: z.string(),
   pdlConsentGiven: z.string(),

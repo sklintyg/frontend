@@ -6,7 +6,7 @@ import { Link, linkSchema, userPreferencesSchema } from '../../schemas'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
 import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
-import { fakeUser } from '../../utils/fake'
+import { fakeUser } from '../../utils/fake/fakeUser'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
@@ -49,9 +49,7 @@ export const handlers = [
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))
   ),
 
-  rest.post('/api/sickleaves/filters', (_, res, ctx) =>
-    res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ activeDoctors: z.array(lakareSchema) }))()))
-  ),
+  rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
   rest.get('/api/sickleaves/filters', (_, res, ctx) =>
     res(

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { sickLeaveReducer, sickLeaveReducerPath } from '../pages/CurrentSickLeaves/sickLeaveSlice'
-import { welcomeReducer, welcomeReducerPath } from '../pages/Welcome/welcomeSlice'
 import { api } from './api'
 import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
 import { patientTableColumnsReducer, patientTableColumnsReducerPath } from './slices/patientTableColumns.slice'
+import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
+import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice'
 import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from './slices/sickLeaveTableColumns.slice'
+import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     [welcomeReducerPath]: welcomeReducer,
     [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsReducer,
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,
+    [settingsReducerPath]: settingsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),
 })

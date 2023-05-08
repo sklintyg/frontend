@@ -2,8 +2,8 @@ import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useCreateDefaultTestDataMutation } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { selectFilter, selectLogin, selectUnit, updateFreetext } from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
-import { selectFilter, selectLogin, selectUnit, updateFreetext } from './welcomeSlice'
 
 export function Welcome() {
   const { selectedLogin, selectedUnit, freeText, selectedFilter } = useAppSelector((state) => state.welcome)

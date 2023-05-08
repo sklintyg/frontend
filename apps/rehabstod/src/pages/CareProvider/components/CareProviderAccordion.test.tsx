@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Mock, vi } from 'vitest'
-import { fakeVardenhet, fakeVardgivare } from '../../../utils/fake'
+import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
+import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 let selectedRadio: string | null

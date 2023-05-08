@@ -1,36 +1,18 @@
-import { ChangeEvent, ClipboardEventHandler, KeyboardEventHandler, useId } from 'react'
+/* eslint-disable react/jsx-props-no-spreading */
+import { ComponentProps, useId } from 'react'
 import { classNames } from '../../utils/classNames'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { Input } from './Input'
 
 export function NumberInput({
   label,
-  onChange,
-  onBlur,
-  onKeyDown,
-  onPaste,
   description,
-  value,
-  max,
-  min,
-  error,
-  disabled,
   inline = false,
-  bright = false,
-}: {
+  ...props
+}: ComponentProps<typeof Input> & {
   label: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onBlur?: () => void
-  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
-  onPaste?: ClipboardEventHandler<HTMLInputElement>
   description?: string
-  value: number | string
   inline?: boolean
-  max?: number | string
-  min?: number | string
-  disabled: boolean
-  error?: boolean
-  bright?: boolean
 }) {
   const id = useId()
   return (
@@ -38,20 +20,7 @@ export function NumberInput({
       <label htmlFor={id}>
         {label} {description && <TooltipIcon description={description} name="question" size="s" />}
       </label>
-      <Input
-        type="number"
-        error={error}
-        onChange={onChange}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown}
-        onPaste={onPaste}
-        value={value}
-        max={max}
-        min={min}
-        id={id}
-        disabled={disabled}
-        bright={bright}
-      />
+      <Input type="number" id={id} {...props} />
     </div>
   )
 }
