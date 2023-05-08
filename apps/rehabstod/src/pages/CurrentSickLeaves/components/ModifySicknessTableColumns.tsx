@@ -3,7 +3,7 @@ import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns, sickLeaveColumnsString } from '../../../store/slices/sickLeaveTableColumns.selector'
-import { hideColumn, moveColumn, showAllColumns, showColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { hideColumn, moveColumn, setColumnDefaults, showAllColumns, showColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 export function ModifySicknessTableColumns() {
   const dispatch = useAppDispatch()
@@ -22,6 +22,7 @@ export function ModifySicknessTableColumns() {
 
   return (
     <ModifyTableColumns
+      onReset={() => dispatch(setColumnDefaults())}
       columns={columns}
       onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
       onMove={(column, direction) => {

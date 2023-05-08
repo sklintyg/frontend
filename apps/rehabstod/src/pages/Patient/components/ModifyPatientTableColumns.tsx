@@ -3,7 +3,14 @@ import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns
 import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
-import { hideColumn, moveColumn, PatientColumn, showAllColumns, showColumn } from '../../../store/slices/patientTableColumns.slice'
+import {
+  hideColumn,
+  moveColumn,
+  PatientColumn,
+  setColumnDefaults,
+  showAllColumns,
+  showColumn,
+} from '../../../store/slices/patientTableColumns.slice'
 
 export function ModifyPatientTableColumns() {
   const dispatch = useAppDispatch()
@@ -22,6 +29,7 @@ export function ModifyPatientTableColumns() {
 
   return (
     <ModifyTableColumns
+      onReset={() => dispatch(setColumnDefaults())}
       columns={columns.filter(({ name }) => name !== PatientColumn.Intyg)}
       onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
       onMove={(column, direction) => {

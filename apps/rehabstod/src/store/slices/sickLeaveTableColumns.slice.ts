@@ -27,5 +27,6 @@ export const {
   showAllColumns,
   hideAllColumns,
   moveColumn,
+  setColumnDefaults,
 } = sickLeaveTableColumnsSlice.actions
 export const { name: sickLeaveTableColumnsReducerPath, reducer: sickLeaveTableColumnsReducer } = sickLeaveTableColumnsSlice

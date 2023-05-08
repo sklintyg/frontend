@@ -13,18 +13,21 @@ import {
 import { IDSCheckboxGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
 import { classNames } from '../../utils/classNames'
+import { hasNoChildren } from '../../utils/hasNoChildren'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { Input } from './Input'
 
 export function SelectMultiple({
-  label,
-  description,
+  actions,
   children,
+  description,
+  label,
   placeholder,
 }: {
-  label: string
-  description: string
+  actions?: ReactNode
   children: ReactNode
+  description: string
+  label: string
   placeholder: string
 }) {
   const [open, setOpen] = useState(false)
@@ -51,9 +54,11 @@ export function SelectMultiple({
   const { getFloatingProps } = useInteractions([dismiss, role])
   const id = useId()
 
-  if (!children || (children instanceof Array && children.length === 0)) {
+  if (hasNoChildren(children)) {
     return null
   }
+
+  const hasActions = !hasNoChildren(actions)
 
   return (
     <div>
@@ -90,9 +95,14 @@ export function SelectMultiple({
                 outline: 0,
               }}
               {...getFloatingProps()}>
-              <div className="relative max-h-96 overflow-auto">
+              <div className="relative max-h-96 overflow-auto py-1">
                 <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
               </div>
+              {hasActions && (
+                <div className="pt-2">
+                  <div className="border-neutral-90 flex grow items-center border-t pt-3">{actions}</div>
+                </div>
+              )}
             </div>
           </FloatingFocusManager>
         </FloatingPortal>

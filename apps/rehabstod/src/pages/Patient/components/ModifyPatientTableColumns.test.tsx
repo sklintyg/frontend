@@ -30,7 +30,7 @@ describe('vibility', () => {
   it('Should be possible to hide visible columns', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
 
-    await user.click(screen.getByRole('button'))
+    await user.click(await screen.findByRole('button'))
 
     expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(true)
 
@@ -44,7 +44,7 @@ describe('vibility', () => {
 
     const pendingRequest = waitForRequest('POST', '/api/user/preferences')
 
-    await user.click(screen.getByRole('button'))
+    await user.click(await screen.findByRole('button'))
     await user.click(screen.getByLabelText('Slutdatum'))
 
     const request = await act(() => pendingRequest)
@@ -60,7 +60,7 @@ describe('vibility', () => {
 describe('position', () => {
   it('Should be possible to move column up', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    await user.click(screen.getByRole('button'))
+    await user.click(await screen.findByRole('button'))
 
     expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
 
@@ -71,7 +71,7 @@ describe('position', () => {
 
   it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    await user.click(screen.getByRole('button'))
+    await user.click(await screen.findByRole('button'))
 
     expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
 

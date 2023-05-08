@@ -25,5 +25,6 @@ export const {
   showAllColumns,
   hideAllColumns,
   moveColumn,
+  setColumnDefaults,
 } = patientTableColumnsSlice.actions
 export const { name: patientTableColumnsReducerPath, reducer: patientTableColumnsReducer } = patientTableColumnsSlice

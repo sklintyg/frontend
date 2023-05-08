@@ -1,3 +1,4 @@
+import { IDSButton } from '@frontend/ids-react-ts'
 import { TableColumn } from '../../schemas/tableSchema'
 import { Checkbox } from '../Form/Checkbox'
 import { SelectMultiple } from '../Form/SelectMultiple'
@@ -6,13 +7,15 @@ import { MoveColumnButton } from './MoveColumnButton'
 export function ModifyTableColumns({
   columns,
   onChecked,
-  onShowAll,
   onMove,
+  onReset,
+  onShowAll,
 }: {
   columns: TableColumn[]
   onChecked: (column: string, checked: boolean) => void
-  onShowAll: () => void
   onMove: (column: string, direction: 'left' | 'right') => void
+  onReset: () => void
+  onShowAll: () => void
 }) {
   const selectedColumns = columns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
@@ -33,18 +36,18 @@ export function ModifyTableColumns({
   return (
     <SelectMultiple
       label="Anpassa tabeller"
-      description="Välj vilka kolumner du vill se och i vilken ordning dessa ska ligga. Ändringarna sparas tillsvidare. Kolumner som du väljer att ta bort kan du inte filtrera på."
-      placeholder={getPlaceholder()}>
-      <Checkbox
-        checked={isAllSelected}
-        disabled={isAllSelected}
-        label="Välj alla"
-        onChange={() => {
-          if (!isAllSelected) {
-            onShowAll()
-          }
-        }}
-      />
+      description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare. Borttagna kolumner går inte att filtrera."
+      placeholder={getPlaceholder()}
+      actions={
+        <>
+          <IDSButton onClick={() => onReset()} tertiary className="flex-1 text-center" size="s" block>
+            Återställ
+          </IDSButton>
+          <IDSButton onClick={() => onShowAll()} className="flex-1 whitespace-nowrap" size="s" block>
+            Välj alla
+          </IDSButton>
+        </>
+      }>
       {columns.map(({ name, visible, disabled }, index) => (
         <div key={name} data-testid={`${name.toLowerCase()}-column`} className="flex">
           <div className="-mt-3 w-full">
@@ -58,7 +61,6 @@ export function ModifyTableColumns({
             />
           </div>
           <MoveColumnButton disabled={index === 0} direction="left" onClick={() => onMove(name, 'left')} column={name} />
-
           <MoveColumnButton disabled={index === columns.length - 1} direction="right" column={name} onClick={() => onMove(name, 'right')} />
         </div>
       ))}
