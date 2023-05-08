@@ -6,7 +6,11 @@ import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
   renderWithRouter(
-    <PatientOverview sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData} patientId="191212121212" />
+    <PatientOverview
+      sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData}
+      patientId="191212121212"
+      isPersonResponseMissing={false}
+    />
   )
 }
 

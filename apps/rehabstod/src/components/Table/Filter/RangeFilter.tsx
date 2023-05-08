@@ -1,13 +1,15 @@
-import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
+import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
 
-export function TimePeriodFilter({
+export function RangeFilter({
   title,
   description,
   onFromChange,
   onToChange,
   to,
   from,
+  max,
+  min,
 }: {
   title: string
   description: string
@@ -15,10 +17,9 @@ export function TimePeriodFilter({
   onToChange: (value: string) => void
   to: string
   from: string
+  max: string
+  min: string
 }) {
-  const maxLimit = '10000'
-  const minLimit = '1'
-
   return (
     <div>
       <div>
@@ -32,17 +33,17 @@ export function TimePeriodFilter({
           value={from === '0' ? '' : from}
           inline
           max={to}
-          min={minLimit}
-          defaultValue={minLimit}
+          min={min}
+          defaultValue={min}
         />
         <FormattedNumberInput
           label="Till"
           onChange={(value) => onToChange(value)}
           value={to === '0' ? '' : to}
           inline
-          max={maxLimit}
+          max={max}
           min={from}
-          defaultValue={maxLimit}
+          defaultValue={max}
         />
       </div>
     </div>

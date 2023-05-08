@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
+import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
@@ -47,7 +48,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -63,15 +64,25 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
+            <TimePeriodFilter
+              title="Välj sjukskrivningslängd"
+              onFromChange={onFromTimeChange}
+              onToChange={onToTimeChange}
+              to={filter.toSickLeaveLength.toString()}
+              from={filter.fromSickLeaveLength.toString()}
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+            />
+            <RangeFilter
+              title="Åldersspann"
+              description="Filtrerar på patientens nuvarande ålder."
+              onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
+              onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
+              to={filter.toPatientAge.toString()}
+              from={filter.fromPatientAge.toString()}
+              max="150"
+              min="1"
+            />
           </div>
-          <TimePeriodFilter
-            title="Välj sjukskrivningslängd"
-            onFromChange={onFromTimeChange}
-            onToChange={onToTimeChange}
-            to={filter.toSickLeaveLength.toString()}
-            from={filter.fromSickLeaveLength.toString()}
-            description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-          />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>

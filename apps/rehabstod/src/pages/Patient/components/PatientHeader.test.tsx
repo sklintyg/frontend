@@ -1,6 +1,5 @@
-import { faker } from '@frontend/fake'
 import { screen } from '@testing-library/react'
-import { format } from 'date-fns'
+import { addDays, format, subDays } from 'date-fns'
 import { updateShowPersonalInformation } from '../../../store/slices/sickLeave.slice'
 import { store } from '../../../store/store'
 import { fakePatient } from '../../../utils/fake/fakePatient'
@@ -12,12 +11,11 @@ describe('PatientHeader', () => {
     const patient = fakePatient({
       sjukfallList: [
         {
-          start: format(faker.date.past(1), 'yyyy-MM-dd'),
-          dagar: 72,
+          start: format(subDays(Date.now(), 10), 'yyyy-MM-dd'),
+          slut: format(addDays(Date.now(), 20), 'yyyy-MM-dd'),
+          dagar: 30,
           intyg: [
             {
-              start: '2023-04-25',
-              slut: '2023-05-01',
               patient: {
                 alder: 30,
                 kon: 'F',
@@ -50,5 +48,10 @@ describe('PatientHeader', () => {
     expect(screen.getByText(/30 år/i)).toBeInTheDocument()
     expect(screen.getByText(/kvinna/i)).toBeInTheDocument()
     expect(screen.getByText(/uppskattad dag i sjukfallet:/i)).toBeInTheDocument()
+  })
+
+  it('should show days into sick leave as first active sick leave start date minus todays date', () => {
+    renderPatientHeader(true)
+    expect(screen.getByText('10 dagar')).toBeInTheDocument()
   })
 })
