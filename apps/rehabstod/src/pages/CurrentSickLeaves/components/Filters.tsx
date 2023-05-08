@@ -1,14 +1,14 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { DiagnosKapitel, SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
+import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
 import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
-import { TimePeriodFilter } from './filter/TimePeriodFilter'
+import { TimePeriodFilter, TimePeriodMetric } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,
@@ -24,12 +24,8 @@ export function Filters({
   const { filter } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 
-  const onFromTimeChange = (value: string) => {
-    dispatch(updateFilter({ fromSickLeaveLength: Number(value) }))
-  }
-
-  const onToTimeChange = (value: string) => {
-    dispatch(updateFilter({ toSickLeaveLength: Number(value) }))
+  const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
+    dispatch(updateFilter({ sickLeaveLengthIntervals: intervals }))
   }
 
   const onDoctorChange = (doctorIds: string[]) => {
@@ -39,6 +35,16 @@ export function Filters({
   const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
     dispatch(updateFilter({ diagnosisChapters }))
   }
+
+  const sickLeaveLengthIntervals = [
+    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
+    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
+    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
+    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
+    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
+    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
+    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
+  ]
 
   return (
     <>
@@ -64,14 +70,6 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
-            <TimePeriodFilter
-              title="Välj sjukskrivningslängd"
-              onFromChange={onFromTimeChange}
-              onToChange={onToTimeChange}
-              to={filter.toSickLeaveLength.toString()}
-              from={filter.fromSickLeaveLength.toString()}
-              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-            />
             <RangeFilter
               title="Åldersspann"
               description="Filtrerar på patientens nuvarande ålder."
@@ -81,6 +79,13 @@ export function Filters({
               from={filter.fromPatientAge.toString()}
               max="150"
               min="1"
+            />
+            <TimePeriodFilter
+              label="Sjukskrivningslängd"
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+              onChange={onSickLeaveLengthIntervalsChange}
+              availableOptions={sickLeaveLengthIntervals}
+              selectedOptions={filter.sickLeaveLengthIntervals}
             />
           </div>
           <div className="flex justify-end">
