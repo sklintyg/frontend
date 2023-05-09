@@ -82,7 +82,9 @@ export function CurrentSickLeaves() {
         </div>
       </div>
 
-      <Table sortColumn={SickLeaveColumn.Startdatum} print={<PrintTable sickLeaves={sickLeaves} />}>
+      <Table
+        sortColumn={SickLeaveColumn.Startdatum}
+        print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>

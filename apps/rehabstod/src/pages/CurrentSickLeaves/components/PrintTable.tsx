@@ -40,7 +40,7 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
   }
 }
 
-export function PrintTable({ sickLeaves }: { sickLeaves?: SickLeaveInfo[] }) {
+export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves?: SickLeaveInfo[]; showPersonalInformation: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
 
@@ -51,17 +51,20 @@ export function PrintTable({ sickLeaves }: { sickLeaves?: SickLeaveInfo[] }) {
     <div>
       {sortTableList(sickLeaves, getSickLeavesColumnData)?.map((sickLeave) => (
         <div key={sickLeave.uid} className="border-neutral-40 -mb-px columns-3 break-inside-avoid gap-2 border p-4">
-          {columns.map(
-            ({ name, visible }) =>
-              visible && (
-                <div key={name} className="flex gap-1">
-                  <div className="w-5/12 font-bold">{name}:</div>
-                  <div key={name} className="w-7/12 overflow-hidden text-ellipsis whitespace-normal">
-                    <ResolveTableCell column={name} sickLeave={sickLeave} />
+          {columns
+            .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
+            .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
+            .map(
+              ({ name, visible }) =>
+                visible && (
+                  <div key={name} className="flex gap-1">
+                    <div className="w-5/12 font-bold">{name}:</div>
+                    <div key={name} className="w-7/12 overflow-hidden text-ellipsis whitespace-normal">
+                      <ResolveTableCell column={name} sickLeave={sickLeave} />
+                    </div>
                   </div>
-                </div>
-              )
-          )}
+                )
+            )}
         </div>
       ))}
     </div>
