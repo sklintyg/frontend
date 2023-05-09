@@ -74,7 +74,7 @@ describe('Navigate', () => {
                 <TableBodyRows
                   isLoading={false}
                   showPersonalInformation
-                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ uid: 'aperiam' })]}
+                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]}
                   unitId="Alfa Vårdenhet"
                   isDoctor={false}
                 />
