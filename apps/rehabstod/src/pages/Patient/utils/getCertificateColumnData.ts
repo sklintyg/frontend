@@ -5,16 +5,16 @@ export function getCertificateColumnData(column: string, certificate: PatientSju
   switch (column) {
     case PatientColumn.Num:
       return list.indexOf(certificate)
-    case PatientColumn.Diagnos:
-      return certificate.diagnos.kod
     case PatientColumn.Startdatum:
       return certificate.start
+    case PatientColumn.Diagnos:
+      return certificate.diagnos ? certificate.diagnos.kod : 'Okänt'
     case PatientColumn.Slutdatum:
       return certificate.slut
     case PatientColumn.Längd:
       return certificate.dagar
     case PatientColumn.Läkare:
-      return certificate.lakare.namn
+      return certificate.lakare ? certificate.lakare.namn : 'Okänt'
     default:
       return undefined
   }
