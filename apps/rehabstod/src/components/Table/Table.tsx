@@ -38,7 +38,7 @@ function useTable(options: TableOptions) {
 
 export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
 
-export function Table({ children, print, ...options }: { children: ReactNode; print?: ReactNode } & TableOptions) {
+export function Table({ children, print, ...options }: { children?: ReactNode; print?: ReactNode } & TableOptions) {
   const table = useTable(options)
 
   return (

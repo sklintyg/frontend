@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import isEqual from 'lodash/isEqual'
-import { TimePeriodMetric, TimePeriodOption } from '../../pages/CurrentSickLeaves/components/filter/TimePeriodFilter'
 import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
+import { TimePeriodMetric, TimePeriodOption } from '../../schemas/timePeriodOptionSchema'
 
 export interface SickLeaveState {
   filter: SickLeaveFilter

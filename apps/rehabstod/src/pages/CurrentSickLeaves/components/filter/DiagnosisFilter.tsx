@@ -1,6 +1,7 @@
 import { Checkbox } from '../../../../components/Form/Checkbox'
 import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
 import { DiagnosKapitel } from '../../../../schemas/sickLeaveSchema'
+import { getDiagnosisPlaceholder } from '../../utils/getDiagnosisPlaceholder'
 
 export function DiagnosisFilter({
   onChange,
@@ -15,18 +16,6 @@ export function DiagnosisFilter({
   selected: DiagnosKapitel[]
   description: string
 }) {
-  const getPlaceholder = () => {
-    if (selected.length === 0) {
-      return 'Välj i listan'
-    }
-
-    if (selected.length === 1) {
-      return `${selected[0].id}: ${selected[0].name} `
-    }
-
-    return `${selected.length} valda`
-  }
-
   const handleOnChange = (diagnosis: DiagnosKapitel, isAdded: boolean) => {
     let diagnoses
     if (isAdded) {
@@ -41,7 +30,7 @@ export function DiagnosisFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Diagnos" description={description} placeholder={getPlaceholder()}>
+      <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected) ?? 'Välj i listan'}>
         {allDiagnoses
           ? allDiagnoses.map((diagnosis) => (
               <Checkbox

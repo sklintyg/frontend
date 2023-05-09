@@ -2,18 +2,8 @@ import { useState } from 'react'
 import { Checkbox } from '../../../../components/Form/Checkbox'
 import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
 import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
-
-export enum TimePeriodMetric {
-  DAYS = 'DAYS',
-  YEARS = 'YEARS',
-}
-
-export interface TimePeriodOption {
-  from: number | null
-  to: number | null
-  metric: TimePeriodMetric
-  id: number
-}
+import { TimePeriodMetric, TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
+import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from '../../utils/getSickLeaveLengthPlaceholder'
 
 export function TimePeriodFilter({
   label,
@@ -31,28 +21,6 @@ export function TimePeriodFilter({
   const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>(
     availableOptions.filter((option) => selectedOptions.find((selected) => selected.from === option.from && selected.to === option.to))
   )
-
-  const getLabel = (option: TimePeriodOption) => {
-    const metricLabel = option.metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'
-
-    if (option.to && option.from) {
-      return `${option.from}-${option.to} ${metricLabel}`
-    }
-
-    return `${!option.to ? `Över ${option.from}` : `Under ${option.to}`} ${metricLabel}`
-  }
-
-  const getPlaceholder = () => {
-    if (chosenOptions.length === 0) {
-      return 'Välj'
-    }
-
-    if (chosenOptions.length === 1) {
-      return getLabel(chosenOptions[0])
-    }
-
-    return `${chosenOptions.length} valda`
-  }
 
   const convertTimePeriod = (period: TimePeriodOption) => {
     if (period.metric === TimePeriodMetric.YEARS) {
@@ -82,11 +50,11 @@ export function TimePeriodFilter({
   }
 
   return (
-    <SelectMultiple label={label} description={description} placeholder={getPlaceholder()}>
+    <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions) ?? 'Välj'}>
       {availableOptions.map((option) => (
         <Checkbox
           key={`${option.to}${option.from}${option.id}`}
-          label={getLabel(option)}
+          label={getSickLeaveLengthLabel(option)}
           onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
           checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
         />

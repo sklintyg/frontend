@@ -1,6 +1,7 @@
 import { Checkbox } from '../../../../components/Form/Checkbox'
 import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
 import { Lakare } from '../../../../schemas/lakareSchema'
+import { getDoctorsPlaceholder } from '../../utils/getDoctorsPlaceholder'
 
 export function DoctorFilter({
   onChange,
@@ -13,19 +14,6 @@ export function DoctorFilter({
   selected: string[]
   description: string
 }) {
-  const getPlaceholder = () => {
-    if (selected.length === 0) {
-      return 'Välj i listan'
-    }
-
-    if (selected.length === 1) {
-      const doctor = doctors.find((d) => d.hsaId === selected[0])
-      return doctor ? doctor.namn : ''
-    }
-
-    return `${selected.length} valda`
-  }
-
   const handleOnChange = (doctorId: string, isAdded: boolean) => {
     let doctorIds
     if (isAdded) {
@@ -40,7 +28,7 @@ export function DoctorFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Läkare" description={description} placeholder={getPlaceholder()}>
+      <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors) ?? 'Välj i listan'}>
         {doctors
           ? doctors.map((doctor) => (
               <Checkbox
