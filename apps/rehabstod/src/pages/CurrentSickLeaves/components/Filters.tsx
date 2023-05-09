@@ -8,7 +8,7 @@ import { updateFilter } from '../../../store/slices/sickLeave.slice'
 import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
-import { TimePeriodFilter, TimePeriodMetric } from './filter/TimePeriodFilter'
+import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,
@@ -21,7 +21,7 @@ export function Filters({
 }) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const { filter } = useAppSelector((state) => state.sickLeave)
+  const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -35,16 +35,6 @@ export function Filters({
   const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
     dispatch(updateFilter({ diagnosisChapters }))
   }
-
-  const sickLeaveLengthIntervals = [
-    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
-    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
-    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
-    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
-    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
-    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
-    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
-  ]
 
   return (
     <>
