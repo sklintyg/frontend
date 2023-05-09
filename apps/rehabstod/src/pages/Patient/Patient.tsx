@@ -11,7 +11,14 @@ import { PatientSickLeaves } from './components/PatientSickLeaves'
 export function Patient() {
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient } = useGetSickLeavePatientQuery(encryptedPatientId ? { patientId: encryptedPatientId } : skipToken)
+  const { data: patient } = useGetSickLeavePatientQuery(
+    encryptedPatientId
+      ? {
+          encryptedPatientId,
+          patientId: null,
+        }
+      : skipToken
+  )
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
