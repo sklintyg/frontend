@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
@@ -77,6 +77,14 @@ export const api = createApi({
         }
       },
     }),
+    updateTableColumns: builder.mutation<UserPreferences, Partial<Pick<UserPreferences, UserPreferencesTableSettings>>>({
+      query: (preferences) => ({
+        url: 'user/preferences',
+        method: 'POST',
+        body: preferences,
+      }),
+      invalidatesTags: ['User'],
+    }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
         url: '../logout',
@@ -118,11 +126,11 @@ export const api = createApi({
       }),
       providesTags: ['SickLeaveSummary'],
     }),
-    getSickLeavePatient: builder.query<Patient, { patientId: string }>({
-      query: ({ patientId }) => ({
+    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string | null; patientId: string | null }>({
+      query: ({ encryptedPatientId }) => ({
         url: 'sjukfall/patient',
         method: 'POST',
-        body: { patientId },
+        body: { encryptedPatientId },
       }),
       providesTags: ['SickLeavePatient'],
     }),
@@ -164,7 +172,7 @@ export const api = createApi({
             data: { responseCode },
           } = await queryFulfilled
           dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { patientId }, (draft) =>
+            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId: null, patientId }, (draft) =>
               Object.assign(draft, {
                 sjfMetaData: {
                   ...(draft.sjfMetaData ?? {}),
@@ -183,17 +191,19 @@ export const api = createApi({
 
 export const {
   useChangeUnitMutation,
+  useCreateDefaultTestDataMutation,
   useFakeLogoutMutation,
   useGetLinksQuery,
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
-  useLazyGetSickLeavesQuery,
-  useUpdateUserPreferencesMutation,
-  useGetUserQuery,
-  useCreateDefaultTestDataMutation,
+  useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
+  useGetUserQuery,
   useGiveConsentMutation,
+  useLazyGetSickLeavesQuery,
+  useUpdateTableColumnsMutation,
+  useUpdateUserPreferencesMutation,
   useAddVardenhetMutation,
   useAddVardgivareMutation,
   useGiveSjfConsentMutation,

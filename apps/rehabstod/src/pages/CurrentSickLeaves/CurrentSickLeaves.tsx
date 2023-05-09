@@ -1,14 +1,17 @@
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
 import { UserUrval } from '../../schemas'
-import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
-import { RootState } from '../../store/store'
+import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
+import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
+import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
+import { PrintFilters } from './components/PrintFilters'
+import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
@@ -16,7 +19,7 @@ import { TableInfo } from './components/TableInfo'
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
-  const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
+  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { encryptedPatientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
@@ -42,30 +45,47 @@ export function CurrentSickLeaves() {
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-      <h1 className="ids-heading-2">Pågående sjukfall</h1>
-      <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
-      <hr className="opacity-40" />
+      <CurrentSickLeavesHeading user={user} />
 
-      <Filters
-        onSearch={(request) => triggerGetSickLeaves(request)}
-        onReset={() => {
-          dispatch(resetFilters())
-        }}
-        isDoctor={isDoctor}
-      />
+      <div className="print:hidden">
+        <Filters
+          onSearch={(request) => triggerGetSickLeaves(request)}
+          onReset={() => {
+            dispatch(resetFilters())
+          }}
+          isDoctor={isDoctor}
+        />
+      </div>
+      <PrintFilters isDoctor={isDoctor} />
 
-      <TableInfo
-        onShowPersonalInformationChange={(checked) => {
-          dispatch(updateShowPersonalInformation(checked))
-        }}
-        showPersonalInformation={showPersonalInformation}
-        totalNumber={(sickLeaves ?? []).length}
-        listLength={(sickLeaves ?? []).length}
-        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
-        daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
-      />
+      <div className="flex">
+        <div className="w-full">
+          <TableInfo
+            onShowPersonalInformationChange={(checked) => {
+              dispatch(updateShowPersonalInformation(checked))
+            }}
+            showPersonalInformation={showPersonalInformation}
+            totalNumber={(sickLeaves ?? []).length}
+            listLength={(sickLeaves ?? []).length}
+            daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+            daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+          />
+        </div>
 
-      <Table column={SickLeaveColumn.Startdatum}>
+        <div className="mb-5 flex items-end gap-3 print:hidden">
+          <div className="w-96">
+            <ModifySicknessTableColumns />
+          </div>
+          <IDSButton onClick={() => window.print()} className="mb-3 whitespace-nowrap">
+            Skriv ut
+          </IDSButton>
+        </div>
+      </div>
+
+      <Table
+        sortColumn={SickLeaveColumn.Startdatum}
+        print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
+        ascending>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>

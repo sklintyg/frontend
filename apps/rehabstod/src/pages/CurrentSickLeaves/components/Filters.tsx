@@ -1,14 +1,14 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { DiagnosisFilter } from '../../../components/Table/Filter/DiagnosisFilter'
-import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
-import { RangeFilter } from '../../../components/Table/Filter/RangeFilter'
-import { TimePeriodFilter, TimePeriodMetric } from '../../../components/Table/Filter/TimePeriodFilter'
+import { useDispatch } from 'react-redux'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
-import { RootState } from '../../../store/store'
+import { DiagnosisFilter } from './filter/DiagnosisFilter'
+import { DoctorFilter } from './filter/DoctorFilter'
+import { RangeFilter } from './filter/RangeFilter'
+import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,
@@ -21,7 +21,7 @@ export function Filters({
 }) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const { filter } = useSelector((state: RootState) => state.sickLeave)
+  const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -35,16 +35,6 @@ export function Filters({
   const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
     dispatch(updateFilter({ diagnosisChapters }))
   }
-
-  const sickLeaveLengthIntervals = [
-    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
-    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
-    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
-    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
-    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
-    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
-    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
-  ]
 
   return (
     <>

@@ -1,20 +1,20 @@
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
-import { SickLeaveColumn } from '../../../schemas/sickLeaveSchema'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 
 export function getCertificateColumnData(column: string, certificate: PatientSjukfallIntyg, list: PatientSjukfallIntyg[]) {
   switch (column) {
-    case SickLeaveColumn.Num:
+    case PatientColumn.Num:
       return list.indexOf(certificate)
-    case SickLeaveColumn.Diagnos:
-      return certificate.diagnos.kod
-    case SickLeaveColumn.Startdatum:
+    case PatientColumn.Startdatum:
       return certificate.start
-    case SickLeaveColumn.Slutdatum:
+    case PatientColumn.Diagnos:
+      return certificate.diagnos ? certificate.diagnos.kod : 'Okänt'
+    case PatientColumn.Slutdatum:
       return certificate.slut
-    case SickLeaveColumn.Längd:
+    case PatientColumn.Längd:
       return certificate.dagar
-    case SickLeaveColumn.Läkare:
-      return certificate.lakare.namn
+    case PatientColumn.Läkare:
+      return certificate.lakare ? certificate.lakare.namn : 'Okänt'
     default:
       return undefined
   }

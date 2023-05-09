@@ -2,18 +2,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import isEqual from 'lodash/isEqual'
 import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
+import { TimePeriodMetric, TimePeriodOption } from '../../schemas/timePeriodOptionSchema'
 
 export interface SickLeaveState {
-  showPersonalInformation: boolean
   filter: SickLeaveFilter
-
   hasAppliedFilters: boolean
+  showPersonalInformation: boolean
+  sickLeaveLengthIntervals: TimePeriodOption[]
 }
 
 const initialState: SickLeaveState = {
   showPersonalInformation: true,
   filter: { doctorIds: [], diagnosisChapters: [], sickLeaveLengthIntervals: [], toPatientAge: 150, fromPatientAge: 1 },
   hasAppliedFilters: false,
+  sickLeaveLengthIntervals: [
+    { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
+    { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
+    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
+    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
+    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
+    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
+    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
+  ],
 }
 
 const sickLeaveSlice = createSlice({

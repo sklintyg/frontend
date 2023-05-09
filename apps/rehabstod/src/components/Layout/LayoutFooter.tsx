@@ -7,7 +7,7 @@ export function LayoutFooter() {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <IDSFooter type="inera-admin" headline="Rehabstöd">
+    <IDSFooter type="inera-admin" headline="Rehabstöd" className="print:hidden">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
 
       <p slot="link-col-1">

@@ -1,17 +1,24 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
+import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
+import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumns'
 import { PatientHeader } from './components/PatientHeader'
-import { PatientSickLeaves } from './components/PatientSickLeaves'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
-import { PuResponse } from '../../schemas/patientSchema'
+import { PatientSickLeaves } from './components/PatientSickLeaves'
 
 export function Patient() {
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient } = useGetSickLeavePatientQuery(encryptedPatientId ? { patientId: encryptedPatientId } : skipToken)
+  const { data: patient } = useGetSickLeavePatientQuery(
+    encryptedPatientId
+      ? {
+          encryptedPatientId,
+          patientId: null,
+        }
+      : skipToken
+  )
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
@@ -22,6 +29,9 @@ export function Patient() {
     <>
       {patient && <PatientHeader patient={patient} />}
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
+        <div className="ml-auto w-96">
+          <ModifyPatientTableColumns />
+        </div>
         {currentSickLeaves.length > 0 && (
           <>
             <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>

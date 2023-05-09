@@ -2,23 +2,6 @@
 import { z } from 'zod'
 import { lakareSchema } from './lakareSchema'
 
-export enum SickLeaveColumn {
-  Diagnos = 'Diagnos/er',
-  Grad = 'Grad',
-  Intyg = 'Intyg',
-  Kön = 'Kön',
-  Läkare = 'Läkare',
-  Längd = 'Längd',
-  Namn = 'Namn',
-  Num = '#',
-  Personnummer = 'Personnummer',
-  Slutdatum = 'Slutdatum',
-  Startdatum = 'Startdatum',
-  Sysselsättning = 'Sysselsättning',
-  Ålder = 'Ålder',
-  Ärenden = 'Ärenden',
-}
-
 export enum Gender {
   M = 'M',
   F = 'F',
@@ -79,7 +62,7 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareId: z.string(),
   vardGivareNamn: z.string(),
   sysselsattning: z.array(z.string()),
-  uid: z.string(),
+  encryptedPatientId: z.string(),
 })
 
 export const diagnosKategoriSchema = z.object({
