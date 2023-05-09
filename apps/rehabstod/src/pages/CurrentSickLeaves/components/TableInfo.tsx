@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../../store/hooks'
 import { showSettingsDialog } from '../../../store/slices/settings.slice'
 
 export function TableInfoDivider() {
-  return <span className="mx-2">|</span>
+  return <span className="mx-1">|</span>
 }
 
 export function TableInfo({
@@ -34,7 +34,7 @@ export function TableInfo({
           onShowPersonalInformationChange(checked)
         }}
       />
-      <div className="flex">
+      <div className="flex gap-1">
         <span>
           Visar{' '}
           <span className="font-bold">
