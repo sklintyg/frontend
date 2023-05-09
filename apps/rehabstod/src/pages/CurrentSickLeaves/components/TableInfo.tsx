@@ -4,7 +4,11 @@ import { useAppDispatch } from '../../../store/hooks'
 import { showSettingsDialog } from '../../../store/slices/settings.slice'
 
 export function TableInfoDivider() {
-  return <span className="mx-1">|</span>
+  return (
+    <span role="separator" aria-orientation="vertical" className="mx-1">
+      |
+    </span>
+  )
 }
 
 export function TableInfo({
@@ -25,15 +29,17 @@ export function TableInfo({
   const dispatch = useAppDispatch()
 
   return (
-    <div className="mb-5">
-      <Checkbox
-        label="Visa personuppgifter"
-        checked={showPersonalInformation}
-        description="Visar eller döljer patienternas namn och personnummer i tabellen."
-        onChange={({ currentTarget: { checked } }) => {
-          onShowPersonalInformationChange(checked)
-        }}
-      />
+    <div className="mb-5 print:mb-0">
+      <div className="print:hidden">
+        <Checkbox
+          label="Visa personuppgifter"
+          checked={showPersonalInformation}
+          description="Visar eller döljer patienternas namn och personnummer i tabellen."
+          onChange={({ currentTarget: { checked } }) => {
+            onShowPersonalInformationChange(checked)
+          }}
+        />
+      </div>
       <div className="flex gap-1">
         <span>
           Visar{' '}
@@ -47,8 +53,8 @@ export function TableInfo({
         <span>
           Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
         </span>
-        <TableInfoDivider />
-        <div>
+        <div className="print:hidden">
+          <TableInfoDivider />
           <IDSButton onClick={() => dispatch(showSettingsDialog())} tertiary size="s">
             Ändra
           </IDSButton>

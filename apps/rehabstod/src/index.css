@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@page {
+  size: A4 landscape;
+}
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -114,7 +118,7 @@
   border-bottom-right-radius: 0.375rem !important;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   opacity: 1;
 }

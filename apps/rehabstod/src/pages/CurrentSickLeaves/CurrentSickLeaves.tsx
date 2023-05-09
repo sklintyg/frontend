@@ -1,3 +1,4 @@
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -6,8 +7,11 @@ import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
+import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
+import { PrintFilters } from './components/PrintFilters'
+import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
@@ -41,17 +45,18 @@ export function CurrentSickLeaves() {
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-      <h1 className="ids-heading-2">Pågående sjukfall</h1>
-      <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
-      <hr className="opacity-40" />
+      <CurrentSickLeavesHeading user={user} />
 
-      <Filters
-        onSearch={(request) => triggerGetSickLeaves(request)}
-        onReset={() => {
-          dispatch(resetFilters())
-        }}
-        isDoctor={isDoctor}
-      />
+      <div className="print:hidden">
+        <Filters
+          onSearch={(request) => triggerGetSickLeaves(request)}
+          onReset={() => {
+            dispatch(resetFilters())
+          }}
+          isDoctor={isDoctor}
+        />
+      </div>
+      <PrintFilters isDoctor={isDoctor} />
 
       <div className="flex">
         <div className="w-full">
@@ -67,12 +72,20 @@ export function CurrentSickLeaves() {
           />
         </div>
 
-        <div className="mb-5 w-96 self-end">
-          <ModifySicknessTableColumns />
+        <div className="mb-5 flex items-end gap-3 print:hidden">
+          <div className="w-96">
+            <ModifySicknessTableColumns />
+          </div>
+          <IDSButton onClick={() => window.print()} className="mb-3 whitespace-nowrap">
+            Skriv ut
+          </IDSButton>
         </div>
       </div>
 
-      <Table sortColumn={SickLeaveColumn.Startdatum} ascending>
+      <Table
+        sortColumn={SickLeaveColumn.Startdatum}
+        print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
+        ascending>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>
