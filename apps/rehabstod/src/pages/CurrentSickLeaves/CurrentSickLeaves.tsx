@@ -84,7 +84,8 @@ export function CurrentSickLeaves() {
 
       <Table
         sortColumn={SickLeaveColumn.Startdatum}
-        print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}>
+        print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
+        ascending>
         <thead>
           <TableHeaderRow showPersonalInformation={showPersonalInformation} />
         </thead>

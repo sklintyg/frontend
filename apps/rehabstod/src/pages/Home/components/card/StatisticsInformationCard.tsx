@@ -9,11 +9,11 @@ export function StatisticsInformationCard() {
 
   return (
     <>
-      <h3 className="ids-heading-4">Här kan du hitta mer statistik</h3>
+      <h3 className="ids-heading-4">Använd Intygsstatistik för att se mer statistik</h3>
       <div>
         <p>
-          Om du vill se mer statistik för din enhet eller på nationell nivå kan du använda Intygsstatistik. När du klickar på länken nedan
-          öppnas Intygsstatistik i en ny flik, och du blir automatiskt inloggad om du har giltig behörighet till Intygsstatistik.
+          När du klickar på länken nedan öppnas Intygsstatistik i en ny flik. Om du har behörighet till Intygsstatistik blir du automatiskt
+          inloggad på samma enhet.
         </p>
         <div className="flex pb-20 pt-5">
           {links && links.statistiktjanstenTooltip && (
