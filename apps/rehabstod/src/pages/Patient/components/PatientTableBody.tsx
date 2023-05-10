@@ -25,7 +25,8 @@ function PatientTableCellResolver({
       return <TableCell>{rowIndex}</TableCell>
     case PatientColumn.Diagnos:
       return (
-        <TableCell description={<DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
+        <TableCell
+          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
