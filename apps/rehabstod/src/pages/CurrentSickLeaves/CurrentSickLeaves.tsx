@@ -66,7 +66,7 @@ export function CurrentSickLeaves() {
               dispatch(updateShowPersonalInformation(checked))
             }}
             showPersonalInformation={showPersonalInformation}
-            totalNumber={populatedFilters && populatedFilters.nbrOfSickLeaves ? populatedFilters.nbrOfSickLeaves : 0}
+            totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
             listLength={(sickLeaves ?? []).length}
             daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
             daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
