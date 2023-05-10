@@ -9,10 +9,12 @@ export function PatientOverview({
   sjfMetaData,
   patientId,
   isPersonResponseMissing,
+  encryptedPatientId,
 }: {
   sjfMetaData: SjfMetaData | undefined
   patientId: string
   isPersonResponseMissing: boolean
+  encryptedPatientId: string
 }) {
   const [addUnit] = useAddVardenhetMutation()
   const [addCareGiver] = useAddVardgivareMutation()
@@ -37,7 +39,7 @@ export function PatientOverview({
 
   const handleGiveConsent = (days: string, onlyCurrentUser: boolean) => {
     const daysAsNumber = Number(days)
-    giveConsent({ days: daysAsNumber, onlyCurrentUser, patientId })
+    giveConsent({ days: daysAsNumber, onlyCurrentUser, patientId, encryptedPatientId })
   }
 
   if (sjfMetaData.haveSekretess || isPersonResponseMissing) {
