@@ -15,7 +15,6 @@ export function Patient() {
     encryptedPatientId
       ? {
           encryptedPatientId,
-          patientId: null,
         }
       : skipToken
   )
@@ -47,6 +46,7 @@ export function Patient() {
                 firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
               : false
           }
+          encryptedPatientId={encryptedPatientId || ''}
         />
         {earlierSickLeaves.length > 0 && (
           <>
