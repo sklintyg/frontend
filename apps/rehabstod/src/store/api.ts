@@ -112,7 +112,12 @@ export const api = createApi({
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
-      { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
+      {
+        activeDoctors: Lakare[]
+        allDiagnosisChapters: DiagnosKapitel[]
+        enabledDiagnosisChapters: DiagnosKapitel[]
+        nbrOfSickLeaves: number
+      },
       void
     >({
       query: () => ({
