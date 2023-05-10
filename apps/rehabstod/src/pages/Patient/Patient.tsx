@@ -4,11 +4,14 @@ import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumns'
+import { OpenTabsDialog } from './components/OpenTabsDialog'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
+import { PatientContext, usePatientState } from './hooks/usePatient'
 
 export function Patient() {
+  const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
   const { data: patient } = useGetSickLeavePatientQuery(
@@ -26,8 +29,9 @@ export function Patient() {
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
 
   return (
-    <>
+    <PatientContext.Provider value={patientState}>
       {patient && <PatientHeader patient={patient} />}
+      <OpenTabsDialog />
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
         <div className="ml-auto w-96">
           <ModifyPatientTableColumns />
@@ -55,6 +59,6 @@ export function Patient() {
           </>
         )}
       </div>
-    </>
+    </PatientContext.Provider>
   )
 }

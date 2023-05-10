@@ -1,12 +1,24 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { act, screen } from '@testing-library/react'
 import { Table } from '../../../components/Table/Table'
-import { patientSjukfallIntygSchema } from '../../../schemas/patientSchema'
+import { PatientSjukfallIntyg, patientSjukfallIntygSchema } from '../../../schemas/patientSchema'
 import { api } from '../../../store/api'
 import { hideColumn, PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { PatientContext, usePatientState } from '../hooks/usePatient'
 import { PatientTableBody } from './PatientTableBody'
+
+function ComponentWrapper({ certificates }: { certificates: PatientSjukfallIntyg[] }) {
+  const state = usePatientState()
+  return (
+    <PatientContext.Provider value={state}>
+      <Table>
+        <PatientTableBody certificates={certificates} />
+      </Table>
+    </PatientContext.Provider>
+  )
+}
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
@@ -14,11 +26,7 @@ beforeEach(() => {
 
 it('Should list all certificates columns', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
-  renderWithRouter(
-    <Table>
-      <PatientTableBody certificates={certificates} />
-    </Table>
-  )
+  renderWithRouter(<ComponentWrapper certificates={certificates} />)
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
   expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
@@ -26,11 +34,7 @@ it('Should list all certificates columns', async () => {
 
 it('Should be possible to hide columns', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
-  renderWithRouter(
-    <Table>
-      <PatientTableBody certificates={certificates} />
-    </Table>
-  )
+  renderWithRouter(<ComponentWrapper certificates={certificates} />)
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
   expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
