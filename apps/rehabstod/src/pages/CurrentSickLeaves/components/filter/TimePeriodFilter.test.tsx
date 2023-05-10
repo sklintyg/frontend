@@ -11,7 +11,8 @@ const availableOptions = [
   { from: 1, to: 2, metric: TimePeriodMetric.DAYS, id: 0 },
   { from: 10, to: 20, metric: TimePeriodMetric.YEARS, id: 1 },
   { from: 5, to: null, metric: TimePeriodMetric.YEARS, id: 2 },
-  { from: null, to: 10, metric: TimePeriodMetric.YEARS, id: 2 },
+  { from: null, to: 10, metric: TimePeriodMetric.YEARS, id: 3 },
+  { from: 0, to: 10, metric: TimePeriodMetric.YEARS, id: 4 },
 ]
 let onChange: (intervals: SickLeaveLengthInterval[]) => void
 
@@ -66,7 +67,7 @@ describe('TimePeriodFilter', () => {
     })
 
     it('should show checkboxes', () => {
-      expect(screen.getAllByRole('checkbox')).toHaveLength(4)
+      expect(screen.getAllByRole('checkbox')).toHaveLength(availableOptions.length)
     })
 
     it('should show days option', () => {
@@ -107,6 +108,12 @@ describe('TimePeriodFilter', () => {
       await userEvent.click(screen.getByLabelText('10-20 år'))
       await userEvent.click(screen.getByLabelText(TITLE))
       expect(screen.getByLabelText(TITLE)).toHaveValue('2 valda')
+    })
+
+    it('should not count 0 as null when deciding placeholder', async () => {
+      renderComponent()
+      await userEvent.click(screen.getByRole('button'))
+      expect(screen.getByText('0-10 dagar')).toBeInTheDocument()
     })
   })
 })

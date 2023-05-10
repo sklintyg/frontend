@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Checkbox } from '../../../../components/Form/Checkbox'
 import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
 import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
@@ -18,9 +17,7 @@ export function TimePeriodFilter({
   availableOptions: TimePeriodOption[]
   selectedOptions: SickLeaveLengthInterval[]
 }) {
-  const [chosenOptions, setChosenOptions] = useState<TimePeriodOption[]>(
-    availableOptions.filter((option) => selectedOptions.find((selected) => selected.from === option.from && selected.to === option.to))
-  )
+  const chosenOptions = availableOptions.filter((o1) => selectedOptions.find((o2) => o1.to === o2.to && o1.from === o2.from))
 
   const convertTimePeriod = (period: TimePeriodOption) => {
     if (period.metric === TimePeriodMetric.YEARS) {
@@ -45,7 +42,6 @@ export function TimePeriodFilter({
       options = chosenOptions.filter((chosenOption) => chosenOption.id !== option.id)
     }
 
-    setChosenOptions(options)
     onChange(options.map((o) => convertTimePeriod(o)))
   }
 
