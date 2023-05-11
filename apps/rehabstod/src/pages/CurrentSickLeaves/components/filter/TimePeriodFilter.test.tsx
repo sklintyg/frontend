@@ -12,7 +12,7 @@ const availableOptions = [
   { from: 10, to: 20, metric: TimePeriodMetric.YEARS, id: 1 },
   { from: 5, to: null, metric: TimePeriodMetric.YEARS, id: 2 },
   { from: null, to: 10, metric: TimePeriodMetric.YEARS, id: 3 },
-  { from: 0, to: 10, metric: TimePeriodMetric.YEARS, id: 4 },
+  { from: 0, to: 10, metric: TimePeriodMetric.DAYS, id: 4 },
 ]
 let onChange: (intervals: SickLeaveLengthInterval[]) => void
 
