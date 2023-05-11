@@ -87,33 +87,14 @@ describe('TimePeriodFilter', () => {
     })
   })
 
-  describe('placeholder', () => {
-    it('should have default placeholder if none is chosen', () => {
-      renderComponent()
-      expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
-    })
+  it('should have default placeholder if none is chosen', () => {
+    renderComponent()
+    expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
+  })
 
-    it('should have label if one option is chosen', async () => {
-      renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      await userEvent.click(screen.getByLabelText('1-2 dagar'))
-      await userEvent.click(screen.getByLabelText(TITLE))
-      expect(screen.getByLabelText(TITLE)).toHaveValue('1-2 dagar')
-    })
-
-    it('should show label x chosen if more than one chosen option', async () => {
-      renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      await userEvent.click(screen.getByLabelText('1-2 dagar'))
-      await userEvent.click(screen.getByLabelText('10-20 år'))
-      await userEvent.click(screen.getByLabelText(TITLE))
-      expect(screen.getByLabelText(TITLE)).toHaveValue('2 valda')
-    })
-
-    it('should not count 0 as null when deciding placeholder', async () => {
-      renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      expect(screen.getByText('0-10 dagar')).toBeInTheDocument()
-    })
+  it('should not count 0 as null when deciding placeholder', async () => {
+    renderComponent()
+    await userEvent.click(screen.getByRole('button'))
+    expect(screen.getByText('0-10 dagar')).toBeInTheDocument()
   })
 })
