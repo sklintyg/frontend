@@ -39,7 +39,14 @@ const getTooltipContent = (label: string, payload: Payload<string, string>[]) =>
   }
 
   if (!payload[0].value || payload[0].value === '-') {
-    return <p className={tooltipStyling}>{getTooltipText(label, 'Ej beräknad')}</p>
+    return (
+      <div>
+        <p className={tooltipStyling}>
+          {getTooltipText(label, 'Ej beräknad')} <br />
+          {payload[0].payload.tooltip}
+        </p>
+      </div>
+    )
   }
 
   return (
