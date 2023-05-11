@@ -114,7 +114,7 @@ const SrsRiskGraph = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   }
 
   return (
-    <div ref={ref} style={{ overflow: 'visible' }}>
+    <div ref={ref}>
       <p className="iu-fw-bold">
         Risken gäller {diagnosisCode} {diagnosisDescription}
       </p>
