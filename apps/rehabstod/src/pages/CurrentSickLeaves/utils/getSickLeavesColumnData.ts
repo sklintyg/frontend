@@ -12,7 +12,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Kön:
       return sickLeave.patient.kon === 'F' ? 'Kvinna' : 'Man'
     case SickLeaveColumn.Diagnos:
-      return sickLeave.diagnos.kod
+      return sickLeave.diagnos ? sickLeave.diagnos.kod : 'Okänt'
     case SickLeaveColumn.Startdatum:
       return sickLeave.start
     case SickLeaveColumn.Slutdatum:
