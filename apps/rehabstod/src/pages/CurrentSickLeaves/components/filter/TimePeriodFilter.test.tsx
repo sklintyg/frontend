@@ -47,9 +47,8 @@ describe('TimePeriodFilter', () => {
   })
 
   it('should call on change if unchecking checkbox', async () => {
-    renderComponent()
+    renderComponent([availableOptions[0]])
     await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByLabelText('1-2 dagar'))
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     expect(onChange).toHaveBeenLastCalledWith([])
   })
