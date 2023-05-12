@@ -3,7 +3,7 @@ import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodO
 export const getSickLeaveLengthLabel = ({ from, to, metric }: TimePeriodOption) => {
   const label = metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'
 
-  if (to && from) {
+  if (to && from !== null) {
     return `${from}-${to} ${label}`
   }
 
