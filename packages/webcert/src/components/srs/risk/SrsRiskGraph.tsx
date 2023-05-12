@@ -8,7 +8,19 @@ import {
   getSickLeaveChoice,
   getSrsPredictions,
 } from '../../../store/srs/srsSelectors'
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, LabelProps, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  Cell,
+  LabelList,
+  LabelProps,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  TooltipProps,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
 import { Payload } from 'recharts/types/component/DefaultTooltipContent'
 
@@ -106,23 +118,39 @@ const SrsRiskGraph = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
       <p className="iu-fw-bold">
         Risken gäller {diagnosisCode} {diagnosisDescription}
       </p>
-      <BarChart width={500} height={300} data={getData()}>
-        <CartesianGrid stroke="#ccc" vertical={false} />
-        <XAxis dataKey="name" />
-        <YAxis
-          ticks={[0, 20, 40, 60, 80, 100]}
-          tickFormatter={(tick) => {
-            return `${tick}%`
-          }}
-        />
-        <Bar dataKey="risk" fill="#e0e0e0" isAnimationActive={false}>
-          {getData().map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={barColors[index]} />
-          ))}
-          <LabelList content={<CustomizedLabel />} />
-        </Bar>
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-      </BarChart>
+      <ResponsiveContainer width="100%" height="100%" minHeight="300px">
+        <BarChart data={getData()} margin={{ right: 80 }}>
+          <XAxis dataKey="name" />
+          <YAxis
+            ticks={[0, 20, 40, 60, 80, 100]}
+            tickFormatter={(tick) => {
+              return `${tick}%`
+            }}
+          />
+          <Bar dataKey="risk" fill="#e0e0e0" isAnimationActive={false}>
+            {getData().map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={barColors[index]} />
+            ))}
+            <LabelList content={<CustomizedLabel />} />
+          </Bar>
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
+          <ReferenceLine
+            y={39}
+            label={{ position: 'insideTopRight', value: 'Måttlig risk', fill: '#5F5F5F', angle: -45, dx: 55 }}
+            stroke="#ccc"
+          />
+          <ReferenceLine
+            y={62}
+            label={{ position: 'insideTopRight', value: 'Hög risk', fill: '#5F5F5F', angle: -45, dx: 45 }}
+            stroke="#ccc"
+          />
+          <ReferenceLine
+            y={100}
+            label={{ position: 'insideTopRight', value: 'Mycket hög risk', fill: '#5F5F5F', dx: 70, angle: -45 }}
+            stroke="#ccc"
+          />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 })
