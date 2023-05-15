@@ -121,9 +121,8 @@ describe('OpenInformationWithConsent', () => {
       expect(screen.queryByText('Patienten ger samtycke')).toBeInTheDocument()
     })
 
-    it('should render modal links', () => {
-      expect(screen.getByText('Om samtycke')).toBeInTheDocument()
-      expect(screen.getByText('Om sammanhållen journalföring')).toBeInTheDocument()
+    it('should render information link', () => {
+      expect(screen.getByText('Om samtycke och sammanhållen vårddokumentation')).toBeInTheDocument()
     })
 
     it('should render error if pressing button without checking checkbox', async () => {

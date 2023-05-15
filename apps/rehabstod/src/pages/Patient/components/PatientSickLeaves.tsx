@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Table } from '../../../components/Table/Table'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
@@ -5,7 +6,7 @@ import { PatientAccordion } from './PatientAccordion'
 import { PatientTableBody } from './PatientTableBody'
 import { PatientTableHeader } from './PatientTableHeader'
 
-export function PatientSickLeaves({ sickLeaves }: { sickLeaves: PatientSjukfall[] }) {
+export function PatientSickLeaves({ sickLeaves, children }: { sickLeaves: PatientSjukfall[]; children?: ReactNode }) {
   return (
     <>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
@@ -14,6 +15,7 @@ export function PatientSickLeaves({ sickLeaves }: { sickLeaves: PatientSjukfall[
             <PatientTableHeader />
             <PatientTableBody certificates={intyg} />
           </Table>
+          {children}
         </PatientAccordion>
       ))}
     </>

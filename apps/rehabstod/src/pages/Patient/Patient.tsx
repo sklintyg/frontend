@@ -34,20 +34,21 @@ export function Patient() {
         {currentSickLeaves.length > 0 && (
           <>
             <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
-            <PatientSickLeaves sickLeaves={currentSickLeaves} />
+            <PatientSickLeaves sickLeaves={currentSickLeaves}>
+              <PatientOverview
+                sjfMetaData={patient?.sjfMetaData}
+                patientId={firstCertificate ? firstCertificate.patient.id : ''}
+                isPersonResponseMissing={
+                  firstCertificate
+                    ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
+                      firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
+                    : false
+                }
+                encryptedPatientId={encryptedPatientId || ''}
+              />
+            </PatientSickLeaves>
           </>
         )}
-        <PatientOverview
-          sjfMetaData={patient?.sjfMetaData}
-          patientId={firstCertificate ? firstCertificate.patient.id : ''}
-          isPersonResponseMissing={
-            firstCertificate
-              ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
-                firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
-              : false
-          }
-          encryptedPatientId={encryptedPatientId || ''}
-        />
         {earlierSickLeaves.length > 0 && (
           <>
             <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
