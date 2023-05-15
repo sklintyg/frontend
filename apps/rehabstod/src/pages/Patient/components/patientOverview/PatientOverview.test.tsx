@@ -10,6 +10,7 @@ const renderComponent = () => {
       sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData}
       patientId="191212121212"
       isPersonResponseMissing={false}
+      encryptedPatientId=""
     />
   )
 }

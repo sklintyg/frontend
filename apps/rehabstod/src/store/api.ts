@@ -90,7 +90,12 @@ export const api = createApi({
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
-      { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
+      {
+        activeDoctors: Lakare[]
+        allDiagnosisChapters: DiagnosKapitel[]
+        enabledDiagnosisChapters: DiagnosKapitel[]
+        nbrOfSickLeaves: number
+      },
       void
     >({
       query: () => ({
@@ -104,7 +109,7 @@ export const api = createApi({
       }),
       providesTags: ['SickLeaveSummary'],
     }),
-    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string | null; patientId: string | null }>({
+    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
       query: ({ encryptedPatientId }) => ({
         url: 'sjukfall/patient',
         method: 'POST',
@@ -137,24 +142,24 @@ export const api = createApi({
     }),
     giveSjfConsent: builder.mutation<
       { registeredBy: string; responseCode: string; responseMessage: string },
-      { days: number; onlyCurrentUser: boolean; patientId: string }
+      { days: number; onlyCurrentUser: boolean; patientId: string; encryptedPatientId: string }
     >({
       query: ({ days, onlyCurrentUser, patientId }) => ({
         url: 'consent',
         method: 'POST',
         body: { days, onlyCurrentUser, patientId },
       }),
-      async onQueryStarted({ patientId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ encryptedPatientId }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { responseCode },
           } = await queryFulfilled
           dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId: null, patientId }, (draft) =>
+            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId }, (draft) =>
               Object.assign(draft, {
                 sjfMetaData: {
                   ...(draft.sjfMetaData ?? {}),
-                  samtyckeFinns: responseCode,
+                  samtyckeFinns: responseCode === 'OK',
                 },
               })
             )

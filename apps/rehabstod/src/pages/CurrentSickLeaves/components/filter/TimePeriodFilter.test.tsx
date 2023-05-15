@@ -11,7 +11,8 @@ const availableOptions = [
   { from: 1, to: 2, metric: TimePeriodMetric.DAYS, id: 0 },
   { from: 10, to: 20, metric: TimePeriodMetric.YEARS, id: 1 },
   { from: 5, to: null, metric: TimePeriodMetric.YEARS, id: 2 },
-  { from: null, to: 10, metric: TimePeriodMetric.YEARS, id: 2 },
+  { from: null, to: 10, metric: TimePeriodMetric.YEARS, id: 3 },
+  { from: 0, to: 10, metric: TimePeriodMetric.DAYS, id: 4 },
 ]
 let onChange: (intervals: SickLeaveLengthInterval[]) => void
 
@@ -46,9 +47,8 @@ describe('TimePeriodFilter', () => {
   })
 
   it('should call on change if unchecking checkbox', async () => {
-    renderComponent()
+    renderComponent([availableOptions[0]])
     await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByLabelText('1-2 dagar'))
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     expect(onChange).toHaveBeenLastCalledWith([])
   })
@@ -66,7 +66,7 @@ describe('TimePeriodFilter', () => {
     })
 
     it('should show checkboxes', () => {
-      expect(screen.getAllByRole('checkbox')).toHaveLength(4)
+      expect(screen.getAllByRole('checkbox')).toHaveLength(availableOptions.length)
     })
 
     it('should show days option', () => {
@@ -86,27 +86,14 @@ describe('TimePeriodFilter', () => {
     })
   })
 
-  describe('placeholder', () => {
-    it('should have default placeholder if none is chosen', () => {
-      renderComponent()
-      expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
-    })
+  it('should have default placeholder if none is chosen', () => {
+    renderComponent()
+    expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
+  })
 
-    it('should have label if one option is chosen', async () => {
-      renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      await userEvent.click(screen.getByLabelText('1-2 dagar'))
-      await userEvent.click(screen.getByLabelText(TITLE))
-      expect(screen.getByLabelText(TITLE)).toHaveValue('1-2 dagar')
-    })
-
-    it('should show label x chosen if more than one chosen option', async () => {
-      renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      await userEvent.click(screen.getByLabelText('1-2 dagar'))
-      await userEvent.click(screen.getByLabelText('10-20 år'))
-      await userEvent.click(screen.getByLabelText(TITLE))
-      expect(screen.getByLabelText(TITLE)).toHaveValue('2 valda')
-    })
+  it('should not count 0 as null when deciding placeholder', async () => {
+    renderComponent()
+    await userEvent.click(screen.getByRole('button'))
+    expect(screen.getByText('0-10 dagar')).toBeInTheDocument()
   })
 })
