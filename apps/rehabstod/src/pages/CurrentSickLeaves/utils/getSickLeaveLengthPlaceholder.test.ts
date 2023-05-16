@@ -7,16 +7,43 @@ it('Should return undefined if nothing is selected', () => {
 })
 
 describe('One selected', () => {
-  it('Should print "Under" when from is zero', () => {
-    expect(getSickLeaveLengthPlaceholder([{ from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 }])).toBe('Under 14 dagar')
+  it('Should treat from 0 as normal value', () => {
+    expect(
+      getSickLeaveLengthPlaceholder([
+        {
+          from: 0,
+          to: 14,
+          metric: TimePeriodMetric.DAYS,
+          id: 1,
+        },
+      ])
+    ).toBe('0-14 dagar')
   })
 
   it('Should print between when from and to has values', () => {
-    expect(getSickLeaveLengthPlaceholder([{ from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 }])).toBe('91-180 dagar')
+    expect(
+      getSickLeaveLengthPlaceholder([
+        {
+          from: 91,
+          to: 180,
+          metric: TimePeriodMetric.DAYS,
+          id: 4,
+        },
+      ])
+    ).toBe('91-180 dagar')
   })
 
   it('Should print "Över" when to is zero', () => {
-    expect(getSickLeaveLengthPlaceholder([{ from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 }])).toBe('Över 2 år')
+    expect(
+      getSickLeaveLengthPlaceholder([
+        {
+          from: 2,
+          to: null,
+          metric: TimePeriodMetric.YEARS,
+          id: 7,
+        },
+      ])
+    ).toBe('Över 2 år')
   })
 })
 

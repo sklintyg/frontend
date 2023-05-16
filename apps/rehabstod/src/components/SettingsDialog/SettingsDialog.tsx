@@ -3,8 +3,8 @@ import { IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../schemas'
-import { useGetUserQuery, useUpdateUserPreferencesMutation } from '../../store/api'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useGetUserQuery } from '../../store/api'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
 import { hideSettingsDialog, resetSettings, showSettingsDialog, updateSettings } from '../../store/slices/settings.slice'
 import { DaysBetweenSickLeaves } from './DaysBetweenSickLeaves'
 import { DaysFinishedSickLeave } from './DaysFinishedSickLeave'
@@ -15,7 +15,7 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
   const { preferences, showDialog } = useAppSelector((state) => state.settings)
   const { data: user } = useGetUserQuery()
   const ref = useRef<IDSDialogElement>(null)
-  const [updateUserPreferences] = useUpdateUserPreferencesMutation()
+  const { updateUserPreferences } = useUpdateUserPreferences()
   const close = () => ref.current?.hideDialog()
 
   const isMaxAntalDagarMellanIntygValid = z.coerce

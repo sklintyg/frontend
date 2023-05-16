@@ -28,7 +28,8 @@ export const getRiskDataPoint = (
   risk: number | undefined,
   sickLeaveChoice: SrsSickLeaveChoice,
   riskOpinion?: string,
-  timestamp?: string
+  timestamp?: string,
+  tooltip?: string
 ) => {
   return {
     name: label,
@@ -36,6 +37,7 @@ export const getRiskDataPoint = (
     timestamp: timestamp,
     sickLeaveChoice: getSickLeaveChoicesLabel(sickLeaveChoice),
     riskOpinion: getRiskOpinionLabel(riskOpinion ? riskOpinion : ''),
+    tooltip: tooltip,
   }
 }
 
@@ -61,24 +63,42 @@ export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeave
       filteredPredictions[1].probabilityOverLimit,
       isParentCertificateAnExtension ? SrsSickLeaveChoice.EXTENSION : SrsSickLeaveChoice.NEW,
       filteredPredictions[1].physiciansOwnOpinionRisk,
-      filteredPredictions[1].timestamp
+      filteredPredictions[1].timestamp,
+      filteredPredictions[1].probabilityOverLimit ? undefined : 'OBS ingen riskberäkning är gjord'
     )
   }
 
-  return getRiskDataPoint(RISK_LABEL_NOT_AVAILABLE, -1, sickLeaveChoice)
+  return getRiskDataPoint(
+    RISK_LABEL_NOT_AVAILABLE,
+    -1,
+    sickLeaveChoice,
+    undefined,
+    undefined,
+    predictions.length > filteredPredictions.length
+      ? 'På grund av diagnosbyte visas ej tidigare beräknade risker'
+      : 'OBS ingen riskberäkning är gjord'
+  )
 }
 
 export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, predictions: SrsPrediction[], riskOpinion: string) => {
   const filteredPredictions = getFilteredPredictions(predictions)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
   return isCalculatingRiskDisabled
-    ? getRiskDataPoint(RISK_LABEL_DISABLED, -1, sickLeaveChoice)
+    ? getRiskDataPoint(
+        RISK_LABEL_DISABLED,
+        -1,
+        sickLeaveChoice,
+        undefined,
+        undefined,
+        'Det går inte att beräkna nuvarande risk pga sjukskrivning över 60 dagar'
+      )
     : getRiskDataPoint(
         RISK_LABELS[2],
         filteredPredictions[0].probabilityOverLimit,
         sickLeaveChoice,
         riskOpinion,
-        filteredPredictions[0].timestamp
+        filteredPredictions[0].timestamp,
+        filteredPredictions[0].probabilityOverLimit ? undefined : 'OBS ingen riskberäkning är gjord'
       )
 }
 

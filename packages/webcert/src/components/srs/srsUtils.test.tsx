@@ -137,6 +137,15 @@ describe('SRS Utils', () => {
       expect(result.name).toEqual(RISK_LABEL_NOT_AVAILABLE)
     })
 
+    it('should return tooltip if previous prediction was for different diagnosis code', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('M79')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.tooltip).toEqual('På grund av diagnosbyte visas ej tidigare beräknade risker')
+    })
+
     it('should return - as risk if previous risk is not available', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('M79')
@@ -154,6 +163,16 @@ describe('SRS Utils', () => {
       const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
 
       expect(result.name).toEqual(RISK_LABEL_NOT_AVAILABLE)
+    })
+
+    it('should return tooltip if previous prediction is missing for second prediction', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      secondPrediction.probabilityOverLimit = undefined
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.tooltip).toEqual('OBS ingen riskberäkning är gjord')
     })
 
     it('should return previous risk label if value is available', () => {
@@ -201,7 +220,7 @@ describe('SRS Utils', () => {
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.NEW))
     })
 
-    it('should set sick leave choice as new if parent is not extension', () => {
+    it('should set sick leave choice as extension if parent is extension', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('J20')
       const thirdPrediction = fakeSrsPrediction('J20')
@@ -240,6 +259,26 @@ describe('SRS Utils', () => {
 
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
       expect(result.name).toEqual(RISK_LABEL_DISABLED)
+    })
+
+    it('should set tooltip if sick leave choice is extension after 60 days', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS, [firstPrediction, secondPrediction], 'HOGRE')
+
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      expect(result.tooltip).toEqual('Det går inte att beräkna nuvarande risk pga sjukskrivning över 60 dagar')
+    })
+
+    it('should set tooltip if probablity over limit is missing', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      firstPrediction.probabilityOverLimit = undefined
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction], 'HOGRE')
+
+      expect(result.tooltip).toEqual('OBS ingen riskberäkning är gjord')
     })
 
     it('should set risk as probability over limit for first prediction', () => {

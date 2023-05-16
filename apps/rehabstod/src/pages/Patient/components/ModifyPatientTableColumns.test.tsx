@@ -49,7 +49,7 @@ describe('vibility', () => {
 
     const request = await act(() => pendingRequest)
 
-    expect(await request.json()).toEqual({
+    expect(await request.json()).toMatchObject({
       patientTableColumns: Object.values(PatientColumn)
         .map((name) => `${name}:${name === 'Slutdatum' ? '0' : '1'}`)
         .join(';'),

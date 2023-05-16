@@ -3,14 +3,15 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
 import { Mottagning, Vardenhet, Vardgivare } from '../../schemas'
-import { useChangeUnitMutation, useGetUserQuery, useUpdateUserPreferencesMutation } from '../../store/api'
+import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
+import { useUpdateUserPreferences } from '../../store/hooks'
 import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
-  const [updateUserPreferences] = useUpdateUserPreferencesMutation()
+  const { updateUserPreferences } = useUpdateUserPreferences()
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )

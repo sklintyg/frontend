@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
-import { useGetUserQuery, useUpdateTableColumnsMutation } from '../../../store/api'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
 import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
 import {
   hideColumn,
@@ -17,15 +17,13 @@ export function ModifyPatientTableColumns() {
   const { data: user } = useGetUserQuery()
   const columns = useAppSelector(allPatientColumns)
   const columnString = useAppSelector(patientColumnsString)
-  const [updateTableColumns] = useUpdateTableColumnsMutation()
-  const lastRequest = useRef<ReturnType<typeof updateTableColumns>>()
+  const { updateUserPreferences } = useUpdateUserPreferences()
 
   useEffect(() => {
-    lastRequest.current?.abort()
-    if (user && columnString !== user?.preferences.patientTableColumns) {
-      lastRequest.current = updateTableColumns({ patientTableColumns: columnString })
+    if (user && columnString !== user.preferences.patientTableColumns) {
+      updateUserPreferences({ patientTableColumns: columnString })
     }
-  }, [columnString, updateTableColumns, user])
+  }, [columnString, updateUserPreferences, user])
 
   return (
     <ModifyTableColumns

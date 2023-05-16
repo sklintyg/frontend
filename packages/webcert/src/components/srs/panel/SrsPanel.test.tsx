@@ -37,6 +37,12 @@ describe('SrsPanel', () => {
   beforeEach(() => {
     store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
     HTMLElement.prototype.scrollIntoView = vi.fn()
+
+    window.ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }))
   })
 
   afterEach(() => {
@@ -113,6 +119,19 @@ describe('SrsPanel', () => {
       store.dispatch(setDiagnosisCodes([]))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('parent diagnosis has support', () => {
+    beforeEach(() => {
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'M792', id: '0' }] } })
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      store.dispatch(setDiagnosisCodes(['M79']))
+    })
+
+    it('should show support info is sub diagnosis has parent diagnosis with support', () => {
+      renderComponent()
+      expect(screen.getByText('Riskberäkningen gäller:')).toBeInTheDocument()
     })
   })
 

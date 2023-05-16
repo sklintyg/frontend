@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
@@ -55,35 +55,13 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, Partial<UserPreferences>>({
+    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
       query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient'],
-      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
-        dispatch(
-          api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, {
-              preferences,
-            })
-          )
-        )
-        try {
-          await queryFulfilled
-        } catch {
-          dispatch(api.util.invalidateTags(['User']))
-        }
-      },
-    }),
-    updateTableColumns: builder.mutation<UserPreferences, Partial<Pick<UserPreferences, UserPreferencesTableSettings>>>({
-      query: (preferences) => ({
-        url: 'user/preferences',
-        method: 'POST',
-        body: preferences,
-      }),
       invalidatesTags: ['User'],
     }),
     fakeLogout: builder.mutation<void, void>({
@@ -113,7 +91,12 @@ export const api = createApi({
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
-      { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
+      {
+        activeDoctors: Lakare[]
+        allDiagnosisChapters: DiagnosKapitel[]
+        enabledDiagnosisChapters: DiagnosKapitel[]
+        nbrOfSickLeaves: number
+      },
       void
     >({
       query: () => ({
@@ -217,8 +200,6 @@ export const {
   useGetUserQuery,
   useGiveConsentMutation,
   useLazyGetSickLeavesQuery,
-  useUpdateTableColumnsMutation,
-  useUpdateUserPreferencesMutation,
   useAddVardenhetMutation,
   useAddVardgivareMutation,
   useGiveSjfConsentMutation,
