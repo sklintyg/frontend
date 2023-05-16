@@ -77,6 +77,14 @@ export function Filters({
               availableOptions={sickLeaveLengthIntervals}
               selectedOptions={filter.sickLeaveLengthIntervals}
             />
+            {/* <DateRangeInput
+              title="Slutdatum"
+              description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i. "
+              // onFromChange={(value) => dispatch(updateFilter({ fromSickLeaveEndDate: value }))}
+              // onToChange={(value) => dispatch(updateFilter({ toSickLeaveEndDate: value }))}
+              to={filter.toSickLeaveEndDate}
+              from={filter.fromSickLeaveEndDate}
+            /> */}
           </div>
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
