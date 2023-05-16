@@ -268,7 +268,7 @@ describe('SRS Utils', () => {
       const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS, [firstPrediction, secondPrediction], 'HOGRE')
 
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
-      expect(result.tooltip).toEqual('Det går inte att beräkna nuvarande risk sjukskrivningen har pågått över 60 dagar')
+      expect(result.tooltip).toEqual('Det går inte att beräkna nuvarande risk pga sjukskrivning över 60 dagar')
     })
 
     it('should set tooltip if probablity over limit is missing', () => {
