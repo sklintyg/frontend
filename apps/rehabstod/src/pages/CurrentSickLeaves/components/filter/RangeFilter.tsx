@@ -26,7 +26,7 @@ export function RangeFilter({
         <span>{title}</span>
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
-      <div className="flex w-80 gap-3">
+      <div className="flex grow gap-3">
         <FormattedNumberInput
           label="Från"
           onChange={(value) => onFromChange(value)}

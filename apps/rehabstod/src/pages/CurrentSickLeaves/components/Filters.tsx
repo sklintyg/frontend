@@ -1,4 +1,5 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
+import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { DateRangeInput } from '../../../components/Form/DateRangeInput'
@@ -45,7 +46,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-4 gap-10">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -61,6 +62,27 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
+            <div className="col-span-2">
+              <DateRangeInput
+                title="Slutdatum"
+                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i. "
+                value={
+                  filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
+                    ? {
+                        start: parseDate(filter.fromSickLeaveEndDate),
+                        end: parseDate(filter.toSickLeaveEndDate),
+                      }
+                    : undefined
+                }
+              />
+            </div>
+            <TimePeriodFilter
+              label="Sjukskrivningslängd"
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+              onChange={onSickLeaveLengthIntervalsChange}
+              availableOptions={sickLeaveLengthIntervals}
+              selectedOptions={filter.sickLeaveLengthIntervals}
+            />
             <RangeFilter
               title="Åldersspann"
               description="Filtrerar på patientens nuvarande ålder."
@@ -70,21 +92,6 @@ export function Filters({
               from={filter.fromPatientAge.toString()}
               max="150"
               min="1"
-            />
-            <TimePeriodFilter
-              label="Sjukskrivningslängd"
-              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-              onChange={onSickLeaveLengthIntervalsChange}
-              availableOptions={sickLeaveLengthIntervals}
-              selectedOptions={filter.sickLeaveLengthIntervals}
-            />
-            <DateRangeInput
-              title="Slutdatum"
-              description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i. "
-              // onFromChange={(value) => dispatch(updateFilter({ fromSickLeaveEndDate: value }))}
-              // onToChange={(value) => dispatch(updateFilter({ toSickLeaveEndDate: value }))}
-              to={filter.toSickLeaveEndDate}
-              from={filter.fromSickLeaveEndDate}
             />
           </div>
           <div className="flex justify-end">

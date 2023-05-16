@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { getWeeksInMonth } from '@internationalized/date'
 import { useCalendarGrid, useLocale } from 'react-aria'
 import { CalendarState } from 'react-stately'
@@ -7,24 +8,29 @@ export function CalendarGrid({ state, ...props }: { state: CalendarState }) {
   const { locale } = useLocale()
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state)
 
-  // Get the number of weeks in the month so we can render the proper number of rows.
   const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale)
 
   return (
-    <table {...gridProps}>
-      <thead {...headerProps}>
+    <table {...gridProps} className="w-full flex-1">
+      <thead {...headerProps} className="text-neutral-40 text-xs">
         <tr>
-          {weekDays.map((day) => (
-            <th key={day}>{day}</th>
+          {weekDays.map((day, index) => (
+            <th key={index}>{day}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
           <tr key={weekIndex}>
-            {state
-              .getDatesInWeek(weekIndex)
-              .map((date) => (date ? <CalendarCell key={date.toString()} state={state} date={date} /> : <td key={date} />))}
+            {state.getDatesInWeek(weekIndex).map((date, index) =>
+              date ? (
+                <CalendarCell key={index} state={state} date={date} />
+              ) : (
+                <td key={date}>
+                  <span className="h-4" />{' '}
+                </td>
+              )
+            )}
           </tr>
         ))}
       </tbody>

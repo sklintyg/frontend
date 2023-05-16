@@ -1,34 +1,44 @@
-import { autoUpdate, flip, offset, size, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
+import { Placement, autoUpdate, flip, offset, size, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 
 interface PopoverProps {
   open?: boolean
+  refSized?: boolean
   onOpenChange?: (open: boolean) => void
   role?: 'tooltip' | 'dialog' | 'alertdialog' | 'menu' | 'listbox' | 'grid' | 'tree'
+  placement?: Placement
 }
 
-function usePopover({ open: controlledOpen, onOpenChange: setControlledOpen, role = 'dialog' }: PopoverProps) {
+function usePopover({
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+  refSized = false,
+  role = 'dialog',
+  placement = 'bottom-start',
+}: PopoverProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const data = useFloating({
-    placement: 'bottom-start',
+    placement,
     open,
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(1),
       flip({ padding: 10 }),
-      size({
-        apply({ rects, elements }) {
-          Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
+      refSized
+        ? size({
+            apply({ rects, elements }) {
+              Object.assign(elements.floating.style, {
+                width: `${rects.reference.width}px`,
+              })
+            },
+            padding: 10,
           })
-        },
-        padding: 10,
-      }),
+        : null,
     ],
   })
 
