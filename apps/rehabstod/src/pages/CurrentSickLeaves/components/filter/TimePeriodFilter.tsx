@@ -17,10 +17,11 @@ export function TimePeriodFilter({
   availableOptions: TimePeriodOption[]
   selectedOptions: SickLeaveLengthInterval[]
 }) {
-  const convertSelectedValue = (value: number | null) => (value && value >= 365 ? value / 365 : value)
+  const convertSelectedValue = (value: number | null, metric: TimePeriodMetric) =>
+    value && value >= 365 && metric === TimePeriodMetric.YEARS ? value / 365 : value
 
   const chosenOptions = availableOptions.filter((o1) =>
-    selectedOptions.find((o2) => o1.to === convertSelectedValue(o2.to) && o1.from === convertSelectedValue(o2.from))
+    selectedOptions.find((o2) => o1.to === convertSelectedValue(o2.to, o1.metric) && o1.from === convertSelectedValue(o2.from, o1.metric))
   )
 
   const convertTimePeriod = (period: TimePeriodOption) => {
