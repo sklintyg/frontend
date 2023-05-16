@@ -27,9 +27,9 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
   const { labelProps, fieldProps } = useDateField(props, state, ref)
 
   return (
-    <div>
+    <div className="text-neutral-20 bg-secondary-95 border-accent-40 my-3 box-border w-full rounded border py-3 text-left">
       <span {...labelProps}>{label}</span>
-      <div {...fieldProps} ref={ref} className="text-neutral-20 my-3 box-border w-full rounded border py-3 text-left">
+      <div {...fieldProps} ref={ref} className="flex whitespace-nowrap">
         {state.segments.map((segment, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <DateFieldSegment key={index} segment={segment} state={state} />

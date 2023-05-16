@@ -1,4 +1,3 @@
-import { parseDate } from '@internationalized/date'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 import { DatePicker } from './DatePicker'
 
@@ -10,8 +9,9 @@ export function DateRangeInput({ title, description, to, from }: { title: string
         <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
       <div className="flex w-fit gap-3">
-        <DatePicker label="Från" value={parseDate(from)} onChange={console.log} />
-        <DatePicker label="Till" value={parseDate(to)} onChange={console.log} />
+        <DatePicker label="Från" onChange={console.log} />
+        {/* <DatePicker label="Från" value={parseDate(from)} onChange={console.log} />
+        <DatePicker label="Till" value={parseDate(to)} onChange={console.log} /> */}
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { DateRangeInput } from '../../../components/Form/DateRangeInput'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
@@ -77,14 +78,14 @@ export function Filters({
               availableOptions={sickLeaveLengthIntervals}
               selectedOptions={filter.sickLeaveLengthIntervals}
             />
-            {/* <DateRangeInput
+            <DateRangeInput
               title="Slutdatum"
               description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i. "
               // onFromChange={(value) => dispatch(updateFilter({ fromSickLeaveEndDate: value }))}
               // onToChange={(value) => dispatch(updateFilter({ toSickLeaveEndDate: value }))}
               to={filter.toSickLeaveEndDate}
               from={filter.fromSickLeaveEndDate}
-            /> */}
+            />
           </div>
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>

@@ -11,7 +11,7 @@ import { DateField } from './DateField'
 export function DatePicker({ label, ...props }: AriaDatePickerProps<DateValue>) {
   const state = useDatePickerState(props)
   const ref = React.useRef(null)
-  const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps } = useDatePicker(props, state, ref)
+  const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps } = useDatePicker({ label, ...props }, state, ref)
 
   return (
     <Popover open={state.isOpen} onOpenChange={state.setOpen}>
