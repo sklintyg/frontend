@@ -80,9 +80,8 @@ describe('OpenInformationWithConsent', () => {
       expect(screen.queryByText('Patienten ger samtycke')).not.toBeInTheDocument()
     })
 
-    it('should not render modal links', () => {
-      expect(screen.queryByText('Om samtycke')).not.toBeInTheDocument()
-      expect(screen.queryByText('Om sammanhållen journalföring')).not.toBeInTheDocument()
+    it('should not render information link', () => {
+      expect(screen.queryByText('Om samtycke och sammanhållen vårddokumentation')).not.toBeInTheDocument()
     })
   })
 
