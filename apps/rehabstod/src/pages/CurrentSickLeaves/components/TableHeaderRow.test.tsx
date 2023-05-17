@@ -14,7 +14,7 @@ it('Should render all columns', async () => {
   renderWithRouter(
     <Table>
       <thead>
-        <TableHeaderRow showPersonalInformation />
+        <TableHeaderRow showPersonalInformation isDoctor={false} />
       </thead>
     </Table>
   )
@@ -22,11 +22,24 @@ it('Should render all columns', async () => {
   expect(await screen.findAllByRole('columnheader')).toHaveLength(12)
 })
 
+it('Should render all but doctor column if user is doctor', async () => {
+  renderWithRouter(
+    <Table>
+      <thead>
+        <TableHeaderRow showPersonalInformation isDoctor />
+      </thead>
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(11)
+  expect(screen.queryByRole('columnheader', { name: 'Läkare' })).not.toBeInTheDocument()
+})
+
 it.each(Object.values(SickLeaveColumn))('Should render and hide %s column', async (column) => {
   renderWithRouter(
     <Table>
       <thead>
-        <TableHeaderRow showPersonalInformation />
+        <TableHeaderRow showPersonalInformation isDoctor={false} />
       </thead>
     </Table>
   )
