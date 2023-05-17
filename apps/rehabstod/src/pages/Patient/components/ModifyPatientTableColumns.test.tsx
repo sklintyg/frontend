@@ -77,6 +77,6 @@ describe('position', () => {
 
     await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta ner Grad'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('slutdatum-column')
+    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('startdatum-column')
   })
 })

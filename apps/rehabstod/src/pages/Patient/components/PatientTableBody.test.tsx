@@ -16,7 +16,7 @@ it('Should list all certificates columns', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <Table>
-      <PatientTableBody certificates={certificates} />
+      <PatientTableBody certificates={certificates} isDoctor={false} />
     </Table>
   )
 
@@ -24,11 +24,23 @@ it('Should list all certificates columns', async () => {
   expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
 })
 
+it('Should list all certificates columns besides doctor if user is doctor', async () => {
+  const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
+  renderWithRouter(
+    <Table>
+      <PatientTableBody certificates={certificates} isDoctor />
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('row')).toHaveLength(10)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(9)
+})
+
 it('Should be possible to hide columns', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <Table>
-      <PatientTableBody certificates={certificates} />
+      <PatientTableBody certificates={certificates} isDoctor={false} />
     </Table>
   )
 
