@@ -57,7 +57,7 @@ function HeaderCellResolver({ column }: { column: string }) {
         <TableHeaderCell
           column={column}
           description="Sjukskrivningsgrad i nuvarande intyg. Om intyget innehåller flera grader anges de i tidsföljd med den just nu gällande graden i fetstil."
-          width="80px"
+          width="100px"
         />
       )
     case SickLeaveColumn.Läkare:

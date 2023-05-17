@@ -17,7 +17,7 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
     case PatientColumn.Längd:
       return <TableHeaderCell column={column} width="90px" />
     case PatientColumn.Grad:
-      return <TableHeaderCell column={column} width="80px" />
+      return <TableHeaderCell column={column} width="100px" />
     case PatientColumn.Ärenden:
       return <TableHeaderCell column={column} width="80px" />
     case PatientColumn.Läkare:
