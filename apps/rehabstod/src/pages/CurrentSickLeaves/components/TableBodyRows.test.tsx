@@ -130,6 +130,20 @@ it('Should render all sickleave columns', async () => {
   expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
 })
 
+it('Should render all but doctor column if user is doctor', async () => {
+  const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
+  renderWithRouter(
+    <Table>
+      <tbody>
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor />
+      </tbody>
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('row')).toHaveLength(10)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+})
+
 it('Should be possible to hide columns', async () => {
   const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
   renderWithRouter(
