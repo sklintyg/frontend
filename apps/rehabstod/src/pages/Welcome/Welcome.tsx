@@ -1,32 +1,57 @@
 import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { selectFilter, selectLogin, selectUnit, updateFreetext } from '../../store/slices/welcome.slice'
+import {
+  selectFilter,
+  selectLogin,
+  selectUnit,
+  setCareProviderId,
+  setCareUnitId,
+  setDoctorId,
+  setFromDays,
+  setIsRevoked,
+  setIsSend,
+  setOccupation,
+  setPatientId,
+  setPrimaryDiagnosisCode,
+  setRelationKod,
+  setRelationsId,
+  setSecondDiagnosisCode,
+  setThirdDiagnosisCode,
+  setToDays,
+  setWorkCapacities,
+  updateFreetext,
+} from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
 
 export function Welcome() {
-  const { selectedLogin, selectedUnit, freeText, selectedFilter } = useAppSelector((state) => state.welcome)
+  const {
+    selectedLogin,
+    selectedUnit,
+    freeText,
+    selectedFilter,
+    careProviderId,
+    careUnitId,
+    patientId,
+    doctorId,
+    fromDays,
+    toDays,
+    primaryDiagnosisCode,
+    secondDiagnosisCode,
+    thirdDiagnosisCode,
+    workCapacities,
+    occupation,
+    relationKod,
+    relationsId,
+    isSend,
+    isRevoked,
+  } = useAppSelector((state) => state.welcome)
   const dispatch = useAppDispatch()
   const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response }] = useCreateDefaultTestDataMutation()
   const [triggerCreateSickLeave, { isLoading: createSickLeaveLoading, data: certificateId }] = useCreateSickLeaveMutation()
   const { data: testDataOptions, isLoading: testDataOptionsLoading } = useGetTestDataOptionsQuery()
   const { isLoading, fakeLogins } = useWelcome()
-  const [careProviderId, setCareProviderId] = useState('TSTNMT2321000156-ALFA')
-  const [careUnitId, setCareUnitId] = useState('TSTNMT2321000156-ALMC')
-  const [patientId, setPatientId] = useState('194011306125')
-  const [doctorId, setDoctorId] = useState('TSTNMT2321000156-DRAA')
-  const [fromDays, setFromDays] = useState<string>('-10')
-  const [toDays, setToDays] = useState('10')
-  const [primaryDiagnosisCode, setPrimaryDiagnosisCode] = useState('A010')
-  const [secondDiagnosisCode, setSecondDiagnosisCode] = useState<string | null>(null)
-  const [thirdDiagnosisCode, setThirdDiagnosisCode] = useState<string | null>(null)
-  const [workCapacities, setWorkCapacities] = useState('EN_FJARDEDEL')
-  const [occupation, setOccupation] = useState('NUVARANDE_ARBETE')
-  const [relationKod, setRelationKod] = useState<string | null>(null)
-  const [relationsId, setRelationsId] = useState<string | null>(null)
-  const [isSend, setIsSend] = useState<boolean>(false)
-  const [isRevoked, setIsRevoked] = useState<boolean>(false)
 
   useEffect(() => {
     if (fakeLogins.length > 0) {
@@ -165,7 +190,7 @@ export function Welcome() {
                 id="careProviderId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careProviderId}
-                onChange={(e) => setCareProviderId(e.target.value)}>
+                onChange={(e) => dispatch(setCareProviderId(e.target.value))}>
                 {testDataOptions.careProviderIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -177,7 +202,7 @@ export function Welcome() {
                 id="careUnitId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careUnitId}
-                onChange={(e) => setCareUnitId(e.target.value)}>
+                onChange={(e) => dispatch(setCareUnitId(e.target.value))}>
                 {testDataOptions.careUnitIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -189,7 +214,7 @@ export function Welcome() {
                 id="doctorId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={doctorId}
-                onChange={(e) => setDoctorId(e.target.value)}>
+                onChange={(e) => dispatch(setDoctorId(e.target.value))}>
                 {testDataOptions.doctorIds.map(({ hsaId, name }) => (
                   <option key={`${hsaId}_${name}`} id={`${hsaId}_${name}`} value={hsaId}>
                     {`${name}`}
@@ -201,7 +226,7 @@ export function Welcome() {
                 id="patientId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={patientId}
-                onChange={(e) => setPatientId(e.target.value)}>
+                onChange={(e) => dispatch(setPatientId(e.target.value))}>
                 {testDataOptions.patientIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -213,7 +238,7 @@ export function Welcome() {
                 id="diagnosisCodes"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={primaryDiagnosisCode}
-                onChange={(e) => setPrimaryDiagnosisCode(e.target.value)}>
+                onChange={(e) => dispatch(setPrimaryDiagnosisCode(e.target.value))}>
                 {testDataOptions.diagnosisCodes.map((diagnosis) => (
                   <option key={`${diagnosis}_${diagnosis}`} id={`${diagnosis}_${diagnosis}`} value={diagnosis}>
                     {`${diagnosis}`}
@@ -225,7 +250,7 @@ export function Welcome() {
                 id="diagnosisCodesSecondary"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={secondDiagnosisCode !== null ? secondDiagnosisCode : ''}
-                onChange={(e) => setSecondDiagnosisCode(e.target.value)}>
+                onChange={(e) => dispatch(setSecondDiagnosisCode(e.target.value))}>
                 <option key="secondDiagnosis" id="secondDiagnosis" value="">
                   Ingen
                 </option>
@@ -240,7 +265,7 @@ export function Welcome() {
                 id="diagnosisCodesThird"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={thirdDiagnosisCode !== null ? thirdDiagnosisCode : ''}
-                onChange={(e) => setThirdDiagnosisCode(e.target.value)}>
+                onChange={(e) => dispatch(setThirdDiagnosisCode(e.target.value))}>
                 <option key="thirdDiagnosis" id="thirdDiagnosis" value="">
                   Ingen
                 </option>
@@ -255,7 +280,7 @@ export function Welcome() {
                 id="workcapacity"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={workCapacities}
-                onChange={(e) => setWorkCapacities(e.target.value)}>
+                onChange={(e) => dispatch(setWorkCapacities(e.target.value))}>
                 {testDataOptions.workCapacity.map(({ code, description }) => (
                   <option key={`${code}_${description}`} id={`${code}_${description}`} value={code}>
                     {`${description}`}
@@ -267,7 +292,7 @@ export function Welcome() {
                 id="occupations"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={occupation}
-                onChange={(e) => setOccupation(e.target.value)}>
+                onChange={(e) => dispatch(setOccupation(e.target.value))}>
                 {testDataOptions.occupations.map(({ code, description }) => (
                   <option key={`${code}_${description}`} id={`${code}_${description}`} value={code}>
                     {`${description}`}
@@ -279,7 +304,7 @@ export function Welcome() {
                 id="relationCode"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={relationKod !== null ? relationKod : ''}
-                onChange={(e) => setRelationKod(e.target.value)}>
+                onChange={(e) => dispatch(setRelationKod(e.target.value))}>
                 <option key="noRelationCode" id="noRelationCodeId" value={undefined}>
                   {`${''}`}
                 </option>
@@ -294,7 +319,7 @@ export function Welcome() {
                 id="relationId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={relationsId !== null ? relationsId : ''}
-                onChange={(e) => setRelationsId(e.target.value)}
+                onChange={(e) => dispatch(setRelationsId(e.target.value))}
               />
               <label htmlFor="fromDays">Startdatum - Ange antalet dagar bakåt i tiden från idag.</label>
               <input
@@ -302,7 +327,7 @@ export function Welcome() {
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={fromDays}
                 type="number"
-                onChange={(e) => setFromDays(e.target.value)}
+                onChange={(e) => dispatch(setFromDays(e.target.value))}
               />
               <label htmlFor="toDays">Slutdatum - Ange antalet dagar framåt i tiden från idag.</label>
               <input
@@ -310,7 +335,7 @@ export function Welcome() {
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={toDays}
                 type="number"
-                onChange={(e) => setToDays(e.target.value)}
+                onChange={(e) => dispatch(setToDays(e.target.value))}
               />
               <div className="mt-2">
                 <label htmlFor="send">Skicka?</label>
@@ -319,7 +344,7 @@ export function Welcome() {
                   type="checkbox"
                   className="mt-2 ml-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
                   checked={isSend}
-                  onChange={(e) => setIsSend(e.target.checked)}
+                  onChange={(e) => dispatch(setIsSend(e.target.checked))}
                 />
               </div>
               <div className="mt-2">
@@ -329,7 +354,7 @@ export function Welcome() {
                   type="checkbox"
                   className="mt-2 ml-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
                   checked={isRevoked}
-                  onChange={(e) => setIsRevoked(e.target.checked)}
+                  onChange={(e) => dispatch(setIsRevoked(e.target.checked))}
                 />
               </div>
               <IDSButton className="mt-12" disabled={isLoading} onclick={createSickleave}>
