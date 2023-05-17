@@ -89,6 +89,7 @@ export function TableBodyRows({
     .filter(({ visible }) => visible)
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
+    .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
 
   if (isLoading) {
     return (

@@ -10,6 +10,7 @@ import { allPatientColumns } from '../../../store/slices/patientTableColumns.sel
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function PatientTableCellResolver({
   column,
@@ -68,7 +69,7 @@ function PatientTableCellResolver({
   }
 }
 
-export function PatientTableBody({ certificates }: { certificates: PatientSjukfallIntyg[] }) {
+export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
   return (
@@ -79,6 +80,7 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
             <tr key={`${certificate.start}${certificate.slut}`}>
               {columns
                 .filter(({ visible }) => visible)
+                .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
                 .map(({ name }) => (
                   <PatientTableCellResolver
                     key={name}

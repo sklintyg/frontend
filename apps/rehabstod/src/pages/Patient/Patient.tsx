@@ -7,6 +7,7 @@ import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumn
 import { PatientHeader } from './components/PatientHeader'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
+import { UserUrval } from '../../schemas'
 
 export function Patient() {
   const { encryptedPatientId } = useParams()
@@ -23,6 +24,7 @@ export function Patient() {
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
   const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
+  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
   return (
     <>
@@ -34,7 +36,7 @@ export function Patient() {
         {currentSickLeaves.length > 0 && (
           <>
             <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>
-            <PatientSickLeaves sickLeaves={currentSickLeaves}>
+            <PatientSickLeaves sickLeaves={currentSickLeaves} isDoctor={isDoctor}>
               <PatientOverview
                 sjfMetaData={patient?.sjfMetaData}
                 patientId={firstCertificate ? firstCertificate.patient.id : ''}
@@ -52,7 +54,7 @@ export function Patient() {
         {earlierSickLeaves.length > 0 && (
           <>
             <h2 className="ids-heading-2 text-neutral-20">Tidigare sjukfall på {user?.valdVardenhet?.namn}</h2>
-            <PatientSickLeaves sickLeaves={earlierSickLeaves} />
+            <PatientSickLeaves sickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
           </>
         )}
       </div>
