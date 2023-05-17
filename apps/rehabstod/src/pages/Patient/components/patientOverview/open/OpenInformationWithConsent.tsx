@@ -6,8 +6,7 @@ import { FormattedNumberInput } from '../../../../../components/Form/FormattedNu
 import { RadioButton } from '../../../../../components/Form/RadioButton'
 import { OpenInformation } from './OpenInformation'
 import { BlockedInformation } from '../blocked/BlockedInformation'
-import { AboutConsentDialog } from '../dialog/AboutConsentDialog'
-import { AboutPatientOverviewDialog } from '../dialog/AboutPatientOverviewDialog'
+import { AboutPatientOverview } from '../AboutPatientOverview'
 
 export function OpenInformationWithConsent({
   items,
@@ -40,7 +39,7 @@ export function OpenInformationWithConsent({
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} inline />
-      <h4 className="ids-heading-4 pt-2">Samtycke sammanhållen journalföring</h4>
+      <h4 className="ids-heading-4 pt-2">Samtycke sammanhållen vårddokumentation</h4>
       <Checkbox
         label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
         checked={checkedConsent}
@@ -78,8 +77,7 @@ export function OpenInformationWithConsent({
         checked={consentId === PatientOverviewConsentChoices.ALL}
       />
       <div className="pt-3 pb-5">
-        <AboutConsentDialog />
-        <AboutPatientOverviewDialog />
+        <AboutPatientOverview />
       </div>
       <IDSButtonGroup className="flex justify-center">
         <IDSButton secondary onClick={onClose}>
