@@ -19,8 +19,8 @@ export function Welcome() {
   const [fromDays, setFromDays] = useState<string>('-10')
   const [toDays, setToDays] = useState('10')
   const [primaryDiagnosisCode, setPrimaryDiagnosisCode] = useState('A010')
-  const [secondDiagnosisCode, setSecondDiagnosisCode] = useState('')
-  const [thirdDiagnosisCode, setThirdDiagnosisCode] = useState('')
+  const [secondDiagnosisCode, setSecondDiagnosisCode] = useState<string | null>(null)
+  const [thirdDiagnosisCode, setThirdDiagnosisCode] = useState<string | null>(null)
   const [workCapacities, setWorkCapacities] = useState('EN_FJARDEDEL')
   const [occupation, setOccupation] = useState('NUVARANDE_ARBETE')
   const [relationKod, setRelationKod] = useState<string | null>(null)
@@ -45,7 +45,13 @@ export function Welcome() {
   }
 
   const createSickleave = () => {
-    const diagnosisCode = [primaryDiagnosisCode, secondDiagnosisCode, thirdDiagnosisCode]
+    const diagnosisCode = [primaryDiagnosisCode]
+    if (secondDiagnosisCode) {
+      diagnosisCode.push(secondDiagnosisCode)
+    }
+    if (thirdDiagnosisCode) {
+      diagnosisCode.push(thirdDiagnosisCode)
+    }
     const workCapacity = [workCapacities]
     triggerCreateSickLeave({
       careProviderId,
@@ -218,7 +224,7 @@ export function Welcome() {
               <select
                 id="diagnosisCodesSecondary"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
-                value={secondDiagnosisCode}
+                value={secondDiagnosisCode !== null ? secondDiagnosisCode : ''}
                 onChange={(e) => setSecondDiagnosisCode(e.target.value)}>
                 <option key="secondDiagnosis" id="secondDiagnosis" value="">
                   Ingen
@@ -233,7 +239,7 @@ export function Welcome() {
               <select
                 id="diagnosisCodesThird"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
-                value={thirdDiagnosisCode}
+                value={thirdDiagnosisCode !== null ? thirdDiagnosisCode : ''}
                 onChange={(e) => setThirdDiagnosisCode(e.target.value)}>
                 <option key="thirdDiagnosis" id="thirdDiagnosis" value="">
                   Ingen
