@@ -1,3 +1,4 @@
+import { IDSIcon } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { AriaButtonProps, useButton } from 'react-aria'
 
@@ -24,9 +25,13 @@ export function CalendarHeader({
 }) {
   return (
     <div className="mb-2 flex w-full">
-      <CalendarButton {...prevButtonProps}>&lt;</CalendarButton>
-      <span className="grow whitespace-nowrap text-center">{title}</span>
-      <CalendarButton {...nextButtonProps}>&gt;</CalendarButton>
+      <CalendarButton {...prevButtonProps}>
+        <IDSIcon name="chevron" rotate="180" width="1em" height="1em" />
+      </CalendarButton>
+      <span className="grow whitespace-nowrap text-center font-bold">{title}</span>
+      <CalendarButton {...nextButtonProps}>
+        <IDSIcon name="chevron" width="1em" height="1em" />
+      </CalendarButton>
     </div>
   )
 }
