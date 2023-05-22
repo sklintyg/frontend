@@ -1,27 +1,16 @@
 import React from 'react'
 import { AriaDatePickerProps, DateValue, useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
-import { classNames } from '../../../utils/classNames'
-import { Calendar } from '../../Calendar/Calendar'
-import { Popover } from '../../Popover/Popover'
-import { PopoverContent } from '../../Popover/PopoverContent'
-import { PopoverTrigger } from '../../Popover/PopoverTrigger'
-import { DateField } from './DateField'
-import { DatePickerButton } from './DatePickerButton'
-
-const getStyle = ({ error = false, disabled = false }: Record<string, boolean | undefined>) => {
-  if (disabled) {
-    return 'bg-white border-neutral-40'
-  }
-
-  if (error) {
-    return 'bg-error-99 border-error-40'
-  }
-
-  return 'bg-secondary-95 border-accent-40'
-}
+import { Calendar } from '../../../Calendar/Calendar'
+import { Popover } from '../../../Popover/Popover'
+import { PopoverContent } from '../../../Popover/PopoverContent'
+import { PopoverTrigger } from '../../../Popover/PopoverTrigger'
+import { useInputStyle } from '../../hooks/useInputStyle'
+import { DateField } from '../DateField'
+import { DatePickerButton } from '../DatePickerButton'
 
 export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerProps<DateValue> & { error?: boolean; disabled?: boolean }) {
+  const style = useInputStyle({ error, disabled })
   const state = useDatePickerState(props)
   const ref = React.useRef(null)
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps } = useDatePicker({ label, ...props }, state, ref)
@@ -31,15 +20,15 @@ export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerP
       <div className="inline-flex w-full flex-row items-center gap-3">
         <div {...labelProps}>{label}</div>
         <PopoverTrigger asChild>
-          <div
-            {...groupProps}
-            className={classNames('text-neutral-20 my-3 box-border flex w-full rounded border text-left', getStyle({ error, disabled }))}>
-            <DateField
-              {...fieldProps}
-              onFocus={() => {
-                state.setOpen(false)
-              }}
-            />
+          <div {...groupProps} className={style}>
+            <span className="grow px-5">
+              <DateField
+                {...fieldProps}
+                onFocus={() => {
+                  state.setOpen(false)
+                }}
+              />
+            </span>
             <DatePickerButton {...buttonProps} />
           </div>
         </PopoverTrigger>

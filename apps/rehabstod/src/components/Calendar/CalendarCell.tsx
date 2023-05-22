@@ -1,45 +1,67 @@
-import { CalendarDate } from '@internationalized/date'
+import { CalendarDate, getDayOfWeek, isSameDay } from '@internationalized/date'
 import { useRef } from 'react'
-import { mergeProps, useCalendarCell, useFocusRing } from 'react-aria'
-import { CalendarState } from 'react-stately'
+import { mergeProps, useCalendarCell, useFocusRing, useLocale } from 'react-aria'
+import { CalendarState, RangeCalendarState } from 'react-stately'
 import { classNames } from '../../utils/classNames'
 
-function getStyle(isSelected: boolean, isDisabled: boolean, isUnavailable: boolean): string | boolean {
-  if (isSelected) {
-    return 'bg-accent-40 hover:bg-accent-30 active:bg-accent-30 text-white'
-  }
-  if (isDisabled) {
-    return 'bg-white hover:bg-white active:bg-white italic text-neutral-40'
-  }
-
-  if (isUnavailable) {
-    return 'italic'
-  }
-
-  return false
-}
-
-export function CalendarCell({ state, date }: { state: CalendarState; date: CalendarDate }) {
+export function CalendarCell({ state, date }: { state: CalendarState | RangeCalendarState; date: CalendarDate }) {
   const ref = useRef(null)
-  const { focusProps } = useFocusRing()
-  const { cellProps, buttonProps, isSelected, isOutsideVisibleRange, isDisabled, isUnavailable, formattedDate } = useCalendarCell(
-    { date },
-    state,
-    ref
-  )
+  const {
+    cellProps,
+    buttonProps,
+    isSelected,
+    isOutsideVisibleRange,
+    isDisabled,
+    // isUnavailable,
+    // isInvalid,
+    formattedDate,
+  } = useCalendarCell({ date }, state, ref)
+
+  // The start and end date of the selected range will have
+  // an emphasized appearance.
+  const isSelectionStart =
+    'highlightedRange' in state && state.highlightedRange ? isSameDay(date, state.highlightedRange.start) : isSelected
+  const isSelectionEnd = 'highlightedRange' in state && state.highlightedRange ? isSameDay(date, state.highlightedRange.end) : isSelected
+
+  // We add rounded corners on the left for the first day of the month,
+  // the first day of each week, and the start date of the selection.
+  // We add rounded corners on the right for the last day of the month,
+  // the last day of each week, and the end date of the selection.
+  const { locale } = useLocale()
+  const dayOfWeek = getDayOfWeek(date, locale)
+  const isRoundedLeft = isSelected && (isSelectionStart || dayOfWeek === 0 || date.day === 1)
+  const isRoundedRight = isSelected && (isSelectionEnd || dayOfWeek === 6 || date.day === date.calendar.getDaysInMonth(date))
+
+  const { focusProps, isFocusVisible } = useFocusRing()
+
   return (
-    <td {...cellProps} className="p-0.5">
+    <td {...cellProps} className={`relative py-0.5 ${isFocusVisible ? 'z-10' : 'z-0'}`}>
       <button
         type="button"
         {...mergeProps(buttonProps, focusProps)}
         ref={ref}
         hidden={isOutsideVisibleRange}
-        disabled={isDisabled}
         className={classNames(
-          'text-sm w-8 h-8 rounded-full hover:bg-neutral-99 active:bg-neutral-99',
-          getStyle(isSelected, isDisabled, isUnavailable)
+          'w-10 h-10 group outline-none',
+          isRoundedLeft && 'rounded-l-full',
+          isRoundedRight && 'rounded-r-full',
+          isSelected && 'bg-accent-40 text-white',
+          isDisabled && 'disabled'
         )}>
-        {formattedDate}
+        <div
+          className={classNames(
+            'w-full h-full rounded-full flex items-center justify-center',
+            isDisabled && 'italic text-neutral-40',
+            isFocusVisible && 'ring-2 group-focus:z-2 ring-neutral-20 ring-offset-2',
+            // Darker selection background for the start and end.
+            Boolean(isSelectionStart || isSelectionEnd) && 'bg-accent-30',
+            // Hover state for cells in the middle of the range.
+            Boolean(isSelected && !isDisabled && !(isSelectionStart || isSelectionEnd)) && 'hover:bg-accent-30',
+            // Hover state for non-selected cells.
+            Boolean(!isSelected && !isDisabled) && 'hover:bg-neutral-99'
+          )}>
+          {formattedDate}
+        </div>
       </button>
     </td>
   )

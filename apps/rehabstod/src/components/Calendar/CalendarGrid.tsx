@@ -1,18 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import { getWeeksInMonth } from '@internationalized/date'
 import { useCalendarGrid, useLocale } from 'react-aria'
-import { CalendarState } from 'react-stately'
+import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarCell } from './CalendarCell'
 
-export function CalendarGrid({ state, ...props }: { state: CalendarState }) {
+export function CalendarGrid({ state, ...props }: { state: CalendarState | RangeCalendarState }) {
   const { locale } = useLocale()
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state)
 
   const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale)
 
   return (
-    <table {...gridProps} className="w-full flex-1">
-      <thead {...headerProps} className="text-neutral-40 text-xs">
+    <table {...gridProps} cellPadding="0" className="w-full flex-1">
+      <thead {...headerProps} className="text-neutral-40 text-sm">
         <tr>
           {weekDays.map((day, index) => (
             <th key={index}>{day}</th>

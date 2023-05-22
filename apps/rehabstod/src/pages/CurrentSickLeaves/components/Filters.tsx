@@ -2,6 +2,7 @@ import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { DateRangePicker } from '../../../components/Form/Date/DateRangePicker/DateRangePicker'
 import { DateRangeInput } from '../../../components/Form/DateRangeInput'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
@@ -46,7 +47,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-4 gap-10">
+          <div className="grid grid-cols-3 gap-10">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -76,6 +77,7 @@ export function Filters({
                 }
               />
             </div>
+            <DateRangePicker label="Slutdatum" description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i." />
             <TimePeriodFilter
               label="Sjukskrivningslängd"
               description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."

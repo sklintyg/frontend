@@ -8,8 +8,28 @@ function DateFieldSegment({ segment, state }: { segment: DateSegment; state: Dat
   const { segmentProps } = useDateSegment(segment, state, ref)
 
   return (
-    <div {...segmentProps} ref={ref}>
-      {segment.text}
+    <div
+      {...segmentProps}
+      ref={ref}
+      style={{
+        ...segmentProps.style,
+        minWidth: segment.maxValue != null ? `${String(segment.maxValue).length}ch` : '',
+      }}
+      className="group box-content whitespace-nowrap rounded-sm px-0.5 text-left tabular-nums">
+      {segment.isPlaceholder ? (
+        <span
+          aria-hidden="true"
+          className="text-neutral-40 block w-full text-center italic"
+          style={{
+            visibility: segment.isPlaceholder ? 'visible' : 'hidden',
+            height: segment.isPlaceholder ? '' : 0,
+            pointerEvents: 'none',
+          }}>
+          {segment.placeholder}
+        </span>
+      ) : (
+        segment.text
+      )}
     </div>
   )
 }
@@ -26,14 +46,14 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
   const { labelProps, fieldProps } = useDateField(props, state, ref)
 
   return (
-    <div className="flex-1">
+    <div className="">
       <span {...labelProps}>{label}</span>
-      <div {...fieldProps} ref={ref} className="flex gap-1 whitespace-nowrap py-3 px-5">
+      <div {...fieldProps} ref={ref} className="flex py-3">
         {state.segments.map((segment, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <DateFieldSegment key={index} segment={segment} state={state} />
         ))}
-        {state.validationState === 'invalid' && <span aria-hidden="true">🚫</span>}
+        {/* {state.validationState === 'invalid' && <span aria-hidden="true">🚫</span>} */}
       </div>
     </div>
   )
