@@ -25,7 +25,7 @@ export function FormattedNumberInput({
       type="number"
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
       onBlur={() => onChange(convertValue(value === '' ? NaN : Number(value), Number(min), Number(max)).toString())}
-      value={value ? Number(value).toString() : value}
+      value={value ? parseInt(value, 10) : value}
       min={min}
       max={max}
       {...props}
