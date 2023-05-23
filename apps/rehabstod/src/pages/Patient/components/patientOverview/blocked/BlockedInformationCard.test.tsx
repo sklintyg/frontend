@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BlockedInformationCard } from './BlockedInformationCard'
 
@@ -35,7 +35,7 @@ describe('BlockedInformationCard', () => {
   describe('has information', () => {
     beforeEach(async () => {
       renderComponent()
-      await userEvent.click(screen.getByText('Visa'))
+      await act(() => userEvent.click(screen.getByText('Visa')))
     })
 
     it('should not show sub title', () => {

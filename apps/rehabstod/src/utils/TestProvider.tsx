@@ -3,10 +3,11 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { store } from '../store/store'
 
+// createMemoryRouter()
 export function TestProvider({ children }: { children: ReactNode }) {
   return (
-    <MemoryRouter>
-      <Provider store={store}>{children}</Provider>
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </Provider>
   )
 }

@@ -38,7 +38,7 @@ export function SelectMultiple({
         {/* TODO: Replace with IDSInput when working properly */}
         <div className="relative">
           <PopoverTrigger asChild>
-            <Input hasIcon id={id} type="button" aria-expanded={open} value={placeholder} onClick={() => setOpen(!open)} />
+            <Input hasIcon id={id} type="button" role="button" aria-expanded={open} value={placeholder} onClick={() => setOpen(!open)} />
           </PopoverTrigger>
           <IDSIcon
             size="xs"
