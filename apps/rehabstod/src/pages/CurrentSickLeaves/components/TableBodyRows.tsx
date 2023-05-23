@@ -13,6 +13,7 @@ import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.sli
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
+import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
 
 function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
   switch (column) {
@@ -54,6 +55,12 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
       )
     case SickLeaveColumn.Läkare:
       return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</TableCell>
+    case SickLeaveColumn.RekoStatus:
+      return (
+        <TableCell>
+          <RekoStatusDropdown status={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />
+        </TableCell>
+      )
     default:
       return null
   }
@@ -133,7 +140,6 @@ export function TableBodyRows({
                   ;(currentTarget.nextElementSibling as HTMLElement).focus()
                 }
               }}
-              onClick={() => navigateToPatient(sickLeave.encryptedPatientId)}
               key={sickLeave.patient.id}
               className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
                 isDateBeforeToday(sickLeave.slut) ? 'italic' : ''

@@ -27,6 +27,8 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
       return sickLeave.lakare.namn
     case SickLeaveColumn.Sysselsättning:
       return sickLeave.sysselsattning.map((occupation) => occupation).join('\n')
+    case SickLeaveColumn.RekoStatus:
+      return sickLeave.rekoStatus
     default:
       return undefined
   }

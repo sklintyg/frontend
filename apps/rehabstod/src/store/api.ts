@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, RekoStatus, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
@@ -96,6 +96,7 @@ export const api = createApi({
         allDiagnosisChapters: DiagnosKapitel[]
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
+        rekoStatusTypes: RekoStatus[]
       },
       void
     >({
@@ -184,6 +185,13 @@ export const api = createApi({
         }
       },
     }),
+    setRekoStatus: builder.mutation<void, { patientId: string; status: string; sickLeaveTimestamp: string }>({
+      query: ({ patientId, status, sickLeaveTimestamp }) => ({
+        url: 'reko/set',
+        method: 'POST',
+        body: { patientId, status, sickLeaveTimestamp },
+      }),
+    }),
   }),
 })
 
@@ -205,4 +213,5 @@ export const {
   useGiveSjfConsentMutation,
   useGetTestDataOptionsQuery,
   useCreateSickLeaveMutation,
+  useSetRekoStatusMutation,
 } = api
