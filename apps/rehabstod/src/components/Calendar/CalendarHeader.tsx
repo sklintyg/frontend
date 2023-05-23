@@ -24,13 +24,14 @@ export function CalendarHeader({
   nextButtonProps: AriaButtonProps<'button'>
 }) {
   return (
-    <div className="mb-2 flex w-full">
+    <div className="mb-4 flex w-full">
+      <span className="grow whitespace-nowrap px-2 text-left font-bold">{title}</span>
+
       <CalendarButton {...prevButtonProps}>
-        <IDSIcon name="chevron" rotate="180" width="1em" height="1em" />
+        <IDSIcon name="chevron" rotate="180" width=".75em" height=".75em" />
       </CalendarButton>
-      <span className="grow whitespace-nowrap text-center font-bold">{title}</span>
       <CalendarButton {...nextButtonProps}>
-        <IDSIcon name="chevron" width="1em" height="1em" />
+        <IDSIcon name="chevron" width=".75em" height=".75em" />
       </CalendarButton>
     </div>
   )

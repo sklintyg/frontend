@@ -2,6 +2,7 @@ import { createCalendar } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDateFieldProps, DateValue, useDateField, useDateSegment, useLocale } from 'react-aria'
 import { DateFieldState, DateSegment, useDateFieldState } from 'react-stately'
+import { classNames } from '../../../utils/classNames'
 
 function DateFieldSegment({ segment, state }: { segment: DateSegment; state: DateFieldState }) {
   const ref = useRef(null)
@@ -15,16 +16,15 @@ function DateFieldSegment({ segment, state }: { segment: DateSegment; state: Dat
         ...segmentProps.style,
         minWidth: segment.maxValue != null ? `${String(segment.maxValue).length}ch` : '',
       }}
-      className="group box-content whitespace-nowrap rounded-sm px-0.5 text-left tabular-nums">
+      className="group box-content whitespace-nowrap rounded-sm text-left tabular-nums">
       {segment.isPlaceholder ? (
         <span
           aria-hidden="true"
-          className="text-neutral-40 block w-full text-center italic"
-          style={{
-            visibility: segment.isPlaceholder ? 'visible' : 'hidden',
-            height: segment.isPlaceholder ? '' : 0,
-            pointerEvents: 'none',
-          }}>
+          className={classNames(
+            'text-neutral-40 block w-full text-center italic pointer-events-none',
+            segment.isPlaceholder ? 'visible' : 'hidden',
+            segment.isPlaceholder && 'h-0'
+          )}>
           {segment.placeholder}
         </span>
       ) : (
@@ -41,12 +41,11 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
     locale,
     createCalendar,
   })
-
   const ref = useRef(null)
   const { labelProps, fieldProps } = useDateField(props, state, ref)
 
   return (
-    <div className="">
+    <div>
       <span {...labelProps}>{label}</span>
       <div {...fieldProps} ref={ref} className="flex py-3">
         {state.segments.map((segment, index) => (

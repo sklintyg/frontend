@@ -58,7 +58,7 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
             // Hover state for cells in the middle of the range.
             Boolean(isSelected && !isDisabled && !(isSelectionStart || isSelectionEnd)) && 'hover:bg-accent-30',
             // Hover state for non-selected cells.
-            Boolean(!isSelected && !isDisabled) && 'hover:bg-neutral-99'
+            Boolean(!isSelected && !isDisabled) && 'hover:bg-accent-30 hover:text-white'
           )}>
           {formattedDate}
         </div>

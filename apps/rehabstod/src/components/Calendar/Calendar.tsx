@@ -1,8 +1,17 @@
-import { createCalendar } from '@internationalized/date'
+import { GregorianCalendar } from '@internationalized/date'
 import { AriaCalendarProps, DateValue, useCalendar, useLocale } from 'react-aria'
 import { useCalendarState } from 'react-stately'
 import { CalendarGrid } from './CalendarGrid'
 import { CalendarHeader } from './CalendarHeader'
+
+function createCalendar(identifier: string) {
+  switch (identifier) {
+    case 'gregory':
+      return new GregorianCalendar()
+    default:
+      throw new Error(`Unsupported calendar ${identifier}`)
+  }
+}
 
 export function Calendar(props: AriaCalendarProps<DateValue>) {
   const { locale } = useLocale()

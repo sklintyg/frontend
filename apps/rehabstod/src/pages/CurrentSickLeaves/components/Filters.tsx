@@ -1,9 +1,9 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
+import { DateRange } from 'react-aria'
 import { useDispatch } from 'react-redux'
 import { DateRangePicker } from '../../../components/Form/Date/DateRangePicker/DateRangePicker'
-import { DateRangeInput } from '../../../components/Form/DateRangeInput'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
@@ -25,6 +25,11 @@ export function Filters({
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
+  const [sickLeaveRange, setSickLeaveRange] = useState<DateRange | null>(
+    filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
+      ? { start: parseDate(filter.fromSickLeaveEndDate), end: parseDate(filter.toSickLeaveEndDate) }
+      : null
+  )
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -63,21 +68,22 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
-            <div className="col-span-2">
-              <DateRangeInput
-                title="Slutdatum"
-                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i. "
-                value={
-                  filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
-                    ? {
-                        start: parseDate(filter.fromSickLeaveEndDate),
-                        end: parseDate(filter.toSickLeaveEndDate),
-                      }
-                    : undefined
-                }
+            <div>
+              <DateRangePicker
+                value={sickLeaveRange}
+                onChange={(value) => {
+                  setSickLeaveRange(value)
+                  dispatch(
+                    updateFilter({
+                      fromSickLeaveEndDate: value ? value.start.toString() : null,
+                      toSickLeaveEndDate: value ? value.end.toString() : null,
+                    })
+                  )
+                }}
+                label="Slutdatum"
+                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
               />
             </div>
-            <DateRangePicker label="Slutdatum" description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i." />
             <TimePeriodFilter
               label="Sjukskrivningslängd"
               description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."

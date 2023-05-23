@@ -6,13 +6,15 @@ import { CalendarCell } from './CalendarCell'
 
 export function CalendarGrid({ state, ...props }: { state: CalendarState | RangeCalendarState }) {
   const { locale } = useLocale()
-  const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state)
+  const { gridProps, headerProps } = useCalendarGrid(props, state)
+
+  const weekDays = ['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö']
 
   const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale)
 
   return (
     <table {...gridProps} cellPadding="0" className="w-full flex-1">
-      <thead {...headerProps} className="text-neutral-40 text-sm">
+      <thead {...headerProps} className="text-neutral-40 text-xs uppercase">
         <tr>
           {weekDays.map((day, index) => (
             <th key={index}>{day}</th>

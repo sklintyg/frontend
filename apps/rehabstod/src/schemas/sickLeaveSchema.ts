@@ -88,8 +88,8 @@ export const sickLeaveFilterSchema = z.object({
   diagnosisChapters: z.array(diagnosKapitelSchema),
   fromPatientAge: z.number(),
   toPatientAge: z.number(),
-  fromSickLeaveEndDate: z.undefined(z.string()),
-  toSickLeaveEndDate: z.undefined(z.string()),
+  fromSickLeaveEndDate: z.string().nullable(),
+  toSickLeaveEndDate: z.string().nullable(),
 })
 
 export const genderSummarySchema = z.object({

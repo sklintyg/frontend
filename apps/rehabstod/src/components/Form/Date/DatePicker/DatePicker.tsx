@@ -19,19 +19,14 @@ export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerP
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className="inline-flex w-full flex-row items-center gap-3">
         <div {...labelProps}>{label}</div>
-        <PopoverTrigger asChild>
-          <div {...groupProps} className={style}>
-            <span className="grow px-5">
-              <DateField
-                {...fieldProps}
-                onFocus={() => {
-                  state.setOpen(false)
-                }}
-              />
-            </span>
+        <div {...groupProps} ref={ref} className={style}>
+          <span className="grow px-5">
+            <DateField {...fieldProps} />
+          </span>
+          <PopoverTrigger>
             <DatePickerButton {...buttonProps} />
-          </div>
-        </PopoverTrigger>
+          </PopoverTrigger>
+        </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
             <Calendar {...calendarProps} />

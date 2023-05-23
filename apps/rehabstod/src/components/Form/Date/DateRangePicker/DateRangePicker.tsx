@@ -35,33 +35,21 @@ export function DateRangePicker({
           <span {...labelProps}>{label}</span>
           {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
         </div>
-        <div {...groupProps} ref={ref} className="flex grow">
-          <PopoverTrigger asChild>
-            <div {...groupProps} className={style}>
-              <div className="inline-flex grow gap-1 px-5">
-                <DateField
-                  {...startFieldProps}
-                  onFocus={() => {
-                    state.setOpen(false)
-                  }}
-                />
-                <span className="py-3 px-1">–</span>
-                <DateField
-                  {...endFieldProps}
-                  onFocus={() => {
-                    state.setOpen(false)
-                  }}
-                />
-              </div>
-              <DatePickerButton {...buttonProps} />
-            </div>
+        <div {...groupProps} ref={ref} className={style}>
+          <div className="inline-flex w-full gap-1 pl-5">
+            <DateField {...startFieldProps} />
+            <span className="py-3 px-1">till</span>
+            <DateField {...endFieldProps} />
+          </div>
+          <PopoverTrigger>
+            <DatePickerButton {...buttonProps} />
           </PopoverTrigger>
-          {state.isOpen && (
-            <PopoverContent {...dialogProps}>
-              <RangeCalendar {...calendarProps} />
-            </PopoverContent>
-          )}
         </div>
+        {state.isOpen && (
+          <PopoverContent {...dialogProps}>
+            <RangeCalendar {...calendarProps} />
+          </PopoverContent>
+        )}
       </div>
     </Popover>
   )
