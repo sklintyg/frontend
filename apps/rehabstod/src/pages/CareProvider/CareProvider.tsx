@@ -15,7 +15,6 @@ export function CareProvider() {
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )
-  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
   const [selectedRadio, setSelectedRadio] = useState<string>(selectedUnit?.namn ?? '')
   const [isChecked, setIsChecked] = useState(false)
 
@@ -28,9 +27,8 @@ export function CareProvider() {
   }
 
   const handleChangeUnit = async () => {
-    if (selectedUnit && selectedProvider) {
+    if (selectedUnit) {
       await changeUnit({
-        vardgivare: selectedProvider,
         vardenhet: {
           ...selectedUnit,
           id: selectedUnit.id,
@@ -50,7 +48,6 @@ export function CareProvider() {
   }
 
   const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
-    setSelectedProvider(provider)
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
   }

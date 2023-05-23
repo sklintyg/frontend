@@ -46,7 +46,7 @@ it('should set care unit to selected unit', async () => {
   await userEvent.click(radioBtn)
   await waitFor(() => {
     expect(handleChooseUnit).toHaveBeenCalledTimes(1)
-    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardgivare, careUnit)
+    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), careUnit)
   })
 })
 
@@ -61,6 +61,6 @@ it('should set sub care unit to selected unit', async () => {
   await userEvent.click(radioBtn)
   await waitFor(() => {
     expect(handleChooseUnit).toHaveBeenCalledTimes(1)
-    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardgivare, subUnits[0])
+    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), subUnits[0])
   })
 })

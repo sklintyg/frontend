@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
@@ -24,28 +24,13 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet | Mottagning }>({
+    changeUnit: builder.mutation<User, { vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
-      async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
-        dispatch(
-          api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, {
-              valdVardgivare: vardgivare,
-              valdVardenhet: vardenhet,
-            })
-          )
-        )
-        try {
-          await queryFulfilled
-        } catch {
-          dispatch(api.util.invalidateTags(['User']))
-        }
-      },
+      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary', 'User'],
     }),
     giveConsent: builder.mutation<User, { pdlConsentGiven: boolean }>({
       query: ({ pdlConsentGiven }) => ({
