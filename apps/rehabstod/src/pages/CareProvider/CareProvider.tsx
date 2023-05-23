@@ -47,7 +47,7 @@ export function CareProvider() {
     setIsChecked(event.target.checked)
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
+  const handleChooseUnit = (event: React.ChangeEvent, unit: Vardenhet | Mottagning) => {
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
   }
