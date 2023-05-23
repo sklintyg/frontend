@@ -4,6 +4,7 @@ import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } 
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -124,6 +125,20 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: string }) => response.content,
     }),
+    getTestDataOptions: builder.query<TestDataOptionsDTO, void>({
+      query: () => ({
+        url: '/testability/testDataOptions',
+        method: 'GET',
+      }),
+    }),
+    createSickLeave: builder.mutation<string, CreateSickleaveDTO>({
+      query: (request) => ({
+        url: '/testability/createSickLeave',
+        method: 'POST',
+        body: request,
+      }),
+      transformResponse: (response: { content: string }) => response.content,
+    }),
     addVardenhet: builder.mutation<string[], { patientId: string; vardenhetId: string }>({
       query: ({ patientId, vardenhetId }) => ({
         url: 'sjukfall/patient/addVardenhet',
@@ -188,4 +203,6 @@ export const {
   useAddVardenhetMutation,
   useAddVardgivareMutation,
   useGiveSjfConsentMutation,
+  useGetTestDataOptionsQuery,
+  useCreateSickLeaveMutation,
 } = api

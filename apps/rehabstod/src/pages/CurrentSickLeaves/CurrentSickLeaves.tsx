@@ -88,7 +88,7 @@ export function CurrentSickLeaves() {
         print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
         ascending>
         <thead>
-          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
         </thead>
         <tbody className="whitespace-normal break-words">
           <TableBodyRows

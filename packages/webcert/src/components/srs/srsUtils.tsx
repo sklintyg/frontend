@@ -90,7 +90,7 @@ export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, pre
         sickLeaveChoice,
         undefined,
         undefined,
-        'Det går inte att beräkna nuvarande risk sjukskrivningen har pågått över 60 dagar'
+        'Det går inte att beräkna nuvarande risk pga sjukskrivning över 60 dagar'
       )
     : getRiskDataPoint(
         RISK_LABELS[2],

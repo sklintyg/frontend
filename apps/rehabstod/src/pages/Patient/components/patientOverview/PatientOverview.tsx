@@ -49,8 +49,8 @@ export function PatientOverview({
   return (
     <div className="grid grid-cols-2 gap-4 py-5">
       <OpenInformationCard
-        title="Ospärrad information inom vårdgivare"
-        subTitle="Vårdenhet att hämta information från"
+        title="Ospärrad information inom egen vårdgivare"
+        subTitle="Vårdenhet med information"
         description="Det finns ospärrad information hos en annan vårdenhet inom din vårdgivare. Du kan klicka nedan för att visa vilka vårdenheter som
         har denna information och få möjlighet att inhämta den."
         items={sjfMetaData.kraverInteSamtycke}
@@ -66,14 +66,14 @@ export function PatientOverview({
         onGiveConsent={handleGiveConsent}
       />
       <BlockedInformationCard
-        title="Spärrad information inom vårdgivare"
-        subTitle="Vårdenheter"
+        title="Spärrad information inom egen vårdgivare"
+        subTitle="Vårdenhet"
         description="Det finns spärrad information hos en annan vårdenhet inom din vårdgivare. Endast patienten kan få spärren hävd genom att kontakta den enhet där spärren sattes. Du kan klicka nedan för att visa vilka vårdenheter som har spärrad information hos sig."
         items={sjfMetaData.vardenheterInomVGMedSparr}
       />
       <BlockedInformationCard
         items={sjfMetaData.andraVardgivareMedSparr}
-        title="Spärrad information hos andra vårdgivare"
+        title="Spärrad information hos annan vårdgivare"
         subTitle="Vårdgivare"
         description="Det finns spärrad intygsinformation hos andra vårdgivare. Endast patienten kan häva spärren genom att kontakta den enhet där spärren sattes. Klicka nedan för att visa vilka vårdgivare som har spärrad information."
       />
