@@ -4,16 +4,16 @@ import React from 'react'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
 
-const handlePageChange = vi.fn()
-const handlePageTupleChange = vi.fn()
+// const handlePageChange = vi.fn()
+// const handlePageTupleChange = vi.fn()
 
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
   render(
     <Pagination
       page={page}
       pageTuple={pageTuple}
-      handlePageChange={handlePageChange}
-      handlePageTupleChange={handlePageTupleChange}
+      handlePageChange={vi.fn()}
+      handlePageTupleChange={vi.fn()}
       pageSize={pageSize}
       totalCount={totalCount}
       pagesPerTuple={10}
@@ -52,15 +52,37 @@ describe('Pagination', () => {
       expect(screen.getByText('Nästa')).toBeDisabled()
     })
 
-    it('should run page change function with page and start from when clicking on next', () => {
-      renderComponent()
-      userEvent.click(screen.getByText('Nästa'))
+    it('should run page change function with page and start from when clicking on next', async () => {
+      const handlePageChange = vi.fn()
+      render(
+        <Pagination
+          page={1}
+          pageTuple={1}
+          handlePageChange={handlePageChange}
+          handlePageTupleChange={vi.fn()}
+          pageSize={10}
+          totalCount={200}
+          pagesPerTuple={10}
+        />
+      )
+      await userEvent.click(screen.getByText('Nästa'))
       expect(handlePageChange).toHaveBeenCalledWith(2, 10)
     })
 
-    it('should run page change function with page and start from when clicking on previous', () => {
-      renderComponent(2, 2, 10, 110)
-      userEvent.click(screen.getByText('Föregående'))
+    it('should run page change function with page and start from when clicking on previous', async () => {
+      const handlePageChange = vi.fn()
+      render(
+        <Pagination
+          page={2}
+          pageTuple={2}
+          handlePageChange={handlePageChange}
+          handlePageTupleChange={vi.fn()}
+          pageSize={10}
+          totalCount={110}
+          pagesPerTuple={10}
+        />
+      )
+      await userEvent.click(screen.getByText('Föregående'))
       expect(handlePageChange).toHaveBeenCalledWith(1, 0)
     })
   })
@@ -86,15 +108,37 @@ describe('Pagination', () => {
       expect(screen.getByText('Visa mer')).toBeDisabled()
     })
 
-    it('should run page tuple change function with page tuple + 1 when clicking on next', () => {
-      renderComponent()
-      userEvent.click(screen.getByText('Visa mer'))
+    it('should run page tuple change function with page tuple + 1 when clicking on next', async () => {
+      const handlePageTupleChange = vi.fn()
+      render(
+        <Pagination
+          page={1}
+          pageTuple={1}
+          handlePageChange={vi.fn()}
+          handlePageTupleChange={handlePageTupleChange}
+          pageSize={10}
+          totalCount={200}
+          pagesPerTuple={10}
+        />
+      )
+      await userEvent.click(screen.getByText('Visa mer'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(2)
     })
 
-    it('should run page tuple change function with page tuple - 1 when clicking on next', () => {
-      renderComponent(1, 2, 10, 110)
-      userEvent.click(screen.getByText('Visa färre'))
+    it('should run page tuple change function with page tuple - 1 when clicking on next', async () => {
+      const handlePageTupleChange = vi.fn()
+      render(
+        <Pagination
+          page={1}
+          pageTuple={2}
+          handlePageChange={vi.fn()}
+          handlePageTupleChange={handlePageTupleChange}
+          pageSize={10}
+          totalCount={110}
+          pagesPerTuple={10}
+        />
+      )
+      await userEvent.click(screen.getByText('Visa färre'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(1)
     })
   })
@@ -120,9 +164,20 @@ describe('Pagination', () => {
       expect(screen.queryByText((22).toString())).not.toBeInTheDocument()
     })
 
-    it('should run function with updated page and start from when page is clicked', () => {
-      renderComponent()
-      userEvent.click(screen.getByText('5'))
+    it('should run function with updated page and start from when page is clicked', async () => {
+      const handlePageChange = vi.fn()
+      render(
+        <Pagination
+          page={1}
+          pageTuple={1}
+          handlePageChange={handlePageChange}
+          handlePageTupleChange={vi.fn()}
+          pageSize={10}
+          totalCount={200}
+          pagesPerTuple={10}
+        />
+      )
+      await userEvent.click(screen.getByText('5'))
       expect(handlePageChange).toHaveBeenCalledWith(5, 40)
     })
   })
@@ -144,12 +199,34 @@ describe('Pagination', () => {
     })
 
     it('should reset page higher than last to last page', () => {
-      renderComponent(100, 1, 10, 20)
+      const handlePageChange = vi.fn()
+      render(
+        <Pagination
+          page={100}
+          pageTuple={1}
+          handlePageChange={handlePageChange}
+          handlePageTupleChange={vi.fn()}
+          pageSize={10}
+          totalCount={20}
+          pagesPerTuple={10}
+        />
+      )
       expect(handlePageChange).toHaveBeenCalledWith(2, 10)
     })
 
     it('should reset page tuple higher than last to last page tuple', () => {
-      renderComponent(1, 100, 10, 20)
+      const handlePageTupleChange = vi.fn()
+      render(
+        <Pagination
+          page={1}
+          pageTuple={100}
+          handlePageChange={vi.fn}
+          handlePageTupleChange={handlePageTupleChange}
+          pageSize={10}
+          totalCount={20}
+          pagesPerTuple={10}
+        />
+      )
       expect(handlePageTupleChange).toHaveBeenCalledWith(1)
     })
   })

@@ -3,10 +3,9 @@ import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
 import React, { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
 import calendar from '../../../images/calendar.svg'
-import { formatDateToString, getValidDate, _format, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../../utils'
+import { _format, _maxAllowedDate, _minAllowedDate, _yearFormat, formatDateToString, getValidDate } from '../../../utils'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
 
 const Logo = styled.img`

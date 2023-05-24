@@ -11,13 +11,17 @@ const renderComponent = () => {
   }
 
   render(
-    <ExpandableTableRow rowContent={rowContent} id="tableRowId" handleClick={handleClick}>
-      <tr>
-        <td>Expanded child 1</td>
-        <td>10</td>
-        <td>5</td>
-      </tr>
-    </ExpandableTableRow>
+    <table>
+      <tbody>
+        <ExpandableTableRow rowContent={rowContent} id="tableRowId" handleClick={handleClick}>
+          <tr>
+            <td>Expanded child 1</td>
+            <td>10</td>
+            <td>5</td>
+          </tr>
+        </ExpandableTableRow>
+      </tbody>
+    </table>
   )
 }
 
@@ -27,9 +31,9 @@ describe('Expandable table row', () => {
     expect(screen.getByText('Click here')).toBeInTheDocument()
   })
 
-  it('should expand rows when click on arrow', () => {
+  it('should expand rows when click on arrow', async () => {
     renderComponent()
-    userEvent.click(screen.getByTestId('arrowToggle'))
+    await userEvent.click(screen.getByTestId('arrowToggle'))
     expect(screen.getByText('Expanded child 1')).toBeInTheDocument()
   })
 

@@ -20,6 +20,6 @@ describe('DatePickerCustom', () => {
       userEvent.click(screen.getByAltText('Kalender'))
     })
 
-    expect(screen.getAllByLabelText(/Not available .* 1974/)).toHaveLength(29)
+    expect(await screen.findAllByLabelText(/Not available .* 1974/i)).toHaveLength(29)
   })
 })
