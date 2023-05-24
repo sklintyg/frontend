@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import ReactTooltip, { Place } from 'react-tooltip'
 import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'
@@ -41,65 +41,67 @@ const Button = styled.button<Props>`
   height: ${(props) => props.inline && '3rem'};
 `
 
-export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  }, [props.tooltip])
+export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>; children?: ReactNode }> = React.forwardRef(
+  (props, ref) => {
+    useEffect(() => {
+      ReactTooltip.rebuild()
+    }, [props.tooltip])
 
-  let addedClass = ''
-  if (props.rounded) {
-    addedClass = 'ic-button--rounded '
-  }
-  if (props.disabled) {
-    addedClass += 'ic-button--disabled'
-  } else {
-    switch (props.buttonStyle) {
-      case 'success':
-      case 'primary':
-        addedClass += 'ic-button--primary iu-border-main'
-        break
-      case 'default':
-      case 'secondary':
-      default:
-        addedClass += 'ic-button--secondary'
-        break
+    let addedClass = ''
+    if (props.rounded) {
+      addedClass = 'ic-button--rounded '
     }
-  }
-
-  const getIconFilter = (): string => {
     if (props.disabled) {
-      return getFilter('grey')
-    } else if (props.buttonStyle === 'success' || props.buttonStyle === 'primary') {
-      return getFilter('white')
+      addedClass += 'ic-button--disabled'
+    } else {
+      switch (props.buttonStyle) {
+        case 'success':
+        case 'primary':
+          addedClass += 'ic-button--primary iu-border-main'
+          break
+        case 'default':
+        case 'secondary':
+        default:
+          addedClass += 'ic-button--secondary'
+          break
+      }
     }
-    return getFilter('primary')
-  }
 
-  const onClick = () => {
-    ReactTooltip.hide()
-    props.onClick && props.onClick()
-  }
+    const getIconFilter = (): string => {
+      if (props.disabled) {
+        return getFilter('grey')
+      } else if (props.buttonStyle === 'success' || props.buttonStyle === 'primary') {
+        return getFilter('white')
+      }
+      return getFilter('primary')
+    }
 
-  return (
-    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
-      <Button
-        aria-label={props.text}
-        ref={ref as React.RefObject<HTMLButtonElement>}
-        type={props.type ?? 'button'}
-        onSubmit={props.onSubmit}
-        className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
-        disabled={props.disabled}
-        onClick={onClick}
-        data-testid={props['data-testid']}
-        inline={props.inline}>
-        {props.startIcon ? (
-          <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
-            {props.startIcon}
-          </span>
-        ) : null}
-        {props.children} {props.text}{' '}
-        {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
-      </Button>
-    </Wrapper>
-  )
-})
+    const onClick = () => {
+      ReactTooltip.hide()
+      props.onClick && props.onClick()
+    }
+
+    return (
+      <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+        <Button
+          aria-label={props.text}
+          ref={ref as React.RefObject<HTMLButtonElement>}
+          type={props.type ?? 'button'}
+          onSubmit={props.onSubmit}
+          className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
+          disabled={props.disabled}
+          onClick={onClick}
+          data-testid={props['data-testid']}
+          inline={props.inline}>
+          {props.startIcon ? (
+            <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
+              {props.startIcon}
+            </span>
+          ) : null}
+          {props.children} {props.text}{' '}
+          {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
+        </Button>
+      </Wrapper>
+    )
+  }
+)

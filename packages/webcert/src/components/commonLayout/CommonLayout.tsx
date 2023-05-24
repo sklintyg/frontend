@@ -1,6 +1,6 @@
 import { CustomTooltip, DatePickerBoundryContext } from '@frontend/common'
 import classnames from 'classnames'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -23,6 +23,7 @@ interface Props {
   subHeader?: React.ReactNode
   noPadding?: boolean
   hasSidePanel?: boolean
+  children: ReactNode
 }
 
 const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePanel = false, noPadding = false }) => {

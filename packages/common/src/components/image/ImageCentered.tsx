@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const EmptyWrapper = styled.div`
@@ -13,6 +13,7 @@ const EmptyWrapper = styled.div`
 interface Props {
   imgSrc: string
   alt: string
+  children: ReactNode
 }
 
 const ImageCentered: React.FC<Props> = ({ imgSrc, alt, children }) => {

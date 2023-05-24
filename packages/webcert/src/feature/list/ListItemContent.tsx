@@ -113,7 +113,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   const getListItemContent = () => {
     switch (valueType) {
       case CertificateListItemValueType.TEXT:
-        return <td>{value}</td>
+        return <td>{typeof value === 'string' && value}</td>
       case CertificateListItemValueType.DATE:
         return <td>{formatDate(value as string)}</td>
       case CertificateListItemValueType.PATIENT_INFO:

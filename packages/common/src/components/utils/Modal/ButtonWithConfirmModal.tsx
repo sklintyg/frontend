@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react'
-import ModalBase from './ModalBase'
+import React, { ReactNode, useCallback, useEffect } from 'react'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import { CustomButton } from '../../Inputs/CustomButton'
+import ModalBase from './ModalBase'
 
 interface Props {
   disabled: boolean
@@ -23,6 +23,7 @@ interface Props {
   hideDeclineButton?: boolean
   hideConfirmButton?: boolean
   buttonClasses?: string
+  children: ReactNode
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -14,6 +14,7 @@ const TextWrapper = styled.div`
 
 interface Props {
   additionalStyles?: string
+  children: ReactNode
 }
 
 const SidePanelFooter: React.FC<Props> = ({ children, additionalStyles }) => {

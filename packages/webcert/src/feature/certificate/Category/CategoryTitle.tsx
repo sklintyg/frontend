@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface Props {
   titleId?: string
   textColor?: 'iu-color-white' | null
+  children: ReactNode
 }
 
 const CategoryTitle: React.FC<Props> = ({ titleId, textColor, children }) => {

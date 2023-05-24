@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { ArrowLeftIcon, AttentionIcon } from '../../images'
 import CheckIcon from '../../images/CheckIcon'
@@ -19,6 +19,7 @@ interface Props {
   additionalWrapperStyles?: string
   additionalTextStyles?: string
   isModal?: boolean
+  children: ReactNode
 }
 
 const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWrapperStyles, additionalTextStyles }) => {

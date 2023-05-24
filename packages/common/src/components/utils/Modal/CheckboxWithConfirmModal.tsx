@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { ReactNode, useCallback, useEffect } from 'react'
 import { FlattenSimpleInterpolation } from 'styled-components'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import Checkbox from '../../Inputs/Checkbox'
@@ -22,6 +22,7 @@ interface Props {
   checked: boolean
   id: string
   wrapperStyles?: FlattenSimpleInterpolation
+  children: ReactNode
 }
 
 const CheckboxWithConfirmModal: React.FC<Props> = (props) => {

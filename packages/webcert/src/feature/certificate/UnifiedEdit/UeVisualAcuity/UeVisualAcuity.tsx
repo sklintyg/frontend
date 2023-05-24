@@ -1,10 +1,10 @@
-import { CertificateDataElement, ConfigUeVisualAcuity, MandatoryIcon, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
-import React, { useState, useCallback } from 'react'
+import { CertificateDataElement, ConfigUeVisualAcuity, MandatoryIcon, ValueEyeAcuity, ValueType, ValueVisualAcuity } from '@frontend/common'
+import React, { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
-import { useSelector } from 'react-redux'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
   disabled?: boolean
@@ -24,7 +24,7 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
 
   const dispatchEditDraft = useCallback(
-    (value) => {
+    (value: ValueType) => {
       dispatch(updateCertificateDataElement({ ...question, value }))
     },
     [dispatch, question]

@@ -1,11 +1,12 @@
-import React from 'react'
-import { Banner } from '../../types/utils'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import externalLinkIcon from '../../images/external_link.svg'
+import { Banner } from '../../types/utils'
 import { sanitizeText } from '../../utils/sanitizeText'
 
 interface Props {
   banner: Banner
+  children?: ReactNode
 }
 
 const Icon = styled.i`

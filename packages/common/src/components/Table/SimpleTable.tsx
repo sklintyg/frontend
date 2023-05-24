@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Spinner } from '../utils'
 import { Table } from './Table'
@@ -16,6 +16,7 @@ interface Props {
   caption?: string
   headings: Headings[]
   isLoadingContent?: boolean
+  children: ReactNode
 }
 
 const Caption = styled.caption`

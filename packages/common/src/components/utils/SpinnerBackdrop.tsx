@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import Spinner from './Spinner'
 
 interface Props {
   open: boolean
   spinnerText?: string
+  children?: ReactNode
 }
 
 const SpinnerBackdrop: React.FC<Props> = ({ open, spinnerText, children }) => {

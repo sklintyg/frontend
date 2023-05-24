@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { InfoBox, TextWithInfoModal } from '@frontend/common'
+import * as React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
   title: string
   modalTitle: string
   type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
+  children: React.ReactNode
 }
 
 const Wrapper = styled.div`

@@ -46,12 +46,6 @@ const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, e
   })
 
   useEffect(() => {
-    if (hasUpdatedConfig) {
-      dispatch(updateListConfig())
-    }
-  }, [dispatch, hasUpdatedConfig])
-
-  useEffect(() => {
     dispatch(updateActiveListType(type))
     if (loggedInUnit?.unitId) {
       dispatch(getListConfig())
@@ -61,6 +55,8 @@ const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, e
   useEffect(() => {
     if (!isLoadingListConfig && config && !hasUpdatedConfig) {
       dispatch(performListSearch)
+    } else if (!isLoadingListConfig) {
+      dispatch(updateListConfig())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, config, isLoadingListConfig])

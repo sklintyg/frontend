@@ -3,6 +3,7 @@ import * as React from 'react'
 
 interface Props {
   type: 'info' | 'error' | 'success' | 'observe'
+  children: React.ReactNode
 }
 
 const NotificationBannerBase: React.FC<Props> = ({ type, children }) => {

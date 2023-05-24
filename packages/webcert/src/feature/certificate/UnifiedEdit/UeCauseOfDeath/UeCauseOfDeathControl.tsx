@@ -11,7 +11,7 @@ import {
   ValidationError,
   ValueCauseOfDeath,
 } from '@frontend/common'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 export interface Props {
@@ -22,6 +22,7 @@ export interface Props {
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   value: ValueCauseOfDeath
+  children?: ReactNode
 }
 
 const Wrapper = styled.div`

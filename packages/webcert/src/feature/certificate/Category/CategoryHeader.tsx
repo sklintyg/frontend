@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 const Wrapper = styled.div`
@@ -16,6 +16,7 @@ const InnerWrapper = styled.div`
 
 interface Props {
   additionalStyles?: FlattenSimpleInterpolation
+  children: ReactNode
 }
 
 const CategoryHeader: React.FC<Props> = ({ additionalStyles, children }) => {

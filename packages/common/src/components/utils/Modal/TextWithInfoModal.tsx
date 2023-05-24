@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import React, { useEffect } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { LinkButton } from '../../../styles'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import { CustomButton } from '../../Inputs'
@@ -9,6 +9,7 @@ interface Props {
   text: string
   modalTitle: string
   className?: string
+  children: ReactNode
 }
 
 const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, className }) => {

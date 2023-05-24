@@ -1,11 +1,12 @@
 import { Accordion, AccordionHeader, ConfigAccordion, Icon } from '@frontend/common'
-import React, { useRef } from 'react'
+import React, { ReactNode, useRef } from 'react'
 import styled from 'styled-components'
 
 export interface Props {
   accordion: ConfigAccordion
   icon?: string
   open: boolean
+  children: ReactNode
 }
 
 const OpenLink = styled.h5.attrs({

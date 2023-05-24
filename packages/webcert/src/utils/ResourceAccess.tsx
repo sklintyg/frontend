@@ -1,5 +1,5 @@
 import { ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
-import React, { useEffect } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
@@ -7,6 +7,7 @@ import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/use
 
 interface Props {
   linkType: ResourceLinkType
+  children: ReactNode
 }
 
 export const ResourceAccess: React.FC<Props> = ({ children, linkType }) => {

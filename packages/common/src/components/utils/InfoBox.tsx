@@ -1,7 +1,7 @@
+import React, { ReactNode } from 'react'
+import styled from 'styled-components'
 import protectedPersonIcon from '../../images/lock-closed.svg'
 import deceasedIcon from '../../images/warning.svg'
-import React from 'react'
-import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'
 
 interface StyledIcon {
@@ -35,6 +35,7 @@ interface Props {
   additionalWrapperStyles?: string
   squared?: boolean
   activateIconWrap?: boolean
+  children: ReactNode
 }
 
 const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }) => {

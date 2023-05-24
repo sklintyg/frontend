@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { ReactNode, useCallback, useEffect } from 'react'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import { CustomButton } from '../../Inputs/CustomButton'
 import ModalBase from './ModalBase'
@@ -20,6 +20,7 @@ interface Props {
   open: boolean
   setOpen: (val: boolean) => void
   startIcon?: React.ReactNode
+  children: ReactNode
 }
 
 export const ConfirmModal: React.FC<Props> = ({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const move = keyframes`
@@ -17,6 +17,7 @@ const AnimatedDiv = styled.div`
 
 interface Props {
   onClose?: () => void
+  children: ReactNode
 }
 
 const ToastModal: React.FC<Props> = ({ children, onClose }) => {

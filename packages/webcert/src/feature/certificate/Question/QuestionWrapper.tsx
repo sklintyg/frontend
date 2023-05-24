@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
 
 interface WrapperProps {
@@ -22,6 +22,7 @@ const Wrapper = styled.section<WrapperProps>`
 interface Props {
   additionalStyles?: FlattenSimpleInterpolation
   highlighted?: boolean
+  children: ReactNode
 }
 
 const QuestionWrapper: React.FC<Props> = ({ additionalStyles, highlighted, children }) => {
