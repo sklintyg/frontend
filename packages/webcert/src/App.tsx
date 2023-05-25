@@ -1,5 +1,4 @@
 import { SpinnerBackdrop } from '@frontend/common'
-import '@frontend/common/dist/style.css'
 import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/dist/inera-master.css'
 import { useEffect } from 'react'
