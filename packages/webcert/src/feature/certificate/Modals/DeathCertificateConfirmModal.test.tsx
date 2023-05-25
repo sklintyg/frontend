@@ -74,26 +74,26 @@ describe('Confirm button', () => {
     expect(confirmButton).toBeDisabled()
   })
 
-  it('should enable confirm button when checkbox in checked', () => {
+  it('should enable confirm button when checkbox in checked', async () => {
     renderComponent(true)
     const confirmCheckbox = screen.getByRole('checkbox')
-    userEvent.click(confirmCheckbox)
+    await userEvent.click(confirmCheckbox)
 
     const confirmButton = screen.getByText('Gå vidare')
     expect(confirmButton).not.toBeDisabled()
   })
 
-  it('should dispatch create new certificate on proceed', () => {
+  it('should dispatch create new certificate on proceed', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
 
     const confirmCheckbox = screen.getByRole('checkbox')
-    userEvent.click(confirmCheckbox)
+    await userEvent.click(confirmCheckbox)
 
     const confirmButton = screen.getByText('Gå vidare')
-    userEvent.click(confirmButton)
+    await userEvent.click(confirmButton)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 })
@@ -108,13 +108,13 @@ describe('Cancel button', () => {
     expect(screen.getByText('Avbryt')).toBeInTheDocument()
   })
 
-  it('Cancelling shall not create certificate', () => {
+  it('Cancelling shall not create certificate', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
     const cancelButton = screen.getByText('Avbryt')
-    userEvent.click(cancelButton)
+    await userEvent.click(cancelButton)
 
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })

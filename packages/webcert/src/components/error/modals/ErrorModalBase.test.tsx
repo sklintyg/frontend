@@ -76,22 +76,22 @@ describe('ErrorModalBase', () => {
     expect(screen.getByText(expectedText, { exact: false })).toBeInTheDocument()
   })
 
-  it('shall call onConfirm function when clicking confirm button', () => {
+  it('shall call onConfirm function when clicking confirm button', async () => {
     const onConfirm = vi.fn()
     const expectedId = 'test'
     renderComponent(createError(expectedId), onConfirm, CONFIRM_BUTTON_TEXT)
 
-    userEvent.click(screen.getByText(CONFIRM_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(CONFIRM_BUTTON_TEXT))
 
     expect(onConfirm).toHaveBeenCalledTimes(1)
   })
 
-  it('shall clear error on close', () => {
+  it('shall clear error on close', async () => {
     const expectedErrorId = 'errorid'
     clearDispatchedActions()
     renderComponent(createError(expectedErrorId), undefined, undefined, CLOSE_BUTTON_TEXT)
 
-    userEvent.click(screen.getByText(CLOSE_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(CLOSE_BUTTON_TEXT))
 
     const clearedError = dispatchedActions.find((action) => clearError.match(action))
     expect(expectedErrorId).toEqual(clearedError?.payload.errorId)

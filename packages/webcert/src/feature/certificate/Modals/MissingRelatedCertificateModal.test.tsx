@@ -71,9 +71,9 @@ describe('MissingRelatedCertificateModal', () => {
     expect(screen.getByText('Är du säker att du vill skapa ett dödsorsaksintyg?')).toBeInTheDocument()
   })
 
-  it('should create certificate on confirm', () => {
+  it('should create certificate on confirm', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText(CONFIRM_BUTTON))
+    await userEvent.click(screen.getByText(CONFIRM_BUTTON))
 
     const createNewCertificateAction = dispatchedActions.find((action) => createNewCertificate.match(action))
     expect(createNewCertificateAction?.payload).toEqual({ certificateType: 'doi', patientId: PATIENT_ID })

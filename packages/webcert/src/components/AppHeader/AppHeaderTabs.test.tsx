@@ -69,9 +69,9 @@ describe('AppHeaderTabs', () => {
     expect(screen.getByRole('listitem').firstChild).not.toHaveClass('selected')
   })
 
-  it('should call onSwitchTab when switching tab', () => {
+  it('should call onSwitchTab when switching tab', async () => {
     renderComponent('', '')
-    userEvent.click(screen.getByText(TAB_TITLE))
+    await userEvent.click(screen.getByText(TAB_TITLE))
     expect(onSwitchTab).toHaveBeenCalled()
   })
 })

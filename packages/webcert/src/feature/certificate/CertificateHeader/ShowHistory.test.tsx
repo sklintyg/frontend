@@ -52,7 +52,7 @@ describe('Verify history events', () => {
     render(<ShowHistory certificateMetadata={certificateMetadata} historyEntries={mockHistoryEntries} />)
 
     expect(screen.getByText('Visa alla händelser')).toBeInTheDocument()
-    userEvent.click(screen.getByText('Visa alla händelser'))
+    await userEvent.click(screen.getByText('Visa alla händelser'))
 
     expect(screen.getByText(/utkastet är skapat/i)).toBeInTheDocument()
     expect(screen.getByText(/intyget är signerat/i)).toBeInTheDocument()
@@ -60,7 +60,7 @@ describe('Verify history events', () => {
     expect(screen.getByText(/intyget är skickat till Försäkringskassan/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /stäng/i })).toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('button', { name: /stäng/i }))
+    await userEvent.click(screen.getByRole('button', { name: /stäng/i }))
 
     expect(screen.queryByText(/utkastet är skapat/i)).not.toBeInTheDocument()
   })
@@ -69,7 +69,7 @@ describe('Verify history events', () => {
     const mockHistoryEntries: CertificateEvent[] = []
 
     render(<ShowHistory certificateMetadata={certificateMetadata} historyEntries={mockHistoryEntries} />)
-    userEvent.click(screen.getByText('Visa alla händelser'))
+    await userEvent.click(screen.getByText('Visa alla händelser'))
     expect(screen.getByText('Laddar händelser')).toBeInTheDocument()
   })
 
@@ -85,7 +85,7 @@ describe('Verify history events', () => {
     ]
 
     render(<ShowHistory certificateMetadata={certificateMetadata} historyEntries={mockHistoryEntries} />)
-    userEvent.click(screen.getByText('Visa alla händelser'))
+    await userEvent.click(screen.getByText('Visa alla händelser'))
     expect(screen.queryByText('Laddar händelser')).toBeNull()
   })
 
@@ -106,7 +106,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={renewHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/utkastet skapades för att förnya ett tidigare intyg./i)).toBeInTheDocument()
     })
 
@@ -127,7 +127,7 @@ describe('Verify history events', () => {
         </BrowserRouter>
       )
 
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
 
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
@@ -156,7 +156,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
@@ -178,7 +178,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
@@ -200,7 +200,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
@@ -233,7 +233,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/Intyget är makulerat/i)).toBeInTheDocument()
     })
 
@@ -260,7 +260,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(
         screen.getByText(/Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras./i)
       ).toBeInTheDocument()
@@ -290,7 +290,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(
         screen.getByText(/Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras./i)
       ).toBeInTheDocument()
@@ -322,7 +322,7 @@ describe('Verify history events', () => {
           <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
         </BrowserRouter>
       )
-      userEvent.click(screen.getByText('Visa alla händelser'))
+      await userEvent.click(screen.getByText('Visa alla händelser'))
       expect(screen.getByText(/Utkastet är makulerat/i)).toBeInTheDocument()
     })
   })

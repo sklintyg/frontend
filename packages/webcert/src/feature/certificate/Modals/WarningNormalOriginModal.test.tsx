@@ -46,12 +46,12 @@ describe('WarningNormalOriginModal', () => {
     expect(screen.getByText(INFO_BOX)).toBeInTheDocument()
   })
 
-  it('should close modal if close button is pressed', () => {
+  it('should close modal if close button is pressed', async () => {
     testStore.dispatch(updateUser(getUser()))
     setupResourceLinks()
     renderComponent()
 
-    userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
 
     expect(screen.queryByText(INFO_BOX)).not.toBeInTheDocument()
   })

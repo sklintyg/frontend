@@ -1,5 +1,5 @@
 import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
 import { ComponentProps } from 'react'
@@ -76,13 +76,13 @@ describe('Cause of death component', () => {
     expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
   })
 
-  it('formats input into yyyy-mm-dd', () => {
+  it('formats input into yyyy-mm-dd', async () => {
     renderComponent({ disabled: false, question })
 
     const inputDate = '20200202'
     const expected = '2020-02-02'
     const input = screen.getByLabelText('Ungefärlig debut')
-    userEvent.type(input, inputDate)
+    await userEvent.type(input, inputDate)
     expect(input).toHaveValue(expected)
   })
 
@@ -100,9 +100,7 @@ describe('Cause of death component', () => {
       })['id'],
     })
 
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
+    await userEvent.click(screen.getByLabelText('Öppna kalendern'))
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })

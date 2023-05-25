@@ -53,6 +53,7 @@ export const UeCheckboxDateItem: React.FC<{
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
         max={maxDate}
         min={minDate}
+        textInputDataTestId={id}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />

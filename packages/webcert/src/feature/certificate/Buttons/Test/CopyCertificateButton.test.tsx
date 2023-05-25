@@ -67,27 +67,27 @@ describe('Copy certificate button', () => {
     expect(body).toBeNull()
   })
 
-  it('renders modal when button is clicked', () => {
+  it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
     expect(button).not.toBeDisabled()
     expect(screen.queryByText(BODY)).toBeNull()
     expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
+    await userEvent.click(button)
     expect(screen.queryByRole('dialog')).not.toBeNull()
     expect(screen.queryByText(BODY)).not.toBeNull()
   })
 
-  it('allows user to interact with modal', () => {
+  it('allows user to interact with modal', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
+    await userEvent.click(button)
     expect(screen.queryByRole('dialog')).not.toBeNull()
-    userEvent.click(screen.getByText('Kopiera'))
+    await userEvent.click(screen.getByText('Kopiera'))
     expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
+    await userEvent.click(button)
     expect(screen.queryByRole('dialog')).not.toBeNull()
-    userEvent.click(screen.getByText('Avbryt'))
+    await userEvent.click(screen.getByText('Avbryt'))
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 })

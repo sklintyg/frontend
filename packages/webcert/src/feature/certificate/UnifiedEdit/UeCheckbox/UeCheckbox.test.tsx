@@ -40,25 +40,6 @@ beforeEach(() => {
   useSelectorSpy.mockReturnValue(vi.fn())
 })
 
-const testClickOnCheckbox = (label?: string) => {
-  let clickable
-  if (label) {
-    clickable = screen.getByText(label)
-  } else {
-    clickable = screen.getByRole('checkbox')
-  }
-  const checkbox = screen.queryByRole('checkbox')
-  expect(checkbox).not.toBeNull()
-  expect(checkbox).not.toBeDisabled()
-  expect(checkbox).not.toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).not.toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).toBeChecked()
-}
-
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
     expect(() => renderBooleanComponent()).not.toThrow()
@@ -72,24 +53,56 @@ describe('Checkbox component', () => {
     expect(screen.queryByText(CHECKBOX_LABEL_CODE)).not.toBeNull()
   })
 
-  it('allows user to check and uncheck by clicking on boolean checkbox', () => {
+  it('allows user to check and uncheck by clicking on boolean checkbox', async () => {
     renderBooleanComponent()
-    testClickOnCheckbox()
+    expect(screen.queryByRole('checkbox')).not.toBeNull()
+    expect(screen.queryByRole('checkbox')).not.toBeDisabled()
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking boolean checkbox label', () => {
+  it('allows user to check and uncheck by clicking boolean checkbox label', async () => {
     renderBooleanComponent()
-    testClickOnCheckbox(CHECKBOX_LABEL_BOOLEAN)
+    expect(screen.queryByRole('checkbox')).not.toBeNull()
+    expect(screen.queryByRole('checkbox')).not.toBeDisabled()
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking on code checkbox', () => {
+  it('allows user to check and uncheck by clicking on code checkbox', async () => {
     renderCodeComponent()
-    testClickOnCheckbox()
+    expect(screen.queryByRole('checkbox')).not.toBeNull()
+    expect(screen.queryByRole('checkbox')).not.toBeDisabled()
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking on code label', () => {
+  it('allows user to check and uncheck by clicking on code label', async () => {
     renderCodeComponent()
-    testClickOnCheckbox(CHECKBOX_LABEL_CODE)
+    expect(screen.queryByRole('checkbox')).not.toBeNull()
+    expect(screen.queryByRole('checkbox')).not.toBeDisabled()
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(screen.queryByRole('checkbox')).toBeChecked()
   })
 
   it('gets disabled when value is given', () => {

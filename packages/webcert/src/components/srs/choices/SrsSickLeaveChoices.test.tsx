@@ -1,11 +1,12 @@
+import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, fakeCertificate } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import SrsSickLeaveChoices from './SrsSickLeaveChoices'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { CertificateRelationType, CertificateStatus, fakeCertificate, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
+import { Provider } from 'react-redux'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import store from '../../../store/store'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
+import SrsSickLeaveChoices from './SrsSickLeaveChoices'
 
 const renderComponent = () => {
   render(
@@ -50,15 +51,15 @@ describe('SRS Sick Leave Choices', () => {
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
-  it('should switch checked radio button when user clicks', () => {
+  it('should switch checked radio button when user clicks', async () => {
     renderComponent()
-    userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
   })
 
-  it('should update state when clicking radio button', () => {
+  it('should update state when clicking radio button', async () => {
     renderComponent()
-    userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
     expect(store.getState().ui.uiSRS.sickLeaveChoice).toEqual(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS)
   })
 
@@ -77,5 +78,5 @@ const setRenewedCertificateToState = () => {
     status: CertificateStatus.SIGNED,
     created: '',
   }
-  store.dispatch(updateCertificate(certificate))
+  act(() => store.dispatch(updateCertificate(certificate)))
 }

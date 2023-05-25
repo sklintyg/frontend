@@ -1,5 +1,6 @@
 import { getUserWithMissingSubscription, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from '../../store/store'
@@ -18,7 +19,7 @@ const renderComponent = () => {
 
 describe('WebcertHeader', () => {
   it('should render component', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('should display about Webcert', () => {
@@ -28,17 +29,19 @@ describe('WebcertHeader', () => {
 
   it('should display logout link if resource link exists', () => {
     renderComponent()
-    store.dispatch(
-      updateUserResourceLinks([
-        {
-          type: ResourceLinkType.LOG_OUT,
-          name: 'Logga ut',
-          body: '',
-          description: '',
-          enabled: true,
-        },
-      ])
-    )
+    act(() => {
+      store.dispatch(
+        updateUserResourceLinks([
+          {
+            type: ResourceLinkType.LOG_OUT,
+            name: 'Logga ut',
+            body: '',
+            description: '',
+            enabled: true,
+          },
+        ])
+      )
+    })
 
     expect(screen.getByText('Logga ut')).toBeInTheDocument()
   })

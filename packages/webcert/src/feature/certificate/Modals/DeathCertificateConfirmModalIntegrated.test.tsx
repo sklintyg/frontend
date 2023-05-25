@@ -69,20 +69,19 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
     expect(screen.getByText('Radera')).toBeInTheDocument()
   })
 
-  it('should dispatch delete certificate on close', () => {
+  it('should dispatch delete certificate on close', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
 
-    const deleteButton = screen.getByText('Radera')
-    userEvent.click(deleteButton)
+    await userEvent.click(screen.getByText('Radera'))
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
-  it('should not close modal when clicking outside the modal', () => {
+  it('should not close modal when clicking outside the modal', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+    await userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
   })
 
@@ -99,13 +98,10 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
       expect(confirmButton).toBeDisabled()
     })
 
-    it('should enable confirm button when checkbox in checked', () => {
+    it('should enable confirm button when checkbox in checked', async () => {
       renderComponent(true)
-      const confirmCheckbox = screen.getByRole('checkbox')
-      userEvent.click(confirmCheckbox)
-
-      const confirmButton = screen.getByText('Gå vidare')
-      expect(confirmButton).not.toBeDisabled()
+      await userEvent.click(screen.getByRole('checkbox'))
+      expect(screen.getByText('Gå vidare')).not.toBeDisabled()
     })
   })
 })

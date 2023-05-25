@@ -80,16 +80,16 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Avbryt')).toBeInTheDocument()
     })
 
-    it('should set navigate to start page when choosing unit', () => {
+    it('should set navigate to start page when choosing unit', async () => {
       renderComponent()
 
-      userEvent.click(screen.getByText('Care unit 2'))
+      await userEvent.click(screen.getByText('Care unit 2'))
       expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
 
-    it('should close modal when clicking outside the modal', () => {
+    it('should close modal when clicking outside the modal', async () => {
       renderComponent()
-      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      await userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
       expect(screen.queryByText('Byt vårdenhet')).not.toBeInTheDocument()
     })
   })
@@ -121,7 +121,7 @@ describe('Care provider modal', () => {
 
       expect(testStore.getState().ui.uiPatient.patient).not.toBeUndefined()
 
-      userEvent.click(screen.getByText('Care unit'))
+      await userEvent.click(screen.getByText('Care unit'))
 
       await flushPromises()
 
@@ -149,11 +149,11 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
 
-    it('should not close the modal if choose unit resource link exists', () => {
+    it('should not close the modal if choose unit resource link exists', async () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
-      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      await userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })

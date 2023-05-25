@@ -49,7 +49,7 @@ describe('UeUncertainDate', () => {
   })
 
   it('Renders element', () => {
-    renderComponent({ question })
+    expect(() => renderComponent({ question })).not.toThrow()
   })
 
   it('renders control and all options', () => {
@@ -71,7 +71,7 @@ describe('UeUncertainDate', () => {
     expect(dayText).toBeDisabled()
   })
 
-  it('lets user choose option', () => {
+  it('lets user choose option', async () => {
     renderComponent({ question })
     const yearDropdown = screen.getByLabelText('År')
     const yearOptions = yearDropdown.querySelectorAll('option')
@@ -81,8 +81,8 @@ describe('UeUncertainDate', () => {
     expect(yearOptions[0].selected).toBeTruthy()
     expect(yearOptions[2].selected).toBeFalsy()
 
-    userEvent.click(yearDropdown)
-    userEvent.selectOptions(yearDropdown, YEARS[0])
+    await userEvent.click(yearDropdown)
+    await userEvent.selectOptions(yearDropdown, YEARS[0])
     expect(yearDropdown).toHaveValue(YEARS[0])
     expect(yearOptions[2].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
@@ -91,13 +91,13 @@ describe('UeUncertainDate', () => {
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[2].selected).toBeFalsy()
 
-    userEvent.click(monthDropdown)
-    userEvent.selectOptions(monthDropdown, MONTHS[0])
+    await userEvent.click(monthDropdown)
+    await userEvent.selectOptions(monthDropdown, MONTHS[0])
     expect(monthOptions[2].selected).toBeTruthy()
     expect(monthOptions[0].selected).toBeFalsy()
 
-    userEvent.click(yearDropdown)
-    userEvent.selectOptions(yearDropdown, '0000')
+    await userEvent.click(yearDropdown)
+    await userEvent.selectOptions(yearDropdown, '0000')
     expect(yearDropdown).toHaveValue('0000')
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()

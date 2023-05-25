@@ -52,35 +52,30 @@ describe('UeRadioGroupOptionalDropdown', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
-  it('allows user to switch radio button', () => {
+  it('allows user to switch radio button', async () => {
     renderDefaultComponent()
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).not.toBeChecked())
-    userEvent.click(radioButtons[0])
+    await userEvent.click(radioButtons[0])
     expect(radioButtons[0]).toBeChecked()
     expect(radioButtons[1]).not.toBeChecked()
     expect(radioButtons[2]).not.toBeChecked()
-    userEvent.click(radioButtons[2])
+    await userEvent.click(radioButtons[2])
     expect(radioButtons[2]).toBeChecked()
     expect(radioButtons[0]).not.toBeChecked()
     expect(radioButtons[1]).not.toBeChecked()
-    userEvent.click(radioButtons[1])
+    await userEvent.click(radioButtons[1])
     expect(radioButtons[1]).toBeChecked()
     expect(radioButtons[0]).not.toBeChecked()
     expect(radioButtons[2]).not.toBeChecked()
   })
 
-  it('allows user to check and uncheck radiobuttons by clicking on label', () => {
+  it.each(CODES)('allows user to check and uncheck radiobutton $label by clicking on label', async ({ label }) => {
     renderDefaultComponent()
-    const radioButtons = screen.queryAllByRole('radio')
-    expect(radioButtons).toHaveLength(CODES.length)
-    radioButtons.forEach((r: any, index: number) => {
-      const label = screen.getByText(CODES[index].label)
-      expect(r).not.toBeChecked()
-      expect(label).not.toBeNull()
-      userEvent.click(label)
-      expect(r).toBeChecked()
-    })
+    expect(screen.getByRole('radio', { name: label })).not.toBeChecked()
+    expect(screen.getByText(label)).not.toBeNull()
+    await userEvent.click(screen.getByText(label))
+    expect(screen.getByRole('radio', { name: label })).toBeChecked()
   })
 
   it('disables radio buttons when disabled is set', () => {

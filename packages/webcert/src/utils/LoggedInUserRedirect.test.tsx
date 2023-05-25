@@ -1,6 +1,6 @@
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
@@ -60,17 +60,17 @@ describe('LoggedInUserRedirect', () => {
     clearDispatchedActions()
   })
 
-  it('should show spinner while loading user', () => {
+  it('should show spinner while loading user', async () => {
     renderComponent()
-    testStore.dispatch(updateIsLoadingUser(true))
+    act(() => testStore.dispatch(updateIsLoadingUser(true)))
 
-    expect(screen.queryByText('Laddar...')).toBeInTheDocument()
+    expect(await screen.findByText('Laddar...')).toBeInTheDocument()
   })
 
-  it('should redirect to /create if logged in as doctor', () => {
+  it('should redirect to /create if logged in as doctor', async () => {
     renderComponent()
     const doctor = getDummyUser('Läkare')
-    testStore.dispatch(updateUser(doctor))
+    act(() => testStore.dispatch(updateUser(doctor)))
 
     expect(testHistory.replace).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -82,7 +82,7 @@ describe('LoggedInUserRedirect', () => {
   it('should redirect to /list/unhandledcertificates  if logged in as care admin', () => {
     renderComponent()
     const doctor = getDummyUser('Vårdadministratör')
-    testStore.dispatch(updateUser(doctor))
+    act(() => testStore.dispatch(updateUser(doctor)))
 
     expect(testHistory.replace).toHaveBeenCalledWith(
       expect.objectContaining({

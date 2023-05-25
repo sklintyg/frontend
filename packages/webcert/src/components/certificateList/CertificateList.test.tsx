@@ -122,30 +122,30 @@ describe('CertificateList', () => {
     expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5'])
   })
 
-  it('should add favorites', () => {
+  it('should add favorites', async () => {
     container = renderComponent()
 
     const buttons = screen.getAllByLabelText('Markera intyget som favorit och fäst högst upp i listan.')
-    userEvent.click(buttons[1])
+    await userEvent.click(buttons[1])
 
     expect(buttons[1].firstChild).toHaveAttribute('class', expect.stringContaining('iu-color-information'))
   })
 
-  it('should remove favorites', () => {
+  it('should remove favorites', async () => {
     container = renderComponent()
 
     const buttons = screen.getAllByLabelText('Markera intyget som favorit och fäst högst upp i listan.')
-    userEvent.click(buttons[1])
-    userEvent.click(buttons[1])
+    await userEvent.click(buttons[1])
+    await userEvent.click(buttons[1])
 
     expect(buttons[1].firstChild).toHaveAttribute('class', expect.stringContaining('iu-color-muted'))
   })
 
-  it('should show modal when clicked', () => {
+  it('should show modal when clicked', async () => {
     renderComponent()
 
     const aboutLink = screen.getAllByText('Om intyget')[0] as HTMLElement
-    userEvent.click(aboutLink)
+    await userEvent.click(aboutLink)
 
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
   })
@@ -172,26 +172,26 @@ describe('CertificateList', () => {
     expect(screen.getByText('Meddelande')).toBeInTheDocument()
   })
 
-  it('should show confirm modal when CREATE_DODSBEVIS_CONFIRMATION resource link exists', () => {
+  it('should show confirm modal when CREATE_DODSBEVIS_CONFIRMATION resource link exists', async () => {
     testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
     const button = screen.getAllByRole('button', {
       name: /Skapa intyg/,
     }) as HTMLElement[]
-    userEvent.click(button[1])
+    await userEvent.click(button[1])
 
     expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
   })
 
-  it('should show modal when MISSING_RELATED_CERTIFICATE_CONFIRMATION resource link exists', () => {
+  it('should show modal when MISSING_RELATED_CERTIFICATE_CONFIRMATION resource link exists', async () => {
     testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
     const button = screen.getAllByRole('button', {
       name: /Skapa intyg/,
     })
-    userEvent.click(button[0])
+    await userEvent.click(button[0])
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })

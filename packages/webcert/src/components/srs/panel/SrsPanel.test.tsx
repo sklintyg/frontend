@@ -1,6 +1,11 @@
-import { render, screen } from '@testing-library/react'
-import SrsPanel, { SRS_TITLE } from './SrsPanel'
+import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { act, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
   logSrsInteraction,
   setDiagnosisCodes,
@@ -9,19 +14,14 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
 } from '../../../store/srs/srsActions'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
-import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations/SrsRecommendations'
-import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from '../choices/SrsInformationChoices'
-import userEvent from '@testing-library/user-event'
-import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
-import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { EnhancedStore } from '@reduxjs/toolkit'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from '../choices/SrsInformationChoices'
+import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations/SrsRecommendations'
 import { SRS_RISK_BUTTON_TEXT } from '../risk/SrsRisk'
-import { vi } from 'vitest'
+import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
+import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
+import SrsPanel, { SRS_TITLE } from './SrsPanel'
 
 const renderComponent = () => {
   render(
@@ -61,13 +61,13 @@ describe('SrsPanel', () => {
   describe('error', () => {
     it('should show error if state has error set', () => {
       renderComponent()
-      store.dispatch(updateError(true))
+      act(() => store.dispatch(updateError(true)))
       expect(screen.getByText('Tekniskt fel', { exact: false })).toBeInTheDocument()
     })
 
     it('should not show footer if state has error set', () => {
       renderComponent()
-      store.dispatch(updateError(true))
+      act(() => store.dispatch(updateError(true)))
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
     })
   })
@@ -75,31 +75,35 @@ describe('SrsPanel', () => {
   describe('empty', () => {
     it('should show empty message if no diagnosis is chosen', () => {
       renderComponent()
-      store.dispatch(updateError(false))
+      act(() => store.dispatch(updateError(false)))
       expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
     it('should show empty message if diagnosis is chosen but it is not main diagnosis', () => {
       renderComponent()
       const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '1' }] } })
-      store.dispatch(setDiagnosisCodes(['J20']))
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      store.dispatch(updateError(false))
+      act(() => {
+        store.dispatch(setDiagnosisCodes(['J20']))
+        store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+        store.dispatch(updateError(false))
+      })
       expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
     it('should show empty message if diagnosis has empty code', () => {
       renderComponent()
       const element = fakeDiagnosesElement({ value: { list: [{ code: '', id: '0' }] } })
-      store.dispatch(setDiagnosisCodes(['J20']))
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      store.dispatch(updateError(false))
+      act(() => {
+        store.dispatch(setDiagnosisCodes(['J20']))
+        store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+        store.dispatch(updateError(false))
+      })
       expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
     it('should not show footer if no diagnois is chosen', () => {
       renderComponent()
-      store.dispatch(updateError(false))
+      act(() => store.dispatch(updateError(false)))
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
     })
   })
@@ -108,16 +112,20 @@ describe('SrsPanel', () => {
     it('should show no support if diagnosis without support is chosen', () => {
       renderComponent()
       const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
-      store.dispatch(setDiagnosisCodes([]))
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      act(() => {
+        store.dispatch(setDiagnosisCodes([]))
+        store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      })
       expect(screen.getByText('För den angivna diagnosen finns för tillfället inget stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
     it('should not show footer if diagnosis without support is chosen', () => {
       renderComponent()
       const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
-      store.dispatch(setDiagnosisCodes([]))
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      act(() => {
+        store.dispatch(setDiagnosisCodes([]))
+        store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      })
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
     })
   })
@@ -159,7 +167,7 @@ describe('SrsPanel', () => {
 
     it('should show recommendations if chosen diagnosis has support', () => {
       renderComponent()
-      store.dispatch(updateSrsInfo(fakeSrsInfo()))
+      act(() => store.dispatch(updateSrsInfo(fakeSrsInfo())))
       expect(screen.getByText(SRS_OBSERVE_TITLE)).toBeInTheDocument()
     })
 
@@ -170,8 +178,10 @@ describe('SrsPanel', () => {
 
     it('should enable risk form button if switching sick leave choice', async () => {
       renderComponent()
-      store.dispatch(updateSrsPredictions([fakeSrsPrediction()]))
-      store.dispatch(updateSrsQuestions([fakeSrsQuestion()]))
+      act(() => {
+        store.dispatch(updateSrsPredictions([fakeSrsPrediction()]))
+        store.dispatch(updateSrsQuestions([fakeSrsQuestion()]))
+      })
 
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       await userEvent.click(screen.getByText('Beräkna'))
@@ -199,10 +209,10 @@ describe('SrsPanel', () => {
       expect(screen.getByText(SRS_STATISTICS_BUTTON_TEXT)).toBeInTheDocument()
     })
 
-    it('should set primary button style on clicked button', () => {
+    it('should set primary button style on clicked button', async () => {
       renderComponent()
       const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
-      userEvent.click(button)
+      await userEvent.click(button)
       expect(button).toHaveClass('ic-button--primary')
     })
 
@@ -213,26 +223,26 @@ describe('SrsPanel', () => {
       expect(button).toHaveClass('ic-button--secondary')
     })
 
-    it('should render recommendations if that choice is chosen', () => {
+    it('should render recommendations if that choice is chosen', async () => {
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
       renderComponent()
       const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
-      userEvent.click(button)
+      await userEvent.click(button)
       expect(screen.getByText(SRS_RECOMMENDATIONS_TITLE)).toBeInTheDocument()
       expect(screen.queryByText(SRS_STATISTICS_TITLE)).not.toBeInTheDocument()
     })
 
-    it('should render statistics if that choice is chosen', () => {
+    it('should render statistics if that choice is chosen', async () => {
       renderComponent()
       const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
-      userEvent.click(button)
+      await userEvent.click(button)
       expect(screen.queryByText(SRS_RECOMMENDATIONS_TITLE)).not.toBeInTheDocument()
       expect(screen.getByText(SRS_STATISTICS_TITLE)).toBeInTheDocument()
     })
 
-    it('should log when pressing statistics button', () => {
+    it('should log when pressing statistics button', async () => {
       renderComponent()
-      userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
+      await userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })

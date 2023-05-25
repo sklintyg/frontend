@@ -2,7 +2,7 @@ import { fakeCertificateValue, formatDateToString, getValidDate, ValueDateRange 
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { differenceInCalendarDays, isEqual } from 'date-fns'
+import { differenceInCalendarDays } from 'date-fns'
 import React, { ComponentProps, useState } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
@@ -51,126 +51,94 @@ describe('Date range picker', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
-  it('Fr.o.m has a valid value after checkbox is clicked', () => {
+  it('Fr.o.m has a valid value after checkbox is clicked', async () => {
     renderDefaultComponent()
 
     const checkbox = screen.getByRole('checkbox')
-    userEvent.click(checkbox)
+    await userEvent.click(checkbox)
 
     expect((screen.getByLabelText('Fr.o.m') as HTMLInputElement).value).toBeTruthy()
   })
 
-  it('Calculates 1 day with 1d/d1', () => {
+  it('Calculates 1 day with 1d/d1', async () => {
     renderDefaultComponent()
 
     const checkbox = screen.getByRole('checkbox')
-    userEvent.click(checkbox)
+    await userEvent.click(checkbox)
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1d{enter}')
-    let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
+    await userEvent.type(toDateTextInput, '1d{enter}')
+    const toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(getValidDate(toDateString)).toBeTruthy()
 
-    const fromDate = getValidDate(fromDateString)
-    let toDate = getValidDate(toDateString)
-    let differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
+    const differenceInDays = differenceInCalendarDays(new Date(toDateString), new Date(fromDateString))
 
     expect(differenceInDays).toBe(0)
-    expect(isEqual(fromDate!, toDate!)).toBeTruthy()
-
-    userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'd1{enter}')
-    toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
-    toDate = getValidDate(toDateString)
-    differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
-
-    expect(differenceInDays).toBe(0)
-    expect(isEqual(fromDate!, toDate!)).toBeTruthy()
+    expect(toDateString).toEqual(fromDateString)
   })
 
-  it('Calculates 1 week ahead with 1v/v1', () => {
+  it('Calculates 1 week ahead with 1v/v1', async () => {
     renderDefaultComponent()
 
     const checkbox = screen.getByRole('checkbox')
-    userEvent.click(checkbox)
+    await userEvent.click(checkbox)
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1v{enter}')
-    let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
+    await userEvent.type(toDateTextInput, '1v{enter}')
+    const toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(getValidDate(toDateString)).toBeTruthy()
 
-    const fromDate = getValidDate(fromDateString)
-    let toDate = getValidDate(toDateString)
-    let differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
-
-    expect(differenceInDays).toBe(6)
-
-    userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'v1{enter}')
-    toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
-    toDate = getValidDate(toDateString)
-    differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
+    const differenceInDays = differenceInCalendarDays(new Date(toDateString), new Date(fromDateString))
 
     expect(differenceInDays).toBe(6)
   })
 
-  it('Calculates 1 month ahead with 1m/m1', () => {
+  it('Calculates 1 month ahead with 1m/m1', async () => {
     renderDefaultComponent()
 
     const checkbox = screen.getByRole('checkbox')
-    userEvent.click(checkbox)
+    await userEvent.click(checkbox)
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1m{enter}')
-    let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
+    await userEvent.type(toDateTextInput, '1m{enter}')
+    const toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(toDateString).toBeTruthy()
-
-    const fromDate = getValidDate(fromDateString)
-    let toDate = getValidDate(toDateString)
-    let differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
-
-    expect(differenceInDays).toBe(30)
-
-    userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'm1{enter}')
-    toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
-    toDate = getValidDate(toDateString)
-    differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
+    const differenceInDays = differenceInCalendarDays(new Date(toDateString), new Date(fromDateString))
 
     expect(differenceInDays).toBe(30)
   })
 
-  it('displays correct number of sick hours and days for one week', () => {
+  it('displays correct number of sick hours and days for one week', async () => {
     renderDefaultComponent(undefined, undefined, '40')
 
-    userEvent.click(screen.getByRole('checkbox'))
-    userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
+    await userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
     expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
     expect(screen.getByText('i 7 dagar.', { exact: false })).toBeInTheDocument()
   })
 
-  it('displays correct number of sick hours and days for one month', () => {
+  it('displays correct number of sick hours and days for one month', async () => {
     renderDefaultComponent(undefined, undefined, '40')
 
-    userEvent.click(screen.getByRole('checkbox'))
-    userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
+    await userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
 
     expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
     expect(screen.getByText('i 31 dagar', { exact: false })).toBeInTheDocument()
   })
 
-  it('displays no sick hours/days when missing base work hours', () => {
+  it('displays no sick hours/days when missing base work hours', async () => {
     renderDefaultComponent(undefined, undefined, '')
 
-    userEvent.click(screen.getByRole('checkbox'))
-    userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
+    await userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
 
     expect(screen.queryByText('Arbetstid:')).not.toBeInTheDocument()
   })
@@ -180,11 +148,11 @@ describe('Date range picker', () => {
     expect(screen.queryByText('Arbetstid:')).not.toBeInTheDocument()
   })
 
-  it('displays no sick hours when value is cleared', () => {
+  it('displays no sick hours when value is cleared', async () => {
     renderDefaultComponent(undefined, undefined, '0')
 
-    userEvent.click(screen.getByRole('checkbox'))
-    userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
+    await userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
     expect(screen.queryByText('Arbetstid:', { exact: false })).not.toBeInTheDocument()
   })

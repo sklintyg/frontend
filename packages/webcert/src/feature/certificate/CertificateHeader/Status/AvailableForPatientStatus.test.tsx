@@ -23,9 +23,9 @@ describe('Available for patient status', () => {
     expect(screen.getByText('Intyget är tillgängligt för patienten')).toBeInTheDocument()
   })
 
-  it('should show modal header', () => {
+  it('should show modal header', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
+    await userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
 
     expect(
       screen.getByRole('heading', {
@@ -34,17 +34,17 @@ describe('Available for patient status', () => {
     ).toBeInTheDocument()
   })
 
-  it('should show modal body', () => {
+  it('should show modal body', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
+    await userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
 
     expect(screen.getByText('Intyget är tillgängligt för patienten i mina intyg, som nås via', { exact: false })).toBeInTheDocument()
   })
 
-  it('should close modal when pressing close button', () => {
+  it('should close modal when pressing close button', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
-    userEvent.click(screen.getByRole('button', { name: 'Stäng' }))
+    await userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
+    await userEvent.click(screen.getByRole('button', { name: 'Stäng' }))
     expect(screen.queryByText('Intyget är tillgängligt för patienten i mina intyg, som nås via')).not.toBeInTheDocument()
   })
 
@@ -63,18 +63,18 @@ describe('Available for patient status', () => {
     expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
   })
 
-  it('shall render specific text in modal if certificate is lisjp', () => {
+  it('shall render specific text in modal if certificate is lisjp', async () => {
     renderComponent(true, 'lisjp')
 
-    userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
+    await userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
     expect(
       screen.queryByText('Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.', { exact: false })
     ).toBeInTheDocument()
   })
 
-  it('shall not render specific text in modal if certificate is not lisjp', () => {
+  it('shall not render specific text in modal if certificate is not lisjp', async () => {
     renderComponent(true, 'ag7804')
-    userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
+    await userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
     expect(
       screen.queryByText('Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.', { exact: false })
     ).not.toBeInTheDocument()

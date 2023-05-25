@@ -94,7 +94,7 @@ describe('DatePicker component', () => {
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -108,8 +108,7 @@ describe('DatePicker component', () => {
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
-
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -124,7 +123,7 @@ describe('DatePicker component', () => {
     })
 
     await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
+      await userEvent.click(screen.getByLabelText('Öppna kalendern'))
     })
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)

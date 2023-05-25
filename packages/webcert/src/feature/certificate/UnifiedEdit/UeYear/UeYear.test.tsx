@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeYearElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -112,7 +112,7 @@ describe('YearPicker component', () => {
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -127,7 +127,7 @@ describe('YearPicker component', () => {
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 })

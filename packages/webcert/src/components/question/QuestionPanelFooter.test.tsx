@@ -70,8 +70,8 @@ describe('QuestionPanelFooter', () => {
       expect(screen.getByText('Komplettera')).toBeInTheDocument()
     })
 
-    it('complement certificate if button clicked', () => {
-      userEvent.click(screen.getByText('Komplettera'))
+    it('complement certificate if button clicked', async () => {
+      await userEvent.click(screen.getByText('Komplettera'))
 
       flushPromises()
       const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
@@ -82,26 +82,26 @@ describe('QuestionPanelFooter', () => {
       expect(screen.getByText('Kan inte komplettera')).toBeInTheDocument()
     })
 
-    it('complement certificate with a new certificate and message', () => {
-      userEvent.click(screen.getByText('Kan inte komplettera'))
-      userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
+    it('complement certificate with a new certificate and message', async () => {
+      await userEvent.click(screen.getByText('Kan inte komplettera'))
+      await userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
-      userEvent.click(screen.getByText('Skicka svar'))
+      await userEvent.type(messageField, newMessage)
+      await userEvent.click(screen.getByText('Skicka svar'))
 
       flushPromises()
       const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
       expect(complementCertificateAction?.payload.message).toEqual(newMessage)
     })
 
-    it('answer complement with a message', () => {
-      userEvent.click(screen.getByText('Kan inte komplettera'))
-      userEvent.click(screen.getByText('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.'))
+    it('answer complement with a message', async () => {
+      await userEvent.click(screen.getByText('Kan inte komplettera'))
+      await userEvent.click(screen.getByText('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.'))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
-      userEvent.click(screen.getByText('Skicka svar'))
+      await userEvent.type(messageField, newMessage)
+      await userEvent.click(screen.getByText('Skicka svar'))
 
       flushPromises()
       const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))

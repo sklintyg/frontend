@@ -151,9 +151,9 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Det finns ingen kompletteringsbegäran på detta intyg.')).toBeInTheDocument()
   })
 
-  it('should allow user to switch tab', () => {
+  it('should allow user to switch tab', async () => {
     renderDefaultComponent()
-    userEvent.click(screen.getByText('Administrativa frågor'))
+    await userEvent.click(screen.getByText('Administrativa frågor'))
     expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
   })
 })

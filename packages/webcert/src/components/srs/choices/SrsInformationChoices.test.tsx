@@ -1,10 +1,10 @@
+import { SrsInformationChoice } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import store from '../../../store/store'
 import SrsInformationChoices, { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
-import { SrsInformationChoice } from '@frontend/common'
-import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
 
 let onChange = () => {}
 
@@ -32,15 +32,15 @@ describe('SRS Information Choice', () => {
     expect(screen.getByText(SRS_STATISTICS_BUTTON_TEXT)).toBeInTheDocument()
   })
 
-  it('should call on change when clicking recommendations button', () => {
+  it('should call on change when clicking recommendations button', async () => {
     renderComponent()
-    userEvent.click(screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT))
     expect(onChange).toHaveBeenCalledWith(SrsInformationChoice.RECOMMENDATIONS)
   })
 
-  it('should call on change when clicking statistics button', () => {
+  it('should call on change when clicking statistics button', async () => {
     renderComponent()
-    userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
     expect(onChange).toHaveBeenCalledWith(SrsInformationChoice.STATISTICS)
   })
 })

@@ -42,24 +42,23 @@ describe('Webcert header unit', () => {
     expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
-  it('should open the dropdown with the button for changing unit when clicking on expand button', () => {
+  it('should open the dropdown with the button for changing unit when clicking on expand button', async () => {
     testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
     renderComponent()
 
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
-
-    userEvent.click(screen.getAllByTestId('arrowToggle')[0])
+    await userEvent.click(screen.getAllByTestId('arrowToggle')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
 
-  it('should expand/collapse when clicked on expandableBox', () => {
+  it('should expand/collapse when clicked on expandableBox', async () => {
     testStore.dispatch(updateUser(getUser()))
     testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
-    userEvent.click(expandableBox)
+    await userEvent.click(expandableBox)
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
-    userEvent.click(expandableBox)
+    await userEvent.click(expandableBox)
     expect(screen.queryByText(/Byt vårdenhet/i)).not.toBeInTheDocument()
   })
 
@@ -109,10 +108,9 @@ describe('Webcert header unit', () => {
     it('should show statistics on other units if resource link exists', () => {
       testStore.dispatch(updateUser(getUser()))
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
       renderComponent()
-
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
     })

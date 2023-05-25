@@ -1,5 +1,6 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { configureApplicationStore } from '../store/configureApplicationStore'
@@ -34,7 +35,7 @@ describe('StartPage', () => {
 
   it('should show loading info when config is loading', () => {
     renderComponent()
-    testStore.dispatch(updateIsLoadingConfig(true))
+    act(() => testStore.dispatch(updateIsLoadingConfig(true)))
 
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
@@ -48,7 +49,7 @@ describe('StartPage', () => {
       sakerhetstjanstIdpUrl: '#sithsIdp',
       ppHost: '',
     }
-    testStore.dispatch(updateConfig(config))
+    act(() => testStore.dispatch(updateConfig(config)))
 
     expect(screen.getByText('SITHS-kort').closest('a')).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
     expect(screen.getByText('E-legitimation').closest('a')).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')

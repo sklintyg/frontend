@@ -1,6 +1,6 @@
 import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import { ComponentProps } from 'react'
@@ -199,10 +199,10 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  it('Sets the value to null if the text is empty', () => {
+  it('Sets the value to null if the text is empty', async () => {
     renderComponent({ question, disabled: false })
     const input = screen.queryAllByRole('textbox')
-    userEvent.clear(input[1])
+    await userEvent.clear(input[1])
     expect(input[1]).toHaveValue('')
   })
 
@@ -210,8 +210,8 @@ describe('Medical investigation component', () => {
     renderComponent({ disabled: false, question })
     const inputs = screen.getAllByRole('textbox')
     const newValue = 'text'
-    userEvent.clear(inputs[1])
-    userEvent.type(inputs[1], newValue)
+    await userEvent.clear(inputs[1])
+    await userEvent.type(inputs[1], newValue)
     expect(inputs[1]).toHaveValue(newValue)
   })
 
@@ -225,9 +225,7 @@ describe('Medical investigation component', () => {
       })['id'],
     })
 
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
+    await userEvent.click(screen.getByLabelText('Öppna kalendern'))
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(1)
   })

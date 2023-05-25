@@ -1,13 +1,13 @@
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
-import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
-import { fakeSrsInfo, SrsSickLeaveChoice } from '@frontend/common'
-import userEvent from '@testing-library/user-event'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { SrsSickLeaveChoice, fakeSrsInfo } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { act, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
 
 let store: EnhancedStore
 
@@ -52,19 +52,19 @@ describe('SRS Recommendations', () => {
 
     it('should show title for extension recommendations if extension is chosen', () => {
       renderComponent()
-      store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      act(() => store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION)))
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should show title for extension recommendations if extension after 60 days is chosen', () => {
       renderComponent()
-      store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      act(() => store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS)))
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should not show title for extension recommendations if new is chosen', () => {
       renderComponent()
-      store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.NEW))
+      act(() => store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.NEW)))
       expect(screen.queryByText(SRS_EXTENSION_TITLE)).not.toBeInTheDocument()
     })
   })
@@ -82,7 +82,7 @@ describe('SRS Recommendations', () => {
 
     it('should show srs extension recommendation title', () => {
       renderComponent()
-      store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      act(() => store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION)))
       expect(screen.getByText(srsInfo.atgarderFrl[0].recommendationTitle)).toBeInTheDocument()
     })
 
@@ -91,22 +91,22 @@ describe('SRS Recommendations', () => {
       expect(screen.getAllByText('Visa mer').length > 0).toBeTruthy()
     })
 
-    it('should show text to show less if show more is pressed', () => {
+    it('should show text to show less if show more is pressed', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(screen.getByText('Visa mindre')).toBeTruthy()
     })
 
-    it('should log when pressing show more', () => {
+    it('should log when pressing show more', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
 
-    it('should show measure description if show more is pressed', () => {
+    it('should show measure description if show more is pressed', async () => {
       renderComponent()
       expect(screen.queryByText(srsInfo.atgarderObs[0].recommendationText)).not.toBeInTheDocument()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(screen.getByText(srsInfo.atgarderObs[0].recommendationText)).toBeInTheDocument()
     })
 
@@ -115,9 +115,9 @@ describe('SRS Recommendations', () => {
       expect(screen.getAllByText('Se fler').length > 0).toBeTruthy()
     })
 
-    it('should log when pressing show more recommendations', () => {
+    it('should log when pressing show more recommendations', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Se fler')[0])
+      await userEvent.click(screen.getAllByText('Se fler')[0])
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })

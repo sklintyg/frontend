@@ -40,20 +40,15 @@ const renderComponentWithTestStore = (enabled: boolean) => {
   )
 }
 
-const openModal = () => {
-  const button = screen.getByRole('button')
-  userEvent.click(button)
-}
-
 describe('Revoke certificate with unhandled questions', () => {
-  it('shall not show unhandled questions text if no unhandled questions', () => {
+  it('shall not show unhandled questions text if no unhandled questions', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
 
     expect(screen.queryByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('shall show unhandled questions text if unhandled questions', () => {
+  it('shall show unhandled questions text if unhandled questions', async () => {
     store.dispatch(
       updateQuestions([
         {
@@ -74,7 +69,7 @@ describe('Revoke certificate with unhandled questions', () => {
     )
 
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
 
     expect(screen.queryByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).toBeInTheDocument()
   })
@@ -103,85 +98,85 @@ describe('Revoke continue button', () => {
     expect(name).toBeInTheDocument()
   })
 
-  it('shall set the description of button', () => {
+  it('shall set the description of button', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await userEvent.hover(screen.getByText(NAME))
     const description = screen.getByText(DESCRIPTION)
     expect(description).toBeInTheDocument()
   })
 
-  it('shall open modal when clicked', () => {
+  it('shall open modal when clicked', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('shall have revoke button disabled if radio button is not chosen', () => {
+  it('shall have revoke button disabled if radio button is not chosen', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
     expect(revokeButton).toBeDisabled()
   })
 
-  it('shall have revoke button enabled by default if radio button wrong patient is chosen', () => {
+  it('shall have revoke button enabled by default if radio button wrong patient is chosen', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
-    userEvent.click(radioButton)
+    await userEvent.click(radioButton)
     expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
   })
 
-  it('shall have revoke button disabled if radio button other reason is chosen and message is empty', () => {
+  it('shall have revoke button disabled if radio button other reason is chosen and message is empty', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
-    userEvent.click(radioButton)
+    await userEvent.click(radioButton)
     expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeDisabled()
   })
 
-  it('shall have revoke button enabled if radio button other reason is chosen and message is not empty', () => {
+  it('shall have revoke button enabled if radio button other reason is chosen and message is not empty', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
-    userEvent.click(radioButton)
-    userEvent.type(screen.getByRole('textbox'), 'test')
+    await userEvent.click(radioButton)
+    await userEvent.type(screen.getByRole('textbox'), 'test')
     expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
   })
 
-  it('shall dispatch revoke certificate when revoke is pressed', () => {
+  it('shall dispatch revoke certificate when revoke is pressed', async () => {
     renderDefaultComponent(true)
-    openModal()
+    await userEvent.click(screen.getByRole('button'))
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
-    userEvent.click(radioButton)
-    userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
+    await userEvent.click(radioButton)
+    await userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
     expect(store.dispatch).toHaveBeenCalledTimes(1)
   })
 
-  it('shall not dispatch revoke certificate when cancel is pressed', () => {
+  it('shall not dispatch revoke certificate when cancel is pressed', async () => {
     renderDefaultComponent(true)
-    openModal()
-    userEvent.click(screen.getByText('Avbryt'))
+    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByText('Avbryt'))
     expect(store.dispatch).not.toHaveBeenCalled()
   })
 
-  it('shall dispatch with chosen reason, message and title for other reason', () => {
+  it('shall dispatch with chosen reason, message and title for other reason', async () => {
     renderDefaultComponent(true)
-    openModal()
-    userEvent.click(screen.getByText(OTHER_REASON_LABEL))
-    userEvent.type(screen.getByRole('textbox'), 'test')
-    userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
+    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByText(OTHER_REASON_LABEL))
+    await userEvent.type(screen.getByRole('textbox'), 'test')
+    await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
     expect(store.dispatch).toHaveBeenCalledWith({
       payload: { reason: 'ANNAT_ALLVARLIGT_FEL', message: 'test', title: OTHER_REASON_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
     })
   })
 
-  it('shall dispatch with chosen reason, message and title for wrong patient', () => {
+  it('shall dispatch with chosen reason, message and title for wrong patient', async () => {
     renderDefaultComponent(true)
-    openModal()
-    userEvent.click(screen.getByText(WRONG_PATIENT_LABEL))
-    userEvent.type(screen.getByRole('textbox'), 'test')
-    userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
+    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByText(WRONG_PATIENT_LABEL))
+    await userEvent.type(screen.getByRole('textbox'), 'test')
+    await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
     expect(store.dispatch).toHaveBeenCalledWith({
       payload: { reason: 'FEL_PATIENT', message: 'test', title: WRONG_PATIENT_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
@@ -200,27 +195,27 @@ describe('Revoke continue button', () => {
 
     afterEach(() => clearDispatchedActions())
 
-    it('shall enable confirm button if isDodsbevis', () => {
+    it('shall enable confirm button if isDodsbevis', async () => {
       renderComponentWithTestStore(true)
-      openModal()
+      await userEvent.click(screen.getByRole('button'))
 
       const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
       expect(revokeButton).toBeEnabled()
     })
 
-    it('shall dispatch revoke certificate when revoke is pressed', () => {
+    it('shall dispatch revoke certificate when revoke is pressed', async () => {
       renderComponentWithTestStore(true)
-      openModal()
-      userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
+      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
 
       const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
       expect(revokeCertificateAction).toBeDefined()
     })
 
-    it('shall dispatch with empty reason, message and title', () => {
+    it('shall dispatch with empty reason, message and title', async () => {
       renderComponentWithTestStore(true)
-      openModal()
-      userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
+      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
 
       const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
       expect(revokeCertificateAction?.payload).toEqual({ reason: '', message: '', title: '' })

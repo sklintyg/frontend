@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Dispatch } from 'react'
 import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { Action } from 'redux'
+import { SpyInstance, vi } from 'vitest'
 import store from '../../../store/store'
 import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 
@@ -14,9 +16,7 @@ const renderDefaultComponent = (showModal: boolean) => {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-let useDispatchSpy
+let useDispatchSpy: SpyInstance<[], Dispatch<Action<unknown>>>
 beforeEach(() => {
   useDispatchSpy = vi.spyOn(redux, 'useDispatch')
   useDispatchSpy.mockReturnValue(vi.fn())
@@ -57,17 +57,15 @@ describe('Create certificate from candidate modal', () => {
     expect(screen.getByText('Till Webcert')).toBeDisabled()
   })
 
-  it('shall enable confirm button if checkbox is checked', () => {
+  it('shall enable confirm button if checkbox is checked', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.click(screen.getByRole('checkbox'))
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
-  it('shall dispatch error if cancel button is pressed', () => {
+  it('shall dispatch error if cancel button is pressed', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByText('Avbryt'))
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    await userEvent.click(screen.getByText('Avbryt'))
     expect(useDispatchSpy).toHaveBeenCalled()
   })
 })

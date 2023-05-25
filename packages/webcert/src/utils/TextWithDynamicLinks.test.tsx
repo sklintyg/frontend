@@ -51,6 +51,7 @@ describe('TextWithDynamicLinks', () => {
   it('renders without crashing', () => {
     expect(() => renderComponent()).not.toThrow()
   })
+
   it('renders with description', () => {
     renderComponent()
     expect(screen.getByText(text1)).toBeInTheDocument()

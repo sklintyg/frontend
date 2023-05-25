@@ -35,36 +35,36 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
-  it('displays users name and role', (): void => {
+  it('displays users name and role', () => {
     testStore.dispatch(updateUser({ ...getUser(), role: 'Läkare', name: 'Test Testsson' }))
     renderComponent()
     expect(screen.getByText(/Test Testsson/i)).toBeInTheDocument()
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
-  it('should not show protected person link', (): void => {
+  it('should not show protected person link', () => {
     testStore.dispatch(updateUser({ ...getUser(), protectedPerson: false }))
     renderComponent()
     expect(screen.queryByText(/Skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
-  it('should show protected person modal if approval is not saved in preferences', (): void => {
+  it('should show protected person modal if approval is not saved in preferences', () => {
     testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
     renderComponent()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal gets closed', (): void => {
+  it('should show protected person link when approval modal gets closed', async () => {
     testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
     renderComponent()
-    userEvent.click(screen.getByRole('checkbox'))
-    userEvent.click(screen.getByText('Till Webcert'))
+    await userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.click(screen.getByText('Till Webcert'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should not show protected person modal if approval is saved in preferences', (): void => {
+  it('should not show protected person modal if approval is saved in preferences', () => {
     testStore.dispatch(
       updateUser({
         ...getUser(),
@@ -77,7 +77,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.queryByText(/Du har skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal is closed', (): void => {
+  it('should show protected person link when approval modal is closed', () => {
     testStore.dispatch(
       updateUser({
         ...getUser(),
@@ -89,7 +89,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should open protected person modal when clicking on link', (): void => {
+  it('should open protected person modal when clicking on link', async () => {
     testStore.dispatch(
       updateUser({
         ...getUser(),
@@ -98,7 +98,7 @@ describe('WebcertHeaderUser', () => {
       })
     )
     renderComponent()
-    userEvent.click(screen.getByText(/Skyddade personuppgifter/i))
+    await userEvent.click(screen.getByText(/Skyddade personuppgifter/i))
     expect(screen.getByText('Användning av Webcert med skyddade personuppgifter')).toBeInTheDocument()
   })
 
@@ -109,22 +109,22 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByTestId('arrowToggle')).toBeInTheDocument()
   })
 
-  it('should show private practitioner portal link', () => {
+  it('should show private practitioner portal link', async () => {
     testStore.dispatch(updateUser(getUser()))
     testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
     renderComponent()
-    userEvent.click(screen.getByTestId('arrowToggle'))
+    await userEvent.click(screen.getByTestId('arrowToggle'))
     expect(screen.getByText('Min sida')).toBeInTheDocument()
   })
 
-  it('should expand/collapse when clicked on expandableBox', () => {
+  it('should expand/collapse when clicked on expandableBox', async () => {
     testStore.dispatch(updateUser(getUser()))
     testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
-    userEvent.click(expandableBox)
+    await userEvent.click(expandableBox)
     expect(screen.getByText('Min sida')).toBeInTheDocument()
-    userEvent.click(expandableBox)
+    await userEvent.click(expandableBox)
     expect(screen.queryByText('Min sida')).not.toBeInTheDocument()
   })
 })
