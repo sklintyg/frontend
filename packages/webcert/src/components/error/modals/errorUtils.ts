@@ -1,4 +1,5 @@
 import { Dispatch, ReactNode } from 'react'
+import { AnyAction } from 'redux'
 import { clearError } from '../../../store/error/errorActions'
 import { ErrorData } from '../../../store/error/errorReducer'
 
@@ -7,7 +8,7 @@ export interface ModalProps {
   children?: ReactNode
 }
 
-export const reloadPage = (activeError: ErrorData, dispatch: Dispatch<unknown>) => {
+export const reloadPage = (activeError: ErrorData, dispatch: Dispatch<AnyAction>) => {
   return (): void => {
     dispatch(clearError({ errorId: activeError.errorId }))
     window.location.reload()
@@ -16,7 +17,7 @@ export const reloadPage = (activeError: ErrorData, dispatch: Dispatch<unknown>) 
 
 // https://stackoverflow.com/questions/105034/how-to-create-guid-uuid
 export const uuidv4 = (): string => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0,
       v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)

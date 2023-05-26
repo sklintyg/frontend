@@ -4,9 +4,6 @@ import React from 'react'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
 
-// const handlePageChange = vi.fn()
-// const handlePageTupleChange = vi.fn()
-
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
   render(
     <Pagination
