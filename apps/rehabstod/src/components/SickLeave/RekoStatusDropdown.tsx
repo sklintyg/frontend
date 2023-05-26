@@ -29,7 +29,7 @@ export function RekoStatusDropdown({
     }
   })
 
-  if (!populatedFilters) {
+  if (!populatedFilters || !populatedFilters.rekoStatusTypes) {
     return null
   }
 

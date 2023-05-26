@@ -9,6 +9,7 @@ import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
+import { RekoStatusFilter } from './filter/RekoStatusFilter'
 
 export function Filters({
   onSearch,
@@ -76,6 +77,12 @@ export function Filters({
               onChange={onSickLeaveLengthIntervalsChange}
               availableOptions={sickLeaveLengthIntervals}
               selectedOptions={filter.sickLeaveLengthIntervals}
+            />
+            <RekoStatusFilter
+              onChange={(values) => dispatch(updateFilter({ rekoStatuses: values }))}
+              statuses={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+              selected={filter.rekoStatuses}
+              description="Filtrerar på den REKO-status som satts för patienten."
             />
           </div>
           <div className="flex justify-end">

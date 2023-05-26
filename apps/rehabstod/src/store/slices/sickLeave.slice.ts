@@ -13,7 +13,14 @@ export interface SickLeaveState {
 
 const initialState: SickLeaveState = {
   showPersonalInformation: true,
-  filter: { doctorIds: [], diagnosisChapters: [], sickLeaveLengthIntervals: [], toPatientAge: 150, fromPatientAge: 1 },
+  filter: {
+    doctorIds: [],
+    diagnosisChapters: [],
+    sickLeaveLengthIntervals: [],
+    toPatientAge: 150,
+    fromPatientAge: 1,
+    rekoStatuses: [],
+  },
   hasAppliedFilters: false,
   sickLeaveLengthIntervals: [
     { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
