@@ -44,11 +44,7 @@ export function SelectButton({ title, children }: { title: string; children: Rea
 
   return (
     <div aria-expanded={open}>
-      <button
-        className="flex w-28 items-center justify-between gap-2 pb-3"
-        type="button"
-        onClick={() => setOpen(!open)}
-        ref={refs.setReference}>
+      <button className="flex w-28 items-center justify-between gap-2" type="button" onClick={() => setOpen(!open)} ref={refs.setReference}>
         {title}
         <IDSIcon name="chevron" size="xs" rotate={open ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
       </button>
@@ -56,7 +52,7 @@ export function SelectButton({ title, children }: { title: string; children: Rea
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
             <div
-              className="ids-content z-40 w-28 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              className="ids-content z-40 w-32 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
               ref={refs.setFloating}
               style={{
                 position: strategy,

@@ -13,6 +13,15 @@ export enum PuResponse {
   MISSING = 'MISSING',
 }
 
+export const rekoStatusType = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
+export const rekoStatus = z.object({
+  status: rekoStatusType,
+})
+
 export const sickLeaveDiagnosisSchema = z.object({
   beskrivning: z.string(),
   intygsVarde: z.string(),
@@ -63,7 +72,7 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareNamn: z.string(),
   sysselsattning: z.array(z.string()),
   encryptedPatientId: z.string(),
-  rekoStatus: z.string(),
+  rekoStatus,
 })
 
 export const diagnosKategoriSchema = z.object({
@@ -148,11 +157,6 @@ export const summaryDataPointSchema = z.object({
   description: z.optional(z.string()),
 })
 
-export const rekoStatus = z.object({
-  id: z.string(),
-  name: z.string(),
-})
-
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
 export type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
@@ -168,4 +172,5 @@ export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
 export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
+export type RekoStatusType = z.infer<typeof rekoStatusType>
 export type RekoStatus = z.infer<typeof rekoStatus>

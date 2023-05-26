@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, RekoStatus, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, RekoStatusType, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
@@ -96,7 +96,7 @@ export const api = createApi({
         allDiagnosisChapters: DiagnosKapitel[]
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
-        rekoStatusTypes: RekoStatus[]
+        rekoStatusTypes: RekoStatusType[]
       },
       void
     >({
@@ -185,12 +185,36 @@ export const api = createApi({
         }
       },
     }),
-    setRekoStatus: builder.mutation<void, { patientId: string; status: string; sickLeaveTimestamp: string }>({
+    setRekoStatus: builder.mutation<
+      void,
+      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
+    >({
       query: ({ patientId, status, sickLeaveTimestamp }) => ({
-        url: 'reko/set',
+        url: 'reko',
         method: 'POST',
-        body: { patientId, status, sickLeaveTimestamp },
+        body: { patientId, statusId: status.id, sickLeaveTimestamp },
       }),
+      async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getSickLeaves', filter, (draft) =>
+            Object.assign(draft, {
+              content: draft.slice().map((element) =>
+                element.patient.id === patientId
+                  ? {
+                      ...element,
+                      rekoStatus: { id: status.id, name: status.name },
+                    }
+                  : element
+              ),
+            })
+          )
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
     }),
   }),
 })
