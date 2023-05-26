@@ -48,7 +48,6 @@ export function Welcome() {
     isSend,
     isRevoked,
   } = useAppSelector((state) => state.welcome)
-  const { errorId } = useAppSelector((state) => state.error)
   const dispatch = useAppDispatch()
   const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response, error }] = useCreateDefaultTestDataMutation()
   const [triggerCreateSickLeave, { isLoading: createSickLeaveLoading, data: certificateId }] = useCreateSickLeaveMutation()
