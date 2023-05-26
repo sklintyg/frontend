@@ -1,49 +1,29 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { fakeCertificate, fakeCertificateMetaData } from '@frontend/common'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
-import * as redux from 'react-redux'
-import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
 import { createPatient } from '../../../components/patient/patientTestUtils'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { deleteCertificate, updateCertificate } from '../../../store/certificate/certificateActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import { DeathCertificateConfirmModalIntegrated } from './DeathCertificateConfirmModalIntegrated'
 
-const mockDispatchFn = vi.fn()
-let testStore: EnhancedStore
-const history = createMemoryHistory()
 const PERSON_ID = '191212121212'
-const setOpen = () => {
-  return true
-}
 
 const renderComponent = (isOpen: boolean) => {
-  render(
-    <Provider store={testStore}>
-      <Router history={history}>
-        <DeathCertificateConfirmModalIntegrated
-          patient={createPatient(PERSON_ID)}
-          certificateId="certificateId"
-          setOpen={setOpen}
-          open={isOpen}
-        />
-      </Router>
-    </Provider>
+  const { store, clearCalledActions, ...other } = renderWithStore(
+    <DeathCertificateConfirmModalIntegrated
+      patient={createPatient(PERSON_ID)}
+      certificateId="certificateId"
+      setOpen={() => true}
+      open={isOpen}
+    />
   )
+  store.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ id: 'certificateId' }) })))
+  clearCalledActions()
+
+  return { store, clearCalledActions, ...other }
 }
 
 describe('DeathCertificateConfirmModalIntegrated', () => {
-  beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
   it('should show modal if open is true', () => {
     renderComponent(true)
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
@@ -70,13 +50,11 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
   })
 
   it('should dispatch delete certificate on close', async () => {
-    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(mockDispatchFn)
-
-    renderComponent(true)
+    const { getCalledActions } = renderComponent(true)
 
     await userEvent.click(screen.getByText('Radera'))
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+
+    expect(getCalledActions()).toContainEqual({ type: deleteCertificate.type, payload: { certificateId: 'certificateId' } })
   })
 
   it('should not close modal when clicking outside the modal', async () => {

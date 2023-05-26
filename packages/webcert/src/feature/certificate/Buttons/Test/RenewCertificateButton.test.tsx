@@ -1,8 +1,7 @@
 import { CertificateMetadata, CustomTooltip, Unit, User } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import RenewCertificateButton from '../RenewCertificateButton'
 
 const NAME = 'Renew button name'
@@ -22,7 +21,7 @@ const user = ({
 const certificateMetadata = {} as CertificateMetadata
 
 const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
-  render(
+  renderWithStore(
     <>
       <RenewCertificateButton
         certificateId={certificateMetadata.id}
@@ -36,13 +35,6 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
     </>
   )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue(user)
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
 
 describe('Renew certificate button', () => {
   it('renders without crashing', () => {

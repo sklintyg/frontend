@@ -379,6 +379,7 @@ describe('QuestionItem', () => {
           },
         ])
       )
+      clearDispatchedActions()
 
       await userEvent.click(screen.getByText('Hanterad'))
       await userEvent.click(screen.getByText('Avbryt'))

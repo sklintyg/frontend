@@ -1,8 +1,7 @@
 import { CertificateDataElement, fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeCheckbox from './UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
@@ -26,19 +25,12 @@ const questionCode: CertificateDataElement = fakeCheckboxCodeElement({
 })['checkbox']
 
 const renderBooleanComponent = () => {
-  render(<UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />)
+  renderWithStore(<UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />)
 }
 
 const renderCodeComponent = () => {
-  render(<UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />)
+  renderWithStore(<UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />)
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
@@ -106,7 +98,7 @@ describe('Checkbox component', () => {
   })
 
   it('gets disabled when value is given', () => {
-    render(
+    renderWithStore(
       <>
         <UeCheckbox question={questionCode} disabled={true} id={'checkbox'} />
         <UeCheckbox question={questionBoolean} disabled={true} id={'checkbox'} />

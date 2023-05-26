@@ -25,10 +25,10 @@ const CertificateValidation: React.FC = () => {
       <InfoBox type="error">
         <p>Utkastet saknar uppgifter i följande avsnitt:</p>
       </InfoBox>
-      <div className={'iu-mt-300'}>
+      <div className="iu-mt-300">
         {Array.from(new Set(validationErrors)).map((validation, i) => {
           return (
-            <p key={i} className={'iu-mt-none'}>
+            <p key={i} className="iu-mt-none">
               <ErrorLink
                 className={'iu-color-error iu-fs-300'}
                 duration={250}

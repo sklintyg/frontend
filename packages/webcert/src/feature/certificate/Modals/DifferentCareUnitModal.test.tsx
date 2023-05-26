@@ -1,7 +1,6 @@
 import { ResourceLink, ResourceLinkType } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { screen } from '@testing-library/react'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
 
 const NAME = 'Name'
@@ -24,13 +23,8 @@ const resourceLinkDisabled: ResourceLink = {
 }
 
 const renderDefaultComponent = () => {
-  render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkEnabled}></CreateCertificateFromCandidateModal>)
+  return renderWithStore(<CreateCertificateFromCandidateModal resourceLink={resourceLinkEnabled}></CreateCertificateFromCandidateModal>)
 }
-
-beforeEach(() => {
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
 
 describe('Create certificate from candidate modal', () => {
   it('shall render without crashing', () => {
@@ -43,12 +37,12 @@ describe('Create certificate from candidate modal', () => {
   })
 
   it('shall not show modal if disabled', () => {
-    render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateModal>)
+    renderWithStore(<CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateModal>)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('shall not show modal if resourcelink is undefined', () => {
-    render(<CreateCertificateFromCandidateModal resourceLink={undefined}></CreateCertificateFromCandidateModal>)
+    renderWithStore(<CreateCertificateFromCandidateModal resourceLink={undefined}></CreateCertificateFromCandidateModal>)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 

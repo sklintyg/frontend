@@ -7,8 +7,6 @@ import { z, ZodTypeAny } from 'zod'
 const fakeHSA = () =>
   `${faker.random.alpha({ count: 6, casing: 'upper' })}${faker.datatype.number({ min: 1e9 })}-${faker.datatype.number({ min: 1e3 })}`
 
-export { faker } from '@faker-js/faker'
-
 export const stringMap = {
   id: faker.datatype.uuid,
   hsaId: fakeHSA,
@@ -43,3 +41,5 @@ export function fakerFromSchemaFactory<T extends ZodTypeAny>(
 ) {
   return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData, ...data })
 }
+
+export { faker }

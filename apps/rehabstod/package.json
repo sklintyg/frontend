@@ -35,7 +35,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@anatine/zod-mock": "^3.10.0",
+    "@anatine/zod-mock": "3.10.0",
     "@faker-js/faker": "^7.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",

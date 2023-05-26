@@ -1,8 +1,7 @@
 import { CertificateDataElement, ConfigTypes, fakeCertificateConfig, fakeCertificateValue } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeDropdown from './UeDropdown'
 
 const OPTIONS = [
@@ -33,23 +32,12 @@ const question: CertificateDataElement = {
 }
 
 const renderComponent = () => {
-  render(
-    <>
-      <UeDropdown question={question} disabled={false}></UeDropdown>
-    </>
-  )
+  renderWithStore(<UeDropdown question={question} disabled={false}></UeDropdown>)
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Dropdown component', () => {
   it('Renders element', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('renders label and all options', () => {
@@ -87,11 +75,7 @@ describe('Dropdown component', () => {
   })
 
   it('gets disabled correctly', () => {
-    render(
-      <>
-        <UeDropdown question={question} disabled={true}></UeDropdown>
-      </>
-    )
+    renderWithStore(<UeDropdown question={question} disabled={true}></UeDropdown>)
     const dropdown = screen.getByRole('combobox')
     expect(dropdown).toBeDisabled()
   })

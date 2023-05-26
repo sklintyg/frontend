@@ -1,31 +1,56 @@
-import { CertificateMetadata } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { CertificateEventType, CertificateStatus, fakeCertificate, fakeCertificateMetaData, fakeStaff, fakeUnit } from '@frontend/common'
+import { screen } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
+import { updateCertificate, updateCertificateEvents } from '../../../store/certificate/certificateActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import UvCareUnitAddress from './UvCareUnitAddress'
 
-it('displays all care unit info', (): void => {
-  const mockData = {
-    issuedBy: {
-      fullName: 'Test Testsson',
-    },
-    unit: {
-      address: 'test street 123',
-      city: 'Test city',
-      phoneNumber: 'phone',
-      zipCode: 'zipcode',
-    },
-  } as CertificateMetadata
-
-  const mockEventData = [
-    { timestamp: '2023-02-20' },
-    { timestamp: '2023-02-21', type: 'SIGNED' },
-    { timestamp: '2023-02-22', type: 'REVOKED' },
-  ]
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  useSelectorSpy.mockReturnValueOnce(mockData).mockReturnValueOnce(mockEventData)
-
-  render(<UvCareUnitAddress />)
+it('Should displays all care unit info', () => {
+  const { store } = renderWithStore(<UvCareUnitAddress />)
+  act(() => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            issuedBy: fakeStaff({
+              fullName: 'Test Testsson',
+            }),
+            unit: fakeUnit({
+              address: 'test street 123',
+              city: 'Test city',
+              phoneNumber: 'phone',
+              zipCode: 'zipcode',
+            }),
+          }),
+        })
+      )
+    )
+    store.dispatch(
+      updateCertificateEvents([
+        {
+          certificateId: '1',
+          relatedCertificateId: '1',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+          timestamp: '2023-02-20',
+          type: CertificateEventType.CREATED,
+        },
+        {
+          certificateId: '1',
+          relatedCertificateId: '1',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+          timestamp: '2023-02-21',
+          type: CertificateEventType.SIGNED,
+        },
+        {
+          certificateId: '1',
+          relatedCertificateId: '1',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+          timestamp: '2023-02-22',
+          type: CertificateEventType.REVOKED,
+        },
+      ])
+    )
+  })
 
   expect(screen.getByRole('heading', { name: /ovanstående uppgifter och bedömningar bekräftas/i })).toBeInTheDocument()
   expect(screen.getByRole('heading', { name: /namn och kontaktuppgifter till vårdenheten/i })).toBeInTheDocument()

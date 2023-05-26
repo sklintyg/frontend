@@ -1,10 +1,10 @@
 import { CertificateMetadata, CertificateRelationType, CertificateStatus, CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
-import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import ReplaceCertificateContinueButton from '../ReplaceCertificateContinueButton'
 
 const NAME = 'Replace continue button name'
@@ -14,7 +14,7 @@ const CERTIFICATE_ID = 'xxxxxx-yyyyyyy-zzzzzzz'
 const history = createMemoryHistory()
 
 const renderDefaultComponent = (enabled: boolean) => {
-  render(
+  renderWithStore(
     <Router history={history}>
       <CustomTooltip />
       <ReplaceCertificateContinueButton
@@ -29,11 +29,6 @@ const renderDefaultComponent = (enabled: boolean) => {
 }
 
 describe('Replace certificate continue button', () => {
-  beforeEach(() => {
-    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-    useSelectorSpy.mockReturnValue(getMetadata())
-  })
-
   it('shall enable button when enabled is true', () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button')

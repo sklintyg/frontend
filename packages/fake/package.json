@@ -17,21 +17,20 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.10.0",
-    "@faker-js/faker": "^7.6.0",
     "deepmerge-ts": "^5.0.0",
-    "lodash": "^4.17.21",
     "ts-essentials": "^9.3.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "3.10.0",
+    "@faker-js/faker": "^7.6.0",
     "eslint": "^8.34.0",
     "eslint-config-custom": "*",
     "typescript": "^4.9.3",
     "vitest": "^0.29.7"
   },
   "peerDependencies": {
-    "@anatine/zod-mock": "^3",
+    "@anatine/zod-mock": "3.10.0",
     "@faker-js/faker": "^7",
     "lodash": "^4",
     "type-fest": "^3",

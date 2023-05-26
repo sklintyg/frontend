@@ -1,45 +1,17 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
-import * as redux from 'react-redux'
-import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
 import { createPatient } from '../../../components/patient/patientTestUtils'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { createNewCertificate } from '../../../store/certificate/certificateActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import { DeathCertificateConfirmModal } from './DeathCertificateConfirmModal'
 
-let mockDispatchFn = vi.fn()
-let testStore: EnhancedStore
-const history = createMemoryHistory()
 const PERSON_ID = '191212121212'
-const setOpen = () => {
-  return true
-}
 
 const renderComponent = (isOpen: boolean) => {
-  render(
-    <Provider store={testStore}>
-      <Router history={history}>
-        <DeathCertificateConfirmModal patient={createPatient(PERSON_ID)} setOpen={setOpen} open={isOpen} />
-      </Router>
-    </Provider>
-  )
+  return renderWithStore(<DeathCertificateConfirmModal patient={createPatient(PERSON_ID)} setOpen={() => true} open={isOpen} />)
 }
 
 describe('DeathCertificateConfirmModal', () => {
-  beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
-    mockDispatchFn = vi.fn()
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
   it('should show modal if open is true', () => {
     renderComponent(true)
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
@@ -84,38 +56,29 @@ describe('Confirm button', () => {
   })
 
   it('should dispatch create new certificate on proceed', async () => {
-    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(mockDispatchFn)
-
-    renderComponent(true)
+    const { getCalledActions } = renderComponent(true)
 
     const confirmCheckbox = screen.getByRole('checkbox')
     await userEvent.click(confirmCheckbox)
 
     const confirmButton = screen.getByText('Gå vidare')
     await userEvent.click(confirmButton)
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+    expect(getCalledActions()).toContainEqual({ type: createNewCertificate.type, payload: { certificateType: 'db', patientId: PERSON_ID } })
   })
 })
 
 describe('Cancel button', () => {
-  beforeEach(() => {
-    mockDispatchFn = vi.fn()
-  })
-
   it('should show button to cancel', () => {
     renderComponent(true)
     expect(screen.getByText('Avbryt')).toBeInTheDocument()
   })
 
   it('Cancelling shall not create certificate', async () => {
-    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(mockDispatchFn)
+    const { getCalledActions, clearCalledActions } = renderComponent(true)
+    clearCalledActions()
 
-    renderComponent(true)
-    const cancelButton = screen.getByText('Avbryt')
-    await userEvent.click(cancelButton)
+    await userEvent.click(screen.getByText('Avbryt'))
 
-    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+    expect(getCalledActions()).toHaveLength(0)
   })
 })

@@ -1,36 +1,18 @@
 import { fakeTypeaheadElement } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeTypeahead from './UeTypeahead'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
-const mockDispatchFn = vi.fn()
-
 const renderDefaultComponent = () => {
-  render(
-    <>
-      <UeTypeahead question={question} disabled={false} />
-    </>
-  )
+  return renderWithStore(<UeTypeahead question={question} disabled={false} />)
 }
 
 const renderWithSuggestions = () => {
-  render(
-    <>
-      <UeTypeahead question={question} disabled={true} />
-    </>
-  )
+  renderWithStore(<UeTypeahead question={question} disabled={true} />)
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue({})
-  useDispatchSpy.mockReturnValue(mockDispatchFn)
-})
 
 describe('Typeahead component', () => {
   it('renders without crashing', () => {
@@ -59,23 +41,6 @@ describe('Typeahead component', () => {
     expect(screen.queryAllByRole('option')).toHaveLength(60)
     expect(input).toHaveValue(testinput)
     expect(screen.queryAllByRole('option')).toHaveLength(60)
-  })
-
-  it.skip('dispatches results when users types text', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'Ö')
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
-  })
-
-  it.skip('dispatches results when users types new text only after a wait', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'Ö')
-    await userEvent.type(input, 's')
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
   it('Render correct suggestions', async () => {

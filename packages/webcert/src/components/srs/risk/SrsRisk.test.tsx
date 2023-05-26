@@ -1,6 +1,6 @@
 import { SrsSickLeaveChoice, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -46,14 +46,16 @@ describe('SrsRisk', () => {
   })
 
   describe('title', () => {
-    it('should show title including diagnosis from srs info if predictions is not set', () => {
+    it('should show title including diagnosis from srs info if predictions is not set', async () => {
       const srsInfo = fakeSrsInfo()
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions([]))
       renderComponent()
-      expect(
-        screen.getByText('Risken gäller ' + srsInfo.predictions[0].diagnosisCode + ' ' + srsInfo.predictions[0].diagnosisDescription)
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          screen.getByText('Risken gäller ' + srsInfo.predictions[0].diagnosisCode + ' ' + srsInfo.predictions[0].diagnosisDescription)
+        ).toBeInTheDocument()
+      })
     })
 
     it('should show title including diagnosis from predictions if set', () => {

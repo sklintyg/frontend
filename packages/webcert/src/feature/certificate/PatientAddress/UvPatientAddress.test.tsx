@@ -1,23 +1,26 @@
-import { CertificateMetadata } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData, fakePatient } from '@frontend/common'
+import { act, screen } from '@testing-library/react'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import UvPatientAddress from './UvPatientAddress'
 
 it('displays patient address info', (): void => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-
-  const mockData = {
-    patient: {
-      street: 'test street 123',
-      city: 'Test city',
-      zipCode: 'zipcode',
-    },
-  } as CertificateMetadata
-
-  useSelectorSpy.mockReturnValue(mockData)
-
-  render(<UvPatientAddress />)
+  const { store } = renderWithStore(<UvPatientAddress />)
+  act(() =>
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            patient: fakePatient({
+              street: 'test street 123',
+              city: 'Test city',
+              zipCode: 'zipcode',
+            }),
+          }),
+        })
+      )
+    )
+  )
 
   expect(screen.getByText(/test street 123/i)).toBeInTheDocument()
   expect(screen.getByText(/Test city/i)).toBeInTheDocument()

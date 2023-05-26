@@ -1,8 +1,7 @@
 import { CertificateMetadata, CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
 
 const NAME = 'Template button name'
@@ -13,7 +12,7 @@ const BODY = 'Template button body'
 const certificateMetadata: CertificateMetadata = {}
 
 const renderDefaultComponent = (enabled: boolean) => {
-  render(
+  renderWithStore(
     <>
       <CustomTooltip />
       <CreateCertificateFromTemplateButton
@@ -26,11 +25,6 @@ const renderDefaultComponent = (enabled: boolean) => {
     </>
   )
 }
-
-beforeEach(() => {
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
 
 describe('Create certificate from template button', () => {
   it('shall render without crashing', () => {

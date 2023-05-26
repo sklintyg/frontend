@@ -1,26 +1,12 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Dispatch } from 'react'
-import * as redux from 'react-redux'
-import { Provider } from 'react-redux'
-import { Action } from 'redux'
-import { SpyInstance, vi } from 'vitest'
-import store from '../../../store/store'
+import { throwError } from '../../../store/error/errorActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 
 const renderDefaultComponent = (showModal: boolean) => {
-  render(
-    <Provider store={store}>
-      <ProtectedUserApprovalModal showModal={showModal} preferenceKey={'KEY'}></ProtectedUserApprovalModal>
-    </Provider>
-  )
+  return renderWithStore(<ProtectedUserApprovalModal showModal={showModal} preferenceKey={'KEY'} />)
 }
-
-let useDispatchSpy: SpyInstance<[], Dispatch<Action<unknown>>>
-beforeEach(() => {
-  useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
 
 describe('Create certificate from candidate modal', () => {
   it('shall render without crashing', () => {
@@ -64,8 +50,11 @@ describe('Create certificate from candidate modal', () => {
   })
 
   it('shall dispatch error if cancel button is pressed', async () => {
-    renderDefaultComponent(true)
+    const { getCalledActions } = renderDefaultComponent(true)
     await userEvent.click(screen.getByText('Avbryt'))
-    expect(useDispatchSpy).toHaveBeenCalled()
+    expect(getCalledActions()).toContainEqual({
+      type: throwError.type,
+      payload: { errorCode: 'NOT_APPROVED_PROTECTED_PERSON_AGREEMENT', type: 'ROUTE' },
+    })
   })
 })

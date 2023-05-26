@@ -1,12 +1,12 @@
-import { fakeCertificateMetaData } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { fakeCertificate, fakeCertificateMetaData } from '@frontend/common'
+import { screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
 
-import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { act } from 'react-dom/test-utils'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { renderWithStore } from '../../../utils/renderWithStore'
 import AboutCertificatePanel from './AboutCertificatePanel'
 
 const history = createMemoryHistory()
@@ -19,23 +19,17 @@ const link2 = faker.lorem.word()
 
 const descriptionWithLinks = `${text1} <LINK:${link1}> ${text2} <LINK:${link2}> ${text3}`
 const renderComponent = () => {
-  render(
+  const { store } = renderWithStore(
     <Router history={history}>
       <AboutCertificatePanel />
     </Router>
   )
+  act(() => {
+    store.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ description: descriptionWithLinks }) })))
+  })
 }
 
 describe('CertificateSidePanel', () => {
-  beforeEach(() => {
-    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-    useSelectorSpy.mockReturnValue(fakeCertificateMetaData({ description: descriptionWithLinks }))
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
   it('renders without crashing', () => {
     expect(() => renderComponent()).not.toThrow()
   })

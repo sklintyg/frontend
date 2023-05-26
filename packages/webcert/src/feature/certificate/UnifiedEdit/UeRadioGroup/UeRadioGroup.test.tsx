@@ -1,8 +1,7 @@
 import { CertificateDataElement, ConfigTypes, fakeCertificateValue } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeRadioGroup from './UeRadioGroup'
 
 const CODES = [
@@ -30,19 +29,8 @@ const question: CertificateDataElement = {
 }
 
 const renderDefaultComponent = () => {
-  render(
-    <>
-      <UeRadioGroup question={question} disabled={false} />
-    </>
-  )
+  renderWithStore(<UeRadioGroup question={question} disabled={false} />)
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Radio group component', () => {
   it('renders without crashing', () => {
@@ -76,11 +64,7 @@ describe('Radio group component', () => {
   })
 
   it('disables radio buttons when disabled is set', () => {
-    render(
-      <>
-        <UeRadioGroup question={question} disabled={true} />
-      </>
-    )
+    renderWithStore(<UeRadioGroup question={question} disabled={true} />)
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).toBeDisabled())

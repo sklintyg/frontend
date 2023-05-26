@@ -1,8 +1,7 @@
 import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeCheckboxGroup from './UeCheckboxGroup'
 
 const CHECKBOXES = [
@@ -30,19 +29,8 @@ const question: CertificateDataElement = {
 }
 
 const renderDefaultComponent = () => {
-  render(
-    <>
-      <UeCheckboxGroup question={question} disabled={false} />
-    </>
-  )
+  renderWithStore(<UeCheckboxGroup question={question} disabled={false} />)
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Checkbox group component', () => {
   it('renders without crashing', () => {
@@ -50,7 +38,7 @@ describe('Checkbox group component', () => {
   })
 
   it('disables correctly all checkboxes', () => {
-    render(<UeCheckboxGroup question={question} disabled={true} />)
+    renderWithStore(<UeCheckboxGroup question={question} disabled={true} />)
     const checkboxes = screen.queryAllByRole('checkbox')
     expect(checkboxes).toHaveLength(CHECKBOXES.length)
     checkboxes.forEach((c) => expect(c).toBeDisabled())
