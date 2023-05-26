@@ -3,10 +3,11 @@ import { rest } from 'msw'
 import { server, waitForRequest } from '../../mocks/server'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { LayoutHeader } from './LayoutHeader'
+import { fakeError } from '../../utils/fake/fakeError'
 
 describe('Without user session', () => {
   beforeEach(() => {
-    server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403))))
+    server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403), ctx.json(fakeError()))))
   })
 
   it('Should display login button', async () => {

@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
+import { ErrorData } from '../schemas/errorSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -183,6 +183,13 @@ export const api = createApi({
           dispatch(api.util.invalidateTags(['SickLeavePatient']))
         }
       },
+    }),
+    logError: builder.mutation<void, { errorData: ErrorData }>({
+      query: (errorData) => ({
+        url: 'log/error',
+        method: 'POST',
+        body: errorData,
+      }),
     }),
   }),
 })
