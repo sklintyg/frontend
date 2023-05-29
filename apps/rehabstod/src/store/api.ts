@@ -196,18 +196,13 @@ export const api = createApi({
       }),
       async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
         dispatch(
-          api.util.updateQueryData('getSickLeaves', filter, (draft) =>
-            Object.assign(draft, {
-              content: draft.slice().map((element) =>
-                element.patient.id === patientId
-                  ? {
-                      ...element,
-                      rekoStatus: { id: status.id, name: status.name },
-                    }
-                  : element
-              ),
-            })
-          )
+          api.util.updateQueryData('getSickLeaves', filter, (draft) => {
+            const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
+            if (index !== -1) {
+              // eslint-disable-next-line no-param-reassign
+              draft[index].rekoStatus.status = status
+            }
+          })
         )
         try {
           await queryFulfilled
