@@ -30,6 +30,5 @@ describe('SelectButton', () => {
   it('should hide children when open is false', async () => {
     renderComponent(false)
     expect(screen.queryByText('CHILDREN')).toBeInTheDocument()
-    e
   })
 })
