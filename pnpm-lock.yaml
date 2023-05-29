@@ -231,9 +231,6 @@ importers:
       focus-trap-react:
         specifier: ^10.1.0
         version: 10.1.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
-      react-datepicker:
-        specifier: ^4.10.0
-        version: 4.10.0(react-dom@17.0.2)(react@17.0.2)
       react-tooltip:
         specifier: ^4.2.21
         version: 4.2.21(react-dom@17.0.2)(react@17.0.2)
@@ -304,6 +301,9 @@ importers:
       react:
         specifier: ^17.0.2
         version: 17.0.2
+      react-datepicker:
+        specifier: ^4.10.0
+        version: 4.10.0(react-dom@17.0.2)(react@17.0.2)
       react-dom:
         specifier: ^17.0.2
         version: 17.0.2(react@17.0.2)
@@ -545,8 +545,8 @@ importers:
         specifier: ^17.0.11
         version: 17.0.11
       '@types/react-redux':
-        specifier: ^7.1.9
-        version: 7.1.9
+        specifier: ^7.1.25
+        version: 7.1.25
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
@@ -2059,16 +2059,6 @@ packages:
       '@types/react': 18.0.27
       hoist-non-react-statics: 3.3.2
       redux: 4.2.1
-    dev: false
-
-  /@types/react-redux@7.1.9:
-    resolution: {integrity: sha512-mpC0jqxhP4mhmOl3P4ipRsgTgbNofMRXJb08Ms6gekViLj61v1hOZEKWDCyWsdONr6EjEA6ZHXC446wdywDe0w==}
-    dependencies:
-      '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 18.0.27
-      hoist-non-react-statics: 3.3.2
-      redux: 4.2.1
-    dev: true
 
   /@types/react-router-dom@5.3.3:
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
@@ -3079,7 +3069,6 @@ packages:
 
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
-    dev: false
 
   /clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -6801,7 +6790,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: false
 
   /proxy-from-env@1.0.0:
     resolution: {integrity: sha512-F2JHgJQ1iqwnHDcQjVBsq3n/uoaFL+iPW/eAeL7kVxy/2RrWaN4WroKjjvbsoRtv0ftelNyC01bjRhn/bhcf4A==}
@@ -6870,7 +6858,6 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
       react-onclickoutside: 6.13.0(react-dom@17.0.2)(react@17.0.2)
       react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2)
-    dev: false
 
   /react-dom@17.0.2(react@17.0.2):
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
@@ -6925,7 +6912,6 @@ packages:
     dependencies:
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-    dev: false
 
   /react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}

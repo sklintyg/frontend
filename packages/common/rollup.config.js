@@ -4,7 +4,6 @@ import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
-import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import svg from 'rollup-plugin-svg'
 
@@ -46,17 +45,17 @@ export default defineConfig([
     plugins,
     onwarn,
   },
-  {
-    input: entries,
-    output: {
-      dir: 'dist',
-      entryFileNames: '[name].d.ts',
-      format: 'esm',
-    },
-    external,
-    plugins: [dts({ respectExternal: true }), svg({ base64: true })],
-    onwarn,
-  },
+  // {
+  //   input: entries,
+  //   output: {
+  //     dir: 'dist',
+  //     entryFileNames: '[name].d.ts',
+  //     format: 'esm',
+  //   },
+  //   external,
+  //   plugins: [dts({ respectExternal: true }), svg({ base64: true })],
+  //   onwarn,
+  // },
 ])
 
 function onwarn(message) {

@@ -27,19 +27,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
-        run: yarn build --filter=...[HEAD^1]
+        run: pnpm build --filter=...[HEAD^1]
 
       - name: 'Lint'
         uses: reviewdog/action-eslint@v1.18.2
 
       - name: Typescript
-        run: yarn typescript --filter=...[HEAD^1]
+        run: pnpm typescript --filter=...[HEAD^1]
 
       - name: Test
-        run: yarn test --filter=...[HEAD^1]
+        run: pnpm test --filter=...[HEAD^1]
