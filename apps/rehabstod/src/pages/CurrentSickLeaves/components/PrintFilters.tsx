@@ -39,7 +39,7 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
         </div>
         <div>
           <p className="font-bold">REKO-status: </p>
-          {getRekoStatusPlaceholder(filter.rekoStatuses, populatedFilters ? populatedFilters.rekoStatusTypes : []) ?? '-'}
+          {getRekoStatusPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : []) ?? '-'}
         </div>
       </div>
     </div>

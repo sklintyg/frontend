@@ -79,9 +79,9 @@ export function Filters({
               selectedOptions={filter.sickLeaveLengthIntervals}
             />
             <RekoStatusFilter
-              onChange={(values) => dispatch(updateFilter({ rekoStatuses: values }))}
+              onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
               statuses={populatedFilters ? populatedFilters.rekoStatusTypes : []}
-              selected={filter.rekoStatuses}
+              selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
             />
           </div>

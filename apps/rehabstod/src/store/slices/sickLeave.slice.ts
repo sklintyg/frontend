@@ -19,7 +19,7 @@ const initialState: SickLeaveState = {
     sickLeaveLengthIntervals: [],
     toPatientAge: 150,
     fromPatientAge: 1,
-    rekoStatuses: [],
+    rekoStatusTypeIds: [],
   },
   hasAppliedFilters: false,
   sickLeaveLengthIntervals: [
