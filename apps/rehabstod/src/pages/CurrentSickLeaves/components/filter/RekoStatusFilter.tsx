@@ -14,16 +14,16 @@ export function RekoStatusFilter({
   selected: string[]
   description: string
 }) {
-  const handleOnChange = (doctorId: string, isAdded: boolean) => {
-    let doctorIds
+  const handleOnChange = (rekoStatusTypeId: string, isAdded: boolean) => {
+    let rekoStatusTypeIds
     if (isAdded) {
-      doctorIds = selected.slice()
-      doctorIds.push(doctorId)
+      rekoStatusTypeIds = selected.slice()
+      rekoStatusTypeIds.push(rekoStatusTypeId)
     } else {
-      doctorIds = selected.filter((id) => id !== doctorId)
+      rekoStatusTypeIds = selected.filter((id) => id !== rekoStatusTypeId)
     }
 
-    onChange(doctorIds)
+    onChange(rekoStatusTypeIds)
   }
 
   return (
