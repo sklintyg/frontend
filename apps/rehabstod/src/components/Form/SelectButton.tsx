@@ -44,7 +44,14 @@ export function SelectButton({ title, children }: { title: string; children: Rea
 
   return (
     <div aria-expanded={open}>
-      <button className="flex w-28 items-center justify-between gap-2" type="button" onClick={() => setOpen(!open)} ref={refs.setReference}>
+      <button
+        className="flex w-28 items-center justify-between gap-2"
+        type="button"
+        onClick={(event) => {
+          setOpen(!open)
+          event.stopPropagation()
+        }}
+        ref={refs.setReference}>
         {title}
         <IDSIcon name="chevron" size="xs" rotate={open ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
       </button>

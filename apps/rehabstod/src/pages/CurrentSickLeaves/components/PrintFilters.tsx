@@ -3,6 +3,7 @@ import { useAppSelector } from '../../../store/hooks'
 import { getDiagnosisPlaceholder } from '../utils/getDiagnosisPlaceholder'
 import { getDoctorsPlaceholder } from '../utils/getDoctorsPlaceholder'
 import { getSickLeaveLengthPlaceholder } from '../utils/getSickLeaveLengthPlaceholder'
+import { getRekoStatusPlaceholder } from '../utils/getRekoStatusPlaceholder'
 
 export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
@@ -35,6 +36,10 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
               filter.sickLeaveLengthIntervals.find(({ from, to }) => from === option.from && to === option.to)
             )
           ) ?? '-'}
+        </div>
+        <div>
+          <p className="font-bold">REKO-status: </p>
+          {getRekoStatusPlaceholder(filter.rekoStatuses, populatedFilters ? populatedFilters.rekoStatusTypes : []) ?? '-'}
         </div>
       </div>
     </div>

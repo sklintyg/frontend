@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { format, isAfter } from 'date-fns'
 import { useGetPopulatedFiltersQuery, useSetRekoStatusMutation } from '../../store/api'
 import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
@@ -19,15 +19,6 @@ export function RekoStatusDropdown({
   const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : 'Ingen')
   const sickLeaveTimestamp = isAfter(new Date(endDate), new Date()) ? format(new Date(), 'yyyy-MM-dd') : endDate
   const { filter } = useAppSelector((state) => state.sickLeave)
-  const dropdown = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (dropdown.current) {
-      dropdown.current.addEventListener('click', (event) => {
-        event.stopPropagation()
-      })
-    }
-  })
 
   if (!populatedFilters || !populatedFilters.rekoStatusTypes) {
     return null
@@ -43,7 +34,6 @@ export function RekoStatusDropdown({
     <SelectButton title={savedRekoStatus}>
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button
-          ref={dropdown}
           key={type.id}
           onClick={(event) => handleSetRekoStatus(event, type)}
           type="button"
