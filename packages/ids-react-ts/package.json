@@ -24,16 +24,18 @@
   },
   "dependencies": {
     "@inera/ids-core": "^2.6.0",
-    "@lit-labs/react": "^1.1.1",
-    "react": "^18.2.0"
+    "@lit-labs/react": "^1.1.1"
   },
   "devDependencies": {
+    "@types/react": "^18.0.27",
+    "eslint-config-custom": "workspace:*",
     "eslint": "^8.34.0",
-    "eslint-config-custom": "*",
-    "vite": "^4.1.1",
-    "vite-plugin-dts": "^1.7.1"
+    "react": "^18.2.0",
+    "vite-plugin-dts": "^1.7.1",
+    "vite": "^4.1.1"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "@inera/ids-core": "^2.6.0",
+    "react": "^17 || ^18"
   }
 }
