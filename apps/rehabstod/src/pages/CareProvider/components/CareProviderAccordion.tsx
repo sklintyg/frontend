@@ -12,7 +12,7 @@ export function CareProviderAccordion({
   unit: Vardenhet
   provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, unit: Vardenhet) => void
   children: ReactNode
 }) {
   function selectedUnitIsSubUnit() {
@@ -47,7 +47,7 @@ export function CareProviderAccordion({
                   detailsEl.setAttribute('open', '')
                 }
               }}
-              onChange={(event) => handleChooseUnit(event, provider, unit)}
+              onChange={(event) => handleChooseUnit(event, unit)}
             />
             <label
               htmlFor={unit.namn}

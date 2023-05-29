@@ -10,7 +10,7 @@ export function CareProviderItem({
 }: {
   provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet | Mottagning) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, unit: Vardenhet | Mottagning) => void
 }) {
   return (
     <div className="mb-6">
@@ -28,7 +28,7 @@ export function CareProviderItem({
                       value={reception.namn}
                       id={reception.namn}
                       checked={selectedRadio === reception.namn}
-                      onChange={(event) => handleChooseUnit(event, provider, reception)}
+                      onChange={(event) => handleChooseUnit(event, reception)}
                     />
                     <label
                       htmlFor={reception.namn}
@@ -48,7 +48,7 @@ export function CareProviderItem({
                   value={unit.namn}
                   id={unit.namn}
                   checked={selectedRadio === unit.namn}
-                  onChange={(event) => handleChooseUnit(event, provider, unit)}
+                  onChange={(event) => handleChooseUnit(event, unit)}
                 />
                 <label htmlFor={unit.namn} className={` cursor-pointer ${selectedRadio === unit.namn ? 'font-bold' : ''}`}>
                   {unit.namn}
