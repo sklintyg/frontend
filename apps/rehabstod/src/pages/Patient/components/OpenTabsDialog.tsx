@@ -24,20 +24,32 @@ export function OpenTabsDialog() {
     }
   }, [blocker.state])
 
+  useEffect(() => {
+    const dialogEl = ref.current
+
+    function handleVisibilityChanged() {
+      if (dialogEl?.show === 'false') {
+        blocker.reset?.()
+      }
+    }
+
+    dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
+    return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
+  })
+
   return (
     <IDSDialog dismissible={false} headline="Öppnade patientfönster" ref={ref}>
-      <p>
-        Det finns {tabs.length.toLocaleString('sv-SE')} {tabs.length === 1 ? 'öppet' : 'öppna'} fönster för patienten
-      </p>
+      <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
       <IDSDialogActions>
         <IDSButton
+          secondary
           onClick={() => {
-            closeTabs()
-            blocker.proceed?.()
+            blocker.reset?.()
+            ref.current?.hideDialog()
           }}>
-          Stäng fönster och fortsätt
+          Avbryt
         </IDSButton>
-        <IDSButton onClick={() => blocker.proceed?.()}>Fortsätt</IDSButton>
+        <IDSButton onClick={() => blocker.proceed?.()}>Stäng patientvy</IDSButton>
       </IDSDialogActions>
     </IDSDialog>
   )
