@@ -1,0 +1,13 @@
+{
+  "name": "@frontend/filtrex",
+  "description": "Repackage of filtrex to include types",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "filtrex": "^2.2.0"
+  }
+}

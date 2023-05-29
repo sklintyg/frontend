@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@frontend/common": "workspace:*",
+    "@frontend/filtrex": "workspace:*",
     "@reduxjs/toolkit": "1.7.2",
     "axios": "^0.21.2",
     "classnames": "^2.3.2",
@@ -30,6 +31,7 @@
     "inera-core-css": "https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-datepicker": "^4.10.0",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-redux": "^7.2.9",
@@ -39,13 +41,13 @@
     "recharts": "^2.4.3",
     "redux": "^4.2.1",
     "styled-components": "^5.3.6",
-    "type-fest": "^1.4.0",
-    "react-datepicker": "^4.10.0"
+    "type-fest": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.1",
+    "@types/history": "4.7.11",
     "@types/lodash": "^4.14.191",
     "@types/node": "^14.14.31",
     "@types/react": "17.0.39",

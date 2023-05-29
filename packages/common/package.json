@@ -22,7 +22,7 @@
     "classnames": "^2.3.2",
     "date-fns": "^2.16.1",
     "dompurify": "^2.3.6",
-    "filtrex": "^2.2.0",
+    "@frontend/filtrex": "workspace:*",
     "focus-trap-react": "^10.1.0",
     "react-tooltip": "^4.2.21",
     "type-fest": "^1.4.0"

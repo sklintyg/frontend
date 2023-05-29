@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/require-param-type */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-declare module 'filtrex' {
+declare module '@frontend/filtrex' {
   /**
    * A simple, safe, JavaScript expression engine, allowing end-users to enter arbitrary expressions without p0wning you.
    *

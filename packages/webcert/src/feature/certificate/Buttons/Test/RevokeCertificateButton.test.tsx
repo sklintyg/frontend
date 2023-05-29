@@ -3,13 +3,11 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateQuestions } from '../../../../store/question/questionActions'
-import store from '../../../../store/store'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import RevokeCertificateButton from '../RevokeCertificateButton'
 
@@ -24,7 +22,7 @@ let testStore: EnhancedStore
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <CustomTooltip />
       <RevokeCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
     </Provider>
@@ -54,7 +52,7 @@ describe('Revoke certificate with unhandled questions', () => {
   })
 
   it('shall show unhandled questions text if unhandled questions', () => {
-    store.dispatch(
+    testStore.dispatch(
       updateQuestions([
         {
           id: 'id',
@@ -81,10 +79,6 @@ describe('Revoke certificate with unhandled questions', () => {
 })
 
 describe('Revoke continue button', () => {
-  beforeEach(() => {
-    store.dispatch = vi.fn()
-  })
-
   it('shall enable button when enabled is true', () => {
     renderDefaultComponent(true)
     const button = screen.getByRole('button')
@@ -154,14 +148,14 @@ describe('Revoke continue button', () => {
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
     userEvent.click(radioButton)
     userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
-    expect(store.dispatch).toHaveBeenCalledTimes(1)
+    expect(testStore.dispatch).toHaveBeenCalledTimes(1)
   })
 
   it('shall not dispatch revoke certificate when cancel is pressed', () => {
     renderDefaultComponent(true)
     openModal()
     userEvent.click(screen.getByText('Avbryt'))
-    expect(store.dispatch).not.toHaveBeenCalled()
+    expect(testStore.dispatch).not.toHaveBeenCalled()
   })
 
   it('shall dispatch with chosen reason, message and title for other reason', () => {
@@ -170,7 +164,7 @@ describe('Revoke continue button', () => {
     userEvent.click(screen.getByText(OTHER_REASON_LABEL))
     userEvent.type(screen.getByRole('textbox'), 'test')
     userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
-    expect(store.dispatch).toHaveBeenCalledWith({
+    expect(testStore.dispatch).toHaveBeenCalledWith({
       payload: { reason: 'ANNAT_ALLVARLIGT_FEL', message: 'test', title: OTHER_REASON_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
     })
@@ -182,7 +176,7 @@ describe('Revoke continue button', () => {
     userEvent.click(screen.getByText(WRONG_PATIENT_LABEL))
     userEvent.type(screen.getByRole('textbox'), 'test')
     userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
-    expect(store.dispatch).toHaveBeenCalledWith({
+    expect(testStore.dispatch).toHaveBeenCalledWith({
       payload: { reason: 'FEL_PATIENT', message: 'test', title: WRONG_PATIENT_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
     })
