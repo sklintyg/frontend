@@ -73,7 +73,7 @@ it('calls the handleChooseUnit function when a radio button is clicked', async (
   userEvent.click(radioBtn)
 
   await waitFor(() => {
-    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardgivare, vardenhet)
+    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardenhet)
   })
 })
 
