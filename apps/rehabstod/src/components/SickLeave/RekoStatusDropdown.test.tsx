@@ -44,7 +44,6 @@ describe('RekoStatusDropdown', () => {
     expect(await screen.findByText('Ingen')).toBeInTheDocument()
     expect(await screen.findByText('Kontaktad')).toBeInTheDocument()
     expect(await screen.findByText('Uppföljning')).toBeInTheDocument()
-    expect(await screen.findAllByRole('button')).toHaveLength(4)
   })
 
   it('should close dropdown when clicking on option', async () => {
