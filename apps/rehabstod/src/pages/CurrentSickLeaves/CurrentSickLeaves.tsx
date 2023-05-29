@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
 import { UserUrval } from '../../schemas'
-import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
@@ -18,6 +18,7 @@ import { TableInfo } from './components/TableInfo'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { encryptedPatientId } = useParams()
@@ -65,7 +66,7 @@ export function CurrentSickLeaves() {
               dispatch(updateShowPersonalInformation(checked))
             }}
             showPersonalInformation={showPersonalInformation}
-            totalNumber={(sickLeaves ?? []).length}
+            totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
             listLength={(sickLeaves ?? []).length}
             daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
             daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
@@ -87,7 +88,7 @@ export function CurrentSickLeaves() {
         print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
         ascending>
         <thead>
-          <TableHeaderRow showPersonalInformation={showPersonalInformation} />
+          <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
         </thead>
         <tbody className="whitespace-normal break-words">
           <TableBodyRows

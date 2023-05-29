@@ -9,13 +9,13 @@ function HeaderCellResolver({ column }: { column: string }) {
 
   switch (column) {
     case SickLeaveColumn.Personnummer:
-      return <TableHeaderCell column={column} width="178px" />
+      return <TableHeaderCell column={column} width="145px" />
     case SickLeaveColumn.Ålder:
-      return <TableHeaderCell column={column} width="98px" />
+      return <TableHeaderCell column={column} width="80px" />
     case SickLeaveColumn.Namn:
       return <TableHeaderCell column={column} width="136px" />
     case SickLeaveColumn.Kön:
-      return <TableHeaderCell column={column} width="86px" />
+      return <TableHeaderCell column={column} width="65px" />
     case SickLeaveColumn.Diagnos:
       return (
         <TableHeaderCell
@@ -25,13 +25,13 @@ function HeaderCellResolver({ column }: { column: string }) {
         />
       )
     case SickLeaveColumn.Sysselsättning:
-      return <TableHeaderCell column={column} description="" width="240px" />
+      return <TableHeaderCell column={column} description="" width="220px" />
     case SickLeaveColumn.Startdatum:
       return (
         <TableHeaderCell
           column={column}
           description={`Datum då sjukfallet började på ${user?.valdVardenhet?.id}. Alla intyg för samma patient som följer på varandra med max ${user?.preferences?.maxAntalDagarSedanSjukfallAvslut} dagars uppehåll räknas till samma sjukfall. Max antal dagars uppehåll mellan intyg kan ställas in i inställningar.`}
-          width="146px"
+          width="120px"
         />
       )
     case SickLeaveColumn.Slutdatum:
@@ -39,7 +39,7 @@ function HeaderCellResolver({ column }: { column: string }) {
         <TableHeaderCell
           column={column}
           description="Slutdatum för sjukfallet, dvs. den sista dagen då det finns ett giltigt intyg."
-          width="146px"
+          width="120px"
         />
       )
     case SickLeaveColumn.Längd:
@@ -47,17 +47,17 @@ function HeaderCellResolver({ column }: { column: string }) {
         <TableHeaderCell
           column={column}
           description="Sjukfallets totala längd i dagar, från startdatum till slutdatum. Eventuella dagar mellan intyg räknas inte med."
-          width="102px"
+          width="90px"
         />
       )
     case SickLeaveColumn.Intyg:
-      return <TableHeaderCell column={column} description="Antalet intyg som ingår i sjukfallet." width="98px" />
+      return <TableHeaderCell column={column} description="Antalet intyg som ingår i sjukfallet." width="80px" />
     case SickLeaveColumn.Grad:
       return (
         <TableHeaderCell
           column={column}
           description="Sjukskrivningsgrad i nuvarande intyg. Om intyget innehåller flera grader anges de i tidsföljd med den just nu gällande graden i fetstil."
-          width="98px"
+          width="100px"
         />
       )
     case SickLeaveColumn.Läkare:
@@ -65,7 +65,7 @@ function HeaderCellResolver({ column }: { column: string }) {
         <TableHeaderCell
           column={column}
           description="Läkaren som utfärdat nuvarande intyg. Namnet hämtas från HSA-katalogen. Om namnet inte kan hämtas visas bara läkarens HSA-id."
-          width="136px"
+          width="114px"
         />
       )
     default:
@@ -73,7 +73,7 @@ function HeaderCellResolver({ column }: { column: string }) {
   }
 }
 
-export function TableHeaderRow({ showPersonalInformation }: { showPersonalInformation: boolean }) {
+export function TableHeaderRow({ showPersonalInformation, isDoctor }: { showPersonalInformation: boolean; isDoctor: boolean }) {
   const columns = useAppSelector(allSickLeaveColumns)
 
   if (columns.length === 0) {
@@ -86,6 +86,7 @@ export function TableHeaderRow({ showPersonalInformation }: { showPersonalInform
         .filter(({ visible }) => visible)
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
+        .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
         .map(({ name }) => (
           <HeaderCellResolver key={name} column={name} />
         ))}

@@ -12,7 +12,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Kön:
       return sickLeave.patient.kon === 'F' ? 'Kvinna' : 'Man'
     case SickLeaveColumn.Diagnos:
-      return sickLeave.diagnos.kod
+      return sickLeave.diagnos ? sickLeave.diagnos.kod : 'Okänt'
     case SickLeaveColumn.Startdatum:
       return sickLeave.start
     case SickLeaveColumn.Slutdatum:
@@ -26,7 +26,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Läkare:
       return sickLeave.lakare.namn
     case SickLeaveColumn.Sysselsättning:
-      return sickLeave.sysselsattning.map((occupation) => occupation).join('\n')
+      return sickLeave.sysselsattning.map((occupation) => occupation).join(',\n')
     default:
       return undefined
   }

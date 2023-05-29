@@ -13,17 +13,28 @@ beforeEach(() => {
 it('Should render all columns', async () => {
   renderWithRouter(
     <Table>
-      <PatientTableHeader />
+      <PatientTableHeader isDoctor={false} />
     </Table>
   )
 
   expect(await screen.findAllByRole('columnheader')).toHaveLength(10)
 })
 
+it('Should render all columns but doctor if user is doctor', async () => {
+  renderWithRouter(
+    <Table>
+      <PatientTableHeader isDoctor />
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(9)
+  expect(screen.queryByRole('columnheader', { name: 'Läkare' })).not.toBeInTheDocument()
+})
+
 it.each(Object.values(PatientColumn))('Should render and hide %s column', async (column) => {
   renderWithRouter(
     <Table>
-      <PatientTableHeader />
+      <PatientTableHeader isDoctor={false} />
     </Table>
   )
   expect(await screen.findByRole('columnheader', { name: column })).toBeInTheDocument()

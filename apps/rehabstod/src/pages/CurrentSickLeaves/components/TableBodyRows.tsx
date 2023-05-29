@@ -85,24 +85,30 @@ export function TableBodyRows({
     'Tryck på Sök för att visa alla pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av pågående sjukfall.'
   const EMPTY_TEXT_FILTRATION = 'Inga sjukfall matchade filtreringen.'
 
+  const visibleColumns = columns
+    .filter(({ visible }) => visible)
+    .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
+    .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
+    .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
+
   if (isLoading) {
     return (
-      <MaxColspanRow>
+      <MaxColspanRow colspan={visibleColumns.length}>
         <IDSSpinner />
       </MaxColspanRow>
     )
   }
 
   if (sickLeaves == null) {
-    return <MaxColspanRow>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={visibleColumns.length}>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   if (sickLeaves.length === 0) {
     if (hasAppliedFilters) {
-      return <MaxColspanRow>{EMPTY_TEXT_FILTRATION}</MaxColspanRow>
+      return <MaxColspanRow colspan={visibleColumns.length}>{EMPTY_TEXT_FILTRATION}</MaxColspanRow>
     }
 
-    return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={visibleColumns.length}>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   const navigateToPatient = (id: string) => {
@@ -113,7 +119,7 @@ export function TableBodyRows({
     <>
       {sortTableList(sickLeaves, getSickLeavesColumnData).map(
         (sickLeave) =>
-          columns.length > 0 && (
+          visibleColumns.length > 0 && (
             <tr
               tabIndex={0}
               onKeyDown={({ code, currentTarget }) => {
@@ -132,13 +138,9 @@ export function TableBodyRows({
               className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
                 isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
               }`}>
-              {columns
-                .filter(({ visible }) => visible)
-                .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
-                .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
-                .map(({ name }) => (
-                  <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
-                ))}
+              {visibleColumns.map(({ name }) => (
+                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
+              ))}
             </tr>
           )
       )}

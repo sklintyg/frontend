@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-import { Link, Mottagning, Ping, User, UserPreferences, UserPreferencesTableSettings, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -28,28 +28,13 @@ export const api = createApi({
       query: () => 'config',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet | Mottagning }>({
+    changeUnit: builder.mutation<User, { vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
-      async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
-        dispatch(
-          api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, {
-              valdVardgivare: vardgivare,
-              valdVardenhet: vardenhet,
-            })
-          )
-        )
-        try {
-          await queryFulfilled
-        } catch {
-          dispatch(api.util.invalidateTags(['User']))
-        }
-      },
+      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary', 'User'],
     }),
     giveConsent: builder.mutation<User, { pdlConsentGiven: boolean }>({
       query: ({ pdlConsentGiven }) => ({
@@ -59,35 +44,13 @@ export const api = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    updateUserPreferences: builder.mutation<UserPreferences, Partial<UserPreferences>>({
+    updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
       query: (preferences) => ({
         url: 'user/preferences',
         method: 'POST',
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient'],
-      async onQueryStarted(preferences, { dispatch, queryFulfilled }) {
-        dispatch(
-          api.util.updateQueryData('getUser', undefined, (draft) =>
-            Object.assign(draft, {
-              preferences,
-            })
-          )
-        )
-        try {
-          await queryFulfilled
-        } catch {
-          dispatch(api.util.invalidateTags(['User']))
-        }
-      },
-    }),
-    updateTableColumns: builder.mutation<UserPreferences, Partial<Pick<UserPreferences, UserPreferencesTableSettings>>>({
-      query: (preferences) => ({
-        url: 'user/preferences',
-        method: 'POST',
-        body: preferences,
-      }),
       invalidatesTags: ['User'],
     }),
     fakeLogout: builder.mutation<void, void>({
@@ -117,7 +80,12 @@ export const api = createApi({
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<
-      { activeDoctors: Lakare[]; allDiagnosisChapters: DiagnosKapitel[]; enabledDiagnosisChapters: DiagnosKapitel[] },
+      {
+        activeDoctors: Lakare[]
+        allDiagnosisChapters: DiagnosKapitel[]
+        enabledDiagnosisChapters: DiagnosKapitel[]
+        nbrOfSickLeaves: number
+      },
       void
     >({
       query: () => ({
@@ -131,7 +99,7 @@ export const api = createApi({
       }),
       providesTags: ['SickLeaveSummary'],
     }),
-    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string | null; patientId: string | null }>({
+    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
       query: ({ encryptedPatientId }) => ({
         url: 'sjukfall/patient',
         method: 'POST',
@@ -143,6 +111,20 @@ export const api = createApi({
       query: () => ({
         url: '/testability/createDefault',
         method: 'POST',
+      }),
+      transformResponse: (response: { content: string }) => response.content,
+    }),
+    getTestDataOptions: builder.query<TestDataOptionsDTO, void>({
+      query: () => ({
+        url: '/testability/testDataOptions',
+        method: 'GET',
+      }),
+    }),
+    createSickLeave: builder.mutation<string, CreateSickleaveDTO>({
+      query: (request) => ({
+        url: '/testability/createSickLeave',
+        method: 'POST',
+        body: request,
       }),
       transformResponse: (response: { content: string }) => response.content,
     }),
@@ -164,24 +146,24 @@ export const api = createApi({
     }),
     giveSjfConsent: builder.mutation<
       { registeredBy: string; responseCode: string; responseMessage: string },
-      { days: number; onlyCurrentUser: boolean; patientId: string }
+      { days: number; onlyCurrentUser: boolean; patientId: string; encryptedPatientId: string }
     >({
       query: ({ days, onlyCurrentUser, patientId }) => ({
         url: 'consent',
         method: 'POST',
         body: { days, onlyCurrentUser, patientId },
       }),
-      async onQueryStarted({ patientId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ encryptedPatientId }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { responseCode },
           } = await queryFulfilled
           dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId: null, patientId }, (draft) =>
+            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId }, (draft) =>
               Object.assign(draft, {
                 sjfMetaData: {
                   ...(draft.sjfMetaData ?? {}),
-                  samtyckeFinns: responseCode,
+                  samtyckeFinns: responseCode === 'OK',
                 },
               })
             )
@@ -199,6 +181,7 @@ export const {
   useAddVardgivareMutation,
   useChangeUnitMutation,
   useCreateDefaultTestDataMutation,
+  useCreateSickLeaveMutation,
   useFakeLogoutMutation,
   useGetConfigQuery,
   useGetLinksQuery,
@@ -207,10 +190,10 @@ export const {
   useGetSickLeavePatientQuery,
   useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
+  useGetTestDataOptionsQuery,
   useGetUserQuery,
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
-  useUpdateTableColumnsMutation,
   useUpdateUserPreferencesMutation,
 } = api

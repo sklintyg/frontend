@@ -29,6 +29,12 @@ describe('SrsRisk', () => {
   beforeEach(() => {
     store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
     HTMLElement.prototype.scrollIntoView = vi.fn()
+
+    window.ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }))
   })
 
   afterEach(() => {

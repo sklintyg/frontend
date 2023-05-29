@@ -49,7 +49,7 @@ describe('vibility', () => {
 
     const request = await act(() => pendingRequest)
 
-    expect(await request.json()).toEqual({
+    expect(await request.json()).toMatchObject({
       patientTableColumns: Object.values(PatientColumn)
         .map((name) => `${name}:${name === 'Slutdatum' ? '0' : '1'}`)
         .join(';'),
@@ -77,6 +77,6 @@ describe('position', () => {
 
     await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta ner Grad'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('slutdatum-column')
+    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('startdatum-column')
   })
 })

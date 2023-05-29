@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../store/hooks'
 import { showSettingsDialog } from '../../store/slices/settings.slice'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
+import { LayoutMobileHeader } from './LayoutMobileHeader'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()
@@ -17,14 +18,14 @@ export function LayoutHeader() {
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" unresponsive className="z-40 bg-white print:hidden">
+    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
 
       {!isLoading && user && (
         <>
-          <IDSHeaderItem type="inera-admin" icon="question">
+          <IDSHeaderItem type="inera-admin" icon="question" mobile>
             <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
           <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn} ref={avatarRef}>
@@ -54,6 +55,8 @@ export function LayoutHeader() {
           </IDSHeaderNav>
         </>
       )}
+
+      <LayoutMobileHeader />
 
       {!isLoading && !user && (
         <IDSHeaderItem type="inera-admin" separator-left icon="user">

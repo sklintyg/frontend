@@ -10,6 +10,7 @@ const renderComponent = () => {
       sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData}
       patientId="191212121212"
       isPersonResponseMissing={false}
+      encryptedPatientId=""
     />
   )
 }
@@ -22,12 +23,12 @@ describe('PatientOverview', () => {
   describe('same care provider', () => {
     it('should show title not protected information', () => {
       renderComponent()
-      expect(screen.getByText('Ospärrad information inom vårdgivare')).toBeInTheDocument()
+      expect(screen.getByText('Ospärrad information inom egen vårdgivare')).toBeInTheDocument()
     })
 
     it('should show title protected information', () => {
       renderComponent()
-      expect(screen.getByText('Ospärrad information inom vårdgivare')).toBeInTheDocument()
+      expect(screen.getByText('Ospärrad information inom egen vårdgivare')).toBeInTheDocument()
     })
   })
 })

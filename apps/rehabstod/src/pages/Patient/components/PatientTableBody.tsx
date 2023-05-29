@@ -11,6 +11,7 @@ import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function PatientTableCellResolver({
   column,
@@ -28,7 +29,8 @@ function PatientTableCellResolver({
       return <TableCell>{rowIndex}</TableCell>
     case PatientColumn.Diagnos:
       return (
-        <TableCell description={<DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
+        <TableCell
+          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
@@ -79,7 +81,7 @@ function PatientTableCellResolver({
   }
 }
 
-export function PatientTableBody({ certificates }: { certificates: PatientSjukfallIntyg[] }) {
+export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
   return (
@@ -90,6 +92,7 @@ export function PatientTableBody({ certificates }: { certificates: PatientSjukfa
             <tr key={`${certificate.start}${certificate.slut}`}>
               {columns
                 .filter(({ visible }) => visible)
+                .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
                 .map(({ name }) => (
                   <PatientTableCellResolver
                     key={name}
