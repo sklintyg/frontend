@@ -11,15 +11,24 @@ import {
   useRole,
 } from '@floating-ui/react'
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { hasNoChildren } from '../../utils/hasNoChildren'
 
-export function SelectButton({ title, children }: { title: string; children: ReactNode }) {
-  const [open, setOpen] = useState(false)
+export function SelectButton({
+  title,
+  children,
+  open,
+  handleOpenChange,
+}: {
+  title: string
+  children: ReactNode
+  open: boolean
+  handleOpenChange: (isOpen: boolean) => void
+}) {
   const { x, y, strategy, refs, context } = useFloating({
     placement: 'bottom-start',
     open,
-    onOpenChange: setOpen,
+    onOpenChange: handleOpenChange,
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(1),
@@ -48,7 +57,7 @@ export function SelectButton({ title, children }: { title: string; children: Rea
         className="flex w-28 items-center justify-between gap-2"
         type="button"
         onClick={(event) => {
-          setOpen(!open)
+          handleOpenChange(!open)
           event.stopPropagation()
         }}
         ref={refs.setReference}>

@@ -1,10 +1,12 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { SelectButton } from './SelectButton'
 
-const renderComponent = () => {
+const renderComponent = (open = false) => {
+  const handleOpenChange = vi.fn()
+
   render(
-    <SelectButton title="TITLE">
+    <SelectButton title="TITLE" handleOpenChange={handleOpenChange} open={open}>
       <span>CHILDREN</span>
     </SelectButton>
   )
@@ -20,16 +22,14 @@ describe('SelectButton', () => {
     expect(screen.getByText('TITLE')).toBeInTheDocument()
   })
 
-  it('should show children when clicking button', async () => {
-    renderComponent()
-    await userEvent.click(screen.getByText('TITLE'))
+  it('should show children when open is true', async () => {
+    renderComponent(true)
     expect(screen.getByText('CHILDREN')).toBeInTheDocument()
   })
 
-  it('should hide children when clicking button twice', async () => {
-    renderComponent()
-    await userEvent.click(screen.getByText('TITLE'))
-    await userEvent.click(screen.getByText('TITLE'))
-    expect(screen.queryByText('CHILDREN')).not.toBeInTheDocument()
+  it('should hide children when open is false', async () => {
+    renderComponent(false)
+    expect(screen.queryByText('CHILDREN')).toBeInTheDocument()
+    e
   })
 })

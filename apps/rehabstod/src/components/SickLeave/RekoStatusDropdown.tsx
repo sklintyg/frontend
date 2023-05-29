@@ -19,6 +19,7 @@ export function RekoStatusDropdown({
   const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : 'Ingen')
   const sickLeaveTimestamp = isAfter(new Date(endDate), new Date()) ? format(new Date(), 'yyyy-MM-dd') : endDate
   const { filter } = useAppSelector((state) => state.sickLeave)
+  const [open, setOpen] = useState(false)
 
   if (!populatedFilters || !populatedFilters.rekoStatusTypes) {
     return null
@@ -28,10 +29,11 @@ export function RekoStatusDropdown({
     event.stopPropagation()
     setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
     updateSavedRekoStatus(type.name)
+    setOpen(false)
   }
 
   return (
-    <SelectButton title={savedRekoStatus}>
+    <SelectButton title={savedRekoStatus} open={open} handleOpenChange={(isOpen) => setOpen(isOpen)}>
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button
           key={type.id}
