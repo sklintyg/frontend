@@ -29,6 +29,6 @@ describe('SelectButton', () => {
 
   it('should hide children when open is false', async () => {
     renderComponent(false)
-    expect(screen.queryByText('CHILDREN')).toBeInTheDocument()
+    expect(screen.queryByText('CHILDREN')).not.toBeInTheDocument()
   })
 })
