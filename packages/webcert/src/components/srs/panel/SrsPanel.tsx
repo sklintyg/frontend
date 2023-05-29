@@ -56,11 +56,11 @@ const SrsPanel: React.FC = () => {
   }, [isEmpty, diagnosisCodes, dispatch])
 
   useEffect(() => {
-    if (supportedDiagnosisCode) {
-      dispatch(getRecommendations({ patientId: patientId, code: supportedDiagnosisCode, certificateId: certificateId }))
-      dispatch(getQuestions(supportedDiagnosisCode))
+    if (supportedDiagnosisCode && mainDiagnosis) {
+      dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosis.code, certificateId: certificateId }))
+      dispatch(getQuestions(mainDiagnosis.code))
     }
-  }, [supportedDiagnosisCode, certificateId, patientId, dispatch])
+  }, [supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis])
 
   const updateInformationChoice = (choice: SrsInformationChoice) => {
     setInformationChoice(choice)
