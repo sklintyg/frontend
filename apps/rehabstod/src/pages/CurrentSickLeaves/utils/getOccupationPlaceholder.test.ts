@@ -2,9 +2,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { occupationType } from '../../../schemas/sickLeaveSchema'
 import { getOccupationPlaceholder } from './getOccupationPlaceholder'
 
-it('Should return undefined if nothing is selected', () => {
+it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(occupationType))
-  expect(getOccupationPlaceholder([], options)).toBeUndefined()
+  expect(getOccupationPlaceholder([], options)).toBe('Alla valda')
 })
 
 it('Should return name if one is selected', () => {
