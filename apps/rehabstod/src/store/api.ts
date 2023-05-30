@@ -26,7 +26,6 @@ export const api = createApi({
     }),
     getConfig: builder.query<Config, void>({
       query: () => 'config',
-      providesTags: ['User'],
     }),
     changeUnit: builder.mutation<User, { vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({

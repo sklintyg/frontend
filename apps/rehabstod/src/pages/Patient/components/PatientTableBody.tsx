@@ -8,10 +8,10 @@ import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function PatientTableCellResolver({
   column,
@@ -59,7 +59,6 @@ function PatientTableCellResolver({
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
-          {/* TODO: Make link work */}
           <IDSButton
             tertiary
             onClick={() => {
