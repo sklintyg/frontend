@@ -18,6 +18,11 @@ export const rekoStatusType = z.object({
   name: z.string(),
 })
 
+export const occupationType = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
 export const rekoStatus = z.object({
   status: rekoStatusType,
 })
@@ -99,6 +104,7 @@ export const sickLeaveFilterSchema = z.object({
   fromPatientAge: z.number(),
   toPatientAge: z.number(),
   rekoStatusTypeIds: z.array(z.string()),
+  occupationTypeIds: z.array(z.string()),
 })
 
 export const genderSummarySchema = z.object({
@@ -174,4 +180,5 @@ export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
 export type RekoStatusType = z.infer<typeof rekoStatusType>
+export type OccupationType = z.infer<typeof rekoStatusType>
 export type RekoStatus = z.infer<typeof rekoStatus>

@@ -1,44 +1,54 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { RekoStatusFilter } from './RekoStatusFilter'
+import { MultipleSelectFilterOption } from './MultipleSelectFilterOption'
 
 const DESCRIPTION = 'description'
+const LABEL = 'label'
 let onChange: (values: string[]) => void
 
-const STATUSES = [
-  { id: 'REKO_1', name: 'Ingen' },
-  { id: 'REKO_2', name: 'Kontaktad' },
+const OPTIONS = [
+  { id: 'ID_1', name: 'NAME_1' },
+  { id: 'ID_2', name: 'NAME_2' },
 ]
 
-const renderComponent = (selected?: string[]) => {
+const renderComponent = (selected?: string[], placeholder?: string) => {
   onChange = vi.fn()
 
-  render(<RekoStatusFilter description={DESCRIPTION} statuses={STATUSES} onChange={onChange} selected={selected ?? []} />)
+  render(
+    <MultipleSelectFilterOption
+      label={LABEL}
+      description={DESCRIPTION}
+      options={OPTIONS}
+      onChange={onChange}
+      selected={selected ?? []}
+      placeholder={placeholder ?? 'Välj i listan'}
+    />
+  )
 }
 
-describe('RekoStatusFilter', () => {
+describe('MultipleSelectFilterOption', () => {
   it('should render without issues', () => {
     expect(() => renderComponent()).not.toThrow()
   })
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText('REKO-status')).toBeInTheDocument()
+    expect(screen.getByText(LABEL)).toBeInTheDocument()
   })
 
   it('should show options when opening dropdown', async () => {
     renderComponent()
     await userEvent.click(screen.getByRole('button'))
-    expect(screen.getByText(STATUSES[0].name)).toBeInTheDocument()
-    expect(screen.getByText(STATUSES[1].name)).toBeInTheDocument()
+    expect(screen.getByText(OPTIONS[0].name)).toBeInTheDocument()
+    expect(screen.getByText(OPTIONS[1].name)).toBeInTheDocument()
   })
 
   it('should call on from change when changing from input', async () => {
     renderComponent()
     await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByText(STATUSES[0].name))
-    expect(onChange).toHaveBeenLastCalledWith([STATUSES[0].id])
+    await userEvent.click(screen.getByText(OPTIONS[0].name))
+    expect(onChange).toHaveBeenLastCalledWith([OPTIONS[0].id])
   })
 
   it('should show options as unchecked by default', async () => {
@@ -49,7 +59,7 @@ describe('RekoStatusFilter', () => {
   })
 
   it('should show options sent in selected as checked', async () => {
-    renderComponent([STATUSES[0].id, STATUSES[1].id])
+    renderComponent([OPTIONS[0].id, OPTIONS[1].id])
     await userEvent.click(screen.getByRole('button'))
     expect(screen.getAllByRole('checkbox')[0]).toBeChecked()
     expect(screen.getAllByRole('checkbox')[1]).toBeChecked()

@@ -9,7 +9,9 @@ import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
-import { RekoStatusFilter } from './filter/RekoStatusFilter'
+import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
+import { getOccupationPlaceholder } from '../utils/getOccupationPlaceholder'
+import { getRekoStatusPlaceholder } from '../utils/getRekoStatusPlaceholder'
 
 export function Filters({
   onSearch,
@@ -78,11 +80,27 @@ export function Filters({
               availableOptions={sickLeaveLengthIntervals}
               selectedOptions={filter.sickLeaveLengthIntervals}
             />
-            <RekoStatusFilter
+            <MultipleSelectFilterOption
+              label="REKO-status"
               onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
-              statuses={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+              options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
               selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
+              placeholder={
+                getRekoStatusPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : []) ??
+                'Välj i listan'
+              }
+            />
+            <MultipleSelectFilterOption
+              label="Sysselsättning"
+              onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.occupationTypes : []}
+              selected={filter.occupationTypeIds}
+              description="Filtrerar på patientens sysselsättning."
+              placeholder={
+                getOccupationPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : []) ??
+                'Välj i listan'
+              }
             />
           </div>
           <div className="flex justify-end">
