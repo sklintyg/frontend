@@ -59,14 +59,15 @@ export function CurrentSickLeaves() {
         />
       </div>
       <PrintFilters isDoctor={isDoctor} />
-      {error ? (
+      {error && (
         <DisplayError
           heading="Sjukfall för enheten kunde inte hämtas."
           errorType="error"
           text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
           dynamicLink
         />
-      ) : (
+      )}
+      {!error && (
         <div>
           <div className="flex">
             <div className="w-full">
