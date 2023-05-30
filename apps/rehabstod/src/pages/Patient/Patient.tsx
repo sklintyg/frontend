@@ -8,6 +8,8 @@ import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumn
 import { OpenTabsDialog } from './components/OpenTabsDialog'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
+import { DisplayError } from '../../error/DisplayError'
+import { PatientErrorHeader } from './components/PatientErrorHeader'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientContext, usePatientState } from './hooks/usePatient'
 
@@ -15,7 +17,7 @@ export function Patient() {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient } = useGetSickLeavePatientQuery(
+  const { data: patient, error } = useGetSickLeavePatientQuery(
     encryptedPatientId
       ? {
           encryptedPatientId,
@@ -31,12 +33,18 @@ export function Patient() {
 
   return (
     <PatientContext.Provider value={patientState}>
-      {patient && <PatientHeader patient={patient} />}
+      {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
       <OpenTabsDialog />
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-        <div className="ml-auto w-96">
-          <ModifyPatientTableColumns />
-        </div>
+        <div className="ml-auto w-96">{!error && <ModifyPatientTableColumns />}</div>
+        {error && (
+          <DisplayError
+            heading="Tekniskt fel"
+            errorType="error"
+            text="Information kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+            dynamicLink
+          />
+        )}
         {currentSickLeaves.length > 0 && (
           <>
             <h1 className="ids-heading-2">Pågående sjukfall på {user?.valdVardenhet?.namn}</h1>

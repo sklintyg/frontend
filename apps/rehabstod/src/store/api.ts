@@ -13,6 +13,7 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
+import { ErrorData } from '../schemas/errorSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -220,6 +221,13 @@ export const api = createApi({
           dispatch(api.util.invalidateTags(['User']))
         }
       },
+    }),
+    logError: builder.mutation<void, { errorData: ErrorData }>({
+      query: (errorData) => ({
+        url: 'log/error',
+        method: 'POST',
+        body: errorData,
+      }),
     }),
   }),
 })

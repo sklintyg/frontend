@@ -7,6 +7,7 @@ import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice'
 import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from './slices/sickLeaveTableColumns.slice'
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
+import { errorReducer, errorReducerPath } from './slices/error.slice'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsReducer,
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,
     [settingsReducerPath]: settingsReducer,
+    [errorReducerPath]: errorReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),
 })
