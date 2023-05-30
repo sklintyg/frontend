@@ -65,6 +65,7 @@ export function SelectMultiple({
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
       {/* TODO: Replace with IDSInput when working properly */}
+      {/* TODO: Replace with IDSInput when working properly */}
       <div className="relative">
         <Input
           hasIcon

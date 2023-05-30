@@ -35,6 +35,8 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
       return <SickLeaveDegreeInfo degrees={sickLeave.grader} />
     case SickLeaveColumn.Läkare:
       return <>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</>
+    case SickLeaveColumn.RekoStatus:
+      return <>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</>
     default:
       return null
   }
