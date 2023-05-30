@@ -188,7 +188,7 @@ export const api = createApi({
             const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
             if (index !== -1) {
               // eslint-disable-next-line no-param-reassign
-              draft[index].rekoStatus.status = status
+              draft[index].rekoStatus = { status }
             }
           })
         )
