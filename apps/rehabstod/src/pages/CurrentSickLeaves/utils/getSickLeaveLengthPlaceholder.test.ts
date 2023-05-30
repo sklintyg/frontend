@@ -2,8 +2,8 @@ import { fakerFromSchema } from '@frontend/fake'
 import { TimePeriodMetric, timePeriodOptionSchema } from '../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthPlaceholder } from './getSickLeaveLengthPlaceholder'
 
-it('Should return undefined if nothing is selected', () => {
-  expect(getSickLeaveLengthPlaceholder([])).toBeUndefined()
+it('Should return Alla valda if nothing is selected', () => {
+  expect(getSickLeaveLengthPlaceholder([])).toBe('Alla valda')
 })
 
 describe('One selected', () => {

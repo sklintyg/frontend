@@ -2,9 +2,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { lakareSchema } from '../../../schemas/lakareSchema'
 import { getDoctorsPlaceholder } from './getDoctorsPlaceholder'
 
-it('Should return undefined if nothing is selected', () => {
+it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(lakareSchema))
-  expect(getDoctorsPlaceholder([], options)).toBeUndefined()
+  expect(getDoctorsPlaceholder([], options)).toBe('Alla Valda')
 })
 
 it('Should return name if one is selected', () => {

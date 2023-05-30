@@ -2,9 +2,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { rekoStatusType } from '../../../schemas/sickLeaveSchema'
 import { getRekoStatusPlaceholder } from './getRekoStatusPlaceholder'
 
-it('Should return undefined if nothing is selected', () => {
+it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(rekoStatusType))
-  expect(getRekoStatusPlaceholder([], options)).toBeUndefined()
+  expect(getRekoStatusPlaceholder([], options)).toBe('Alla valda')
 })
 
 it('Should return name if one is selected', () => {
