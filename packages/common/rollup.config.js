@@ -1,10 +1,10 @@
 /* eslint-disable import/no-default-export */
 /* eslint-disable import/no-extraneous-dependencies */
-import json from '@rollup/plugin-json'
+import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
-import esbuild from 'rollup-plugin-esbuild'
 import svg from 'rollup-plugin-svg'
 
 const require = createRequire(import.meta.url)
@@ -18,17 +18,24 @@ const external = [
   ...builtinModules,
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
-  'react/jsx-runtime',
   'type-fest/source/partial-deep',
 ]
+
 const plugins = [
-  resolve({
-    preferBuiltins: true,
-  }),
-  json(),
+  // esbuild({
+  //   // target: 'node14',
+  //   tsconfig: './tsconfig.json',
+  // }),
   svg({ base64: true }),
-  esbuild({
-    target: 'node14',
+  typescript({
+    exclude: ['**/*.test.ts', '**/*.test.tsx', 'dist'],
+    outputToFilesystem: true,
+    tsconfig: './tsconfig.json',
+  }),
+  resolve(),
+  commonjs({
+    esmExternals: false,
+    ignoreGlobal: true,
   }),
 ]
 
@@ -38,24 +45,15 @@ export default defineConfig([
     output: {
       dir: 'dist',
       format: 'esm',
+      interop: 'auto',
       entryFileNames: '[name].js',
       chunkFileNames: 'chunk-[name].js',
+      sourcemap: true,
     },
     external,
     plugins,
     onwarn,
   },
-  // {
-  //   input: entries,
-  //   output: {
-  //     dir: 'dist',
-  //     entryFileNames: '[name].d.ts',
-  //     format: 'esm',
-  //   },
-  //   external,
-  //   plugins: [dts({ respectExternal: true }), svg({ base64: true })],
-  //   onwarn,
-  // },
 ])
 
 function onwarn(message) {

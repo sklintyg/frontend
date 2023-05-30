@@ -1,4 +1,3 @@
-import { findIndex, findLastIndex } from 'lodash'
 import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { sanitizeText } from '../../utils/sanitizeText'
@@ -103,9 +102,9 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
           switch (event.key) {
             case 'ArrowDown': {
               if (suggestions.some((val) => val.disabled === false)) {
-                let index = findIndex(suggestions, ({ disabled }) => disabled === false, (cursor + 1) % suggestions.length)
+                let index = suggestions.findIndex(({ disabled }) => disabled === false, (cursor + 1) % suggestions.length)
                 if (index === -1) {
-                  index = findIndex(suggestions, ({ disabled }) => disabled === false, 0)
+                  index = suggestions.findIndex(({ disabled }) => disabled === false, 0)
                 }
                 setCursor(index)
                 scrollToItem(index)
@@ -116,9 +115,9 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
             case 'ArrowUp': {
               if (suggestions.some((val) => val.disabled === false)) {
                 const startIndex = cursor === 0 ? suggestions.length - 1 : cursor - 1
-                let index = findLastIndex(suggestions, ({ disabled }) => disabled === false, startIndex % suggestions.length)
+                let index = [...suggestions].reverse().findIndex(({ disabled }) => disabled === false, startIndex % suggestions.length)
                 if (index === -1) {
-                  index = findLastIndex(suggestions, ({ disabled }) => disabled === false, suggestions.length - 1)
+                  index = [...suggestions].reverse().findIndex(({ disabled }) => disabled === false, suggestions.length - 1)
                 }
                 setCursor(index)
                 scrollToItem(index)

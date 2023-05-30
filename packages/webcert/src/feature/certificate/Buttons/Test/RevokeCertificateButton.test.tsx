@@ -3,11 +3,13 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateQuestions } from '../../../../store/question/questionActions'
+import { questionMiddleware } from '../../../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import RevokeCertificateButton from '../RevokeCertificateButton'
 
@@ -42,6 +44,10 @@ const openModal = () => {
   const button = screen.getByRole('button')
   userEvent.click(button)
 }
+
+beforeEach(() => {
+  testStore = configureApplicationStore([questionMiddleware])
+})
 
 describe('Revoke certificate with unhandled questions', () => {
   it('shall not show unhandled questions text if no unhandled questions', () => {
@@ -144,27 +150,30 @@ describe('Revoke continue button', () => {
 
   it('shall dispatch revoke certificate when revoke is pressed', () => {
     renderDefaultComponent(true)
+    const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
     userEvent.click(radioButton)
     userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
-    expect(testStore.dispatch).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledTimes(1)
   })
 
   it('shall not dispatch revoke certificate when cancel is pressed', () => {
     renderDefaultComponent(true)
+    const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
     userEvent.click(screen.getByText('Avbryt'))
-    expect(testStore.dispatch).not.toHaveBeenCalled()
+    expect(spy).not.toHaveBeenCalled()
   })
 
   it('shall dispatch with chosen reason, message and title for other reason', () => {
     renderDefaultComponent(true)
+    const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
     userEvent.click(screen.getByText(OTHER_REASON_LABEL))
     userEvent.type(screen.getByRole('textbox'), 'test')
     userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
-    expect(testStore.dispatch).toHaveBeenCalledWith({
+    expect(spy).toHaveBeenCalledWith({
       payload: { reason: 'ANNAT_ALLVARLIGT_FEL', message: 'test', title: OTHER_REASON_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
     })
@@ -172,11 +181,12 @@ describe('Revoke continue button', () => {
 
   it('shall dispatch with chosen reason, message and title for wrong patient', () => {
     renderDefaultComponent(true)
+    const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
     userEvent.click(screen.getByText(WRONG_PATIENT_LABEL))
     userEvent.type(screen.getByRole('textbox'), 'test')
     userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
-    expect(testStore.dispatch).toHaveBeenCalledWith({
+    expect(spy).toHaveBeenCalledWith({
       payload: { reason: 'FEL_PATIENT', message: 'test', title: WRONG_PATIENT_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
     })

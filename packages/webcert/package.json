@@ -40,7 +40,7 @@
     "react-tooltip": "^4.2.21",
     "recharts": "^2.4.3",
     "redux": "^4.2.1",
-    "styled-components": "^5.3.6",
+    "styled-components": "^5.3.11",
     "type-fest": "^1.4.0"
   },
   "devDependencies": {

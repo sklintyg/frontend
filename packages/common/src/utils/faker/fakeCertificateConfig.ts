@@ -1,9 +1,7 @@
 import faker from 'faker'
-import { merge } from 'lodash'
 import { PartialDeep } from 'type-fest'
 import {
-  CertificateDataConfigType,
-  ConfigCategory,
+  CertificateDataConfigType, ConfigAccordion, ConfigCategory,
   ConfigEyeAcuity,
   ConfigLayout,
   ConfigTypes,
@@ -38,8 +36,7 @@ import {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
-  MessageLevel,
-  ConfigAccordion,
+  MessageLevel
 } from '../../types/certificate'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
@@ -52,15 +49,15 @@ export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAcco
 type FakeElementConfigCallback<T> = (config?: PartialDeep<T>) => T
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-const fakeDataElementConfig = <T extends CertificateDataConfigType>(
-  callback: FakeElementConfigCallback<Optional<T, 'text' | 'description'>>
-) => (override?: PartialDeep<T>): T =>
-  merge(callback(override), {
-    text: 'test',
-    description: 'description',
-    accordion: fakeConfigAccordion(override?.accordion),
-    ...override,
-  }) as T
+const fakeDataElementConfig =
+  <T extends CertificateDataConfigType>(callback: FakeElementConfigCallback<Optional<T, 'text' | 'description'>>) =>
+  (override?: PartialDeep<T>): T =>
+    Object.assign(callback(override), {
+      text: 'test',
+      description: 'description',
+      accordion: fakeConfigAccordion(override?.accordion),
+      ...override,
+    }) as T
 
 const fakeCategory = fakeDataElementConfig<ConfigCategory>(() => ({
   type: ConfigTypes.CATEGORY,
