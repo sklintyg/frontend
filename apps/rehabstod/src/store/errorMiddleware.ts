@@ -12,9 +12,9 @@ export const errorMiddleware: Middleware = ({ dispatch }: MiddlewareAPI<ThunkDis
 ) => {
   if (isRejectedWithValue(action)) {
     const { method, url } = action.meta.baseQueryMeta.request
-    const { message } = action.payload.data
-    const errorMessage = message ? `${message} method '${method}' url '${url}` : 'No message'
-    const errorCode = action.payload.data.errorCode ? action.payload.data.errorCode : 'No errorCode'
+    const { message } = action.payload.data ?? 'No message'
+    const errorMessage = `${message} method '${method}' url '${url}`
+    const { errorCode } = action.payload.data ?? 'No errorCode'
     const errorId = uuidv4()
     const errorData = {
       errorId,
