@@ -10,6 +10,7 @@ import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 import { RekoStatusFilter } from './filter/RekoStatusFilter'
+import { OccupationFilter } from './filter/OccupationFilter'
 
 export function Filters({
   onSearch,
@@ -83,6 +84,12 @@ export function Filters({
               statuses={populatedFilters ? populatedFilters.rekoStatusTypes : []}
               selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
+            />
+            <OccupationFilter
+              onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
+              occupations={populatedFilters ? populatedFilters.occupationTypes : []}
+              selected={filter.occupationTypeIds}
+              description="Filtrerar på patientens sysselsättning."
             />
           </div>
           <div className="flex justify-end">

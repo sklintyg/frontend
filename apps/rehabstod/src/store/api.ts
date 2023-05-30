@@ -3,7 +3,14 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, RekoStatusType, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import {
+  DiagnosKapitel,
+  OccupationType,
+  RekoStatusType,
+  SickLeaveFilter,
+  SickLeaveInfo,
+  SickLeaveSummary,
+} from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
@@ -82,6 +89,7 @@ export const api = createApi({
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
         rekoStatusTypes: RekoStatusType[]
+        occupationTypes: OccupationType[]
       },
       void
     >({
