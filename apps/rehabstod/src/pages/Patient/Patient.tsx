@@ -1,17 +1,20 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
+import { UserUrval } from '../../schemas'
 import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumns'
+import { OpenTabsDialog } from './components/OpenTabsDialog'
 import { PatientHeader } from './components/PatientHeader'
-import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
-import { UserUrval } from '../../schemas'
 import { DisplayError } from '../../error/DisplayError'
 import { PatientErrorHeader } from './components/PatientErrorHeader'
+import { PatientOverview } from './components/patientOverview/PatientOverview'
+import { PatientContext, usePatientState } from './hooks/usePatient'
 
 export function Patient() {
+  const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
   const { data: patient, error } = useGetSickLeavePatientQuery(
@@ -29,8 +32,9 @@ export function Patient() {
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
   return (
-    <>
+    <PatientContext.Provider value={patientState}>
       {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
+      <OpenTabsDialog />
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
         <div className="ml-auto w-96">{!error && <ModifyPatientTableColumns />}</div>
         {error && (
@@ -66,6 +70,6 @@ export function Patient() {
           </>
         )}
       </div>
-    </>
+    </PatientContext.Provider>
   )
 }

@@ -1,8 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
+import { Config } from '../schemas/configSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import {
+  DiagnosKapitel,
+  OccupationType,
+  RekoStatusType,
+  SickLeaveFilter,
+  SickLeaveInfo,
+  SickLeaveSummary,
+} from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 import { ErrorData } from '../schemas/errorSchema'
@@ -24,18 +32,20 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet | Mottagning }>({
+    getConfig: builder.query<Config, void>({
+      query: () => 'config',
+    }),
+    changeUnit: builder.mutation<User, { vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
-      async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
+      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary', 'User'],
+      async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
             Object.assign(draft, {
-              valdVardgivare: vardgivare,
               valdVardenhet: vardenhet,
             })
           )
@@ -96,6 +106,8 @@ export const api = createApi({
         allDiagnosisChapters: DiagnosKapitel[]
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
+        rekoStatusTypes: RekoStatusType[]
+        occupationTypes: OccupationType[]
       },
       void
     >({
@@ -184,6 +196,32 @@ export const api = createApi({
         }
       },
     }),
+    setRekoStatus: builder.mutation<
+      void,
+      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
+    >({
+      query: ({ patientId, status, sickLeaveTimestamp }) => ({
+        url: 'reko',
+        method: 'POST',
+        body: { patientId, statusId: status.id, sickLeaveTimestamp },
+      }),
+      async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getSickLeaves', filter, (draft) => {
+            const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
+            if (index !== -1) {
+              // eslint-disable-next-line no-param-reassign
+              draft[index].rekoStatus = { status }
+            }
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
+    }),
     logError: builder.mutation<void, { errorData: ErrorData }>({
       query: (errorData) => ({
         url: 'log/error',
@@ -195,21 +233,24 @@ export const api = createApi({
 })
 
 export const {
+  useAddVardenhetMutation,
+  useAddVardgivareMutation,
   useChangeUnitMutation,
   useCreateDefaultTestDataMutation,
+  useCreateSickLeaveMutation,
   useFakeLogoutMutation,
+  useGetConfigQuery,
   useGetLinksQuery,
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
   useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
+  useGetTestDataOptionsQuery,
   useGetUserQuery,
   useGiveConsentMutation,
-  useLazyGetSickLeavesQuery,
-  useAddVardenhetMutation,
-  useAddVardgivareMutation,
   useGiveSjfConsentMutation,
-  useGetTestDataOptionsQuery,
-  useCreateSickLeaveMutation,
+  useLazyGetSickLeavesQuery,
+  useSetRekoStatusMutation,
+  useUpdateUserPreferencesMutation,
 } = api

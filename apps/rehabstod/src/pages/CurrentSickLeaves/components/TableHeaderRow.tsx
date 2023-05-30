@@ -68,6 +68,8 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="114px"
         />
       )
+    case SickLeaveColumn.RekoStatus:
+      return <TableHeaderCell column={SickLeaveColumn.RekoStatus} width="150px" />
     default:
       return null
   }

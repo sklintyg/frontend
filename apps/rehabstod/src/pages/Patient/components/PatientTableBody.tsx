@@ -1,4 +1,4 @@
-import { IDSLink } from '@frontend/ids-react-ts'
+import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -8,9 +8,10 @@ import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function PatientTableCellResolver({
   column,
@@ -21,6 +22,8 @@ function PatientTableCellResolver({
   rowIndex: number
   certificate: PatientSjukfallIntyg
 }) {
+  const { navigateToWebcert } = usePatient()
+
   switch (column) {
     case PatientColumn.Num:
       return <TableCell>{rowIndex}</TableCell>
@@ -54,15 +57,23 @@ function PatientTableCellResolver({
     case PatientColumn.Sysselsättning:
       return <TableCell>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</TableCell>
     case PatientColumn.Intyg:
-      return (
+      return certificate ? (
         <TableCell sticky="right">
-          {/* TODO: Make link work */}
-          <IDSLink>
-            <a href={`webcert/${certificate.intygsId}`} target="_blank" rel="noreferrer">
-              VISA
-            </a>
-          </IDSLink>
+          <IDSButton
+            tertiary
+            onClick={() => {
+              navigateToWebcert(certificate.intygsId)
+            }}>
+            <IDSRow align="center">
+              <IDSColumn cols="auto">Visa </IDSColumn>
+              <IDSColumn cols="auto" className="ml-2">
+                <IDSIcon name="external" height="16" width="100%" />
+              </IDSColumn>
+            </IDSRow>
+          </IDSButton>
         </TableCell>
+      ) : (
+        <>-</>
       )
     default:
       return null

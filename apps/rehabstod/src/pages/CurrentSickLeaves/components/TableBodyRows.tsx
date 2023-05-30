@@ -13,8 +13,9 @@ import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.sli
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
+import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
 
-function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
+function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
     case SickLeaveColumn.Personnummer:
       return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</TableCell>
@@ -54,6 +55,14 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
       )
     case SickLeaveColumn.Läkare:
       return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</TableCell>
+    case SickLeaveColumn.RekoStatus:
+      return !isDoctor ? (
+        <TableCell>
+          <RekoStatusDropdown statusFromSickLeave={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />
+        </TableCell>
+      ) : (
+        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</TableCell>
+      )
     default:
       return null
   }
@@ -139,7 +148,7 @@ export function TableBodyRows({
                 isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
               }`}>
               {visibleColumns.map(({ name }) => (
-                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} />
+                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />
               ))}
             </tr>
           )
