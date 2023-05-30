@@ -127,7 +127,7 @@ it('Should render all sickleave columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(13)
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
@@ -141,7 +141,7 @@ it('Should render all but doctor column if user is doctor', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
 })
 
 it('Should be possible to hide columns', async () => {
@@ -155,14 +155,14 @@ it('Should be possible to hide columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(13)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Grad)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Intyg)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Diagnos)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(9)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
 })

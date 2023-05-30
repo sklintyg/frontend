@@ -3,7 +3,7 @@ import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../sch
 import { Config } from '../schemas/configSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { DiagnosKapitel, RekoStatusType, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 
@@ -84,6 +84,7 @@ export const api = createApi({
         allDiagnosisChapters: DiagnosKapitel[]
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
+        rekoStatusTypes: RekoStatusType[]
       },
       void
     >({
@@ -172,6 +173,32 @@ export const api = createApi({
         }
       },
     }),
+    setRekoStatus: builder.mutation<
+      void,
+      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
+    >({
+      query: ({ patientId, status, sickLeaveTimestamp }) => ({
+        url: 'reko',
+        method: 'POST',
+        body: { patientId, statusId: status.id, sickLeaveTimestamp },
+      }),
+      async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getSickLeaves', filter, (draft) => {
+            const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
+            if (index !== -1) {
+              // eslint-disable-next-line no-param-reassign
+              draft[index].rekoStatus.status = status
+            }
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
+    }),
   }),
 })
 
@@ -194,5 +221,6 @@ export const {
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
+  useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
 } = api
