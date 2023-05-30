@@ -41,6 +41,20 @@ export const api = createApi({
         body: { id: vardenhet.id },
       }),
       invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary', 'User'],
+      async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData('getUser', undefined, (draft) =>
+            Object.assign(draft, {
+              valdVardenhet: vardenhet,
+            })
+          )
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['User']))
+        }
+      },
     }),
     giveConsent: builder.mutation<User, { pdlConsentGiven: boolean }>({
       query: ({ pdlConsentGiven }) => ({
