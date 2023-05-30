@@ -4,7 +4,7 @@ import { getDoctorsPlaceholder } from './getDoctorsPlaceholder'
 
 it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(lakareSchema))
-  expect(getDoctorsPlaceholder([], options)).toBe('Alla Valda')
+  expect(getDoctorsPlaceholder([], options)).toBe('Alla valda')
 })
 
 it('Should return name if one is selected', () => {
