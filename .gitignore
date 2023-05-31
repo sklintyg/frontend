@@ -41,6 +41,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# lock files from other package managers
+yarn.lock
+package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
