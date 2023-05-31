@@ -18,7 +18,7 @@ jobs:
         with:
           install-command: pnpm --frozen-lockfile --silent
           build: pnpm build --filter=@frontend/webcert
-          start: pnpm workspace @frontend/webcert dev -m test
+          start: pnpm --filter @frontend/webcert dev -m test
           wait-on: 'https://127.0.0.1:3000'
-          command: pnpm workspace @frontend/e2e webcert:run
+          command: pnpm --filter @frontend/e2e webcert:run
             --config baseUrl=https://127.0.0.1:3000
