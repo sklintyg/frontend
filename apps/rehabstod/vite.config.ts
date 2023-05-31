@@ -43,6 +43,10 @@ export default ({ mode }: UserConfig) => {
       deps: {
         inline: ['@inera/ids-core'],
       },
+      coverage: {
+        reporter: ['text', 'json', 'lcov'],
+        all: true,
+      },
     },
   })
 }

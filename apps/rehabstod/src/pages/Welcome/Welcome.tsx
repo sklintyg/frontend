@@ -1,4 +1,4 @@
-import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -24,6 +24,7 @@ import {
   updateFreetext,
 } from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
+import { DisplayError } from '../../error/DisplayError'
 
 export function Welcome() {
   const {
@@ -48,7 +49,7 @@ export function Welcome() {
     isRevoked,
   } = useAppSelector((state) => state.welcome)
   const dispatch = useAppDispatch()
-  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response }] = useCreateDefaultTestDataMutation()
+  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response, error }] = useCreateDefaultTestDataMutation()
   const [triggerCreateSickLeave, { isLoading: createSickLeaveLoading, data: certificateId }] = useCreateSickLeaveMutation()
   const { data: testDataOptions, isLoading: testDataOptionsLoading } = useGetTestDataOptionsQuery()
   const { isLoading, fakeLogins } = useWelcome()
@@ -93,6 +94,14 @@ export function Welcome() {
       isSend,
       isRevoked,
     })
+  }
+
+  if (error) {
+    return (
+      <div>
+        <IDSAlert />
+      </div>
+    )
   }
 
   return (
@@ -362,7 +371,7 @@ export function Welcome() {
               </IDSButton>
             </form>
           ) : (
-            ''
+            <DisplayError heading="Tekniskt fel" errorType="error" text="Alternativ för testdata kunde inte laddas" dynamicLink={false} />
           )}
           <div className="mt-4">{certificateId !== undefined ? <p>{`intygs-Id: ${certificateId}`}</p> : ''}</div>
         </div>

@@ -45,7 +45,7 @@ export default ({ mode }: UserConfig) => {
       },
       setupFiles: ['src/setupTests.ts'],
       coverage: {
-        reporter: ['text', 'json'],
+        reporter: ['text', 'json', 'lcov'],
         all: true,
       },
     },

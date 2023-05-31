@@ -9,6 +9,9 @@ import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
+import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
+import { getOccupationPlaceholder } from '../utils/getOccupationPlaceholder'
+import { getRekoStatusPlaceholder } from '../utils/getRekoStatusPlaceholder'
 
 export function Filters({
   onSearch,
@@ -44,7 +47,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -76,6 +79,28 @@ export function Filters({
               onChange={onSickLeaveLengthIntervalsChange}
               availableOptions={sickLeaveLengthIntervals}
               selectedOptions={filter.sickLeaveLengthIntervals}
+            />
+            <MultipleSelectFilterOption
+              label="REKO-status"
+              onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+              selected={filter.rekoStatusTypeIds}
+              description="Filtrerar på den REKO-status som satts för patienten."
+              placeholder={
+                getRekoStatusPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : []) ??
+                'Välj i listan'
+              }
+            />
+            <MultipleSelectFilterOption
+              label="Sysselsättning"
+              onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.occupationTypes : []}
+              selected={filter.occupationTypeIds}
+              description="Filtrerar på patientens sysselsättning."
+              placeholder={
+                getOccupationPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : []) ??
+                'Välj i listan'
+              }
             />
           </div>
           <div className="flex justify-end">

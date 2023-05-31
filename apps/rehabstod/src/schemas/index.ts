@@ -1,3 +1,4 @@
+export * from './configSchema'
 export * from './enums'
 export * from './linkSchema'
 export * from './mottagningSchema'
