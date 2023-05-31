@@ -2,9 +2,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
+import esbuild from 'rollup-plugin-esbuild'
 import svg from 'rollup-plugin-svg'
 
 const require = createRequire(import.meta.url)
@@ -22,16 +22,17 @@ const external = [
 ]
 
 const plugins = [
-  // esbuild({
-  //   // target: 'node14',
-  //   tsconfig: './tsconfig.json',
-  // }),
   svg({ base64: true }),
-  typescript({
-    exclude: ['**/*.test.ts', '**/*.test.tsx', 'dist'],
-    outputToFilesystem: true,
+  esbuild({
+    target: 'esnext',
+    jsx: 'automatic',
     tsconfig: './tsconfig.json',
   }),
+  // typescript({
+  //   exclude: ['**/*.test.ts', '**/*.test.tsx', 'dist'],
+  //   outputToFilesystem: true,
+  //   tsconfig: './tsconfig.json',
+  // }),
   resolve(),
   commonjs({
     esmExternals: false,
