@@ -108,7 +108,7 @@ export function TableBodyRows({
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
     .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
-    .filter(({ name }) => !(populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
+    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
 
   if (isLoading) {
     return (

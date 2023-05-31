@@ -92,7 +92,7 @@ export function TableHeaderRow({ showPersonalInformation, isDoctor }: { showPers
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
         .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
-        .filter(({ name }) => !(populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
+        .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
         .map(({ name }) => (
           <HeaderCellResolver key={name} column={name} />
         ))}
