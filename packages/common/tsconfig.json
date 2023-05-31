@@ -8,5 +8,5 @@
     "jsx": "react-jsx",
     "types": ["@types/testing-library__jest-dom"]
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "**/*stories*"]
 }
