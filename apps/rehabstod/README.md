@@ -46,7 +46,7 @@ VITE_WS_PROTOCOL=wss
 - `VITE_HTTPS` make sure that we don't use ssl, when used behind a reverse proxy.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl when behind reverse proxy.
 
-Start the application with `pnpm --filter @frontend/rehabstod dev` for only webcert or `yarn start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://rs2.rs.localtest.me/welcome>
+Start the application with `pnpm --filter @frontend/rehabstod dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://rs2.rs.localtest.me/welcome>
 
 Read more about environment files over at [Vite](https://vitejs.dev/guide/env-and-mode.html#env-files).
 
