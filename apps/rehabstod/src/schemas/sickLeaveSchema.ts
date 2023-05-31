@@ -39,7 +39,7 @@ export const riskSignalSchema = z.object({
   berakningsTidpunkt: z.string(),
   intygsId: z.string(),
   riskDescription: z.string(),
-  riskKategori: z.number(),
+  riskKategori: z.nullable(z.number()),
 })
 
 export const genderSchema = z.nativeEnum(Gender)

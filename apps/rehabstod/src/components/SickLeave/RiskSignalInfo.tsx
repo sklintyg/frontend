@@ -5,7 +5,11 @@ import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 
 export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
-  const getColor = (riskCategory: number, index: number) => {
+  const getColor = (riskCategory: number | null, index: number) => {
+    if (!riskCategory) {
+      return ''
+    }
+
     if (riskCategory <= index) {
       return 'bg-white'
     }
@@ -24,17 +28,18 @@ export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
   return (
     <Tooltip>
       <TooltipTrigger>
-        {riskSignal.riskKategori > 0 ? (
+        {riskSignal.riskKategori && riskSignal.riskKategori > 0 ? (
           <div className="flex">
             {_.range(0, 3).map((i) => (
               <span
+                data-testid="riskSignalRing"
                 className={`block h-2.5 w-2.5 rounded-full border border-solid ${getColor(riskSignal.riskKategori, i)}`}
                 key={`riskSignal-${i}`}
               />
             ))}
           </div>
         ) : (
-          <hr className="h-px w-4" />
+          <hr className="h-px w-4" data-testid="noRiskSignalSymbol" />
         )}
       </TooltipTrigger>
       <TooltipContent>
