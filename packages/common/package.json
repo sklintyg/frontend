@@ -10,7 +10,6 @@
     "dev": "rollup -c --watch",
     "lint": "eslint . --fix",
     "test:ci": "vitest run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
-    "test:coverage": "vitest run --coverage",
     "test:no-watch": "vitest run",
     "test": "vitest",
     "typescript": "tsc --noEmit"

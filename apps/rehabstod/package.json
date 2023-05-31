@@ -8,8 +8,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ci": "pnpm test --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
-    "test:coverage": "pnpm test run --coverage",
+    "test:ci": "pnpm test --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:no-watch": "pnpm test run",
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "tsc --noEmit"
