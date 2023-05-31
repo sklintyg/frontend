@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { merge } from 'lodash-es'
 import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,
@@ -54,7 +55,7 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 const fakeDataElementConfig =
   <T extends CertificateDataConfigType>(callback: FakeElementConfigCallback<Optional<T, 'text' | 'description'>>) =>
   (override?: PartialDeep<T>): T =>
-    Object.assign(callback(override), {
+    merge(callback(override), {
       text: 'test',
       description: 'description',
       accordion: fakeConfigAccordion(override?.accordion),

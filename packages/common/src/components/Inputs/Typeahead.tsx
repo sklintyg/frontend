@@ -102,7 +102,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
           switch (event.key) {
             case 'ArrowDown': {
               if (suggestions.some((val) => val.disabled === false)) {
-                let index = suggestions.findIndex(({ disabled }) => disabled === false, (cursor + 1) % suggestions.length)
+                let index = suggestions.findIndex(({ disabled }, index) => index >= (cursor + 1) % suggestions.length && disabled === false)
                 if (index === -1) {
                   index = suggestions.findIndex(({ disabled }) => disabled === false, 0)
                 }
@@ -115,9 +115,9 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
             case 'ArrowUp': {
               if (suggestions.some((val) => val.disabled === false)) {
                 const startIndex = cursor === 0 ? suggestions.length - 1 : cursor - 1
-                let index = [...suggestions].reverse().findIndex(({ disabled }) => disabled === false, startIndex % suggestions.length)
+                let index = suggestions.findLastIndex(({ disabled }) => disabled === false, startIndex % suggestions.length)
                 if (index === -1) {
-                  index = [...suggestions].reverse().findIndex(({ disabled }) => disabled === false, suggestions.length - 1)
+                  index = suggestions.findLastIndex(({ disabled }) => disabled === false, suggestions.length - 1)
                 }
                 setCursor(index)
                 scrollToItem(index)

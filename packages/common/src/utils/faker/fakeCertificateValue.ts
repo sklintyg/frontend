@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { merge } from 'lodash-es'
 import { PartialDeep } from 'type-fest'
 import {
   CertificateDataValueType,
@@ -35,7 +36,7 @@ type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
 const fakeDataElementValue =
   <T extends ValueType>(callback: FakeElementValueCallback<T>) =>
   (override?: PartialDeep<T>): T =>
-    Object.assign(callback(override), override)
+    merge(callback(override), override)
 
 const fakeBoolean = fakeDataElementValue<ValueBoolean>(() => ({
   type: CertificateDataValueType.BOOLEAN,
