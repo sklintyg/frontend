@@ -4,7 +4,7 @@ import {
   DatePickerCustom,
   QuestionValidationTexts,
   ValidationWrapper,
-  ValueYear
+  ValueYear,
 } from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
