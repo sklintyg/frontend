@@ -3,7 +3,7 @@ import { useAppSelector } from '../../../store/hooks'
 import { getDiagnosisPlaceholder } from '../utils/getDiagnosisPlaceholder'
 import { getDoctorsPlaceholder } from '../utils/getDoctorsPlaceholder'
 import { getSickLeaveLengthPlaceholder } from '../utils/getSickLeaveLengthPlaceholder'
-import { getRekoStatusPlaceholder } from '../utils/getRekoStatusPlaceholder'
+import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
 
 export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
@@ -39,7 +39,11 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
         </div>
         <div>
           <p className="font-bold">REKO-status: </p>
-          {getRekoStatusPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : []) ?? '-'}
+          {getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+        </div>
+        <div>
+          <p className="font-bold">Sysselsättning: </p>
+          {getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
         </div>
       </div>
     </div>

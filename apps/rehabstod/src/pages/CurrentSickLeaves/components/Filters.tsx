@@ -10,8 +10,7 @@ import { DoctorFilter } from './filter/DoctorFilter'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
-import { getOccupationPlaceholder } from '../utils/getOccupationPlaceholder'
-import { getRekoStatusPlaceholder } from '../utils/getRekoStatusPlaceholder'
+import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
 
 export function Filters({
   onSearch,
@@ -86,10 +85,7 @@ export function Filters({
               options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
               selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
-              placeholder={
-                getRekoStatusPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : []) ??
-                'Välj i listan'
-              }
+              placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
             />
             <MultipleSelectFilterOption
               label="Sysselsättning"
@@ -97,10 +93,7 @@ export function Filters({
               options={populatedFilters ? populatedFilters.occupationTypes : []}
               selected={filter.occupationTypeIds}
               description="Filtrerar på patientens sysselsättning."
-              placeholder={
-                getOccupationPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : []) ??
-                'Välj i listan'
-              }
+              placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
             />
           </div>
           <div className="flex justify-end">
