@@ -1,7 +1,9 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
 import {
-  CertificateDataConfigType, ConfigAccordion, ConfigCategory,
+  CertificateDataConfigType,
+  ConfigAccordion,
+  ConfigCategory,
   ConfigEyeAcuity,
   ConfigLayout,
   ConfigTypes,
@@ -36,7 +38,7 @@ import {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
-  MessageLevel
+  MessageLevel,
 } from '../../types/certificate'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({

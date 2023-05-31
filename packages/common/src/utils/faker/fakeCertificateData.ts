@@ -53,13 +53,13 @@ import {
   ValueViewTable,
   ValueViewText,
   ValueVisualAcuity,
-  ValueYear
+  ValueYear,
 } from '../../types/certificate'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
+import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-
 
 const fakeDataElement =
   <T extends CertificateDataConfigType, P extends ValueType | null>(
@@ -78,10 +78,10 @@ const fakeDataElement =
         visible: true,
         readOnly: false,
         mandatory: false,
-        validation: [],
-        validationErrors: [],
         id: faker.random.alpha({ count: 5 }),
         ...data,
+        validation: data.validation ? data.validation.map(fakeCertificateDataValidation) : [],
+        validationErrors: data.validationErrors ? data.validationErrors.map(fakeCertificateValidationError) : [],
         ...callback(config, value),
       },
     }

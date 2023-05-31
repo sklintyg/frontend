@@ -27,7 +27,7 @@ import {
   ValueViewTable,
   ValueViewText,
   ValueVisualAcuity,
-  ValueYear
+  ValueYear,
 } from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
