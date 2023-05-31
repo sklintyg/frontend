@@ -13,5 +13,5 @@ npm install -g ctix
 Generate index files for this project:
 
 ```bash
-yarn workspace @frontend/ids-react-ts ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup
+pnpm --filter @frontend/ids-react-ts ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup
 ```

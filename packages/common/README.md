@@ -2,8 +2,8 @@
 
 Components, utilities, and assets used by [webcert](../webcert/README.md).
 
-- build - `yarn workspace @frontend/common build`
-- test - `yarn workspace @frontend/common test`
+- build - `pnpm --filter @frontend/common build`
+- test - `pnpm --filter @frontend/common test`
 
 ## Future plans
 

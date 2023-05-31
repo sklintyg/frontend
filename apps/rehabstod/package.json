@@ -8,14 +8,14 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ci": "yarn test --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
-    "test:coverage": "yarn test run --coverage",
-    "test:no-watch": "yarn test run",
+    "test:ci": "pnpm test --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
+    "test:coverage": "pnpm test run --coverage",
+    "test:no-watch": "pnpm test run",
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "yarn test related --run"
+    "*.{js,jsx,ts,tsx}": "pnpm test related --run"
   },
   "dependencies": {
     "@floating-ui/react": "^0.23.0",

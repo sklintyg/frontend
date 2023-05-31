@@ -8,7 +8,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "yarn dev",
+    "start": "pnpm dev",
     "test:ci": "vitest run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:coverage": "vitest run --coverage",
     "test:no-watch": "vitest run",

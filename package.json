@@ -16,7 +16,7 @@
     "start": "turbo dev",
     "start:test": "turbo dev -- -m test",
     "test:ci": "turbo test:ci",
-    "posttest:ci": "yarn test:report && yarn test:coverage",
+    "posttest:ci": "pnpm test:report && pnpm test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test:coverage": "coverage",
     "test": "turbo test",
