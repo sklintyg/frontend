@@ -2,8 +2,8 @@ import { fakerFromSchema } from '@frontend/fake'
 import { diagnosKapitelSchema } from '../../../schemas/sickLeaveSchema'
 import { getDiagnosisPlaceholder } from './getDiagnosisPlaceholder'
 
-it('Should return undefined when nothing is selected', () => {
-  expect(getDiagnosisPlaceholder([])).toBeUndefined()
+it('Should return Alla valda when nothing is selected', () => {
+  expect(getDiagnosisPlaceholder([])).toBe('Alla valda')
 })
 
 it('Should return name when one is selected', () => {

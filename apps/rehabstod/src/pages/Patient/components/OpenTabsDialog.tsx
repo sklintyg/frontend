@@ -5,7 +5,7 @@ import { usePatient } from '../hooks/usePatient'
 
 export function OpenTabsDialog() {
   const ref = useRef<IDSDialogElement>(null)
-  const { tabs, hasOpenTabs } = usePatient()
+  const { tabs, hasOpenTabs, closeTabs } = usePatient()
   const blocker = useBlocker(useCallback(() => tabs.filter((window) => !window.closed).length > 0, [tabs]))
   const prevState = useRef(blocker.state)
 
@@ -49,7 +49,13 @@ export function OpenTabsDialog() {
           }}>
           Avbryt
         </IDSButton>
-        <IDSButton onClick={() => blocker.proceed?.()}>Stäng patientvy</IDSButton>
+        <IDSButton
+          onClick={() => {
+            closeTabs()
+            blocker.proceed?.()
+          }}>
+          Stäng patientvy
+        </IDSButton>
       </IDSDialogActions>
     </IDSDialog>
   )

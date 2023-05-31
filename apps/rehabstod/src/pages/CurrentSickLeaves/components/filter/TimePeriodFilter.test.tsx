@@ -88,7 +88,7 @@ describe('TimePeriodFilter', () => {
 
   it('should have default placeholder if none is chosen', () => {
     renderComponent()
-    expect(screen.getByLabelText(TITLE)).toHaveValue('Välj')
+    expect(screen.getByLabelText(TITLE)).toHaveValue('Alla valda')
   })
 
   it('should not count 0 as null when deciding placeholder', async () => {
