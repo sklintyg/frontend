@@ -11,8 +11,8 @@ export const getSickLeaveLengthLabel = ({ from, to, metric }: TimePeriodOption) 
 }
 
 export const getSickLeaveLengthPlaceholder = (selected: TimePeriodOption[]) => {
-  if (selected.length === 0) {
-    return undefined
+  if (selected.length === 0 || !selected) {
+    return 'Alla valda'
   }
 
   if (selected.length === 1) {

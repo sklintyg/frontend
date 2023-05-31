@@ -51,7 +51,7 @@ export function TimePeriodFilter({
   }
 
   return (
-    <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions) ?? 'Välj'}>
+    <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
       {availableOptions.map((option) => (
         <Checkbox
           key={`${option.to}${option.from}${option.id}`}

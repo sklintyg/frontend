@@ -28,7 +28,7 @@ export function DoctorFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors) ?? 'Välj i listan'}>
+      <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
         {doctors
           ? doctors.map((doctor) => (
               <Checkbox

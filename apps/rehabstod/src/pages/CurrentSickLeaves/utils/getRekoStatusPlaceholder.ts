@@ -1,8 +1,8 @@
 import { RekoStatusType } from '../../../schemas/sickLeaveSchema'
 
 export const getRekoStatusPlaceholder = (selected: string[], statuses: RekoStatusType[]) => {
-  if (selected.length === 0) {
-    return undefined
+  if (selected.length === 0 || !selected) {
+    return 'Alla valda'
   }
 
   if (selected.length === 1) {
