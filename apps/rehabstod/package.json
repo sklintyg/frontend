@@ -8,7 +8,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ci": "pnpm test --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
+    "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:no-watch": "pnpm test run",
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "tsc --noEmit"
@@ -34,7 +34,6 @@
     "react-router-dom": "^6.11.1",
     "react-stately": "^3.23.0",
     "recharts": "^2.5.0",
-    "sort-by": "^1.2.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -49,6 +48,7 @@
     "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.2",
     "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
     "deepmerge-ts": "^5.0.0",
