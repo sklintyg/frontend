@@ -28,11 +28,6 @@ const plugins = [
     jsx: 'automatic',
     tsconfig: './tsconfig.json',
   }),
-  // typescript({
-  //   exclude: ['**/*.test.ts', '**/*.test.tsx', 'dist'],
-  //   outputToFilesystem: true,
-  //   tsconfig: './tsconfig.json',
-  // }),
   resolve(),
   commonjs({
     esmExternals: false,
