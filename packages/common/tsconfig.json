@@ -1,5 +1,6 @@
 {
   "extends": "../../tsconfig.json",
+  "exclude": ["dist", "coverage", "node_modules", "**/*stories*"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ES5",
@@ -7,6 +8,5 @@
     "declaration": false,
     "jsx": "react-jsx",
     "types": ["@types/testing-library__jest-dom"]
-  },
-  "exclude": ["dist", "node_modules", "**/*stories*"]
+  }
 }

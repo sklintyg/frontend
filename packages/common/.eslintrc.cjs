@@ -57,7 +57,7 @@ module.exports = {
     'spaced-comment': 'off',
     eqeqeq: 'off',
   },
-  ignorePatterns: ['**/*/*stories*'],
+  ignorePatterns: ['**/*/*stories*', 'coverage/**/*.*'],
   settings: {
     react: {
       version: 'detect',
