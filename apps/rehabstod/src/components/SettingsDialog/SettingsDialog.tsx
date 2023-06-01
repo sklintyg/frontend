@@ -86,28 +86,30 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
 
   return (
     <IDSDialog dismissible headline="Inställningar" ref={ref}>
-      <DaysFinishedSickLeave
-        value={preferences.maxAntalDagarSedanSjukfallAvslut}
-        onChange={(val) => {
-          dispatch(updateSettings({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
-        }}
-      />
-      <DaysBetweenSickLeaves
-        value={preferences.maxAntalDagarMellanIntyg}
-        onChange={(val) => dispatch(updateSettings({ maxAntalDagarMellanIntyg: val || undefined }))}
-      />
-      <SelectCareUnits
-        standardenhet={preferences.standardenhet}
-        onChange={(value) => dispatch(updateSettings({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
-      />
-      <IDSDialogActions>
-        <IDSButton secondary onClick={close}>
-          Avbryt
-        </IDSButton>
-        <IDSButton onClick={onSave} disabled={!isSaveEnabled}>
-          Spara
-        </IDSButton>
-      </IDSDialogActions>
+      <div className="max-h-[calc(100vh-6rem)] overflow-y-scroll">
+        <DaysFinishedSickLeave
+          value={preferences.maxAntalDagarSedanSjukfallAvslut}
+          onChange={(val) => {
+            dispatch(updateSettings({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
+          }}
+        />
+        <DaysBetweenSickLeaves
+          value={preferences.maxAntalDagarMellanIntyg}
+          onChange={(val) => dispatch(updateSettings({ maxAntalDagarMellanIntyg: val || undefined }))}
+        />
+        <SelectCareUnits
+          standardenhet={preferences.standardenhet}
+          onChange={(value) => dispatch(updateSettings({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
+        />
+        <IDSDialogActions>
+          <IDSButton secondary onClick={close}>
+            Avbryt
+          </IDSButton>
+          <IDSButton onClick={onSave} disabled={!isSaveEnabled}>
+            Spara
+          </IDSButton>
+        </IDSDialogActions>
+      </div>
     </IDSDialog>
   )
 }
