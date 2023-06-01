@@ -71,7 +71,13 @@ function HeaderCellResolver({ column }: { column: string }) {
     case SickLeaveColumn.RekoStatus:
       return <TableHeaderCell column={SickLeaveColumn.RekoStatus} width="150px" />
     case SickLeaveColumn.Risk:
-      return <TableHeaderCell column={SickLeaveColumn.Risk} width="150px" />
+      return (
+        <TableHeaderCell
+          column={SickLeaveColumn.Risk}
+          width="150px"
+          description="Patientens risk som beräknats av läkaren med hjälp av SRS i Webcert och är ett komplement till läkarens egen bedömning."
+        />
+      )
     default:
       return null
   }
