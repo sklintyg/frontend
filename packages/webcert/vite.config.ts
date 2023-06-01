@@ -51,9 +51,6 @@ export default ({ mode }: UserConfig) => {
     },
     build: {
       target: 'es2015',
-      // commonjsOptions: {
-      //   include: [/@frontend\/common/, /node_modules/],
-      // },
     },
   })
 }
