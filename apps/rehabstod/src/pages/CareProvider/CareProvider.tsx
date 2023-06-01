@@ -2,7 +2,7 @@ import { IDSAlert, IDSButton, IDSButtonGroup, IDSContainer } from '@frontend/ids
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
-import { Mottagning, Vardenhet, Vardgivare } from '../../schemas'
+import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { useUpdateUserPreferences } from '../../store/hooks'
 import { CareProviderItem } from './components/CareProviderItem'

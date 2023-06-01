@@ -14,7 +14,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "pnpm test related --run"
+    "*.{js,jsx,ts,tsx}": ["eslint . --fix", "pnpm test -- related --run"]
   },
   "dependencies": {
     "@floating-ui/react": "^0.23.0",

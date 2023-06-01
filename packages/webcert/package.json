@@ -15,7 +15,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "vitest related --run"
+    "*.{js,jsx,ts,tsx}": ["eslint . --fix", "vitest related --run"]
   },
   "dependencies": {
     "@frontend/common": "workspace:*",

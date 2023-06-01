@@ -42,7 +42,7 @@
     "typescript": "^5.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix"
+    "*.{js,jsx,ts,tsx}": "eslint . --fix"
   },
   "browserslist": [
     ">0.2%",
