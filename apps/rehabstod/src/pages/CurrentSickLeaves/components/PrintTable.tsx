@@ -10,6 +10,10 @@ import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
 function resolveRisk(riskSignal: RiskSignal) {
+  if (!riskSignal) {
+    return ''
+  }
+
   if (riskSignal.riskKategori === 1) {
     return 'Måttlig'
   }

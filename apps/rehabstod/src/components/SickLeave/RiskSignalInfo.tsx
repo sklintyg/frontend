@@ -5,6 +5,9 @@ import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 
 export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
+  if (!riskSignal) {
+    return null
+  }
   const getColor = (riskCategory: number | null, index: number) => {
     if (!riskCategory) {
       return ''
