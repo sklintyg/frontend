@@ -108,6 +108,7 @@ export const api = createApi({
         nbrOfSickLeaves: number
         rekoStatusTypes: RekoStatusType[]
         occupationTypes: OccupationType[]
+        srsActivated: boolean
       },
       void
     >({

@@ -14,6 +14,8 @@ import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
 import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
+import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
+import { useGetPopulatedFiltersQuery } from '../../../store/api'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
@@ -63,6 +65,12 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
       ) : (
         <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</TableCell>
       )
+    case SickLeaveColumn.Risk:
+      return (
+        <TableCell>
+          <RiskSignalInfo riskSignal={sickLeave.riskSignal} />
+        </TableCell>
+      )
     default:
       return null
   }
@@ -85,6 +93,7 @@ export function TableBodyRows({
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
   const { hasAppliedFilters } = useAppSelector((state) => state.sickLeave)
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
 
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}.`
   const SEARCH_TEXT_DOCTOR =
@@ -99,6 +108,7 @@ export function TableBodyRows({
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
     .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
     .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
+    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
 
   if (isLoading) {
     return (
