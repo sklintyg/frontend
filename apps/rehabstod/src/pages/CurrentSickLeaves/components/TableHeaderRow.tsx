@@ -78,6 +78,14 @@ function HeaderCellResolver({ column }: { column: string }) {
           description="Patientens risk som beräknats av läkaren med hjälp av SRS i Webcert och är ett komplement till läkarens egen bedömning."
         />
       )
+    case SickLeaveColumn.Ärenden:
+      return (
+        <TableHeaderCell
+          column={SickLeaveColumn.Ärenden}
+          width="120px"
+          description="Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är."
+        />
+      )
     default:
       return null
   }
