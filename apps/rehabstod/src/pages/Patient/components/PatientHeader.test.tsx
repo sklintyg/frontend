@@ -54,4 +54,33 @@ describe('PatientHeader', () => {
     renderPatientHeader(true)
     expect(screen.getByText('10 dagar')).toBeInTheDocument()
   })
+
+  it('Should display header even if there is no current sickleave', () => {
+    const patient = fakePatient({
+      sjukfallList: [
+        {
+          start: format(subDays(new Date('2012-12-12'), 10), 'yyyy-MM-dd'),
+          slut: format(addDays(new Date('2012-12-12'), 20), 'yyyy-MM-dd'),
+          intyg: [
+            {
+              patient: {
+                alder: 30,
+                kon: 'F',
+                namn: 'Olle',
+                id: '1212121212',
+              },
+            },
+          ],
+        },
+      ],
+    })
+    store.dispatch(updateShowPersonalInformation(true))
+    renderWithRouter(<PatientHeader patient={patient} />)
+
+    expect(screen.getByText(/olle/i)).toBeInTheDocument()
+    expect(screen.getByText(/1212121212/i)).toBeInTheDocument()
+    expect(screen.getByText(/30 år/i)).toBeInTheDocument()
+    expect(screen.getByText(/kvinna/i)).toBeInTheDocument()
+    expect(screen.queryByText(/uppskattad dag i sjukfallet:/i)).not.toBeInTheDocument()
+  })
 })
