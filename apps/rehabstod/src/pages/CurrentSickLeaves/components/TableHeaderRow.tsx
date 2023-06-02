@@ -82,7 +82,7 @@ function HeaderCellResolver({ column }: { column: string }) {
       return (
         <TableHeaderCell
           column={SickLeaveColumn.Ärenden}
-          width="120px"
+          width="200px"
           description="Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är."
         />
       )
