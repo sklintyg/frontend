@@ -8,7 +8,6 @@ import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { getQAStatusFormat } from '../utils/getQAStatusFormat'
@@ -56,6 +55,10 @@ function PatientTableCellResolver({
       return <TableCell>{certificate.lakare ? certificate.lakare.namn : 'Okänt'}</TableCell>
     case PatientColumn.Sysselsättning:
       return <TableCell>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</TableCell>
+    case PatientColumn.Vårdenhet:
+      return <TableCell>{certificate.vardenhetNamn}</TableCell>
+    case PatientColumn.Vårdgivare:
+      return <TableCell>{certificate.vardgivareNamn}</TableCell>
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
@@ -91,7 +94,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
             <tr key={`${certificate.start}${certificate.slut}`}>
               {columns
                 .filter(({ visible }) => visible)
-                .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
+                .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
                 .map(({ name }) => (
                   <PatientTableCellResolver
                     key={name}
