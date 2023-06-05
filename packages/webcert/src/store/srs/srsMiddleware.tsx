@@ -184,7 +184,7 @@ export const handleGetPredictionsSuccess: Middleware<Dispatch> = ({ dispatch }: 
 ): void => {
   dispatch(updateError(false))
   dispatch(updateSrsPredictions(action.payload.predictions))
-  dispatch(updateRiskOpinion(''))
+    dispatch(updateRiskOpinion(''))
   if (
     action.payload.predictions.length > 0 &&
     action.payload.predictions[0].questionsResponses &&
