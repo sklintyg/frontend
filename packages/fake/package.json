@@ -27,7 +27,6 @@
   "devDependencies": {
     "eslint": "^8.41.0",
     "eslint-config-custom": "workspace:*",
-    "typescript": "^4.9.3",
     "vitest": "^0.29.7"
   },
   "peerDependencies": {
