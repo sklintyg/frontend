@@ -3,7 +3,8 @@ import { TableColumn } from '../../schemas/tableSchema'
 import { Checkbox } from '../Form/Checkbox'
 import { SelectMultiple } from '../Form/SelectMultiple'
 import { MoveColumnButton } from './MoveColumnButton'
-import { useGetUserQuery } from '../../store/api'
+import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
+import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 
 export function ModifyTableColumns({
   columns,
@@ -19,12 +20,15 @@ export function ModifyTableColumns({
   onShowAll: () => void
 }) {
   const { data: user } = useGetUserQuery()
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
 
   function filterColumn(name: string) {
     return user !== undefined && (!user.roles.LAKARE || user.roles.LAKARE.desc !== name)
   }
 
-  const filteredColumns = columns.filter(({ name }) => filterColumn(name))
+  const filteredColumns = columns
+    .filter(({ name }) => filterColumn(name))
+    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
   const selectedColumns = filteredColumns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
   const numVisible = filteredColumns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)

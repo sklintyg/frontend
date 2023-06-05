@@ -3,6 +3,7 @@ import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
 import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric, TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from '../../utils/getSickLeaveLengthPlaceholder'
+import { convertSelectedValue } from '../../utils/timePeriodConversion'
 
 export function TimePeriodFilter({
   label,
@@ -17,9 +18,6 @@ export function TimePeriodFilter({
   availableOptions: TimePeriodOption[]
   selectedOptions: SickLeaveLengthInterval[]
 }) {
-  const convertSelectedValue = (value: number | null, metric: TimePeriodMetric) =>
-    value && value >= 365 && metric === TimePeriodMetric.YEARS ? value / 365 : value
-
   const chosenOptions = availableOptions.filter((o1) =>
     selectedOptions.find((o2) => o1.to === convertSelectedValue(o2.to, o1.metric) && o1.from === convertSelectedValue(o2.from, o1.metric))
   )

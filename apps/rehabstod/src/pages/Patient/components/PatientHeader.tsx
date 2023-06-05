@@ -9,14 +9,14 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   const navigate = useNavigate()
   const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
   const currentSickness = patient.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
-  const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
+  const firstCertificate = patient.sjukfallList[0]?.intyg[0]
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
 
   const handleClick = () => {
     navigate('/pagaende-sjukfall')
   }
 
-  if (!firstCertificate || !currentSickness) {
+  if (!firstCertificate) {
     return null
   }
 

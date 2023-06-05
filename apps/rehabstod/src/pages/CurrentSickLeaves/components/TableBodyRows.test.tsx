@@ -2,6 +2,7 @@ import { fakerFromSchema } from '@frontend/fake'
 import { act, screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
 import { Route, Routes } from 'react-router-dom'
+import { rest } from 'msw'
 import { Table } from '../../../components/Table/Table'
 import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
@@ -9,6 +10,7 @@ import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTabl
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
+import { server } from '../../../mocks/server'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
@@ -142,6 +144,31 @@ it('Should render all but doctor column if user is doctor', async () => {
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
   expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+})
+
+it('Should render risk column if feature is activated', async () => {
+  server.use(
+    rest.get('/api/sickleaves/filters', (_, res, ctx) =>
+      res(
+        ctx.status(200),
+        ctx.json({
+          srsActivated: true,
+        })
+      )
+    )
+  )
+
+  const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
+  renderWithRouter(
+    <Table>
+      <tbody>
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+      </tbody>
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('row')).toHaveLength(10)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(14)
 })
 
 it('Should be possible to hide columns', async () => {

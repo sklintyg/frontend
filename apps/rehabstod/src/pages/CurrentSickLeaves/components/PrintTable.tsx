@@ -2,12 +2,32 @@ import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
-import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
+
+function resolveRisk(riskSignal: RiskSignal) {
+  if (!riskSignal) {
+    return ''
+  }
+
+  if (riskSignal.riskKategori === 1) {
+    return 'Måttlig'
+  }
+
+  if (riskSignal.riskKategori === 2) {
+    return 'Hög'
+  }
+
+  if (riskSignal.riskKategori === 3) {
+    return 'Mycket hög'
+  }
+
+  return 'Ej beräknad'
+}
 
 function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
   switch (column) {
@@ -37,6 +57,8 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
       return <>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</>
     case SickLeaveColumn.RekoStatus:
       return <>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</>
+    case SickLeaveColumn.Risk:
+      return <>{resolveRisk(sickLeave.riskSignal)}</>
     default:
       return null
   }
