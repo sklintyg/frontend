@@ -18,7 +18,8 @@
     "posttest:ci": "pnpm test:report && pnpm test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test": "turbo test",
-    "typescript": "turbo typescript"
+    "typescript": "turbo typescript",
+    "pre-commit": "lint-staged"
   },
   "devDependencies": {
     "@frontend/combine-coverage": "workspace:*",
