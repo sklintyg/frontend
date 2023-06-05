@@ -17,5 +17,5 @@ export function useSession() {
     if (user && session && !session.authenticated) {
       logout()
     }
-  }, [user, session, logout, giveConsent])
+  }, [user, session, logout, giveConsent, isUninitialized])
 }
