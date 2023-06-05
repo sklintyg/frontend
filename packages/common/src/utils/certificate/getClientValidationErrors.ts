@@ -52,13 +52,11 @@ const OVERLAP_ERROR = {
   showAlways: true,
 }
 
-const getValidationErrorFactory = (id: string, field = '') => ({
-  text,
-  type,
-  showAlways,
-}: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
-  return { category: '', field, id, text, type, showAlways }
-}
+const getValidationErrorFactory =
+  (id: string, field = '') =>
+  ({ text, type, showAlways }: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
+    return { category: '', field, id, text, type, showAlways }
+  }
 
 const isValueFormatIncorrect = (value?: string): boolean => {
   return Boolean(value && value.length > 0 && !isValid(getValidDateFormat(value)))

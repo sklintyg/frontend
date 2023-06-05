@@ -24,10 +24,6 @@
     "lint": {},
     "deploy": {
       "dependsOn": ["build", "test", "lint"]
-    },
-    "test:coverage": {
-      "dependsOn": ["build"],
-      "inputs": ["apps/rehabstod/**", "packages/webcert/**", "packages/common/**"]
     }
   }
 }

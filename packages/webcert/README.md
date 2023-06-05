@@ -6,7 +6,7 @@
 
 By default webcert will communicate with a shared and deployed test backend. This will work in most cases but there are instances where a local backend installation is needed.
 
-`yarn workspace @frontend/webcert dev`
+`pnpm --filter @frontend/webcert dev`
 
 ## Run Webcert backend and frontend client
 
@@ -50,7 +50,7 @@ VITE_WS_PROTOCOL=wss
 - `VITE_HTTPS` make sure that we don't use ssl.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl.
 
-Start the application with `yarn workspace @frontend/webcert dev` for only webcert or `yarn start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc2.wc.localtest.me/welcome>
+Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc2.wc.localtest.me/welcome>
 
 ## Resources
 

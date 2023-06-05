@@ -79,7 +79,7 @@ module.exports = {
     eqeqeq: 'off',
     radix: 'off',
   },
-  ignorePatterns: ['**/*/*stories*'],
+  ignorePatterns: ['**/*/*stories*', 'coverage/**/*.*'],
   settings: {
     react: {
       version: 'detect',
