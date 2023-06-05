@@ -12,7 +12,6 @@
     "build": "turbo build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "prepare": "husky install",
-    "sonar:coverage": "turbo test:coverage",
     "start": "turbo dev",
     "start:test": "turbo dev -- -m test",
     "test:ci": "turbo test:ci",
