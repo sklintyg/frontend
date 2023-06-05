@@ -8,7 +8,7 @@ import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { UnansweredCommunicationInfo } from '../../../components/SickLeave/UnansweredCommunicationInfo'
+import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 
 function resolveRisk(riskSignal: RiskSignal) {
   if (!riskSignal) {
@@ -61,7 +61,7 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
     case SickLeaveColumn.Risk:
       return <>{resolveRisk(sickLeave.riskSignal)}</>
     case SickLeaveColumn.Ärenden:
-      return <UnansweredCommunicationInfo complements={sickLeave.obesvaradeKompl} others={sickLeave.unansweredOther} />
+      return <>{getUnansweredCommunicationsFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</>
     default:
       return null
   }

@@ -16,7 +16,7 @@ import { MaxColspanRow } from './MaxColspanRow'
 import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
 import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { UnansweredCommunicationInfo } from '../../../components/SickLeave/UnansweredCommunicationInfo'
+import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
@@ -73,11 +73,7 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
         </TableCell>
       )
     case SickLeaveColumn.Ärenden:
-      return (
-        <TableCell>
-          <UnansweredCommunicationInfo complements={sickLeave.obesvaradeKompl} others={sickLeave.unansweredOther} />
-        </TableCell>
-      )
+      return <TableCell>{getUnansweredCommunicationsFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</TableCell>
     default:
       return null
   }
