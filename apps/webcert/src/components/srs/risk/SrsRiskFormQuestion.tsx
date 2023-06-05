@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { RadioButton, SrsQuestion } from '@frontend/common'
+import { RadioButton, SrsQuestion, SrsEvent } from '@frontend/common'
+import { useDispatch } from 'react-redux'
+import { logSrsInteraction } from '../../../store/srs/srsActions'
 
 interface Props {
   question: SrsQuestion
@@ -9,10 +11,12 @@ interface Props {
 
 const SrsRiskFormQuestion: React.FC<Props> = ({ question, onChange, checkedOption }) => {
   const [currentValue, setCurrentValue] = useState(checkedOption ? checkedOption : '')
+  const dispatch = useDispatch()
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(event.currentTarget.value)
     onChange(question.questionId, event.currentTarget.value)
+    dispatch(logSrsInteraction(SrsEvent.SRS_QUESTION_ANSWERED))
   }
 
   return (

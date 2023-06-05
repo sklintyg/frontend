@@ -1,5 +1,5 @@
+import { compileExpression } from '@frontend/filtrex'
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
-import { compileExpression } from 'filtrex'
 import { vi } from 'vitest'
 import { CertificateDataValueType } from '../types/certificate'
 import { fakeCertificateValue } from './faker/fakeCertificateValue'

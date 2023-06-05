@@ -21,6 +21,8 @@ import {
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
 import { getUserStatistics } from '../store/user/userActions'
+import { throwError } from '../store/error/errorActions'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -36,10 +38,11 @@ const Columns = styled.div`
 
 interface Params {
   certificateId: string
+  error: string
 }
 
 const CertificatePage: React.FC = () => {
-  const { certificateId } = useParams<Params>()
+  const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
   const history = useHistory()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
@@ -56,6 +59,18 @@ const CertificatePage: React.FC = () => {
       dispatch(getUserStatistics())
     }
   }, [dispatch, certificateId])
+
+  useEffect(() => {
+    if (error) {
+      dispatch(
+        throwError({
+          type: ErrorType.MODAL,
+          errorCode: ErrorCode.SIGN_CERTIFICATE_ERROR,
+          certificateId: certificateId,
+        })
+      )
+    }
+  }, [dispatch, error, certificateId])
 
   return (
     <CommonLayout

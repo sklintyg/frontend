@@ -1,18 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getCertificateId,
-  getPatientId,
-  getPredictionDiagnosisCode,
-  getSrsPredictions,
-  getSrsQuestions,
-} from '../../../store/srs/srsSelectors'
+import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
 import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
-import { getPredictions } from '../../../store/srs/srsActions'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
+import { hasCurrentRiskDataPoint } from '../srsUtils'
+import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
 
 interface Props {
   previousAnswers: SrsAnswer[]
+  onClick: (answers: SrsAnswer[]) => void
 }
 
 const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boolean, previousAnswers: SrsAnswer[]) => {
@@ -28,18 +24,19 @@ const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boole
   return option ? option.id : ''
 }
 
-const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
-  const dispatch = useDispatch()
+const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
   const questions = useSelector(getSrsQuestions)
-  const patientId = useSelector(getPatientId)
-  const certificateId = useSelector(getCertificateId)
-  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')
+  const hasUpdatedAnswers = useSelector(getHasUpdatedAnswers)
+  const dispatch = useDispatch()
 
   const [answers, setAnswers] = useState(
     questions.map((question) => {
-      return { questionId: question.questionId, answerId: getDefaultOptionId(question, usesOldPredictionModel, previousAnswers) }
+      return {
+        questionId: question.questionId,
+        answerId: getDefaultOptionId(question, usesOldPredictionModel, previousAnswers),
+      }
     })
   )
 
@@ -47,17 +44,12 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
     const newAnswers = answers.filter((answer) => answer.questionId !== questionId)
     newAnswers.push({ questionId: questionId, answerId: answerId })
     setAnswers(newAnswers)
+    dispatch(updateHasUpdatedAnswers(true))
   }
 
-  const onCalculateRisk = () => {
-    dispatch(
-      getPredictions({
-        patientId: patientId,
-        certificateId: certificateId,
-        code: diagnosisCode,
-        answers: answers,
-      })
-    )
+  const calculateRisk = () => {
+    onClick(answers)
+    dispatch(updateHasUpdatedAnswers(false))
   }
 
   return (
@@ -78,7 +70,12 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
           />
         )
       })}
-      <CustomButton text="Beräkna" buttonStyle="secondary" onClick={() => onCalculateRisk()} />
+      <CustomButton
+        text="Beräkna"
+        buttonStyle="secondary"
+        onClick={calculateRisk}
+        disabled={hasCurrentRiskDataPoint(predictions) && !hasUpdatedAnswers}
+      />
     </div>
   )
 }

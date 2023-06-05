@@ -1,5 +1,19 @@
-import React from 'react'
+import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
+import {
+  Bar,
+  BarChart,
+  Cell,
+  LabelList,
+  LabelProps,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  TooltipProps,
+  XAxis,
+  YAxis,
+} from 'recharts'
+import { Payload } from 'recharts/types/component/DefaultTooltipContent'
 import {
   getIsCertificateRenewed,
   getPredictionDiagnosisCode,
@@ -8,9 +22,7 @@ import {
   getSickLeaveChoice,
   getSrsPredictions,
 } from '../../../store/srs/srsSelectors'
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, LabelProps, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
 import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
-import { Payload } from 'recharts/types/component/DefaultTooltipContent'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<string, string>) => {
   if (active && payload && payload.length) {
@@ -39,7 +51,14 @@ const getTooltipContent = (label: string, payload: Payload<string, string>[]) =>
   }
 
   if (!payload[0].value || payload[0].value === '-') {
-    return <p className={tooltipStyling}>{getTooltipText(label, 'Ej beräknad')}</p>
+    return (
+      <div>
+        <p className={tooltipStyling}>
+          {getTooltipText(label, 'Ej beräknad')} <br />
+          {payload[0].payload.tooltip}
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -63,7 +82,7 @@ const getTooltipText = (label: string, value: string | number | undefined, unit?
 
 const CustomizedLabel = (props: LabelProps) => {
   const { x, y, stroke, width, value } = props
-  const hasValue = value && value > 0
+  const hasValue = value != null && typeof value === 'number' && value > 0
 
   return (
     <text x={x} y={y} dy={-10} dx={(width as number) / 2} fill={stroke} fontSize={hasValue ? 12 : 20} textAnchor="middle">
@@ -73,7 +92,7 @@ const CustomizedLabel = (props: LabelProps) => {
   )
 }
 
-const SrsRiskGraph: React.FC = () => {
+const SrsRiskGraph = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const predictions = useSelector(getSrsPredictions)
   const riskOpinion = useSelector(getRiskOpinion)
   const isCertificateRenewal = useSelector(getIsCertificateRenewed)
@@ -95,29 +114,45 @@ const SrsRiskGraph: React.FC = () => {
   }
 
   return (
-    <>
+    <div ref={ref}>
       <p className="iu-fw-bold">
         Risken gäller {diagnosisCode} {diagnosisDescription}
       </p>
-      <BarChart width={500} height={300} data={getData()}>
-        <CartesianGrid stroke="#ccc" vertical={false} />
-        <XAxis dataKey="name" />
-        <YAxis
-          ticks={[0, 20, 40, 60, 80, 100]}
-          tickFormatter={(tick) => {
-            return `${tick}%`
-          }}
-        />
-        <Bar dataKey="risk" fill="#e0e0e0" isAnimationActive={false}>
-          {getData().map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={barColors[index]} />
-          ))}
-          <LabelList content={<CustomizedLabel />} />
-        </Bar>
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-      </BarChart>
-    </>
+      <ResponsiveContainer width="100%" height="100%" minHeight="300px">
+        <BarChart data={getData()} margin={{ right: 80 }}>
+          <XAxis dataKey="name" />
+          <YAxis
+            ticks={[0, 20, 40, 60, 80, 100]}
+            tickFormatter={(tick) => {
+              return `${tick}%`
+            }}
+          />
+          <Bar dataKey="risk" fill="#e0e0e0" isAnimationActive={false}>
+            {getData().map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={barColors[index]} />
+            ))}
+            <LabelList content={<CustomizedLabel />} />
+          </Bar>
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
+          <ReferenceLine
+            y={39}
+            label={{ position: 'insideTopRight', value: 'Måttlig risk', fill: '#5F5F5F', angle: -45, dx: 55 }}
+            stroke="#ccc"
+          />
+          <ReferenceLine
+            y={62}
+            label={{ position: 'insideTopRight', value: 'Hög risk', fill: '#5F5F5F', angle: -45, dx: 45 }}
+            stroke="#ccc"
+          />
+          <ReferenceLine
+            y={100}
+            label={{ position: 'insideTopRight', value: 'Mycket hög risk', fill: '#5F5F5F', dx: 70, angle: -45 }}
+            stroke="#ccc"
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   )
-}
+})
 
 export default SrsRiskGraph

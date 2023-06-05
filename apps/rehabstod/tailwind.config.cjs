@@ -4,12 +4,12 @@ module.exports = {
   important: true,
   theme: {
     screens: {
+      print: { raw: 'print' },
       sm: '480px',
       md: '800px',
       lg: '1024px',
       xl: '1280px',
     },
-    fontFamily: 'var(--font-family_1)',
     colors: {
       white: '#FFF',
       primary: {
@@ -47,6 +47,7 @@ module.exports = {
       error: {
         40: 'var(--IDS-COLOR-ERROR-40)',
         99: 'var(--IDS-COLOR-ERROR-99)',
+        10: '#FF9517',
       },
     },
     extend: {},

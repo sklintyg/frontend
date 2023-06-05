@@ -13,10 +13,10 @@ import {
   getPatientId,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes } from '../../../store/srs/srsActions'
+import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
-import { Spinner, SrsInformationChoice } from '@frontend/common'
+import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
 import SrsRecommendations from '../recommendations/SrsRecommendations'
 import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
 import ReactTooltip from 'react-tooltip'
@@ -41,7 +41,8 @@ const SrsPanel: React.FC = () => {
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
   const isEmpty = !mainDiagnosis || mainDiagnosis.code.length == 0
-  const supportedDiagnosisCode = diagnosisCodes.find((code) => mainDiagnosis && mainDiagnosis.code === code) ?? ''
+  const supportedDiagnosisCode =
+    diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
   useEffect(() => {
@@ -55,11 +56,18 @@ const SrsPanel: React.FC = () => {
   }, [isEmpty, diagnosisCodes, dispatch])
 
   useEffect(() => {
-    if (supportedDiagnosisCode) {
-      dispatch(getRecommendations({ patientId: patientId, code: supportedDiagnosisCode, certificateId: certificateId }))
-      dispatch(getQuestions(supportedDiagnosisCode))
+    if (supportedDiagnosisCode && mainDiagnosis) {
+      dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosis.code, certificateId: certificateId }))
+      dispatch(getQuestions(mainDiagnosis.code))
     }
-  }, [supportedDiagnosisCode, certificateId, patientId, dispatch])
+  }, [supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis])
+
+  const updateInformationChoice = (choice: SrsInformationChoice) => {
+    setInformationChoice(choice)
+    if (choice === SrsInformationChoice.STATISTICS) {
+      dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+    }
+  }
 
   const getContent = () => {
     if (isLoading) {
@@ -83,7 +91,7 @@ const SrsPanel: React.FC = () => {
         <p className="iu-fw-bold">Riskberäkningen gäller:</p>
         <SRSSickleaveChoices />
         <SrsRisk />
-        <SrsInformationChoices onChange={setInformationChoice} currentChoice={informationChoice} />
+        <SrsInformationChoices onChange={updateInformationChoice} currentChoice={informationChoice} />
         {informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations /> : <SrsNationalStatistics />}
       </>
     )

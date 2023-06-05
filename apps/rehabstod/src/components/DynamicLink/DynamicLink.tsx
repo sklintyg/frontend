@@ -1,15 +1,21 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { Link } from '../../store/types/link'
+import { Link } from '../../schemas'
 
 export type DynamicLinkType = 'regular' | 'footer' | 'sub-footer'
 
-export function DynamicLink({ type = 'regular', link: { url, target, text } }: { link: Link; type?: DynamicLinkType }) {
+export function DynamicLink({ type = 'regular', link }: { link?: Link; type?: DynamicLinkType }) {
   const size = type === 'sub-footer' ? '15px' : '0.875em'
   const styles: Record<DynamicLinkType, string> = {
     regular: 'text-accent-40 decoration-accent-40',
     footer: 'text-neutral-20 decoration-neutral-20',
     'sub-footer': 'text-white decoration-white',
   }
+
+  if (link == null) {
+    return null
+  }
+
+  const { url, target, text } = link
 
   return (
     <a href={url} target={target} className={`${styles[type]} underline`} rel={target === '_blank' ? 'noreferrer' : undefined}>

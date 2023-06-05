@@ -20,21 +20,30 @@ const Root = styled.div`
 interface Props {
   text: string
   title: string
+  onClick?: (currentExpanded: boolean) => void
 }
 
-export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
+export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title, onClick }) => {
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     setExpanded(false)
   }, [text])
 
+  const handleOnClick = () => {
+    if (onClick) {
+      onClick(!expanded)
+    }
+
+    setExpanded(!expanded)
+  }
+
   return (
     <Root>
       <TitleBox>
         <p>{title}</p>
         <LinkWrapper>
-          <LinkButton onClick={() => setExpanded(!expanded)} className="ic-link">
+          <LinkButton onClick={handleOnClick} className="ic-link">
             {expanded ? 'Visa mindre' : 'Visa mer'}
             {expanded ? (
               <>

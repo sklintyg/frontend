@@ -1,4 +1,4 @@
-import { SrsPrediction, SrsSickLeaveChoice } from '@frontend/common'
+import { SrsPrediction, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
 
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']
 export const SRS_OPINION_LABELS = ['Högre', 'Korrekt', 'Lägre', 'Kan ej bedöma']
@@ -28,7 +28,8 @@ export const getRiskDataPoint = (
   risk: number | undefined,
   sickLeaveChoice: SrsSickLeaveChoice,
   riskOpinion?: string,
-  timestamp?: string
+  timestamp?: string,
+  tooltip?: string
 ) => {
   return {
     name: label,
@@ -36,6 +37,7 @@ export const getRiskDataPoint = (
     timestamp: timestamp,
     sickLeaveChoice: getSickLeaveChoicesLabel(sickLeaveChoice),
     riskOpinion: getRiskOpinionLabel(riskOpinion ? riskOpinion : ''),
+    tooltip: tooltip,
   }
 }
 
@@ -46,7 +48,8 @@ export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
 
   const diagnosisCode = predictions[0].diagnosisCode
   return predictions.filter(
-    (prediction) => prediction.diagnosisCode.includes(diagnosisCode) || diagnosisCode.includes(prediction.diagnosisCode)
+    (prediction) =>
+      (prediction.diagnosisCode && prediction.diagnosisCode.includes(diagnosisCode)) || diagnosisCode.includes(prediction.diagnosisCode)
   )
 }
 
@@ -60,24 +63,42 @@ export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeave
       filteredPredictions[1].probabilityOverLimit,
       isParentCertificateAnExtension ? SrsSickLeaveChoice.EXTENSION : SrsSickLeaveChoice.NEW,
       filteredPredictions[1].physiciansOwnOpinionRisk,
-      filteredPredictions[1].timestamp
+      filteredPredictions[1].timestamp,
+      filteredPredictions[1].probabilityOverLimit ? undefined : 'OBS ingen riskberäkning är gjord'
     )
   }
 
-  return getRiskDataPoint(RISK_LABEL_NOT_AVAILABLE, -1, sickLeaveChoice)
+  return getRiskDataPoint(
+    RISK_LABEL_NOT_AVAILABLE,
+    -1,
+    sickLeaveChoice,
+    undefined,
+    undefined,
+    predictions.length > filteredPredictions.length
+      ? 'På grund av diagnosbyte visas ej tidigare beräknade risker'
+      : 'OBS ingen riskberäkning är gjord'
+  )
 }
 
 export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, predictions: SrsPrediction[], riskOpinion: string) => {
   const filteredPredictions = getFilteredPredictions(predictions)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
   return isCalculatingRiskDisabled
-    ? getRiskDataPoint(RISK_LABEL_DISABLED, -1, sickLeaveChoice)
+    ? getRiskDataPoint(
+        RISK_LABEL_DISABLED,
+        -1,
+        sickLeaveChoice,
+        undefined,
+        undefined,
+        'Det går inte att beräkna nuvarande risk pga sjukskrivning över 60 dagar'
+      )
     : getRiskDataPoint(
         RISK_LABELS[2],
         filteredPredictions[0].probabilityOverLimit,
         sickLeaveChoice,
         riskOpinion,
-        filteredPredictions[0].timestamp
+        filteredPredictions[0].timestamp,
+        filteredPredictions[0].probabilityOverLimit ? undefined : 'OBS ingen riskberäkning är gjord'
       )
 }
 
@@ -85,8 +106,16 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
   const filteredPredictions = getFilteredPredictions(predictions)
   return (
     filteredPredictions &&
-    filteredPredictions[0] &&
-    filteredPredictions[0].probabilityOverLimit &&
+    !!filteredPredictions[0] &&
+    !!filteredPredictions[0].probabilityOverLimit &&
     filteredPredictions[0].probabilityOverLimit > 0
   )
+}
+
+export const getMainDiagnosisCode = (value: ValueDiagnosisList | null) => {
+  if (!value) {
+    return ''
+  }
+  const mainDiagnosis = value.list.find((diagnosis) => diagnosis.id.includes('0'))
+  return mainDiagnosis ? mainDiagnosis.code : ''
 }

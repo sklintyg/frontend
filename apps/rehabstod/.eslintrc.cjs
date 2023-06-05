@@ -11,7 +11,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
   },
-  ignorePatterns: ['**/*/*stories*'],
+  ignorePatterns: ['**/*/*stories*', 'coverage/**/*.*'],
   rules: {
     '@typescript-eslint/ban-types': [
       'error',
@@ -32,6 +32,17 @@ module.exports = {
       },
     ],
     'react/no-unknown-property': ['error', { ignore: ['trigger'] }],
+    'react/jsx-props-no-spreading': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        labelComponents: [],
+        labelAttributes: [],
+        controlComponents: [],
+        assert: 'either',
+        depth: 25,
+      },
+    ],
   },
   settings: {
     react: {

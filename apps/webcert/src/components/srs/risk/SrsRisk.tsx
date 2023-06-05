@@ -1,13 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SrsRiskForm from './SrsRiskForm'
 import styled from 'styled-components'
-import { ChevronDownIcon, ChevronUpIcon, SrsSickLeaveChoice } from '@frontend/common'
-import { useSelector } from 'react-redux'
-import { getSickLeaveChoice, getSrsPredictions } from '../../../store/srs/srsSelectors'
+import { ChevronDownIcon, ChevronUpIcon, SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '@frontend/common'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getCertificateId,
+  getDiagnosisListValue,
+  getPatientId,
+  getPreviousAnswers,
+  getSickLeaveChoice,
+} from '../../../store/srs/srsSelectors'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
+import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
+import { getMainDiagnosisCode } from '../srsUtils'
 
-const StyledButton = styled.button`
+interface StyledButtonProps {
+  disabled: boolean
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   font-size: 1.375em;
   font-family: inherit;
   width: calc(100% + 40px);
@@ -20,6 +32,7 @@ const StyledButton = styled.button`
   font-weight: 700;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%);
   text-align: left;
+  cursor: ${(props) => props.disabled && 'not-allowed'} !important;
 `
 
 const BottomBorder = styled.div`
@@ -30,10 +43,15 @@ const BottomBorder = styled.div`
 export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
 
 const SrsRisk: React.FC = () => {
+  const dispatch = useDispatch()
   const [expanded, setExpanded] = useState(false)
+  const ref = useRef<null | HTMLDivElement>(null)
+
+  const patientId = useSelector(getPatientId)
+  const certificateId = useSelector(getCertificateId)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
-  const predictions = useSelector(getSrsPredictions)
-  const previousAnswers = predictions.length > 0 ? predictions[0].questionsResponses : undefined
+  const valueDiagnosis = useSelector(getDiagnosisListValue)
+  const previousAnswers = useSelector(getPreviousAnswers)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   const getIcon = () => {
@@ -44,23 +62,59 @@ const SrsRisk: React.FC = () => {
     )
   }
 
+  useEffect(() => {
+    if (isCalculatingRiskDisabled) {
+      setExpanded(false)
+    }
+  }, [isCalculatingRiskDisabled])
+
+  const onButtonClicked = () => {
+    if (expanded) {
+      dispatch(logSrsInteraction(SrsEvent.SRS_HIDE_QUESTIONS_CLICKED))
+    } else {
+      dispatch(logSrsInteraction(SrsEvent.SRS_SHOW_QUESTIONS_CLICKED))
+    }
+
+    setExpanded(!expanded)
+  }
+
+  const onCalculateRisk = (answers: SrsAnswer[]) => {
+    dispatch(
+      getPredictions({
+        patientId: patientId,
+        certificateId: certificateId,
+        code: getMainDiagnosisCode(valueDiagnosis),
+        answers: answers,
+        daysIntoSickLeave: sickLeaveChoice === SrsSickLeaveChoice.EXTENSION ? 45 : undefined,
+      })
+    )
+
+    dispatch(updateSrsAnswers(answers))
+    dispatch(logSrsInteraction(SrsEvent.SRS_CALCULATE_CLICKED))
+    setExpanded(false)
+
+    if (ref.current) {
+      ref.current.scrollIntoView()
+    }
+  }
+
   return (
-    <>
-      <SrsRiskGraph />
+    <div ref={ref}>
+      <SrsRiskGraph ref={ref} />
       <SrsRiskOpinion />
       <StyledButton
-        className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200' : 'iu-bg-information-light'}`}
-        onClick={() => setExpanded(!expanded)}
+        className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200 disabled' : 'iu-bg-information-light'}`}
+        onClick={onButtonClicked}
         disabled={isCalculatingRiskDisabled}>
         {SRS_RISK_BUTTON_TEXT} {getIcon()}
       </StyledButton>
       {expanded && (
         <>
-          <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} />
+          <SrsRiskForm previousAnswers={previousAnswers} onClick={onCalculateRisk} />
           <BottomBorder className="iu-bg-information-light" />
         </>
       )}
-    </>
+    </div>
   )
 }
 

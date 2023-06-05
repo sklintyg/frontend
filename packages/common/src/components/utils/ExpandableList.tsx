@@ -13,23 +13,33 @@ const LinkWrapper = styled.div`
 interface Props {
   items: React.ReactNode[]
   nbrOfVisibleItems: number
+
+  onClick?: (currentExpanded: boolean) => void
 }
 
-export const ExpandableList: React.FC<Props> = ({ items, nbrOfVisibleItems }) => {
+export const ExpandableList: React.FC<Props> = ({ items, nbrOfVisibleItems, onClick }) => {
   const [expanded, setExpanded] = useState(false)
+
+  const handleOnClick = () => {
+    if (onClick) {
+      onClick(!expanded)
+    }
+
+    setExpanded(!expanded)
+  }
 
   return (
     <>
       {items.map((item, index) => {
         if (index > nbrOfVisibleItems - 1) {
-          return <>{expanded && item}</>
+          return expanded ? item : null
         }
 
         return item
       })}
       {items.length > nbrOfVisibleItems && (
         <LinkWrapper>
-          <LinkButton onClick={() => setExpanded(!expanded)} className="ic-link">
+          <LinkButton onClick={handleOnClick} className="ic-link iu-pt-200">
             {expanded ? 'Se färre' : 'Se fler'}
             {expanded ? (
               <>

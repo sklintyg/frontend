@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
-import { SrsInformationChoice, InfoCircle } from '@frontend/common'
+import { InfoCircle, SrsInformationChoice } from '@frontend/common'
 import SrsNationalStatisticsLineChart from './SrsNationalStatisticsLineChart'
 
 export const SRS_STATISTICS_TITLE = 'Andel avslutade sjukskrivningsfall*'
@@ -10,7 +10,7 @@ export const SRS_STATISTICS_INFO = '*Sjukskrivningsfall som påbörjades 2017 (K
 const SrsNationalStatistics: React.FC = () => {
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.STATISTICS))
   const diagnosisDescription = useSelector(getDiagnosisDescription(SrsInformationChoice.STATISTICS))
-  const infoTooltip = `Det SRS-stöd som visas är för koden ${diagnosisCode} - ${diagnosisDescription}.`
+  const infoTooltip = `Den statistik som visas är för koden ${diagnosisCode} - ${diagnosisDescription}.`
 
   return (
     <>

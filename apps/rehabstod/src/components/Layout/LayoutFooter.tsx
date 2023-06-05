@@ -7,12 +7,14 @@ export function LayoutFooter() {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <IDSFooter type="inera-admin" headline="Rehabstöd">
+    <IDSFooter type="inera-admin" headline="Rehabstöd" className="print:hidden">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
 
       <p slot="link-col-1">
-        {links?.ineraManualRehabstod && <DynamicLink type="footer" link={links.ineraManualRehabstod} />}
-        {links?.ineraNationellKundservice && <DynamicLink type="footer" link={links.ineraNationellKundservice} />}
+        <DynamicLink type="footer" link={links?.ineraManualRehabstod} />
+      </p>
+      <p slot="link-col-1">
+        <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
       </p>
 
       {links?.ineraMainPage && (
@@ -22,7 +24,7 @@ export function LayoutFooter() {
       )}
 
       <p slot="sub-footer-right" className="inline-block">
-        {links?.ineraPersonuppgifter && <DynamicLink type="sub-footer" link={links.ineraPersonuppgifter} />}
+        <DynamicLink type="sub-footer" link={links?.ineraBehandlingPersonuppgifter} />
       </p>
       <div slot="sub-footer-right" className="inline-block">
         <CookieDialog>

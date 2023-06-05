@@ -4,6 +4,7 @@
     "esbenp.prettier-vscode",
     "styled-components.vscode-styled-components",
     "csstools.postcss",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "davidanson.vscode-markdownlint"
   ]
 }

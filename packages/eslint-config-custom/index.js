@@ -39,8 +39,13 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    semi: ['error', 'never'],
+    'semi-spacing': ['error', { before: false, after: true }],
+    'quote-props': ['error', 'as-needed'],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
   },
-  ignorePatterns: ['dist/**'],
+  ignorePatterns: ['dist/**', '**/dist/**'],
   settings: {
     jest: {
       version: 29,

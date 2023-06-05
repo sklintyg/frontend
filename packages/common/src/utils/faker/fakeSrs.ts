@@ -59,7 +59,7 @@ export const fakeSrsAnswerOption = (defaultValue?: boolean): SrsAnswerOption => 
 })
 
 const fakeSrsRecommendationList = () => {
-  return [fakeSrsRecommendation(), fakeSrsRecommendation(), fakeSrsRecommendation()]
+  return Array.from({ length: 5 }, () => fakeSrsRecommendation())
 }
 
 const fakeSrsPredictionList = () => {

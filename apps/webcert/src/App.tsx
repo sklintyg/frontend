@@ -1,8 +1,8 @@
 import { SpinnerBackdrop } from '@frontend/common'
-import '@frontend/common/dist/style.css'
 import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/dist/inera-master.css'
 import { useEffect } from 'react'
+import 'react-datepicker/dist/react-datepicker.css'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
@@ -66,6 +66,7 @@ function App(): JSX.Element {
           <WarningNormalOriginModal />
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
+            <Route path="/certificate/:certificateId/sign/:error" render={() => <CertificatePage />} />
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
             <Route path="/welcome(.html)?" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />

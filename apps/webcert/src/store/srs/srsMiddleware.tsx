@@ -18,6 +18,10 @@ import {
   getSRSCodesError,
   getSRSCodesStarted,
   getSRSCodesSuccess,
+  logSrsInteraction,
+  logSrsInteractionError,
+  logSrsInteractionStarted,
+  logSrsInteractionSuccess,
   PredictionsRequest,
   RecommendationsRequest,
   resetState,
@@ -32,8 +36,10 @@ import {
   updateCertificateId,
   updateError,
   updateIsCertificateRenewed,
-  updateLoading,
+  updateLoadingCodes,
+  updateLoadingRecommendations,
   updatePatientId,
+  updateSrsAnswers,
   updateSrsInfo,
   updateSrsPredictions,
   updateSrsQuestions,
@@ -42,12 +48,14 @@ import {
 import {
   Certificate,
   CertificateDataValueType,
-  ValueDiagnosisList,
-  SrsInfoForDiagnosis,
   isRenewedChild,
+  SrsEvent,
+  SrsInfoForDiagnosis,
   SrsQuestion,
+  ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { getFilteredPredictions, getMainDiagnosisCode } from '../../components/srs/srsUtils'
 
 export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -62,12 +70,12 @@ export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
 }
 
 export const handleGetSRSCodesStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(updateLoading(true))
+  dispatch(updateLoadingCodes(true))
 }
 
 export const handleGetSRSCodesError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
-  dispatch(updateLoading(false))
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -75,7 +83,7 @@ export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
 ): void => {
   dispatch(updateError(false))
   dispatch(setDiagnosisCodes(Object.values(action.payload)))
-  dispatch(updateLoading(false))
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -93,8 +101,13 @@ export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: Mid
   )
 }
 
+export const handleGetRecommendationsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateLoadingRecommendations(true))
+}
+
 export const handleGetRecommendationsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
+  dispatch(updateLoadingRecommendations(false))
 }
 
 export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -102,6 +115,21 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
 ): void => {
   dispatch(updateError(false))
   dispatch(updateSrsInfo(action.payload))
+  dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
+  dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+
+  const filteredPredictions = getFilteredPredictions(action.payload.predictions)
+
+  if (filteredPredictions.length > 0) {
+    const predictionWithQuestionResponses = filteredPredictions.find(
+      (prediction) => prediction.questionsResponses && prediction.questionsResponses.length > 0
+    )
+    if (predictionWithQuestionResponses) {
+      dispatch(updateSrsAnswers(predictionWithQuestionResponses.questionsResponses))
+    }
+  }
+
+  dispatch(updateLoadingCodes(false))
 }
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: PayloadAction<string>): void => {
@@ -132,7 +160,11 @@ export const handleGetPredictions: Middleware<Dispatch> = ({ dispatch }: Middlew
 ): void => {
   dispatch(
     apiCallBegan({
-      url: `/api/srs/${action.payload.certificateId}/${action.payload.patientId}/${action.payload.code}?prediktion=true&atgard=false&statistik=false`,
+      url: `/api/srs/${action.payload.certificateId}/${action.payload.patientId}/${
+        action.payload.code
+      }?prediktion=true&atgard=false&statistik=false${
+        action.payload.daysIntoSickLeave ? '&daysIntoSickLeave=' + action.payload.daysIntoSickLeave : ''
+      }`,
       method: 'POST',
       data: action.payload.answers,
       onStart: getPredictionsStarted.type,
@@ -151,6 +183,13 @@ export const handleGetPredictionsSuccess: Middleware<Dispatch> = ({ dispatch }: 
 ): void => {
   dispatch(updateError(false))
   dispatch(updateSrsPredictions(action.payload.predictions))
+  if (
+    action.payload.predictions.length > 0 &&
+    action.payload.predictions[0].questionsResponses &&
+    action.payload.predictions[0].questionsResponses.length > 0
+  ) {
+    dispatch(updateSrsAnswers(action.payload.predictions[0].questionsResponses))
+  }
 }
 
 export const handleSetRiskOpinion: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
@@ -167,6 +206,31 @@ export const handleSetRiskOpinion: Middleware<Dispatch> = ({ dispatch }: Middlew
       onStart: setRiskOpinionStarted.type,
       onSuccess: setRiskOpinionSuccess.type,
       onError: setRiskOpinionError.type,
+    })
+  )
+}
+
+export const handleLogSrsInteraction: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: PayloadAction<SrsEvent>
+): void => {
+  const srsState = getState().ui.uiSRS
+  dispatch(
+    apiCallBegan({
+      url: `/api/jslog/srs`,
+      method: 'POST',
+      data: {
+        event: action.payload,
+        info: {
+          careUnitId: srsState.unitId,
+          caregiverId: srsState.careProviderId,
+          intygId: srsState.certificateId,
+          mainDiagnosisCode: getMainDiagnosisCode(srsState.diagnosisListValue),
+          userClientContext: 'SRS_UTK',
+        },
+      },
+      onStart: logSrsInteractionStarted.type,
+      onSuccess: logSrsInteractionSuccess.type,
+      onError: logSrsInteractionError.type,
     })
   )
 }
@@ -205,6 +269,7 @@ const middlewareMethods = {
   [getSRSCodesSuccess.type]: handleGetSRSCodesSuccess,
   [getSRSCodesStarted.type]: handleGetSRSCodesStarted,
   [getRecommendations.type]: handleGetRecommendations,
+  [getRecommendationsStarted.type]: handleGetRecommendationsStarted,
   [getRecommendationsError.type]: handleGetRecommendationsError,
   [getRecommendationsSuccess.type]: handleGetRecommendationsSuccess,
   [getQuestions.type]: handleGetQuestions,
@@ -214,6 +279,7 @@ const middlewareMethods = {
   [getPredictionsSuccess.type]: handleGetPredictionsSuccess,
   [getQuestionsSuccess.type]: handleGetQuestionsSuccess,
   [setRiskOpinion.type]: handleSetRiskOpinion,
+  [logSrsInteraction.type]: handleLogSrsInteraction,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [updateCertificate.type]: handleUpdateCertificate,
 }
