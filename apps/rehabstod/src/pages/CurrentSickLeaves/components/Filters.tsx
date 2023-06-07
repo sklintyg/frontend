@@ -71,6 +71,7 @@ export function Filters({
               description="Filtrerar på all synlig text och personnummer i tabellen"
               onTextSearchChange={onTextSearchChange}
               placeholder="Hitta sjukfall som innehåller..."
+              textValue={filter.textSearch}
             />
             <RangeFilter
               title="Åldersspann"
