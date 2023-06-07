@@ -22,7 +22,7 @@ it('Should render all columns', async () => {
     </Table>
   )
 
-  expect(await screen.findAllByRole('columnheader')).toHaveLength(13)
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(14)
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
@@ -34,7 +34,7 @@ it('Should render all but doctor column if user is doctor', async () => {
     </Table>
   )
 
-  expect(await screen.findAllByRole('columnheader')).toHaveLength(12)
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(13)
   expect(screen.queryByRole('columnheader', { name: 'Läkare' })).not.toBeInTheDocument()
 })
 
