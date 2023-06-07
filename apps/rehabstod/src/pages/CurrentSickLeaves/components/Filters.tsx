@@ -58,7 +58,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-3 gap-x-10 gap-y-8">
+          <div className="grid grid-cols-3 gap-x-10 gap-y-7">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
