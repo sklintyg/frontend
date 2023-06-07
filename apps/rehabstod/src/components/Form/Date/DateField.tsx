@@ -42,7 +42,7 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
     createCalendar,
   })
   const ref = useRef(null)
-  const { labelProps, fieldProps } = useDateField(props, state, ref)
+  const { labelProps, fieldProps } = useDateField({ label, ...props }, state, ref)
 
   return (
     <div>
