@@ -1,7 +1,7 @@
 import { useId } from 'react'
+import { IDSSelect } from '@frontend/ids-react-ts'
 import { Select } from '../../../../components/Form/Select'
 import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
-import { IDSSelect } from '@frontend/ids-react-ts'
 
 export function SelectFilter({
   onChange,
