@@ -1,3 +1,4 @@
+import { parseDate } from '@internationalized/date'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { getSickLeaveLengthLabel } from '../utils/getSickLeaveLengthPlaceholder'
@@ -6,6 +7,10 @@ import { convertSelectedValue } from '../utils/timePeriodConversion'
 export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
+  const sickLeaveRange =
+    filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
+      ? { start: parseDate(filter.fromSickLeaveEndDate), end: parseDate(filter.toSickLeaveEndDate) }
+      : null
 
   if (!populatedFilters) {
     return null
@@ -33,6 +38,16 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
                   .map((doctor) => `${doctor.hsaId}: ${doctor.namn}\n`)}
           </div>
         )}
+        <div>
+          <p className="font-bold">Slutdatum: </p>
+          {sickLeaveRange ? (
+            <span>
+              {sickLeaveRange.start.toString()} - {sickLeaveRange.end.toString()}
+            </span>
+          ) : (
+            '-'
+          )}
+        </div>
         <div>
           <p className="font-bold">Åldersspann: </p>
           {filter.fromPatientAge} - {filter.toPatientAge}
