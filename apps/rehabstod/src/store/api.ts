@@ -123,11 +123,12 @@ export const api = createApi({
       }),
       providesTags: ['SickLeaveSummary'],
     }),
-    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
-      query: ({ encryptedPatientId }) => ({
+    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string | undefined }>({
+      keepUnusedDataFor: 0,
+      query: (encryptedPatientId) => ({
         url: 'sjukfall/patient',
         method: 'POST',
-        body: { encryptedPatientId },
+        body: encryptedPatientId,
       }),
       providesTags: ['SickLeavePatient'],
     }),
