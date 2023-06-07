@@ -188,5 +188,5 @@ export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
 export type RekoStatusType = z.infer<typeof rekoStatusType>
 export type OccupationType = z.infer<typeof rekoStatusType>
-export type UnanswereCommunicationFilterType = z.infer<typeof unansweredCommunicationFilterType>
+export type UnansweredCommunicationFilterType = z.infer<typeof unansweredCommunicationFilterType>
 export type RekoStatus = z.infer<typeof rekoStatus>

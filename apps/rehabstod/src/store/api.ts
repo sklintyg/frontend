@@ -10,6 +10,7 @@ import {
   SickLeaveFilter,
   SickLeaveInfo,
   SickLeaveSummary,
+  UnansweredCommunicationFilterType
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
@@ -108,7 +109,7 @@ export const api = createApi({
         nbrOfSickLeaves: number
         rekoStatusTypes: RekoStatusType[]
         occupationTypes: OccupationType[]
-        unansweredCommunicationFilterTypes: string
+        unansweredCommunicationFilterTypes: UnansweredCommunicationFilterType[]
         srsActivated: boolean
       },
       void
