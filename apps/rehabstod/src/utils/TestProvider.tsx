@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { I18nProvider } from 'react-aria'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { store } from '../store/store'
@@ -6,8 +7,10 @@ import { store } from '../store/store'
 // createMemoryRouter()
 export function TestProvider({ children }: { children: ReactNode }) {
   return (
-    <Provider store={store}>
-      <MemoryRouter>{children}</MemoryRouter>
-    </Provider>
+    <I18nProvider locale="sv-SE">
+      <Provider store={store}>
+        <MemoryRouter>{children}</MemoryRouter>
+      </Provider>
+    </I18nProvider>
   )
 }
