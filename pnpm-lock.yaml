@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 importers:
 
@@ -122,6 +126,9 @@ importers:
       '@faker-js/faker':
         specifier: ^7.6.0
         version: 7.6.0
+      '@testing-library/dom':
+        specifier: ^9.3.0
+        version: 9.3.0
       '@testing-library/jest-dom':
         specifier: ^5.16.5
         version: 5.16.5
@@ -182,6 +189,9 @@ importers:
       postcss:
         specifier: ^8.4.21
         version: 8.4.21
+      prop-types:
+        specifier: ^15.6.0
+        version: 15.8.1
       tailwindcss:
         specifier: ^3.2.7
         version: 3.2.7(postcss@8.4.21)
