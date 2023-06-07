@@ -107,6 +107,7 @@ export const sickLeaveFilterSchema = z.object({
   toSickLeaveEndDate: z.string().nullable(),
   rekoStatusTypeIds: z.array(z.string()),
   occupationTypeIds: z.array(z.string()),
+  textSearch: z.string(),
 })
 
 export const genderSummarySchema = z.object({

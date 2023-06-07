@@ -13,6 +13,7 @@ import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
 import { RangeFilter } from './filter/RangeFilter'
+import { TextSearchFilter } from './filter/TextSearchFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
 export function Filters({
@@ -45,6 +46,9 @@ export function Filters({
   const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
     dispatch(updateFilter({ diagnosisChapters }))
   }
+  const onTextSearchChange = (text: string) => {
+    dispatch(updateFilter({ textSearch: text }))
+  }
 
   return (
     <>
@@ -54,7 +58,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-4 gap-x-10 gap-y-8">
+          <div className="grid grid-cols-3 gap-x-10 gap-y-8">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -77,6 +81,12 @@ export function Filters({
               selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
               placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+            />
+            <TextSearchFilter
+              title="Fritext sökning"
+              description="Filtrerar på all synlig text och personnummer i tabellen"
+              onTextSearchChange={onTextSearchChange}
+              placeholder="Hitta sjukfall som innehåller..."
             />
             <TimePeriodFilter
               label="Sjukskrivningslängd"
