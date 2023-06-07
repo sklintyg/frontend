@@ -110,7 +110,7 @@ export const sickLeaveFilterSchema = z.object({
   toPatientAge: z.number(),
   rekoStatusTypeIds: z.array(z.string()),
   occupationTypeIds: z.array(z.string()),
-  unansweredCommunicationTypeFilterId: z.string(),
+  unansweredCommunicationFilterTypeId: z.string(),
   textSearch: z.string(),
 })
 
