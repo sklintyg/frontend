@@ -21,6 +21,7 @@ const initialState: SickLeaveState = {
     fromPatientAge: 1,
     rekoStatusTypeIds: [],
     occupationTypeIds: [],
+    textSearch: '',
   },
   hasAppliedFilters: false,
   sickLeaveLengthIntervals: [
