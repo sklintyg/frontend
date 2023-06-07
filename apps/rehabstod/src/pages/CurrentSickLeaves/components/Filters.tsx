@@ -11,6 +11,7 @@ import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
 import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
+import { SelectFilter } from './filter/SelectFilter'
 import { TextSearchFilter } from './filter/TextSearchFilter'
 
 export function Filters({
@@ -96,6 +97,12 @@ export function Filters({
               selected={filter.rekoStatusTypeIds}
               description="Filtrerar på den REKO-status som satts för patienten."
               placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+            />
+            <SelectFilter
+              onChange={(id) => dispatch(updateFilter({ unansweredCommunicationTypeId: id }))}
+              options={populatedFilters ? populatedFilters.unansweredCommunicationFilterType : []}
+              label="Ärendestatus"
+              placeholder="Visa alla"
             />
             <MultipleSelectFilterOption
               label="Sysselsättning"
