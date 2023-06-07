@@ -21,7 +21,8 @@ export function SelectFilter({
   return (
     <div className="flex-1">
       <IDSSelect className="m-0">
-        <label htmlFor={id}>{label}
+        <label htmlFor={id}>
+          {label}
           {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
         </label>
         <Select id={id} placeholder={placeholder}>
