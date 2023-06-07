@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom'
+import { skipToken } from '@reduxjs/toolkit/query'
 import { UserUrval } from '../../schemas'
 import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
@@ -16,7 +17,13 @@ export function Patient() {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient, error } = useGetSickLeavePatientQuery({ encryptedPatientId })
+  const { data: patient, error } = useGetSickLeavePatientQuery(
+    encryptedPatientId
+      ? {
+          encryptedPatientId,
+        }
+      : skipToken
+  )
   const sickLeaves = patient?.sjukfallList ?? []
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
