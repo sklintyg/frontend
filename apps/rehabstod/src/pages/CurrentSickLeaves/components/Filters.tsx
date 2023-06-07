@@ -99,11 +99,10 @@ export function Filters({
               placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
             />
             <SelectFilter
-              onChange={(id) => dispatch(updateFilter({ unansweredCommunicationTypeId: id }))}
+              onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
               options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
               description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
               label="Ärendestatus"
-              placeholder="Visa alla"
             />
             <MultipleSelectFilterOption
               label="Sysselsättning"

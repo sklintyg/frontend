@@ -8,13 +8,11 @@ export function SelectFilter({
   options,
   description,
   label,
-  placeholder,
 }: {
   onChange: (option: string) => void
   options: { id: string; name: string }[]
   description: string
   label: string
-  placeholder: string
 }) {
   const id = useId()
 
@@ -25,11 +23,11 @@ export function SelectFilter({
           {label}
           {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
         </label>
-        <Select id={id} placeholder={placeholder}>
-          <option className="ml-2" value="Ingen förvald enhet">
+        <Select id={id} onChange={(event) => onChange(event.currentTarget.value)}>
+          <option className="ml-2" id="" value="">
             Visa alla
           </option>
-          {options ? options.map((option) => <option key={option.id} label={option.name} onChange={() => onChange(option.id)} />) : null}
+          {options ? options.map((option) => <option value={option.id} key={option.id} label={option.name} />) : null}
         </Select>
       </IDSSelect>
     </div>
