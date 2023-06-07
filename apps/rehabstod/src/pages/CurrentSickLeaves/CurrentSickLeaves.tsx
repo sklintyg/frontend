@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { IDSButton } from '@frontend/ids-react-ts'
+import { useEffect, useState } from 'react'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
+import { DisplayError } from '../../error/DisplayError'
 import { UserUrval } from '../../schemas'
 import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -9,13 +10,12 @@ import { reset, resetFilters, updateShowPersonalInformation } from '../../store/
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
+import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { PrintFilters } from './components/PrintFilters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
-import { DisplayError } from '../../error/DisplayError'
 import { TableInfo } from './components/TableInfo'
-import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -23,6 +23,10 @@ export function CurrentSickLeaves() {
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves, error }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { encryptedPatientId } = useParams()
+  const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
+    sortColumn: SickLeaveColumn.Startdatum,
+    ascending: true,
+  })
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
@@ -93,9 +97,10 @@ export function CurrentSickLeaves() {
             </div>
           </div>
           <Table
-            sortColumn={SickLeaveColumn.Startdatum}
+            sortColumn={tableState.sortColumn}
+            onSortChange={setTableState}
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
-            ascending>
+            ascending={tableState.ascending}>
             <thead>
               <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
             </thead>

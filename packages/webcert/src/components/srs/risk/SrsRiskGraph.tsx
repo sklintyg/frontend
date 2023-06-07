@@ -1,14 +1,6 @@
 import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import {
-  getIsCertificateRenewed,
-  getPredictionDiagnosisCode,
-  getPredictionDiagnosisDescription,
-  getRiskOpinion,
-  getSickLeaveChoice,
-  getSrsPredictions,
-} from '../../../store/srs/srsSelectors'
-import {
   Bar,
   BarChart,
   Cell,
@@ -21,8 +13,16 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
 import { Payload } from 'recharts/types/component/DefaultTooltipContent'
+import {
+  getIsCertificateRenewed,
+  getPredictionDiagnosisCode,
+  getPredictionDiagnosisDescription,
+  getRiskOpinion,
+  getSickLeaveChoice,
+  getSrsPredictions,
+} from '../../../store/srs/srsSelectors'
+import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<string, string>) => {
   if (active && payload && payload.length) {
@@ -82,7 +82,7 @@ const getTooltipText = (label: string, value: string | number | undefined, unit?
 
 const CustomizedLabel = (props: LabelProps) => {
   const { x, y, stroke, width, value } = props
-  const hasValue = value && value > 0
+  const hasValue = value != null && typeof value === 'number' && value > 0
 
   return (
     <text x={x} y={y} dy={-10} dx={(width as number) / 2} fill={stroke} fontSize={hasValue ? 12 : 20} textAnchor="middle">

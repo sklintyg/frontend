@@ -17,7 +17,7 @@ it('Should render all columns', async () => {
     </Table>
   )
 
-  expect(await screen.findAllByRole('columnheader')).toHaveLength(10)
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(Object.keys(PatientColumn).length)
 })
 
 it('Should render all columns but doctor if user is doctor', async () => {
@@ -27,7 +27,7 @@ it('Should render all columns but doctor if user is doctor', async () => {
     </Table>
   )
 
-  expect(await screen.findAllByRole('columnheader')).toHaveLength(9)
+  expect(await screen.findAllByRole('columnheader')).toHaveLength(Object.keys(PatientColumn).length - 1)
   expect(screen.queryByRole('columnheader', { name: 'Läkare' })).not.toBeInTheDocument()
 })
 

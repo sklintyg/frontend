@@ -6,28 +6,30 @@ Integration tests
 
 Install dependencies
 
-```
-$ yarn install
+```bash
+pnpm install
 ```
 
 Build applications and dependencies
 
-```
-$ yarn build
+```bash
+pnpm build
 ```
 
 Start applications with devtest environment
 
-```
-$ yarn start:test
+```bash
+pnpm start:test
 ```
 
 Run desired cypress configuration
 
+```bash
+pnpm --filter @frontend/e2e webcert --config baseUrl=https://127.0.0.1:3000
 ```
-$ yarn workspace @frontend/e2e webcert --config baseUrl=https://127.0.0.1:3000
 
 OR
 
-$ yarn workspace @frontend/e2e rehabstod --config baseUrl=https://127.0.0.1:3030
+```bash
+pnpm --filter @frontend/e2e rehabstod --config baseUrl=https://127.0.0.1:3030
 ```

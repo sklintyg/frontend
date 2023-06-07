@@ -1,9 +1,9 @@
-import { Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { useEffect, useState } from 'react'
+import { Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import classes from './PieChartGraph.css'
 
 export function PieChartGraph({ data }: { data: { id: string; value: number; name: string; fill: string }[] }) {
-  const [loaded, setLoaded] = useState(false)
+  const [, setLoaded] = useState(false)
   const getLegend = (name: string) => <span className="text-neutral-20 text-sm">{name}</span>
 
   // Fix for: https://github.com/recharts/recharts/issues/511

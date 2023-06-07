@@ -18,7 +18,7 @@ export function CareProviderItem({
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
-            <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
+            <CareProviderAccordion unit={unit} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
                 <div key={reception.id} className="ml-5 flex items-center">
                   <IDSRadio>

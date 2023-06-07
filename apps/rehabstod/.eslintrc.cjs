@@ -11,7 +11,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
   },
-  ignorePatterns: ['**/*/*stories*'],
+  ignorePatterns: ['**/*/*stories*', 'coverage/**/*.*'],
   rules: {
     '@typescript-eslint/ban-types': [
       'error',

@@ -1,15 +1,28 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
-import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 
 interface TableOptions {
   ascending?: boolean
   sortColumn?: string
+  onSortChange?: (state: { sortColumn: string; ascending: boolean }) => void
 }
 
 function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
+  const firstUpdate = useRef(true)
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+
+    if (options.onSortChange) {
+      options.onSortChange({ sortColumn, ascending })
+    }
+  }, [ascending, options, sortColumn])
 
   const sortOnColumn = useCallback(
     (desiredColumn: string) => {
