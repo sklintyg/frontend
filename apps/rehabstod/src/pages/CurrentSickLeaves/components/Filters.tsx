@@ -54,7 +54,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-3 gap-10">
+          <div className="grid grid-cols-4 gap-x-10 gap-y-8">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -70,22 +70,14 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
-            <div>
-              <DateRangePicker
-                value={sickLeaveRange}
-                onChange={(value) => {
-                  setSickLeaveRange(value)
-                  dispatch(
-                    updateFilter({
-                      fromSickLeaveEndDate: value ? value.start.toString() : null,
-                      toSickLeaveEndDate: value ? value.end.toString() : null,
-                    })
-                  )
-                }}
-                label="Slutdatum"
-                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
-              />
-            </div>
+            <MultipleSelectFilterOption
+              label="REKO-status"
+              onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+              selected={filter.rekoStatusTypeIds}
+              description="Filtrerar på den REKO-status som satts för patienten."
+              placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+            />
             <TimePeriodFilter
               label="Sjukskrivningslängd"
               description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
@@ -103,21 +95,6 @@ export function Filters({
               max="150"
               min="1"
             />
-            <TimePeriodFilter
-              label="Sjukskrivningslängd"
-              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-              onChange={onSickLeaveLengthIntervalsChange}
-              availableOptions={sickLeaveLengthIntervals}
-              selectedOptions={filter.sickLeaveLengthIntervals}
-            />
-            <MultipleSelectFilterOption
-              label="REKO-status"
-              onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
-              options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
-              selected={filter.rekoStatusTypeIds}
-              description="Filtrerar på den REKO-status som satts för patienten."
-              placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
-            />
             <MultipleSelectFilterOption
               label="Sysselsättning"
               onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
@@ -126,6 +103,22 @@ export function Filters({
               description="Filtrerar på patientens sysselsättning."
               placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
             />
+            <div>
+              <DateRangePicker
+                value={sickLeaveRange}
+                onChange={(value) => {
+                  setSickLeaveRange(value)
+                  dispatch(
+                    updateFilter({
+                      fromSickLeaveEndDate: value ? value.start.toString() : null,
+                      toSickLeaveEndDate: value ? value.end.toString() : null,
+                    })
+                  )
+                }}
+                label="Slutdatum"
+                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
+              />
+            </div>
           </div>
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
