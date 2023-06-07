@@ -8,7 +8,7 @@ import {
   useDismiss,
   useFloating,
   useInteractions,
-  useRole
+  useRole,
 } from '@floating-ui/react'
 import { IDSCheckboxGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
