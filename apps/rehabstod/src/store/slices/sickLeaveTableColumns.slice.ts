@@ -13,6 +13,7 @@ export enum SickLeaveColumn {
   Längd = 'Längd',
   Intyg = 'Intyg',
   Grad = 'Grad',
+  Ärenden = 'Ärenden',
   Risk = 'Risk',
   Läkare = 'Läkare',
 }
