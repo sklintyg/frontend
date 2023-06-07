@@ -1,5 +1,5 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
-import { createContext, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 
 interface TableOptions {
@@ -11,29 +11,27 @@ interface TableOptions {
 function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
-  const firstUpdate = useRef(true)
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false
-      return
-    }
-
-    if (options.onSortChange) {
-      options.onSortChange({ sortColumn, ascending })
-    }
-  }, [ascending, options, sortColumn])
+  const updateSorting = useCallback(
+    (column: string, asc: boolean) => {
+      setSortColumn(column)
+      setAscending(asc)
+      if (options.onSortChange) {
+        options.onSortChange({ sortColumn: column, ascending: asc })
+      }
+    },
+    [options]
+  )
 
   const sortOnColumn = useCallback(
     (desiredColumn: string) => {
       if (desiredColumn !== sortColumn) {
-        setSortColumn(desiredColumn)
-        setAscending(options.ascending ?? false)
+        updateSorting(desiredColumn, options.ascending ?? false)
       } else {
-        setAscending(!ascending)
+        updateSorting(sortColumn, !ascending)
       }
     },
-    [ascending, sortColumn, options.ascending]
+    [ascending, options.ascending, sortColumn, updateSorting]
   )
 
   const sortTableList = getTableSorter(sortColumn, ascending)
