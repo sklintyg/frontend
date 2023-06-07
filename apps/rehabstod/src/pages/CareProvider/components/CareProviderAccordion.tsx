@@ -1,16 +1,14 @@
 import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
 import { ReactNode, useEffect } from 'react'
-import { Vardenhet, Vardgivare } from '../../../schemas'
+import { Vardenhet } from '../../../schemas'
 
 export function CareProviderAccordion({
   unit,
-  provider,
   selectedRadio,
   handleChooseUnit,
   children,
 }: {
   unit: Vardenhet
-  provider: Vardgivare
   selectedRadio: string | null
   handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, unit: Vardenhet) => void
   children: ReactNode

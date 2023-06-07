@@ -1,5 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { SrsSickLeaveChoice, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { act, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
   logSrsInteraction,
   updateSickLeaveChoice,
@@ -7,14 +12,9 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
 } from '../../../store/srs/srsActions'
-import { fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion, SrsSickLeaveChoice } from '@frontend/common'
-import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
-import userEvent from '@testing-library/user-event'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
-import { vi } from 'vitest'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
 
 let store: EnhancedStore
 const renderComponent = () => {
@@ -49,8 +49,10 @@ describe('SrsRisk', () => {
     it('should show title including diagnosis from srs info if predictions is not set', () => {
       const srsInfo = fakeSrsInfo()
       renderComponent()
-      store.dispatch(updateSrsInfo(srsInfo))
-      store.dispatch(updateSrsPredictions([]))
+      act(() => {
+        store.dispatch(updateSrsInfo(srsInfo))
+        store.dispatch(updateSrsPredictions([]))
+      })
       expect(
         screen.getByText('Risken gäller ' + srsInfo.predictions[0].diagnosisCode + ' ' + srsInfo.predictions[0].diagnosisDescription)
       ).toBeInTheDocument()

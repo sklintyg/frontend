@@ -2,14 +2,12 @@ import { IDSButton, IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
-import { useLogout } from '../../hooks/useLogout'
+import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetUserQuery } from '../../store/api'
 import { OverviewStatistics } from './components/OverviewStatistics'
-import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 
 export function Home() {
   const { isLoading, data: user } = useGetUserQuery()
-  const { logout } = useLogout()
   const navigate = useNavigate()
   const sithsUrl = '/saml/login/alias/siths-rs2'
 

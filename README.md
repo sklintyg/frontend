@@ -7,12 +7,12 @@
 
 - Install [Node v18](https://nodejs.org/en/download/releases/)
   - Alternatively via [nvm](https://github.com/nvm-sh/nvm)
-- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
+- Install [pnpm](https://pnpm.io/installation).
 
-1. Install dependencies with `yarn install`
-2. Execute a build with `yarn build`
-3. Start development environment and watchers with `yarn start`
-4. Run tests with `yarn test`
+1. Install dependencies with `pnpm install`
+2. Execute a build with `pnpm build`
+3. Start development environment and watchers with `pnpm start`
+4. Run tests with `pnpm test`
 
 ## Applications
 
@@ -40,7 +40,7 @@ This is the invisioned structure for the future.
 ### Shared libraries
 
 The `/packages` folder contain documented libraries that is utilized between applications/libraries.
-We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `yarn start`, or build everything that needs to be bundled with `yarn build`.
+We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `pnpm start`, or build everything that needs to be bundled with `pnpm build`.
 
 Shared libraries should generally:
 
@@ -90,9 +90,9 @@ _Plugin recommendations can be found by opening the extension panel `ctrl` + `x`
 
 vitest is used for executing tests.
 
-To run tests in all packages `yarn test`
+To run tests in all packages `pnpm test`
 
-To run tests in a perticular workspace `yarn workspace <name of workspace> test`
+To run tests in a perticular workspace `pnpm --filter <name of workspace> test`
 
 ### Writing tests
 

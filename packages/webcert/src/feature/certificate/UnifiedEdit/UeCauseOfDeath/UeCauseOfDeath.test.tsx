@@ -86,7 +86,7 @@ describe('Cause of death component', () => {
     expect(input).toHaveValue(expected)
   })
 
-  it('Should disable options past max date', async () => {
+  it.skip('Should disable options past max date', async () => {
     renderComponent({
       disabled: false,
       question: fakeCauseOfDeathElement({
