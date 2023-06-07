@@ -1,7 +1,4 @@
 import { useId } from 'react'
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
-import { OccupationType, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { Select } from '../../../../components/Form/Select'
 import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 import { IDSSelect } from '@frontend/ids-react-ts'

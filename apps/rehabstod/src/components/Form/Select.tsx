@@ -20,7 +20,7 @@ const getStyle = ({ error, disabled }: Record<string, boolean>) => {
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, React.HTMLProps<HTMLSelectElement> & SelectProps>(
-  ({ error = false, disabled = false, label, ...props }, ref) => (
+  ({ error = false, disabled = false, ...props }, ref) => (
     <select
       ref={ref}
       className={classNames(
