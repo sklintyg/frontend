@@ -1,5 +1,5 @@
 import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
-import { useGetUserQuery } from '../../../store/api'
+import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
@@ -68,6 +68,16 @@ function HeaderCellResolver({ column }: { column: string }) {
           width="114px"
         />
       )
+    case SickLeaveColumn.RekoStatus:
+      return <TableHeaderCell column={SickLeaveColumn.RekoStatus} width="150px" />
+    case SickLeaveColumn.Risk:
+      return (
+        <TableHeaderCell
+          column={SickLeaveColumn.Risk}
+          width="150px"
+          description="Patientens risk som beräknats av läkaren med hjälp av SRS i Webcert och är ett komplement till läkarens egen bedömning."
+        />
+      )
     default:
       return null
   }
@@ -75,6 +85,7 @@ function HeaderCellResolver({ column }: { column: string }) {
 
 export function TableHeaderRow({ showPersonalInformation, isDoctor }: { showPersonalInformation: boolean; isDoctor: boolean }) {
   const columns = useAppSelector(allSickLeaveColumns)
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
 
   if (columns.length === 0) {
     return null
@@ -87,6 +98,7 @@ export function TableHeaderRow({ showPersonalInformation, isDoctor }: { showPers
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
         .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
         .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
+        .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
         .map(({ name }) => (
           <HeaderCellResolver key={name} column={name} />
         ))}

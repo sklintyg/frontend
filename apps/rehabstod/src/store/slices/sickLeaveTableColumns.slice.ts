@@ -1,6 +1,7 @@
 import { createTableColumnSlice } from '../utils/createTableColumnSlice'
 
 export enum SickLeaveColumn {
+  RekoStatus = 'REKO-status',
   Personnummer = 'Personnummer',
   Ålder = 'Ålder',
   Namn = 'Namn',
@@ -12,6 +13,7 @@ export enum SickLeaveColumn {
   Längd = 'Längd',
   Intyg = 'Intyg',
   Grad = 'Grad',
+  Risk = 'Risk',
   Läkare = 'Läkare',
 }
 

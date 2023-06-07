@@ -30,7 +30,7 @@ export function DiagnosisFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected) ?? 'Välj i listan'}>
+      <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
         {allDiagnoses
           ? allDiagnoses.map((diagnosis) => (
               <Checkbox

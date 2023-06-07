@@ -45,15 +45,12 @@ export default ({ mode }: UserConfig) => {
       },
       setupFiles: ['src/setupTests.ts'],
       coverage: {
-        reporter: ['text', 'json'],
+        reporter: ['text', 'json', 'lcov'],
         all: true,
       },
     },
     build: {
       target: 'es2015',
-      commonjsOptions: {
-        include: [/@frontend\/common/, /node_modules/],
-      },
     },
   })
 }

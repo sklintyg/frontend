@@ -10,6 +10,8 @@ export enum PatientColumn {
   Ärenden = 'Ärenden',
   Läkare = 'Läkare',
   Sysselsättning = 'Sysselsättning',
+  Vårdenhet = 'Vårdenhet',
+  Vårdgivare = 'Vårdgivare',
   Intyg = 'Intyg',
 }
 

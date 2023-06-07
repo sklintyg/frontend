@@ -2,7 +2,6 @@ import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
   switch (column) {
@@ -24,6 +23,10 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
       return <TableHeaderCell column={column} width="114px" />
     case PatientColumn.Sysselsättning:
       return <TableHeaderCell column={column} width="120px" />
+    case PatientColumn.Vårdenhet:
+      return <TableHeaderCell column={column} width="120px" />
+    case PatientColumn.Vårdgivare:
+      return <TableHeaderCell column={column} width="120px" />
     case PatientColumn.Intyg:
       return <TableHeaderCell column={column} width="80px" sticky="right" />
     default:
@@ -39,7 +42,7 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
         <tr>
           {columns
             .filter(({ visible: checked }) => checked)
-            .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
+            .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
             .map(({ name }) => (
               <PatientTableHeaderResolver key={name} column={name} />
             ))}

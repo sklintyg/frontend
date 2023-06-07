@@ -15,37 +15,38 @@
     "start": "turbo dev",
     "start:test": "turbo dev -- -m test",
     "test:ci": "turbo test:ci",
-    "posttest:ci": "yarn test:report && yarn test:coverage",
+    "posttest:ci": "pnpm test:report && pnpm test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
-    "test:coverage": "coverage",
     "test": "turbo test",
     "typescript": "turbo typescript"
   },
   "devDependencies": {
-    "@frontend/combine-coverage": "*",
+    "@frontend/combine-coverage": "workspace:*",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "eslint-config-custom": "*",
-    "eslint": "^8.34.0",
+    "eslint": "^8.41.0",
+    "eslint-config-custom": "workspace:*",
     "husky": "^7.0.4",
     "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
     "nyc": "^15.1.0",
     "prettier": "^1.18.2",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.20.2",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-esbuild": "^5.0.0",
-    "rollup": "^3.20.2",
+    "rollup-plugin-svg": "^2.0.0",
     "turbo": "^1.7.4",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix"
+    "*.{js,jsx,ts,tsx}": "eslint . --fix"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all",
     "ie 11"
-  ],
-  "dependencies": {}
+  ]
 }

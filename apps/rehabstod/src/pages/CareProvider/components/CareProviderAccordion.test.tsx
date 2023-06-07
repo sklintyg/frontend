@@ -2,14 +2,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Mock, vi } from 'vitest'
 import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
-import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 let selectedRadio: string | null
 let handleChooseUnit: Mock<unknown[], unknown>
 let children: string | number | boolean | JSX.Element | null | undefined
 const vardenhet = fakeVardenhet({ namn: 'Alfa regionen' })
-const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin' })
 
 beforeEach(() => {
   selectedRadio = null
@@ -19,7 +17,7 @@ beforeEach(() => {
 
 function renderComponent() {
   return render(
-    <CareProviderAccordion unit={vardenhet} provider={vardgivare} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
+    <CareProviderAccordion unit={vardenhet} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
       {children}
     </CareProviderAccordion>
   )
@@ -73,7 +71,7 @@ it('calls the handleChooseUnit function when a radio button is clicked', async (
   userEvent.click(radioBtn)
 
   await waitFor(() => {
-    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardgivare, vardenhet)
+    expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardenhet)
   })
 })
 

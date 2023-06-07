@@ -1,18 +1,16 @@
 import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
 import { ReactNode, useEffect } from 'react'
-import { Vardenhet, Vardgivare } from '../../../schemas'
+import { Vardenhet } from '../../../schemas'
 
 export function CareProviderAccordion({
   unit,
-  provider,
   selectedRadio,
   handleChooseUnit,
   children,
 }: {
   unit: Vardenhet
-  provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, unit: Vardenhet) => void
   children: ReactNode
 }) {
   function selectedUnitIsSubUnit() {
@@ -47,7 +45,7 @@ export function CareProviderAccordion({
                   detailsEl.setAttribute('open', '')
                 }
               }}
-              onChange={(event) => handleChooseUnit(event, provider, unit)}
+              onChange={(event) => handleChooseUnit(event, unit)}
             />
             <label
               htmlFor={unit.namn}

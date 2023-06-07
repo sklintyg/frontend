@@ -47,6 +47,7 @@ module.exports = {
       error: {
         40: 'var(--IDS-COLOR-ERROR-40)',
         99: 'var(--IDS-COLOR-ERROR-99)',
+        10: '#FF9517',
       },
     },
     extend: {},

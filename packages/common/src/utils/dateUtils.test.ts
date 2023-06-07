@@ -353,9 +353,7 @@ describe('isFutureDate', () => {
   })
 
   it('should return true if date is in future', () => {
-    const dateString = addDays(new Date(), 2)
-      .toISOString()
-      .slice(0, 10)
+    const dateString = addDays(new Date(), 2).toISOString().slice(0, 10)
     const actual = isFutureDate(dateString)
 
     expect(actual).toBeTruthy()

@@ -55,38 +55,37 @@ import {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
+import { fakeCertificateConfig } from './fakeCertificateConfig'
+import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateConfig } from './fakeCertificateConfig'
 
-import { merge } from 'lodash'
-
-const fakeDataElement = <T extends CertificateDataConfigType, P extends ValueType | null>(
-  callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
-) => ({
-  config,
-  value,
-  ...data
-}: PartialDeep<CertificateDataElement> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData => {
-  const id = data?.id ?? faker.random.alpha({ count: 5 })
-  return {
-    [id]: merge(
-      {
+const fakeDataElement =
+  <T extends CertificateDataConfigType, P extends ValueType | null>(
+    callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
+  ) =>
+  ({
+    config,
+    value,
+    ...data
+  }: PartialDeep<CertificateDataElement> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData => {
+    const id = data?.id ?? faker.random.alpha({ count: 5 })
+    return {
+      [id]: {
         parent: '',
         index: 0,
         visible: true,
         readOnly: false,
         mandatory: false,
-        validation: [],
-        validationErrors: [],
         id: faker.random.alpha({ count: 5 }),
+        ...data,
+        validation: data.validation ? data.validation.map(fakeCertificateDataValidation) : [],
+        validationErrors: data.validationErrors ? data.validationErrors.map(fakeCertificateValidationError) : [],
+        ...callback(config, value),
       },
-      data,
-      callback(config, value)
-    ),
+    }
   }
-}
 
 export const fakeCategoryElement = fakeDataElement<ConfigCategory, null>((config) => ({
   config: fakeCertificateConfig.category(config),
@@ -219,10 +218,7 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
         },
         date: {
           id: faker.random.alpha({ count: 5 }),
-          date: faker.date
-            .past()
-            .toISOString()
-            .split('T')[0],
+          date: faker.date.past().toISOString().split('T')[0],
         },
         informationSource: {
           id: faker.random.alpha({ count: 5 }),
@@ -286,52 +282,41 @@ export const fakeCauseOfDeathElement = fakeDataElement<ConfigUeCauseOfDeath, Val
   const debutId = faker.random.alpha({ count: 5 })
 
   return {
-    config: fakeCertificateConfig.causeOfDeath(
-      merge(
-        {
-          description: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
-          label: 'A',
-          text: 'Den terminala dödsorsaken var',
-          causeOfDeath: {
-            id: faker.random.alpha({ count: 5 }),
-            debutId: debutId,
-            descriptionId: descriptionId,
-            specifications: [
-              { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-              { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-              { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-            ],
-          },
-        },
-        config
-      )
-    ),
-    value: fakeCertificateValue.causeOfDeath(
-      merge(
-        {
-          type: CertificateDataValueType.CAUSE_OF_DEATH,
-          description: {
-            type: CertificateDataValueType.TEXT,
-            id: descriptionId,
-            text: faker.lorem.words(),
-          },
-          debut: {
-            type: CertificateDataValueType.DATE,
-            id: debutId,
-            date: faker.date
-              .past()
-              .toISOString()
-              .split('T')[0],
-          },
-          specification: {
-            type: CertificateDataValueType.CODE,
-            id: faker.random.alpha({ count: 5 }),
-            code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
-          },
-        },
-        value
-      )
-    ),
+    config: fakeCertificateConfig.causeOfDeath({
+      description: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
+      label: 'A',
+      text: 'Den terminala dödsorsaken var',
+      causeOfDeath: {
+        id: faker.random.alpha({ count: 5 }),
+        debutId: debutId,
+        descriptionId: descriptionId,
+        specifications: [
+          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+        ],
+      },
+      ...config,
+    }),
+    value: fakeCertificateValue.causeOfDeath({
+      type: CertificateDataValueType.CAUSE_OF_DEATH,
+      description: {
+        type: CertificateDataValueType.TEXT,
+        id: descriptionId,
+        text: faker.lorem.words(),
+      },
+      debut: {
+        type: CertificateDataValueType.DATE,
+        id: debutId,
+        date: faker.date.past().toISOString().split('T')[0],
+      },
+      specification: {
+        type: CertificateDataValueType.CODE,
+        id: faker.random.alpha({ count: 5 }),
+        code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
+      },
+      ...value,
+    }),
   }
 })
 
@@ -342,105 +327,89 @@ export const fakeCauseOfDeathListElement = fakeDataElement<ConfigUeCauseOfDeathL
   })
 
   return {
-    config: fakeCertificateConfig.causeOfDeathList(
-      merge(
-        {
-          text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
-          list: questions.map((question) => (question.config as ConfigUeCauseOfDeath).causeOfDeath),
-        },
-        config
-      )
-    ),
-    value: fakeCertificateValue.causeOfDeathList(
-      merge(
-        {
-          list: questions.map((question, index) => {
-            const value = question.value as ValueCauseOfDeath
-            return index > 0
-              ? fakeCertificateValue.causeOfDeath({
-                  ...value,
-                  description: { ...value.description, text: null },
-                  debut: { ...value.debut, date: undefined },
-                  specification: { ...value.specification, code: '' },
-                })
-              : fakeCertificateValue.causeOfDeath(value)
-          }),
-        },
-        value
-      )
-    ),
+    config: fakeCertificateConfig.causeOfDeathList({
+      text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
+      list: questions.map((question) => (question.config as ConfigUeCauseOfDeath).causeOfDeath),
+      ...config,
+    }),
+    value: fakeCertificateValue.causeOfDeathList({
+      list: questions.map((question, index) => {
+        const value = question.value as ValueCauseOfDeath
+        return index > 0
+          ? fakeCertificateValue.causeOfDeath({
+              ...value,
+              description: { ...value.description, text: null },
+              debut: { ...value.debut, date: undefined },
+              specification: { ...value.specification, code: '' },
+            })
+          : fakeCertificateValue.causeOfDeath(value)
+      }),
+      ...value,
+    }),
   }
 })
 
 export const fakeVisualAcuityElement = fakeDataElement<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
   const id = faker.random.alpha({ count: 5 })
   return {
-    config: fakeCertificateConfig.visualAcuity(
-      merge(
-        {
-          description: 'Synskärpan på respektive öga och binokulärt',
-          text: 'Synskärpa',
-          withoutCorrectionLabel: 'Utan korrigering',
-          withCorrectionLabel: 'Med korrigering',
-          contactLensesLabel: 'Kontaktlinser',
-          rightEye: {
-            label: 'Höger',
-            withoutCorrectionId: `right_without_${id}`,
-            withCorrectionId: `right_with_${id}`,
-            contactLensesId: `right_contacts_${id}`,
-          },
-          leftEye: {
-            label: 'Vänster',
-            withoutCorrectionId: `left_without_${id}`,
-            withCorrectionId: `left_with_${id}`,
-            contactLensesId: `left_contacts_${id}`,
-          },
-          binocular: {
-            label: 'Binokulärt',
-            withoutCorrectionId: `binocular_without_${id}`,
-            withCorrectionId: `binocular_with_${id}`,
-          },
+    config: fakeCertificateConfig.visualAcuity({
+      description: 'Synskärpan på respektive öga och binokulärt',
+      text: 'Synskärpa',
+      withoutCorrectionLabel: 'Utan korrigering',
+      withCorrectionLabel: 'Med korrigering',
+      contactLensesLabel: 'Kontaktlinser',
+      rightEye: {
+        label: 'Höger',
+        withoutCorrectionId: `right_without_${id}`,
+        withCorrectionId: `right_with_${id}`,
+        contactLensesId: `right_contacts_${id}`,
+      },
+      leftEye: {
+        label: 'Vänster',
+        withoutCorrectionId: `left_without_${id}`,
+        withCorrectionId: `left_with_${id}`,
+        contactLensesId: `left_contacts_${id}`,
+      },
+      binocular: {
+        label: 'Binokulärt',
+        withoutCorrectionId: `binocular_without_${id}`,
+        withCorrectionId: `binocular_with_${id}`,
+      },
+      ...config,
+    }),
+    value: fakeCertificateValue.visualAcuity({
+      rightEye: {
+        withoutCorrection: {
+          id: `right_without_${id}`,
         },
-        config
-      )
-    ),
-    value: fakeCertificateValue.visualAcuity(
-      merge(
-        {
-          rightEye: {
-            withoutCorrection: {
-              id: `right_without_${id}`,
-            },
-            withCorrection: {
-              id: `right_with_${id}`,
-            },
-            contactLenses: {
-              id: `right_contacts_${id}`,
-            },
-          },
-          leftEye: {
-            withoutCorrection: {
-              id: `left_without_${id}`,
-            },
-            withCorrection: {
-              id: `left_with_${id}`,
-            },
-            contactLenses: {
-              id: `left_contacts_${id}`,
-            },
-          },
-          binocular: {
-            withoutCorrection: {
-              id: `binocular_without_${id}`,
-            },
-            withCorrection: {
-              id: `binocular_with_${id}`,
-            },
-          },
+        withCorrection: {
+          id: `right_with_${id}`,
         },
-        value
-      )
-    ),
+        contactLenses: {
+          id: `right_contacts_${id}`,
+        },
+      },
+      leftEye: {
+        withoutCorrection: {
+          id: `left_without_${id}`,
+        },
+        withCorrection: {
+          id: `left_with_${id}`,
+        },
+        contactLenses: {
+          id: `left_contacts_${id}`,
+        },
+      },
+      binocular: {
+        withoutCorrection: {
+          id: `binocular_without_${id}`,
+        },
+        withCorrection: {
+          id: `binocular_with_${id}`,
+        },
+      },
+      ...value,
+    }),
   }
 })
 

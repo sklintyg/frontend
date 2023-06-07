@@ -8,8 +8,10 @@ import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
+import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
 import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
+import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
 import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
@@ -100,6 +102,29 @@ export function Filters({
               from={filter.fromPatientAge.toString()}
               max="150"
               min="1"
+            />
+            <TimePeriodFilter
+              label="Sjukskrivningslängd"
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+              onChange={onSickLeaveLengthIntervalsChange}
+              availableOptions={sickLeaveLengthIntervals}
+              selectedOptions={filter.sickLeaveLengthIntervals}
+            />
+            <MultipleSelectFilterOption
+              label="REKO-status"
+              onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+              selected={filter.rekoStatusTypeIds}
+              description="Filtrerar på den REKO-status som satts för patienten."
+              placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+            />
+            <MultipleSelectFilterOption
+              label="Sysselsättning"
+              onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
+              options={populatedFilters ? populatedFilters.occupationTypes : []}
+              selected={filter.occupationTypeIds}
+              description="Filtrerar på patientens sysselsättning."
+              placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
             />
           </div>
           <div className="flex justify-end">

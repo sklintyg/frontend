@@ -2,7 +2,7 @@ import { IDSAlert, IDSButton, IDSButtonGroup, IDSContainer } from '@frontend/ids
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
-import { Mottagning, Vardenhet, Vardgivare } from '../../schemas'
+import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { useUpdateUserPreferences } from '../../store/hooks'
 import { CareProviderItem } from './components/CareProviderItem'
@@ -15,7 +15,6 @@ export function CareProvider() {
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )
-  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
   const [selectedRadio, setSelectedRadio] = useState<string>(selectedUnit?.namn ?? '')
   const [isChecked, setIsChecked] = useState(false)
 
@@ -28,9 +27,8 @@ export function CareProvider() {
   }
 
   const handleChangeUnit = async () => {
-    if (selectedUnit && selectedProvider) {
+    if (selectedUnit) {
       await changeUnit({
-        vardgivare: selectedProvider,
         vardenhet: {
           ...selectedUnit,
           id: selectedUnit.id,
@@ -49,8 +47,7 @@ export function CareProvider() {
     setIsChecked(event.target.checked)
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
-    setSelectedProvider(provider)
+  const handleChooseUnit = (event: React.ChangeEvent, unit: Vardenhet | Mottagning) => {
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
   }
