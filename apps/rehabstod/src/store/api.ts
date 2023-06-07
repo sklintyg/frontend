@@ -10,7 +10,7 @@ import {
   SickLeaveFilter,
   SickLeaveInfo,
   SickLeaveSummary,
-  UnansweredCommunicationFilterType
+  UnansweredCommunicationFilterType,
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
