@@ -6,10 +6,10 @@ export enum ErrorCode {
 }
 
 export enum ErrorTitle {
-  LOGIN_FAILED = 'Rehabstöd',
-  LOGIN_HSA_ERROR = 'Rehabstöd - tekniskt fel',
-  LOGIN_MEDARBETARUPPDRAG_SAKNAS = 'Rehabstöd - medarbetaruppdrag saknas',
-  LOGIN_SAKNAR_HSA_REHABROLL = 'Rehabstöd - Behörighet saknas',
+  LOGIN_FAILED = 'Tekniskt fel',
+  LOGIN_HSA_ERROR = 'Tekniskt fel',
+  LOGIN_MEDARBETARUPPDRAG_SAKNAS = 'Medarbetaruppdrag saknas',
+  LOGIN_SAKNAR_HSA_REHABROLL = 'Behörighet saknas',
 }
 
 export enum ErrorText {
