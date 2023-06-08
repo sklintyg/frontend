@@ -19,7 +19,7 @@
 This repo holds multiple applications, read more about getting started with each application in their respective README.
 
 - [rehabstod](apps/rehabstod/README.md)
-- [webcert](packages/webcert/README.md)
+- [webcert](apps/webcert/README.md)
 
 ## Repository structure
 
