@@ -78,7 +78,14 @@ export function SelectMultiple({
         <IDSIcon
           size="xs"
           name="chevron-bold"
-          className={classNames(open ? '-rotate-90' : 'rotate-90', 'top-1/2', 'absolute', 'right-6', '-translate-y-1/2', 'pointer-events-none')}
+          className={classNames(
+            open ? '-rotate-90' : 'rotate-90',
+            'top-1/2',
+            'absolute',
+            'right-6',
+            '-translate-y-1/2',
+            'pointer-events-none'
+          )}
         />
       </div>
       {open && (
