@@ -1,6 +1,6 @@
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import 'inera-core-css/src/themes/inera-master.scss'
-import '../packages/webcert/src/index.css'
+import '../apps/webcert/src/index.css'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
