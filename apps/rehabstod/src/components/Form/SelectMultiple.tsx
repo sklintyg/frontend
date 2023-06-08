@@ -65,7 +65,6 @@ export function SelectMultiple({
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
       {/* TODO: Replace with IDSInput when working properly */}
-      {/* TODO: Replace with IDSInput when working properly */}
       <div className="relative">
         <Input
           hasIcon
@@ -79,7 +78,7 @@ export function SelectMultiple({
         <IDSIcon
           size="xs"
           name="chevron-bold"
-          className={classNames(open ? '-rotate-90' : 'rotate-90', 'top-1/2', 'absolute', 'right-6', '-translate-y-1/2')}
+          className={classNames(open ? '-rotate-90' : 'rotate-90', 'top-1/2', 'absolute', 'right-6', '-translate-y-1/2', 'pointer-events-none')}
         />
       </div>
       {open && (
