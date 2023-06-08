@@ -10,7 +10,7 @@ import { allPatientColumns } from '../../../store/slices/patientTableColumns.sel
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
-import { getQAStatusFormat } from '../utils/getQAStatusFormat'
+import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 
 function PatientTableCellResolver({
   column,
@@ -48,7 +48,9 @@ function PatientTableCellResolver({
     case PatientColumn.Ärenden:
       return (
         <TableCell>
-          <span className="whitespace-pre-line">{getQAStatusFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}</span>
+          <span className="whitespace-pre-line">
+            {getUnansweredCommunicationsFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}
+          </span>
         </TableCell>
       )
     case PatientColumn.Läkare:

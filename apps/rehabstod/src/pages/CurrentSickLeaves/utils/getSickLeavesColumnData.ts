@@ -31,6 +31,8 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
       return sickLeave.rekoStatus ? sickLeave.rekoStatus.status.name : 'Ingen'
     case SickLeaveColumn.Risk:
       return sickLeave.riskSignal ? sickLeave.riskSignal.riskKategori : 0
+    case SickLeaveColumn.Ärenden:
+      return sickLeave.unansweredOther + sickLeave.obesvaradeKompl
     default:
       return undefined
   }

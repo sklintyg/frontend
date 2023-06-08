@@ -5,22 +5,33 @@ import { getTableSorter } from '../../utils/getTableSorter'
 interface TableOptions {
   ascending?: boolean
   sortColumn?: string
+  onSortChange?: (state: { sortColumn: string; ascending: boolean }) => void
 }
 
 function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
 
+  const updateSorting = useCallback(
+    (column: string, asc: boolean) => {
+      setSortColumn(column)
+      setAscending(asc)
+      if (options.onSortChange) {
+        options.onSortChange({ sortColumn: column, ascending: asc })
+      }
+    },
+    [options]
+  )
+
   const sortOnColumn = useCallback(
     (desiredColumn: string) => {
       if (desiredColumn !== sortColumn) {
-        setSortColumn(desiredColumn)
-        setAscending(options.ascending ?? false)
+        updateSorting(desiredColumn, options.ascending ?? false)
       } else {
-        setAscending(!ascending)
+        updateSorting(sortColumn, !ascending)
       }
     },
-    [ascending, sortColumn, options.ascending]
+    [ascending, options.ascending, sortColumn, updateSorting]
   )
 
   const sortTableList = getTableSorter(sortColumn, ascending)
