@@ -1,5 +1,5 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
+import { skipToken } from '@reduxjs/toolkit/query'
 import { UserUrval } from '../../schemas'
 import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'

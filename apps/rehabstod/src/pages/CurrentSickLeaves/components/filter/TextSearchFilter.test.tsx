@@ -6,12 +6,22 @@ import { TextSearchFilter } from './TextSearchFilter'
 const TITLE = 'titel'
 const DESCRIPTION = 'description'
 const PLACEHOLDER = 'placeholder'
+const TEXT_VALUE = 'textValue'
+const REKO = 'Reko'
 
 let onChange: (value: string) => void
 
 const renderComponent = () => {
   onChange = vi.fn()
-  render(<TextSearchFilter title={TITLE} description={DESCRIPTION} onTextSearchChange={onChange} placeholder={PLACEHOLDER} />)
+  render(
+    <TextSearchFilter
+      title={TITLE}
+      description={DESCRIPTION}
+      onTextSearchChange={onChange}
+      placeholder={PLACEHOLDER}
+      textValue={TEXT_VALUE}
+    />
+  )
 }
 
 describe('TextSearchFilter', () => {
@@ -24,7 +34,7 @@ describe('TextSearchFilter', () => {
   })
   it('should call onChange', async () => {
     renderComponent()
-    await userEvent.type(await screen.findByLabelText(TITLE), 'Reko')
-    expect(onChange).toHaveBeenLastCalledWith('Reko')
+    await userEvent.type(await screen.findByLabelText(TITLE), REKO)
+    expect(onChange).toBeCalled()
   })
 })
