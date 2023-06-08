@@ -7,11 +7,13 @@ export function TextSearchFilter({
   description,
   placeholder,
   onTextSearchChange,
+  textValue,
 }: {
   title: string
   description: string
   onTextSearchChange: (value: string) => void
   placeholder: string
+  textValue: string
 }) {
   const handleTextSearchChanged = (value: string) => {
     onTextSearchChange(value)
@@ -29,6 +31,7 @@ export function TextSearchFilter({
         onChange={(event) => {
           handleTextSearchChanged(event.currentTarget.value)
         }}
+        value={textValue}
       />
     </div>
   )
