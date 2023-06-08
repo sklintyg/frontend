@@ -13,9 +13,13 @@ export const errorMiddleware: Middleware =
   (action) => {
     if (isRejectedWithValue(action)) {
       const { method, url } = action.meta.baseQueryMeta.request
-      const { message } = action.payload.data ?? 'No message'
-      const errorMessage = `${message} method '${method}' url '${url}`
-      const { errorCode } = action.payload.data ?? 'No errorCode'
+      let message = 'No message'
+      let errorCode = 'No errorCode'
+      if (action.payload.data) {
+        message = action.payload.data.message ?? 'No message'
+        errorCode = action.payload.data.errorCode ?? 'No errorCode'
+      }
+      const errorMessage = `${message}' method '${method}' url '${url}`
       const errorId = uuidv4()
       const errorData = {
         errorId,
@@ -23,7 +27,7 @@ export const errorMiddleware: Middleware =
         message: errorMessage,
         stackTrace: null,
       }
-      dispatch(api.endpoints.logError.initiate({ errorData, ...errorData }))
+      dispatch(api.endpoints.logError.initiate({ ...errorData, errorData }))
       dispatch(setErrorId(errorId))
     }
     return next(action)

@@ -2,10 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ErrorState {
   errorId: string
+  routingErrorId: string
+  errorCode: string
 }
 
 const initialState = {
   errorId: '',
+  errorCode: '',
+  routingErrorId: '',
 }
 
 const errorSlice = createSlice({
@@ -18,9 +22,24 @@ const errorSlice = createSlice({
         errorId: payload,
       }
     },
+    setRoutingErrorId(state, { payload }: PayloadAction<string>) {
+      return {
+        ...state,
+        routingErrorId: payload,
+      }
+    },
+    setErrorCode(state, { payload }: PayloadAction<string>) {
+      return {
+        ...state,
+        errorCode: payload,
+      }
+    },
+    resetErrorState() {
+      return initialState
+    },
   },
 })
 
-export const { setErrorId } = errorSlice.actions
+export const { setErrorId, setErrorCode, resetErrorState, setRoutingErrorId } = errorSlice.actions
 
 export const { name: errorReducerPath, reducer: errorReducer } = errorSlice

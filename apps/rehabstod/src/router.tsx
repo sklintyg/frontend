@@ -8,6 +8,7 @@ import { MedicalOpinion } from './pages/MedicalOpinion/MedicalOpinion'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
+import { ErrorPage } from './pages/Error/ErrorPage'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -41,6 +42,7 @@ export const router = createBrowserRouter(
         <Route path=":patientId" element={<Patient />} />
       </Route>
       <Route path="*" element={<NoMatch />} />
+      <Route key="error" path="/error" element={<ErrorPage />} />
     </Route>,
   ])
 )
