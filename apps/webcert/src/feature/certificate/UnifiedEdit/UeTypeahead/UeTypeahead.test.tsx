@@ -1,5 +1,5 @@
 import { fakeTypeaheadElement } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -75,25 +75,19 @@ describe('Typeahead component', () => {
     const input = screen.getByRole('textbox')
     userEvent.clear(input)
     userEvent.type(input, 'Ö')
-    setTimeout(() => {
-      expect(mockDispatchFn).toHaveBeenCalledTimes(1)
-    }, 30)
+    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
-  it.skip('dispatches results when users types new text only after a wait', () => {
+  it.skip('dispatches results when users types new text only after a wait', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
     userEvent.clear(input)
     userEvent.type(input, 'Ö')
-    setTimeout(() => {
-      userEvent.type(input, 's')
-      setTimeout(() => {
-        expect(mockDispatchFn).toHaveBeenCalledTimes(0)
-      }, 30)
-    }, 30)
-    setTimeout(() => {
+    userEvent.type(input, 's')
+    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+    await waitFor(() => {
       expect(mockDispatchFn).toHaveBeenCalledTimes(1)
-    }, 500)
+    })
   })
 
   it('does not dispatch results when users text is not changed, even after wait', () => {
@@ -101,16 +95,9 @@ describe('Typeahead component', () => {
     const input = screen.getByRole('textbox')
     userEvent.clear(input)
     userEvent.type(input, 'Ö')
-    setTimeout(() => {
-      userEvent.clear(input)
-      setTimeout(() => {
-        userEvent.type(input, 'Ö')
-        expect(mockDispatchFn).toHaveBeenCalledTimes(0)
-        setTimeout(() => {
-          expect(mockDispatchFn).toHaveBeenCalledTimes(0)
-        }, 500)
-      }, 30)
-    }, 30)
+    userEvent.clear(input)
+    userEvent.type(input, 'Ö')
+    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 
   it('Render correct suggestions', () => {
