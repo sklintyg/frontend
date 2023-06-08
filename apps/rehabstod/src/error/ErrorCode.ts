@@ -6,7 +6,7 @@ export enum ErrorCode {
 }
 
 export enum ErrorTitle {
-  LOGIN_FAILED = 'Tekniskt fel',
+  LOGIN_FAILED = 'Inloggning misslyckades',
   LOGIN_HSA_ERROR = 'Tekniskt fel',
   LOGIN_MEDARBETARUPPDRAG_SAKNAS = 'Medarbetaruppdrag saknas',
   LOGIN_SAKNAR_HSA_REHABROLL = 'Behörighet saknas',
