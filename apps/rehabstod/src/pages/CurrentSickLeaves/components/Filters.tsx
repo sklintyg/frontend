@@ -11,6 +11,7 @@ import { RangeFilter } from './filter/RangeFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
 import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
+import { TextSearchFilter } from './filter/TextSearchFilter'
 
 export function Filters({
   onSearch,
@@ -37,6 +38,9 @@ export function Filters({
   const onDiagnosesChange = (diagnosisChapters: DiagnosKapitel[]) => {
     dispatch(updateFilter({ diagnosisChapters }))
   }
+  const onTextSearchChange = (text: string) => {
+    dispatch(updateFilter({ textSearch: text }))
+  }
 
   return (
     <>
@@ -62,6 +66,13 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
+            <TextSearchFilter
+              title="Fritextsökning"
+              description="Filtrerar på all synlig text och personnummer i tabellen"
+              onTextSearchChange={onTextSearchChange}
+              placeholder="Hitta sjukfall som innehåller..."
+              textValue={filter.textSearch}
+            />
             <RangeFilter
               title="Åldersspann"
               description="Filtrerar på patientens nuvarande ålder."
