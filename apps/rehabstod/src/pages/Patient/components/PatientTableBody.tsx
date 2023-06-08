@@ -2,24 +2,41 @@ import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 import { TableCell } from '../../../components/Table/TableCell'
+import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { Tooltip } from '../../../components/Tooltip/Tooltip'
+import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
+import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+
+function OtherUnitInformation() {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <div className="inline-block h-6 w-6 text-center">-</div>
+      </TooltipTrigger>
+      <TooltipContent>Du kan inte visa intyg från annan vårdenhet eller vårdgivare</TooltipContent>
+    </Tooltip>
+  )
+}
 
 function PatientTableCellResolver({
   column,
   rowIndex,
   certificate,
+  belongsToOtherUnit,
 }: {
   column: string
   rowIndex: number
   certificate: PatientSjukfallIntyg
+  belongsToOtherUnit: boolean
 }) {
   const { navigateToWebcert } = usePatient()
 
@@ -64,18 +81,22 @@ function PatientTableCellResolver({
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
-          <IDSButton
-            tertiary
-            onClick={() => {
-              navigateToWebcert(certificate.intygsId)
-            }}>
-            <IDSRow align="center">
-              <IDSColumn cols="auto">Visa </IDSColumn>
-              <IDSColumn cols="auto" className="ml-2">
-                <IDSIcon name="external" height="16" width="100%" />
-              </IDSColumn>
-            </IDSRow>
-          </IDSButton>
+          {belongsToOtherUnit ? (
+            <OtherUnitInformation />
+          ) : (
+            <IDSButton
+              tertiary
+              onClick={() => {
+                navigateToWebcert(certificate.intygsId)
+              }}>
+              <IDSRow align="center">
+                <IDSColumn cols="auto">Visa </IDSColumn>
+                <IDSColumn cols="auto" className="ml-2">
+                  <IDSIcon name="external" height="16" width="100%" />
+                </IDSColumn>
+              </IDSRow>
+            </IDSButton>
+          )}
         </TableCell>
       ) : (
         <>-</>
@@ -88,6 +109,7 @@ function PatientTableCellResolver({
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
+  const { data: user } = useGetUserQuery()
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(certificates, getCertificateColumnData).map(
@@ -102,6 +124,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
                     key={name}
                     column={name}
                     certificate={certificate}
+                    belongsToOtherUnit={user?.valdVardenhet?.id !== certificate.vardenhetId}
                     rowIndex={certificates.indexOf(certificate) + 1}
                   />
                 ))}
