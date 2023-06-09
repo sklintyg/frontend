@@ -25,9 +25,9 @@ export function TextSearchFilter({
       <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       <Input
         id={id}
-        type="text"
+        type="search"
         placeholder={placeholder}
-        className="text-neutral-20 bg-secondary-95 border-accent-40 placeholder:text-neutral-40 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left placeholder:italic"
+        className="bg-secondary-95 border-accent-40 placeholder:text-neutral-20 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
         onChange={(event) => {
           handleTextSearchChanged(event.currentTarget.value)
         }}
