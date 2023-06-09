@@ -32,8 +32,8 @@ describe('ErrorPage tests', () => {
     expect(screen.getByText(ErrorTitle.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
   })
   it('should return UknownInternalError', () => {
-    store.dispatch(setErrorCode(''))
+    store.dispatch(setErrorCode('wrong'))
     renderComponent()
-    expect(screen.getByText('Ett tekniskt problem inträffade')).toBeInTheDocument()
+    expect(screen.getByText('Tekniskt fel')).toBeInTheDocument()
   })
 })

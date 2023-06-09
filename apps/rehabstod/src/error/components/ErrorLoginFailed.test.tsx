@@ -1,7 +1,7 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { ErrorText, ErrorTitle } from '../ErrorCode'
+import { ErrorTitle } from '../ErrorCode'
 import { ErrorLoginFailed } from './ErrorLoginFailed'
 
 const renderComponent = () => {
@@ -15,8 +15,8 @@ describe('ErrorLoginFailed component', () => {
     renderComponent()
     expect(screen.getByText(ErrorTitle.LOGIN_FAILED)).toBeInTheDocument()
   })
-  it('should render text', () => {
+  it('displays link', async () => {
     renderComponent()
-    expect(screen.getByText(ErrorText.LOGIN_FAILED)).toBeInTheDocument()
+    expect(await screen.findByText('ineraNationellKundservice')).toBeInTheDocument()
   })
 })
