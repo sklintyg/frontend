@@ -61,7 +61,7 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
           {!filter.unansweredCommunicationFilterTypeId
             ? 'Visa alla'
             : populatedFilters.unansweredCommunicationFilterTypes.find((type) => type.id === filter.unansweredCommunicationFilterTypeId)
-                .name}
+                ?.name}
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">Sysselsättning: </p>
