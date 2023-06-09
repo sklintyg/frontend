@@ -28,7 +28,8 @@ const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, di
         'iu-border-error dropdown': error,
         dropdown: !error,
         'ic-forms__select--disabled': disabled,
-      })}>
+      })}
+    >
       <DropdownSelect ref={ref} id={id} disabled={disabled} value={value ?? ''} {...props}>
         {children}
       </DropdownSelect>

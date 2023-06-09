@@ -62,7 +62,8 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
           [rightConfig.contactLensesId, rightConfig.withCorrectionId, rightConfig.withoutCorrectionId].includes(field)
         )}
         disabled={disabled}
-        onChange={onRightChanged}></UeEyeAcuity>
+        onChange={onRightChanged}
+      ></UeEyeAcuity>
       <UeEyeAcuity
         config={leftConfig}
         value={currentValue.leftEye as ValueEyeAcuity}
@@ -70,7 +71,8 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
           [leftConfig.contactLensesId, leftConfig.withCorrectionId, leftConfig.withoutCorrectionId].includes(field)
         )}
         disabled={disabled}
-        onChange={onLeftChanged}></UeEyeAcuity>
+        onChange={onLeftChanged}
+      ></UeEyeAcuity>
       <UeEyeAcuity
         config={binocularConfig}
         value={currentValue.binocular as ValueEyeAcuity}
@@ -78,7 +80,8 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
           [binocularConfig.contactLensesId, binocularConfig.withCorrectionId, binocularConfig.withoutCorrectionId].includes(field)
         )}
         disabled={disabled}
-        onChange={onBinocularChanged}></UeEyeAcuity>
+        onChange={onBinocularChanged}
+      ></UeEyeAcuity>
     </div>
   )
 }

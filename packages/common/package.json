@@ -15,8 +15,9 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
+    "*": "prettier --write --ignore-unknown",
     "*.{js,jsx,ts,tsx}": [
-      "eslint . --fix",
+      "eslint --fix",
       "vitest related --run"
     ]
   },

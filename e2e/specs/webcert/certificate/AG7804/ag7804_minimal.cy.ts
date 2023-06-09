@@ -55,9 +55,7 @@ describe(`Tomt ${name} intyg`, () => {
   it(`Förnya ett ${type}-intyg`, () => {
     cy.signCertificate()
     cy.renewCertificate()
-    cy.get('button')
-      .contains('Intyget är tillgängligt för patienten')
-      .should('not.exist')
+    cy.get('button').contains('Intyget är tillgängligt för patienten').should('not.exist')
     cy.contains(certificateId).should('not.exist')
   })
 
@@ -74,9 +72,7 @@ describe(`Tomt ${name} intyg`, () => {
 
   it(`Det går inte att signera ett ${type} utkast som inte innehåller alla obligatoriska fält`, () => {
     cy.contains('Klart att signera').should('exist')
-    cy.get('label')
-      .contains('100 procent')
-      .click()
+    cy.get('label').contains('100 procent').click()
     cy.contains('Obligatoriska uppgifter saknas', { timeout: 5000 }).should('exist')
     cy.contains('Klart att signera', { timeout: 5000 }).should('not.exist')
   })

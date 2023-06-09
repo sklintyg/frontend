@@ -103,13 +103,11 @@ const fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo = {
       content: [
         {
           heading: FMBDiagnosisCodeInfoFormContentHeading.FMB_GENERAL_INFO,
-          text:
-            '<p>Det finns en spännvidd för hur en given sjukdom påverkar olika individers arbetsförmåga och förmåga att utföra olika aktiviteter. Därför måste bedömningen av arbetsförmågan ske individuellt utifrån individens unika förutsättningar och sysselsättning.</p>\n<p>Vid anorexia nervosa saknas inte sällan sjukdomsinsikt. Patienten kan uttrycka önskemål om fortsatt arbete, trots betydande medicinska risker. Samsjuklighet med depression, ångest, tvångstankar, missbruk, personlighetsstörningar och neuropsykiatriska tillstånd är stor. Sjukskrivning i före-byggande syfte kan behövas när patienten genomgår medicinsk behandling som kräver daglig närvaro t.ex. dagvårdsbehandling.\nBarn med anorexia nervosa som inte kan gå i skolan kan periodvis behöva stöd av att en vuxen finns hemma.</p>\n',
+          text: '<p>Det finns en spännvidd för hur en given sjukdom påverkar olika individers arbetsförmåga och förmåga att utföra olika aktiviteter. Därför måste bedömningen av arbetsförmågan ske individuellt utifrån individens unika förutsättningar och sysselsättning.</p>\n<p>Vid anorexia nervosa saknas inte sällan sjukdomsinsikt. Patienten kan uttrycka önskemål om fortsatt arbete, trots betydande medicinska risker. Samsjuklighet med depression, ångest, tvångstankar, missbruk, personlighetsstörningar och neuropsykiatriska tillstånd är stor. Sjukskrivning i före-byggande syfte kan behövas när patienten genomgår medicinsk behandling som kräver daglig närvaro t.ex. dagvårdsbehandling.\nBarn med anorexia nervosa som inte kan gå i skolan kan periodvis behöva stöd av att en vuxen finns hemma.</p>\n',
         },
         {
           heading: FMBDiagnosisCodeInfoFormContentHeading.FMB_SYMPTOM_PROGNOSIS_TREATMENT,
-          text:
-            '<p>Anorexia nervosa (med varianter) är viljestyrd viktnedgång som vidmakthålls av en upplevelse av att vara för tjock (även vid utpräglad undervikt) och en rädsla för att gå upp i vikt. Tillståndet debuterar oftast i tonåren och är vanligast hos flickor och unga kvinnor (cirka tio procent är pojkar eller unga män). Ofta undviker patienten all form av fett. I sällsynta fall förekommer total matvägran. Intensiv motion, dagliga kräkningar och laxermedelsmissbruk är vanliga.\nAnorexia nervosa innebär betydande medicinska risker vid allvarlig svält framför allt i kombination med frekventa kräkningar. Allvarliga tillstånd på-verkar kroppens alla organ, särskilt hjärtat och cirkulationen, och kan vara livshotande. Överdödligheten är sex till nio gånger högre jämfört med nor-malbefolkningen i samma åldersgrupp. Tillståndet kan också övergå till andra former av ätstörningar.\nTidig upptäckt och snabbt insatt behandling är den viktigaste åtgärden för god prognos. Behandlingen är en kombination av nutritionsbehandling och psykopedagogiska eller psykoterapeutiska insatser. Behandlingen fokuserar på att patienten snabbt ska komma ur sin ätstörning, så att patienten inte blir långvarigt sjuk eller går ner mer i vikt. Medicinska kontroller av det kroppsliga hälsotillståndet är centralt eftersom patienten snabbt kan försämras. Samsjuklighet ska behandlas samtidigt med ätstörningen och kan kräva farmakologisk behandling.Anorexia nervosa kan vara långdraget och pågå med olika intensitet under fem till femton år. Hos vissa unga patienter som kommer till snabb behandling kan dock tillfrisknandet gå betydligt fortare, ett halvt till ett år. För de flesta patienter skiftar svårighetsgraden och symtomen under årens lopp.</p>\n',
+          text: '<p>Anorexia nervosa (med varianter) är viljestyrd viktnedgång som vidmakthålls av en upplevelse av att vara för tjock (även vid utpräglad undervikt) och en rädsla för att gå upp i vikt. Tillståndet debuterar oftast i tonåren och är vanligast hos flickor och unga kvinnor (cirka tio procent är pojkar eller unga män). Ofta undviker patienten all form av fett. I sällsynta fall förekommer total matvägran. Intensiv motion, dagliga kräkningar och laxermedelsmissbruk är vanliga.\nAnorexia nervosa innebär betydande medicinska risker vid allvarlig svält framför allt i kombination med frekventa kräkningar. Allvarliga tillstånd på-verkar kroppens alla organ, särskilt hjärtat och cirkulationen, och kan vara livshotande. Överdödligheten är sex till nio gånger högre jämfört med nor-malbefolkningen i samma åldersgrupp. Tillståndet kan också övergå till andra former av ätstörningar.\nTidig upptäckt och snabbt insatt behandling är den viktigaste åtgärden för god prognos. Behandlingen är en kombination av nutritionsbehandling och psykopedagogiska eller psykoterapeutiska insatser. Behandlingen fokuserar på att patienten snabbt ska komma ur sin ätstörning, så att patienten inte blir långvarigt sjuk eller går ner mer i vikt. Medicinska kontroller av det kroppsliga hälsotillståndet är centralt eftersom patienten snabbt kan försämras. Samsjuklighet ska behandlas samtidigt med ätstörningen och kan kräva farmakologisk behandling.Anorexia nervosa kan vara långdraget och pågå med olika intensitet under fem till femton år. Hos vissa unga patienter som kommer till snabb behandling kan dock tillfrisknandet gå betydligt fortare, ett halvt till ett år. För de flesta patienter skiftar svårighetsgraden och symtomen under årens lopp.</p>\n',
         },
       ],
     },
@@ -118,8 +116,7 @@ const fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo = {
       content: [
         {
           heading: FMBDiagnosisCodeInfoFormContentHeading.FMB_ACTIVITY_LIMITATION,
-          text:
-            'Patienten har ofta en önskan att ha en högre aktivitetsgrad än vad läkaren tycker. Tillståndet påverkar förmågan att ta hand om sig själv och den sociala interaktionen med andra människor.',
+          text: 'Patienten har ofta en önskan att ha en högre aktivitetsgrad än vad läkaren tycker. Tillståndet påverkar förmågan att ta hand om sig själv och den sociala interaktionen med andra människor.',
         },
       ],
     },
@@ -128,8 +125,7 @@ const fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo = {
       content: [
         {
           heading: FMBDiagnosisCodeInfoFormContentHeading.FMB_REHABILITATION_INFORMATION,
-          text:
-            '<p>Det är bra om arbetsuppgifterna kan anpassas till fysiskt lättare arbete och med möjlighet att upprätthålla regelbundna matrutiner (frukost, lunch och middag).</p>\n',
+          text: '<p>Det är bra om arbetsuppgifterna kan anpassas till fysiskt lättare arbete och med möjlighet att upprätthålla regelbundna matrutiner (frukost, lunch och middag).</p>\n',
         },
       ],
     },
@@ -138,8 +134,7 @@ const fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo = {
       content: [
         {
           heading: FMBDiagnosisCodeInfoFormContentHeading.FMB_DISABILITY,
-          text:
-            'Anorexia nervosa kan ge betydande kroppsliga funktionsnedsättningar, exempelvis problem med smärtor, ledbesvär, andfåddhet, trötthet och psykiska funktionsnedsättningar, exempelvis koncentrationssvårigheter, ångest, upptagenhet av mat (ej fokus på något annat).',
+          text: 'Anorexia nervosa kan ge betydande kroppsliga funktionsnedsättningar, exempelvis problem med smärtor, ledbesvär, andfåddhet, trötthet och psykiska funktionsnedsättningar, exempelvis koncentrationssvårigheter, ångest, upptagenhet av mat (ej fokus på något annat).',
         },
       ],
     },

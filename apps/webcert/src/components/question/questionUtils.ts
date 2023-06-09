@@ -49,7 +49,7 @@ export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]
   })
 }
 
-const compare = function(a: number, b: number) {
+const compare = function (a: number, b: number) {
   if (a > b) return -1
   if (a < b) return 1
 

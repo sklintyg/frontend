@@ -14,7 +14,8 @@ const ReloadModal: React.FC<ModalProps> = ({ errorData, children }) => {
       errorData={errorData}
       confirmButtonText={RELOAD_CONFIRM_BUTTON_TEXT}
       closeButtonText={RELOAD_CLOSE_BUTTON_TEXT}
-      onConfirm={reloadPage(errorData, dispatch)}>
+      onConfirm={reloadPage(errorData, dispatch)}
+    >
       {children}
     </ErrorModalBase>
   )

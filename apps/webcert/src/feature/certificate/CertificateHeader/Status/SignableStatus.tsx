@@ -9,7 +9,8 @@ const SignableStatus: React.FC<Props> = ({ isValidForSigning }) => {
   return (
     <StatusWithIcon
       icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}
-      additionalTextStyles={!isValidForSigning ? 'iu-color-error' : ''}>
+      additionalTextStyles={!isValidForSigning ? 'iu-color-error' : ''}
+    >
       {isValidForSigning ? 'Klart att signera' : 'Obligatoriska uppgifter saknas'}
     </StatusWithIcon>
   )

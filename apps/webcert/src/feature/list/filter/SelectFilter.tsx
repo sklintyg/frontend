@@ -38,7 +38,8 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
         onChange={onSelectFilterChange}
         label={config.title}
         id={config.id}
-        value={value ? (value as ListFilterValueSelect).value : ''}>
+        value={value ? (value as ListFilterValueSelect).value : ''}
+      >
         {config.values.map((configValue, index) => (
           <option
             key={index}
