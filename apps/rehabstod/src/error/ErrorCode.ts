@@ -14,7 +14,7 @@ export enum ErrorTitle {
 
 export enum ErrorText {
   LOGIN_FAILED = 'Gå tillbaka till startsidan och försök igen. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand ',
-  LOGIN_HSA_ERROR = 'Ett tekniskt fel har uppstått i Rehabstöd. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand ',
+  LOGIN_HSA_ERROR = 'Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand ',
   LOGIN_MEDARBETARUPPDRAG_SAKNAS = "Det krävs minst ett giltigt medarbetaruppdrag med ändamål 'Vård och behandling' för att använda Rehabstöd.",
   LOGIN_SAKNAR_HSA_REHABROLL = 'För att logga in som Rehabkoordinator krävs att du har den rollen för vårdenheten i HSA. Kontakta din lokala HSA-administratör för behörighet.',
 }
