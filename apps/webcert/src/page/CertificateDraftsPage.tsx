@@ -44,7 +44,8 @@ const CertificateDraftPage: React.FC = () => {
               />
             )}
           </>
-        }>
+        }
+      >
         <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
         <ListContainer
           type={ListType.DRAFTS}

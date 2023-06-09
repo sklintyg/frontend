@@ -53,9 +53,7 @@ describe(`Signerat ${name} intyg`, () => {
 
   it('Makulera ett låst DOI', () => {
     cy.contains('Makulera').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Makulera')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Makulera').click()
     cy.contains('Utkastet är makulerat').should('exist')
   })
 })

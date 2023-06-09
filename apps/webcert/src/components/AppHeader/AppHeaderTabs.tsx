@@ -46,7 +46,8 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
           <Link
             to={tab.url}
             className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
-            onClick={() => switchTab(tab)}>
+            onClick={() => switchTab(tab)}
+          >
             <span>{tab.title}</span>
             {!!tab.number && <NumberCircle number={tab.number} type="secondary" />}
           </Link>

@@ -10,14 +10,14 @@ const DESCRIPTION = 'Renew button description'
 const BODY = 'Renew button body'
 const DONT_SHOW_FORNYA_DIALOG = 'wc.dontShowFornyaDialog'
 const PREFERENCES = { [DONT_SHOW_FORNYA_DIALOG]: 'false' }
-const user = ({
+const user = {
   hsaId: '1234abc',
   name: 'Test Testtest',
   loggedInUnit: { unitName: 'testUnit' } as Unit,
   loggedInCareProvider: { unitName: 'testProvider' } as Unit,
   role: 'doctor',
   preferences: PREFERENCES,
-} as unknown) as User
+} as unknown as User
 
 const certificateMetadata = {} as CertificateMetadata
 

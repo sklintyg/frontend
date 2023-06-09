@@ -89,7 +89,8 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
             disabled={disabled}
             onChange={(event) => setSelectedYear(event.target.value)}
             value={selectedYear}
-            error={validationErrors.some((v) => v.field.includes(`${config.id}.year`))}>
+            error={validationErrors.some((v) => v.field.includes(`${config.id}.year`))}
+          >
             {years.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
@@ -104,7 +105,8 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
             disabled={disabledMonth}
             onChange={(event) => setSelectedMonth(event.currentTarget.value)}
             value={selectedMonth}
-            error={validationErrors.some((v) => v.field.includes(`${config.id}.month`))}>
+            error={validationErrors.some((v) => v.field.includes(`${config.id}.month`))}
+          >
             {months.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}

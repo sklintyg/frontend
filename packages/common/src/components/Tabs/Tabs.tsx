@@ -142,7 +142,8 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
                 onClick={() => setSelectedTabIndex(i)}
                 ref={(el: HTMLAnchorElement) => (tabRefs.current[i] = el)}
                 className="ic-tabbed__tab"
-                href={i.toString()}>
+                href={i.toString()}
+              >
                 {tab}
               </a>
             </li>

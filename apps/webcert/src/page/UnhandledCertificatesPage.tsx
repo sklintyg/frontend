@@ -44,7 +44,8 @@ const UnhandledCertificatsPage: React.FC = () => {
               />
             )}
           </>
-        }>
+        }
+      >
         <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
         <ListContainer
           type={ListType.UNHANDLED_CERTIFICATES}

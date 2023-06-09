@@ -7,10 +7,13 @@ export const clearDispatchedActions = () => {
   dispatchedActions.length = 0
 }
 
-const handleStoreAction: Middleware = () => (next) => (action: AnyAction): void => {
-  dispatchedActions.push(action)
+const handleStoreAction: Middleware =
+  () =>
+  (next) =>
+  (action: AnyAction): void => {
+    dispatchedActions.push(action)
 
-  next(action)
-}
+    next(action)
+  }
 
 export default handleStoreAction

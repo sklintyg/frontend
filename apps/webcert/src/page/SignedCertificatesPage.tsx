@@ -52,7 +52,8 @@ const SignedCertificatesPage: React.FC = () => {
               />
             )}
           </>
-        }>
+        }
+      >
         <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
         <ListContainer
           type={ListType.CERTIFICATES}

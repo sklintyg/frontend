@@ -49,9 +49,7 @@ describe(`Tomt ${name} intyg`, () => {
       cy.contains('Åtgärder').should('exist')
     })
 
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .should('not.exist')
+    cy.get('button').contains('Skicka till Försäkringskassan').should('not.exist')
   })
 
   it(`Det är möjligt att raderar ett icke ifyllt ${type}`, () => {

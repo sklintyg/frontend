@@ -23,11 +23,7 @@ const parseValue = (val: string): number | null => {
 }
 
 const formatFixed = (value: string) => {
-  return value
-    ? parseFloat(value.replace(',', '.'))
-        .toFixed(1)
-        .replace('.', ',')
-    : ''
+  return value ? parseFloat(value.replace(',', '.')).toFixed(1).replace('.', ',') : ''
 }
 
 export interface Props {
@@ -78,7 +74,8 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, valid
             onNoCorrectionChange(event.currentTarget.value)
           }}
           hasValidationError={validationErrors.some(({ field }) => field === config.withoutCorrectionId)}
-          onBlur={() => setNoCorrection(formatFixed(noCorrection))}></AcuityInput>
+          onBlur={() => setNoCorrection(formatFixed(noCorrection))}
+        ></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         <AcuityInput
@@ -91,7 +88,8 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, valid
             onCorrectionChange(event.currentTarget.value)
           }}
           hasValidationError={validationErrors.some(({ field }) => field === config.withCorrectionId)}
-          onBlur={() => setCorrection(formatFixed(correction))}></AcuityInput>
+          onBlur={() => setCorrection(formatFixed(correction))}
+        ></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         {config.contactLensesId && (
@@ -102,7 +100,8 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, valid
               onContactsChange(event.currentTarget.checked)
             }}
             hasValidationError={validationErrors.some(({ field }) => field && field === config.contactLensesId)}
-            checked={contacts}></Checkbox>
+            checked={contacts}
+          ></Checkbox>
         )}
       </div>
       {validationErrors.length > 0 && (

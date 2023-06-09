@@ -27,7 +27,8 @@ const CopyCertificateContinueButton: React.FC<Props> = ({ name, description, ena
       onConfirm={handleConfirm()}
       confirmButtonText={'Fortsätt på utkast'}
       confirmButtonDisabled={functionDisabled}
-      buttonTestId="copy-certificate-continue-button">
+      buttonTestId="copy-certificate-continue-button"
+    >
       <p>
         Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
         redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.{' '}
