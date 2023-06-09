@@ -27,7 +27,7 @@ export function TextSearchFilter({
         id={id}
         type="text"
         placeholder={placeholder}
-        className="text-neutral-20 bg-secondary-95 border-accent-40 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left placeholder:italic"
+        className="text-neutral-20 bg-secondary-95 border-accent-40 placeholder:text-neutral-40 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left placeholder:italic"
         onChange={(event) => {
           handleTextSearchChanged(event.currentTarget.value)
         }}
