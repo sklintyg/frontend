@@ -37,7 +37,7 @@ export function ErrorModal({
   }, [show, dispatch, description, errorCode, generateError])
 
   return (
-    <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show}>
+    <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show ? 'true' : 'false'}>
       {description}
       {errorId && <ErrorId errorId={errorId} />}
       <IDSDialogActions>
