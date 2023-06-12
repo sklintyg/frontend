@@ -14,7 +14,7 @@ export function ErrorModal({
   dynamicLink,
 }: {
   description: string
-  show: boolean
+  show?: boolean
   errorCode: string
   generateError: boolean
   dynamicLink: boolean
