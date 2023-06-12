@@ -1,7 +1,7 @@
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { useAppSelector } from '../../../store/hooks'
-import { getSickLeaveLengthLabel } from '../utils/getSickLeaveLengthPlaceholder'
-import { convertSelectedValue } from '../utils/timePeriodConversion'
+import {useGetPopulatedFiltersQuery} from '../../../store/api'
+import {useAppSelector} from '../../../store/hooks'
+import {getSickLeaveLengthLabel} from '../utils/getSickLeaveLengthPlaceholder'
+import {convertSelectedValue} from '../utils/timePeriodConversion'
 
 export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
@@ -30,8 +30,8 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
             {filter.doctorIds.length === 0
               ? 'Alla valda'
               : populatedFilters.activeDoctors
-                  .filter((doctor) => filter.doctorIds.find((id) => doctor.hsaId === id))
-                  .map((doctor) => `${doctor.hsaId}: ${doctor.namn}\n`)}
+                .filter((doctor) => filter.doctorIds.find((id) => doctor.hsaId === id))
+                .map((doctor) => `${doctor.namn}\n`)}
           </div>
         )}
         <div>
@@ -40,14 +40,15 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">Sjukskrivningslängd: </p>
-          {sickLeaveLengthIntervals
-            .filter((option) =>
-              filter.sickLeaveLengthIntervals.find(
-                ({ from, to }) =>
-                  convertSelectedValue(from, option.metric) === option.from && convertSelectedValue(to, option.metric) === option.to
+          {filter.sickLeaveLengthIntervals.length === 0 ? 'Alla valda'
+            : sickLeaveLengthIntervals
+              .filter((option) =>
+                filter.sickLeaveLengthIntervals.find(
+                  ({from, to}) =>
+                    convertSelectedValue(from, option.metric) === option.from && convertSelectedValue(to, option.metric) === option.to
+                )
               )
-            )
-            .map((option) => `${getSickLeaveLengthLabel(option)}\n`) ?? 'Alla valda'}
+              .map((option) => `${getSickLeaveLengthLabel(option)}\n`)}
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">REKO-status: </p>
