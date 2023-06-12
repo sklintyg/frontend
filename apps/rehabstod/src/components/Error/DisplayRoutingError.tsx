@@ -1,9 +1,9 @@
 import { ErrorCode } from './ErrorCode'
-import { ErrorLoginFailed } from './components/ErrorLoginFailed'
-import { UnknownInternalError } from './components/UnknownInternalError'
-import { ErrorMissingEmployeeAssignment } from './components/ErrorMissingEmployeeAssignment'
-import { ErrorHsaError } from './components/ErrorHsaError'
-import { ErrorHsaMissingRole } from './components/ErrorHsaMissingRole'
+import { ErrorLoginFailed } from './ErrorRoutes/ErrorLoginFailed'
+import { ErrorHsaError } from './ErrorRoutes/ErrorHsaError'
+import { ErrorMissingEmployeeAssignment } from './ErrorRoutes/ErrorMissingEmployeeAssignment'
+import { ErrorHsaMissingRole } from './ErrorRoutes/ErrorHsaMissingRole'
+import { UnknownInternalError } from './ErrorRoutes/UnknownInternalError'
 
 export function DisplayRoutingError({ errorCode }: { errorCode: string | undefined }) {
   switch (errorCode) {

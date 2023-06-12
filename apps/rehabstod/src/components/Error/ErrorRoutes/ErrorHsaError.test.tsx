@@ -1,6 +1,6 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../utils/renderWithRouter'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorHsaError } from './ErrorHsaError'
 import { ErrorTitle } from '../ErrorCode'
 

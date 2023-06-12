@@ -1,6 +1,6 @@
 import { ErrorText, ErrorTitle } from '../ErrorCode'
-import { DynamicLink } from '../../components/DynamicLink/DynamicLink'
-import { useGetLinksQuery } from '../../store/api'
+import { DynamicLink } from '../../DynamicLink/DynamicLink'
+import { useGetLinksQuery } from '../../../store/api'
 
 export function ErrorLoginFailed() {
   const { data: links } = useGetLinksQuery()

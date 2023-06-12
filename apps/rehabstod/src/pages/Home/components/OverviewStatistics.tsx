@@ -8,7 +8,7 @@ import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 import { UserUrval } from '../../../schemas'
-import { DisplayError } from '../../../error/DisplayError'
+import { DisplayError } from '../../../components/Error/DisplayError/DisplayError'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()

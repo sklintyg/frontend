@@ -1,9 +1,9 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { useAppSelector } from '../store/hooks'
-import { DynamicLink } from '../components/DynamicLink/DynamicLink'
-import { useGetLinksQuery } from '../store/api'
-import { TooltipIcon } from '../components/TooltipIcon/TooltipIcon'
+import { useAppSelector } from '../../../store/hooks'
+import { DynamicLink } from '../../DynamicLink/DynamicLink'
+import { useGetLinksQuery } from '../../../store/api'
+import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 
 export function DisplayError({
   heading,

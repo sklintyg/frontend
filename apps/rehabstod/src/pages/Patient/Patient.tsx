@@ -8,7 +8,7 @@ import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumn
 import { OpenTabsDialog } from './components/OpenTabsDialog'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
-import { DisplayError } from '../../error/DisplayError'
+import { DisplayError } from '../../components/Error/DisplayError/DisplayError'
 import { PatientErrorHeader } from './components/PatientErrorHeader'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientContext, usePatientState } from './hooks/usePatient'

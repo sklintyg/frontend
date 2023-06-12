@@ -1,5 +1,5 @@
 import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
-import { uuidv4 } from '../error/util/errorUtils'
+import { uuidv4 } from '../components/Error/util/errorUtils'
 import { api } from './api'
 import { setErrorId } from './slices/error.slice'
 

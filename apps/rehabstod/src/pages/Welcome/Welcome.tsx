@@ -24,7 +24,7 @@ import {
   updateFreetext,
 } from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
-import { DisplayError } from '../../error/DisplayError'
+import { DisplayError } from '../../components/Error/DisplayError/DisplayError'
 
 export function Welcome() {
   const {
