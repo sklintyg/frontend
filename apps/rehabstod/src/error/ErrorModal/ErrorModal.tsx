@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts/dist'
+import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
 import { ErrorId } from '../ErrorId/ErrorId'
 import { api, useGetLinksQuery } from '../../store/api'
 import { uuidv4 } from '../util/errorUtils'
