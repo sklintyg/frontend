@@ -38,7 +38,9 @@ export function OverviewStatistics() {
 
   return (
     <div className="ids-content py-10">
-      <h1 className="ids-heading-2">Översikt över pågående sjukfall just nu</h1>
+      <h1 className="ids-heading-2">
+        {isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
+      </h1>
       <h2 className="ids-heading-3 mb-10">{unit}</h2>
       <div className="grid grid-cols-3 gap-4">
         <IDSCard fill className="bg-secondary-95">
