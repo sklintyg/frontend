@@ -2,22 +2,26 @@ import { useEffect, useRef, useState } from 'react'
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts/src'
 import { useDispatch } from 'react-redux'
 import { ErrorId } from './ErrorId'
-import { api } from '../store/api'
+import { api, useGetLinksQuery } from '../store/api'
 import { uuidv4 } from './util/errorUtils'
+import { DynamicLink } from '../components/DynamicLink/DynamicLink'
 
 export function ErrorModal({
   description,
   show,
   errorCode,
   generateError,
+  dynamicLink,
 }: {
   description: string
   show: boolean
   errorCode: string
   generateError: boolean
+  dynamicLink: boolean
 }) {
   const ref = useRef<IDSDialogElement>(null)
   const [errorId, setErrorId] = useState('')
+  const { data: links } = useGetLinksQuery()
   const close = () => ref.current?.hideDialog()
   const dispatch = useDispatch()
 
@@ -38,7 +42,8 @@ export function ErrorModal({
 
   return (
     <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show ? 'true' : 'false'}>
-      {description}
+      {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand
+      {dynamicLink ? <DynamicLink type="footer" link={links?.ineraNationellKundservice} /> : ''}
       {errorId && <ErrorId errorId={errorId} />}
       <IDSDialogActions>
         <IDSButton secondary onClick={close}>

@@ -53,9 +53,10 @@ export function PatientOverview({
         show={sjfMetaData.consentServiceError || sjfMetaData.blockingServiceError}
         description={
           sjfMetaData.consentServiceError
-            ? 'Tyvärr kan information från andra vårdgivare inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
-            : 'Tyvärr kan information inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
+            ? 'Information från andra vårdgivare kan inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
+            : 'Information kan inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
         }
+        dynamicLink
         errorCode={sjfMetaData.consentServiceError ? 'SJF_CONSENT_SERVICE_ERROR' : 'SJF_BLOCKING_SERVICE_ERROR'}
         generateError
       />
@@ -66,9 +67,10 @@ export function PatientOverview({
     <>
       <ErrorModal
         show={giveConsentError !== undefined || (consentResponse && consentResponse.responseCode !== 'OK')}
-        description="Tyvärr kan samtycke inte registreras på grund av ett tekniskt fel. Försök igen om en stund."
+        description="Samtycke kan inte registreras på grund av ett tekniskt fel. Försök igen om en stund."
         errorCode="REGISTER_SJF_CONSENT_ERROR"
         generateError={giveConsentError === undefined}
+        dynamicLink
       />
       <div className="grid grid-cols-2 gap-4 py-5">
         <OpenInformationCard
