@@ -15,7 +15,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
   sessionStorage.removeItem('launchId')
   useEffect(() => {
     if (formRef) {
-      const form = (formRef.current as unknown) as HTMLFormElement
+      const form = formRef.current as unknown as HTMLFormElement
       form.submit()
     }
   }, [])

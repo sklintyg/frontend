@@ -42,7 +42,9 @@ export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
             ))}
           </div>
         ) : (
-          <hr className="h-px w-4" data-testid="noRiskSignalSymbol" />
+          <div className="h-6 w-6">
+            <hr className="h-px w-4" data-testid="noRiskSignalSymbol" />
+          </div>
         )}
       </TooltipTrigger>
       <TooltipContent>

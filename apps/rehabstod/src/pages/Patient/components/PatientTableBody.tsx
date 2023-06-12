@@ -43,7 +43,8 @@ function PatientTableCellResolver({
     case PatientColumn.Diagnos:
       return (
         <TableCell
-          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
+          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}
+        >
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
@@ -63,7 +64,8 @@ function PatientTableCellResolver({
               tertiary
               onClick={() => {
                 navigateToWebcert(certificate.intygsId)
-              }}>
+              }}
+            >
               <IDSRow align="center">
                 <IDSColumn cols="auto">Visa </IDSColumn>
                 <IDSColumn cols="auto" className="ml-2">

@@ -27,16 +27,17 @@ import {
   validateCertificateInFrontEndCompleted,
 } from './certificateActions'
 
-export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
-  action: AnyAction
-): void => {
-  const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
-  dispatch(validateCertificateInFrontEndCompleted())
+export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> =
+  ({ dispatch, getState }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
+    dispatch(validateCertificateInFrontEndCompleted())
 
-  questionIdsToValidate.forEach((questionId) =>
-    dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
-  )
-}
+    questionIdsToValidate.forEach((questionId) =>
+      dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
+    )
+  }
 
 function getAutoFillValidation(validation: CertificateDataValidation): ValueType {
   const autoFillValidation = validation as AutoFillValidation

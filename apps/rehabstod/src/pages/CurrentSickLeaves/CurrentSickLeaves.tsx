@@ -100,7 +100,8 @@ export function CurrentSickLeaves() {
             sortColumn={tableState.sortColumn}
             onSortChange={setTableState}
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
-            ascending={tableState.ascending}>
+            ascending={tableState.ascending}
+          >
             <thead>
               <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
             </thead>

@@ -17,7 +17,8 @@ const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
       type="protected_person"
       status={isProtectedPatient}
       title={protectedPersonTitle}
-      modalTitle={protectedPersonTitle}>
+      modalTitle={protectedPersonTitle}
+    >
       <p>
         Att en patient har skyddade personuppgifter betyder att Skatteverket har bedömt att patientens personuppgifter är extra viktiga att
         skydda. Det finns speciella riktlinjer för hur personuppgifter för de invånarna ska hanteras. I Webcert innebär det att:

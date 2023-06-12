@@ -9,8 +9,5 @@ export const history = createBrowserHistory()
 export const configureApplicationStore = (middleware: Middleware[]) =>
   configureStore({
     reducer: createRootReducer(history),
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
-        .prepend(middleware)
-        .prepend(routerMiddleware(history)),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(middleware).prepend(routerMiddleware(history)),
   })

@@ -91,7 +91,8 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         disabled={props.disabled}
         onClick={onClick}
         data-testid={props['data-testid']}
-        inline={props.inline}>
+        inline={props.inline}
+      >
         {props.startIcon ? (
           <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
             {props.startIcon}

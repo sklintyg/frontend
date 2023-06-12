@@ -31,7 +31,8 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
         startIcon={<img src={printImage} alt="Skriva ut" />}
         onConfirm={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
         confirmButtonText={'Skriv ut'}
-        buttonTestId="print-certificate-button">
+        buttonTestId="print-certificate-button"
+      >
         <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
       </ButtonWithConfirmModal>
     ) : (

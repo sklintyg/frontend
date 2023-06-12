@@ -117,7 +117,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   oneLine={true}
                   validation={question.validation}
                   onChange={handleChange}
-                  validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}>
+                  validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}
+                >
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
                       <CustomButton
