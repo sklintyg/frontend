@@ -4,7 +4,7 @@ import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMut
 import { OpenInformationCard } from './open/OpenInformationCard'
 import { BlockedInformationCard } from './blocked/BlockedInformationCard'
 import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
-import { ErrorModal } from '../../../../error/ErrorModal'
+import { ErrorModal } from '../../../../error/ErrorModal/ErrorModal'
 
 export function PatientOverview({
   sjfMetaData,

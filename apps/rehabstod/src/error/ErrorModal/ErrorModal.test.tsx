@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../utils/renderWithRouter'
+import { renderWithRouter } from '../../utils/renderWithRouter'
 import { ErrorModal } from './ErrorModal'
 
 const TEXT = 'Ett fel har uppstått'

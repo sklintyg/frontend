@@ -2,7 +2,7 @@ import { IDSAlert } from '@frontend/ids-react-ts'
 import { useAppSelector } from '../store/hooks'
 import { DynamicLink } from '../components/DynamicLink/DynamicLink'
 import { useGetLinksQuery } from '../store/api'
-import { ErrorId } from './ErrorId'
+import { ErrorId } from './ErrorId/ErrorId'
 
 export function DisplayError({
   heading,

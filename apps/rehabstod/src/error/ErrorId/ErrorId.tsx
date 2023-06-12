@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TooltipIcon } from '../components/TooltipIcon/TooltipIcon'
+import { TooltipIcon } from '../../components/TooltipIcon/TooltipIcon'
 
 export function ErrorId({ errorId }: { errorId: string }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)
