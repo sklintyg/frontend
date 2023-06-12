@@ -1,10 +1,10 @@
 import { describe, expect } from 'vitest'
 import { screen } from '@testing-library/react'
-import { ErrorCode, ErrorTitle } from '../../error/ErrorCode'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { ErrorPage } from './ErrorPage'
 import { setErrorCode } from '../../store/slices/error.slice'
 import { store } from '../../store/store'
+import { ErrorCode, ErrorTitle } from '../../components/Error/ErrorCode'
 
 const renderComponent = () => {
   renderWithRouter(<ErrorPage />)

@@ -43,7 +43,7 @@ export function ErrorPage() {
       dispatch(setErrorCode(generatedErrorCode))
       dispatch(setRoutingErrorId(errorId))
     }
-  }, [dispatch, location.search])
+  }, [dispatch, errorId, location.search])
   const handleCopyClick = () => {
     setDisplayCopyMessage(true)
     navigator.clipboard.writeText(routingErrorId)
