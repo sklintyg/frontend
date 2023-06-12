@@ -32,7 +32,8 @@ export function CareProviderItem({
                     />
                     <label
                       htmlFor={reception.namn}
-                      className={classNames('cursor-pointer', 'items-center', 'mb-0', selectedRadio === reception.namn && 'font-bold')}>
+                      className={classNames('cursor-pointer', 'items-center', 'mb-0', selectedRadio === reception.namn && 'font-bold')}
+                    >
                       <span className="">{reception.namn}</span>
                     </label>
                   </IDSRadio>

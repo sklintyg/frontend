@@ -39,7 +39,10 @@ jobs:
       - name: Build
         run: pnpm build --filter=...[HEAD^1]
 
-      - name: 'Lint'
+      - name: Format
+        run: pnpm prettier . --check --ignore-unknown
+
+      - name: Lint
         uses: reviewdog/action-eslint@v1.18.2
 
       - name: Typescript

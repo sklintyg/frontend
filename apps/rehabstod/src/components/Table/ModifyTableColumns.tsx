@@ -59,7 +59,8 @@ export function ModifyTableColumns({
             Välj alla
           </IDSButton>
         </>
-      }>
+      }
+    >
       {filteredColumns.map(({ name, visible, disabled }, index) => (
         <div key={name} data-testid={`${name.toLowerCase()}-column`} className="flex">
           <div className="-mt-3 w-full">

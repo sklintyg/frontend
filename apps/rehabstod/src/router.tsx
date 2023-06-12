@@ -28,7 +28,8 @@ export const router = createBrowserRouter(
           <ProtectedRoute requireUnit>
             <CurrentSickLeaves />
           </ProtectedRoute>
-        }>
+        }
+      >
         <Route path=":encryptedPatientId" element={<Patient />} />
       </Route>
       <Route
@@ -37,7 +38,8 @@ export const router = createBrowserRouter(
           <ProtectedRoute requireUnit>
             <MedicalOpinion />
           </ProtectedRoute>
-        }>
+        }
+      >
         <Route path=":patientId" element={<Patient />} />
       </Route>
       <Route path="*" element={<NoMatch />} />

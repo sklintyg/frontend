@@ -43,25 +43,21 @@ describe(`Signerat ${name} intyg`, () => {
     })
   })
 
-  it(`Ersätt ett signerat DB`, () => {
+  it('Ersätt ett signerat DB', () => {
     cy.contains('Ersätt').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Ersätt')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Ersätt').click()
     // cy.get('[type="checkbox"]').check({ force: true })
     // cy.contains('Gå vidare').click()
     // cy.contains('Signera och skicka').click()
   })
 
-  it(`Skriv ut ett signerat DB`, () => {
+  it('Skriv ut ett signerat DB', () => {
     printCertificate(certificateId, internalType)
   })
 
-  it(`Makulera ett signerat DB`, () => {
+  it('Makulera ett signerat DB', () => {
     cy.contains('Makulera').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Makulera')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Makulera').click()
     cy.contains('Intyget är makulerat').should('exist')
   })
 })
