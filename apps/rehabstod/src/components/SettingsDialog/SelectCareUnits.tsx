@@ -16,7 +16,8 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
     <SettingsDialogInput
       title="Förvald enhet"
       description='Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj "Ingen förvald enhet" i listan för att
-        rensa ditt val.'>
+        rensa ditt val.'
+    >
       <div className="w-80">
         <IDSSelect className="m-0">
           <label htmlFor={id}>Välj enhet</label>

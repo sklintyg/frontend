@@ -43,19 +43,17 @@ describe(`Signerat ${name} intyg`, () => {
     })
   })
 
-  it(`Ett låst DB går ej att signera`, () => {
+  it('Ett låst DB går ej att signera', () => {
     cy.contains('Utkastet är låst').should('be.visible')
   })
 
-  it(`Skriva ut ett låst DB`, () => {
+  it('Skriva ut ett låst DB', () => {
     printCertificate(certificateId, internalType)
   })
 
-  it(`Makulera ett låst DB`, () => {
+  it('Makulera ett låst DB', () => {
     cy.contains('Makulera').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Makulera')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Makulera').click()
     cy.contains('Utkastet är makulerat').should('exist')
   })
 })

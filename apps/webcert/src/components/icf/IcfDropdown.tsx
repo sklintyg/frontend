@@ -150,7 +150,8 @@ const IcfDropdown: React.FC<Props> = ({
         buttonClasses="iu-mb-200"
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
-        onClick={handleToggleDropdownButtonClick}>
+        onClick={handleToggleDropdownButtonClick}
+      >
         <StyledLightbulpIcon className="iu-mr-200" />
         Ta hjälp av ICF
         <StyledChevronDownIcon className="iu-ml-200" />
@@ -162,7 +163,8 @@ const IcfDropdown: React.FC<Props> = ({
             tabbableOptions: {
               displayCheck: 'none',
             },
-          }}>
+          }}
+        >
           <Root ref={rootRef} id={'icfDropdown-' + id}>
             <div className="iu-border-black iu-radius-sm">
               <p className="iu-bg-main iu-color-white iu-p-300">

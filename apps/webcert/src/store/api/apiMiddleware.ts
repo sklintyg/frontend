@@ -6,57 +6,60 @@ import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
 
-const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => async (action: AnyAction) => {
-  if (!apiCallBegan.match(action)) {
-    return
-  }
-
-  const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-  const functionDisabler: FunctionDisabler = generateFunctionDisabler()
-
-  if (onStart) {
-    dispatch({ type: onStart, payload: { ...onArgs } })
-  }
-
-  try {
-    if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler })
+const handleApiCallBegan: Middleware =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  async (action: AnyAction) => {
+    if (!apiCallBegan.match(action)) {
+      return
     }
 
-    const response = await axios.request({
-      url,
-      method,
-      data,
-      withCredentials: true,
-      headers: { ...getHeaders(), ...headers },
-    })
+    const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
+    const functionDisabler: FunctionDisabler = generateFunctionDisabler()
 
-    dispatch(apiCallSuccess(response.data))
-
-    if (onSuccess) {
-      dispatch({ type: onSuccess, payload: { ...response.data, ...onArgs } })
+    if (onStart) {
+      dispatch({ type: onStart, payload: { ...onArgs } })
     }
-  } catch (error) {
-    const message = (error as Error)?.message ?? ''
-    const response = (error as AxiosError)?.response ?? undefined
 
-    dispatch(apiCallFailed(message))
+    try {
+      if (functionDisablerType) {
+        dispatch({ type: functionDisablerType, payload: functionDisabler })
+      }
 
-    if (onError) {
-      dispatch({
-        type: onError,
-        payload: {
-          error: createApiError(method + ' ' + url, response, message),
-          ...onArgs,
-        },
+      const response = await axios.request({
+        url,
+        method,
+        data,
+        withCredentials: true,
+        headers: { ...getHeaders(), ...headers },
       })
-    }
-  } finally {
-    if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler })
+
+      dispatch(apiCallSuccess(response.data))
+
+      if (onSuccess) {
+        dispatch({ type: onSuccess, payload: { ...response.data, ...onArgs } })
+      }
+    } catch (error) {
+      const message = (error as Error)?.message ?? ''
+      const response = (error as AxiosError)?.response ?? undefined
+
+      dispatch(apiCallFailed(message))
+
+      if (onError) {
+        dispatch({
+          type: onError,
+          payload: {
+            error: createApiError(method + ' ' + url, response, message),
+            ...onArgs,
+          },
+        })
+      }
+    } finally {
+      if (functionDisablerType) {
+        dispatch({ type: functionDisablerType, payload: functionDisabler })
+      }
     }
   }
-}
 
 function getHeaders() {
   if (sessionStorage.getItem('launchId')) {
@@ -65,13 +68,19 @@ function getHeaders() {
   return {}
 }
 
-const handleApiGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
-}
+const handleApiGenericError: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+  }
 
-const handleApiSilentGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
-}
+const handleApiSilentGenericError: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
+  }
 
 function createApiError(api: string, response: AxiosResponse | undefined, altMessage: string): ApiError {
   if (!response) {
@@ -92,10 +101,13 @@ const middlewareMethods = {
   [apiSilentGenericError.type]: handleApiSilentGenericError,
 }
 
-export const apiMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
+export const apiMiddleware: Middleware<Dispatch> =
+  (middlewareAPI: MiddlewareAPI) =>
+  (next) =>
+  (action: AnyAction): void => {
+    next(action)
 
-  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
-    middlewareMethods[action.type](middlewareAPI)(next)(action)
+    if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
+      middlewareMethods[action.type](middlewareAPI)(next)(action)
+    }
   }
-}

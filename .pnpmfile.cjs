@@ -1,7 +1,7 @@
 module.exports = {
   hooks: {
     readPackage: (pkg, context) => {
-      if (pkg.name === "react-router-dom") {
+      if (pkg.name === 'react-router-dom') {
         /**
          * Hack to fix dependency issue in webcert application with pnpm. connected-react-router has a
          * peerDependency on react-router@^5 and react-router has a dependency on react-router@5.2.0.
@@ -24,7 +24,7 @@ module.exports = {
           delete pkg.dependencies['react-router']
         }
       }
-      return pkg;
-    }
-  }
-};
+      return pkg
+    },
+  },
+}

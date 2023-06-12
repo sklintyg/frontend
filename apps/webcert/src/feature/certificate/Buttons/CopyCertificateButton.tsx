@@ -29,7 +29,8 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, body, enabl
       onConfirm={handleConfirm()}
       confirmButtonText={'Kopiera'}
       confirmButtonDisabled={functionDisabled}
-      buttonTestId="copy-certificate-button">
+      buttonTestId="copy-certificate-button"
+    >
       <div dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )

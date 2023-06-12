@@ -37,7 +37,8 @@ const UeDropdown: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled}
         onChange={({ currentTarget: { value } }) => updateValue({ id: value, code: value })}
         value={disabled ? (question.value as ValueCode).code : currentValue.code}
-        error={validationErrors.length > 0}>
+        error={validationErrors.length > 0}
+      >
         {config.list.map((item) => (
           <option key={item.id} value={item.id}>
             {item.label}

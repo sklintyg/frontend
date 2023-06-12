@@ -1,4 +1,4 @@
-export const uuidv4 = (): string => {
+export function uuidv4(): string {
   const characters = '0123456789abcdef'
   let uuid = ''
 

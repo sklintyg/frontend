@@ -192,7 +192,8 @@ const DatePickerCustom: React.FC<Props> = ({
                   displayValidationError={displayValidationErrorOutline}
                   onClick={() => setOpen(true)}
                   className={classNames('ic-button', { error: displayValidationErrorOutline })}
-                  onClickCapture={() => setOpen(!open)}>
+                  onClickCapture={() => setOpen(!open)}
+                >
                   <Logo src={calendar} alt="Kalender" />
                 </StyledButton>
               }

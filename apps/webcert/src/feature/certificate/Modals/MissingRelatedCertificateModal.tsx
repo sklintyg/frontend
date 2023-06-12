@@ -36,7 +36,8 @@ export const MissingRelatedCertificateModal: React.FC<Props> = ({
       disabled={!enabled}
       setOpen={setOpen}
       open={open}
-      onConfirm={() => dispatch(createNewCertificate({ certificateType: createCertificateType, patientId: patient.personId.id }))}>
+      onConfirm={() => dispatch(createNewCertificate({ certificateType: createCertificateType, patientId: patient.personId.id }))}
+    >
       <ModalContent dangerouslySetInnerHTML={sanitizeText(body as string)}></ModalContent>
     </ConfirmModal>
   )

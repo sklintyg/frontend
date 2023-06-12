@@ -46,14 +46,16 @@ const PatientStatusNotifications: React.FC = () => {
         type={'info'}
         status={isReserveId}
         title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (patient && previousPatientId ? patient.personId.id : '')}
-        modalTitle={'Patientens samordningsnummer'}>
+        modalTitle={'Patientens samordningsnummer'}
+      >
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
         type={'observe'}
         status={isPatientNameDifferentFromEHR}
         title={'Patientens namn skiljer sig från det i journalsystemet'}
-        modalTitle={'Patientens namn skiljer sig'}>
+        modalTitle={'Patientens namn skiljer sig'}
+      >
         <p>
           Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i
           journalsystemet.{' '}

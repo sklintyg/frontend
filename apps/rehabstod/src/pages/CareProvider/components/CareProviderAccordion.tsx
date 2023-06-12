@@ -49,7 +49,8 @@ export function CareProviderAccordion({
             />
             <label
               htmlFor={unit.namn}
-              className={`flex cursor-pointer items-center ${selectedRadio === unit.namn ? 'font-bold' : ''} mb-0 w-full justify-between`}>
+              className={`flex cursor-pointer items-center ${selectedRadio === unit.namn ? 'font-bold' : ''} mb-0 w-full justify-between`}
+            >
               <span>{unit.namn}</span>
             </label>
           </IDSRadio>

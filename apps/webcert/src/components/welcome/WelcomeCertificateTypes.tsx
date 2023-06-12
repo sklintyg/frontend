@@ -166,7 +166,8 @@ const WelcomeCertificateTypes: React.FC = () => {
                     onChange={handleVersionChange}
                     id={`versions${value.internalType}`}
                     key={`versions${value.internalType}`}
-                    value={createCertificate.certificateTypeVersion}>
+                    value={createCertificate.certificateTypeVersion}
+                  >
                     {value.versions.map((version) => (
                       <option key={version} value={version}>
                         {version}
@@ -177,7 +178,8 @@ const WelcomeCertificateTypes: React.FC = () => {
                     onChange={handleStatusChange}
                     id={`status${value.internalType}`}
                     key={`status${value.internalType}`}
-                    value={createCertificate.status}>
+                    value={createCertificate.status}
+                  >
                     {value.statuses.map((status) => (
                       <option key={status} value={status}>
                         {status}
@@ -188,7 +190,8 @@ const WelcomeCertificateTypes: React.FC = () => {
                     onChange={handleFilltypeChange}
                     id={`fillType${value.internalType}`}
                     key={`fillType${value.internalType}`}
-                    value={createCertificate.fillType}>
+                    value={createCertificate.fillType}
+                  >
                     {value.fillType.map((version) => (
                       <option key={version} value={version}>
                         {version}

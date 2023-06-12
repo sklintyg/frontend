@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "target": "ES5",
-    "module": "ESNext",
+    "module": "ESNext"
   },
   "exclude": ["dist", "node_modules"]
 }

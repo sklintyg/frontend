@@ -46,14 +46,16 @@ export function OpenTabsDialog() {
           onClick={() => {
             blocker.reset?.()
             ref.current?.hideDialog()
-          }}>
+          }}
+        >
           Avbryt
         </IDSButton>
         <IDSButton
           onClick={() => {
             closeTabs()
             blocker.proceed?.()
-          }}>
+          }}
+        >
           Stäng patientvy
         </IDSButton>
       </IDSDialogActions>

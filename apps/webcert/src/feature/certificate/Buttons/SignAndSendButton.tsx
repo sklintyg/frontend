@@ -37,7 +37,8 @@ const SignAndSendButton: React.FC<Props> = ({ name, canSign, title, description,
         confirmButtonText={name}
         open={confirmModalOpen}
         hideConfirmButton={!canSign}
-        setOpen={setConfirmModalOpen}>
+        setOpen={setConfirmModalOpen}
+      >
         <div>
           <p>{body}</p>
         </div>

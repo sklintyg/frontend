@@ -60,7 +60,8 @@ export function SelectButton({
           handleOpenChange(!open)
           event.stopPropagation()
         }}
-        ref={refs.setReference}>
+        ref={refs.setReference}
+      >
         {title}
         <IDSIcon name="chevron" size="xs" rotate={open ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
       </button>
@@ -77,7 +78,8 @@ export function SelectButton({
                 minWidth: 100,
                 outline: 0,
               }}
-              {...getFloatingProps()}>
+              {...getFloatingProps()}
+            >
               <div className="relative flex max-h-96 flex-col overflow-auto py-1">{children}</div>
             </div>
           </FloatingFocusManager>

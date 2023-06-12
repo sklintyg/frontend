@@ -40,23 +40,27 @@ export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
 
 export const getPreviousAnswers = (state: RootState): SrsAnswer[] => state.ui.uiSRS.answers
 
-export const getDiagnosisDescription = (informationChoice: SrsInformationChoice) => (state: RootState): string => {
-  const srsInfo = state.ui.uiSRS.srsInfo
-  return srsInfo
-    ? informationChoice === SrsInformationChoice.STATISTICS
-      ? srsInfo.statistikDiagnosisDescription
-      : srsInfo.atgarderDiagnosisDescription
-    : ''
-}
+export const getDiagnosisDescription =
+  (informationChoice: SrsInformationChoice) =>
+  (state: RootState): string => {
+    const srsInfo = state.ui.uiSRS.srsInfo
+    return srsInfo
+      ? informationChoice === SrsInformationChoice.STATISTICS
+        ? srsInfo.statistikDiagnosisDescription
+        : srsInfo.atgarderDiagnosisDescription
+      : ''
+  }
 
-export const getDiagnosisCode = (informationChoice: SrsInformationChoice) => (state: RootState): string => {
-  const srsInfo = state.ui.uiSRS.srsInfo
-  return srsInfo
-    ? informationChoice === SrsInformationChoice.RECOMMENDATIONS
-      ? srsInfo.atgarderDiagnosisCode
-      : srsInfo.statistikDiagnosisCode
-    : ''
-}
+export const getDiagnosisCode =
+  (informationChoice: SrsInformationChoice) =>
+  (state: RootState): string => {
+    const srsInfo = state.ui.uiSRS.srsInfo
+    return srsInfo
+      ? informationChoice === SrsInformationChoice.RECOMMENDATIONS
+        ? srsInfo.atgarderDiagnosisCode
+        : srsInfo.statistikDiagnosisCode
+      : ''
+  }
 
 export const getPredictionDiagnosisCode = (state: RootState): string => {
   const predictions = getFilteredPredictions(getSrsPredictions(state))

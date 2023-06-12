@@ -105,7 +105,8 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
           id={'page-button-' + index}
           key={'page-button-' + index}
           onClick={() => handlePageChange(getPageIndex(index), getStartFrom(getPageIndex(index)))}
-          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading active iu-px-200' : 'iu-px-200'}>
+          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading active iu-px-200' : 'iu-px-200'}
+        >
           {getPageIndex(index)}
         </button>
       )
@@ -136,13 +137,15 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
           <button
             disabled={isShowLessDisabled()}
             className={classNames({ 'iu-color-grey-400': isShowLessDisabled() })}
-            onClick={() => handleShowLessClick()}>
+            onClick={() => handleShowLessClick()}
+          >
             Visa färre
           </button>
           <button
             disabled={isPreviousDisabled()}
             className={classNames({ 'iu-color-grey-400': isPreviousDisabled() })}
-            onClick={() => handlePreviousClick()}>
+            onClick={() => handlePreviousClick()}
+          >
             Föregående
           </button>
           <div aria-activedescendant={'page-button-' + page} tabIndex={-1}>
@@ -151,13 +154,15 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
           <button
             disabled={isNextDisabled()}
             className={classNames({ 'iu-color-grey-400': isNextDisabled() })}
-            onClick={() => handleNextClick()}>
+            onClick={() => handleNextClick()}
+          >
             Nästa
           </button>
           <button
             disabled={isShowMoreDisabled()}
             className={classNames({ 'iu-color-grey-400': isShowMoreDisabled() })}
-            onClick={() => handleShowMoreClick()}>
+            onClick={() => handleShowMoreClick()}
+          >
             Visa mer
           </button>
         </PaginationWrapper>

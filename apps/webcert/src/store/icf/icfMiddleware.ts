@@ -15,31 +15,40 @@ import {
   updateIcfCodes,
 } from './icfActions'
 
-export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/api/icf',
-      method: 'POST',
-      data: action.payload,
-      onStart: getIcfCodesStarted.type,
-      onSuccess: getIcfCodesSuccess.type,
-      onError: getIcfCodesError.type,
-      functionDisablerType: toggleIcfFunctionDisabler.type,
-    })
-  )
-}
+export const handleGetIcfCodes: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/api/icf',
+        method: 'POST',
+        data: action.payload,
+        onStart: getIcfCodesStarted.type,
+        onSuccess: getIcfCodesSuccess.type,
+        onError: getIcfCodesError.type,
+        functionDisablerType: toggleIcfFunctionDisabler.type,
+      })
+    )
+  }
 
 const handleGetIcfCodesStarted: Middleware<Dispatch> = () => () => (): void => {
   return
 }
 
-export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(updateIcfCodes(action.payload))
-}
+export const handleGetIcfCodesSuccess: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateIcfCodes(action.payload))
+  }
 
-const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
-}
+const handleGetIcfCodesError: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
+  }
 
 function handleUpdateIcfState(value: ValueType, dispatch: Dispatch<AnyAction>) {
   const icdCodes = getIcdCodesFromQuestionValue(value)
@@ -50,18 +59,24 @@ function handleUpdateIcfState(value: ValueType, dispatch: Dispatch<AnyAction>) {
   }
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  for (const questionId in action.payload.data) {
-    if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
-      const question = action.payload.data[questionId]
-      handleUpdateIcfState(question.value, dispatch)
+const handleUpdateCertificate: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (action: AnyAction): void => {
+    for (const questionId in action.payload.data) {
+      if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
+        const question = action.payload.data[questionId]
+        handleUpdateIcfState(question.value, dispatch)
+      }
     }
   }
-}
 
-const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  handleUpdateIcfState(action.payload.value, dispatch)
-}
+const handleUpdateCertificateDataElement: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    handleUpdateIcfState(action.payload.value, dispatch)
+  }
 
 function getIcdCodesFromQuestionValue(value: ValueType | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
@@ -80,10 +95,13 @@ const middlewareMethods = {
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
 }
 
-export const icfMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
+export const icfMiddleware: Middleware<Dispatch> =
+  (middlewareAPI: MiddlewareAPI) =>
+  (next) =>
+  (action: AnyAction): void => {
+    next(action)
 
-  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
-    middlewareMethods[action.type](middlewareAPI)(next)(action)
+    if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
+      middlewareMethods[action.type](middlewareAPI)(next)(action)
+    }
   }
-}

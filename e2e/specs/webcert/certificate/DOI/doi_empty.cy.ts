@@ -72,15 +72,11 @@ describe(`Signerat ${name} intyg`, () => {
 
   it('Fyll i och signera ett DOI', () => {
     // Kompletterande patientuppgifter
-    cy.get('[id="textinput"]')
-      .eq(0)
-      .type('Körkort')
+    cy.get('[id="textinput"]').eq(0).type('Körkort')
 
     // Dödsdatum och dödsplats
     cy.get('[id="dodsdatumSakerttrue"]').check({ force: true })
-    cy.get('input[placeholder=åååå-mm-dd]')
-      .eq(0)
-      .type('2022-11-01')
+    cy.get('input[placeholder=åååå-mm-dd]').eq(0).type('2022-11-01')
     cy.get('[data-testid="typeahead-3.1"]').type('Kil')
     cy.get('[id="SJUKHUS"]').check({ force: true })
 
@@ -88,14 +84,9 @@ describe(`Signerat ${name} intyg`, () => {
     cy.get('[id="barnfalse"]').should('be.checked')
 
     // Läkarens utlåtande om dödsorsaken
-    cy.get('[id="terminalDodsorsak"]')
-      .eq(1)
-      .type('Infektion')
+    cy.get('[id="terminalDodsorsak"]').eq(1).type('Infektion')
     cy.get('[id="8.2"]').type('2021-11-01')
-    cy.get('[id="specification_undefined"]')
-      .select('Akut')
-      .invoke('val')
-      .should('eq', 'PLOTSLIG')
+    cy.get('[id="specification_undefined"]').select('Akut').invoke('val').should('eq', 'PLOTSLIG')
 
     // Operarad inom fyra veckor före döden
     cy.get('[id="NEJ"]').check({ force: true })
