@@ -1,19 +1,19 @@
-import {IDSButton, IDSColumn, IDSIcon, IDSRow} from '@frontend/ids-react-ts'
-import {DiagnosisDescription} from '../../../components/SickLeave/DiagnosisDescription'
-import {DiagnosisInfo} from '../../../components/SickLeave/DiagnosisInfo'
-import {SickLeaveDegreeInfo} from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import {TableCell} from '../../../components/Table/TableCell'
-import {useTableContext} from '../../../components/Table/hooks/useTableContext'
-import {Tooltip} from '../../../components/Tooltip/Tooltip'
-import {TooltipContent} from '../../../components/Tooltip/TooltipContent'
-import {TooltipTrigger} from '../../../components/Tooltip/TooltipTrigger'
-import {PatientSjukfallIntyg} from '../../../schemas/patientSchema'
-import {useGetUserQuery} from '../../../store/api'
-import {useAppSelector} from '../../../store/hooks'
-import {allPatientColumns} from '../../../store/slices/patientTableColumns.selector'
-import {PatientColumn} from '../../../store/slices/patientTableColumns.slice'
-import {usePatient} from '../hooks/usePatient'
-import {getCertificateColumnData} from '../utils/getCertificateColumnData'
+import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
+import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
+import { TableCell } from '../../../components/Table/TableCell'
+import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { Tooltip } from '../../../components/Tooltip/Tooltip'
+import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
+import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppSelector } from '../../../store/hooks'
+import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
+import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { usePatient } from '../hooks/usePatient'
+import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 
 function OtherUnitInformation() {
   return (
@@ -100,9 +100,9 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
               className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}
             >
               {columns
-                .filter(({visible}) => visible)
-                .filter(({name}) => !(isDoctor && name === PatientColumn.Läkare))
-                .map(({name}) => (
+                .filter(({ visible }) => visible)
+                .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
+                .map(({ name }) => (
                   <PatientTableCellResolver
                     key={name}
                     column={name}
