@@ -58,6 +58,13 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
                 .map((type) => `${type.name}\n`)}
         </div>
         <div className="whitespace-pre-line">
+          <p className="font-bold">Ärendestatus: </p>
+          {!filter.unansweredCommunicationFilterTypeId
+            ? 'Visa alla'
+            : populatedFilters.unansweredCommunicationFilterTypes.find((type) => type.id === filter.unansweredCommunicationFilterTypeId)
+                ?.name}
+        </div>
+        <div className="whitespace-pre-line">
           <p className="font-bold">Sysselsättning: </p>
           {filter.occupationTypeIds.length === 0
             ? 'Alla valda'
