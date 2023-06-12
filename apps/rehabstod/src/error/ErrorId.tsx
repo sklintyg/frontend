@@ -16,7 +16,7 @@ export function ErrorId({ errorId }: { errorId: string }) {
         {errorId}
         <TooltipIcon
           description="Kopiera fel-id"
-          name="copy-link"
+          name="copy-file"
           size="s"
           colorpreset={1}
           className="ml-2 inline cursor-pointer"
