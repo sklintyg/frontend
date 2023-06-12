@@ -23,7 +23,8 @@ export function LayoutMobileHeader() {
           <a
             onClick={() => {
               dispatch(showSettingsDialog())
-            }}>
+            }}
+          >
             Inställningar
           </a>
         </IDSMobileMenuItem>

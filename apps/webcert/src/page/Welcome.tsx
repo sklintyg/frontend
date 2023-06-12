@@ -262,7 +262,8 @@ const Welcome: React.FC = () => {
                   buttonStyle="primary"
                   type="submit"
                   disabled={jsonUser.origin !== 'NORMAL' && !isCreateNewCertificate && existingCertificateId.length < 1}
-                  onSubmit={handleLogin}>
+                  onSubmit={handleLogin}
+                >
                   Logga in
                 </CustomButton>
               </StyledForm>

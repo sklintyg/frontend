@@ -43,9 +43,7 @@ describe('DateRangeFilter', () => {
           filterValue: {
             type: ListFilterType.DATE_RANGE,
             to: '',
-            from: addDays(new Date(), 2)
-              .toISOString()
-              .slice(0, 10),
+            from: addDays(new Date(), 2).toISOString().slice(0, 10),
           },
         })
       )

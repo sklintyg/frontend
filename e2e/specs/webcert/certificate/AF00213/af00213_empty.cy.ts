@@ -37,9 +37,7 @@ describe(`Tomt ${name} intyg`, () => {
 
   it(`Ett icke ifylld ${type} går ej att signera och skicka till AF`, () => {
     cy.contains('Obligatoriska uppgifter saknas').should('exist')
-    cy.get('button')
-      .contains('Signera och skicka')
-      .click()
+    cy.get('button').contains('Signera och skicka').click()
 
     cy.get('[data-testid="certificate-validation"]').within(() => {
       cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')

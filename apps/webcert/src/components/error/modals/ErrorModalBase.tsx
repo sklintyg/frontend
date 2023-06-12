@@ -47,7 +47,8 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
         tabbableOptions: {
           displayCheck: 'none',
         },
-      }}>
+      }}
+    >
       <div>
         <div className="ic-backdrop" onClick={handleClose} />
         <Modal role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">

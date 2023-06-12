@@ -101,7 +101,8 @@ export function SelectMultiple({
                 minWidth: 100,
                 outline: 0,
               }}
-              {...getFloatingProps()}>
+              {...getFloatingProps()}
+            >
               <div className="relative max-h-96 overflow-auto py-1">
                 <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
               </div>

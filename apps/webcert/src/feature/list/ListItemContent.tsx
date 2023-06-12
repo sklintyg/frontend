@@ -48,7 +48,8 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             }
             buttonStyle="primary"
             startIcon={<img src={readImage} alt={'Logo Öppna intyg'} />}
-            onClick={() => openCertificate(certificateId)}>
+            onClick={() => openCertificate(certificateId)}
+          >
             {link.name}
           </CustomButton>
         </td>

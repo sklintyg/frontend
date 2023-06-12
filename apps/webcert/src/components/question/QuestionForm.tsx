@@ -106,7 +106,8 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               onChange={onDropdownChange}
               id={'question_form_dropdown'}
               value={questionDraft.type}
-              error={showTypeValidationError()}>
+              error={showTypeValidationError()}
+            >
               {subjects
                 .filter((subject) => subject !== QuestionType.COMPLEMENT)
                 .map((subject) => (
@@ -146,7 +147,8 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
                 confirmButtonText={'Ja, radera'}
                 description={''}
                 name={'Avbryt'}
-                onConfirm={handleDeleteQuestion}>
+                onConfirm={handleDeleteQuestion}
+              >
                 <p>Är du säker på att du vill radera din påbörjade fråga?</p>
               </ButtonWithConfirmModal>
             </div>

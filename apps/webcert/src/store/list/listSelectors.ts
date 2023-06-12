@@ -8,8 +8,10 @@ export const getActiveList = (state: RootState): CertificateListItem[] => state.
 
 export const getActiveListConfig = (state: RootState): ListConfig | undefined => state.ui.uiList.activeListConfig
 
-export const getActiveListFilterValue = (id: string) => (state: RootState): unknown =>
-  state.ui.uiList.activeListFilter?.values ? state.ui.uiList.activeListFilter?.values[id] : undefined
+export const getActiveListFilterValue =
+  (id: string) =>
+  (state: RootState): unknown =>
+    state.ui.uiList.activeListFilter?.values ? state.ui.uiList.activeListFilter?.values[id] : undefined
 
 export const getActiveListType = (state: RootState): ListType => state.ui.uiList.activeListType
 

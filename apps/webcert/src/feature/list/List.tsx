@@ -87,7 +87,8 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
         ascending={getAscending() as boolean}
         onTableHeadClick={updateSortingOfList}
         isLoadingContent={isLoadingList && !isSortingList}
-        isEmptyList={list.length === 0}>
+        isEmptyList={list.length === 0}
+      >
         {list.map((listItem, count) => (
           <tr key={'listItem-' + count}>
             {config.tableHeadings.map((heading) => {
