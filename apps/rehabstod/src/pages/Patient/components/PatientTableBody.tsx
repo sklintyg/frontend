@@ -97,11 +97,12 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
           columns.length > 0 && (
             <tr
               key={`${certificate.start}${certificate.slut}`}
-              className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}>
+              className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}
+            >
               {columns
-                .filter(({ visible }) => visible)
-                .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
-                .map(({ name }) => (
+                .filter(({visible}) => visible)
+                .filter(({name}) => !(isDoctor && name === PatientColumn.Läkare))
+                .map(({name}) => (
                   <PatientTableCellResolver
                     key={name}
                     column={name}
