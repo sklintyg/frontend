@@ -42,8 +42,10 @@ export const getShowValidationErrors = (state: RootState): boolean => state.ui.u
 
 export const getCertificate = (state: RootState): Certificate | undefined => state.ui.uiCertificate.certificate
 
-export const getQuestion = (id: string) => (state: RootState): CertificateDataElement | undefined =>
-  state.ui.uiCertificate.certificate?.data[id]
+export const getQuestion =
+  (id: string) =>
+  (state: RootState): CertificateDataElement | undefined =>
+    state.ui.uiCertificate.certificate?.data[id]
 
 export const getIsComplementingCertificate = (state: RootState): boolean => {
   const metadata = state.ui.uiCertificate.certificate?.metadata
@@ -54,43 +56,61 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
   return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
 }
 
-export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
+export const getComplements =
+  (questionId: string) =>
+  (state: RootState): Complement[] =>
+    state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
 
-export const getComplementsIncludingSubQuestions = (questionId: string) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
+export const getComplementsIncludingSubQuestions =
+  (questionId: string) =>
+  (state: RootState): Complement[] =>
+    state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
 
-export const getComplementsForQuestions = (questionIds: string[]) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => questionIds.includes(complement.questionId))
+export const getComplementsForQuestions =
+  (questionIds: string[]) =>
+  (state: RootState): Complement[] =>
+    state.ui.uiCertificate.complements.filter((complement) => questionIds.includes(complement.questionId))
 
 export const getGotoId = (state: RootState): string | undefined => state.ui.uiCertificate.gotoCertificateDataElement?.questionId
 
-export const getIsCertificateDeleted = () => (state: RootState): boolean => state.ui.uiCertificate.isDeleted
+export const getIsCertificateDeleted =
+  () =>
+  (state: RootState): boolean =>
+    state.ui.uiCertificate.isDeleted
 
-export const getIsRoutedFromDeletedCertificate = () => (state: RootState): boolean => state.ui.uiCertificate.routedFromDeletedCertificate
+export const getIsRoutedFromDeletedCertificate =
+  () =>
+  (state: RootState): boolean =>
+    state.ui.uiCertificate.routedFromDeletedCertificate
 
-export const getIsUnsigned = () => (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.UNSIGNED
+export const getIsUnsigned =
+  () =>
+  (state: RootState): boolean =>
+    state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.UNSIGNED
 
-export const getIsSigned = () => (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.SIGNED
+export const getIsSigned =
+  () =>
+  (state: RootState): boolean =>
+    state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.SIGNED
 
-export const getUnit = () => (state: RootState): Unit => {
-  if (!state.ui.uiCertificate.certificate?.metadata.unit) {
-    return {
-      unitId: '',
-      unitName: '',
-      address: '',
-      zipCode: '',
-      city: '',
-      phoneNumber: '',
-      email: '',
-      isInactive: false,
+export const getUnit =
+  () =>
+  (state: RootState): Unit => {
+    if (!state.ui.uiCertificate.certificate?.metadata.unit) {
+      return {
+        unitId: '',
+        unitName: '',
+        address: '',
+        zipCode: '',
+        city: '',
+        phoneNumber: '',
+        email: '',
+        isInactive: false,
+      }
     }
-  }
 
-  return state.ui.uiCertificate.certificate.metadata.unit
-}
+    return state.ui.uiCertificate.certificate.metadata.unit
+  }
 
 export const getCertificateMetaData = (state: RootState): CertificateMetadata | null => {
   const { certificate } = state.ui.uiCertificate
@@ -113,49 +133,59 @@ export const getCertificateDataElements = createSelector(getCertificate, (certif
   return certificate == null ? [] : structureCertificate(certificate.data)
 })
 
-export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
-  if (!state.ui.uiCertificate.certificate) {
-    return []
+export const getValidationErrorSummary =
+  () =>
+  (state: RootState): ValidationErrorSummary[] => {
+    if (!state.ui.uiCertificate.certificate) {
+      return []
+    }
+
+    return sortedValidationErrorSummary(state.ui.uiCertificate.certificate)
   }
 
-  return sortedValidationErrorSummary(state.ui.uiCertificate.certificate)
-}
+export const getCareUnitValidationErrors =
+  () =>
+  (state: RootState): ValidationError[] => {
+    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
+      return []
+    }
 
-export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
-  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
-    return []
+    return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
   }
 
-  return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
-}
+export const getPatientValidationErrors =
+  () =>
+  (state: RootState): ValidationError[] => {
+    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
+      return []
+    }
 
-export const getPatientValidationErrors = () => (state: RootState): ValidationError[] => {
-  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
-    return []
+    return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
   }
-
-  return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
-}
 
 const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-const getQuestionServerValidationErrors = (questionId: string) => (state: RootState): ValidationError[] => {
-  const question = getQuestion(questionId)(state)
-  return question?.validationErrors ?? []
-}
+const getQuestionServerValidationErrors =
+  (questionId: string) =>
+  (state: RootState): ValidationError[] => {
+    const question = getQuestion(questionId)(state)
+    return question?.validationErrors ?? []
+  }
 
-export const getVisibleValidationErrors = (questionId: string, field?: string) => (state: RootState): ValidationError[] => {
-  const showValidationErrors = getShowValidationErrors(state)
+export const getVisibleValidationErrors =
+  (questionId: string, field?: string) =>
+  (state: RootState): ValidationError[] => {
+    const showValidationErrors = getShowValidationErrors(state)
 
-  return uniqWith<ValidationError>(
-    getQuestionServerValidationErrors(questionId)(state)
-      .filter((v) => showValidationErrors || v.showAlways)
-      .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
-    (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
-  )
-}
+    return uniqWith<ValidationError>(
+      getQuestionServerValidationErrors(questionId)(state)
+        .filter((v) => showValidationErrors || v.showAlways)
+        .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
+      (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
+    )
+  }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
@@ -198,9 +228,15 @@ export const getResponsibleHospName = (state: RootState): string => {
 
 export const isCertificateFunctionDisabled = (state: RootState): boolean => state.ui.uiCertificate.functionDisablers.length > 0
 
-export const getCertificateId = () => (state: RootState): string => state.ui.uiCertificate.createdCertificateId
+export const getCertificateId =
+  () =>
+  (state: RootState): string =>
+    state.ui.uiCertificate.createdCertificateId
 
-export const getShouldRouteAfterDelete = () => (state: RootState): boolean => state.ui.uiCertificate.shouldRouteAfterDelete
+export const getShouldRouteAfterDelete =
+  () =>
+  (state: RootState): boolean =>
+    state.ui.uiCertificate.shouldRouteAfterDelete
 
 export const getIsPatientIdChanged = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdChanged : false
@@ -212,4 +248,7 @@ export const getSigningStatus = (state: RootState): CertificateSignStatus => sta
 
 export const getRecipient = (state: RootState): string | undefined => state.ui.uiCertificate.certificate?.metadata.sentTo
 
-export const getModalData = () => (state: RootState): ModalData | null => state.ui.uiCertificate.modalData
+export const getModalData =
+  () =>
+  (state: RootState): ModalData | null =>
+    state.ui.uiCertificate.modalData

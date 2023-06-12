@@ -45,9 +45,7 @@ describe(`Signerat ${name} intyg`, () => {
 
   it('Ersätt ett signerat intyg', () => {
     cy.contains('Ersätt').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Ersätt')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Ersätt').click()
 
     // Kontrollera namn och personnummer modal
     cy.contains('Signera och skicka').click()
@@ -59,9 +57,7 @@ describe(`Signerat ${name} intyg`, () => {
 
   it('Makulera ett signerat DOI', () => {
     cy.contains('Makulera').click()
-    cy.get('.ic-modal')
-      .contains('button', 'Makulera')
-      .click()
+    cy.get('.ic-modal').contains('button', 'Makulera').click()
 
     cy.contains('Intyget är makulerat').should('exist')
   })

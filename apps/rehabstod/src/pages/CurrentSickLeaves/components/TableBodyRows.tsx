@@ -159,7 +159,8 @@ export function TableBodyRows({
               key={sickLeave.patient.id}
               className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
                 isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
-              }`}>
+              }`}
+            >
               {visibleColumns.map(({ name }) => (
                 <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />
               ))}

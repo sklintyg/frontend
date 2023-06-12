@@ -9,7 +9,7 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
   const useSelectorSpy = vi.spyOn(redux, 'useSelector')
   const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
 
-  const mockQuestion = ({
+  const mockQuestion = {
     value: {
       type: CertificateDataValueType.BOOLEAN,
       selected: true,
@@ -20,7 +20,7 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
       selectedText: 'ja',
       unselectedText: 'nej',
     } as ConfigUeRadioBoolean,
-  } as unknown) as CertificateDataElement
+  } as unknown as CertificateDataElement
 
   // TODO: The "checked" value on the input doesn't change until the updated value is dispatched and updated in the store.
   // When we implement a mocked store we can do this correctly

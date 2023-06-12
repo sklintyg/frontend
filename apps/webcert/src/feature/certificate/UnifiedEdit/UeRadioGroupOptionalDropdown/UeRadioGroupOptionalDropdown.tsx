@@ -56,7 +56,8 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
         role="radiogroup"
         className={`radio-group-wrapper ${validationErrors.length > 0 ? 'iu-mb-300' : ''} ${
           shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''
-        }`}>
+        }`}
+      >
         {radiobuttons &&
           radiobuttons.map((radio, index) => (
             <React.Fragment key={index}>

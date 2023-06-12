@@ -55,7 +55,8 @@ export const CareProviderModalContent: React.FC = () => {
               type="button"
               id={unit.unitId}
               onClick={handleChooseUnit}
-              disabled={isLoggedInUnit(unit)}>
+              disabled={isLoggedInUnit(unit)}
+            >
               {getUnitName(unit)}
             </button>
           </td>
@@ -97,7 +98,8 @@ export const CareProviderModalContent: React.FC = () => {
         id={careUnit.unitId}
         handleClick={handleChooseUnit}
         key={careUnit.unitId}
-        disabled={isLoggedInUnit(careUnit)}>
+        disabled={isLoggedInUnit(careUnit)}
+      >
         {getExpandedRows(careUnit.units)}
       </ExpandableTableRow>
     ) : (
@@ -108,7 +110,8 @@ export const CareProviderModalContent: React.FC = () => {
             type="button"
             id={careUnit.unitId}
             onClick={handleChooseUnit}
-            disabled={isLoggedInUnit(careUnit)}>
+            disabled={isLoggedInUnit(careUnit)}
+          >
             {getUnitName(careUnit)}
           </StyledButton>
         </td>
@@ -133,7 +136,8 @@ export const CareProviderModalContent: React.FC = () => {
                 { title: 'Ej hanterade ärenden', adjustCellToText: true },
                 { title: 'Ej signerade utkast', adjustCellToText: true },
               ]}
-              key={careProvider.id}>
+              key={careProvider.id}
+            >
               {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}
             </SimpleTable>
           </div>

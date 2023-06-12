@@ -94,7 +94,8 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
         buttonClasses="iu-mr-200"
-        startIcon={<img src={speechBubbleImage} alt="Kan ej komplettera" />}>
+        startIcon={<img src={speechBubbleImage} alt="Kan ej komplettera" />}
+      >
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
     )

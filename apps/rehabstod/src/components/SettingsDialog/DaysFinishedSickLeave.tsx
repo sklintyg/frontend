@@ -14,7 +14,8 @@ export function DaysFinishedSickLeave({ value, onChange }: Pick<ComponentProps<t
     <SettingsDialogInput
       title="Visa nyligen avslutade sjukfall"
       description="Välj maximalt antal dagar som får ha passerat efter ett sjukfalls slutdatum för att sjukfallet ska visas upp i sjukfallstabellen.
-        Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade.">
+        Med denna funktion kan du bevaka de sjukfall som är nyligen avslutade."
+    >
       <div className="w-80">
         <FormattedNumberInput
           label="Max antal dagar sedan avslut (0-14 dagar)"

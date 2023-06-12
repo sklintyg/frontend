@@ -79,9 +79,7 @@ describe(`${name} questions`, () => {
     cy.reload()
     cy.contains('Hanterad').click()
     cy.get('.ic-modal').within(() => {
-      cy.get('button')
-        .contains('Markera som hanterad')
-        .click()
+      cy.get('button').contains('Markera som hanterad').click()
     })
     cy.contains('Komplettera').should('not.exist')
   })
