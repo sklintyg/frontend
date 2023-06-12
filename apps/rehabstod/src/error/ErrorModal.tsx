@@ -42,9 +42,8 @@ export function ErrorModal({
 
   return (
     <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show ? 'true' : 'false'}>
-      {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand
-      {dynamicLink ? <DynamicLink type="footer" link={links?.ineraNationellKundservice} /> : ''}
-      {errorId && <ErrorId errorId={errorId} />}
+      {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
+      {dynamicLink ? <DynamicLink type="footer" link={links?.ineraNationellKundservice} /> : ''}.{errorId && <ErrorId errorId={errorId} />}
       <IDSDialogActions>
         <IDSButton secondary onClick={close}>
           Stäng
