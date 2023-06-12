@@ -1,14 +1,14 @@
 import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
-import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
-import { StatisticsInformationCard } from './card/StatisticsInformationCard'
-import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
-import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
-import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
-import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
-import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
+import { DisplayError } from '../../../components/error/DisplayError/DisplayError'
 import { UserUrval } from '../../../schemas'
-import { DisplayError } from '../../../error/DisplayError'
+import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
+import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
+import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
+import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
+import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
+import { StatisticsInformationCard } from './card/StatisticsInformationCard'
+import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
+import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()

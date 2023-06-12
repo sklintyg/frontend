@@ -1,5 +1,6 @@
 import { IDSAlert, IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
+import { DisplayError } from '../../components/error/DisplayError/DisplayError'
 import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import {
@@ -24,7 +25,6 @@ import {
   updateFreetext,
 } from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
-import { DisplayError } from '../../error/DisplayError'
 
 export function Welcome() {
   const {
