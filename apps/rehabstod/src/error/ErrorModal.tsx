@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts/src'
-import { useDispatch } from 'react-redux'
 import { ErrorId } from './ErrorId'
 import { api, useGetLinksQuery } from '../store/api'
 import { uuidv4 } from './util/errorUtils'
-import { DynamicLink } from '../components/DynamicLink/DynamicLink'
+import {DynamicLink} from '../components/DynamicLink/DynamicLink'
+import {useAppDispatch} from "../store/hooks";
 
 export function ErrorModal({
   description,
@@ -23,7 +23,7 @@ export function ErrorModal({
   const [errorId, setErrorId] = useState('')
   const { data: links } = useGetLinksQuery()
   const close = () => ref.current?.hideDialog()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (show && generateError) {
