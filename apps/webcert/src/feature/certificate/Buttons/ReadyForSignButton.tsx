@@ -31,7 +31,8 @@ const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled
       confirmButtonText="Markera klart för signering"
       declineButtonText="Avbryt"
       confirmButtonDisabled={functionDisabled}
-      buttonTestId="ready-for-sign-certificate-button">
+      buttonTestId="ready-for-sign-certificate-button"
+    >
       <p>
         Observera att utkastet saknar obligatoriska uppgifter. Om du inte kan fylla i mer information kan du ändå markera intyget som klart
         för signering. Läkaren kommer då behöva komplettera intyget med de saknade uppgifterna innan det går att signera.{' '}

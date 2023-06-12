@@ -75,7 +75,8 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
           changeUnitLinkPointer={!!changeUnitLink}
           data-testid="expandableBox"
           tabIndex={changeUnitLink ? 0 : -1}
-          onKeyDown={changeUnitLink ? handleKeyDown : undefined}>
+          onKeyDown={changeUnitLink ? handleKeyDown : undefined}
+        >
           <span>
             {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
             <br />
@@ -88,7 +89,8 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
           {user.loggedInUnit.isInactive && (
             <InactiveUnit
               className="iu-ml-400"
-              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
+              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
+            >
               <AlertCircle />
               <span className="iu-ml-200">Inaktiv enhet</span>
             </InactiveUnit>

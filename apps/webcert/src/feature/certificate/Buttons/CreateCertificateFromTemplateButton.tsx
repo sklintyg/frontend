@@ -28,7 +28,8 @@ const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, des
       name={name}
       description={description}
       startIcon={<img src={fileImage} alt="Skapa utkast" />}
-      buttonTestId="create-certificate-from-template-button">
+      buttonTestId="create-certificate-from-template-button"
+    >
       <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )

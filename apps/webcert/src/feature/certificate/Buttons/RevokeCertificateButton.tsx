@@ -58,7 +58,8 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
       confirmButtonText="Makulera"
-      buttonTestId="revoke-certificate-button">
+      buttonTestId="revoke-certificate-button"
+    >
       {isDodsbevis || isDodsorsaksIntyg ? (
         <RevokeDBAndDOIModalContent />
       ) : (

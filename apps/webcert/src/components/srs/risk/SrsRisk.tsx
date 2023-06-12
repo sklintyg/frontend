@@ -105,7 +105,8 @@ const SrsRisk: React.FC = () => {
       <StyledButton
         className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200 disabled' : 'iu-bg-information-light'}`}
         onClick={onButtonClicked}
-        disabled={isCalculatingRiskDisabled}>
+        disabled={isCalculatingRiskDisabled}
+      >
         {SRS_RISK_BUTTON_TEXT} {getIcon()}
       </StyledButton>
       {expanded && (

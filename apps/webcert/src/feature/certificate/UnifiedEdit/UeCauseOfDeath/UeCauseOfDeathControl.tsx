@@ -134,7 +134,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               }}
               disabled={disabled}
               value={value.specification.code}
-              error={false}>
+              error={false}
+            >
               {specifications.map((item) => (
                 <option value={item.id} key={item.id}>
                   {item.label}

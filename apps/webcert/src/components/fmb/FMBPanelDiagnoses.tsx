@@ -32,7 +32,8 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
             onChange={onChange}
             wrapperAdditionalStyles={'iu-mb-200'}
             tooltip={!diagnosisCode.diagnosTitle ? 'Det finns inget FMB-stöd för den angivna diagnosen.' : ''}
-            tooltipPlacement="left">
+            tooltipPlacement="left"
+          >
             {diagnosisCode.icd10Code && diagnosisCode.icd10Code !== diagnosisCode.originalIcd10Code && (
               <InfoCircle
                 testId={'fmbInfoCircle'}

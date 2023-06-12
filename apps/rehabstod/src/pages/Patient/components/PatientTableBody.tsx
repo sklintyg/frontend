@@ -2,7 +2,6 @@ import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 import { TableCell } from '../../../components/Table/TableCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { Tooltip } from '../../../components/Tooltip/Tooltip'
@@ -29,55 +28,32 @@ function OtherUnitInformation() {
 
 function PatientTableCellResolver({
   column,
-  rowIndex,
+  list,
   certificate,
   belongsToOtherUnit,
 }: {
   column: string
-  rowIndex: number
+  list: PatientSjukfallIntyg[]
   certificate: PatientSjukfallIntyg
   belongsToOtherUnit: boolean
 }) {
   const { navigateToWebcert } = usePatient()
 
   switch (column) {
-    case PatientColumn.Num:
-      return <TableCell>{rowIndex}</TableCell>
     case PatientColumn.Diagnos:
       return (
         <TableCell
-          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}>
+          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}
+        >
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
-    case PatientColumn.Startdatum:
-      return <TableCell>{certificate.start}</TableCell>
-    case PatientColumn.Slutdatum:
-      return <TableCell>{certificate.slut}</TableCell>
-    case PatientColumn.Längd:
-      return <TableCell>{certificate.dagar} dagar</TableCell>
     case PatientColumn.Grad:
       return (
         <TableCell>
           <SickLeaveDegreeInfo degrees={certificate.grader} />
         </TableCell>
       )
-    case PatientColumn.Ärenden:
-      return (
-        <TableCell>
-          <span className="whitespace-pre-line">
-            {getUnansweredCommunicationsFormat(certificate.obesvaradeKompl, certificate.unansweredOther)}
-          </span>
-        </TableCell>
-      )
-    case PatientColumn.Läkare:
-      return <TableCell>{certificate.lakare ? certificate.lakare.namn : 'Okänt'}</TableCell>
-    case PatientColumn.Sysselsättning:
-      return <TableCell>{certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'}</TableCell>
-    case PatientColumn.Vårdenhet:
-      return <TableCell>{certificate.vardenhetNamn}</TableCell>
-    case PatientColumn.Vårdgivare:
-      return <TableCell>{certificate.vardgivareNamn}</TableCell>
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
@@ -88,7 +64,8 @@ function PatientTableCellResolver({
               tertiary
               onClick={() => {
                 navigateToWebcert(certificate.intygsId)
-              }}>
+              }}
+            >
               <IDSRow align="center">
                 <IDSColumn cols="auto">Visa </IDSColumn>
                 <IDSColumn cols="auto" className="ml-2">
@@ -102,7 +79,11 @@ function PatientTableCellResolver({
         <>-</>
       )
     default:
-      return null
+      return (
+        <TableCell>
+          <span className="whitespace-pre-line">{getCertificateColumnData(column, certificate, list)}</span>
+        </TableCell>
+      )
   }
 }
 
@@ -115,7 +96,9 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortTableList(certificates, getCertificateColumnData).map(
         (certificate) =>
           columns.length > 0 && (
-            <tr key={`${certificate.start}${certificate.slut}`}>
+            <tr
+              key={`${certificate.start}${certificate.slut}`}
+              className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}>
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
@@ -125,7 +108,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
                     column={name}
                     certificate={certificate}
                     belongsToOtherUnit={user?.valdVardenhet?.id !== certificate.vardenhetId}
-                    rowIndex={certificates.indexOf(certificate) + 1}
+                    list={certificates}
                   />
                 ))}
             </tr>

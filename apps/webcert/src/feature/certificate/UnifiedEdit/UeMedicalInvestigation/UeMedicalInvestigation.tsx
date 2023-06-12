@@ -75,7 +75,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            error={error || validationErrors.some((v) => v.field === config.investigationTypeId)}>
+            error={error || validationErrors.some((v) => v.field === config.investigationTypeId)}
+          >
             {typeOptions.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}

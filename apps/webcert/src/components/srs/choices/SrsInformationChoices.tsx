@@ -21,10 +21,12 @@ interface Props {
   currentChoice: SrsInformationChoice
 }
 
-const SrsInformationButton: React.FC<Props & {
-  text: string
-  choice: SrsInformationChoice
-}> = ({ text, choice, currentChoice, onChange }) => (
+const SrsInformationButton: React.FC<
+  Props & {
+    text: string
+    choice: SrsInformationChoice
+  }
+> = ({ text, choice, currentChoice, onChange }) => (
   <StyledButton rounded text={text} onClick={() => onChange(choice)} buttonStyle={currentChoice === choice ? 'primary' : 'secondary'} />
 )
 

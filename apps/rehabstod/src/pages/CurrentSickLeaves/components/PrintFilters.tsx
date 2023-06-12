@@ -16,7 +16,8 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
       <h3 className="ids-heading-4">Valda filter</h3>
       <div
         className="bg-neutral-99 grid grid-cols-4 gap-2 rounded p-2"
-        style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' }}>
+        style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' }}
+      >
         <div className="whitespace-pre-line">
           <p className="font-bold">Diagnos/er: </p>
           {filter.diagnosisChapters.length === 0
@@ -55,6 +56,13 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
             : populatedFilters.rekoStatusTypes
                 .filter((type) => filter.rekoStatusTypeIds.find((id) => type.id === id))
                 .map((type) => `${type.name}\n`)}
+        </div>
+        <div className="whitespace-pre-line">
+          <p className="font-bold">Ärendestatus: </p>
+          {!filter.unansweredCommunicationFilterTypeId
+            ? 'Visa alla'
+            : populatedFilters.unansweredCommunicationFilterTypes.find((type) => type.id === filter.unansweredCommunicationFilterTypeId)
+                ?.name}
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">Sysselsättning: </p>
