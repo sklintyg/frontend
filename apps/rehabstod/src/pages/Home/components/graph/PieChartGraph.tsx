@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react'
-import {Legend, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps} from 'recharts'
+import { useEffect, useState } from 'react'
+import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts'
 import classes from './PieChartGraph.css'
 
-function CustomTooltip({payload}: TooltipProps<string, string>) {
+function CustomTooltip({ payload }: TooltipProps<string, string>) {
   if (payload && payload.length > 0) {
     return <p className="border-none bg-white p-2">{payload[0].name}</p>
   }
@@ -10,7 +10,7 @@ function CustomTooltip({payload}: TooltipProps<string, string>) {
   return null
 }
 
-export function PieChartGraph({data}: { data: { id: string; value: number; name: string; fill: string }[] }) {
+export function PieChartGraph({ data }: { data: { id: string; value: number; name: string; fill: string }[] }) {
   const [, setLoaded] = useState(false)
   const getLegend = (name: string) => <span className="text-neutral-20 text-sm">{name}</span>
 
@@ -24,7 +24,7 @@ export function PieChartGraph({data}: { data: { id: string; value: number; name:
   return (
     <ResponsiveContainer width={500} height="100%" minHeight="150px" className={classes}>
       <PieChart>
-        <Tooltip content={<CustomTooltip/>} wrapperStyle={{outline: "none"}}/>
+        <Tooltip content={<CustomTooltip />} wrapperStyle={{ outline: 'none' }} />
         <Pie
           isAnimationActive={false}
           cx="100"
