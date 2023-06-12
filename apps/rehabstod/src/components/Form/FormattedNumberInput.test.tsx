@@ -45,6 +45,16 @@ describe('FormattedNumberInput', () => {
     await userEvent.type(screen.getByLabelText(label), '100')
     expect(onChange).toHaveBeenLastCalledWith('100')
   })
+  it('should not allow consecutive zeroes', async () => {
+    renderComponent('0')
+    await userEvent.type(screen.getByLabelText(label), '000')
+    expect(screen.getByLabelText(label)).toHaveValue(0)
+  })
+  it('should not allow zeroes with trailing numbers', async () => {
+    renderComponent('0')
+    await userEvent.type(screen.getByLabelText(label), '012')
+    expect(screen.getByLabelText(label)).toHaveValue(0)
+  })
 
   it('should set value to min limit on blur if input is under limit', async () => {
     renderComponent('-100')
