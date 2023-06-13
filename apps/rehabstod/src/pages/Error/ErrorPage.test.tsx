@@ -4,7 +4,7 @@ import { renderWithRouter } from '../../utils/renderWithRouter'
 import { ErrorPage } from './ErrorPage'
 import { setErrorCode } from '../../store/slices/error.slice'
 import { store } from '../../store/store'
-import { ErrorCode, ErrorTitle } from '../../components/Error/ErrorCode'
+import { ErrorCodeEnum, ErrorTitleEnum } from '../../schemas/errorSchema'
 
 const renderComponent = () => {
   renderWithRouter(<ErrorPage />)
@@ -12,24 +12,24 @@ const renderComponent = () => {
 
 describe('ErrorPage tests', () => {
   it('should return LoginError', () => {
-    store.dispatch(setErrorCode(ErrorCode.LOGIN_FAILED))
+    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_FAILED))
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_FAILED)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_FAILED)).toBeInTheDocument()
   })
   it('should return HsaError', () => {
-    store.dispatch(setErrorCode(ErrorCode.LOGIN_HSA_ERROR))
+    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_HSA_ERROR))
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_HSA_ERROR)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_HSA_ERROR)).toBeInTheDocument()
   })
   it('should return MissingRoleError', () => {
-    store.dispatch(setErrorCode(ErrorCode.LOGIN_SAKNAR_HSA_REHABROLL))
+    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL))
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
   })
   it('should return HsaMissingRole', () => {
-    store.dispatch(setErrorCode(ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS))
+    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS))
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
   })
   it('should return UknownInternalError', () => {
     store.dispatch(setErrorCode('wrong'))

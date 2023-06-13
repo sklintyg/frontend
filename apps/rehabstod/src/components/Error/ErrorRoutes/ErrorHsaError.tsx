@@ -1,14 +1,14 @@
-import { ErrorText, ErrorTitle } from '../ErrorCode'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
 import { useGetLinksQuery } from '../../../store/api'
+import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 export function ErrorHsaError() {
   const { data: links } = useGetLinksQuery()
   return (
     <>
-      <h1 className="ids-heading-1">{ErrorTitle.LOGIN_HSA_ERROR} </h1>
+      <h1 className="ids-heading-1">{ErrorTitleEnum.enum.LOGIN_HSA_ERROR} </h1>
       <p className="ids-preamble">
-        {ErrorText.LOGIN_HSA_ERROR}
+        {ErrorTextEnum.enum.LOGIN_HSA_ERROR}
         <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
       </p>
     </>

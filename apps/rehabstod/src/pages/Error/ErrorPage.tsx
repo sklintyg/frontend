@@ -1,20 +1,22 @@
-import { Link, useLocation } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import { IDSContainer, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { uuidv4 } from '../../components/Error/util/errorUtils'
-import { api } from '../../store/api'
-import { setErrorCode, setRoutingErrorId } from '../../store/slices/error.slice'
-import { PageHero } from '../../components/PageHero/PageHero'
-import { TooltipIcon } from '../../components/TooltipIcon/TooltipIcon'
-import { DisplayRoutingError } from '../../components/Error/DisplayRoutingError'
-import { ErrorCode } from '../../components/Error/ErrorCode'
+import {Link, useLocation} from 'react-router-dom'
+import {useEffect, useRef, useState} from 'react'
+import {IDSContainer, IDSIcon, IDSLink} from '@frontend/ids-react-ts'
+import {useAppDispatch, useAppSelector} from '../../store/hooks'
+import {uuidv4} from '../../components/Error/util/errorUtils'
+import {api} from '../../store/api'
+import {setErrorCode, setRoutingErrorId} from '../../store/slices/error.slice'
+import {PageHero} from '../../components/PageHero/PageHero'
+import {TooltipIcon} from '../../components/TooltipIcon/TooltipIcon'
+import {DisplayRoutingError} from '../../components/Error/DisplayRoutingError'
+import {ErrorCodeEnum} from '../../schemas/errorSchema'
 
-const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
-  ['login.failed', ErrorCode.LOGIN_FAILED],
-  ['login.hsaerror', ErrorCode.LOGIN_HSA_ERROR],
-  ['login.medarbetaruppdrag', ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
-  ['login.saknar-hsa-rehabroll', ErrorCode.LOGIN_SAKNAR_HSA_REHABROLL],
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const ReasonParamErrorCodeMap = new Map<string, ErrorCodeEnum>([
+  ['login.failed', ErrorCodeEnum.enum.LOGIN_FAILED],
+  ['login.hsaerror', ErrorCodeEnum.enum.LOGIN_HSA_ERROR],
+  ['login.medarbetaruppdrag', ErrorCodeEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
+  ['login.saknar-hsa-rehabroll', ErrorCodeEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL],
 ])
 
 export function ErrorPage() {
@@ -29,7 +31,7 @@ export function ErrorPage() {
     if (location.search) {
       const params = new URLSearchParams(location.search)
       const reason = params.get('reason') ?? ''
-      const generatedErrorCode = ReasonParamErrorCodeMap.get(reason) as ErrorCode
+      const generatedErrorCode = ReasonParamErrorCodeMap.get(reason)
       dispatch(
         api.endpoints.logError.initiate({
           errorData: {

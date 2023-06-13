@@ -1,8 +1,8 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ErrorText, ErrorTitle } from '../ErrorCode'
 import { ErrorHsaMissingRole } from './ErrorHsaMissingRole'
+import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 const renderComponent = () => {
   renderWithRouter(<ErrorHsaMissingRole />)
@@ -13,10 +13,10 @@ describe('ErrorHsaMissingRole component', () => {
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
   })
   it('should render text', () => {
     renderComponent()
-    expect(screen.getByText(ErrorText.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTextEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
   })
 })

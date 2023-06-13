@@ -1,15 +1,15 @@
-import { ErrorText, ErrorTitle } from '../ErrorCode'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
 import { useGetLinksQuery } from '../../../store/api'
+import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 export function ErrorLoginFailed() {
   const { data: links } = useGetLinksQuery()
 
   return (
     <>
-      <h1 className="ids-heading-1">{ErrorTitle.LOGIN_FAILED} </h1>
+      <h1 className="ids-heading-1">{ErrorTitleEnum.enum.LOGIN_FAILED} </h1>
       <p className="ids-preamble">
-        {ErrorText.LOGIN_FAILED} <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
+        {ErrorTextEnum.enum.LOGIN_FAILED} <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
       </p>
     </>
   )

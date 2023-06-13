@@ -1,8 +1,8 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ErrorTitle } from '../ErrorCode'
 import { ErrorLoginFailed } from './ErrorLoginFailed'
+import { ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 const renderComponent = () => {
   renderWithRouter(<ErrorLoginFailed />)
@@ -13,7 +13,7 @@ describe('ErrorLoginFailed component', () => {
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitle.LOGIN_FAILED)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_FAILED)).toBeInTheDocument()
   })
   it('displays link', async () => {
     renderComponent()
