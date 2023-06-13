@@ -55,6 +55,7 @@ export function ErrorBoundary() {
           {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
         </div>
         <DisplayErrorIdentifier id={errorId} />
+        <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
         <div className="text-center">
           <IDSLink>
             <IDSIcon name="chevron" />
