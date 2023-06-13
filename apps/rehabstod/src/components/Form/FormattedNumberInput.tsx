@@ -28,6 +28,7 @@ export function FormattedNumberInput({
     return event.currentTarget.value.length === 2 && event.key !== 'Backspace'
   }
 
+
   return (
     <NumberInput
       type="number"
