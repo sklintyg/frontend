@@ -2,8 +2,7 @@ import { IDSContainer, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
-import { api } from '../../../store/api'
-import { useAppDispatch } from '../../../store/hooks'
+import { useLogErrorMutation } from '../../../store/api'
 import { uuidv4 } from '../../../utils/uuidv4'
 import { PageHero } from '../../PageHero/PageHero'
 import { DisplayErrorIdentifier } from '../DisplayErrorIdentifier/DisplayErrorIdentifier'
@@ -28,14 +27,15 @@ function errorStacktrace(error: unknown): string | null {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  const dispatch = useAppDispatch()
   const { current: errorId } = useRef(uuidv4())
   const message = errorMessage(error)
   const stackTrace = errorStacktrace(error)
+  const [logError] = useLogErrorMutation()
+  const request = useRef<ReturnType<typeof logError>>()
 
   useEffect(() => {
-    dispatch(
-      api.endpoints.logError.initiate({
+    if (request.current == null) {
+      request.current = logError({
         errorData: {
           errorId,
           errorCode: ErrorCode.CLIENT_ERROR,
@@ -43,8 +43,8 @@ export function ErrorBoundary() {
           stackTrace,
         },
       })
-    )
-  }, [dispatch, errorId, message, stackTrace])
+    }
+  }, [errorId, logError, message, stackTrace])
 
   return (
     <IDSContainer>
