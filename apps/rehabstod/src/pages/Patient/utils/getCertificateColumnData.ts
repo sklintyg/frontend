@@ -5,7 +5,7 @@ import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 export function getCertificateColumnData(column: string, certificate: PatientSjukfallIntyg, list: PatientSjukfallIntyg[]) {
   switch (column) {
     case PatientColumn.Num:
-      return list.indexOf(certificate)
+      return list.indexOf(certificate) + 1
     case PatientColumn.Grad:
       return certificate.grader.length > 0 ? certificate.grader.map((val) => `${val}%`).join(' ') : 'Okänt'
     case PatientColumn.Startdatum:

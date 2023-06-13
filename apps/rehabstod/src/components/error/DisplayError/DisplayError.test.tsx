@@ -11,7 +11,7 @@ const renderComponent = () => {
 }
 describe('DisplayError', () => {
   it('Should render without a problem', () => {
-    expect(() => renderComponent()).not.toThrow()
+    expect(renderComponent).not.toThrow()
   })
 
   it('Should render text', () => {

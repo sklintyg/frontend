@@ -5,7 +5,7 @@ import { api } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { uuidv4 } from '../../../utils/uuidv4'
 import { PageHero } from '../../PageHero/PageHero'
-import { ErrorCode } from '../ErrorCode/ErrorCode'
+import { DisplayErrorIdentifier } from '../DisplayErrorIdentifier/DisplayErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
 
 function errorMessage(error: unknown): string {
@@ -37,7 +37,7 @@ export function ErrorBoundary() {
       api.endpoints.logError.initiate({
         errorData: {
           errorId,
-          errorCode: 'No errorCode',
+          errorCode: 'CLIENT_ERROR',
           message,
           stackTrace,
         },
@@ -48,10 +48,12 @@ export function ErrorBoundary() {
   return (
     <IDSContainer>
       <PageHero type="error" icon="attention">
-        <h1 className="ids-heading-1">Ett fel har inträffat</h1>
-        <p className="ids-preamble">{message}</p>
-        {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
-        <ErrorCode id={errorId} />
+        <div className="mb-5">
+          <h1 className="ids-heading-1">Ett fel har inträffat</h1>
+          <p className="ids-preamble">{message}</p>
+          {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
+        </div>
+        <DisplayErrorIdentifier id={errorId} />
         <div className="text-center">
           <IDSLink>
             <IDSIcon name="chevron" />
