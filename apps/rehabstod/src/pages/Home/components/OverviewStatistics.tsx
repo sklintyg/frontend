@@ -1,5 +1,5 @@
 import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { DisplayError } from '../../../components/error/DisplayError/DisplayError'
+import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../../schemas'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
@@ -33,7 +33,7 @@ export function OverviewStatistics() {
   }
 
   if (error) {
-    return <DisplayError heading="Tekniskt fel" errorType="error" text="Översikten för enheten kan inte visas." dynamicLink={false} />
+    return <ErrorAlert heading="Tekniskt fel" errorType="error" text="Översikten för enheten kan inte visas." dynamicLink={false} />
   }
 
   return (

@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { DisplayError } from '../../components/error/DisplayError/DisplayError'
+import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../schemas'
 import { PuResponse } from '../../schemas/patientSchema'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
@@ -38,7 +38,7 @@ export function Patient() {
       <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
         <div className="ml-auto w-96">{!error && <ModifyPatientTableColumns />}</div>
         {error && (
-          <DisplayError
+          <ErrorAlert
             heading="Tekniskt fel"
             errorType="error"
             text="Information kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"

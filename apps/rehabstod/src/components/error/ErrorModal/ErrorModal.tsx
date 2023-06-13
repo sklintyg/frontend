@@ -5,7 +5,7 @@ import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { uuidv4 } from '../../../utils/uuidv4'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
-import { DisplayErrorIdentifier } from '../DisplayErrorIdentifier/DisplayErrorIdentifier'
+import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 
 export function ErrorModal({
   description,
@@ -49,7 +49,7 @@ export function ErrorModal({
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}.
       </p>
-      {errorId && <DisplayErrorIdentifier id={errorId} />}
+      {errorId && <ErrorIdentifier id={errorId} />}
       <IDSDialogActions>
         <IDSButton secondary onClick={close}>
           Stäng

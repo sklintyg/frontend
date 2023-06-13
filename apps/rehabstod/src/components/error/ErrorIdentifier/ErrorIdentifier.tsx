@@ -4,7 +4,7 @@ import { Tooltip } from '../../Tooltip/Tooltip'
 import { TooltipContent } from '../../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 
-export function DisplayErrorIdentifier({ id }: { id: string }) {
+export function ErrorIdentifier({ id }: { id: string }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)
 
   return (

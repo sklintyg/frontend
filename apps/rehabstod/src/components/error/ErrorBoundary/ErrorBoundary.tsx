@@ -5,7 +5,7 @@ import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
 import { uuidv4 } from '../../../utils/uuidv4'
 import { PageHero } from '../../PageHero/PageHero'
-import { DisplayErrorIdentifier } from '../DisplayErrorIdentifier/DisplayErrorIdentifier'
+import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
 
 function errorMessage(error: unknown): string {
@@ -54,7 +54,7 @@ export function ErrorBoundary() {
           <p className="ids-preamble">{message}</p>
           {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
         </div>
-        <DisplayErrorIdentifier id={errorId} />
+        <ErrorIdentifier id={errorId} />
         <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
         <div className="text-center">
           <IDSLink>
