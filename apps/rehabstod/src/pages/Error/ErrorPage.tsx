@@ -2,13 +2,13 @@ import {Link, useLocation} from 'react-router-dom'
 import {useEffect, useRef, useState} from 'react'
 import {IDSContainer, IDSIcon, IDSLink} from '@frontend/ids-react-ts'
 import {useAppDispatch, useAppSelector} from '../../store/hooks'
-import {uuidv4} from '../../components/Error/util/errorUtils'
 import {api} from '../../store/api'
 import {setErrorCode, setRoutingErrorId} from '../../store/slices/error.slice'
 import {PageHero} from '../../components/PageHero/PageHero'
 import {TooltipIcon} from '../../components/TooltipIcon/TooltipIcon'
-import {DisplayRoutingError} from '../../components/Error/DisplayRoutingError'
 import {ErrorCodeEnum} from '../../schemas/errorSchema'
+import {uuidv4} from '../../components/error/util/errorUtils'
+import {DisplayRoutingError} from '../../components/error/DisplayRoutingError'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

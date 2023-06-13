@@ -1,20 +1,20 @@
-import { ErrorLoginFailed } from './ErrorRoutes/ErrorLoginFailed'
-import { ErrorHsaError } from './ErrorRoutes/ErrorHsaError'
-import { ErrorMissingEmployeeAssignment } from './ErrorRoutes/ErrorMissingEmployeeAssignment'
-import { ErrorHsaMissingRole } from './ErrorRoutes/ErrorHsaMissingRole'
+import { LoginFailedError } from './ErrorRoutes/LoginFailedError'
+import { HsaError } from './ErrorRoutes/HsaError'
+import { MissingEmployeeAssignmentError } from './ErrorRoutes/MissingEmployeeAssignmentError'
+import { HsaMissingRoleError } from './ErrorRoutes/HsaMissingRoleError'
 import { UnknownInternalError } from './ErrorRoutes/UnknownInternalError'
 import { ErrorCodeEnum } from '../../schemas/errorSchema'
 
 export function DisplayRoutingError({ errorCode }: { errorCode: string | undefined }) {
   switch (errorCode) {
     case ErrorCodeEnum.enum.LOGIN_FAILED:
-      return <ErrorLoginFailed />
+      return <LoginFailedError />
     case ErrorCodeEnum.enum.LOGIN_HSA_ERROR:
-      return <ErrorHsaError />
+      return <HsaError />
     case ErrorCodeEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS:
-      return <ErrorMissingEmployeeAssignment />
+      return <MissingEmployeeAssignmentError />
     case ErrorCodeEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL:
-      return <ErrorHsaMissingRole />
+      return <HsaMissingRoleError />
     default:
       return <UnknownInternalError />
   }

@@ -1,13 +1,13 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ErrorMissingEmployeeAssignment } from './ErrorMissingEmployeeAssignment'
+import { MissingEmployeeAssignmentError } from './MissingEmployeeAssignmentError'
 import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 const renderComponent = () => {
-  renderWithRouter(<ErrorMissingEmployeeAssignment />)
+  renderWithRouter(<MissingEmployeeAssignmentError />)
 }
-describe('ErrorMissingEmployeeAssignment component', () => {
+describe('MissingEmployeeAssignmentError component', () => {
   it('should render without a problem', () => {
     expect(() => renderComponent()).not.toThrow()
   })

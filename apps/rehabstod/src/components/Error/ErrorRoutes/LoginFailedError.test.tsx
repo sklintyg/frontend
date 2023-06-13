@@ -1,19 +1,19 @@
 import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ErrorHsaError } from './ErrorHsaError'
+import { LoginFailedError } from './LoginFailedError'
 import { ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 const renderComponent = () => {
-  renderWithRouter(<ErrorHsaError />)
+  renderWithRouter(<LoginFailedError />)
 }
-describe('ErrorHsaError component', () => {
+describe('LoginFailedError component', () => {
   it('should render without a problem', () => {
     expect(() => renderComponent()).not.toThrow()
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_HSA_ERROR)).toBeInTheDocument()
+    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_FAILED)).toBeInTheDocument()
   })
   it('displays link', async () => {
     renderComponent()

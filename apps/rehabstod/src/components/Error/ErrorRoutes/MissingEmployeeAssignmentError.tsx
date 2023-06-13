@@ -1,6 +1,6 @@
 import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
-export function ErrorMissingEmployeeAssignment() {
+export function MissingEmployeeAssignmentError() {
   return (
     <>
       <h1 className="ids-heading-1">{ErrorTitleEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS} </h1>
