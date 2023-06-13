@@ -25,7 +25,6 @@ function OtherUnitInformation() {
     </Tooltip>
   )
 }
-
 function PatientTableCellResolver({
   column,
   list,

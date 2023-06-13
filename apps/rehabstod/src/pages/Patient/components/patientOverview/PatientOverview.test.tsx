@@ -5,13 +5,9 @@ import { renderWithRouter } from '../../../../utils/renderWithRouter'
 import { PatientOverview } from './PatientOverview'
 
 const renderComponent = () => {
+  const sjfMetaData = fakerFromSchema(sjfMetaDataSchema)({ blockingServiceError: false, consentServiceError: false })
   renderWithRouter(
-    <PatientOverview
-      sjfMetaData={fakerFromSchema(sjfMetaDataSchema)()}
-      patientId="191212121212"
-      isPersonResponseMissing={false}
-      encryptedPatientId=""
-    />
+    <PatientOverview sjfMetaData={sjfMetaData} patientId="191212121212" isPersonResponseMissing={false} encryptedPatientId="" />
   )
 }
 
