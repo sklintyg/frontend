@@ -1,6 +1,7 @@
 import { IDSContainer, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
+import { ErrorCode } from '../../../schemas/errorSchema'
 import { api } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { uuidv4 } from '../../../utils/uuidv4'
@@ -37,7 +38,7 @@ export function ErrorBoundary() {
       api.endpoints.logError.initiate({
         errorData: {
           errorId,
-          errorCode: 'CLIENT_ERROR',
+          errorCode: ErrorCode.CLIENT_ERROR,
           message,
           stackTrace,
         },

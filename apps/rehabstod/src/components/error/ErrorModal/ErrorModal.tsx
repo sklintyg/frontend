@@ -1,5 +1,6 @@
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
 import { useEffect, useRef, useState } from 'react'
+import { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { uuidv4 } from '../../../utils/uuidv4'
@@ -15,7 +16,7 @@ export function ErrorModal({
 }: {
   description: string
   show?: boolean
-  errorCode: string
+  errorCode: ErrorCode
   generateError: boolean
   dynamicLink: boolean
 }) {
