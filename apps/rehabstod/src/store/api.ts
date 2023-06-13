@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
+import { ErrorData } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
@@ -14,7 +15,6 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
-import { ErrorData } from '../schemas/errorSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -255,6 +255,7 @@ export const {
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
+  useLogErrorMutation,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
 } = api

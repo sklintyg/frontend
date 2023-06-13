@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
-import { ErrorId } from '../ErrorId/ErrorId'
-import { api, useGetLinksQuery } from '../../store/api'
-import { uuidv4 } from '../util/errorUtils'
-import { DynamicLink } from '../../components/DynamicLink/DynamicLink'
-import { useAppDispatch } from '../../store/hooks'
+import { useEffect, useRef, useState } from 'react'
+import { ErrorCode } from '../../../schemas/errorSchema'
+import { api, useGetLinksQuery } from '../../../store/api'
+import { useAppDispatch } from '../../../store/hooks'
+import { uuidv4 } from '../../../utils/uuidv4'
+import { DynamicLink } from '../../DynamicLink/DynamicLink'
+import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 
 export function ErrorModal({
   description,
@@ -15,7 +16,7 @@ export function ErrorModal({
 }: {
   description: string
   show?: boolean
-  errorCode: string
+  errorCode: ErrorCode
   generateError: boolean
   dynamicLink: boolean
 }) {
@@ -29,21 +30,26 @@ export function ErrorModal({
     if (show && generateError) {
       const generatedErrorId = uuidv4()
       setErrorId(generatedErrorId)
-      const errorData = {
-        errorId: generatedErrorId,
-        errorCode,
-        message: description,
-        stackTrace: null,
-      }
-
-      dispatch(api.endpoints.logError.initiate({ errorData, ...errorData }))
+      dispatch(
+        api.endpoints.logError.initiate({
+          errorData: {
+            errorId: generatedErrorId,
+            errorCode,
+            message: description,
+            stackTrace: null,
+          },
+        })
+      )
     }
   }, [show, dispatch, description, errorCode, generateError])
 
   return (
     <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show ? 'true' : 'false'}>
-      {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
-      {dynamicLink ? <DynamicLink type="footer" link={links?.ineraNationellKundservice} /> : ''}.{errorId && <ErrorId errorId={errorId} />}
+      <p className="mb-5">
+        {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
+        {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}.
+      </p>
+      {errorId && <ErrorIdentifier id={errorId} />}
       <IDSDialogActions>
         <IDSButton secondary onClick={close}>
           Stäng

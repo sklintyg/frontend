@@ -1,10 +1,11 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
+import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
+import { ErrorCode } from '../../../../schemas/errorSchema'
 import { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/api'
-import { OpenInformationCard } from './open/OpenInformationCard'
 import { BlockedInformationCard } from './blocked/BlockedInformationCard'
+import { OpenInformationCard } from './open/OpenInformationCard'
 import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
-import { ErrorModal } from '../../../../error/ErrorModal/ErrorModal'
 
 export function PatientOverview({
   sjfMetaData,
@@ -57,7 +58,7 @@ export function PatientOverview({
             : 'Information kan inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
         }
         dynamicLink
-        errorCode={sjfMetaData.consentServiceError ? 'SJF_CONSENT_SERVICE_ERROR' : 'SJF_BLOCKING_SERVICE_ERROR'}
+        errorCode={sjfMetaData.consentServiceError ? ErrorCode.SJF_CONSENT_SERVICE_ERROR : ErrorCode.SJF_BLOCKING_SERVICE_ERROR}
         generateError
       />
     )
@@ -68,7 +69,7 @@ export function PatientOverview({
       <ErrorModal
         show={giveConsentError !== undefined || (consentResponse && consentResponse.responseCode !== 'OK')}
         description="Samtycke kan inte registreras på grund av ett tekniskt fel. Försök igen om en stund."
-        errorCode="REGISTER_SJF_CONSENT_ERROR"
+        errorCode={ErrorCode.REGISTER_SJF_CONSENT_ERROR}
         generateError={giveConsentError === undefined}
         dynamicLink
       />
