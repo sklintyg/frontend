@@ -2,7 +2,7 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
-import { DisplayError } from '../../components/Error/DisplayError/DisplayError'
+import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../schemas'
 import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -64,7 +64,7 @@ export function CurrentSickLeaves() {
       </div>
       <PrintFilters isDoctor={isDoctor} />
       {error && (
-        <DisplayError
+        <ErrorAlert
           heading="Sjukfall för enheten kunde inte hämtas."
           errorType="error"
           text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
