@@ -3,13 +3,13 @@ import {ComponentProps} from 'react'
 import {NumberInput} from './NumberInput'
 
 export function FormattedNumberInput({
-                                       onChange,
-                                       min,
-                                       max,
-                                       value,
-                                       defaultValue,
-                                       ...props
-                                     }: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
+  onChange,
+  min,
+  max,
+  value,
+  defaultValue,
+  ...props
+}: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
   defaultValue: string
   min: string
   max: string
