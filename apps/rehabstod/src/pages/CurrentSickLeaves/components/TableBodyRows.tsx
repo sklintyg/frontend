@@ -3,31 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
+import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
+import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { TableCell } from '../../../components/Table/TableCell'
+import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { MaxColspanRow } from './MaxColspanRow'
-import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
-import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
-    case SickLeaveColumn.Personnummer:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</TableCell>
-    case SickLeaveColumn.Ålder:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Ålder, sickLeave)} år</TableCell>
-    case SickLeaveColumn.Namn:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</TableCell>
-    case SickLeaveColumn.Kön:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</TableCell>
     case SickLeaveColumn.Diagnos:
       return sickLeave.diagnos ? (
         <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
@@ -36,28 +27,18 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
       ) : (
         <span>Okänt</span>
       )
-    case SickLeaveColumn.Sysselsättning:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Sysselsättning, sickLeave)}</TableCell>
-    case SickLeaveColumn.Startdatum:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</TableCell>
     case SickLeaveColumn.Slutdatum:
       return (
         <TableCell>
           <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
         </TableCell>
       )
-    case SickLeaveColumn.Längd:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</TableCell>
-    case SickLeaveColumn.Intyg:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Intyg, sickLeave)}</TableCell>
     case SickLeaveColumn.Grad:
       return (
         <TableCell>
           <SickLeaveDegreeInfo degrees={sickLeave.grader} />
         </TableCell>
       )
-    case SickLeaveColumn.Läkare:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</TableCell>
     case SickLeaveColumn.RekoStatus:
       return !isDoctor ? (
         <TableCell>
@@ -72,10 +53,8 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
           <RiskSignalInfo riskSignal={sickLeave.riskSignal} />
         </TableCell>
       )
-    case SickLeaveColumn.Ärenden:
-      return <TableCell>{getUnansweredCommunicationsFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</TableCell>
     default:
-      return null
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave)}</TableCell>
   }
 }
 
