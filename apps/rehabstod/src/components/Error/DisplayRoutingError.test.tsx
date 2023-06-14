@@ -1,39 +1,32 @@
 import { describe, expect } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { ErrorPage } from './ErrorPage'
-import { setErrorCode } from '../../store/slices/error.slice'
-import { store } from '../../store/store'
 import { ErrorCodeEnum, ErrorTitleEnum } from '../../schemas/errorSchema'
+import { DisplayRoutingError } from './DisplayRoutingError'
 
-const renderComponent = () => {
-  renderWithRouter(<ErrorPage />)
+const renderComponent = (errorCode: string) => {
+  renderWithRouter(<DisplayRoutingError errorCode={errorCode} />)
 }
 
-describe('ErrorPage tests', () => {
+describe('DisplayRoutingError tests', () => {
   it('should return LoginError', () => {
-    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_FAILED))
-    renderComponent()
+    renderComponent(ErrorCodeEnum.enum.LOGIN_FAILED)
     expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_FAILED)).toBeInTheDocument()
   })
   it('should return HsaError', () => {
-    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_HSA_ERROR))
-    renderComponent()
+    renderComponent(ErrorCodeEnum.enum.LOGIN_HSA_ERROR)
     expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_HSA_ERROR)).toBeInTheDocument()
   })
   it('should return MissingRoleError', () => {
-    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL))
-    renderComponent()
+    renderComponent(ErrorCodeEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)
     expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
   })
   it('should return HsaMissingRole', () => {
-    store.dispatch(setErrorCode(ErrorCodeEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS))
-    renderComponent()
+    renderComponent(ErrorCodeEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS)
     expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
   })
   it('should return UknownInternalError', () => {
-    store.dispatch(setErrorCode('wrong'))
-    renderComponent()
+    renderComponent(ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR)
     expect(screen.getByText('Tekniskt fel')).toBeInTheDocument()
   })
 })

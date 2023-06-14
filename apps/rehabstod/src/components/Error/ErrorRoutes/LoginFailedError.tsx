@@ -4,7 +4,6 @@ import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 export function LoginFailedError() {
   const { data: links } = useGetLinksQuery()
-
   return (
     <>
       <h1 className="ids-heading-1">{ErrorTitleEnum.enum.LOGIN_FAILED} </h1>
