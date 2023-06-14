@@ -14,8 +14,8 @@
     "posttest:ci": "pnpm test:report && pnpm test:coverage",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "start:test": "turbo dev -- -m test",
-    "start": "turbo dev",
+    "start:test": "turbo dev --concurrency=100% -- -m test",
+    "start": "turbo dev --concurrency=100%",
     "test:ci": "turbo test:ci",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test": "turbo test",
@@ -39,7 +39,7 @@
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-svg": "^2.0.0",
-    "turbo": "^1.7.4",
+    "turbo": "^1.10.1",
     "typescript": "^5.0.4"
   },
   "lint-staged": {
@@ -53,10 +53,5 @@
     "not dead",
     "not op_mini all",
     "ie 11"
-  ],
-  "pnpm": {
-    "patchedDependencies": {
-      "@inera/ids-core@2.6.0": "patches/@inera__ids-core@2.6.0.patch"
-    }
-  }
+  ]
 }

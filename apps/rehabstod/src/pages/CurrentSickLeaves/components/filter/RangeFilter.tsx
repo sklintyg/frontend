@@ -1,3 +1,4 @@
+import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { FormattedNumberInput } from '../../../../components/Form/FormattedNumberInput'
 import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 
@@ -24,7 +25,7 @@ export function RangeFilter({
     <div>
       <div>
         <span>{title}</span>
-        <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
+        <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />
       </div>
       <div className="flex w-80 gap-3">
         <FormattedNumberInput

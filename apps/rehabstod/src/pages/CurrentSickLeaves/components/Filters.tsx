@@ -1,18 +1,18 @@
-import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
+import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
 import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
-import { RangeFilter } from './filter/RangeFilter'
-import { TimePeriodFilter } from './filter/TimePeriodFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
-import { getMultipleSelectPlaceholder } from '../utils/getMultipleSelectPlaceholder'
+import { RangeFilter } from './filter/RangeFilter'
 import { SelectFilter } from './filter/SelectFilter'
 import { TextSearchFilter } from './filter/TextSearchFilter'
+import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
 export function Filters({
   onSearch,
@@ -46,7 +46,7 @@ export function Filters({
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
-        <IDSIcon name="chevron" size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
+        <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
       {expanded && (

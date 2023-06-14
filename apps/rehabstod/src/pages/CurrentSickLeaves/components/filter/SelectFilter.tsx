@@ -1,5 +1,5 @@
+import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
 import { useId } from 'react'
-import { IDSSelect } from '@frontend/ids-react-ts'
 import { Select } from '../../../../components/Form/Select'
 import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 
@@ -21,7 +21,7 @@ export function SelectFilter({
       <IDSSelect className="m-0">
         <label htmlFor={id}>
           {label}
-          {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
+          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </label>
         <Select id={id} onChange={(event) => onChange(event.currentTarget.value)}>
           <option className="ml-2" id="" value="">

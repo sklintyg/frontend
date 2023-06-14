@@ -1,4 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIconExternal } from '@frontend/ids-react-ts'
 import { Link } from '../../schemas'
 
 export type DynamicLinkType = 'regular' | 'footer' | 'sub-footer'
@@ -21,12 +21,11 @@ export function DynamicLink({ type = 'regular', link }: { link?: Link; type?: Dy
     <a href={url} target={target} className={`${styles[type]} underline`} rel={target === '_blank' ? 'noreferrer' : undefined}>
       {text}
       {target === '_blank' && (
-        <IDSIcon
+        <IDSIconExternal
           className="inline pl-2 align-middle"
           width={size}
           height={size}
           slot="append-icon"
-          name="external"
           color="currentColor"
           color2="currentColor"
         />

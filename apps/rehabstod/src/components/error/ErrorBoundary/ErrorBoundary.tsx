@@ -1,4 +1,4 @@
-import { IDSContainer, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
 import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
@@ -48,7 +48,7 @@ export function ErrorBoundary() {
 
   return (
     <IDSContainer>
-      <PageHero type="error" icon="attention">
+      <PageHero type="error">
         <div className="mb-5">
           <h1 className="ids-heading-1">Ett fel har inträffat</h1>
           <p className="ids-preamble">{message}</p>
@@ -58,7 +58,7 @@ export function ErrorBoundary() {
         <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
         <div className="text-center">
           <IDSLink>
-            <IDSIcon name="chevron" />
+            <IDSIconChevron />
             <Link to="/">Till startsidan</Link>
           </IDSLink>
         </div>
