@@ -5,9 +5,9 @@ import { useAppDispatch } from '../../store/hooks'
 import { api } from '../../store/api'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ErrorCodeEnum } from '../../schemas/errorSchema'
-import { uuidv4 } from '../../components/error/util/errorUtils'
 import { DisplayRoutingError } from '../../components/error/DisplayRoutingError'
 import { ErrorIdentifier } from '../../components/error/ErrorIdentifier/ErrorIdentifier'
+import { uuidv4 } from '../../utils/uuidv4'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
