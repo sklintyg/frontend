@@ -5,7 +5,7 @@ import {HsaMissingRoleError} from '../ErrorRoutes/HsaMissingRoleError'
 import {UnknownInternalError} from '../ErrorRoutes/UnknownInternalError'
 import {ErrorCodeEnum} from '../../../schemas/errorSchema'
 
-export function DisplayRoutingError({errorCode}: { errorCode: string | undefined }) {
+export function DisplayRoutingError({ errorCode }: { errorCode: string | undefined }) {
   switch (errorCode) {
     case ErrorCodeEnum.enum.LOGIN_FAILED:
       return <LoginFailedError />
