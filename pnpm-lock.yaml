@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@inera/ids-core@2.6.0':
-    hash: cjzc4gmvmyfmzzkrlg7m5aytze
-    path: patches/@inera__ids-core@2.6.0.patch
-
 importers:
 
   .:
@@ -84,7 +79,7 @@ importers:
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
         specifier: ^2.6.0
-        version: 2.6.0(patch_hash=cjzc4gmvmyfmzzkrlg7m5aytze)
+        version: 2.6.0
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -1449,13 +1444,12 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
-  /@inera/ids-core@2.6.0(patch_hash=cjzc4gmvmyfmzzkrlg7m5aytze):
+  /@inera/ids-core@2.6.0:
     resolution: {integrity: sha512-eOndnTY+UOmYQv3hzJKjfV729mL5SEvYJV5vQnFsD/in5rEio0WdsxbjnmGhU7EanlX+eZHmhNJuvV7zkSH0RQ==}
     dependencies:
       lit: 2.7.5
       tslib: 2.3.1
     dev: false
-    patched: true
 
   /@inera/ids-core@3.0.5:
     resolution: {integrity: sha512-gmpa8cwiq1iIYr9uFMn0VGsBLfuguK6WdvurWLxPENv1obTRzGIHGOGLgxdyB74FssYlq8OkVq4eMavFAzOh2Q==}
