@@ -10,7 +10,7 @@ const label = 'label'
 const description = 'description'
 let onChange: (value: string) => void
 
-const renderComponent = (value = '10') => {
+const renderComponent = (value?: string) => {
   onChange = vi.fn()
   render(
     <FormattedNumberInput
@@ -36,14 +36,30 @@ describe('FormattedNumberInput', () => {
   })
 
   it('should set value', () => {
-    renderComponent()
+    renderComponent('10')
     expect(screen.getByLabelText(label)).toHaveValue(10)
   })
 
   it('should call on change when user types input', async () => {
     renderComponent()
-    await userEvent.type(screen.getByLabelText(label), '100')
-    expect(onChange).toHaveBeenLastCalledWith('100')
+    await userEvent.type(screen.getByLabelText(label), '10')
+    expect(onChange).toHaveBeenLastCalledWith('10')
+  })
+  it('should not allow consecutive zeroes', async () => {
+    renderComponent('0')
+    await userEvent.type(screen.getByLabelText(label), '000')
+    expect(screen.getByLabelText(label)).toHaveValue(0)
+  })
+  it('should not allow zeroes with trailing numbers', async () => {
+    renderComponent('0')
+    await userEvent.type(screen.getByLabelText(label), '12')
+    expect(screen.getByLabelText(label)).toHaveValue(0)
+  })
+
+  it('should not allow numbers with more than two digits', async () => {
+    renderComponent()
+    await userEvent.type(screen.getByLabelText(label), '120')
+    expect(screen.getByLabelText(label)).toHaveValue(12)
   })
 
   it('should set value to min limit on blur if input is under limit', async () => {

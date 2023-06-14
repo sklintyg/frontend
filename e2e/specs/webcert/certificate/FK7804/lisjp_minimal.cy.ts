@@ -43,9 +43,7 @@ describe(`Minimal ${name} intyg`, () => {
 
   it(`Skicka ett signerat ${type} intyg`, () => {
     cy.signCertificate()
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .click()
+    cy.get('button').contains('Skicka till Försäkringskassan').click()
     cy.get('.ic-button-group > :nth-child(1) > .ic-button').click() // detta behöver jag hjälp med
 
     cy.contains('Intyget är tillgängligt för patienten').should('exist')
@@ -59,18 +57,14 @@ describe(`Minimal ${name} intyg`, () => {
   it(`Förnya ett ${type} intyg`, () => {
     cy.signCertificate()
     cy.renewCertificate()
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .should('not.exist')
+    cy.get('button').contains('Skicka till Försäkringskassan').should('not.exist')
     cy.contains(certificateId).should('not.exist')
   })
 
   it(`Ersätta ett ${type} intyg`, () => {
     cy.signCertificate()
     cy.replaceCertificate()
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .should('not.exist')
+    cy.get('button').contains('Skicka till Försäkringskassan').should('not.exist')
     cy.contains(certificateId).should('not.exist')
   })
 
@@ -88,9 +82,7 @@ describe(`Minimal ${name} intyg`, () => {
 
   it(`Det går inte att signera ett ${type} utkast som inte innehåller alla obligatoriska fält`, () => {
     cy.contains('Klart att signera').should('exist')
-    cy.get('label')
-      .contains('100 procent')
-      .click()
+    cy.get('label').contains('100 procent').click()
     cy.contains('Obligatoriska uppgifter saknas').should('exist')
     cy.contains('Klart att signera').should('not.exist')
   })

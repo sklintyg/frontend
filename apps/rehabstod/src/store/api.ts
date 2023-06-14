@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
+import { ErrorData } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
@@ -10,10 +11,10 @@ import {
   SickLeaveFilter,
   SickLeaveInfo,
   SickLeaveSummary,
+  UnansweredCommunicationFilterType,
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
-import { ErrorData } from '../schemas/errorSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -108,6 +109,7 @@ export const api = createApi({
         nbrOfSickLeaves: number
         rekoStatusTypes: RekoStatusType[]
         occupationTypes: OccupationType[]
+        unansweredCommunicationFilterTypes: UnansweredCommunicationFilterType[]
         srsActivated: boolean
       },
       void
@@ -124,10 +126,11 @@ export const api = createApi({
       providesTags: ['SickLeaveSummary'],
     }),
     getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
-      query: ({ encryptedPatientId }) => ({
+      keepUnusedDataFor: 0,
+      query: (encryptedPatientId) => ({
         url: 'sjukfall/patient',
         method: 'POST',
-        body: { encryptedPatientId },
+        body: encryptedPatientId,
       }),
       providesTags: ['SickLeavePatient'],
     }),
@@ -252,6 +255,7 @@ export const {
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
+  useLogErrorMutation,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
 } = api

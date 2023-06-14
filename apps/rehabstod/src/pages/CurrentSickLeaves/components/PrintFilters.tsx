@@ -21,7 +21,8 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
       <h3 className="ids-heading-4">Valda filter</h3>
       <div
         className="bg-neutral-99 grid grid-cols-4 gap-2 rounded p-2"
-        style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' }}>
+        style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' }}
+      >
         <div className="whitespace-pre-line">
           <p className="font-bold">Diagnos/er: </p>
           {filter.diagnosisChapters.length === 0
@@ -35,7 +36,7 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
               ? 'Alla valda'
               : populatedFilters.activeDoctors
                   .filter((doctor) => filter.doctorIds.find((id) => doctor.hsaId === id))
-                  .map((doctor) => `${doctor.hsaId}: ${doctor.namn}\n`)}
+                  .map((doctor) => `${doctor.namn}\n`)}
           </div>
         )}
         <div>
@@ -54,14 +55,16 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">Sjukskrivningslängd: </p>
-          {sickLeaveLengthIntervals
-            .filter((option) =>
-              filter.sickLeaveLengthIntervals.find(
-                ({ from, to }) =>
-                  convertSelectedValue(from, option.metric) === option.from && convertSelectedValue(to, option.metric) === option.to
-              )
-            )
-            .map((option) => `${getSickLeaveLengthLabel(option)}\n`) ?? 'Alla valda'}
+          {filter.sickLeaveLengthIntervals.length === 0
+            ? 'Alla valda'
+            : sickLeaveLengthIntervals
+                .filter((option) =>
+                  filter.sickLeaveLengthIntervals.find(
+                    ({ from, to }) =>
+                      convertSelectedValue(from, option.metric) === option.from && convertSelectedValue(to, option.metric) === option.to
+                  )
+                )
+                .map((option) => `${getSickLeaveLengthLabel(option)}\n`)}
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">REKO-status: </p>
@@ -70,6 +73,13 @@ export function PrintFilters({ isDoctor }: { isDoctor: boolean }) {
             : populatedFilters.rekoStatusTypes
                 .filter((type) => filter.rekoStatusTypeIds.find((id) => type.id === id))
                 .map((type) => `${type.name}\n`)}
+        </div>
+        <div className="whitespace-pre-line">
+          <p className="font-bold">Ärendestatus: </p>
+          {!filter.unansweredCommunicationFilterTypeId
+            ? 'Visa alla'
+            : populatedFilters.unansweredCommunicationFilterTypes.find((type) => type.id === filter.unansweredCommunicationFilterTypeId)
+                ?.name}
         </div>
         <div className="whitespace-pre-line">
           <p className="font-bold">Sysselsättning: </p>

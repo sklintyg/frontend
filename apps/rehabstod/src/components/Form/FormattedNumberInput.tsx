@@ -20,6 +20,14 @@ export function FormattedNumberInput({
   const convertValue = (val: number | undefined, minLimit: number, maxLimit: number): number =>
     val != null && !Number.isNaN(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
 
+  function maxConsecutiveZeroes(event: React.KeyboardEvent<HTMLInputElement>) {
+    return event.currentTarget.value === '0' && event.key !== 'Backspace'
+  }
+
+  function maxLengthReached(event: React.KeyboardEvent<HTMLInputElement>) {
+    return event.currentTarget.value.length === 2 && event.key !== 'Backspace'
+  }
+
   return (
     <NumberInput
       type="number"
@@ -30,7 +38,7 @@ export function FormattedNumberInput({
       max={max}
       {...props}
       onKeyDown={(event) => {
-        if (!numbersRegex.test(event.key)) {
+        if (!numbersRegex.test(event.key) || maxConsecutiveZeroes(event) || maxLengthReached(event)) {
           event.preventDefault()
         }
       }}

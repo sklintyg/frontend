@@ -13,6 +13,11 @@ export enum PuResponse {
   MISSING = 'MISSING',
 }
 
+export const unansweredCommunicationFilterType = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
 export const rekoStatusType = z.object({
   id: z.string(),
   name: z.string(),
@@ -107,6 +112,7 @@ export const sickLeaveFilterSchema = z.object({
   toSickLeaveEndDate: z.string().nullable(),
   rekoStatusTypeIds: z.array(z.string()),
   occupationTypeIds: z.array(z.string()),
+  unansweredCommunicationFilterTypeId: z.string(),
   textSearch: z.string(),
 })
 
@@ -184,4 +190,5 @@ export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
 export type RekoStatusType = z.infer<typeof rekoStatusType>
 export type OccupationType = z.infer<typeof rekoStatusType>
+export type UnansweredCommunicationFilterType = z.infer<typeof unansweredCommunicationFilterType>
 export type RekoStatus = z.infer<typeof rekoStatus>

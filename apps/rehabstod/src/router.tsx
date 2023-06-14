@@ -1,4 +1,5 @@
 import { createBrowserRouter, createRoutesFromChildren, Route } from 'react-router-dom'
+import { ErrorBoundary } from './components/error/ErrorBoundary/ErrorBoundary'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CareProvider } from './pages/CareProvider/CareProvider'
@@ -13,9 +14,10 @@ export const router = createBrowserRouter(
   createRoutesFromChildren([
     <Route key="welcome" path="/welcome" element={<Welcome />} />,
     <Route key="root" path="/" element={<Layout />}>
-      <Route index element={<Home />} />
+      <Route index errorElement={<ErrorBoundary />} element={<Home />} />
       <Route
         path="/enhet"
+        errorElement={<ErrorBoundary />}
         element={
           <ProtectedRoute>
             <CareProvider />
@@ -24,20 +26,24 @@ export const router = createBrowserRouter(
       />
       <Route
         path="/pagaende-sjukfall"
+        errorElement={<ErrorBoundary />}
         element={
           <ProtectedRoute requireUnit>
             <CurrentSickLeaves />
           </ProtectedRoute>
-        }>
+        }
+      >
         <Route path=":encryptedPatientId" element={<Patient />} />
       </Route>
       <Route
         path="/lakarutlatanden"
+        errorElement={<ErrorBoundary />}
         element={
           <ProtectedRoute requireUnit>
             <MedicalOpinion />
           </ProtectedRoute>
-        }>
+        }
+      >
         <Route path=":patientId" element={<Patient />} />
       </Route>
       <Route path="*" element={<NoMatch />} />

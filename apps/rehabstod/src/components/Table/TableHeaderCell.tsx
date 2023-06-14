@@ -50,7 +50,8 @@ export function TableHeaderCell({
             'border-l-0',
             sticky != null && `sticky z-20`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
-          )}>
+          )}
+        >
           <span>
             {column} <SortingIcon column={column} />
           </span>

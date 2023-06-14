@@ -1,5 +1,6 @@
 import { IDSAlert, IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
+import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import {
@@ -24,7 +25,6 @@ import {
   updateFreetext,
 } from '../../store/slices/welcome.slice'
 import { useWelcome } from './useWelcome'
-import { DisplayError } from '../../error/DisplayError'
 
 export function Welcome() {
   const {
@@ -148,7 +148,8 @@ export function Welcome() {
                   dispatch(selectUnit(unitId))
                   dispatch(updateFreetext(null))
                 }}
-                className="border-accent-40 w-full rounded border p-2">
+                className="border-accent-40 w-full rounded border p-2"
+              >
                 {fakeLogins.map(({ hsaId, forvaldEnhet, beskrivning }) => (
                   <option key={`${hsaId}_${forvaldEnhet}`} id={`${hsaId}_${forvaldEnhet}`}>
                     {beskrivning}
@@ -199,7 +200,8 @@ export function Welcome() {
                 id="careProviderId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careProviderId}
-                onChange={(e) => dispatch(setCareProviderId(e.target.value))}>
+                onChange={(e) => dispatch(setCareProviderId(e.target.value))}
+              >
                 {testDataOptions.careProviderIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -211,7 +213,8 @@ export function Welcome() {
                 id="careUnitId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careUnitId}
-                onChange={(e) => dispatch(setCareUnitId(e.target.value))}>
+                onChange={(e) => dispatch(setCareUnitId(e.target.value))}
+              >
                 {testDataOptions.careUnitIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -223,7 +226,8 @@ export function Welcome() {
                 id="doctorId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={doctorId}
-                onChange={(e) => dispatch(setDoctorId(e.target.value))}>
+                onChange={(e) => dispatch(setDoctorId(e.target.value))}
+              >
                 {testDataOptions.doctorIds.map(({ hsaId, name }) => (
                   <option key={`${hsaId}_${name}`} id={`${hsaId}_${name}`} value={hsaId}>
                     {`${name}`}
@@ -235,7 +239,8 @@ export function Welcome() {
                 id="patientId"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={patientId}
-                onChange={(e) => dispatch(setPatientId(e.target.value))}>
+                onChange={(e) => dispatch(setPatientId(e.target.value))}
+              >
                 {testDataOptions.patientIds.map(({ id, name }) => (
                   <option key={`${id}_${name}`} id={`${id}_${name}`} value={id}>
                     {`${name}`}
@@ -247,7 +252,8 @@ export function Welcome() {
                 id="diagnosisCodes"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={primaryDiagnosisCode}
-                onChange={(e) => dispatch(setPrimaryDiagnosisCode(e.target.value))}>
+                onChange={(e) => dispatch(setPrimaryDiagnosisCode(e.target.value))}
+              >
                 {testDataOptions.diagnosisCodes.map((diagnosis) => (
                   <option key={`${diagnosis}_${diagnosis}`} id={`${diagnosis}_${diagnosis}`} value={diagnosis}>
                     {`${diagnosis}`}
@@ -259,7 +265,8 @@ export function Welcome() {
                 id="diagnosisCodesSecondary"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={secondDiagnosisCode !== null ? secondDiagnosisCode : ''}
-                onChange={(e) => dispatch(setSecondDiagnosisCode(e.target.value))}>
+                onChange={(e) => dispatch(setSecondDiagnosisCode(e.target.value))}
+              >
                 <option key="secondDiagnosis" id="secondDiagnosis" value="">
                   Ingen
                 </option>
@@ -274,7 +281,8 @@ export function Welcome() {
                 id="diagnosisCodesThird"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={thirdDiagnosisCode !== null ? thirdDiagnosisCode : ''}
-                onChange={(e) => dispatch(setThirdDiagnosisCode(e.target.value))}>
+                onChange={(e) => dispatch(setThirdDiagnosisCode(e.target.value))}
+              >
                 <option key="thirdDiagnosis" id="thirdDiagnosis" value="">
                   Ingen
                 </option>
@@ -289,7 +297,8 @@ export function Welcome() {
                 id="workcapacity"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={workCapacities}
-                onChange={(e) => dispatch(setWorkCapacities(e.target.value))}>
+                onChange={(e) => dispatch(setWorkCapacities(e.target.value))}
+              >
                 {testDataOptions.workCapacity.map(({ code, description }) => (
                   <option key={`${code}_${description}`} id={`${code}_${description}`} value={code}>
                     {`${description}`}
@@ -301,7 +310,8 @@ export function Welcome() {
                 id="occupations"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={occupation}
-                onChange={(e) => dispatch(setOccupation(e.target.value))}>
+                onChange={(e) => dispatch(setOccupation(e.target.value))}
+              >
                 {testDataOptions.occupations.map(({ code, description }) => (
                   <option key={`${code}_${description}`} id={`${code}_${description}`} value={code}>
                     {`${description}`}
@@ -313,7 +323,8 @@ export function Welcome() {
                 id="relationCode"
                 className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={relationKod !== null ? relationKod : ''}
-                onChange={(e) => dispatch(setRelationKod(e.target.value))}>
+                onChange={(e) => dispatch(setRelationKod(e.target.value))}
+              >
                 <option key="noRelationCode" id="noRelationCodeId" value={undefined}>
                   {`${''}`}
                 </option>
@@ -371,7 +382,7 @@ export function Welcome() {
               </IDSButton>
             </form>
           ) : (
-            <DisplayError heading="Tekniskt fel" errorType="error" text="Alternativ för testdata kunde inte laddas" dynamicLink={false} />
+            <ErrorAlert heading="Tekniskt fel" errorType="error" text="Alternativ för testdata kunde inte laddas" dynamicLink={false} />
           )}
           <div className="mt-4">{certificateId !== undefined ? <p>{`intygs-Id: ${certificateId}`}</p> : ''}</div>
         </div>

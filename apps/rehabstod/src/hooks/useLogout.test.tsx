@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
@@ -64,6 +64,8 @@ describe('useLogout', () => {
 
     await user.click(screen.getByText('Logout'))
 
-    expect(openSpy).toHaveBeenCalledWith('/saml/logout', '_self')
+    await waitFor(() => {
+      expect(openSpy).toHaveBeenCalledWith('/saml/logout', '_self')
+    })
   })
 })

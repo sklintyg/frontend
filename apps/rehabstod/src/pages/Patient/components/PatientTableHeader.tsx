@@ -18,11 +18,11 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
     case PatientColumn.Grad:
       return <TableHeaderCell column={column} width="100px" />
     case PatientColumn.Ärenden:
-      return <TableHeaderCell column={column} width="80px" />
+      return <TableHeaderCell column={column} width="170px" />
     case PatientColumn.Läkare:
       return <TableHeaderCell column={column} width="114px" />
     case PatientColumn.Sysselsättning:
-      return <TableHeaderCell column={column} width="120px" />
+      return <TableHeaderCell column={column} width="140px" />
     case PatientColumn.Vårdenhet:
       return <TableHeaderCell column={column} width="120px" />
     case PatientColumn.Vårdgivare:

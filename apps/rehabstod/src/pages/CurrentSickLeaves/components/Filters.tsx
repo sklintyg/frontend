@@ -13,6 +13,7 @@ import { DiagnosisFilter } from './filter/DiagnosisFilter'
 import { DoctorFilter } from './filter/DoctorFilter'
 import { MultipleSelectFilterOption } from './filter/MultipleSelectFilterOption'
 import { RangeFilter } from './filter/RangeFilter'
+import { SelectFilter } from './filter/SelectFilter'
 import { TextSearchFilter } from './filter/TextSearchFilter'
 import { TimePeriodFilter } from './filter/TimePeriodFilter'
 
@@ -82,11 +83,18 @@ export function Filters({
               description="Filtrerar på den REKO-status som satts för patienten."
               placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
             />
+            <SelectFilter
+              onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
+              options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
+              description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
+              label="Ärendestatus"
+            />
             <TextSearchFilter
-              title="Fritext sökning"
+              title="Fritextsökning"
               description="Filtrerar på all synlig text och personnummer i tabellen"
               onTextSearchChange={onTextSearchChange}
               placeholder="Hitta sjukfall som innehåller..."
+              textValue={filter.textSearch}
             />
             <TimePeriodFilter
               label="Sjukskrivningslängd"
