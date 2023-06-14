@@ -1,13 +1,13 @@
-import {Link, useLocation, useSearchParams} from 'react-router-dom'
-import {useEffect, useRef} from 'react'
-import {IDSContainer, IDSIcon, IDSLink} from '@frontend/ids-react-ts'
-import {useAppDispatch} from '../../store/hooks'
-import {api} from '../../store/api'
-import {PageHero} from '../../components/PageHero/PageHero'
-import {ErrorCodeEnum} from '../../schemas/errorSchema'
-import {uuidv4} from '../../components/error/util/errorUtils'
-import {DisplayRoutingError} from '../../components/error/DisplayRoutingError'
-import {ErrorIdentifier} from '../../components/error/ErrorIdentifier/ErrorIdentifier'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
+import { useAppDispatch } from '../../store/hooks'
+import { api } from '../../store/api'
+import { PageHero } from '../../components/PageHero/PageHero'
+import { ErrorCodeEnum } from '../../schemas/errorSchema'
+import { uuidv4 } from '../../components/error/util/errorUtils'
+import { DisplayRoutingError } from '../../components/error/DisplayRoutingError'
+import { ErrorIdentifier } from '../../components/error/ErrorIdentifier/ErrorIdentifier'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -44,13 +44,13 @@ export function Error() {
 
   return (
     <IDSContainer>
-      <PageHero type="error" icon="attention">
+      <PageHero type="error">
         <DisplayRoutingError errorCode={errorCode} />
         <ErrorIdentifier id={errorId} />
       </PageHero>
       <div className="text-center">
         <IDSLink>
-          <IDSIcon name="chevron" />
+          <IDSIconChevron />
           <Link to="/">Till startsidan</Link>
         </IDSLink>
       </div>
