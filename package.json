@@ -43,6 +43,11 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint . --fix"
   },
+  "pnpm": {
+    "overrides": {
+      "intl-messageformat": "10.3.5"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",

@@ -52,7 +52,6 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
           // eslint-disable-next-line react/no-array-index-key
           <DateFieldSegment key={index} segment={segment} state={state} />
         ))}
-        {/* {state.validationState === 'invalid' && <span aria-hidden="true">🚫</span>} */}
       </div>
     </div>
   )
