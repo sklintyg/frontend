@@ -17,7 +17,7 @@
     "@lit-labs/react": "^1.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.12",
+    "@types/react": "^18.0.27",
     "eslint": "^8.42.0",
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0"
