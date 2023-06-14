@@ -10,7 +10,7 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { IDSCheckboxGroup, IDSIcon } from '@frontend/ids-react-ts'
+import { IDSCheckboxGroup, IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
 import { classNames } from '../../utils/classNames'
 import { hasNoChildren } from '../../utils/hasNoChildren'
@@ -63,7 +63,7 @@ export function SelectMultiple({
   return (
     <div>
       <label htmlFor={id}>{label}</label>
-      {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
+      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
       {/* TODO: Replace with IDSInput when working properly */}
       <div className="relative">
         <Input
@@ -75,9 +75,8 @@ export function SelectMultiple({
           value={placeholder}
           onClick={() => setOpen(!open)}
         />
-        <IDSIcon
+        <IDSIconChevronBold
           size="xs"
-          name="chevron-bold"
           className={classNames(
             open ? '-rotate-90' : 'rotate-90',
             'top-1/2',

@@ -10,7 +10,7 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIconChevron } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { hasNoChildren } from '../../utils/hasNoChildren'
 
@@ -63,7 +63,7 @@ export function SelectButton({
         ref={refs.setReference}
       >
         {title}
-        <IDSIcon name="chevron" size="xs" rotate={open ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
+        <IDSIconChevron size="xs" rotate={open ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
       </button>
       {open && (
         <FloatingPortal>

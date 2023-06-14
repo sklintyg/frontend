@@ -19,7 +19,7 @@ export function Home() {
 
   if (isLoading) {
     return (
-      <PageHero icon="user">
+      <PageHero>
         <p className="ids-preamble">
           <IDSSpinner className="inline-block" />
         </p>
@@ -34,7 +34,7 @@ export function Home() {
       </ProtectedRoute>
     </IDSContainer>
   ) : (
-    <PageHero icon="user">
+    <PageHero>
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
       <p className="ids-preamble">
         Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Är du

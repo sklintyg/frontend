@@ -1,4 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIconCopyFile } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { Tooltip } from '../../Tooltip/Tooltip'
 import { TooltipContent } from '../../Tooltip/TooltipContent'
@@ -24,7 +24,7 @@ export function ErrorIdentifier({ id }: { id: string }) {
                 navigator.clipboard.writeText(id)
               }}
             >
-              <IDSIcon name="copy-file" size="s" colorpreset={1} />
+              <IDSIconCopyFile size="s" colorpreset={1} />
             </button>
           </TooltipTrigger>
           <TooltipContent>Kopiera fel-id</TooltipContent>
