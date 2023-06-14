@@ -30,7 +30,9 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
-          icon={<IDSIconQuestion size="s" className="relative top-1" color="neutral" data-testid="tooltipIcon" />}
+          icon={
+            <IDSIconQuestion size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
+          }
         />
       </h2>
       <div>
