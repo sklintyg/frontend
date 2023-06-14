@@ -24,90 +24,117 @@ import {
   updatePatients,
 } from './welcomeActions'
 
-const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/testability/certificate/types',
-      method: 'GET',
-      onStart: getCertificateTypesStarted.type,
-      onSuccess: getCertificateTypesSuccess.type,
-      onError: apiGenericError.type,
-    })
-  )
-}
+const handleGetCertificateTypes: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/testability/certificate/types',
+        method: 'GET',
+        onStart: getCertificateTypesStarted.type,
+        onSuccess: getCertificateTypesSuccess.type,
+        onError: apiGenericError.type,
+      })
+    )
+  }
 
-const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateCertificateTypes(action.payload.certificateTypes))
-}
+const handleGetCertificateTypesSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateCertificateTypes(action.payload.certificateTypes))
+  }
 
-const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/testability/certificate/patients',
-      method: 'GET',
-      onStart: getPatientsStarted.type,
-      onSuccess: getPatientsSuccess.type,
-      onError: apiGenericError.type,
-    })
-  )
-}
+const handleGetPatients: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/testability/certificate/patients',
+        method: 'GET',
+        onStart: getPatientsStarted.type,
+        onSuccess: getPatientsSuccess.type,
+        onError: apiGenericError.type,
+      })
+    )
+  }
 
-const handleGetPatientsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updatePatients(action.payload.patients))
-}
+const handleGetPatientsSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updatePatients(action.payload.patients))
+  }
 
-const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/testability/certificate',
-      method: 'POST',
-      data: action.payload,
-      onStart: createNewCertificateStarted.type,
-      onSuccess: createNewCertificateSuccess.type,
-      onError: apiGenericError.type,
-    })
-  )
-}
+const handleCreateNewCertificate: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/testability/certificate',
+        method: 'POST',
+        data: action.payload,
+        onStart: createNewCertificateStarted.type,
+        onSuccess: createNewCertificateSuccess.type,
+        onError: apiGenericError.type,
+      })
+    )
+  }
 
-const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateCertificateId(action.payload.certificateId))
-}
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateCertificateId(action.payload.certificateId))
+  }
 
-const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/fake',
-      method: 'POST',
-      // TODO: Remove once https://github.com/vitejs/vite/issues/9520 is resolved.
-      headers: {
-        Accept:
-          'application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-      },
-      data: action.payload,
-      onStart: loginUserStarted.type,
-      onSuccess: loginUserSuccess.type,
-      onError: apiGenericError.type,
-    })
-  )
-}
+const handleLoginUser: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/fake',
+        method: 'POST',
+        // TODO: Remove once https://github.com/vitejs/vite/issues/9520 is resolved.
+        headers: {
+          Accept:
+            'application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        },
+        data: action.payload,
+        onStart: loginUserStarted.type,
+        onSuccess: loginUserSuccess.type,
+        onError: apiGenericError.type,
+      })
+    )
+  }
 
-const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(getUser())
+const handleLoginUserSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(getUser())
 
-  dispatch(updateNavigateToCertificate(true))
-}
+    dispatch(updateNavigateToCertificate(true))
+  }
 
-const handlePopulateFmb: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/testability/fmb/updatefmbdata',
-      method: 'GET',
-      onStart: populateFmbStarted.type,
-      onSuccess: populateFmbSuccess.type,
-      onError: apiGenericError.type,
-    })
-  )
-}
+const handlePopulateFmb: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/testability/fmb/updatefmbdata',
+        method: 'GET',
+        onStart: populateFmbStarted.type,
+        onSuccess: populateFmbSuccess.type,
+        onError: apiGenericError.type,
+      })
+    )
+  }
 
 const middlewareMethods = {
   [getCertificateTypes.type]: handleGetCertificateTypes,
@@ -121,10 +148,13 @@ const middlewareMethods = {
   [populateFmb.type]: handlePopulateFmb,
 }
 
-export const welcomeMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
+export const welcomeMiddleware: Middleware<Dispatch> =
+  (middlewareAPI: MiddlewareAPI) =>
+  (next) =>
+  (action: AnyAction): void => {
+    next(action)
 
-  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
-    middlewareMethods[action.type](middlewareAPI)(next)(action)
+    if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
+      middlewareMethods[action.type](middlewareAPI)(next)(action)
+    }
   }
-}

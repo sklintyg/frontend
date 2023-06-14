@@ -11,28 +11,29 @@
   "scripts": {
     "build": "turbo build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
-    "prepare": "husky install",
-    "start": "turbo dev --concurrency=100%",
-    "start:test": "turbo dev --concurrency=100% -- -m test",
-    "test:ci": "turbo test:ci",
     "posttest:ci": "pnpm test:report && pnpm test:coverage",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
+    "start:test": "turbo dev --concurrency=100% -- -m test",
+    "start": "turbo dev --concurrency=100%",
+    "test:ci": "turbo test:ci",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test": "turbo test",
-    "typescript": "turbo typescript",
-    "pre-commit": "lint-staged"
+    "typescript": "turbo typescript"
   },
   "devDependencies": {
     "@frontend/combine-coverage": "workspace:*",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "eslint": "^8.41.0",
+    "eslint": "^8.42.0",
     "eslint-config-custom": "workspace:*",
+    "eslint-plugin-jest": "^27.2.1",
     "husky": "^7.0.4",
     "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
     "nyc": "^15.1.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "rollup": "^3.20.2",
     "rollup-plugin-dts": "^5.3.0",
@@ -42,12 +43,20 @@
     "typescript": "^5.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint . --fix"
+    "*": "prettier --write --ignore-unknown",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all",
     "ie 11"
-  ]
+  ],
+  "pnpm": {
+    "patchedDependencies": {
+      "@inera/ids-core@2.6.0": "patches/@inera__ids-core@2.6.0.patch"
+    }
+  }
 }

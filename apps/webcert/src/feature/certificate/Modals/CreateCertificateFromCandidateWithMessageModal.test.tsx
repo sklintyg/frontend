@@ -67,7 +67,8 @@ describe('Create certificate from candidate modal', () => {
     render(
       <Provider store={testStore}>
         <CreateCertificateFromCandidateWithMessageModal
-          resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateWithMessageModal>
+          resourceLink={resourceLinkDisabled}
+        ></CreateCertificateFromCandidateWithMessageModal>
       </Provider>
     )
     expect(screen.queryByRole('button')).not.toBeInTheDocument()

@@ -17,7 +17,8 @@ export function HeaderAvatarMenuButton({
       onClick={onClick}
       className="ids-link-block text-primary-40 mt-2 flex w-full items-center [&:not(:last-child)]:mb-5"
       trigger={trigger}
-      type="button">
+      type="button"
+    >
       <div className="mr-2.5">
         <IDSIcon color="currentColor" color2="currentColor" height="20" width="20" name={icon} />
       </div>

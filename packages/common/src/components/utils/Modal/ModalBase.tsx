@@ -50,7 +50,8 @@ const ModalBase: React.FC<Props> = ({
         tabbableOptions: {
           displayCheck: 'none',
         },
-      }}>
+      }}
+    >
       <div
         role="none"
         className="ic-backdrop iu-lh-body"
@@ -59,7 +60,8 @@ const ModalBase: React.FC<Props> = ({
           if (closeOnBackdropClick && backdropRef.current === event.target) {
             handleClose(event)
           }
-        }}>
+        }}
+      >
         <WrapText role="dialog" className={`ic-modal ${className}`} aria-labelledby="dialog-title" aria-modal="true">
           {enableCross && (
             <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">

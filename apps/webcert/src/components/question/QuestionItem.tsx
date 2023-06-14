@@ -194,7 +194,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     return (
       <AnsweredByCertificate
         key={question.id}
-        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200`}>
+        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200`}
+      >
         <CheckIcon />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
@@ -216,7 +217,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     return (
       <AnsweredByCertificate
         key={question.id}
-        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}>
+        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}
+      >
         <CheckIcon />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
@@ -252,7 +254,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   confirmButtonText={'Markera som hanterad'}
                   name={'Hanterad'}
                   onConfirm={handleSelect}
-                  wrapperStyles={CheckboxStyles}>
+                  wrapperStyles={CheckboxStyles}
+                >
                   <p>När ett intyg markeras som hanterad kan detta inte ångras senare.</p>
                 </CheckboxWithConfirmModal>
               ) : (
@@ -314,7 +317,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           <ComplementCard
             key={complement.questionId}
             className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200`}
-            onClick={() => onClickComplement(complement.questionId, complement.valueId)}>
+            onClick={() => onClickComplement(complement.questionId, complement.valueId)}
+          >
             <img
               src={arrowLeft}
               className={'iu-svg-icon iu-ml-200'}
@@ -360,7 +364,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                 confirmButtonText={'Ja, radera'}
                 description={''}
                 name={'Avbryt'}
-                onConfirm={handleDeleteAnswer}>
+                onConfirm={handleDeleteAnswer}
+              >
                 <p>Är du säker på att du vill radera ditt påbörjade svar?</p>
               </ButtonWithConfirmModal>
             </div>

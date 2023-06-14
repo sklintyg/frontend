@@ -18,11 +18,7 @@ const run = async () => {
   fs.emptyDirSync(REPORTS_FOLDER)
 
   files.forEach((filename) => {
-    const package = path
-      .dirname(filename)
-      .split(path.sep)
-      .slice(0, -1)
-      .pop()
+    const package = path.dirname(filename).split(path.sep).slice(0, -1).pop()
 
     fs.copyFileSync(filename, `${REPORTS_FOLDER}/from-${package}.json`)
   })

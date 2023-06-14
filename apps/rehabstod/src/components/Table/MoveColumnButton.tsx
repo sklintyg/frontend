@@ -17,7 +17,8 @@ export function MoveColumnButton({
           aria-label={`Flytta ${direction === 'left' ? 'upp' : 'ner'} ${column}`}
           disabled={disabled}
           type="button"
-          className="w-10">
+          className="w-10"
+        >
           {!disabled && (
             <>
               {direction === 'left' && <IDSIcon name="arrow" className="m-auto inline-block" rotate="270" width="14" height="14" />}

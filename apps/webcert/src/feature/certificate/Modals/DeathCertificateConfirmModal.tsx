@@ -28,7 +28,8 @@ export const DeathCertificateConfirmModal: React.FC<Props> = ({ patient, setOpen
       confirmButtonDisabled={disabled}
       setOpen={setOpen}
       open={open}
-      onConfirm={() => dispatch(createNewCertificate({ certificateType: 'db', patientId: patient.personId.id }))}>
+      onConfirm={() => dispatch(createNewCertificate({ certificateType: 'db', patientId: patient.personId.id }))}
+    >
       <InfoBox type="info">
         <p>Du är på väg att utfärda ett dödsbevis för</p>
         <strong>

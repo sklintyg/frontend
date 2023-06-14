@@ -20,7 +20,8 @@ const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
         <QuestionAccordion
           accordion={question.config.accordion}
           icon={question.config.icon}
-          open={question.value != null && isAccordionOpen(question.value)}>
+          open={question.value != null && isAccordionOpen(question.value)}
+        >
           <QuestionUeResolve question={question} disabled={disabled} />
         </QuestionAccordion>
       </div>

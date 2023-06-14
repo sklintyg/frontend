@@ -35,7 +35,8 @@ const CertificateValidation: React.FC = () => {
                 smooth
                 offset={-20}
                 containerId="questions-container"
-                to={`${validation.id}`}>
+                to={`${validation.id}`}
+              >
                 {validation.text}
               </ErrorLink>
             </p>
