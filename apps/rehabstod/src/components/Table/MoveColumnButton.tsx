@@ -1,4 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIconArrow } from '@frontend/ids-react-ts'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
@@ -21,8 +21,8 @@ export function MoveColumnButton({
         >
           {!disabled && (
             <>
-              {direction === 'left' && <IDSIcon name="arrow" className="m-auto inline-block" rotate="270" width="14" height="14" />}
-              {direction === 'right' && <IDSIcon name="arrow" className="m-auto inline-block" rotate="90" width="14" height="14" />}
+              {direction === 'left' && <IDSIconArrow className="m-auto inline-block" rotate="270" width="14" height="14" />}
+              {direction === 'right' && <IDSIconArrow className="m-auto inline-block" rotate="90" width="14" height="14" />}
             </>
           )}
         </button>

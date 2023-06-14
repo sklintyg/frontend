@@ -1,6 +1,7 @@
+import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useId } from 'react'
-import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 import { Input } from '../../../../components/Form/Input'
+import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 
 export function TextSearchFilter({
   title,
@@ -22,7 +23,7 @@ export function TextSearchFilter({
   return (
     <div>
       <label htmlFor={id}>{title}</label>
-      <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
+      <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />
       <Input
         id={id}
         type="search"

@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer, IDSIcon } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer, IDSIconUser } from '@frontend/ids-react-ts'
 import { differenceInDays, isBefore, parseISO, subDays } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +24,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
     <div className="bg-secondary-95 sticky top-0 z-30 shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
       <IDSContainer>
         <div className="flex items-center space-x-2 py-4">
-          <IDSIcon size="s" name="user" />
+          <IDSIconUser size="s" />
           <div key={firstCertificate.patient.id} className="flex items-center space-x-2">
             {showPersonalInformation && <span className="font-bold">{firstCertificate.patient.namn},</span>}
             {showPersonalInformation && <span>{firstCertificate.patient.id},</span>}

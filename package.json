@@ -53,10 +53,5 @@
     "not dead",
     "not op_mini all",
     "ie 11"
-  ],
-  "pnpm": {
-    "patchedDependencies": {
-      "@inera/ids-core@2.6.0": "patches/@inera__ids-core@2.6.0.patch"
-    }
-  }
+  ]
 }

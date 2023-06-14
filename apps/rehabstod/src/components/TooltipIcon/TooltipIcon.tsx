@@ -1,15 +1,12 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
-import { ComponentProps } from 'react'
+import { ReactNode } from 'react'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 
-export function TooltipIcon({ description, ...iconProps }: { description: string } & ComponentProps<typeof IDSIcon>) {
+export function TooltipIcon({ description, icon }: { description: string; icon: ReactNode }) {
   return (
     <Tooltip>
-      <TooltipTrigger>
-        <IDSIcon colorpreset={1} tabIndex={0} {...iconProps} />
-      </TooltipTrigger>
+      <TooltipTrigger>{icon}</TooltipTrigger>
       <TooltipContent>{description}</TooltipContent>
     </Tooltip>
   )
