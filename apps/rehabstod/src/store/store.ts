@@ -8,12 +8,14 @@ import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice
 import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from './slices/sickLeaveTableColumns.slice'
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 import { errorReducer, errorReducerPath } from './slices/error.slice'
+import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificates.slice'
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     [hsaApi.reducerPath]: hsaApi.reducer,
     [sickLeaveReducerPath]: sickLeaveReducer,
+    [luCertificatesReducerPath]: luCertificatesReducer,
     [welcomeReducerPath]: welcomeReducer,
     [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsReducer,
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { lakareSchema } from './lakareSchema'
-import { sickLeaveDiagnosisSchema } from './sickLeaveSchema'
+import { diagnosisSchema } from './diagnosisSchema'
 
 export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
@@ -21,8 +21,8 @@ export const patientSjukfallIntygSchema = z.object({
     alder: z.number(),
     responseFromPu: z.null(),
   }),
-  diagnos: sickLeaveDiagnosisSchema,
-  bidiagnoser: z.array(sickLeaveDiagnosisSchema),
+  diagnos: diagnosisSchema,
+  bidiagnoser: z.array(diagnosisSchema),
   start: z.string(),
   slut: z.string(),
   signeringsTidpunkt: z.string(),

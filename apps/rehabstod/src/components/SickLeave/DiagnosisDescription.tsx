@@ -1,6 +1,6 @@
-import { SickLeaveDiagnosis } from '../../schemas/sickLeaveSchema'
+import { Diagnosis } from '../../schemas/diagnosisSchema'
 
-export function DiagnosisDescription({ diagnos, biDiagnoser }: { diagnos: SickLeaveDiagnosis; biDiagnoser: SickLeaveDiagnosis[] }) {
+export function DiagnosisDescription({ diagnos, biDiagnoser }: { diagnos: Diagnosis; biDiagnoser: Diagnosis[] }) {
   if (!diagnos) {
     return null
   }

@@ -1,5 +1,5 @@
-import { FormattedNumberInput } from '../../../../components/Form/FormattedNumberInput'
-import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
+import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
+import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 
 export function RangeFilter({
   title,

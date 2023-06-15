@@ -4,7 +4,6 @@ import { Config } from '../schemas/configSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
-  DiagnosKapitel,
   OccupationType,
   RekoStatusType,
   SickLeaveFilter,
@@ -15,6 +14,7 @@ import {
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
 import { ErrorData } from '../schemas/errorSchema'
+import { DiagnosKapitel } from '../schemas/diagnosisSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -233,6 +233,13 @@ export const api = createApi({
         body: errorData,
       }),
     }),
+    getDoctorsForLUCertificates: builder.query<{ doctors: Lakare[] }, void>({
+      query: () => ({
+        url: 'certificate/lu/doctors',
+        method: 'GET',
+      }),
+      transformResponse: (response: { doctors: Lakare[] }) => response.doctors,
+    }),
   }),
 })
 
@@ -257,4 +264,5 @@ export const {
   useLazyGetSickLeavesQuery,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
+  useGetDoctorsForLUCertificatesQuery,
 } = api

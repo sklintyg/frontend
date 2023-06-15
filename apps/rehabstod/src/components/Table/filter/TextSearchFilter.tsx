@@ -1,6 +1,6 @@
 import { useId } from 'react'
-import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
-import { Input } from '../../../../components/Form/Input'
+import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
+import { Input } from '../../Form/Input'
 
 export function TextSearchFilter({
   title,

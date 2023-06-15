@@ -1,9 +1,12 @@
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
-import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
-import { TimePeriodMetric, TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
-import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from '../../utils/getSickLeaveLengthPlaceholder'
-import { convertSelectedValue } from '../../utils/timePeriodConversion'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
+import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
+import {
+  getSickLeaveLengthLabel,
+  getSickLeaveLengthPlaceholder,
+} from '../../../pages/CurrentSickLeaves/utils/getSickLeaveLengthPlaceholder'
+import { convertSelectedValue } from '../../../pages/CurrentSickLeaves/utils/timePeriodConversion'
 
 export function TimePeriodFilter({
   label,

@@ -1,6 +1,6 @@
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
-import { OccupationType, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
 
 export function MultipleSelectFilterOption({
   onChange,

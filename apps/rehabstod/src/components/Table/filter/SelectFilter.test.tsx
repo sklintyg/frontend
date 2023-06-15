@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { SelectFilter } from './SelectFilter'
 
 let onChange: (id: string) => void

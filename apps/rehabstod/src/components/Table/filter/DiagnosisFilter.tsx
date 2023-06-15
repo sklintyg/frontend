@@ -1,7 +1,7 @@
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
-import { DiagnosKapitel } from '../../../../schemas/sickLeaveSchema'
-import { getDiagnosisPlaceholder } from '../../utils/getDiagnosisPlaceholder'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { getDiagnosisPlaceholder } from '../../../pages/CurrentSickLeaves/utils/getDiagnosisPlaceholder'
+import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 
 export function DiagnosisFilter({
   onChange,

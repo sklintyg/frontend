@@ -4,10 +4,10 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CareProvider } from './pages/CareProvider/CareProvider'
 import { CurrentSickLeaves } from './pages/CurrentSickLeaves/CurrentSickLeaves'
 import { Home } from './pages/Home/Home'
-import { MedicalOpinion } from './pages/MedicalOpinion/MedicalOpinion'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
+import { LUCertificates } from './pages/LUCertificates/LUCertificates'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -36,7 +36,7 @@ export const router = createBrowserRouter(
         path="/lakarutlatanden"
         element={
           <ProtectedRoute requireUnit>
-            <MedicalOpinion />
+            <LUCertificates />
           </ProtectedRoute>
         }
       >

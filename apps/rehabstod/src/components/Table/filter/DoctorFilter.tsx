@@ -1,7 +1,7 @@
-import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
-import { Lakare } from '../../../../schemas/lakareSchema'
-import { getDoctorsPlaceholder } from '../../utils/getDoctorsPlaceholder'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { Lakare } from '../../../schemas/lakareSchema'
+import { getDoctorsPlaceholder } from '../../../pages/CurrentSickLeaves/utils/getDoctorsPlaceholder'
 
 export function DoctorFilter({
   onChange,
