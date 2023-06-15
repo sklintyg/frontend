@@ -2,6 +2,7 @@ import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatc
 import { uuidv4 } from '../utils/uuidv4'
 import { api } from './api'
 import { setErrorId } from './slices/error.slice'
+import { ErrorCodeEnum } from '../schemas/errorSchema'
 
 /**
  * Error handling middleware
@@ -14,7 +15,7 @@ export const errorMiddleware: Middleware =
     if (isRejectedWithValue(action)) {
       const { method, url } = action.meta.baseQueryMeta.request
       let message = 'No message'
-      let errorCode = 'No errorCode'
+      let errorCode
       if (action.payload.data) {
         message = action.payload.data.message ?? 'No message'
         errorCode = action.payload.data.errorCode ?? 'No errorCode'
@@ -25,7 +26,7 @@ export const errorMiddleware: Middleware =
         api.endpoints.logError.initiate({
           errorData: {
             errorId,
-            errorCode,
+            errorCode: errorCode ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
             message: errorMessage,
             stackTrace: null,
           },
