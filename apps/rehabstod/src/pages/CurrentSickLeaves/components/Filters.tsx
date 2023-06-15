@@ -1,4 +1,4 @@
-import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
 import { DateRange } from 'react-aria'
@@ -54,7 +54,7 @@ export function Filters({
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
-        <IDSIcon name="chevron" size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
+        <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
       {expanded && (

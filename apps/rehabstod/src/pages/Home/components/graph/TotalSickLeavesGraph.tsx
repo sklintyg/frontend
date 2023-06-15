@@ -1,5 +1,6 @@
-import { LabelProps, Pie, PieChart } from 'recharts'
+import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { format } from 'date-fns'
+import { LabelProps, Pie, PieChart } from 'recharts'
 import { TooltipIcon } from '../../../../components/TooltipIcon/TooltipIcon'
 
 function renderCustomizedLabel(props: LabelProps) {
@@ -29,11 +30,9 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
-          name="question"
-          size="s"
-          className="relative top-1"
-          color="neutral"
-          data-testid="tooltipIcon"
+          icon={
+            <IDSIconQuestion size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
+          }
         />
       </h2>
       <div>

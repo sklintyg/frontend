@@ -1,4 +1,4 @@
-import { IDSCheckbox, IDSCheckboxElement } from '@frontend/ids-react-ts'
+import { IDSCheckbox, IDSCheckboxElement, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ChangeEvent, useEffect, useId, useRef } from 'react'
 import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
@@ -33,7 +33,7 @@ export function Checkbox({
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>
-      {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
+      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="ml-2" />} />}
       <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} required={required} />
     </IDSCheckbox>
   )

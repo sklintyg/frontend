@@ -57,9 +57,6 @@
   "pnpm": {
     "overrides": {
       "intl-messageformat": "10.3.5"
-    },
-    "patchedDependencies": {
-      "@inera/ids-core@2.6.0": "patches/@inera__ids-core@2.6.0.patch"
     }
   }
 }
