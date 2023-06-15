@@ -1,8 +1,8 @@
-import {describe, expect} from 'vitest'
-import {screen} from '@testing-library/react'
-import {renderWithRouter} from '../../../utils/renderWithRouter'
-import {ErrorCodeEnum, ErrorTitleEnum} from '../../../schemas/errorSchema'
-import {DisplayRoutingError} from './DisplayRoutingError'
+import { describe, expect } from 'vitest'
+import { screen } from '@testing-library/react'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorCodeEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
+import { DisplayRoutingError } from './DisplayRoutingError'
 
 const renderComponent = (errorCode: string) => {
   renderWithRouter(<DisplayRoutingError errorCode={errorCode} />)
