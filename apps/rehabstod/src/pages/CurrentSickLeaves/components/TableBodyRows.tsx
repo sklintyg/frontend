@@ -12,11 +12,12 @@ import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { MaxColspanRow } from './MaxColspanRow'
+import { MaxColspanRow } from '../../../components/Table/MaxColspanRow'
 import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
 import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+import { TableRow } from '../../../components/Table/TableRow'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
@@ -142,29 +143,16 @@ export function TableBodyRows({
       {sortTableList(sickLeaves, getSickLeavesColumnData).map(
         (sickLeave) =>
           visibleColumns.length > 0 && (
-            <tr
-              tabIndex={0}
-              onKeyDown={({ code, currentTarget }) => {
-                if (['Enter', 'Space'].includes(code)) {
-                  navigateToPatient(sickLeave.encryptedPatientId)
-                }
-                if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
-                  ;(currentTarget.previousElementSibling as HTMLElement).focus()
-                }
-                if (code === 'ArrowDown' && currentTarget.nextElementSibling) {
-                  ;(currentTarget.nextElementSibling as HTMLElement).focus()
-                }
-              }}
-              onClick={() => navigateToPatient(sickLeave.encryptedPatientId)}
+            <TableRow
               key={sickLeave.patient.id}
-              className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
-                isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
-              }`}
+              italic={isDateBeforeToday(sickLeave.slut)}
+              onClick={(key) => navigateToPatient(key)}
+              id={sickLeave.encryptedPatientId}
             >
               {visibleColumns.map(({ name }) => (
                 <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />
               ))}
-            </tr>
+            </TableRow>
           )
       )}
     </>
