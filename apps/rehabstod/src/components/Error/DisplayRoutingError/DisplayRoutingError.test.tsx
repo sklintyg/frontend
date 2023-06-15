@@ -27,6 +27,7 @@ describe('DisplayRoutingError tests', () => {
   })
   it('should return UknownInternalError', () => {
     renderComponent(ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR)
+
     expect(screen.getByText('Tekniskt fel')).toBeInTheDocument()
   })
 })
