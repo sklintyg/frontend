@@ -1,13 +1,13 @@
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
-import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
-import { useAppDispatch } from '../../store/hooks'
-import { api } from '../../store/api'
-import { PageHero } from '../../components/PageHero/PageHero'
-import { ErrorCodeEnum } from '../../schemas/errorSchema'
-import { ErrorIdentifier } from '../../components/error/ErrorIdentifier/ErrorIdentifier'
-import { uuidv4 } from '../../utils/uuidv4'
-import { DisplayRoutingError } from '../../components/error/DisplayRoutingError/DisplayRoutingError'
+import {Link, useLocation, useSearchParams} from 'react-router-dom'
+import {useEffect, useRef} from 'react'
+import {IDSContainer, IDSIconChevron, IDSLink} from '@frontend/ids-react-ts'
+import {useAppDispatch} from '../../store/hooks'
+import {api} from '../../store/api'
+import {PageHero} from '../../components/PageHero/PageHero'
+import {ErrorCodeEnum} from '../../schemas/errorSchema'
+import {ErrorIdentifier} from '../../components/error/ErrorIdentifier/ErrorIdentifier'
+import {uuidv4} from '../../utils/uuidv4'
+import {DisplayRoutingError} from './DisplayRoutingError/DisplayRoutingError'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

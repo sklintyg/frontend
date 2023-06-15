@@ -1,8 +1,8 @@
-import {LoginFailedError} from '../ErrorRoutes/LoginFailedError'
-import {HsaError} from '../ErrorRoutes/HsaError'
-import {MissingEmployeeAssignmentError} from '../ErrorRoutes/MissingEmployeeAssignmentError'
-import {HsaMissingRoleError} from '../ErrorRoutes/HsaMissingRoleError'
-import {UnknownInternalError} from '../ErrorRoutes/UnknownInternalError'
+import {LoginFailedError} from '../../../components/error/ErrorRoutes/LoginFailedError'
+import {HsaError} from '../../../components/error/ErrorRoutes/HsaError'
+import {MissingEmployeeAssignmentError} from '../../../components/error/ErrorRoutes/MissingEmployeeAssignmentError'
+import {HsaMissingRoleError} from '../../../components/error/ErrorRoutes/HsaMissingRoleError'
+import {UnknownInternalError} from '../../../components/error/ErrorRoutes/UnknownInternalError'
 import {ErrorCodeEnum} from '../../../schemas/errorSchema'
 
 export function DisplayRoutingError({ errorCode }: { errorCode: string | undefined }) {
