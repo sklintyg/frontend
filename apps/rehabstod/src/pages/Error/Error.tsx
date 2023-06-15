@@ -7,7 +7,7 @@ import { PageHero } from '../../components/PageHero/PageHero'
 import { ErrorCodeEnum } from '../../schemas/errorSchema'
 import { ErrorIdentifier } from '../../components/error/ErrorIdentifier/ErrorIdentifier'
 import { uuidv4 } from '../../utils/uuidv4'
-import { DisplayRoutingError } from './DisplayRoutingError/DisplayRoutingError'
+import { DisplayRoutingError } from '../../components/error/DisplayRoutingError/DisplayRoutingError'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

@@ -1,5 +1,5 @@
 import { useGetLinksQuery } from '../../../store/api'
-import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
+import { DynamicLink } from '../../DynamicLink/DynamicLink'
 
 const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Tekniskt fel'
 const UNKNOWN_INTERNAL_PROBLEM_MESSAGE =

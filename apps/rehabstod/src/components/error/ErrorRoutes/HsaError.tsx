@@ -1,4 +1,4 @@
-import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
+import { DynamicLink } from '../../DynamicLink/DynamicLink'
 import { useGetLinksQuery } from '../../../store/api'
 import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 
