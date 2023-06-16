@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react'
 import { describe } from 'vitest'
-import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
 import { MissingHsaRoleError } from './HsaMissingRoleError'
@@ -18,10 +17,14 @@ describe('HsaMissingRoleError component', () => {
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
+    expect(screen.getByText(/behörighet saknas/i)).toBeInTheDocument()
   })
   it('should render text', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTextEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL)).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        /För att logga in som Rehabkoordinator krävs att du har den rollen för vårdenheten i HSA. Kontakta din lokala HSA-administratör för behörighet./i
+      )
+    ).toBeInTheDocument()
   })
 })

@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react'
 import { describe } from 'vitest'
-import { ErrorTitleEnum } from '../../../schemas/errorSchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
 import { HsaError } from './HsaError'
@@ -18,7 +17,7 @@ describe('HsaError component', () => {
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_HSA_ERROR)).toBeInTheDocument()
+    expect(screen.getByText('Tekniskt fel')).toBeInTheDocument()
   })
   it('displays link', async () => {
     renderComponent()

@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
+import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorEffect } from '../hooks/useLogErrorEffect'
 
 export function MissingHsaRoleError() {
@@ -6,8 +6,11 @@ export function MissingHsaRoleError() {
 
   return (
     <>
-      <h1 className="ids-heading-1">{ErrorTitleEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL} </h1>
-      <p className="ids-preamble">{ErrorTextEnum.enum.LOGIN_SAKNAR_HSA_REHABROLL}</p>
+      <h1 className="ids-heading-1">Behörighet saknas</h1>
+      <p className="ids-preamble">
+        För att logga in som Rehabkoordinator krävs att du har den rollen för vårdenheten i HSA. Kontakta din lokala HSA-administratör för
+        behörighet.
+      </p>
     </>
   )
 }

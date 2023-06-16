@@ -55,10 +55,10 @@ export const router = createBrowserRouter(
       <Route path="*" element={<NoMatch />} />
       <Route path="/error" element={<Error />}>
         <Route index element={<UnknownInternalError />} />
-        <Route path="hsa" element={<HsaError />} />
-        <Route path="hsa-missing-role" element={<MissingHsaRoleError />} />
+        <Route path="login-hsaerror" element={<HsaError />} />
+        <Route path="login-saknar-hsa-rehabroll" element={<MissingHsaRoleError />} />
         <Route path="login-failed" element={<LoginFailedError />} />
-        <Route path="missing-employee-assignment" element={<MissingEmployeeAssignmentError />} />
+        <Route path="login-medarbetaruppdrag" element={<MissingEmployeeAssignmentError />} />
         <Route path="*" element={<UnknownInternalError />} />
       </Route>
     </Route>,

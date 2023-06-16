@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react'
 import { describe } from 'vitest'
-import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
 import { MissingEmployeeAssignmentError } from './MissingEmployeeAssignmentError'
@@ -18,10 +17,12 @@ describe('MissingEmployeeAssignmentError component', () => {
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
+    expect(screen.getByText(/medarbetaruppdrag saknas/i)).toBeInTheDocument()
   })
   it('should render text', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTextEnum.enum.LOGIN_MEDARBETARUPPDRAG_SAKNAS)).toBeInTheDocument()
+    expect(
+      screen.getByText(/Det krävs minst ett giltigt medarbetaruppdrag med ändamål 'Vård och behandling' för att använda Rehabstöd./i)
+    ).toBeInTheDocument()
   })
 })

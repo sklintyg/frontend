@@ -8,7 +8,6 @@ export interface ErrorState {
 const initialState = {
   errorId: '',
   errorCode: '',
-  routingErrorId: '',
 }
 
 const errorSlice = createSlice({

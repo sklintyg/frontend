@@ -11,14 +11,13 @@ const renderComponent = () => {
     </ErrorContext.Provider>
   )
 }
-const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Tekniskt fel'
 describe('UnknownInternalError component', () => {
   it('should render without a problem', () => {
     expect(() => renderComponent()).not.toThrow()
   })
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(UNKNOWN_INTERNAL_PROBLEM_TITLE)).toBeInTheDocument()
+    expect(screen.getByText(/tekniskt fel/i)).toBeInTheDocument()
   })
   it('displays link', async () => {
     renderComponent()
