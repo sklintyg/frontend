@@ -2,14 +2,7 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { useAppDispatch } from '../../../store/hooks'
 import { showSettingsDialog } from '../../../store/slices/settings.slice'
 import { ShowPersonalInformationFilter } from '../../../components/Table/filter/ShowPersonalInformationFilter'
-
-export function TableInfoDivider() {
-  return (
-    <span role="separator" aria-orientation="vertical" className="mx-1">
-      |
-    </span>
-  )
-}
+import { TableInfoDivider } from '../../../components/Table/TableInfoDivider'
 
 export function TableInfo({
   onShowPersonalInformationChange,

@@ -20,6 +20,7 @@ import { filterTableColumns } from '../../components/Table/utils/filterTableColu
 import { TableInfo } from '../../components/Table/TableInfo'
 import { PatientInfo } from '../../schemas/patientSchema'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
+import { PrintTableBody } from '../../components/Table/PrintableTableBody'
 
 export function LUCertificates() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -49,6 +50,7 @@ export function LUCertificates() {
 
   return (
     <TableLayout
+      printable
       isUserLoading={userLoading}
       user={user}
       onReset={() => dispatch(reset())}
@@ -67,7 +69,20 @@ export function LUCertificates() {
       errorTitle="Läkarutlåtanden för enheten kunde inte hämtas."
       errorText="Enhetens läkarutlåtanden kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand "
     >
-      <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
+      <Table
+        sortColumn={tableState.sortColumn}
+        onSortChange={setTableState}
+        ascending={tableState.ascending}
+        print={
+          <PrintTableBody
+            content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
+            tableValueExtractor={getLUCertificatesTableValue}
+            tableCellExtractor={getLUCertificatesTableCell}
+            columns={visibleColumns}
+            keyIndex="patient"
+          />
+        }
+      >
         <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
         <TableInfoMessage
           isLoading={isContentLoading}

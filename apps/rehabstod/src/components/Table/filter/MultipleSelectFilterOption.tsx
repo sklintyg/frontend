@@ -45,7 +45,7 @@ export function MultipleSelectFilterOption({
             : null}
         </SelectMultiple>
       </div>
-      <div className="whitespace-pre-line">
+      <div className="hidden whitespace-pre-line print:block">
         <p className="font-bold">{label}: </p>
         {selected.length === 0
           ? 'Alla valda'

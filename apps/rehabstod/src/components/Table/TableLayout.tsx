@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { ReactNode, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { User } from '../../schemas'
 import { DisplayError } from '../../error/DisplayError'
 
@@ -15,6 +16,7 @@ export function TableLayout({
   error,
   errorTitle,
   errorText,
+  printable,
   children,
 }: {
   isUserLoading: boolean
@@ -27,6 +29,7 @@ export function TableLayout({
   error: boolean
   errorTitle: string
   errorText: string
+  printable: boolean
   children: ReactNode
 }) {
   const navigate = useNavigate()
@@ -55,7 +58,14 @@ export function TableLayout({
         <div>
           <div className="flex">
             <div className="w-full">{tableInfo}</div>
-            <div className="w-96">{modifyTableColumns}</div>
+            <div className="mb-5 flex items-end gap-3 print:hidden">
+              <div className="w-96">{modifyTableColumns}</div>
+              {printable && (
+                <IDSButton onClick={() => window.print()} className="mb-3 whitespace-nowrap">
+                  Skriv ut
+                </IDSButton>
+              )}
+            </div>
           </div>
           {children}
         </div>

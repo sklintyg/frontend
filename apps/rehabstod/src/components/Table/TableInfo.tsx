@@ -25,6 +25,7 @@ export function TableInfo({
           />
         )}
       </div>
+      <div className="mt-5 hidden print:block" />
       <div className="flex gap-1">
         <span>
           Visar{' '}
