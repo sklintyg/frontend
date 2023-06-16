@@ -1,4 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIconCalendar } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { AriaButtonProps, useButton } from 'react-aria'
 
@@ -8,7 +8,7 @@ export function DatePickerButton(props: AriaButtonProps) {
 
   return (
     <button type="button" {...buttonProps} ref={ref} className="h-full w-full py-3 px-5">
-      <IDSIcon name="calendar" width="1.25em" height="1.25em" />
+      <IDSIconCalendar width="1.25em" height="1.25em" />
     </button>
   )
 }

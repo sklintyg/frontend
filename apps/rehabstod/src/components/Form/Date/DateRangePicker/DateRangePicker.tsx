@@ -1,3 +1,4 @@
+import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import React from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
 import { useDateRangePickerState } from 'react-stately'
@@ -33,7 +34,7 @@ export function DateRangePicker({
       <div className={classNames('inline-flex w-full ', inline ? 'flex-row gap-3' : 'flex-col')}>
         <div>
           <span {...labelProps}>{label}</span>
-          {description && <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />}
+          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </div>
         <div {...groupProps} ref={ref} className={style}>
           <div className="inline-flex w-full gap-1 pl-5">

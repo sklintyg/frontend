@@ -6,16 +6,7 @@ import { classNames } from '../../utils/classNames'
 
 export function CalendarCell({ state, date }: { state: CalendarState | RangeCalendarState; date: CalendarDate }) {
   const ref = useRef(null)
-  const {
-    cellProps,
-    buttonProps,
-    isSelected,
-    isOutsideVisibleRange,
-    isDisabled,
-    // isUnavailable,
-    // isInvalid,
-    formattedDate,
-  } = useCalendarCell({ date }, state, ref)
+  const { cellProps, buttonProps, isSelected, isOutsideVisibleRange, isDisabled, formattedDate } = useCalendarCell({ date }, state, ref)
 
   // The start and end date of the selected range will have
   // an emphasized appearance.
@@ -47,7 +38,8 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
           isRoundedRight && 'rounded-r-full',
           isSelected && 'bg-accent-40 text-white',
           isDisabled && 'disabled'
-        )}>
+        )}
+      >
         <div
           className={classNames(
             'w-full h-full rounded-full flex items-center justify-center',
@@ -59,7 +51,8 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
             Boolean(isSelected && !isDisabled && !(isSelectionStart || isSelectionEnd)) && 'hover:bg-accent-30',
             // Hover state for non-selected cells.
             Boolean(!isSelected && !isDisabled) && 'hover:bg-accent-30 hover:text-white'
-          )}>
+          )}
+        >
           {formattedDate}
         </div>
       </button>
