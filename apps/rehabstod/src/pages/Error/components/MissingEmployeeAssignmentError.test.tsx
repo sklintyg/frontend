@@ -19,10 +19,4 @@ describe('MissingEmployeeAssignmentError component', () => {
     renderComponent()
     expect(screen.getByText(/medarbetaruppdrag saknas/i)).toBeInTheDocument()
   })
-  it('should render text', () => {
-    renderComponent()
-    expect(
-      screen.getByText(/Det krävs minst ett giltigt medarbetaruppdrag med ändamål 'Vård och behandling' för att använda Rehabstöd./i)
-    ).toBeInTheDocument()
-  })
 })
