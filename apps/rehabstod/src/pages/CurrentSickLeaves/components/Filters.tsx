@@ -1,7 +1,6 @@
 import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
-import { DateRange } from 'react-aria'
 import { useDispatch } from 'react-redux'
 import { DateRangePicker } from '../../../components/Form/Date/DateRangePicker/DateRangePicker'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
@@ -29,11 +28,10 @@ export function Filters({
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
-  const [sickLeaveRange, setSickLeaveRange] = useState<DateRange | null>(
+  const sickLeaveRange =
     filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
       ? { start: parseDate(filter.fromSickLeaveEndDate), end: parseDate(filter.toSickLeaveEndDate) }
       : null
-  )
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -125,7 +123,6 @@ export function Filters({
               <DateRangePicker
                 value={sickLeaveRange}
                 onChange={(value) => {
-                  setSickLeaveRange(value)
                   dispatch(
                     updateFilter({
                       fromSickLeaveEndDate: value ? value.start.toString() : null,
