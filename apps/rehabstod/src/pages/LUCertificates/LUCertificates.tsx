@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
@@ -48,12 +48,18 @@ export function LUCertificates() {
     navigate(`/pagaende-sjukfall/${id}`)
   }
 
+  useEffect(
+    () => () => {
+      dispatch(reset())
+    },
+    [dispatch]
+  )
+
   return (
     <TableLayout
       printable
       isUserLoading={userLoading}
       user={user}
-      onReset={() => dispatch(reset())}
       heading={<TableHeadingForUnit tableName="läkarutlåtanden" suffix="senaste tre åren" user={user} />}
       filters={<LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />}
       tableInfo={

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { ReactNode, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { User } from '../../schemas'
 import { DisplayError } from '../../error/DisplayError'
@@ -8,7 +7,6 @@ import { DisplayError } from '../../error/DisplayError'
 export function TableLayout({
   isUserLoading,
   user,
-  onReset,
   heading,
   filters,
   tableInfo,
@@ -21,7 +19,6 @@ export function TableLayout({
 }: {
   isUserLoading: boolean
   user: User
-  onReset: () => void
   heading: ReactNode
   filters: ReactNode
   tableInfo: ReactNode
@@ -33,20 +30,12 @@ export function TableLayout({
   children: ReactNode
 }) {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!isUserLoading && !user) {
       navigate('/')
     }
   }, [user, isUserLoading, navigate])
-
-  useEffect(
-    () => () => {
-      dispatch(onReset)
-    },
-    [dispatch, onReset]
-  )
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
