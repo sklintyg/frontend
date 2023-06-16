@@ -20,18 +20,12 @@ const errorSlice = createSlice({
         errorId: payload,
       }
     },
-    setErrorCode(state, { payload }: PayloadAction<string>) {
-      return {
-        ...state,
-        errorCode: payload,
-      }
-    },
     resetErrorState() {
       return initialState
     },
   },
 })
 
-export const { setErrorId, setErrorCode, resetErrorState } = errorSlice.actions
+export const { setErrorId, resetErrorState } = errorSlice.actions
 
 export const { name: errorReducerPath, reducer: errorReducer } = errorSlice
