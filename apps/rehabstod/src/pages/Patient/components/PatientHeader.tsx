@@ -12,8 +12,16 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   const firstCertificate = patient.sjukfallList[0]?.intyg[0]
   const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
 
+  function historyStateExists() {
+    return window.history.state && window.history.state.idx > 0
+  }
+
   const handleClick = () => {
-    navigate('/pagaende-sjukfall')
+    if (historyStateExists()) {
+      navigate(-1)
+    } else {
+      navigate('/pagaende-sjukfall', { replace: true })
+    }
   }
 
   if (!firstCertificate) {
