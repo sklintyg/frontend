@@ -19,6 +19,27 @@ it('Should render without crash', () => {
   ).not.toThrow()
 })
 
+it('Should be closed by default', () => {
+  render(
+    <Popover>
+      <PopoverContent>
+        <p>Hello</p>
+      </PopoverContent>
+      <PopoverTrigger>
+        <button type="button" aria-label="My Button">
+          Press me
+        </button>
+      </PopoverTrigger>
+    </Popover>
+  )
+
+  expect(screen.getByRole('button', { name: 'My Button' })).toBeInTheDocument()
+  const dialog = screen.getByRole('button', { name: 'My Button' }).parentElement
+  expect(dialog).toHaveAttribute('aria-expanded', 'false')
+  expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
+  expect(dialog).toHaveAttribute('data-state', 'closed')
+})
+
 it('Should be possible to control open state', () => {
   render(
     <Popover open>
