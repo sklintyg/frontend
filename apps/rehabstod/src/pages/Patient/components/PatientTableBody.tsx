@@ -38,7 +38,6 @@ function PatientTableCellResolver({
   belongsToOtherUnit: boolean
 }) {
   const { navigateToWebcert } = usePatient()
-
   switch (column) {
     case PatientColumn.Diagnos:
       return (

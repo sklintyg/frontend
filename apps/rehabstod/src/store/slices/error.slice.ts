@@ -18,9 +18,12 @@ const errorSlice = createSlice({
         errorId: payload,
       }
     },
+    resetErrorState() {
+      return initialState
+    },
   },
 })
 
-export const { setErrorId } = errorSlice.actions
+export const { setErrorId, resetErrorState } = errorSlice.actions
 
 export const { name: errorReducerPath, reducer: errorReducer } = errorSlice
