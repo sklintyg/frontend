@@ -1,11 +1,16 @@
-import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { MissingEmployeeAssignmentError } from './MissingEmployeeAssignmentError'
+import { describe } from 'vitest'
 import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorContext } from '../Error'
+import { MissingEmployeeAssignmentError } from './MissingEmployeeAssignmentError'
 
 const renderComponent = () => {
-  renderWithRouter(<MissingEmployeeAssignmentError />)
+  renderWithRouter(
+    <ErrorContext.Provider value="abc123">
+      <MissingEmployeeAssignmentError />
+    </ErrorContext.Provider>
+  )
 }
 describe('MissingEmployeeAssignmentError component', () => {
   it('should render without a problem', () => {

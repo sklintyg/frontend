@@ -1,20 +1,27 @@
-import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
+import { describe } from 'vitest'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorContext } from '../Error'
 import { LoginFailedError } from './LoginFailedError'
-import { ErrorTitleEnum } from '../../../schemas/errorSchema'
 
 const renderComponent = () => {
-  renderWithRouter(<LoginFailedError />)
+  renderWithRouter(
+    <ErrorContext.Provider value="abc123">
+      <LoginFailedError />
+    </ErrorContext.Provider>
+  )
 }
+
 describe('LoginFailedError component', () => {
   it('should render without a problem', () => {
     expect(() => renderComponent()).not.toThrow()
   })
+
   it('should render title', () => {
     renderComponent()
-    expect(screen.getByText(ErrorTitleEnum.enum.LOGIN_FAILED)).toBeInTheDocument()
+    expect(screen.getByText(/inloggning misslyckades/i)).toBeInTheDocument()
   })
+
   it('displays link', async () => {
     renderComponent()
     expect(await screen.findByText('ineraNationellKundservice')).toBeInTheDocument()

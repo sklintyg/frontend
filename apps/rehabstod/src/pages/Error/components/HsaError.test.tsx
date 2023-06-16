@@ -1,11 +1,16 @@
-import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { HsaError } from './HsaError'
+import { describe } from 'vitest'
 import { ErrorTitleEnum } from '../../../schemas/errorSchema'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorContext } from '../Error'
+import { HsaError } from './HsaError'
 
 const renderComponent = () => {
-  renderWithRouter(<HsaError />)
+  renderWithRouter(
+    <ErrorContext.Provider value="abc123">
+      <HsaError />
+    </ErrorContext.Provider>
+  )
 }
 describe('HsaError component', () => {
   it('should render without a problem', () => {

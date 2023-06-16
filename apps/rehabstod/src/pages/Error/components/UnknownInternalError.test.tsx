@@ -1,10 +1,15 @@
-import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
+import { describe } from 'vitest'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorContext } from '../Error'
 import { UnknownInternalError } from './UnknownInternalError'
 
 const renderComponent = () => {
-  renderWithRouter(<UnknownInternalError />)
+  renderWithRouter(
+    <ErrorContext.Provider value="abc123">
+      <UnknownInternalError />
+    </ErrorContext.Provider>
+  )
 }
 const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Tekniskt fel'
 describe('UnknownInternalError component', () => {

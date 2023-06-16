@@ -4,12 +4,17 @@ import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CareProvider } from './pages/CareProvider/CareProvider'
 import { CurrentSickLeaves } from './pages/CurrentSickLeaves/CurrentSickLeaves'
+import { HsaError } from './pages/Error/components/HsaError'
+import { MissingHsaRoleError } from './pages/Error/components/HsaMissingRoleError'
+import { LoginFailedError } from './pages/Error/components/LoginFailedError'
+import { MissingEmployeeAssignmentError } from './pages/Error/components/MissingEmployeeAssignmentError'
+import { UnknownInternalError } from './pages/Error/components/UnknownInternalError'
+import { Error } from './pages/Error/Error'
 import { Home } from './pages/Home/Home'
 import { MedicalOpinion } from './pages/MedicalOpinion/MedicalOpinion'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
-import { Error } from './pages/Error/Error'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -48,7 +53,14 @@ export const router = createBrowserRouter(
         <Route path=":patientId" element={<Patient />} />
       </Route>
       <Route path="*" element={<NoMatch />} />
-      <Route key="error" path="/error" element={<Error />} />
+      <Route path="/error" element={<Error />}>
+        <Route index element={<UnknownInternalError />} />
+        <Route path="hsa" element={<HsaError />} />
+        <Route path="hsa-missing-role" element={<MissingHsaRoleError />} />
+        <Route path="login-failed" element={<LoginFailedError />} />
+        <Route path="missing-employee-assignment" element={<MissingEmployeeAssignmentError />} />
+        <Route path="*" element={<UnknownInternalError />} />
+      </Route>
     </Route>,
   ])
 )

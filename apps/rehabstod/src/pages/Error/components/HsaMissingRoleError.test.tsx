@@ -1,11 +1,16 @@
-import { describe } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { HsaMissingRoleError } from './HsaMissingRoleError'
+import { describe } from 'vitest'
 import { ErrorTextEnum, ErrorTitleEnum } from '../../../schemas/errorSchema'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { ErrorContext } from '../Error'
+import { MissingHsaRoleError } from './HsaMissingRoleError'
 
 const renderComponent = () => {
-  renderWithRouter(<HsaMissingRoleError />)
+  renderWithRouter(
+    <ErrorContext.Provider value="abc123">
+      <MissingHsaRoleError />
+    </ErrorContext.Provider>
+  )
 }
 describe('HsaMissingRoleError component', () => {
   it('should render without a problem', () => {

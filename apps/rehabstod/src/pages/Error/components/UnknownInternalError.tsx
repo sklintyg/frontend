@@ -1,5 +1,7 @@
+import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
+import { ErrorCode } from '../../../schemas/errorSchema'
 import { useGetLinksQuery } from '../../../store/api'
-import { DynamicLink } from '../../DynamicLink/DynamicLink'
+import { useLogErrorEffect } from '../hooks/useLogErrorEffect'
 
 const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Tekniskt fel'
 const UNKNOWN_INTERNAL_PROBLEM_MESSAGE =
@@ -7,6 +9,7 @@ const UNKNOWN_INTERNAL_PROBLEM_MESSAGE =
 
 export function UnknownInternalError() {
   const { data: links } = useGetLinksQuery()
+  useLogErrorEffect({ message: 'unknown', errorCode: ErrorCode.UNKNOWN_INTERNAL_ERROR })
 
   return (
     <>
