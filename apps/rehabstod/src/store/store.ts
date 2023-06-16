@@ -9,6 +9,7 @@ import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from '
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 import { errorReducer, errorReducerPath } from './slices/error.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificates.slice'
+import { luCertificatesColumnsReducer, luCertificatesColumnsReducerPath } from './slices/luCertificatesTableColumns.slice'
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [welcomeReducerPath]: welcomeReducer,
     [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsReducer,
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,
+    [luCertificatesColumnsReducerPath]: luCertificatesColumnsReducer,
     [settingsReducerPath]: settingsReducer,
     [errorReducerPath]: errorReducer,
   },

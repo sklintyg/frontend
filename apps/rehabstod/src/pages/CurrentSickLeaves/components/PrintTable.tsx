@@ -1,4 +1,4 @@
-import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
@@ -8,7 +8,7 @@ import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+import { getUnansweredCommunicationsFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationsFormat'
 
 function resolveRisk(riskSignal: RiskSignal) {
   if (!riskSignal) {

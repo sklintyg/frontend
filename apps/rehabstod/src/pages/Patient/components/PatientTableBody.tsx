@@ -1,6 +1,6 @@
 import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
-import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../components/Table/TableCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'

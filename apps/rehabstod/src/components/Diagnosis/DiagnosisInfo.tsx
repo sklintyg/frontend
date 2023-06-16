@@ -8,7 +8,7 @@ export function DiagnosisInfo({ diagnos, biDiagnoser }: { diagnos?: Diagnosis; b
   return (
     <span>
       {diagnos.kod} {diagnos.beskrivning}
-      {biDiagnoser.length > 0 && `, ${biDiagnoser.map(({ kod }) => kod).join(', ')}`}
+      {biDiagnoser && biDiagnoser.length > 0 && `, ${biDiagnoser.map(({ kod }) => kod).join(', ')}`}
     </span>
   )
 }

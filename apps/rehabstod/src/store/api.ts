@@ -15,6 +15,7 @@ import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySc
 import { getCookie } from '../utils/cookies'
 import { ErrorData } from '../schemas/errorSchema'
 import { DiagnosKapitel } from '../schemas/diagnosisSchema'
+import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -27,7 +28,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient', 'LUCertificates'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -100,6 +101,14 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
       providesTags: ['SickLeaves'],
+    }),
+    getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({
+      query: (request) => ({
+        url: 'certificate/lu/unit',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['LUCertificates'],
     }),
     getPopulatedFilters: builder.query<
       {
@@ -262,6 +271,7 @@ export const {
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
+  useLazyGetLUCertificatesQuery,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
   useGetDoctorsForLUCertificatesQuery,

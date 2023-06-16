@@ -1,4 +1,4 @@
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+import { getUnansweredCommunicationsFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationsFormat'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 

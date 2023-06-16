@@ -13,7 +13,7 @@ import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
 import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
 
-export function LUCertificatesFilters() {
+export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
   const { data: doctors } = useGetDoctorsForLUCertificatesQuery()
@@ -22,15 +22,13 @@ export function LUCertificatesFilters() {
   const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
   const dispatch = useDispatch()
 
-  const onSearch = () => {}
-
   const onReset = () => {
     dispatch(resetFilters())
     setSelectedDiagnosisChapters([])
   }
 
   return (
-    <TableFilter onSearch={onSearch} onReset={onReset}>
+    <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
       <div className="grid grid-cols-3 gap-2">
         <DiagnosisFilter
           onChange={(diagnosisChapters) => {

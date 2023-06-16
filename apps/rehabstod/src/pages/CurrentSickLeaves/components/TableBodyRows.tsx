@@ -1,7 +1,7 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
-import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
@@ -16,7 +16,7 @@ import { MaxColspanRow } from '../../../components/Table/MaxColspanRow'
 import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
 import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+import { getUnansweredCommunicationsFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationsFormat'
 import { TableRow } from '../../../components/Table/TableRow'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
