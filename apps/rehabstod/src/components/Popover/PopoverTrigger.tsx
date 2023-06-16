@@ -20,9 +20,15 @@ export const PopoverTrigger = forwardRef<HTMLElement, HTMLProps<HTMLElement> & {
     }
 
     return (
-      <div className="inline-block" ref={ref} data-state={context.open ? 'open' : 'closed'} {...context.getReferenceProps(props)}>
+      <button
+        type="button"
+        ref={ref}
+        data-state={context.open ? 'open' : 'closed'}
+        onClick={() => context.setOpen(!context.open)}
+        {...context.getReferenceProps(props)}
+      >
         {children}
-      </div>
+      </button>
     )
   }
 )
