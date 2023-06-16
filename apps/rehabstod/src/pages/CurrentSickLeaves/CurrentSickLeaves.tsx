@@ -14,7 +14,7 @@ import { ModifySicknessTableColumns } from './components/ModifySicknessTableColu
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
-import { TableInfo } from './components/TableInfo'
+import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -71,7 +71,7 @@ export function CurrentSickLeaves() {
         <div>
           <div className="flex">
             <div className="w-full">
-              <TableInfo
+              <CurrentSickLeavesTableInfo
                 onShowPersonalInformationChange={(checked) => {
                   dispatch(updateShowPersonalInformation(checked))
                 }}

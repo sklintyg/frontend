@@ -47,9 +47,7 @@ export function DiagnosisFilter({
       </div>
       <div className="hidden whitespace-pre-line print:block">
         <p className="font-bold">Diagnos/er: </p>
-        {selected.length === 0
-          ? 'Alla valda'
-          : filter.diagnosisChapters.map((diagnosisChapter) => `${diagnosisChapter.id}: ${diagnosisChapter.name}\n`)}
+        {selected.length === 0 ? 'Alla valda' : selected.map((diagnosisChapter) => `${diagnosisChapter.id}: ${diagnosisChapter.name}\n`)}
       </div>
     </>
   )

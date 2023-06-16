@@ -1,14 +1,14 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { TableInfo } from './TableInfo'
+import { CurrentSickLeavesTableInfo } from './CurrentSickLeavesTableInfo'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 function ComponentWrapper() {
   const [checked, updateChecked] = useState(true)
 
   return (
-    <TableInfo
+    <CurrentSickLeavesTableInfo
       onShowPersonalInformationChange={() => updateChecked(!checked)}
       showPersonalInformation={checked}
       listLength={10}
@@ -23,7 +23,7 @@ beforeEach(() => {
   renderWithRouter(<ComponentWrapper />)
 })
 
-describe('TableInfo', () => {
+describe('CurrentSickLeavesTableInfo', () => {
   it('Should show info text of list length', () => {
     expect(screen.getByText('10 av 20', { exact: false })).toBeInTheDocument()
   })

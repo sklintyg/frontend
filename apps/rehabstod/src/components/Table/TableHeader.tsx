@@ -9,9 +9,11 @@ export interface Column {
 export function TableHeader({ columns }: { columns: Column[] }) {
   return (
     <thead>
-      {columns.map((column) => (
-        <TableHeaderCell key={column.name} column={column.name} description={column.description} width={`${column.width}px`} />
-      ))}
+      <tr>
+        {columns.map((column) => (
+          <TableHeaderCell key={column.name} column={column.name} description={column.description} width={`${column.width}px`} />
+        ))}
+      </tr>
     </thead>
   )
 }
