@@ -48,6 +48,7 @@ export function TableLayout({
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       {heading}
+      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       {filters}
       {error && <DisplayError heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
       {!error && (

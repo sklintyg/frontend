@@ -21,31 +21,37 @@ export function RangeFilter({
   min: string
 }) {
   return (
-    <div>
-      <div>
-        <span>{title}</span>
-        <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
+    <>
+      <div className="print:hidden">
+        <div>
+          <span>{title}</span>
+          <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
+        </div>
+        <div className="flex w-80 gap-3">
+          <FormattedNumberInput
+            label="Från"
+            onChange={(value) => onFromChange(value)}
+            value={from === '0' ? '' : from}
+            inline
+            max={to}
+            min={min}
+            defaultValue={min}
+          />
+          <FormattedNumberInput
+            label="Till"
+            onChange={(value) => onToChange(value)}
+            value={to === '0' ? '' : to}
+            inline
+            max={max}
+            min={from}
+            defaultValue={max}
+          />
+        </div>
       </div>
-      <div className="flex w-80 gap-3">
-        <FormattedNumberInput
-          label="Från"
-          onChange={(value) => onFromChange(value)}
-          value={from === '0' ? '' : from}
-          inline
-          max={to}
-          min={min}
-          defaultValue={min}
-        />
-        <FormattedNumberInput
-          label="Till"
-          onChange={(value) => onToChange(value)}
-          value={to === '0' ? '' : to}
-          inline
-          max={max}
-          min={from}
-          defaultValue={max}
-        />
+      <div className="hidden print:block">
+        <p className="font-bold">{title}:</p>
+        {from} - {to}
       </div>
-    </div>
+    </>
   )
 }

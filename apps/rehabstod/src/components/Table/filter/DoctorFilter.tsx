@@ -27,19 +27,27 @@ export function DoctorFilter({
   }
 
   return (
-    <div className="flex-1">
-      <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
-        {doctors
-          ? doctors.map((doctor) => (
-              <Checkbox
-                key={doctor.hsaId}
-                checked={selected.some((id) => id === doctor.hsaId)}
-                label={doctor.namn}
-                onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
-              />
-            ))
-          : null}
-      </SelectMultiple>
-    </div>
+    <>
+      <div className="flex-1 print:hidden">
+        <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
+          {doctors
+            ? doctors.map((doctor) => (
+                <Checkbox
+                  key={doctor.hsaId}
+                  checked={selected.some((id) => id === doctor.hsaId)}
+                  label={doctor.namn}
+                  onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
+                />
+              ))
+            : null}
+        </SelectMultiple>
+      </div>
+      <div className="hidden whitespace-pre-line print:block">
+        <p className="font-bold">Läkare: </p>
+        {selected.length === 0
+          ? 'Alla valda'
+          : doctors.filter((doctor) => selected.find((id) => doctor.hsaId === id)).map((doctor) => `${doctor.namn}\n`)}
+      </div>
+    </>
   )
 }

@@ -30,19 +30,27 @@ export function MultipleSelectFilterOption({
   }
 
   return (
-    <div className="flex-1">
-      <SelectMultiple label={label} description={description} placeholder={placeholder}>
-        {options
-          ? options.map((option) => (
-              <Checkbox
-                key={option.id}
-                checked={selected.some((id) => id === option.id)}
-                label={option.name}
-                onChange={(event) => handleOnChange(option.id, event.currentTarget.checked)}
-              />
-            ))
-          : null}
-      </SelectMultiple>
-    </div>
+    <>
+      <div className="flex-1 print:hidden">
+        <SelectMultiple label={label} description={description} placeholder={placeholder}>
+          {options
+            ? options.map((option) => (
+                <Checkbox
+                  key={option.id}
+                  checked={selected.some((id) => id === option.id)}
+                  label={option.name}
+                  onChange={(event) => handleOnChange(option.id, event.currentTarget.checked)}
+                />
+              ))
+            : null}
+        </SelectMultiple>
+      </div>
+      <div className="whitespace-pre-line">
+        <p className="font-bold">{label}: </p>
+        {selected.length === 0
+          ? 'Alla valda'
+          : options.filter((type) => selected.find((id) => type.id === id)).map((type) => `${type.name}\n`)}
+      </div>
+    </>
   )
 }

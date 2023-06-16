@@ -7,7 +7,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
 
   return (
     <>
-      <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
+      <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4 print:hidden">
         <IDSIcon name="chevron" size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
@@ -15,14 +15,14 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
         <div>
           {children}
           <div className="flex justify-end">
-            <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
+            <IDSButtonGroup className="my-4 flex print:hidden" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>
                 Återställ
               </IDSButton>
               <IDSButton onClick={() => onSearch(filter)}>Sök</IDSButton>
             </IDSButtonGroup>
           </div>
-          <hr className="mb-10 opacity-40" />
+          <hr className="mb-10 opacity-40 print:hidden" />
         </div>
       )}
     </>

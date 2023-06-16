@@ -52,15 +52,32 @@ export function TimePeriodFilter({
   }
 
   return (
-    <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
-      {availableOptions.map((option) => (
-        <Checkbox
-          key={`${option.to}${option.from}${option.id}`}
-          label={getSickLeaveLengthLabel(option)}
-          onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
-          checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
-        />
-      ))}
-    </SelectMultiple>
+    <>
+      <div className="print:hidden">
+        <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
+          {availableOptions.map((option) => (
+            <Checkbox
+              key={`${option.to}${option.from}${option.id}`}
+              label={getSickLeaveLengthLabel(option)}
+              onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
+              checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
+            />
+          ))}
+        </SelectMultiple>
+      </div>
+      <div className="hidden whitespace-pre-line print:block">
+        <p className="font-bold">Sjukskrivningslängd: </p>
+        {selectedOptions.length === 0
+          ? 'Alla valda'
+          : availableOptions
+              .filter((option) =>
+                selectedOptions.find(
+                  ({ from, to }) =>
+                    convertSelectedValue(from, option.metric) === option.from && convertSelectedValue(to, option.metric) === option.to
+                )
+              )
+              .map((option) => `${getSickLeaveLengthLabel(option)}\n`)}
+      </div>
+    </>
   )
 }

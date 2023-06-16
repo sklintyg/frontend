@@ -40,7 +40,7 @@ export function LUCertificates() {
   const SEARCH_TABLE_TEXT = `Tryck på Sök för att visa ${
     isDoctor ? 'alla dina' : 'alla'
   }  läkarutlåtanden för enheten, eller ange filterval och tryck på Sök för att visa urval av läkarutlåtanden. \nLäkarutlåtanden som signerats de senaste tre åren på enheten visas.`
-  const EMPTY_TABLE_TEXT = `${isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på ${user.valdVardenhet.namn}`
+  const EMPTY_TABLE_TEXT = `${isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på ${user.valdVardenhet.namn}.`
   const EMPTY_FILTRATION_TEXT = 'Inga läkarutlåtanden matchade filtreringen.'
 
   const navigateToPatient = (id: string) => {

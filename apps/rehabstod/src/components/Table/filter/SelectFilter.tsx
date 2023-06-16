@@ -17,7 +17,7 @@ export function SelectFilter({
   const id = useId()
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 print:hidden">
       <IDSSelect className="m-0">
         <label htmlFor={id}>
           {label}

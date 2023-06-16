@@ -20,19 +20,25 @@ export function TextSearchFilter({
   }
   const id = useId()
   return (
-    <div>
-      <label htmlFor={id}>{title}</label>
-      <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
-      <Input
-        id={id}
-        type="search"
-        placeholder={placeholder}
-        className="bg-secondary-95 border-accent-40 placeholder:text-neutral-20 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
-        onChange={(event) => {
-          handleTextSearchChanged(event.currentTarget.value)
-        }}
-        value={textValue}
-      />
-    </div>
+    <>
+      <div className="print:hidden">
+        <label htmlFor={id}>{title}</label>
+        <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
+        <Input
+          id={id}
+          type="search"
+          placeholder={placeholder}
+          className="bg-secondary-95 border-accent-40 placeholder:text-neutral-20 mt-3 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
+          onChange={(event) => {
+            handleTextSearchChanged(event.currentTarget.value)
+          }}
+          value={textValue}
+        />
+      </div>
+      <div className="hidden print:block">
+        <p className="font-bold">{title}:</p>
+        {textValue}
+      </div>
+    </>
   )
 }

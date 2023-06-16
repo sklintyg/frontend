@@ -11,7 +11,6 @@ import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
-import { PrintFilters } from './components/PrintFilters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
@@ -52,17 +51,14 @@ export function CurrentSickLeaves() {
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <CurrentSickLeavesHeading user={user} />
-
-      <div className="print:hidden">
-        <Filters
-          onSearch={(request) => triggerGetSickLeaves(request)}
-          onReset={() => {
-            dispatch(resetFilters())
-          }}
-          isDoctor={isDoctor}
-        />
-      </div>
-      <PrintFilters isDoctor={isDoctor} />
+      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
+      <Filters
+        onSearch={(request) => triggerGetSickLeaves(request)}
+        onReset={() => {
+          dispatch(resetFilters())
+        }}
+        isDoctor={isDoctor}
+      />
       {error && (
         <DisplayError
           heading="Sjukfall för enheten kunde inte hämtas."
