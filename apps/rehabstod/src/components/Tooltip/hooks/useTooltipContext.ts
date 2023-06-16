@@ -1,9 +1,7 @@
 import React from 'react'
 import { useTooltip } from './useTooltip'
 
-type ContextType = ReturnType<typeof useTooltip> | null
-
-export const TooltipContext = React.createContext<ContextType>(null)
+export const TooltipContext = React.createContext<ReturnType<typeof useTooltip> | null>(null)
 
 export const useTooltipContext = () => {
   const context = React.useContext(TooltipContext)
