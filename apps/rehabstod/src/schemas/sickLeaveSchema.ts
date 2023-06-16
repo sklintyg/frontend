@@ -2,17 +2,7 @@
 import { z } from 'zod'
 import { lakareSchema } from './lakareSchema'
 import { diagnosGruppStatSchema, diagnosisSchema, diagnosKapitelSchema } from './diagnosisSchema'
-
-export enum Gender {
-  M = 'M',
-  F = 'F',
-}
-
-export enum PuResponse {
-  FOUND = 'FOUND',
-  NOT_FOUND = 'NOT_FOUND',
-  MISSING = 'MISSING',
-}
+import { patientInfoSchema, riskSignalSchema } from './patientSchema'
 
 export const unansweredCommunicationFilterType = z.object({
   id: z.string(),
@@ -31,26 +21,6 @@ export const occupationType = z.object({
 
 export const rekoStatus = z.object({
   status: rekoStatusType,
-})
-
-export const riskSignalSchema = z.object({
-  berakningsTidpunkt: z.string(),
-  intygsId: z.string(),
-  riskDescription: z.string(),
-  riskKategori: z.nullable(z.number()),
-})
-
-export const genderSchema = z.nativeEnum(Gender)
-
-export const puResponseSchema = z.nativeEnum(PuResponse)
-
-export const patientInfoSchema = z.object({
-  alder: z.number(),
-  id: z.string(),
-  kon: genderSchema,
-  namn: z.string(),
-  responseFromPu: puResponseSchema,
-  riskSignal: riskSignalSchema,
 })
 
 export const sickLeaveInfoSchema = z.object({
@@ -140,8 +110,6 @@ export const summaryDataPointSchema = z.object({
   description: z.optional(z.string()),
 })
 
-export type PatientInfo = z.infer<typeof patientInfoSchema>
-export type RiskSignal = z.infer<typeof riskSignalSchema>
 export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
 export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>

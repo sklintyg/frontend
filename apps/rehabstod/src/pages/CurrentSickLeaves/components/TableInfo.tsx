@@ -1,7 +1,7 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { Checkbox } from '../../../components/Form/Checkbox'
 import { useAppDispatch } from '../../../store/hooks'
 import { showSettingsDialog } from '../../../store/slices/settings.slice'
+import { ShowPersonalInformationFilter } from '../../../components/Table/filter/ShowPersonalInformationFilter'
 
 export function TableInfoDivider() {
   return (
@@ -31,14 +31,7 @@ export function TableInfo({
   return (
     <div className="mb-5 print:mb-0">
       <div className="print:hidden">
-        <Checkbox
-          label="Visa personuppgifter"
-          checked={showPersonalInformation}
-          description="Visar eller döljer patienternas namn och personnummer i tabellen."
-          onChange={({ currentTarget: { checked } }) => {
-            onShowPersonalInformationChange(checked)
-          }}
-        />
+        <ShowPersonalInformationFilter checked={showPersonalInformation} onChange={(checked) => onShowPersonalInformationChange(checked)} />
       </div>
       <div className="flex gap-1">
         <span>

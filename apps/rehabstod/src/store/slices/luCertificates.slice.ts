@@ -38,7 +38,7 @@ const initialState: SickLeaveState = {
   ],
 }
 
-const sickLeaveSlice = createSlice({
+const luCertificatesSlice = createSlice({
   name: 'luCertificates',
   initialState,
   reducers: {
@@ -58,5 +58,5 @@ const sickLeaveSlice = createSlice({
   },
 })
 
-export const { reset, resetFilters, updateShowPersonalInformation, updateFilter } = sickLeaveSlice.actions
-export const { name: luCertificatesReducerPath, reducer: luCertificatesReducer } = sickLeaveSlice
+export const { reset, resetFilters, updateShowPersonalInformation, updateFilter } = luCertificatesSlice.actions
+export const { name: luCertificatesReducerPath, reducer: luCertificatesReducer } = luCertificatesSlice

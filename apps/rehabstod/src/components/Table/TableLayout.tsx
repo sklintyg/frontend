@@ -11,6 +11,7 @@ export function TableLayout({
   heading,
   filters,
   tableInfo,
+  modifyTableColumns,
   error,
   errorTitle,
   errorText,
@@ -22,6 +23,7 @@ export function TableLayout({
   heading: ReactNode
   filters: ReactNode
   tableInfo: ReactNode
+  modifyTableColumns: ReactNode
   error: boolean
   errorTitle: string
   errorText: string
@@ -52,8 +54,9 @@ export function TableLayout({
         <div>
           <div className="flex">
             <div className="w-full">{tableInfo}</div>
-            {children}
+            <div className="w-96">{modifyTableColumns}</div>
           </div>
+          {children}
         </div>
       )}
     </div>

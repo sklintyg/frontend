@@ -3,8 +3,6 @@ import { TableColumn } from '../../schemas/tableSchema'
 import { Checkbox } from '../Form/Checkbox'
 import { SelectMultiple } from '../Form/SelectMultiple'
 import { MoveColumnButton } from './MoveColumnButton'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
-import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 
 export function ModifyTableColumns({
   columns,
@@ -19,19 +17,9 @@ export function ModifyTableColumns({
   onReset: () => void
   onShowAll: () => void
 }) {
-  const { data: user } = useGetUserQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-
-  function filterColumn(name: string) {
-    return user !== undefined && (!user.roles.LAKARE || user.roles.LAKARE.desc !== name)
-  }
-
-  const filteredColumns = columns
-    .filter(({ name }) => filterColumn(name))
-    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
-  const selectedColumns = filteredColumns.filter(({ visible }) => visible)
+  const selectedColumns = columns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
-  const numVisible = filteredColumns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
+  const numVisible = columns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
   const getPlaceholder = () => {
     if (isAllSelected) {
       return 'Alla valda'
@@ -61,7 +49,7 @@ export function ModifyTableColumns({
         </>
       }
     >
-      {filteredColumns.map(({ name, visible, disabled }, index) => (
+      {columns.map(({ name, visible, disabled }, index) => (
         <div key={name} data-testid={`${name.toLowerCase()}-column`} className="flex">
           <div className="-mt-3 w-full">
             <Checkbox
@@ -74,12 +62,7 @@ export function ModifyTableColumns({
             />
           </div>
           <MoveColumnButton disabled={index === 0} direction="left" onClick={() => onMove(name, 'left')} column={name} />
-          <MoveColumnButton
-            disabled={index === filteredColumns.length - 1}
-            direction="right"
-            column={name}
-            onClick={() => onMove(name, 'right')}
-          />
+          <MoveColumnButton disabled={index === columns.length - 1} direction="right" column={name} onClick={() => onMove(name, 'right')} />
         </div>
       ))}
     </SelectMultiple>
