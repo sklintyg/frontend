@@ -16,7 +16,8 @@ function DateFieldSegment({ segment, state }: { segment: DateSegment; state: Dat
         ...segmentProps.style,
         minWidth: segment.maxValue != null ? `${String(segment.maxValue).length}ch` : '',
       }}
-      className="group box-content whitespace-nowrap rounded-sm text-left tabular-nums">
+      className="group box-content whitespace-nowrap rounded-sm text-left tabular-nums"
+    >
       {segment.isPlaceholder ? (
         <span
           aria-hidden="true"
@@ -24,7 +25,8 @@ function DateFieldSegment({ segment, state }: { segment: DateSegment; state: Dat
             'text-neutral-40 block w-full text-center italic pointer-events-none',
             segment.isPlaceholder ? 'visible' : 'hidden',
             segment.isPlaceholder && 'h-0'
-          )}>
+          )}
+        >
           {segment.placeholder}
         </span>
       ) : (
