@@ -2,12 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ErrorState {
   errorId: string
-  errorCode: string
 }
 
 const initialState = {
   errorId: '',
-  errorCode: '',
 }
 
 const errorSlice = createSlice({
