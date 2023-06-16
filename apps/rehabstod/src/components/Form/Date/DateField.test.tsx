@@ -26,7 +26,6 @@ it('should render placeholders with swedish locales', () => {
 })
 
 it('Should be possible to enter a year', async () => {
-  userEvent.setup()
   render(
     <I18nProvider locale="sv-SE">
       <DateField label="datumfält" />
@@ -37,7 +36,6 @@ it('Should be possible to enter a year', async () => {
 })
 
 it('Should be possible to enter a month', async () => {
-  userEvent.setup()
   render(
     <I18nProvider locale="sv-SE">
       <DateField label="datumfält" />
@@ -48,7 +46,6 @@ it('Should be possible to enter a month', async () => {
 })
 
 it('Should be possible to enter a day', async () => {
-  userEvent.setup()
   render(
     <I18nProvider locale="sv-SE">
       <DateField label="datumfält" />

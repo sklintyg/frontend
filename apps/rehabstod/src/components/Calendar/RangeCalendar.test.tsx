@@ -14,7 +14,6 @@ it('Should render expected month', () => {
 })
 
 it('Should be possible to select a date range', async () => {
-  userEvent.setup()
   const onChange = vi.fn()
   render(<RangeCalendar defaultValue={{ start: parseDate('2020-02-03'), end: parseDate('2020-02-04') }} onChange={onChange} />)
   expect(screen.queryAllByLabelText('February 2020').length).toBeTruthy()

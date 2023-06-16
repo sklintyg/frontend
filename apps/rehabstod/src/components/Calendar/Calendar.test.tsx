@@ -14,7 +14,6 @@ it('Should render expected month', () => {
 })
 
 it('Should be possible to select a date', async () => {
-  userEvent.setup()
   const onChange = vi.fn()
   render(<Calendar defaultValue={parseDate('2020-02-03')} onChange={onChange} />)
   expect(screen.queryAllByLabelText('February 2020').length).toBeTruthy()
@@ -29,14 +28,12 @@ it('Should have next and previous buttons', () => {
 })
 
 it('Should be possible to navigate to previous month', async () => {
-  userEvent.setup()
   render(<Calendar defaultValue={parseDate('2020-02-03')} />)
   await userEvent.click(screen.getByRole('button', { name: 'Previous' }))
   expect(screen.getByRole('grid', { name: 'January 2020' })).toBeInTheDocument()
 })
 
 it('Should be possible to navigate to next month', async () => {
-  userEvent.setup()
   render(<Calendar defaultValue={parseDate('2020-02-03')} />)
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
   expect(screen.getByRole('grid', { name: 'March 2020' })).toBeInTheDocument()

@@ -62,7 +62,6 @@ it('Should be possible to control open state', () => {
 })
 
 it('Should display content when popover trigger is pressed', async () => {
-  userEvent.setup()
   render(
     <Popover>
       <PopoverContent>
