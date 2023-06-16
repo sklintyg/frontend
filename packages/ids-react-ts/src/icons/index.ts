@@ -1,6 +1,7 @@
 export * from './IDSIconAgent'
 export * from './IDSIconArrow'
 export * from './IDSIconAttention'
+export * from './IDSIconCalendar'
 export * from './IDSIconChevron'
 export * from './IDSIconChevronBold'
 export * from './IDSIconCog'
