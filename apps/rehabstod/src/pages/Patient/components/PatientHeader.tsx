@@ -10,7 +10,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
   const currentSickness = patient.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = patient.sjukfallList[0]?.intyg[0]
-  const { showPersonalInformation } = useSelector((state: RootState) => state.sickLeave)
+  const { showPersonalInformation } = useSelector((state: RootState) => state.settings)
 
   const handleClick = () => {
     navigate('/pagaende-sjukfall')

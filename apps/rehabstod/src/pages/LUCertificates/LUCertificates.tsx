@@ -5,7 +5,7 @@ import { TableHeadingForUnit } from '../../components/Table/heading/TableHeading
 import { useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { LUCertificatesFilters } from './LUCertificatesFilters'
 import { TableLayout } from '../../components/Table/TableLayout'
-import { reset, updateShowPersonalInformation } from '../../store/slices/luCertificates.slice'
+import { reset } from '../../store/slices/luCertificates.slice'
 import { Table } from '../../components/Table/Table'
 import { LUCertificatesColumn } from '../../store/slices/luCertificatesTableColumns.slice'
 import { TableHeader } from '../../components/Table/TableHeader'
@@ -21,6 +21,7 @@ import { TableInfo } from '../../components/Table/TableInfo'
 import { PatientInfo } from '../../schemas/patientSchema'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/PrintableTableBody'
+import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 
 export function LUCertificates() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -30,7 +31,8 @@ export function LUCertificates() {
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
   })
-  const { hasAppliedFilters, showPersonalInformation } = useAppSelector((state) => state.luCertificates)
+  const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

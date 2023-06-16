@@ -6,7 +6,6 @@ import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 export interface SickLeaveState {
   filter: LUCertificatesFilter
   hasAppliedFilters: boolean
-  showPersonalInformation: boolean
   certificateFilterTypes: { name: string; id: string }[]
   unansweredCommunicationFilterTypes: { name: string; id: string }[]
 }
@@ -52,11 +51,8 @@ const luCertificatesSlice = createSlice({
       Object.assign(state.filter, payload)
       state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
-    updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
-      state.showPersonalInformation = payload
-    },
   },
 })
 
-export const { reset, resetFilters, updateShowPersonalInformation, updateFilter } = luCertificatesSlice.actions
+export const { reset, resetFilters, updateFilter } = luCertificatesSlice.actions
 export const { name: luCertificatesReducerPath, reducer: luCertificatesReducer } = luCertificatesSlice

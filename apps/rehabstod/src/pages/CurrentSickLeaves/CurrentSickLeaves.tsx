@@ -6,7 +6,7 @@ import { DisplayError } from '../../error/DisplayError'
 import { UserUrval } from '../../schemas'
 import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
+import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
@@ -15,12 +15,13 @@ import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
+import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves, error }] = useLazyGetSickLeavesQuery()
-  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: SickLeaveColumn.Startdatum,

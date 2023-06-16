@@ -7,12 +7,10 @@ import { TimePeriodMetric, TimePeriodOption } from '../../schemas/timePeriodOpti
 export interface SickLeaveState {
   filter: SickLeaveFilter
   hasAppliedFilters: boolean
-  showPersonalInformation: boolean
   sickLeaveLengthIntervals: TimePeriodOption[]
 }
 
 const initialState: SickLeaveState = {
-  showPersonalInformation: true,
   filter: {
     doctorIds: [],
     diagnosisChapters: [],
@@ -50,11 +48,8 @@ const sickLeaveSlice = createSlice({
       Object.assign(state.filter, payload)
       state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
-    updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
-      state.showPersonalInformation = payload
-    },
   },
 })
 
-export const { reset, resetFilters, updateShowPersonalInformation, updateFilter } = sickLeaveSlice.actions
+export const { reset, resetFilters, updateFilter } = sickLeaveSlice.actions
 export const { name: sickLeaveReducerPath, reducer: sickLeaveReducer } = sickLeaveSlice
