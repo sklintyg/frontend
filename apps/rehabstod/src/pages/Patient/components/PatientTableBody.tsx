@@ -25,6 +25,7 @@ function OtherUnitInformation() {
     </Tooltip>
   )
 }
+
 function PatientTableCellResolver({
   column,
   list,
@@ -95,10 +96,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortTableList(certificates, getCertificateColumnData).map(
         (certificate) =>
           columns.length > 0 && (
-            <tr
-              key={`${certificate.start}${certificate.slut}`}
-              className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}
-            >
+            <tr key={`${certificate.intygsId}`} className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}>
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
