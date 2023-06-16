@@ -17,7 +17,8 @@ export function PopoverContent({ children }: { children: ReactNode }) {
             minWidth: 100,
             outline: 0,
           }}
-          {...getFloatingProps()}>
+          {...getFloatingProps()}
+        >
           {children}
         </div>
       </FloatingFocusManager>
