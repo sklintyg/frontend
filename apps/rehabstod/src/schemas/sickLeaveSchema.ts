@@ -2,7 +2,14 @@
 import { z } from 'zod'
 import { lakareSchema } from './lakareSchema'
 import { diagnosGruppStatSchema, diagnosisSchema, diagnosKapitelSchema } from './diagnosisSchema'
-import { patientInfoSchema, riskSignalSchema } from './patientSchema'
+import { patientInfoSchema } from './patientSchema'
+
+export const riskSignalSchema = z.object({
+  berakningsTidpunkt: z.string(),
+  intygsId: z.string(),
+  riskDescription: z.string(),
+  riskKategori: z.nullable(z.number()),
+})
 
 export const unansweredCommunicationFilterType = z.object({
   id: z.string(),
@@ -124,3 +131,4 @@ export type RekoStatusType = z.infer<typeof rekoStatusType>
 export type OccupationType = z.infer<typeof rekoStatusType>
 export type UnansweredCommunicationFilterType = z.infer<typeof unansweredCommunicationFilterType>
 export type RekoStatus = z.infer<typeof rekoStatus>
+export type RiskSignal = z.infer<typeof riskSignalSchema>

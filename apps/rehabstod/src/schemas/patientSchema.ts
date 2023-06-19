@@ -7,13 +7,6 @@ export enum Gender {
   F = 'F',
 }
 
-export const riskSignalSchema = z.object({
-  berakningsTidpunkt: z.string(),
-  intygsId: z.string(),
-  riskDescription: z.string(),
-  riskKategori: z.nullable(z.number()),
-})
-
 export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
   riskKategori: z.number(),
@@ -112,7 +105,7 @@ export const patientInfoSchema = z.object({
   kon: genderSchema,
   namn: z.string(),
   responseFromPu: puResponseSchema,
-  riskSignal: riskSignalSchema,
+  riskSignal: patientRiskSignalSchema,
 })
 
 export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
@@ -122,4 +115,3 @@ export type Patient = z.infer<typeof patientSchema>
 export type SjfMetaData = z.infer<typeof sjfMetaDataSchema>
 export type SjfItem = z.infer<typeof sjfItemSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
-export type RiskSignal = z.infer<typeof riskSignalSchema>
