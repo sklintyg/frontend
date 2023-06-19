@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
 import { filter } from 'lodash'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
@@ -8,7 +8,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4 print:hidden">
-        <IDSIcon name="chevron" size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
+        <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
       {expanded && (

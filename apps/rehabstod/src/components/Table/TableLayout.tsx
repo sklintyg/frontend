@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { ReactNode, useEffect } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { User } from '../../schemas'
-import { DisplayError } from '../../error/DisplayError'
+import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
 
 export function TableLayout({
   isUserLoading,
@@ -42,7 +42,7 @@ export function TableLayout({
       {heading}
       <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       {filters}
-      {error && <DisplayError heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
+      {error && <ErrorAlert heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
       {!error && (
         <div>
           <div className="flex">

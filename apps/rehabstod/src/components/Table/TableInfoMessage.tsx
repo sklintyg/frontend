@@ -18,23 +18,25 @@ export function TableInfoMessage<T>({
   content: T[] | null
   hasAppliedFilters: boolean
 }) {
-  if (isLoading) {
-    return (
-      <MaxColspanRow colspan={tableLength}>
-        <IDSSpinner />
-      </MaxColspanRow>
-    )
-  }
-
-  if (content === null) {
-    return <MaxColspanRow colspan={tableLength}>{searchText}</MaxColspanRow>
-  }
-
-  if (content.length === 0) {
-    if (hasAppliedFilters) {
-      return <MaxColspanRow colspan={tableLength}>{emptyTableFromFiltrationText}</MaxColspanRow>
+  const getContent = () => {
+    if (isLoading) {
+      return <IDSSpinner />
     }
 
-    return <MaxColspanRow colspan={tableLength}>{emptyTableText}</MaxColspanRow>
+    if (content === null) {
+      return searchText
+    }
+
+    if (content.length === 0) {
+      return hasAppliedFilters ? emptyTableFromFiltrationText : emptyTableText
+    }
+
+    return null
   }
+
+  return getContent() !== null ? (
+    <tbody>
+      <MaxColspanRow colspan={tableLength}>{getContent()}</MaxColspanRow>
+    </tbody>
+  ) : null
 }
