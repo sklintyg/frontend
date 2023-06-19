@@ -84,6 +84,7 @@ export function Filters({
             <SelectFilter
               onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
               options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
+              value={filter.unansweredCommunicationFilterTypeId}
               description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
               label="Ärendestatus"
             />
