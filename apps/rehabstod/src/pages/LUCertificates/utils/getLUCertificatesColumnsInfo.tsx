@@ -1,6 +1,7 @@
 import { LUCertificatesColumn } from '../../../store/slices/luCertificatesTableColumns.slice'
+import { Column } from '../../../components/Table/TableHeader'
 
-export const getLUCertificatesColumnInfo = (column: LUCertificatesColumn) => {
+export const getLUCertificatesColumnInfo = (column: LUCertificatesColumn): Column => {
   switch (column) {
     case LUCertificatesColumn.Personnummer:
       return { name: column, width: 145 }

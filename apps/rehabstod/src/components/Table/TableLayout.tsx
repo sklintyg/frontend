@@ -18,7 +18,7 @@ export function TableLayout({
   children,
 }: {
   isUserLoading: boolean
-  user: User
+  user: User | undefined
   heading: ReactNode
   filters: ReactNode
   tableInfo: ReactNode
