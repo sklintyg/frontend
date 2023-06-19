@@ -3,7 +3,7 @@ import { LUCertificatesColumn } from '../../../store/slices/luCertificatesTableC
 import { TableCell } from '../../../components/Table/TableCell'
 import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
-import { getUnansweredCommunicationsFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationsFormat'
+import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 
 export const getLUCertificatesTableValue = (column: string, data: LUCertificate) => {
   switch (column) {
@@ -41,7 +41,7 @@ export const getLUCertificatesTableCell = (column: string, data: LUCertificate) 
     case LUCertificatesColumn.Signeringsdatum:
       return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:
-      return <TableCell>{getUnansweredCommunicationsFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
+      return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
     default:
       return <TableCell>{getLUCertificatesTableValue(column, data)}</TableCell>
   }

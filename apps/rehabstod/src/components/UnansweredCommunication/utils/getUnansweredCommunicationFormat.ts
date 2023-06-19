@@ -1,4 +1,4 @@
-export function getUnansweredCommunicationsFormat(unansweredComplement: number, unansweredOther: number): string {
+export function getUnansweredCommunicationFormat(unansweredComplement: number, unansweredOther: number): string {
   if (unansweredComplement + unansweredOther === 0) {
     return '-'
   }

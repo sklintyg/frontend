@@ -3,6 +3,7 @@ import { ReactNode, useEffect } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { User } from '../../schemas'
 import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
+import { UnansweredCommunicationError } from '../error/UnansweredCommunicationError/UnansweredCommunicationError'
 
 export function TableLayout({
   isUserLoading,
@@ -47,17 +48,7 @@ export function TableLayout({
       {error && <ErrorAlert heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
       {!error && (
         <div>
-          <div className="pb-10">
-            {unansweredCommunicationError && (
-              <ErrorAlert
-                heading=""
-                errorType="attention"
-                text="Information om ärendekommunikation kan inte hämtas på grund av ett tekniskt fel. Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-                dynamicLink
-                hideErrorId
-              />
-            )}
-          </div>
+          <div className="pb-10">{unansweredCommunicationError && <UnansweredCommunicationError />}</div>
           <div className="flex">
             <div className="w-full">{tableInfo}</div>
             <div className="mb-5 flex items-end gap-3 print:hidden">

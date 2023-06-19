@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { Filters } from './Filters'
+import { renderWithRouter } from '../../utils/renderWithRouter'
+import { TableFilter } from './TableFilter'
 
 let onSearch: () => void
 let onReset: () => void
@@ -10,10 +10,14 @@ const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
 
-  renderWithRouter(<Filters onSearch={onSearch} onReset={onReset} isDoctor={false} />)
+  renderWithRouter(
+    <TableFilter onSearch={onSearch} onReset={onReset}>
+      <p>Children</p>
+    </TableFilter>
+  )
 }
 
-describe('CurrentSickLeavesFilters', () => {
+describe('TableFilter', () => {
   beforeEach(() => {
     renderComponent()
   })
@@ -29,6 +33,15 @@ describe('CurrentSickLeavesFilters', () => {
   it('should show buttons when filters are open', () => {
     expect(screen.getByText('Återställ')).toBeInTheDocument()
     expect(screen.getByText('Sök')).toBeInTheDocument()
+  })
+
+  it('should show children filters are open', () => {
+    expect(screen.getByText('Children')).toBeInTheDocument()
+  })
+
+  it('should not show children filters are closed', async () => {
+    await userEvent.click(screen.getByText('Dölj sökfilter'))
+    expect(screen.queryByText('Children')).not.toBeInTheDocument()
   })
 
   it('should show show filters button after pressing hide', async () => {

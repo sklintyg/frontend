@@ -18,7 +18,7 @@ export function SelectFilter({
 }) {
   const id = useId()
 
-  const chosenOption = options.find((option) => option.id === value)
+  const chosenOption = options ? options.find((option) => option.id === value) : undefined
 
   return (
     <>

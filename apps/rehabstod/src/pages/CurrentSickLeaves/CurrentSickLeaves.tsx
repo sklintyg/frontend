@@ -16,6 +16,7 @@ import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { UnansweredCommunicationError } from '../../components/error/UnansweredCommunicationError/UnansweredCommunicationError'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -71,17 +72,7 @@ export function CurrentSickLeaves() {
       )}
       {!error && (
         <div>
-          <div className="pb-10">
-            {currentSickLeavesInfo?.unansweredCommunicationError && (
-              <ErrorAlert
-                heading=""
-                errorType="attention"
-                text="Information om ärendekommunikation kan inte hämtas på grund av ett tekniskt fel. Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-                dynamicLink
-                hideErrorId
-              />
-            )}
-          </div>
+          <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationError />}</div>
           <div className="flex">
             <div className="w-full">
               <CurrentSickLeavesTableInfo
