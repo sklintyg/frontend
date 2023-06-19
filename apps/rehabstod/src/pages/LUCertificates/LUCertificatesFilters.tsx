@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { parseDate } from '@internationalized/date'
 import { TableFilter } from '../../components/Table/TableFilter'
 import { RangeFilter } from '../../components/Table/filter/RangeFilter'
 import { useAppSelector } from '../../store/hooks'
@@ -13,6 +14,7 @@ import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
 import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
 import { isUserDoctor } from '../../utils/isUserDoctor'
+import { DateRangePicker } from '../../components/Form/Date/DateRangePicker/DateRangePicker'
 
 export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
@@ -81,6 +83,21 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
           max={150}
           min={1}
         />
+        <div>
+          <DateRangePicker
+            value={filter.fromDate && filter.toDate ? { start: parseDate(filter.fromDate), end: parseDate(filter.toDate) } : null}
+            onChange={(value) => {
+              dispatch(
+                updateFilter({
+                  fromDate: value ? value.start.toString() : null,
+                  toDate: value ? value.end.toString() : null,
+                })
+              )
+            }}
+            label="Signeringsdatum"
+            description="Filtrerar på signeringsdatum. Det är möjligt att välja ett intervall genom att klicka på två olika datum, eller ett enskilt datum genom att klicka på samma datum två gånger."
+          />
+        </div>
       </div>
     </TableFilter>
   )
