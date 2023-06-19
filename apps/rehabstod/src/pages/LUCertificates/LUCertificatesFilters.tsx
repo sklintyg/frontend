@@ -32,7 +32,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
 
   return (
     <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-x-10 gap-y-7">
         <DiagnosisFilter
           onChange={(diagnosisChapters) => {
             dispatch(updateFilter({ diagnoses: diagnosisChapters.map((diagnosisChapter) => diagnosisChapter.id) }))

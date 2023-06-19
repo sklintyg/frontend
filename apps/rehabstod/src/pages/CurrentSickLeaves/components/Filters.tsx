@@ -45,7 +45,7 @@ export function Filters({
 
   return (
     <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-x-10 gap-y-7">
         <DiagnosisFilter
           onChange={onDiagnosesChange}
           allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -107,21 +107,21 @@ export function Filters({
           description="Filtrerar på patientens sysselsättning."
           placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
         />
+        <DateRangeFilter
+          fromDate={filter.fromSickLeaveEndDate}
+          toDate={filter.toSickLeaveEndDate}
+          onChange={(value) => {
+            dispatch(
+              updateFilter({
+                fromSickLeaveEndDate: value ? value.start.toString() : null,
+                toSickLeaveEndDate: value ? value.end.toString() : null,
+              })
+            )
+          }}
+          label="Slutdatum"
+          description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
+        />
       </div>
-      <DateRangeFilter
-        fromDate={filter.fromSickLeaveEndDate}
-        toDate={filter.toSickLeaveEndDate}
-        onChange={(value) => {
-          dispatch(
-            updateFilter({
-              fromSickLeaveEndDate: value ? value.start.toString() : null,
-              toSickLeaveEndDate: value ? value.end.toString() : null,
-            })
-          )
-        }}
-        label="Slutdatum"
-        description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
-      />
     </TableFilter>
   )
 }
