@@ -92,14 +92,13 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<{ content: SickLeaveInfo[]; unansweredCommunicationError: boolean; srsError: boolean }, SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
         providesTags: ['SickLeaves'],
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
       providesTags: ['SickLeaves'],
     }),
     getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({

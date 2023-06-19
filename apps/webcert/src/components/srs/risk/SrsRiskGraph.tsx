@@ -82,7 +82,7 @@ const getTooltipText = (label: string, value: string | number | undefined, unit?
 
 const CustomizedLabel = (props: LabelProps) => {
   const { x, y, stroke, width, value } = props
-  const hasValue = value != null && typeof value === 'number' && value > 0
+  const hasValue = value != null && value > 0
 
   return (
     <text x={x} y={y} dy={-10} dx={(width as number) / 2} fill={stroke} fontSize={hasValue ? 12 : 20} textAnchor="middle">

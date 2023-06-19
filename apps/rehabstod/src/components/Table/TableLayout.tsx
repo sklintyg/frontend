@@ -12,6 +12,7 @@ export function TableLayout({
   tableInfo,
   modifyTableColumns,
   error,
+  unansweredCommunicationError,
   errorTitle,
   errorText,
   printable,
@@ -24,6 +25,7 @@ export function TableLayout({
   tableInfo: ReactNode
   modifyTableColumns: ReactNode
   error: boolean
+  unansweredCommunicationError?: boolean
   errorTitle: string
   errorText: string
   printable: boolean
@@ -45,6 +47,17 @@ export function TableLayout({
       {error && <ErrorAlert heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
       {!error && (
         <div>
+          <div className="pb-10">
+            {unansweredCommunicationError && (
+              <ErrorAlert
+                heading=""
+                errorType="attention"
+                text="Information om ärendekommunikation kan inte hämtas på grund av ett tekniskt fel. Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+                dynamicLink
+                hideErrorId
+              />
+            )}
+          </div>
           <div className="flex">
             <div className="w-full">{tableInfo}</div>
             <div className="mb-5 flex items-end gap-3 print:hidden">

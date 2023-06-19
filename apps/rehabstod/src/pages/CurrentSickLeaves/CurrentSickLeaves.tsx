@@ -20,7 +20,7 @@ import { updateShowPersonalInformation } from '../../store/slices/settings.slice
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves, error }] = useLazyGetSickLeavesQuery()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeavesInfo, error }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
@@ -31,6 +31,7 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
+  const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : null
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -70,6 +71,17 @@ export function CurrentSickLeaves() {
       )}
       {!error && (
         <div>
+          <div className="pb-10">
+            {currentSickLeavesInfo?.unansweredCommunicationError && (
+              <ErrorAlert
+                heading=""
+                errorType="attention"
+                text="Information om ärendekommunikation kan inte hämtas på grund av ett tekniskt fel. Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+                dynamicLink
+                hideErrorId
+              />
+            )}
+          </div>
           <div className="flex">
             <div className="w-full">
               <CurrentSickLeavesTableInfo
