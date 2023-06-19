@@ -88,8 +88,8 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
           onChange={(value) => {
             dispatch(
               updateFilter({
-                fromDate: value ? value.start.toString() : null,
-                toDate: value ? value.end.toString() : null,
+                fromDate: value && value.start ? value.start.toString() : null,
+                toDate: value && value.end ? value.end.toString() : null,
               })
             )
           }}

@@ -14,13 +14,17 @@ export function ModifySicknessTableColumns() {
   const columns = useAppSelector(allSickLeaveColumns)
   const columnString = useAppSelector(sickLeaveColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
-  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   useEffect(() => {
     if (user && columnString !== user.preferences.sjukfallTableColumns) {
       updateUserPreferences({ sjukfallTableColumns: columnString })
     }
   }, [columnString, updateUserPreferences, user])
+
+  if (!user) {
+    return null
+  }
 
   return (
     <ModifyTableColumns

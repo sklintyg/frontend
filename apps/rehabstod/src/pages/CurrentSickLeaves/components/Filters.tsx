@@ -113,8 +113,8 @@ export function Filters({
           onChange={(value) => {
             dispatch(
               updateFilter({
-                fromSickLeaveEndDate: value ? value.start.toString() : null,
-                toSickLeaveEndDate: value ? value.end.toString() : null,
+                fromSickLeaveEndDate: value && value.start ? value.start.toString() : null,
+                toSickLeaveEndDate: value && value.end ? value.end.toString() : null,
               })
             )
           }}

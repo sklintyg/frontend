@@ -1,4 +1,4 @@
-export function TableHeading({ title, subTitle, printTitle }: { title; subTitle; printTitle }) {
+export function TableHeading({ title, subTitle, printTitle }: { title: string; subTitle: string; printTitle: string }) {
   return (
     <>
       <div className="print:hidden">
