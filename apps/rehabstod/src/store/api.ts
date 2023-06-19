@@ -220,7 +220,7 @@ export const api = createApi({
       async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getSickLeaves', filter, (draft) => {
-            const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
+            const index = draft.content.findIndex((sickLeave) => sickLeave.patient.id === patientId)
             if (index !== -1) {
               // eslint-disable-next-line no-param-reassign
               draft[index].rekoStatus = { status }

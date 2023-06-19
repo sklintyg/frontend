@@ -31,7 +31,7 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
-  const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : null
+  const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
 
   useEffect(() => {
     if (!userLoading && !user) {
