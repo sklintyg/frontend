@@ -36,13 +36,13 @@ export function LUCertificates() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const isDoctor = isUserDoctor(user)
+  const isDoctor = user ? isUserDoctor(user) : false
   const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
 
   const SEARCH_TABLE_TEXT = `Tryck på Sök för att visa ${
     isDoctor ? 'alla dina' : 'alla'
   }  läkarutlåtanden för enheten, eller ange filterval och tryck på Sök för att visa urval av läkarutlåtanden. \nLäkarutlåtanden som signerats de senaste tre åren på enheten visas.`
-  const EMPTY_TABLE_TEXT = `${isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på ${user.valdVardenhet.namn}.`
+  const EMPTY_TABLE_TEXT = `${isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på ${user?.valdVardenhet.namn}.`
   const EMPTY_FILTRATION_TEXT = 'Inga läkarutlåtanden matchade filtreringen.'
 
   const navigateToPatient = (id: string) => {
@@ -72,7 +72,7 @@ export function LUCertificates() {
         />
       }
       modifyTableColumns={<ModifyLUCertificatesTableColumns />}
-      error={error}
+      error={!!error}
       errorTitle="Läkarutlåtanden för enheten kunde inte hämtas."
       errorText="Enhetens läkarutlåtanden kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand "
     >
