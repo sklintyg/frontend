@@ -7,11 +7,13 @@ export function SelectFilter({
   onChange,
   options,
   description,
+  value,
   label,
 }: {
   onChange: (option: string) => void
   options: { id: string; name: string }[]
   description: string
+  value?: string
   label: string
 }) {
   const id = useId()
@@ -23,7 +25,7 @@ export function SelectFilter({
           {label}
           {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </label>
-        <Select id={id} onChange={(event) => onChange(event.currentTarget.value)}>
+        <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)}>
           <option className="ml-2" id="" value="">
             Visa alla
           </option>

@@ -98,6 +98,7 @@ export function Filters({
           options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
           description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
           label="Ärendestatus"
+          value={filter.unansweredCommunicationFilterTypeId}
         />
         <MultipleSelectFilterOption
           label="Sysselsättning"

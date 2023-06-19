@@ -1,6 +1,7 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
+import { FloatingScroll } from '../FloatingScroll/FloatingScroll'
 
 interface TableOptions {
   ascending?: boolean
@@ -54,10 +55,12 @@ export function Table({ children, print, ...options }: { children?: ReactNode; p
 
   return (
     <TableContext.Provider value={table}>
-      <IDSContainer gutterless className="overflow-x-auto pb-4 pt-1 print:hidden">
-        <div className="relative">
-          <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
-        </div>
+      <IDSContainer gutterless className="print:hidden">
+        <FloatingScroll>
+          <div className="relative pb-4 pt-1">
+            <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
+          </div>
+        </FloatingScroll>
       </IDSContainer>
       <div className="hidden print:block">
         <div className="mb-2">
