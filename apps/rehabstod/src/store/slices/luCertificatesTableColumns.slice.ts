@@ -13,7 +13,7 @@ export enum LUCertificatesColumn {
 }
 
 export const { slice: luCertificatesColumnsSlice, getSelectors: getLuCertificatesColumnsSelectors } = createTableColumnSlice(
-  'luCertificatesColumns',
+  'lakarutlatandeUnitTableColumns',
   Object.values(LUCertificatesColumn)
 )
 

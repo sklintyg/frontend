@@ -39,7 +39,7 @@ export const getLUCertificatesTableCell = (column: string, data: LUCertificate) 
         </TableCell>
       )
     case LUCertificatesColumn.Signeringsdatum:
-      return <TableCell>{getLUCertificatesTableValue(column, data).split('T')[0]}</TableCell>
+      return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationsFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
     default:

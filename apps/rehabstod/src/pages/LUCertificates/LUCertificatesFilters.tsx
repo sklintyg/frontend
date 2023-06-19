@@ -77,10 +77,10 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
           description="Filtrerar på patientens nuvarande ålder."
           onFromChange={(value) => dispatch(updateFilter({ fromAge: Number(value) }))}
           onToChange={(value) => dispatch(updateFilter({ toAge: Number(value) }))}
-          to={filter.toAge}
-          from={filter.fromAge}
-          max={150}
-          min={1}
+          to={filter.toAge.toString()}
+          from={filter.fromAge.toString()}
+          max="150"
+          min="1"
         />
         <DateRangeFilter
           fromDate={filter.fromDate}
