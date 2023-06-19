@@ -1,8 +1,8 @@
-import { IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { useGetLinksQuery } from '../../../../store/api'
-import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
-import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
+import { IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Tooltip } from '../../../../components/Tooltip/Tooltip'
+import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
+import { useGetLinksQuery } from '../../../../store/api'
 
 export function StatisticsInformationCard() {
   const { data: links } = useGetLinksQuery()
@@ -20,11 +20,11 @@ export function StatisticsInformationCard() {
             <Tooltip>
               <TooltipTrigger>
                 <IDSLink>
-                  <IDSIcon name="arrow" />
+                  <IDSIconArrow />
                   <a target="_blank" href={links.statistiktjanstenTooltip.url} rel="noreferrer">
                     {links.statistiktjanstenTooltip.text}
                   </a>
-                  <IDSIcon slot="append-icon" name="external" size="xs" className="my-auto" />
+                  <IDSIconExternal slot="append-icon" size="xs" className="my-auto" />
                 </IDSLink>
               </TooltipTrigger>
               {links.statistiktjanstenTooltip.tooltip && <TooltipContent>{links.statistiktjanstenTooltip.tooltip}</TooltipContent>}

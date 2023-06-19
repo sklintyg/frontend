@@ -13,6 +13,7 @@ import { SelectFilter } from '../../../components/Table/filter/SelectFilter'
 import { TextSearchFilter } from '../../../components/Table/filter/TextSearchFilter'
 import { TableFilter } from '../../../components/Table/TableFilter'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import { DateRangePicker } from '../../../components/Form/Date/DateRangePicker/DateRangePicker'
 
 export function Filters({
   onSearch,
@@ -25,6 +26,10 @@ export function Filters({
 }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
+  const sickLeaveRange =
+    filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
+      ? { start: parseDate(filter.fromSickLeaveEndDate), end: parseDate(filter.toSickLeaveEndDate) }
+      : null
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -105,6 +110,21 @@ export function Filters({
           selected={filter.occupationTypeIds}
           description="Filtrerar på patientens sysselsättning."
           placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
+        />
+      </div>
+      <div>
+        <DateRangePicker
+          value={sickLeaveRange}
+          onChange={(value) => {
+            dispatch(
+              updateFilter({
+                fromSickLeaveEndDate: value ? value.start.toString() : null,
+                toSickLeaveEndDate: value ? value.end.toString() : null,
+              })
+            )
+          }}
+          label="Slutdatum"
+          description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
         />
       </div>
     </TableFilter>

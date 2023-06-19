@@ -1,4 +1,4 @@
-import { IDSButton, IDSColumn, IDSIcon, IDSRow } from '@frontend/ids-react-ts'
+import { IDSButton, IDSColumn, IDSIconExternal, IDSRow } from '@frontend/ids-react-ts'
 import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -25,6 +25,7 @@ function OtherUnitInformation() {
     </Tooltip>
   )
 }
+
 function PatientTableCellResolver({
   column,
   list,
@@ -37,7 +38,6 @@ function PatientTableCellResolver({
   belongsToOtherUnit: boolean
 }) {
   const { navigateToWebcert } = usePatient()
-
   switch (column) {
     case PatientColumn.Diagnos:
       return (
@@ -68,7 +68,7 @@ function PatientTableCellResolver({
               <IDSRow align="center">
                 <IDSColumn cols="auto">Visa </IDSColumn>
                 <IDSColumn cols="auto" className="ml-2">
-                  <IDSIcon name="external" height="16" width="100%" />
+                  <IDSIconExternal height="16" width="100%" />
                 </IDSColumn>
               </IDSRow>
             </IDSButton>
@@ -95,10 +95,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortTableList(certificates, getCertificateColumnData).map(
         (certificate) =>
           columns.length > 0 && (
-            <tr
-              key={`${certificate.start}${certificate.slut}`}
-              className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}
-            >
+            <tr key={`${certificate.intygsId}`} className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}>
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))

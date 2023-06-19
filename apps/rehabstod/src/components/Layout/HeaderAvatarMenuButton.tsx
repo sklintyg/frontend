@@ -1,5 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 
 export function HeaderAvatarMenuButton({
   label,
@@ -8,7 +7,7 @@ export function HeaderAvatarMenuButton({
   onClick,
 }: {
   label: string
-  icon: string
+  icon: ReactNode
   trigger?: string
   onClick?: MouseEventHandler<HTMLButtonElement>
 }) {
@@ -19,9 +18,7 @@ export function HeaderAvatarMenuButton({
       trigger={trigger}
       type="button"
     >
-      <div className="mr-2.5">
-        <IDSIcon color="currentColor" color2="currentColor" height="20" width="20" name={icon} />
-      </div>
+      <div className="mr-2.5">{icon}</div>
       <div className="flex-auto text-left">{label}</div>
     </button>
   )

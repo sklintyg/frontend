@@ -1,4 +1,4 @@
-import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
+import { IDSIconChevron, IDSRadio } from '@frontend/ids-react-ts'
 import { ReactNode, useEffect } from 'react'
 import { Vardenhet } from '../../../schemas'
 
@@ -55,7 +55,7 @@ export function CareProviderAccordion({
             </label>
           </IDSRadio>
           <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-            <IDSIcon name="chevron" width="100%" height="100%" className="h-full w-full" />
+            <IDSIconChevron width="100%" height="100%" className="h-full w-full" />
           </span>
         </div>
       </summary>

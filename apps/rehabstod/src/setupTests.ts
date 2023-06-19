@@ -9,6 +9,7 @@ import { hsaApi } from './store/hsaApi'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
+import { resetErrorState } from './store/slices/error.slice'
 
 Object.assign(global, global, {
   open: vi.fn(),
@@ -50,6 +51,7 @@ afterEach(() => {
   // Reset slice states
   store.dispatch(resetPatientTableColumns())
   store.dispatch(resetSickLeaveTableColumns())
+  store.dispatch(resetErrorState())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.

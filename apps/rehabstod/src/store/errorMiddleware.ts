@@ -1,7 +1,8 @@
 import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
-import { uuidv4 } from '../error/util/errorUtils'
+import { uuidv4 } from '../utils/uuidv4'
 import { api } from './api'
 import { setErrorId } from './slices/error.slice'
+import { ErrorCodeEnum } from '../schemas/errorSchema'
 
 /**
  * Error handling middleware
@@ -13,17 +14,24 @@ export const errorMiddleware: Middleware =
   (action) => {
     if (isRejectedWithValue(action)) {
       const { method, url } = action.meta.baseQueryMeta.request
-      const { message } = action.payload.data ?? 'No message'
-      const errorMessage = `${message} method '${method}' url '${url}`
-      const { errorCode } = action.payload.data ?? 'No errorCode'
-      const errorId = uuidv4()
-      const errorData = {
-        errorId,
-        errorCode,
-        message: errorMessage,
-        stackTrace: null,
+      let message = 'No message'
+      let errorCode
+      if (action.payload.data) {
+        message = action.payload.data.message ?? 'No message'
+        errorCode = action.payload.data.errorCode ?? 'No errorCode'
       }
-      dispatch(api.endpoints.logError.initiate({ errorData, ...errorData }))
+      const errorMessage = `${message}' method '${method}' url '${url}`
+      const errorId = uuidv4()
+      dispatch(
+        api.endpoints.logError.initiate({
+          errorData: {
+            errorId,
+            errorCode: errorCode ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
+            message: errorMessage,
+            stackTrace: null,
+          },
+        })
+      )
       dispatch(setErrorId(errorId))
     }
     return next(action)

@@ -2,6 +2,7 @@
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
 import React from 'react'
+import { I18nProvider } from 'react-aria'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
@@ -13,8 +14,10 @@ setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <I18nProvider locale="sv-SE">
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </I18nProvider>
   </React.StrictMode>
 )

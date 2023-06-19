@@ -1,4 +1,14 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import {
+  IDSHeader,
+  IDSHeaderAvatar,
+  IDSHeaderItem,
+  IDSHeaderNav,
+  IDSIconCog,
+  IDSIconQuestion,
+  IDSIconSwap,
+  IDSIconUser,
+  IDSLink,
+} from '@frontend/ids-react-ts'
 import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
@@ -25,13 +35,14 @@ export function LayoutHeader() {
 
       {!isLoading && user && (
         <>
-          <IDSHeaderItem type="inera-admin" icon="question" mobile>
+          <IDSHeaderItem type="inera-admin" mobile>
+            <IDSIconQuestion />
             <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
           <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn} ref={avatarRef}>
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
-                <IDSIcon height="20" width="20" name="swap" />
+                <IDSIconSwap height="20" width="20" />
                 <Link to="/enhet" onClick={() => avatarRef.current?.tooggleExpand()}>
                   Byt vårdenhet
                 </Link>
@@ -42,10 +53,14 @@ export function LayoutHeader() {
                   dispatch(showSettingsDialog())
                 }}
                 label="Inställningar"
-                icon="cog"
+                icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
               />
               <hr className="border-neutral-40 mb-5" />
-              <HeaderAvatarMenuButton label="Logga ut" icon="user" onClick={logout} />
+              <HeaderAvatarMenuButton
+                label="Logga ut"
+                icon={<IDSIconUser color="currentColor" color2="currentColor" height="20" width="20" />}
+                onClick={logout}
+              />
             </div>
           </IDSHeaderAvatar>
           <IDSHeaderNav type="inera-admin">
@@ -59,7 +74,8 @@ export function LayoutHeader() {
       <LayoutMobileHeader />
 
       {!isLoading && !user && (
-        <IDSHeaderItem type="inera-admin" separator-left icon="user">
+        <IDSHeaderItem type="inera-admin" separator-left>
+          <IDSIconUser />
           <a href={sithsUrl}>Logga in</a>
         </IDSHeaderItem>
       )}
