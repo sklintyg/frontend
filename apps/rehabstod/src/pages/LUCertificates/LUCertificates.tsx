@@ -18,7 +18,6 @@ import { getLUCertificatesTableCell, getLUCertificatesTableValue } from './utils
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
-import { PatientInfo } from '../../schemas/patientSchema'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
@@ -107,7 +106,7 @@ export function LUCertificates() {
           tableCellExtractor={getLUCertificatesTableCell}
           columns={visibleColumns}
           keyIndex="patient"
-          onTableRowClick={(id) => navigateToPatient((id as PatientInfo).id)} // TODO: this should be switched to encrypted patient id
+          onTableRowClick={(id) => navigateToPatient(id)} // TODO: this should be switched to encrypted patient id
         />
       </Table>
     </TableLayout>

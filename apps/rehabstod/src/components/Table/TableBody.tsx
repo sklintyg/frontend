@@ -27,7 +27,12 @@ export function TableBody<T>({
       {sortTableList(content, tableValueExtractor).map(
         (item) =>
           columns.length > 0 && (
-            <TableRow key={item[keyIndex]} italic={isItalic ? isItalic(item) : false} id={item[keyIndex]} onClick={onTableRowClick}>
+            <TableRow
+              key={item[keyIndex] as string}
+              italic={isItalic ? isItalic(item) : false}
+              id={item[keyIndex] as string}
+              onClick={onTableRowClick}
+            >
               {columns.map(({ name }) => tableCellExtractor(name, item))}
             </TableRow>
           )

@@ -19,7 +19,11 @@ export function DateRangeFilter({
       <div className="print:hidden">
         <DateRangePicker
           value={fromDate && toDate ? { start: parseDate(fromDate), end: parseDate(toDate) } : null}
-          onChange={(value) => props.onChange(value)}
+          onChange={(value) => {
+            if (props && props.onChange) {
+              props.onChange(value)
+            }
+          }}
           label={label}
           description={description}
         />

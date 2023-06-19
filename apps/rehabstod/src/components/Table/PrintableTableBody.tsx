@@ -20,7 +20,7 @@ export function PrintTableBody<T>({
   return (
     <div className="hidden print:block">
       {sortTableList(content, tableValueExtractor).map((item) => (
-        <div key={item[keyIndex]} className="border-neutral-40 -mb-px columns-3 break-inside-avoid gap-2 border p-4">
+        <div key={item[keyIndex] as string} className="border-neutral-40 -mb-px columns-3 break-inside-avoid gap-2 border p-4">
           {columns.length > 0 &&
             columns.map(({ name }) => (
               <div key={name} className="flex gap-1">

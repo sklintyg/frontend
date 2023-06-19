@@ -14,8 +14,9 @@ import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { DateRangeFilter } from '../../components/Table/filter/DateRangeFilter'
+import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 
-export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
+export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
   const { data: doctors } = useGetDoctorsForLUCertificatesQuery()
@@ -28,6 +29,10 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
   const onReset = () => {
     dispatch(resetFilters())
     setSelectedDiagnosisChapters([])
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
@@ -46,13 +51,13 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
         {!isUserDoctor(user) && (
           <DoctorFilter
             onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-            doctors={doctors ?? []}
+            doctors={doctors || []}
             selected={filter ? filter.doctors : []}
             description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
           />
         )}
         <SelectFilter
-          onChange={(id) => dispatch(updateFilter({ questionsAndAnswers: Number(id) }))}
+          onChange={(id) => dispatch(updateFilter({ questionAndAnswers: Number(id) }))}
           options={unansweredCommunicationFilterTypes || []}
           description="Filtrerar på läkarutlåtanden med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
           label="Ärendestatus"

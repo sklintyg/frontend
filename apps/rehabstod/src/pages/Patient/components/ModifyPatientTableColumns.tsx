@@ -28,6 +28,10 @@ export function ModifyPatientTableColumns() {
     }
   }, [columnString, updateUserPreferences, user])
 
+  if (!user) {
+    return null
+  }
+
   return (
     <ModifyTableColumns
       onReset={() => dispatch(setColumnDefaults())}

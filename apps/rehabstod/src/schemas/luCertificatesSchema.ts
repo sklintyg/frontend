@@ -32,7 +32,7 @@ export const luCertificateSchema = z.object({
 })
 
 export const luCertificatesInfo = z.object({
-  certificates: z.array(z.object(luCertificateSchema)),
+  certificates: z.array(luCertificateSchema),
   questionAndAnswersError: z.boolean(),
 })
 
