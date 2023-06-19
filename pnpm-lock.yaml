@@ -92,6 +92,9 @@ importers:
       date-fns:
         specifier: ^2.29.3
         version: 2.29.3
+      handy-scroll:
+        specifier: ^1.1.1
+        version: 1.1.1
       localforage:
         specifier: ^1.10.0
         version: 1.10.0
@@ -110,6 +113,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-merge-refs:
+        specifier: ^2.0.2
+        version: 2.0.2
       react-redux:
         specifier: ^8.0.5
         version: 8.0.5(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
@@ -122,6 +128,9 @@ importers:
       recharts:
         specifier: ^2.5.0
         version: 2.5.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+      use-resize-observer:
+        specifier: ^9.1.0
+        version: 9.1.0(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -668,7 +677,7 @@ packages:
       '@babel/traverse': 7.22.5(supports-color@5.5.0)
       '@babel/types': 7.22.5
       convert-source-map: 1.9.0
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.0
@@ -1349,7 +1358,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       espree: 9.5.2
       globals: 13.20.0
       ignore: 5.2.4
@@ -1441,7 +1450,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -1585,6 +1594,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
 
+  /@juggle/resize-observer@3.4.0:
+    resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+    dev: false
+
   /@lit-labs/react@1.1.1:
     resolution: {integrity: sha512-9TC+/ZWb6BJlWCyUr14FKFlaGnyKpeEDorufXozQgke/VoVrslUQNaL7nBmrAWdNrmzx5jWgi8lFmWwrxMjnlA==}
     dev: false
@@ -1614,7 +1627,7 @@ packages:
       '@open-draft/until': 1.0.3
       '@types/debug': 4.1.8
       '@xmldom/xmldom': 0.8.8
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       headers-polyfill: 3.1.2
       outvariant: 1.4.0
       strict-event-emitter: 0.2.8
@@ -3439,7 +3452,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.8
       '@typescript-eslint/type-utils': 5.59.8(eslint@8.42.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.8(eslint@8.42.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.42.0
       grapheme-splitter: 1.0.4
       ignore: 5.2.4
@@ -3464,7 +3477,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.8
       '@typescript-eslint/types': 5.59.8
       '@typescript-eslint/typescript-estree': 5.59.8(typescript@5.0.4)
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.42.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -3499,7 +3512,7 @@ packages:
     dependencies:
       '@typescript-eslint/typescript-estree': 5.59.8(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.8(eslint@8.42.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.42.0
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
@@ -3528,7 +3541,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.8
       '@typescript-eslint/visitor-keys': 5.59.8
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.1
@@ -3549,7 +3562,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.9
       '@typescript-eslint/visitor-keys': 5.59.9
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.1
@@ -3751,7 +3764,7 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4793,7 +4806,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 8.1.1
-    dev: true
 
   /debug@4.3.4(supports-color@9.3.1):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -5363,7 +5375,7 @@ packages:
     dependencies:
       '@es-joy/jsdoccomment': 0.36.1
       comment-parser: 1.3.1
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       escape-string-regexp: 4.0.0
       eslint: 8.42.0
       esquery: 1.5.0
@@ -5492,7 +5504,7 @@ packages:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.0
@@ -6091,6 +6103,10 @@ packages:
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
     dev: true
 
+  /handy-scroll@1.1.1:
+    resolution: {integrity: sha512-faXNDYZi4OgG49VtSGmFAAC92RndDqL6X8N5qGU9FlCiDHsaemPY/ZCunEz/4AQbY9GM02+ZShZ0oMEg0AcUpA==}
+    dev: false
+
   /has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
 
@@ -6186,7 +6202,7 @@ packages:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6205,7 +6221,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6630,7 +6646,7 @@ packages:
     resolution: {integrity: sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==}
     engines: {node: '>=10'}
     dependencies:
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -8089,6 +8105,10 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
 
+  /react-merge-refs@2.0.2:
+    resolution: {integrity: sha512-V5BGTwGa2r+/t0A/BZMS6L7VPXY0CU8xtAhkT3XUoI1WJJhhtvulvoiZkJ5Jt9YAW23m4xFWmhQ+C5HwjtTFhQ==}
+    dev: false
+
   /react-onclickoutside@6.13.0(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-ty8So6tcUpIb+ZE+1HAhbLROvAIJYyJe/1vRrrcmW+jLsaM+/powDRqxzo6hSh9CuRZGSL1Q8mvcF5WRD93a0A==}
     peerDependencies:
@@ -8620,7 +8640,7 @@ packages:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
       '@rollup/pluginutils': 5.0.2(rollup@3.20.2)
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       es-module-lexer: 1.2.1
       esbuild: 0.17.6
       joycon: 3.1.1
@@ -9485,6 +9505,17 @@ packages:
       requires-port: 1.0.0
     dev: true
 
+  /use-resize-observer@9.1.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-R25VqO9Wb3asSD4eqtcxk8sJalvIOYBqS8MNZlpDSQ4l4xMQxC/J7Id9HoTqPq8FwULIn0PVW+OAqF2dyYbjow==}
+    peerDependencies:
+      react: 16.8.0 - 18
+      react-dom: 16.8.0 - 18
+    dependencies:
+      '@juggle/resize-observer': 3.4.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /use-sync-external-store@1.2.0(react@18.2.0):
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
@@ -9563,7 +9594,7 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       mlly: 1.3.0
       pathe: 1.1.1
       picocolors: 1.0.0
@@ -9651,7 +9682,7 @@ packages:
       acorn-walk: 8.2.0
       cac: 6.7.14
       chai: 4.3.7
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@8.1.1)
       jsdom: 21.1.1
       local-pkg: 0.4.3
       pathe: 1.1.1
