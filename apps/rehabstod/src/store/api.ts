@@ -223,7 +223,7 @@ export const api = createApi({
             const index = draft.content.findIndex((sickLeave) => sickLeave.patient.id === patientId)
             if (index !== -1) {
               // eslint-disable-next-line no-param-reassign
-              draft[index].rekoStatus = { status }
+              draft.content[index].rekoStatus = { status }
             }
           })
         )
@@ -246,7 +246,6 @@ export const api = createApi({
         url: 'certificate/lu/doctors',
         method: 'GET',
       }),
-      transformResponse: (response: { doctors: Lakare[] }) => response.doctors,
     }),
   }),
 })

@@ -19,7 +19,7 @@ import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
-  const { data: doctors } = useGetDoctorsForLUCertificatesQuery()
+  const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { data: user } = useGetUserQuery()
 
@@ -51,7 +51,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
         {!isUserDoctor(user) && (
           <DoctorFilter
             onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-            doctors={doctors || []}
+            doctors={doctorsFilterResponse.doctors || []}
             selected={filter ? filter.doctors : []}
             description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
           />
