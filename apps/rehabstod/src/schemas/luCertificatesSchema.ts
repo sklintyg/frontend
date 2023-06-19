@@ -16,7 +16,7 @@ export const luCertificatesFilterSchema = z.object({
 })
 
 export const luCertificateSchema = z.object({
-  biDiagnoses: z.array(z.string()),
+  biDiagnoses: z.array(diagnosisSchema),
   careProviderId: z.string(),
   careProviderName: z.string(),
   careUnitId: z.string(),

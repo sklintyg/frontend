@@ -13,7 +13,7 @@ export function ModifyLUCertificatesTableColumns() {
   const columns = useAppSelector(allLuCertificatesColumns)
   const columnString = useAppSelector(luCertificatesColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
-  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   useEffect(() => {
     if (user && columnString !== user.preferences.lakarutlatandenTableColumns) {

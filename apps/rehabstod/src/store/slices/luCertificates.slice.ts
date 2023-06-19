@@ -3,15 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import isEqual from 'lodash/isEqual'
 import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 
-export interface SickLeaveState {
+export interface LuCertificatesState {
   filter: LUCertificatesFilter
   hasAppliedFilters: boolean
   certificateFilterTypes: { name: string; id: string }[]
   unansweredCommunicationFilterTypes: { name: string; id: string }[]
 }
 
-const initialState: SickLeaveState = {
-  showPersonalInformation: true,
+const initialState: LuCertificatesState = {
   filter: {
     certTypes: [],
     diagnoses: [],
