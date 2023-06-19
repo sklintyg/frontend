@@ -8,16 +8,18 @@ import { SelectFilter } from '../../components/Table/filter/SelectFilter'
 import { getMultipleSelectPlaceholder } from '../CurrentSickLeaves/utils/getMultipleSelectPlaceholder'
 import { MultipleSelectFilterOption } from '../../components/Table/filter/MultipleSelectFilterOption'
 import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
-import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersQuery } from '../../store/api'
+import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
 import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
 import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
+import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
   const { data: doctors } = useGetDoctorsForLUCertificatesQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: user } = useGetUserQuery()
 
   const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
   const dispatch = useDispatch()
@@ -40,12 +42,14 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
           selected={selectedDiagnosisChapters}
           description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
         />
-        <DoctorFilter
-          onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-          doctors={doctors ?? []}
-          selected={filter ? filter.doctors : []}
-          description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
-        />
+        {!isUserDoctor(user) && (
+          <DoctorFilter
+            onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
+            doctors={doctors ?? []}
+            selected={filter ? filter.doctors : []}
+            description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
+          />
+        )}
         <SelectFilter
           onChange={(id) => dispatch(updateFilter({ questionsAndAnswers: Number(id) }))}
           options={unansweredCommunicationFilterTypes || []}
