@@ -20,7 +20,7 @@ export function TableInfo({
       <div className="print:hidden">
         {onShowPersonalInformationChange && (
           <ShowPersonalInformationFilter
-            checked={showPersonalInformation}
+            checked={!!showPersonalInformation}
             onChange={(checked) => onShowPersonalInformationChange(checked)}
           />
         )}

@@ -16,7 +16,7 @@ export function TableRow({
       tabIndex={0}
       onKeyDown={({ code, currentTarget }) => {
         if (['Enter', 'Space'].includes(code)) {
-          onClick()
+          onClick(id)
         }
         if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
           ;(currentTarget.previousElementSibling as HTMLElement).focus()
