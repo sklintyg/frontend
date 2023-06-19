@@ -61,6 +61,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
           options={unansweredCommunicationFilterTypes || []}
           description="Filtrerar på läkarutlåtanden med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
           label="Ärendestatus"
+          value={filter.questionAndAnswers ? filter.questionAndAnswers.toString() : ''}
         />
         <TextSearchFilter
           title="Fritextsökning"

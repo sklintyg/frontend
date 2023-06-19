@@ -38,7 +38,7 @@ export function TextSearchFilter({
       </div>
       <div className="hidden print:block">
         <p className="font-bold">{title}:</p>
-        {textValue}
+        {textValue || '-'}
       </div>
     </>
   )
