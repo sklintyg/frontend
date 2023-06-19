@@ -18,7 +18,7 @@ export function TableBody<T>({
   tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
   onTableRowClick: (key: string) => void
   columns: TableColumn[]
-  keyIndex: string
+  keyIndex: keyof T
 }) {
   const { sortTableList } = useTableContext()
 

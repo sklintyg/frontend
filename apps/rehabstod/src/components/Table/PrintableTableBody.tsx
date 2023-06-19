@@ -13,7 +13,7 @@ export function PrintTableBody<T>({
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
   tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
   columns: TableColumn[]
-  keyIndex: string
+  keyIndex: keyof T
 }) {
   const { sortTableList } = useTableContext()
 
