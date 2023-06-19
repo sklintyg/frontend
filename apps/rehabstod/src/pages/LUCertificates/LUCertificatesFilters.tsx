@@ -51,7 +51,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
         {!isUserDoctor(user) && (
           <DoctorFilter
             onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-            doctors={doctorsFilterResponse.doctors || []}
+            doctors={doctorsFilterResponse && doctorsFilterResponse.doctors ? doctorsFilterResponse.doctors : []}
             selected={filter ? filter.doctors : []}
             description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
           />
