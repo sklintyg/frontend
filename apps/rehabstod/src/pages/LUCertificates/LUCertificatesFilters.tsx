@@ -62,7 +62,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: () => void }) {
           description="Filtrerar på all synlig text och personnummer i tabellen"
           onTextSearchChange={(text) => dispatch(updateFilter({ searchText: text }))}
           placeholder="Hitta läkarutlåtanden som innehåller..."
-          textValue={filter.textSearch}
+          textValue={filter.searchText}
         />
         <MultipleSelectFilterOption
           label="Läkarutlåtande"

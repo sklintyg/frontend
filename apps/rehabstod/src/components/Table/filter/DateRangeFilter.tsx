@@ -12,7 +12,7 @@ export function DateRangeFilter({
   toDate: string
   label: string
   description: string
-  onChange: (value: string | null) => void
+  onChange: (value: { start: string | null; end: string | null }) => void
 }) {
   return (
     <>

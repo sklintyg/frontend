@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { diagnosisSchema } from './diagnosisSchema'
 import { lakareSchema } from './lakareSchema'
-import { patientInfoSchema } from './sickLeaveSchema'
+import { patientInfoSchema } from './patientSchema'
 
 export const luCertificatesFilterSchema = z.object({
   certTypes: z.array(z.string()),
@@ -9,7 +9,7 @@ export const luCertificatesFilterSchema = z.object({
   doctors: z.array(z.string()),
   fromDate: z.nullable(z.string()),
   toDate: z.nullable(z.string()),
-  questionAndAnswers: z.number(),
+  questionAndAnswers: z.nullable(z.number()),
   searchText: z.string(),
   fromAge: z.number(),
   toAge: z.number(),

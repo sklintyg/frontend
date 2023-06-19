@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { useTableContext } from './hooks/useTableContext'
 import { TableRow } from './TableRow'
+import { TableColumn } from '../../schemas/tableSchema'
 
 export function TableBody<T>({
   content,
@@ -16,7 +17,7 @@ export function TableBody<T>({
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
   tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
   onTableRowClick: (key: string) => void
-  columns: string[]
+  columns: TableColumn[]
   keyIndex: string
 }) {
   const { sortTableList } = useTableContext()
