@@ -6,8 +6,8 @@ const HEADLINE = 'Tekniskt fel'
 const TYPE = 'error'
 const TEXT = 'Ett fel har uppstått'
 
-const renderComponent = () => {
-  renderWithRouter(<ErrorAlert heading={HEADLINE} errorType={TYPE} text={TEXT} dynamicLink />)
+const renderComponent = (displayErrorId?: boolean) => {
+  renderWithRouter(<ErrorAlert heading={HEADLINE} errorType={TYPE} text={TEXT} dynamicLink includeErrorId={displayErrorId ?? true} />)
 }
 describe('DisplayError', () => {
   it('Should render without a problem', () => {
@@ -22,5 +22,13 @@ describe('DisplayError', () => {
   it('Should displays link', async () => {
     renderComponent()
     expect(await screen.findByText('ineraNationellKundservice')).toBeInTheDocument()
+  })
+  it('Should displays errorId', () => {
+    renderComponent(true)
+    expect(screen.findByText('FEL-ID')).toBeInTheDocument()
+  })
+  it('Should not displays errorId', () => {
+    renderComponent(false)
+    expect(screen.findByText('FEL-ID')).not.toBeInTheDocument()
   })
 })

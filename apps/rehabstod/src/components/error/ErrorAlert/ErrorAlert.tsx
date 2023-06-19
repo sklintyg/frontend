@@ -9,11 +9,13 @@ export function ErrorAlert({
   errorType,
   text,
   dynamicLink,
+  includeErrorId,
 }: {
   heading: string
   errorType: 'info' | 'attention' | 'success' | 'error'
   text: string
   dynamicLink: boolean
+  includeErrorId: boolean
 }) {
   const { data: links } = useGetLinksQuery()
   const { errorId } = useAppSelector((state) => state.error)
@@ -25,7 +27,7 @@ export function ErrorAlert({
           {text} {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}
         </p>
       </div>
-      <ErrorIdentifier id={errorId} />
+      {includeErrorId && <ErrorIdentifier id={errorId} />}
     </IDSAlert>
   )
 }

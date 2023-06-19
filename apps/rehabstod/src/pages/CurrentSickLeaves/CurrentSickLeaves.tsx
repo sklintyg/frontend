@@ -20,7 +20,7 @@ import { TableInfo } from './components/TableInfo'
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves, error }] = useLazyGetSickLeavesQuery()
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: activeSickLeavesResponse, error }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
@@ -49,6 +49,13 @@ export function CurrentSickLeaves() {
     return <Outlet />
   }
 
+  function getListLength() {
+    if (activeSickLeavesResponse) {
+      return activeSickLeavesResponse.content.length
+    }
+    return [].length
+  }
+
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <CurrentSickLeavesHeading user={user} />
@@ -63,12 +70,22 @@ export function CurrentSickLeaves() {
         />
       </div>
       <PrintFilters isDoctor={isDoctor} />
+      {activeSickLeavesResponse && activeSickLeavesResponse.unansweredCommunicationError && (
+        <ErrorAlert
+          heading=""
+          errorType="attention"
+          text="Information om ärendekommunikation kan inte hämtas på grund av ett tekniskt fel. Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+          dynamicLink
+          includeErrorId={false}
+        />
+      )}
       {error && (
         <ErrorAlert
           heading="Sjukfall för enheten kunde inte hämtas."
           errorType="error"
           text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
           dynamicLink
+          includeErrorId
         />
       )}
       {!error && (
@@ -81,7 +98,7 @@ export function CurrentSickLeaves() {
                 }}
                 showPersonalInformation={showPersonalInformation}
                 totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
-                listLength={(sickLeaves ?? []).length}
+                listLength={getListLength()}
                 daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
                 daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
               />
@@ -99,7 +116,12 @@ export function CurrentSickLeaves() {
           <Table
             sortColumn={tableState.sortColumn}
             onSortChange={setTableState}
-            print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
+            print={
+              <PrintTable
+                sickLeaves={activeSickLeavesResponse && activeSickLeavesResponse.content}
+                showPersonalInformation={showPersonalInformation}
+              />
+            }
             ascending={tableState.ascending}
           >
             <thead>
@@ -110,7 +132,7 @@ export function CurrentSickLeaves() {
                 isDoctor={isDoctor}
                 isLoading={isLoading}
                 showPersonalInformation={showPersonalInformation}
-                sickLeaves={sickLeaves}
+                sickLeaves={activeSickLeavesResponse && activeSickLeavesResponse.content}
                 unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
               />
             </tbody>

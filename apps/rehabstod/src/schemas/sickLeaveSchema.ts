@@ -59,7 +59,6 @@ export const patientInfoSchema = z.object({
   responseFromPu: puResponseSchema,
   riskSignal: riskSignalSchema,
 })
-
 export const sickLeaveInfoSchema = z.object({
   aktivGrad: z.number(),
   biDiagnoser: z.array(sickLeaveDiagnosisSchema),
@@ -83,6 +82,11 @@ export const sickLeaveInfoSchema = z.object({
   sysselsattning: z.array(z.string()),
   encryptedPatientId: z.string(),
   rekoStatus,
+})
+
+export const activeSickLeavesResponse = z.object({
+  content: z.array(sickLeaveInfoSchema),
+  unansweredCommunicationError: z.boolean(),
 })
 
 export const diagnosKategoriSchema = z.object({
@@ -180,6 +184,7 @@ export type RiskSignal = z.infer<typeof riskSignalSchema>
 export type SickLeaveDiagnosis = z.infer<typeof sickLeaveDiagnosisSchema>
 export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
+export type ActiveSickLeavesResponse = z.infer<typeof activeSickLeavesResponse>
 export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>
 export type GenderSummary = z.infer<typeof genderSummarySchema>
 export type SickLeaveDegreeSummary = z.infer<typeof sickLeaveDegreeSummarySchema>

@@ -5,11 +5,11 @@ import { ErrorData } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
+  ActiveSickLeavesResponse,
   DiagnosKapitel,
   OccupationType,
   RekoStatusType,
   SickLeaveFilter,
-  SickLeaveInfo,
   SickLeaveSummary,
   UnansweredCommunicationFilterType,
 } from '../schemas/sickLeaveSchema'
@@ -91,14 +91,13 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<ActiveSickLeavesResponse, SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
         providesTags: ['SickLeaves'],
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
       providesTags: ['SickLeaves'],
     }),
     getPopulatedFilters: builder.query<

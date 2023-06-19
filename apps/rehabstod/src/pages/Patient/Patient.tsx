@@ -43,6 +43,7 @@ export function Patient() {
             errorType="error"
             text="Information kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
             dynamicLink
+            includeErrorId
           />
         )}
         {currentSickLeaves.length > 0 && (

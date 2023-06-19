@@ -382,7 +382,13 @@ export function Welcome() {
               </IDSButton>
             </form>
           ) : (
-            <ErrorAlert heading="Tekniskt fel" errorType="error" text="Alternativ för testdata kunde inte laddas" dynamicLink={false} />
+            <ErrorAlert
+              heading="Tekniskt fel"
+              errorType="error"
+              text="Alternativ för testdata kunde inte laddas"
+              dynamicLink={false}
+              includeErrorId={false}
+            />
           )}
           <div className="mt-4">{certificateId !== undefined ? <p>{`intygs-Id: ${certificateId}`}</p> : ''}</div>
         </div>
