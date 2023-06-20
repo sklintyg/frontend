@@ -2,7 +2,6 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
-import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../schemas'
 import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -17,6 +16,7 @@ import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableI
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { UnansweredCommunicationError } from '../../components/error/UnansweredCommunicationError/UnansweredCommunicationError'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
+import { GetTableContentError } from '../../components/error/GetTableContentError/GetTableContentError'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -62,14 +62,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {error && (
-        <ErrorAlert
-          heading="Sjukfall för enheten kunde inte hämtas."
-          errorType="error"
-          text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-          dynamicLink
-        />
-      )}
+      {error && <GetTableContentError tableName="sjukfall" />}
       {!error && (
         <div>
           <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationError />}</div>
@@ -111,7 +104,7 @@ export function CurrentSickLeaves() {
                 isLoading={isLoading}
                 showPersonalInformation={showPersonalInformation}
                 sickLeaves={sickLeaves}
-                unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+                user={user}
               />
             </tbody>
           </Table>

@@ -18,6 +18,8 @@ import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { TableRow } from '../../../components/Table/TableRow'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/filter/utils/tableTextGeneratorUtils'
+import { User } from '../../../schemas'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
@@ -84,13 +86,13 @@ export function TableBodyRows({
   isLoading,
   sickLeaves,
   showPersonalInformation,
-  unitId,
+  user,
   isDoctor,
 }: {
   isLoading: boolean
   showPersonalInformation: boolean
   sickLeaves?: SickLeaveInfo[]
-  unitId: string
+  user: User
   isDoctor: boolean
 }) {
   const navigate = useNavigate()
@@ -99,13 +101,10 @@ export function TableBodyRows({
   const { hasAppliedFilters } = useAppSelector((state) => state.sickLeave)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
 
-  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}.`
-  const SEARCH_TEXT_DOCTOR =
-    'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
-  const EMPTY_TEXT_REHABCOORDINATOR = `Det finns inga pågående sjukfall på ${unitId}.`
-  const SEARCH_TEXT_REHABCOORDINATOR =
-    'Tryck på Sök för att visa alla pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av pågående sjukfall.'
-  const EMPTY_TEXT_FILTRATION = 'Inga sjukfall matchade filtreringen.'
+  const TABLE_NAME = 'pågående sjukfall'
+  const EMPTY_TEXT = getEmptyTableText(user, TABLE_NAME)
+  const SEARCH_TEXT = getSearchText(isDoctor, TABLE_NAME)
+  const EMPTY_TEXT_FILTRATION = getEmptyFiltrationText(TABLE_NAME)
 
   const visibleColumns = columns
     .filter(({ visible }) => visible)
@@ -123,7 +122,7 @@ export function TableBodyRows({
   }
 
   if (sickLeaves == null) {
-    return <MaxColspanRow colspan={visibleColumns.length}>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={visibleColumns.length}>{SEARCH_TEXT}</MaxColspanRow>
   }
 
   if (sickLeaves.length === 0) {
@@ -131,7 +130,7 @@ export function TableBodyRows({
       return <MaxColspanRow colspan={visibleColumns.length}>{EMPTY_TEXT_FILTRATION}</MaxColspanRow>
     }
 
-    return <MaxColspanRow colspan={visibleColumns.length}>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
+    return <MaxColspanRow colspan={visibleColumns.length}>{EMPTY_TEXT}</MaxColspanRow>
   }
 
   const navigateToPatient = (id: string) => {

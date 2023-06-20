@@ -41,7 +41,7 @@ export function LUCertificates() {
   const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
 
   const TABLE_NAME = 'läkarutlåtanden'
-  const SEARCH_TABLE_TEXT = getSearchText(isDoctor, tableName, 'Läkarutlåtanden som signerats de senaste tre åren på enheten visas.')
+  const SEARCH_TABLE_TEXT = getSearchText(isDoctor, TABLE_NAME, 'Läkarutlåtanden som signerats de senaste tre åren på enheten visas.')
   const EMPTY_TABLE_TEXT = getEmptyTableText(user, TABLE_NAME)
   const EMPTY_FILTRATION_TEXT = getEmptyFiltrationText(TABLE_NAME)
 
