@@ -92,7 +92,7 @@ export function TableBodyRows({
   isLoading: boolean
   showPersonalInformation: boolean
   sickLeaves?: SickLeaveInfo[]
-  user: User
+  user?: User
   isDoctor: boolean
 }) {
   const navigate = useNavigate()
