@@ -1,9 +1,8 @@
-import { Column } from 'react-stately'
 import { render, screen } from '@testing-library/react'
 import { TableHeader } from './TableHeader'
 import { Table } from './Table'
 
-const columns: Column[] = [
+const columns = [
   { name: 'Personnummer', width: 50 },
   { name: 'Ålder', width: 100, description: 'Namn beskrivning' },
 ]
