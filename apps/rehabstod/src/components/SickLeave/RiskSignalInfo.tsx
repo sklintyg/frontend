@@ -8,12 +8,11 @@ function RiskSignalCircle({ riskCategory, index }: { riskCategory: number; index
   return (
     <span
       data-testid="riskSignalRing"
-      className={classNames(
-        'block h-2.5 w-2.5 rounded-full border border-solid',
-        riskCategory <= index ? 'bg-white' : riskCategory === 3 && 'bg-error-40',
-        riskCategory === 2 && 'bg-error-10',
-        riskCategory === 1 && 'bg-attention-40'
-      )}
+      className={`block h-2.5 w-2.5 rounded-full border border-solid ${
+        riskCategory <= index
+          ? 'bg-white'
+          : classNames(riskCategory === 3 && 'bg-error-40', riskCategory === 2 && 'bg-error-10', riskCategory === 1 && 'bg-attention-40')
+      }`}
     />
   )
 }
