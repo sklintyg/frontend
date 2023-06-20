@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { ReactNode, useEffect } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { SerializedError } from '@reduxjs/toolkit'
 import { User } from '../../schemas'
 import { UnansweredCommunicationError } from '../error/UnansweredCommunicationError/UnansweredCommunicationError'
 import { GetTableContentError } from '../error/GetTableContentError/GetTableContentError'
@@ -24,7 +26,7 @@ export function TableLayout({
   filters: ReactNode
   tableInfo: ReactNode
   modifyTableColumns: ReactNode
-  error: boolean
+  error?: (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
   unansweredCommunicationError?: boolean
   tableName: string
   printable: boolean
@@ -44,7 +46,7 @@ export function TableLayout({
       <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       {filters}
       {error ? (
-        <GetTableContentError tableName={tableName} />
+        <GetTableContentError tableName={tableName} error={error} />
       ) : (
         <div>
           <div className="pb-10">{unansweredCommunicationError && <UnansweredCommunicationError />}</div>

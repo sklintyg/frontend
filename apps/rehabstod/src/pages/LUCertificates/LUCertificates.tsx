@@ -73,7 +73,7 @@ export function LUCertificates() {
         />
       }
       modifyTableColumns={<ModifyLUCertificatesTableColumns />}
-      error={!!error}
+      error={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
     >
       <Table
