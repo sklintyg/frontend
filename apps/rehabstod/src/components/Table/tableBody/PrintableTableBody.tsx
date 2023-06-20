@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { useTableContext } from './hooks/useTableContext'
-import { TableColumn } from '../../schemas/tableSchema'
+import { useTableContext } from '../hooks/useTableContext'
+import { TableColumn } from '../../../schemas/tableSchema'
 
 export function PrintTableBody<T>({
   content,

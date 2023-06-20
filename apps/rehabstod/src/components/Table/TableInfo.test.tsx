@@ -18,7 +18,7 @@ const renderComponent = (showPersonalInformation: boolean, onShowPersonalInforma
 }
 describe('TableInfo', () => {
   it('should render without throwing errors', () => {
-    expect(() => renderComponent()).not.toThrow()
+    expect(() => renderComponent(true)).not.toThrow()
   })
 
   it('should render total number text', () => {

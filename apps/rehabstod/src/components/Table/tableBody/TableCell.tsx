@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { ReactNode } from 'react'
-import { classNames } from '../../utils/classNames'
-import { Tooltip } from '../Tooltip/Tooltip'
-import { TooltipContent } from '../Tooltip/TooltipContent'
-import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
+import { classNames } from '../../../utils/classNames'
+import { Tooltip } from '../../Tooltip/Tooltip'
+import { TooltipContent } from '../../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 
 export function TableCell({
   description,

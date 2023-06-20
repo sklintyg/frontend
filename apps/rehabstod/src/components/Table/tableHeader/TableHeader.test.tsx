@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { TableHeader } from './TableHeader'
-import { Table } from './Table'
+import { Table } from '../Table'
 
 const columns = [
   { name: 'Personnummer', width: 50 },

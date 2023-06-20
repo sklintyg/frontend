@@ -1,8 +1,8 @@
-import { classNames } from '../../utils/classNames'
-import { Tooltip } from '../Tooltip/Tooltip'
-import { TooltipContent } from '../Tooltip/TooltipContent'
-import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
-import { useTableContext } from './hooks/useTableContext'
+import { classNames } from '../../../utils/classNames'
+import { Tooltip } from '../../Tooltip/Tooltip'
+import { TooltipContent } from '../../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
+import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
 export function TableHeaderCell({

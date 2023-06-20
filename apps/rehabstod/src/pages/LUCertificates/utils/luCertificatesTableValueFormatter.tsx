@@ -1,6 +1,6 @@
 import { LUCertificate } from '../../../schemas/luCertificatesSchema'
 import { LUCertificatesColumn } from '../../../store/slices/luCertificatesTableColumns.slice'
-import { TableCell } from '../../../components/Table/TableCell'
+import { TableCell } from '../../../components/Table/tableBody/TableCell'
 import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
 import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'

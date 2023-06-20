@@ -1,4 +1,4 @@
-import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
+import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'

@@ -1,6 +1,6 @@
 import { IDSIconArrow, IDSIconSwap } from '@frontend/ids-react-ts'
-import { classNames } from '../../utils/classNames'
-import { useTableContext } from './hooks/useTableContext'
+import { classNames } from '../../../utils/classNames'
+import { useTableContext } from '../hooks/useTableContext'
 
 export function SortingIcon({ column }: { column: string }) {
   const { ascending, sortColumn } = useTableContext()
