@@ -62,7 +62,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {error && <GetTableContentError tableName="sjukfall" />}
+      {error && <GetTableContentError tableName="sjukfall" error={error} />}
       {!error && (
         <div>
           <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationError />}</div>

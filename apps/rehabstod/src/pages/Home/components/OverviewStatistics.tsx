@@ -33,7 +33,15 @@ export function OverviewStatistics() {
   }
 
   if (error) {
-    return <ErrorAlert heading="Tekniskt fel" errorType="error" text="Översikten för enheten kan inte visas." dynamicLink={false} />
+    return (
+      <ErrorAlert
+        heading="Tekniskt fel"
+        errorType="error"
+        text="Översikten för enheten kan inte visas."
+        dynamicLink={false}
+        error={error}
+      />
+    )
   }
 
   return (

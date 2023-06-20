@@ -22,7 +22,6 @@ export const store = configureStore({
     [patientTableColumnsReducerPath]: patientTableColumnsReducer,
     [luCertificatesColumnsReducerPath]: luCertificatesColumnsReducer,
     [settingsReducerPath]: settingsReducer,
-    [errorReducerPath]: errorReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),
 })

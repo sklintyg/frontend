@@ -49,9 +49,10 @@ export function Welcome() {
     isRevoked,
   } = useAppSelector((state) => state.welcome)
   const dispatch = useAppDispatch()
-  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response, error }] = useCreateDefaultTestDataMutation()
+  const [triggerDefaultTestDataQuery, { isLoading: testDataLoading, data: response, error: createDefaultTestDataError }] =
+    useCreateDefaultTestDataMutation()
   const [triggerCreateSickLeave, { isLoading: createSickLeaveLoading, data: certificateId }] = useCreateSickLeaveMutation()
-  const { data: testDataOptions, isLoading: testDataOptionsLoading } = useGetTestDataOptionsQuery()
+  const { data: testDataOptions, isLoading: testDataOptionsLoading, error: testDataOptionsError } = useGetTestDataOptionsQuery()
   const { isLoading, fakeLogins } = useWelcome()
 
   useEffect(() => {
@@ -96,7 +97,7 @@ export function Welcome() {
     })
   }
 
-  if (error) {
+  if (createDefaultTestDataError) {
     return (
       <div>
         <IDSAlert />
@@ -191,7 +192,7 @@ export function Welcome() {
           <div className="mb-7">
             <IDSCard fill>Fyll i uppgifter nedan och tryck på knappen *Skapa* för att skapa ett sjukfall på vald patient.</IDSCard>
           </div>
-          {testDataOptions ? (
+          {testDataOptions && (
             <form id="createSickLeaveForm" onSubmit={createSickleave}>
               <label className="mt-12" htmlFor="careProviderId">
                 Vårdgivare
@@ -381,8 +382,15 @@ export function Welcome() {
                 {isLoading ? 'Sending...' : 'Skapa'}
               </IDSButton>
             </form>
-          ) : (
-            <ErrorAlert heading="Tekniskt fel" errorType="error" text="Alternativ för testdata kunde inte laddas" dynamicLink={false} />
+          )}
+          {testDataOptionsError && (
+            <ErrorAlert
+              heading="Tekniskt fel"
+              errorType="error"
+              text="Alternativ för testdata kunde inte laddas"
+              error={testDataOptionsError}
+              dynamicLink={false}
+            />
           )}
           <div className="mt-4">{certificateId !== undefined ? <p>{`intygs-Id: ${certificateId}`}</p> : ''}</div>
         </div>
