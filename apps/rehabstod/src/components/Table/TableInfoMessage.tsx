@@ -17,13 +17,13 @@ export function TableInfoMessage<T>({
   tableLength: number
   tableName: string
   suffix?: string
-  user: User
+  user?: User
   content: T[] | null
   hasAppliedFilters: boolean
 }) {
   const getContent = () => {
     if (isLoading) {
-      return <IDSSpinner />
+      return <IDSSpinner data-testid="spinner" />
     }
 
     if (content === null) {

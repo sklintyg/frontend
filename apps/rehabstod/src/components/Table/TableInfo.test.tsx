@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { TableInfo } from './TableInfo'
 
-const renderComponent = (showPersonalInformation: boolean, onShowPersonalInformationChange: () => void) => {
+const renderComponent = (showPersonalInformation: boolean, onShowPersonalInformationChange?: () => void) => {
   render(
     <TableInfo
       listLength={10}
