@@ -11,6 +11,7 @@ import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
 import { server } from '../../../mocks/server'
+import { fakeUser } from '../../../utils/fake/fakeUser'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
@@ -27,7 +28,7 @@ describe('Change focus', () => {
             isLoading={false}
             showPersonalInformation
             sickLeaves={Array.from({ length: 2 }, fakerFromSchema(sickLeaveInfoSchema))}
-            unitId="Alfa Vårdenhet"
+            user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
             isDoctor={false}
           />
         </tbody>
@@ -77,7 +78,7 @@ describe('Navigate', () => {
                   isLoading={false}
                   showPersonalInformation
                   sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]}
-                  unitId="Alfa Vårdenhet"
+                  user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
                   isDoctor={false}
                 />
               </tbody>
@@ -176,7 +177,13 @@ it('Should be possible to hide columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+        <TableBodyRows
+          sickLeaves={sickLeaves}
+          isLoading={false}
+          showPersonalInformation
+          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
+          isDoctor={false}
+        />
       </tbody>
     </Table>
   )
