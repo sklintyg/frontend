@@ -1,12 +1,13 @@
 import { filterTableColumns } from './filterTableColumns'
+import { TableColumn } from '../../../schemas/tableSchema'
 
-const columns = [
-  { name: 'Personnummer', visible: true },
-  { name: 'Namn', visible: true },
-  { name: 'Diagnos', visible: true },
-  { name: 'Risk', visible: true },
-  { name: 'Läkare', visible: true },
-  { name: 'NotVisible', visible: false },
+const columns: TableColumn[] = [
+  { name: 'Personnummer', visible: true, disabled: false, index: 0 },
+  { name: 'Namn', visible: true, disabled: false, index: 1 },
+  { name: 'Diagnos', visible: true, disabled: false, index: 2 },
+  { name: 'Risk', visible: true, disabled: false, index: 3 },
+  { name: 'Läkare', visible: true, disabled: false, index: 4 },
+  { name: 'NotVisible', visible: false, disabled: false, index: 5 },
 ]
 
 describe('filterTableColumns', () => {

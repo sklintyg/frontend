@@ -11,7 +11,7 @@ const renderComponent = (user: User, suffix?: string) => {
 
 describe('TableHeadingForUnit', () => {
   it('should render without throwing error', () => {
-    expect(() => renderComponent()).not.toThrow()
+    expect(() => renderComponent(fakeUser())).not.toThrow()
   })
 
   it('should show title for doctor', () => {

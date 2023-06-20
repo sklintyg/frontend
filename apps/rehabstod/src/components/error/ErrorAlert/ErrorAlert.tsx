@@ -29,7 +29,7 @@ export function ErrorAlert({
           {text} {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}
         </p>
       </div>
-      {!hideErrorId && error.id && <ErrorIdentifier id={error.id} />}
+      {!hideErrorId && error && error.id && <ErrorIdentifier id={error.id} />}
     </IDSAlert>
   )
 }
