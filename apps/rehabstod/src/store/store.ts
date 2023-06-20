@@ -7,7 +7,6 @@ import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice'
 import { sickLeaveTableColumnsReducer, sickLeaveTableColumnsReducerPath } from './slices/sickLeaveTableColumns.slice'
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
-import { errorReducer, errorReducerPath } from './slices/error.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificates.slice'
 import { luCertificatesColumnsReducer, luCertificatesColumnsReducerPath } from './slices/luCertificatesTableColumns.slice'
 
