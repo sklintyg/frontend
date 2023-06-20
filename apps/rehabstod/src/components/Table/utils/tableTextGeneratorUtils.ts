@@ -1,5 +1,5 @@
-import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { User } from '../../../../schemas'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
+import { User } from '../../../schemas'
 
 export const getSearchText = (isDoctor: boolean, tableName: string, suffix?: string) =>
   `Tryck på Sök för att visa ${

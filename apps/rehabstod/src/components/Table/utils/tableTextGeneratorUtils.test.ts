@@ -5,8 +5,8 @@ import {
   getTableErrorDescription,
   getTableErrorTitle,
 } from './tableTextGeneratorUtils'
-import { fakeUser } from '../../../../utils/fake/fakeUser'
-import { UserUrval } from '../../../../schemas'
+import { fakeUser } from '../../../utils/fake/fakeUser'
+import { UserUrval } from '../../../schemas'
 
 describe('Table text generator utils', () => {
   describe('getEmptyFiltrationText', () => {

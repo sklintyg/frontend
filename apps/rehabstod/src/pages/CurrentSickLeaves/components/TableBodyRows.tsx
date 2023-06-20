@@ -18,7 +18,7 @@ import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { TableRow } from '../../../components/Table/TableRow'
-import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/filter/utils/tableTextGeneratorUtils'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/utils/tableTextGeneratorUtils'
 import { User } from '../../../schemas'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {

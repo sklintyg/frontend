@@ -21,7 +21,7 @@ import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../components/Table/filter/utils/tableTextGeneratorUtils'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../components/Table/utils/tableTextGeneratorUtils'
 
 export function LUCertificates() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()

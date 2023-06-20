@@ -1,5 +1,5 @@
 import { ErrorAlert } from '../ErrorAlert/ErrorAlert'
-import { getTableErrorDescription, getTableErrorTitle } from '../../Table/filter/utils/tableTextGeneratorUtils'
+import { getTableErrorDescription, getTableErrorTitle } from '../../Table/utils/tableTextGeneratorUtils'
 
 export function GetTableContentError({ tableName }: { tableName: string }) {
   return <ErrorAlert heading={getTableErrorTitle(tableName)} errorType="error" text={getTableErrorDescription(tableName)} dynamicLink />
