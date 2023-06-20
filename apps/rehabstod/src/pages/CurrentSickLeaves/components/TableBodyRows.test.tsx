@@ -124,7 +124,13 @@ it('Should render all sickleave columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+        <TableBodyRows
+          sickLeaves={sickLeaves}
+          isLoading={false}
+          showPersonalInformation
+          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
+          isDoctor={false}
+        />
       </tbody>
     </Table>
   )
@@ -138,7 +144,13 @@ it('Should render all but doctor column if user is doctor', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor />
+        <TableBodyRows
+          sickLeaves={sickLeaves}
+          isLoading={false}
+          showPersonalInformation
+          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
+          isDoctor
+        />
       </tbody>
     </Table>
   )
@@ -163,7 +175,13 @@ it('Should render risk column if feature is activated', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+        <TableBodyRows
+          sickLeaves={sickLeaves}
+          isLoading={false}
+          showPersonalInformation
+          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
+          isDoctor={false}
+        />
       </tbody>
     </Table>
   )
