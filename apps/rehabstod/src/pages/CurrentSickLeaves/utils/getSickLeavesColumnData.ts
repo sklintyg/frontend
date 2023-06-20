@@ -1,4 +1,3 @@
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
@@ -33,7 +32,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Risk:
       return sickLeave.riskSignal ? sickLeave.riskSignal.riskKategori : 0
     case SickLeaveColumn.Ärenden:
-      return getUnansweredCommunicationsFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)
+      return sickLeave.obesvaradeKompl + sickLeave.unansweredOther
     default:
       return undefined
   }

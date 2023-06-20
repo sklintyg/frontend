@@ -1,44 +1,32 @@
-import _ from 'lodash'
 import { RiskSignal } from '../../schemas/sickLeaveSchema'
+import { classNames } from '../../utils/classNames'
 import { Tooltip } from '../Tooltip/Tooltip'
-import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { TooltipContent } from '../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 
-export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
-  if (!riskSignal) {
-    return null
-  }
-  const getColor = (riskCategory: number | null, index: number) => {
-    if (!riskCategory) {
-      return ''
-    }
+function RiskSignalCircle({ riskCategory, index }: { riskCategory: number; index: number }) {
+  return (
+    <span
+      data-testid="riskSignalRing"
+      className={classNames(
+        'block h-2.5 w-2.5 rounded-full border border-solid',
+        riskCategory <= index ? 'bg-white' : riskCategory === 3 && 'bg-error-40',
+        riskCategory === 2 && 'bg-error-10',
+        riskCategory === 1 && 'bg-attention-40'
+      )}
+    />
+  )
+}
 
-    if (riskCategory <= index) {
-      return 'bg-white'
-    }
-
-    if (riskCategory === 3) {
-      return 'bg-error-40'
-    }
-
-    if (riskCategory === 2) {
-      return 'bg-error-10'
-    }
-
-    return 'bg-attention-40'
-  }
-
+export function RiskSignalInfo({ riskKategori, riskDescription }: RiskSignal) {
   return (
     <Tooltip>
       <TooltipTrigger>
-        {riskSignal.riskKategori && riskSignal.riskKategori > 0 ? (
+        {riskKategori != null && riskKategori > 0 ? (
           <div className="flex">
-            {_.range(0, 3).map((i) => (
-              <span
-                data-testid="riskSignalRing"
-                className={`block h-2.5 w-2.5 rounded-full border border-solid ${getColor(riskSignal.riskKategori, i)}`}
-                key={`riskSignal-${i}`}
-              />
+            {Array.from({ length: 3 }).map((_, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <RiskSignalCircle key={i} riskCategory={riskKategori} index={i} />
             ))}
           </div>
         ) : (
@@ -48,7 +36,7 @@ export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
         )}
       </TooltipTrigger>
       <TooltipContent>
-        <span className="rounded-none">{riskSignal.riskDescription}</span>
+        <span className="rounded-none">{riskDescription}</span>
       </TooltipContent>
     </Tooltip>
   )

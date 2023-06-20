@@ -71,7 +71,7 @@ export const sickLeaveInfoSchema = z.object({
   nyligenAvslutat: z.boolean(),
   obesvaradeKompl: z.number(),
   patient: patientInfoSchema,
-  riskSignal: riskSignalSchema,
+  riskSignal: z.nullable(riskSignalSchema),
   slut: z.string(),
   slutOmDagar: z.string(),
   start: z.string(),
