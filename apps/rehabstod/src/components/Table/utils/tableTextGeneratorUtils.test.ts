@@ -44,13 +44,13 @@ describe('Table text generator utils', () => {
   describe('getErrorTableDescription', () => {
     it('should return text with table name', () => {
       expect(getTableErrorDescription('sjukfall')).toEqual(
-        'Enhetens sjukfall kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
+        'Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
       )
     })
 
     it('should return text with table name including Swedish chars', () => {
       expect(getTableErrorDescription('läkarutlåtanden')).toEqual(
-        'Enhetens läkarutlåtanden kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
+        'Läkarutlåtanden för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
       )
     })
   })
