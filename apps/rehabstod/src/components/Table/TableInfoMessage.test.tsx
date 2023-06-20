@@ -6,7 +6,7 @@ import { fakeUser } from '../../utils/fake/fakeUser'
 const user = fakeUser({ urval: '' })
 const TABLE_NAME = 'pågående sjukfall'
 
-const renderComponent = (isLoading: boolean, hasAppliedFilters: boolean, content: { name }[]) => {
+const renderComponent = (isLoading: boolean, hasAppliedFilters: boolean, content: { name: string }[] | null) => {
   render(
     <TableInfoMessage
       isLoading={isLoading}
