@@ -1,20 +1,23 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { MaxColspanRow } from './MaxColspanRow'
+import { User } from '../../schemas'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
+import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function TableInfoMessage<T>({
   isLoading,
   tableLength,
-  searchText,
-  emptyTableFromFiltrationText,
-  emptyTableText,
+  tableName,
+  suffix,
+  user,
   content,
   hasAppliedFilters,
 }: {
   isLoading: boolean
   tableLength: number
-  searchText: string
-  emptyTableFromFiltrationText: string
-  emptyTableText: string
+  tableName: string
+  suffix?: string
+  user: User
   content: T[] | null
   hasAppliedFilters: boolean
 }) {
@@ -24,11 +27,11 @@ export function TableInfoMessage<T>({
     }
 
     if (content === null) {
-      return searchText
+      return getSearchText(isUserDoctor(user), tableName, suffix)
     }
 
     if (content.length === 0) {
-      return hasAppliedFilters ? emptyTableFromFiltrationText : emptyTableText
+      return hasAppliedFilters ? getEmptyFiltrationText(tableName) : getEmptyTableText(user, tableName)
     }
 
     return null

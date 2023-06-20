@@ -21,7 +21,6 @@ import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../components/Table/utils/tableTextGeneratorUtils'
 
 export function LUCertificates() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -41,9 +40,6 @@ export function LUCertificates() {
   const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
 
   const TABLE_NAME = 'läkarutlåtanden'
-  const SEARCH_TABLE_TEXT = getSearchText(isDoctor, TABLE_NAME, 'Läkarutlåtanden som signerats de senaste tre åren på enheten visas.')
-  const EMPTY_TABLE_TEXT = getEmptyTableText(user, TABLE_NAME)
-  const EMPTY_FILTRATION_TEXT = getEmptyFiltrationText(TABLE_NAME)
 
   const navigateToPatient = (id: string) => {
     navigate(`/pagaende-sjukfall/${id}`)
@@ -94,9 +90,9 @@ export function LUCertificates() {
         <TableInfoMessage
           isLoading={isContentLoading}
           tableLength={visibleColumns.length}
-          searchText={SEARCH_TABLE_TEXT}
-          emptyTableFromFiltrationText={EMPTY_FILTRATION_TEXT}
-          emptyTableText={EMPTY_TABLE_TEXT}
+          tableName={TABLE_NAME}
+          suffix="Läkarutlåtanden som signerats de senaste tre åren på enheten visas."
+          user={user}
           content={luCertificatesInfo ? luCertificatesInfo.certificates : null}
           hasAppliedFilters={hasAppliedFilters}
         />
