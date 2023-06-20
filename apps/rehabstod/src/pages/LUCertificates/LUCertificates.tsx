@@ -21,6 +21,7 @@ import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../components/Table/filter/utils/tableTextGeneratorUtils'
 
 export function LUCertificates() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -39,11 +40,10 @@ export function LUCertificates() {
   const isDoctor = user ? isUserDoctor(user) : false
   const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
 
-  const SEARCH_TABLE_TEXT = `Tryck på Sök för att visa ${
-    isDoctor ? 'alla dina' : 'alla'
-  }  läkarutlåtanden för enheten, eller ange filterval och tryck på Sök för att visa urval av läkarutlåtanden. \nLäkarutlåtanden som signerats de senaste tre åren på enheten visas.`
-  const EMPTY_TABLE_TEXT = `${isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på ${user?.valdVardenhet?.namn}.`
-  const EMPTY_FILTRATION_TEXT = 'Inga läkarutlåtanden matchade filtreringen.'
+  const TABLE_NAME = 'läkarutlåtanden'
+  const SEARCH_TABLE_TEXT = getSearchText(isDoctor, tableName, 'Läkarutlåtanden som signerats de senaste tre åren på enheten visas.')
+  const EMPTY_TABLE_TEXT = getEmptyTableText(user, TABLE_NAME)
+  const EMPTY_FILTRATION_TEXT = getEmptyFiltrationText(TABLE_NAME)
 
   const navigateToPatient = (id: string) => {
     navigate(`/pagaende-sjukfall/${id}`)
@@ -59,9 +59,10 @@ export function LUCertificates() {
   return (
     <TableLayout
       printable
+      tableName={TABLE_NAME}
       isUserLoading={userLoading}
       user={user}
-      heading={<TableHeadingForUnit tableName="läkarutlåtanden" suffix="senaste tre åren" user={user} />}
+      heading={<TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />}
       filters={<LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />}
       tableInfo={
         <TableInfo
@@ -74,8 +75,6 @@ export function LUCertificates() {
       modifyTableColumns={<ModifyLUCertificatesTableColumns />}
       error={!!error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
-      errorTitle="Läkarutlåtanden för enheten kunde inte hämtas."
-      errorText="Enhetens läkarutlåtanden kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand "
     >
       <Table
         sortColumn={tableState.sortColumn}

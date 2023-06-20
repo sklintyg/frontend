@@ -12,7 +12,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       </IDSButton>
       {expanded && (
         <div>
-          {children}
+          <div className="grid grid-cols-3 gap-x-10 gap-y-7">{children}</div>
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex print:hidden" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>

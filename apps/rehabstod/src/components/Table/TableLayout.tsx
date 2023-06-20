@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { ReactNode, useEffect } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { User } from '../../schemas'
-import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
 import { UnansweredCommunicationError } from '../error/UnansweredCommunicationError/UnansweredCommunicationError'
+import { GetTableContentError } from '../error/GetTableContentError/GetTableContentError'
 
 export function TableLayout({
   isUserLoading,
@@ -14,9 +14,8 @@ export function TableLayout({
   modifyTableColumns,
   error,
   unansweredCommunicationError,
-  errorTitle,
-  errorText,
   printable,
+  tableName,
   children,
 }: {
   isUserLoading: boolean
@@ -27,8 +26,7 @@ export function TableLayout({
   modifyTableColumns: ReactNode
   error: boolean
   unansweredCommunicationError?: boolean
-  errorTitle: string
-  errorText: string
+  tableName: string
   printable: boolean
   children: ReactNode
 }) {
@@ -45,8 +43,9 @@ export function TableLayout({
       {heading}
       <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       {filters}
-      {error && <ErrorAlert heading={errorTitle} errorType="error" text={errorText} dynamicLink />}
-      {!error && (
+      {error ? (
+        <GetTableContentError tableName={tableName} />
+      ) : (
         <div>
           <div className="pb-10">{unansweredCommunicationError && <UnansweredCommunicationError />}</div>
           <div className="flex">

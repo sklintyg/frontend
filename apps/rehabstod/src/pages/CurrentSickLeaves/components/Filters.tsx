@@ -45,84 +45,82 @@ export function Filters({
 
   return (
     <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
-      <div className="grid grid-cols-3 gap-x-10 gap-y-7">
-        <DiagnosisFilter
-          onChange={onDiagnosesChange}
-          allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
-          enabledDiagnoses={(populatedFilters && populatedFilters.enabledDiagnosisChapters) || []}
-          selected={filter.diagnosisChapters}
-          description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
+      <DiagnosisFilter
+        onChange={onDiagnosesChange}
+        allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
+        enabledDiagnoses={(populatedFilters && populatedFilters.enabledDiagnosisChapters) || []}
+        selected={filter.diagnosisChapters}
+        description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
+      />
+      {!isDoctor && (
+        <DoctorFilter
+          onChange={onDoctorChange}
+          doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
+          selected={filter ? filter.doctorIds : []}
+          description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
         />
-        {!isDoctor && (
-          <DoctorFilter
-            onChange={onDoctorChange}
-            doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
-            selected={filter ? filter.doctorIds : []}
-            description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
-          />
-        )}
-        <TextSearchFilter
-          title="Fritextsökning"
-          description="Filtrerar på all synlig text och personnummer i tabellen"
-          onTextSearchChange={onTextSearchChange}
-          placeholder="Hitta sjukfall som innehåller..."
-          textValue={filter.textSearch}
-        />
-        <RangeFilter
-          title="Åldersspann"
-          description="Filtrerar på patientens nuvarande ålder."
-          onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
-          onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
-          to={filter.toPatientAge.toString()}
-          from={filter.fromPatientAge.toString()}
-          max="150"
-          min="1"
-        />
-        <TimePeriodFilter
-          label="Sjukskrivningslängd"
-          description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-          onChange={onSickLeaveLengthIntervalsChange}
-          availableOptions={sickLeaveLengthIntervals}
-          selectedOptions={filter.sickLeaveLengthIntervals}
-        />
-        <MultipleSelectFilterOption
-          label="REKO-status"
-          onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
-          options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
-          selected={filter.rekoStatusTypeIds}
-          description="Filtrerar på den REKO-status som satts för patienten."
-          placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
-        />
-        <SelectFilter
-          onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
-          options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
-          description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
-          label="Ärendestatus"
-          value={filter.unansweredCommunicationFilterTypeId}
-        />
-        <MultipleSelectFilterOption
-          label="Sysselsättning"
-          onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
-          options={populatedFilters ? populatedFilters.occupationTypes : []}
-          selected={filter.occupationTypeIds}
-          description="Filtrerar på patientens sysselsättning."
-          placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
-        />
-        <DateRangeFilter
-          fromDate={filter.fromSickLeaveEndDate}
-          toDate={filter.toSickLeaveEndDate}
-          onChange={(value) => {
-            dispatch(
-              updateFilter({
-                fromSickLeaveEndDate: value && value.start ? value.start.toString() : null,
-                toSickLeaveEndDate: value && value.end ? value.end.toString() : null,
-              })
-            )
-          }}
-          label="Slutdatum"
-          description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
-        />
-      </div>
+      )}
+      <TextSearchFilter
+        title="Fritextsökning"
+        description="Filtrerar på all synlig text och personnummer i tabellen"
+        onTextSearchChange={onTextSearchChange}
+        placeholder="Hitta sjukfall som innehåller..."
+        textValue={filter.textSearch}
+      />
+      <RangeFilter
+        title="Åldersspann"
+        description="Filtrerar på patientens nuvarande ålder."
+        onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
+        onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
+        to={filter.toPatientAge.toString()}
+        from={filter.fromPatientAge.toString()}
+        max="150"
+        min="1"
+      />
+      <TimePeriodFilter
+        label="Sjukskrivningslängd"
+        description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+        onChange={onSickLeaveLengthIntervalsChange}
+        availableOptions={sickLeaveLengthIntervals}
+        selectedOptions={filter.sickLeaveLengthIntervals}
+      />
+      <MultipleSelectFilterOption
+        label="REKO-status"
+        onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
+        options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+        selected={filter.rekoStatusTypeIds}
+        description="Filtrerar på den REKO-status som satts för patienten."
+        placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+      />
+      <SelectFilter
+        onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
+        options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
+        description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
+        label="Ärendestatus"
+        value={filter.unansweredCommunicationFilterTypeId}
+      />
+      <MultipleSelectFilterOption
+        label="Sysselsättning"
+        onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
+        options={populatedFilters ? populatedFilters.occupationTypes : []}
+        selected={filter.occupationTypeIds}
+        description="Filtrerar på patientens sysselsättning."
+        placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
+      />
+      <DateRangeFilter
+        fromDate={filter.fromSickLeaveEndDate}
+        toDate={filter.toSickLeaveEndDate}
+        onChange={(value) => {
+          dispatch(
+            updateFilter({
+              fromSickLeaveEndDate: value && value.start ? value.start.toString() : null,
+              toSickLeaveEndDate: value && value.end ? value.end.toString() : null,
+            })
+          )
+        }}
+        label="Slutdatum"
+        description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
+      />
     </TableFilter>
   )
 }
