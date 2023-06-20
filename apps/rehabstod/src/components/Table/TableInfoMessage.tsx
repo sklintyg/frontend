@@ -27,7 +27,7 @@ export function TableInfoMessage<T>({
     }
 
     if (content === null) {
-      return getSearchText(isUserDoctor(user), tableName, suffix)
+      return user ? getSearchText(isUserDoctor(user), tableName, suffix) : ''
     }
 
     if (content.length === 0) {
