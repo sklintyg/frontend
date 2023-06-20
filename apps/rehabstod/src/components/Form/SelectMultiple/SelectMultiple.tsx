@@ -10,21 +10,19 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { IDSCheckboxGroup, IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
-import { classNames } from '../../utils/classNames'
-import { hasNoChildren } from '../../utils/hasNoChildren'
-import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
-import { Input } from './Input'
+import { classNames } from '../../../utils/classNames'
+import { hasNoChildren } from '../../../utils/hasNoChildren'
+import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
+import { Input } from '../Input'
 
 export function SelectMultiple({
-  actions,
   children,
   description,
   label,
   placeholder,
 }: {
-  actions?: ReactNode
   children: ReactNode
   description: string
   label: string
@@ -57,8 +55,6 @@ export function SelectMultiple({
   if (hasNoChildren(children)) {
     return null
   }
-
-  const hasActions = !hasNoChildren(actions)
 
   return (
     <div>
@@ -102,14 +98,15 @@ export function SelectMultiple({
               }}
               {...getFloatingProps()}
             >
-              <div className="relative max-h-96 overflow-auto py-1">
+              {children}
+              {/* <div className="relative max-h-96 overflow-auto py-1">
                 <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
               </div>
               {hasActions && (
                 <div className="pt-2">
                   <div className="border-neutral-90 flex grow items-center border-t pt-3">{actions}</div>
                 </div>
-              )}
+              )} */}
             </div>
           </FloatingFocusManager>
         </FloatingPortal>

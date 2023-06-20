@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
+import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
 import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
 import {
+  PatientColumn,
   hideColumn,
   moveColumn,
-  PatientColumn,
   setColumnDefaults,
   showAllColumns,
   showColumn,

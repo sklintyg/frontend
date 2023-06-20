@@ -1,5 +1,6 @@
 import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
+import { SelectMultiple } from '../../../../components/Form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../../../components/Form/SelectMultiple/SelectMultipleList'
 import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric, TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from '../../utils/getSickLeaveLengthPlaceholder'
@@ -50,14 +51,16 @@ export function TimePeriodFilter({
 
   return (
     <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
-      {availableOptions.map((option) => (
-        <Checkbox
-          key={`${option.to}${option.from}${option.id}`}
-          label={getSickLeaveLengthLabel(option)}
-          onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
-          checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
-        />
-      ))}
+      <SelectMultipleList>
+        {availableOptions.map((option) => (
+          <Checkbox
+            key={`${option.to}${option.from}${option.id}`}
+            label={getSickLeaveLengthLabel(option)}
+            onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
+            checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
+          />
+        ))}
+      </SelectMultipleList>
     </SelectMultiple>
   )
 }

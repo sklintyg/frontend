@@ -1,5 +1,6 @@
 import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
+import { SelectMultiple } from '../../../../components/Form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../../../components/Form/SelectMultiple/SelectMultipleList'
 import { Lakare } from '../../../../schemas/lakareSchema'
 import { getDoctorsPlaceholder } from '../../utils/getDoctorsPlaceholder'
 
@@ -28,18 +29,20 @@ export function DoctorFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
-        {doctors
-          ? doctors.map((doctor) => (
+      {doctors && (
+        <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
+          <SelectMultipleList>
+            {doctors.map((doctor) => (
               <Checkbox
                 key={doctor.hsaId}
                 checked={selected.some((id) => id === doctor.hsaId)}
                 label={doctor.namn}
                 onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
               />
-            ))
-          : null}
-      </SelectMultiple>
+            ))}
+          </SelectMultipleList>
+        </SelectMultiple>
+      )}
     </div>
   )
 }

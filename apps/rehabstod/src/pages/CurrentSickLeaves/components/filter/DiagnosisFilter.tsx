@@ -1,5 +1,6 @@
 import { Checkbox } from '../../../../components/Form/Checkbox'
-import { SelectMultiple } from '../../../../components/Form/SelectMultiple'
+import { SelectMultiple } from '../../../../components/Form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../../../components/Form/SelectMultiple/SelectMultipleList'
 import { DiagnosKapitel } from '../../../../schemas/sickLeaveSchema'
 import { getDiagnosisPlaceholder } from '../../utils/getDiagnosisPlaceholder'
 
@@ -30,9 +31,10 @@ export function DiagnosisFilter({
 
   return (
     <div className="flex-1">
-      <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
-        {allDiagnoses
-          ? allDiagnoses.map((diagnosis) => (
+      {allDiagnoses && (
+        <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
+          <SelectMultipleList>
+            {allDiagnoses.map((diagnosis) => (
               <Checkbox
                 key={diagnosis.id ?? diagnosis.name}
                 disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
@@ -40,9 +42,10 @@ export function DiagnosisFilter({
                 label={diagnosis.id ? `${diagnosis.id}: ${diagnosis.name}` : diagnosis.name}
                 onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
               />
-            ))
-          : null}
-      </SelectMultiple>
+            ))}
+          </SelectMultipleList>
+        </SelectMultiple>
+      )}
     </div>
   )
 }

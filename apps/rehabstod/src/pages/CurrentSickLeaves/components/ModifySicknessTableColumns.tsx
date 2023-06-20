@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
+import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
 import { allSickLeaveColumns, sickLeaveColumnsString } from '../../../store/slices/sickLeaveTableColumns.selector'
