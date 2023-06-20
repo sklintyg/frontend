@@ -1,4 +1,4 @@
-import { IDSButton, IDSColumn, IDSIconExternal, IDSRow } from '@frontend/ids-react-ts'
+import { IDSButton, IDSIconExternal } from '@frontend/ids-react-ts'
 import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -64,13 +64,10 @@ function PatientTableCellResolver({
               onClick={() => {
                 navigateToWebcert(certificate.intygsId)
               }}
+              className="whitespace-nowrap"
             >
-              <IDSRow align="center">
-                <IDSColumn cols="auto">Visa </IDSColumn>
-                <IDSColumn cols="auto" className="ml-2">
-                  <IDSIconExternal height="16" width="100%" />
-                </IDSColumn>
-              </IDSRow>
+              Visa
+              <IDSIconExternal height="16" width="16" className="ml-2 inline align-middle" />
             </IDSButton>
           )}
         </TableCell>
