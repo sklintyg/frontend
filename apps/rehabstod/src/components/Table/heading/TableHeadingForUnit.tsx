@@ -7,9 +7,9 @@ export function TableHeadingForUnit({ user, tableName, suffix }: { user?: User; 
 
   return (
     <TableHeading
-      title={`${prefix} ${tableName} ${suffix}`}
+      title={`${prefix} ${tableName} ${suffix || ''}`}
       subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-      printTitle={`${prefix} ${tableName} på ${user && user.valdVardenhet ? user.valdVardenhet.namn : ''} ${suffix}`}
+      printTitle={`${prefix} ${tableName} på ${user && user.valdVardenhet ? user.valdVardenhet.namn : ''} ${suffix || ''}`}
     />
   )
 }

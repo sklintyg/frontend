@@ -1,4 +1,4 @@
-import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
+import { TimePeriodMetric, TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
 
 export const getSickLeaveLengthLabel = ({ from, to, metric }: TimePeriodOption) => {
   const label = metric === TimePeriodMetric.DAYS ? 'dagar' : 'år'

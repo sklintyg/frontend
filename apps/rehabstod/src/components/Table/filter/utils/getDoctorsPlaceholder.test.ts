@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { lakareSchema } from '../../../schemas/lakareSchema'
+import { lakareSchema } from '../../../../schemas/lakareSchema'
 import { getDoctorsPlaceholder } from './getDoctorsPlaceholder'
 
 it('Should return Alla valda if nothing is selected', () => {

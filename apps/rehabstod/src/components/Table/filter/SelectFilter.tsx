@@ -2,6 +2,7 @@ import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
 import { useId } from 'react'
 import { Select } from '../../Form/Select'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function SelectFilter({
   onChange,
@@ -37,7 +38,7 @@ export function SelectFilter({
         </IDSSelect>
       </div>
       <div className="hidden print:block">
-        <p className="font-bold">{label}:</p>
+        <PrintFilterTitle title={label} />
         {chosenOption ? chosenOption.name : '-'}
       </div>
     </>

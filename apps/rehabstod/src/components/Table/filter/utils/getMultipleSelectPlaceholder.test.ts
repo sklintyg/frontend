@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { occupationType } from '../../../schemas/sickLeaveSchema'
+import { occupationType } from '../../../../schemas/sickLeaveSchema'
 import { getMultipleSelectPlaceholder } from './getMultipleSelectPlaceholder'
 
 it('Should return Alla valda if nothing is selected', () => {

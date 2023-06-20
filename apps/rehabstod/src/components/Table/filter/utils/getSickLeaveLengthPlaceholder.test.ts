@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { TimePeriodMetric, timePeriodOptionSchema } from '../../../schemas/timePeriodOptionSchema'
+import { TimePeriodMetric, timePeriodOptionSchema } from '../../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthPlaceholder } from './getSickLeaveLengthPlaceholder'
 
 it('Should return Alla valda if nothing is selected', () => {

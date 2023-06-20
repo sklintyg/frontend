@@ -2,11 +2,9 @@ import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
-import {
-  getSickLeaveLengthLabel,
-  getSickLeaveLengthPlaceholder,
-} from '../../../pages/CurrentSickLeaves/utils/getSickLeaveLengthPlaceholder'
-import { convertSelectedValue } from '../../../pages/CurrentSickLeaves/utils/timePeriodConversion'
+import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from './utils/getSickLeaveLengthPlaceholder'
+import { convertSelectedValue } from './utils/timePeriodConversion'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function TimePeriodFilter({
   label,
@@ -66,7 +64,7 @@ export function TimePeriodFilter({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <p className="font-bold">Sjukskrivningslängd: </p>
+        <PrintFilterTitle title={label} />
         {selectedOptions.length === 0
           ? 'Alla valda'
           : availableOptions

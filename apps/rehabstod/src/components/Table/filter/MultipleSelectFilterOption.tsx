@@ -1,6 +1,7 @@
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 import { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function MultipleSelectFilterOption({
   onChange,
@@ -46,7 +47,7 @@ export function MultipleSelectFilterOption({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <p className="font-bold">{label}: </p>
+        <PrintFilterTitle title={label} />
         {selected.length === 0
           ? 'Alla valda'
           : options.filter((type) => selected.find((id) => type.id === id)).map((type) => `${type.name}\n`)}

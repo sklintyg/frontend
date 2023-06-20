@@ -1,4 +1,4 @@
-import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import { DiagnosKapitel } from '../../../../schemas/diagnosisSchema'
 
 export const getDiagnosisPlaceholder = (selected: DiagnosKapitel[]) => {
   if (selected.length === 0 || !selected) {

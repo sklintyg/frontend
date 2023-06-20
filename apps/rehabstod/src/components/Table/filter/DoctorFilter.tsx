@@ -1,7 +1,8 @@
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 import { Lakare } from '../../../schemas/lakareSchema'
-import { getDoctorsPlaceholder } from '../../../pages/CurrentSickLeaves/utils/getDoctorsPlaceholder'
+import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function DoctorFilter({
   onChange,
@@ -14,6 +15,8 @@ export function DoctorFilter({
   selected: string[]
   description: string
 }) {
+  const LABEL = 'Läkare'
+
   const handleOnChange = (doctorId: string, isAdded: boolean) => {
     let doctorIds
     if (isAdded) {
@@ -29,7 +32,7 @@ export function DoctorFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple label="Läkare" description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
+        <SelectMultiple label={LABEL} description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
           {doctors
             ? doctors.map((doctor) => (
                 <Checkbox
@@ -43,7 +46,7 @@ export function DoctorFilter({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <p className="font-bold">Läkare: </p>
+        <PrintFilterTitle title={LABEL} />
         {selected.length === 0
           ? 'Alla valda'
           : doctors.filter((doctor) => selected.find((id) => doctor.hsaId === id)).map((doctor) => `${doctor.namn}\n`)}

@@ -1,7 +1,8 @@
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
-import { getDiagnosisPlaceholder } from '../../../pages/CurrentSickLeaves/utils/getDiagnosisPlaceholder'
+import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function DiagnosisFilter({
   onChange,
@@ -46,7 +47,7 @@ export function DiagnosisFilter({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <p className="font-bold">Diagnos/er: </p>
+        <PrintFilterTitle title="Diagnos/er" />
         {selected.length === 0 ? 'Alla valda' : selected.map((diagnosisChapter) => `${diagnosisChapter.id}: ${diagnosisChapter.name}\n`)}
       </div>
     </>

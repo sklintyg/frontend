@@ -1,6 +1,6 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { getDiagnosisPlaceholder } from './getDiagnosisPlaceholder'
-import { diagnosKapitelSchema } from '../../../schemas/diagnosisSchema'
+import { diagnosKapitelSchema } from '../../../../schemas/diagnosisSchema'
 
 it('Should return Alla valda when nothing is selected', () => {
   expect(getDiagnosisPlaceholder([])).toBe('Alla valda')

@@ -8,7 +8,6 @@ import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
-import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { PrintTable } from './components/PrintTable'
@@ -17,6 +16,7 @@ import { TableHeaderRow } from './components/TableHeaderRow'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { UnansweredCommunicationError } from '../../components/error/UnansweredCommunicationError/UnansweredCommunicationError'
+import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -53,7 +53,7 @@ export function CurrentSickLeaves() {
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-      <CurrentSickLeavesHeading user={user} />
+      <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
       <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}

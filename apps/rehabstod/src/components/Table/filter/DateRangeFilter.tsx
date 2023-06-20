@@ -1,6 +1,7 @@
 import { parseDate } from '@internationalized/date'
 import { AriaDateRangePickerProps, DateValue } from 'react-aria'
 import { DateRangePicker } from '../../Form/Date/DateRangePicker/DateRangePicker'
+import { PrintFilterTitle } from './print/PrintFilterTitle'
 
 export function DateRangeFilter({
   fromDate,
@@ -29,7 +30,7 @@ export function DateRangeFilter({
         />
       </div>
       <div className="hidden print:block">
-        <p className="font-bold">{label}:</p>
+        <PrintFilterTitle title={label} />
         {fromDate} - {toDate}
       </div>
     </>
