@@ -1,18 +1,18 @@
-import { ReactNode } from 'react'
+import React from 'react'
 import { useTableContext } from '../hooks/useTableContext'
 import { TableColumn } from '../../../schemas/tableSchema'
 
 export function PrintTableBody<T>({
   content,
   tableValueExtractor,
-  tableCellExtractor,
+  TableCellResolverComponent,
   columns,
   keyIndex,
 }: {
   content: T[]
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
-  tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
   columns: TableColumn[]
+  TableCellResolverComponent: React.Component
   keyIndex: keyof T
 }) {
   const { sortTableList } = useTableContext()
@@ -25,7 +25,7 @@ export function PrintTableBody<T>({
             columns.map(({ name }) => (
               <div key={name} className="flex gap-1">
                 <div className="w-5/12 font-bold">{name}:</div>
-                {tableCellExtractor(name, item)}
+                <TableCellResolverComponent column={name} data={item} />
               </div>
             ))}
         </div>

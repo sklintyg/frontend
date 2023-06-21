@@ -14,13 +14,14 @@ import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTable
 import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
 import { TableBody } from '../../components/Table/tableBody/TableBody'
-import { getLUCertificatesId, getLUCertificatesTableCell, getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { getLUCertificatesId, getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { PrintTableBody } from '../../components/Table/tableBody/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
 
 export function LUCertificates() {
   const { data: user } = useGetUserQuery()
@@ -78,7 +79,7 @@ export function LUCertificates() {
           <PrintTableBody
             content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
             tableValueExtractor={getLUCertificatesTableValue}
-            tableCellExtractor={getLUCertificatesTableCell}
+            TableCellResolverComponent={LUCertificatesTableCellResolver}
             columns={visibleColumns}
             keyIndex="patient"
           />
@@ -97,10 +98,10 @@ export function LUCertificates() {
         <TableBody
           content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
           tableValueExtractor={getLUCertificatesTableValue}
-          tableCellExtractor={getLUCertificatesTableCell}
           tableIdExtractor={getLUCertificatesId}
           columns={visibleColumns}
           onTableRowClick={(id) => navigateToPatient(id)}
+          TableCellResolverComponent={LUCertificatesTableCellResolver}
         />
       </Table>
     </TableLayout>

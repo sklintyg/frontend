@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React from 'react'
 import { useTableContext } from '../hooks/useTableContext'
 import { TableRow } from './TableRow'
 import { TableColumn } from '../../../schemas/tableSchema'
@@ -7,18 +7,18 @@ export function TableBody<T>({
   content,
   isItalic,
   tableValueExtractor,
-  tableCellExtractor,
   tableIdExtractor,
   onTableRowClick,
   columns,
+  TableCellResolverComponent,
 }: {
   content: T[]
   isItalic?: <S extends T>(data: S) => boolean
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
-  tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
   tableIdExtractor: <S extends T>(data: S) => string
   onTableRowClick: (key: string) => void
   columns: TableColumn[]
+  TableCellResolverComponent: React.Component
 }) {
   const { sortTableList } = useTableContext()
 
@@ -34,7 +34,9 @@ export function TableBody<T>({
               onNavigate={onTableRowClick}
               focusable
             >
-              {columns.map(({ name }) => tableCellExtractor(name, item))}
+              {columns.map(({ name }) => (
+                <TableCellResolverComponent key={tableIdExtractor(item)} column={name} data={item} />
+              ))}
             </TableRow>
           )
       )}
