@@ -93,7 +93,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortTableList(certificates, getCertificateColumnData).map(
         (certificate) =>
           columns.length > 0 && (
-            <tr key={`${certificate.intygsId}`} className={user?.valdVardenhet?.id !== certificate.vardenhetId ? 'italic' : ''}>
+            <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare ? 'italic' : ''}>
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
