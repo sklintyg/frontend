@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTableContext } from '../hooks/useTableContext'
 import { TableRow } from './TableRow'
 import { TableColumn } from '../../../schemas/tableSchema'
