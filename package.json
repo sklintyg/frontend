@@ -53,5 +53,10 @@
     "not dead",
     "not op_mini all",
     "ie 11"
-  ]
+  ],
+  "pnpm": {
+    "overrides": {
+      "intl-messageformat": "10.3.5"
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
+import { parseDate } from '@internationalized/date'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { DateRangePicker } from '../../../components/Form/Date/DateRangePicker/DateRangePicker'
 import { DiagnosKapitel, SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
@@ -26,6 +28,10 @@ export function Filters({
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
+  const sickLeaveRange =
+    filter.fromSickLeaveEndDate && filter.toSickLeaveEndDate
+      ? { start: parseDate(filter.fromSickLeaveEndDate), end: parseDate(filter.toSickLeaveEndDate) }
+      : null
   const dispatch = useDispatch()
 
   const onSickLeaveLengthIntervalsChange = (intervals: SickLeaveLengthInterval[]) => {
@@ -51,7 +57,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-x-10 gap-y-7">
             <DiagnosisFilter
               onChange={onDiagnosesChange}
               allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
@@ -67,30 +73,6 @@ export function Filters({
                 description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
               />
             )}
-            <TextSearchFilter
-              title="Fritextsökning"
-              description="Filtrerar på all synlig text och personnummer i tabellen"
-              onTextSearchChange={onTextSearchChange}
-              placeholder="Hitta sjukfall som innehåller..."
-              textValue={filter.textSearch}
-            />
-            <RangeFilter
-              title="Åldersspann"
-              description="Filtrerar på patientens nuvarande ålder."
-              onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
-              onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
-              to={filter.toPatientAge.toString()}
-              from={filter.fromPatientAge.toString()}
-              max="150"
-              min="1"
-            />
-            <TimePeriodFilter
-              label="Sjukskrivningslängd"
-              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
-              onChange={onSickLeaveLengthIntervalsChange}
-              availableOptions={sickLeaveLengthIntervals}
-              selectedOptions={filter.sickLeaveLengthIntervals}
-            />
             <MultipleSelectFilterOption
               label="REKO-status"
               onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
@@ -102,8 +84,33 @@ export function Filters({
             <SelectFilter
               onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
               options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
+              value={filter.unansweredCommunicationFilterTypeId}
               description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
               label="Ärendestatus"
+            />
+            <TextSearchFilter
+              title="Fritextsökning"
+              description="Filtrerar på all synlig text och personnummer i tabellen"
+              onTextSearchChange={onTextSearchChange}
+              placeholder="Hitta sjukfall som innehåller..."
+              textValue={filter.textSearch}
+            />
+            <TimePeriodFilter
+              label="Sjukskrivningslängd"
+              description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+              onChange={onSickLeaveLengthIntervalsChange}
+              availableOptions={sickLeaveLengthIntervals}
+              selectedOptions={filter.sickLeaveLengthIntervals}
+            />
+            <RangeFilter
+              title="Åldersspann"
+              description="Filtrerar på patientens nuvarande ålder."
+              onFromChange={(value) => dispatch(updateFilter({ fromPatientAge: Number(value) }))}
+              onToChange={(value) => dispatch(updateFilter({ toPatientAge: Number(value) }))}
+              to={filter.toPatientAge.toString()}
+              from={filter.fromPatientAge.toString()}
+              max="150"
+              min="1"
             />
             <MultipleSelectFilterOption
               label="Sysselsättning"
@@ -113,6 +120,21 @@ export function Filters({
               description="Filtrerar på patientens sysselsättning."
               placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
             />
+            <div>
+              <DateRangePicker
+                value={sickLeaveRange}
+                onChange={(value) => {
+                  dispatch(
+                    updateFilter({
+                      fromSickLeaveEndDate: value ? value.start.toString() : null,
+                      toSickLeaveEndDate: value ? value.end.toString() : null,
+                    })
+                  )
+                }}
+                label="Slutdatum"
+                description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
+              />
+            </div>
           </div>
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>

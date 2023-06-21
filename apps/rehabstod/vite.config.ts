@@ -41,7 +41,7 @@ export default ({ mode }: UserConfig) => {
       environment: 'jsdom',
       setupFiles: ['src/setupTests.ts'],
       deps: {
-        inline: ['@inera/ids-core'],
+        inline: ['@inera/ids-core', 'handy-scroll'],
       },
       coverage: {
         reporter: ['text', 'json', 'lcov'],

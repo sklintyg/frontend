@@ -68,6 +68,7 @@ export function CurrentSickLeaves() {
           heading="Sjukfall för enheten kunde inte hämtas."
           errorType="error"
           text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+          error={error}
           dynamicLink
         />
       )}
