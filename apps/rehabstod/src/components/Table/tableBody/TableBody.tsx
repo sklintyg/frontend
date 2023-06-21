@@ -8,17 +8,17 @@ export function TableBody<T>({
   isItalic,
   tableValueExtractor,
   tableCellExtractor,
+  tableIdExtractor,
   onTableRowClick,
   columns,
-  keyIndex,
 }: {
   content: T[]
   isItalic?: <S extends T>(data: S) => boolean
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
   tableCellExtractor: <S extends T>(column: string, data: S) => ReactNode
+  tableIdExtractor: <S extends T>(data: S) => string
   onTableRowClick: (key: string) => void
   columns: TableColumn[]
-  keyIndex: keyof T
 }) {
   const { sortTableList } = useTableContext()
 
@@ -28,9 +28,9 @@ export function TableBody<T>({
         (item) =>
           columns.length > 0 && (
             <TableRow
-              key={item[keyIndex] as string}
+              key={tableIdExtractor(item)}
               italic={isItalic ? isItalic(item) : false}
-              id={item[keyIndex] as string}
+              id={tableIdExtractor(item)}
               onNavigate={onTableRowClick}
               focusable
             >

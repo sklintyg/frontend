@@ -14,7 +14,7 @@ import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTable
 import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
 import { TableBody } from '../../components/Table/tableBody/TableBody'
-import { getLUCertificatesTableCell, getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { getLUCertificatesId, getLUCertificatesTableCell, getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
@@ -98,9 +98,9 @@ export function LUCertificates() {
           content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
           tableValueExtractor={getLUCertificatesTableValue}
           tableCellExtractor={getLUCertificatesTableCell}
+          tableIdExtractor={getLUCertificatesId}
           columns={visibleColumns}
-          keyIndex="patient"
-          onTableRowClick={(id) => navigateToPatient(id)} // TODO: this should be switched to encrypted patient id
+          onTableRowClick={(id) => navigateToPatient(id)}
         />
       </Table>
     </TableLayout>
