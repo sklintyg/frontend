@@ -82,9 +82,9 @@ export function LUCertificates() {
           <PrintTableBody
             content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
             tableValueExtractor={getLUCertificatesTableValue}
+            tableIdExtractor={getLUCertificatesId}
             TableCellResolverComponent={LUCertificatesTableCellResolver}
             columns={visibleColumns}
-            keyIndex="patient"
           />
         }
       >
