@@ -18,7 +18,7 @@ export function TableBody<T>({
   tableIdExtractor: <S extends T>(data: S) => string
   onTableRowClick: (key: string) => void
   columns: TableColumn[]
-  TableCellResolverComponent: React.Component<{ column: string; data: T }>
+  TableCellResolverComponent: <S extends T>({ column, data }: { column: string; data: S }) => JSX.Element
 }) {
   const { sortTableList } = useTableContext()
 
