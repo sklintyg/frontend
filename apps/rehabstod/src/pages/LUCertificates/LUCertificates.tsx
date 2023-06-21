@@ -22,6 +22,7 @@ import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableCol
 import { PrintTableBody } from '../../components/Table/tableBody/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
+import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
 
 export function LUCertificates() {
   const { data: user } = useGetUserQuery()
@@ -52,6 +53,8 @@ export function LUCertificates() {
     },
     [dispatch]
   )
+
+  useNavigateToStartPage()
 
   return (
     <TableLayout

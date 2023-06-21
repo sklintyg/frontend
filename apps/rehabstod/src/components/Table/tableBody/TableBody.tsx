@@ -18,12 +18,12 @@ export function TableBody<T>({
   tableIdExtractor: <S extends T>(data: S) => string
   onTableRowClick: (key: string) => void
   columns: TableColumn[]
-  TableCellResolverComponent: React.Component
+  TableCellResolverComponent: React.Component<{ column: string; data: T }>
 }) {
   const { sortTableList } = useTableContext()
 
   return (
-    <>
+    <tbody>
       {sortTableList(content, tableValueExtractor).map(
         (item) =>
           columns.length > 0 && (
@@ -40,6 +40,6 @@ export function TableBody<T>({
             </TableRow>
           )
       )}
-    </>
+    </tbody>
   )
 }

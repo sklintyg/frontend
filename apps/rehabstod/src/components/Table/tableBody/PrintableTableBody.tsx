@@ -18,7 +18,7 @@ export function PrintTableBody<T>({
   const { sortTableList } = useTableContext()
 
   return (
-    <div className="hidden print:block">
+    <tbody className="hidden print:block">
       {sortTableList(content, tableValueExtractor).map((item) => (
         <div key={item[keyIndex] as string} className="border-neutral-40 -mb-px columns-3 break-inside-avoid gap-2 border p-4">
           {columns.length > 0 &&
@@ -30,6 +30,6 @@ export function PrintTableBody<T>({
             ))}
         </div>
       ))}
-    </div>
+    </tbody>
   )
 }
