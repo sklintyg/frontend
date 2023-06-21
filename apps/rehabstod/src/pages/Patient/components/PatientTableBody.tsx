@@ -30,12 +30,10 @@ function PatientTableCellResolver({
   column,
   list,
   certificate,
-  belongsToOtherUnit,
 }: {
   column: string
   list: PatientSjukfallIntyg[]
   certificate: PatientSjukfallIntyg
-  belongsToOtherUnit: boolean
 }) {
   const { navigateToWebcert } = usePatient()
   switch (column) {
@@ -56,7 +54,7 @@ function PatientTableCellResolver({
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
-          {belongsToOtherUnit ? (
+          {certificate.otherVardgivare ? (
             <OtherUnitInformation />
           ) : (
             <IDSButton
@@ -97,13 +95,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
                 .map(({ name }) => (
-                  <PatientTableCellResolver
-                    key={name}
-                    column={name}
-                    certificate={certificate}
-                    belongsToOtherUnit={user?.valdVardenhet?.id !== certificate.vardenhetId}
-                    list={certificates}
-                  />
+                  <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
                 ))}
             </tr>
           )
