@@ -23,7 +23,7 @@ import { PrintTableBody } from '../../components/Table/tableBody/PrintableTableB
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 
 export function LUCertificates() {
-  const { isLoading: userLoading, data: user } = useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const [triggerGetLUCertificates, { isLoading: isContentLoading, data: luCertificatesInfo, error }] = useLazyGetLUCertificatesQuery()
   const allColumns = useAppSelector(allLuCertificatesColumns)
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
@@ -56,8 +56,6 @@ export function LUCertificates() {
     <TableLayout
       printable
       tableName={TABLE_NAME}
-      isUserLoading={userLoading}
-      user={user}
       heading={<TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />}
       filters={<LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />}
       tableInfo={
@@ -69,7 +67,7 @@ export function LUCertificates() {
         />
       }
       modifyTableColumns={<ModifyLUCertificatesTableColumns />}
-      error={error}
+      tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
     >
       <Table

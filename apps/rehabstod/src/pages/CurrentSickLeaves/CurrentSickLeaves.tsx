@@ -14,9 +14,9 @@ import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { UnansweredCommunicationError } from '../../components/error/UnansweredCommunicationError/UnansweredCommunicationError'
+import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
-import { GetTableContentError } from '../../components/error/GetTableContentError/GetTableContentError'
+import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -62,10 +62,10 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {error && <GetTableContentError tableName="sjukfall" error={error} />}
+      {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
-          <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationError />}</div>
+          <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationAlert />}</div>
           <div className="flex">
             <div className="w-full">
               <CurrentSickLeavesTableInfo

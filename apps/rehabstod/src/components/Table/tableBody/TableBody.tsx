@@ -31,7 +31,8 @@ export function TableBody<T>({
               key={item[keyIndex] as string}
               italic={isItalic ? isItalic(item) : false}
               id={item[keyIndex] as string}
-              onClick={onTableRowClick}
+              onNavigate={onTableRowClick}
+              focusable
             >
               {columns.map(({ name }) => tableCellExtractor(name, item))}
             </TableRow>

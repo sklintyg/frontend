@@ -6,6 +6,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
 
   return (
     <>
+      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4 print:hidden">
         <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}

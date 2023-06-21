@@ -1,10 +1,4 @@
-import {
-  getEmptyFiltrationText,
-  getEmptyTableText,
-  getSearchText,
-  getTableErrorDescription,
-  getTableErrorTitle,
-} from './tableTextGeneratorUtils'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './tableTextGeneratorUtils'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { UserUrval } from '../../../schemas'
 
@@ -28,30 +22,6 @@ describe('Table text generator utils', () => {
     it('should return text for reko', () => {
       const user = fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsNamn' } })
       expect(getEmptyTableText(user, 'läkarutlåtanden')).toEqual('Det finns inga läkarutlåtanden på enhetsNamn.')
-    })
-  })
-
-  describe('getErrorTableTitle', () => {
-    it('should return title with table name', () => {
-      expect(getTableErrorTitle('sjukfall')).toEqual('Sjukfall för enheten kunde inte hämtas.')
-    })
-
-    it('should return title with table name including Swedish chars', () => {
-      expect(getTableErrorTitle('läkarutlåtanden')).toEqual('Läkarutlåtanden för enheten kunde inte hämtas.')
-    })
-  })
-
-  describe('getErrorTableDescription', () => {
-    it('should return text with table name', () => {
-      expect(getTableErrorDescription('sjukfall')).toEqual(
-        'Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
-      )
-    })
-
-    it('should return text with table name including Swedish chars', () => {
-      expect(getTableErrorDescription('läkarutlåtanden')).toEqual(
-        'Läkarutlåtanden för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand '
-      )
     })
   })
 

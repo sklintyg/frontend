@@ -145,8 +145,9 @@ export function TableBodyRows({
             <TableRow
               key={sickLeave.patient.id}
               italic={isDateBeforeToday(sickLeave.slut)}
-              onClick={(key) => navigateToPatient(key)}
+              onNavigate={(key) => navigateToPatient(key)}
               id={sickLeave.encryptedPatientId}
+              focusable
             >
               {visibleColumns.map(({ name }) => (
                 <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />

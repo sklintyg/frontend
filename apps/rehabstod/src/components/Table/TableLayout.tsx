@@ -1,64 +1,48 @@
-import { useNavigate } from 'react-router-dom'
-import { ReactNode, useEffect } from 'react'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { ReactNode } from 'react'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { SerializedError } from '@reduxjs/toolkit'
-import { User } from '../../schemas'
-import { UnansweredCommunicationError } from '../error/UnansweredCommunicationError/UnansweredCommunicationError'
-import { GetTableContentError } from '../error/GetTableContentError/GetTableContentError'
+import { UnansweredCommunicationAlert } from '../error/ErrorAlert/UnansweredCommunicationAlert'
+import { TableContentAlert } from '../error/ErrorAlert/TableContentAlert'
+import { PrintButton } from '../PrintButton/PrintButton'
+import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
 
 export function TableLayout({
-  isUserLoading,
-  user,
   heading,
   filters,
   tableInfo,
   modifyTableColumns,
-  error,
+  tableContentError,
   unansweredCommunicationError,
   printable,
   tableName,
   children,
 }: {
-  isUserLoading: boolean
-  user: User | undefined
   heading: ReactNode
   filters: ReactNode
   tableInfo: ReactNode
   modifyTableColumns: ReactNode
-  error?: (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
+  tableContentError?: (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
   unansweredCommunicationError?: boolean
   tableName: string
   printable: boolean
   children: ReactNode
 }) {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      navigate('/')
-    }
-  }, [user, isUserLoading, navigate])
+  useNavigateToStartPage()
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       {heading}
-      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       {filters}
-      {error ? (
-        <GetTableContentError tableName={tableName} error={error} />
+      {tableContentError ? (
+        <TableContentAlert tableName={tableName} error={tableContentError} />
       ) : (
         <div>
-          <div className="pb-10">{unansweredCommunicationError && <UnansweredCommunicationError />}</div>
+          <div className="pb-10">{unansweredCommunicationError && <UnansweredCommunicationAlert />}</div>
           <div className="flex">
             <div className="w-full">{tableInfo}</div>
             <div className="mb-5 flex items-end gap-3 print:hidden">
               <div className="w-96">{modifyTableColumns}</div>
-              {printable && (
-                <IDSButton onClick={() => window.print()} className="mb-3 whitespace-nowrap">
-                  Skriv ut
-                </IDSButton>
-              )}
+              {printable && <PrintButton />}
             </div>
           </div>
           {children}
