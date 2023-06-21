@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTableContext } from '../hooks/useTableContext'
 import { TableColumn } from '../../../schemas/tableSchema'
 
@@ -13,7 +12,7 @@ export function PrintTableBody<T>({
   tableValueExtractor: <S extends T>(column: string, data: S) => unknown
   tableIdExtractor: <S extends T>(data: S) => string
   columns: TableColumn[]
-  TableCellResolverComponent: React.Component
+  TableCellResolverComponent: <S extends T>({ column, data }: { column: string; data: S }) => JSX.Element
 }) {
   const { sortTableList } = useTableContext()
 
