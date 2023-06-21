@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts/dist'
+import { IDSButton } from '@frontend/ids-react-ts'
 
 export function PrintButton() {
   return (
