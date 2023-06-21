@@ -32,7 +32,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Risk:
       return sickLeave.riskSignal ? sickLeave.riskSignal.riskKategori : 0
     case SickLeaveColumn.Ärenden:
-      return sickLeave.obesvaradeKompl + sickLeave.unansweredOther
+      return sickLeave.unansweredOther + sickLeave.obesvaradeKompl
     default:
       return undefined
   }
