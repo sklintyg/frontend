@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { LUCertificatesFilters } from './LUCertificatesFilters'
-import { TableLayout } from '../../components/Table/TableLayout'
+import { TablePageLayout } from '../../components/Table/TablePageLayout'
 import { reset } from '../../store/slices/luCertificates.slice'
 import { Table } from '../../components/Table/Table'
 import { LUCertificatesColumn } from '../../store/slices/luCertificatesTableColumns.slice'
@@ -57,7 +57,7 @@ export function LUCertificates() {
   useNavigateToStartPage()
 
   return (
-    <TableLayout
+    <TablePageLayout
       printable
       tableName={TABLE_NAME}
       heading={<TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />}
@@ -107,6 +107,6 @@ export function LUCertificates() {
           TableCellResolverComponent={LUCertificatesTableCellResolver}
         />
       </Table>
-    </TableLayout>
+    </TablePageLayout>
   )
 }

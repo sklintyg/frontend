@@ -4,8 +4,9 @@ import { SerializedError } from '@reduxjs/toolkit'
 import { UnansweredCommunicationAlert } from '../error/ErrorAlert/UnansweredCommunicationAlert'
 import { TableContentAlert } from '../error/ErrorAlert/TableContentAlert'
 import { PrintButton } from '../PrintButton/PrintButton'
+import { PageContainer } from '../PageContainer/PageContainer'
 
-export function TableLayout({
+export function TablePageLayout({
   heading,
   filters,
   tableInfo,
@@ -27,7 +28,7 @@ export function TableLayout({
   children: ReactNode
 }) {
   return (
-    <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
+    <PageContainer>
       {heading}
       {filters}
       {tableContentError ? (
@@ -45,6 +46,6 @@ export function TableLayout({
           {children}
         </div>
       )}
-    </div>
+    </PageContainer>
   )
 }
