@@ -6,7 +6,7 @@ import { Table } from '../../../components/Table/Table'
 import { server } from '../../../mocks/server'
 import { patientSjukfallIntygSchema } from '../../../schemas/patientSchema'
 import { api } from '../../../store/api'
-import { PatientColumn, hideColumn } from '../../../store/slices/patientTableColumns.slice'
+import { hideColumn, PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { store } from '../../../store/store'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
@@ -73,7 +73,7 @@ it('Should be possible to hide columns', async () => {
 
 it('Should not display visa button for other units', () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
-  const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ vardgivareId: 'other' }))
+  const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardgivare: true }))
   renderWithRouter(
     <ComponentWrapper>
       <PatientTableBody certificates={certificates} isDoctor />
