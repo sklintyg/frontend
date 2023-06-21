@@ -6,8 +6,8 @@ export enum LUCertificatesColumn {
   Namn = 'Namn',
   Kön = 'Kön',
   Intyg = 'Intyg',
-  Signeringsdatum = 'Signeringsdatum',
   Diagnos = 'Diagnos/er',
+  Signeringsdatum = 'Signeringsdatum',
   Ärenden = 'Ärenden',
   Läkare = 'Läkare',
 }
