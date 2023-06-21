@@ -26,5 +26,5 @@ export const getLUCertificatesTableValue = (column: string, data: LUCertificate)
   }
 }
 
-export const getLUCertificatesId = (data: LUCertificate) => data.patient.id
+export const getLUCertificatesId = (data: LUCertificate) => data.certificateId
 // TODO: this should be switched to encrypted patient id
