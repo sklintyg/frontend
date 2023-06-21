@@ -22,7 +22,7 @@ export function TableBody<T>({
   const { sortTableList } = useTableContext()
 
   return (
-    <tbody>
+    <tbody className="whitespace-normal break-words">
       {sortTableList(content, tableValueExtractor).map(
         (item) =>
           columns.length > 0 && (
