@@ -49,9 +49,3 @@ export const getLUCertificatesTableCell = (column: string, data: LUCertificate) 
       return <TableCell>{getLUCertificatesTableValue(column, data)}</TableCell>
   }
 }
-
-/* export function TableValueResolver<T>({ column, data }: { column: string; data: T }) {}
-
-export function LUTableValueResolver<extends TableValueResolver>({column, data} : {column: string, data: LUCertificate}) {
-
-} */
