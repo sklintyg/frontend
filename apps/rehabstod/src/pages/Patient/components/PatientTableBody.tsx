@@ -8,12 +8,14 @@ import { Tooltip } from '../../../components/Tooltip/Tooltip'
 import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
-import { useGetUserQuery } from '../../../store/api'
+import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
+import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function OtherUnitInformation() {
   return (
@@ -51,6 +53,12 @@ function PatientTableCellResolver({
           <SickLeaveDegreeInfo degrees={certificate.grader} />
         </TableCell>
       )
+    case PatientColumn.Risk:
+      return (
+        <TableCell>
+          <RiskSignalInfo riskSignal={certificate.riskSignal} />
+        </TableCell>
+      )
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
@@ -84,7 +92,8 @@ function PatientTableCellResolver({
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
-  const { data: user } = useGetUserQuery()
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(certificates, getCertificateColumnData).map(
@@ -94,6 +103,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
+                .filter(({ name }) => !(!populatedFilters?.srsActivated && name === PatientColumn.Risk))
                 .map(({ name }) => (
                   <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
                 ))}

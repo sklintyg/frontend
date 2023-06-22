@@ -2,6 +2,8 @@ import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { useGetPopulatedFiltersQuery } from '../../../store/api'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
   switch (column) {
@@ -27,6 +29,8 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
       return <TableHeaderCell column={column} width="120px" />
     case PatientColumn.Vårdgivare:
       return <TableHeaderCell column={column} width="120px" />
+    case SickLeaveColumn.Risk:
+      return <TableHeaderCell column={column} width="150px" />
     case PatientColumn.Intyg:
       return <TableHeaderCell column={column} width="80px" sticky="right" />
     default:
@@ -36,6 +40,8 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
 
 export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
   const columns = useAppSelector(allPatientColumns)
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+
   return (
     <thead>
       {columns.length > 0 && (
@@ -43,6 +49,7 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
           {columns
             .filter(({ visible: checked }) => checked)
             .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
+            .filter(({ name }) => !(!populatedFilters?.srsActivated && name === PatientColumn.Risk))
             .map(({ name }) => (
               <PatientTableHeaderResolver key={name} column={name} />
             ))}
