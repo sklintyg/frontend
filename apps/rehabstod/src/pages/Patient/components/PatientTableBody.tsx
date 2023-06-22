@@ -54,7 +54,7 @@ function PatientTableCellResolver({
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">
-          {certificate.otherVardgivare ? (
+          {certificate.otherVardgivare || certificate.otherVardenhet ? (
             <OtherUnitInformation />
           ) : (
             <IDSButton
@@ -90,7 +90,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortTableList(certificates, getCertificateColumnData).map(
         (certificate) =>
           columns.length > 0 && (
-            <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare ? 'italic' : ''}>
+            <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare || certificate.otherVardenhet ? 'italic' : ''}>
               {columns
                 .filter(({ visible }) => visible)
                 .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
