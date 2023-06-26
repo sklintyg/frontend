@@ -14,7 +14,7 @@ import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInf
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
 import { LUCertificatesTableBody } from './LUCertificatesTableBody'
 import { isUserDoctor } from '../../utils/isUserDoctor'
-import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
+import { filterHiddenColumns, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
@@ -34,7 +34,13 @@ export function LUCertificates() {
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
-  const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
+  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true, undefined, [
+    LUCertificatesColumn.Visa,
+    LUCertificatesColumn.Vårdgivare,
+    LUCertificatesColumn.Vårdenhet,
+    LUCertificatesColumn.Index,
+  ])
+  const visibleColumns = filterHiddenColumns(filteredColumns)
 
   const TABLE_NAME = 'läkarutlåtanden'
 
@@ -61,7 +67,7 @@ export function LUCertificates() {
           onShowPersonalInformationChange={(checked) => dispatch(updateShowPersonalInformation(checked))}
         />
       }
-      modifyTableColumns={<ModifyLUCertificatesTableColumns />}
+      modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} preferenceKey="lakarutlatandeUnitTableColumns" />}
       tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
     >

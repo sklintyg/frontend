@@ -1,5 +1,6 @@
 import { IDSTab, IDSTabs, IDSTabPanel } from '@frontend/ids-react-ts'
-import { PatientSickLeaves } from './components/patientSickLeaves/PatientSickLeaves'
+import { PatientSickLeaves } from './patientSickLeaves/PatientSickLeaves'
+import { PatientLuTable } from './patientLU/PatientLuTable'
 
 export function PatientTabs() {
   return (
@@ -10,7 +11,7 @@ export function PatientTabs() {
         <PatientSickLeaves />
       </IDSTabPanel>
       <IDSTabPanel>
-        <p>Alla läkarutlåtanden</p>
+        <PatientLuTable />
       </IDSTabPanel>
     </IDSTabs>
   )

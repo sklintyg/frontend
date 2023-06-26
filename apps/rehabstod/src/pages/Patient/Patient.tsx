@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query'
-import { PatientTabs } from './PatientTabs'
+import { PatientTabs } from './components/PatientTabs'
 import { PatientHeader } from './components/PatientHeader'
 import { PatientErrorHeader } from './components/PatientErrorHeader'
 import { OpenTabsDialog } from './components/OpenTabsDialog'

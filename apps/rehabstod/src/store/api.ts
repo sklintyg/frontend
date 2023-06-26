@@ -28,7 +28,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient', 'LUCertificates'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient', 'LUCertificates', 'LUCertificatesPatient'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -141,6 +141,14 @@ export const api = createApi({
         body: encryptedPatientId,
       }),
       providesTags: ['SickLeavePatient'],
+    }),
+    getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { personId: string }>({
+      query: (request) => ({
+        url: 'certificate/lu/person',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['LUCertificatesPatient'],
     }),
     createDefaultTestData: builder.mutation<string, void>({
       query: () => ({
@@ -262,6 +270,7 @@ export const {
   useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
+  useGetLUCertificatesForPatientQuery,
   useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
   useGetTestDataOptionsQuery,
