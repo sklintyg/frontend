@@ -1,8 +1,4 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
-import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
 import {
   hideColumn,
   moveColumn,
@@ -10,9 +6,13 @@ import {
   setColumnDefaults,
   showAllColumns,
   showColumn,
-} from '../../../store/slices/patientTableColumns.slice'
-import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
-import { isUserDoctor } from '../../../utils/isUserDoctor'
+} from '../../../../store/slices/patientTableColumns.slice'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../../store/hooks'
+import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../../store/api'
+import { allPatientColumns, patientColumnsString } from '../../../../store/slices/patientTableColumns.selector'
+import { ModifyTableColumns } from '../../../../components/Table/ModifyTableColumns'
+import { isUserDoctor } from '../../../../utils/isUserDoctor'
+import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
 
 export function ModifyPatientTableColumns() {
   const dispatch = useAppDispatch()

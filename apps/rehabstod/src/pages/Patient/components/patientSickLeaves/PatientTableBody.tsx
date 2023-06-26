@@ -1,20 +1,18 @@
 import { IDSButton, IDSIconExternal } from '@frontend/ids-react-ts'
-import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
-
-import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { TableCell } from '../../../components/Table/tableBody/TableCell'
-import { useTableContext } from '../../../components/Table/hooks/useTableContext'
-import { Tooltip } from '../../../components/Tooltip/Tooltip'
-import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
-import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
-import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
-import { useGetUserQuery } from '../../../store/api'
-import { useAppSelector } from '../../../store/hooks'
-import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
-import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { usePatient } from '../hooks/usePatient'
-import { getCertificateColumnData } from '../utils/getCertificateColumnData'
+import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
+import { usePatient } from '../../hooks/usePatient'
+import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
+import { TableCell } from '../../../../components/Table/tableBody/TableCell'
+import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
+import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
+import { useAppSelector } from '../../../../store/hooks'
+import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
+import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
+import { Tooltip } from '../../../../components/Tooltip/Tooltip'
+import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
+import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
 
 function OtherUnitInformation() {
   return (
@@ -85,7 +83,7 @@ function PatientTableCellResolver({
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
-  const { data: user } = useGetUserQuery()
+
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(certificates, getCertificateColumnData).map(
