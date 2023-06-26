@@ -21,11 +21,12 @@ export function SelectRekoStatus({
     statusFromSickLeave && statusFromSickLeave.status ? statusFromSickLeave.status.id : emptyRekoStatus?.id
   )
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
+  const { filter } = useAppSelector((state) => state.sickLeave)
 
   const handleSetRekoStatus = (id: string) => {
     const type = rekoStatusTypes.find((rekoStatusType) => id === rekoStatusType.id)
     if (type) {
-      setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter: null })
+      setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
       updateSavedRekoStatus(type.id)
     }
   }
