@@ -8,8 +8,8 @@ export function TableRow<T>({
   children,
 }: {
   italic: boolean
-  onNavigate?: (key: string) => void
-  data: T
+  onNavigate?: (data: T) => void
+  data?: T
   focusable: boolean
   children: ReactNode
 }) {
@@ -18,7 +18,7 @@ export function TableRow<T>({
       tabIndex={0}
       onKeyDown={({ code, currentTarget }) => {
         if (onNavigate && ['Enter', 'Space'].includes(code)) {
-          onNavigate(id)
+          onNavigate(data)
         }
         if (focusable && code === 'ArrowUp' && currentTarget.previousElementSibling) {
           ;(currentTarget.previousElementSibling as HTMLElement).focus()

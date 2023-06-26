@@ -12,7 +12,7 @@ export function TableHeadingForUnit({
   user?: User
   tableName: string
   suffix?: string
-  hideUserSpecifics: boolean
+  hideUserSpecifics?: boolean
   hideDivider?: boolean
 }) {
   if (!user) {

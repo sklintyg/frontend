@@ -5,8 +5,8 @@ import { fakeUser } from '../../../utils/fake/fakeUser'
 
 const TABLE_NAME = 'pågående sjukfall'
 
-const renderComponent = (user: User, suffix?: string) => {
-  render(<TableHeadingForUnit tableName={TABLE_NAME} user={user} suffix={suffix} />)
+const renderComponent = (user: User, suffix?: string, hideUserSpecifics?: boolean) => {
+  render(<TableHeadingForUnit tableName={TABLE_NAME} user={user} suffix={suffix} hideUserSpecifics={hideUserSpecifics} />)
 }
 
 describe('TableHeadingForUnit', () => {
@@ -22,6 +22,11 @@ describe('TableHeadingForUnit', () => {
   it('should show title for reko', () => {
     renderComponent(fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsnamn' } }))
     expect(screen.getByText('Alla pågående sjukfall')).toBeInTheDocument()
+  })
+
+  it('should not show user title if hideUserSpecifics', () => {
+    renderComponent(fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsnamn' } }, '', true))
+    expect(screen.queryByText('Alla')).not.toBeInTheDocument()
   })
 
   it('should show sub title', () => {
