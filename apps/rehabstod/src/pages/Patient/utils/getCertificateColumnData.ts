@@ -26,7 +26,7 @@ export function getCertificateColumnData(column: string, certificate: PatientSju
       return certificate.vardgivareNamn
     case PatientColumn.Läkare:
       return certificate.lakare ? certificate.lakare.namn : 'Okänt'
-    case PatientColumn:
+    case PatientColumn.Risk:
       return certificate.riskSignal ? certificate.riskSignal.riskKategori : 0
     case PatientColumn.Intyg:
       return !certificate.otherVardgivare && !certificate.otherVardenhet ? 'Visa' : '-'
