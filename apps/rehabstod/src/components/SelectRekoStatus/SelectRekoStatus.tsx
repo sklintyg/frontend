@@ -36,7 +36,7 @@ export function SelectRekoStatus({
       onChange={(id) => handleSetRekoStatus(id)}
       options={rekoStatusTypes}
       hideDefaultValue
-      description="Beskrivning"
+      description="Med REKO-status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare."
       label="REKO-status"
     />
   )
