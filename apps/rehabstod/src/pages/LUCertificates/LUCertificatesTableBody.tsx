@@ -15,7 +15,7 @@ export function LUCertificatesTableBody({ content, columns }: { content: LUCerti
       {sortTableList(content, getLUCertificatesTableValue).map(
         (item) =>
           columns.length > 0 && (
-            <TableRow key={`${item.certificateId}-row`} id={item.certificateId} focusable italic={false}>
+            <TableRow key={`${item.certificateId}-row`} id={item.certificateId} focusable italic={false} data={item}>
               {columns.map(({ name }) => (
                 <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} /> // TODO: this should be switched to encrypted patient id
               ))}

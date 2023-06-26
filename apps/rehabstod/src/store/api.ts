@@ -210,7 +210,7 @@ export const api = createApi({
     }),
     setRekoStatus: builder.mutation<
       void,
-      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter | null }
+      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
     >({
       query: ({ patientId, status, sickLeaveTimestamp }) => ({
         url: 'reko',

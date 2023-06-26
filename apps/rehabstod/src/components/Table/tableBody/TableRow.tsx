@@ -9,7 +9,7 @@ export function TableRow<T>({
 }: {
   italic: boolean
   onNavigate?: (data: T) => void
-  data?: T
+  data: T
   focusable: boolean
   children: ReactNode
 }) {

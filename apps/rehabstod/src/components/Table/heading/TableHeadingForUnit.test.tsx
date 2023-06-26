@@ -25,7 +25,7 @@ describe('TableHeadingForUnit', () => {
   })
 
   it('should not show user title if hideUserSpecifics', () => {
-    renderComponent(fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsnamn' } }, '', true))
+    renderComponent(fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsnamn' } }), '', true)
     expect(screen.queryByText('Alla')).not.toBeInTheDocument()
   })
 
