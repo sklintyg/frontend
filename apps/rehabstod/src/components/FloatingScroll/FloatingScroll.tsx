@@ -21,7 +21,7 @@ export function FloatingScroll({ children }: { children: ReactNode }) {
   ])
 
   return (
-    <div style={{ overflow: 'auto' }} ref={mergedRefCallback}>
+    <div id="scrollDiv" style={{ overflow: 'auto' }} ref={mergedRefCallback}>
       {children}
     </div>
   )

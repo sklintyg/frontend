@@ -1,5 +1,5 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
 import { UserUrval } from '../../schemas'
@@ -32,6 +32,10 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
+  const normalHeader = useRef<HTMLTableSectionElement>(null)
+  const fixedHeader = useRef<HTMLTableSectionElement>(null)
+  const outerDiv = useRef<HTMLDivElement>(null)
+  const innerDiv = useRef<HTMLDivElement>(null)
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
 
   useEffect(() => {
@@ -40,6 +44,30 @@ export function CurrentSickLeaves() {
     }
   }, [user, userLoading, navigate])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      document.getElementById('scrollDiv')?.addEventListener('scroll', handleScroll)
+      if (normalHeader.current && fixedHeader.current && outerDiv.current && innerDiv.current) {
+        const { top, width } = normalHeader.current.getBoundingClientRect()
+        const contentWidth = document.getElementById('contentDiv')?.getBoundingClientRect().width
+        const bottom = document.getElementById('contentDiv')?.getBoundingClientRect().bottom
+        const scrollLeft = document.getElementById('scrollDiv')?.scrollLeft
+        if (top < 0 && bottom && bottom > 50) {
+          innerDiv.current.style.width = `${width + (scrollLeft ?? 0)}px`
+          outerDiv.current.style.width = `${width}px`
+          fixedHeader.current.style.width = `${contentWidth}px`
+          fixedHeader.current.classList.remove('hidden')
+        } else {
+          fixedHeader.current.classList.add('hidden')
+        }
+      }
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
   useEffect(
     () => () => {
       dispatch(reset())
@@ -95,8 +123,15 @@ export function CurrentSickLeaves() {
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
             ascending={tableState.ascending}
           >
-            <thead>
+            <thead ref={normalHeader}>
               <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
+            </thead>
+            <thead ref={fixedHeader} className="fixed top-0 z-20 hidden overflow-hidden">
+              <div ref={outerDiv} className="mx-auto">
+                <div ref={innerDiv} className="float-right">
+                  <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
+                </div>
+              </div>
             </thead>
             <tbody className="whitespace-normal break-words">
               <TableBodyRows
