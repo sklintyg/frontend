@@ -91,7 +91,7 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter | null>({
+    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
@@ -202,7 +202,7 @@ export const api = createApi({
     }),
     setRekoStatus: builder.mutation<
       void,
-      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter | null }
+      { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
     >({
       query: ({ patientId, status, sickLeaveTimestamp }) => ({
         url: 'reko',
