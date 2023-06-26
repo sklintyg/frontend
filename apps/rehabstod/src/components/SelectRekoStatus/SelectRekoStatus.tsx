@@ -16,9 +16,9 @@ export function SelectRekoStatus({
   rekoStatusTypes: RekoStatusType[]
 }) {
   const [setRekoStatus] = useSetRekoStatusMutation()
-  const emptyRekoStatusId = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
+  const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
   const [savedRekoStatus, updateSavedRekoStatus] = useState(
-    statusFromSickLeave && statusFromSickLeave.status ? statusFromSickLeave.status.id : emptyRekoStatusId
+    statusFromSickLeave && statusFromSickLeave.status ? statusFromSickLeave.status.id : emptyRekoStatus?.id
   )
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
 
@@ -32,7 +32,7 @@ export function SelectRekoStatus({
 
   return (
     <SelectFilter
-      value={savedRekoStatus}
+      value={savedRekoStatus || ''}
       onChange={(id) => handleSetRekoStatus(id)}
       options={rekoStatusTypes}
       hideDefaultValue

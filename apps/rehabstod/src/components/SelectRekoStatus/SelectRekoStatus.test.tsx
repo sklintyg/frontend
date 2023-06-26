@@ -9,7 +9,7 @@ const END_DATE = '2022-01-01'
 
 const renderComponent = (statusFromSickLeave: RekoStatus) => {
   renderWithRouter(
-    <SelectRekoStatus statusFromSickLeave={statusFromSickLeave.status} patientId={PATIENT_ID} endDate={END_DATE} rekoStatusTypes={TYPES} />
+    <SelectRekoStatus statusFromSickLeave={statusFromSickLeave} patientId={PATIENT_ID} endDate={END_DATE} rekoStatusTypes={TYPES} />
   )
 }
 

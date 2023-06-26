@@ -91,7 +91,7 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter | null>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',

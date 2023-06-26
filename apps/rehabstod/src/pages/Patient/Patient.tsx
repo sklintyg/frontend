@@ -48,7 +48,7 @@ export function Patient() {
                   endDate={currentSickness.slut}
                   patientId={firstCertificate.patient.id}
                   statusFromSickLeave={state.rekoStatus}
-                  rekoStatusTypes={populatedFilters.rekoStatusTypes}
+                  rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
                 />
               </div>
             )}
