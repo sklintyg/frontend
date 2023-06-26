@@ -21,7 +21,7 @@ export function LUCertificatesTableBody({
   const navigate = useNavigate()
 
   const navigateToPatient = (data: LUCertificate) => {
-    navigate(`/pagaende-sjukfall/${data.patient.id}`, {
+    navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
       state: {
         activeTab: 1,
       },

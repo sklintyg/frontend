@@ -6,10 +6,10 @@ import { TableHeadingForUnit } from '../../../../components/Table/heading/TableH
 import { SelectRekoStatus } from '../../../../components/SelectRekoStatus/SelectRekoStatus'
 import { UserUrval } from '../../../../schemas'
 import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
-import { ErrorAlert } from '../../../../components/error/ErrorAlert/ErrorAlert'
 import { PatientSickLeavesTable } from './PatientSickLeavesTable'
 import { PatientOverview } from '../patientOverview/PatientOverview'
 import { PuResponse } from '../../../../schemas/patientSchema'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()
@@ -53,15 +53,7 @@ export function PatientSickLeaves() {
           </div>
         )}
       </div>
-      {error && (
-        <ErrorAlert
-          heading="Tekniskt fel"
-          errorType="error"
-          text="Information kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-          error={error}
-          dynamicLink
-        />
-      )}
+      {error && <PatientTableError error={error} />}
       {currentSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={currentSickLeaves} isDoctor={isDoctor} title="Pågående sjukfall">
           <PatientOverview

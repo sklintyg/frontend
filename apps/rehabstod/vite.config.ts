@@ -16,7 +16,7 @@ export default ({ mode }: UserConfig) => {
     (result, route) => ({
       ...result,
       [`/${route}`]: {
-        target: process.env.VITE_API_TARGET ?? 'https://rehabstod-devtest.intyg.nordicmedtest.se',
+        target: 'http://localhost:8030',
         cookieDomainRewrite: { '*': '' },
         protocolRewrite: 'https',
         changeOrigin: true,
