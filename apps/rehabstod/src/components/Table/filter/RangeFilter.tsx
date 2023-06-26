@@ -1,7 +1,7 @@
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
-import { PrintFilterTitle } from './print/PrintFilterTitle'
+import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({
   title,
@@ -51,7 +51,7 @@ export function RangeFilter({
         </div>
       </div>
       <div className="hidden print:block">
-        <PrintFilterTitle title={title} />
+        <PrintTitle title={title} />
         {from} - {to}
       </div>
     </>

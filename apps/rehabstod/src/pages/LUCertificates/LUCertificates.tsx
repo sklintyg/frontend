@@ -13,15 +13,12 @@ import { useAppSelector } from '../../store/hooks'
 import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTableColumns.selector'
 import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
-import { TableBody } from '../../components/Table/tableBody/TableBody'
-import { getLUCertificatesId, getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { LUCertificatesTableBody } from './LUCertificatesTableBody'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
-import { PrintTableBody } from '../../components/Table/tableBody/PrintableTableBody'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
 import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
 
 export function LUCertificates() {
@@ -43,10 +40,6 @@ export function LUCertificates() {
 
   const TABLE_NAME = 'läkarutlåtanden'
 
-  const navigateToPatient = (id: string) => {
-    navigate(`/pagaende-sjukfall/${id}`)
-  }
-
   useEffect(
     () => () => {
       dispatch(reset())
@@ -58,7 +51,7 @@ export function LUCertificates() {
 
   return (
     <TablePageLayout
-      printable
+      printable={false}
       tableName={TABLE_NAME}
       heading={<TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />}
       filters={<LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />}
@@ -74,20 +67,7 @@ export function LUCertificates() {
       tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
     >
-      <Table
-        sortColumn={tableState.sortColumn}
-        onSortChange={setTableState}
-        ascending={tableState.ascending}
-        print={
-          <PrintTableBody
-            content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
-            tableValueExtractor={getLUCertificatesTableValue}
-            tableIdExtractor={getLUCertificatesId}
-            TableCellResolverComponent={LUCertificatesTableCellResolver}
-            columns={visibleColumns}
-          />
-        }
-      >
+      <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
         <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
         <TableInfoMessage
           isLoading={isContentLoading}
@@ -98,14 +78,7 @@ export function LUCertificates() {
           content={luCertificatesInfo ? luCertificatesInfo.certificates : null}
           hasAppliedFilters={hasAppliedFilters}
         />
-        <TableBody
-          content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
-          tableValueExtractor={getLUCertificatesTableValue}
-          tableIdExtractor={getLUCertificatesId}
-          columns={visibleColumns}
-          onTableRowClick={(id) => navigateToPatient(id)}
-          TableCellResolverComponent={LUCertificatesTableCellResolver}
-        />
+        <LUCertificatesTableBody content={luCertificatesInfo ? luCertificatesInfo.certificates : []} columns={visibleColumns} />
       </Table>
     </TablePageLayout>
   )

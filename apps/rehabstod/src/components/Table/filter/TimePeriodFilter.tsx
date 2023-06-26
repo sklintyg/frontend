@@ -4,7 +4,7 @@ import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from './utils/getSickLeaveLengthPlaceholder'
 import { convertSelectedValue } from './utils/timePeriodConversion'
-import { PrintFilterTitle } from './print/PrintFilterTitle'
+import { PrintTitle } from '../print/PrintTitle'
 
 export function TimePeriodFilter({
   label,
@@ -64,7 +64,7 @@ export function TimePeriodFilter({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <PrintFilterTitle title={label} />
+        <PrintTitle title={label} />
         {selectedOptions.length === 0
           ? 'Alla valda'
           : availableOptions

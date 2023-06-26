@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { Input } from '../../Form/Input'
-import { PrintFilterTitle } from './print/PrintFilterTitle'
+import { PrintTitle } from '../print/PrintTitle'
 
 export function TextSearchFilter({
   title,
@@ -38,7 +38,7 @@ export function TextSearchFilter({
         />
       </div>
       <div className="hidden print:block">
-        <PrintFilterTitle title={title} />
+        <PrintTitle title={title} />
         {textValue || '-'}
       </div>
     </>

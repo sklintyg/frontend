@@ -32,7 +32,6 @@ export function TableRow({
           onNavigate(id)
         }
       }}
-      key={`${id}-row`}
       className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${italic ? 'italic' : ''} print:hidden`}
     >
       {children}

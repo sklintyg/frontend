@@ -2,7 +2,7 @@ import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple'
 import { Lakare } from '../../../schemas/lakareSchema'
 import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
-import { PrintFilterTitle } from './print/PrintFilterTitle'
+import { PrintTitle } from '../print/PrintTitle'
 
 export function DoctorFilter({
   onChange,
@@ -46,7 +46,7 @@ export function DoctorFilter({
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
-        <PrintFilterTitle title={LABEL} />
+        <PrintTitle title={LABEL} />
         {selected.length === 0
           ? 'Alla valda'
           : doctors.filter((doctor) => selected.find((id) => doctor.hsaId === id)).map((doctor) => `${doctor.namn}\n`)}
