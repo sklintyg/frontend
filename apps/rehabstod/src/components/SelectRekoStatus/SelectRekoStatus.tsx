@@ -3,6 +3,7 @@ import { useSetRekoStatusMutation } from '../../store/api'
 import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
 import { SelectFilter } from '../Table/filter/SelectFilter'
+import { useAppSelector } from '../../store/hooks'
 
 export function SelectRekoStatus({
   statusFromSickLeave,
