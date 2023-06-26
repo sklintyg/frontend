@@ -2,7 +2,6 @@ import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
@@ -29,7 +28,7 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
       return <TableHeaderCell column={column} width="120px" />
     case PatientColumn.Vårdgivare:
       return <TableHeaderCell column={column} width="120px" />
-    case SickLeaveColumn.Risk:
+    case PatientColumn.Risk:
       return <TableHeaderCell column={column} width="150px" />
     case PatientColumn.Intyg:
       return <TableHeaderCell column={column} width="80px" sticky="right" />
