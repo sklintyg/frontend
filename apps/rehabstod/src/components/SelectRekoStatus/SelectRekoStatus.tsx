@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useSetRekoStatusMutation } from '../../store/api'
 import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
-import { SelectFilter } from '../../pages/CurrentSickLeaves/components/filter/SelectFilter'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
+import { SelectFilter } from '../Table/filter/SelectFilter'
+import { useAppSelector } from '../../store/hooks'
 
 export function SelectRekoStatus({
   statusFromSickLeave,
@@ -21,11 +22,12 @@ export function SelectRekoStatus({
     statusFromSickLeave && statusFromSickLeave.status ? statusFromSickLeave.status.id : emptyRekoStatus?.id
   )
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
+  const { filter } = useAppSelector((state) => state.sickLeave)
 
   const handleSetRekoStatus = (id: string) => {
     const type = rekoStatusTypes.find((rekoStatusType) => id === rekoStatusType.id)
     if (type) {
-      setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter: null })
+      setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
       updateSavedRekoStatus(type.id)
     }
   }

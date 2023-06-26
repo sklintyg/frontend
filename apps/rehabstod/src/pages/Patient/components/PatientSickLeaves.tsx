@@ -10,13 +10,16 @@ export function PatientSickLeaves({
   sickLeaves,
   children,
   isDoctor,
+  title,
 }: {
   sickLeaves: PatientSjukfall[]
   children?: ReactNode
   isDoctor: boolean
+  title: string
 }) {
   return (
     <>
+      <h2 className="ids-heading-3">{title}</h2>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
         <PatientAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar}>
           <Table sortColumn={PatientColumn.Num}>
