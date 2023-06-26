@@ -1,15 +1,23 @@
 import { screen } from '@testing-library/react'
 import { SelectRekoStatus } from './SelectRekoStatus'
-import { RekoStatus } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
+import { RekoStatusType } from '../../schemas/sickLeaveSchema'
 
-const TYPES = [{ status: { id: 'id', name: 'name' } }, { status: { id: 'id1', name: 'name1' } }]
+const TYPES = [
+  { id: 'id', name: 'name' },
+  { id: 'id1', name: 'name1' },
+]
 const PATIENT_ID = '1912121212'
 const END_DATE = '2022-01-01'
 
-const renderComponent = (statusFromSickLeave: RekoStatus) => {
+const renderComponent = (statusFromSickLeave: RekoStatusType) => {
   renderWithRouter(
-    <SelectRekoStatus statusFromSickLeave={statusFromSickLeave} patientId={PATIENT_ID} endDate={END_DATE} rekoStatusTypes={TYPES} />
+    <SelectRekoStatus
+      statusFromSickLeave={{ status: statusFromSickLeave }}
+      patientId={PATIENT_ID}
+      endDate={END_DATE}
+      rekoStatusTypes={TYPES}
+    />
   )
 }
 
