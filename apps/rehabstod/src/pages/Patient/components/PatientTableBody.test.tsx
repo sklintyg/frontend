@@ -71,9 +71,21 @@ it('Should be possible to hide columns', async () => {
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 3)
 })
 
-it('Should not display visa button for other units', () => {
+it('Should not display visa button for other units if otherVardgivare', () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
   const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardgivare: true }))
+  renderWithRouter(
+    <ComponentWrapper>
+      <PatientTableBody certificates={certificates} isDoctor />
+    </ComponentWrapper>
+  )
+
+  expect(screen.queryByText('Visa')).not.toBeInTheDocument()
+})
+
+it('Should not display visa button for other units if otherVardenhet', () => {
+  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
+  const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardenhet: true }))
   renderWithRouter(
     <ComponentWrapper>
       <PatientTableBody certificates={certificates} isDoctor />
