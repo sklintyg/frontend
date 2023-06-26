@@ -6,7 +6,7 @@ export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
   riskKategori: z.number(),
   riskDescription: z.string(),
-  berakningstidpunkt: z.string(),
+  berakningsTidpunkt: z.string(),
 })
 
 export const patientSjukfallIntygSchema = z.object({

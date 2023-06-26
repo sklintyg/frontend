@@ -8,14 +8,13 @@ import { Tooltip } from '../../../components/Tooltip/Tooltip'
 import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
+import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { usePatient } from '../hooks/usePatient'
 import { getCertificateColumnData } from '../utils/getCertificateColumnData'
 import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function OtherUnitInformation() {
   return (
