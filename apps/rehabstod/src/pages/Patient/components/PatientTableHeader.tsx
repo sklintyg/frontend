@@ -79,7 +79,7 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
           </tr>
         )}
       </thead>
-      <thead ref={fixedHeader} className="fixed top-[50px] z-40 hidden overflow-hidden">
+      <thead ref={fixedHeader} className="fixed top-[56px] z-40 hidden overflow-hidden">
         <div ref={outerDiv} className="mx-auto">
           <div ref={innerDiv} className="float-right">
             {columns.length > 0 && (
