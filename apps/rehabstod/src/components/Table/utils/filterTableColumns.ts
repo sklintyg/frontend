@@ -6,13 +6,15 @@ export const filterTableColumns = (
   showPersonalInformation?: boolean,
   onlyVisible?: boolean,
   srsActivated?: boolean,
-  excludedColumns?: string[]
+  excludedColumns?: string[],
+  isPatientView?: boolean
 ) =>
   columns
     .filter(({ visible }) => visible || !onlyVisible)
     .filter(({ name }) => !(showPersonalInformation === false && (name === 'Namn' || name === 'Personnummer')))
     .filter(({ name }) => !(isDoctor && name === 'Läkare'))
     .filter(({ name }) => !(!srsActivated && name === 'Risk'))
+    .filter(({ name }) => !(isPatientView && (name === 'Namn' || name === 'Personnummer' || name === 'Kön' || name === 'Ålder')))
     .filter(({ name }) => !(excludedColumns && excludedColumns.includes(name)))
 
 export const filterHiddenColumns = (columns: TableColumn[]) => columns.filter(({ visible }) => visible)

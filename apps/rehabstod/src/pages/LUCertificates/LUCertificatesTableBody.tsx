@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useTableContext } from '../../components/Table/hooks/useTableContext'
 import { TableRow } from '../../components/Table/tableBody/TableRow'
 import { TableColumn } from '../../schemas/tableSchema'
@@ -17,11 +18,12 @@ export function LUCertificatesTableBody({
   focusable?: boolean
 }) {
   const { sortTableList } = useTableContext()
+  const navigate = useNavigate()
 
   const navigateToPatient = (data: LUCertificate) => {
     navigate(`/pagaende-sjukfall/${data.patient.id}`, {
       state: {
-        activeTab: '1',
+        activeTab: 1,
       },
     })
   }
