@@ -5,19 +5,41 @@ import { LUCertificate } from '../../schemas/luCertificatesSchema'
 import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
 
-// TODO: Implement on click for TableRow when implement lu in patient view
-
-export function LUCertificatesTableBody({ content, columns }: { content: LUCertificate[]; columns: TableColumn[] }) {
+export function LUCertificatesTableBody({
+  content,
+  columns,
+  clickable = false,
+  focusable = false,
+}: {
+  content: LUCertificate[]
+  columns: TableColumn[]
+  clickable?: boolean
+  focusable?: boolean
+}) {
   const { sortTableList } = useTableContext()
+
+  const navigateToPatient = (data: LUCertificate) => {
+    navigate(`/pagaende-sjukfall/${data.patient.id}`, {
+      state: {
+        activeTab: '1',
+      },
+    })
+  }
 
   return (
     <tbody className="whitespace-normal break-words">
       {sortTableList(content, getLUCertificatesTableValue).map(
         (item) =>
           columns.length > 0 && (
-            <TableRow key={`${item.certificateId}-row`} focusable italic={false} data={item}>
+            <TableRow
+              key={`${item.certificateId}-row`}
+              focusable={focusable}
+              italic={false}
+              data={item}
+              onNavigate={clickable ? (data) => navigateToPatient(data) : undefined}
+            >
               {columns.map(({ name }) => (
-                <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} /> // TODO: this should be switched to encrypted patient id
+                <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={content} />
               ))}
             </TableRow>
           )

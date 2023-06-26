@@ -1,6 +1,4 @@
-import { IDSButton, IDSIconExternal } from '@frontend/ids-react-ts'
 import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
-import { usePatient } from '../../hooks/usePatient'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
@@ -13,6 +11,7 @@ import { DiagnosisDescription } from '../../../../components/Diagnosis/Diagnosis
 import { Tooltip } from '../../../../components/Tooltip/Tooltip'
 import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
 import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
+import { CertificateButton } from '../CertificateButton'
 
 function OtherUnitInformation() {
   return (
@@ -34,7 +33,6 @@ function PatientTableCellResolver({
   list: PatientSjukfallIntyg[]
   certificate: PatientSjukfallIntyg
 }) {
-  const { navigateToWebcert } = usePatient()
   switch (column) {
     case PatientColumn.Diagnos:
       return (
@@ -56,16 +54,7 @@ function PatientTableCellResolver({
           {certificate.otherVardgivare || certificate.otherVardenhet ? (
             <OtherUnitInformation />
           ) : (
-            <IDSButton
-              tertiary
-              onClick={() => {
-                navigateToWebcert(certificate.intygsId)
-              }}
-              className="whitespace-nowrap"
-            >
-              Visa
-              <IDSIconExternal height="16" width="16" className="ml-2 inline align-middle" />
-            </IDSButton>
+            <CertificateButton certificateId={certificate.intygsId} />
           )}
         </TableCell>
       ) : (

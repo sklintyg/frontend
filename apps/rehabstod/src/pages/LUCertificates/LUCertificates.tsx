@@ -82,7 +82,12 @@ export function LUCertificates() {
           content={luCertificatesInfo ? luCertificatesInfo.certificates : null}
           hasAppliedFilters={hasAppliedFilters}
         />
-        <LUCertificatesTableBody content={luCertificatesInfo ? luCertificatesInfo.certificates : []} columns={visibleColumns} />
+        <LUCertificatesTableBody
+          focusable
+          clickable
+          content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
+          columns={visibleColumns}
+        />
       </Table>
     </TablePageLayout>
   )

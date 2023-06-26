@@ -21,6 +21,14 @@ export const getLUCertificatesColumnInfo = (column: string): Column => {
       return { name: column, width: 200 }
     case LUCertificatesColumn.Läkare:
       return { name: column, width: 150 }
+    case LUCertificatesColumn.Vårdenhet:
+      return { name: column, width: 150 }
+    case LUCertificatesColumn.Vårdgivare:
+      return { name: column, width: 150 }
+    case LUCertificatesColumn.Index:
+      return { name: column, width: 50 }
+    case LUCertificatesColumn.Visa:
+      return { name: column, width: 100, sticky: 'right' }
     default:
       return { name: column }
   }
