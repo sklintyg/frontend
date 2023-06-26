@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { LUCertificatesFilters } from './LUCertificatesFilters'
@@ -33,7 +32,6 @@ export function LUCertificates() {
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const isDoctor = user ? isUserDoctor(user) : false
   const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
