@@ -49,7 +49,7 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
         const contentWidth = document.getElementById('contentDiv')?.getBoundingClientRect().width
         const bottom = document.getElementById('contentDiv')?.getBoundingClientRect().bottom
         const scrollLeft = document.getElementById('scrollDiv')?.scrollLeft
-        if (top < 50 && bottom && bottom > 50) {
+        if (top < 50 && bottom && bottom > 80) {
           innerDiv.current.style.width = `${width + (scrollLeft ?? 0)}px`
           outerDiv.current.style.width = `${width}px`
           fixedHeader.current.style.width = `${contentWidth}px`
