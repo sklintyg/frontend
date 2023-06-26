@@ -133,8 +133,12 @@ export function TableBodyRows({
     return <MaxColspanRow colspan={visibleColumns.length}>{EMPTY_TEXT}</MaxColspanRow>
   }
 
-  const navigateToPatient = (id: string) => {
-    navigate(`/pagaende-sjukfall/${id}`)
+  const navigateToPatient = (data: SickLeaveInfo) => {
+    navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
+      state: {
+        rekoStatus: data.rekoStatus,
+      },
+    })
   }
 
   return (
@@ -145,8 +149,8 @@ export function TableBodyRows({
             <TableRow
               key={sickLeave.patient.id}
               italic={isDateBeforeToday(sickLeave.slut)}
-              onNavigate={(key) => navigateToPatient(key)}
-              id={sickLeave.encryptedPatientId}
+              onNavigate={(data) => navigateToPatient(data)}
+              data={sickLeave}
               focusable
             >
               {visibleColumns.map(({ name }) => (

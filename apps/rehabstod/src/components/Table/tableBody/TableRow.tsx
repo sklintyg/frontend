@@ -1,15 +1,15 @@
 import { ReactNode } from 'react'
 
-export function TableRow({
+export function TableRow<T>({
   italic,
   onNavigate,
-  id,
+  data,
   focusable,
   children,
 }: {
   italic: boolean
   onNavigate?: (key: string) => void
-  id: string
+  data: T
   focusable: boolean
   children: ReactNode
 }) {
@@ -29,7 +29,7 @@ export function TableRow({
       }}
       onClick={() => {
         if (onNavigate) {
-          onNavigate(id)
+          onNavigate(data)
         }
       }}
       className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${italic ? 'italic' : ''} print:hidden`}
