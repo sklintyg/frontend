@@ -29,6 +29,7 @@ export const luCertificateSchema = z.object({
   signingTimeStamp: z.string(),
   unAnsweredComplement: z.number(),
   unAnsweredOther: z.number(),
+  encryptedPatientId: z.string(),
 })
 
 export const luCertificatesInfo = z.object({
