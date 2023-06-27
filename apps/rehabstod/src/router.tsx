@@ -11,10 +11,10 @@ import { MissingEmployeeAssignmentError } from './pages/Error/components/Missing
 import { UnknownInternalError } from './pages/Error/components/UnknownInternalError'
 import { Error } from './pages/Error/Error'
 import { Home } from './pages/Home/Home'
-import { MedicalOpinion } from './pages/MedicalOpinion/MedicalOpinion'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
+import { LUCertificates } from './pages/LUCertificates/LUCertificates'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -46,7 +46,7 @@ export const router = createBrowserRouter(
         errorElement={<ErrorBoundary />}
         element={
           <ProtectedRoute requireUnit>
-            <MedicalOpinion />
+            <LUCertificates />
           </ProtectedRoute>
         }
       >

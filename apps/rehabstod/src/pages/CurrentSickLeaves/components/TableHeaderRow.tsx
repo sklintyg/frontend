@@ -1,4 +1,4 @@
-import { TableHeaderCell } from '../../../components/Table/TableHeaderCell'
+import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHeaderCell'
 import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'

@@ -3,8 +3,6 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import { TableColumn } from '../../../schemas/tableSchema'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleActions } from '../../Form/SelectMultiple/SelectMultipleActions'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
@@ -22,20 +20,9 @@ export function ModifyTableColumns({
   onReorder: (target: string, keys: string[], position: DropPosition) => void
   onReset: () => void
 }) {
-  const { data: user } = useGetUserQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-
-  function filterColumn(name: string) {
-    return user !== undefined && (!user.roles.LAKARE || user.roles.LAKARE.desc !== name)
-  }
-
-  const filteredColumns = columns
-    .filter(({ name }) => filterColumn(name))
-    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
-
-  const selectedColumns = filteredColumns.filter(({ visible }) => visible)
+  const selectedColumns = columns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
-  const numVisible = filteredColumns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
+  const numVisible = columns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
   const getPlaceholder = () => {
     if (isAllSelected) {
       return 'Alla valda'
@@ -67,19 +54,19 @@ export function ModifyTableColumns({
         <ReorderableListBox
           label="Anpassa tabeller"
           getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
-          items={filteredColumns}
+          items={columns}
           selectionMode="none"
           onReorder={onListReorder}
         >
-          {filteredColumns.map((column, index) => (
+          {columns.map((column, index) => (
             <Item key={column.name} textValue={column.name}>
               <ModifyTableColumnsOption
                 {...column}
                 disableCheckbox={numVisible === 1 && column.visible}
                 onVisibleChange={onVisibleChange}
                 onReorder={onReorder}
-                before={index > 0 ? filteredColumns.at(index - 1) : undefined}
-                after={filteredColumns.at(index + 1)}
+                before={index > 0 ? columns.at(index - 1) : undefined}
+                after={columns.at(index + 1)}
               />
             </Item>
           ))}
