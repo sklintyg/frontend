@@ -16,6 +16,7 @@ import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySc
 import { getCookie } from '../utils/cookies'
 import { DiagnosKapitel } from '../schemas/diagnosisSchema'
 import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
+import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -143,8 +144,18 @@ export const api = createApi({
       providesTags: ['SickLeavePatient'],
     }),
     getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
+      keepUnusedDataFor: 0,
       query: (request) => ({
         url: 'certificate/lu/person',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['LUCertificatesPatient'],
+    }),
+    getAGCertificatesForPatient: builder.query<AGCertificatesInfo, { personId: string }>({
+      keepUnusedDataFor: 0,
+      query: (request) => ({
+        url: 'certificate/ag/person',
         method: 'POST',
         body: request,
       }),
@@ -271,6 +282,7 @@ export const {
   useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
   useGetLUCertificatesForPatientQuery,
+  useGetAGCertificatesForPatientQuery,
   useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
   useGetTestDataOptionsQuery,

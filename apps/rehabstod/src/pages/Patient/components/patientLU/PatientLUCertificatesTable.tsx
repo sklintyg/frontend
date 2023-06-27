@@ -9,7 +9,12 @@ import { useAppSelector } from '../../../../store/hooks'
 import { allLuCertificatesColumns } from '../../../../store/slices/luCertificatesTableColumns.selector'
 import { useGetLUCertificatesForPatientQuery, useGetUserQuery } from '../../../../store/api'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { filterHiddenColumns, filterTableColumn, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
+import {
+  filterHiddenColumns,
+  filterPatientViewColumns,
+  filterTableColumn,
+  filterTableColumns,
+} from '../../../../components/Table/utils/filterTableColumns'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
 import { ModifyLUCertificatesTableColumns } from '../../../LUCertificates/ModifyLUCertificatesTableColumns'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
@@ -25,7 +30,8 @@ export function PatientLUCertificatesTable() {
   })
   const allColumns = useAppSelector(allLuCertificatesColumns)
   const isDoctor = user ? isUserDoctor(user) : false
-  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined, true)
+  const patientViewColumns = allColumns.filter(({ name }) => filterPatientViewColumns(name))
+  const filteredColumns = filterTableColumns(patientViewColumns, isDoctor, showPersonalInformation, false)
   const visibleColumns = filterHiddenColumns(filteredColumns)
   const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetLUCertificatesForPatientQuery({
     encryptedPatientId: encryptedPatientId || '',

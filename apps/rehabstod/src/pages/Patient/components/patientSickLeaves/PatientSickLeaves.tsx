@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../../../store/api'
 import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
-import { UserUrval } from '../../../../schemas'
 import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
 import { PatientSickLeavesTable } from './PatientSickLeavesTable'
 import { PatientOverview } from '../patientOverview/PatientOverview'
@@ -11,6 +10,8 @@ import { PuResponse } from '../../../../schemas/patientSchema'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 import { PatientRekoStatus } from '../PatientRekoStatus'
+import { PatientAGCertificatesTable } from '../patientAG/PatientAGCertificatesTable'
+import { isUserDoctor } from '../../../../utils/isUserDoctor'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()
@@ -27,7 +28,7 @@ export function PatientSickLeaves() {
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
   const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
-  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
+  const isDoctor = isUserDoctor(user)
 
   return (
     <PageContainer>
@@ -35,13 +36,14 @@ export function PatientSickLeaves() {
         <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
         {!error && (
           <div className="flex justify-end gap-5">
-            <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} />
+            <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
             <div className="w-96">
               <ModifyPatientTableColumns />
             </div>
           </div>
         )}
       </div>
+      <PatientAGCertificatesTable />
       {error && <PatientTableError error={error} />}
       {currentSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={currentSickLeaves} isDoctor={isDoctor} title="Pågående sjukfall">

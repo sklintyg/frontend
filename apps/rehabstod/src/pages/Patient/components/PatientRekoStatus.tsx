@@ -6,9 +6,11 @@ import { PatientSjukfall } from '../../../schemas/patientSchema'
 export function PatientRekoStatus({
   currentSickLeaves,
   earlierSickLeaves,
+  isDoctor,
 }: {
   currentSickLeaves: PatientSjukfall[]
   earlierSickLeaves: PatientSjukfall[]
+  isDoctor: boolean
 }) {
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { state } = useLocation()
@@ -30,10 +32,16 @@ export function PatientRekoStatus({
     certificateToSaveRekoStatusOn && (
       <div className="w-64">
         <SelectRekoStatus
+          disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}
           patientId={certificateToSaveRekoStatusOn.patient.id}
           statusFromSickLeave={state.rekoStatus}
           rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+          description={
+            isDoctor
+              ? 'Med REKO-status kan du som läkare se patientens nuvarande status. Den visas även i sjukfallstabellen. Som läkare kan du se men inte ändra en status.'
+              : 'Med REKO-status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare.'
+          }
         />
       </div>
     )
