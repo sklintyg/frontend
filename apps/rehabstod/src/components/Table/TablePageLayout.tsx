@@ -1,13 +1,11 @@
 import { ReactNode } from 'react'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { SerializedError } from '@reduxjs/toolkit'
-import { IDSAlert } from '@frontend/ids-react-ts'
 import { UnansweredCommunicationAlert } from '../error/ErrorAlert/UnansweredCommunicationAlert'
 import { TableContentAlert } from '../error/ErrorAlert/TableContentAlert'
 import { PrintButton } from '../PrintButton/PrintButton'
 import { PageContainer } from '../PageContainer/PageContainer'
-import { useGetDoctorsForLUCertificatesQuery, useGetUserQuery } from '../../store/api'
-import { isUserDoctor } from '../../utils/isUserDoctor'
+import { EmptyTableAlert } from './EmptyTableAlert'
 
 export function TablePageLayout({
   heading,
@@ -19,6 +17,7 @@ export function TablePageLayout({
   printable,
   tableName,
   children,
+  emptyTableAlert,
 }: {
   heading: ReactNode
   filters: ReactNode
@@ -29,24 +28,13 @@ export function TablePageLayout({
   tableName: string
   printable: boolean
   children: ReactNode
+  emptyTableAlert?: boolean
 }) {
-  const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
-  const { data: user } = useGetUserQuery()
-  const isDoctor = user ? isUserDoctor(user) : false
-
-  function noDoctorsForLU() {
-    return doctorsFilterResponse && doctorsFilterResponse?.doctors.length === 0
-  }
-
   return (
     <PageContainer>
       {heading}
       {filters}
-      {noDoctorsForLU() && (
-        <IDSAlert className="py-10">
-          {isDoctor ? 'Du har' : 'Det finns'} inga läkarutlåtanden på {user && user.valdVardenhet ? user.valdVardenhet.namn : ''}.
-        </IDSAlert>
-      )}
+      {emptyTableAlert && <EmptyTableAlert tableName={tableName} />}
       {tableContentError ? (
         <TableContentAlert tableName={tableName} error={tableContentError} />
       ) : (

@@ -1,4 +1,4 @@
-import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -17,6 +17,7 @@ import { updateShowPersonalInformation } from '../../store/slices/settings.slice
 import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
+import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -51,9 +52,7 @@ export function CurrentSickLeaves() {
     return <Outlet />
   }
 
-  function noActiveSickLeaves() {
-    return currentSickLeavesInfo && currentSickLeavesInfo?.content.length === 0
-  }
+  const TABLE_NAME = 'pågående sjukfall'
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
@@ -66,11 +65,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {noActiveSickLeaves() && (
-        <IDSAlert className="py-10">
-          {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {user && user.valdVardenhet ? user.valdVardenhet.namn : ''}.
-        </IDSAlert>
-      )}
+      {currentSickLeavesInfo && currentSickLeavesInfo?.content.length === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
