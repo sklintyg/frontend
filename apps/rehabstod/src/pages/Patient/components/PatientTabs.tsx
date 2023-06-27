@@ -7,10 +7,10 @@ export function PatientTabs({ active }: { active: number }) {
     <IDSTabs>
       <IDSTab label="Sjukfall" selected={active === 0} />
       <IDSTab label="Läkarutlåtanden" selected={active === 1} />
-      <IDSTabPanel>
+      <IDSTabPanel nofocus>
         <PatientSickLeaves />
       </IDSTabPanel>
-      <IDSTabPanel>
+      <IDSTabPanel nofocus>
         <PatientLUCertificatesTable />
       </IDSTabPanel>
     </IDSTabs>
