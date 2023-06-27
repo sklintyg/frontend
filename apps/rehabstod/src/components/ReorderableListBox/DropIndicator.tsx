@@ -8,7 +8,6 @@ export function DropIndicator({ dropState, ...props }: DropIndicatorProps & { dr
   if (isHidden) {
     return null
   }
-  console.log(dropState)
 
   return (
     <div

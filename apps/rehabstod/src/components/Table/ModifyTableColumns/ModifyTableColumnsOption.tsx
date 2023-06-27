@@ -21,7 +21,7 @@ export function ModifyTableColumnsOption({
   onVisibleChange: (key: string, visible: boolean) => void
 }) {
   return (
-    <div className="flex">
+    <div className="flex cursor-move">
       <div
         className="h-12 w-full"
         onKeyDown={(event) => event.stopPropagation()}

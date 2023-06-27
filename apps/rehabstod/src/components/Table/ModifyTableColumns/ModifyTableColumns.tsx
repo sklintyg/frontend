@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { IDSButton } from '@frontend/ids-react-ts'
 import { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
-import { Item, useListData } from 'react-stately'
+import { Item } from 'react-stately'
 import { TableColumn } from '../../../schemas/tableSchema'
 import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
@@ -49,11 +49,6 @@ export function ModifyTableColumns({
     return `Visar ${selectedColumns.length} kolumner`
   }
 
-  const list = useListData({
-    initialItems: filteredColumns,
-    getKey: (item) => item.name,
-  })
-
   const onListReorder = (event: DroppableCollectionReorderEvent) => {
     onReorder(
       event.target.key.toString(),
@@ -71,8 +66,8 @@ export function ModifyTableColumns({
       <SelectMultipleList>
         <ReorderableListBox
           label="Anpassa tabeller"
-          getItems={(keys) => [...keys].map((key) => ({ 'text/plain': list.getItem(key).name }))}
-          items={list.items}
+          getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
+          items={filteredColumns}
           selectionMode="none"
           onReorder={onListReorder}
         >
