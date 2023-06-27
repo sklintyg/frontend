@@ -1,13 +1,8 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
-import { isUserDoctor } from '../../utils/isUserDoctor'
 import { useGetUserQuery } from '../../store/api'
+import { getEmptyTableText } from './utils/tableTextGeneratorUtils'
 
 export function EmptyTableAlert({ tableName }: { tableName: string }) {
   const { data: user } = useGetUserQuery()
-  const isDoctor = user ? isUserDoctor(user) : false
-  return (
-    <IDSAlert className="py-10">
-      {isDoctor ? 'Du har' : 'Det finns'} inga {tableName} på {user && user.valdVardenhet ? user.valdVardenhet.namn : ''}.
-    </IDSAlert>
-  )
+  return <IDSAlert className="py-10">{getEmptyTableText(user, tableName)}</IDSAlert>
 }
