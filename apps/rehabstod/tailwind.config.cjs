@@ -11,7 +11,6 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
-      black: '#000',
       white: '#FFF',
       primary: {
         30: 'var(--IDS-COLOR-PRIMARY-30)',
