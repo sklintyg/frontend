@@ -28,7 +28,7 @@ export function PatientSickLeaves() {
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
   const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
-  const isDoctor = isUserDoctor(user)
+  const isDoctor = user ? isUserDoctor(user) : false
 
   return (
     <PageContainer>
