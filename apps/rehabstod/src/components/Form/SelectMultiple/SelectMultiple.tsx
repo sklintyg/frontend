@@ -99,14 +99,6 @@ export function SelectMultiple({
               {...getFloatingProps()}
             >
               {children}
-              {/* <div className="relative max-h-96 overflow-auto py-1">
-                <IDSCheckboxGroup compact>{children}</IDSCheckboxGroup>
-              </div>
-              {hasActions && (
-                <div className="pt-2">
-                  <div className="border-neutral-90 flex grow items-center border-t pt-3">{actions}</div>
-                </div>
-              )} */}
             </div>
           </FloatingFocusManager>
         </FloatingPortal>

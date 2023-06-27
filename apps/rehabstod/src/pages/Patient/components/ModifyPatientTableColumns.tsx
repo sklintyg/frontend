@@ -3,14 +3,7 @@ import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
 import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
-import {
-  PatientColumn,
-  hideColumn,
-  moveColumn,
-  setColumnDefaults,
-  showAllColumns,
-  showColumn,
-} from '../../../store/slices/patientTableColumns.slice'
+import { PatientColumn, hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../store/slices/patientTableColumns.slice'
 
 export function ModifyPatientTableColumns() {
   const dispatch = useAppDispatch()
@@ -29,12 +22,9 @@ export function ModifyPatientTableColumns() {
     <ModifyTableColumns
       onReset={() => dispatch(setColumnDefaults())}
       columns={columns.filter(({ name }) => name !== PatientColumn.Intyg)}
-      onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
-      onMove={(column, direction) => {
-        dispatch(moveColumn({ column, direction }))
-      }}
-      onShowAll={() => {
-        dispatch(showAllColumns())
+      onVisibleChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
+      onReorder={(target, keys) => {
+        dispatch(moveColumn({ target, keys }))
       }}
     />
   )

@@ -64,10 +64,15 @@ export function createTableColumnSlice<T extends UserPreferencesTableSettings>(s
             selectAll(state).map((column) => ({ id: column.name, changes: { visible: false } }))
           )
         },
-        moveColumn(state, { payload: { column, direction } }: PayloadAction<{ column: string; direction: 'left' | 'right' }>) {
+        moveColumn(state, { payload: { target, keys } }: PayloadAction<{ target: string; keys: string[] }>) {
           const enteties = columnsAdapter.getSelectors().selectAll(state)
-          const from = enteties.findIndex(({ name }) => name === column)
-          enteties.splice(direction === 'right' ? from + 1 : from - 1, 0, ...enteties.splice(from, 1))
+
+          keys.forEach((key) => {
+            const from = enteties.findIndex(({ name }) => name === key)
+            const targetIndex = enteties.findIndex(({ name }) => name === target)
+            enteties.splice(targetIndex, 0, ...enteties.splice(from, 1))
+          })
+
           columnsAdapter.setAll(
             state,
             enteties.map((col, index) => ({ ...col, index }))

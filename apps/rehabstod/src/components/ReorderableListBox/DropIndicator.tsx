@@ -8,6 +8,7 @@ export function DropIndicator({ dropState, ...props }: DropIndicatorProps & { dr
   if (isHidden) {
     return null
   }
+  console.log(dropState)
 
   return (
     <div
@@ -15,7 +16,7 @@ export function DropIndicator({ dropState, ...props }: DropIndicatorProps & { dr
       aria-selected={false}
       {...dropIndicatorProps}
       ref={ref}
-      className={`drop-indicator ${isDropTarget ? 'drop-target' : ''}`}
+      className={`border-accent-90 border-b ${isDropTarget && 'border-accent-40'}`}
     />
   )
 }

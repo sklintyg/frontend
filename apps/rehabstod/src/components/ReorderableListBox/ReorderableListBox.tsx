@@ -2,6 +2,7 @@ import { Key, useRef } from 'react'
 import {
   AriaListBoxProps,
   DragItem,
+  DroppableCollectionOptions,
   ListDropTargetDelegate,
   ListKeyboardDelegate,
   mergeProps,
@@ -72,10 +73,13 @@ export function ReorderableListBox<T extends object>({
   label,
   getItems,
   ...props
-}: AriaListBoxProps<T> & { getItems: (keys: Set<Key>) => DragItem[] }) {
+}: AriaListBoxProps<T> & { getItems: (keys: Set<Key>) => DragItem[] } & Omit<
+    DroppableCollectionOptions,
+    'keyboardDelegate' | 'dropTargetDelegate'
+  >) {
   const state = useListState(props)
   const ref = useRef(null)
-  const { listBoxProps, labelProps } = useListBox({ label, ...props }, state, ref)
+  const { listBoxProps, labelProps } = useListBox({ label, ...props, shouldSelectOnPressUp: true }, state, ref)
 
   const dropState = useDroppableCollectionState({
     ...props,
@@ -88,7 +92,6 @@ export function ReorderableListBox<T extends object>({
       ...props,
       keyboardDelegate: new ListKeyboardDelegate(state.collection, state.disabledKeys, ref),
       dropTargetDelegate: new ListDropTargetDelegate(state.collection, ref),
-      onReorder: console.log,
     },
     dropState,
     ref
