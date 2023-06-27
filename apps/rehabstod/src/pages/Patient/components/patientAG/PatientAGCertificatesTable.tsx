@@ -26,7 +26,7 @@ export function PatientAGCertificatesTable() {
   const isDoctor = user ? isUserDoctor(user) : false
 
   const allColumns = useAppSelector(allPatientColumns)
-  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined, true)
+  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined)
   const visibleColumns = filterHiddenColumns(filteredColumns)
 
   return (
