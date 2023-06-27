@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { skipToken } from '@reduxjs/toolkit/query'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
 import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
