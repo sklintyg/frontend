@@ -1,9 +1,9 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../schemas'
 import { PuResponse } from '../../schemas/patientSchema'
-import { useGetPopulatedFiltersQuery, useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
+import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
 import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
 import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumns'
 import { OpenTabsDialog } from './components/OpenTabsDialog'
@@ -12,6 +12,7 @@ import { PatientHeader } from './components/PatientHeader'
 import { PatientSickLeaves } from './components/PatientSickLeaves'
 import { PatientOverview } from './components/patientOverview/PatientOverview'
 import { PatientContext, usePatientState } from './hooks/usePatient'
+import { PatientRekoStatus } from './components/PatientRekoStatus'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { SelectRekoStatus } from '../../components/SelectRekoStatus/SelectRekoStatus'
 
@@ -19,7 +20,6 @@ export function Patient() {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const { data: patient, error } = useGetSickLeavePatientQuery(
     encryptedPatientId
       ? {
@@ -34,8 +34,6 @@ export function Patient() {
   const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
-  const { state } = useLocation()
-
   return (
     <PatientContext.Provider value={patientState}>
       {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
@@ -45,16 +43,7 @@ export function Patient() {
           <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
           {!error && (
             <div className="flex justify-end gap-5">
-              {currentSickness && firstCertificate && (
-                <div className="w-64">
-                  <SelectRekoStatus
-                    endDate={currentSickness.slut}
-                    patientId={firstCertificate.patient.id}
-                    statusFromSickLeave={state.rekoStatus}
-                    rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
-                  />
-                </div>
-              )}
+              <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} />
               <div className="w-96">
                 <ModifyPatientTableColumns />
               </div>

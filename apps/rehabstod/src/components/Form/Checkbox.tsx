@@ -11,6 +11,7 @@ export function Checkbox({
   valid = 'true',
   compact = false,
   required = false,
+  light = false,
 }: {
   label: string
   checked: boolean
@@ -20,6 +21,7 @@ export function Checkbox({
   valid?: 'true' | 'false'
   compact?: boolean
   required?: boolean
+  light?: boolean
 }) {
   const id = useId()
   const ref = useRef<IDSCheckboxElement>(null)
@@ -29,7 +31,7 @@ export function Checkbox({
   }, [checked])
 
   return (
-    <IDSCheckbox ref={ref} valid={valid} compact={compact}>
+    <IDSCheckbox ref={ref} valid={valid} compact={compact} light={light}>
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>
