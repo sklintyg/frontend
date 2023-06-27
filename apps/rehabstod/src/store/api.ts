@@ -142,7 +142,7 @@ export const api = createApi({
       }),
       providesTags: ['SickLeavePatient'],
     }),
-    getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { personId: string }>({
+    getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
       query: (request) => ({
         url: 'certificate/lu/person',
         method: 'POST',

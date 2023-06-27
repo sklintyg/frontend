@@ -5,15 +5,22 @@ import { luCertificatesColumnsString } from '../../store/slices/luCertificatesTa
 import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns'
 import { hideColumn, moveColumn, setColumnDefaults, showAllColumns, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
 import { TableColumn } from '../../schemas/tableSchema'
+import { UserPreferencesTableSettings } from '../../schemas'
 
-export function ModifyLUCertificatesTableColumns({ columns, preferenceKey }: { columns: TableColumn[]; preferenceKey: string }) {
+export function ModifyLUCertificatesTableColumns({
+  columns,
+  preferenceKey,
+}: {
+  columns: TableColumn[]
+  preferenceKey: UserPreferencesTableSettings
+}) {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
   const columnString = useAppSelector(luCertificatesColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
 
   useEffect(() => {
-    if (user && columnString !== user.preferences[preferenceKey]) {
+    if (user && columnString !== user.preferences.preferenceKey) {
       updateUserPreferences({ [preferenceKey]: columnString })
     }
   }, [columnString, updateUserPreferences, user, preferenceKey])
