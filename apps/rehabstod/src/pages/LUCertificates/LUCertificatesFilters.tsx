@@ -8,7 +8,7 @@ import { SelectFilter } from '../../components/Table/filter/SelectFilter'
 import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { MultipleSelectFilterOption } from '../../components/Table/filter/MultipleSelectFilterOption'
 import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
-import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
+import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersForLUQuery, useGetUserQuery } from '../../store/api'
 import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
 import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
@@ -20,7 +20,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
   const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetPopulatedFiltersForLUQuery()
   const { data: user } = useGetUserQuery()
 
   const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
