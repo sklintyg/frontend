@@ -29,7 +29,7 @@ export function PatientLUCertificatesTable() {
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined, true)
   const visibleColumns = filterHiddenColumns(filteredColumns)
   const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetLUCertificatesForPatientQuery({
-    encryptedPatientId: encryptedPatientId || skipToken,
+    encryptedPatientId: encryptedPatientId || '',
   })
 
   return (

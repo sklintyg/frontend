@@ -20,7 +20,7 @@ export function ModifyLUCertificatesTableColumns({
   const { updateUserPreferences } = useUpdateUserPreferences()
 
   useEffect(() => {
-    if (user && columnString !== user.preferences.preferenceKey) {
+    if (user && columnString !== user.preferences[preferenceKey]) {
       updateUserPreferences({ [preferenceKey]: columnString })
     }
   }, [columnString, updateUserPreferences, user, preferenceKey])
