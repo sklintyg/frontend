@@ -14,3 +14,11 @@ it('Should display error when request for fetching sickleave fails', async () =>
     within(screen.getByRole('alert')).getByText(/sjukfall för enheten kan inte visas på grund av ett tekniskt fel/i)
   ).toBeInTheDocument()
 })
+
+it('Should display alert when request for fetching sickleaves is empty', async () => {
+  server.use(rest.post('/api/sickleaves/active', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: [] }))))
+  const { user } = renderWithRouter(<CurrentSickLeaves />)
+  await user.click(screen.getByText('Sök'))
+  expect(await screen.findByRole('alert')).toBeInTheDocument()
+  expect(within(screen.getByRole('alert')).getByText(/det finns inga pågående sjukfall på/i)).toBeInTheDocument()
+})
