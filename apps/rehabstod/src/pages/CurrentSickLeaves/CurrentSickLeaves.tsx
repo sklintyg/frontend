@@ -17,6 +17,7 @@ import { updateShowPersonalInformation } from '../../store/slices/settings.slice
 import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
+import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -51,6 +52,8 @@ export function CurrentSickLeaves() {
     return <Outlet />
   }
 
+  const TABLE_NAME = 'pågående sjukfall'
+
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
@@ -62,6 +65,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
+      {currentSickLeavesInfo && currentSickLeavesInfo?.content.length === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>

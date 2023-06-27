@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
-import { useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
+import { useGetDoctorsForLUCertificatesQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { LUCertificatesFilters } from './LUCertificatesFilters'
 import { TablePageLayout } from '../../components/Table/TablePageLayout'
 import { reset } from '../../store/slices/luCertificates.slice'
@@ -28,6 +28,7 @@ export function LUCertificates() {
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
   })
+  const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
@@ -70,6 +71,7 @@ export function LUCertificates() {
       modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} preferenceKey="lakarutlatandeUnitTableColumns" />}
       tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
+      emptyTableAlert={doctorsFilterResponse && doctorsFilterResponse.doctors.length === 0}
     >
       <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
         <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
