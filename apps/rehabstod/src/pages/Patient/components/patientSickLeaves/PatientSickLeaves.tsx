@@ -10,6 +10,7 @@ import { PatientSickLeavesTable } from './PatientSickLeavesTable'
 import { PatientOverview } from '../patientOverview/PatientOverview'
 import { PuResponse } from '../../../../schemas/patientSchema'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
+import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()
@@ -32,7 +33,7 @@ export function PatientSickLeaves() {
   const { state } = useLocation()
 
   return (
-    <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
+    <PageContainer>
       <div className="flex justify-between">
         <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
         {!error && (
@@ -72,6 +73,6 @@ export function PatientSickLeaves() {
       {earlierSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" />
       )}
-    </div>
+    </PageContainer>
   )
 }
