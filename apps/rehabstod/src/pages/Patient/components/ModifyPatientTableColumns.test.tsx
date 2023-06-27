@@ -79,7 +79,7 @@ describe('position', () => {
 
     expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
 
-    await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta ner Grad'))
+    await user.click(screen.getByLabelText('Flytta ner Grad'))
 
     expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Startdatum')
   })

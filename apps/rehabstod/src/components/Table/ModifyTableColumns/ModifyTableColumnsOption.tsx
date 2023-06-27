@@ -1,14 +1,17 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import { ReactEventHandler } from 'react'
 import { DropPosition } from 'react-aria'
 import { TableColumn } from '../../../schemas/tableSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { MoveColumnButton } from './MoveColumnButton'
 
+const preventEventPropagation: ReactEventHandler = (event) => event.stopPropagation()
+
 export function ModifyTableColumnsOption({
   name,
   visible,
   disabled,
-  onVisibleChange,
+  onVisibilityChange,
   onReorder,
   disableCheckbox,
   before,
@@ -18,24 +21,18 @@ export function ModifyTableColumnsOption({
   before?: TableColumn
   after?: TableColumn
   onReorder: (target: string, keys: string[], position: DropPosition) => void
-  onVisibleChange: (key: string, visible: boolean) => void
+  onVisibilityChange: (key: string, visible: boolean) => void
 }) {
   return (
-    <div className="flex cursor-move">
-      <div
-        className="h-12 w-full"
-        onKeyDown={(event) => event.stopPropagation()}
-        onClick={(event) => {
-          event.stopPropagation()
-        }}
-      >
+    <div className="flex cursor-move" onKeyDown={preventEventPropagation} onClick={preventEventPropagation}>
+      <div className="h-12 w-full">
         <Checkbox
           checked={visible}
           disabled={disabled || disableCheckbox}
           label={name}
           compact
           onChange={(event) => {
-            onVisibleChange(name, event.currentTarget.checked)
+            onVisibilityChange(name, event.currentTarget.checked)
           }}
         />
       </div>

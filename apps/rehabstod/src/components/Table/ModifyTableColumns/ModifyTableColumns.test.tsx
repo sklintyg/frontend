@@ -8,13 +8,13 @@ import { ModifyTableColumns } from './ModifyTableColumns'
 it('Should render without crash', async () => {
   const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema))
   expect(() =>
-    render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibleChange={vi.fn()} />)
+    render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibilityChange={vi.fn()} />)
   ).not.toThrow()
 })
 
 it('Should present a list of columns', async () => {
   const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema))
-  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibleChange={vi.fn()} />)
+  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibilityChange={vi.fn()} />)
 
   await userEvent.click(screen.getByRole('button'))
 
@@ -26,7 +26,7 @@ it('Should present a list of columns', async () => {
 it('Should trigger reset when pressing the button', async () => {
   const onReset = vi.fn()
   const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema))
-  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={onReset} onVisibleChange={vi.fn()} />)
+  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={onReset} onVisibilityChange={vi.fn()} />)
 
   await userEvent.click(screen.getByRole('button'))
 
@@ -35,16 +35,19 @@ it('Should trigger reset when pressing the button', async () => {
   expect(onReset).toHaveBeenCalledTimes(1)
 })
 
-it('Should trigger visibility change on pressing checkboxes', async () => {
+it('Should trigger visibility change on desired column', async () => {
   const onVisibleChange = vi.fn()
-  const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema))
-  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibleChange={onVisibleChange} />)
+  const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema)).map((column) => ({
+    ...column,
+    disabled: false,
+    visible: true,
+  }))
+  render(<ModifyTableColumns columns={columns} onReorder={vi.fn()} onReset={vi.fn()} onVisibilityChange={onVisibleChange} />)
 
   await userEvent.click(screen.getByRole('button'))
 
   await userEvent.click(screen.getAllByRole('checkbox')[0])
 
-  screen.debug(screen.getAllByRole('checkbox'))
-
   expect(onVisibleChange).toHaveBeenCalledTimes(1)
+  expect(onVisibleChange).toHaveBeenCalledWith(columns[0].name, false)
 })

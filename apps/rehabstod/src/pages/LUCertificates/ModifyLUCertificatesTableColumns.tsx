@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
-import { useGetUserQuery } from '../../store/api'
-import { allLuCertificatesColumns, luCertificatesColumnsString } from '../../store/slices/luCertificatesTableColumns.selector'
-import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns'
-import { hideColumn, moveColumn, setColumnDefaults, showAllColumns, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
+import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns/ModifyTableColumns'
 import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
+import { useGetUserQuery } from '../../store/api'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
+import { allLuCertificatesColumns, luCertificatesColumnsString } from '../../store/slices/luCertificatesTableColumns.selector'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function ModifyLUCertificatesTableColumns() {
@@ -29,12 +29,9 @@ export function ModifyLUCertificatesTableColumns() {
     <ModifyTableColumns
       onReset={() => dispatch(setColumnDefaults())}
       columns={filterTableColumns(columns, isUserDoctor(user), showPersonalInformation, false)}
-      onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
-      onMove={(column, direction) => {
-        dispatch(moveColumn({ column, direction }))
-      }}
-      onShowAll={() => {
-        dispatch(showAllColumns())
+      onVisibilityChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
+      onReorder={(target, keys) => {
+        dispatch(moveColumn({ target, keys }))
       }}
     />
   )

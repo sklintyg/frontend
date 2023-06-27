@@ -11,12 +11,12 @@ import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 
 export function ModifyTableColumns({
   columns,
-  onVisibleChange,
+  onVisibilityChange,
   onReorder,
   onReset,
 }: {
   columns: TableColumn[]
-  onVisibleChange: (target: string, visible: boolean) => void
+  onVisibilityChange: (target: string, visible: boolean) => void
   onReorder: (target: string, keys: string[], position: DropPosition) => void
   onReset: () => void
 }) {
@@ -63,7 +63,7 @@ export function ModifyTableColumns({
               <ModifyTableColumnsOption
                 {...column}
                 disableCheckbox={numVisible === 1 && column.visible}
-                onVisibleChange={onVisibleChange}
+                onVisibilityChange={onVisibilityChange}
                 onReorder={onReorder}
                 before={index > 0 ? columns.at(index - 1) : undefined}
                 after={columns.at(index + 1)}

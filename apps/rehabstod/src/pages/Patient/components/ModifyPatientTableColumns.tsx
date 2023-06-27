@@ -31,7 +31,7 @@ export function ModifyPatientTableColumns() {
       columns={filterTableColumns(columns, isUserDoctor(user), false, false, populatedFilters && populatedFilters.srsActivated, [
         PatientColumn.Intyg,
       ])}
-      onVisibleChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
+      onVisibilityChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
       onReorder={(target, keys) => {
         dispatch(moveColumn({ target, keys }))
       }}

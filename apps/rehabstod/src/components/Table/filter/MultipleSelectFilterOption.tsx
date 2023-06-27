@@ -1,6 +1,6 @@
 import { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
 import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple'
+import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
 
