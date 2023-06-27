@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -51,6 +51,10 @@ export function CurrentSickLeaves() {
     return <Outlet />
   }
 
+  function noActiveSickLeaves() {
+    return currentSickLeavesInfo && currentSickLeavesInfo?.content.length === 0
+  }
+
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
@@ -62,6 +66,11 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
+      {noActiveSickLeaves() && (
+        <IDSAlert className="py-10">
+          {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {user && user.valdVardenhet ? user.valdVardenhet.namn : ''}.
+        </IDSAlert>
+      )}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
