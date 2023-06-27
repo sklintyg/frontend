@@ -9,6 +9,7 @@ export function RadioButton({
   description,
   disabled,
   value,
+  light = false,
 }: {
   label: string
   checked: boolean
@@ -16,11 +17,12 @@ export function RadioButton({
   description?: string
   disabled?: boolean
   value: string
+  light?: boolean
 }) {
   const id = useId()
 
   return (
-    <IDSRadio>
+    <IDSRadio light={light}>
       {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="ml-2" />} />}
       <input id={id} type="radio" checked={checked} onChange={onChange} disabled={disabled} value={value} />
       <label htmlFor={id} className="cursor-pointer">
