@@ -5,8 +5,9 @@ import { z } from 'zod'
 import { configSchema, Link, linkSchema, userPreferencesSchema } from '../../schemas'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { patientSchema } from '../../schemas/patientSchema'
-import { diagnosKapitelSchema, sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
+import { sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake/fakeUser'
+import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
 
 const fakeLink = fakerFromSchema(linkSchema)
 

@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react'
 import { addDays, format, subDays } from 'date-fns'
-import { updateShowPersonalInformation } from '../../../store/slices/sickLeave.slice'
 import { store } from '../../../store/store'
 import { fakePatient } from '../../../utils/fake/fakePatient'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { PatientHeader } from './PatientHeader'
+import { updateShowPersonalInformation } from '../../../store/slices/settings.slice'
 
 describe('PatientHeader', () => {
   function renderPatientHeader(showPersonalInformation: boolean) {

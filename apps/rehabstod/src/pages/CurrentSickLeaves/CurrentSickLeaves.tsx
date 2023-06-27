@@ -2,26 +2,27 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
-import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../schemas'
 import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { reset, resetFilters, updateShowPersonalInformation } from '../../store/slices/sickLeave.slice'
+import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
-import { CurrentSickLeavesHeading } from './components/CurrentSickLeavesHeading'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
-import { PrintFilters } from './components/PrintFilters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
-import { TableInfo } from './components/TableInfo'
+import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
+import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
+import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
+import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: sickLeaves, error }] = useLazyGetSickLeavesQuery()
-  const { showPersonalInformation } = useAppSelector((state) => state.sickLeave)
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeavesInfo, error }] = useLazyGetSickLeavesQuery()
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: SickLeaveColumn.Startdatum,
@@ -31,6 +32,7 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
+  const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -51,32 +53,22 @@ export function CurrentSickLeaves() {
 
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-      <CurrentSickLeavesHeading user={user} />
-
-      <div className="print:hidden">
-        <Filters
-          onSearch={(request) => triggerGetSickLeaves(request)}
-          onReset={() => {
-            dispatch(resetFilters())
-          }}
-          isDoctor={isDoctor}
-        />
-      </div>
-      <PrintFilters isDoctor={isDoctor} />
-      {error && (
-        <ErrorAlert
-          heading="Sjukfall för enheten kunde inte hämtas."
-          errorType="error"
-          text="Sjukfall för enheten kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-          error={error}
-          dynamicLink
-        />
-      )}
+      <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
+      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
+      <Filters
+        onSearch={(request) => triggerGetSickLeaves(request)}
+        onReset={() => {
+          dispatch(resetFilters())
+        }}
+        isDoctor={isDoctor}
+      />
+      {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
+          <div className="pb-10">{currentSickLeavesInfo?.unansweredCommunicationError && <UnansweredCommunicationAlert />}</div>
           <div className="flex">
             <div className="w-full">
-              <TableInfo
+              <CurrentSickLeavesTableInfo
                 onShowPersonalInformationChange={(checked) => {
                   dispatch(updateShowPersonalInformation(checked))
                 }}
@@ -112,7 +104,7 @@ export function CurrentSickLeaves() {
                 isLoading={isLoading}
                 showPersonalInformation={showPersonalInformation}
                 sickLeaves={sickLeaves}
-                unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+                user={user}
               />
             </tbody>
           </Table>

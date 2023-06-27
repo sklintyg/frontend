@@ -5,7 +5,6 @@ import { ErrorData } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
-  DiagnosKapitel,
   OccupationType,
   RekoStatusType,
   SickLeaveFilter,
@@ -15,6 +14,8 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
+import { DiagnosKapitel } from '../schemas/diagnosisSchema'
+import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -27,7 +28,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient'],
+  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient', 'LUCertificates'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -91,15 +92,22 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+    getSickLeaves: builder.query<{ content: SickLeaveInfo[]; unansweredCommunicationError: boolean; srsError: boolean }, SickLeaveFilter>({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
         providesTags: ['SickLeaves'],
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
       providesTags: ['SickLeaves'],
+    }),
+    getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({
+      query: (request) => ({
+        url: 'certificate/lu/unit',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['LUCertificates'],
     }),
     getPopulatedFilters: builder.query<
       {
@@ -212,10 +220,10 @@ export const api = createApi({
       async onQueryStarted({ patientId, status, filter }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getSickLeaves', filter, (draft) => {
-            const index = draft.findIndex((sickLeave) => sickLeave.patient.id === patientId)
+            const index = draft.content.findIndex((sickLeave) => sickLeave.patient.id === patientId)
             if (index !== -1) {
               // eslint-disable-next-line no-param-reassign
-              draft[index].rekoStatus = { status }
+              draft.content[index].rekoStatus = { status }
             }
           })
         )
@@ -231,6 +239,12 @@ export const api = createApi({
         url: 'log/error',
         method: 'POST',
         body: errorData,
+      }),
+    }),
+    getDoctorsForLUCertificates: builder.query<{ doctors: Lakare[] }, void>({
+      query: () => ({
+        url: 'certificate/lu/doctors',
+        method: 'GET',
       }),
     }),
   }),
@@ -256,6 +270,8 @@ export const {
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
   useLogErrorMutation,
+  useLazyGetLUCertificatesQuery,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
+  useGetDoctorsForLUCertificatesQuery,
 } = api

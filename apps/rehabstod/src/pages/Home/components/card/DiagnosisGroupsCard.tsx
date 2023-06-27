@@ -1,6 +1,7 @@
-import { DiagnosGruppStat, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
 import { StatisticsCard } from './StatisticsCard'
+import { DiagnosGruppStat } from '../../../../schemas/diagnosisSchema'
 
 export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {

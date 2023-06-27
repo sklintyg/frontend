@@ -1,8 +1,9 @@
 import { IDSButton, IDSIconExternal } from '@frontend/ids-react-ts'
-import { DiagnosisDescription } from '../../../components/SickLeave/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
+
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { TableCell } from '../../../components/Table/TableCell'
+import { TableCell } from '../../../components/Table/tableBody/TableCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { Tooltip } from '../../../components/Tooltip/Tooltip'
 import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
