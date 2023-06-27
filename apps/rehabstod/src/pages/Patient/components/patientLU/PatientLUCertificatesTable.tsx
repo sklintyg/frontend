@@ -14,8 +14,9 @@ import { filterHiddenColumns, filterTableColumn, filterTableColumns } from '../.
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
 import { ModifyLUCertificatesTableColumns } from '../../../LUCertificates/ModifyLUCertificatesTableColumns'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
+import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 
-export function PatientLuTable() {
+export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()
   const { encryptedPatientId } = useParams()
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
@@ -49,7 +50,13 @@ export function PatientLuTable() {
       ) : (
         <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
           <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
-          <LUCertificatesTableBody content={luCertificatesInfo ? luCertificatesInfo.certificates : []} columns={visibleColumns} />
+          {!luCertificatesInfo || luCertificatesInfo.certificates.length === 0 ? (
+            <tbody>
+              <EmptyPatientTableMessage tableName="läkarutlåtanden" tableLength={visibleColumns.length} user={user} />
+            </tbody>
+          ) : (
+            <LUCertificatesTableBody content={luCertificatesInfo ? luCertificatesInfo.certificates : []} columns={visibleColumns} />
+          )}
         </Table>
       )}
     </>
