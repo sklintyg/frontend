@@ -1,10 +1,11 @@
-import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple'
 import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
+import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
+import { PrintTitle } from '../print/PrintTitle'
 import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from './utils/getSickLeaveLengthPlaceholder'
 import { convertSelectedValue } from './utils/timePeriodConversion'
-import { PrintTitle } from '../print/PrintTitle'
 
 export function TimePeriodFilter({
   label,
@@ -53,14 +54,16 @@ export function TimePeriodFilter({
     <>
       <div className="print:hidden">
         <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
-          {availableOptions.map((option) => (
-            <Checkbox
-              key={`${option.to}${option.from}${option.id}`}
-              label={getSickLeaveLengthLabel(option)}
-              onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
-              checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
-            />
-          ))}
+          <SelectMultipleList>
+            {availableOptions.map((option) => (
+              <Checkbox
+                key={`${option.to}${option.from}${option.id}`}
+                label={getSickLeaveLengthLabel(option)}
+                onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
+                checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
+              />
+            ))}
+          </SelectMultipleList>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
