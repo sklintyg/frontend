@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useTableContext } from '../../components/Table/hooks/useTableContext'
 import { TableRow } from '../../components/Table/tableBody/TableRow'
-import { TableColumn } from '../../schemas/tableSchema'
 import { LUCertificate } from '../../schemas/luCertificatesSchema'
-import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { TableColumn } from '../../schemas/tableSchema'
 import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
+import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 
 export function LUCertificatesTableBody({
   content,
@@ -21,7 +21,7 @@ export function LUCertificatesTableBody({
   const navigate = useNavigate()
 
   const navigateToPatient = (data: LUCertificate) => {
-    navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
+    navigate(`/lakarutlatanden/${data.encryptedPatientId}`, {
       state: {
         activeTab: 1,
       },
