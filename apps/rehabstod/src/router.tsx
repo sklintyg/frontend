@@ -11,10 +11,10 @@ import { MissingEmployeeAssignmentError } from './pages/Error/components/Missing
 import { UnknownInternalError } from './pages/Error/components/UnknownInternalError'
 import { Error } from './pages/Error/Error'
 import { Home } from './pages/Home/Home'
+import { LUCertificates } from './pages/LUCertificates/LUCertificates'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
-import { LUCertificates } from './pages/LUCertificates/LUCertificates'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -50,7 +50,7 @@ export const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route path=":patientId" element={<Patient />} />
+        <Route path=":encryptedPatientId" element={<Patient />} />
       </Route>
       <Route path="*" element={<NoMatch />} />
       <Route path="/error" element={<Error />}>
