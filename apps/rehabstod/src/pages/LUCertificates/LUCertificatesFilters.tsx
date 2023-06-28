@@ -8,7 +8,7 @@ import { SelectFilter } from '../../components/Table/filter/SelectFilter'
 import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { MultipleSelectFilterOption } from '../../components/Table/filter/MultipleSelectFilterOption'
 import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
-import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
+import { useGetPopulatedFiltersForLUQuery, useGetUserQuery } from '../../store/api'
 import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
 import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
 import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
@@ -19,8 +19,7 @@ import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
-  const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetPopulatedFiltersForLUQuery()
   const { data: user } = useGetUserQuery()
 
   const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
@@ -50,7 +49,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
       {!isUserDoctor(user) && (
         <DoctorFilter
           onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-          doctors={doctorsFilterResponse && doctorsFilterResponse.doctors ? doctorsFilterResponse.doctors : []}
+          doctors={populatedFilters && populatedFilters.doctors ? populatedFilters.doctors : []}
           selected={filter ? filter.doctors : []}
           description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
         />
