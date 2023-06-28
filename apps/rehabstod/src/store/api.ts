@@ -129,7 +129,7 @@ export const api = createApi({
     }),
     getPopulatedFiltersForLU: builder.query<
       {
-        activeDoctors: Lakare[]
+        doctors: Lakare[]
         allDiagnosisChapters: DiagnosKapitel[]
       },
       void
