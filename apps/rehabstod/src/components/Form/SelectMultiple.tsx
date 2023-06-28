@@ -54,10 +54,6 @@ export function SelectMultiple({
   const { getFloatingProps } = useInteractions([dismiss, role])
   const id = useId()
 
-  if (hasNoChildren(children)) {
-    return null
-  }
-
   const hasActions = !hasNoChildren(actions)
 
   return (
