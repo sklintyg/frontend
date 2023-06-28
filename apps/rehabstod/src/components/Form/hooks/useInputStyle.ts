@@ -13,11 +13,7 @@ const getStyle = ({ error, disabled, bright, flex }: Record<string, boolean | un
     return 'bg-white border-accent-40'
   }
 
-  if (flex) {
-    return 'bg-secondary-95 border-accent-40 flex'
-  }
-
-  return 'bg-secondary-95 border-accent-40'
+  return `bg-secondary-95 border-accent-40 ${flex}` ? 'flex' : ''
 }
 
 export function useInputStyle(props: Record<string, boolean | undefined>): string {
