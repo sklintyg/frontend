@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
+import { DiagnosKapitel } from '../schemas/diagnosisSchema'
 import { ErrorData } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
+import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
   OccupationType,
@@ -14,8 +16,6 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
-import { DiagnosKapitel } from '../schemas/diagnosisSchema'
-import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -28,7 +28,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient', 'LUCertificates', 'LUCertificatesPatient'],
+  tagTypes: ['User', 'Patient'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -43,7 +43,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary', 'User'],
+      invalidatesTags: ['User'],
       async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -99,7 +99,7 @@ export const api = createApi({
         body: request,
         providesTags: ['SickLeaves'],
       }),
-      providesTags: ['SickLeaves'],
+      providesTags: ['User'],
     }),
     getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({
       query: (request) => ({
@@ -107,7 +107,6 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
-      providesTags: ['LUCertificates'],
     }),
     getPopulatedFilters: builder.query<
       {
@@ -125,7 +124,7 @@ export const api = createApi({
       query: () => ({
         url: 'sickleaves/filters',
       }),
-      providesTags: ['SickLeavesFilter'],
+      providesTags: ['User'],
     }),
     getPopulatedFiltersForLU: builder.query<
       {
@@ -141,7 +140,7 @@ export const api = createApi({
       query: () => ({
         url: 'sickleaves/summary',
       }),
-      providesTags: ['SickLeaveSummary'],
+      providesTags: ['User'],
     }),
     getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
@@ -150,7 +149,7 @@ export const api = createApi({
         method: 'POST',
         body: encryptedPatientId,
       }),
-      providesTags: ['SickLeavePatient'],
+      providesTags: ['Patient'],
     }),
     getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
       query: (request) => ({
@@ -158,7 +157,6 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
-      providesTags: ['LUCertificatesPatient'],
     }),
     createDefaultTestData: builder.mutation<string, void>({
       query: () => ({
@@ -187,7 +185,7 @@ export const api = createApi({
         method: 'POST',
         body: { patientId, vardenhetId },
       }),
-      invalidatesTags: ['SickLeavePatient'],
+      invalidatesTags: ['Patient'],
     }),
     addVardgivare: builder.mutation<string[], { patientId: string; vardgivareId: string }>({
       query: ({ patientId, vardgivareId }) => ({
@@ -195,7 +193,7 @@ export const api = createApi({
         method: 'POST',
         body: { patientId, vardgivareId },
       }),
-      invalidatesTags: ['SickLeavePatient'],
+      invalidatesTags: ['Patient'],
     }),
     giveSjfConsent: builder.mutation<
       { registeredBy: string; responseCode: string; responseMessage: string },
@@ -222,7 +220,7 @@ export const api = createApi({
             )
           )
         } catch {
-          dispatch(api.util.invalidateTags(['SickLeavePatient']))
+          dispatch(api.util.invalidateTags(['Patient']))
         }
       },
     }),
