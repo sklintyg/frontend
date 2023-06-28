@@ -65,7 +65,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {currentSickLeavesInfo && currentSickLeavesInfo?.content.length === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
+      {populatedFilters?.nbrOfSickLeaves === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
