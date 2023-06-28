@@ -5,8 +5,9 @@ import { DiagnosisDescription } from '../../components/Diagnosis/DiagnosisDescri
 import { DiagnosisInfo } from '../../components/Diagnosis/DiagnosisInfo'
 import { getUnansweredCommunicationFormat } from '../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { CertificateButton } from '../Patient/components/CertificateButton'
 
-export function LUCertificatesTableCellResolver({ column, data }: { column: string; data: LUCertificate }) {
+export function LUCertificatesTableCellResolver({ column, data, list }: { column: string; data: LUCertificate; list: LUCertificate[] }) {
   switch (column) {
     case LUCertificatesColumn.Diagnos:
       return (
@@ -18,7 +19,13 @@ export function LUCertificatesTableCellResolver({ column, data }: { column: stri
       return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
+    case LUCertificatesColumn.Visa:
+      return (
+        <TableCell sticky="right">
+          <CertificateButton certificateId={data.certificateId} />
+        </TableCell>
+      )
     default:
-      return <TableCell>{getLUCertificatesTableValue(column, data)}</TableCell>
+      return <TableCell>{getLUCertificatesTableValue(column, data, list)}</TableCell>
   }
 }

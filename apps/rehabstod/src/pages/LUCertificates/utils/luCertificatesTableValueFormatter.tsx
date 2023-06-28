@@ -1,7 +1,7 @@
 import { LUCertificate } from '../../../schemas/luCertificatesSchema'
 import { LUCertificatesColumn } from '../../../store/slices/luCertificatesTableColumns.slice'
 
-export const getLUCertificatesTableValue = (column: string, data: LUCertificate) => {
+export const getLUCertificatesTableValue = (column: string, data: LUCertificate, list?: LUCertificate[]) => {
   switch (column) {
     case LUCertificatesColumn.Personnummer:
       return data.patient.id
@@ -21,6 +21,14 @@ export const getLUCertificatesTableValue = (column: string, data: LUCertificate)
       return data.unAnsweredComplement + data.unAnsweredOther
     case LUCertificatesColumn.Diagnos:
       return data.diagnosis ? data.diagnosis.kod : 'Okänt'
+    case LUCertificatesColumn.Vårdenhet:
+      return data.careUnitName
+    case LUCertificatesColumn.Vårdgivare:
+      return data.careProviderName
+    case LUCertificatesColumn.Visa:
+      return 'Visa'
+    case LUCertificatesColumn.Index:
+      return list ? list.indexOf(data) + 1 : 0
     default:
       return undefined
   }

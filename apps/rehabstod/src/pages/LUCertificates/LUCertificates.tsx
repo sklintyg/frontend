@@ -1,26 +1,28 @@
-import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
-import { useGetDoctorsForLUCertificatesQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
-import { LUCertificatesFilters } from './LUCertificatesFilters'
-import { TablePageLayout } from '../../components/Table/TablePageLayout'
-import { reset } from '../../store/slices/luCertificates.slice'
+import { useDispatch } from 'react-redux'
+import { Outlet, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
-import { LUCertificatesColumn } from '../../store/slices/luCertificatesTableColumns.slice'
-import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
-import { useAppSelector } from '../../store/hooks'
-import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTableColumns.selector'
-import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
-import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
-import { LUCertificatesTableBody } from './LUCertificatesTableBody'
-import { isUserDoctor } from '../../utils/isUserDoctor'
-import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableInfo } from '../../components/Table/TableInfo'
-import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
-import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
+import { TablePageLayout } from '../../components/Table/TablePageLayout'
+import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
+import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
+import { filterHiddenColumns, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
+import { useGetDoctorsForLUCertificatesQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
+import { useAppSelector } from '../../store/hooks'
+import { reset } from '../../store/slices/luCertificates.slice'
+import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTableColumns.selector'
+import { LUCertificatesColumn } from '../../store/slices/luCertificatesTableColumns.slice'
+import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
+import { isUserDoctor } from '../../utils/isUserDoctor'
+import { LUCertificatesFilters } from './LUCertificatesFilters'
+import { LUCertificatesTableBody } from './LUCertificatesTableBody'
+import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
+import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
 
 export function LUCertificates() {
+  const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
   const [triggerGetLUCertificates, { isLoading: isContentLoading, data: luCertificatesInfo, error }] = useLazyGetLUCertificatesQuery()
   const allColumns = useAppSelector(allLuCertificatesColumns)
@@ -35,7 +37,13 @@ export function LUCertificates() {
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
-  const visibleColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true)
+  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true, undefined, [
+    LUCertificatesColumn.Visa,
+    LUCertificatesColumn.Vårdgivare,
+    LUCertificatesColumn.Vårdenhet,
+    LUCertificatesColumn.Index,
+  ])
+  const visibleColumns = filterHiddenColumns(filteredColumns)
 
   const TABLE_NAME = 'läkarutlåtanden'
 
@@ -47,6 +55,10 @@ export function LUCertificates() {
   )
 
   useNavigateToStartPage()
+
+  if (encryptedPatientId) {
+    return <Outlet />
+  }
 
   return (
     <TablePageLayout
@@ -62,7 +74,7 @@ export function LUCertificates() {
           onShowPersonalInformationChange={(checked) => dispatch(updateShowPersonalInformation(checked))}
         />
       }
-      modifyTableColumns={<ModifyLUCertificatesTableColumns />}
+      modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} preferenceKey="lakarutlatandeUnitTableColumns" />}
       tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
       emptyTableAlert={doctorsFilterResponse && doctorsFilterResponse.doctors.length === 0}
@@ -78,7 +90,12 @@ export function LUCertificates() {
           content={luCertificatesInfo ? luCertificatesInfo.certificates : null}
           hasAppliedFilters={hasAppliedFilters}
         />
-        <LUCertificatesTableBody content={luCertificatesInfo ? luCertificatesInfo.certificates : []} columns={visibleColumns} />
+        <LUCertificatesTableBody
+          focusable
+          clickable
+          content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
+          columns={visibleColumns}
+        />
       </Table>
     </TablePageLayout>
   )
