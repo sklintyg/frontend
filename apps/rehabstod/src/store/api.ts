@@ -97,7 +97,6 @@ export const api = createApi({
         url: 'sickleaves/active',
         method: 'POST',
         body: request,
-        providesTags: ['SickLeaves'],
       }),
       providesTags: ['User'],
     }),
