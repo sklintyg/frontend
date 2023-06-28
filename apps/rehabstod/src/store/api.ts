@@ -134,6 +134,7 @@ export const api = createApi({
       },
       void
     >({
+      keepUnusedDataFor: 0,
       query: () => 'lu/filters',
     }),
     getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
