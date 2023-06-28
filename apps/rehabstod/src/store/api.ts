@@ -259,12 +259,6 @@ export const api = createApi({
         body: errorData,
       }),
     }),
-    getDoctorsForLUCertificates: builder.query<{ doctors: Lakare[] }, void>({
-      query: () => ({
-        url: 'certificate/lu/doctors',
-        method: 'GET',
-      }),
-    }),
   }),
 })
 
@@ -292,6 +286,5 @@ export const {
   useLazyGetLUCertificatesQuery,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
-  useGetDoctorsForLUCertificatesQuery,
   useGetPopulatedFiltersForLUQuery,
 } = api
