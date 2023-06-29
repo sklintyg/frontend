@@ -61,6 +61,7 @@ export function OpenInformationWithConsent({
           min="1"
           defaultValue="7"
           bright
+          ignoreInputLimit
         />
         <p>dagar</p>
       </div>

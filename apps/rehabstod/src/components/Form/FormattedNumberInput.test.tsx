@@ -10,7 +10,7 @@ const label = 'label'
 const description = 'description'
 let onChange: (value: string) => void
 
-const renderComponent = (value?: string) => {
+const renderComponent = (value?: string, ignoreInputLimit?: boolean) => {
   onChange = vi.fn()
   render(
     <FormattedNumberInput
@@ -21,6 +21,7 @@ const renderComponent = (value?: string) => {
       label={label}
       description={description}
       defaultValue={defaultValue}
+      ignoreInputLimit={ignoreInputLimit}
     />
   )
 }
@@ -74,6 +75,12 @@ describe('FormattedNumberInput', () => {
     await userEvent.click(screen.getByLabelText(label))
     fireEvent.blur(screen.getByLabelText(label))
     expect(onChange).toHaveBeenLastCalledWith(max)
+  })
+
+  it('should allow multiple numbers if ignoreInputLimit is applied', async () => {
+    renderComponent('120', true)
+    await userEvent.type(screen.getByLabelText(label), '120')
+    expect(screen.getByLabelText(label)).toHaveValue(120)
   })
 
   it('should set value to default on blur if input is empty', async () => {
