@@ -100,6 +100,9 @@ export const api = createApi({
         body: request,
       }),
       providesTags: ['User'],
+      async onQueryStarted(_, { dispatch }) {
+        dispatch(api.endpoints.getSickLeavesFilters.initiate(undefined, { forceRefetch: true }))
+      },
     }),
     getSickLeavesFilters: builder.query<
       {
@@ -140,6 +143,9 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
+      async onQueryStarted(_, { dispatch }) {
+        dispatch(api.endpoints.getLUFilters.initiate(undefined, { forceRefetch: true }))
+      },
     }),
     getLUFilters: builder.query<
       {
