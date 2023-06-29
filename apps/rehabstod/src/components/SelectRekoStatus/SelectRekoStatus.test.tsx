@@ -10,13 +10,15 @@ const TYPES = [
 const PATIENT_ID = '1912121212'
 const END_DATE = '2022-01-01'
 
-const renderComponent = (statusFromSickLeave: RekoStatusType) => {
+const renderComponent = (statusFromSickLeave: RekoStatusType, disabled?: boolean) => {
   renderWithRouter(
     <SelectRekoStatus
       statusFromSickLeave={{ status: statusFromSickLeave }}
       patientId={PATIENT_ID}
       endDate={END_DATE}
       rekoStatusTypes={TYPES}
+      disabled={disabled}
+      description="description"
     />
   )
 }
@@ -39,5 +41,15 @@ describe('SelectRekoStatus', () => {
   it('should render options', () => {
     renderComponent(TYPES[0])
     expect(screen.getAllByRole('option')).toHaveLength(TYPES.length)
+  })
+
+  it('should be enabled as default', () => {
+    renderComponent(TYPES[0])
+    expect(screen.getByLabelText('REKO-status')).toBeEnabled()
+  })
+
+  it('should set disabled value', () => {
+    renderComponent(TYPES[0], true)
+    expect(screen.getByLabelText('REKO-status')).toBeDisabled()
   })
 })
