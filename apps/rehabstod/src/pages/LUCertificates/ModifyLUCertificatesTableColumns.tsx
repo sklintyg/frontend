@@ -1,25 +1,29 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
+import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns/ModifyTableColumns'
+import { UserPreferencesTableSettings } from '../../schemas'
+import { TableColumn } from '../../schemas/tableSchema'
 import { useGetUserQuery } from '../../store/api'
-import { allLuCertificatesColumns, luCertificatesColumnsString } from '../../store/slices/luCertificatesTableColumns.selector'
-import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns'
-import { hideColumn, moveColumn, setColumnDefaults, showAllColumns, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
-import { filterTableColumns } from '../../components/Table/utils/filterTableColumns'
-import { isUserDoctor } from '../../utils/isUserDoctor'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
+import { luCertificatesColumnsString } from '../../store/slices/luCertificatesTableColumns.selector'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
 
-export function ModifyLUCertificatesTableColumns() {
+export function ModifyLUCertificatesTableColumns({
+  columns,
+  preferenceKey,
+}: {
+  columns: TableColumn[]
+  preferenceKey: UserPreferencesTableSettings
+}) {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
-  const columns = useAppSelector(allLuCertificatesColumns)
   const columnString = useAppSelector(luCertificatesColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   useEffect(() => {
-    if (user && columnString !== user.preferences.lakarutlatandenTableColumns) {
-      updateUserPreferences({ lakarutlatandenTableColumns: columnString })
+    if (user && columnString !== user.preferences[preferenceKey]) {
+      updateUserPreferences({ [preferenceKey]: columnString })
     }
-  }, [columnString, updateUserPreferences, user])
+  }, [columnString, updateUserPreferences, user, preferenceKey])
 
   if (!user) {
     return null
@@ -28,13 +32,10 @@ export function ModifyLUCertificatesTableColumns() {
   return (
     <ModifyTableColumns
       onReset={() => dispatch(setColumnDefaults())}
-      columns={filterTableColumns(columns, isUserDoctor(user), showPersonalInformation, false)}
-      onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
-      onMove={(column, direction) => {
-        dispatch(moveColumn({ column, direction }))
-      }}
-      onShowAll={() => {
-        dispatch(showAllColumns())
+      columns={columns}
+      onVisibilityChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
+      onReorder={(target, keys) => {
+        dispatch(moveColumn({ target, keys }))
       }}
     />
   )

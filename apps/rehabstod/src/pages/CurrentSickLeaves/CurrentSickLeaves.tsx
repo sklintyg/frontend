@@ -1,26 +1,27 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useRef, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
+import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
+import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
+import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
 import { UserUrval } from '../../schemas'
-import { useGetPopulatedFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { useGetSickLeavesFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
+import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
-import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
-import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
-import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
-import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeavesInfo, error }] = useLazyGetSickLeavesQuery()
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
   const { encryptedPatientId } = useParams()
@@ -79,6 +80,8 @@ export function CurrentSickLeaves() {
     return <Outlet />
   }
 
+  const TABLE_NAME = 'pågående sjukfall'
+
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
@@ -90,6 +93,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
+      {populatedFilters?.nbrOfSickLeaves === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>

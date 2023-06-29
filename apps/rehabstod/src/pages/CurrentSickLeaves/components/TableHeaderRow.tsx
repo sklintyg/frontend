@@ -1,5 +1,5 @@
 import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHeaderCell'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
+import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
@@ -93,7 +93,7 @@ function HeaderCellResolver({ column }: { column: string }) {
 
 export function TableHeaderRow({ showPersonalInformation, isDoctor }: { showPersonalInformation: boolean; isDoctor: boolean }) {
   const columns = useAppSelector(allSickLeaveColumns)
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
 
   if (columns.length === 0) {
     return null
