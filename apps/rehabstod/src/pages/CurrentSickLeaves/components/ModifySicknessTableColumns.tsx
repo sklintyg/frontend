@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns'
-import { useGetPopulatedFiltersQuery, useGetUserQuery } from '../../../store/api'
+import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
+import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
+import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
 import { allSickLeaveColumns, sickLeaveColumnsString } from '../../../store/slices/sickLeaveTableColumns.selector'
-import { hideColumn, moveColumn, setColumnDefaults, showAllColumns, showColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
-import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 
 export function ModifySicknessTableColumns() {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const columns = useAppSelector(allSickLeaveColumns)
   const columnString = useAppSelector(sickLeaveColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
@@ -36,13 +36,8 @@ export function ModifySicknessTableColumns() {
         false,
         populatedFilters && populatedFilters.srsActivated
       )}
-      onChecked={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
-      onMove={(column, direction) => {
-        dispatch(moveColumn({ column, direction }))
-      }}
-      onShowAll={() => {
-        dispatch(showAllColumns())
-      }}
+      onVisibilityChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
+      onReorder={(target, keys) => dispatch(moveColumn({ target, keys }))}
     />
   )
 }

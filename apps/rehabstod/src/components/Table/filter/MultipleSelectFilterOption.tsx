@@ -1,6 +1,7 @@
-import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple'
 import { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function MultipleSelectFilterOption({
@@ -34,16 +35,17 @@ export function MultipleSelectFilterOption({
     <>
       <div className="flex-1 print:hidden">
         <SelectMultiple label={label} description={description} placeholder={placeholder}>
-          {options
-            ? options.map((option) => (
+          <SelectMultipleList>
+            {options &&
+              options.map((option) => (
                 <Checkbox
                   key={option.id}
                   checked={selected.some((id) => id === option.id)}
                   label={option.name}
                   onChange={(event) => handleOnChange(option.id, event.currentTarget.checked)}
                 />
-              ))
-            : null}
+              ))}
+          </SelectMultipleList>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
