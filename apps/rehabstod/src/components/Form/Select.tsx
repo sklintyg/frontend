@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
+import { useInputStyle } from './hooks/useInputStyle'
 import { classNames } from '../../utils/classNames'
 
 interface SelectProps {
@@ -20,17 +21,10 @@ const getStyle = ({ error, disabled }: Record<string, boolean>) => {
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, React.HTMLProps<HTMLSelectElement> & SelectProps>(
-  ({ error = false, disabled = false, ...props }, ref) => (
-    <select
-      ref={ref}
-      className={classNames(
-        'text-neutral-20 appearance-none truncate box-border w-full rounded border py-3 text-left pl-5 pr-12',
-        getStyle({ error, disabled })
-      )}
-      disabled={disabled}
-      {...props}
-    />
-  )
+  ({ error = false, disabled = false, ...props }, ref) => {
+    const style = useInputStyle({ error, disabled })
+    return <select ref={ref} className={classNames(style, 'py-3', 'appearance-none', 'pl-5 pr-12')} disabled={disabled} {...props} />
+  }
 )
 
 Select.displayName = 'Select'

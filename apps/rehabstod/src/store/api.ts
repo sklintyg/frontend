@@ -273,7 +273,6 @@ export const {
   useCreateSickLeaveMutation,
   useFakeLogoutMutation,
   useGetConfigQuery,
-  useGetLUCertificatesDoctorsQuery,
   useGetLinksQuery,
   useGetLUFiltersQuery,
   useGetPatientLUCertificatesQuery,
