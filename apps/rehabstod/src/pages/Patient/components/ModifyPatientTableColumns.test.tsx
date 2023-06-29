@@ -58,25 +58,29 @@ describe('vibility', () => {
 })
 
 describe('position', () => {
+  function getOptionByKey(key: string) {
+    return screen.getAllByRole('option').find((element) => element.getAttribute('data-key') === key)
+  }
+
   it('Should be possible to move column up', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
+    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
 
-    await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta upp Grad'))
+    await user.click(screen.getByRole('button', { name: 'Flytta upp Grad' }))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('#-column')
+    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('#')
   })
 
   it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
+    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
 
-    await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta ner Grad'))
+    await user.click(screen.getByLabelText('Flytta ner Grad'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('startdatum-column')
+    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Startdatum')
   })
 })

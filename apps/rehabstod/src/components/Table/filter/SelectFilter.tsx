@@ -28,21 +28,24 @@ export function SelectFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <IDSSelect className="m-0">
-          <label htmlFor={id}>
-            {label}
-            {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
-          </label>
-          <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)} disabled={disabled}>
-            {!hideDefaultValue && (
-              <option className="ml-2" id="" value="">
-                Visa alla
-              </option>
-            )}
-            {options ? options.map((option) => <option value={option.id} key={option.id} label={option.name} />) : null}
-          </Select>
+        <label htmlFor={id}>
+          {label}
+          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
+        </label>
+        <IDSSelect className="m-0" disabled={disabled}>
+          <div className="relative">
+            <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)} disabled={disabled}>
+              {!hideDefaultValue && (
+                <option className="ml-2" id="" value="">
+                  Visa alla{' '}
+                </option>
+              )}
+              {options ? options.map((option) => <option value={option.id} key={option.id} label={option.name} />) : null}
+            </Select>
+          </div>
         </IDSSelect>
       </div>
+
       <div className="hidden print:block">
         <PrintTitle title={label} />
         {chosenOption ? chosenOption.name : '-'}
