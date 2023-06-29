@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { PatientAGCertificatesTable } from './PatientAGCertificatesTable'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
-  render(<PatientAGCertificatesTable />)
+  renderWithRouter(<PatientAGCertificatesTable />)
 }
 
 describe('PatientAGCertificatesTable', () => {
