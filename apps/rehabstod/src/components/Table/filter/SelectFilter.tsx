@@ -32,7 +32,7 @@ export function SelectFilter({
           {label}
           {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </label>
-        <IDSSelect className="m-0" disabled={disabled}>
+        <IDSSelect className="m-0" isDisabled={disabled}>
           <div className="relative">
             <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)} disabled={disabled}>
               {!hideDefaultValue && (
