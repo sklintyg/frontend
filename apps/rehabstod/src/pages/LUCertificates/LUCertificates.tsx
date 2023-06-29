@@ -74,7 +74,7 @@ export function LUCertificates() {
           onShowPersonalInformationChange={(checked) => dispatch(updateShowPersonalInformation(checked))}
         />
       }
-      modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} />}
+      modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} preferenceKey="lakarutlatandeUnitTableColumns" />}
       tableContentError={error}
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
       emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
