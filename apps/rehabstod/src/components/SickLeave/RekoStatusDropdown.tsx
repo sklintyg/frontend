@@ -1,9 +1,9 @@
 import { MouseEvent, useState } from 'react'
-import { useGetPopulatedFiltersQuery, useSetRekoStatusMutation } from '../../store/api'
 import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
-import { SelectButton } from '../Form/SelectButton'
+import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
+import { SelectButton } from '../Form/SelectButton'
 
 export function RekoStatusDropdown({
   statusFromSickLeave,
@@ -14,7 +14,7 @@ export function RekoStatusDropdown({
   patientId: string
   endDate: string
 }) {
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [setRekoStatus] = useSetRekoStatusMutation()
   const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : 'Ingen')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
