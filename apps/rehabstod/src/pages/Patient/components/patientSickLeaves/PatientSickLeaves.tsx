@@ -1,21 +1,21 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../../../store/api'
-import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
+import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { UserUrval } from '../../../../schemas'
+import { PuResponse } from '../../../../schemas/patientSchema'
+import { useGetPatientSickLeavesQuery, useGetUserQuery } from '../../../../store/api'
+import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
+import { PatientRekoStatus } from '../PatientRekoStatus'
+import { PatientOverview } from '../patientOverview/PatientOverview'
 import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
 import { PatientSickLeavesTable } from './PatientSickLeavesTable'
-import { PatientOverview } from '../patientOverview/PatientOverview'
-import { PuResponse } from '../../../../schemas/patientSchema'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { PageContainer } from '../../../../components/PageContainer/PageContainer'
-import { PatientRekoStatus } from '../PatientRekoStatus'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
-  const { data: patient, error } = useGetSickLeavePatientQuery(
+  const { data: patient, error } = useGetPatientSickLeavesQuery(
     encryptedPatientId
       ? {
           encryptedPatientId,

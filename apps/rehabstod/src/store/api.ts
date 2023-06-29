@@ -28,7 +28,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Patient'],
+  tagTypes: ['User', 'Patient', 'SickLeaves'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -100,14 +100,7 @@ export const api = createApi({
       }),
       providesTags: ['User'],
     }),
-    getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({
-      query: (request) => ({
-        url: 'certificate/lu/unit',
-        method: 'POST',
-        body: request,
-      }),
-    }),
-    getPopulatedFilters: builder.query<
+    getSickLeavesFilters: builder.query<
       {
         activeDoctors: Lakare[]
         allDiagnosisChapters: DiagnosKapitel[]
@@ -123,9 +116,31 @@ export const api = createApi({
       query: () => ({
         url: 'sickleaves/filters',
       }),
-      providesTags: ['User'],
+      providesTags: ['User', 'SickLeaves'],
     }),
-    getPopulatedFiltersForLU: builder.query<
+    getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
+      query: () => ({
+        url: 'sickleaves/summary',
+      }),
+      providesTags: ['User', 'SickLeaves'],
+    }),
+    getPatientSickLeaves: builder.query<Patient, { encryptedPatientId: string }>({
+      keepUnusedDataFor: 0,
+      query: (encryptedPatientId) => ({
+        url: 'sjukfall/patient',
+        method: 'POST',
+        body: encryptedPatientId,
+      }),
+      providesTags: ['Patient', 'SickLeaves'],
+    }),
+    getLUCertificates: builder.query<LUCertificatesInfo, LUCertificatesFilter>({
+      query: (request) => ({
+        url: 'certificate/lu/unit',
+        method: 'POST',
+        body: request,
+      }),
+    }),
+    getLUFilters: builder.query<
       {
         doctors: Lakare[]
         allDiagnosisChapters: DiagnosKapitel[]
@@ -135,26 +150,17 @@ export const api = createApi({
       keepUnusedDataFor: 0,
       query: () => 'lu/filters',
     }),
-    getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
-      query: () => ({
-        url: 'sickleaves/summary',
-      }),
-      providesTags: ['User'],
-    }),
-    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
-      keepUnusedDataFor: 0,
-      query: (encryptedPatientId) => ({
-        url: 'sjukfall/patient',
-        method: 'POST',
-        body: encryptedPatientId,
-      }),
-      providesTags: ['Patient'],
-    }),
-    getLUCertificatesForPatient: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
+    getPatientLUCertificates: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
       query: (request) => ({
         url: 'certificate/lu/person',
         method: 'POST',
         body: request,
+      }),
+    }),
+    getLUCertificatesDoctors: builder.query<{ doctors: Lakare[] }, void>({
+      query: () => ({
+        url: 'certificate/lu/doctors',
+        method: 'GET',
       }),
     }),
     createDefaultTestData: builder.mutation<string, void>({
@@ -209,7 +215,7 @@ export const api = createApi({
             data: { responseCode },
           } = await queryFulfilled
           dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId }, (draft) =>
+            api.util.updateQueryData('getPatientSickLeaves', { encryptedPatientId }, (draft) =>
               Object.assign(draft, {
                 sjfMetaData: {
                   ...(draft.sjfMetaData ?? {}),
@@ -256,12 +262,6 @@ export const api = createApi({
         body: errorData,
       }),
     }),
-    getDoctorsForLUCertificates: builder.query<{ doctors: Lakare[] }, void>({
-      query: () => ({
-        url: 'certificate/lu/doctors',
-        method: 'GET',
-      }),
-    }),
   }),
 })
 
@@ -273,22 +273,22 @@ export const {
   useCreateSickLeaveMutation,
   useFakeLogoutMutation,
   useGetConfigQuery,
+  useGetLUCertificatesDoctorsQuery,
   useGetLinksQuery,
-  useGetPopulatedFiltersQuery,
+  useGetLUFiltersQuery,
+  useGetPatientLUCertificatesQuery,
   useGetSessionPingQuery,
-  useGetSickLeavePatientQuery,
-  useGetLUCertificatesForPatientQuery,
+  useGetPatientSickLeavesQuery,
+  useGetSickLeavesFiltersQuery,
   useGetSickLeavesQuery,
   useGetSickLeavesSummaryQuery,
   useGetTestDataOptionsQuery,
   useGetUserQuery,
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
+  useLazyGetLUCertificatesQuery,
   useLazyGetSickLeavesQuery,
   useLogErrorMutation,
-  useLazyGetLUCertificatesQuery,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
-  useGetDoctorsForLUCertificatesQuery,
-  useGetPopulatedFiltersForLUQuery,
 } = api
