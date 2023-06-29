@@ -273,7 +273,6 @@ export const {
   useCreateSickLeaveMutation,
   useFakeLogoutMutation,
   useGetConfigQuery,
-  useGetLUCertificatesDoctorsQuery,
   useGetLinksQuery,
   useGetLUFiltersQuery,
   useGetPatientLUCertificatesQuery,
@@ -291,5 +290,4 @@ export const {
   useLogErrorMutation,
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
-  useGetPopulatedFiltersForLUQuery,
 } = api
