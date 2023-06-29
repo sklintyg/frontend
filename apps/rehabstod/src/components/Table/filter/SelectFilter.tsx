@@ -1,5 +1,5 @@
 import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
-import React, { useId, useState } from 'react'
+import React, { useId } from 'react'
 import { Select } from '../../Form/Select'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { PrintTitle } from '../print/PrintTitle'
@@ -20,7 +20,6 @@ export function SelectFilter({
   hideDefaultValue?: boolean
 }) {
   const id = useId()
-  const [open, setOpen] = useState(false)
 
   const chosenOption = options ? options.find((option) => option.id === value) : undefined
 
@@ -33,7 +32,7 @@ export function SelectFilter({
         </label>
         <IDSSelect className="m-0">
           <div className="relative">
-            <Select onClick={() => setOpen(!open)} value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)}>
+            <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)}>
               {!hideDefaultValue && (
                 <option className="ml-2" id="" value="">
                   Visa alla{' '}
