@@ -1,5 +1,5 @@
 import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
-import React, { useId } from 'react'
+import { useId } from 'react'
 import { Select } from '../../Form/Select'
 import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { PrintTitle } from '../print/PrintTitle'
