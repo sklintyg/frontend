@@ -4,13 +4,13 @@ export function TableRow<T>({
   italic,
   onNavigate,
   data,
-  focusable,
+  focusable = false,
   children,
 }: {
   italic: boolean
   onNavigate?: (data: T) => void
   data: T
-  focusable: boolean
+  focusable?: boolean
   children: ReactNode
 }) {
   return (

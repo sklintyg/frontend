@@ -30,6 +30,7 @@ export function ModifyPatientTableColumns() {
       onReset={() => dispatch(setColumnDefaults())}
       columns={filterTableColumns(columns, isUserDoctor(user), false, false, populatedFilters && populatedFilters.srsActivated, [
         PatientColumn.Intyg,
+        PatientColumn.Visa,
       ])}
       onVisibilityChange={(column, visible) => dispatch(visible ? showColumn(column) : hideColumn(column))}
       onReorder={(target, keys) => {

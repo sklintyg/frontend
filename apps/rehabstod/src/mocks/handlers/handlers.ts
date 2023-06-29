@@ -8,6 +8,7 @@ import { patientSchema } from '../../schemas/patientSchema'
 import { sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake/fakeUser'
 import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
+import { agCertificatesInfoSchema } from '../../schemas/agCertificatesSchema'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
@@ -47,6 +48,8 @@ export const handlers = [
   ),
 
   rest.post('/api/sjukfall/patient', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(patientSchema)()))),
+
+  rest.post('api/certificate/ag/person', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(agCertificatesInfoSchema)()))),
 
   rest.post('/api/sickleaves/active', (_, res, ctx) =>
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))

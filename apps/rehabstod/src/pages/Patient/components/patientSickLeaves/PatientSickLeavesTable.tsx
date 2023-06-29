@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Table } from '../../../../components/Table/Table'
 import { PatientSjukfall } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { PatientAccordion } from '../PatientAccordion'
+import { PatientDiagnosisAccordion } from '../../../../components/PatientAccordion/PatientDiagnosisAccordion'
 import { PatientTableBody } from './PatientTableBody'
 import { PatientTableHeader } from '../PatientTableHeader'
 
@@ -21,13 +21,13 @@ export function PatientSickLeavesTable({
     <>
       <h2 className="ids-heading-3">{title}</h2>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
-        <PatientAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar}>
+        <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar}>
           <Table sortColumn={PatientColumn.Num}>
             <PatientTableHeader isDoctor={isDoctor} />
             <PatientTableBody certificates={intyg} isDoctor={isDoctor} />
           </Table>
           {children}
-        </PatientAccordion>
+        </PatientDiagnosisAccordion>
       ))}
     </>
   )
