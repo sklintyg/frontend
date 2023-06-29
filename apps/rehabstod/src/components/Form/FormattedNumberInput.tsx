@@ -8,14 +8,12 @@ export function FormattedNumberInput({
   max,
   value,
   defaultValue,
-  ignoreInputLimit,
   ...props
 }: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
   defaultValue: string
   min: string
   max: string
   value?: string
-  ignoreInputLimit?: boolean
   onChange: (value: string) => void
 }) {
   const selection = window.getSelection()
@@ -28,10 +26,7 @@ export function FormattedNumberInput({
   }
 
   function maxLengthReached(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (ignoreInputLimit) {
-      return false
-    }
-    return event.currentTarget.value.length === 2 && event.key !== 'Backspace' && selection?.type !== 'Range'
+    return event.currentTarget.value.length === `${max}`.length && event.key !== 'Backspace' && selection?.type !== 'Range'
   }
 
   return (

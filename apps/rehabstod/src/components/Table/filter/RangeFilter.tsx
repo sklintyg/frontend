@@ -38,7 +38,6 @@ export function RangeFilter({
             max={to}
             min={min}
             defaultValue={min}
-            ignoreInputLimit
           />
           <FormattedNumberInput
             label="Till"
@@ -48,7 +47,6 @@ export function RangeFilter({
             max={max}
             min={from}
             defaultValue={max}
-            ignoreInputLimit
           />
         </div>
       </div>
