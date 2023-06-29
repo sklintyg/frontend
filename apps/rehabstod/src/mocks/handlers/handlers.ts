@@ -73,4 +73,18 @@ export const handlers = [
   ),
 
   rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
+
+  rest.get('/api/lu/filters', (_, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json(
+        fakerFromSchema(
+          z.object({
+            activeDoctors: z.array(lakareSchema),
+            allDiagnosisChapters: z.array(diagnosKapitelSchema),
+          })
+        )()
+      )
+    )
+  ),
 ]

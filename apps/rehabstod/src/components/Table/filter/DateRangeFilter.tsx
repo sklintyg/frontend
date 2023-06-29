@@ -27,6 +27,7 @@ export function DateRangeFilter({
           }}
           label={label}
           description={description}
+          flex
         />
       </div>
       <div className="hidden print:block">

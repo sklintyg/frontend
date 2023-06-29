@@ -128,6 +128,16 @@ export const api = createApi({
       }),
       providesTags: ['SickLeavesFilter'],
     }),
+    getPopulatedFiltersForLU: builder.query<
+      {
+        doctors: Lakare[]
+        allDiagnosisChapters: DiagnosKapitel[]
+      },
+      void
+    >({
+      keepUnusedDataFor: 0,
+      query: () => 'lu/filters',
+    }),
     getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
       query: () => ({
         url: 'sickleaves/summary',
@@ -295,4 +305,5 @@ export const {
   useSetRekoStatusMutation,
   useUpdateUserPreferencesMutation,
   useGetDoctorsForLUCertificatesQuery,
+  useGetPopulatedFiltersForLUQuery,
 } = api
