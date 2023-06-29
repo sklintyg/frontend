@@ -30,7 +30,7 @@ export function useUpdateUserPreferences() {
                 ['maxAntalDagarSedanSjukfallAvslut', 'standardenhet', 'maxAntalDagarMellanIntyg'].includes(key)
               )
             ) {
-              dispatch(api.util.invalidateTags(['SickLeaveSummary', 'SickLeavesFilter', 'SickLeaves', 'SickLeavePatient']))
+              dispatch(api.util.invalidateTags(['SickLeaves', 'Patient']))
             }
             return data
           })
