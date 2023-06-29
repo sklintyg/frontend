@@ -1,8 +1,9 @@
-import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple'
-import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
+import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 
 export function DiagnosisFilter({
   onChange,
@@ -33,8 +34,9 @@ export function DiagnosisFilter({
     <>
       <div className="flex-1 print:hidden">
         <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
-          {allDiagnoses
-            ? allDiagnoses.map((diagnosis) => (
+          <SelectMultipleList>
+            {allDiagnoses &&
+              allDiagnoses.map((diagnosis) => (
                 <Checkbox
                   key={diagnosis.id ?? diagnosis.name}
                   disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
@@ -42,8 +44,8 @@ export function DiagnosisFilter({
                   label={diagnosis.id ? `${diagnosis.id}: ${diagnosis.name}` : diagnosis.name}
                   onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
                 />
-              ))
-            : null}
+              ))}
+          </SelectMultipleList>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
