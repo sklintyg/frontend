@@ -1,81 +1,33 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useParams } from 'react-router-dom'
-import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
-import { UserUrval } from '../../schemas'
-import { PuResponse } from '../../schemas/patientSchema'
-import { useGetSickLeavePatientQuery, useGetUserQuery } from '../../store/api'
-import { isDateBeforeToday } from '../../utils/isDateBeforeToday'
-import { ModifyPatientTableColumns } from './components/ModifyPatientTableColumns'
+import { useLocation, useParams } from 'react-router-dom'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { useGetPatientSickLeavesQuery } from '../../store/api'
 import { OpenTabsDialog } from './components/OpenTabsDialog'
 import { PatientErrorHeader } from './components/PatientErrorHeader'
 import { PatientHeader } from './components/PatientHeader'
-import { PatientSickLeaves } from './components/PatientSickLeaves'
-import { PatientOverview } from './components/patientOverview/PatientOverview'
+import { PatientTabs } from './components/PatientTabs'
 import { PatientContext, usePatientState } from './hooks/usePatient'
-import { PatientRekoStatus } from './components/PatientRekoStatus'
-import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
-import { SelectRekoStatus } from '../../components/SelectRekoStatus/SelectRekoStatus'
 
 export function Patient() {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
-  const { data: user } = useGetUserQuery()
-  const { data: patient, error } = useGetSickLeavePatientQuery(
+  const { state } = useLocation()
+
+  const { data: patient } = useGetPatientSickLeavesQuery(
     encryptedPatientId
       ? {
           encryptedPatientId,
         }
       : skipToken
   )
-  const sickLeaves = patient?.sjukfallList ?? []
-  const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
-  const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
-  const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
-  const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
-  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
   return (
     <PatientContext.Provider value={patientState}>
       {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
       <OpenTabsDialog />
-      <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
-        <div className="flex justify-between">
-          <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
-          {!error && (
-            <div className="flex justify-end gap-5">
-              <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} />
-              <div className="w-96">
-                <ModifyPatientTableColumns />
-              </div>
-            </div>
-          )}
-        </div>
-        {error && (
-          <ErrorAlert
-            heading="Tekniskt fel"
-            errorType="error"
-            text="Information kan inte visas på grund av ett tekniskt fel. Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-            error={error}
-            dynamicLink
-          />
-        )}
-        {currentSickLeaves.length > 0 && (
-          <PatientSickLeaves sickLeaves={currentSickLeaves} isDoctor={isDoctor} title="Pågående sjukfall">
-            <PatientOverview
-              sjfMetaData={patient?.sjfMetaData}
-              patientId={firstCertificate ? firstCertificate.patient.id : ''}
-              isPersonResponseMissing={
-                firstCertificate
-                  ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
-                    firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
-                  : false
-              }
-              encryptedPatientId={encryptedPatientId || ''}
-            />
-          </PatientSickLeaves>
-        )}
-        {earlierSickLeaves.length > 0 && <PatientSickLeaves sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" />}
-      </div>
+      <PageContainer>
+        <PatientTabs active={state ? state.activeTab : 0} />
+      </PageContainer>
     </PatientContext.Provider>
   )
 }

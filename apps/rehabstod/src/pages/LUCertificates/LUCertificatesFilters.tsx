@@ -1,26 +1,25 @@
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { TableFilter } from '../../components/Table/TableFilter'
-import { RangeFilter } from '../../components/Table/filter/RangeFilter'
-import { useAppSelector } from '../../store/hooks'
-import { TextSearchFilter } from '../../components/Table/filter/TextSearchFilter'
-import { SelectFilter } from '../../components/Table/filter/SelectFilter'
-import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
-import { MultipleSelectFilterOption } from '../../components/Table/filter/MultipleSelectFilterOption'
-import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
-import { useGetDoctorsForLUCertificatesQuery, useGetPopulatedFiltersQuery, useGetUserQuery } from '../../store/api'
-import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
-import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
-import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
-import { isUserDoctor } from '../../utils/isUserDoctor'
 import { DateRangeFilter } from '../../components/Table/filter/DateRangeFilter'
+import { DiagnosisFilter } from '../../components/Table/filter/DiagnosisFilter'
+import { DoctorFilter } from '../../components/Table/filter/DoctorFilter'
+import { MultipleSelectFilterOption } from '../../components/Table/filter/MultipleSelectFilterOption'
+import { RangeFilter } from '../../components/Table/filter/RangeFilter'
+import { SelectFilter } from '../../components/Table/filter/SelectFilter'
+import { TextSearchFilter } from '../../components/Table/filter/TextSearchFilter'
+import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
+import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
 import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
+import { useGetLUFiltersQuery, useGetUserQuery } from '../../store/api'
+import { useAppSelector } from '../../store/hooks'
+import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
+import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
 
-  const { data: doctorsFilterResponse } = useGetDoctorsForLUCertificatesQuery()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetLUFiltersQuery()
   const { data: user } = useGetUserQuery()
 
   const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
@@ -50,7 +49,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
       {!isUserDoctor(user) && (
         <DoctorFilter
           onChange={(doctorIds) => dispatch(updateFilter({ doctors: doctorIds }))}
-          doctors={doctorsFilterResponse && doctorsFilterResponse.doctors ? doctorsFilterResponse.doctors : []}
+          doctors={populatedFilters && populatedFilters.doctors ? populatedFilters.doctors : []}
           selected={filter ? filter.doctors : []}
           description="Filtrerar på den läkare som har utfärdat läkarutlåtandet."
         />

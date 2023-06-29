@@ -5,6 +5,7 @@ import { UnansweredCommunicationAlert } from '../error/ErrorAlert/UnansweredComm
 import { TableContentAlert } from '../error/ErrorAlert/TableContentAlert'
 import { PrintButton } from '../PrintButton/PrintButton'
 import { PageContainer } from '../PageContainer/PageContainer'
+import { EmptyTableAlert } from './EmptyTableAlert'
 
 export function TablePageLayout({
   heading,
@@ -16,6 +17,7 @@ export function TablePageLayout({
   printable,
   tableName,
   children,
+  emptyTableAlert,
 }: {
   heading: ReactNode
   filters: ReactNode
@@ -26,11 +28,13 @@ export function TablePageLayout({
   tableName: string
   printable: boolean
   children: ReactNode
+  emptyTableAlert?: boolean
 }) {
   return (
     <PageContainer>
       {heading}
       {filters}
+      {emptyTableAlert && <EmptyTableAlert tableName={tableName} />}
       {tableContentError ? (
         <TableContentAlert tableName={tableName} error={tableContentError} />
       ) : (
