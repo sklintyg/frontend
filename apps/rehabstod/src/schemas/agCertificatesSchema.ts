@@ -25,10 +25,10 @@ export const agCertificateSchema = z.object({
   encryptedPatientId: z.string(),
 })
 
-export const agCertificatesInfo = z.object({
+export const agCertificatesInfoSchema = z.object({
   certificates: z.array(agCertificateSchema),
   questionAndAnswersError: z.boolean(),
 })
 
 export type AGCertificate = z.infer<typeof agCertificateSchema>
-export type AGCertificatesInfo = z.infer<typeof agCertificatesInfo>
+export type AGCertificatesInfo = z.infer<typeof agCertificatesInfoSchema>
