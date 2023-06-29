@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
-import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
-import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
+import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { Table } from '../../../../components/Table/Table'
-import { LUCertificatesColumn } from '../../../../store/slices/luCertificatesTableColumns.slice'
+import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
+import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
+import { useGetPatientLUCertificatesQuery, useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
 import { allLuCertificatesColumns } from '../../../../store/slices/luCertificatesTableColumns.selector'
-import { useGetLUCertificatesForPatientQuery, useGetUserQuery } from '../../../../store/api'
+import { LUCertificatesColumn } from '../../../../store/slices/luCertificatesTableColumns.slice'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import {
   filterHiddenColumns,
@@ -15,10 +16,9 @@ import {
   filterTableColumn,
   filterTableColumns,
 } from '../../../../components/Table/utils/filterTableColumns'
-import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
+import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
 import { ModifyLUCertificatesTableColumns } from '../../../LUCertificates/ModifyLUCertificatesTableColumns'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
+import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
 
 export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()
@@ -33,7 +33,7 @@ export function PatientLUCertificatesTable() {
   const patientViewColumns = allColumns.filter(({ name }) => filterPatientViewColumns(name))
   const filteredColumns = filterTableColumns(patientViewColumns, isDoctor, showPersonalInformation, false)
   const visibleColumns = filterHiddenColumns(filteredColumns)
-  const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetLUCertificatesForPatientQuery({
+  const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetPatientLUCertificatesQuery({
     encryptedPatientId: encryptedPatientId || '',
   })
 

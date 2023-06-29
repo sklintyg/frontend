@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { SelectRekoStatus } from '../../../components/SelectRekoStatus/SelectRekoStatus'
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
+import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 
 export function PatientRekoStatus({
   currentSickLeaves,
@@ -12,7 +12,7 @@ export function PatientRekoStatus({
   earlierSickLeaves: PatientSjukfall[]
   isDoctor: boolean
 }) {
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { state } = useLocation()
   const getCertificateToSaveRekoStatusOn = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
