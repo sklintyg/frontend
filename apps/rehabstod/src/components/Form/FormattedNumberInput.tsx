@@ -26,7 +26,7 @@ export function FormattedNumberInput({
   }
 
   function maxLengthReached(event: React.KeyboardEvent<HTMLInputElement>) {
-    return event.currentTarget.value.length === 2 && event.key !== 'Backspace' && selection?.type !== 'Range'
+    return event.currentTarget.value.length === `${max}`.length && event.key !== 'Backspace' && selection?.type !== 'Range'
   }
 
   return (
