@@ -56,12 +56,6 @@ describe('FormattedNumberInput', () => {
     expect(screen.getByLabelText(label)).toHaveValue(0)
   })
 
-  it('should not allow numbers with more than two digits', async () => {
-    renderComponent()
-    await userEvent.type(screen.getByLabelText(label), '120')
-    expect(screen.getByLabelText(label)).toHaveValue(12)
-  })
-
   it('should set value to min limit on blur if input is under limit', async () => {
     renderComponent('-100')
     await userEvent.click(screen.getByLabelText(label))
@@ -74,6 +68,12 @@ describe('FormattedNumberInput', () => {
     await userEvent.click(screen.getByLabelText(label))
     fireEvent.blur(screen.getByLabelText(label))
     expect(onChange).toHaveBeenLastCalledWith(max)
+  })
+
+  it('should not allow multiple numbers if exceeding max length', async () => {
+    renderComponent()
+    await userEvent.type(screen.getByLabelText(label), '1200')
+    expect(screen.getByLabelText(label)).toHaveValue(120)
   })
 
   it('should set value to default on blur if input is empty', async () => {

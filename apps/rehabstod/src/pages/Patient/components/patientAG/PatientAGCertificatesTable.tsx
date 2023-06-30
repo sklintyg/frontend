@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Table } from '../../../../components/Table/Table'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { useAppSelector } from '../../../../store/hooks'
@@ -16,7 +17,10 @@ import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTab
 
 export function PatientAGCertificatesTable() {
   const { data: user } = useGetUserQuery()
-  const { data: agCertificatesInfo, error: getAGCertificatesError } = useGetAGCertificatesForPatientQuery({ personId: '191212121212' })
+  const { encryptedPatientId } = useParams()
+  const { data: agCertificatesInfo, error: getAGCertificatesError } = useGetAGCertificatesForPatientQuery({
+    encryptedPatientId: encryptedPatientId || '',
+  })
 
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: PatientColumn.Num,
