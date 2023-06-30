@@ -61,8 +61,8 @@ const CertificateSidePanel: React.FC = () => {
         return <QuestionPanel />
       case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
         return <QuestionNotAvailablePanel />
-      case ResourceLinkType.SRS:
-        return <SrsPanel />
+      case ResourceLinkType.SRS_FULL_VIEW || ResourceLinkType.SRS_MINIMIZED_VIEW:
+        return <SrsPanel minimizedView={type === ResourceLinkType.SRS_MINIMIZED_VIEW} />
     }
   }
 
