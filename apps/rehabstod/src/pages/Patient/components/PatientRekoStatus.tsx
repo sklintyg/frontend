@@ -35,7 +35,7 @@ export function PatientRekoStatus({
           disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}
           patientId={certificateToSaveRekoStatusOn.patient.id}
-          statusFromSickLeave={state.rekoStatus}
+          statusFromSickLeave={state?.rekoStatus}
           rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
           description={
             isDoctor
