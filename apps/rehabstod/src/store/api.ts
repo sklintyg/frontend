@@ -165,7 +165,7 @@ export const api = createApi({
         body: request,
       }),
     }),
-    getAGCertificatesForPatient: builder.query<AGCertificatesInfo, { personId: string }>({
+    getAGCertificatesForPatient: builder.query<AGCertificatesInfo, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
       query: (request) => ({
         url: 'certificate/ag/person',
