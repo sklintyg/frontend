@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  minimizedView: boolean
+  minimizedView?: boolean
 }
 
 const SrsPanel: React.FC<Props> = ({ minimizedView }) => {

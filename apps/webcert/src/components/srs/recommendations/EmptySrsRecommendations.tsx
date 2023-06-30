@@ -2,7 +2,7 @@ import React from 'react'
 import { InfoBox } from '@frontend/common'
 
 interface Props {
-  diagnosisCode: string
+  diagnosisCode?: string
   title: string
 }
 
