@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -34,8 +34,6 @@ export function LUCertificates() {
   const { data: populatedFilters } = useGetLUFiltersQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
-  const contentDivId = useId()
-  const scrollDivId = useId()
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false

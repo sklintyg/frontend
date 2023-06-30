@@ -45,7 +45,7 @@ export function FixedTableHeader({
     return () => {
       window.removeEventListener('scroll', handleScroll, true)
     }
-  }, [topMargin, bottomMargin, tableWidth, scrollDiv])
+  }, [topMargin, bottomMargin, tableWidth, scrollDiv, setWidthOnRefObjects, updateFixed])
   return (
     <>
       {fixed && (
