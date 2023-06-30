@@ -1,5 +1,5 @@
 import { createTableColumnSlice } from '../utils/createTableColumnSlice'
-import { LUCertificatesColumn } from './LUUnitTableColumns.slice'
+import { LUCertificatesColumn } from './luUnitTableColumns.slice'
 
 export const {
   lakarutlatandenTableColumnsSlice: luTableColumnsSlice,
