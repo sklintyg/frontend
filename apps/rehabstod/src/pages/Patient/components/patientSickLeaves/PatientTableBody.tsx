@@ -81,7 +81,9 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
   const { sortTableList } = useTableContext()
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const columns = useAppSelector(allPatientColumns)
-  const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, undefined, [PatientColumn.Visa])
+  const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
+    PatientColumn.Visa,
+  ])
 
   return (
     <tbody className="whitespace-normal break-words">
