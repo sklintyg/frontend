@@ -18,6 +18,7 @@ import { ModifySicknessTableColumns } from './components/ModifySicknessTableColu
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
+import { FixedTableHeader } from './components/FixedTableHeader'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -33,10 +34,7 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
-  const normalHeader = useRef<HTMLTableSectionElement>(null)
-  const fixedHeader = useRef<HTMLTableSectionElement>(null)
-  const outerDiv = useRef<HTMLDivElement>(null)
-  const innerDiv = useRef<HTMLDivElement>(null)
+  const tableRef = useRef<HTMLTableElement>(null)
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
 
   useEffect(() => {
@@ -45,30 +43,6 @@ export function CurrentSickLeaves() {
     }
   }, [user, userLoading, navigate])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      document.getElementById('scrollDiv')?.addEventListener('scroll', handleScroll)
-      if (normalHeader.current && fixedHeader.current && outerDiv.current && innerDiv.current) {
-        const { top, width } = normalHeader.current.getBoundingClientRect()
-        const contentWidth = document.getElementById('contentDiv')?.getBoundingClientRect().width
-        const bottom = document.getElementById('contentDiv')?.getBoundingClientRect().bottom
-        const scrollLeft = document.getElementById('scrollDiv')?.scrollLeft
-        if (top < 0 && bottom && bottom > 50) {
-          innerDiv.current.style.width = `${width + (scrollLeft ?? 0)}px`
-          outerDiv.current.style.width = `${width}px`
-          fixedHeader.current.style.width = `${contentWidth}px`
-          fixedHeader.current.classList.remove('hidden')
-        } else {
-          fixedHeader.current.classList.add('hidden')
-        }
-      }
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
   useEffect(
     () => () => {
       dispatch(reset())
@@ -127,16 +101,9 @@ export function CurrentSickLeaves() {
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
             ascending={tableState.ascending}
           >
-            <thead ref={normalHeader}>
+            <FixedTableHeader bottomMargin={50}>
               <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
-            </thead>
-            <thead ref={fixedHeader} className="fixed top-0 z-20 hidden overflow-hidden">
-              <div ref={outerDiv} className="mx-auto">
-                <div ref={innerDiv} className="float-right">
-                  <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
-                </div>
-              </div>
-            </thead>
+            </FixedTableHeader>
             <tbody className="whitespace-normal break-words">
               <TableBodyRows
                 isDoctor={isDoctor}

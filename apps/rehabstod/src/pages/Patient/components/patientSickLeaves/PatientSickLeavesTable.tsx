@@ -5,6 +5,7 @@ import { PatientColumn } from '../../../../store/slices/patientTableColumns.slic
 import { PatientDiagnosisAccordion } from '../../../../components/PatientAccordion/PatientDiagnosisAccordion'
 import { PatientTableBody } from './PatientTableBody'
 import { PatientTableHeader } from '../PatientTableHeader'
+import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTableHeader'
 
 export function PatientSickLeavesTable({
   sickLeaves,
@@ -23,7 +24,9 @@ export function PatientSickLeavesTable({
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
         <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar}>
           <Table sortColumn={PatientColumn.Num}>
-            <PatientTableHeader isDoctor={isDoctor} />
+            <FixedTableHeader bottomMargin={50}>
+              <PatientTableHeader isDoctor={isDoctor} />
+            </FixedTableHeader>
             <PatientTableBody certificates={intyg} isDoctor={isDoctor} />
           </Table>
           {children}

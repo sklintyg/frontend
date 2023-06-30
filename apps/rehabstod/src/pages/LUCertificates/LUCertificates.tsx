@@ -20,6 +20,7 @@ import { LUCertificatesFilters } from './LUCertificatesFilters'
 import { LUCertificatesTableBody } from './LUCertificatesTableBody'
 import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
 import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
+import { FixedTableHeader } from '../CurrentSickLeaves/components/FixedTableHeader'
 
 export function LUCertificates() {
   const { encryptedPatientId } = useParams()
@@ -80,7 +81,9 @@ export function LUCertificates() {
       emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
     >
       <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-        <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+        <FixedTableHeader bottomMargin={50}>
+          <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+        </FixedTableHeader>
         <TableInfoMessage
           isLoading={isContentLoading}
           tableLength={visibleColumns.length}
