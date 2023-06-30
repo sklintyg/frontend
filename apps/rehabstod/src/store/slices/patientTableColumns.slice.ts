@@ -16,7 +16,7 @@ export enum PatientColumn {
   Visa = 'Visa',
 }
 
-export const { slice: patientTableColumnsSlice, getSelectors: getPatientTableColumnsSelectors } = createTableColumnSlice(
+export const { patientTableColumnsSlice, getPatientTableColumnsSelector, patientTableColumnsReducerPath } = createTableColumnSlice(
   'patientTableColumns',
   Object.values(PatientColumn)
 )
@@ -30,4 +30,3 @@ export const {
   moveColumn,
   setColumnDefaults,
 } = patientTableColumnsSlice.actions
-export const { name: patientTableColumnsReducerPath, reducer: patientTableColumnsReducer } = patientTableColumnsSlice

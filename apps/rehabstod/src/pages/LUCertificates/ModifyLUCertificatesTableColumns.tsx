@@ -1,29 +1,22 @@
 import { useEffect } from 'react'
 import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns/ModifyTableColumns'
-import { UserPreferencesTableSettings } from '../../schemas'
 import { TableColumn } from '../../schemas/tableSchema'
 import { useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
-import { luCertificatesColumnsString } from '../../store/slices/luCertificatesTableColumns.selector'
-import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/luCertificatesTableColumns.slice'
+import { lakarutlatandeUnitTableColumnsString } from '../../store/slices/lakarutlatandeUnitTableColumns.selector'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/lakarutlatandeUnitTableColumns.slice'
 
-export function ModifyLUCertificatesTableColumns({
-  columns,
-  preferenceKey,
-}: {
-  columns: TableColumn[]
-  preferenceKey: UserPreferencesTableSettings
-}) {
+export function ModifyLUCertificatesTableColumns({ columns }: { columns: TableColumn[] }) {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
-  const columnString = useAppSelector(luCertificatesColumnsString)
+  const columnString = useAppSelector(lakarutlatandeUnitTableColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
 
   useEffect(() => {
-    if (user && columnString !== user.preferences[preferenceKey]) {
-      updateUserPreferences({ [preferenceKey]: columnString })
+    if (user && columnString !== user.preferences.lakarutlatandeUnitTableColumns) {
+      updateUserPreferences({ lakarutlatandeUnitTableColumns: columnString })
     }
-  }, [columnString, updateUserPreferences, user, preferenceKey])
+  }, [columnString, updateUserPreferences, user])
 
   if (!user) {
     return null

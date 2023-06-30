@@ -1,17 +1,17 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { act, screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
-import { Route, Routes } from 'react-router-dom'
 import { rest } from 'msw'
+import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
+import { server } from '../../../mocks/server'
 import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
-import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { SickLeaveColumn, hideColumn } from '../../../store/slices/sjukfallTableColumns.slice'
 import { store } from '../../../store/store'
+import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
-import { server } from '../../../mocks/server'
-import { fakeUser } from '../../../utils/fake/fakeUser'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())

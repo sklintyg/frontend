@@ -16,18 +16,15 @@ export enum LUCertificatesColumn {
   Visa = 'Visa',
 }
 
-export const { slice: luCertificatesColumnsSlice, getSelectors: getLuCertificatesColumnsSelectors } = createTableColumnSlice(
-  'lakarutlatandeUnitTableColumns',
-  Object.values(LUCertificatesColumn)
-)
+export const { lakarutlatandeUnitTableColumnsSlice, getLakarutlatandeUnitTableColumnsSelector, lakarutlatandeUnitTableColumnsReducerPath } =
+  createTableColumnSlice('lakarutlatandeUnitTableColumns', Object.values(LUCertificatesColumn))
 
 export const {
-  reset: resetLuCertificatesColumnSlice,
+  reset: resetLakarutlatandeUnitTableColumns,
   showColumn,
   hideColumn,
   showAllColumns,
   hideAllColumns,
   moveColumn,
   setColumnDefaults,
-} = luCertificatesColumnsSlice.actions
-export const { name: luCertificatesColumnsReducerPath, reducer: luCertificatesColumnsReducer } = luCertificatesColumnsSlice
+} = lakarutlatandeUnitTableColumnsSlice.actions

@@ -1,5 +1,5 @@
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { SickLeaveColumn } from '../../../store/slices/sjukfallTableColumns.slice'
 
 export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo) {
   switch (column) {

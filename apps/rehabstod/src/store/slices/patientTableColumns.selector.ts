@@ -1,6 +1,6 @@
 import { RootState } from '../store'
-import { getPatientTableColumnsSelectors } from './patientTableColumns.slice'
+import { getPatientTableColumnsSelector } from './patientTableColumns.slice'
 
-export const { selectAll: allPatientColumns, selectColumnString: patientColumnsString } = getPatientTableColumnsSelectors(
+export const { selectAll: allPatientColumns, selectColumnString: patientColumnsString } = getPatientTableColumnsSelector(
   (state: RootState) => state.patientTableColumns
 )
