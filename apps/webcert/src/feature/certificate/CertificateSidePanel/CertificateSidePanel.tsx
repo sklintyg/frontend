@@ -16,7 +16,8 @@ const CertificateSidePanel: React.FC = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const resourceLinksForTabs = [
-    ResourceLinkType.SRS,
+    ResourceLinkType.SRS_FULL_VIEW,
+    ResourceLinkType.SRS_MINIMIZED_VIEW,
     ResourceLinkType.FMB,
     ResourceLinkType.QUESTIONS,
     ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
@@ -31,7 +32,10 @@ const CertificateSidePanel: React.FC = () => {
 
   const handleTabChange = (value: number): void => {
     setSelectedTabIndex(value)
-    if (availableTabs[value] && availableTabs[value].type === ResourceLinkType.SRS) {
+    if (
+      availableTabs[value] &&
+      (availableTabs[value].type === ResourceLinkType.SRS_FULL_VIEW || availableTabs[value].type === ResourceLinkType.SRS_MINIMIZED_VIEW)
+    ) {
       dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
     }
   }
@@ -48,7 +52,7 @@ const CertificateSidePanel: React.FC = () => {
   }
 
   const getIcon = (type: ResourceLinkType) => {
-    if (type === ResourceLinkType.FMB || type === ResourceLinkType.SRS) {
+    if (type === ResourceLinkType.FMB || type === ResourceLinkType.SRS_FULL_VIEW || type === ResourceLinkType.SRS_MINIMIZED_VIEW) {
       return <LightbulpIcon className="iu-mr-200" />
     }
   }
