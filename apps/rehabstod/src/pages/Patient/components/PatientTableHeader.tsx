@@ -49,13 +49,9 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
   }
   return (
     <tr>
-     {columns.length > 0 && (
-        <tr>
-          {visibleColumns.map(({ name }) => (
-            <PatientTableHeaderResolver key={name} column={name} />
-          ))}
-        </tr>
-      )}
+      {visibleColumns.map(({ name }) => (
+        <PatientTableHeaderResolver key={name} column={name} />
+      ))}
     </tr>
   )
 }
