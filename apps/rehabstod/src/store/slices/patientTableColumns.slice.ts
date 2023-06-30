@@ -17,7 +17,7 @@ export enum PatientColumn {
   Visa = 'Visa',
 }
 
-export const { patientTableColumnsSlice, getPatientTableColumnsSelector, patientTableColumnsReducerPath } = createTableColumnSlice(
+export const { patientTableColumnsSlice, getPatientTableColumnsSelectors, patientTableColumnsReducerPath } = createTableColumnSlice(
   'patientTableColumns',
   Object.values(PatientColumn)
 )

@@ -4,7 +4,7 @@ import { LUCertificatesColumn } from './luUnitTableColumns.slice'
 export const {
   lakarutlatandenTableColumnsSlice: luTableColumnsSlice,
   lakarutlatandenTableColumnsReducerPath: luTableColumnsReducerPath,
-  getLakarutlatandenTableColumnsSelector: getLUTableColumnsSelector,
+  getLakarutlatandenTableColumnsSelectors: getLUTableColumnsSelectors,
 } = createTableColumnSlice('lakarutlatandenTableColumns', Object.values(LUCertificatesColumn))
 
 export const {

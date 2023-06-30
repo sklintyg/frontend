@@ -22,7 +22,7 @@ export enum SickLeaveColumn {
 export const {
   sjukfallTableColumnsSlice: sickLeaveTableColumnsSlice,
   sjukfallTableColumnsReducerPath: sickLeaveTableColumnsReducerPath,
-  getSjukfallTableColumnsSelector: getSickLeaveTableColumnsSelector,
+  getSjukfallTableColumnsSelectors: getSickLeaveTableColumnsSelectors,
 } = createTableColumnSlice('sjukfallTableColumns', Object.values(SickLeaveColumn))
 
 export const {

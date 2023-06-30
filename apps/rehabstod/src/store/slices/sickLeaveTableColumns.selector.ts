@@ -1,6 +1,6 @@
 import { RootState } from '../store'
-import { getSickLeaveTableColumnsSelector } from './sickLeaveTableColumns.slice'
+import { getSickLeaveTableColumnsSelectors } from './sickLeaveTableColumns.slice'
 
-export const { selectAll: allSickLeaveColumns, selectColumnString: sickLeaveColumnsString } = getSickLeaveTableColumnsSelector(
+export const { selectAll: allSickLeaveColumns, selectColumnString: sickLeaveColumnsString } = getSickLeaveTableColumnsSelectors(
   (state: RootState) => state.sjukfallTableColumns
 )

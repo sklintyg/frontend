@@ -1,6 +1,6 @@
 import { RootState } from '../store'
-import { getLUTableColumnsSelector } from './luTableColumns.slice'
+import { getLUTableColumnsSelectors } from './luTableColumns.slice'
 
-export const { selectAll: allLUTableColumns, selectColumnString: luTableColumnsString } = getLUTableColumnsSelector(
+export const { selectAll: allLUTableColumns, selectColumnString: luTableColumnsString } = getLUTableColumnsSelectors(
   (state: RootState) => state.lakarutlatandenTableColumns
 )

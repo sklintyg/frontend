@@ -105,11 +105,11 @@ export function createTableColumnSlice<T extends keyof UserPreferences>(sliceNam
 
   return {
     [`${sliceName}Slice`]: slice,
-    [`get${upperFirst(sliceName)}Selector`]: getSelectors,
+    [`get${upperFirst(sliceName)}Selectors`]: getSelectors,
     [`${sliceName}ReducerPath`]: sliceName,
   } as {
     [key in T as `${key}Slice`]: typeof slice
   } & {
-    [key in T as `get${Capitalize<key>}Selector`]: typeof getSelectors
+    [key in T as `get${Capitalize<key>}Selectors`]: typeof getSelectors
   } & { [key in T as `${key}ReducerPath`]: `${key}` }
 }
