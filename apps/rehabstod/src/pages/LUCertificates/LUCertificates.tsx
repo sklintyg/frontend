@@ -81,14 +81,8 @@ export function LUCertificates() {
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
       emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
     >
-      <Table
-        sortColumn={tableState.sortColumn}
-        onSortChange={setTableState}
-        ascending={tableState.ascending}
-        contentDivId={contentDivId}
-        scrollDivId={scrollDivId}
-      >
-        <FixedTableHeader bottomMargin={50} scrollDivId={scrollDivId} contentDivId={contentDivId}>
+      <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
+        <FixedTableHeader bottomMargin={50}>
           <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
         </FixedTableHeader>
         <TableInfoMessage
