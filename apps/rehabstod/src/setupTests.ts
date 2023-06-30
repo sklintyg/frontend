@@ -6,10 +6,10 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
-import { resetLakarutlatandeUnitTableColumns } from './store/slices/lakarutlatandeUnitTableColumns.slice'
-import { resetLakarutlatandenTableColumns } from './store/slices/lakarutlatandenTableColumns.slice'
+import { resetLakarutlatandenTableColumns } from './store/slices/LUTableColumns.slice'
+import { resetLakarutlatandeUnitTableColumns } from './store/slices/LUUnitTableColumns.slice'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
-import { resetSjukfallTableColumns } from './store/slices/sjukfallTableColumns.slice'
+import { resetSjukfallTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
 Object.assign(global, global, {

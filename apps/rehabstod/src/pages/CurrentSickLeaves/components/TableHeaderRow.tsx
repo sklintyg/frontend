@@ -1,8 +1,8 @@
 import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHeaderCell'
 import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
-import { allSickLeaveColumns } from '../../../store/slices/sjukfallTableColumns.selector'
-import { SickLeaveColumn } from '../../../store/slices/sjukfallTableColumns.slice'
+import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 function HeaderCellResolver({ column }: { column: string }) {
   const { data: user } = useGetUserQuery()

@@ -1,5 +1,5 @@
 import { Column } from '../../../components/Table/tableHeader/TableHeader'
-import { LUCertificatesColumn } from '../../../store/slices/lakarutlatandeUnitTableColumns.slice'
+import { LUCertificatesColumn } from '../../../store/slices/LUUnitTableColumns.slice'
 
 export const getLUCertificatesColumnInfo = (column: string): Column => {
   switch (column) {

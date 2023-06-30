@@ -2,13 +2,13 @@ import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
-import { allSickLeaveColumns } from '../../../store/slices/sjukfallTableColumns.selector'
-import { SickLeaveColumn } from '../../../store/slices/sjukfallTableColumns.slice'
+import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
+import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 
 function resolveRisk(riskSignal: RiskSignal) {
   if (!riskSignal) {

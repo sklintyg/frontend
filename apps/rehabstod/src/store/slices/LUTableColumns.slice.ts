@@ -1,5 +1,5 @@
 import { createTableColumnSlice } from '../utils/createTableColumnSlice'
-import { LUCertificatesColumn } from './lakarutlatandeUnitTableColumns.slice'
+import { LUCertificatesColumn } from './LUUnitTableColumns.slice'
 
 export const { lakarutlatandenTableColumnsSlice, lakarutlatandenTableColumnsReducerPath, getLakarutlatandenTableColumnsSelector } =
   createTableColumnSlice('lakarutlatandenTableColumns', Object.values(LUCertificatesColumn))

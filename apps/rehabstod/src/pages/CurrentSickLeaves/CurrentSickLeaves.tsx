@@ -11,7 +11,7 @@ import { useGetSickLeavesFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuer
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
-import { SickLeaveColumn } from '../../store/slices/sjukfallTableColumns.slice'
+import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'

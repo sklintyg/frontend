@@ -3,8 +3,8 @@ import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns/Mo
 import { TableColumn } from '../../schemas/tableSchema'
 import { useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
-import { lakarutlatandeUnitTableColumnsString } from '../../store/slices/lakarutlatandeUnitTableColumns.selector'
-import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/lakarutlatandeUnitTableColumns.slice'
+import { lakarutlatandeUnitTableColumnsString } from '../../store/slices/LUUnitTableColumns.selector'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/LUUnitTableColumns.slice'
 
 export function ModifyLUCertificatesTableColumns({ columns }: { columns: TableColumn[] }) {
   const dispatch = useAppDispatch()

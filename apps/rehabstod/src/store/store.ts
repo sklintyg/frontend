@@ -2,16 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { api } from './api'
 import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
-import {
-  lakarutlatandeUnitTableColumnsReducerPath,
-  lakarutlatandeUnitTableColumnsSlice,
-} from './slices/lakarutlatandeUnitTableColumns.slice'
-import { lakarutlatandenTableColumnsReducerPath, lakarutlatandenTableColumnsSlice } from './slices/lakarutlatandenTableColumns.slice'
+import { lakarutlatandenTableColumnsReducerPath, lakarutlatandenTableColumnsSlice } from './slices/LUTableColumns.slice'
+import { lakarutlatandeUnitTableColumnsReducerPath, lakarutlatandeUnitTableColumnsSlice } from './slices/LUUnitTableColumns.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificates.slice'
 import { patientTableColumnsReducerPath, patientTableColumnsSlice } from './slices/patientTableColumns.slice'
 import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice'
-import { sjukfallTableColumnsReducerPath, sjukfallTableColumnsSlice } from './slices/sjukfallTableColumns.slice'
+import { sjukfallTableColumnsReducerPath, sjukfallTableColumnsSlice } from './slices/sickLeaveTableColumns.slice'
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 
 export const store = configureStore({

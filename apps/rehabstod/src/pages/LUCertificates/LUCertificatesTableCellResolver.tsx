@@ -3,7 +3,7 @@ import { DiagnosisInfo } from '../../components/Diagnosis/DiagnosisInfo'
 import { TableCell } from '../../components/Table/tableBody/TableCell'
 import { getUnansweredCommunicationFormat } from '../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { LUCertificate } from '../../schemas/luCertificatesSchema'
-import { LUCertificatesColumn } from '../../store/slices/lakarutlatandeUnitTableColumns.slice'
+import { LUCertificatesColumn } from '../../store/slices/LUUnitTableColumns.slice'
 import { CertificateButton } from '../Patient/components/CertificateButton'
 import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 
