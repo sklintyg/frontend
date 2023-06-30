@@ -24,6 +24,7 @@ function ComponentWrapper({ children }: { children: ReactNode }) {
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
+  server.use(rest.get('/api/sickleaves/filters', (_, res, ctx) => res(ctx.status(200), ctx.json({ srsActivated: true }))))
 })
 
 it('Should list all certificates columns except Visa', async () => {
