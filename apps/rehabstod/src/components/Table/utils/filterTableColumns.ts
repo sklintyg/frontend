@@ -1,6 +1,6 @@
 import { TableColumn } from '../../../schemas/tableSchema'
 
-export const isPatientViewColumns = (name: string) => name === 'Namn' || name === 'Personnummer' || name === 'Kön' || name === 'Ålder'
+export const isPatientViewColumn = (name: string) => name === 'Namn' || name === 'Personnummer' || name === 'Kön' || name === 'Ålder'
 
 export const isPersonalInformationColumn = (name: string) => name === 'Namn' || name === 'Personnummer'
 
