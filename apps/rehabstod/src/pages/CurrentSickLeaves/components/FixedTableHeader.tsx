@@ -1,17 +1,14 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { classNames } from '../../../utils/classNames'
+import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 
 export function FixedTableHeader({
   children,
   bottomMargin,
-  contentDivId,
-  scrollDivId,
   topMargin,
 }: {
   children: ReactNode
   bottomMargin: number
-  contentDivId: string
-  scrollDivId: string
   topMargin?: boolean
 }) {
   const ref = useRef<HTMLTableSectionElement>(null)
@@ -19,6 +16,7 @@ export function FixedTableHeader({
   const [fixed, setFixed] = useState(false)
   const outerDiv = useRef<HTMLDivElement>(null)
   const innerDiv = useRef<HTMLDivElement>(null)
+  const { tableWidth, scrollDiv } = useTableContext()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,10 +26,9 @@ export function FixedTableHeader({
         const convertedTop = topMargin ? top - 55 : top
         setFixed(convertedTop < 0 && bottom > bottomMargin)
         if (outerDiv.current && fixedHeader.current && innerDiv.current) {
-          const scrollLeft = document.getElementById(scrollDivId)?.scrollLeft
-          fixedHeader.current.style.width = `${document.getElementById(contentDivId)?.getBoundingClientRect().width}px`
+          fixedHeader.current.style.width = `${tableWidth}px`
           outerDiv.current.style.width = `${width}px`
-          innerDiv.current.style.width = `${width + (scrollLeft ?? 0)}px`
+          innerDiv.current.style.width = `${width + (scrollDiv?.scrollLeft ?? 0)}px`
         }
       }
     }
@@ -39,8 +36,7 @@ export function FixedTableHeader({
     return () => {
       window.removeEventListener('scroll', handleScroll, true)
     }
-  }, [topMargin, bottomMargin, scrollDivId, contentDivId])
-
+  }, [topMargin, bottomMargin, tableWidth, scrollDiv])
   return (
     <>
       {fixed && (

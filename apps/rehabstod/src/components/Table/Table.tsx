@@ -1,7 +1,10 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
+import useResizeObserver from 'use-resize-observer'
+import { mergeRefs } from 'react-merge-refs'
 import { getTableSorter } from '../../utils/getTableSorter'
-import { FloatingScroll } from '../FloatingScroll/FloatingScroll'
+import { TableFloatingScroll } from '../FloatingScroll/TableFloatingScroll'
+import { useTableContext } from './hooks/useTableContext'
 
 interface TableOptions {
   ascending?: boolean
@@ -12,6 +15,8 @@ interface TableOptions {
 function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
+  const [tableWidth, setTableWidth] = useState(0)
+  const [scrollDiv, setScrollDiv] = useState<HTMLDivElement>()
 
   const updateSorting = useCallback(
     (column: string, asc: boolean) => {
@@ -43,30 +48,47 @@ function useTable(options: TableOptions) {
       sortColumn,
       sortOnColumn,
       sortTableList,
+      tableWidth,
+      setTableWidth,
+      scrollDiv,
+      setScrollDiv,
     }),
-    [ascending, sortColumn, sortOnColumn, sortTableList]
+    [ascending, sortColumn, sortOnColumn, sortTableList, tableWidth, setTableWidth, scrollDiv, setScrollDiv]
   )
 }
 
 export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
 
-export function Table({
-  children,
-  print,
-  contentDivId,
-  scrollDivId,
-  ...options
-}: { children?: ReactNode; print?: ReactNode; contentDivId: string; scrollDivId: string } & TableOptions) {
+export function TableContentDiv({ children }: { children: ReactNode }) {
+  const tableContext = useTableContext()
+  const { ref } = useResizeObserver<HTMLDivElement>()
+
+  const mergedRefCallback = mergeRefs([
+    ref,
+    (element: HTMLDivElement) => {
+      if (element) {
+        tableContext.setTableWidth(element.getBoundingClientRect().width)
+      }
+    },
+  ])
+  return (
+    <div ref={mergedRefCallback} className="relative pb-4 pt-1">
+      {children}
+    </div>
+  )
+}
+
+export function Table({ children, print, ...options }: { children?: ReactNode; print?: ReactNode } & TableOptions) {
   const table = useTable(options)
 
   return (
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
-        <FloatingScroll id={scrollDivId}>
-          <div id={contentDivId} className="relative pb-4 pt-1">
+        <TableFloatingScroll>
+          <TableContentDiv>
             <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
-          </div>
-        </FloatingScroll>
+          </TableContentDiv>
+        </TableFloatingScroll>
       </IDSContainer>
       <div className="hidden print:block">
         <div className="mb-2">

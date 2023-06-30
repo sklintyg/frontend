@@ -3,9 +3,11 @@ import { ReactNode } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
 import './FloatingScroll.css'
+import { useTableContext } from '../Table/hooks/useTableContext'
 
-export function FloatingScroll({ children, id }: { children: ReactNode; id: string }) {
+export function TableFloatingScroll({ children }: { children: ReactNode }) {
   const { ref } = useResizeObserver<HTMLDivElement>()
+  const tableContext = useTableContext()
 
   const mergedRefCallback = mergeRefs([
     ref,
@@ -16,12 +18,13 @@ export function FloatingScroll({ children, id }: { children: ReactNode; id: stri
         } else {
           handyScroll.mount(element)
         }
+        tableContext.setScrollDiv(element)
       }
     },
   ])
 
   return (
-    <div id={id} style={{ overflow: 'auto' }} ref={mergedRefCallback}>
+    <div style={{ overflow: 'auto' }} ref={mergedRefCallback}>
       {children}
     </div>
   )

@@ -1,5 +1,5 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
@@ -35,8 +35,6 @@ export function CurrentSickLeaves() {
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
-  const contentDivId = useId()
-  const scrollDivId = useId()
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -101,10 +99,8 @@ export function CurrentSickLeaves() {
             onSortChange={setTableState}
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
             ascending={tableState.ascending}
-            contentDivId={contentDivId}
-            scrollDivId={scrollDivId}
           >
-            <FixedTableHeader scrollDivId={scrollDivId} contentDivId={contentDivId} bottomMargin={50}>
+            <FixedTableHeader bottomMargin={50}>
               <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
             </FixedTableHeader>
             <tbody className="whitespace-normal break-words">

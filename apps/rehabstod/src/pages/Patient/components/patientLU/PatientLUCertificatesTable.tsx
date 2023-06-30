@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { Table } from '../../../../components/Table/Table'
@@ -37,8 +37,6 @@ export function PatientLUCertificatesTable() {
   const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetPatientLUCertificatesQuery({
     encryptedPatientId: encryptedPatientId || '',
   })
-  const contentDivId = useId()
-  const scrollDivId = useId()
 
   return (
     <>
@@ -56,14 +54,8 @@ export function PatientLUCertificatesTable() {
       {getLuCertificatesError ? (
         <PatientTableError error={getLuCertificatesError} />
       ) : (
-        <Table
-          sortColumn={tableState.sortColumn}
-          onSortChange={setTableState}
-          ascending={tableState.ascending}
-          contentDivId={contentDivId}
-          scrollDivId={scrollDivId}
-        >
-          <FixedTableHeader bottomMargin={90} contentDivId={contentDivId} scrollDivId={scrollDivId} topMargin>
+        <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
+          <FixedTableHeader bottomMargin={90} topMargin>
             <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
           </FixedTableHeader>
           {!luCertificatesInfo || luCertificatesInfo.certificates.length === 0 ? (

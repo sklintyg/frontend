@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { Table } from '../../../../components/Table/Table'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { useAppSelector } from '../../../../store/hooks'
@@ -29,8 +29,6 @@ export function PatientAGCertificatesTable() {
   const allColumns = useAppSelector(allPatientColumns)
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined)
   const visibleColumns = filterHiddenColumns(filteredColumns)
-  const contentDivId = useId()
-  const scrollDivId = useId()
 
   return (
     <>
@@ -39,14 +37,8 @@ export function PatientAGCertificatesTable() {
         {getAGCertificatesError ? (
           <PatientTableError error={getAGCertificatesError} />
         ) : (
-          <Table
-            sortColumn={tableState.sortColumn}
-            ascending={tableState.ascending}
-            onSortChange={setTableState}
-            contentDivId={contentDivId}
-            scrollDivId={scrollDivId}
-          >
-            <FixedTableHeader bottomMargin={90} contentDivId={contentDivId} scrollDivId={scrollDivId} topMargin>
+          <Table sortColumn={tableState.sortColumn} ascending={tableState.ascending} onSortChange={setTableState}>
+            <FixedTableHeader bottomMargin={90} topMargin>
               <TableHeader columns={visibleColumns.map((column) => getAGCertificatesColumnInfo(column.name))} />
             </FixedTableHeader>
             {!agCertificatesInfo || agCertificatesInfo.certificates.length === 0 ? (
