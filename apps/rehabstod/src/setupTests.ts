@@ -6,10 +6,10 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
-import { resetLakarutlatandenTableColumns } from './store/slices/LUTableColumns.slice'
-import { resetLakarutlatandeUnitTableColumns } from './store/slices/LUUnitTableColumns.slice'
+import { resetLUTableColumns } from './store/slices/LUTableColumns.slice'
+import { resetLUUnitTableColumns } from './store/slices/LUUnitTableColumns.slice'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
-import { resetSjukfallTableColumns } from './store/slices/sickLeaveTableColumns.slice'
+import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
 Object.assign(global, global, {
@@ -51,9 +51,9 @@ afterEach(() => {
 
   // Reset slice states
   store.dispatch(resetPatientTableColumns())
-  store.dispatch(resetSjukfallTableColumns())
-  store.dispatch(resetLakarutlatandeUnitTableColumns())
-  store.dispatch(resetLakarutlatandenTableColumns())
+  store.dispatch(resetSickLeaveTableColumns())
+  store.dispatch(resetLUUnitTableColumns())
+  store.dispatch(resetLUTableColumns())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.

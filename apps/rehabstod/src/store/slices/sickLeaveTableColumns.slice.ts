@@ -19,17 +19,18 @@ export enum SickLeaveColumn {
   Läkare = 'Läkare',
 }
 
-export const { sjukfallTableColumnsSlice, sjukfallTableColumnsReducerPath, getSjukfallTableColumnsSelector } = createTableColumnSlice(
-  'sjukfallTableColumns',
-  Object.values(SickLeaveColumn)
-)
+export const {
+  sjukfallTableColumnsSlice: sickLeaveTableColumnsSlice,
+  sjukfallTableColumnsReducerPath: sickLeaveTableColumnsReducerPath,
+  getSjukfallTableColumnsSelector: getSickLeaveTableColumnsSelector,
+} = createTableColumnSlice('sjukfallTableColumns', Object.values(SickLeaveColumn))
 
 export const {
-  reset: resetSjukfallTableColumns,
+  reset: resetSickLeaveTableColumns,
   showColumn,
   hideColumn,
   showAllColumns,
   hideAllColumns,
   moveColumn,
   setColumnDefaults,
-} = sjukfallTableColumnsSlice.actions
+} = sickLeaveTableColumnsSlice.actions

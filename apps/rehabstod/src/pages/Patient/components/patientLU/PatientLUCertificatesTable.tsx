@@ -13,8 +13,8 @@ import {
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { useGetPatientLUCertificatesQuery, useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
-import { allLakarutlatandenTableColumns } from '../../../../store/slices/LUTableColumns.selector'
 import { LUCertificatesColumn } from '../../../../store/slices/LUUnitTableColumns.slice'
+import { allLUTableColumns } from '../../../../store/slices/luTableColumns.selector'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
@@ -28,7 +28,7 @@ export function PatientLUCertificatesTable() {
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
   })
-  const allColumns = useAppSelector(allLakarutlatandenTableColumns)
+  const allColumns = useAppSelector(allLUTableColumns)
   const isDoctor = user ? isUserDoctor(user) : false
   const patientViewColumns = allColumns.filter(({ name }) => filterPatientViewColumns(name))
   const filteredColumns = filterTableColumns(patientViewColumns, isDoctor, showPersonalInformation, false)

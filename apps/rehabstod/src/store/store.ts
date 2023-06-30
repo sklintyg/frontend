@@ -2,13 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { api } from './api'
 import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
-import { lakarutlatandenTableColumnsReducerPath, lakarutlatandenTableColumnsSlice } from './slices/LUTableColumns.slice'
-import { lakarutlatandeUnitTableColumnsReducerPath, lakarutlatandeUnitTableColumnsSlice } from './slices/LUUnitTableColumns.slice'
+import { luTableColumnsReducerPath, luTableColumnsSlice } from './slices/LUTableColumns.slice'
+import { luUnitTableColumnsReducerPath, luUnitTableColumnsSlice } from './slices/LUUnitTableColumns.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificates.slice'
 import { patientTableColumnsReducerPath, patientTableColumnsSlice } from './slices/patientTableColumns.slice'
 import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeave.slice'
-import { sjukfallTableColumnsReducerPath, sjukfallTableColumnsSlice } from './slices/sickLeaveTableColumns.slice'
+import { sickLeaveTableColumnsReducerPath, sickLeaveTableColumnsSlice } from './slices/sickLeaveTableColumns.slice'
 import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 
 export const store = configureStore({
@@ -18,10 +18,10 @@ export const store = configureStore({
     [sickLeaveReducerPath]: sickLeaveReducer,
     [welcomeReducerPath]: welcomeReducer,
     [luCertificatesReducerPath]: luCertificatesReducer,
-    [lakarutlatandenTableColumnsReducerPath]: lakarutlatandenTableColumnsSlice.reducer,
-    [lakarutlatandeUnitTableColumnsReducerPath]: lakarutlatandeUnitTableColumnsSlice.reducer,
+    [luTableColumnsReducerPath]: luTableColumnsSlice.reducer,
+    [luUnitTableColumnsReducerPath]: luUnitTableColumnsSlice.reducer,
     [patientTableColumnsReducerPath]: patientTableColumnsSlice.reducer,
-    [sjukfallTableColumnsReducerPath]: sjukfallTableColumnsSlice.reducer,
+    [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsSlice.reducer,
     [settingsReducerPath]: settingsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),

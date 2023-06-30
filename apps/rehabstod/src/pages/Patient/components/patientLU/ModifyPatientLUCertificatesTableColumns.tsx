@@ -3,13 +3,13 @@ import { ModifyTableColumns } from '../../../../components/Table/ModifyTableColu
 import { TableColumn } from '../../../../schemas/tableSchema'
 import { useGetUserQuery } from '../../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../../store/hooks'
-import { lakarutlatandenTableColumnsString } from '../../../../store/slices/LUTableColumns.selector'
 import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../../store/slices/LUTableColumns.slice'
+import { luTableColumnsString } from '../../../../store/slices/luTableColumns.selector'
 
 export function ModifyPatientLUCertificatesTableColumns({ columns }: { columns: TableColumn[] }) {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
-  const columnString = useAppSelector(lakarutlatandenTableColumnsString)
+  const columnString = useAppSelector(luTableColumnsString)
   const { updateUserPreferences } = useUpdateUserPreferences()
 
   useEffect(() => {

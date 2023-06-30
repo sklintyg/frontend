@@ -11,7 +11,7 @@ import { filterHiddenColumns, filterTableColumns } from '../../components/Table/
 import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
 import { useGetLUFiltersQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
-import { allLakarutlatandeUnitTableColumns } from '../../store/slices/LUUnitTableColumns.selector'
+import { allLUUnitTableColumns } from '../../store/slices/LUUnitTableColumns.selector'
 import { LUCertificatesColumn } from '../../store/slices/LUUnitTableColumns.slice'
 import { reset } from '../../store/slices/luCertificates.slice'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
@@ -25,7 +25,7 @@ export function LUCertificates() {
   const { encryptedPatientId } = useParams()
   const { data: user } = useGetUserQuery()
   const [triggerGetLUCertificates, { isLoading: isContentLoading, data: luCertificatesInfo, error }] = useLazyGetLUCertificatesQuery()
-  const allColumns = useAppSelector(allLakarutlatandeUnitTableColumns)
+  const allColumns = useAppSelector(allLUUnitTableColumns)
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
