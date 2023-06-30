@@ -17,6 +17,7 @@ export interface Question {
   lastUpdate: string
   links: ResourceLink[]
   lastDateToReply?: string
+  contactInfo?: string[]
 }
 
 export interface Answer {
