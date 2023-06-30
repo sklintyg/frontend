@@ -18,19 +18,28 @@ export function FixedTableHeader({
   const innerDiv = useRef<HTMLDivElement>(null)
   const { tableWidth, scrollDiv } = useTableContext()
 
+  function updateFixed(parentElement: DOMRect | undefined) {
+    if (parentElement) {
+      const { top, bottom } = parentElement
+      const convertedTop = topMargin ? top - 55 : top
+      setFixed(convertedTop < 0 && bottom > bottomMargin)
+    }
+  }
+
+  function setWidthOnRefObjects(parentRect: DOMRect | undefined) {
+    if (parentRect && fixedHeader.current && outerDiv.current && innerDiv.current && scrollDiv) {
+      const { width } = parentRect
+      fixedHeader.current.style.width = `${tableWidth}px`
+      outerDiv.current.style.width = `${width}px`
+      innerDiv.current.style.width = `${width + (scrollDiv.scrollLeft ?? 0)}px`
+    }
+  }
+
   useEffect(() => {
     const handleScroll = () => {
-      const parentRect = ref.current?.parentElement?.getBoundingClientRect()
-      if (parentRect && ref.current) {
-        const { top, bottom, width } = parentRect
-        const convertedTop = topMargin ? top - 55 : top
-        setFixed(convertedTop < 0 && bottom > bottomMargin)
-        if (outerDiv.current && fixedHeader.current && innerDiv.current) {
-          fixedHeader.current.style.width = `${tableWidth}px`
-          outerDiv.current.style.width = `${width}px`
-          innerDiv.current.style.width = `${width + (scrollDiv?.scrollLeft ?? 0)}px`
-        }
-      }
+      const parentElement = ref.current?.parentElement?.getBoundingClientRect()
+      updateFixed(parentElement)
+      setWidthOnRefObjects(parentElement)
     }
     window.addEventListener('scroll', handleScroll, true)
     return () => {
