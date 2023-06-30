@@ -5,11 +5,13 @@ import { UserPreferences } from '../../schemas'
 export interface Settings {
   showDialog: boolean
   preferences: Partial<UserPreferences>
+  showPersonalInformation: boolean
 }
 
 const initialState: Settings = {
   showDialog: false,
   preferences: {},
+  showPersonalInformation: true,
 }
 
 const settingsSlice = createSlice({
@@ -28,8 +30,12 @@ const settingsSlice = createSlice({
     updateSettings(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
       state.preferences = Object.assign(state.preferences, payload)
     },
+    updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
+      state.showPersonalInformation = payload
+    },
   },
 })
 
-export const { resetSettings, showSettingsDialog, hideSettingsDialog, updateSettings } = settingsSlice.actions
+export const { resetSettings, showSettingsDialog, hideSettingsDialog, updateSettings, updateShowPersonalInformation } =
+  settingsSlice.actions
 export const { name: settingsReducerPath, reducer: settingsReducer } = settingsSlice

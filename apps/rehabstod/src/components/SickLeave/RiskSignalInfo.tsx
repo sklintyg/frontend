@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 import { TooltipContent } from '../Tooltip/TooltipContent'
+import { RiskSignal } from '../../schemas/sickLeaveSchema'
 
 export function RiskSignalInfo({ riskSignal }: { riskSignal: RiskSignal }) {
   if (!riskSignal) {

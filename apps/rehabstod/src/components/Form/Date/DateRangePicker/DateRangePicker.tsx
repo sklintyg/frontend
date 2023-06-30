@@ -18,9 +18,10 @@ export function DateRangePicker({
   disabled,
   description,
   inline,
+  flex,
   ...props
-}: AriaDateRangePickerProps<DateValue> & { error?: boolean; disabled?: boolean; description?: string; inline?: boolean }) {
-  const style = useInputStyle({ error, disabled })
+}: AriaDateRangePickerProps<DateValue> & { error?: boolean; disabled?: boolean; description?: string; inline?: boolean; flex?: boolean }) {
+  const style = useInputStyle({ error, disabled, flex })
   const state = useDateRangePickerState(props)
   const ref = React.useRef(null)
   const { labelProps, groupProps, startFieldProps, endFieldProps, buttonProps, dialogProps, calendarProps } = useDateRangePicker(

@@ -1,6 +1,11 @@
 import { z } from 'zod'
 import { lakareSchema } from './lakareSchema'
-import { sickLeaveDiagnosisSchema } from './sickLeaveSchema'
+import { diagnosisSchema } from './diagnosisSchema'
+
+export enum Gender {
+  M = 'M',
+  F = 'F',
+}
 
 export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
@@ -21,8 +26,8 @@ export const patientSjukfallIntygSchema = z.object({
     alder: z.number(),
     responseFromPu: z.null(),
   }),
-  diagnos: sickLeaveDiagnosisSchema,
-  bidiagnoser: z.array(sickLeaveDiagnosisSchema),
+  diagnos: diagnosisSchema,
+  bidiagnoser: z.array(diagnosisSchema),
   start: z.string(),
   slut: z.string(),
   signeringsTidpunkt: z.string(),
@@ -90,9 +95,23 @@ export enum PuResponse {
   FOUND_NO_NAME = 'FOUND_NO_NAME',
 }
 
+export const puResponseSchema = z.nativeEnum(PuResponse)
+
+export const genderSchema = z.nativeEnum(Gender)
+
+export const patientInfoSchema = z.object({
+  alder: z.number(),
+  id: z.string(),
+  kon: genderSchema,
+  namn: z.string(),
+  responseFromPu: puResponseSchema,
+  riskSignal: patientRiskSignalSchema,
+})
+
 export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
 export type Patient = z.infer<typeof patientSchema>
 export type SjfMetaData = z.infer<typeof sjfMetaDataSchema>
 export type SjfItem = z.infer<typeof sjfItemSchema>
+export type PatientInfo = z.infer<typeof patientInfoSchema>

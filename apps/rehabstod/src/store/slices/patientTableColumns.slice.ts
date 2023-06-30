@@ -14,6 +14,7 @@ export enum PatientColumn {
   Vårdgivare = 'Vårdgivare',
   Risk = 'Risk',
   Intyg = 'Intyg',
+  Visa = 'Visa',
 }
 
 export const { slice: patientTableColumnsSlice, getSelectors: getPatientTableColumnsSelectors } = createTableColumnSlice(
