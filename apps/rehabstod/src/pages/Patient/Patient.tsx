@@ -26,7 +26,7 @@ export function Patient() {
       {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
       <OpenTabsDialog />
       <PageContainer>
-        <PatientTabs active={state ? state.activeTab : 0} />
+        <PatientTabs active={state ? state.activeTab : -1} />
       </PageContainer>
     </PatientContext.Provider>
   )

@@ -10,11 +10,15 @@ export function SelectRekoStatus({
   patientId,
   endDate,
   rekoStatusTypes,
+  description,
+  disabled = false,
 }: {
   statusFromSickLeave: RekoStatus
   patientId: string
   endDate: string
   rekoStatusTypes: RekoStatusType[]
+  description: string
+  disabled?: boolean
 }) {
   const [setRekoStatus] = useSetRekoStatusMutation()
   const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
@@ -34,11 +38,12 @@ export function SelectRekoStatus({
 
   return (
     <SelectFilter
+      disabled={disabled}
       value={savedRekoStatus || ''}
       onChange={(id) => handleSetRekoStatus(id)}
       options={rekoStatusTypes}
       hideDefaultValue
-      description="Med REKO-status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare."
+      description={description}
       label="REKO-status"
     />
   )

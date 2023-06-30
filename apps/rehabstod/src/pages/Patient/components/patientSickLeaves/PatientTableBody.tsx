@@ -12,6 +12,7 @@ import { Tooltip } from '../../../../components/Tooltip/Tooltip'
 import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
 import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
 import { CertificateButton } from '../CertificateButton'
+import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
 
 function OtherUnitInformation() {
   return (
@@ -72,6 +73,7 @@ function PatientTableCellResolver({
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allPatientColumns)
+  const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, undefined, [PatientColumn.Visa])
 
   return (
     <tbody className="whitespace-normal break-words">
@@ -79,12 +81,9 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
         (certificate) =>
           columns.length > 0 && (
             <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare || certificate.otherVardenhet ? 'italic' : ''}>
-              {columns
-                .filter(({ visible }) => visible)
-                .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
-                .map(({ name }) => (
-                  <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
-                ))}
+              {visibleColumns.map(({ name }) => (
+                <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
+              ))}
             </tr>
           )
       )}
