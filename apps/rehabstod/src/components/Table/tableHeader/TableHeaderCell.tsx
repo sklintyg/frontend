@@ -48,7 +48,7 @@ export function TableHeaderCell({
             'first:rounded-tl-md',
             'last:rounded-tr-md',
             'border-l-0',
-            sticky != null && `sticky z-20`,
+            sticky != null && `sticky z-60`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}
         >

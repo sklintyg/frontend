@@ -50,14 +50,20 @@ function useTable(options: TableOptions) {
 
 export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
 
-export function Table({ children, print, ...options }: { children?: ReactNode; print?: ReactNode } & TableOptions) {
+export function Table({
+  children,
+  print,
+  contentDivId,
+  scrollDivId,
+  ...options
+}: { children?: ReactNode; print?: ReactNode; contentDivId: string; scrollDivId: string } & TableOptions) {
   const table = useTable(options)
 
   return (
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
-        <FloatingScroll>
-          <div id="contentDiv" className="relative pb-4 pt-1">
+        <FloatingScroll id={scrollDivId}>
+          <div id={contentDivId} className="relative pb-4 pt-1">
             <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
           </div>
         </FloatingScroll>

@@ -36,18 +36,17 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
 
 export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
   const columns = useAppSelector(allPatientColumns)
+  if (columns.length === 0) {
+    return null
+  }
   return (
-    <thead>
-      {columns.length > 0 && (
-        <tr>
-          {columns
-            .filter(({ visible: checked }) => checked)
-            .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
-            .map(({ name }) => (
-              <PatientTableHeaderResolver key={name} column={name} />
-            ))}
-        </tr>
-      )}
-    </thead>
+    <tr>
+      {columns
+        .filter(({ visible: checked }) => checked)
+        .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
+        .map(({ name }) => (
+          <PatientTableHeaderResolver key={name} column={name} />
+        ))}
+    </tr>
   )
 }

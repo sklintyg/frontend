@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -34,7 +34,8 @@ export function LUCertificates() {
   const { data: populatedFilters } = useGetLUFiltersQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
-
+  const contentDivId = useId()
+  const scrollDivId = useId()
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
@@ -80,8 +81,14 @@ export function LUCertificates() {
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
       emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
     >
-      <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-        <FixedTableHeader bottomMargin={50}>
+      <Table
+        sortColumn={tableState.sortColumn}
+        onSortChange={setTableState}
+        ascending={tableState.ascending}
+        contentDivId={contentDivId}
+        scrollDivId={scrollDivId}
+      >
+        <FixedTableHeader bottomMargin={50} scrollDivId={scrollDivId} contentDivId={contentDivId}>
           <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
         </FixedTableHeader>
         <TableInfoMessage

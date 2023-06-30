@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { Table } from '../../../../components/Table/Table'
@@ -19,6 +19,7 @@ import {
 import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
 import { ModifyLUCertificatesTableColumns } from '../../../LUCertificates/ModifyLUCertificatesTableColumns'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
+import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTableHeader'
 
 export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()
@@ -36,6 +37,8 @@ export function PatientLUCertificatesTable() {
   const { data: luCertificatesInfo, error: getLuCertificatesError } = useGetPatientLUCertificatesQuery({
     encryptedPatientId: encryptedPatientId || '',
   })
+  const contentDivId = useId()
+  const scrollDivId = useId()
 
   return (
     <>
@@ -53,8 +56,16 @@ export function PatientLUCertificatesTable() {
       {getLuCertificatesError ? (
         <PatientTableError error={getLuCertificatesError} />
       ) : (
-        <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-          <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+        <Table
+          sortColumn={tableState.sortColumn}
+          onSortChange={setTableState}
+          ascending={tableState.ascending}
+          contentDivId={contentDivId}
+          scrollDivId={scrollDivId}
+        >
+          <FixedTableHeader bottomMargin={90} contentDivId={contentDivId} scrollDivId={scrollDivId} topMargin>
+            <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+          </FixedTableHeader>
           {!luCertificatesInfo || luCertificatesInfo.certificates.length === 0 ? (
             <tbody>
               <EmptyPatientTableMessage tableName="läkarutlåtanden" tableLength={visibleColumns.length} user={user} />

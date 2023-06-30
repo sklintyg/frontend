@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { Table } from '../../../../components/Table/Table'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { useAppSelector } from '../../../../store/hooks'
@@ -12,6 +12,7 @@ import { AGCertificatesTableBody } from './AGCertificatesTableBody'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { PatientAccordion } from '../../../../components/PatientAccordion/PatientAccordion'
+import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTableHeader'
 
 export function PatientAGCertificatesTable() {
   const { data: user } = useGetUserQuery()
@@ -28,6 +29,8 @@ export function PatientAGCertificatesTable() {
   const allColumns = useAppSelector(allPatientColumns)
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, undefined)
   const visibleColumns = filterHiddenColumns(filteredColumns)
+  const contentDivId = useId()
+  const scrollDivId = useId()
 
   return (
     <>
@@ -36,8 +39,16 @@ export function PatientAGCertificatesTable() {
         {getAGCertificatesError ? (
           <PatientTableError error={getAGCertificatesError} />
         ) : (
-          <Table sortColumn={tableState.sortColumn} ascending={tableState.ascending} onSortChange={setTableState}>
-            <TableHeader columns={visibleColumns.map((column) => getAGCertificatesColumnInfo(column.name))} />
+          <Table
+            sortColumn={tableState.sortColumn}
+            ascending={tableState.ascending}
+            onSortChange={setTableState}
+            contentDivId={contentDivId}
+            scrollDivId={scrollDivId}
+          >
+            <FixedTableHeader bottomMargin={90} contentDivId={contentDivId} scrollDivId={scrollDivId} topMargin>
+              <TableHeader columns={visibleColumns.map((column) => getAGCertificatesColumnInfo(column.name))} />
+            </FixedTableHeader>
             {!agCertificatesInfo || agCertificatesInfo.certificates.length === 0 ? (
               <tbody>
                 <EmptyPatientTableMessage tableName="intyg till arbetsgivaren" tableLength={visibleColumns.length} user={user} />

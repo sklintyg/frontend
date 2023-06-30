@@ -4,7 +4,7 @@ import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
 import './FloatingScroll.css'
 
-export function FloatingScroll({ children }: { children: ReactNode }) {
+export function FloatingScroll({ children, id }: { children: ReactNode; id: string }) {
   const { ref } = useResizeObserver<HTMLDivElement>()
 
   const mergedRefCallback = mergeRefs([
@@ -21,7 +21,7 @@ export function FloatingScroll({ children }: { children: ReactNode }) {
   ])
 
   return (
-    <div id="scrollDiv" style={{ overflow: 'auto' }} ref={mergedRefCallback}>
+    <div id={id} style={{ overflow: 'auto' }} ref={mergedRefCallback}>
       {children}
     </div>
   )
