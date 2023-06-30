@@ -2,7 +2,8 @@ import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHead
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { useGetSickLeavesFiltersQuery } from '../../../store/api'
+import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
   switch (column) {
@@ -39,19 +40,18 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
 
 export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
   const columns = useAppSelector(allPatientColumns)
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
+  const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
+    PatientColumn.Visa,
+  ])
 
   return (
     <thead>
       {columns.length > 0 && (
         <tr>
-          {columns
-            .filter(({ visible: checked }) => checked)
-            .filter(({ name }) => !(isDoctor && name === PatientColumn.Läkare))
-            .filter(({ name }) => !(!populatedFilters?.srsActivated && name === PatientColumn.Risk))
-            .map(({ name }) => (
-              <PatientTableHeaderResolver key={name} column={name} />
-            ))}
+          {visibleColumns.map(({ name }) => (
+            <PatientTableHeaderResolver key={name} column={name} />
+          ))}
         </tr>
       )}
     </thead>

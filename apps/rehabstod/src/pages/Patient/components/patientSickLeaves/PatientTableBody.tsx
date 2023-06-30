@@ -14,6 +14,7 @@ import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
 import { CertificateButton } from '../CertificateButton'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
+import { useGetSickLeavesFiltersQuery } from '../../../../store/api'
 
 function OtherUnitInformation() {
   return (
@@ -79,7 +80,7 @@ function PatientTableCellResolver({
 
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const columns = useAppSelector(allPatientColumns)
   const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
     PatientColumn.Visa,
