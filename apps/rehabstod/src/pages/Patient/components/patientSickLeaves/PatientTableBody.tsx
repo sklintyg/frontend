@@ -13,7 +13,7 @@ import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
 import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
 import { CertificateButton } from '../CertificateButton'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
+import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
 
 function OtherUnitInformation() {
   return (
