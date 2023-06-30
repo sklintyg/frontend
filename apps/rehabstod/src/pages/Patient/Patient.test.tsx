@@ -25,7 +25,7 @@ it('Should display error message when failing to fetch patient information', asy
   server.use(rest.post('/api/sjukfall/patient', (_, res, ctx) => res(ctx.status(400))))
   render(
     <PatientWrapper>
-      <Patient />
+      <Patient activeTab="1" />
     </PatientWrapper>
   )
   expect(await screen.findByText(/information kan inte visas på grund av ett tekniskt fel/i)).toBeInTheDocument()

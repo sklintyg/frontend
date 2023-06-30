@@ -39,7 +39,7 @@ export const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route path=":encryptedPatientId" element={<Patient />} />
+        <Route path=":encryptedPatientId" element={<Patient activeTab="0" />} />
       </Route>
       <Route
         path="/lakarutlatanden"
@@ -50,7 +50,7 @@ export const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route path=":encryptedPatientId" element={<Patient />} />
+        <Route path=":encryptedPatientId" element={<Patient activeTab="1" />} />
       </Route>
       <Route path="*" element={<NoMatch />} />
       <Route path="/error" element={<Error />}>

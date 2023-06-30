@@ -137,7 +137,6 @@ export function TableBodyRows({
     navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
       state: {
         rekoStatus: data.rekoStatus,
-        activeTab: 0,
       },
     })
   }
