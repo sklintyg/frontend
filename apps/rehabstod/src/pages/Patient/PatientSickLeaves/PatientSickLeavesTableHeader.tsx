@@ -1,9 +1,9 @@
 import { TableHeaderCell } from '../../../components/Table/tableHeader/TableHeaderCell'
+import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
+import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allPatientColumns } from '../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
-import { useGetSickLeavesFiltersQuery } from '../../../store/api'
-import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
 
 function PatientTableHeaderResolver({ column }: { column: string }) {
   switch (column) {
@@ -38,7 +38,7 @@ function PatientTableHeaderResolver({ column }: { column: string }) {
   }
 }
 
-export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
+export function PatientSickLeavesTableHeader({ isDoctor }: { isDoctor: boolean }) {
   const columns = useAppSelector(allPatientColumns)
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [

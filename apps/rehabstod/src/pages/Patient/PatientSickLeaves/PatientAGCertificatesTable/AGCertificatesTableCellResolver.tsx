@@ -1,12 +1,12 @@
+import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
+import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
+import { TableCell } from '../../../../components/Table/tableBody/TableCell'
+import { getUnansweredCommunicationFormat } from '../../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { TableCell } from '../../../../components/Table/tableBody/TableCell'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
-import { CertificateButton } from '../CertificateButton'
-import { getUnansweredCommunicationFormat } from '../../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
+import { CertificateButton } from '../../components/CertificateButton'
 import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
-import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 
 export function AGCertificatesTableCellResolver({ column, data, list }: { column: string; data: AGCertificate; list: AGCertificate[] }) {
   switch (column) {

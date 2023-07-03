@@ -2,16 +2,16 @@ import { fakerFromSchema } from '@frontend/fake'
 import { act, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { ReactNode } from 'react'
-import { Table } from '../../../../components/Table/Table'
-import { server } from '../../../../mocks/server'
-import { patientSjukfallIntygSchema } from '../../../../schemas/patientSchema'
-import { api } from '../../../../store/api'
-import { hideColumn, PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { store } from '../../../../store/store'
-import { fakeUser } from '../../../../utils/fake/fakeUser'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { PatientContext, usePatientState } from '../../hooks/usePatient'
-import { PatientTableBody } from './PatientTableBody'
+import { Table } from '../../../components/Table/Table'
+import { server } from '../../../mocks/server'
+import { patientSjukfallIntygSchema } from '../../../schemas/patientSchema'
+import { api } from '../../../store/api'
+import { PatientColumn, hideColumn } from '../../../store/slices/patientTableColumns.slice'
+import { store } from '../../../store/store'
+import { fakeUser } from '../../../utils/fake/fakeUser'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { PatientContext, usePatientState } from '../hooks/usePatient'
+import { PatientSickLeavesTableBody } from './PatientSickLeavesTableBody'
 
 function ComponentWrapper({ children }: { children: ReactNode }) {
   const state = usePatientState()
@@ -31,7 +31,7 @@ it('Should list all certificates columns except Visa', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <ComponentWrapper>
-      <PatientTableBody certificates={certificates} isDoctor={false} />
+      <PatientSickLeavesTableBody certificates={certificates} isDoctor={false} />
     </ComponentWrapper>
   )
 
@@ -43,7 +43,7 @@ it('Should list all certificates columns besides doctor if user is doctor', asyn
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <ComponentWrapper>
-      <PatientTableBody certificates={certificates} isDoctor />
+      <PatientSickLeavesTableBody certificates={certificates} isDoctor />
     </ComponentWrapper>
   )
 
@@ -55,7 +55,7 @@ it('Should be possible to hide columns', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <ComponentWrapper>
-      <PatientTableBody certificates={certificates} isDoctor={false} />
+      <PatientSickLeavesTableBody certificates={certificates} isDoctor={false} />
     </ComponentWrapper>
   )
 
@@ -77,7 +77,7 @@ it('Should not display visa button for other units if otherVardgivare', () => {
   const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardgivare: true }))
   renderWithRouter(
     <ComponentWrapper>
-      <PatientTableBody certificates={certificates} isDoctor />
+      <PatientSickLeavesTableBody certificates={certificates} isDoctor />
     </ComponentWrapper>
   )
 
@@ -89,7 +89,7 @@ it('Should not display visa button for other units if otherVardenhet', () => {
   const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardenhet: true }))
   renderWithRouter(
     <ComponentWrapper>
-      <PatientTableBody certificates={certificates} isDoctor />
+      <PatientSickLeavesTableBody certificates={certificates} isDoctor />
     </ComponentWrapper>
   )
 

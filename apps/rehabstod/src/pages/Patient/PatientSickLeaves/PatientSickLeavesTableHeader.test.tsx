@@ -1,12 +1,12 @@
 import { act, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Table } from '../../../components/Table/Table'
+import { server } from '../../../mocks/server'
 import { api } from '../../../store/api'
-import { hideColumn, PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { PatientColumn, hideColumn } from '../../../store/slices/patientTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { PatientTableHeader } from './PatientTableHeader'
-import { server } from '../../../mocks/server'
+import { PatientSickLeavesTableHeader } from './PatientSickLeavesTableHeader'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
@@ -16,7 +16,7 @@ beforeEach(() => {
 it('Should render all columns but Visa', async () => {
   renderWithRouter(
     <Table>
-      <PatientTableHeader isDoctor={false} />
+      <PatientSickLeavesTableHeader isDoctor={false} />
     </Table>
   )
 
@@ -28,7 +28,7 @@ it('Should render all columns but Visa', async () => {
 it('Should render all columns but Visa and doctor if user is doctor', async () => {
   renderWithRouter(
     <Table>
-      <PatientTableHeader isDoctor />
+      <PatientSickLeavesTableHeader isDoctor />
     </Table>
   )
 
@@ -40,7 +40,7 @@ it('Should render all columns but Visa and doctor if user is doctor', async () =
 it.each(Object.values(PatientColumn).filter((name) => name !== PatientColumn.Visa))('Should render and hide %s column', async (column) => {
   renderWithRouter(
     <Table>
-      <PatientTableHeader isDoctor={false} />
+      <PatientSickLeavesTableHeader isDoctor={false} />
     </Table>
   )
   expect(await screen.findByRole('columnheader', { name: column })).toBeInTheDocument()

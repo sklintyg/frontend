@@ -5,7 +5,7 @@ import { server, waitForRequest } from '../../../mocks/server'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ModifyPatientTableColumns } from './PatientSickLeaves/ModifyPatientTableColumns'
+import { ModifyPatientSickLeavesTableColumns } from './ModifyPatientSickLeavesTableColumns'
 
 beforeEach(() => {
   server.use(
@@ -28,7 +28,7 @@ beforeEach(() => {
 
 describe('vibility', () => {
   it('Should be possible to hide visible columns', async () => {
-    const { user } = renderWithRouter(<ModifyPatientTableColumns />)
+    const { user } = renderWithRouter(<ModifyPatientSickLeavesTableColumns />)
 
     await user.click(await screen.findByRole('button'))
 
@@ -40,7 +40,7 @@ describe('vibility', () => {
   })
 
   it('Should save column visibility changes', async () => {
-    const { user } = renderWithRouter(<ModifyPatientTableColumns />)
+    const { user } = renderWithRouter(<ModifyPatientSickLeavesTableColumns />)
 
     const pendingRequest = waitForRequest('POST', '/api/user/preferences')
 
@@ -63,7 +63,7 @@ describe('position', () => {
   }
 
   it('Should be possible to move column up', async () => {
-    const { user } = renderWithRouter(<ModifyPatientTableColumns />)
+    const { user } = renderWithRouter(<ModifyPatientSickLeavesTableColumns />)
     await user.click(await screen.findByRole('button'))
 
     expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
@@ -74,7 +74,7 @@ describe('position', () => {
   })
 
   it('Should be possible to move column down', async () => {
-    const { user } = renderWithRouter(<ModifyPatientTableColumns />)
+    const { user } = renderWithRouter(<ModifyPatientSickLeavesTableColumns />)
     await user.click(await screen.findByRole('button'))
 
     expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')

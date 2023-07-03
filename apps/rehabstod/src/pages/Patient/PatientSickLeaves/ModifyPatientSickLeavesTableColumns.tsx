@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../../../components/Table/ModifyTableColumns/ModifyTableColumns'
-import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../../store/api'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../../store/hooks'
-import { allPatientColumns, patientColumnsString } from '../../../../store/slices/patientTableColumns.selector'
-import { PatientColumn, hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { isUserDoctor } from '../../../../utils/isUserDoctor'
+import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
+import { filterTableColumns } from '../../../components/Table/utils/filterTableColumns'
+import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../store/api'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
+import { allPatientColumns, patientColumnsString } from '../../../store/slices/patientTableColumns.selector'
+import { PatientColumn, hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../store/slices/patientTableColumns.slice'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
 
-export function ModifyPatientTableColumns() {
+export function ModifyPatientSickLeavesTableColumns() {
   const dispatch = useAppDispatch()
   const { data: user } = useGetUserQuery()
   const columns = useAppSelector(allPatientColumns)

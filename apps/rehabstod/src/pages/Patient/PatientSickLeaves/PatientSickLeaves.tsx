@@ -1,16 +1,15 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { PageContainer } from '../../../../components/PageContainer/PageContainer'
-import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { PuResponse } from '../../../../schemas/patientSchema'
-import { useGetPatientSickLeavesQuery, useGetUserQuery } from '../../../../store/api'
-import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
-import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { PatientOverview } from '../PatientOverview/PatientOverview'
-import { PatientRekoStatus } from '../PatientRekoStatus'
-import { PatientAGCertificatesTable } from '../patientAG/PatientAGCertificatesTable'
-import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
+import { TableHeadingForUnit } from '../../../components/Table/heading/TableHeadingForUnit'
+import { PatientTableError } from '../../../components/error/ErrorAlert/PatientTableError'
+import { PuResponse } from '../../../schemas/patientSchema'
+import { useGetPatientSickLeavesQuery, useGetUserQuery } from '../../../store/api'
+import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
+import { ModifyPatientSickLeavesTableColumns } from './ModifyPatientSickLeavesTableColumns'
+import { PatientAGCertificatesTable } from './PatientAGCertificatesTable/PatientAGCertificatesTable'
+import { PatientOverview } from './PatientOverview/PatientOverview'
+import { PatientRekoStatus } from './PatientRekoStatus'
 import { PatientSickLeavesTable } from './PatientSickLeavesTable'
 
 export function PatientSickLeaves() {
@@ -31,14 +30,14 @@ export function PatientSickLeaves() {
   const isDoctor = user ? isUserDoctor(user) : false
 
   return (
-    <PageContainer>
+    <>
       <div className="flex justify-between">
         <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
         {!error && (
           <div className="flex justify-end gap-5">
             <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
             <div className="w-96">
-              <ModifyPatientTableColumns />
+              <ModifyPatientSickLeavesTableColumns />
             </div>
           </div>
         )}
@@ -63,6 +62,6 @@ export function PatientSickLeaves() {
       {earlierSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" />
       )}
-    </PageContainer>
+    </>
   )
 }
