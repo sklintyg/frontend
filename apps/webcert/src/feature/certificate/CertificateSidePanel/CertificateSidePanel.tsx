@@ -25,16 +25,19 @@ const CertificateSidePanel: React.FC = () => {
     ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
   ]
 
-  useEffect(() => {
-    if (questions.length !== 0) {
-      setSelectedTabIndex(1)
-    }
-  }, [questions])
-
   const availableTabs = resourceLinksForTabs.reduce<ResourceLink[]>((result, type) => {
     const link = resourceLinks.find((link) => type === link.type)
     return link ? [...result, link] : result
   }, [])
+
+  useEffect(() => {
+    if (questions.length !== 0) {
+      const index = availableTabs ? availableTabs.find((link) => link.type === ResourceLinkType.QUESTIONS) : -1
+      if (index >= 0) {
+        setSelectedTabIndex(index)
+      }
+    }
+  }, [questions, availableTabs])
 
   if (showSpinner) return null
 
