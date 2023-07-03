@@ -1,6 +1,6 @@
 import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs, SrsEvent } from '@frontend/common'
 import _ from 'lodash'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
@@ -9,12 +9,14 @@ import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { getQuestions } from '../../../store/question/questionSelectors'
 
 const CertificateSidePanel: React.FC = () => {
   const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const questions = useSelector(getQuestions, _.isEqual)
   const resourceLinksForTabs = [
     ResourceLinkType.SRS_FULL_VIEW,
     ResourceLinkType.SRS_MINIMIZED_VIEW,
@@ -22,6 +24,12 @@ const CertificateSidePanel: React.FC = () => {
     ResourceLinkType.QUESTIONS,
     ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
   ]
+
+  useEffect(() => {
+    if (questions.length !== 0) {
+      setSelectedTabIndex(1)
+    }
+  }, [questions])
 
   const availableTabs = resourceLinksForTabs.reduce<ResourceLink[]>((result, type) => {
     const link = resourceLinks.find((link) => type === link.type)
