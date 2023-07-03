@@ -1,6 +1,7 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
+// eslint-disable-next-line import/no-cycle
 import { FloatingTableScroll } from '../FloatingScroll/FloatingTableScroll'
 import { TableContentDiv } from './TableContentDiv'
 
