@@ -28,11 +28,11 @@ export function SelectFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <label htmlFor={id}>
-          {label}
-          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
-        </label>
         <IDSSelect className="m-0" isDisabled={disabled}>
+          <label htmlFor={id} className="mb-0">
+            {label}
+            {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
+          </label>
           <div className="relative">
             <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)} disabled={disabled}>
               {!hideDefaultValue && (
