@@ -32,7 +32,7 @@ const CertificateSidePanel: React.FC = () => {
 
   useEffect(() => {
     if (questions.length !== 0) {
-      const index = availableTabs ? availableTabs.find((link) => link.type === ResourceLinkType.QUESTIONS) : -1
+      const index = availableTabs ? availableTabs.findIndex((link) => link.type === ResourceLinkType.QUESTIONS) : -1
       if (index >= 0) {
         setSelectedTabIndex(index)
       }
