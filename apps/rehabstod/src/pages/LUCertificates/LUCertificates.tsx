@@ -38,7 +38,7 @@ export function LUCertificates() {
 
   const isDoctor = user ? isUserDoctor(user) : false
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, [
-    LUCertificatesColumn.Visa,
+    LUCertificatesColumn.Intyg,
     LUCertificatesColumn.Vårdgivare,
     LUCertificatesColumn.Vårdenhet,
     LUCertificatesColumn.Index,

@@ -44,7 +44,7 @@ export function PatientLUCertificatesTable() {
         {!getLuCertificatesError && (
           <div className="w-96">
             <ModifyLUCertificatesTableColumns
-              columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Visa)}
+              columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Intyg)}
               preferenceKey="lakarutlatandenTableColumns"
             />
           </div>

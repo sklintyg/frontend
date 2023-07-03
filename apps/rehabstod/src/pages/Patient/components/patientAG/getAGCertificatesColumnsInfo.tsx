@@ -25,9 +25,9 @@ export const getAGCertificatesColumnInfo = (column: string): Column => {
       return { name: column, width: 120 }
     case PatientColumn.Vårdgivare:
       return { name: column, width: 120 }
+    case PatientColumn.Intygstyp:
+      return { name: column, width: 120 }
     case PatientColumn.Intyg:
-      return { name: column, width: 80 }
-    case PatientColumn.Visa:
       return { name: column, width: 100, sticky: 'right' }
     default:
       return { name: column }

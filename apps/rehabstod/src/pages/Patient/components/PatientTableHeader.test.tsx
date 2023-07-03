@@ -37,7 +37,7 @@ it('Should render all columns but Visa and doctor if user is doctor', async () =
   expect(screen.queryByRole('columnheader', { name: 'Läkare' })).not.toBeInTheDocument()
 })
 
-it.each(Object.values(PatientColumn).filter((name) => name !== PatientColumn.Visa))('Should render and hide %s column', async (column) => {
+it.each(Object.values(PatientColumn).filter((name) => name !== PatientColumn.Intyg))('Should render and hide %s column', async (column) => {
   renderWithRouter(
     <Table>
       <PatientTableHeader isDoctor={false} />

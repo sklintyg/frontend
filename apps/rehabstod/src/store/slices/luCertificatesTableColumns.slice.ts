@@ -6,14 +6,14 @@ export enum LUCertificatesColumn {
   Ålder = 'Ålder',
   Namn = 'Namn',
   Kön = 'Kön',
-  Intyg = 'Intyg',
+  Intygstyp = 'Intygstyp',
   Diagnos = 'Diagnos/er',
   Signeringsdatum = 'Signeringsdatum',
   Ärenden = 'Ärenden',
   Läkare = 'Läkare',
   Vårdenhet = 'Vårdenhet',
   Vårdgivare = 'Vårdigvare',
-  Visa = 'Visa',
+  Intyg = 'Intyg',
 }
 
 export const { slice: luCertificatesColumnsSlice, getSelectors: getLuCertificatesColumnsSelectors } = createTableColumnSlice(
