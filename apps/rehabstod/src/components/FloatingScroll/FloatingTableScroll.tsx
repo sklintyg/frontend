@@ -3,11 +3,9 @@ import { ReactNode } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
 import './FloatingScroll.css'
-import { useTableContext } from '../Table/hooks/useTableContext'
 
-export function FloatingTableScroll({ children }: { children: ReactNode }) {
+export function FloatingTableScroll({ children, tableContext }: { children: ReactNode; tableContext: any }) {
   const { ref } = useResizeObserver<HTMLDivElement>()
-  const tableContext = useTableContext()
 
   const mergedRefCallback = mergeRefs([
     ref,
