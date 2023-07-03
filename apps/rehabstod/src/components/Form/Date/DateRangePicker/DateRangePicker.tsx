@@ -6,7 +6,6 @@ import { classNames } from '../../../../utils/classNames'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { PopoverTrigger } from '../../../Popover/PopoverTrigger'
 import { TooltipIcon } from '../../../TooltipIcon/TooltipIcon'
 import { useInputStyle } from '../../hooks/useInputStyle'
 import { DateField } from '../DateField'
@@ -43,9 +42,7 @@ export function DateRangePicker({
             <span className="py-3 px-1">till</span>
             <DateField {...endFieldProps} />
           </div>
-          <PopoverTrigger>
-            <DatePickerButton {...buttonProps} />
-          </PopoverTrigger>
+          <DatePickerButton {...buttonProps} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
