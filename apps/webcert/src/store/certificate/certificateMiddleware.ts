@@ -5,6 +5,7 @@ import {
   getCertificateToSave,
   getClientValidationErrors,
   SigningMethod,
+  isLocked,
 } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
@@ -880,7 +881,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
       const clientValidationErrors = getClientValidationErrors(action.payload)
       dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
 
-      if (clientValidationErrors.length === 0) {
+      if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
         dispatch(setCertificateDataElement(action.payload))
         dispatch(validateCertificateInFrontEnd(action.payload))
         dispatch(validateCertificate(certificate))
