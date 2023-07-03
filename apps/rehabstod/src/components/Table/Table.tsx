@@ -63,8 +63,8 @@ export function Table({ children, print, ...options }: { children?: ReactNode; p
   return (
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
-        <FloatingTableScroll tableContext={table}>
-          <TableContentDiv tableContext={table}>
+        <FloatingTableScroll>
+          <TableContentDiv>
             <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
           </TableContentDiv>
         </FloatingTableScroll>
