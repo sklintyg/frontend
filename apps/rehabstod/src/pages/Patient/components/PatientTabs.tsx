@@ -1,7 +1,7 @@
 import { IDSTab, IDSTabPanel, IDSTabs } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { PatientSickLeaves } from './PatientSickLeaves/PatientSickLeaves'
 import { PatientLUCertificatesTable } from './patientLU/PatientLUCertificatesTable'
-import { PatientSickLeaves } from './patientSickLeaves/PatientSickLeaves'
 
 export function PatientTabs({ active }: { active: string }) {
   const [activeTab, setActiveTab] = useState(active)
