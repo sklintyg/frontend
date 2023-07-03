@@ -5,7 +5,7 @@ import useResizeObserver from 'use-resize-observer'
 import './FloatingScroll.css'
 import { useTableContext } from '../Table/hooks/useTableContext'
 
-export function TableFloatingScroll({ children }: { children: ReactNode }) {
+export function FloatingTableScroll({ children }: { children: ReactNode }) {
   const { ref } = useResizeObserver<HTMLDivElement>()
   const tableContext = useTableContext()
 

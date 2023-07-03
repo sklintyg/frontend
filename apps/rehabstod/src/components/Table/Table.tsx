@@ -3,7 +3,7 @@ import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 import useResizeObserver from 'use-resize-observer'
 import { mergeRefs } from 'react-merge-refs'
 import { getTableSorter } from '../../utils/getTableSorter'
-import { TableFloatingScroll } from '../FloatingScroll/TableFloatingScroll'
+import { FloatingTableScroll } from '../FloatingScroll/FloatingTableScroll'
 import { useTableContext } from './hooks/useTableContext'
 
 interface TableOptions {
@@ -84,11 +84,11 @@ export function Table({ children, print, ...options }: { children?: ReactNode; p
   return (
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
-        <TableFloatingScroll>
+        <FloatingTableScroll>
           <TableContentDiv>
             <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
           </TableContentDiv>
-        </TableFloatingScroll>
+        </FloatingTableScroll>
       </IDSContainer>
       <div className="hidden print:block">
         <div className="mb-2">
