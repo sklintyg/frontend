@@ -1,5 +1,5 @@
-import { ReactNode, useState } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
+import { ReactNode, useState } from 'react'
 
 export function ExpandableCard({
   description,
@@ -28,7 +28,7 @@ export function ExpandableCard({
     return (
       <>
         <p className="py-5">{description}</p>
-        <IDSButton onClick={handleOnClick} className="flex justify-center">
+        <IDSButton onClick={handleOnClick} role="button" className="flex justify-center">
           Visa
         </IDSButton>
       </>

@@ -57,6 +57,7 @@ export function ModifyTableColumns({
           items={columns}
           selectionMode="none"
           onReorder={onListReorder}
+          focus={false}
         >
           {columns.map((column, index) => (
             <Item key={column.name} textValue={column.name}>

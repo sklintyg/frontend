@@ -30,9 +30,11 @@ function ReorderableOption<T extends object>({
   state,
   dragState,
   dropState,
+  focus,
 }: {
   item: Node<T>
   state: ListState<T>
+  focus: boolean
   dragState: DraggableCollectionState
   dropState: DroppableCollectionState
 }) {
@@ -46,19 +48,22 @@ function ReorderableOption<T extends object>({
     dragState
   )
 
+  const props = mergeProps(optionProps, dragProps, focus ? focusProps : {})
+
   return (
     <>
       <DropIndicator target={{ type: 'item', key: item.key, dropPosition: 'before' }} dropState={dropState} />
       <div
         role="option"
         aria-selected={optionProps['aria-selected']}
-        {...mergeProps(optionProps, dragProps, focusProps)}
+        {...props}
         ref={ref}
         className={classNames(
           isSelected && 'bg-secondary-95',
           isDisabled && 'text-neutral-40 italic',
           isFocusVisible && 'outline-2 outline-black'
         )}
+        tabIndex={undefined}
       >
         {item.rendered}
       </div>
@@ -72,8 +77,9 @@ function ReorderableOption<T extends object>({
 export function ReorderableListBox<T extends object>({
   label,
   getItems,
+  focus = true,
   ...props
-}: AriaListBoxProps<T> & { getItems: (keys: Set<Key>) => DragItem[] } & Omit<
+}: AriaListBoxProps<T> & { getItems: (keys: Set<Key>) => DragItem[]; focus?: boolean } & Omit<
     DroppableCollectionOptions,
     'keyboardDelegate' | 'dropTargetDelegate'
   >) {
@@ -113,7 +119,7 @@ export function ReorderableListBox<T extends object>({
       </div>
       <div role="listbox" {...mergeProps(listBoxProps, collectionProps)} ref={ref}>
         {[...state.collection].map((item) => (
-          <ReorderableOption key={item.key} item={item} state={state} dragState={dragState} dropState={dropState} />
+          <ReorderableOption key={item.key} item={item} state={state} dragState={dragState} dropState={dropState} focus={focus} />
         ))}
       </div>
     </>

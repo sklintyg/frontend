@@ -2,10 +2,11 @@ import { IDSAlert } from '@frontend/ids-react-ts'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
 import { SjfMetaData } from '../../../../schemas/patientSchema'
-import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/api'
-import { BlockedInformationCard } from './blocked/BlockedInformationCard'
-import { OpenInformationCard } from './open/OpenInformationCard'
-import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
+import { useGiveSjfConsentMutation } from '../../../../store/api'
+import { BlockedCurrentCard } from './PatientOverviewCard/BlockedCurrentCard'
+import { BlockedOtherCard } from './PatientOverviewCard/BlockedOtherCard'
+import { OpenCurrentCard } from './PatientOverviewCard/OpenCurrentCard'
+import { OpenOtherCard } from './PatientOverviewCard/OpenOtherCard'
 
 export function PatientOverview({
   sjfMetaData,
@@ -13,13 +14,11 @@ export function PatientOverview({
   isPersonResponseMissing,
   encryptedPatientId,
 }: {
-  sjfMetaData: SjfMetaData | undefined
+  sjfMetaData?: SjfMetaData
   patientId: string
   isPersonResponseMissing: boolean
   encryptedPatientId: string
 }) {
-  const [addUnit] = useAddVardenhetMutation()
-  const [addCareGiver] = useAddVardgivareMutation()
   const [giveConsent, { data: consentResponse, error: giveConsentError }] = useGiveSjfConsentMutation()
 
   const PROTECTED_PERSON_ALERT =
@@ -29,19 +28,6 @@ export function PatientOverview({
 
   if (!sjfMetaData || !patientId) {
     return null
-  }
-
-  const handleGetCareUnitInformation = (id: string) => {
-    addUnit({ patientId, vardenhetId: id })
-  }
-
-  const handleGetCareGiverInformation = (id: string) => {
-    addCareGiver({ patientId, vardgivareId: id })
-  }
-
-  const handleGiveConsent = (days: string, onlyCurrentUser: boolean) => {
-    const daysAsNumber = Number(days)
-    giveConsent({ days: daysAsNumber, onlyCurrentUser, patientId, encryptedPatientId })
   }
 
   if (sjfMetaData.haveSekretess || isPersonResponseMissing) {
@@ -74,35 +60,10 @@ export function PatientOverview({
         dynamicLink
       />
       <div className="grid grid-cols-2 gap-4 py-5">
-        <OpenInformationCard
-          title="Ospärrad information inom egen vårdgivare"
-          subTitle="Vårdenhet med information"
-          description="Det finns ospärrad information hos en annan vårdenhet inom din vårdgivare. Du kan klicka nedan för att visa vilka vårdenheter som
-        har denna information och få möjlighet att inhämta den."
-          items={sjfMetaData.kraverInteSamtycke}
-          onGetInformation={handleGetCareUnitInformation}
-        />
-        <OpenInformationWithConsentCard
-          items={sjfMetaData.kraverSamtycke}
-          title="Ospärrad information hos annan vårdgivare"
-          subTitle="Vårdgivare med information"
-          description="Det finns ospärrad information hos en annan vårdgivare. Du kan klicka nedan för att visa vilka vårdgivare som har ospärrad information. Patientens samtycke krävs för att du ska kunna ta del av informationen."
-          hasGivenConsent={sjfMetaData.samtyckeFinns}
-          onGetInformation={handleGetCareGiverInformation}
-          onGiveConsent={handleGiveConsent}
-        />
-        <BlockedInformationCard
-          title="Spärrad information inom egen vårdgivare"
-          subTitle="Vårdenhet"
-          description="Det finns spärrad information hos en annan vårdenhet inom din vårdgivare. Endast patienten kan få spärren hävd genom att kontakta den enhet där spärren sattes. Du kan klicka nedan för att visa vilka vårdenheter som har spärrad information hos sig."
-          items={sjfMetaData.vardenheterInomVGMedSparr}
-        />
-        <BlockedInformationCard
-          items={sjfMetaData.andraVardgivareMedSparr}
-          title="Spärrad information hos annan vårdgivare"
-          subTitle="Vårdgivare"
-          description="Det finns spärrad intygsinformation hos andra vårdgivare. Endast patienten kan häva spärren genom att kontakta den enhet där spärren sattes. Klicka nedan för att visa vilka vårdgivare som har spärrad information."
-        />
+        <OpenCurrentCard sjfMetaData={sjfMetaData} patientId={patientId} />
+        <OpenOtherCard sjfMetaData={sjfMetaData} patientId={patientId} encryptedPatientId={encryptedPatientId} giveConsent={giveConsent} />
+        <BlockedCurrentCard sjfMetaData={sjfMetaData} />
+        <BlockedOtherCard sjfMetaData={sjfMetaData} />
       </div>
     </>
   )
