@@ -18,7 +18,7 @@ export function AGCertificatesTableCellResolver({ column, data, list }: { column
       )
     case PatientColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
-    case PatientColumn.Visa:
+    case PatientColumn.Intyg:
       return (
         <TableCell sticky="right">
           <CertificateButton certificateId={data.certificateId} />

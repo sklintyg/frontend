@@ -3,7 +3,7 @@ import { PatientColumn } from '../../../../store/slices/patientTableColumns.slic
 
 export const getAGCertificatesTableValue = (column: string, data: AGCertificate, list?: AGCertificate[]) => {
   switch (column) {
-    case PatientColumn.Intyg:
+    case PatientColumn.Intygstyp:
       return data.certificateType
     case PatientColumn.Startdatum:
       return data.start
@@ -23,7 +23,7 @@ export const getAGCertificatesTableValue = (column: string, data: AGCertificate,
       return data.occupation.map((occupation) => occupation).join(',\n')
     case PatientColumn.Längd:
       return `${data.days} dagar`
-    case PatientColumn.Visa:
+    case PatientColumn.Intyg:
       return 'Visa'
     case PatientColumn.Num:
       return list ? list.indexOf(data) + 1 : 0

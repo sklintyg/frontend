@@ -70,7 +70,7 @@ describe('position', () => {
 
     await user.click(screen.getByRole('button', { name: 'Flytta upp Grad' }))
 
-    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('#')
+    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Intygstyp')
   })
 
   it('Should be possible to move column down', async () => {

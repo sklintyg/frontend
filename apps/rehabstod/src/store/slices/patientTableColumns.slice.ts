@@ -2,6 +2,7 @@ import { createTableColumnSlice } from '../utils/createTableColumnSlice'
 
 export enum PatientColumn {
   Num = '#',
+  Intygstyp = 'Intygstyp',
   Diagnos = 'Diagnos/er',
   Grad = 'Grad',
   Startdatum = 'Startdatum',
@@ -14,7 +15,6 @@ export enum PatientColumn {
   Vårdgivare = 'Vårdgivare',
   Risk = 'Risk',
   Intyg = 'Intyg',
-  Visa = 'Visa',
 }
 
 export const {
