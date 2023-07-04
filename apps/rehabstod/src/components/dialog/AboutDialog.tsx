@@ -1,4 +1,4 @@
-import { useGetLinksQuery, useGetUserQuery } from '../../store/api'
+import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
@@ -7,6 +7,7 @@ import { Dialog } from './Dialog'
 export function AboutDialog() {
   const { data: user } = useGetUserQuery()
   const { data: links } = useGetLinksQuery()
+  const { data: config } = useGetConfigQuery()
   const showAboutDialog = useAppSelector((state) => state.settings.showAboutDialog)
   const dispatch = useAppDispatch()
 
@@ -16,7 +17,7 @@ export function AboutDialog() {
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.{' '}
         </p>
-        <p className="ids-body">Nuvarande version är %VERSION%. </p>
+        {config && <p className="ids-body">Nuvarande version är {config.version}. </p>}
         <p className="ids-body">
           Rehabstöd är utvecklat för Chrome och Edge chromium. Andra webbläsare kan användas, men det finns risk att problem kan uppstå.
           Tjänsten kräver att JavaScript är aktiverat.
