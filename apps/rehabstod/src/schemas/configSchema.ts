@@ -1,5 +1,15 @@
 import { z } from 'zod'
 
+export const bannerSchema = z.object({
+  application: z.string(),
+  createdAt: z.string(),
+  displayFrom: z.string(),
+  displayTo: z.string(),
+  id: z.string(),
+  message: z.string(),
+  priority: z.string(),
+})
+
 export const configSchema = z.object({
   diagnosKapitelList: z.array(
     z.object({
@@ -22,3 +32,4 @@ export const configSchema = z.object({
 })
 
 export type Config = z.infer<typeof configSchema>
+export type Banner = z.infer<typeof bannerSchema>
