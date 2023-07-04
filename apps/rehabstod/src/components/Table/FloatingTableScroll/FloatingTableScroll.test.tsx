@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
+import { Table } from '../Table'
 import { FloatingTableScroll } from './FloatingTableScroll'
-import { Table } from '../Table/Table'
 
 it('Should render without issues', () => {
   expect(() =>

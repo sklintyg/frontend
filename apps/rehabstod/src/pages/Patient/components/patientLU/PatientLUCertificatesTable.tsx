@@ -16,7 +16,6 @@ import { useAppSelector } from '../../../../store/hooks'
 import { allLUTableColumns } from '../../../../store/slices/luTableColumns.selector'
 import { LUCertificatesColumn } from '../../../../store/slices/luUnitTableColumns.slice'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTableHeader'
 import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
 import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
@@ -51,10 +50,12 @@ export function PatientLUCertificatesTable() {
       {getLuCertificatesError ? (
         <PatientTableError error={getLuCertificatesError} />
       ) : (
-        <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-          <FixedTableHeader bottomMargin={90} topMargin>
-            <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
-          </FixedTableHeader>
+        <Table
+          header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
+          sortColumn={tableState.sortColumn}
+          onSortChange={setTableState}
+          ascending={tableState.ascending}
+        >
           {!luCertificatesInfo || luCertificatesInfo.certificates.length === 0 ? (
             <tbody>
               <EmptyPatientTableMessage tableName="läkarutlåtanden" tableLength={visibleColumns.length} user={user} />
