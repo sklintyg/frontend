@@ -20,9 +20,9 @@ export enum SickLeaveColumn {
 }
 
 export const {
-  sjukfallTableColumnsSlice: sickLeaveTableColumnsSlice,
-  sjukfallTableColumnsReducerPath: sickLeaveTableColumnsReducerPath,
-  getSjukfallTableColumnsSelectors: getSickLeaveTableColumnsSelectors,
+  slice: sickLeaveTableColumnsSlice,
+  getSelectors: getSickLeaveTableColumnsSelectors,
+  reducerPath: sickLeaveTableColumnsReducerPath,
 } = createTableColumnSlice('sjukfallTableColumns', Object.values(SickLeaveColumn))
 
 export const {

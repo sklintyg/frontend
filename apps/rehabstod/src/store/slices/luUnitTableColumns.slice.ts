@@ -17,9 +17,9 @@ export enum LUCertificatesColumn {
 }
 
 export const {
-  lakarutlatandeUnitTableColumnsSlice: luUnitTableColumnsSlice,
-  getLakarutlatandeUnitTableColumnsSelectors: getLUUnitTableColumnsSelectors,
-  lakarutlatandeUnitTableColumnsReducerPath: luUnitTableColumnsReducerPath,
+  slice: luUnitTableColumnsSlice,
+  getSelectors: getLUUnitTableColumnsSelectors,
+  reducerPath: luUnitTableColumnsReducerPath,
 } = createTableColumnSlice('lakarutlatandeUnitTableColumns', Object.values(LUCertificatesColumn))
 
 export const {

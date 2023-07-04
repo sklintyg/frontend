@@ -1,5 +1,4 @@
 import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit'
-import upperFirst from 'lodash/upperFirst'
 import { UserPreferences } from '../../schemas'
 import { TableColumn } from '../../schemas/tableSchema'
 import { api } from '../api'
@@ -104,12 +103,8 @@ export function createTableColumnSlice<T extends keyof UserPreferences>(sliceNam
   })
 
   return {
-    [`${sliceName}Slice`]: slice,
-    [`get${upperFirst(sliceName)}Selectors`]: getSelectors,
-    [`${sliceName}ReducerPath`]: sliceName,
-  } as {
-    [key in T as `${key}Slice`]: typeof slice
-  } & {
-    [key in T as `get${Capitalize<key>}Selectors`]: typeof getSelectors
-  } & { [key in T as `${key}ReducerPath`]: `${key}` }
+    slice,
+    getSelectors,
+    reducerPath: sliceName,
+  }
 }

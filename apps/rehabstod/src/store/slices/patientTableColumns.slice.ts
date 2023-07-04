@@ -17,10 +17,11 @@ export enum PatientColumn {
   Visa = 'Visa',
 }
 
-export const { patientTableColumnsSlice, getPatientTableColumnsSelectors, patientTableColumnsReducerPath } = createTableColumnSlice(
-  'patientTableColumns',
-  Object.values(PatientColumn)
-)
+export const {
+  slice: patientTableColumnsSlice,
+  getSelectors: getPatientTableColumnsSelectors,
+  reducerPath: patientTableColumnsReducerPath,
+} = createTableColumnSlice('patientTableColumns', Object.values(PatientColumn))
 
 export const {
   reset: resetPatientTableColumns,
