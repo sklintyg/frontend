@@ -14,7 +14,6 @@ import { getQuestions } from '../../../store/question/questionSelectors'
 const CertificateSidePanel: React.FC = () => {
   const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const questions = useSelector(getQuestions, _.isEqual)
   const resourceLinksForTabs = [
@@ -30,14 +29,15 @@ const CertificateSidePanel: React.FC = () => {
     return link ? [...result, link] : result
   }, [])
 
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0)
+  const [hasUpdatedTab, setHasUpdatedTab] = useState(false)
+
   useEffect(() => {
-    if (questions.length !== 0) {
-      const index = availableTabs ? availableTabs.findIndex((link) => link.type === ResourceLinkType.QUESTIONS) : -1
-      if (index >= 0) {
-        setSelectedTabIndex(index)
-      }
+    if (questions.length > 0 && !hasUpdatedTab) {
+      setSelectedTabIndex(1)
+      setHasUpdatedTab(true)
     }
-  }, [questions, availableTabs])
+  }, [questions, hasUpdatedTab])
 
   if (showSpinner) return null
 
