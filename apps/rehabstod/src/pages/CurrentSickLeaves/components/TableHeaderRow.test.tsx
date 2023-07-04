@@ -2,12 +2,12 @@ import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { act } from 'react-dom/test-utils'
 import { Table } from '../../../components/Table/Table'
+import { server } from '../../../mocks/server'
 import { api } from '../../../store/api'
+import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { store } from '../../../store/store'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableHeaderRow } from './TableHeaderRow'
-import { server } from '../../../mocks/server'
-import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
