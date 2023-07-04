@@ -1,4 +1,4 @@
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
+import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 
@@ -17,7 +17,7 @@ export function getCertificateColumnData(column: string, certificate: PatientSju
     case PatientColumn.Längd:
       return certificate.dagar
     case PatientColumn.Ärenden:
-      return getUnansweredCommunicationsFormat(certificate.obesvaradeKompl, certificate.unansweredOther)
+      return getUnansweredCommunicationFormat(certificate.obesvaradeKompl, certificate.unansweredOther)
     case PatientColumn.Sysselsättning:
       return certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'
     case PatientColumn.Vårdenhet:
@@ -26,8 +26,10 @@ export function getCertificateColumnData(column: string, certificate: PatientSju
       return certificate.vardgivareNamn
     case PatientColumn.Läkare:
       return certificate.lakare ? certificate.lakare.namn : 'Okänt'
+    case PatientColumn.Risk:
+      return certificate.riskSignal ? certificate.riskSignal.riskKategori : 0
     case PatientColumn.Intyg:
-      return certificate ? 'Visa' : '-'
+      return !certificate.otherVardgivare && !certificate.otherVardenhet ? 'Visa' : '-'
     default:
       return undefined
   }

@@ -16,7 +16,7 @@ export function ErrorAlert({
   errorType: 'info' | 'attention' | 'success' | 'error'
   text: string
   dynamicLink: boolean
-  error: (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
+  error?: (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
 }) {
   const { data: links } = useGetLinksQuery()
 
@@ -27,7 +27,7 @@ export function ErrorAlert({
           {text} {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}
         </p>
       </div>
-      {error.id && <ErrorIdentifier id={error.id} />}
+      {error && error.id && <ErrorIdentifier id={error.id} />}
     </IDSAlert>
   )
 }

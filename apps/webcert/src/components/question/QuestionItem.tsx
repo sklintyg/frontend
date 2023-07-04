@@ -242,7 +242,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
-            <p className={'iu-fw-heading'}>{question.author}</p>
+            <p>{question.author}</p>
             {isHandleCheckboxVisible() &&
               (isComplementQuestion() ? (
                 <CheckboxWithConfirmModal
@@ -276,7 +276,10 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             )}
           </Wrapper>
           <Wrapper>
-            <p className={'iu-fw-heading'}>{question.subject}</p>
+            <div>
+              {question.contactInfo && question.contactInfo.length > 0 && <p>{question.contactInfo.join(', ')}</p>}
+              <p className={'iu-fw-heading iu-m-none'}>{question.subject}</p>
+            </div>
             <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.sent), 'yyyy-MM-dd HH:mm')}</p>
           </Wrapper>
         </div>

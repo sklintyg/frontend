@@ -6,7 +6,6 @@ import { classNames } from '../../../../utils/classNames'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { PopoverTrigger } from '../../../Popover/PopoverTrigger'
 import { TooltipIcon } from '../../../TooltipIcon/TooltipIcon'
 import { useInputStyle } from '../../hooks/useInputStyle'
 import { DateField } from '../DateField'
@@ -18,9 +17,10 @@ export function DateRangePicker({
   disabled,
   description,
   inline,
+  flex,
   ...props
-}: AriaDateRangePickerProps<DateValue> & { error?: boolean; disabled?: boolean; description?: string; inline?: boolean }) {
-  const style = useInputStyle({ error, disabled })
+}: AriaDateRangePickerProps<DateValue> & { error?: boolean; disabled?: boolean; description?: string; inline?: boolean; flex?: boolean }) {
+  const style = useInputStyle({ error, disabled, flex })
   const state = useDateRangePickerState(props)
   const ref = React.useRef(null)
   const { labelProps, groupProps, startFieldProps, endFieldProps, buttonProps, dialogProps, calendarProps } = useDateRangePicker(
@@ -42,9 +42,7 @@ export function DateRangePicker({
             <span className="py-3 px-1">till</span>
             <DateField {...endFieldProps} />
           </div>
-          <PopoverTrigger>
-            <DatePickerButton {...buttonProps} />
-          </PopoverTrigger>
+          <DatePickerButton {...buttonProps} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

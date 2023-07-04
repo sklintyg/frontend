@@ -2,8 +2,8 @@ import { useMergeRefs } from '@floating-ui/react'
 import React from 'react'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
-export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTMLElement> & { asChild?: boolean }>(
-  ({ children, asChild = false, ...props }, propRef) => {
+export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTMLElement> & { asChild?: boolean; alignMiddle?: boolean }>(
+  ({ children, asChild = false, alignMiddle = false, ...props }, propRef) => {
     const context = useTooltipContext()
     const ref = useMergeRefs([context.refs.setReference, propRef])
 
@@ -21,7 +21,12 @@ export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTML
     }
 
     return (
-      <div className="inline-block" ref={ref} data-state={context.open ? 'open' : 'closed'} {...context.getReferenceProps(props)}>
+      <div
+        className={`inline-block ${alignMiddle ? 'align-middle' : ''}`}
+        ref={ref}
+        data-state={context.open ? 'open' : 'closed'}
+        {...context.getReferenceProps(props)}
+      >
         {children}
       </div>
     )

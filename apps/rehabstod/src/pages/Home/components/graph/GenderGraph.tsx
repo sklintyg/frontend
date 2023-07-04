@@ -1,6 +1,7 @@
-import { Gender, GenderSummary } from '../../../../schemas/sickLeaveSchema'
+import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { FemaleIcon } from '../../assets/FemaleIcon'
 import { MaleIcon } from '../../assets/MaleIcon'
+import { Gender } from '../../../../schemas/patientSchema'
 
 export function GenderGraph({ gender }: { gender: GenderSummary | undefined }) {
   if (!gender) {

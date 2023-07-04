@@ -19,6 +19,7 @@ import { showSettingsDialog } from '../../store/slices/settings.slice'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
+import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()
@@ -39,7 +40,12 @@ export function LayoutHeader() {
             <IDSIconQuestion />
             <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
-          <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn} ref={avatarRef}>
+          <IDSHeaderAvatar
+            type="inera-admin"
+            username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
+            unit={user.valdVardenhet?.namn}
+            ref={avatarRef}
+          >
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
                 <IDSIconSwap height="20" width="20" />

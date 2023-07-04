@@ -1,4 +1,4 @@
-import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../../schemas'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
@@ -9,6 +9,7 @@ import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
+import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()
@@ -25,11 +26,7 @@ export function OverviewStatistics() {
   }
 
   if (summary && summary.total === 0) {
-    return (
-      <IDSAlert className="py-10">
-        {isDoctor ? 'Du har' : 'Det finns'} inga pågående sjukfall på {unit}.
-      </IDSAlert>
-    )
+    return <EmptyTableAlert tableName=" pågående sjukfall" />
   }
 
   if (error) {

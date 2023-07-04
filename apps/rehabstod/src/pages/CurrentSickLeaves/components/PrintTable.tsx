@@ -1,8 +1,8 @@
-import { DiagnosisInfo } from '../../../components/SickLeave/DiagnosisInfo'
+import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { getUnansweredCommunicationsFormat } from '../../../components/SickLeave/utils/getUnansweredCommunicationsFormat'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
@@ -37,7 +37,7 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
     case SickLeaveColumn.Risk:
       return <div>{sickLeave.riskSignal && resolveRisk(sickLeave.riskSignal)}</div>
     case SickLeaveColumn.Ärenden:
-      return <div>{getUnansweredCommunicationsFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</div>
+      return <>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</>
     default:
       return <>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</>
   }
