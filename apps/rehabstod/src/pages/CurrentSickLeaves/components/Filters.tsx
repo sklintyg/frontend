@@ -1,19 +1,19 @@
 import { useDispatch } from 'react-redux'
-import { SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { useAppSelector } from '../../../store/hooks'
-import { updateFilter } from '../../../store/slices/sickLeave.slice'
+import { TableFilter } from '../../../components/Table/TableFilter'
+import { DateRangeFilter } from '../../../components/Table/filter/DateRangeFilter'
 import { DiagnosisFilter } from '../../../components/Table/filter/DiagnosisFilter'
 import { DoctorFilter } from '../../../components/Table/filter/DoctorFilter'
-import { RangeFilter } from '../../../components/Table/filter/RangeFilter'
-import { TimePeriodFilter } from '../../../components/Table/filter/TimePeriodFilter'
 import { MultipleSelectFilterOption } from '../../../components/Table/filter/MultipleSelectFilterOption'
-import { getMultipleSelectPlaceholder } from '../../../components/Table/filter/utils/getMultipleSelectPlaceholder'
+import { RangeFilter } from '../../../components/Table/filter/RangeFilter'
 import { SelectFilter } from '../../../components/Table/filter/SelectFilter'
 import { TextSearchFilter } from '../../../components/Table/filter/TextSearchFilter'
-import { TableFilter } from '../../../components/Table/TableFilter'
+import { TimePeriodFilter } from '../../../components/Table/filter/TimePeriodFilter'
+import { getMultipleSelectPlaceholder } from '../../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
-import { DateRangeFilter } from '../../../components/Table/filter/DateRangeFilter'
+import { SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
+import { useGetSickLeavesFiltersQuery } from '../../../store/api'
+import { useAppSelector } from '../../../store/hooks'
+import { updateFilter } from '../../../store/slices/sickLeave.slice'
 
 export function Filters({
   onSearch,
@@ -24,7 +24,7 @@ export function Filters({
   onReset: () => void
   isDoctor: boolean
 }) {
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { filter, sickLeaveLengthIntervals } = useAppSelector((state) => state.sickLeave)
   const dispatch = useDispatch()
 

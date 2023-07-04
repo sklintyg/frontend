@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom'
 import { DiagnosisDescription } from '../../../components/Diagnosis/DiagnosisDescription'
 import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
+import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
+import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
+import { MaxColspanRow } from '../../../components/Table/tableBody/MaxColspanRow'
 import { TableCell } from '../../../components/Table/tableBody/TableCell'
+import { TableRow } from '../../../components/Table/tableBody/TableRow'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/utils/tableTextGeneratorUtils'
+import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
+import { User } from '../../../schemas'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { MaxColspanRow } from '../../../components/Table/tableBody/MaxColspanRow'
-import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDropdown'
-import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
-import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
-import { TableRow } from '../../../components/Table/tableBody/TableRow'
-import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/utils/tableTextGeneratorUtils'
-import { User } from '../../../schemas'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
@@ -99,7 +99,7 @@ export function TableBodyRows({
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
   const { hasAppliedFilters } = useAppSelector((state) => state.sickLeave)
-  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
 
   const TABLE_NAME = 'pågående sjukfall'
   const EMPTY_TEXT = getEmptyTableText(user, TABLE_NAME)
@@ -137,7 +137,6 @@ export function TableBodyRows({
     navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
       state: {
         rekoStatus: data.rekoStatus,
-        activeTab: 0,
       },
     })
   }

@@ -24,9 +24,10 @@ function ComponentWrapper({ children }: { children: ReactNode }) {
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
+  server.use(rest.get('/api/sickleaves/filters', (_, res, ctx) => res(ctx.status(200), ctx.json({ srsActivated: true }))))
 })
 
-it('Should list all certificates columns', async () => {
+it('Should list all certificates columns except Visa', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
   renderWithRouter(
     <ComponentWrapper>
@@ -35,7 +36,7 @@ it('Should list all certificates columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 1)
 })
 
 it('Should list all certificates columns besides doctor if user is doctor', async () => {
@@ -47,7 +48,7 @@ it('Should list all certificates columns besides doctor if user is doctor', asyn
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 1)
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 2)
 })
 
 it('Should be possible to hide columns', async () => {
@@ -59,16 +60,16 @@ it('Should be possible to hide columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length)
-
-  await act(() => store.dispatch(hideColumn(PatientColumn.Grad)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 1)
 
-  await act(() => store.dispatch(hideColumn(PatientColumn.Num)))
+  await act(() => store.dispatch(hideColumn(PatientColumn.Grad)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 2)
 
-  await act(() => store.dispatch(hideColumn(PatientColumn.Diagnos)))
+  await act(() => store.dispatch(hideColumn(PatientColumn.Num)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 3)
+
+  await act(() => store.dispatch(hideColumn(PatientColumn.Diagnos)))
+  expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 4)
 })
 
 it('Should not display visa button for other units if otherVardgivare', () => {

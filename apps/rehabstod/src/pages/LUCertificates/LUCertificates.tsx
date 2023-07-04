@@ -9,7 +9,7 @@ import { TableHeadingForUnit } from '../../components/Table/heading/TableHeading
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
 import { filterHiddenColumns, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
-import { useGetPopulatedFiltersForLUQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
+import { useGetLUFiltersQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 import { reset } from '../../store/slices/luCertificates.slice'
 import { allLuCertificatesColumns } from '../../store/slices/luCertificatesTableColumns.selector'
@@ -30,14 +30,14 @@ export function LUCertificates() {
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
   })
-  const { data: populatedFilters } = useGetPopulatedFiltersForLUQuery()
+  const { data: populatedFilters } = useGetLUFiltersQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
-  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, true, undefined, [
+  const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, [
     LUCertificatesColumn.Visa,
     LUCertificatesColumn.Vårdgivare,
     LUCertificatesColumn.Vårdenhet,

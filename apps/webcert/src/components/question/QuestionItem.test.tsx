@@ -44,6 +44,11 @@ describe('QuestionItem', () => {
     expect(() => renderComponent(createQuestion())).not.toThrow()
   })
 
+  it('shuld show contact info', () => {
+    renderComponent(createQuestion())
+    expect(screen.getByText('Fk kontaktinfo')).toBeInTheDocument()
+  })
+
   it('display answer button if the question has answer resource link', () => {
     renderComponent(createQuestion())
 
@@ -616,6 +621,7 @@ const createQuestion = (): Question => {
     sent: '2021-07-08',
 
     complements: [],
+    contactInfo: ['Fk kontaktinfo'],
     subject: 'subject',
     reminders: [],
     links: [

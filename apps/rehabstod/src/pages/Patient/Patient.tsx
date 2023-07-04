@@ -1,19 +1,18 @@
-import { useLocation, useParams } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query'
-import { PatientTabs } from './components/PatientTabs'
-import { PatientHeader } from './components/PatientHeader'
-import { PatientErrorHeader } from './components/PatientErrorHeader'
-import { OpenTabsDialog } from './components/OpenTabsDialog'
-import { PatientContext, usePatientState } from './hooks/usePatient'
-import { useGetSickLeavePatientQuery } from '../../store/api'
+import { useParams } from 'react-router-dom'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { useGetPatientSickLeavesQuery } from '../../store/api'
+import { OpenTabsDialog } from './components/OpenTabsDialog'
+import { PatientErrorHeader } from './components/PatientErrorHeader'
+import { PatientHeader } from './components/PatientHeader'
+import { PatientTabs } from './components/PatientTabs'
+import { PatientContext, usePatientState } from './hooks/usePatient'
 
-export function Patient() {
+export function Patient({ activeTab }: { activeTab: string }) {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
-  const { state } = useLocation()
 
-  const { data: patient } = useGetSickLeavePatientQuery(
+  const { data: patient } = useGetPatientSickLeavesQuery(
     encryptedPatientId
       ? {
           encryptedPatientId,
@@ -26,7 +25,7 @@ export function Patient() {
       {patient ? <PatientHeader patient={patient} /> : <PatientErrorHeader />}
       <OpenTabsDialog />
       <PageContainer>
-        <PatientTabs active={state ? state.activeTab : 0} />
+        <PatientTabs active={activeTab} />
       </PageContainer>
     </PatientContext.Provider>
   )
