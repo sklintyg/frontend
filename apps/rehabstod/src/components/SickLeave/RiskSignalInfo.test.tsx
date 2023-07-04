@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { RiskSignalInfo } from './RiskSignalInfo'
-import { RiskSignal } from '../../schemas/sickLeaveSchema'
 
 const renderComponent = (riskSignal: RiskSignal) => {
-  renderWithRouter(<RiskSignalInfo riskSignal={riskSignal} />)
+  renderWithRouter(<RiskSignalInfo {...riskSignal} />)
 }
 
 const getRiskSignal = (category: number | null) => ({
