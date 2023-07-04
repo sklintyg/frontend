@@ -1,6 +1,7 @@
-import { IDSButton, IDSContainer, IDSIconUser } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer, IDSIconQuestion, IDSIconUser } from '@frontend/ids-react-ts'
 import { differenceInDays, isBefore, parseISO, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
+import { TooltipIcon } from '../../../components/TooltipIcon/TooltipIcon'
 import { Patient } from '../../../schemas/patientSchema'
 import { useAppSelector } from '../../../store/hooks'
 
@@ -43,7 +44,12 @@ export function PatientHeader({ patient }: { patient: Patient }) {
                 </span>
                 <span>
                   Uppskattad dag i sjukfallet:{' '}
-                  <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar</span>
+                  <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar </span>
+                  <TooltipIcon
+                    description="Visar antal dagar som sjukfallet pågått från första intygets startdatum till idag."
+                    icon={<IDSIconQuestion size="s" className="ml-2" />}
+                    alignMiddle
+                  />
                 </span>
               </>
             )}
