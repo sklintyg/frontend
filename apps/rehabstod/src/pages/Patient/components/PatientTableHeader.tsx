@@ -42,7 +42,7 @@ export function PatientTableHeader({ isDoctor }: { isDoctor: boolean }) {
   const columns = useAppSelector(allPatientColumns)
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
-    PatientColumn.Visa,
+    PatientColumn.Intygstyp,
   ])
 
   return (

@@ -19,7 +19,7 @@ export function LUCertificatesTableCellResolver({ column, data, list }: { column
       return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
-    case LUCertificatesColumn.Visa:
+    case LUCertificatesColumn.Intyg:
       return (
         <TableCell sticky="right">
           <CertificateButton certificateId={data.certificateId} />

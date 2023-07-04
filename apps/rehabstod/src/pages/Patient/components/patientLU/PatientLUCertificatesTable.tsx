@@ -43,7 +43,7 @@ export function PatientLUCertificatesTable() {
         <TableHeadingForUnit tableName="Patientens läkarutlåtanden" hideUserSpecifics hideDivider user={user} />
         {!getLuCertificatesError && (
           <div className="w-96">
-            <ModifyPatientLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Visa)} />
+            <ModifyPatientLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Intyg)} />
           </div>
         )}
       </div>
