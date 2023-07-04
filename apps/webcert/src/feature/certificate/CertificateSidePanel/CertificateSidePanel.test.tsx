@@ -93,9 +93,15 @@ describe('CertificateSidePanel', () => {
       expect(screen.queryByText(tabText)).not.toBeInTheDocument()
     })
 
-    it('shall render SRS panel if SRS resource link exists', () => {
+    it('shall render SRS panel if SRS_FULL_VIEW resource link exists', () => {
       const tabText = 'SRS'
-      renderTab(tabText, ResourceLinkType.SRS)
+      renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
+      expect(screen.getByText(tabText)).toBeVisible()
+    })
+
+    it('shall render SRS panel if SRS_MINIMIZED_VIEW resource link exists', () => {
+      const tabText = 'SRS'
+      renderTab(tabText, ResourceLinkType.SRS_MINIMIZED_VIEW)
       expect(screen.getByText(tabText)).toBeVisible()
     })
 
@@ -136,14 +142,14 @@ describe('CertificateSidePanel', () => {
     it('shall show SRS content when clicking SRS tab', async () => {
       const tabText = 'SRS'
       const expectedContent = SRS_TITLE
-      renderTab(tabText, ResourceLinkType.SRS)
+      renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
     it('shall log SRS interaction when switching tab', async () => {
       const tabText = 'SRS'
-      renderTab(tabText, ResourceLinkType.SRS)
+      renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
