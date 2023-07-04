@@ -4,7 +4,6 @@ import { useDatePickerState } from 'react-stately'
 import { Calendar } from '../../../Calendar/Calendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { PopoverTrigger } from '../../../Popover/PopoverTrigger'
 import { useInputStyle } from '../../hooks/useInputStyle'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
@@ -23,9 +22,7 @@ export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerP
           <span className="grow px-5">
             <DateField {...fieldProps} />
           </span>
-          <PopoverTrigger>
-            <DatePickerButton {...buttonProps} />
-          </PopoverTrigger>
+          <DatePickerButton {...buttonProps} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

@@ -41,7 +41,7 @@ describe('FormattedNumberInput', () => {
   })
 
   it('should call on change when user types input', async () => {
-    renderComponent()
+    renderComponent('1')
     await userEvent.type(screen.getByLabelText(label), '10')
     expect(onChange).toHaveBeenLastCalledWith('10')
   })
@@ -71,7 +71,7 @@ describe('FormattedNumberInput', () => {
   })
 
   it('should not allow multiple numbers if exceeding max length', async () => {
-    renderComponent()
+    renderComponent('120')
     await userEvent.type(screen.getByLabelText(label), '1200')
     expect(screen.getByLabelText(label)).toHaveValue(120)
   })
