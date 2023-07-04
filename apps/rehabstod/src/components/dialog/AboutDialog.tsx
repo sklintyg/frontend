@@ -1,15 +1,17 @@
-import { IDSDialog } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
 import { useGetLinksQuery, useGetUserQuery } from '../../store/api'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
+import { Dialog } from './Dialog'
 
-export function AboutDialog({ children }: { children: ReactNode }) {
+export function AboutDialog() {
   const { data: user } = useGetUserQuery()
   const { data: links } = useGetLinksQuery()
+  const showAboutDialog = useAppSelector((state) => state.settings.showAboutDialog)
+  const dispatch = useAppDispatch()
 
   return (
-    <IDSDialog dismissible headline="Om Rehabstöd">
-      {children}
+    <Dialog open={showAboutDialog} onOpenChange={(open) => dispatch(updateShowAboutDialog(open))} dismissible headline="Om Rehabstöd">
       <div className="ids-content text-base">
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.{' '}
@@ -50,6 +52,6 @@ export function AboutDialog({ children }: { children: ReactNode }) {
           {links?.rattsjukskrivning && <DynamicLink link={links.rattsjukskrivning} />}
         </div>
       )}
-    </IDSDialog>
+    </Dialog>
   )
 }

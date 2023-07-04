@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   IDSHeader,
   IDSHeaderAvatar,
@@ -15,11 +16,11 @@ import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'
-import { showSettingsDialog } from '../../store/slices/settings.slice'
+import { updateShowAboutDialog, updateShowSettingsDialog } from '../../store/slices/settings.slice'
+import { isUserDoctor } from '../../utils/isUserDoctor'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
-import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()
@@ -38,7 +39,18 @@ export function LayoutHeader() {
         <>
           <IDSHeaderItem type="inera-admin" mobile>
             <IDSIconQuestion />
-            <Link to="/">Om Rehabstöd</Link>
+            <a
+              tabIndex={0}
+              onClick={() => dispatch(updateShowAboutDialog(true))}
+              onKeyDown={({ code }) => {
+                if (['Enter', 'Space'].includes(code)) {
+                  dispatch(updateShowAboutDialog(true))
+                }
+              }}
+              role="button"
+            >
+              Om Rehabstöd
+            </a>
           </IDSHeaderItem>
           <IDSHeaderAvatar
             type="inera-admin"
@@ -56,7 +68,7 @@ export function LayoutHeader() {
               <HeaderAvatarMenuButton
                 onClick={() => {
                   avatarRef.current?.tooggleExpand()
-                  dispatch(showSettingsDialog())
+                  dispatch(updateShowSettingsDialog(true))
                 }}
                 label="Inställningar"
                 icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}

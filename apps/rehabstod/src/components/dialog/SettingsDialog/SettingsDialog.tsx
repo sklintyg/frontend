@@ -1,22 +1,20 @@
-import { IDSButton, IDSDialog, IDSDialogActions } from '@frontend/ids-react-ts'
-import { IDSDialogElement } from '@frontend/ids-react-ts/src'
-import { useEffect, useRef } from 'react'
+import { IDSButton, IDSDialogActions } from '@frontend/ids-react-ts'
+import { useEffect } from 'react'
 import { z } from 'zod'
-import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../schemas'
-import { useGetUserQuery } from '../../store/api'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
-import { hideSettingsDialog, resetSettings, showSettingsDialog, updateSettings } from '../../store/slices/settings.slice'
+import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
+import { resetSettings, updateSettings, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { Dialog } from '../Dialog'
 import { DaysBetweenSickLeaves } from './DaysBetweenSickLeaves'
 import { DaysFinishedSickLeave } from './DaysFinishedSickLeave'
 import { SelectCareUnits } from './SelectCareUnits'
 
-export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: (visible: boolean) => void }) {
+export function SettingsDialog() {
   const dispatch = useAppDispatch()
-  const { preferences, showDialog } = useAppSelector((state) => state.settings)
+  const { preferences, showSettingsDialog } = useAppSelector((state) => state.settings)
   const { data: user } = useGetUserQuery()
-  const ref = useRef<IDSDialogElement>(null)
   const { updateUserPreferences } = useUpdateUserPreferences()
-  const close = () => ref.current?.hideDialog()
 
   const isMaxAntalDagarMellanIntygValid = z.coerce
     .number()
@@ -34,7 +32,7 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
   const onSave = () => {
     if (preferences) {
       updateUserPreferences(preferences)
-      close()
+      dispatch(updateShowSettingsDialog(false))
     }
   }
 
@@ -47,45 +45,17 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
     }
   }, [dispatch, user])
 
-  useEffect(() => {
-    const dialogEl = ref.current
-    const isShown = (dialogEl?.show ?? 'false') !== 'false'
-
-    function handleVisibilityChanged() {
-      dispatch(updateSettings(user?.preferences ?? {}))
-      if (showDialog && dialogEl?.show === 'false') {
-        dispatch(hideSettingsDialog())
-      }
-      if (!showDialog && dialogEl?.show === 'true') {
-        dispatch(showSettingsDialog())
-      }
-      if (onVisibilityChanged) {
-        onVisibilityChanged(dialogEl?.show === 'true')
-      }
-      if (dialogEl?.show === 'true') {
-        dialogEl?.querySelector('input')?.focus()
-      }
-    }
-
-    if (dialogEl) {
-      if (showDialog === true && !isShown) {
-        dialogEl.showDialog()
-      }
-      if (showDialog === false && isShown) {
-        dialogEl.hideDialog()
-      }
-    }
-
-    dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
-    return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
-  }, [dispatch, onVisibilityChanged, showDialog, user?.preferences])
-
   if (!user) {
     return null
   }
 
   return (
-    <IDSDialog dismissible headline="Inställningar" ref={ref}>
+    <Dialog
+      open={showSettingsDialog}
+      onOpenChange={(open) => dispatch(updateShowSettingsDialog(open))}
+      dismissible
+      headline="Inställningar"
+    >
       <DaysFinishedSickLeave
         value={preferences.maxAntalDagarSedanSjukfallAvslut}
         onChange={(val) => {
@@ -101,13 +71,13 @@ export function SettingsDialog({ onVisibilityChanged }: { onVisibilityChanged?: 
         onChange={(value) => dispatch(updateSettings({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
       <IDSDialogActions>
-        <IDSButton secondary onClick={close}>
+        <IDSButton secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
           Avbryt
         </IDSButton>
         <IDSButton onClick={onSave} disabled={!isSaveEnabled}>
           Spara
         </IDSButton>
       </IDSDialogActions>
-    </IDSDialog>
+    </Dialog>
   )
 }

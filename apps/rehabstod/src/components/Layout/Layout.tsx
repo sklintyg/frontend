@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
-import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
+import { AboutDialog } from '../dialog/AboutDialog'
+import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader'
 
@@ -12,6 +13,7 @@ export function Layout() {
       <LayoutHeader />
       <main className="flex-1">
         <SettingsDialog />
+        <AboutDialog />
         <Outlet />
       </main>
       <LayoutFooter />

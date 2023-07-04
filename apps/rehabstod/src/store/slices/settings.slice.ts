@@ -3,15 +3,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserPreferences } from '../../schemas'
 
 export interface Settings {
-  showDialog: boolean
+  showSettingsDialog: boolean
   preferences: Partial<UserPreferences>
   showPersonalInformation: boolean
+  showAboutDialog: boolean
 }
 
 const initialState: Settings = {
-  showDialog: false,
+  showSettingsDialog: false,
   preferences: {},
   showPersonalInformation: true,
+  showAboutDialog: false,
 }
 
 const settingsSlice = createSlice({
@@ -21,11 +23,8 @@ const settingsSlice = createSlice({
     resetSettings() {
       return initialState
     },
-    showSettingsDialog(state) {
-      state.showDialog = true
-    },
-    hideSettingsDialog(state) {
-      state.showDialog = false
+    updateShowSettingsDialog(state, { payload }: PayloadAction<boolean>) {
+      state.showSettingsDialog = payload
     },
     updateSettings(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
       state.preferences = Object.assign(state.preferences, payload)
@@ -33,9 +32,12 @@ const settingsSlice = createSlice({
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
       state.showPersonalInformation = payload
     },
+    updateShowAboutDialog(state, { payload }: PayloadAction<boolean>) {
+      state.showAboutDialog = payload
+    },
   },
 })
 
-export const { resetSettings, showSettingsDialog, hideSettingsDialog, updateSettings, updateShowPersonalInformation } =
+export const { resetSettings, updateShowSettingsDialog, updateSettings, updateShowPersonalInformation, updateShowAboutDialog } =
   settingsSlice.actions
 export const { name: settingsReducerPath, reducer: settingsReducer } = settingsSlice

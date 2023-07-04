@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'
-import { showSettingsDialog } from '../../store/slices/settings.slice'
+import { updateShowSettingsDialog } from '../../store/slices/settings.slice'
 
 export function LayoutMobileHeader() {
   const { data: user } = useGetUserQuery()
@@ -22,7 +22,7 @@ export function LayoutMobileHeader() {
         <IDSMobileMenuItem>
           <a
             onClick={() => {
-              dispatch(showSettingsDialog())
+              dispatch(updateShowSettingsDialog(true))
             }}
           >
             Inställningar

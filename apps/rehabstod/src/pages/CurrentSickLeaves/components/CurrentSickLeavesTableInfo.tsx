@@ -1,8 +1,8 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { useAppDispatch } from '../../../store/hooks'
-import { showSettingsDialog } from '../../../store/slices/settings.slice'
-import { TableInfoDivider } from '../../../components/Table/TableInfoDivider'
 import { TableInfo } from '../../../components/Table/TableInfo'
+import { TableInfoDivider } from '../../../components/Table/TableInfoDivider'
+import { useAppDispatch } from '../../../store/hooks'
+import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 
 export function CurrentSickLeavesTableInfo({
   onShowPersonalInformationChange,
@@ -35,7 +35,7 @@ export function CurrentSickLeavesTableInfo({
       </span>
       <div className="print:hidden">
         <TableInfoDivider />
-        <IDSButton onClick={() => dispatch(showSettingsDialog())} tertiary size="s">
+        <IDSButton onClick={() => dispatch(updateShowSettingsDialog(true))} tertiary size="s">
           Ändra
         </IDSButton>
       </div>
