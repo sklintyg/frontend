@@ -1,20 +1,20 @@
-import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
-import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
-import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
-import { TableCell } from '../../../../components/Table/tableBody/TableCell'
-import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
-import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
-import { useAppSelector } from '../../../../store/hooks'
-import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
 import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { Tooltip } from '../../../../components/Tooltip/Tooltip'
-import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
-import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
-import { CertificateButton } from '../CertificateButton'
-import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
+import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
+import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
+import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
+import { TableCell } from '../../../../components/Table/tableBody/TableCell'
+import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
+import { Tooltip } from '../../../../components/Tooltip/Tooltip'
+import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
+import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
+import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/api'
+import { useAppSelector } from '../../../../store/hooks'
+import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
+import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
+import { CertificateButton } from '../CertificateButton'
 
 function OtherUnitInformation() {
   return (
@@ -52,11 +52,7 @@ function PatientTableCellResolver({
         </TableCell>
       )
     case PatientColumn.Risk:
-      return (
-        <TableCell>
-          <RiskSignalInfo riskSignal={certificate.riskSignal} />
-        </TableCell>
-      )
+      return <TableCell>{certificate.riskSignal && <RiskSignalInfo {...certificate.riskSignal} />}</TableCell>
     case PatientColumn.Intyg:
       return certificate ? (
         <TableCell sticky="right">

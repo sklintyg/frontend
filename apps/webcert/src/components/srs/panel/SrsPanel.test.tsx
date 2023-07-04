@@ -23,10 +23,10 @@ import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import { SRS_RISK_BUTTON_TEXT } from '../risk/SrsRisk'
 import { vi } from 'vitest'
 
-const renderComponent = () => {
+const renderComponent = (minimizedView?: boolean) => {
   render(
     <Provider store={store}>
-      <SrsPanel />
+      <SrsPanel minimizedView={minimizedView} />
     </Provider>
   )
 }
@@ -135,7 +135,42 @@ describe('SrsPanel', () => {
     })
   })
 
-  describe('has support', () => {
+  describe('has support and minimized view', () => {
+    beforeEach(() => {
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateSrsInfo(fakeSrsInfo()))
+    })
+
+    it('should show footer', () => {
+      renderComponent(true)
+      expect(screen.getByText('Mer information')).toBeInTheDocument()
+    })
+
+    it('should not show radio buttons', () => {
+      renderComponent(true)
+      expect(screen.queryByText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeInTheDocument()
+    })
+
+    it('should show recommendations for reko', () => {
+      renderComponent(true)
+      store.dispatch(updateSrsInfo(fakeSrsInfo()))
+      expect(screen.getByText('Som rehabkoordinator, tänk på att')).toBeInTheDocument()
+    })
+
+    it('should recommendations for doctor', () => {
+      renderComponent(true)
+      expect(screen.getByText('Som läkare, tänk på att')).toBeInTheDocument()
+    })
+
+    it('should general recommendations', () => {
+      renderComponent(true)
+      expect(screen.getByText('Åtgärdsrekommendationer')).toBeInTheDocument()
+    })
+  })
+
+  describe('has support and full view', () => {
     beforeEach(() => {
       const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))

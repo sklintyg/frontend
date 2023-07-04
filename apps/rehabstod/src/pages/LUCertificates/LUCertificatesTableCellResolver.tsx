@@ -1,11 +1,11 @@
-import { LUCertificate } from '../../schemas/luCertificatesSchema'
-import { LUCertificatesColumn } from '../../store/slices/luCertificatesTableColumns.slice'
-import { TableCell } from '../../components/Table/tableBody/TableCell'
 import { DiagnosisDescription } from '../../components/Diagnosis/DiagnosisDescription'
 import { DiagnosisInfo } from '../../components/Diagnosis/DiagnosisInfo'
+import { TableCell } from '../../components/Table/tableBody/TableCell'
 import { getUnansweredCommunicationFormat } from '../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
-import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
+import { LUCertificate } from '../../schemas/luCertificatesSchema'
+import { LUCertificatesColumn } from '../../store/slices/luUnitTableColumns.slice'
 import { CertificateButton } from '../Patient/components/CertificateButton'
+import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFormatter'
 
 export function LUCertificatesTableCellResolver({ column, data, list }: { column: string; data: LUCertificate; list: LUCertificate[] }) {
   switch (column) {

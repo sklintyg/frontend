@@ -23,14 +23,6 @@ import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
-    case SickLeaveColumn.Personnummer:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Personnummer, sickLeave)}</TableCell>
-    case SickLeaveColumn.Ålder:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Ålder, sickLeave)} år</TableCell>
-    case SickLeaveColumn.Namn:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Namn, sickLeave)}</TableCell>
-    case SickLeaveColumn.Kön:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Kön, sickLeave)}</TableCell>
     case SickLeaveColumn.Diagnos:
       return sickLeave.diagnos ? (
         <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
@@ -39,28 +31,18 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
       ) : (
         <span>Okänt</span>
       )
-    case SickLeaveColumn.Sysselsättning:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Sysselsättning, sickLeave)}</TableCell>
-    case SickLeaveColumn.Startdatum:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Startdatum, sickLeave)}</TableCell>
     case SickLeaveColumn.Slutdatum:
       return (
         <TableCell>
           <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
         </TableCell>
       )
-    case SickLeaveColumn.Längd:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</TableCell>
-    case SickLeaveColumn.Intyg:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Intyg, sickLeave)}</TableCell>
     case SickLeaveColumn.Grad:
       return (
         <TableCell>
           <SickLeaveDegreeInfo degrees={sickLeave.grader} />
         </TableCell>
       )
-    case SickLeaveColumn.Läkare:
-      return <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Läkare, sickLeave)}</TableCell>
     case SickLeaveColumn.RekoStatus:
       return !isDoctor ? (
         <TableCell>
@@ -70,15 +52,11 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
         <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</TableCell>
       )
     case SickLeaveColumn.Risk:
-      return (
-        <TableCell>
-          <RiskSignalInfo riskSignal={sickLeave.riskSignal} />
-        </TableCell>
-      )
+      return <TableCell>{sickLeave.riskSignal && <RiskSignalInfo {...sickLeave.riskSignal} />}</TableCell>
     case SickLeaveColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</TableCell>
     default:
-      return null
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave)}</TableCell>
   }
 }
 
