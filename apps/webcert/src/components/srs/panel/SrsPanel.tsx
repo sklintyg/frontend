@@ -42,6 +42,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
   const diagnosisCodes = useSelector(getDiagnosisCodes)
   const hasError = useSelector(getHasError)
   const isLoading = useSelector(getLoading)
+  const [hasLogged, setHasLogged] = useState(false)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -52,7 +53,11 @@ const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-  })
+    if (!hasLogged) {
+      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+      setHasLogged(true)
+    }
+  }, [hasLogged, dispatch])
 
   useEffect(() => {
     if (!isEmpty && diagnosisCodes.length == 0) {
