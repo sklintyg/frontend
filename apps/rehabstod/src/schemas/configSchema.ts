@@ -28,7 +28,7 @@ export const configSchema = z.object({
   webcertLaunchUrlTemplate: z.string().nullable(),
   statistikSsoUrl: z.string(),
   version: z.string(),
-  banners: z.array(z.unknown()),
+  banners: z.array(bannerSchema),
 })
 
 export type Config = z.infer<typeof configSchema>
