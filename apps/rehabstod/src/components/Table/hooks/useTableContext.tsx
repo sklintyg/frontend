@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { TableContext } from '../Table'
+import { TableContext } from './useTable'
 
 export const useTableContext = () => {
   const context = useContext(TableContext)

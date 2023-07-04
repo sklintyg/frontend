@@ -2,9 +2,8 @@ import handyScroll from 'handy-scroll'
 import { ReactNode } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
-import './FloatingScroll.css'
-// eslint-disable-next-line import/no-cycle
 import { useTableContext } from '../Table/hooks/useTableContext'
+import './FloatingScroll.css'
 
 export function FloatingTableScroll({ children }: { children: ReactNode }) {
   const { ref } = useResizeObserver<HTMLDivElement>()
