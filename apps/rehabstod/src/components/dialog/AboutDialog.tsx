@@ -13,7 +13,7 @@ export function AboutDialog() {
 
   return (
     <Dialog open={showAboutDialog} onOpenChange={(open) => dispatch(updateShowAboutDialog(open))} dismissible headline="Om Rehabstöd">
-      <div className="ids-content text-base">
+      <div className="ids-content text-base [&:not(:last-child)]:mb-8">
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.{' '}
         </p>
