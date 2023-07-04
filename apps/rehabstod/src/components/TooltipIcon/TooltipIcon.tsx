@@ -3,10 +3,10 @@ import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 
-export function TooltipIcon({ description, icon }: { description: string; icon: ReactNode }) {
+export function TooltipIcon({ description, icon, alignMiddle = false }: { description: string; icon: ReactNode; alignMiddle?: boolean }) {
   return (
     <Tooltip>
-      <TooltipTrigger>{icon}</TooltipTrigger>
+      <TooltipTrigger alignMiddle={alignMiddle}>{icon}</TooltipTrigger>
       <TooltipContent>{description}</TooltipContent>
     </Tooltip>
   )

@@ -4,22 +4,22 @@ import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPati
 import { Table } from '../../../../components/Table/Table'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { useGetPatientLUCertificatesQuery, useGetUserQuery } from '../../../../store/api'
-import { useAppSelector } from '../../../../store/hooks'
-import { allLuCertificatesColumns } from '../../../../store/slices/luCertificatesTableColumns.selector'
-import { LUCertificatesColumn } from '../../../../store/slices/luCertificatesTableColumns.slice'
-import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import {
   filterHiddenColumns,
   filterTableColumn,
   filterTableColumns,
   isPatientViewColumn,
 } from '../../../../components/Table/utils/filterTableColumns'
-import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
-import { ModifyLUCertificatesTableColumns } from '../../../LUCertificates/ModifyLUCertificatesTableColumns'
-import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
+import { useGetPatientLUCertificatesQuery, useGetUserQuery } from '../../../../store/api'
+import { useAppSelector } from '../../../../store/hooks'
+import { allLUTableColumns } from '../../../../store/slices/luTableColumns.selector'
+import { LUCertificatesColumn } from '../../../../store/slices/luUnitTableColumns.slice'
+import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { FixedTableHeader } from '../../../CurrentSickLeaves/components/FixedTableHeader'
+import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
+import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
+import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
 
 export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()
@@ -29,7 +29,7 @@ export function PatientLUCertificatesTable() {
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,
   })
-  const allColumns = useAppSelector(allLuCertificatesColumns)
+  const allColumns = useAppSelector(allLUTableColumns)
   const isDoctor = user ? isUserDoctor(user) : false
   const patientViewColumns = allColumns.filter(({ name }) => !isPatientViewColumn(name))
   const filteredColumns = filterTableColumns(patientViewColumns, isDoctor, showPersonalInformation, false)
@@ -44,10 +44,7 @@ export function PatientLUCertificatesTable() {
         <TableHeadingForUnit tableName="Patientens läkarutlåtanden" hideUserSpecifics hideDivider user={user} />
         {!getLuCertificatesError && (
           <div className="w-96">
-            <ModifyLUCertificatesTableColumns
-              columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Visa)}
-              preferenceKey="lakarutlatandenTableColumns"
-            />
+            <ModifyPatientLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Visa)} />
           </div>
         )}
       </div>
