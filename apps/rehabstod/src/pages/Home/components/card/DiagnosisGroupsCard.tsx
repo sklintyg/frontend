@@ -13,6 +13,7 @@ export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | u
     value: Math.round(group.percentage),
     name: `${group.grupp.id.replaceAll(',', ', ')} ${group.grupp.name} (${group.count} st, ${Math.round(group.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
+    tooltip: `${Math.round(group.percentage)}% (${group.count} st) av sjukfallen tillhör ${group.grupp.name}.`,
   })
   const generateData = (data: DiagnosGruppStat[]) => data.map((group, index) => getDataPoint(group, index))
 
@@ -24,7 +25,7 @@ export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | u
       maleData={generateData(summary.maleDiagnosisGroups)}
       femaleData={generateData(summary.femaleDiagnosisGroups)}
       title="Diagnosgrupp"
-      subTitle="Andel sjukfall fördelat på diagnosgrupp."
+      subTitle="Sjukfall fördelat på diagnosgrupp"
     />
   )
 }

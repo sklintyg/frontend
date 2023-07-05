@@ -10,8 +10,11 @@ export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSumma
   const getDataPoint = (degree: SickLeaveDegreeSummary, index: number) => ({
     id: degree.id.toString(),
     value: Math.round(degree.percentage),
-    name: `${degree.name} (${degree.count} st, ${Math.round(degree.percentage)}%)`,
+    name: `${degree.name} sjukskrivningsgrad i aktuellt intyg (${degree.count} st, ${Math.round(degree.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
+    tooltip: `${Math.round(degree.percentage)}% (${degree.count} st) av sjukfallen har ${
+      degree.name
+    } sjukskrivningsgrader i aktuellt intyg.`,
   })
 
   const generateData = (degrees: SickLeaveDegreeSummary[]) => degrees.map((degree, index) => getDataPoint(degree, index))
@@ -22,8 +25,8 @@ export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSumma
       parentData={parentData}
       maleData={generateData(summary.countMaleSickLeaveDegrees)}
       femaleData={generateData(summary.countFemaleSickLeaveDegrees)}
-      title="Fler än en sjukskrivningsgrad"
-      subTitle="Andel sjukfall som har fler än en sjukskrivningsgrad."
+      title="Flera sjukskrivningsgrader"
+      subTitle="Sjukfall fördelat på om aktuellt intyg innehåller en eller flera sjukskrivningsgrader"
     />
   )
 }

@@ -1,6 +1,5 @@
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
-import { TextList } from '../TextList'
 
 export function StatisticsCard({
   parentData,
@@ -25,11 +24,11 @@ export function StatisticsCard({
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Män</h4>
-          <TextList parentData={parentData} data={maleData} />
+          <PieChartGraph data={maleData} isSmall />
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Kvinnor</h4>
-          <TextList parentData={parentData} data={femaleData} />
+          <PieChartGraph data={femaleData} isSmall />
         </div>
       </div>
     </>

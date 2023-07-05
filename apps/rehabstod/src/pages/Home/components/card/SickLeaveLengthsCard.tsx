@@ -12,6 +12,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
     value: Math.round(length.percentage),
     name: `${length.name} (${length.count} st, ${Math.round(length.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
+    tooltip: `${Math.round(length.percentage)}% (${length.count} st) av sjukfallen har en sjukskrivningslängd på ${length.name}.`,
   })
 
   const generateData = (lengths: SickLeaveLengthSummary[]) => lengths.map((length, index) => getDataPoint(length, index))
@@ -23,7 +24,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
       maleData={generateData(summary.maleSickLeaveLengths)}
       femaleData={generateData(summary.femaleSickLeaveLengths)}
       title="Sjukskrivningslängd"
-      subTitle="Andel sjukfall fördelat på sjukskrivningslängd."
+      subTitle="Sjukfall fördelat på sjukskrivningslängd"
     />
   )
 }
