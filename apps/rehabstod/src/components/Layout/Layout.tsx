@@ -15,7 +15,9 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="flex-1">
-        {config && config.banners.length > 0 && <GlobalAlert>{config.banners[0].message}</GlobalAlert>}
+        {config && config.banners.length > 0 && (
+          <GlobalAlert priority={config.banners[0].priority}>{config.banners[0].message}</GlobalAlert>
+        )}
         <SettingsDialog />
         <AboutDialog />
         <Outlet />

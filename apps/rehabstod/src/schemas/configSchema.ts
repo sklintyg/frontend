@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
+export enum BannerPriority {
+  LOW = 'LAG',
+  MEDIUM = 'MEDEL',
+  HIGH = 'HOG',
+}
+
 export const bannerSchema = z.object({
   application: z.string(),
   createdAt: z.string(),
@@ -7,7 +13,7 @@ export const bannerSchema = z.object({
   displayTo: z.string(),
   id: z.string(),
   message: z.string(),
-  priority: z.string(),
+  priority: BannerPriority,
 })
 
 export const configSchema = z.object({
