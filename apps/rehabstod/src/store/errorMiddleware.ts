@@ -12,10 +12,10 @@ export const errorMiddleware: Middleware =
   (next) =>
   (action) => {
     function getMessage() {
-      if (action.payload.data.message) {
+      if (action.payload.data && action.payload.data.message) {
         return action.payload.data.message
       }
-      if (action.error.message) {
+      if (action.error && action.error.message) {
         return action.error.message
       }
       return 'NO_MESSAGE'
