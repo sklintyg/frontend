@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
-import { AboutDialog } from '../dialog/AboutDialog'
-import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
+import { SettingsDialog } from '../SettingsDialog/SettingsDialog'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader'
 import { useGetConfigQuery } from '../../store/api'
@@ -17,7 +16,6 @@ export function Layout() {
       <main className="flex-1">
         {config && config.banners.length > 0 && <GlobalAlert>{config.banners[0].message}</GlobalAlert>}
         <SettingsDialog />
-        <AboutDialog />
         <Outlet />
       </main>
       <LayoutFooter />
