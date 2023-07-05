@@ -1,17 +1,16 @@
-import { IDSButton, IDSContainer, IDSIconUser, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer, IDSIconQuestion, IDSIconUser } from '@frontend/ids-react-ts'
 import { differenceInDays, isBefore, parseISO, subDays } from 'date-fns'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Patient } from '../../../schemas/patientSchema'
-import { RootState } from '../../../store/store'
 import { TooltipIcon } from '../../../components/TooltipIcon/TooltipIcon'
+import { Patient } from '../../../schemas/patientSchema'
+import { useAppSelector } from '../../../store/hooks'
 
 export function PatientHeader({ patient }: { patient: Patient }) {
   const navigate = useNavigate()
   const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
   const currentSickness = patient.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = patient.sjukfallList[0]?.intyg[0]
-  const { showPersonalInformation } = useSelector((state: RootState) => state.settings)
+  const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   function historyStateExists() {
     return window.history.state && window.history.state.idx > 0

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import { createTableColumnSlice } from '../utils/createTableColumnSlice'
 
 export enum SickLeaveColumn {
@@ -18,10 +19,11 @@ export enum SickLeaveColumn {
   Läkare = 'Läkare',
 }
 
-export const { slice: sickLeaveTableColumnsSlice, getSelectors: getSjukfallTableColumnsSelectors } = createTableColumnSlice(
-  'sjukfallTableColumns',
-  Object.values(SickLeaveColumn)
-)
+export const {
+  slice: sickLeaveTableColumnsSlice,
+  getSelectors: getSickLeaveTableColumnsSelectors,
+  reducerPath: sickLeaveTableColumnsReducerPath,
+} = createTableColumnSlice('sjukfallTableColumns', Object.values(SickLeaveColumn))
 
 export const {
   reset: resetSickLeaveTableColumns,
@@ -32,4 +34,3 @@ export const {
   moveColumn,
   setColumnDefaults,
 } = sickLeaveTableColumnsSlice.actions
-export const { name: sickLeaveTableColumnsReducerPath, reducer: sickLeaveTableColumnsReducer } = sickLeaveTableColumnsSlice

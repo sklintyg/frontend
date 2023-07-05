@@ -114,7 +114,7 @@ describe('Webcert header unit', () => {
 
       testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
-      expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
+      expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter')).toBeInTheDocument()
     })
 
     it('should not show statistics on other units if there are none', () => {
@@ -124,7 +124,7 @@ describe('Webcert header unit', () => {
 
       renderComponent()
 
-      expect(screen.queryByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).not.toBeInTheDocument()
+      expect(screen.queryByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter')).not.toBeInTheDocument()
     })
   })
 })

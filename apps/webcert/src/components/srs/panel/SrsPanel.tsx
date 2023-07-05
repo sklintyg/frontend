@@ -22,6 +22,7 @@ import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import SrsRisk from '../risk/SrsRisk'
+import { SrsMinimizedView } from '../minimizedView/SrsMinimizedView'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 
@@ -29,7 +30,11 @@ const Wrapper = styled.div`
   overflow-y: auto;
 `
 
-const SrsPanel: React.FC = () => {
+interface Props {
+  minimizedView?: boolean
+}
+
+const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
   const dispatch = useDispatch()
   const diagnosisListValue = useSelector(getDiagnosisListValue)
   const patientId = useSelector(getPatientId)
@@ -84,6 +89,10 @@ const SrsPanel: React.FC = () => {
 
     if (!hasSupportedDiagnosisCode) {
       return <SrsPanelNoSupportInfo />
+    }
+
+    if (minimizedView) {
+      return <SrsMinimizedView />
     }
 
     return (
