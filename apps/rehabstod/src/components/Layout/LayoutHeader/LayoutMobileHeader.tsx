@@ -3,10 +3,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { IDSHeaderMobileMenu, IDSMobileMenuItem } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../hooks/useLogout'
-import { useGetUserQuery } from '../../store/api'
-import { useAppDispatch } from '../../store/hooks'
-import { updateShowSettingsDialog } from '../../store/slices/settings.slice'
+import { useLogout } from '../../../hooks/useLogout'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch } from '../../../store/hooks'
+import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 
 export function LayoutMobileHeader() {
   const { data: user } = useGetUserQuery()

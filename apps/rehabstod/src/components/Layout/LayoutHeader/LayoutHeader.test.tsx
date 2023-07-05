@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
-import { server, waitForRequest } from '../../mocks/server'
-import { fakeError } from '../../utils/fake/fakeError'
-import { renderWithRouter } from '../../utils/renderWithRouter'
+import { server, waitForRequest } from '../../../mocks/server'
+import { fakeError } from '../../../utils/fake/fakeError'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { LayoutHeader } from './LayoutHeader'
 
 describe('Without user session', () => {
