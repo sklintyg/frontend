@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   IDSHeader,
   IDSHeaderAvatar,
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,
-  IDSIconQuestion,
   IDSIconSwap,
   IDSIconUser,
   IDSLink,
@@ -16,8 +14,9 @@ import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'
-import { updateShowAboutDialog, updateShowSettingsDialog } from '../../store/slices/settings.slice'
+import { updateShowSettingsDialog } from '../../store/slices/settings.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
+import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
@@ -37,21 +36,7 @@ export function LayoutHeader() {
 
       {!isLoading && user && (
         <>
-          <IDSHeaderItem type="inera-admin" mobile>
-            <IDSIconQuestion />
-            <a
-              tabIndex={0}
-              onClick={() => dispatch(updateShowAboutDialog(true))}
-              onKeyDown={({ code }) => {
-                if (['Enter', 'Space'].includes(code)) {
-                  dispatch(updateShowAboutDialog(true))
-                }
-              }}
-              role="button"
-            >
-              Om Rehabstöd
-            </a>
-          </IDSHeaderItem>
+          <AboutHeaderItem />
           <IDSHeaderAvatar
             type="inera-admin"
             username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}

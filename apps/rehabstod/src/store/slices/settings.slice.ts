@@ -20,13 +20,13 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    resetSettings() {
-      return initialState
+    resetSettingsPreferences(state) {
+      state.preferences = initialState.preferences
     },
     updateShowSettingsDialog(state, { payload }: PayloadAction<boolean>) {
       state.showSettingsDialog = payload
     },
-    updateSettings(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
+    updateSettingsPreferences(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
       state.preferences = Object.assign(state.preferences, payload)
     },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
@@ -38,6 +38,11 @@ const settingsSlice = createSlice({
   },
 })
 
-export const { resetSettings, updateShowSettingsDialog, updateSettings, updateShowPersonalInformation, updateShowAboutDialog } =
-  settingsSlice.actions
+export const {
+  resetSettingsPreferences,
+  updateShowSettingsDialog,
+  updateSettingsPreferences,
+  updateShowPersonalInformation,
+  updateShowAboutDialog,
+} = settingsSlice.actions
 export const { name: settingsReducerPath, reducer: settingsReducer } = settingsSlice

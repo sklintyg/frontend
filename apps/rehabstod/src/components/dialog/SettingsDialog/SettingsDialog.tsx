@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../../store/hooks'
-import { resetSettings, updateSettings, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { resetSettingsPreferences, updateSettingsPreferences, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { Dialog } from '../Dialog'
 import { DaysBetweenSickLeaves } from './DaysBetweenSickLeaves'
 import { DaysFinishedSickLeave } from './DaysFinishedSickLeave'
@@ -38,10 +38,10 @@ export function SettingsDialog() {
 
   useEffect(() => {
     if (user) {
-      dispatch(updateSettings(user.preferences))
+      dispatch(updateSettingsPreferences(user.preferences))
     }
     return () => {
-      dispatch(resetSettings())
+      dispatch(resetSettingsPreferences())
     }
   }, [dispatch, user])
 
@@ -59,16 +59,16 @@ export function SettingsDialog() {
       <DaysFinishedSickLeave
         value={preferences.maxAntalDagarSedanSjukfallAvslut}
         onChange={(val) => {
-          dispatch(updateSettings({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
+          dispatch(updateSettingsPreferences({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
         }}
       />
       <DaysBetweenSickLeaves
         value={preferences.maxAntalDagarMellanIntyg}
-        onChange={(val) => dispatch(updateSettings({ maxAntalDagarMellanIntyg: val || undefined }))}
+        onChange={(val) => dispatch(updateSettingsPreferences({ maxAntalDagarMellanIntyg: val || undefined }))}
       />
       <SelectCareUnits
         standardenhet={preferences.standardenhet}
-        onChange={(value) => dispatch(updateSettings({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
+        onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
       <IDSDialogActions>
         <IDSButton secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>

@@ -1,6 +1,7 @@
 import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
+import { hasUserFeature } from '../../utils/hasUserFeature'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { Dialog } from './Dialog'
 
@@ -42,7 +43,7 @@ export function AboutDialog() {
         </p>
         <p className="ids-body">Informationen som visas loggas enligt Patientdatalagen (PDL).</p>
       </div>
-      {user?.features.SRS && (
+      {user && hasUserFeature(user, 'SRS') && (
         <div className="ids-content text-base">
           <h4 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h4>
           <p className="ids-body" />

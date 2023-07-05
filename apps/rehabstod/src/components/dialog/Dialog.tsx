@@ -24,13 +24,6 @@ export function Dialog({
     const isShown = (dialogEl?.show ?? 'false') !== 'false'
 
     function handleVisibilityChanged() {
-      if (open && dialogEl?.show === 'false') {
-        setOpen(false)
-      }
-      if (!open && dialogEl?.show === 'true') {
-        setOpen(true)
-      }
-
       setOpen(dialogEl?.show === 'true')
 
       if (dialogEl?.show === 'true') {
@@ -38,13 +31,11 @@ export function Dialog({
       }
     }
 
-    if (dialogEl) {
-      if (open === true && !isShown) {
-        dialogEl.showDialog()
-      }
-      if (open === false && isShown) {
-        dialogEl.hideDialog()
-      }
+    if (open === true && !isShown) {
+      dialogEl?.showDialog()
+    }
+    if (open === false && isShown) {
+      dialogEl?.hideDialog()
     }
 
     dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
@@ -52,8 +43,8 @@ export function Dialog({
   }, [open, setOpen])
 
   return (
-    <IDSDialog ref={ref} {...props}>
-      {children}
+    <IDSDialog role="dialog" show={open ? 'true' : 'false'} ref={ref} {...props}>
+      {open && children}
     </IDSDialog>
   )
 }

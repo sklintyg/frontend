@@ -2,11 +2,15 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { server } from '../../../mocks/server'
-import { updateSettings } from '../../../store/slices/settings.slice'
+import { updateSettingsPreferences, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { store } from '../../../store/store'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { SettingsDialog } from './SettingsDialog'
+
+beforeEach(() => {
+  store.dispatch(updateShowSettingsDialog(true))
+})
 
 it('should render without errors', () => {
   expect(() => renderWithRouter(<SettingsDialog />)).not.toThrow()
@@ -25,19 +29,19 @@ it('should render cancel button', async () => {
 it('should close when clicking cancel button', async () => {
   renderWithRouter(<SettingsDialog />)
   await userEvent.click(await screen.findByText('Avbryt'))
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
 })
 
 it('should close when clicking save button', async () => {
   renderWithRouter(<SettingsDialog />)
   await userEvent.click(await screen.findByText('Spara'))
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
 })
 
 it('should not have save button disabled as default', async () => {
   const preferences = { maxAntalDagarMellanIntyg: '12', maxAntalDagarSedanSjukfallAvslut: '6' }
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ preferences })))))
-  store.dispatch(updateSettings(preferences))
+  store.dispatch(updateSettingsPreferences(preferences))
   renderWithRouter(<SettingsDialog />)
   expect(await screen.findByText('Spara')).not.toBeDisabled()
 })
