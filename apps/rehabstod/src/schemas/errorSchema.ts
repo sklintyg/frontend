@@ -12,6 +12,10 @@ export enum ErrorCode {
   UNKNOWN_INTERNAL_ERROR = 'UNKNOWN_INTERNAL_ERROR',
 }
 
+export enum ErrorType {
+  SILENT = 'SILENT',
+}
+
 export const ErrorCodeEnum = z.nativeEnum(ErrorCode)
 
 export const errorSchema = z.object({

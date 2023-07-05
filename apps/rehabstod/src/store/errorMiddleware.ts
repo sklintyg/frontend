@@ -1,5 +1,5 @@
 import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
-import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
+import { ErrorCodeEnum, ErrorData, ErrorType } from '../schemas/errorSchema'
 import { uuidv4 } from '../utils/uuidv4'
 import { api } from './api'
 
@@ -11,17 +11,34 @@ export const errorMiddleware: Middleware =
   ({ dispatch }: MiddlewareAPI<ThunkDispatch<unknown, unknown, AnyAction>>) =>
   (next) =>
   (action) => {
-    if (isRejectedWithValue(action) && !api.endpoints.logError.matchRejected(action)) {
+    function getMessage() {
+      if (action.payload.data.message) {
+        return action.payload.data.message
+      }
+      if (action.error.message) {
+        return action.error.message
+      }
+      return 'NO_MESSAGE'
+    }
+
+    function getLogMessage(message: string, method: string, url: string) {
+      return `${message}' method '${method}' url '${url}'`
+    }
+
+    function isSilentError() {
+      return action.payload.type && action.payload.type === ErrorType.SILENT
+    }
+
+    if (isRejectedWithValue(action) && !api.endpoints.logError.matchRejected(action) && !isSilentError()) {
       const { method, url } = action.meta.baseQueryMeta.request
-      const message = action.payload.message ?? action.payload.data?.message ?? 'No message'
-      const errorCode = action.payload.data?.status ?? undefined
+      const message = getMessage()
+      const errorCode = action.payload.data?.status ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR
       const errorData: ErrorData = {
         errorId: uuidv4(),
-        message: `${message}' method '${method}' url '${url}`,
-        errorCode: errorCode ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
-        stackTrace: null,
+        message: getLogMessage(message, method, url),
+        errorCode,
+        stackTrace: 'NO_STACK_TRACE',
       }
-
       // Log to server
       dispatch(api.endpoints.logError.initiate({ errorData }))
 

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
 import { DiagnosKapitel } from '../schemas/diagnosisSchema'
-import { ErrorData } from '../schemas/errorSchema'
+import { ErrorData, ErrorType } from '../schemas/errorSchema'
 import { Lakare } from '../schemas/lakareSchema'
 import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 import { Patient } from '../schemas/patientSchema'
@@ -34,6 +34,13 @@ export const api = createApi({
     getUser: builder.query<User, void>({
       query: () => 'user',
       providesTags: ['User'],
+      transformErrorResponse: (baseQueryReturnValue, meta) =>
+        meta?.response?.status === 403
+          ? { type: ErrorType.SILENT }
+          : {
+              baseQueryReturnValue,
+              meta,
+            },
     }),
     getConfig: builder.query<Config, void>({
       query: () => 'config',
@@ -86,6 +93,9 @@ export const api = createApi({
         },
       }),
       invalidatesTags: ['User'],
+      transformErrorResponse: () => ({
+        type: ErrorType.SILENT,
+      }),
     }),
     getSessionPing: builder.query<Ping, void>({
       query: () => 'session-auth-check/ping',
@@ -185,11 +195,17 @@ export const api = createApi({
         method: 'POST',
       }),
       transformResponse: (response: { content: string }) => response.content,
+      transformErrorResponse: () => ({
+        type: ErrorType.SILENT,
+      }),
     }),
     getTestDataOptions: builder.query<TestDataOptionsDTO, void>({
       query: () => ({
         url: '/testability/testDataOptions',
         method: 'GET',
+      }),
+      transformErrorResponse: () => ({
+        type: ErrorType.SILENT,
       }),
     }),
     createSickLeave: builder.mutation<string, CreateSickleaveDTO>({
