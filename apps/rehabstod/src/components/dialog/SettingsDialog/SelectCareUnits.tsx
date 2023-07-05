@@ -1,8 +1,8 @@
 import { IDSSelect } from '@frontend/ids-react-ts'
 import { useId } from 'react'
-import { useGetUserQuery } from '../../store/api'
-import { getUnitsForUser } from '../../utils/getUnitsForUser'
-import { Select } from '../Form/Select'
+import { useGetUserQuery } from '../../../store/api'
+import { getUnitsForUser } from '../../../utils/getUnitsForUser'
+import { Select } from '../../Form/Select'
 import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value: string) => void; standardenhet?: string | null }) {

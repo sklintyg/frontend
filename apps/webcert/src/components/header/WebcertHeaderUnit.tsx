@@ -82,7 +82,7 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
             <br />
             {showUnhandledQuestionsInfo && (
               <Italic>
-                {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
+                {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter
               </Italic>
             )}
           </span>

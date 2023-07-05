@@ -1,7 +1,7 @@
 import { IDSFooter } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../store/api'
-import { CookieDialog } from '../CookieDialog/CookieDialog'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
+import { CookieDialog } from '../dialog/CookieDialog'
 
 export function LayoutFooter() {
   const { data: links } = useGetLinksQuery()

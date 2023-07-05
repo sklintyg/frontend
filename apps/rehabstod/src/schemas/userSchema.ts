@@ -39,9 +39,11 @@ export const userRoleSchema = z.object({
   LAKARE: lakareRoleSchema,
 })
 
-export const userFeatureSchema = z.object({
-  SRS: srsFeatureSchema,
-})
+export const userFeatureSchema = z
+  .object({
+    SRS: srsFeatureSchema,
+  })
+  .partial()
 
 export const userSchema = z.object({
   hsaId: z.string(),

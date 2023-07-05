@@ -4,7 +4,6 @@ import {
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,
-  IDSIconQuestion,
   IDSIconSwap,
   IDSIconUser,
   IDSLink,
@@ -12,14 +11,15 @@ import {
 import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../hooks/useLogout'
-import { useGetUserQuery } from '../../store/api'
-import { useAppDispatch } from '../../store/hooks'
-import { showSettingsDialog } from '../../store/slices/settings.slice'
+import { useLogout } from '../../../hooks/useLogout'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch } from '../../../store/hooks'
+import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
+import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
-import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()
@@ -36,10 +36,7 @@ export function LayoutHeader() {
 
       {!isLoading && user && (
         <>
-          <IDSHeaderItem type="inera-admin" mobile>
-            <IDSIconQuestion />
-            <Link to="/">Om Rehabstöd</Link>
-          </IDSHeaderItem>
+          <AboutHeaderItem />
           <IDSHeaderAvatar
             type="inera-admin"
             username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
@@ -56,7 +53,7 @@ export function LayoutHeader() {
               <HeaderAvatarMenuButton
                 onClick={() => {
                   avatarRef.current?.tooggleExpand()
-                  dispatch(showSettingsDialog())
+                  dispatch(updateShowSettingsDialog(true))
                 }}
                 label="Inställningar"
                 icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
