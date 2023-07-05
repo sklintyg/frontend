@@ -13,7 +13,7 @@ export const bannerSchema = z.object({
   displayTo: z.string(),
   id: z.string(),
   message: z.string(),
-  priority: BannerPriority,
+  priority: z.enum(BannerPriority),
 })
 
 export const configSchema = z.object({

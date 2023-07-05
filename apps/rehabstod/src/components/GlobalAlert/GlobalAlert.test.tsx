@@ -12,8 +12,7 @@ const renderComponent = (priority: BannerPriority) => {
 
 describe('GlobalAlert', () => {
   it('should render without issues', () => {
-    renderComponent(BannerPriority.MEDIUM)
-    expect(() => renderComponent()).not.toThrow()
+    expect(() => renderComponent(BannerPriority.MEDIUM)).not.toThrow()
   })
 
   it('should render alert', () => {
