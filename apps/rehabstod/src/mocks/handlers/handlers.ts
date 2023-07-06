@@ -3,23 +3,24 @@ import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
 import { configSchema, Link, linkSchema, userPreferencesSchema } from '../../schemas'
+import { agCertificatesInfoSchema } from '../../schemas/agCertificatesSchema'
+import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
 import { lakareSchema } from '../../schemas/lakareSchema'
+import { luCertificatesInfoSchema } from '../../schemas/luCertificatesSchema'
 import { patientSchema } from '../../schemas/patientSchema'
 import { sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake/fakeUser'
-import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
-import { agCertificatesInfoSchema } from '../../schemas/agCertificatesSchema'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
 export const handlers = [
   rest.post('/logout', (req, res, ctx) => res(ctx.status(302))),
 
-  rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
+  rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
   rest.get('/api/config', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(configSchema)()))),
 
-  rest.post(`/api/user/preferences`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userPreferencesSchema)()))),
+  rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userPreferencesSchema)()))),
 
   rest.get('/api/config/links', (req, res, ctx) =>
     res(
@@ -49,7 +50,8 @@ export const handlers = [
 
   rest.post('/api/sjukfall/patient', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(patientSchema)()))),
 
-  rest.post('api/certificate/ag/person', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(agCertificatesInfoSchema)()))),
+  rest.post('/api/certificate/lu/person', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(luCertificatesInfoSchema)()))),
+  rest.post('/api/certificate/ag/person', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(agCertificatesInfoSchema)()))),
 
   rest.post('/api/sickleaves/active', (_, res, ctx) =>
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))

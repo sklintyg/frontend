@@ -2,7 +2,7 @@ import isEqual from 'lodash/isEqual'
 import { useRef } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { UserPreferences } from '../schemas'
-import { api } from './api'
+import { api, useGetUserQuery } from './api'
 import { AppDispatch, RootState } from './store'
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
@@ -15,7 +15,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
  */
 export function useUpdateUserPreferences() {
   const dispatch = useAppDispatch()
-  const { data: user } = api.useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const [update, { isLoading, ...status }] = api.useUpdateUserPreferencesMutation()
   const lastPayload = useRef<Partial<UserPreferences>>({})
 

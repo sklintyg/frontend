@@ -32,11 +32,11 @@ export const luCertificateSchema = z.object({
   encryptedPatientId: z.string(),
 })
 
-export const luCertificatesInfo = z.object({
+export const luCertificatesInfoSchema = z.object({
   certificates: z.array(luCertificateSchema),
   questionAndAnswersError: z.boolean(),
 })
 
 export type LUCertificatesFilter = z.infer<typeof luCertificatesFilterSchema>
 export type LUCertificate = z.infer<typeof luCertificateSchema>
-export type LUCertificatesInfo = z.infer<typeof luCertificatesInfo>
+export type LUCertificatesInfo = z.infer<typeof luCertificatesInfoSchema>

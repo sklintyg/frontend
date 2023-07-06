@@ -1,14 +1,16 @@
+import { IDSSpinner } from '@frontend/ids-react-ts'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { useGetConfigQuery } from '../../store/api'
 import { GlobalAlert } from '../GlobalAlert/GlobalAlert'
+import { PageHero } from '../PageHero/PageHero'
 import { AboutDialog } from '../dialog/AboutDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 
 export function Layout() {
-  useSession()
+  const { user, isLoading } = useSession()
   const { data: config } = useGetConfigQuery()
 
   return (
@@ -16,9 +18,18 @@ export function Layout() {
       <LayoutHeader />
       <main className="flex-1">
         {config && config.banners.length > 0 && <GlobalAlert>{config.banners[0].message}</GlobalAlert>}
-        <SettingsDialog />
-        <AboutDialog />
-        <Outlet />
+        {user && (
+          <>
+            <SettingsDialog />
+            <AboutDialog />
+          </>
+        )}
+        {isLoading && (
+          <PageHero>
+            <IDSSpinner className="inline-flex" />
+          </PageHero>
+        )}
+        {!isLoading && <Outlet />}
       </main>
       <LayoutFooter />
     </div>
