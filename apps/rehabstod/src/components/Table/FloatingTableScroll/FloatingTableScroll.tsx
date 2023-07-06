@@ -1,14 +1,14 @@
 import handyScroll from 'handy-scroll'
-import { ReactNode } from 'react'
+import { HTMLProps, forwardRef } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
-import './FloatingScroll.css'
+import './FloatingTableScroll.css'
 
-export function FloatingScroll({ children }: { children: ReactNode }) {
+export const FloatingTableScroll = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(({ children }, outerRef) => {
   const { ref } = useResizeObserver<HTMLDivElement>()
-
   const mergedRefCallback = mergeRefs([
     ref,
+    outerRef,
     (element: HTMLDivElement) => {
       if (element) {
         if (handyScroll.mounted(element)) {
@@ -19,10 +19,11 @@ export function FloatingScroll({ children }: { children: ReactNode }) {
       }
     },
   ])
-
   return (
-    <div style={{ overflow: 'auto' }} ref={mergedRefCallback}>
+    <div style={{ overflow: 'auto' }} className="border-neutral-40 relative rounded border " ref={mergedRefCallback}>
       {children}
     </div>
   )
-}
+})
+
+FloatingTableScroll.displayName = 'FloatingTableScroll'

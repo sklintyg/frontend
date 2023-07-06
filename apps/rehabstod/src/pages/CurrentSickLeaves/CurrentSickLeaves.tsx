@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
+import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 import { UnansweredCommunicationAlert } from '../../components/error/ErrorAlert/UnansweredCommunicationAlert'
 import { UserUrval } from '../../schemas'
@@ -17,7 +18,7 @@ import { Filters } from './components/Filters'
 import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
-import { TableHeaderRow } from './components/TableHeaderRow'
+import { useSickLeavesTableColumn } from './hooks/useSickLeavesTableColumns'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -34,6 +35,7 @@ export function CurrentSickLeaves() {
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const navigate = useNavigate()
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
+  const columns = useSickLeavesTableColumn()
 
   useEffect(() => {
     if (!userLoading && !user) {
@@ -94,14 +96,12 @@ export function CurrentSickLeaves() {
             </div>
           </div>
           <Table
+            header={<TableHeader columns={columns} />}
             sortColumn={tableState.sortColumn}
             onSortChange={setTableState}
             print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
             ascending={tableState.ascending}
           >
-            <thead>
-              <TableHeaderRow showPersonalInformation={showPersonalInformation} isDoctor={isDoctor} />
-            </thead>
             <tbody className="whitespace-normal break-words">
               <TableBodyRows
                 isDoctor={isDoctor}

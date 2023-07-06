@@ -1,5 +1,5 @@
+import { Column } from '../../../../components/Table/types/Column'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { Column } from '../../../../components/Table/tableHeader/TableHeader'
 
 export const getAGCertificatesColumnInfo = (column: string): Column => {
   switch (column) {

@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { useGetConfigQuery } from '../../store/api'
 import { GlobalAlert } from '../GlobalAlert/GlobalAlert'
+import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 import { AboutDialog } from '../dialog/AboutDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { LayoutFooter } from './LayoutFooter'
@@ -15,16 +16,18 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="flex-1">
-        {config &&
-          config.banners.length > 0 &&
-          config.banners.map((banner) => (
-            <GlobalAlert key={banner.id} priority={banner.priority}>
-              {banner.message}
-            </GlobalAlert>
-          ))}
-        <SettingsDialog />
-        <AboutDialog />
-        <Outlet />
+        <StickyContainerProvider>
+          {config &&
+            config.banners.length > 0 &&
+            config.banners.map((banner) => (
+              <GlobalAlert key={banner.id} priority={banner.priority}>
+                {banner.message}
+              </GlobalAlert>
+            ))}
+          <SettingsDialog />
+          <AboutDialog />
+          <Outlet />
+        </StickyContainerProvider>
       </main>
       <LayoutFooter />
     </div>

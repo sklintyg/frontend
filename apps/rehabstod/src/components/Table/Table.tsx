@@ -1,17 +1,21 @@
 import { IDSContainer } from '@frontend/ids-react-ts'
-import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
+import { ReactNode, createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
-import { FloatingScroll } from '../FloatingScroll/FloatingScroll'
+import { FixedTable } from './FixedTable'
+import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
 
-interface TableOptions {
+export interface TableOptions {
   ascending?: boolean
   sortColumn?: string
   onSortChange?: (state: { sortColumn: string; ascending: boolean }) => void
 }
 
-function useTable(options: TableOptions) {
+export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
+
+export function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
+  const [scrollDiv, setScrollDiv] = useState<HTMLDivElement>()
 
   const updateSorting = useCallback(
     (column: string, asc: boolean) => {
@@ -43,24 +47,32 @@ function useTable(options: TableOptions) {
       sortColumn,
       sortOnColumn,
       sortTableList,
+      scrollDiv,
+      setScrollDiv,
     }),
-    [ascending, sortColumn, sortOnColumn, sortTableList]
+    [ascending, sortColumn, sortOnColumn, sortTableList, scrollDiv]
   )
 }
 
-export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
-
-export function Table({ children, print, ...options }: { children?: ReactNode; print?: ReactNode } & TableOptions) {
+export function Table({
+  children,
+  print,
+  header,
+  ...options
+}: { children?: ReactNode; print?: ReactNode; header?: ReactNode } & TableOptions) {
   const table = useTable(options)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
-        <FloatingScroll>
-          <div className="relative pb-4 pt-1">
-            <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
-          </div>
-        </FloatingScroll>
+        <FloatingTableScroll ref={scrollRef}>
+          <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
+          <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
+            {header}
+            {children}
+          </table>
+        </FloatingTableScroll>
       </IDSContainer>
       <div className="hidden print:block">
         <div className="mb-2">

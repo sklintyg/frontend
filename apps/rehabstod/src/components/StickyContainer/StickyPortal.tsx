@@ -1,0 +1,8 @@
+import { ReactNode, useContext } from 'react'
+import { createPortal } from 'react-dom'
+import { StickyContext } from './StickyContainerProvider'
+
+export function StickyPortal({ children, key }: { children: ReactNode; key?: string }) {
+  const stickyContainer = useContext(StickyContext)
+  return stickyContainer && createPortal(children, stickyContainer, key)
+}
