@@ -3,6 +3,7 @@ import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
+import { fetch, Headers, Request, Response } from 'cross-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
@@ -15,6 +16,10 @@ import { store } from './store/store'
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
+  fetch,
+  Headers,
+  Request,
+  Response,
 })
 
 // Used by floating-ui
