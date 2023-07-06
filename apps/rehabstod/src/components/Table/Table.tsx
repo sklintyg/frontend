@@ -67,13 +67,11 @@ export function Table({
     <TableContext.Provider value={table}>
       <IDSContainer gutterless className="print:hidden">
         <FloatingTableScroll ref={scrollRef}>
-          <div className="relative pb-4 pt-1">
-            <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
-            <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">
-              {header}
-              {children}
-            </table>
-          </div>
+          <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
+          <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
+            {header}
+            {children}
+          </table>
         </FloatingTableScroll>
       </IDSContainer>
       <div className="hidden print:block">

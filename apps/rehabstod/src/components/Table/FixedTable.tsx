@@ -1,47 +1,61 @@
-import { ReactNode, RefObject, useEffect, useState } from 'react'
-import { mergeRefs } from 'react-merge-refs'
-import useResizeObserver from 'use-resize-observer'
+import { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
 import { classNames } from '../../utils/classNames'
+import { StickyPortal } from '../StickyContainer/StickyPortal'
 
 export function FixedTable({ children, scrollRef }: { children: ReactNode; scrollRef: RefObject<HTMLDivElement> }) {
   const [scrollLeft, setScrollLeft] = useState(0)
   const [tableWidth, setTableWidth] = useState(0)
   const [fixed, setFixed] = useState(false)
+  const stickyRef = useRef<HTMLDivElement>(null)
 
-  const { ref } = useResizeObserver<HTMLDivElement>()
-  mergeRefs([
-    ref,
-    scrollRef,
-    (element: HTMLDivElement) => {
-      if (element) {
-        setTableWidth(element.getBoundingClientRect().width)
-      }
-    },
-  ])
+  // const { ref } = useResizeObserver<HTMLDivElement>()
+  // mergeRefs([
+  //   ref,
+  //   scrollRef,
+  //   (element: HTMLDivElement) => {
+  //     if (element) {
+  //       setTableWidth(element.getBoundingClientRect().width)
+  //     }
+  //   },
+  // ])
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollElementRect = scrollRef.current?.getBoundingClientRect()
+      const stickyRect = stickyRef.current?.getBoundingClientRect()
+      const marginTop = stickyRect?.top ?? 0
+      const marginBottom = 82
       if (scrollElementRect) {
-        setFixed(scrollElementRect.top < 0 && scrollElementRect.bottom > 0)
+        setFixed(scrollElementRect.top < marginTop && scrollElementRect.bottom - marginBottom - marginTop > 0)
         setTableWidth(scrollElementRect.width)
       }
       setScrollLeft(scrollRef.current?.scrollLeft ?? 0)
     }
 
+    window.addEventListener('resize', handleScroll)
     window.addEventListener('scroll', handleScroll, true)
     return () => {
+      window.removeEventListener('resize', handleScroll)
       window.removeEventListener('scroll', handleScroll, true)
     }
-  })
+  }, [scrollRef])
 
   return (
-    <div style={{ width: `${tableWidth}px` }} className={classNames('fixed top-0 z-20 overflow-hidden', fixed ? 'block' : 'hidden')}>
-      <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
-        <table className="ids-table whitespace-nowrap border-none text-sm" style={{ width: `${tableWidth}px` }}>
-          {children}
-        </table>
+    <StickyPortal>
+      <div
+        ref={stickyRef}
+        style={{ width: `${tableWidth}px` }}
+        className={classNames(
+          'm-auto max-w-7xl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative',
+          fixed ? 'h-auto border-x border-b' : 'h-0'
+        )}
+      >
+        <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
+          <table className="ids-table ids-table-sticky whitespace-nowrap border-none text-sm" style={{ width: `${tableWidth}px` }}>
+            {fixed && children}
+          </table>
+        </div>
       </div>
-    </div>
+    </StickyPortal>
   )
 }
