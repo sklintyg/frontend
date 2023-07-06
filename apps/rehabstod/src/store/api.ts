@@ -283,7 +283,7 @@ export const api = createApi({
 
 export function useGetUserQuery() {
   const { data: session } = api.useGetSessionPingQuery()
-  return api.useGetUserQuery(session?.hasSession ? undefined : skipToken)
+  return api.useGetUserQuery(session?.authenticated && session?.hasSession ? undefined : skipToken)
 }
 
 export const {
