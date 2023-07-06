@@ -8,17 +8,6 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
   const [fixed, setFixed] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
 
-  // const { ref } = useResizeObserver<HTMLDivElement>()
-  // mergeRefs([
-  //   ref,
-  //   scrollRef,
-  //   (element: HTMLDivElement) => {
-  //     if (element) {
-  //       setTableWidth(element.getBoundingClientRect().width)
-  //     }
-  //   },
-  // ])
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollElementRect = scrollRef.current?.getBoundingClientRect()
@@ -46,12 +35,12 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         ref={stickyRef}
         style={{ width: `${tableWidth}px` }}
         className={classNames(
-          'm-auto max-w-7xl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative',
+          'm-auto max-w-7xl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
           fixed ? 'h-auto border-x border-b' : 'h-0'
         )}
       >
         <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
-          <table className="ids-table ids-table-sticky whitespace-nowrap border-none text-sm" style={{ width: `${tableWidth}px` }}>
+          <table className="ids-table ids-table-sticky whitespace-nowrap border-none text-sm " style={{ width: `${tableWidth}px` }}>
             {fixed && children}
           </table>
         </div>
