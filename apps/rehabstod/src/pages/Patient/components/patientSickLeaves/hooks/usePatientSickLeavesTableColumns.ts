@@ -42,7 +42,7 @@ export function usePatientSickLeavesTableColumns(): Column[] {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
-    PatientColumn.Visa,
+    PatientColumn.Intygstyp,
   ])
 
   return visibleColumns.map(({ name }) => ({

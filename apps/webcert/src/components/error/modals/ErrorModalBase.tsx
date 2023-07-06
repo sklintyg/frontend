@@ -54,8 +54,8 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
         <Modal role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
           <div className="ic-modal__body">{children}</div>
           <ButtonGroup className={confirmButtonText ? 'ic-button-group ic-button-group--center' : ''}>
-            {confirmButtonText && <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />}
             <CustomButton onClick={handleClose} text={closeButtonText} />
+            {confirmButtonText && <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />}
           </ButtonGroup>
           <ErrorCopyText errorId={errorData.errorId} />
         </Modal>

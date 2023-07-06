@@ -79,7 +79,7 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const columns = useAppSelector(allPatientColumns)
   const visibleColumns = filterTableColumns(columns, isDoctor, undefined, true, populatedFilters && populatedFilters.srsActivated, [
-    PatientColumn.Visa,
+    PatientColumn.Intygstyp,
   ])
 
   return (
