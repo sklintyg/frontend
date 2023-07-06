@@ -3,6 +3,7 @@ import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import { fetch, Headers, Request, Response } from 'cross-fetch'
+import AbortController from 'abort-controller'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
@@ -19,6 +20,7 @@ Object.assign(global, global, {
   Headers,
   Request,
   Response,
+  AbortController,
 })
 
 // Used by floating-ui
