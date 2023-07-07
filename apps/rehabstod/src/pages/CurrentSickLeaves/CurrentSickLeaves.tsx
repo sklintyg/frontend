@@ -58,9 +58,9 @@ export function CurrentSickLeaves() {
 
   function hasOngoingSickLeaves() {
     if (!populatedFilters) {
-      return false
+      return true
     }
-    return !populatedFilters.hasOngoingSickLeaves
+    return populatedFilters.hasOngoingSickLeaves
   }
 
   return (
@@ -74,7 +74,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {hasOngoingSickLeaves() && <EmptyTableAlert tableName={TABLE_NAME} />}
+      {!hasOngoingSickLeaves() && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>

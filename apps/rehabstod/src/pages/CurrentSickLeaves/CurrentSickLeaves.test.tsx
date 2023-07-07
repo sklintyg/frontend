@@ -6,6 +6,7 @@ import { CurrentSickLeaves } from './CurrentSickLeaves'
 
 it('Should display error when request for fetching sickleave fails', async () => {
   server.use(rest.post('/api/sickleaves/active', (_, res, ctx) => res(ctx.status(400))))
+  server.use(rest.get('/api/sickleaves/filters', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasOngoingSickLeaves: true }))))
   const { user } = renderWithRouter(<CurrentSickLeaves />)
   await user.click(screen.getByText('Sök'))
   expect(screen.queryByRole('table')).not.toBeInTheDocument()
