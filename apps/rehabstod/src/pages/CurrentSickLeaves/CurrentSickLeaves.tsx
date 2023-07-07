@@ -56,6 +56,13 @@ export function CurrentSickLeaves() {
 
   const TABLE_NAME = 'pågående sjukfall'
 
+  function hasOngoingSickLeaves() {
+    if (!populatedFilters) {
+      return false
+    }
+    return !populatedFilters.hasOngoingSickLeaves
+  }
+
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
@@ -67,7 +74,7 @@ export function CurrentSickLeaves() {
         }}
         isDoctor={isDoctor}
       />
-      {populatedFilters?.nbrOfSickLeaves === 0 && <EmptyTableAlert tableName={TABLE_NAME} />}
+      {hasOngoingSickLeaves() && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <div>
