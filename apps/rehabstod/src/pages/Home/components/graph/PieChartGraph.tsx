@@ -16,10 +16,12 @@ export function PieChartGraph({
   data,
   isSmall,
   parentData,
+  height,
 }: {
   data: SummaryDataPoint[]
   parentData?: SummaryDataPoint[]
   isSmall?: boolean
+  height?: number
 }) {
   const [, setLoaded] = useState(false)
   const getLegend = (name: string) => <span className="text-neutral-20 text-sm">{name}</span>
@@ -36,7 +38,7 @@ export function PieChartGraph({
     : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id)?.fill }))
 
   return (
-    <ResponsiveContainer width={isSmall ? 150 : 500} height="91%" minHeight="150px" className={classes}>
+    <ResponsiveContainer width={isSmall ? 150 : 500} height={height || '91%'} minHeight="150px" className={classes}>
       <PieChart>
         <Tooltip content={<CustomTooltip />} wrapperStyle={{ outline: 'none' }} />
         <Pie

@@ -1,3 +1,4 @@
+import { max } from 'lodash'
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
 
@@ -20,15 +21,15 @@ export function StatisticsCard({
       <p className="mb-4">{subTitle}</p>
       <div className="grid grid-cols-4 gap-10">
         <div className="col-span-2">
-          <PieChartGraph data={parentData} />
+          <PieChartGraph data={parentData} height={parentData.length * 50 + 100} />
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Män</h4>
-          <PieChartGraph data={maleData} parentData={parentData} isSmall />
+          <PieChartGraph data={maleData} parentData={parentData} height={max(maleData.length, femaleData.length) * 40 + 150} isSmall />
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Kvinnor</h4>
-          <PieChartGraph data={femaleData} parentData={parentData} isSmall />
+          <PieChartGraph data={femaleData} parentData={parentData} height={max(maleData.length, femaleData.length) * 40 + 150} isSmall />
         </div>
       </div>
     </>
