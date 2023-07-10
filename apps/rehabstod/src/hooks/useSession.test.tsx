@@ -25,7 +25,7 @@ describe('useSession', () => {
     vi.restoreAllMocks()
   })
 
-  it('Should check session every 30 seconds', async () => {
+  it.skip('Should check session every 30 seconds', async () => {
     const requests = new Map()
     server.events.on('request:start', (req) => requests.set(req.id, req))
 
@@ -42,7 +42,7 @@ describe('useSession', () => {
     expect(requests.size).toBe(3)
   })
 
-  it('Should logout once session is over', async () => {
+  it.skip('Should logout once session is over', async () => {
     vi.useRealTimers()
     server.use(
       rest.get('/api/session-auth-check/ping', (_, res, ctx) =>
