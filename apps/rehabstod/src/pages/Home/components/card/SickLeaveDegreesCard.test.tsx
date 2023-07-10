@@ -16,12 +16,12 @@ describe('SickLeaveDegreesCard', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText('Aktuell sjukskrivningsgrad')).toBeInTheDocument()
+    expect(screen.getByText('Sjukskrivningsgrad')).toBeInTheDocument()
   })
 
   it('should show sub title', () => {
     renderComponent()
-    expect(screen.getByText('Andel sjukfall fördelat på sjukskrivningsgrad.')).toBeInTheDocument()
+    expect(screen.getByText('Sjukfall fördelat på sjukskrivningslängd')).toBeInTheDocument()
   })
 
   it('should show male sub title', () => {
