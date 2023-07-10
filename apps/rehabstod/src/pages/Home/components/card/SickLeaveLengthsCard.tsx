@@ -9,7 +9,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
     return null
   }
 
-  const getDataPoint = (length: SickLeaveLengthSummary, index: number, gender: Gender) => ({
+  const getDataPoint = (length: SickLeaveLengthSummary, index: number, gender?: Gender) => ({
     id: length.id.toString(),
     value: Math.round(length.percentage),
     name: `${length.name} (${length.count} st, ${Math.round(length.percentage)}%)`,
@@ -19,7 +19,7 @@ export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | 
     )} har en sjukskrivningslängd på ${length.name.replace('Dag', '').concat(' dagar')}.`,
   })
 
-  const generateData = (lengths: SickLeaveLengthSummary[], gender: Gender) =>
+  const generateData = (lengths: SickLeaveLengthSummary[], gender?: Gender) =>
     lengths.map((length, index) => getDataPoint(length, index, gender))
   const parentData = generateData(summary.sickLeaveLengths)
 

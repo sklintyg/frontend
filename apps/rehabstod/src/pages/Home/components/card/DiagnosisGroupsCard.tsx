@@ -10,14 +10,14 @@ export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | u
     return null
   }
 
-  const getDataPoint = (group: DiagnosGruppStat, index: number, gender: Gender) => ({
+  const getDataPoint = (group: DiagnosGruppStat, index: number, gender?: Gender) => ({
     id: group.grupp.id,
     value: Math.round(group.percentage),
     name: `${group.grupp.id.replaceAll(',', ', ')} ${group.grupp.name} (${group.count} st, ${Math.round(group.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
     tooltip: `${Math.round(group.percentage)}% (${group.count} st) av sjukfallen ${getGenderText(gender)} tillhör ${group.grupp.name}.`,
   })
-  const generateData = (data: DiagnosGruppStat[], gender: Gender) => data.map((group, index) => getDataPoint(group, index, gender))
+  const generateData = (data: DiagnosGruppStat[], gender?: Gender) => data.map((group, index) => getDataPoint(group, index, gender))
 
   const parentData = generateData(summary.groups)
 

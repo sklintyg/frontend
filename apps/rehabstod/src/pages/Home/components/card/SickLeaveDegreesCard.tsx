@@ -9,7 +9,7 @@ export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | 
     return null
   }
 
-  const getDataPoint = (degree: SickLeaveDegreeSummary, index: number, gender: Gender) => ({
+  const getDataPoint = (degree: SickLeaveDegreeSummary, index: number, gender?: Gender) => ({
     id: degree.id.toString(),
     value: Math.round(degree.percentage),
     name: `${degree.id} % sjukskrivningsgrad (${degree.count} st, ${Math.round(degree.percentage)}%)`,
@@ -19,7 +19,7 @@ export function SickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | 
     )} har en aktuell sjukskrivningsgrad på ${degree.id} %.`,
   })
 
-  const generateData = (data: SickLeaveDegreeSummary[], gender: Gender) => data.map((group, index) => getDataPoint(group, index, gender))
+  const generateData = (data: SickLeaveDegreeSummary[], gender?: Gender) => data.map((group, index) => getDataPoint(group, index, gender))
 
   return (
     <StatisticsCard
