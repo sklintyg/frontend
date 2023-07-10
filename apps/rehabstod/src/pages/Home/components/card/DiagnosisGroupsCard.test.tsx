@@ -21,7 +21,7 @@ describe('DiagnosisGroupsCard', () => {
 
   it('should show sub title', () => {
     renderComponent()
-    expect(screen.getByText('Sjukfall fördelat på diagnosgrupp.')).toBeInTheDocument()
+    expect(screen.getByText('Sjukfall fördelat på diagnosgrupp')).toBeInTheDocument()
   })
 
   it('should show male sub title', () => {
