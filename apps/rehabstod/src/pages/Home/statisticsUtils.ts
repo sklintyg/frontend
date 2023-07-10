@@ -1,6 +1,6 @@
 import { Gender } from '../../schemas/patientSchema'
 
-export const getGenderText = (gender: Gender) => {
+export const getGenderText = (gender?: Gender) => {
   if (!gender) {
     return ''
   }
