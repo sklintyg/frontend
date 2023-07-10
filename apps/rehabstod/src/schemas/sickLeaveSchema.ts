@@ -117,6 +117,7 @@ export const summaryDataPointSchema = z.object({
   fill: z.string(),
   name: z.string(),
   description: z.optional(z.string()),
+  tooltip: z.optional(z.string()),
 })
 
 export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>

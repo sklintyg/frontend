@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts'
 import classes from './PieChartGraph.css'
 import { TooltipWrapper } from '../../../../components/Tooltip/TooltipWrapper'
+import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 
 function CustomTooltip({ payload }: TooltipProps<string, string>) {
   if (payload && payload.length > 0) {
@@ -16,8 +17,8 @@ export function PieChartGraph({
   isSmall,
   parentData,
 }: {
-  data: { id: string; value: number; name: string; fill: string; tooltip: string }[]
-  parentData?: { id: string; value: number; name: string; fill: string; tooltip: string }[]
+  data: SummaryDataPoint[]
+  parentData?: SummaryDataPoint[]
   isSmall?: boolean
 }) {
   const [, setLoaded] = useState(false)
