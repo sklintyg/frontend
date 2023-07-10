@@ -8,6 +8,7 @@ import { AboutDialog } from '../dialog/AboutDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
+import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 
 export function Layout() {
   const { user, isLoading } = useSession()
@@ -17,25 +18,27 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="flex-1">
-        {config &&
-          config.banners.length > 0 &&
-          config.banners.map((banner) => (
-            <GlobalAlert key={banner.id} priority={banner.priority}>
-              {banner.message}
-            </GlobalAlert>
-          ))}
-        {user && (
-          <>
-            <SettingsDialog />
-            <AboutDialog />
-          </>
-        )}
-        {isLoading && (
-          <PageHero>
-            <IDSSpinner className="inline-flex" />
-          </PageHero>
-        )}
-        {!isLoading && <Outlet />}
+        <StickyContainerProvider>
+          {config &&
+            config.banners.length > 0 &&
+            config.banners.map((banner) => (
+              <GlobalAlert key={banner.id} priority={banner.priority}>
+                {banner.message}
+              </GlobalAlert>
+            ))}
+          {user && (
+            <>
+              <SettingsDialog />
+              <AboutDialog />
+            </>
+          )}
+          {isLoading && (
+            <PageHero>
+              <IDSSpinner className="inline-flex" />
+            </PageHero>
+          )}
+          {!isLoading && <Outlet />}
+        </StickyContainerProvider>
       </main>
       <LayoutFooter />
     </div>
