@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { PatientAccordion } from '../../../../components/PatientAccordion/PatientAccordion'
+import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { Table } from '../../../../components/Table/Table'
-import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
+import { filterHiddenColumns, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
+import { useGetAGCertificatesForPatientQuery, useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
+import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { filterHiddenColumns, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
-import { useGetAGCertificatesForPatientQuery, useGetUserQuery } from '../../../../store/api'
-import { getAGCertificatesColumnInfo } from './getAGCertificatesColumnsInfo'
 import { AGCertificatesTableBody } from './AGCertificatesTableBody'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
-import { PatientAccordion } from '../../../../components/PatientAccordion/PatientAccordion'
+import { getAGCertificatesColumnInfo } from './getAGCertificatesColumnsInfo'
 
 export function PatientAGCertificatesTable() {
   const { data: user } = useGetUserQuery()
@@ -40,8 +40,12 @@ export function PatientAGCertificatesTable() {
         {getAGCertificatesError ? (
           <PatientTableError error={getAGCertificatesError} />
         ) : (
-          <Table sortColumn={tableState.sortColumn} ascending={tableState.ascending} onSortChange={setTableState}>
-            <TableHeader columns={visibleColumns.map((column) => getAGCertificatesColumnInfo(column.name))} />
+          <Table
+            header={<TableHeader columns={visibleColumns.map((column) => getAGCertificatesColumnInfo(column.name))} />}
+            sortColumn={tableState.sortColumn}
+            ascending={tableState.ascending}
+            onSortChange={setTableState}
+          >
             {!agCertificatesInfo || agCertificatesInfo.certificates.length === 0 ? (
               <tbody>
                 <EmptyPatientTableMessage tableName="intyg till arbetsgivaren" tableLength={visibleColumns.length} user={user} />

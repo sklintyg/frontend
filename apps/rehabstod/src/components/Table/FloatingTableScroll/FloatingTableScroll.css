@@ -3,6 +3,7 @@
   min-height: 17px;
   overflow: auto;
   position: fixed;
+  z-index: 20;
 }
 
 .handy-scroll div {

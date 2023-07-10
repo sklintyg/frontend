@@ -1,11 +1,5 @@
+import { Column } from '../types/Column'
 import { TableHeaderCell } from './TableHeaderCell'
-
-export interface Column {
-  name: string
-  width?: number
-  description?: string
-  sticky?: 'left' | 'top' | 'right'
-}
 
 export function TableHeader({ columns }: { columns: Column[] }) {
   return (

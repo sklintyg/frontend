@@ -23,7 +23,7 @@ export function TableCell({
           {...props}
           className={classNames(
             'border-l-0',
-            sticky != null && `sticky z-20`,
+            sticky != null && `sticky z-10`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}
         >
