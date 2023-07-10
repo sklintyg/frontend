@@ -110,6 +110,7 @@ export const api = createApi({
         allDiagnosisChapters: DiagnosKapitel[]
         enabledDiagnosisChapters: DiagnosKapitel[]
         nbrOfSickLeaves: number
+        hasOngoingSickLeaves: boolean
         rekoStatusTypes: RekoStatusType[]
         occupationTypes: OccupationType[]
         unansweredCommunicationFilterTypes: UnansweredCommunicationFilterType[]
