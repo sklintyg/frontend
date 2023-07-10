@@ -32,22 +32,24 @@ export function PieChartGraph({
 
   const formattedData = !parentData
     ? data
-    : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id) }))
+    : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id)?.fill }))
 
   return (
-    <ResponsiveContainer width={isSmall ? 150 : 500} height={200} minHeight={200} className={classes}>
+    <ResponsiveContainer width={isSmall ? 150 : 500} height="91%" minHeight="150px" className={classes}>
       <PieChart>
         <Tooltip content={<CustomTooltip />} wrapperStyle={{ outline: 'none' }} />
         <Pie
           isAnimationActive={false}
-          cx="100"
+          cx={isSmall ? 50 : 100}
+          cy={isSmall ? 50 : ''}
           data={formattedData}
           color="#000000"
           dataKey="value"
           nameKey="name"
           outerRadius={isSmall ? 30 : 60}
           labelLine={false}
-          stroke={data.length > 1 ? 'white' : 'none'}
+          stroke={formattedData.length > 1 ? 'white' : 'none'}
+          margin={0}
         />
         <Legend
           iconType="circle"
