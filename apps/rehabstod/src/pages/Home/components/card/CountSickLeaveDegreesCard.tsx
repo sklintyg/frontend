@@ -14,9 +14,9 @@ export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSumma
     value: Math.round(degree.percentage),
     name: `${degree.name} sjukskrivningsgrad i aktuellt intyg (${degree.count} st, ${Math.round(degree.percentage)}%)`,
     fill: idsGraphColors[index % idsGraphColors.length],
-    tooltip: `${Math.round(degree.percentage)}% (${degree.count} st) av sjukfallen ${getGenderText(gender)} har ${
-      degree.name
-    } sjukskrivningsgrader i aktuellt intyg.`,
+    tooltip: `${Math.round(degree.percentage)}% (${degree.count} st) av sjukfallen ${getGenderText(gender)} har ${degree.name} ${
+      degree.name === 'En' ? 'sjukskrivningsgrad' : 'sjukskrivningsgrader'
+    } i aktuellt intyg.`,
   })
 
   const generateData = (degrees: SickLeaveDegreeSummary[], gender?: Gender) =>

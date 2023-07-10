@@ -50,7 +50,6 @@ export function PieChartGraph({
           outerRadius={isSmall ? 30 : 60}
           labelLine={false}
           stroke={formattedData.length > 1 ? 'white' : 'none'}
-          margin={0}
         />
         <Legend
           iconType="circle"
