@@ -33,7 +33,6 @@ export function LUCertificates() {
   const { data: populatedFilters } = useGetLUFiltersQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
-
   const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
@@ -79,8 +78,12 @@ export function LUCertificates() {
       unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
       emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
     >
-      <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-        <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+      <Table
+        header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
+        sortColumn={tableState.sortColumn}
+        onSortChange={setTableState}
+        ascending={tableState.ascending}
+      >
         <TableInfoMessage
           isLoading={isContentLoading}
           tableLength={visibleColumns.length}

@@ -50,8 +50,12 @@ export function PatientLUCertificatesTable() {
       {getLuCertificatesError ? (
         <PatientTableError error={getLuCertificatesError} />
       ) : (
-        <Table sortColumn={tableState.sortColumn} onSortChange={setTableState} ascending={tableState.ascending}>
-          <TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />
+        <Table
+          header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
+          sortColumn={tableState.sortColumn}
+          onSortChange={setTableState}
+          ascending={tableState.ascending}
+        >
           {!luCertificatesInfo || luCertificatesInfo.certificates.length === 0 ? (
             <tbody>
               <EmptyPatientTableMessage tableName="läkarutlåtanden" tableLength={visibleColumns.length} user={user} />
