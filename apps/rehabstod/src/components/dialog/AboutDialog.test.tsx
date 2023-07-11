@@ -1,6 +1,7 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { screen } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import { rest } from 'msw'
+import { expect } from 'vitest'
 import { server } from '../../mocks/server'
 import { configSchema } from '../../schemas'
 import { srsFeatureSchema } from '../../schemas/userSchema'
@@ -39,4 +40,12 @@ it('Should display the current version', async () => {
   server.use(rest.get('/api/config', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(configSchema)({ version })))))
   renderWithRouter(<AboutDialog />)
   expect(await screen.findByText(`Nuvarande version är ${version}`, { exact: false })).toBeInTheDocument()
+})
+
+it('Should close dialog if user clicks button', async () => {
+  const { user } = renderWithRouter(<AboutDialog />)
+  await act(async () => user.click(screen.getByText('Stäng')))
+  expect(
+    screen.queryByText('Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.')
+  ).not.toBeInTheDocument()
 })
