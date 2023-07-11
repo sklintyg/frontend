@@ -61,7 +61,7 @@ export function PatientSickLeaves() {
         </PatientSickLeavesTable>
       )}
       {earlierSickLeaves.length > 0 && (
-        <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" />
+        <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" open={false} />
       )}
     </PageContainer>
   )
