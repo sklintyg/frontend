@@ -47,7 +47,7 @@ export function ModifyTableColumns({
   return (
     <SelectMultiple
       label="Anpassa tabeller"
-      description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare. Borttagna kolumner går inte att filtrera."
+      description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >
       <SelectMultipleList>
