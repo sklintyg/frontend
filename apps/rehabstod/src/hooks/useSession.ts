@@ -4,11 +4,11 @@ import { useLogout } from './useLogout'
 
 export function useSession() {
   const { logout } = useLogout()
-  const { data: user } = useGetUserQuery()
   const [giveConsent, { isUninitialized }] = useGiveConsentMutation()
-  const { data: session } = useGetSessionPingQuery(undefined, {
+  const { data: session, isLoading: isLoadingSession } = useGetSessionPingQuery(undefined, {
     pollingInterval: 30e3,
   })
+  const { data: user, isLoading: isLoadingUser } = useGetUserQuery()
 
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
@@ -18,4 +18,6 @@ export function useSession() {
       logout()
     }
   }, [user, session, logout, giveConsent, isUninitialized])
+
+  return { user, session, isLoading: isLoadingSession || isLoadingUser }
 }
