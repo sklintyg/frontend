@@ -11,6 +11,7 @@ import { resetLUUnitTableColumns } from './store/slices/luUnitTableColumns.slice
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
+import { resetSettingsState } from './store/slices/settings.slice'
 
 Object.assign(global, global, {
   open: vi.fn(),
@@ -54,6 +55,7 @@ afterEach(() => {
   store.dispatch(resetSickLeaveTableColumns())
   store.dispatch(resetLUUnitTableColumns())
   store.dispatch(resetLUTableColumns())
+  store.dispatch(resetSettingsState())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.
