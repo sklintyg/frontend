@@ -1,5 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
+import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
 import { Config } from '../schemas/configSchema'
 import { DiagnosKapitel } from '../schemas/diagnosisSchema'
 import { ErrorData } from '../schemas/errorSchema'
@@ -16,7 +17,6 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
-import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -282,6 +282,11 @@ export const api = createApi({
   }),
 })
 
+export function useGetUserQuery() {
+  const { data: session } = api.useGetSessionPingQuery()
+  return api.useGetUserQuery(session?.authenticated && session?.hasSession ? undefined : skipToken)
+}
+
 export const {
   useAddVardenhetMutation,
   useAddVardgivareMutation,
@@ -299,7 +304,6 @@ export const {
   useGetSickLeavesFiltersQuery,
   useGetSickLeavesSummaryQuery,
   useGetTestDataOptionsQuery,
-  useGetUserQuery,
   useGiveConsentMutation,
   useGiveSjfConsentMutation,
   useLazyGetLUCertificatesQuery,
