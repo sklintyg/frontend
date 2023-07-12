@@ -5,22 +5,11 @@ import { fakeError } from '../../../utils/fake/fakeError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { LayoutHeader } from './LayoutHeader'
 
-describe('Without user session', () => {
-  beforeEach(() => {
-    server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403), ctx.json(fakeError()))))
-  })
-
-  it('Should display login button', async () => {
-    renderWithRouter(<LayoutHeader />)
-
-    expect(await screen.findByText('Logga in')).toBeInTheDocument()
-  })
-})
-
 describe('With user session', () => {
   it('Should have "about rehabstod" button', async () => {
     renderWithRouter(<LayoutHeader />)
 
+    expect(screen.getByText('Rehabstöd')).toBeInTheDocument()
     expect(await screen.findByText('Om Rehabstöd')).toBeInTheDocument()
   })
 
@@ -33,5 +22,17 @@ describe('With user session', () => {
     user.click(screen.getByText('Logga ut'))
 
     expect(await pendingRequest).toBeTruthy()
+  })
+})
+
+describe('Without user session', () => {
+  beforeEach(() => {
+    server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403), ctx.json(fakeError()))))
+  })
+
+  it('Should display login button', async () => {
+    renderWithRouter(<LayoutHeader />)
+
+    expect(await screen.findByText('Logga in')).toBeInTheDocument()
   })
 })
