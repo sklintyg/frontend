@@ -55,7 +55,7 @@ export function AboutDialog() {
           {links?.rattsjukskrivning && <DynamicLink link={links.rattsjukskrivning} />}
         </div>
       )}
-      <div className="ids-body flex justify-center">
+      <div className="ids-body mt-2 flex justify-center">
         <IDSButton onClick={() => dispatch(updateShowAboutDialog(false))}>Stäng</IDSButton>
       </div>
     </Dialog>
