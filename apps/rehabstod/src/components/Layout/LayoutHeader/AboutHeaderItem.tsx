@@ -10,6 +10,8 @@ export function AboutHeaderItem() {
       <IDSHeaderItem
         type="inera-admin"
         mobile
+        onClick={() => dispatch(updateShowAboutDialog(true))}
+        data-testid="ICON"
         onKeyDown={({ code }) => {
           if (['Enter', 'Space'].includes(code)) {
             dispatch(updateShowAboutDialog(true))
@@ -17,7 +19,7 @@ export function AboutHeaderItem() {
         }}
         tabIndex={0}
       >
-        <IDSIconQuestion onClick={() => dispatch(updateShowAboutDialog(true))} data-testid="ICON" />
+        <IDSIconQuestion />
       </IDSHeaderItem>
       <p>Om Rehabstöd</p>
     </>
