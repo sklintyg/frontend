@@ -6,20 +6,20 @@ import { updateShowAboutDialog } from '../../../store/slices/settings.slice'
 export function AboutHeaderItem() {
   const dispatch = useAppDispatch()
   return (
-    <IDSHeaderItem type="inera-admin" mobile>
-      <IDSIconQuestion />
-      <a
-        tabIndex={0}
-        onClick={() => dispatch(updateShowAboutDialog(true))}
+    <>
+      <IDSHeaderItem
+        type="inera-admin"
+        mobile
         onKeyDown={({ code }) => {
           if (['Enter', 'Space'].includes(code)) {
             dispatch(updateShowAboutDialog(true))
           }
         }}
-        role="button"
+        tabIndex={0}
       >
-        Om Rehabstöd
-      </a>
-    </IDSHeaderItem>
+        <IDSIconQuestion onClick={() => dispatch(updateShowAboutDialog(true))} data-testid="ICON" />
+      </IDSHeaderItem>
+      <p>Om Rehabstöd</p>
+    </>
   )
 }
