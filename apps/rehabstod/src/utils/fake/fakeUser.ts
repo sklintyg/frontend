@@ -12,4 +12,5 @@ export const fakeUser = fakerFromSchemaFactory(userSchema, {
   valdVardgivare: fakeVardgivare(),
   valdVardenhet: fakeVardenhet(),
   vardgivare: Array.from({ length: faker.datatype.number({ min: 1, max: 3 }) }, fakeVardgivare),
+  features: fakeUserFeature(),
 })
