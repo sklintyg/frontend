@@ -13,6 +13,6 @@ it('Should update about dialog state when pressed', async () => {
       <AboutHeaderItem />
     </IDSHeader>
   )
-  await userEvent.click(screen.getByRole('button'))
+  await userEvent.click(screen.getByTestId('ICON'))
   expect(store.getState().settings.showAboutDialog).toBe(true)
 })
