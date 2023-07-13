@@ -19,5 +19,6 @@ it('Should display error when request for fetching sickleave fails', async () =>
 it('Should display alert when request for fetching filter options has no ongoing sick leaves', async () => {
   server.use(rest.get('/api/sickleaves/filters', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasOngoingSickLeaves: false }))))
   renderWithRouter(<CurrentSickLeaves />)
+  expect(screen.getByText('pågående sjukfall', { exact: false })).toBeInTheDocument()
   expect(await screen.findByRole('alert')).toBeInTheDocument()
 })

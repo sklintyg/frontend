@@ -1,6 +1,6 @@
 import { SrsAnswer, fakeSrsAnswerOption, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -38,7 +38,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [fakeSrsAnswerOption(), fakeSrsAnswerOption()]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       expect(screen.getAllByRole('radio')).toHaveLength(2)
     })
 
@@ -46,7 +46,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [fakeSrsAnswerOption(), fakeSrsAnswerOption()]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       expect(screen.getByText(answerOptions[0].text)).toBeInTheDocument()
       expect(screen.getByText(answerOptions[1].text)).toBeInTheDocument()
     })
@@ -82,7 +82,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [defaultOption, notDefault]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).toBeChecked()
@@ -92,7 +92,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
       userEvent.click(radioButtons[1])
       expect(radioButtons[0]).not.toBeChecked()
@@ -103,7 +103,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
@@ -118,7 +118,7 @@ describe('SrsRiskForm', () => {
       predictions.modelVersion = '2.1'
       testStore.dispatch(updateSrsPredictions([predictions]))
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
@@ -128,7 +128,7 @@ describe('SrsRiskForm', () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
-      act(() => testStore.dispatch(updateSrsQuestions([question])))
+      testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
 
       userEvent.click(radioButtons[1])
