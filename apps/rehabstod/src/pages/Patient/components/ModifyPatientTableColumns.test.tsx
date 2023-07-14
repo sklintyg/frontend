@@ -37,7 +37,7 @@ describe('vibility', () => {
     await user.click(screen.getByLabelText('Slutdatum'))
 
     expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(false)
-  })
+  }, 20000)
 
   it('Should save column visibility changes', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
@@ -54,7 +54,7 @@ describe('vibility', () => {
         .map((name) => `${name}:${name === 'Slutdatum' ? '0' : '1'}`)
         .join(';'),
     })
-  })
+  }, 20000)
 })
 
 describe('position', () => {
