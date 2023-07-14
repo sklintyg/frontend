@@ -3,7 +3,6 @@ import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,
   getIsEditable,
@@ -14,6 +13,7 @@ import {
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -72,11 +72,11 @@ const UeCareUnitAddress: React.FC = () => {
   const cityValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_CITY_FIELD)
   const phoneNumberValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_PHONE_NUMBER_FIELD)
 
-  const dispatchEditDraft = useRef(
-    _.debounce((state: Unit) => {
-      dispatch(updateCertificateUnit(state))
-    }, 1000)
-  ).current
+  function dispatchUpdateCertificateUnit(unit: Unit) {
+    dispatch(updateCertificateUnit(unit))
+  }
+
+  const dispatchEditDraft = useRef(_.debounce(dispatchUpdateCertificateUnit, 1000)).current
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target
