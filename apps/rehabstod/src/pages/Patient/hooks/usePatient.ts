@@ -6,9 +6,10 @@ export function usePatientState() {
   const [tabs, setTabs] = useState<Window[]>([])
   const openTabs = tabs.filter((window) => !window.closed)
   const hasOpenTabs = openTabs.length > 0
+  const FROM_RS = '?fromRs=true'
 
   const navigateToWebcert = (id: string) => {
-    const tab = window.open((config?.webcertLaunchUrlTemplate ?? '').replace('{id}', id), '_blank')
+    const tab = window.open((`${config?.webcertLaunchUrlTemplate}${FROM_RS}` ?? '').replace('{id}', id), '_blank')
     if (tab) {
       setTabs([...tabs, tab])
     }
