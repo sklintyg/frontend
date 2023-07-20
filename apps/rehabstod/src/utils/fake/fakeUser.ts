@@ -11,6 +11,6 @@ export const fakeUser = fakerFromSchemaFactory(userSchema, {
   authenticationScheme: 'urn:inera:rehabstod:siths:fake',
   valdVardgivare: fakeVardgivare(),
   valdVardenhet: fakeVardenhet(),
-  vardgivare: Array.from({ length: faker.datatype.number({ min: 1, max: 3 }) }, fakeVardgivare),
+  vardgivare: Array.from({ length: faker.datatype.number({ min: 1, max: 1 }) }, fakeVardgivare),
   features: fakeUserFeature(),
 })

@@ -5,7 +5,7 @@ import { fakeVardenhet } from './fakeVardenhet'
 export const fakeVardgivare = fakerFromSchemaFactory(
   vardgivareSchema,
   {
-    vardenheter: Array.from({ length: faker.datatype.number({ min: 1, max: 3 }) }, fakeVardenhet),
+    vardenheter: Array.from({ length: faker.datatype.number({ min: 1, max: 1 }) }, fakeVardenhet),
   },
   {
     stringMap: {
