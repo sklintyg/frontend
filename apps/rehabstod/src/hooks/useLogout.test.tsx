@@ -15,7 +15,7 @@ function TestComponent() {
         path="/"
         element={
           <button type="button" onClick={logout}>
-            Logout
+            Logout{' '}
           </button>
         }
       />
@@ -50,7 +50,7 @@ describe('useLogout', () => {
     expect(screen.getByText('Welcome')).toBeInTheDocument()
   })
 
-  it.skip('Should open siths logout URL for regular user', async () => {
+  it('Should open siths logout URL for regular user', async () => {
     server.use(rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'other' })))))
     server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))
 
