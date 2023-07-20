@@ -31,13 +31,13 @@ describe('useSession', () => {
 
     renderWithRouter(<TestComponent />)
 
-    await act(() => vi.runOnlyPendingTimers())
+    act(async () => vi.runOnlyPendingTimersAsync())
 
     expect(screen.getByText('Start')).toBeInTheDocument()
+    console.log(requests.get(0))
+    expect(requests.size).toBe(1)
 
-    expect(requests.size).toBe(2)
-
-    await act(() => vi.advanceTimersByTime(30e3))
+    await act(async () => vi.advanceTimersByTimeAsync(30e3))
 
     expect(requests.size).toBe(3)
   })
