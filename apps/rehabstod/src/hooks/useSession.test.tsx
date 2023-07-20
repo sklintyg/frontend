@@ -31,15 +31,15 @@ describe('useSession', () => {
 
     renderWithRouter(<TestComponent />)
 
-    await act(async () => vi.runOnlyPendingTimersAsync())
+    await act(() => vi.runOnlyPendingTimers())
 
     expect(screen.getByText('Start')).toBeInTheDocument()
 
+    expect(requests.size).toBe(2)
+
+    await act(() => vi.advanceTimersByTime(30e3))
+
     expect(requests.size).toBe(3)
-
-    await act(async () => vi.advanceTimersByTimeAsync(30e3))
-
-    expect(requests.size).toBe(4)
   })
 
   it('Should logout once session is over', async () => {
