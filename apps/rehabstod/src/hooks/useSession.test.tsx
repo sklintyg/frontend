@@ -53,7 +53,7 @@ describe('useSession', () => {
         res(
           ctx.status(200),
           ctx.json({
-            hasSession: false,
+            hasSession: true,
             secondsUntilExpire: 0,
             authenticated: false,
           })

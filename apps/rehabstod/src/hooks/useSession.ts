@@ -14,7 +14,7 @@ export function useSession() {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
       giveConsent({ pdlConsentGiven: true })
     }
-    if (session && !session.authenticated) {
+    if (user && session && !session.authenticated) {
       logout()
     }
   }, [user, session, logout, giveConsent, isUninitialized])
