@@ -1,7 +1,7 @@
 import { act, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, vi } from 'vitest'
 import { server } from '../mocks/server'
 import { renderWithRouter } from '../utils/renderWithRouter'
 import { useSession } from './useSession'
@@ -25,8 +25,9 @@ describe('useSession', () => {
     vi.restoreAllMocks()
   })
 
-  it.skip('Should check session every 30 seconds', async () => {
+  it('Should check session every 30 seconds', async () => {
     const requests = new Map()
+    const sessionPingRequest = []
     server.events.on('request:start', (req) => requests.set(req.id, req))
 
     renderWithRouter(<TestComponent />)
@@ -35,14 +36,17 @@ describe('useSession', () => {
 
     expect(screen.getByText('Start')).toBeInTheDocument()
 
-    expect(requests.size).toBe(2)
-
     await act(async () => vi.advanceTimersByTimeAsync(30e3))
-
-    expect(requests.size).toBe(3)
+    requests.forEach((request) => {
+      const { pathname } = request.url
+      if (pathname === '/api/session-auth-check/ping') {
+        sessionPingRequest.push(request)
+      }
+    })
+    expect(sessionPingRequest.length).toBe(2)
   })
 
-  it.skip('Should logout once session is over', async () => {
+  it('Should logout once session is over', async () => {
     vi.useRealTimers()
     server.use(
       rest.get('/api/session-auth-check/ping', (_, res, ctx) =>
