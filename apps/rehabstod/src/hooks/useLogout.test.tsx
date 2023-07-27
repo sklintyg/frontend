@@ -63,6 +63,18 @@ describe('useLogout', () => {
   })
 
   it('Should open siths logout URL for regular user', async () => {
+    server.use(
+      rest.get('/api/session-auth-check/ping', (_, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json({
+            hasSession: true,
+            secondsUntilExpire: 0,
+            authenticated: false,
+          })
+        )
+      )
+    )
     server.use(rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'other' })))))
     server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))
 
