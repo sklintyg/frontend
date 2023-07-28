@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
 import { useLogout } from './useLogout'
-import { useAppDispatch } from '../store/hooks'
 
 export function useSession() {
   const { logout } = useLogout()
@@ -10,7 +9,7 @@ export function useSession() {
     pollingInterval: 30e3,
   })
   const { data: user, isLoading: isLoadingUser } = useGetUserQuery()
-  const dispatch = useAppDispatch()
+
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
       giveConsent({ pdlConsentGiven: true })
