@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
 import { Table } from '../../components/Table/Table'
@@ -11,7 +11,6 @@ import { filterHiddenColumns, filterTableColumns } from '../../components/Table/
 import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
 import { useGetLUFiltersQuery, useGetUserQuery, useLazyGetLUCertificatesQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
-import { reset } from '../../store/slices/luCertificates.slice'
 import { allLUUnitTableColumns } from '../../store/slices/luUnitTableColumns.selector'
 import { LUCertificatesColumn } from '../../store/slices/luUnitTableColumns.slice'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
@@ -45,13 +44,6 @@ export function LUCertificates() {
   const visibleColumns = filterHiddenColumns(filteredColumns)
 
   const TABLE_NAME = 'läkarutlåtanden'
-
-  useEffect(
-    () => () => {
-      dispatch(reset())
-    },
-    [dispatch]
-  )
 
   useNavigateToStartPage()
 
