@@ -1,6 +1,5 @@
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
-import { getGraphHeight } from '../../statisticsUtils'
 
 export function StatisticsCard({
   parentData,
@@ -18,28 +17,18 @@ export function StatisticsCard({
   return (
     <>
       <h3 className="ids-heading-4">{title}</h3>
-      <p className="mb-4">{subTitle}</p>
+      <p className="mb-4 max-w-xl">{subTitle}</p>
       <div className="grid grid-cols-4 gap-10">
         <div className="col-span-2">
           <PieChartGraph data={parentData} height={parentData.length * 50 + 100} />
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Män</h4>
-          <PieChartGraph
-            data={maleData}
-            parentData={parentData}
-            height={getGraphHeight(maleData.length > femaleData.length ? maleData : femaleData)}
-            isSmall
-          />
+          <PieChartGraph data={maleData} parentData={parentData} isSmall />
         </div>
         <div className="pb-10">
           <h4 className="font-bold">Kvinnor</h4>
-          <PieChartGraph
-            data={femaleData}
-            parentData={parentData}
-            height={getGraphHeight(maleData.length > femaleData.length ? maleData : femaleData)}
-            isSmall
-          />
+          <PieChartGraph data={femaleData} parentData={parentData} isSmall />
         </div>
       </div>
     </>
