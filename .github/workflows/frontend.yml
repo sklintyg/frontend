@@ -5,7 +5,7 @@ name: Frontend CI
 
 on:
   pull_request:
-    branches: [master, 'project/**']
+    branches: [main, 'project/**']
 
 jobs:
   build:
