@@ -26,7 +26,7 @@ import { vi } from 'vitest'
 const renderComponent = (minimizedView?: boolean) => {
   render(
     <Provider store={store}>
-      <SrsPanel minimizedView={minimizedView} />
+      <SrsPanel minimizedView={minimizedView} isPanelActive />
     </Provider>
   )
 }
