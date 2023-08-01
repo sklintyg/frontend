@@ -56,7 +56,7 @@ export function PieChartGraph({
         <Legend
           iconType="circle"
           iconSize={11}
-          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces' }}
+          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces', top: 100 }}
           layout="vertical"
           verticalAlign={isSmall ? 'bottom' : 'middle'}
           align={isSmall ? 'center' : 'right'}
