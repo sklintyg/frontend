@@ -39,11 +39,11 @@ export function SettingsDialog() {
   }
 
   useEffect(() => {
-    if (!showSettingsDialog && !hasSaved) {
+    if (!showSettingsDialog && !hasSaved && user) {
       dispatch(updateSettingsPreferences(user.preferences))
     }
     setHasSaved(false)
-  }, [showSettingsDialog, dispatch, hasSaved, user.preferences])
+  }, [showSettingsDialog, dispatch, hasSaved, user])
 
   useEffect(() => {
     if (user) {
