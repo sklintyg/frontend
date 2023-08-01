@@ -1,5 +1,5 @@
 import { IDSButton, IDSDialogActions } from '@frontend/ids-react-ts'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
@@ -15,6 +15,7 @@ export function SettingsDialog() {
   const { preferences, showSettingsDialog } = useAppSelector((state) => state.settings)
   const { data: user } = useGetUserQuery()
   const { updateUserPreferences } = useUpdateUserPreferences()
+  const [hasSaved, setHasSaved] = useState(false)
 
   const isMaxAntalDagarMellanIntygValid = z.coerce
     .number()
@@ -33,8 +34,16 @@ export function SettingsDialog() {
     if (preferences) {
       updateUserPreferences(preferences)
       dispatch(updateShowSettingsDialog(false))
+      setHasSaved(true)
     }
   }
+
+  useEffect(() => {
+    if (!showSettingsDialog && !hasSaved) {
+      dispatch(updateSettingsPreferences(user.preferences))
+    }
+    setHasSaved(false)
+  }, [showSettingsDialog, dispatch])
 
   useEffect(() => {
     if (user) {
