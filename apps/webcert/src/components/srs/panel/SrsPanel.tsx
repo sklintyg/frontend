@@ -6,6 +6,7 @@ import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getCertificateId,
+  getDiagnosisCode,
   getDiagnosisCodes,
   getDiagnosisListValue,
   getHasError,
@@ -43,6 +44,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const diagnosisCodes = useSelector(getDiagnosisCodes)
   const hasError = useSelector(getHasError)
   const isLoading = useSelector(getLoading)
+  const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
   const [hasLogged, setHasLogged] = useState(false)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
@@ -67,11 +69,11 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   }, [isEmpty, diagnosisCodes, dispatch, isPanelActive])
 
   useEffect(() => {
-    if (isPanelActive && supportedDiagnosisCode && mainDiagnosis) {
+    if (isPanelActive && supportedDiagnosisCode && mainDiagnosis && mainDiagnosis.code !== diagnosisCodeForPredictions) {
       dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosis.code, certificateId: certificateId }))
       dispatch(getQuestions(mainDiagnosis.code))
     }
-  }, [supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis, isPanelActive])
+  }, [diagnosisCodeForPredictions, supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis, isPanelActive])
 
   const updateInformationChoice = (choice: SrsInformationChoice) => {
     setInformationChoice(choice)
