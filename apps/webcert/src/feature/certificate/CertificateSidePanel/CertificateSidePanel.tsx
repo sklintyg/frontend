@@ -3,7 +3,7 @@ import _ from 'lodash'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
+import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
@@ -14,6 +14,7 @@ const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const questions = useSelector(getQuestions, _.isEqual)
+  const certificate = useSelector(getCertificate, _.isEqual)
   const resourceLinksForTabs = [
     ResourceLinkType.SRS_FULL_VIEW,
     ResourceLinkType.SRS_MINIMIZED_VIEW,
@@ -29,20 +30,22 @@ const CertificateSidePanel: React.FC = () => {
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const [hasUpdatedTab, setHasUpdatedTab] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false)
   const [isSRSPanelActive, setIsSRSPanelActive] = useState(false)
 
   useEffect(() => {
-    if (questions.length > 0 && !hasUpdatedTab) {
+    if (certificate && questions.length > 0 && !hasUpdatedTab) {
       setSelectedTabIndex(1)
       setHasUpdatedTab(true)
     }
-  }, [questions, hasUpdatedTab])
+    setHasLoaded(true)
+  }, [certificate, showSpinner, questions, hasUpdatedTab])
 
   useEffect(() => {
-    if (hasUpdatedTab) {
+    if (hasLoaded) {
       setIsSRSPanelActive(selectedTabIndex === 0)
     }
-  }, [hasUpdatedTab, selectedTabIndex])
+  }, [hasLoaded, selectedTabIndex])
 
   if (showSpinner) return null
 
