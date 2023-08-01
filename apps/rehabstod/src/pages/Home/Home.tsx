@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
@@ -7,7 +7,7 @@ import { useGetUserQuery } from '../../store/api'
 import { OverviewStatistics } from './components/OverviewStatistics'
 
 export function Home() {
-  const { isLoading, data: user } = useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const navigate = useNavigate()
   const sithsUrl = '/saml/login/alias/siths-rs2'
 
@@ -17,16 +17,6 @@ export function Home() {
     }
   }, [user, navigate])
 
-  if (isLoading) {
-    return (
-      <PageHero>
-        <p className="ids-preamble">
-          <IDSSpinner className="inline-block" />
-        </p>
-      </PageHero>
-    )
-  }
-
   return user ? (
     <IDSContainer>
       <ProtectedRoute requireUnit>
@@ -34,7 +24,7 @@ export function Home() {
       </ProtectedRoute>
     </IDSContainer>
   ) : (
-    <PageHero>
+    <PageHero type="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
       <p className="ids-preamble">
         Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Är du

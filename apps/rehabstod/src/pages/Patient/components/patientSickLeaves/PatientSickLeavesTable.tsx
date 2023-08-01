@@ -12,11 +12,13 @@ export function PatientSickLeavesTable({
   children,
   isDoctor,
   title,
+  open = true,
 }: {
   sickLeaves: PatientSjukfall[]
   children?: ReactNode
   isDoctor: boolean
   title: string
+  open?: boolean
 }) {
   const columns = usePatientSickLeavesTableColumns()
 
@@ -24,7 +26,7 @@ export function PatientSickLeavesTable({
     <>
       <h2 className="ids-heading-3">{title}</h2>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
-        <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar}>
+        <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar} open={open}>
           <Table header={<TableHeader columns={columns} />} sortColumn={PatientColumn.Num}>
             <PatientTableBody certificates={intyg} isDoctor={isDoctor} />
           </Table>

@@ -6,9 +6,11 @@ export function PatientDiagnosisAccordion({
   diagnos,
   dagar,
   children,
-}: Pick<PatientSjukfall, 'diagnos' | 'dagar'> & { children: ReactNode }) {
+  open = true,
+}: Pick<PatientSjukfall, 'diagnos' | 'dagar'> & { open?: boolean; children: ReactNode }) {
   return (
     <PatientAccordion
+      open={open}
       title={`${diagnos ? diagnos.kod : 'Okänd diagnos'} ${diagnos ? diagnos.beskrivning : ''} - sjukfallets längd ${dagar} dagar`}
     >
       {children}

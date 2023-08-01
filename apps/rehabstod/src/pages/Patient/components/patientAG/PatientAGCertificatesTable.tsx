@@ -36,7 +36,10 @@ export function PatientAGCertificatesTable() {
   return (
     <>
       <h2 className="ids-heading-3">Intyg till arbetsgivaren</h2>
-      <PatientAccordion title="Intyg till arbetsgivaren för patienten - räknas inte in i patientens uppskattade dag i sjukfallet.">
+      <PatientAccordion
+        title="Intyg till arbetsgivaren för patienten - räknas inte in i patientens uppskattade dag i sjukfallet."
+        open={false}
+      >
         {getAGCertificatesError ? (
           <PatientTableError error={getAGCertificatesError} />
         ) : (

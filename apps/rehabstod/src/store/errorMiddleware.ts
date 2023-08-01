@@ -11,15 +11,33 @@ export const errorMiddleware: Middleware =
   ({ dispatch }: MiddlewareAPI<ThunkDispatch<unknown, unknown, AnyAction>>) =>
   (next) =>
   (action) => {
+    function getMessage() {
+      if (action.payload.data && action.payload.data.message) {
+        return action.payload.data.message
+      }
+      if (action.error && action.error.message) {
+        return action.error.message
+      }
+      return 'NO_MESSAGE'
+    }
+
+    function getLogMessage(message: string, method: string, url: string) {
+      return `${message}' method '${method}' url '${url}'`
+    }
+
+    function getErrorCode() {
+      return action.payload.data?.status ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR
+    }
+
     if (isRejectedWithValue(action) && !api.endpoints.logError.matchRejected(action)) {
       const { method, url } = action.meta.baseQueryMeta.request
-      const message = action.payload.message ?? action.payload.data?.message ?? 'No message'
-      const errorCode = action.payload.data?.status ?? undefined
+      const message = getMessage()
+      const errorCode = getErrorCode()
       const errorData: ErrorData = {
         errorId: uuidv4(),
-        message: `${message}' method '${method}' url '${url}`,
-        errorCode: errorCode ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
-        stackTrace: null,
+        message: getLogMessage(message, method, url),
+        errorCode,
+        stackTrace: 'NO_STACK_TRACE',
       }
 
       // Log to server

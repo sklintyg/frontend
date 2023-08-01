@@ -20,6 +20,9 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
+    resetSettingsState() {
+      return initialState
+    },
     resetSettingsPreferences(state) {
       state.preferences = initialState.preferences
     },
@@ -39,6 +42,7 @@ const settingsSlice = createSlice({
 })
 
 export const {
+  resetSettingsState,
   resetSettingsPreferences,
   updateShowSettingsDialog,
   updateSettingsPreferences,

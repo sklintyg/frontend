@@ -39,7 +39,7 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
     const dropdown = document.getElementById(`icfScrollContainer-${parentId}`)
 
     if (dropdown) {
-      dropdown.scrollIntoView({ behavior: 'auto', inline: 'nearest', block: 'nearest' })
+      dropdown.scrollIntoView({ behavior: 'auto', inline: 'nearest', block: 'center' })
     }
   }
 

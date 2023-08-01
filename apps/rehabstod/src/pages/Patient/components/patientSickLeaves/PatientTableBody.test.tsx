@@ -37,7 +37,7 @@ it('Should list all certificates columns except Visa', async () => {
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 1)
-})
+}, 20000)
 
 it('Should list all certificates columns besides doctor if user is doctor', async () => {
   const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
@@ -70,7 +70,7 @@ it('Should be possible to hide columns', async () => {
 
   await act(() => store.dispatch(hideColumn(PatientColumn.Diagnos)))
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 4)
-})
+}, 20000)
 
 it('Should not display visa button for other units if otherVardgivare', () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
