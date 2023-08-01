@@ -94,4 +94,5 @@ export enum SrsUserClientContext {
   SRS_FRL = 'SRS_FRL',
   SRS_SIGNED = 'SRS_SIGNED',
   SRS_UTK = 'SRS_UTK',
+  SRS_REH = 'SRS_REH',
 }

@@ -91,6 +91,8 @@ export const updateHasUpdatedAnswers = createAction<boolean>(`${SRS} Update has 
 
 export const updateUserClientContext = createAction<SrsUserClientContext>(`${SRS} Update user client context`)
 
+export const updateIsPanelActive = createAction<boolean>(`${SRS} Update is panel active`)
+
 export interface RecommendationsRequest {
   patientId: string
   code: string

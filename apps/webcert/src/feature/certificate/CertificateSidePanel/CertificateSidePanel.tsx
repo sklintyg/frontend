@@ -29,6 +29,7 @@ const CertificateSidePanel: React.FC = () => {
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const [hasUpdatedTab, setHasUpdatedTab] = useState(false)
+  const [isSRSPanelActive, setIsSRSPanelActive] = useState(false)
 
   useEffect(() => {
     if (questions.length > 0 && !hasUpdatedTab) {
@@ -37,7 +38,23 @@ const CertificateSidePanel: React.FC = () => {
     }
   }, [questions, hasUpdatedTab])
 
+  useEffect(() => {
+    if (hasUpdatedTab) {
+      setIsSRSPanelActive(selectedTabIndex === 0)
+    }
+  }, [hasUpdatedTab, selectedTabIndex])
+
   if (showSpinner) return null
+
+  const handleTabChange = (value: number): void => {
+    setSelectedTabIndex(value)
+    if (
+      availableTabs[value] &&
+      (availableTabs[value].type === ResourceLinkType.SRS_FULL_VIEW || availableTabs[value].type === ResourceLinkType.SRS_MINIMIZED_VIEW)
+    ) {
+      setIsSRSPanelActive(true)
+    }
+  }
 
   const getTab = (name: string, description: string, icon?: ReactNode) => {
     return (
@@ -65,16 +82,16 @@ const CertificateSidePanel: React.FC = () => {
       case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
         return <QuestionNotAvailablePanel />
       case ResourceLinkType.SRS_FULL_VIEW:
-        return <SrsPanel />
+        return <SrsPanel isPanelActive={isSRSPanelActive} />
       case ResourceLinkType.SRS_MINIMIZED_VIEW:
-        return <SrsPanel minimizedView />
+        return <SrsPanel minimizedView isPanelActive={isSRSPanelActive} />
     }
   }
 
   return (
     <Tabs
       selectedTabIndex={selectedTabIndex}
-      setSelectedTabIndex={setSelectedTabIndex}
+      setSelectedTabIndex={handleTabChange}
       tabs={[
         ...availableTabs.map(({ type, name, description }) => getTab(name, description, getIcon(type))),
         getTab('Om intyget', 'Läs om intyget'),
