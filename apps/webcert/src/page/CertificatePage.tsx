@@ -1,7 +1,7 @@
 import { ResourceLinkType } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -18,6 +18,7 @@ import {
   getCertificateMetaData,
   getIsCertificateDeleted,
   getIsRoutedFromDeletedCertificate,
+  getIsShowSpinner,
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
 import { getUserStatistics } from '../store/user/userActions'
@@ -44,7 +45,6 @@ interface Params {
 const CertificatePage: React.FC = () => {
   const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
-  const history = useHistory()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const links = useSelector(getResourceLinks)
@@ -52,13 +52,14 @@ const CertificatePage: React.FC = () => {
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const metadata = useSelector(getCertificateMetaData)
   const patient = metadata?.patient
+  const isLoadingCertificate = useSelector(getIsShowSpinner)
 
   useEffect(() => {
-    if (certificateId) {
+    if (certificateId && !isLoadingCertificate && certificateId !== metadata?.id) {
       dispatch(getCertificate(certificateId))
       dispatch(getUserStatistics())
     }
-  }, [dispatch, certificateId])
+  }, [dispatch, certificateId, isLoadingCertificate, metadata])
 
   useEffect(() => {
     if (error) {

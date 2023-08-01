@@ -8,12 +8,13 @@ import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
-import { getQuestions } from '../../../store/question/questionSelectors'
+import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const questions = useSelector(getQuestions, _.isEqual)
+  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
   const certificate = useSelector(getCertificate, _.isEqual)
   const resourceLinksForTabs = [
     ResourceLinkType.SRS_FULL_VIEW,
@@ -34,12 +35,14 @@ const CertificateSidePanel: React.FC = () => {
   const [isSRSPanelActive, setIsSRSPanelActive] = useState(false)
 
   useEffect(() => {
-    if (certificate && questions.length > 0 && !hasUpdatedTab) {
-      setSelectedTabIndex(1)
-      setHasUpdatedTab(true)
+    if (certificate && !showSpinner && !isLoadingQuestions) {
+      if (questions.length > 0 && !hasUpdatedTab) {
+        setSelectedTabIndex(1)
+        setHasUpdatedTab(true)
+      }
+      setHasLoaded(true)
     }
-    setHasLoaded(true)
-  }, [certificate, showSpinner, questions, hasUpdatedTab])
+  }, [certificate, showSpinner, questions, hasUpdatedTab, isLoadingQuestions])
 
   useEffect(() => {
     if (hasLoaded) {
