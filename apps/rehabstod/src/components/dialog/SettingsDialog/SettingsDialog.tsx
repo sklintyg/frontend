@@ -43,7 +43,7 @@ export function SettingsDialog() {
       dispatch(updateSettingsPreferences(user.preferences))
     }
     setHasSaved(false)
-  }, [showSettingsDialog, dispatch])
+  }, [showSettingsDialog, dispatch, hasSaved, user.preferences])
 
   useEffect(() => {
     if (user) {
