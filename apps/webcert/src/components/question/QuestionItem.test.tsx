@@ -1,6 +1,6 @@
 import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash'
@@ -189,12 +189,12 @@ describe('QuestionItem', () => {
       clearDispatchedActions()
     })
 
-    it.skip('writes a message', () => {
+    it.skip('writes a message', async () => {
       vi.useFakeTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
+      await act(() => userEvent.type(messageField, newMessage))
 
       vi.advanceTimersByTime(10000)
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
@@ -215,20 +215,20 @@ describe('QuestionItem', () => {
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 
-    it('hides message that answer has been saved if the user starts edit', () => {
+    it('hides message that answer has been saved if the user starts edit', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, 'Nu ändrar jag mitt svar')
+      await act(() => userEvent.type(messageField, 'Nu ändrar jag mitt svar'))
 
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
 
-    it('shall delete answer when delete is confirmed', () => {
+    it('shall delete answer when delete is confirmed', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      userEvent.click(screen.getByText('Avbryt'))
-      userEvent.click(screen.getByText('Ja, radera'))
+      await act(() => userEvent.click(screen.getByText('Avbryt')))
+      await act(() => userEvent.click(screen.getByText('Ja, radera')))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -240,38 +240,35 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall not delete answer when delete is cancelled', () => {
+    it('shall not delete answer when delete is cancelled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      userEvent.click(screen.getByText('Avbryt'))
-      userEvent.click(screen.getAllByText('Avbryt')[1])
+      await act(() => userEvent.click(screen.getByText('Avbryt')))
+      await act(() => userEvent.click(screen.getAllByText('Avbryt')[1]))
 
       expect(dispatchedActions).toHaveLength(0)
     })
 
-    it('disable send and cancel while sending answer draft', () => {
+    it('disable send and cancel while sending answer draft', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
       const cancelButton = screen.getByText('Avbryt')
 
-      userEvent.click(sendButton)
+      await act(() => userEvent.click(sendButton))
 
       expect(sendButton).toBeDisabled()
       expect(cancelButton).toBeDisabled()
     })
 
-    it('disable send and cancel while deleting answer draft', () => {
+    it('disable send and cancel while deleting answer draft', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      const sendButton = screen.getByText('Skicka')
-      const cancelButton = screen.getByText('Avbryt')
+      await act(() => userEvent.click(screen.getByText('Avbryt')))
+      await act(() => userEvent.click(screen.getByText('Ja, radera')))
 
-      userEvent.click(cancelButton)
-      userEvent.click(screen.getByText('Ja, radera'))
-
-      expect(sendButton).toBeDisabled()
-      expect(cancelButton).toBeDisabled()
+      expect(screen.getByText('Skicka')).toBeDisabled()
+      expect(screen.getByText('Avbryt')).toBeDisabled()
     })
   })
 
@@ -331,10 +328,10 @@ describe('QuestionItem', () => {
       expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
     })
 
-    it('shall set as handled if checkbox selected', () => {
+    it('shall set as handled if checkbox selected', async () => {
       renderComponent(createQuestion())
 
-      userEvent.click(screen.getByText('Hanterad'))
+      await act(() => userEvent.click(screen.getByText('Hanterad')))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -346,12 +343,12 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall set as unhandled if checkbox deselected', () => {
+    it('shall set as unhandled if checkbox deselected', async () => {
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
 
-      userEvent.click(screen.getByText('Hanterad'))
+      await act(() => userEvent.click(screen.getByText('Hanterad')))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -363,7 +360,7 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall set as handled when handle is confirmed', () => {
+    it('shall set as handled when handle is confirmed', async () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -375,8 +372,8 @@ describe('QuestionItem', () => {
         ])
       )
 
-      userEvent.click(screen.getByText('Hanterad'))
-      userEvent.click(screen.getAllByText('Markera som hanterad')[1])
+      await act(() => userEvent.click(screen.getByText('Hanterad')))
+      await act(() => userEvent.click(screen.getAllByText('Markera som hanterad')[1]))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -388,7 +385,7 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall not set as handled when handle is cancelled', () => {
+    it('shall not set as handled when handle is cancelled', async () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -400,8 +397,8 @@ describe('QuestionItem', () => {
         ])
       )
 
-      userEvent.click(screen.getByText('Hanterad'))
-      userEvent.click(screen.getByText('Avbryt'))
+      await act(() => userEvent.click(screen.getByText('Hanterad')))
+      await act(() => userEvent.click(screen.getByText('Avbryt')))
 
       expect(dispatchedActions).toHaveLength(0)
     })
@@ -459,8 +456,8 @@ describe('QuestionItem', () => {
       expect(screen.getByText(/questionText/i)).toBeInTheDocument()
     })
 
-    it('goto question if complement clicked', () => {
-      userEvent.click(screen.getByText(/questionText/i))
+    it('goto question if complement clicked', async () => {
+      await act(() => userEvent.click(screen.getByText(/questionText/i)))
 
       const updateComplementsAction = dispatchedActions.find((action) => gotoComplement.match(action))
       expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
