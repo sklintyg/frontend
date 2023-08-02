@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils'
 
 const handlePageChange = vi.fn()
 const handlePageTupleChange = vi.fn()
-let container
+let container: Element | DocumentFragment
 
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
   act(() => {
@@ -33,7 +33,6 @@ describe('Pagination', () => {
 
   afterEach(() => {
     document.body.removeChild(container)
-    container = null
   })
 
   it('should not render pagination pages and buttons if only one page', () => {

@@ -13,7 +13,7 @@ const suggestions: Suggestion[] = [
   { label: 'String', disabled: true, title: null },
 ]
 
-let container: Node
+let container: Element | DocumentFragment
 
 const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
   act(() => {
