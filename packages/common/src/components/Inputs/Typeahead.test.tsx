@@ -13,7 +13,7 @@ const suggestions: Suggestion[] = [
   { label: 'String', disabled: true, title: null },
 ]
 
-let container: Element
+let container: Node
 
 const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
   act(() => {
@@ -30,6 +30,7 @@ describe('Typeahead component', () => {
 
   afterEach(() => {
     document.body.removeChild(container)
+    container = null
   })
 
   it('Should render without crashing', () => {
