@@ -1,6 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import ExpandableTableRow from './ExpandableTableRow'
 
 const renderComponent = () => {
@@ -27,9 +26,9 @@ describe('Expandable table row', () => {
     expect(screen.getByText('Click here')).toBeInTheDocument()
   })
 
-  it('should expand rows when click on arrow', () => {
+  it('should expand rows when click on arrow', async () => {
     renderComponent()
-    userEvent.click(screen.getByTestId('arrowToggle'))
+    await act(() => userEvent.click(screen.getByTestId('arrowToggle')))
     expect(screen.getByText('Expanded child 1')).toBeInTheDocument()
   })
 

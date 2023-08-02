@@ -1,6 +1,5 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { vi } from 'vitest'
 import DatePickerCustom from './DatePickerCustom'
 
@@ -16,9 +15,7 @@ describe('DatePickerCustom', () => {
       />
     )
 
-    await act(async () => {
-      userEvent.click(screen.getByAltText('Kalender'))
-    })
+    await act(() => userEvent.click(screen.getByAltText('Kalender')))
 
     expect(screen.getAllByLabelText(/Not available .* 1974/)).toHaveLength(29)
   })
