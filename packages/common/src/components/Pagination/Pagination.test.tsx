@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils'
 
 const handlePageChange = vi.fn()
 const handlePageTupleChange = vi.fn()
-let container: Node
+let container
 
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
   act(() => {
