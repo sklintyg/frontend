@@ -1,27 +1,41 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import ReactDOM from 'react-dom/client'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
+import { act } from 'react-dom/test-utils'
 
 const handlePageChange = vi.fn()
 const handlePageTupleChange = vi.fn()
+let container
 
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
-  render(
-    <Pagination
-      page={page}
-      pageTuple={pageTuple}
-      handlePageChange={handlePageChange}
-      handlePageTupleChange={handlePageTupleChange}
-      pageSize={pageSize}
-      totalCount={totalCount}
-      pagesPerTuple={10}
-    />
-  )
+  act(() => {
+    ReactDOM.createRoot(container).render(
+      <Pagination
+        page={page}
+        pageTuple={pageTuple}
+        handlePageChange={handlePageChange}
+        handlePageTupleChange={handlePageTupleChange}
+        pageSize={pageSize}
+        totalCount={totalCount}
+        pagesPerTuple={10}
+      />
+    )
+  })
 }
 
 describe('Pagination', () => {
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+    container = null
+  })
+
   it('should not render pagination pages and buttons if only one page', () => {
     renderComponent(1, 1, 10, 9)
     expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
@@ -52,15 +66,15 @@ describe('Pagination', () => {
       expect(screen.getByText('Nästa')).toBeDisabled()
     })
 
-    it('should run page change function with page and start from when clicking on next', () => {
+    it('should run page change function with page and start from when clicking on next', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('Nästa'))
+      await act(() => userEvent.click(screen.getByText('Nästa')))
       expect(handlePageChange).toHaveBeenCalledWith(2, 10)
     })
 
-    it('should run page change function with page and start from when clicking on previous', () => {
+    it('should run page change function with page and start from when clicking on previous', async () => {
       renderComponent(2, 2, 10, 110)
-      userEvent.click(screen.getByText('Föregående'))
+      await act(() => userEvent.click(screen.getByText('Föregående')))
       expect(handlePageChange).toHaveBeenCalledWith(1, 0)
     })
   })
@@ -86,15 +100,15 @@ describe('Pagination', () => {
       expect(screen.getByText('Visa mer')).toBeDisabled()
     })
 
-    it('should run page tuple change function with page tuple + 1 when clicking on next', () => {
+    it('should run page tuple change function with page tuple + 1 when clicking on next', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('Visa mer'))
+      await act(() => userEvent.click(screen.getByText('Visa mer')))
       expect(handlePageTupleChange).toHaveBeenCalledWith(2)
     })
 
-    it('should run page tuple change function with page tuple - 1 when clicking on next', () => {
+    it('should run page tuple change function with page tuple - 1 when clicking on next', async () => {
       renderComponent(1, 2, 10, 110)
-      userEvent.click(screen.getByText('Visa färre'))
+      await act(() => userEvent.click(screen.getByText('Visa färre')))
       expect(handlePageTupleChange).toHaveBeenCalledWith(1)
     })
   })
@@ -120,9 +134,9 @@ describe('Pagination', () => {
       expect(screen.queryByText((22).toString())).not.toBeInTheDocument()
     })
 
-    it('should run function with updated page and start from when page is clicked', () => {
+    it('should run function with updated page and start from when page is clicked', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('5'))
+      await act(() => userEvent.click(screen.getByText('5')))
       expect(handlePageChange).toHaveBeenCalledWith(5, 40)
     })
   })

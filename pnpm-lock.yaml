@@ -233,7 +233,7 @@ importers:
         version: link:../../packages/filtrex
       '@reduxjs/toolkit':
         specifier: 1.7.2
-        version: 1.7.2(react-redux@7.2.9)(react@17.0.2)
+        version: 1.7.2(react-redux@7.2.9)(react@18.2.0)
       axios:
         specifier: ^0.21.2
         version: 0.21.2
@@ -242,13 +242,13 @@ importers:
         version: 2.3.2
       connected-react-router:
         specifier: ^6.9.3
-        version: 6.9.3(history@4.9.0)(react-redux@7.2.9)(react-router@5.2.0)(react@17.0.2)(redux@4.2.1)
+        version: 6.9.3(history@4.9.0)(react-redux@7.2.9)(react-router@5.2.0)(react@18.2.0)(redux@4.2.1)
       date-fns:
         specifier: ^2.16.1
         version: 2.29.3
       focus-trap-react:
         specifier: ^10.1.0
-        version: 10.1.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
+        version: 10.1.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       history:
         specifier: ^4.9.0
         version: 4.9.0
@@ -259,41 +259,41 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react:
-        specifier: ^17.0.2
-        version: 17.0.2
+        specifier: ^18.2.0
+        version: 18.2.0
       react-datepicker:
         specifier: ^4.10.0
-        version: 4.10.0(react-dom@17.0.2)(react@17.0.2)
+        version: 4.10.0(react-dom@18.2.0)(react@18.2.0)
       react-dom:
-        specifier: ^17.0.2
-        version: 17.0.2(react@17.0.2)
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
       react-error-boundary:
         specifier: ^3.1.4
-        version: 3.1.4(react@17.0.2)
+        version: 3.1.4(react@18.2.0)
       react-redux:
         specifier: ^7.2.9
-        version: 7.2.9(react-dom@17.0.2)(react@17.0.2)
+        version: 7.2.9(react-dom@18.2.0)(react@18.2.0)
       react-router:
         specifier: 5.2.0
-        version: 5.2.0(react@17.0.2)
+        version: 5.2.0(react@18.2.0)
       react-router-dom:
         specifier: 5.2.0
-        version: 5.2.0(react-router@5.2.0)(react@17.0.2)
+        version: 5.2.0(react-router@5.2.0)(react@18.2.0)
       react-scroll:
         specifier: ^1.8.9
-        version: 1.8.9(react-dom@17.0.2)(react@17.0.2)
+        version: 1.8.9(react-dom@18.2.0)(react@18.2.0)
       react-tooltip:
         specifier: ^4.2.21
-        version: 4.2.21(react-dom@17.0.2)(react@17.0.2)
+        version: 4.2.21(react-dom@18.2.0)(react@18.2.0)
       recharts:
         specifier: ^2.4.3
-        version: 2.5.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
+        version: 2.5.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       redux:
         specifier: ^4.2.1
         version: 4.2.1
       styled-components:
         specifier: ^5.3.11
-        version: 5.3.11(react-dom@17.0.2)(react-is@18.2.0)(react@17.0.2)
+        version: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       type-fest:
         specifier: ^1.4.0
         version: 1.4.0
@@ -303,7 +303,7 @@ importers:
         version: 5.16.5
       '@testing-library/react':
         specifier: ^14.0.0
-        version: 14.0.0(react-dom@17.0.2)(react@17.0.2)
+        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
@@ -321,7 +321,7 @@ importers:
         version: 17.0.39
       '@types/react-datepicker':
         specifier: ^4.3.2
-        version: 4.3.2(react-dom@17.0.2)(react@17.0.2)
+        version: 4.3.2(react-dom@18.2.0)(react@18.2.0)
       '@types/react-dom':
         specifier: ^17.0.11
         version: 17.0.11
@@ -423,13 +423,13 @@ importers:
         version: 2.3.6
       focus-trap-react:
         specifier: ^10.1.0
-        version: 10.1.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
+        version: 10.1.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       react-tooltip:
         specifier: ^4.2.21
-        version: 4.2.21(react-dom@17.0.2)(react@17.0.2)
+        version: 4.2.21(react-dom@18.2.0)(react@18.2.0)
       type-fest:
         specifier: ^1.4.0
         version: 1.4.0
@@ -439,7 +439,7 @@ importers:
         version: 5.16.5
       '@testing-library/react':
         specifier: ^14.0.0
-        version: 14.0.0(react-dom@17.0.2)(react@17.0.2)
+        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.0)
@@ -460,13 +460,13 @@ importers:
         version: 17.0.39
       '@types/react-datepicker':
         specifier: ^4.3.2
-        version: 4.3.2(react-dom@17.0.2)(react@17.0.2)
+        version: 4.3.2(react-dom@18.2.0)(react@18.2.0)
       '@types/react-dom':
         specifier: ^17.0.11
         version: 17.0.11
       '@types/react-tooltip':
         specifier: ^4.2.4
-        version: 4.2.4(react-dom@17.0.2)(react@17.0.2)
+        version: 4.2.4(react-dom@18.2.0)(react@18.2.0)
       '@types/styled-components':
         specifier: ^5.1.26
         version: 5.1.26
@@ -492,17 +492,17 @@ importers:
         specifier: 5.5.3
         version: 5.5.3
       react:
-        specifier: ^17.0.2
-        version: 17.0.2
+        specifier: ^18.2.0
+        version: 18.2.0
       react-datepicker:
         specifier: ^4.10.0
-        version: 4.10.0(react-dom@17.0.2)(react@17.0.2)
+        version: 4.10.0(react-dom@18.2.0)(react@18.2.0)
       react-dom:
-        specifier: ^17.0.2
-        version: 17.0.2(react@17.0.2)
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
       styled-components:
         specifier: ^5.3.11
-        version: 5.3.11(react-dom@17.0.2)(react-is@18.2.0)(react@17.0.2)
+        version: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       vitest:
         specifier: ^0.29.2
         version: 0.29.7(jsdom@21.1.1)
@@ -2916,7 +2916,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@reduxjs/toolkit@1.7.2(react-redux@7.2.9)(react@17.0.2):
+  /@reduxjs/toolkit@1.7.2(react-redux@7.2.9)(react@18.2.0):
     resolution: {integrity: sha512-wwr3//Ar8ZhM9bS58O+HCIaMlR4Y6SNHfuszz9hKnQuFIKvwaL3Kmjo6fpDKUOjo4Lv54Yi299ed8rofCJ/Vjw==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || 18.0.0-beta
@@ -2928,8 +2928,8 @@ packages:
         optional: true
     dependencies:
       immer: 9.0.21
-      react: 17.0.2
-      react-redux: 7.2.9(react-dom@17.0.2)(react@17.0.2)
+      react: 18.2.0
+      react-redux: 7.2.9(react-dom@18.2.0)(react@18.2.0)
       redux: 4.2.1
       redux-thunk: 2.4.2(redux@4.2.1)
       reselect: 4.1.8
@@ -3060,20 +3060,6 @@ packages:
       dom-accessibility-api: 0.5.16
       lodash: 4.17.21
       redent: 3.0.0
-    dev: true
-
-  /@testing-library/react@14.0.0(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-S04gSNJbYE30TlIMLTzv6QCTzt9AqIF5y6s6SzVFILNcNvbV/jU96GeiTPillGQo+Ny64M/5PV7klNYYgv5Dfg==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
-    dependencies:
-      '@babel/runtime': 7.22.5
-      '@testing-library/dom': 9.3.0
-      '@types/react-dom': 18.0.10
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
     dev: true
 
   /@testing-library/react@14.0.0(react-dom@18.2.0)(react@18.2.0):
@@ -3258,13 +3244,13 @@ packages:
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
-  /@types/react-datepicker@4.3.2(react-dom@17.0.2)(react@17.0.2):
+  /@types/react-datepicker@4.3.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-vj8sN+tdQPF13bH4CU8DdTuT0Z4h6+3IG14lGCSDlIw1QvTe3svr2Yqp7KbDlcRpbdcnhya3e91SnCVk+kH/RQ==}
     dependencies:
       '@popperjs/core': 2.11.8
       '@types/react': 18.0.27
       date-fns: 2.29.3
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2)
+      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -3310,11 +3296,11 @@ packages:
       '@types/react': 18.0.27
     dev: true
 
-  /@types/react-tooltip@4.2.4(react-dom@17.0.2)(react@17.0.2):
+  /@types/react-tooltip@4.2.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-UzjzmgY/VH3Str6DcAGTLMA1mVVhGOyARNTANExrirtp+JgxhaIOVDxq4TIRmpSi4voLv+w4HA9CC5GvhhCA0A==}
     deprecated: This is a stub types definition. react-tooltip provides its own type definitions, so you do not need this installed.
     dependencies:
-      react-tooltip: 4.2.21(react-dom@17.0.2)(react@17.0.2)
+      react-tooltip: 4.2.21(react-dom@18.2.0)(react@18.2.0)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -4011,7 +3997,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.11(react-dom@17.0.2)(react-is@18.2.0)(react@17.0.2)
+      styled-components: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
 
   /babel-plugin-syntax-jsx@6.18.0:
     resolution: {integrity: sha512-qrPaCSo9c8RHNRHIotaufGbuOBN8rtdC4QrrFFc43vyWCCz7Kl7GL1PGaXtMGQZUXrkCjNEgxDfmAuAabr/rlw==}
@@ -4439,7 +4425,7 @@ packages:
     resolution: {integrity: sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==}
     dev: false
 
-  /connected-react-router@6.9.3(history@4.9.0)(react-redux@7.2.9)(react-router@5.2.0)(react@17.0.2)(redux@4.2.1):
+  /connected-react-router@6.9.3(history@4.9.0)(react-redux@7.2.9)(react-router@5.2.0)(react@18.2.0)(redux@4.2.1):
     resolution: {integrity: sha512-4ThxysOiv/R2Dc4Cke1eJwjKwH1Y51VDwlOrOfs1LjpdYOVvCNjNkZDayo7+sx42EeGJPQUNchWkjAIJdXGIOQ==}
     peerDependencies:
       history: ^4.7.2
@@ -4451,9 +4437,9 @@ packages:
       history: 4.9.0
       lodash.isequalwith: 4.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-redux: 7.2.9(react-dom@17.0.2)(react@17.0.2)
-      react-router: 5.2.0(react@17.0.2)
+      react: 18.2.0
+      react-redux: 7.2.9(react-dom@18.2.0)(react@18.2.0)
+      react-router: 5.2.0(react@18.2.0)
       redux: 4.2.1
     optionalDependencies:
       immutable: 4.3.0
@@ -5762,7 +5748,7 @@ packages:
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
 
-  /focus-trap-react@10.1.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
+  /focus-trap-react@10.1.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-mAUw9lrcZbMz/KZZdU55TuwHp5991hES7z7WKokopzIsRC5cTmbMUXRIhN7ZNPW4Mt7ULAH+gVjm0v4e2kN4/Q==}
     peerDependencies:
       prop-types: ^15.8.1
@@ -5771,8 +5757,8 @@ packages:
     dependencies:
       focus-trap: 7.4.3
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       tabbable: 6.1.2
     dev: false
 
@@ -7133,7 +7119,7 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /mini-create-react-context@0.4.1(prop-types@15.8.1)(react@17.0.2):
+  /mini-create-react-context@0.4.1(prop-types@15.8.1)(react@18.2.0):
     resolution: {integrity: sha512-YWCYEmd5CQeHGSAKrYvXgmzzkrvssZcuuQDDeqkT+PziKGMgE+0MCCtcKbROzocGBG1meBLl2FotlRwf4gAzbQ==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
@@ -7142,7 +7128,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.5
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.2.0
       tiny-warning: 1.0.3
     dev: false
 
@@ -7988,7 +7974,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-datepicker@4.10.0(react-dom@17.0.2)(react@17.0.2):
+  /react-datepicker@4.10.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-6IfBCZyWj54ZZGLmEZJ9c4Yph0s9MVfEGDC2evOvf9AmVz+RRcfP2Czqad88Ff9wREbcbqa4dk7IFYeXF1d3Ag==}
     peerDependencies:
       react: ^16.9.0 || ^17 || ^18
@@ -7998,20 +7984,10 @@ packages:
       classnames: 2.3.2
       date-fns: 2.29.3
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-onclickoutside: 6.13.0(react-dom@17.0.2)(react@17.0.2)
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2)
-
-  /react-dom@17.0.2(react@17.0.2):
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
-    peerDependencies:
-      react: 17.0.2
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react: 17.0.2
-      scheduler: 0.20.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-onclickoutside: 6.13.0(react-dom@18.2.0)(react@18.2.0)
+      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0)
 
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
@@ -8022,14 +7998,14 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
-  /react-error-boundary@3.1.4(react@17.0.2):
+  /react-error-boundary@3.1.4(react@18.2.0):
     resolution: {integrity: sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==}
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       react: '>=16.13.1'
     dependencies:
       '@babel/runtime': 7.22.5
-      react: 17.0.2
+      react: 18.2.0
     dev: false
 
   /react-fast-compare@3.2.2:
@@ -8052,16 +8028,16 @@ packages:
     resolution: {integrity: sha512-V5BGTwGa2r+/t0A/BZMS6L7VPXY0CU8xtAhkT3XUoI1WJJhhtvulvoiZkJ5Jt9YAW23m4xFWmhQ+C5HwjtTFhQ==}
     dev: false
 
-  /react-onclickoutside@6.13.0(react-dom@17.0.2)(react@17.0.2):
+  /react-onclickoutside@6.13.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-ty8So6tcUpIb+ZE+1HAhbLROvAIJYyJe/1vRrrcmW+jLsaM+/powDRqxzo6hSh9CuRZGSL1Q8mvcF5WRD93a0A==}
     peerDependencies:
       react: ^15.5.x || ^16.x || ^17.x || ^18.x
       react-dom: ^15.5.x || ^16.x || ^17.x || ^18.x
     dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
-  /react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@17.0.2)(react@17.0.2):
+  /react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
       '@popperjs/core': ^2.0.0
@@ -8069,12 +8045,12 @@ packages:
       react-dom: ^16.8.0 || ^17 || ^18
     dependencies:
       '@popperjs/core': 2.11.8
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       react-fast-compare: 3.2.2
       warning: 4.0.3
 
-  /react-redux@7.2.9(react-dom@17.0.2)(react@17.0.2):
+  /react-redux@7.2.9(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==}
     peerDependencies:
       react: ^16.8.3 || ^17 || ^18
@@ -8091,8 +8067,8 @@ packages:
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       react-is: 17.0.2
     dev: false
 
@@ -8135,17 +8111,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-resize-detector@8.1.0(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-S7szxlaIuiy5UqLhLL1KY3aoyGHbZzsTpYal9eYMwCyKqoqoVLCmIgAgNyIM1FhnP2KyBygASJxdhejrzjMb+w==}
-    peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      lodash: 4.17.21
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-    dev: false
-
   /react-resize-detector@8.1.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-S7szxlaIuiy5UqLhLL1KY3aoyGHbZzsTpYal9eYMwCyKqoqoVLCmIgAgNyIM1FhnP2KyBygASJxdhejrzjMb+w==}
     peerDependencies:
@@ -8157,7 +8122,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-router-dom@5.2.0(react-router@5.2.0)(react@17.0.2):
+  /react-router-dom@5.2.0(react-router@5.2.0)(react@18.2.0):
     resolution: {integrity: sha512-gxAmfylo2QUjcwxI63RhQ5G85Qqt4voZpUXSEqCwykV0baaOTQDR1f0PmY8AELqIyVc0NEZUj0Gov5lNGcXgsA==}
     peerDependencies:
       react: '>=15'
@@ -8167,8 +8132,8 @@ packages:
       history: 4.9.0
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-router: 5.2.0(react@17.0.2)
+      react: 18.2.0
+      react-router: 5.2.0(react@18.2.0)
       tiny-invariant: 1.3.1
       tiny-warning: 1.0.3
     dev: false
@@ -8186,7 +8151,7 @@ packages:
       react-router: 6.11.1(react@18.2.0)
     dev: false
 
-  /react-router@5.2.0(react@17.0.2):
+  /react-router@5.2.0(react@18.2.0):
     resolution: {integrity: sha512-smz1DUuFHRKdcJC0jobGo8cVbhO3x50tCL4icacOlcwDOEQPq4TMqwx3sY1TP+DvtTgz4nm3thuo7A+BK2U0Dw==}
     peerDependencies:
       react: '>=15'
@@ -8195,10 +8160,10 @@ packages:
       history: 4.9.0
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
-      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@17.0.2)
+      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@18.2.0)
       path-to-regexp: 1.8.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.2.0
       react-is: 16.13.1
       tiny-invariant: 1.3.1
       tiny-warning: 1.0.3
@@ -8214,7 +8179,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-scroll@1.8.9(react-dom@17.0.2)(react@17.0.2):
+  /react-scroll@1.8.9(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-9m7ztraiX/l6L7erzYAD3fhnveNckei6/NkWfqwN2e0FRdoE2W6Pk4oi2Nah7mWpPCPAeIgegfaqZACTimPOwg==}
     peerDependencies:
       react: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0
@@ -8222,22 +8187,8 @@ packages:
     dependencies:
       lodash.throttle: 4.1.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-    dev: false
-
-  /react-smooth@2.0.3(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-yl4y3XiMorss7ayF5QnBiSprig0+qFHui8uh7Hgg46QX5O+aRMRKlfGGNGLHno35JkQSvSYY8eCWkBfHfrSHfg==}
-    peerDependencies:
-      prop-types: ^15.6.0
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      fast-equals: 5.0.1
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-transition-group: 2.9.0(react-dom@17.0.2)(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-smooth@2.0.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
@@ -8284,7 +8235,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-tooltip@4.2.21(react-dom@17.0.2)(react@17.0.2):
+  /react-tooltip@4.2.21(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==}
     engines: {npm: '>=6.13'}
     peerDependencies:
@@ -8292,23 +8243,9 @@ packages:
       react-dom: '>=16.0.0'
     dependencies:
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       uuid: 7.0.3
-
-  /react-transition-group@2.9.0(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==}
-    peerDependencies:
-      react: '>=15.0.0'
-      react-dom: '>=15.0.0'
-    dependencies:
-      dom-helpers: 3.4.0
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-lifecycles-compat: 3.0.4
-    dev: false
 
   /react-transition-group@2.9.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==}
@@ -8323,13 +8260,6 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-lifecycles-compat: 3.0.4
     dev: false
-
-  /react@17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -8378,28 +8308,6 @@ packages:
     resolution: {integrity: sha512-kivNFO+0OcUNu7jQquLXAxz1FIwZj8nrj+YkOKc5694NbjCvcT6aSZiIzNzd2Kul4o4rTto8QVR9lMNtxD4G1w==}
     dependencies:
       decimal.js-light: 2.5.1
-    dev: false
-
-  /recharts@2.5.0(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-0EQYz3iA18r1Uq8VqGZ4dABW52AKBnio37kJgnztIqprELJXpOEsa0SzkqU1vjAhpCXCv52Dx1hiL9119xsqsQ==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      prop-types: ^15.6.0
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      classnames: 2.3.2
-      eventemitter3: 4.0.7
-      lodash: 4.17.21
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-is: 16.13.1
-      react-resize-detector: 8.1.0(react-dom@17.0.2)(react@17.0.2)
-      react-smooth: 2.0.3(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
-      recharts-scale: 0.4.5
-      reduce-css-calc: 2.1.8
-      victory-vendor: 36.6.10
     dev: false
 
   /recharts@2.5.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
@@ -8661,12 +8569,6 @@ packages:
     dependencies:
       xmlchars: 2.2.0
     dev: true
-
-  /scheduler@0.20.2:
-    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
 
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -8998,7 +8900,7 @@ packages:
       acorn: 8.8.2
     dev: true
 
-  /styled-components@5.3.11(react-dom@17.0.2)(react-is@18.2.0)(react@17.0.2):
+  /styled-components@5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -9014,8 +8916,8 @@ packages:
       babel-plugin-styled-components: 2.1.3(styled-components@5.3.11)
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       react-is: 18.2.0
       shallowequal: 1.1.0
       supports-color: 5.5.0
