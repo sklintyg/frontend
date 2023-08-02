@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
 import { act } from 'react-dom/test-utils'
