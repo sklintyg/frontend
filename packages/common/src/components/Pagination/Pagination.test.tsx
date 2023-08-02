@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
 import { act } from 'react-dom/test-utils'
 
 const handlePageChange = vi.fn()
 const handlePageTupleChange = vi.fn()
-let container
+let container: Element
 
 const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 200) => {
   act(() => {
