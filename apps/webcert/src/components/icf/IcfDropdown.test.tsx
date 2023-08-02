@@ -246,7 +246,7 @@ describe.skip('IcfDropdown', () => {
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
 
-    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
+    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test')
 
     userEvent.tab({ focusTrap: container })
     expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
