@@ -305,6 +305,7 @@ const handleGetListConfigSuccess =
       dispatch(updateDefaultListFilterValues(action.payload))
       dispatch(clearListError())
       dispatch(updateIsLoadingListConfig(false))
+      dispatch(performListSearch)
     }
   }
 
