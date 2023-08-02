@@ -30,7 +30,6 @@ describe('Typeahead component', () => {
 
   afterEach(() => {
     document.body.removeChild(container)
-    container = null
   })
 
   it('Should render without crashing', () => {
