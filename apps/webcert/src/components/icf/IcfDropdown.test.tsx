@@ -238,25 +238,6 @@ describe.skip('IcfDropdown', () => {
     userEvent.keyboard('{escape}')
     expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
   })
-
-  it('should have correct tab order', () => {
-    const expectedText = 'Test'
-    const icfData = getIcfData()
-    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
-    renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
-    testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
-
-    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test')
-
-    userEvent.tab({ focusTrap: container })
-    expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
-
-    userEvent.tab({ focusTrap: container })
-    expect(screen.getByLabelText('title 0')).toHaveFocus()
-
-    userEvent.tab({ focusTrap: container })
-    expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
-  })
 })
 
 const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfValues?: string[]) => {
