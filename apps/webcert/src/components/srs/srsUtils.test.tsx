@@ -351,8 +351,7 @@ describe('SRS Utils', () => {
         status: CertificateStatus.SIGNED,
       }
       const metadata: CertificateMetadata = fakeCertificateMetaData({
-        relations: { parent: parent },
-        children: [],
+        relations: { parent: parent, children: [] },
       })
 
       expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)
