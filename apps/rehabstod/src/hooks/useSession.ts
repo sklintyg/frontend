@@ -17,14 +17,14 @@ export function useSession() {
       giveConsent({ pdlConsentGiven: true })
     }
     if (session) {
-      if (session.authenticated) {
+      if (session.authenticated && !isPollingActive) {
         setIsPollingActive(true)
-      } else {
+      } else if (!session.authenticated) {
         setIsPollingActive(false)
         logout()
       }
     }
-  }, [user, session, logout, giveConsent, isUninitialized])
+  }, [user, session, logout, giveConsent, isUninitialized, isPollingActive])
 
   return { user, session, isLoading: isLoadingSession || isLoadingUser }
 }
