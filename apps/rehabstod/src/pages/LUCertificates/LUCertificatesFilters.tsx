@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { TableFilter } from '../../components/Table/TableFilter'
 import { DateRangeFilter } from '../../components/Table/filter/DateRangeFilter'
@@ -9,11 +8,10 @@ import { RangeFilter } from '../../components/Table/filter/RangeFilter'
 import { SelectFilter } from '../../components/Table/filter/SelectFilter'
 import { TextSearchFilter } from '../../components/Table/filter/TextSearchFilter'
 import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
-import { DiagnosKapitel } from '../../schemas/diagnosisSchema'
 import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 import { useGetLUFiltersQuery, useGetUserQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
-import { resetFilters, updateFilter } from '../../store/slices/luCertificates.slice'
+import { resetLUFilters, updateFilter } from '../../store/slices/luCertificates.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 
 export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
@@ -21,13 +19,10 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
 
   const { data: populatedFilters } = useGetLUFiltersQuery()
   const { data: user } = useGetUserQuery()
-
-  const [selectedDiagnosisChapters, setSelectedDiagnosisChapters] = useState<DiagnosKapitel[]>([])
   const dispatch = useDispatch()
 
   const onReset = () => {
-    dispatch(resetFilters())
-    setSelectedDiagnosisChapters([])
+    dispatch(resetLUFilters())
   }
 
   if (!user) {
@@ -39,11 +34,14 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
       <DiagnosisFilter
         onChange={(diagnosisChapters) => {
           dispatch(updateFilter({ diagnoses: diagnosisChapters.map((diagnosisChapter) => diagnosisChapter.id) }))
-          setSelectedDiagnosisChapters(diagnosisChapters)
         }}
         allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
         enabledDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
-        selected={selectedDiagnosisChapters}
+        selected={
+          (populatedFilters &&
+            populatedFilters.allDiagnosisChapters.filter((diagnosis) => filter.diagnoses.some((id) => diagnosis.id === id))) ||
+          []
+        }
         description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
       />
       {!isUserDoctor(user) && (

@@ -43,7 +43,7 @@ const luCertificatesSlice = createSlice({
     reset() {
       return initialState
     },
-    resetFilters(state) {
+    resetLUFilters(state) {
       state.filter = initialState.filter
     },
     updateFilter(state, { payload }: PayloadAction<Partial<LUCertificatesFilter>>) {
@@ -53,5 +53,5 @@ const luCertificatesSlice = createSlice({
   },
 })
 
-export const { reset, resetFilters, updateFilter } = luCertificatesSlice.actions
+export const { reset, resetLUFilters, updateFilter } = luCertificatesSlice.actions
 export const { name: luCertificatesReducerPath, reducer: luCertificatesReducer } = luCertificatesSlice
