@@ -22,11 +22,18 @@ export function FormattedNumberInput({
     val != null && !Number.isNaN(val) ? Math.max(minLimit, Math.min(val, maxLimit)) : Number(defaultValue)
 
   function maxConsecutiveZeroes(event: React.KeyboardEvent<HTMLInputElement>) {
-    return event.currentTarget.value === '0' && event.key !== 'Backspace' && selection?.type !== 'Range'
+    return event.currentTarget.value === '0' && event.key === '0'
   }
 
   function maxLengthReached(event: React.KeyboardEvent<HTMLInputElement>) {
-    return event.currentTarget.value.length === `${max}`.length && event.key !== 'Backspace' && selection?.type !== 'Range'
+    return (
+      event.currentTarget.value.length === `${max}`.length &&
+      event.key !== 'Backspace' &&
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowRight' &&
+      event.key !== 'Delete' &&
+      selection?.type !== 'Range'
+    )
   }
 
   return (
@@ -34,7 +41,7 @@ export function FormattedNumberInput({
       type="number"
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
       onBlur={() => onChange(convertValue(value === '' ? NaN : Number(value), Number(min), Number(max)).toString())}
-      value={value ? parseInt(value, 10) : 0}
+      value={value ? parseInt(value, 10) : ''}
       min={min}
       max={max}
       {...props}

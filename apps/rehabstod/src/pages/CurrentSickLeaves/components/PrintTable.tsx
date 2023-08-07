@@ -39,7 +39,7 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
     case SickLeaveColumn.Ärenden:
       return <>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</>
     default:
-      return <>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</>
+      return <>{getSickLeavesColumnData(column, sickLeave)}</>
   }
 }
 

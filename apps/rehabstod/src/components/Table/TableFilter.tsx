@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { IDSButton, IDSButtonGroup, IDSIconChevron } from '@frontend/ids-react-ts'
+import { IDSButton, IDSIconChevron } from '@frontend/ids-react-ts'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
   const [expanded, setExpanded] = useState(true)
@@ -15,16 +15,18 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
         <div>
           <div className="grid grid-cols-3 gap-x-10 gap-y-7">{children}</div>
           <div className="flex justify-end">
-            <IDSButtonGroup className="my-4 flex print:hidden" style={{ justifyContent: 'flex-end' }}>
+            <div className="my-4 flex print:hidden" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>
                 Återställ
               </IDSButton>
-              <IDSButton onClick={() => onSearch()}>Sök</IDSButton>
-            </IDSButtonGroup>
+              <IDSButton onClick={() => onSearch()} className="ml-5">
+                Sök
+              </IDSButton>
+            </div>
           </div>
-          <hr className="mb-10 opacity-40 print:hidden" />
         </div>
       )}
+      <hr className="mb-10 opacity-40 print:hidden" />
     </>
   )
 }
