@@ -19,4 +19,4 @@ export const getBanners = (state: RootState): Banner[] => state.ui.uiUtils.confi
 export const selectIsLoadingConfig = (state: RootState): boolean => state.ui.uiUtils.isLoadingConfig
 
 export const selectIsLoadingInitialState = (state: RootState): boolean =>
-  state.ui.uiUtils.isLoadingConfig && state.ui.uiUtils.isLoadingDynamicLinks
+  state.ui.uiUtils.isLoadingConfig || state.ui.uiUtils.isLoadingDynamicLinks
