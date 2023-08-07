@@ -346,9 +346,13 @@ describe('SRS Utils', () => {
     it('should return SRS_FRL is certificate is renewal', () => {
       const parent: CertificateRelation = {
         type: CertificateRelationType.RENEW,
+        certificateId: 'certificateId',
+        created: '2020-02-02',
+        status: CertificateStatus.SIGNED,
       }
       const metadata: CertificateMetadata = fakeCertificateMetaData({
         relations: { parent: parent },
+        children: [],
       })
 
       expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)
