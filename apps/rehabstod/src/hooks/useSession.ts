@@ -3,15 +3,15 @@ import { api, useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } 
 import { useLogout } from './useLogout'
 
 export function useSession() {
+  useGetUserQuery()
   const { logout } = useLogout()
   const [giveConsent, { isUninitialized }] = useGiveConsentMutation()
   const [isPollingActive, setIsPollingActive] = useState(true)
+  const { data: user, isLoading: isLoadingUser } = api.endpoints.getUser.useQueryState()
   const { data: session, isLoading: isLoadingSession } = useGetSessionPingQuery(undefined, {
     pollingInterval: 30e3,
     skip: !isPollingActive,
   })
-  const { isLoading: isLoadingUser } = useGetUserQuery()
-  const { data: user } = api.endpoints.getUser.useQueryState()
 
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
