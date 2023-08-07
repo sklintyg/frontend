@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
+import { api, useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
 import { useLogout } from './useLogout'
 
 export function useSession() {
@@ -10,13 +10,14 @@ export function useSession() {
     pollingInterval: 30e3,
     skip: !isPollingActive,
   })
-  const { data: user, isLoading: isLoadingUser } = useGetUserQuery()
+  const { isLoading: isLoadingUser } = useGetUserQuery()
+  const { data: user } = api.endpoints.getUser.useQueryState()
 
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
       giveConsent({ pdlConsentGiven: true })
     }
-    if (session) {
+    if (session && user) {
       if (session.authenticated && !isPollingActive) {
         setIsPollingActive(true)
       } else if (!session.authenticated) {
