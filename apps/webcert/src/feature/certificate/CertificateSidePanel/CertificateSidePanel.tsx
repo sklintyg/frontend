@@ -36,13 +36,14 @@ const CertificateSidePanel: React.FC = () => {
 
   useEffect(() => {
     if (certificate && !showSpinner && !isLoadingQuestions) {
-      if (questions.length > 0 && !hasUpdatedTab) {
-        setSelectedTabIndex(1)
+      const questionsTab = availableTabs.findIndex((tab) => tab.type === ResourceLinkType.QUESTIONS)
+      if (questionsTab !== -1 && questions.length > 0 && !hasUpdatedTab) {
+        setSelectedTabIndex(questionsTab)
         setHasUpdatedTab(true)
       }
       setHasLoaded(true)
     }
-  }, [certificate, showSpinner, questions, hasUpdatedTab, isLoadingQuestions])
+  }, [certificate, showSpinner, questions, hasUpdatedTab, isLoadingQuestions, availableTabs])
 
   useEffect(() => {
     if (hasLoaded) {
