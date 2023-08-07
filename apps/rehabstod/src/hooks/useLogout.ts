@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-import { useFakeLogoutMutation, useGetUserQuery } from '../store/api'
+import { api, useFakeLogoutMutation } from '../store/api'
 
 export function useLogout() {
-  const { data: user } = useGetUserQuery()
+  const { data: user } = api.endpoints.getUser.useQueryState()
   const [fakeLogout] = useFakeLogoutMutation()
   const navigate = useNavigate()
 
