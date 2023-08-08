@@ -1,6 +1,6 @@
 import { Question, QuestionType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -93,24 +93,24 @@ describe('QuestionForm', () => {
   })
 
   describe('with user inputs', () => {
-    it('select a question type', () => {
+    it('select a question type', async () => {
       renderComponent()
       const combobox = screen.getByRole('combobox')
-      userEvent.selectOptions(combobox, QuestionType.CONTACT)
+      await act(() => userEvent.selectOptions(combobox, QuestionType.CONTACT))
 
-      flushPromises()
+      await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft.type).toEqual(QuestionType.CONTACT)
     })
 
-    it('deselect a question type', () => {
+    it('deselect a question type', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       renderComponent()
 
       const combobox = screen.getByRole('combobox')
-      userEvent.selectOptions(combobox, QuestionType.MISSING)
+      await act(() => userEvent.selectOptions(combobox, QuestionType.MISSING))
 
-      flushPromises()
+      await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft.type).toEqual(QuestionType.MISSING)
     })
 
@@ -199,42 +199,42 @@ describe('QuestionForm', () => {
 
     it('does show message that question draft has been saved', () => {
       renderComponent()
-      testStore.dispatch(updateQuestionDraftSaved(true))
+      act(() => testStore.dispatch(updateQuestionDraftSaved(true)))
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 
-    it('hides message that question draft has been saved if the user starts edit', () => {
-      testStore.dispatch(updateQuestionDraftSaved(true))
+    it('hides message that question draft has been saved if the user starts edit', async () => {
+      await act(() => testStore.dispatch(updateQuestionDraftSaved(true)))
       renderComponent()
 
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, 'Det här är ett meddelande')
+      await act(() => userEvent.type(messageField, 'Det här är ett meddelande'))
 
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
 
-    it('show missing type when trying to send question with missing type', () => {
+    it('show missing type when trying to send question with missing type', async () => {
       const questionDraft = {
         ...testStore.getState().ui.uiQuestion.questionDraft,
         message: 'Skriver lite text',
       }
-      testStore.dispatch(validateQuestion(questionDraft))
-      testStore.dispatch(updateQuestionDraftSaved(true))
+      await act(() => testStore.dispatch(validateQuestion(questionDraft)))
+      await act(() => testStore.dispatch(updateQuestionDraftSaved(true)))
       renderComponent(questionDraft)
 
-      userEvent.click(screen.getByText('Skicka'))
+      await act(() => userEvent.click(screen.getByText('Skicka')))
 
       expect(screen.getByText('Ange en rubrik för att kunna skicka frågan.')).toBeInTheDocument()
       expect(screen.queryByText('Skriv ett meddelande för att kunna skicka frågan.')).not.toBeInTheDocument()
     })
 
-    it('show missing message when trying to send question with missing message', () => {
+    it('show missing message when trying to send question with missing message', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
-      testStore.dispatch(validateQuestion(questionDraft))
-      testStore.dispatch(updateQuestionDraftSaved(true))
+      await act(() => testStore.dispatch(validateQuestion(questionDraft)))
+      await act(() => testStore.dispatch(updateQuestionDraftSaved(true)))
       renderComponent(questionDraft)
 
-      userEvent.click(screen.getByText('Skicka'))
+      await act(() => userEvent.click(screen.getByText('Skicka')))
       expect(screen.getByText('Skriv ett meddelande för att kunna skicka frågan.')).toBeInTheDocument()
       expect(screen.queryByText('Ange en rubrik för att kunna skicka frågan.')).not.toBeInTheDocument()
     })
@@ -243,10 +243,10 @@ describe('QuestionForm', () => {
       vi.useRealTimers()
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
-      testStore.dispatch(updateQuestionDraftSaved(true))
+      await act(() => testStore.dispatch(updateQuestionDraftSaved(true)))
 
-      userEvent.click(screen.getByText('Avbryt'))
-      userEvent.click(screen.getByText('Ja, radera'))
+      await act(() => userEvent.click(screen.getByText('Avbryt')))
+      await act(() => userEvent.click(screen.getByText('Ja, radera')))
 
       await flushPromises()
       expect(fakeAxios.history.delete.length).not.toBe(0)
