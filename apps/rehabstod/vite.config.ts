@@ -40,6 +40,7 @@ export default ({ mode }: UserConfig) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: ['src/setupTests.ts'],
+      silent: process.env.CI === 'true',
       deps: {
         inline: ['@inera/ids-core', 'handy-scroll'],
       },

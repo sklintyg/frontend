@@ -33,13 +33,14 @@ const customDeepmerge = deepmergeCustom<{
 })
 
 export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: GenerateMockOptions) {
-  return (data?: DeepPartial<z.infer<T>>) => customDeepmerge(generateMock(schema, { stringMap, faker, ...options }), data ?? {})
+  return (data?: DeepPartial<z.infer<T>>) =>
+    customDeepmerge(generateMock(schema, { faker, ...options, stringMap: { ...stringMap, ...options?.stringMap } }), data ?? {})
 }
 
 export function fakerFromSchemaFactory<T extends ZodTypeAny>(
   schema: T,
-  initialData: DeepPartial<z.infer<T>>,
+  initialData: (data?: DeepPartial<z.infer<T>>) => DeepPartial<z.infer<T>>,
   options?: GenerateMockOptions
 ) {
-  return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData, ...data })
+  return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData(data), ...data })
 }
