@@ -11,7 +11,7 @@ import { UserUrval } from '../../schemas'
 import { useGetSickLeavesFiltersQuery, useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
-import { reset, resetFilters } from '../../store/slices/sickLeave.slice'
+import { resetSickLeaveFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
 import { Filters } from './components/Filters'
@@ -43,13 +43,6 @@ export function CurrentSickLeaves() {
     }
   }, [user, userLoading, navigate])
 
-  useEffect(
-    () => () => {
-      dispatch(reset())
-    },
-    [dispatch]
-  )
-
   if (encryptedPatientId) {
     return <Outlet />
   }
@@ -70,7 +63,7 @@ export function CurrentSickLeaves() {
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {
-          dispatch(resetFilters())
+          dispatch(resetSickLeaveFilters())
         }}
         isDoctor={isDoctor}
       />
