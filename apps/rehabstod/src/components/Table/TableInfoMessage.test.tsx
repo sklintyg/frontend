@@ -1,21 +1,23 @@
 import { render, screen } from '@testing-library/react'
+import { fakeUser } from '../../utils/fake/fakeUser'
 import { TableInfoMessage } from './TableInfoMessage'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
-import { fakeUser } from '../../utils/fake/fakeUser'
 
 const user = fakeUser({ urval: '' })
 const TABLE_NAME = 'pågående sjukfall'
 
 const renderComponent = (isLoading: boolean, hasAppliedFilters: boolean, content: { name: string }[] | null) => {
   render(
-    <TableInfoMessage
-      isLoading={isLoading}
-      tableLength={10}
-      tableName={TABLE_NAME}
-      user={user}
-      content={content}
-      hasAppliedFilters={hasAppliedFilters}
-    />
+    <table>
+      <TableInfoMessage
+        isLoading={isLoading}
+        tableLength={10}
+        tableName={TABLE_NAME}
+        user={user}
+        content={content}
+        hasAppliedFilters={hasAppliedFilters}
+      />
+    </table>
   )
 }
 

@@ -8,13 +8,13 @@ import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
 import { lakareSchema } from '../../schemas/lakareSchema'
 import { luCertificatesInfoSchema } from '../../schemas/luCertificatesSchema'
 import { patientSchema } from '../../schemas/patientSchema'
-import { sickLeaveInfoSchema } from '../../schemas/sickLeaveSchema'
+import { sickLeaveInfoSchema, sickLeaveSummary } from '../../schemas/sickLeaveSchema'
 import { fakeUser } from '../../utils/fake/fakeUser'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
 export const handlers = [
-  rest.post('/logout', (req, res, ctx) => res(ctx.status(302))),
+  rest.post('/logout', (_, res, ctx) => res(ctx.status(302))),
 
   rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
@@ -22,7 +22,9 @@ export const handlers = [
 
   rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userPreferencesSchema)()))),
 
-  rest.get('/api/config/links', (req, res, ctx) =>
+  rest.post('/api/user/giveconsent', (_, res, ctx) => res(ctx.status(200), ctx.json({ pdlConsentGiven: true }))),
+
+  rest.get('/api/config/links', (_, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json<Record<string, Link>>({
@@ -57,6 +59,8 @@ export const handlers = [
     res(ctx.status(200), ctx.json(fakerFromSchema(z.object({ content: z.array(sickLeaveInfoSchema) }))()))
   ),
 
+  rest.post('api/reko', (_, res, ctx) => res(ctx.status(200))),
+
   rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
   rest.get('/api/sickleaves/filters', (_, res, ctx) =>
@@ -73,6 +77,8 @@ export const handlers = [
       )
     )
   ),
+
+  rest.get('/api/sickleaves/summary', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveSummary)))),
 
   rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 

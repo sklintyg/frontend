@@ -11,7 +11,7 @@ it('Should render without crash', () => {
         <PopoverContent>
           <p>Hello</p>
         </PopoverContent>
-        <PopoverTrigger>
+        <PopoverTrigger asChild>
           <button type="button">Button</button>
         </PopoverTrigger>
       </Popover>
@@ -26,15 +26,13 @@ it('Should be closed by default', () => {
         <p>Hello</p>
       </PopoverContent>
       <PopoverTrigger>
-        <button type="button" aria-label="My Button">
-          Press me
-        </button>
+        <div aria-label="My Button">Press me</div>
       </PopoverTrigger>
     </Popover>
   )
 
-  expect(screen.getByRole('button', { name: 'My Button' })).toBeInTheDocument()
-  const dialog = screen.getByRole('button', { name: 'My Button' }).parentElement
+  expect(screen.getByLabelText('My Button')).toBeInTheDocument()
+  const dialog = screen.getByLabelText('My Button').parentElement
   expect(dialog).toHaveAttribute('aria-expanded', 'false')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'closed')
@@ -47,15 +45,13 @@ it('Should be possible to control open state', () => {
         <p>Hello</p>
       </PopoverContent>
       <PopoverTrigger>
-        <button type="button" aria-label="My Button">
-          Press me
-        </button>
+        <div aria-label="My Button">Press me</div>
       </PopoverTrigger>
     </Popover>
   )
 
-  expect(screen.getByRole('button', { name: 'My Button' })).toBeInTheDocument()
-  const dialog = screen.getByRole('button', { name: 'My Button' }).parentElement
+  expect(screen.getByLabelText('My Button')).toBeInTheDocument()
+  const dialog = screen.getByLabelText('My Button').parentElement
   expect(dialog).toHaveAttribute('aria-expanded', 'true')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'open')
@@ -68,14 +64,12 @@ it('Should display content when popover trigger is pressed', async () => {
         <p>Hello</p>
       </PopoverContent>
       <PopoverTrigger>
-        <button type="button" aria-label="My Button">
-          Press me
-        </button>
+        <div aria-label="My Button">Press me</div>
       </PopoverTrigger>
     </Popover>
   )
-  await userEvent.click(screen.getByRole('button', { name: 'My Button' }))
-  const dialog = screen.getByRole('button', { name: 'My Button' }).parentElement
+  await userEvent.click(screen.getByLabelText('My Button'))
+  const dialog = screen.getByLabelText('My Button').parentElement
   expect(dialog).toHaveAttribute('aria-expanded', 'true')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'open')

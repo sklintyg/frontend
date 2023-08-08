@@ -44,6 +44,7 @@ export default ({ mode }: UserConfig) => {
         inline: [/common\/dist/],
       },
       setupFiles: ['src/setupTests.ts'],
+      silent: process.env.CI === 'true',
       coverage: {
         reporter: ['text', 'json', 'lcov'],
         all: true,
