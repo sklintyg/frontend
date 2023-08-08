@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -71,7 +71,7 @@ describe('UeUncertainDate', () => {
     expect(dayText).toBeDisabled()
   })
 
-  it('lets user choose option', () => {
+  it('lets user choose option', async () => {
     renderComponent({ question })
     const yearDropdown = screen.getByLabelText('År')
     const yearOptions = yearDropdown.querySelectorAll('option')
@@ -81,8 +81,8 @@ describe('UeUncertainDate', () => {
     expect(yearOptions[0].selected).toBeTruthy()
     expect(yearOptions[2].selected).toBeFalsy()
 
-    userEvent.click(yearDropdown)
-    userEvent.selectOptions(yearDropdown, YEARS[0])
+    await act(() => userEvent.click(yearDropdown))
+    await act(() => userEvent.selectOptions(yearDropdown, YEARS[0]))
     expect(yearDropdown).toHaveValue(YEARS[0])
     expect(yearOptions[2].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
@@ -91,13 +91,13 @@ describe('UeUncertainDate', () => {
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[2].selected).toBeFalsy()
 
-    userEvent.click(monthDropdown)
-    userEvent.selectOptions(monthDropdown, MONTHS[0])
+    await act(() => userEvent.click(monthDropdown))
+    await act(() => userEvent.selectOptions(monthDropdown, MONTHS[0]))
     expect(monthOptions[2].selected).toBeTruthy()
     expect(monthOptions[0].selected).toBeFalsy()
 
-    userEvent.click(yearDropdown)
-    userEvent.selectOptions(yearDropdown, '0000')
+    await act(() => userEvent.click(yearDropdown))
+    await act(() => userEvent.selectOptions(yearDropdown, '0000'))
     expect(yearDropdown).toHaveValue('0000')
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()

@@ -1,6 +1,6 @@
 import { CertificateDataElement, ConfigUeVisualAcuity, fakeCertificate, fakeVisualAcuityElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -68,19 +68,19 @@ describe('Visual Acuity component', () => {
     checkboxes.forEach((checkbox) => expect(checkbox).toBeDisabled())
   })
 
-  it('formats input into float with decimal comma', () => {
+  it('formats input into float with decimal comma', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getAllByRole('textbox')[0]
-    userEvent.type(input, 'abc')
+    await act(() => userEvent.type(input, 'abc'))
     expect(input).toHaveValue('')
-    userEvent.clear(input)
-    userEvent.type(input, '1.5')
+    await act(() => userEvent.clear(input))
+    await act(() => userEvent.type(input, '1.5'))
     expect(input).toHaveValue('1,5')
-    userEvent.clear(input)
-    userEvent.type(input, '0,3')
+    await act(() => userEvent.clear(input))
+    await act(() => userEvent.type(input, '0,3'))
     expect(input).toHaveValue('0,3')
-    userEvent.clear(input)
-    userEvent.type(input, '0,35')
+    await act(() => userEvent.clear(input))
+    await act(() => userEvent.type(input, '0,35'))
     expect(input).toHaveValue('0,3')
   })
 

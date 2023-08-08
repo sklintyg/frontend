@@ -1,5 +1,5 @@
 import { fakeTypeaheadElement } from '@frontend/common'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -58,15 +58,15 @@ describe('Typeahead component', () => {
     expect(input).toBeDisabled()
   })
 
-  it('shows results when users types text', () => {
+  it('shows results when users types text', async () => {
     renderDefaultComponent()
     const testinput = 'Ö'
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
+    await act(() => userEvent.clear(input))
     checkListVisibility(false)
-    userEvent.type(input, testinput)
+    await act(() => userEvent.type(input, testinput))
     checkListVisibility(true)
-    expect(input).toHaveValue(testinput)
+    await act(() => expect(input).toHaveValue(testinput))
     checkListVisibility(true)
   })
 
@@ -100,11 +100,12 @@ describe('Typeahead component', () => {
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 
-  it('Render correct suggestions', () => {
+  it('Render correct suggestions', async () => {
+    const user = userEvent.setup()
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'ors')
+    await act(() => user.clear(input))
+    await act(() => user.type(input, 'ors'))
     const listItems = screen.queryAllByRole('option')
     expect(listItems[0].title).toBe('ORSA')
     expect(listItems[1].title).toBe('BENGTSFORS')
