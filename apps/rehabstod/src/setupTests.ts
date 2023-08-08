@@ -9,9 +9,9 @@ import { hsaApi } from './store/hsaApi'
 import { resetLUTableColumns } from './store/slices/luTableColumns.slice'
 import { resetLUUnitTableColumns } from './store/slices/luUnitTableColumns.slice'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
+import { resetSettingsState } from './store/slices/settings.slice'
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
-import { resetSettingsState } from './store/slices/settings.slice'
 
 Object.assign(global, global, {
   open: vi.fn(),
@@ -35,11 +35,6 @@ beforeAll(() => {
 
   // Start MSW server
   server.listen({ onUnhandledRequest: 'error' })
-})
-
-beforeEach(() => {
-  // Set faker to be predictable
-  faker.seed(1234)
 })
 
 afterEach(() => {

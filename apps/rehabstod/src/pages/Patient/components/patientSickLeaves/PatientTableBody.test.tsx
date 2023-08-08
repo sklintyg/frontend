@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { act, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { ReactNode } from 'react'
@@ -6,7 +6,7 @@ import { Table } from '../../../../components/Table/Table'
 import { server } from '../../../../mocks/server'
 import { patientSjukfallIntygSchema } from '../../../../schemas/patientSchema'
 import { api } from '../../../../store/api'
-import { hideColumn, PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { PatientColumn, hideColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { store } from '../../../../store/store'
 import { fakeUser } from '../../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
@@ -28,7 +28,10 @@ beforeEach(() => {
 })
 
 it('Should list all certificates columns except Visa', async () => {
-  const certificates = Array.from({ length: 10 }, fakerFromSchema(patientSjukfallIntygSchema))
+  const certificates = Array.from(
+    { length: 10 },
+    fakerFromSchema(patientSjukfallIntygSchema, { stringMap: { vardgivareId: faker.datatype.uuid } })
+  )
   renderWithRouter(
     <ComponentWrapper>
       <PatientTableBody certificates={certificates} isDoctor={false} />
