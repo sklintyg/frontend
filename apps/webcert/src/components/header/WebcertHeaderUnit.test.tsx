@@ -6,7 +6,7 @@ import {
   getUserWithInactiveUnit,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
@@ -36,30 +36,30 @@ describe('Webcert header unit', () => {
   })
 
   it('should display what care unit the user is logged in to', (): void => {
-    testStore.dispatch(updateUser(getUser()))
+    act(() => testStore.dispatch(updateUser(getUser())))
     renderComponent()
 
     expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
-  it('should open the dropdown with the button for changing unit when clicking on expand button', () => {
-    testStore.dispatch(updateUser(getUser()))
+  it('should open the dropdown with the button for changing unit when clicking on expand button', async () => {
+    act(() => testStore.dispatch(updateUser(getUser())))
     renderComponent()
 
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+    act(() => testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink())))
 
-    userEvent.click(screen.getAllByTestId('arrowToggle')[0])
+    await act(() => userEvent.click(screen.getAllByTestId('arrowToggle')[0]))
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
 
-  it('should expand/collapse when clicked on expandableBox', () => {
-    testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+  it('should expand/collapse when clicked on expandableBox', async () => {
+    act(() => testStore.dispatch(updateUser(getUser())))
+    act(() => testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink())))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
-    userEvent.click(expandableBox)
+    await act(() => userEvent.click(expandableBox))
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
-    userEvent.click(expandableBox)
+    await act(() => userEvent.click(expandableBox))
     expect(screen.queryByText(/Byt vårdenhet/i)).not.toBeInTheDocument()
   })
 
@@ -70,7 +70,7 @@ describe('Webcert header unit', () => {
     careProvider.unitName = 'Care provider unit'
     user.loggedInCareProvider = careProvider
 
-    testStore.dispatch(updateUser(user))
+    act(() => testStore.dispatch(updateUser(user)))
     renderComponent()
 
     expect(screen.queryByText(user.loggedInCareProvider.unitName, { exact: false })).not.toBeInTheDocument()
@@ -83,7 +83,7 @@ describe('Webcert header unit', () => {
     careProvider.unitName = 'Care provider unit'
     user.loggedInCareProvider = careProvider
 
-    testStore.dispatch(updateUser(user))
+    act(() => testStore.dispatch(updateUser(user)))
     renderComponent()
 
     expect(screen.getByText(user.loggedInCareProvider.unitName, { exact: false })).toBeInTheDocument()
@@ -91,14 +91,14 @@ describe('Webcert header unit', () => {
 
   describe('Inactive unit', () => {
     it('should not display inactive message for active unit', (): void => {
-      testStore.dispatch(updateUser(getUser()))
+      act(() => testStore.dispatch(updateUser(getUser())))
       renderComponent()
 
       expect(screen.queryByText(/Inaktiv enhet/i)).not.toBeInTheDocument()
     })
 
     it('should display inactive message for inactive unit', (): void => {
-      testStore.dispatch(updateUser(getUserWithInactiveUnit()))
+      act(() => testStore.dispatch(updateUser(getUserWithInactiveUnit())))
       renderComponent()
 
       expect(screen.getByText(/Inaktiv enhet/i, { exact: false })).toBeInTheDocument()
@@ -107,20 +107,20 @@ describe('Webcert header unit', () => {
 
   describe('Statistics', () => {
     it('should show statistics on other units if resource link exists', () => {
-      testStore.dispatch(updateUser(getUser()))
-      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      act(() => testStore.dispatch(updateUser(getUser())))
+      act(() => testStore.dispatch(updateUserStatistics(getUserStatistics())))
 
       renderComponent()
 
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      act(() => testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink())))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter')).toBeInTheDocument()
     })
 
     it('should not show statistics on other units if there are none', () => {
-      testStore.dispatch(updateUser(getUser()))
-      testStore.dispatch(updateUserStatistics(getUserStatisticsWithNoDraftsOnOtherUnits()))
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      act(() => testStore.dispatch(updateUser(getUser())))
+      act(() => testStore.dispatch(updateUserStatistics(getUserStatisticsWithNoDraftsOnOtherUnits())))
+      act(() => testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink())))
 
       renderComponent()
 
