@@ -48,14 +48,14 @@ describe('WebcertHeaderUser', () => {
     expect(screen.queryByText(/Skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
-  it('should show protected person modal if approval is not saved in preferences', (): void => {
+  it('should show protected person modal if approval is not saved in preferences', () => {
     act(() => testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true })))
     renderComponent()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal gets closed', async (): void => {
+  it('should show protected person link when approval modal gets closed', async () => {
     act(() => testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true })))
     renderComponent()
     await act(() => userEvent.click(screen.getByRole('checkbox')))
@@ -64,7 +64,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should not show protected person modal if approval is saved in preferences', (): void => {
+  it('should not show protected person modal if approval is saved in preferences', () => {
     act(() =>
       testStore.dispatch(
         updateUser({
@@ -79,7 +79,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.queryByText(/Du har skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal is closed', (): void => {
+  it('should show protected person link when approval modal is closed', () => {
     act(() =>
       testStore.dispatch(
         updateUser({
@@ -93,7 +93,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should open protected person modal when clicking on link', async (): void => {
+  it('should open protected person modal when clicking on link', async () => {
     act(() =>
       testStore.dispatch(
         updateUser({
