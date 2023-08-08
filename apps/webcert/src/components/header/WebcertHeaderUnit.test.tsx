@@ -35,7 +35,7 @@ describe('Webcert header unit', () => {
     clearDispatchedActions()
   })
 
-  it('should display what care unit the user is logged in to', (): void => {
+  it('should display what care unit the user is logged in to', () => {
     act(() => testStore.dispatch(updateUser(getUser())))
     renderComponent()
 
@@ -63,7 +63,7 @@ describe('Webcert header unit', () => {
     expect(screen.queryByText(/Byt vårdenhet/i)).not.toBeInTheDocument()
   })
 
-  it('should not display care provider name for private practitioner', (): void => {
+  it('should not display care provider name for private practitioner', () => {
     const user = getUser()
     const careProvider = { ...user.loggedInCareProvider }
     user.role = 'Privatläkare'
@@ -76,7 +76,7 @@ describe('Webcert header unit', () => {
     expect(screen.queryByText(user.loggedInCareProvider.unitName, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('should display care provider name for normal doctor', (): void => {
+  it('should display care provider name for normal doctor', () => {
     const user = getUser()
     const careProvider = { ...user.loggedInCareProvider }
     user.role = 'Läkare'
@@ -90,14 +90,14 @@ describe('Webcert header unit', () => {
   })
 
   describe('Inactive unit', () => {
-    it('should not display inactive message for active unit', (): void => {
+    it('should not display inactive message for active unit', () => {
       act(() => testStore.dispatch(updateUser(getUser())))
       renderComponent()
 
       expect(screen.queryByText(/Inaktiv enhet/i)).not.toBeInTheDocument()
     })
 
-    it('should display inactive message for inactive unit', (): void => {
+    it('should display inactive message for inactive unit', () => {
       act(() => testStore.dispatch(updateUser(getUserWithInactiveUnit())))
       renderComponent()
 
