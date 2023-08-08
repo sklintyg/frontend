@@ -1,6 +1,6 @@
-import { getUnansweredCommunicationFormat } from '../../../components/UnansweredCommunication/utils/getUnansweredCommunicationFormat'
 import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
+import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 
 export function getCertificateColumnData(column: string, certificate: PatientSjukfallIntyg, list: PatientSjukfallIntyg[]) {
   switch (column) {
