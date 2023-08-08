@@ -1,6 +1,6 @@
 import { fakeTextFieldElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -36,8 +36,8 @@ describe('UeTextArea', () => {
     renderDefaultComponent({ question: mockQuestion, disabled: false })
     const inputString = 'Hello, World'
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, inputString)
+    await act(() => userEvent.clear(input))
+    await act(() => userEvent.type(input, inputString))
     expect(input).toHaveValue(inputString)
   })
 
