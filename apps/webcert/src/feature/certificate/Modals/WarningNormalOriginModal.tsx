@@ -21,7 +21,7 @@ const WarningNormalOriginModal: React.FC = () => {
       return false
     }
 
-    return !!resourceLink && !window.sessionStorage[user.loggedInUnit.unitId] && open
+    return !!resourceLink && !window.sessionStorage[user.loggedInUnit.unitId] && open && !user.launchFromOrigin
   }
 
   if (!resourceLink || !user) {
@@ -33,7 +33,7 @@ const WarningNormalOriginModal: React.FC = () => {
       <div>
         <InfoBox type="observe">Du har loggat in i fristående Webcert istället för direkt via ditt journalsystem</InfoBox>
         <p className="iu-pt-400">
-          <span className="iu-fw-bold">{user.loggedInUnit.unitName}</span> har integrerat sitt journalsystem med Webcert.
+          <span className="iu-fw-bold">{user.loggedInUnit.unitName}</span> har integrerat sitt journalsystem med Webcert.{' '}
         </p>
         <p>Om du skapar intyg i fristående Webcert kommer intygen inte synkroniseras med journalsystemet.</p>
       </div>
