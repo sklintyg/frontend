@@ -144,27 +144,28 @@ const IcfDropdown: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <CustomButton
-        ref={btnRef}
-        buttonClasses="iu-mb-200"
-        tooltip={getTooltip()}
-        disabled={shouldDropdownButtonBeDisabled()}
-        onClick={handleToggleDropdownButtonClick}
-      >
-        <StyledLightbulpIcon className="iu-mr-200" />
-        Ta hjälp av ICF
-        <StyledChevronDownIcon className="iu-ml-200" />
-      </CustomButton>
-      {shouldRenderDropdown() && displayDropdown && (
-        <FocusTrap
-          focusTrapOptions={{
-            initialFocus: false,
-            tabbableOptions: {
-              displayCheck: 'none',
-            },
-          }}
+    <FocusTrap
+      active={shouldRenderDropdown() && displayDropdown}
+      focusTrapOptions={{
+        initialFocus: false,
+        tabbableOptions: {
+          displayCheck: 'none',
+        },
+      }}
+    >
+      <div>
+        <CustomButton
+          ref={btnRef}
+          buttonClasses="iu-mb-200"
+          tooltip={getTooltip()}
+          disabled={shouldDropdownButtonBeDisabled()}
+          onClick={handleToggleDropdownButtonClick}
         >
+          <StyledLightbulpIcon className="iu-mr-200" />
+          Ta hjälp av ICF
+          <StyledChevronDownIcon className="iu-ml-200" />
+        </CustomButton>
+        {shouldRenderDropdown() && displayDropdown && (
           <Root ref={rootRef} id={'icfDropdown-' + id}>
             <div className="iu-border-black iu-radius-sm">
               <p className="iu-bg-main iu-color-white iu-p-300">
@@ -178,11 +179,10 @@ const IcfDropdown: React.FC<Props> = ({
               <IcfFooter handleToggleDropdownButtonClick={handleToggleDropdownButtonClick} />
             </div>
           </Root>
-        </FocusTrap>
-      )}
-
-      {shouldRenderValues() && <IcfChosenValues collectionsLabel={collectionsLabel} chosenIcfCodeValues={chosenIcfCodeValues} />}
-    </>
+        )}
+        {shouldRenderValues() && <IcfChosenValues collectionsLabel={collectionsLabel} chosenIcfCodeValues={chosenIcfCodeValues} />}
+      </div>
+    </FocusTrap>
   )
 }
 
