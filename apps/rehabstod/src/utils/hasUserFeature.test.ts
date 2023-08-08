@@ -4,7 +4,8 @@ import { fakeUser } from './fake/fakeUser'
 import { hasUserFeature } from './hasUserFeature'
 
 it('Should return false if the feature is undefined', () => {
-  const user = fakeUser({ features: {} })
+  const user = fakeUser()
+  user.features = {}
   expect(hasUserFeature(user, 'SRS')).toBe(false)
 })
 

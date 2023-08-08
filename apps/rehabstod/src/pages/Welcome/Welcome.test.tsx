@@ -1,13 +1,14 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'
 import { medarbetarUppdragSchema, personSchema } from '../../schemas/hsa'
+import { testDataOptionsDTOSchema } from '../../schemas/testabilitySchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { Welcome } from './Welcome'
-import { testDataOptionsDTOSchema } from '../../schemas/testabilitySchema'
 
 beforeEach(() => {
+  faker.seed(1234)
   const missions = Array.from({ length: 3 }, fakerFromSchema(medarbetarUppdragSchema))
   const persons = missions.map(({ hsaId }) => fakerFromSchema(personSchema)({ hsaId }))
   const testData = fakerFromSchema(testDataOptionsDTOSchema)
