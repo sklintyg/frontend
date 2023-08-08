@@ -7,13 +7,14 @@ import {
   getCertificateWithQuestion,
   getValidDate,
 } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays, isEqual } from 'date-fns'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
+import ReactDOM from 'react-dom/client'
 
 const QUESTION_ID = 'Test'
 
@@ -73,15 +74,28 @@ const defaultQuestion: CertificateDataElement = {
   validationErrors: [],
 }
 
+let container: Element | DocumentFragment
+
 const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
-  render(
-    <Provider store={store}>
-      <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
-    </Provider>
+  act(() =>
+    ReactDOM.createRoot(container).render(
+      <Provider store={store}>
+        <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
+      </Provider>
+    )
   )
 }
 
 describe('UeSickLeavePeriod', () => {
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+  })
+
   it('Renders without crashing', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
@@ -111,7 +125,7 @@ describe('UeSickLeavePeriod', () => {
     // Enter first period, click second period checkbox and make sure its one day ahead
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
-    userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
+    await act(() => userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}'))
     screen.getByLabelText(HALFTEN_LABEL).click()
 
     const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${EN_FJARDEDEL_ID}`) as HTMLInputElement).value)
@@ -126,7 +140,7 @@ describe('UeSickLeavePeriod', () => {
     // Enter last period, click prior period checkbox and make sure its one day ahead
 
     screen.getByLabelText(HELT_NEDSATT_LABEL).click()
-    userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
+    await act(() => userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}'))
     screen.getByLabelText(HALFTEN_LABEL).click()
 
     const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${HELT_NEDSATT_ID}`) as HTMLInputElement).value)
@@ -230,14 +244,14 @@ describe('UeSickLeavePeriod', () => {
       ],
     }
 
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
-    store.dispatch(showValidationErrors())
+    act(() => store.dispatch(updateCertificate(getCertificateWithQuestion(question))))
+    act(() => store.dispatch(showValidationErrors()))
     renderDefaultComponent(question)
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
 
-  it('does not display validation error if child has client validation errors', () => {
+  it('does not display validation error if child has client validation errors', async () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
     const question: CertificateDataElement = {
       ...defaultQuestion,
@@ -255,12 +269,12 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
-    store.dispatch(showValidationErrors())
+    act(() => store.dispatch(updateCertificate(getCertificateWithQuestion(question))))
+    act(() => store.dispatch(showValidationErrors()))
 
     renderDefaultComponent(question)
 
-    userEvent.click(screen.getAllByRole('checkbox')[0])
+    await act(() => userEvent.click(screen.getAllByRole('checkbox')[0]))
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
@@ -282,8 +296,8 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
-    store.dispatch(showValidationErrors())
+    act(() => store.dispatch(updateCertificate(getCertificateWithQuestion(question))))
+    act(() => store.dispatch(showValidationErrors()))
 
     renderDefaultComponent(question)
 
@@ -310,8 +324,8 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
-    store.dispatch(showValidationErrors())
+    act(() => store.dispatch(updateCertificate(getCertificateWithQuestion(question))))
+    act(() => store.dispatch(showValidationErrors()))
 
     renderDefaultComponent(question)
 

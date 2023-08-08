@@ -1,5 +1,5 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
@@ -33,7 +33,7 @@ describe('Sick leave period warning', () => {
 
   it('displays warning', () => {
     renderComponent()
-    testStore.dispatch(setSickLeavePeriodWarning(WARNING))
+    act(() => testStore.dispatch(setSickLeavePeriodWarning(WARNING)))
     expect(screen.queryByText(WARNING)).toBeInTheDocument()
   })
 })
