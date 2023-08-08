@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import DisplayError from '../../components/error/DisplayError'
 import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
-import { getListConfig, performListSearch, updateActiveListType, updateListConfig } from '../../store/list/listActions'
+import { getListConfig, updateActiveListType, updateListConfig } from '../../store/list/listActions'
 import {
   getActiveList,
   getActiveListConfig,
@@ -18,19 +18,12 @@ import { getLoggedInUnit } from '../../store/user/userSelectors'
 import List from './List'
 
 interface Props {
-  /** Determine what should be dispatch. */
   type: ListType
-  /** Set if list is empty. */
   showMessageForEmptyList: boolean
-  /** Link to optional icon to display. */
   icon?: string
-  /** Link to what icon should be displayed if list is empty. */
   emptyListIcon: string
 }
 
-/**
- * Returns a list with filter options, sorting etc. Page components is based on provided configuration.
- */
 const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, emptyListIcon }) => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig, shallowEqual)
@@ -57,13 +50,6 @@ const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, e
       dispatch(getListConfig())
     }
   }, [dispatch, type, loggedInUnit])
-
-  useEffect(() => {
-    if (!isLoadingListConfig && config && !hasUpdatedConfig) {
-      dispatch(performListSearch)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, config, isLoadingListConfig])
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))

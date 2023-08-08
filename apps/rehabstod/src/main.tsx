@@ -8,7 +8,9 @@ import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import './index.css'
 import { router } from './router'
-import { store } from './store/store'
+import { persistor, store } from './store/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { IDSSpinner } from '@frontend/ids-react-ts'
 
 setDefaultOptions({ locale: sv })
 
@@ -16,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <I18nProvider locale="sv-SE">
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <PersistGate loading={<IDSSpinner />} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
     </I18nProvider>
   </React.StrictMode>
