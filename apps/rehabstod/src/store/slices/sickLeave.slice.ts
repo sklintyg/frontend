@@ -43,7 +43,7 @@ const sickLeaveSlice = createSlice({
     reset() {
       return initialState
     },
-    resetFilters(state) {
+    resetSickLeaveFilters(state) {
       state.filter = initialState.filter
     },
     updateFilter(state, { payload }: PayloadAction<Partial<SickLeaveFilter>>) {
@@ -53,5 +53,5 @@ const sickLeaveSlice = createSlice({
   },
 })
 
-export const { reset, resetFilters, updateFilter } = sickLeaveSlice.actions
+export const { reset, resetSickLeaveFilters, updateFilter } = sickLeaveSlice.actions
 export const { name: sickLeaveReducerPath, reducer: sickLeaveReducer } = sickLeaveSlice

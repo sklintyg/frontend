@@ -17,6 +17,8 @@ import {
 } from '../schemas/sickLeaveSchema'
 import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { getCookie } from '../utils/cookies'
+import { resetLUFilters } from './slices/luCertificates.slice'
+import { resetSickLeaveFilters } from './slices/sickLeave.slice'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -53,6 +55,8 @@ export const api = createApi({
             })
           )
         )
+        dispatch(resetLUFilters())
+        dispatch(resetSickLeaveFilters())
         try {
           await queryFulfilled
         } catch {
