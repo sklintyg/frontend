@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeYearElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -106,13 +106,13 @@ describe('YearPicker component', () => {
         },
       ],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
+    act(() => testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } }))))
     renderComponent({ disabled: false, question })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -121,13 +121,13 @@ describe('YearPicker component', () => {
       id: QUESTION_ID,
       validationErrors: [{ text: VALIDATION_ERROR }],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
+    act(() => testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } }))))
     renderComponent({ disabled: false, question })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 })
