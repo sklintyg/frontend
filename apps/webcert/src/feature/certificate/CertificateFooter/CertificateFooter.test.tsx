@@ -1,6 +1,6 @@
 import { CertificateSignStatus, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateCertificate, updateCertificateSignStatus, updateValidationErrors } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
@@ -64,7 +64,7 @@ describe('CertificateFooter', () => {
       })
 
       it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is true', () => {
-        testStore.dispatch(updateValidationErrors([]))
+        act(() => testStore.dispatch(updateValidationErrors([])))
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeEnabled()
       })
@@ -77,7 +77,9 @@ describe('CertificateFooter', () => {
       })
 
       it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is false', () => {
-        testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        act(() =>
+          testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        )
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeEnabled()
       })
@@ -88,7 +90,9 @@ describe('CertificateFooter', () => {
       })
 
       it('shall show validation error switch even if the draft contains validation errors', () => {
-        testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        act(() =>
+          testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        )
         const text = screen.queryByText('Visa vad som saknas')
         expect(text).toBeTruthy()
       })
@@ -108,19 +112,23 @@ describe('CertificateFooter', () => {
       })
 
       it('shall NOT show readyForSign button when resourcelink exists and certificate isValidForSigning is true', () => {
-        testStore.dispatch(updateValidationErrors([]))
+        act(() => testStore.dispatch(updateValidationErrors([])))
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeFalsy()
       })
 
       it('shall NOT show readyForSign button when resourcelink exists and certificate isValidForSigning is false', () => {
-        testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        act(() =>
+          testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        )
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeFalsy()
       })
 
       it('shall show draft is marked as ready to sign when resourcelink exists', () => {
-        testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        act(() =>
+          testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
+        )
         const text = screen.queryByText('Utkastet är sparat och markerat klart för signering.')
         expect(text).toBeTruthy()
       })
@@ -145,7 +153,7 @@ describe('CertificateFooter', () => {
     })
 
     it('Sign button active', () => {
-      testStore.dispatch(updateValidationErrors([]))
+      act(() => testStore.dispatch(updateValidationErrors([])))
       const button = screen.queryByText('Sign certificate')
       expect(button).toBeInTheDocument()
     })
@@ -153,26 +161,28 @@ describe('CertificateFooter', () => {
 
   describe('Signing when resource link exists and certificate can be signed and confirmation is needed', () => {
     beforeEach(() => {
-      testStore.dispatch(
-        updateCertificate(
-          fakeCertificate({
-            links: [
-              { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
-              {
-                type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
-                name: 'Sign certificate',
-                description: 'Sign description',
-                body: 'Body for signing modal',
-                enabled: true,
-              },
-            ],
-          })
+      act(() =>
+        testStore.dispatch(
+          updateCertificate(
+            fakeCertificate({
+              links: [
+                { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
+                {
+                  type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+                  name: 'Sign certificate',
+                  description: 'Sign description',
+                  body: 'Body for signing modal',
+                  enabled: true,
+                },
+              ],
+            })
+          )
         )
       )
     })
 
     it('Sign button active', () => {
-      testStore.dispatch(updateValidationErrors([]))
+      act(() => testStore.dispatch(updateValidationErrors([])))
       const button = screen.queryByText('Sign certificate')
       expect(button).toBeInTheDocument()
     })
@@ -198,7 +208,7 @@ describe('CertificateFooter', () => {
     })
 
     it('Sign button active', () => {
-      testStore.dispatch(updateValidationErrors([]))
+      act(() => testStore.dispatch(updateValidationErrors([])))
       const button = screen.queryByText('Sign certificate')
       expect(button).toBeInTheDocument()
     })
