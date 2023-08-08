@@ -1,4 +1,4 @@
-import { fileImage } from '@frontend/common'
+import { fileImage, Spinner } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { getActivePatient, selectCertificateTypes } from '../../store/patient/pa
 import { setUserPreference } from '../../store/user/userActions'
 import { getUserPreference } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
+import { selectIsLoadingInitialState } from '../../store/utils/utilsSelectors'
 
 const sortByFavorite = (a: boolean, b: boolean): number => {
   if (a > b) {
@@ -36,6 +37,7 @@ const CertificateList: React.FC = () => {
   const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
   const certificateTypes = useSelector(selectCertificateTypes)
   const patient = useSelector(getActivePatient)
+  const isLoadingInitialState = useSelector(selectIsLoadingInitialState)
 
   const [favorites, setFavorites] = useState<string[]>([])
 
@@ -85,26 +87,30 @@ const CertificateList: React.FC = () => {
       </div>
       <FlexWrapper>
         <h3 className="iu-mb-05rem">Skapa intyg</h3>
-        <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
-          {[...certificateTypes]
-            .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
-            .map(({ label, detailedDescription, id, issuerTypeId, links, message }) => {
-              return (
-                <CertificateListRow
-                  certificateName={label}
-                  certificateInfo={detailedDescription}
-                  id={id}
-                  issuerTypeId={issuerTypeId}
-                  favorite={favorites.includes(id)}
-                  preferenceClick={handlePreferenceClick}
-                  message={message}
-                  key={id}
-                  patient={patient}
-                  links={links ?? []}
-                />
-              )
-            })}
-        </CertificateBox>
+        {isLoadingInitialState ? (
+          <Spinner />
+        ) : (
+          <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
+            {[...certificateTypes]
+              .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
+              .map(({ label, detailedDescription, id, issuerTypeId, links, message }) => {
+                return (
+                  <CertificateListRow
+                    certificateName={label}
+                    certificateInfo={detailedDescription}
+                    id={id}
+                    issuerTypeId={issuerTypeId}
+                    favorite={favorites.includes(id)}
+                    preferenceClick={handlePreferenceClick}
+                    message={message}
+                    key={id}
+                    patient={patient}
+                    links={links ?? []}
+                  />
+                )
+              })}
+          </CertificateBox>
+        )}
       </FlexWrapper>
     </div>
   )
