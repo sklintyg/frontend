@@ -59,7 +59,6 @@ export function CurrentSickLeaves() {
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
-      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {
