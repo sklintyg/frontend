@@ -1,7 +1,7 @@
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
 import { useCallback, useEffect, useRef } from 'react'
 import { unstable_useBlocker as useBlocker } from 'react-router-dom'
-import { usePatient } from '../hooks/usePatient'
+import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {
   const ref = useRef<IDSDialogElement>(null)
@@ -38,7 +38,7 @@ export function OpenTabsDialog() {
   })
 
   return (
-    <IDSDialog dismissible={false} headline="Öppnade patientfönster" ref={ref}>
+    <IDSDialog dismissible={false} headline="Öppnade patientfönster" ref={ref} data-testid="open-tabs-dialog">
       <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
       <IDSDialogActions>
         <IDSButton
