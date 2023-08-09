@@ -7,14 +7,13 @@ import {
   getCertificateWithQuestion,
   getValidDate,
 } from '@frontend/common'
-import { act, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays, isEqual } from 'date-fns'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
-import ReactDOM from 'react-dom/client'
 
 const QUESTION_ID = 'Test'
 
@@ -77,12 +76,10 @@ const defaultQuestion: CertificateDataElement = {
 let container: Element | DocumentFragment
 
 const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
-  act(() =>
-    ReactDOM.createRoot(container).render(
-      <Provider store={store}>
-        <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
-      </Provider>
-    )
+  render(
+    <Provider store={store}>
+      <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
+    </Provider>
   )
 }
 
