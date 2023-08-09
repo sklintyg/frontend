@@ -1,6 +1,6 @@
 import { Complement, getCertificate } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
@@ -31,7 +31,7 @@ describe('QuestionWithSubQuestions', () => {
   beforeEach(() => {
     clearDispatchedActions()
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(getCertificate()))
+    act(() => testStore.dispatch(updateCertificate(getCertificate())))
     renderComponent()
   })
 
@@ -51,7 +51,7 @@ describe('QuestionWithSubQuestions', () => {
       createComplement({ questionId: '1.2', message: 'Komplettering för 1.2' }),
       createComplement({ questionId: '1.3', message: 'Komplettering för 1.3' }),
     ]
-    testStore.dispatch(updateCertificateComplements(complements))
+    act(() => testStore.dispatch(updateCertificateComplements(complements)))
 
     complements.forEach((c) => expect(screen.queryByText(c.message)).toBeInTheDocument())
   })
