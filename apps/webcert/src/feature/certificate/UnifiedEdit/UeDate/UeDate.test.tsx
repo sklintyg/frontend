@@ -57,14 +57,14 @@ describe('DatePicker component', () => {
     expect(button).toBeDisabled()
   })
 
-  it('formats input into yyyy-mm-dd', () => {
+  it('formats input into yyyy-mm-dd', async () => {
     renderComponent({ disabled: false, question })
 
     const inputDate = '20220929'
     const expected = '2022-09-29'
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, inputDate)
+    await act(() => userEvent.type(input, inputDate))
     expect(input).toHaveValue(expected)
   })
 
@@ -94,7 +94,7 @@ describe('DatePicker component', () => {
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -109,7 +109,7 @@ describe('DatePicker component', () => {
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
 
-    testStore.dispatch(showValidationErrors())
+    act(() => testStore.dispatch(showValidationErrors()))
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
@@ -123,9 +123,7 @@ describe('DatePicker component', () => {
       })['id'],
     })
 
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
+    await act(() => userEvent.click(screen.getByLabelText('Öppna kalendern')))
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })

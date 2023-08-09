@@ -210,8 +210,8 @@ describe('Medical investigation component', () => {
     renderComponent({ disabled: false, question })
     const inputs = screen.getAllByRole('textbox')
     const newValue = 'text'
-    userEvent.clear(inputs[1])
-    userEvent.type(inputs[1], newValue)
+    await act(() => userEvent.clear(inputs[1]))
+    await act(() => userEvent.type(inputs[1], newValue))
     expect(inputs[1]).toHaveValue(newValue)
   })
 

@@ -1,5 +1,5 @@
 import { CertificateDataElement, ConfigTypes, fakeCertificateConfig, fakeCertificateValue } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -72,15 +72,15 @@ describe('Dropdown component', () => {
     })
   })
 
-  it('lets user choose option', () => {
+  it('lets user choose option', async () => {
     renderComponent()
     const dropdown = screen.getByRole('combobox')
     const options = screen.queryAllByRole('option') as HTMLOptionElement[]
     expect(dropdown).toHaveValue(OPTIONS[0].id)
     expect(options[0].selected).toBeTruthy()
     expect(options[1].selected).toBeFalsy()
-    userEvent.click(dropdown)
-    userEvent.selectOptions(dropdown, OPTIONS[1].id)
+    await act(() => userEvent.click(dropdown))
+    await act(() => userEvent.selectOptions(dropdown, OPTIONS[1].id))
     expect(dropdown).toHaveValue(OPTIONS[1].id)
     expect(options[1].selected).toBeTruthy()
     expect(options[0].selected).toBeFalsy()
