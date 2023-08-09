@@ -20,21 +20,7 @@ function TestComponent() {
   )
 }
 
-function fakeWindow() {
-  let closed = false
-  return {
-    closed,
-    close: () => {
-      closed = !closed
-    },
-  }
-}
-
-beforeEach(() => {
-  vi.spyOn(window, 'open').mockReturnValue(fakeWindow() as Window)
-})
-
-it('Should stop navigation when there are open tabs', async () => {
+function renderComponent() {
   render(
     <Provider store={store}>
       <RouterProvider
@@ -47,6 +33,23 @@ it('Should stop navigation when there are open tabs', async () => {
       />
     </Provider>
   )
+}
+
+beforeEach(() => {
+  function fakeWindow() {
+    let closed = false
+    return {
+      closed,
+      close: () => {
+        closed = !closed
+      },
+    }
+  }
+  vi.spyOn(window, 'open').mockReturnValue(fakeWindow() as Window)
+})
+
+it('Should stop navigation when there are open tabs', async () => {
+  renderComponent()
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
   expect(screen.getByTestId('open-tabs-dialog')).toBeInTheDocument()
@@ -58,18 +61,7 @@ it('Should stop navigation when there are open tabs', async () => {
 })
 
 it('Should hide the dialog when cancel is pressed', async () => {
-  render(
-    <Provider store={store}>
-      <RouterProvider
-        router={createMemoryRouter(
-          createRoutesFromChildren([
-            <Route key="1" path="/" element={<TestComponent />} />,
-            <Route key="2" path="/welcome" element={<p>Welcome</p>} />,
-          ])
-        )}
-      />
-    </Provider>
-  )
+  renderComponent()
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
   await userEvent.click(screen.getByRole('button', { name: 'Navigate' }))
@@ -80,18 +72,7 @@ it('Should hide the dialog when cancel is pressed', async () => {
 })
 
 it('Should close tabs and navigate awai when close is pressed', async () => {
-  render(
-    <Provider store={store}>
-      <RouterProvider
-        router={createMemoryRouter(
-          createRoutesFromChildren([
-            <Route key="1" path="/" element={<TestComponent />} />,
-            <Route key="2" path="/welcome" element={<p>Welcome</p>} />,
-          ])
-        )}
-      />
-    </Provider>
-  )
+  renderComponent()
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
   await userEvent.click(screen.getByRole('button', { name: 'Navigate' }))
