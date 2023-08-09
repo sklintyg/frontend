@@ -69,6 +69,7 @@ it('Should hide the dialog when cancel is pressed', async () => {
 
   await userEvent.click(screen.getByText('Avbryt'))
   expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'false')
+  expect(screen.queryByText('Welcome')).not.toBeInTheDocument()
 })
 
 it('Should close tabs and navigate awai when close is pressed', async () => {
@@ -79,6 +80,5 @@ it('Should close tabs and navigate awai when close is pressed', async () => {
   expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'true')
 
   await userEvent.click(screen.getByText('Stäng patientvy'))
-
   expect(screen.getByText('Welcome')).toBeInTheDocument()
 })
