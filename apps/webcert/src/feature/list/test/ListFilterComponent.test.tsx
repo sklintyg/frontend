@@ -1,6 +1,6 @@
 import { ListFilterConfig, ListFilterType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -107,36 +107,36 @@ describe('ListFilterComponent', () => {
       onChange = vi.fn()
     })
 
-    it('should update text filter value', () => {
+    it('should update text filter value', async () => {
       renderComponent(getTextFilter())
       const component = screen.getByRole('textbox')
-      userEvent.type(component, 't')
+      await act(() => userEvent.type(component, 't'))
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.TEXT, value: 't' }, component.id)
     })
 
-    it('should update person id filter value if person id is valid', () => {
+    it('should update person id filter value if person id is valid', async () => {
       renderComponent(getPersonIdFilter())
       const component = screen.getByRole('textbox')
-      userEvent.type(component, '19121212-1212')
+      await act(() => userEvent.type(component, '19121212-1212'))
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.PERSON_ID, value: '19121212-1212' }, component.id)
     })
 
-    it('should not update person id filter value if person id is invalid', () => {
+    it('should not update person id filter value if person id is invalid', async () => {
       renderComponent(getPersonIdFilter())
       const component = screen.getByRole('textbox')
-      userEvent.type(component, '111')
+      await act(() => userEvent.type(component, '111'))
       expect(onChange).not.toHaveBeenCalled()
     })
 
-    it('should update select filter value', () => {
+    it('should update select filter value', async () => {
       renderComponent(getSelectFilter())
       const select = screen.getByRole('combobox')
       const options = screen.getAllByRole('option')
-      userEvent.selectOptions(select, options[1])
+      await act(() => userEvent.selectOptions(select, options[1]))
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.SELECT, value: options[1].id }, select.id)
     })
 
-    it('should update date range filter to value', () => {
+    it('should update date range filter to value', async () => {
       testStore.dispatch(
         updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
       )
@@ -144,12 +144,12 @@ describe('ListFilterComponent', () => {
       renderComponent(filter)
 
       const to = screen.getByLabelText('to')
-      userEvent.type(to, '2020-01-01')
+      await act(() => userEvent.type(to, '2020-01-01'))
 
       expect(onChange).toHaveBeenCalledWith({ from: '', to: '2020-01-01', type: 'DATE_RANGE' }, filter.id)
     })
 
-    it('should update date range filter from value', () => {
+    it('should update date range filter from value', async () => {
       testStore.dispatch(
         updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
       )
@@ -158,15 +158,15 @@ describe('ListFilterComponent', () => {
       renderComponent(filter)
       const from = screen.getByLabelText('from')
 
-      userEvent.type(from, '2020-01-01')
+      await act(() => userEvent.type(from, '2020-01-01'))
       expect(onChange).toHaveBeenCalledWith({ from: '2020-01-01', to: '', type: 'DATE_RANGE' }, filter.id)
     })
 
-    it('should update radio filter value', () => {
+    it('should update radio filter value', async () => {
       const filter = getRadioFilter()
       renderComponent(filter)
       const radiobuttons = screen.getAllByRole('radio')
-      userEvent.click(radiobuttons[0])
+      await act(() => userEvent.click(radiobuttons[0]))
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.RADIO, value: radiobuttons[0].id }, filter.id)
     })
   })
