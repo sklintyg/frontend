@@ -72,7 +72,7 @@ it('Should hide the dialog when cancel is pressed', async () => {
   expect(screen.queryByText('Welcome')).not.toBeInTheDocument()
 })
 
-it('Should close tabs and navigate awai when close is pressed', async () => {
+it('Should close tabs and navigate away when close is pressed', async () => {
   renderComponent()
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
