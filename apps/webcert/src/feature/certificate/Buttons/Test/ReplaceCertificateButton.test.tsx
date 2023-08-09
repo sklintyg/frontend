@@ -1,5 +1,5 @@
 import { CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -47,31 +47,31 @@ describe('Replace continue button', () => {
     expect(name).not.toBeNull()
   })
 
-  it('shall set the description passed as prop', () => {
+  it('shall set the description passed as prop', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await act(() => userEvent.hover(screen.getByText(NAME)))
     const description = screen.queryByText(DESCRIPTION)
     expect(description).not.toBeNull()
   })
 
-  it('shall open modal when clicked', () => {
+  it('shall open modal when clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeNull()
   })
 
-  it("shall dispatch replace certificate when dialog button 'replace' is clicked", () => {
+  it("shall dispatch replace certificate when dialog button 'replace' is clicked", async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Ersätt'))
+    await act(() => userEvent.click(screen.queryByRole('button') as HTMLButtonElement))
+    await act(() => userEvent.click(screen.getByText('Ersätt')))
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
-  it("shall not dispatch replace certificate when dialog button 'cancelled' is clicked", () => {
+  it("shall not dispatch replace certificate when dialog button 'cancelled' is clicked", async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Avbryt'))
+    await act(() => userEvent.click(screen.queryByRole('button') as HTMLButtonElement))
+    await act(() => userEvent.click(screen.getByText('Avbryt')))
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 })

@@ -1,5 +1,5 @@
 import { CertificateMetadata, CertificateRelationType, CertificateStatus, CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
@@ -52,33 +52,33 @@ describe('Replace certificate continue button', () => {
     expect(name).not.toBeNull()
   })
 
-  it('shall set the description passed as prop', () => {
+  it('shall set the description passed as prop', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await act(() => userEvent.hover(screen.getByText(NAME)))
     const description = screen.queryByText(DESCRIPTION)
     expect(description).not.toBeNull()
   })
 
-  it('shall open modal when clicked', () => {
+  it('shall open modal when clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeNull()
   })
 
-  it("shall navigate to draft when dialog button 'continue' is clicked", () => {
+  it("shall navigate to draft when dialog button 'continue' is clicked", async () => {
     const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Fortsätt på utkast'))
+    await act(() => userEvent.click(screen.queryByRole('button') as HTMLButtonElement))
+    await act(() => userEvent.click(screen.getByText('Fortsätt på utkast')))
     expect(pushSpy).toHaveBeenCalledWith('/certificate/' + CERTIFICATE_ID)
   })
 
-  it("shall not navigate to draft when dialog button 'cancelled' is clicked", () => {
+  it("shall not navigate to draft when dialog button 'cancelled' is clicked", async () => {
     const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Avbryt'))
+    await act(() => userEvent.click(screen.queryByRole('button') as HTMLButtonElement))
+    await act(() => userEvent.click(screen.getByText('Avbryt')))
     expect(pushSpy).toHaveBeenCalledTimes(0)
   })
 })

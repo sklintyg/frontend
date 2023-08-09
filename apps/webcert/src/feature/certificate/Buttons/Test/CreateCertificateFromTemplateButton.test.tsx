@@ -1,5 +1,5 @@
 import { CertificateMetadata, CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -54,9 +54,9 @@ describe('Create certificate from template button', () => {
     expect(screen.getByText(NAME)).toBeInTheDocument()
   })
 
-  it('shall set description for button', () => {
+  it('shall set description for button', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await act(() => userEvent.hover(screen.getByText(NAME)))
     expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
   })
 
@@ -66,9 +66,9 @@ describe('Create certificate from template button', () => {
     expect(screen.queryByText(BODY)).not.toBeInTheDocument()
   })
 
-  it('renders modal when button is clicked', () => {
+  it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByLabelText('Template button name'))
+    await act(() => userEvent.click(screen.getByLabelText('Template button name')))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(BODY)).toBeInTheDocument()
   })
