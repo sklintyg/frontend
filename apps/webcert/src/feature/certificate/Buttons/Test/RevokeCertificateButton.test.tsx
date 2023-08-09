@@ -211,7 +211,7 @@ describe('Revoke continue button', () => {
       testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
 
       const certificate = createCertificate()
-      testStore.dispatch(updateCertificate(certificate))
+      act(() => testStore.dispatch(updateCertificate(certificate)))
     })
 
     afterEach(() => clearDispatchedActions())

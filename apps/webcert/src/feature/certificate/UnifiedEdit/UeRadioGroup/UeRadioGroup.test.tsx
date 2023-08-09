@@ -1,5 +1,5 @@
 import { CertificateDataElement, ConfigTypes, fakeCertificateValue } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -49,35 +49,22 @@ describe('Radio group component', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
-  it('allows user to switch radio button', () => {
+  it('allows user to switch radio button', async () => {
     renderDefaultComponent()
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).not.toBeChecked())
-    userEvent.click(radioButtons[0])
+    await act(() => userEvent.click(radioButtons[0]))
     expect(radioButtons[0]).toBeChecked()
     expect(radioButtons[1]).not.toBeChecked()
     expect(radioButtons[2]).not.toBeChecked()
-    userEvent.click(radioButtons[2])
+    await act(() => userEvent.click(radioButtons[2]))
     expect(radioButtons[2]).toBeChecked()
     expect(radioButtons[0]).not.toBeChecked()
     expect(radioButtons[1]).not.toBeChecked()
-    userEvent.click(radioButtons[1])
+    await act(() => userEvent.click(radioButtons[1]))
     expect(radioButtons[1]).toBeChecked()
     expect(radioButtons[0]).not.toBeChecked()
     expect(radioButtons[2]).not.toBeChecked()
-  })
-
-  it('allows user to check and uncheck radiobuttons by clicking on label', () => {
-    renderDefaultComponent()
-    const radioButtons = screen.queryAllByRole('radio')
-    expect(radioButtons).toHaveLength(CODES.length)
-    radioButtons.forEach((r: any, index: number) => {
-      const label = screen.getByText(CODES[index].label)
-      expect(r).not.toBeChecked()
-      expect(label).not.toBeNull()
-      userEvent.click(label)
-      expect(r).toBeChecked()
-    })
   })
 
   it('disables radio buttons when disabled is set', () => {
@@ -89,5 +76,18 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).toBeDisabled())
+  })
+
+  it('allows user to check and uncheck radiobuttons by clicking on label', () => {
+    renderDefaultComponent()
+    const radioButtons = screen.queryAllByRole('radio')
+    expect(radioButtons).toHaveLength(CODES.length)
+    radioButtons.forEach(async (r: any, index: number) => {
+      const label = screen.getByText(CODES[index].label)
+      expect(r).not.toBeChecked()
+      expect(label).not.toBeNull()
+      await act(() => userEvent.click(label))
+      expect(r).toBeChecked()
+    })
   })
 })

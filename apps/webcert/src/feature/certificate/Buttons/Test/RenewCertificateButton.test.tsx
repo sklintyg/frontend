@@ -1,5 +1,5 @@
 import { CertificateMetadata, CustomTooltip, Unit, User } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
@@ -69,7 +69,7 @@ describe('Renew certificate button', () => {
 
   it('sets correct description for button', async () => {
     renderDefaultComponent(true)
-    await userEvent.hover(screen.getByText(NAME))
+    await act(() => userEvent.hover(screen.getByText(NAME)))
     expect(screen.queryByText(DESCRIPTION)).not.toBeNull()
   })
 
@@ -79,43 +79,43 @@ describe('Renew certificate button', () => {
     expect(body).toBeNull()
   })
 
-  it('renders modal when button is clicked', () => {
+  it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
     expect(button).not.toBeDisabled()
     expect(screen.queryByText(BODY)).toBeNull()
     expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeNull()
     expect(screen.queryByText(BODY)).not.toBeNull()
   })
 
-  it('allows user to interact with modal', () => {
+  it('allows user to interact with modal', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeNull()
     const checkbox = screen.queryByRole('checkbox') as HTMLInputElement
     expect(checkbox).not.toBeNull()
     expect(checkbox).not.toBeChecked()
-    userEvent.click(checkbox)
+    await act(() => userEvent.click(checkbox))
     expect(screen.queryByRole('dialog')).not.toBeNull()
     expect(checkbox).toBeChecked()
-    userEvent.click(checkbox)
+    await act(() => userEvent.click(checkbox))
     expect(checkbox).not.toBeChecked()
-    userEvent.click(screen.getByText('Förnya'))
+    await act(() => userEvent.click(screen.getByText('Förnya')))
     expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeNull()
-    userEvent.click(screen.getByText('Avbryt'))
+    await act(() => userEvent.click(screen.getByText('Avbryt')))
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 
-  it('does not show dialog if preference to hide renewal dialog is set', () => {
+  it('does not show dialog if preference to hide renewal dialog is set', async () => {
     user.preferences = { [DONT_SHOW_FORNYA_DIALOG]: 'true' }
     renderDefaultComponent(true)
     expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    await act(() => userEvent.click(screen.queryByRole('button') as HTMLButtonElement))
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 })

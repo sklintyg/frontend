@@ -1,6 +1,6 @@
 import { ListFilterType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { Provider } from 'react-redux'
@@ -28,7 +28,9 @@ const renderComponent = () => {
 describe('DateRangeFilter', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([listMiddleware])
-    testStore.dispatch(updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } }))
+    act(() =>
+      testStore.dispatch(updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } }))
+    )
   })
 
   describe('Validation', () => {
@@ -37,15 +39,17 @@ describe('DateRangeFilter', () => {
     })
 
     it('should display future dates validation error', () => {
-      testStore.dispatch(
-        updateActiveListFilterValue({
-          id: config.id,
-          filterValue: {
-            type: ListFilterType.DATE_RANGE,
-            to: '',
-            from: addDays(new Date(), 2).toISOString().slice(0, 10),
-          },
-        })
+      act(() =>
+        testStore.dispatch(
+          updateActiveListFilterValue({
+            id: config.id,
+            filterValue: {
+              type: ListFilterType.DATE_RANGE,
+              to: '',
+              from: addDays(new Date(), 2).toISOString().slice(0, 10),
+            },
+          })
+        )
       )
 
       renderComponent()
@@ -54,11 +58,13 @@ describe('DateRangeFilter', () => {
     })
 
     it('should display invalid date period validation error', () => {
-      testStore.dispatch(
-        updateActiveListFilterValue({
-          id: config.id,
-          filterValue: { type: ListFilterType.DATE_RANGE, to: '2020-01-01', from: '2020-01-05' },
-        })
+      act(() =>
+        testStore.dispatch(
+          updateActiveListFilterValue({
+            id: config.id,
+            filterValue: { type: ListFilterType.DATE_RANGE, to: '2020-01-01', from: '2020-01-05' },
+          })
+        )
       )
 
       renderComponent()
@@ -75,55 +81,55 @@ describe('DateRangeFilter', () => {
       expect(onChange).not.toHaveBeenCalled()
     })
 
-    it('should not call onChange if future date', () => {
+    it('should not call onChange if future date', async () => {
       renderComponent()
 
       const input = screen.getByText('from')
-      userEvent.type(input, '3000-01-01')
+      await act(() => userEvent.type(input, '3000-01-01'))
 
       expect(onChange).not.toHaveBeenCalled()
     })
 
-    it('should not call onChange for to date if to date is before from date', () => {
+    it('should not call onChange for to date if to date is before from date', async () => {
       renderComponent()
 
       const from = screen.getByText('from')
       const to = screen.getByText('to')
-      userEvent.type(from, '2020-02-02')
-      userEvent.type(to, '2020-01-01')
+      await act(() => userEvent.type(from, '2020-02-02'))
+      await act(() => userEvent.type(to, '2020-01-01'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
     })
 
-    it('should call onChange if correct date', () => {
+    it('should call onChange if correct date', async () => {
       renderComponent()
 
       const from = screen.getByText('from')
-      userEvent.type(from, '2020-02-02')
+      await act(() => userEvent.type(from, '2020-02-02'))
 
       expect(onChange).toHaveBeenCalled()
     })
 
-    it('should call onChange if date returns to empty', () => {
+    it('should call onChange if date returns to empty', async () => {
       renderComponent()
 
       const [from, to] = screen.getAllByRole('textbox')
 
       expect(onChange).toHaveBeenCalledTimes(0)
 
-      userEvent.type(from, '2022-08-18')
+      await act(() => userEvent.type(from, '2022-08-18'))
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith({ from: '2022-08-18', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
 
-      userEvent.clear(from)
+      await act(() => userEvent.clear(from))
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
 
-      userEvent.type(to, '2022-08-18')
+      await act(() => userEvent.type(to, '2022-08-18'))
       expect(onChange).toHaveBeenCalledTimes(3)
       expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '2022-08-18', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
 
-      userEvent.clear(to)
+      await act(() => userEvent.clear(to))
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
     })

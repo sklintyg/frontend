@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
@@ -57,15 +57,15 @@ describe('Create certificate from candidate modal', () => {
     expect(screen.getByText('Till Webcert')).toBeDisabled()
   })
 
-  it('shall enable confirm button if checkbox is checked', () => {
+  it('shall enable confirm button if checkbox is checked', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByRole('checkbox'))
+    await act(() => userEvent.click(screen.getByRole('checkbox')))
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
-  it('shall dispatch error if cancel button is pressed', () => {
+  it('shall dispatch error if cancel button is pressed', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByText('Avbryt'))
+    await act(() => userEvent.click(screen.getByText('Avbryt')))
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(useDispatchSpy).toHaveBeenCalled()

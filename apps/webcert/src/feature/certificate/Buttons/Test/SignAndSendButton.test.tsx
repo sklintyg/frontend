@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeTextAreaElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { getByText, queryByText, render, screen } from '@testing-library/react'
+import { act, getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -47,10 +47,10 @@ describe('Sign certificate without confirmation modal', () => {
     expect(button).toBeDisabled()
   })
 
-  it('Click Sign button and no modal', () => {
+  it('Click Sign button and no modal', async () => {
     renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(dispatchedActions).toHaveLength(1)
   })
 })
@@ -58,8 +58,8 @@ describe('Sign certificate without confirmation modal', () => {
 describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
-    testStore.dispatch(updateValidationErrors([]))
+    act(() => testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) }))))
+    act(() => testStore.dispatch(updateValidationErrors([])))
     clearDispatchedActions()
   })
 
@@ -79,10 +79,10 @@ describe('Sign certificate with confirmation modal', () => {
     expect(button).toBeDisabled()
   })
 
-  it('Click Sign button and modal', () => {
+  it('Click Sign button and modal', async () => {
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
 
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
     expect(screen.queryByText(commonProps.body)).toBeInTheDocument()
@@ -93,30 +93,30 @@ describe('Sign certificate with confirmation modal', () => {
     expect(cancelButton).toBeInTheDocument()
   })
 
-  it('Click Sign button and modal cancel', () => {
+  it('Click Sign button and modal cancel', async () => {
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
 
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const cancelButton = getByText(modalBody, 'Avbryt')
-    userEvent.click(cancelButton)
+    await act(() => userEvent.click(cancelButton))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(dispatchedActions).toHaveLength(0)
   })
 
-  it('Click Sign button and modal confirm', () => {
+  it('Click Sign button and modal confirm', async () => {
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
 
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const confirmButton = getByText(modalBody, commonProps.name)
-    userEvent.click(confirmButton)
+    await act(() => userEvent.click(confirmButton))
     expect(dispatchedActions).toHaveLength(1)
   })
 
-  it('Should not display confirmation modal when there are unresolved validation errors', () => {
+  it('Should not display confirmation modal when there are unresolved validation errors', async () => {
     testStore.dispatch(
       updateValidationErrors([
         {
@@ -130,14 +130,14 @@ describe('Sign certificate with confirmation modal', () => {
     )
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  it('Should hide modal confirmation button when canSign is false', () => {
+  it('Should hide modal confirmation button when canSign is false', async () => {
     renderDefaultComponent({ ...commonProps, canSign: false, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await act(() => userEvent.click(button))
 
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
 

@@ -1,6 +1,6 @@
 import { getResourceLinkWithType, getUser, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -25,7 +25,7 @@ describe('WarningNormalOriginModal', () => {
   })
 
   it('should not render modal if resource link is not set', () => {
-    testStore.dispatch(updateUser(getUser()))
+    act(() => testStore.dispatch(updateUser(getUser())))
     renderComponent()
 
     expect(screen.queryByText(INFO_BOX)).not.toBeInTheDocument()
@@ -39,24 +39,24 @@ describe('WarningNormalOriginModal', () => {
   })
 
   it('should render modal if resource link is set', () => {
-    testStore.dispatch(updateUser(getUser()))
+    act(() => testStore.dispatch(updateUser(getUser())))
     setupResourceLinks()
     renderComponent()
 
     expect(screen.getByText(INFO_BOX)).toBeInTheDocument()
   })
 
-  it('should close modal if close button is pressed', () => {
-    testStore.dispatch(updateUser(getUser()))
+  it('should close modal if close button is pressed', async () => {
+    act(() => testStore.dispatch(updateUser(getUser())))
     setupResourceLinks()
     renderComponent()
 
-    userEvent.click(screen.getByRole('button'))
+    await act(() => userEvent.click(screen.getByRole('button')))
 
     expect(screen.queryByText(INFO_BOX)).not.toBeInTheDocument()
   })
 })
 
 const setupResourceLinks = () => {
-  testStore.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)]))
+  act(() => testStore.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)])))
 }
