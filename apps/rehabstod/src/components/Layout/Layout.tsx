@@ -2,13 +2,13 @@ import { IDSSpinner } from '@frontend/ids-react-ts'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { useGetConfigQuery } from '../../store/api'
-import { GlobalAlert } from '../GlobalAlert/GlobalAlert'
 import { PageHero } from '../PageHero/PageHero'
+import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 import { AboutDialog } from '../dialog/AboutDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
+import { GlobalAlert } from './GlobalAlert/GlobalAlert'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
-import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 
 export function Layout() {
   const { user, isLoading } = useSession()

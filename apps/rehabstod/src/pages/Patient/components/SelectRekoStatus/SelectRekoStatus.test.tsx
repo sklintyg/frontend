@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
+import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 import { SelectRekoStatus } from './SelectRekoStatus'
-import { renderWithRouter } from '../../utils/renderWithRouter'
-import { RekoStatusType } from '../../schemas/sickLeaveSchema'
 
 const TYPES = [
   { id: 'id', name: 'name' },
