@@ -103,26 +103,26 @@ describe('CheckboxDateGroup component', () => {
   })
 
   it('Should disable options past max date', async () => {
-    store.dispatch(
-      updateCertificate(
-        getCertificateWithQuestion(
-          fakeCheckboxMultipleDate({
-            id: QUESTION_ID,
-            config: fakeCertificateConfig.checkboxMultipleDate({
-              list: [{ id: 'item', maxDate: '2023-02-17' }],
-            }),
-            value: fakeCertificateValue.dateList({
-              list: [{ id: 'item', date: '2023-02-17' }],
-            }),
-          })[QUESTION_ID]
+    act(() =>
+      store.dispatch(
+        updateCertificate(
+          getCertificateWithQuestion(
+            fakeCheckboxMultipleDate({
+              id: QUESTION_ID,
+              config: fakeCertificateConfig.checkboxMultipleDate({
+                list: [{ id: 'item', maxDate: '2023-02-17' }],
+              }),
+              value: fakeCertificateValue.dateList({
+                list: [{ id: 'item', date: '2023-02-17' }],
+              }),
+            })[QUESTION_ID]
+          )
         )
       )
     )
     renderComponent(false)
 
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
+    await act(() => userEvent.click(screen.getByLabelText('Öppna kalendern')))
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
