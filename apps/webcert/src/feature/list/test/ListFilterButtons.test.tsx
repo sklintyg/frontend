@@ -1,5 +1,5 @@
 import { CustomTooltip } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import ListFilterButtons from '../ListFilterButtons'
@@ -40,15 +40,15 @@ describe('ListFilterButtons', () => {
     expect(screen.getByText('Återställ sökfilter', { exact: false })).toBeInTheDocument()
   })
 
-  it('should show search tooltip', () => {
+  it('should show search tooltip', async () => {
     renderComponent(true)
-    userEvent.hover(screen.getByText('Sök'))
+    await act(() => userEvent.hover(screen.getByText('Sök')))
     expect(screen.getByText(TOOLTIP_SEARCH)).toBeInTheDocument()
   })
 
-  it('should show reset tooltip', () => {
+  it('should show reset tooltip', async () => {
     renderComponent(true)
-    userEvent.hover(screen.getByText('Återställ sökfilter'))
+    await act(() => userEvent.hover(screen.getByText('Återställ sökfilter')))
     expect(screen.getByText(TOOLTIP_RESET)).toBeInTheDocument()
   })
 
@@ -62,16 +62,16 @@ describe('ListFilterButtons', () => {
     expect(screen.getByText('Sök')).toBeDisabled()
   })
 
-  it('should perform search when clicking on button', () => {
+  it('should perform search when clicking on button', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Sök'))
+    await act(() => userEvent.click(screen.getByText('Sök')))
     expect(onSearch).toHaveBeenCalled()
     expect(onReset).not.toHaveBeenCalled()
   })
 
-  it('should perform reset when clicking on button', () => {
+  it('should perform reset when clicking on button', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Återställ sökfilter'))
+    await act(() => userEvent.click(screen.getByText('Återställ sökfilter')))
     expect(onReset).toHaveBeenCalled()
     expect(onSearch).not.toHaveBeenCalled()
   })
