@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
-import { PatientDiagnosisAccordion } from '../../../../components/PatientAccordion/PatientDiagnosisAccordion'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import { PatientSjukfall } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { PatientDiagnosisAccordion } from '../PatientAccordion/PatientDiagnosisAccordion'
 import { PatientTableBody } from './PatientTableBody'
 import { usePatientSickLeavesTableColumns } from './hooks/usePatientSickLeavesTableColumns'
 

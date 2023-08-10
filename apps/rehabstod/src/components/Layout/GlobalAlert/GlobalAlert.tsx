@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
 import { IDSAlertGlobal, IDSIconAttention, IDSIconInformation, IDSIconWarning } from '@frontend/ids-react-ts'
-import { BannerPriority } from '../../schemas'
+import { ReactNode } from 'react'
+import { BannerPriority } from '../../../schemas'
 
 export function GlobalAlert({ children, priority }: { children: ReactNode; priority: BannerPriority }) {
   return (
