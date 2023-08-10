@@ -32,6 +32,7 @@ export function FormattedNumberInput({
       event.key !== 'ArrowLeft' &&
       event.key !== 'ArrowRight' &&
       event.key !== 'Delete' &&
+      event.key !== 'Tab' &&
       selection?.type !== 'Range'
     )
   }
