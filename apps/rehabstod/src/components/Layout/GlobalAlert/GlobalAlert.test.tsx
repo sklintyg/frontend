@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
+import { BannerPriority } from '../../../schemas'
 import { GlobalAlert } from './GlobalAlert'
-import { BannerPriority } from '../../schemas'
 
 const renderComponent = (priority: BannerPriority) => {
   render(

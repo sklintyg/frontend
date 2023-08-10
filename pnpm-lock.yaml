@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -170,10 +170,10 @@ importers:
         version: 5.14.5
       '@vitejs/plugin-basic-ssl':
         specifier: ^1.0.1
-        version: 1.0.1(vite@4.1.1)
+        version: 1.0.1(vite@4.1.5)
       '@vitejs/plugin-react':
         specifier: ^3.1.0
-        version: 3.1.0(vite@4.1.1)
+        version: 3.1.0(vite@4.1.5)
       '@vitest/coverage-c8':
         specifier: ^0.29.2
         version: 0.29.2(vitest@0.29.7)
@@ -217,8 +217,8 @@ importers:
         specifier: ^9.3.1
         version: 9.3.1(typescript@5.0.4)
       vite:
-        specifier: ^4.1.1
-        version: 4.1.1(@types/node@14.14.31)
+        specifier: ^4.1.5
+        version: 4.1.5(@types/node@14.14.31)
       vitest:
         specifier: ^0.29.2
         version: 0.29.7(jsdom@21.1.1)
@@ -348,10 +348,10 @@ importers:
         version: 5.14.5
       '@vitejs/plugin-basic-ssl':
         specifier: ^1.0.1
-        version: 1.0.1(vite@4.1.1)
+        version: 1.0.1(vite@4.1.5)
       '@vitejs/plugin-react':
         specifier: ^3.1.0
-        version: 3.1.0(vite@4.1.1)
+        version: 3.1.0(vite@4.1.5)
       '@vitest/coverage-c8':
         specifier: ^0.29.2
         version: 0.29.2(vitest@0.29.7)
@@ -377,8 +377,8 @@ importers:
         specifier: ^21.1.0
         version: 21.1.1
       vite:
-        specifier: ^4.1.1
-        version: 4.1.1(@types/node@14.14.31)
+        specifier: ^4.1.5
+        version: 4.1.5(@types/node@14.14.31)
       vitest:
         specifier: ^0.29.2
         version: 0.29.7(jsdom@21.1.1)
@@ -529,7 +529,7 @@ importers:
         version: 8.8.0(eslint@8.42.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.2(eslint@8.42.0)
+        version: 1.10.12(eslint@8.42.0)
       eslint-plugin-import:
         specifier: ^2.27.5
         version: 2.27.5(@typescript-eslint/parser@5.59.8)(eslint@8.42.0)
@@ -3649,16 +3649,16 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: true
 
-  /@vitejs/plugin-basic-ssl@1.0.1(vite@4.1.1):
+  /@vitejs/plugin-basic-ssl@1.0.1(vite@4.1.5):
     resolution: {integrity: sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==}
     engines: {node: '>=14.6.0'}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
     dependencies:
-      vite: 4.1.1(@types/node@14.14.31)
+      vite: 4.1.5(@types/node@14.14.31)
     dev: true
 
-  /@vitejs/plugin-react@3.1.0(vite@4.1.1):
+  /@vitejs/plugin-react@3.1.0(vite@4.1.5):
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -3669,7 +3669,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.22.5)
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 4.1.1(@types/node@14.14.31)
+      vite: 4.1.5(@types/node@14.14.31)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4999,6 +4999,11 @@ packages:
       tslib: 2.5.3
     dev: true
 
+  /dotenv@16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
+    dev: false
+
   /drange@1.1.1:
     resolution: {integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==}
     engines: {node: '>=4'}
@@ -5278,13 +5283,13 @@ packages:
       eslint: 8.42.0
     dev: false
 
-  /eslint-config-turbo@1.10.2(eslint@8.42.0):
-    resolution: {integrity: sha512-BaCnpn2GM0rTFLuTVplqY8n+3ttWcu/vEmfjJ2BNBVmwX6ALZoJQfL26ZW6VucRk0psTUJALeo+aPrf3VKEJXA==}
+  /eslint-config-turbo@1.10.12(eslint@8.42.0):
+    resolution: {integrity: sha512-z3jfh+D7UGYlzMWGh+Kqz++hf8LOE96q3o5R8X4HTjmxaBWlLAWG+0Ounr38h+JLR2TJno0hU9zfzoPNkR9BdA==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.42.0
-      eslint-plugin-turbo: 1.10.2(eslint@8.42.0)
+      eslint-plugin-turbo: 1.10.12(eslint@8.42.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.7:
@@ -5484,11 +5489,12 @@ packages:
       tailwindcss: 3.2.7(postcss@8.4.21)
     dev: true
 
-  /eslint-plugin-turbo@1.10.2(eslint@8.42.0):
-    resolution: {integrity: sha512-Kxsy4zlKLrGkEqZgcAQtu16YqU/g0mV1vYa9/VweF+MSnWWQsEzsJ1qlzTfXV6N9VqGmkuLiyWOA84sRUklOOg==}
+  /eslint-plugin-turbo@1.10.12(eslint@8.42.0):
+    resolution: {integrity: sha512-uNbdj+ohZaYo4tFJ6dStRXu2FZigwulR1b3URPXe0Q8YaE7thuekKNP+54CHtZPH9Zey9dmDx5btAQl9mfzGOw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
+      dotenv: 16.0.3
       eslint: 8.42.0
     dev: false
 
@@ -9632,7 +9638,7 @@ packages:
       mlly: 1.3.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.1.1(@types/node@14.14.31)
+      vite: 4.1.5(@types/node@14.14.31)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9643,8 +9649,8 @@ packages:
       - terser
     dev: true
 
-  /vite@4.1.1(@types/node@14.14.31):
-    resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
+  /vite@4.1.5(@types/node@14.14.31):
+    resolution: {integrity: sha512-zJ0RiVkf61kpd7O+VtU6r766xgnTaIknP/lR6sJTZq3HtVJ3HGnTo5DaJhTUtYoTyS/CQwZ6yEVdc/lrmQT7dQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -9727,7 +9733,7 @@ packages:
       tinybench: 2.5.0
       tinypool: 0.4.0
       tinyspy: 1.1.1
-      vite: 4.1.1(@types/node@14.14.31)
+      vite: 4.1.5(@types/node@14.14.31)
       vite-node: 0.29.7(@types/node@14.14.31)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
