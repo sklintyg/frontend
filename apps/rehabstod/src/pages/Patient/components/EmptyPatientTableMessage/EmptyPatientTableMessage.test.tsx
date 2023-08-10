@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { fakeUser } from '../../utils/fake/fakeUser'
+import { fakeUser } from '../../../../utils/fake/fakeUser'
 import { EmptyPatientTableMessage } from './EmptyPatientTableMessage'
 
 describe('EmptyPatientTableMessage', () => {

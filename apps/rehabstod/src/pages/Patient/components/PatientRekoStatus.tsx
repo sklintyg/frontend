@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
-import { SelectRekoStatus } from '../../../components/SelectRekoStatus/SelectRekoStatus'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/api'
+import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 
 export function PatientRekoStatus({
   currentSickLeaves,
