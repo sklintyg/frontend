@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import { MobileMenuItem } from '@frontend/components'
 import { IDSHeaderMobileMenu, IDSMobileMenuItem } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
@@ -16,9 +16,7 @@ export function LayoutMobileHeader() {
   return (
     <IDSHeaderMobileMenu type="inera-admin">
       <IDSMobileMenuItem headline={user?.namn}>
-        <IDSMobileMenuItem>
-          <Link to="/enhet">Byt vårdenhet</Link>
-        </IDSMobileMenuItem>
+        <MobileMenuItem to="/enhet" title="Byt vårdenhet" />
         <IDSMobileMenuItem>
           <a
             onClick={() => {
@@ -32,15 +30,9 @@ export function LayoutMobileHeader() {
           <a onClick={logout}>Logga ut</a>
         </IDSMobileMenuItem>
       </IDSMobileMenuItem>
-      <IDSMobileMenuItem>
-        <Link to="/">Översikt</Link>
-      </IDSMobileMenuItem>
-      <IDSMobileMenuItem>
-        <Link to="/pagaende-sjukfall">Pågående sjukfall</Link>
-      </IDSMobileMenuItem>
-      <IDSMobileMenuItem>
-        <Link to="/lakarutlatanden">Läkarutlåtanden</Link>
-      </IDSMobileMenuItem>
+      <MobileMenuItem to="/" title='Översikt' />
+      <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
+      <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
     </IDSHeaderMobileMenu>
   )
 }
