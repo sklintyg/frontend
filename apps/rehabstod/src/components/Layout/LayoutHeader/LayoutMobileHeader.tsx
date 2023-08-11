@@ -30,7 +30,7 @@ export function LayoutMobileHeader() {
           <a onClick={logout}>Logga ut</a>
         </IDSMobileMenuItem>
       </IDSMobileMenuItem>
-      <MobileMenuItem to="/" title='Översikt' />
+      <MobileMenuItem to="/" title="Översikt" />
       <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
       <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
     </IDSHeaderMobileMenu>
