@@ -1,11 +1,10 @@
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 
 const links = [
   { title: 'Start', path: '/' },
   { title: 'Inkorg', path: '/inkorg' },
-  { title: 'Bokade tider', path: '/bokade-tider' },
   { title: 'Bokade tider', path: '/bokade-tider' },
   { title: 'Journalen', path: '/journalen' },
   { title: 'Egen provhantering', path: '/egen-provhantering' },
@@ -29,6 +28,14 @@ export function LayoutHeader() {
         {links.map(({ title, path }) => (
           <HeaderNavItem key={path} to={path} title={title} />
         ))}
+
+        <IDSHeaderMobileItem>
+          <Link to="/installningar">Inställningar</Link>
+        </IDSHeaderMobileItem>
+        <IDSHeaderMobileItem>
+          <Link to="/logout">Logga ut</Link>
+        </IDSHeaderMobileItem>
+
         <IDSHeaderMobileMenu type="1177">
           Meny
           {links.map(({ title, path }) => (
