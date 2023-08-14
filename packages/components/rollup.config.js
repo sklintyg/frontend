@@ -36,6 +36,12 @@ const plugins = [
   }),
 ]
 
+function onwarn(message) {
+  if (['EMPTY_BUNDLE', 'CIRCULAR_DEPENDENCY'].includes(message.code)) return
+  // eslint-disable-next-line no-console
+  console.error(message)
+}
+
 export default defineConfig([
   {
     input: entries,
@@ -52,9 +58,3 @@ export default defineConfig([
     onwarn,
   },
 ])
-
-function onwarn(message) {
-  if (['EMPTY_BUNDLE', 'CIRCULAR_DEPENDENCY'].includes(message.code)) return
-  // eslint-disable-next-line no-console
-  console.error(message)
-}
