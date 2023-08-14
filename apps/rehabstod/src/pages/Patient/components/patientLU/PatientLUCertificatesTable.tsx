@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { EmptyPatientTableMessage } from '../../../../components/Table/EmptyPatientTableMessage'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
@@ -18,6 +17,7 @@ import { LUCertificatesColumn } from '../../../../store/slices/luUnitTableColumn
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
+import { EmptyPatientTableMessage } from '../EmptyPatientTableMessage/EmptyPatientTableMessage'
 import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
 
 export function PatientLUCertificatesTable() {
