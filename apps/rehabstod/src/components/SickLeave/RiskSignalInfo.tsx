@@ -1,5 +1,5 @@
+import { classNames } from '@frontend/components'
 import { RiskSignal } from '../../schemas/sickLeaveSchema'
-import { classNames } from '../../utils/classNames'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'

@@ -1,3 +1,4 @@
+import { classNames } from '@frontend/components'
 import { Key, useRef } from 'react'
 import {
   AriaListBoxProps,
@@ -22,7 +23,6 @@ import {
   useDroppableCollectionState,
   useListState,
 } from 'react-stately'
-import { classNames } from '../../utils/classNames'
 import { DropIndicator } from './DropIndicator'
 
 function ReorderableOption<T extends object>({

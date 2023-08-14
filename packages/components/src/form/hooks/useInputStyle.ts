@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '../../utils/classNames'
 
 const getStyle = ({ error, disabled, bright, flex }: Record<string, boolean | undefined>): string => {
   if (disabled) {

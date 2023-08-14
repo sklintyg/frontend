@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { classNames } from '@frontend/components'
 import React from 'react'
 import { useInputStyle } from './hooks/useInputStyle'
-import { classNames } from '../../utils/classNames'
 
 interface SelectProps {
   error?: boolean
