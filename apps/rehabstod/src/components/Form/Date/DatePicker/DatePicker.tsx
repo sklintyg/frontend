@@ -1,10 +1,10 @@
+import { useInputStyle } from '@frontend/components'
 import React from 'react'
 import { AriaDatePickerProps, DateValue, useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
 import { Calendar } from '../../../Calendar/Calendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { useInputStyle } from '../../hooks/useInputStyle'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 

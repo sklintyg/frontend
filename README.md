@@ -18,6 +18,7 @@
 
 This repo holds multiple applications, read more about getting started with each application in their respective README.
 
+- [minaintyg](apps/minaintyg/README.md)
 - [rehabstod](apps/rehabstod/README.md)
 - [webcert](apps/webcert/README.md)
 

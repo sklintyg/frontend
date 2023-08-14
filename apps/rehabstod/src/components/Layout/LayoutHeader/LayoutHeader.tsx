@@ -1,3 +1,4 @@
+import { HeaderNavItem } from '@frontend/components'
 import {
   IDSHeader,
   IDSHeaderAvatar,
@@ -18,7 +19,6 @@ import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
-import { LayoutHeaderTab } from './LayoutHeaderTab'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
 
 export function LayoutHeader() {
@@ -67,9 +67,9 @@ export function LayoutHeader() {
             </div>
           </IDSHeaderAvatar>
           <IDSHeaderNav type="inera-admin">
-            <LayoutHeaderTab title="Översikt" to="/" />
-            <LayoutHeaderTab title="Pågående sjukfall" to="/pagaende-sjukfall" />
-            <LayoutHeaderTab title="Läkarutlåtanden" to="/lakarutlatanden" />
+            <HeaderNavItem title="Översikt" to="/" />
+            <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
+            <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
           </IDSHeaderNav>
         </>
       )}

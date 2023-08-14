@@ -1,4 +1,4 @@
-import { classNames } from '../../../utils/classNames'
+import { classNames } from '@frontend/components'
 import { Tooltip } from '../../Tooltip/Tooltip'
 import { TooltipContent } from '../../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'

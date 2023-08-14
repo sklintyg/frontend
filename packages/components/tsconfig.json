@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES5",
+    "module": "ESNext",
+    "declaration": false,
+    "jsx": "react-jsx",
+    "types": ["@types/testing-library__jest-dom"]
+  },
+  "exclude": ["dist", "node_modules"]
+}

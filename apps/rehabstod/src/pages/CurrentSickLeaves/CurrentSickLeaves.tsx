@@ -1,6 +1,6 @@
-import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { PrintButton } from '../../components/PrintButton/PrintButton'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
@@ -59,7 +59,6 @@ export function CurrentSickLeaves() {
   return (
     <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
-      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {
@@ -90,9 +89,7 @@ export function CurrentSickLeaves() {
               <div className="w-96">
                 <ModifySicknessTableColumns />
               </div>
-              <IDSButton onClick={() => window.print()} className="mb-3 whitespace-nowrap">
-                Skriv ut
-              </IDSButton>
+              <PrintButton />
             </div>
           </div>
           <Table
