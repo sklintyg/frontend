@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames, useInputStyle } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import React from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
@@ -7,7 +7,6 @@ import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
 import { TooltipIcon } from '../../../TooltipIcon/TooltipIcon'
-import { useInputStyle } from '../../hooks/useInputStyle'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 
