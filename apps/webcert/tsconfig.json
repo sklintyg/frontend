@@ -7,6 +7,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@types/testing-library__jest-dom"]
+    "types": ["@types/testing-library__jest-dom"],
+    // Tell compiler to use React 17 dependencies.
+    "paths": {
+      "react": ["./node_modules/@types/react"],
+      "@frontend/common": ["../../packages/common/src/index.ts"]
+    }
   }
 }
