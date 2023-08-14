@@ -21,7 +21,8 @@
     ]
   },
   "dependencies": {
-    "@floating-ui/react": "^0.23.0",
+    "@floating-ui/react": "^0.25.1",
+    "@frontend/components": "workspace:*",
     "@frontend/fake": "workspace:*",
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^2.6.0",

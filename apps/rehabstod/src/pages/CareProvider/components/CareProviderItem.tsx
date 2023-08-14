@@ -1,6 +1,6 @@
+import { classNames } from '@frontend/components'
 import { IDSRadio } from '@frontend/ids-react-ts'
 import { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
-import { classNames } from '../../../utils/classNames'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 export function CareProviderItem({

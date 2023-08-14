@@ -1,8 +1,8 @@
+import { classNames } from '@frontend/components'
 import { createCalendar } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDateFieldProps, DateValue, useDateField, useDateSegment, useLocale } from 'react-aria'
 import { DateFieldState, DateSegment, useDateFieldState } from 'react-stately'
-import { classNames } from '../../../utils/classNames'
 
 function DateFieldSegment({ segment, state }: { segment: DateSegment; state: DateFieldState }) {
   const ref = useRef(null)
