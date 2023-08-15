@@ -44,7 +44,7 @@ export function Dialog({
 
   return (
     <IDSDialog role="dialog" show={open ? 'true' : 'false'} ref={ref} {...props}>
-      {open && children}
+      {open && <div className="max-w-3xl">{children}</div>}
     </IDSDialog>
   )
 }
