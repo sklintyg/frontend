@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
@@ -18,11 +18,9 @@ export function Home() {
   }, [user, navigate])
 
   return user ? (
-    <IDSContainer>
-      <ProtectedRoute requireUnit>
-        <OverviewStatistics />
-      </ProtectedRoute>
-    </IDSContainer>
+    <ProtectedRoute requireUnit>
+      <OverviewStatistics />
+    </ProtectedRoute>
   ) : (
     <PageHero type="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>

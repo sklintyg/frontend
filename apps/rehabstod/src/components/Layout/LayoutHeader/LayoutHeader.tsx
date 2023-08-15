@@ -29,7 +29,7 @@ export function LayoutHeader() {
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
+    <IDSHeader fluid type="inera-admin" className="z-40 bg-white print:hidden">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
@@ -66,7 +66,7 @@ export function LayoutHeader() {
               />
             </div>
           </IDSHeaderAvatar>
-          <IDSHeaderNav type="inera-admin">
+          <IDSHeaderNav fluid type="inera-admin">
             <HeaderNavItem title="Översikt" to="/" />
             <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
             <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />

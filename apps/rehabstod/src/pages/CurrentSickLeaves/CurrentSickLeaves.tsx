@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PrintButton } from '../../components/PrintButton/PrintButton'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
@@ -57,7 +58,7 @@ export function CurrentSickLeaves() {
   }
 
   return (
-    <div className="ids-content m-auto max-w-7xl py-10 px-2.5">
+    <PageContainer>
       <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}
@@ -111,6 +112,6 @@ export function CurrentSickLeaves() {
           </Table>
         </div>
       )}
-    </div>
+    </PageContainer>
   )
 }

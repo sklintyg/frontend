@@ -1,4 +1,6 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { PageContainer } from '../../../components/PageContainer/PageContainer'
+import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../../schemas'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
@@ -9,7 +11,6 @@ import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
-import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()
@@ -42,7 +43,7 @@ export function OverviewStatistics() {
   }
 
   return (
-    <div className="ids-content py-10">
+    <PageContainer>
       <h1 className="ids-heading-2">
         {isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
       </h1>
@@ -70,6 +71,6 @@ export function OverviewStatistics() {
           <SickLeaveLengthsCard summary={summary} />
         </IDSCard>
       </div>
-    </div>
+    </PageContainer>
   )
 }
