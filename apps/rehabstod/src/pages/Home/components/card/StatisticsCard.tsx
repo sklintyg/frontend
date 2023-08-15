@@ -23,11 +23,11 @@ export function StatisticsCard({
           <PieChartGraph data={parentData} height={parentData.length * 50 + 100} />
         </div>
         <div className="pb-10">
-          <h4 className="font-bold">Män</h4>
+          <h4 className="ml-9 font-bold">Män</h4>
           <PieChartGraph data={maleData} parentData={parentData} isSmall />
         </div>
         <div className="pb-10">
-          <h4 className="font-bold">Kvinnor</h4>
+          <h4 className="ml-6 font-bold">Kvinnor</h4>
           <PieChartGraph data={femaleData} parentData={parentData} isSmall />
         </div>
       </div>
