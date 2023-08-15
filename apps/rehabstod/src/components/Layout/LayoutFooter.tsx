@@ -27,11 +27,7 @@ export function LayoutFooter() {
         <DynamicLink type="sub-footer" link={links?.ineraBehandlingPersonuppgifter} />
       </p>
       <div slot="sub-footer-right" className="inline-block">
-        <CookieDialog>
-          <button className="text-sm text-white underline" trigger="" type="button">
-            Hantering av kakor
-          </button>
-        </CookieDialog>
+        <CookieDialog />
       </div>
     </IDSFooter>
   )
