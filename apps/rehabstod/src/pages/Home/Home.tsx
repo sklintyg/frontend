@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetUserQuery } from '../../store/api'
@@ -9,11 +9,9 @@ export function Home() {
   const sithsUrl = '/saml/login/alias/siths-rs2'
 
   return user ? (
-    <IDSContainer>
-      <ProtectedRoute requireUnit>
-        <OverviewStatistics />
-      </ProtectedRoute>
-    </IDSContainer>
+    <ProtectedRoute requireUnit>
+      <OverviewStatistics />
+    </ProtectedRoute>
   ) : (
     <PageHero type="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
