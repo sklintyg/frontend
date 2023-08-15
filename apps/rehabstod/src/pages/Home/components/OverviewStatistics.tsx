@@ -1,4 +1,6 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { PageHeading } from '../../../components/PageHeading/PageHeading'
+import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../../schemas'
 import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
@@ -9,7 +11,6 @@ import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
-import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()
@@ -43,10 +44,10 @@ export function OverviewStatistics() {
 
   return (
     <div className="ids-content py-10">
-      <h1 className="ids-heading-2">
-        {isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
-      </h1>
-      <h2 className="ids-heading-3 mb-10">{unit}</h2>
+      <PageHeading
+        title={isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
+        subTitle={unit}
+      />
       <div className="grid grid-cols-3 gap-4">
         <IDSCard fill className="bg-secondary-95">
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />

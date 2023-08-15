@@ -80,10 +80,10 @@ export function SettingsDialog() {
         onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
       <IDSDialogActions>
-        <IDSButton secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
+        <IDSButton mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
           Avbryt
         </IDSButton>
-        <IDSButton onClick={onSave} disabled={!isSaveEnabled}>
+        <IDSButton mblock onClick={onSave} disabled={!isSaveEnabled}>
           Spara
         </IDSButton>
       </IDSDialogActions>

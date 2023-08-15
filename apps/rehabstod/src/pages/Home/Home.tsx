@@ -1,6 +1,4 @@
 import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetUserQuery } from '../../store/api'
@@ -8,14 +6,7 @@ import { OverviewStatistics } from './components/OverviewStatistics'
 
 export function Home() {
   const { data: user } = useGetUserQuery()
-  const navigate = useNavigate()
   const sithsUrl = '/saml/login/alias/siths-rs2'
-
-  useEffect(() => {
-    if (user && user.valdVardenhet === null) {
-      navigate('/enhet')
-    }
-  }, [user, navigate])
 
   return user ? (
     <IDSContainer>

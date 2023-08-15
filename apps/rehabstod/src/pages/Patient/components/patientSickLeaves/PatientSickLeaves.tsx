@@ -1,17 +1,16 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
-import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
-import { PatientSickLeavesTable } from './PatientSickLeavesTable'
-import { PatientOverview } from '../patientOverview/PatientOverview'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { PuResponse } from '../../../../schemas/patientSchema'
 import { useGetPatientSickLeavesQuery, useGetUserQuery } from '../../../../store/api'
 import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
+import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { PatientRekoStatus } from '../PatientRekoStatus'
 import { PatientAGCertificatesTable } from '../patientAG/PatientAGCertificatesTable'
-import { isUserDoctor } from '../../../../utils/isUserDoctor'
+import { PatientOverview } from '../patientOverview/PatientOverview'
+import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
+import { PatientSickLeavesTable } from './PatientSickLeavesTable'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()
@@ -31,7 +30,7 @@ export function PatientSickLeaves() {
   const isDoctor = user ? isUserDoctor(user) : false
 
   return (
-    <PageContainer>
+    <div>
       <div className="flex justify-between">
         <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
         {!error && (
@@ -63,6 +62,6 @@ export function PatientSickLeaves() {
       {earlierSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" open={false} />
       )}
-    </PageContainer>
+    </div>
   )
 }
