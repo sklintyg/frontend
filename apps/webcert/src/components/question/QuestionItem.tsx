@@ -242,7 +242,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
-            <p>{question.author}</p>
+            <p className="iu-fw-heading">{question.author}</p>
             {isHandleCheckboxVisible() &&
               (isComplementQuestion() ? (
                 <CheckboxWithConfirmModal
