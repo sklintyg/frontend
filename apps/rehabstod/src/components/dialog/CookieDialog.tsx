@@ -1,15 +1,21 @@
-import { IDSDialog } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
+import { Dialog } from './Dialog'
 
-export function CookieDialog({ children }: { children: ReactNode }) {
+export function CookieDialog() {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <IDSDialog dismissible headline="Om kakor (cookies)">
-      {children}
-      <div className="ids-content max-w-3xl text-base">
+    <Dialog
+      button={
+        <button className="text-sm text-white underline" trigger="" type="button">
+          Hantering av kakor
+        </button>
+      }
+      dismissible
+      headline="Om kakor (cookies)"
+    >
+      <div className="ids-content text-base">
         <p className="ids-body">
           Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår
           användning av kakor.
@@ -32,6 +38,6 @@ export function CookieDialog({ children }: { children: ReactNode }) {
         <p className="mb-2">Mer information om kakor kan du finna på Kommunikationsmyndigheten PTS sida om kakor </p>
         {links?.ptsCookies && <DynamicLink link={links.ptsCookies} />}
       </div>
-    </IDSDialog>
+    </Dialog>
   )
 }

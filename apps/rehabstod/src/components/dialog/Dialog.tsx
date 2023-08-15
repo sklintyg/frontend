@@ -3,6 +3,7 @@ import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react'
 
 export function Dialog({
   children,
+  button,
   initialOpen = false,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
@@ -11,6 +12,7 @@ export function Dialog({
   children: ReactNode
   initialOpen?: boolean
   open?: boolean
+  button?: ReactNode
   onOpenChange?: (open: boolean) => void
 }) {
   const ref = useRef<IDSDialogElement>(null)
@@ -44,6 +46,7 @@ export function Dialog({
 
   return (
     <IDSDialog role="dialog" show={open ? 'true' : 'false'} ref={ref} {...props}>
+      {button}
       {open && <div className="max-w-3xl">{children}</div>}
     </IDSDialog>
   )
