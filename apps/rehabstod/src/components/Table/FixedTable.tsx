@@ -8,7 +8,7 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
   const [fixed, setFixed] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLTableElement>(null)
-  const posAbsolute = tableWidth <= Math.floor(tableRef.current?.getBoundingClientRect().width ?? 0)
+  const posAbsolute = tableWidth < Math.floor(tableRef.current?.getBoundingClientRect().width ?? 0)
 
   useEffect(() => {
     const handleScroll = () => {
