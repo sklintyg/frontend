@@ -293,8 +293,9 @@ const handleUpdateCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
+    const clientContext = getUserClientContextForCertificate(action.payload.metadata, getState().ui.uiSRS.userLaunchFromOrigin)
     dispatch(resetState())
-    dispatch(updateUserClientContext(getUserClientContextForCertificate(action.payload.metadata, getState().ui.uiSRS.userLaunchFromOrigin)))
+    dispatch(updateUserClientContext(clientContext))
     dispatch(updatePatientId(action.payload.metadata.patient.personId.id.replace('-', '')))
     dispatch(updateCertificateId(action.payload.metadata.id))
     dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))
