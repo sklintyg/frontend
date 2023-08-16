@@ -17,6 +17,7 @@ import {
 } from './srsActions'
 import {
   fakeCertificate,
+  fakeUser,
   fakeDiagnosesElement,
   fakeRadioMultipleCodeElement,
   fakeSrsAnswer,
@@ -210,11 +211,11 @@ describe('Test certificate middleware', () => {
 
   describe('Handle getUserSuccess', () => {
     it('should save user launch from origin', () => {
-      const user: User = {
+      const user: User = fakeUser({
         launchFromOrigin: 'rs',
-      }
+      })
 
-      testStore.dispatch(getUserSuccess({ user }))
+      testStore.dispatch(getUserSuccess({ user, links: [] }))
       expect(testStore.getState().ui.uiSRS.userLaunchFromOrigin).toEqual('rs')
     })
   })
