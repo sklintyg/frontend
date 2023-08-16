@@ -20,8 +20,17 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
   updateUnitId,
+  updateUserClientContext,
 } from './srsActions'
-import { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import {
+  SrsAnswer,
+  SrsInfoForDiagnosis,
+  SrsPrediction,
+  SrsQuestion,
+  SrsSickLeaveChoice,
+  ValueDiagnosisList,
+  SrsUserClientContext,
+} from '@frontend/common'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
 export interface SRSState {
@@ -43,6 +52,7 @@ export interface SRSState {
   loadingRecommendations: boolean
   answers: SrsAnswer[]
   hasUpdatedAnswers: boolean
+  userClientContext: SrsUserClientContext | undefined
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -65,6 +75,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     loadingRecommendations: false,
     answers: [],
     hasUpdatedAnswers: true,
+    userClientContext: undefined,
   }
 }
 
@@ -128,12 +139,16 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
       state.isCertificateRenewed = action.payload
       if (action.payload) {
         state.sickLeaveChoice = SrsSickLeaveChoice.EXTENSION
+        state.userClientContext = SrsUserClientContext.SRS_FRL
       }
     })
     .addCase(updateHasUpdatedAnswers, (state, action) => {
       state.hasUpdatedAnswers = action.payload
     })
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
+    .addCase(updateUserClientContext, (state, action) => {
+      state.userClientContext = action.payload
+    })
 )
 
 export default srsReducer

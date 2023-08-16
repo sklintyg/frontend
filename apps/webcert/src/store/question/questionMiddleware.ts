@@ -473,6 +473,7 @@ export const handleHandleQuestionSuccess: Middleware<Dispatch> =
 
 const middlewareMethods = {
   [getQuestions.type]: handleGetQuestions,
+  [getQuestionsStarted.type]: handleGetQuestionsStarted,
   [getComplementQuestions.type]: handleGetComplementQuestions,
   [getQuestionsSuccess.type]: handleGetQuestionsSuccess,
   [getQuestionsError.type]: handleGetQuestionsError,

@@ -1,21 +1,21 @@
-import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs, SrsEvent } from '@frontend/common'
+import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
+import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
-import { getQuestions } from '../../../store/question/questionSelectors'
+import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 
 const CertificateSidePanel: React.FC = () => {
-  const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const questions = useSelector(getQuestions, _.isEqual)
+  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
+  const certificate = useSelector(getCertificate, _.isEqual)
   const resourceLinksForTabs = [
     ResourceLinkType.SRS_FULL_VIEW,
     ResourceLinkType.SRS_MINIMIZED_VIEW,
@@ -31,13 +31,25 @@ const CertificateSidePanel: React.FC = () => {
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const [hasUpdatedTab, setHasUpdatedTab] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false)
+  const [isSRSPanelActive, setIsSRSPanelActive] = useState(false)
 
   useEffect(() => {
-    if (questions.length > 0 && !hasUpdatedTab) {
-      setSelectedTabIndex(1)
-      setHasUpdatedTab(true)
+    if (certificate && !showSpinner && !isLoadingQuestions) {
+      const questionsTab = availableTabs.findIndex((tab) => tab.type === ResourceLinkType.QUESTIONS)
+      if (questionsTab !== -1 && questions.length > 0 && !hasUpdatedTab) {
+        setSelectedTabIndex(questionsTab)
+        setHasUpdatedTab(true)
+      }
+      setHasLoaded(true)
     }
-  }, [questions, hasUpdatedTab])
+  }, [certificate, showSpinner, questions, hasUpdatedTab, isLoadingQuestions, availableTabs])
+
+  useEffect(() => {
+    if (hasLoaded) {
+      setIsSRSPanelActive(selectedTabIndex === 0)
+    }
+  }, [hasLoaded, selectedTabIndex])
 
   if (showSpinner) return null
 
@@ -47,7 +59,7 @@ const CertificateSidePanel: React.FC = () => {
       availableTabs[value] &&
       (availableTabs[value].type === ResourceLinkType.SRS_FULL_VIEW || availableTabs[value].type === ResourceLinkType.SRS_MINIMIZED_VIEW)
     ) {
-      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+      setIsSRSPanelActive(true)
     }
   }
 
@@ -77,9 +89,9 @@ const CertificateSidePanel: React.FC = () => {
       case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
         return <QuestionNotAvailablePanel />
       case ResourceLinkType.SRS_FULL_VIEW:
-        return <SrsPanel />
+        return <SrsPanel isPanelActive={isSRSPanelActive} />
       case ResourceLinkType.SRS_MINIMIZED_VIEW:
-        return <SrsPanel minimizedView />
+        return <SrsPanel minimizedView isPanelActive={isSRSPanelActive} />
     }
   }
 
