@@ -128,7 +128,11 @@ export const getMainDiagnosisCode = (value: ValueDiagnosisList | null) => {
   return mainDiagnosis ? mainDiagnosis.code : ''
 }
 
-export const getUserClientContextForCertificate = (metadata: CertificateMetadata) => {
+export const getUserClientContextForCertificate = (metadata: CertificateMetadata, userLaunchFromOrigin?: string) => {
+  if (userLaunchFromOrigin === 'rs') {
+    return SrsUserClientContext.SRS_REH
+  }
+
   if (isRenewedChild(metadata)) {
     return SrsUserClientContext.SRS_FRL
   }

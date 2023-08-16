@@ -46,6 +46,7 @@ import {
   updateSrsQuestions,
   updateUnitId,
   updateUserClientContext,
+  updateUserLaunchFromOrigin,
 } from './srsActions'
 import {
   Certificate,
@@ -58,6 +59,7 @@ import {
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
+import { getUserSuccess } from '../user/userActions'
 
 export const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -270,6 +272,13 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
     )
   }
 
+export const handleGetUserSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateUserLaunchFromOrigin(action.payload.user.launchFromOrigin))
+  }
+
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
@@ -281,11 +290,11 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   }
 
 const handleUpdateCertificate: Middleware<Dispatch> =
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
     dispatch(resetState())
-    dispatch(updateUserClientContext(getUserClientContextForCertificate(action.payload.metadata)))
+    dispatch(updateUserClientContext(getUserClientContextForCertificate(action.payload.metadata, getState().ui.uiSRS.userLaunchFromOrigin)))
     dispatch(updatePatientId(action.payload.metadata.patient.personId.id.replace('-', '')))
     dispatch(updateCertificateId(action.payload.metadata.id))
     dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))
@@ -321,6 +330,7 @@ const middlewareMethods = {
   [logSrsInteraction.type]: handleLogSrsInteraction,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [updateCertificate.type]: handleUpdateCertificate,
+  [getUserSuccess.type]: handleGetUserSuccess,
 }
 
 export const srsMiddleware: Middleware<Dispatch> =

@@ -374,5 +374,14 @@ describe('SRS Utils', () => {
 
       expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_UTK)
     })
+
+    it('should return SRS_REH if user has come from RS origin', () => {
+      const metadata: CertificateMetadata = fakeCertificateMetaData({
+        type: 'lisjp',
+        status: CertificateStatus.UNSIGNED,
+      })
+
+      expect(getUserClientContextForCertificate(metadata, 'rs')).toEqual(SrsUserClientContext.SRS_REH)
+    })
   })
 })
