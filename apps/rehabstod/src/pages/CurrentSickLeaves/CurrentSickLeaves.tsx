@@ -48,7 +48,7 @@ export function CurrentSickLeaves() {
 
   return (
     <PageContainer>
-      <TableHeadingForUnit user={user} tableName="pågående sjukfall" />
+      <TableHeadingForUnit user={user} tableName={TABLE_NAME} />
       <Filters
         onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {

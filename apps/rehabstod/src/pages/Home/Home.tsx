@@ -1,4 +1,5 @@
 import { IDSButton } from '@frontend/ids-react-ts'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetUserQuery } from '../../store/api'
@@ -10,7 +11,9 @@ export function Home() {
 
   return user ? (
     <ProtectedRoute requireUnit>
-      <OverviewStatistics />
+      <PageContainer>
+        <OverviewStatistics />
+      </PageContainer>
     </ProtectedRoute>
   ) : (
     <PageHero type="user">

@@ -1,5 +1,4 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { PageContainer } from '../../../components/PageContainer/PageContainer'
 import { PageHeading } from '../../../components/PageHeading/PageHeading'
 import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
@@ -44,7 +43,7 @@ export function OverviewStatistics() {
   }
 
   return (
-    <PageContainer>
+    <>
       <PageHeading
         title={isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
         subTitle={unit}
@@ -72,6 +71,6 @@ export function OverviewStatistics() {
           <SickLeaveLengthsCard summary={summary} />
         </IDSCard>
       </div>
-    </PageContainer>
+    </>
   )
 }

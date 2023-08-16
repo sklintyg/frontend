@@ -34,7 +34,7 @@ export function PatientSickLeaves() {
       <div className="flex justify-between">
         <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
         {!error && (
-          <div className="flex justify-end gap-5">
+          <div className="flex flex-col lg:flex-row lg:justify-end lg:gap-5">
             <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
             <div className="w-96">
               <ModifyPatientTableColumns />
