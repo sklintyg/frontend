@@ -217,6 +217,7 @@ describe('Test certificate middleware', () => {
 
       testStore.dispatch(getUserSuccess({ user, links: [] }))
       expect(testStore.getState().ui.uiSRS.userLaunchFromOrigin).toEqual('rs')
+      expect(testStore.getState().ui.uiSRS.userClientContext).toEqual(SrsUserClientContext.SRS_REH)
     })
   })
 
