@@ -31,7 +31,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Patient', 'SickLeaves'],
+  tagTypes: ['User', 'Patient', 'SickLeaves', 'LUCertificates'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -46,7 +46,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'LUCertificates'],
       async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -60,7 +60,7 @@ export const api = createApi({
         try {
           await queryFulfilled
         } catch {
-          dispatch(api.util.invalidateTags(['User']))
+          dispatch(api.util.invalidateTags(['User', 'LUCertificates']))
         }
       },
     }),
@@ -148,6 +148,7 @@ export const api = createApi({
         method: 'POST',
         body: request,
       }),
+      providesTags: ['LUCertificates'],
       async onQueryStarted(_, { dispatch }) {
         dispatch(api.endpoints.getLUFilters.initiate(undefined, { forceRefetch: true }))
       },
@@ -161,6 +162,7 @@ export const api = createApi({
     >({
       keepUnusedDataFor: 0,
       query: () => 'lu/filters',
+      providesTags: ['LUCertificates'],
     }),
     getPatientLUCertificates: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
