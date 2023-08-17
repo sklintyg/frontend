@@ -1,7 +1,10 @@
 import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
+import { updateRekoStatusId } from '../../../store/slices/sickLeave.slice'
 
 export function PatientRekoStatus({
   currentSickLeaves,
@@ -14,6 +17,8 @@ export function PatientRekoStatus({
 }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { state } = useLocation()
+  const dispatch = useDispatch()
+
   const getCertificateToSaveRekoStatusOn = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
       return currentSickLeaves[0].intyg[0]
@@ -26,6 +31,10 @@ export function PatientRekoStatus({
     return null
   }
 
+  useEffect(() => {
+    dispatch(updateRekoStatusId(state && state.rekoStatus ? state.rekoStatus.status.id : ''))
+  }, [state, dispatch])
+
   const certificateToSaveRekoStatusOn = getCertificateToSaveRekoStatusOn()
 
   return (
@@ -35,7 +44,6 @@ export function PatientRekoStatus({
           disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}
           patientId={certificateToSaveRekoStatusOn.patient.id}
-          statusFromSickLeave={state?.rekoStatus}
           rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
           description={
             isDoctor
