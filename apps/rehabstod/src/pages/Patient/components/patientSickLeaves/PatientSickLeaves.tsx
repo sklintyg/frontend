@@ -31,17 +31,16 @@ export function PatientSickLeaves() {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user} />
+      <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user}>
         {!error && (
           <div className="flex flex-col lg:flex-row lg:justify-end lg:gap-5">
             <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
-            <div className="w-96">
+            <div className="lg:w-96">
               <ModifyPatientTableColumns />
             </div>
           </div>
         )}
-      </div>
+      </TableHeadingForUnit>
       <PatientAGCertificatesTable />
       {error && <PatientTableError error={error} />}
       {currentSickLeaves.length > 0 && (

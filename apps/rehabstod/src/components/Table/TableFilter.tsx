@@ -16,7 +16,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
           <div className="mb-7 grid gap-x-10 gap-y-7" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
             {children}
           </div>
-          <div className="flex flex-col gap-5 md:flex-row md:justify-end">
+          <div className="flex flex-col gap-5 print:hidden md:flex-row md:justify-end">
             <IDSButton mblock secondary onClick={onReset}>
               Återställ
             </IDSButton>

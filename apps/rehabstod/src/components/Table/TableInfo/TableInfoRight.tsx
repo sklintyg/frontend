@@ -17,8 +17,8 @@ export function TableInfoRight({
 }) {
   return (
     <div className="w-full">
-      <div className="mb-5 flex flex-col gap-5 print:mb-0 md:flex-col-reverse">
-        <div className="flex flex-col xl:flex-row">
+      <div className="mb-5 flex flex-col gap-5 print:mb-0 print:flex-col-reverse">
+        <div className="flex flex-col print:mb-5 print:flex-row xl:flex-row">
           <TableInfoItem>
             Visar{' '}
             <span className="font-bold">
@@ -27,7 +27,6 @@ export function TableInfoRight({
           </TableInfoItem>
           {children}
         </div>
-        <div className="mt-5 hidden print:block" />
         <div className="print:hidden">
           {onShowPersonalInformationChange && (
             <ShowPersonalInformationCheckbox
