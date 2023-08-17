@@ -17,7 +17,7 @@ export function TableInfoRight({
 }) {
   return (
     <div className="w-full">
-      <div className="mb-5 flex flex-col gap-5 print:mb-0 print:flex-col-reverse">
+      <div className="mb-5 flex flex-col gap-5 print:mb-0 xl:flex-col-reverse">
         <div className="flex flex-col print:mb-5 print:flex-row xl:flex-row">
           <TableInfoItem>
             Visar{' '}
