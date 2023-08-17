@@ -55,6 +55,7 @@ import {
   SrsEvent,
   SrsInfoForDiagnosis,
   SrsQuestion,
+  SrsUserClientContext,
   ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
@@ -277,6 +278,9 @@ export const handleGetUserSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     dispatch(updateUserLaunchFromOrigin(action.payload.user.launchFromOrigin))
+    if (action.payload.user.launchFromOrigin === 'rs') {
+      dispatch(updateUserClientContext(SrsUserClientContext.SRS_REH))
+    }
   }
 
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
