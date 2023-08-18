@@ -23,7 +23,7 @@ const initialState: SickLeaveState = {
     rekoStatusTypeIds: [],
     occupationTypeIds: [],
     unansweredCommunicationFilterTypeId: '',
-    textSearch: { status: { name: '', id: '' } },
+    textSearch: '',
   },
   hasAppliedFilters: false,
   sickLeaveLengthIntervals: [
