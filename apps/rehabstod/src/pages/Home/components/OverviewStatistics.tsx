@@ -48,7 +48,7 @@ export function OverviewStatistics() {
         title={isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
         subTitle={unit}
       />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3">
         <IDSCard fill className="bg-secondary-95">
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />
         </IDSCard>
@@ -58,18 +58,12 @@ export function OverviewStatistics() {
         <IDSCard>
           <StatisticsInformationCard />
         </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <DiagnosisGroupsCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <SickLeaveDegreesCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <CountSickLeaveDegreesCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <SickLeaveLengthsCard summary={summary} />
-        </IDSCard>
+      </div>
+      <div className="grid grid-cols-1 gap-5">
+        <DiagnosisGroupsCard summary={summary} />
+        <SickLeaveDegreesCard summary={summary} />
+        <CountSickLeaveDegreesCard summary={summary} />
+        <SickLeaveLengthsCard summary={summary} />
       </div>
     </>
   )
