@@ -6,6 +6,7 @@ import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getCertificateId,
+  getDiagnosisCode,
   getDiagnosisCodes,
   getDiagnosisListValue,
   getHasError,
@@ -32,9 +33,10 @@ const Wrapper = styled.div`
 
 interface Props {
   minimizedView?: boolean
+  isPanelActive: boolean
 }
 
-const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
+const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const dispatch = useDispatch()
   const diagnosisListValue = useSelector(getDiagnosisListValue)
   const patientId = useSelector(getPatientId)
@@ -42,6 +44,8 @@ const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
   const diagnosisCodes = useSelector(getDiagnosisCodes)
   const hasError = useSelector(getHasError)
   const isLoading = useSelector(getLoading)
+  const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
+  const [hasLogged, setHasLogged] = useState(false)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -52,20 +56,24 @@ const SrsPanel: React.FC<Props> = ({ minimizedView }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-  })
+    if (!hasLogged && isPanelActive) {
+      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+      setHasLogged(true)
+    }
+  }, [hasLogged, isPanelActive, dispatch])
 
   useEffect(() => {
-    if (!isEmpty && diagnosisCodes.length == 0) {
+    if (isPanelActive && !isEmpty && diagnosisCodes.length == 0) {
       dispatch(getSRSCodes())
     }
-  }, [isEmpty, diagnosisCodes, dispatch])
+  }, [isEmpty, diagnosisCodes, dispatch, isPanelActive])
 
   useEffect(() => {
-    if (supportedDiagnosisCode && mainDiagnosis) {
+    if (isPanelActive && supportedDiagnosisCode && mainDiagnosis && mainDiagnosis.code !== diagnosisCodeForPredictions) {
       dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosis.code, certificateId: certificateId }))
       dispatch(getQuestions(mainDiagnosis.code))
     }
-  }, [supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis])
+  }, [diagnosisCodeForPredictions, supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis, isPanelActive])
 
   const updateInformationChoice = (choice: SrsInformationChoice) => {
     setInformationChoice(choice)

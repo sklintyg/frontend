@@ -22,6 +22,9 @@ import {
   fakeSrsAnswer,
   fakeSrsInfo,
   fakeSrsPrediction,
+  fakeCertificateMetaData,
+  CertificateStatus,
+  SrsUserClientContext,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
@@ -205,7 +208,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle update certificate', () => {
     const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-    const certificate = fakeCertificate({ data: element })
+    const certificate = fakeCertificate({ data: element, metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }) })
 
     it('should update diagnosis list if certificate updates', async () => {
       testStore.dispatch(updateCertificate(certificate))
@@ -217,6 +220,12 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.patientId).toEqual(certificate.metadata.patient.personId.id)
+    })
+
+    it('should update user client context certificate updates', async () => {
+      testStore.dispatch(updateCertificate(certificate))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.userClientContext).toEqual(SrsUserClientContext.SRS_SIGNED)
     })
 
     it('should update certificate id if certificate updates', async () => {

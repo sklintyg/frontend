@@ -45,6 +45,7 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
   updateUnitId,
+  updateUserClientContext,
 } from './srsActions'
 import {
   Certificate,
@@ -56,7 +57,7 @@ import {
   ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getFilteredPredictions, getMainDiagnosisCode } from '../../components/srs/srsUtils'
+import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
 
 export const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -259,7 +260,7 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
             caregiverId: srsState.careProviderId,
             intygId: srsState.certificateId,
             mainDiagnosisCode: getMainDiagnosisCode(srsState.diagnosisListValue),
-            userClientContext: 'SRS_UTK',
+            userClientContext: srsState.userClientContext,
           },
         },
         onStart: logSrsInteractionStarted.type,
@@ -284,7 +285,7 @@ const handleUpdateCertificate: Middleware<Dispatch> =
   () =>
   (action: PayloadAction<Certificate>): void => {
     dispatch(resetState())
-
+    dispatch(updateUserClientContext(getUserClientContextForCertificate(action.payload.metadata)))
     dispatch(updatePatientId(action.payload.metadata.patient.personId.id.replace('-', '')))
     dispatch(updateCertificateId(action.payload.metadata.id))
     dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))

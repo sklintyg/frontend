@@ -1,4 +1,13 @@
-import { fakeSrsPrediction, SrsSickLeaveChoice } from '@frontend/common'
+import {
+  fakeSrsPrediction,
+  SrsSickLeaveChoice,
+  CertificateStatus,
+  CertificateMetadata,
+  fakeCertificateMetaData,
+  SrsUserClientContext,
+  CertificateRelation,
+  CertificateRelationType,
+} from '@frontend/common'
 import {
   getCurrentRiskDataPoint,
   getFilteredPredictions,
@@ -6,6 +15,7 @@ import {
   getRiskDataPoint,
   getRiskOpinionLabel,
   getSickLeaveChoicesLabel,
+  getUserClientContextForCertificate,
   hasCurrentRiskDataPoint,
   RISK_LABEL_DISABLED,
   RISK_LABEL_NOT_AVAILABLE,
@@ -329,6 +339,40 @@ describe('SRS Utils', () => {
       prediction.probabilityOverLimit = -1
       const result = hasCurrentRiskDataPoint([prediction])
       expect(result).toBeFalsy()
+    })
+  })
+
+  describe('getUserClientContextForCertificate', () => {
+    it('should return SRS_FRL is certificate is renewal', () => {
+      const parent: CertificateRelation = {
+        type: CertificateRelationType.RENEW,
+        certificateId: 'certificateId',
+        created: '2020-02-02',
+        status: CertificateStatus.SIGNED,
+      }
+      const metadata: CertificateMetadata = fakeCertificateMetaData({
+        relations: { parent: parent, children: [] },
+      })
+
+      expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)
+    })
+
+    it('should return SRS_SIGNED if certificate is not renewal and signed', () => {
+      const metadata: CertificateMetadata = fakeCertificateMetaData({
+        type: 'lisjp',
+        status: CertificateStatus.SIGNED,
+      })
+
+      expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_SIGNED)
+    })
+
+    it('should return SRS_UTK if certificate is not renewal and not signed', () => {
+      const metadata: CertificateMetadata = fakeCertificateMetaData({
+        type: 'lisjp',
+        status: CertificateStatus.UNSIGNED,
+      })
+
+      expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_UTK)
     })
   })
 })
