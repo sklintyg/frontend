@@ -133,9 +133,13 @@ export const getUserClientContextForCertificate = (metadata: CertificateMetadata
     return SrsUserClientContext.SRS_REH
   }
 
+  if (metadata.status === CertificateStatus.SIGNED) {
+    return SrsUserClientContext.SRS_SIGNED
+  }
+
   if (isRenewedChild(metadata)) {
     return SrsUserClientContext.SRS_FRL
   }
 
-  return metadata.status === CertificateStatus.SIGNED ? SrsUserClientContext.SRS_SIGNED : SrsUserClientContext.SRS_UTK
+  return SrsUserClientContext.SRS_UTK
 }

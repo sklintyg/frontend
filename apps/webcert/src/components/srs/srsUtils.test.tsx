@@ -343,7 +343,21 @@ describe('SRS Utils', () => {
   })
 
   describe('getUserClientContextForCertificate', () => {
-    it('should return SRS_FRL is certificate is renewal', () => {
+    it('should return SRS_FRL is certificate is renewal an unsigned', () => {
+      const parent: CertificateRelation = {
+        type: CertificateRelationType.RENEW,
+        certificateId: 'certificateId',
+        created: '2020-02-02',
+        status: CertificateStatus.UNSIGNED,
+      }
+      const metadata: CertificateMetadata = fakeCertificateMetaData({
+        relations: { parent: parent, children: [] },
+      })
+
+      expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)
+    })
+
+    it('should return SRS_SIGNED is certificate is renewal and signed', () => {
       const parent: CertificateRelation = {
         type: CertificateRelationType.RENEW,
         certificateId: 'certificateId',
