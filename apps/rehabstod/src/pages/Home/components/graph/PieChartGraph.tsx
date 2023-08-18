@@ -27,8 +27,8 @@ export function PieChartGraph({
     ? data
     : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id)?.fill }))
   return (
-    <div className="relative w-full pt-6">
-      <h4 className="absolute top-0 left-0 font-bold">{title}</h4>
+    <div className="w-full">
+      {title && <h4 className="font-bold">{title}</h4>}
       <div className="flex items-start">
         <div className={classNames('flex flex-col items-center justify-items-center w-full', !isSmall && 'xl:flex-row')}>
           <ResponsiveContainer width={208} minWidth={208} className={classNames('h-52 w-52', isSmall && 'xl:h-28')}>
