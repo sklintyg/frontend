@@ -1,7 +1,8 @@
 import { Column } from '../../../components/Table/types/Column'
 import { UserUrval } from '../../../schemas'
-import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../store/api'
+import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 

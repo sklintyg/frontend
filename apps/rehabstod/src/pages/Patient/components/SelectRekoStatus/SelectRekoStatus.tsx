@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { SelectFilter } from '../../../../components/Table/filter/SelectFilter'
 import { RekoStatus, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
-import { useSetRekoStatusMutation } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
+import { useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../../../utils/getRekoStatusSickLeaveTimestamp'
 
 export function SelectRekoStatus({

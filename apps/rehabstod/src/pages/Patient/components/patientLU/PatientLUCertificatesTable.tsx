@@ -10,8 +10,9 @@ import {
   isPatientViewColumn,
 } from '../../../../components/Table/utils/filterTableColumns'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
-import { useGetPatientLUCertificatesQuery, useGetUserQuery } from '../../../../store/api'
+import { useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
+import { useGetPatientLUCertificatesQuery } from '../../../../store/luApi'
 import { allLUTableColumns } from '../../../../store/slices/luTableColumns.selector'
 import { LUCertificatesColumn } from '../../../../store/slices/luUnitTableColumns.slice'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
