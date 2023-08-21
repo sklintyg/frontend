@@ -2,14 +2,14 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
-import { configSchema, Link, linkSchema, userPreferencesSchema } from '../../schemas'
-import { agCertificatesInfoSchema } from '../../schemas/agCertificatesSchema'
-import { diagnosKapitelSchema } from '../../schemas/diagnosisSchema'
-import { lakareSchema } from '../../schemas/lakareSchema'
-import { luCertificatesInfoSchema } from '../../schemas/luCertificatesSchema'
-import { patientSchema } from '../../schemas/patientSchema'
-import { sickLeaveInfoSchema, sickLeaveSummary } from '../../schemas/sickLeaveSchema'
-import { fakeUser } from '../../utils/fake/fakeUser'
+import { configSchema, Link, linkSchema, userPreferencesSchema } from '../schemas'
+import { agCertificatesInfoSchema } from '../schemas/agCertificatesSchema'
+import { diagnosKapitelSchema } from '../schemas/diagnosisSchema'
+import { lakareSchema } from '../schemas/lakareSchema'
+import { luCertificatesInfoSchema } from '../schemas/luCertificatesSchema'
+import { patientSchema } from '../schemas/patientSchema'
+import { sickLeaveInfoSchema, sickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { fakeUser } from '../utils/fake/fakeUser'
 
 const fakeLink = fakerFromSchema(linkSchema)
 
