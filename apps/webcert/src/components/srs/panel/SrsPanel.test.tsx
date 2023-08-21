@@ -26,7 +26,7 @@ import { vi } from 'vitest'
 const renderComponent = (minimizedView?: boolean) => {
   render(
     <Provider store={store}>
-      <SrsPanel minimizedView={minimizedView} />
+      <SrsPanel minimizedView={minimizedView} isPanelActive />
     </Provider>
   )
 }
@@ -45,12 +45,26 @@ describe('SrsPanel', () => {
     }))
   })
 
-  afterEach(() => {
+  beforeEach(() => {
     clearDispatchedActions()
   })
 
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
+  })
+
+  it('should log if panel is active', () => {
+    renderComponent()
+    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+  })
+
+  it('should not log if panel is inactive', () => {
+    render(
+      <Provider store={store}>
+        <SrsPanel minimizedView isPanelActive={false} />
+      </Provider>
+    )
+    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
   })
 
   it('should show title', () => {

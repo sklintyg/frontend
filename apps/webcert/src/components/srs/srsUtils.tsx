@@ -1,4 +1,12 @@
-import { SrsPrediction, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import {
+  CertificateMetadata,
+  CertificateStatus,
+  isRenewedChild,
+  SrsPrediction,
+  SrsSickLeaveChoice,
+  SrsUserClientContext,
+  ValueDiagnosisList,
+} from '@frontend/common'
 
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']
 export const SRS_OPINION_LABELS = ['Högre', 'Korrekt', 'Lägre', 'Kan ej bedöma']
@@ -118,4 +126,20 @@ export const getMainDiagnosisCode = (value: ValueDiagnosisList | null) => {
   }
   const mainDiagnosis = value.list.find((diagnosis) => diagnosis.id.includes('0'))
   return mainDiagnosis ? mainDiagnosis.code : ''
+}
+
+export const getUserClientContextForCertificate = (metadata: CertificateMetadata, userLaunchFromOrigin?: string) => {
+  if (userLaunchFromOrigin === 'rs') {
+    return SrsUserClientContext.SRS_REH
+  }
+
+  if (metadata.status === CertificateStatus.SIGNED) {
+    return SrsUserClientContext.SRS_SIGNED
+  }
+
+  if (isRenewedChild(metadata)) {
+    return SrsUserClientContext.SRS_FRL
+  }
+
+  return SrsUserClientContext.SRS_UTK
 }

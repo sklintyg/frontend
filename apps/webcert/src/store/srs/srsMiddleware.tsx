@@ -45,6 +45,8 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
   updateUnitId,
+  updateUserClientContext,
+  updateUserLaunchFromOrigin,
 } from './srsActions'
 import {
   Certificate,
@@ -53,10 +55,12 @@ import {
   SrsEvent,
   SrsInfoForDiagnosis,
   SrsQuestion,
+  SrsUserClientContext,
   ValueDiagnosisList,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getFilteredPredictions, getMainDiagnosisCode } from '../../components/srs/srsUtils'
+import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
+import { getUserSuccess } from '../user/userActions'
 
 export const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -259,7 +263,7 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
             caregiverId: srsState.careProviderId,
             intygId: srsState.certificateId,
             mainDiagnosisCode: getMainDiagnosisCode(srsState.diagnosisListValue),
-            userClientContext: 'SRS_UTK',
+            userClientContext: srsState.userClientContext,
           },
         },
         onStart: logSrsInteractionStarted.type,
@@ -267,6 +271,16 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
         onError: logSrsInteractionError.type,
       })
     )
+  }
+
+export const handleGetUserSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateUserLaunchFromOrigin(action.payload.user.launchFromOrigin))
+    if (action.payload.user.launchFromOrigin === 'rs') {
+      dispatch(updateUserClientContext(SrsUserClientContext.SRS_REH))
+    }
   }
 
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
@@ -280,11 +294,12 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   }
 
 const handleUpdateCertificate: Middleware<Dispatch> =
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
+    const clientContext = getUserClientContextForCertificate(action.payload.metadata, getState().ui.uiSRS.userLaunchFromOrigin)
     dispatch(resetState())
-
+    dispatch(updateUserClientContext(clientContext))
     dispatch(updatePatientId(action.payload.metadata.patient.personId.id.replace('-', '')))
     dispatch(updateCertificateId(action.payload.metadata.id))
     dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))
@@ -320,6 +335,7 @@ const middlewareMethods = {
   [logSrsInteraction.type]: handleLogSrsInteraction,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [updateCertificate.type]: handleUpdateCertificate,
+  [getUserSuccess.type]: handleGetUserSuccess,
 }
 
 export const srsMiddleware: Middleware<Dispatch> =
