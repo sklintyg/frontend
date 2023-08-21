@@ -37,6 +37,8 @@ export function PieChartGraph({
     ? data
     : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id)?.fill }))
 
+  const getTop = (length: number) => length * 10 + 50
+
   return (
     <ResponsiveContainer width={isSmall ? 150 : 500} height={height || '91%'} minHeight="150px" className={classes}>
       <PieChart>
@@ -56,7 +58,7 @@ export function PieChartGraph({
         <Legend
           iconType="circle"
           iconSize={11}
-          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces', top: 100 }}
+          wrapperStyle={{ width: 300, whiteSpace: 'break-spaces', top: isSmall ? 100 : getTop(formattedData.length) }}
           layout="vertical"
           verticalAlign={isSmall ? 'bottom' : 'middle'}
           align={isSmall ? 'center' : 'right'}

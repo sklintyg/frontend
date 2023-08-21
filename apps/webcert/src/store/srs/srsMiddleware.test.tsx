@@ -17,6 +17,7 @@ import {
 } from './srsActions'
 import {
   fakeCertificate,
+  fakeUser,
   fakeDiagnosesElement,
   fakeRadioMultipleCodeElement,
   fakeSrsAnswer,
@@ -25,8 +26,10 @@ import {
   fakeCertificateMetaData,
   CertificateStatus,
   SrsUserClientContext,
+  User,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { getUserSuccess } from '../user/userActions'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -203,6 +206,18 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(setRiskOpinion(request))
       await flushPromises()
       expect(fakeAxios.history.put[0].url).toEqual('/api/srs/opinion/patientId/careGiverId/unitId/certificateId/code')
+    })
+  })
+
+  describe('Handle getUserSuccess', () => {
+    it('should save user launch from origin', () => {
+      const user: User = fakeUser({
+        launchFromOrigin: 'rs',
+      })
+
+      testStore.dispatch(getUserSuccess({ user, links: [] }))
+      expect(testStore.getState().ui.uiSRS.userLaunchFromOrigin).toEqual('rs')
+      expect(testStore.getState().ui.uiSRS.userClientContext).toEqual(SrsUserClientContext.SRS_REH)
     })
   })
 

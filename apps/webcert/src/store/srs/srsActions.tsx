@@ -93,6 +93,8 @@ export const updateUserClientContext = createAction<SrsUserClientContext>(`${SRS
 
 export const updateIsPanelActive = createAction<boolean>(`${SRS} Update is panel active`)
 
+export const updateUserLaunchFromOrigin = createAction<string>(`${SRS} Update user launch from origin`)
+
 export interface RecommendationsRequest {
   patientId: string
   code: string
