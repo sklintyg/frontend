@@ -21,6 +21,7 @@ import {
   updateSrsQuestions,
   updateUnitId,
   updateUserClientContext,
+  updateUserLaunchFromOrigin,
 } from './srsActions'
 import {
   SrsAnswer,
@@ -53,6 +54,7 @@ export interface SRSState {
   answers: SrsAnswer[]
   hasUpdatedAnswers: boolean
   userClientContext: SrsUserClientContext | undefined
+  userLaunchFromOrigin: string
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -76,6 +78,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     answers: [],
     hasUpdatedAnswers: true,
     userClientContext: undefined,
+    userLaunchFromOrigin: '',
   }
 }
 
@@ -148,6 +151,9 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
     .addCase(updateUserClientContext, (state, action) => {
       state.userClientContext = action.payload
+    })
+    .addCase(updateUserLaunchFromOrigin, (state, action) => {
+      state.userLaunchFromOrigin = action.payload
     })
 )
 
