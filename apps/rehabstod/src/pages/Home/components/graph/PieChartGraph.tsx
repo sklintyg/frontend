@@ -37,20 +37,7 @@ export function PieChartGraph({
     ? data
     : data.map((dataPoint) => ({ ...dataPoint, fill: parentData.find((point) => point.id === dataPoint.id)?.fill }))
 
-  function getTop(length: number) {
-    switch (length) {
-      case 1:
-        return 60
-      case 2:
-        return 70
-      case 3:
-        return 80
-      case 4:
-        return 90
-      default:
-        return 100
-    }
-  }
+  const getTop = (length: number) => length * 10 + 50
 
   return (
     <ResponsiveContainer width={isSmall ? 150 : 500} height={height || '91%'} minHeight="150px" className={classes}>
