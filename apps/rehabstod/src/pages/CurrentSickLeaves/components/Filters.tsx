@@ -11,8 +11,8 @@ import { TimePeriodFilter } from '../../../components/Table/filter/TimePeriodFil
 import { getMultipleSelectPlaceholder } from '../../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
-import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
 
 export function Filters({
