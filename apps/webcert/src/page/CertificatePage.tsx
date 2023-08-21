@@ -56,7 +56,6 @@ const CertificatePage: React.FC = () => {
 
   useEffect(() => {
     if (certificateId && !isLoadingCertificate && certificateId !== metadata?.id) {
-      console.log('fetch certificate')
       dispatch(getCertificate(certificateId))
       dispatch(getUserStatistics())
     }
