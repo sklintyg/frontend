@@ -17,6 +17,11 @@ module.exports = {
         base: 'var(--color-sky-base)',
         clear: 'var(--color-sky-clear)',
       },
+      accent: {
+        30: 'var(--IDS-COLOR-ACCENT-30)',
+        40: 'var(--IDS-COLOR-ACCENT-40)',
+        90: 'var(--IDS-COLOR-ACCENT-90)',
+      },
     },
     extend: {},
   },
