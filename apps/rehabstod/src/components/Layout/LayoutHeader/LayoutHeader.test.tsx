@@ -16,10 +16,10 @@ describe('With user session', () => {
   it('Should be able to logout', async () => {
     const { user } = renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByText('Logga ut')).toBeInTheDocument()
+    expect(await screen.findByTestId('logout-button')).toBeInTheDocument()
 
     const pendingRequest = waitForRequest('POST', '/logout')
-    user.click(screen.getByText('Logga ut'))
+    user.click(screen.getByTestId('logout-button'))
 
     expect(await pendingRequest).toBeTruthy()
   })

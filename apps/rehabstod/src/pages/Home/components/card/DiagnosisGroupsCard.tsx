@@ -1,9 +1,9 @@
+import { DiagnosGruppStat } from '../../../../schemas/diagnosisSchema'
+import { Gender } from '../../../../schemas/patientSchema'
 import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
-import { StatisticsCard } from './StatisticsCard'
-import { DiagnosGruppStat } from '../../../../schemas/diagnosisSchema'
 import { getGenderText } from '../../statisticsUtils'
-import { Gender } from '../../../../schemas/patientSchema'
+import { StatisticsCard } from './StatisticsCard'
 
 export function DiagnosisGroupsCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {

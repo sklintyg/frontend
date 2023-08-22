@@ -1,26 +1,10 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useState } from 'react'
-import { CurrentSickLeavesTableInfo } from './CurrentSickLeavesTableInfo'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-
-function ComponentWrapper() {
-  const [checked, updateChecked] = useState(true)
-
-  return (
-    <CurrentSickLeavesTableInfo
-      onShowPersonalInformationChange={() => updateChecked(!checked)}
-      showPersonalInformation={checked}
-      listLength={10}
-      totalNumber={20}
-      daysBetweenCertificates="5"
-      daysAfterSickLeaveEnd="3"
-    />
-  )
-}
+import { CurrentSickLeavesTableInfo } from './CurrentSickLeavesTableInfo'
 
 beforeEach(() => {
-  renderWithRouter(<ComponentWrapper />)
+  renderWithRouter(<CurrentSickLeavesTableInfo listLength={10} totalNumber={20} daysBetweenCertificates="5" daysAfterSickLeaveEnd="3" />)
 })
 
 describe('CurrentSickLeavesTableInfo', () => {

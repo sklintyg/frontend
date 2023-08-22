@@ -30,7 +30,7 @@ export function PatientRekoStatus({
 
   return (
     certificateToSaveRekoStatusOn && (
-      <div className="w-64">
+      <div className="w-full lg:w-64">
         <SelectRekoStatus
           disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}

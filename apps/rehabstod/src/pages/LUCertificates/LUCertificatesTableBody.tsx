@@ -34,7 +34,7 @@ export function LUCertificatesTableBody({
               focusable={focusable}
               italic={false}
               data={item}
-              onNavigate={clickable ? (data) => navigateToPatient(data) : undefined}
+              onNavigate={clickable ? navigateToPatient : undefined}
             >
               {columns.map(({ name }) => (
                 <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={content} />
