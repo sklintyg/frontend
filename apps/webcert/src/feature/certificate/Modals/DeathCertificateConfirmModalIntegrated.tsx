@@ -1,8 +1,7 @@
 import { Checkbox, ConfirmModal, InfoBox, Patient } from '@frontend/common'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { deleteCertificate } from '../../../store/certificate/certificateActions'
+import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props {
   patient: Patient
@@ -18,8 +17,8 @@ const ContentWrapper = styled.div`
 `
 
 export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patient, certificateId, setOpen, open }) => {
-  const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(true)
+  const deleteCertificate = useDeleteCertificate(certificateId)
 
   return (
     <ConfirmModal
@@ -31,9 +30,7 @@ export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patien
       setOpen={setOpen}
       open={open}
       onConfirm={() => null}
-      onClose={() => {
-        dispatch(deleteCertificate({ certificateId }))
-      }}
+      onClose={deleteCertificate}
       closeOnBackdropClick={false}
     >
       <InfoBox type="info">

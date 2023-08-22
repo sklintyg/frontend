@@ -56,7 +56,7 @@ export function SelectMultiple({
   }
 
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
       {/* TODO: Replace with IDSInput when working properly */}

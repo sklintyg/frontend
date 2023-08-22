@@ -2,18 +2,18 @@ import { render, screen } from '@testing-library/react'
 
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { TableInfo } from './TableInfo'
+import { TableInfoRight } from './TableInfoRight'
 
 const renderComponent = (showPersonalInformation: boolean, onShowPersonalInformationChange?: () => void) => {
   render(
-    <TableInfo
+    <TableInfoRight
       listLength={10}
       totalNumber={20}
       showPersonalInformation={showPersonalInformation}
       onShowPersonalInformationChange={onShowPersonalInformationChange}
     >
       Children
-    </TableInfo>
+    </TableInfoRight>
   )
 }
 describe('TableInfo', () => {
