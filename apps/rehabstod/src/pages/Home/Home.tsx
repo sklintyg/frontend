@@ -1,6 +1,5 @@
-import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { IDSButton } from '@frontend/ids-react-ts'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetUserQuery } from '../../store/api'
@@ -8,21 +7,14 @@ import { OverviewStatistics } from './components/OverviewStatistics'
 
 export function Home() {
   const { data: user } = useGetUserQuery()
-  const navigate = useNavigate()
   const sithsUrl = '/saml/login/alias/siths-rs2'
 
-  useEffect(() => {
-    if (user && user.valdVardenhet === null) {
-      navigate('/enhet')
-    }
-  }, [user, navigate])
-
   return user ? (
-    <IDSContainer>
-      <ProtectedRoute requireUnit>
+    <ProtectedRoute requireUnit>
+      <PageContainer>
         <OverviewStatistics />
-      </ProtectedRoute>
-    </IDSContainer>
+      </PageContainer>
+    </ProtectedRoute>
   ) : (
     <PageHero type="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
