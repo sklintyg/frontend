@@ -24,11 +24,15 @@ const ToastModal: React.FC<Props> = ({ children, onClose }) => {
   const [allowClosingOfModal, setAllowClosingOfModal] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => setAllowClosingOfModal(true), 1000)
-    setTimeout(() => {
+    const allowClosingOfModalTimeout = setTimeout(() => setAllowClosingOfModal(true), 1000)
+    const openTimeout = setTimeout(() => {
       setOpen(false)
       onClose?.()
     }, 2000)
+    return () => {
+      clearTimeout(allowClosingOfModalTimeout)
+      clearTimeout(openTimeout)
+    }
   }, [onClose])
 
   if (!open) return null
