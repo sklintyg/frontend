@@ -12,7 +12,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
 import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 
 let testStore: EnhancedStore
 
@@ -149,6 +149,10 @@ describe('CertificateSidePanel', () => {
 
     it('shall log SRS interaction when switching tab', async () => {
       const tabText = 'SRS'
+      const certiticateId = 'certiticateId'
+      const loggedCertificateId = 'certiticateId2'
+      testStore.dispatch(updateCertificateId(certiticateId))
+      testStore.dispatch(updateLoggedCertificateId(loggedCertificateId))
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()

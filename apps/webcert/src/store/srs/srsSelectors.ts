@@ -30,6 +30,7 @@ export const getRiskOpinion = (state: RootState): string => state.ui.uiSRS.riskO
 export const getLoading = (state: RootState): boolean => state.ui.uiSRS.loadingCodes
 
 export const getHasUpdatedAnswers = (state: RootState): boolean => state.ui.uiSRS.hasUpdatedAnswers
+export const getLoggedCertificateId = (state: RootState): string => state.ui.uiSRS.loggedCertificateId
 
 export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
   state.ui.uiSRS.srsPredictions.length > 0
