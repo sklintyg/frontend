@@ -1,31 +1,27 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import RemovedCertificate from './RemovedCertificate'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import {
+  deleteCertificate,
   updateIsDeleted,
   updateRoutedFromDeletedCertificate,
   updateShouldRouteAfterDelete,
 } from '../../../store/certificate/certificateActions'
-import { useDispatch, useSelector } from 'react-redux'
 import { getShouldRouteAfterDelete } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
-const CertificateDeletedHandler: React.FC = () => {
+export function useDeleteCertificate(certificateId: string) {
   const history = useHistory()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const shouldRouteAfterDelete = useSelector(getShouldRouteAfterDelete())
 
-  const getDeletedComponent = () => {
+  return () => {
+    dispatch(deleteCertificate({ certificateId }))
+
     if (shouldRouteAfterDelete) {
       dispatch(updateRoutedFromDeletedCertificate(true))
       dispatch(updateShouldRouteAfterDelete(false))
       dispatch(updateIsDeleted(false))
       history.goBack()
     }
-
-    return <RemovedCertificate />
   }
-
-  return getDeletedComponent()
 }
-
-export default CertificateDeletedHandler

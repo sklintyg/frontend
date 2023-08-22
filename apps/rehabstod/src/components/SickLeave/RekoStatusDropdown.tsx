@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react'
 import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
-import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
+import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
 import { SelectButton } from '../Form/SelectButton'
 
