@@ -1,8 +1,8 @@
+import { Gender } from '../../../../schemas/patientSchema'
 import { SickLeaveDegreeSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
-import { StatisticsCard } from './StatisticsCard'
-import { Gender } from '../../../../schemas/patientSchema'
 import { getGenderText } from '../../statisticsUtils'
+import { StatisticsCard } from './StatisticsCard'
 
 export function CountSickLeaveDegreesCard({ summary }: { summary: SickLeaveSummary | undefined }) {
   if (!summary) {

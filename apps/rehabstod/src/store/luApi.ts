@@ -11,6 +11,7 @@ const luApi = api.injectEndpoints({
         method: 'POST',
         body: request,
       }),
+      providesTags: ['User'],
       async onQueryStarted(_, { dispatch }) {
         dispatch(luApi.endpoints.getLUFilters.initiate(undefined, { forceRefetch: true }))
       },
@@ -24,6 +25,7 @@ const luApi = api.injectEndpoints({
     >({
       keepUnusedDataFor: 0,
       query: () => 'lu/filters',
+      providesTags: ['User'],
     }),
     getPatientLUCertificates: builder.query<LUCertificatesInfo, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
@@ -32,12 +34,14 @@ const luApi = api.injectEndpoints({
         method: 'POST',
         body: request,
       }),
+      providesTags: ['User'],
     }),
     getLUCertificatesDoctors: builder.query<{ doctors: Lakare[] }, void>({
       query: () => ({
         url: 'certificate/lu/doctors',
         method: 'GET',
       }),
+      providesTags: ['User'],
     }),
   }),
   overrideExisting: false,

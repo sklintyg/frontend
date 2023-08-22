@@ -73,7 +73,7 @@ export function PatientOverview({
         generateError={giveConsentError === undefined}
         dynamicLink
       />
-      <div className="grid grid-cols-2 gap-4 py-5">
+      <div className="flex grid-cols-2 flex-col gap-5 py-5 lg:grid">
         <OpenInformationCard
           title="Ospärrad information inom egen vårdgivare"
           subTitle="Vårdenhet med information"

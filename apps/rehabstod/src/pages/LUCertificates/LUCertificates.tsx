@@ -1,20 +1,19 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
-import { TableInfo } from '../../components/Table/TableInfo'
+import { TableInfo } from '../../components/Table/TableInfo/TableInfo'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
-import { TablePageLayout } from '../../components/Table/TablePageLayout'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
 import { filterHiddenColumns, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
-import { useNavigateToStartPage } from '../../hooks/useNavigateToStartPage'
+import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 import { useGetUserQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 import { useGetLUFiltersQuery, useLazyGetLUCertificatesQuery } from '../../store/luApi'
 import { allLUUnitTableColumns } from '../../store/slices/luUnitTableColumns.selector'
 import { LUCertificatesColumn } from '../../store/slices/luUnitTableColumns.slice'
-import { updateShowPersonalInformation } from '../../store/slices/settings.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 import { LUCertificatesFilters } from './LUCertificatesFilters'
 import { LUCertificatesTableBody } from './LUCertificatesTableBody'
@@ -33,7 +32,6 @@ export function LUCertificates() {
   const { data: populatedFilters } = useGetLUFiltersQuery()
   const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
-  const dispatch = useDispatch()
 
   const isDoctor = user ? isUserDoctor(user) : false
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, [
@@ -43,56 +41,48 @@ export function LUCertificates() {
     LUCertificatesColumn.Index,
   ])
   const visibleColumns = filterHiddenColumns(filteredColumns)
+  const unansweredCommunicationError = !!luCertificatesInfo?.questionAndAnswersError
+  const emptyTableAlert = populatedFilters && populatedFilters.doctors.length === 0
 
   const TABLE_NAME = 'läkarutlåtanden'
-
-  useNavigateToStartPage()
 
   if (encryptedPatientId) {
     return <Outlet />
   }
 
   return (
-    <TablePageLayout
-      printable={false}
-      tableName={TABLE_NAME}
-      heading={<TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />}
-      filters={<LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />}
-      tableInfo={
-        <TableInfo
-          listLength={luCertificatesInfo ? luCertificatesInfo.certificates.length : 0}
-          totalNumber={luCertificatesInfo ? luCertificatesInfo.certificates.length : 0} // TODO: this should come from backend
-          showPersonalInformation={showPersonalInformation} // TODO: should be shared with sickleaves
-          onShowPersonalInformationChange={(checked) => dispatch(updateShowPersonalInformation(checked))}
-        />
-      }
-      modifyTableColumns={<ModifyLUCertificatesTableColumns columns={filteredColumns} />}
-      tableContentError={error}
-      unansweredCommunicationError={!!luCertificatesInfo?.questionAndAnswersError}
-      emptyTableAlert={populatedFilters && populatedFilters.doctors.length === 0}
-    >
-      <Table
-        header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
-        sortColumn={tableState.sortColumn}
-        onSortChange={setTableState}
-        ascending={tableState.ascending}
-      >
-        <TableInfoMessage
-          isLoading={isContentLoading}
-          tableLength={visibleColumns.length}
-          tableName={TABLE_NAME}
-          suffix="Läkarutlåtanden som signerats de senaste tre åren på enheten visas."
-          user={user}
-          content={luCertificatesInfo ? luCertificatesInfo.certificates : null}
-          hasAppliedFilters={hasAppliedFilters}
-        />
-        <LUCertificatesTableBody
-          focusable
-          clickable
-          content={luCertificatesInfo ? luCertificatesInfo.certificates : []}
-          columns={visibleColumns}
-        />
-      </Table>
-    </TablePageLayout>
+    <PageContainer>
+      <TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />
+      <LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />
+      {emptyTableAlert && <EmptyTableAlert tableName={TABLE_NAME} />}
+      {error && <TableContentAlert tableName={TABLE_NAME} error={error} />}
+      {!error && (
+        <>
+          <TableInfo
+            communicationError={unansweredCommunicationError}
+            modifyTable={<ModifyLUCertificatesTableColumns columns={filteredColumns} />}
+            listLength={luCertificatesInfo?.certificates.length ?? 0}
+            totalNumber={luCertificatesInfo?.certificates.length ?? 0} // TODO: this should come from backend
+          />
+          <Table
+            header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
+            sortColumn={tableState.sortColumn}
+            onSortChange={setTableState}
+            ascending={tableState.ascending}
+          >
+            <TableInfoMessage
+              isLoading={isContentLoading}
+              tableLength={visibleColumns.length}
+              tableName={TABLE_NAME}
+              suffix="Läkarutlåtanden som signerats de senaste tre åren på enheten visas."
+              user={user}
+              content={luCertificatesInfo?.certificates ?? null}
+              hasAppliedFilters={hasAppliedFilters}
+            />
+            <LUCertificatesTableBody focusable clickable content={luCertificatesInfo?.certificates ?? []} columns={visibleColumns} />
+          </Table>
+        </>
+      )}
+    </PageContainer>
   )
 }

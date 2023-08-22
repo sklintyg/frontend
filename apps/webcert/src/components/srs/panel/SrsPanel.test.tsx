@@ -4,7 +4,9 @@ import { Provider } from 'react-redux'
 import {
   logSrsInteraction,
   setDiagnosisCodes,
+  updateCertificateId,
   updateError,
+  updateLoggedCertificateId,
   updateSrsInfo,
   updateSrsPredictions,
   updateSrsQuestions,
@@ -53,9 +55,22 @@ describe('SrsPanel', () => {
     expect(() => renderComponent()).not.toThrow()
   })
 
-  it('should log if panel is active', () => {
+  it('should log if panel is active and loggedCertificate does not match certificateId', () => {
+    const certiticateId = 'certiticateId'
+    const loggedCertificateId = 'certiticateId2'
+    store.dispatch(updateCertificateId(certiticateId))
+    store.dispatch(updateLoggedCertificateId(loggedCertificateId))
     renderComponent()
     expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+  })
+
+  it('should not log if panel is active and loggedCertificate matches certificateId', () => {
+    const certiticateId = 'certiticateId'
+    const loggedCertificateId = 'certiticateId'
+    store.dispatch(updateCertificateId(certiticateId))
+    store.dispatch(updateLoggedCertificateId(loggedCertificateId))
+    renderComponent()
+    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
   })
 
   it('should not log if panel is inactive', () => {
