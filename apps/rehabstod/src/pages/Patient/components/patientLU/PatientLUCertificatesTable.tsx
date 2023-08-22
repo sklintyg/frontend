@@ -40,14 +40,13 @@ export function PatientLUCertificatesTable() {
 
   return (
     <>
-      <div className="flex justify-between">
-        <TableHeadingForUnit tableName="Patientens läkarutlåtanden" hideUserSpecifics hideDivider user={user} />
+      <TableHeadingForUnit tableName="Patientens läkarutlåtanden" hideUserSpecifics hideDivider user={user}>
         {!getLuCertificatesError && (
-          <div className="w-96">
+          <div className="lg:w-96">
             <ModifyPatientLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Intyg)} />
           </div>
         )}
-      </div>
+      </TableHeadingForUnit>
       {getLuCertificatesError ? (
         <PatientTableError error={getLuCertificatesError} />
       ) : (
