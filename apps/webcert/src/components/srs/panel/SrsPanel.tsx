@@ -11,10 +11,11 @@ import {
   getDiagnosisListValue,
   getHasError,
   getLoading,
+  getLoggedCertificateId,
   getPatientId,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
+import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
 import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
@@ -46,6 +47,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const isLoading = useSelector(getLoading)
   const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
   const [hasLogged, setHasLogged] = useState(false)
+  const loggedCertificateId = useSelector(getLoggedCertificateId)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -56,11 +58,12 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-    if (!hasLogged && isPanelActive) {
+    if (!hasLogged && isPanelActive && certificateId !== loggedCertificateId) {
       dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+      dispatch(updateLoggedCertificateId(certificateId))
       setHasLogged(true)
     }
-  }, [hasLogged, isPanelActive, dispatch])
+  }, [hasLogged, isPanelActive, dispatch, certificateId, loggedCertificateId])
 
   useEffect(() => {
     if (isPanelActive && !isEmpty && diagnosisCodes.length == 0) {
