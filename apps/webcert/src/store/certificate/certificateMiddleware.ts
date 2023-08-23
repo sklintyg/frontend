@@ -1,10 +1,10 @@
 import {
   CertificateSignStatus,
   CertificateStatus,
+  SigningMethod,
   decorateCertificateWithInitialValues,
   getCertificateToSave,
   getClientValidationErrors,
-  SigningMethod,
   isLocked,
 } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
@@ -111,8 +111,8 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSigningData,
   updateCertificateSignStatus,
+  updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -246,9 +246,9 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
       dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
     } else {
       dispatch(updateCertificateAsDeleted())
-      dispatch(hideSpinner())
     }
     dispatch(deleteCertificateCompleted())
+    dispatch(hideSpinner())
   }
 
 const handleForwardCertificate: Middleware<Dispatch> =

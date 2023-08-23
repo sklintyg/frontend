@@ -11,13 +11,11 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/Ce
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
 import {
   getCertificateMetaData,
   getIsCertificateDeleted,
-  getIsRoutedFromDeletedCertificate,
   getIsShowSpinner,
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
@@ -46,7 +44,6 @@ const CertificatePage: React.FC = () => {
   const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const links = useSelector(getResourceLinks)
   const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
@@ -82,7 +79,6 @@ const CertificatePage: React.FC = () => {
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
-            <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )
       }

@@ -1,8 +1,10 @@
-import { Certificate } from '../../types/certificate'
+import { PartialDeep } from 'type-fest'
+import { Certificate, CertificateData } from '../../types/certificate'
 import { fakeCertificateMetaData } from './fakeCertificateMetaData'
+import { fakeResourceLink } from './fakeResourceLink'
 
-export const fakeCertificate = (data?: Partial<Certificate>): Certificate => ({
-  metadata: data?.metadata ?? fakeCertificateMetaData(),
+export const fakeCertificate = (data?: PartialDeep<Certificate> & { data?: CertificateData }): Certificate => ({
+  metadata: fakeCertificateMetaData(data?.metadata),
   data: data?.data ?? {},
-  links: data?.links ?? [],
+  links: data?.links?.map(fakeResourceLink) ?? [],
 })
