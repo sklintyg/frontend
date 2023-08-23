@@ -241,7 +241,6 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
-    dispatch(hideSpinner())
     if (action.payload.metadata.relations?.parent?.certificateId) {
       dispatch(updateRoutedFromDeletedCertificate(true))
       dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
@@ -249,6 +248,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
       dispatch(updateCertificateAsDeleted())
     }
     dispatch(deleteCertificateCompleted())
+    dispatch(hideSpinner())
   }
 
 const handleForwardCertificate: Middleware<Dispatch> =
