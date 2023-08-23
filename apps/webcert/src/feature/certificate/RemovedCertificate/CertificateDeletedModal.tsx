@@ -1,14 +1,12 @@
-import React from 'react'
-import RemovedCertificate from '../RemovedCertificate/RemovedCertificate'
 import { ToastModal } from '@frontend/common'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateRoutedFromDeletedCertificate } from '../../../store/certificate/certificateActions'
-import { useDispatch } from 'react-redux'
+import { getIsRoutedFromDeletedCertificate } from '../../../store/certificate/certificateSelectors'
+import RemovedCertificate from '../RemovedCertificate/RemovedCertificate'
 
-interface Props {
-  routedFromDeletedCertificate: boolean
-}
-
-const CertificateDeletedModal: React.FC<Props> = ({ routedFromDeletedCertificate }) => {
+const CertificateDeletedModal: React.FC = () => {
+  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const dispatch = useDispatch()
 
   if (!routedFromDeletedCertificate) return null

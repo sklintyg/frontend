@@ -2,6 +2,7 @@ import { CustomTooltip, DatePickerBoundryContext } from '@frontend/common'
 import classnames from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 
 const Root = styled.div`
   height: 100vh;
@@ -40,6 +41,7 @@ const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePan
         {header && <NoFlexGrow>{header}</NoFlexGrow>}
         {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
         <Content ref={contentRef} className={classnames({ 'ic-container': hasSidePanel, 'popper-boundry': true })}>
+          <CertificateDeletedModal />
           {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500 iu-pb-500'}`}>{children}</div>}
         </Content>
       </Root>
