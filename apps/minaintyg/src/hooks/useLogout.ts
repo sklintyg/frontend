@@ -1,3 +1,12 @@
+import { useNavigate } from 'react-router-dom'
+import { useFakeLogoutMutation } from '../store/api'
+
 export function useLogout() {
-  return () => {}
+  const [fakeLogout] = useFakeLogoutMutation()
+  const navigate = useNavigate()
+
+  return () => {
+    fakeLogout()
+    navigate('/welcome')
+  }
 }

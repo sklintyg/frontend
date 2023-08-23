@@ -1,6 +1,7 @@
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
+import { useLogout } from '../../hooks/useLogout'
 
 const links = [
   { title: 'Start', path: '/' },
@@ -14,15 +15,17 @@ const links = [
 ]
 
 export function LayoutHeader() {
+  const logout = useLogout()
+
   return (
     <IDSHeader type="1177" hideregionpicker className="z-40 bg-white print:hidden">
       <IDSHeaderAvatar username="Firstname Lastname">
-        <Link to="/installningar" slot="avatar-left">
+        <button type="button" slot="avatar-left">
           Inställningar
-        </Link>
-        <Link to="/logout" slot="avatar-right">
+        </button>
+        <button type="button" slot="avatar-right" onClick={logout}>
           Logga ut
-        </Link>
+        </button>
       </IDSHeaderAvatar>
       <IDSHeaderNav>
         {links.map(({ title, path }) => (

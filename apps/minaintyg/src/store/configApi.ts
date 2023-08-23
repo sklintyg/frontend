@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AppConfig } from '../schema/appConfig.schema'
+import { CertificateDescription } from '../schema/certificateDescription.schema'
 
 export const configApi = createApi({
-  reducerPath: 'api',
+  reducerPath: 'configApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/appconfig/api/',
   }),
