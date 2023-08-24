@@ -455,10 +455,22 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(true)
       await flushPromises()
 
-      const spinnerActive = testStore.getState().ui.uiCertificate.spinner
-      expect(spinnerActive).toBe(false)
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(false)
+    })
+
+    it('should hide spinner on successful deletion when parent certificate exist', async () => {
+      const certificate = fakeCertificate({ metadata: { relations: { parent: { certificateId: '2' } } } })
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(true)
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(false)
     })
 
     it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {
