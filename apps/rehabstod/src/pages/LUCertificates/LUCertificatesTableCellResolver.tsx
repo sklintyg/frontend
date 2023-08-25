@@ -9,12 +9,14 @@ import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFor
 
 export function LUCertificatesTableCellResolver({ column, data, list }: { column: string; data: LUCertificate; list: LUCertificate[] }) {
   switch (column) {
-    case LUCertificatesColumn.Diagnos:
+    case LUCertificatesColumn.Diagnos: {
+      const diagnosis = [data.diagnosis, ...data.biDiagnoses].filter(Boolean)
       return (
-        <TableCell description={<DiagnosisDescription diagnos={data.diagnosis} biDiagnoser={data.biDiagnoses} />}>
+        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />
         </TableCell>
       )
+    }
     case LUCertificatesColumn.Signeringsdatum:
       return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:

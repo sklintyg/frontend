@@ -23,14 +23,16 @@ import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
-    case SickLeaveColumn.Diagnos:
+    case SickLeaveColumn.Diagnos: {
+      const diagnosis = [sickLeave.diagnos, ...sickLeave.biDiagnoser].filter(Boolean)
       return sickLeave.diagnos ? (
-        <TableCell description={<DiagnosisDescription diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />}>
+        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
         </TableCell>
       ) : (
         <span>Okänt</span>
       )
+    }
     case SickLeaveColumn.Slutdatum:
       return (
         <TableCell>

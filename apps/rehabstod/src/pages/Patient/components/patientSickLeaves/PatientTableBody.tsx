@@ -37,14 +37,14 @@ function PatientTableCellResolver({
   certificate: PatientSjukfallIntyg
 }) {
   switch (column) {
-    case PatientColumn.Diagnos:
+    case PatientColumn.Diagnos: {
+      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(Boolean)
       return (
-        <TableCell
-          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}
-        >
+        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
+    }
     case PatientColumn.Grad:
       return (
         <TableCell>

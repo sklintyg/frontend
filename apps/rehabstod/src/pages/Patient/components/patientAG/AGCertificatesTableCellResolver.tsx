@@ -10,12 +10,14 @@ import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter
 
 export function AGCertificatesTableCellResolver({ column, data, list }: { column: string; data: AGCertificate; list: AGCertificate[] }) {
   switch (column) {
-    case PatientColumn.Diagnos:
+    case PatientColumn.Diagnos: {
+      const diagnosis = [data.diagnosis, ...data.biDiagnoses].filter(Boolean)
       return (
-        <TableCell description={<DiagnosisDescription diagnos={data.diagnosis} biDiagnoser={data.biDiagnoses} />}>
+        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />
         </TableCell>
       )
+    }
     case PatientColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
     case PatientColumn.Intyg:
