@@ -1,8 +1,8 @@
+import { RadioButton, SrsSickLeaveChoice } from '@frontend/common'
 import React, { ChangeEvent } from 'react'
-import { RadioButton, SrsSickLeaveChoice, SrsUserClientContext } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateHasUpdatedAnswers, updateSickLeaveChoice } from '../../../store/srs/srsActions'
 import { getIsCertificateRenewed, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
-import { updateHasUpdatedAnswers, updateSickLeaveChoice, updateUserClientContext } from '../../../store/srs/srsActions'
 import { getSickLeaveChoicesLabel } from '../srsUtils'
 
 const SrsSickLeaveChoices: React.FC = () => {
@@ -14,13 +14,8 @@ const SrsSickLeaveChoices: React.FC = () => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSickLeaveChoice(SrsSickLeaveChoice[event.currentTarget.value as keyof typeof SrsSickLeaveChoice]))
     dispatch(updateHasUpdatedAnswers(true))
-    if (
-      event.currentTarget.value === SrsSickLeaveChoice.EXTENSION ||
-      event.currentTarget.value === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
-    ) {
-      dispatch(updateUserClientContext(SrsUserClientContext.SRS_FRL))
-    }
   }
+
   return (
     <div role="radiogroup" className="ic-radio-group-horizontal iu-mb-400">
       {buttons.map((button, index) => {

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { lakareSchema } from './lakareSchema'
 import { diagnosisSchema } from './diagnosisSchema'
+import { lakareSchema } from './lakareSchema'
 
 export enum Gender {
   M = 'M',
@@ -26,7 +26,7 @@ export const patientSjukfallIntygSchema = z.object({
     alder: z.number(),
     responseFromPu: z.null(),
   }),
-  diagnos: diagnosisSchema,
+  diagnos: z.optional(diagnosisSchema),
   bidiagnoser: z.array(diagnosisSchema),
   start: z.string(),
   slut: z.string(),

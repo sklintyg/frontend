@@ -1,5 +1,5 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
-import { act, screen } from '@testing-library/react'
+import { act, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { ReactNode } from 'react'
 import { Table } from '../../../../components/Table/Table'
@@ -75,26 +75,32 @@ it('Should be possible to hide columns', async () => {
   expect(screen.getAllByRole('row')[0].children).toHaveLength(Object.keys(PatientColumn).length - 4)
 }, 20000)
 
-it('Should not display visa button for other units if otherVardgivare', () => {
+it('Should not display visa button for other units if otherVardgivare', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
-  const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardgivare: true }))
+  const certificates = Array.from({ length: 1 }, (_, index) =>
+    fakerFromSchema(patientSjukfallIntygSchema)({ intygsId: index.toString(), otherVardgivare: true })
+  )
   renderWithRouter(
     <ComponentWrapper>
       <PatientTableBody certificates={certificates} isDoctor />
     </ComponentWrapper>
   )
 
+  await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(1))
   expect(screen.queryByText('Visa')).not.toBeInTheDocument()
 })
 
-it('Should not display visa button for other units if otherVardenhet', () => {
+it('Should not display visa button for other units if otherVardenhet', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { id: 'foo' } })))))
-  const certificates = Array.from({ length: 10 }, () => fakerFromSchema(patientSjukfallIntygSchema)({ otherVardenhet: true }))
+  const certificates = Array.from({ length: 1 }, (_, index) =>
+    fakerFromSchema(patientSjukfallIntygSchema)({ intygsId: index.toString(), otherVardenhet: true })
+  )
   renderWithRouter(
     <ComponentWrapper>
       <PatientTableBody certificates={certificates} isDoctor />
     </ComponentWrapper>
   )
 
+  await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(1))
   expect(screen.queryByText('Visa')).not.toBeInTheDocument()
 })
