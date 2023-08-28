@@ -5,8 +5,8 @@ import { fakeVardgivare } from './fakeVardgivare'
 
 const fakeUserPreferences = fakerFromSchema(userPreferencesSchema, {
   stringMap: {
-    maxAntalDagarMellanIntyg: () => faker.datatype.number().toString(),
-    maxAntalDagarSedanSjukfallAvslut: () => faker.datatype.number().toString(),
+    maxAntalDagarMellanIntyg: () => faker.number.int().toString(),
+    maxAntalDagarSedanSjukfallAvslut: () => faker.number.int().toString(),
   },
 })
 
@@ -15,5 +15,5 @@ export const fakeUser = fakerFromSchemaFactory(userSchema, (data) => ({
   preferences: fakeUserPreferences(data?.preferences),
   valdVardgivare: fakeVardgivare(),
   valdVardenhet: fakeVardenhet(),
-  vardgivare: Array.from({ length: faker.datatype.number({ min: 1, max: 3 }) }, fakeVardgivare),
+  vardgivare: Array.from({ length: faker.number.int({ min: 1, max: 3 }) }, fakeVardgivare),
 }))

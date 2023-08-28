@@ -134,10 +134,10 @@ importers:
     devDependencies:
       '@anatine/zod-mock':
         specifier: ^3.13.2
-        version: 3.13.2(@faker-js/faker@7.6.0)
+        version: 3.13.2(@faker-js/faker@8.0.2)
       '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
+        specifier: ^8.0.2
+        version: 8.0.2
       '@testing-library/dom':
         specifier: ^9.3.1
         version: 9.3.1
@@ -291,10 +291,10 @@ importers:
     devDependencies:
       '@anatine/zod-mock':
         specifier: ^3.13.2
-        version: 3.13.2(@faker-js/faker@7.6.0)
+        version: 3.13.2(@faker-js/faker@8.0.2)
       '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
+        specifier: ^8.0.2
+        version: 8.0.2
       '@testing-library/dom':
         specifier: ^9.3.1
         version: 9.3.1
@@ -786,10 +786,10 @@ importers:
     dependencies:
       '@anatine/zod-mock':
         specifier: ^3.13.2
-        version: 3.13.2(@faker-js/faker@7.6.0)
+        version: 3.13.2(@faker-js/faker@8.0.2)
       '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
+        specifier: ^8.0.2
+        version: 8.0.2
       deepmerge-ts:
         specifier: ^5.1.0
         version: 5.1.0
@@ -867,12 +867,12 @@ packages:
       '@jridgewell/trace-mapping': 0.3.19
     dev: true
 
-  /@anatine/zod-mock@3.13.2(@faker-js/faker@7.6.0):
+  /@anatine/zod-mock@3.13.2(@faker-js/faker@8.0.2):
     resolution: {integrity: sha512-MEKI4G4sZJxBONDw2jZBK54+wxi8t+T7lAdYtJt7H0AURzmXiU2gNHArv+ycjI6DHZMBe52SKbmmXpu/JYUzUg==}
     peerDependencies:
       '@faker-js/faker': ^7.0.0 || ^8.0.0
     dependencies:
-      '@faker-js/faker': 7.6.0
+      '@faker-js/faker': 8.0.2
       randexp: 0.5.3
 
   /@babel/code-frame@7.22.10:
@@ -1840,9 +1840,9 @@ packages:
     resolution: {integrity: sha512-ZSjtmelB7IJfWD2Fvb7+Z+ChTIKWq6kjda95fLcQKNS5aheVHn4IkfgRQE3sIIzTcSLwLcLZUD9UBt+V7+h+Pw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  /@faker-js/faker@7.6.0:
-    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
-    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+  /@faker-js/faker@8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
 
   /@floating-ui/core@1.4.1:
     resolution: {integrity: sha512-jk3WqquEJRlcyu7997NtR5PibI+y5bi+LS3hPmguVClypenMsCY3CBa3LAQnozRCtCrYWSEtAdiskpamuJRFOQ==}

@@ -10,7 +10,7 @@ it('Should generate a faker function from schema', () => {
 
   const fakePerson = fakerFromSchema(schema, { seed: 1 })
 
-  expect(fakePerson()).toEqual({ firstName: 'Rosemarie', lastName: 'Stamm' })
+  expect(fakePerson()).toEqual({ firstName: 'Isak', lastName: 'Åberg Olsson' })
 })
 
 it('Should be able to write partial data', () => {
@@ -21,7 +21,7 @@ it('Should be able to write partial data', () => {
 
   const fakePerson = fakerFromSchema(schema, { seed: 1 })
 
-  expect(fakePerson({ lastName: 'Smith' })).toEqual({ firstName: 'Rosemarie', lastName: 'Smith' })
+  expect(fakePerson({ lastName: 'Smith' })).toEqual({ firstName: 'Isak', lastName: 'Smith' })
 })
 
 it('Should be possible to override mock', () => {
@@ -37,5 +37,5 @@ it('Should be possible to override mock', () => {
     },
   })
 
-  expect(fakePerson()).toEqual({ firstName: 'Rosemarie', lastName: 'Andersson' })
+  expect(fakePerson()).toEqual({ firstName: 'Isak', lastName: 'Andersson' })
 })

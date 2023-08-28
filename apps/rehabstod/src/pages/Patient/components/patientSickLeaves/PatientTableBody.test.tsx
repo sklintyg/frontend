@@ -30,7 +30,7 @@ beforeEach(() => {
 it('Should list all certificates columns except Visa', async () => {
   const certificates = Array.from(
     { length: 10 },
-    fakerFromSchema(patientSjukfallIntygSchema, { stringMap: { vardgivareId: faker.datatype.uuid } })
+    fakerFromSchema(patientSjukfallIntygSchema, { stringMap: { vardgivareId: faker.string.uuid } })
   )
   renderWithRouter(
     <ComponentWrapper>

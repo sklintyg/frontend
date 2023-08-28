@@ -7,7 +7,7 @@ import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderItem } from './CareProviderItem'
 
 let handleChooseUnit: Mock<unknown[], unknown>
-const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.datatype.uuid() })] })
+const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.string.uuid() })] })
 let selectedRadio: string | null
 beforeEach(() => {
   handleChooseUnit = vi.fn()

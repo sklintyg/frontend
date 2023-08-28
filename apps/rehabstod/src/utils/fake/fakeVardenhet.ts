@@ -10,7 +10,7 @@ const fakeMottagning = fakerFromSchema(mottagningSchema, {
 export const fakeVardenhet = fakerFromSchemaFactory(
   vardenhetSchema,
   () => ({
-    mottagningar: Array.from({ length: faker.datatype.number({ max: 3 }) }, fakeMottagning),
+    mottagningar: Array.from({ length: faker.number.int({ max: 3 }) }, fakeMottagning),
   }),
   {
     stringMap: {

@@ -1,29 +1,29 @@
 import { generateMock, GenerateMockOptions } from '@anatine/zod-mock'
-import { faker } from '@faker-js/faker'
+import { fakerSV as faker } from '@faker-js/faker'
 import { deepmergeCustom, DeepMergeLeafURI } from 'deepmerge-ts'
 import { DeepPartial } from 'ts-essentials'
 import { z, ZodTypeAny } from 'zod'
 
 const fakeHSA = () =>
-  `${faker.random.alpha({ count: 6, casing: 'upper' })}${faker.datatype.number({ min: 1e9 })}-${faker.datatype.number({ min: 1e3 })}`
+  `${faker.string.alpha({ length: 6, casing: 'upper' })}${faker.number.int({ min: 1e9 })}-${faker.number.int({ min: 1e3 })}`
 
-export { faker } from '@faker-js/faker'
+export { fakerSV as faker } from '@faker-js/faker'
 
 export const stringMap = {
-  id: faker.datatype.uuid,
+  id: faker.string.uuid,
   hsaId: fakeHSA,
   forvaldEnhet: fakeHSA,
   unitId: fakeHSA,
-  namn: faker.name.fullName,
-  fornamn: faker.name.firstName,
-  efternamn: faker.name.lastName,
-  stad: faker.address.city,
-  postadress: faker.address.streetAddress,
-  postnummer: faker.address.zipCode,
-  postort: faker.address.cityName,
+  namn: faker.person.fullName,
+  fornamn: faker.person.firstName,
+  efternamn: faker.person.lastName,
+  stad: faker.location.city,
+  postadress: faker.location.streetAddress,
+  postnummer: faker.location.zipCode,
+  postort: faker.location.city,
   epost: faker.internet.email,
   telefonnummer: faker.phone.number,
-  arbetsplatskod: faker.datatype.uuid,
+  arbetsplatskod: faker.string.uuid,
 }
 
 const customDeepmerge = deepmergeCustom<{
