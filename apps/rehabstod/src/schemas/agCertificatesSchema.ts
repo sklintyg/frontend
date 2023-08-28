@@ -11,7 +11,7 @@ export const agCertificateSchema = z.object({
   careUnitName: z.string(),
   certificateId: z.string(),
   certificateType: z.string(),
-  diagnosis: diagnosisSchema,
+  diagnosis: z.optional(diagnosisSchema),
   doctor: lakareSchema,
   patient: patientInfoSchema,
   signingTimeStamp: z.string(),

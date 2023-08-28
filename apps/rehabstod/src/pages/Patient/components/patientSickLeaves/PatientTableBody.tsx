@@ -13,6 +13,7 @@ import { useAppSelector } from '../../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { isTruthy } from '../../../../utils/isTruthy'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
 
@@ -38,7 +39,7 @@ function PatientTableCellResolver({
 }) {
   switch (column) {
     case PatientColumn.Diagnos: {
-      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(Boolean)
+      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(isTruthy)
       return (
         <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />

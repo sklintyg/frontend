@@ -5,13 +5,14 @@ import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../../utils/getUnansweredCommunicationFormat'
+import { isTruthy } from '../../../../utils/isTruthy'
 import { CertificateButton } from '../CertificateButton'
 import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
 
 export function AGCertificatesTableCellResolver({ column, data, list }: { column: string; data: AGCertificate; list: AGCertificate[] }) {
   switch (column) {
     case PatientColumn.Diagnos: {
-      const diagnosis = [data.diagnosis, ...data.biDiagnoses].filter(Boolean)
+      const diagnosis = [data.diagnosis, ...data.biDiagnoses].filter(isTruthy)
       return (
         <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />

@@ -19,12 +19,13 @@ import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
+import { isTruthy } from '../../../utils/isTruthy'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
 function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
   switch (column) {
     case SickLeaveColumn.Diagnos: {
-      const diagnosis = [sickLeave.diagnos, ...sickLeave.biDiagnoser].filter(Boolean)
+      const diagnosis = [sickLeave.diagnos, ...sickLeave.biDiagnoser].filter(isTruthy)
       return sickLeave.diagnos ? (
         <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} />
