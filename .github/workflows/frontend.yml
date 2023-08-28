@@ -43,7 +43,7 @@ jobs:
         run: pnpm prettier . --check --ignore-unknown
 
       - name: Lint
-        uses: reviewdog/action-eslint@v1.18.2
+        uses: reviewdog/action-eslint@v1.19.2
 
       - name: Typescript
         run: pnpm typescript --filter=...[HEAD^1]
