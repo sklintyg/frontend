@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { MobileMenuItem } from '@frontend/components'
-import { IDSHeaderMobileMenu, IDSIconUser, IDSLink, IDSMobileMenuAvatar } from '@frontend/ids-react-ts'
+import { IDSHeaderMobileMenu, IDSIconArrow, IDSIconCog, IDSIconUser, IDSLink, IDSMobileMenuAvatar } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'
@@ -24,10 +24,12 @@ export function LayoutMobileHeader() {
       <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
       <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
       <IDSMobileMenuAvatar username={user.namn} unit={user.valdVardenhet?.namn}>
-        <IDSLink block className="mb-5 mt-2">
+        <IDSLink block className="mb-5 mt-2" color="var(--IDS-COLOR-PRIMARY-40)">
+          <IDSIconArrow height="25" width="25" />
           <Link to="/enhet">Byt vårdenhet</Link>
         </IDSLink>
-        <IDSLink block className="mb-5">
+        <IDSLink block className="mb-5" color="var(--IDS-COLOR-PRIMARY-40)">
+          <IDSIconCog height="25" width="25" />
           <a
             onClick={() => {
               dispatch(updateShowSettingsDialog(true))
@@ -37,7 +39,7 @@ export function LayoutMobileHeader() {
           </a>
         </IDSLink>
         <hr />
-        <IDSLink block className="mt-5">
+        <IDSLink block className="mt-5" color="var(--IDS-COLOR-PRIMARY-40)">
           <IDSIconUser height="25" width="25" />
           <a onClick={logout} data-testid="mobile-logout">
             Logga ut
