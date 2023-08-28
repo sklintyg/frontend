@@ -1,10 +1,9 @@
 import { ButtonWithConfirmModal, CertificateMetadata, trashImage } from '@frontend/common'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { deleteCertificate } from '../../../store/certificate/certificateActions'
+import { useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -14,9 +13,8 @@ interface Props extends FunctionDisabled {
 }
 
 const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
-  const dispatch = useDispatch()
-  const history = useHistory()
   const isValidating = useSelector(getIsValidating)
+  const deleteCertificate = useDeleteCertificate(certificateMetadata.id)
 
   return (
     <ButtonWithConfirmModal
@@ -26,9 +24,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       name={name}
       startIcon={<img src={trashImage} alt="Radera utkast" />}
       modalTitle="Radera utkast"
-      onConfirm={() => {
-        dispatch(deleteCertificate({ certificateId: certificateMetadata.id }))
-      }}
+      onConfirm={deleteCertificate}
       confirmButtonText="Radera"
       declineButtonText="Avbryt"
       buttonTestId="remove-certificate-button"

@@ -1,7 +1,6 @@
 import { IDSAlert, IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
-import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import {
   selectFilter,
@@ -24,6 +23,7 @@ import {
   setWorkCapacities,
   updateFreetext,
 } from '../../store/slices/welcome.slice'
+import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/testabilityApi'
 import { useWelcome } from './useWelcome'
 
 export function Welcome() {

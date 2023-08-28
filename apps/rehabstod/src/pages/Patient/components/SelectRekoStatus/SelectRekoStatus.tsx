@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { SelectFilter } from '../../../../components/Table/filter/SelectFilter'
-import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
-import { useSetRekoStatusMutation } from '../../../../store/api'
+import { RekoStatus, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
+import { useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../../../utils/getRekoStatusSickLeaveTimestamp'
 import { updateRekoStatusId } from '../../../../store/slices/sickLeave.slice'
 

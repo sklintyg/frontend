@@ -12,6 +12,7 @@ import {
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
+  updateLoggedCertificateId,
   updatePatientId,
   updateRiskOpinion,
   updateSickLeaveChoice,
@@ -21,6 +22,7 @@ import {
   updateSrsQuestions,
   updateUnitId,
   updateUserClientContext,
+  updateUserLaunchFromOrigin,
 } from './srsActions'
 import {
   SrsAnswer,
@@ -28,8 +30,8 @@ import {
   SrsPrediction,
   SrsQuestion,
   SrsSickLeaveChoice,
-  ValueDiagnosisList,
   SrsUserClientContext,
+  ValueDiagnosisList,
 } from '@frontend/common'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
@@ -53,6 +55,8 @@ export interface SRSState {
   answers: SrsAnswer[]
   hasUpdatedAnswers: boolean
   userClientContext: SrsUserClientContext | undefined
+  userLaunchFromOrigin: string
+  loggedCertificateId: string
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -76,6 +80,8 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     answers: [],
     hasUpdatedAnswers: true,
     userClientContext: undefined,
+    userLaunchFromOrigin: '',
+    loggedCertificateId: '',
   }
 }
 
@@ -148,6 +154,12 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
     .addCase(updateUserClientContext, (state, action) => {
       state.userClientContext = action.payload
+    })
+    .addCase(updateUserLaunchFromOrigin, (state, action) => {
+      state.userLaunchFromOrigin = action.payload
+    })
+    .addCase(updateLoggedCertificateId, (state, action) => {
+      state.loggedCertificateId = action.payload
     })
 )
 

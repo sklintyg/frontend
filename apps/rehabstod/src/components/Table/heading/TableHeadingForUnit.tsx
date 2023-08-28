@@ -1,14 +1,17 @@
+import { ReactNode } from 'react'
 import { User } from '../../../schemas'
-import { TableHeading } from './TableHeading'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
+import { TableHeading } from './TableHeading'
 
 export function TableHeadingForUnit({
+  children,
   user,
   tableName,
   suffix,
   hideUserSpecifics,
   hideDivider = false,
 }: {
+  children?: ReactNode
   user?: User
   tableName: string
   suffix?: string
@@ -20,15 +23,14 @@ export function TableHeadingForUnit({
   }
 
   const prefix = isUserDoctor(user) ? 'Mina' : 'Alla'
+  const userUnit = user && user.valdVardenhet
+  const title = [!hideUserSpecifics && prefix, tableName, suffix].filter(Boolean).join(' ')
+  const printTitle = [!hideUserSpecifics && prefix, tableName, userUnit && `på ${userUnit.namn}`, suffix].filter(Boolean).join(' ')
 
   return (
-    <TableHeading
-      hideDivider={hideDivider}
-      title={`${!hideUserSpecifics ? prefix : ''} ${tableName} ${suffix || ''}`}
-      subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-      printTitle={`${!hideUserSpecifics ? prefix : ''} ${tableName} på ${user && user.valdVardenhet ? user.valdVardenhet.namn : ''} ${
-        suffix || ''
-      }`}
-    />
+    <div className="mb-5 flex flex-col lg:mb-0 lg:flex-row">
+      <TableHeading hideDivider={hideDivider} title={title} subTitle={userUnit ? userUnit.namn : ''} printTitle={printTitle} />
+      {children}
+    </div>
   )
 }

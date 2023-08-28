@@ -1,13 +1,9 @@
 import { Diagnosis } from '../../schemas/diagnosisSchema'
 
-export function DiagnosisDescription({ diagnos, biDiagnoser }: { diagnos: Diagnosis; biDiagnoser: Diagnosis[] }) {
-  if (!diagnos) {
-    return null
-  }
-
+export function DiagnosisDescription({ diagnosis }: { diagnosis: Diagnosis[] }) {
   return (
     <ul>
-      {[diagnos].concat(biDiagnoser).map(({ kod, beskrivning }) => (
+      {diagnosis.map(({ kod, beskrivning }) => (
         <li key={kod}>
           {kod} - {beskrivning}
         </li>

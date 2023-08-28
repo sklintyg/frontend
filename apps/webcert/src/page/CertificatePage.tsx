@@ -11,19 +11,17 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/Ce
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
-import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
 import {
   getCertificateMetaData,
   getIsCertificateDeleted,
-  getIsRoutedFromDeletedCertificate,
   getIsShowSpinner,
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
-import { getUserStatistics } from '../store/user/userActions'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { getUserStatistics } from '../store/user/userActions'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -46,7 +44,6 @@ const CertificatePage: React.FC = () => {
   const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const links = useSelector(getResourceLinks)
   const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
@@ -59,7 +56,7 @@ const CertificatePage: React.FC = () => {
       dispatch(getCertificate(certificateId))
       dispatch(getUserStatistics())
     }
-  }, [dispatch, certificateId, isLoadingCertificate, metadata])
+  }, [dispatch, certificateId, isLoadingCertificate, metadata, isCertificateDeleted])
 
   useEffect(() => {
     if (error) {
@@ -82,7 +79,6 @@ const CertificatePage: React.FC = () => {
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
-            <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )
       }
@@ -90,7 +86,7 @@ const CertificatePage: React.FC = () => {
       hasSidePanel={true}
     >
       {isCertificateDeleted ? (
-        <CertificateDeletedHandler />
+        <RemovedCertificate />
       ) : (
         <>
           {isDBIntegrated && patient && (

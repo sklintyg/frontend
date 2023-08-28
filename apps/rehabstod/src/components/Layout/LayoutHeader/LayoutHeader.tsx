@@ -57,12 +57,14 @@ export function LayoutHeader() {
                 }}
                 label="Inställningar"
                 icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
+                testid="settings-button"
               />
               <hr className="border-neutral-40 mb-5" />
               <HeaderAvatarMenuButton
                 label="Logga ut"
                 icon={<IDSIconUser color="currentColor" color2="currentColor" height="20" width="20" />}
                 onClick={logout}
+                testid="logout-button"
               />
             </div>
           </IDSHeaderAvatar>

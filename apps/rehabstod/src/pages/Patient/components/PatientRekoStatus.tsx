@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
-import { useGetSickLeavesFiltersQuery } from '../../../store/api'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 import { updateRekoStatusId } from '../../../store/slices/sickLeave.slice'
 
@@ -39,7 +39,7 @@ export function PatientRekoStatus({
 
   return (
     certificateToSaveRekoStatusOn && (
-      <div className="w-64">
+      <div className="w-full lg:w-64">
         <SelectRekoStatus
           disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}

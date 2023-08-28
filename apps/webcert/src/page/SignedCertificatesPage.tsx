@@ -14,10 +14,8 @@ import {
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import { ResourceAccess } from '../utils/ResourceAccess'
 
 const SignedCertificatesPage: React.FC = () => {
@@ -26,7 +24,6 @@ const SignedCertificatesPage: React.FC = () => {
   const filter = useSelector(getActiveListFilter, shallowEqual)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
-  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
 
   useEffect(() => {
@@ -54,7 +51,6 @@ const SignedCertificatesPage: React.FC = () => {
           </>
         }
       >
-        <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
         <ListContainer
           type={ListType.CERTIFICATES}
           showMessageForEmptyList={isFilterDefault(config?.filters, filter?.values) && totalCount === 0}

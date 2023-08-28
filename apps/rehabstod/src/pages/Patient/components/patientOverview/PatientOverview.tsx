@@ -2,7 +2,7 @@ import { IDSAlert } from '@frontend/ids-react-ts'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
 import { SjfMetaData } from '../../../../schemas/patientSchema'
-import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/api'
+import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/sickLeaveApi'
 import { BlockedInformationCard } from './blocked/BlockedInformationCard'
 import { OpenInformationCard } from './open/OpenInformationCard'
 import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
@@ -73,7 +73,7 @@ export function PatientOverview({
         generateError={giveConsentError === undefined}
         dynamicLink
       />
-      <div className="grid grid-cols-2 gap-4 py-5">
+      <div className="flex grid-cols-2 flex-col gap-5 py-5 lg:grid">
         <OpenInformationCard
           title="Ospärrad information inom egen vårdgivare"
           subTitle="Vårdenhet med information"

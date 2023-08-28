@@ -1,7 +1,8 @@
-import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
-import { GenderGraph } from './GenderGraph'
-import { idsGraphColors } from '../../assets/Colors'
 import { Gender } from '../../../../schemas/patientSchema'
+import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
+import { idsGraphColors } from '../../assets/Colors'
+import { ChartLegend } from './ChartLegend'
+import { GenderGraph } from './GenderGraph'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   const female = genders.find((gender) => gender.gender === Gender.F)
@@ -14,18 +15,16 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   return (
     <div>
       <h2 className="ids-heading-4">Könsfördelning totalt</h2>
-      <div className="flex items-center justify-center">
+      <div className="mb-2 flex items-center justify-center">
         <GenderGraph gender={female} />
         <GenderGraph gender={male} />
       </div>
-      <ul className="ml-5 list-disc">
-        <li className="marker:text-3xl" style={{ color: idsGraphColors[4] }}>
-          <span className="text-neutral-20 align-super text-sm">{`Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`}</span>
-        </li>
-        <li className="marker:text-3xl" style={{ color: idsGraphColors[3] }}>
-          <span className="text-neutral-20 align-super text-sm">{`Män (${male.count} st, ${Math.round(male.percentage)}%)`}</span>
-        </li>
-      </ul>
+      <ChartLegend
+        data={[
+          { label: `Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`, color: idsGraphColors[4] },
+          { label: `Män (${male.count} st, ${Math.round(male.percentage)}%)`, color: idsGraphColors[3] },
+        ]}
+      />
     </div>
   )
 }
