@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react'
-import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
 import { SelectRekoStatus } from './SelectRekoStatus'
 
@@ -10,46 +9,39 @@ const TYPES = [
 const PATIENT_ID = '1912121212'
 const END_DATE = '2022-01-01'
 
-const renderComponent = (statusFromSickLeave: RekoStatusType, disabled?: boolean) => {
+const renderComponent = (disabled?: boolean) => {
   renderWithRouter(
-    <SelectRekoStatus
-      statusFromSickLeave={{ status: statusFromSickLeave }}
-      patientId={PATIENT_ID}
-      endDate={END_DATE}
-      rekoStatusTypes={TYPES}
-      disabled={disabled}
-      description="description"
-    />
+    <SelectRekoStatus patientId={PATIENT_ID} endDate={END_DATE} rekoStatusTypes={TYPES} disabled={disabled} description="description" />
   )
 }
 
 describe('SelectRekoStatus', () => {
   it('should render without issues', () => {
-    expect(() => renderComponent(TYPES[0])).not.toThrow()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('should render label', () => {
-    renderComponent(TYPES[0])
+    renderComponent()
     expect(screen.getByText('REKO-status')).toBeInTheDocument()
   })
 
   it('should not render default option', () => {
-    renderComponent(TYPES[0])
+    renderComponent()
     expect(screen.queryByText('Visa alla')).not.toBeInTheDocument()
   })
 
   it('should render options', () => {
-    renderComponent(TYPES[0])
+    renderComponent()
     expect(screen.getAllByRole('option')).toHaveLength(TYPES.length)
   })
 
   it('should be enabled as default', () => {
-    renderComponent(TYPES[0])
+    renderComponent()
     expect(screen.getByLabelText('REKO-status')).toBeEnabled()
   })
 
   it('should set disabled value', () => {
-    renderComponent(TYPES[0], true)
+    renderComponent(true)
     expect(screen.getByLabelText('REKO-status')).toBeDisabled()
   })
 })
