@@ -26,12 +26,13 @@ const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
         ))}
       <ul>
         {workCapacityList &&
-          workCapacityList.map((form: FMBDiagnosisCodeInfoForm) =>
-            form.content[0].list?.map((item: string, index: number) => (
-              <li key={index} className="iu-mt-300">
-                {item}
-              </li>
-            ))
+          workCapacityList.map(
+            (form: FMBDiagnosisCodeInfoForm) =>
+              form.content[0].list?.map((item: string, index: number) => (
+                <li key={index} className="iu-mt-300">
+                  {item}
+                </li>
+              ))
           )}
       </ul>
     </div>

@@ -162,7 +162,7 @@ const createCertificate = (metadata: CertificateMetadata): Certificate =>
   ({
     metadata,
     links: [],
-  } as unknown as Certificate)
+  }) as unknown as Certificate
 
 function createQuestion(handled = true): Question {
   return {

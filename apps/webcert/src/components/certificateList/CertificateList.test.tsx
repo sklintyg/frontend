@@ -108,8 +108,8 @@ describe('CertificateList', () => {
     dispatchFavorites(['typ3', 'typ5'])
     container = renderComponent()
 
-    const labels = Array.from(container.querySelectorAll('.iu-color-information')).map((el) =>
-      el.parentElement?.nextSibling?.textContent?.trim()
+    const labels = Array.from(container.querySelectorAll('.iu-color-information')).map(
+      (el) => el.parentElement?.nextSibling?.textContent?.trim()
     )
     expect(labels).toEqual(['Typ 3', 'Typ 5'])
   })
