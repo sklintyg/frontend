@@ -5,7 +5,7 @@ export function ExpandableLink({ children, title }: { children: ReactNode; title
   const [expanded, setExpanded] = useState(false)
   return (
     <div>
-      <button className="flex items-center gap-2 pb-3 text-accent-40 underline" type="button" onClick={() => setExpanded(!expanded)}>
+      <button className="text-accent-40 flex items-center gap-2 pb-3 underline" type="button" onClick={() => setExpanded(!expanded)}>
         {title}
         <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
       </button>

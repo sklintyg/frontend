@@ -39,7 +39,7 @@ export function RekoStatusDropdown({
           key={type.id}
           onClick={(event) => handleSetRekoStatus(event, type)}
           type="button"
-          className="py-1 text-left hover:bg-secondary-95"
+          className="hover:bg-secondary-95 py-1 text-left"
         >
           <span className="px-2">{type.name}</span>
         </button>

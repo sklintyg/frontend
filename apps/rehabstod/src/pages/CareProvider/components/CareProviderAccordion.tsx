@@ -29,7 +29,7 @@ export function CareProviderAccordion({
   })
 
   return (
-    <details id={unit.id} className="group my-2 border-b border-neutral-90 pb-2">
+    <details id={unit.id} className="border-neutral-90 group my-2 border-b pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between">
           <IDSRadio>

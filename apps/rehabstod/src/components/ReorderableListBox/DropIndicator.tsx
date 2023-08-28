@@ -15,7 +15,7 @@ export function DropIndicator({ dropState, ...props }: DropIndicatorProps & { dr
       aria-selected={false}
       {...dropIndicatorProps}
       ref={ref}
-      className={`border-b border-accent-90 ${isDropTarget && 'border-accent-40'}`}
+      className={`border-accent-90 border-b ${isDropTarget && 'border-accent-40'}`}
     />
   )
 }

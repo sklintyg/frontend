@@ -14,7 +14,7 @@ export function CareProviderItem({
 }) {
   return (
     <div className="mb-6">
-      <h4 className="ids-heading-4 my-2 border-b border-neutral-90 pb-2">{provider.namn}</h4>
+      <h4 className="ids-heading-4 border-neutral-90 my-2 border-b pb-2">{provider.namn}</h4>
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
@@ -41,7 +41,7 @@ export function CareProviderItem({
               ))}
             </CareProviderAccordion>
           ) : (
-            <div className="my-2 flex items-center border-b border-neutral-90">
+            <div className="border-neutral-90 my-2 flex items-center border-b">
               <IDSRadio>
                 <input
                   type="radio"

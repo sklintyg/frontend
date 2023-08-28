@@ -14,7 +14,7 @@ export function CalendarGrid({ state, ...props }: { state: CalendarState | Range
 
   return (
     <table {...gridProps} cellPadding="0" className="w-full flex-1">
-      <thead {...headerProps} className="text-xs uppercase text-neutral-40">
+      <thead {...headerProps} className="text-neutral-40 text-xs uppercase">
         <tr>
           {weekDays.map((day, index) => (
             <th key={index}>{day}</th>

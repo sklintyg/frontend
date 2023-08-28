@@ -149,7 +149,7 @@ export function Welcome() {
                   dispatch(selectUnit(unitId))
                   dispatch(updateFreetext(null))
                 }}
-                className="w-full rounded border border-accent-40 p-2"
+                className="border-accent-40 w-full rounded border p-2"
               >
                 {fakeLogins.map(({ hsaId, forvaldEnhet, beskrivning }) => (
                   <option key={`${hsaId}_${forvaldEnhet}`} id={`${hsaId}_${forvaldEnhet}`}>
@@ -168,7 +168,7 @@ export function Welcome() {
                   name="userJsonDisplay"
                   value={freeText != null ? freeText : JSON.stringify({ hsaId: selectedLogin, enhetId: selectedUnit }, null, 2)}
                   onChange={(event) => dispatch(updateFreetext(event.target.value))}
-                  className="w-full whitespace-nowrap rounded border border-accent-40 p-2"
+                  className="border-accent-40 w-full whitespace-nowrap rounded border p-2"
                   rows={4}
                 />
               </label>
@@ -199,7 +199,7 @@ export function Welcome() {
               </label>
               <select
                 id="careProviderId"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careProviderId}
                 onChange={(e) => dispatch(setCareProviderId(e.target.value))}
               >
@@ -212,7 +212,7 @@ export function Welcome() {
               <label htmlFor="careUnitId">Vårdenhet</label>
               <select
                 id="careUnitId"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={careUnitId}
                 onChange={(e) => dispatch(setCareUnitId(e.target.value))}
               >
@@ -225,7 +225,7 @@ export function Welcome() {
               <label htmlFor="doctorId">Läkare</label>
               <select
                 id="doctorId"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={doctorId}
                 onChange={(e) => dispatch(setDoctorId(e.target.value))}
               >
@@ -238,7 +238,7 @@ export function Welcome() {
               <label htmlFor="patientId">Patient</label>
               <select
                 id="patientId"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={patientId}
                 onChange={(e) => dispatch(setPatientId(e.target.value))}
               >
@@ -251,7 +251,7 @@ export function Welcome() {
               <label htmlFor="diagnosisCodes">Diagnoskod (PRIMÄR)</label>
               <select
                 id="diagnosisCodes"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={primaryDiagnosisCode}
                 onChange={(e) => dispatch(setPrimaryDiagnosisCode(e.target.value))}
               >
@@ -264,7 +264,7 @@ export function Welcome() {
               <label htmlFor="diagnosisCodesSecondary">Diagnoskod (Bi-diagnos 1)</label>
               <select
                 id="diagnosisCodesSecondary"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={secondDiagnosisCode !== null ? secondDiagnosisCode : ''}
                 onChange={(e) => dispatch(setSecondDiagnosisCode(e.target.value))}
               >
@@ -280,7 +280,7 @@ export function Welcome() {
               <label htmlFor="diagnosisCodesThird">Diagnoskod (Bi-diagnos 2)</label>
               <select
                 id="diagnosisCodesThird"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={thirdDiagnosisCode !== null ? thirdDiagnosisCode : ''}
                 onChange={(e) => dispatch(setThirdDiagnosisCode(e.target.value))}
               >
@@ -296,7 +296,7 @@ export function Welcome() {
               <label htmlFor="workcapacity">Sysselsättningsgrad 1</label>
               <select
                 id="workcapacity"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={workCapacities}
                 onChange={(e) => dispatch(setWorkCapacities(e.target.value))}
               >
@@ -309,7 +309,7 @@ export function Welcome() {
               <label htmlFor="occupations">Sysselsättning</label>
               <select
                 id="occupations"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={occupation}
                 onChange={(e) => dispatch(setOccupation(e.target.value))}
               >
@@ -322,7 +322,7 @@ export function Welcome() {
               <label htmlFor="relationCode">Relationskod</label>
               <select
                 id="relationCode"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={relationKod !== null ? relationKod : ''}
                 onChange={(e) => dispatch(setRelationKod(e.target.value))}
               >
@@ -338,14 +338,14 @@ export function Welcome() {
               <label htmlFor="relationId">Intygs-Id (Relaterat till vilket intyg som du vill lägga till vald relationskod)</label>
               <input
                 id="relationId"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={relationsId !== null ? relationsId : ''}
                 onChange={(e) => dispatch(setRelationsId(e.target.value))}
               />
               <label htmlFor="fromDays">Startdatum - Ange antalet dagar bakåt i tiden från idag.</label>
               <input
                 id="fromDays"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={fromDays}
                 type="number"
                 onChange={(e) => dispatch(setFromDays(e.target.value))}
@@ -353,7 +353,7 @@ export function Welcome() {
               <label htmlFor="toDays">Slutdatum - Ange antalet dagar framåt i tiden från idag.</label>
               <input
                 id="toDays"
-                className="mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left text-neutral-20"
+                className="text-neutral-20 mt-2 box-border w-full appearance-none truncate rounded border py-3 pl-5 pr-12 text-left"
                 value={toDays}
                 type="number"
                 onChange={(e) => dispatch(setToDays(e.target.value))}

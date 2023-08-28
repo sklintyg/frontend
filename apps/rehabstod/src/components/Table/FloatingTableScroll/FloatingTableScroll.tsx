@@ -20,7 +20,7 @@ export const FloatingTableScroll = forwardRef<HTMLDivElement, HTMLProps<HTMLDivE
     },
   ])
   return (
-    <div style={{ overflow: 'auto' }} className="relative rounded border border-neutral-40 " ref={mergedRefCallback}>
+    <div style={{ overflow: 'auto' }} className="border-neutral-40 relative rounded border " ref={mergedRefCallback}>
       {children}
     </div>
   )
