@@ -4,6 +4,7 @@ import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
   OccupationType,
+  RekoStatus,
   RekoStatusType,
   SickLeaveFilter,
   SickLeaveInfo,
@@ -109,6 +110,14 @@ const sickLeaveApi = api.injectEndpoints({
         }
       },
     }),
+    getRekoStatusForPatient: builder.query<RekoStatus, { patientId: string; endDate: string; startDate: string }>({
+      keepUnusedDataFor: 0,
+      query: ({ patientId, endDate, startDate }) => ({
+        url: 'reko/patient',
+        method: 'POST',
+        body: { patientId, endDate, startDate },
+      }),
+    }),
     giveSjfConsent: builder.mutation<
       { registeredBy: string; responseCode: string; responseMessage: string },
       { days: number; onlyCurrentUser: boolean; patientId: string; encryptedPatientId: string }
@@ -152,4 +161,5 @@ export const {
   useGiveSjfConsentMutation,
   useLazyGetSickLeavesQuery,
   useSetRekoStatusMutation,
+  useGetRekoStatusForPatientQuery,
 } = sickLeaveApi
