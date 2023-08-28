@@ -1,12 +1,12 @@
+import { IDSButton, IDSErrorMessage } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { IDSButton, IDSButtonGroup, IDSErrorMessage } from '@frontend/ids-react-ts'
-import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
 import { Checkbox } from '../../../../../components/Form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
 import { RadioButton } from '../../../../../components/Form/RadioButton'
-import { OpenInformation } from './OpenInformation'
-import { BlockedInformation } from '../blocked/BlockedInformation'
+import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
+import { BlockedInformation } from '../blocked/BlockedInformation'
+import { OpenInformation } from './OpenInformation'
 
 export function OpenInformationWithConsent({
   items,
@@ -82,14 +82,14 @@ export function OpenInformationWithConsent({
       <div className="pt-3 pb-5">
         <AboutPatientOverview />
       </div>
-      <IDSButtonGroup className="flex justify-center">
-        <IDSButton secondary onClick={onClose}>
+      <div className="flex flex-col gap-2 md:flex-row md:justify-center md:gap-5">
+        <IDSButton mblock secondary onClick={onClose}>
           Avbryt
         </IDSButton>
-        <div>
-          <IDSButton onClick={handleGiveConsent}>Patienten ger samtycke</IDSButton>
-        </div>
-      </IDSButtonGroup>
+        <IDSButton mblock onClick={handleGiveConsent}>
+          Patienten ger samtycke
+        </IDSButton>
+      </div>
     </>
   )
 }
