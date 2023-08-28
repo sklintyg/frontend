@@ -38,7 +38,7 @@ export function DateRangePicker({
         <div {...groupProps} ref={ref} className={style}>
           <div className="inline-flex w-full gap-1 pl-5">
             <DateField {...startFieldProps} />
-            <span className="py-3 px-1">till</span>
+            <span className="px-1 py-3">till</span>
             <DateField {...endFieldProps} />
           </div>
           <DatePickerButton {...buttonProps} />

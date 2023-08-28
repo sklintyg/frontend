@@ -23,7 +23,7 @@ export function Home() {
         rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där du har
         skrivit det senaste intyget.
       </p>
-      <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
+      <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
       <IDSButton data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
         Logga in
       </IDSButton>

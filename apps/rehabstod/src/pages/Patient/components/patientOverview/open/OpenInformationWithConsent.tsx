@@ -52,7 +52,7 @@ export function OpenInformationWithConsent({
         light
       />
       {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
-      <div className="ml-10 -mt-5 flex w-44 items-center gap-3">
+      <div className="-mt-5 ml-10 flex w-44 items-center gap-3">
         <FormattedNumberInput
           label=""
           onChange={(value) => setDaysOfConsent(value)}
@@ -79,7 +79,7 @@ export function OpenInformationWithConsent({
         checked={consentId === PatientOverviewConsentChoices.ALL}
         light
       />
-      <div className="pt-3 pb-5">
+      <div className="pb-5 pt-3">
         <AboutPatientOverview />
       </div>
       <IDSButtonGroup className="flex justify-center">

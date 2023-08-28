@@ -20,7 +20,7 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
         Hämta
       </IDSButton>
       <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-      <IDSButton onClick={() => ref.current?.hideDialog()} className="flex justify-center pt-10 pb-5">
+      <IDSButton onClick={() => ref.current?.hideDialog()} className="flex justify-center pb-5 pt-10">
         Stäng
       </IDSButton>
     </IDSDialog>
