@@ -84,8 +84,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.0.8
-        version: 3.0.8
+        specifier: ^3.0.9
+        version: 3.0.9
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -185,7 +185,7 @@ importers:
         version: link:../../packages/eslint-config-react
       eslint-plugin-jest:
         specifier: ^27.2.1
-        version: 27.2.1(eslint@8.42.0)(typescript@5.1.6)
+        version: 27.2.1(eslint@8.42.0)(typescript@5.2.2)
       eslint-plugin-tailwindcss:
         specifier: ^3.10.1
         version: 3.10.1(tailwindcss@3.2.7)
@@ -194,7 +194,7 @@ importers:
         version: 21.1.1
       msw:
         specifier: ^1.2.0
-        version: 1.2.0(typescript@5.1.6)
+        version: 1.2.0(typescript@5.2.2)
       postcss:
         specifier: ^8.4.21
         version: 8.4.21
@@ -206,7 +206,7 @@ importers:
         version: 3.2.7(postcss@8.4.21)
       ts-essentials:
         specifier: ^9.3.1
-        version: 9.3.1(typescript@5.1.6)
+        version: 9.3.1(typescript@5.2.2)
       vite:
         specifier: ^4.1.5
         version: 4.1.5(@types/node@14.14.31)
@@ -232,8 +232,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.0.8
-        version: 3.0.8
+        specifier: ^3.0.9
+        version: 3.0.9
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -345,7 +345,7 @@ importers:
         version: link:../../packages/eslint-config-react
       eslint-plugin-jest:
         specifier: ^27.2.1
-        version: 27.2.1(eslint@8.42.0)(typescript@5.1.6)
+        version: 27.2.1(eslint@8.42.0)(typescript@5.2.2)
       eslint-plugin-tailwindcss:
         specifier: ^3.10.1
         version: 3.10.1(tailwindcss@3.2.7)
@@ -354,7 +354,7 @@ importers:
         version: 21.1.1
       msw:
         specifier: ^1.2.0
-        version: 1.2.0(typescript@5.1.6)
+        version: 1.2.0(typescript@5.2.2)
       postcss:
         specifier: ^8.4.21
         version: 8.4.21
@@ -366,7 +366,7 @@ importers:
         version: 3.2.7(postcss@8.4.21)
       ts-essentials:
         specifier: ^9.3.1
-        version: 9.3.1(typescript@5.1.6)
+        version: 9.3.1(typescript@5.2.2)
       vite:
         specifier: ^4.1.5
         version: 4.1.5(@types/node@14.14.31)
@@ -667,8 +667,8 @@ importers:
         specifier: workspace:*
         version: link:../ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.0.8
-        version: 3.0.8
+        specifier: ^3.0.9
+        version: 3.0.9
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -708,7 +708,7 @@ importers:
         version: link:../eslint-config-react
       eslint-plugin-jest:
         specifier: ^27.2.1
-        version: 27.2.1(eslint@8.42.0)(typescript@5.1.6)
+        version: 27.2.1(eslint@8.42.0)(typescript@5.2.2)
       eslint-plugin-tailwindcss:
         specifier: ^3.10.1
         version: 3.10.1(tailwindcss@3.2.7)
@@ -825,8 +825,8 @@ importers:
   packages/ids-react-ts:
     dependencies:
       '@inera/ids-core':
-        specifier: ^3.0.8
-        version: 3.0.8
+        specifier: ^3.0.9
+        version: 3.0.9
       '@lit-labs/react':
         specifier: ^1.1.1
         version: 1.1.1
@@ -1702,8 +1702,8 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
-  /@inera/ids-core@3.0.8:
-    resolution: {integrity: sha512-1q7b8YWcuCGfqITzm3ZttGY1D3WWCjMXAozBQ5S2p0QGFH6FX0oCQOrfSsOvsT/pOb6haXmpXG90HD9N1sQhqw==}
+  /@inera/ids-core@3.0.9:
+    resolution: {integrity: sha512-2wcoF/wljr9AWn3ylqLWUYY8zctH3noNrkumkuRa+2FHOYGP1dk3hogYyw5V0G9L7mSNQB0dNTc80wptCNjl7A==}
     dependencies:
       lit: 2.8.0
       tslib: 2.3.1
@@ -3805,7 +3805,7 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/typescript-estree@5.59.9(typescript@5.1.6):
+  /@typescript-eslint/typescript-estree@5.59.9(typescript@5.2.2):
     resolution: {integrity: sha512-pmM0/VQ7kUhd1QyIxgS+aRvMgw+ZljB3eDb+jYyp6d2bC0mQWLzUDF+DLwCTkQ3tlNyVsvZRXjFyV0LkU/aXjA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3820,8 +3820,8 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.1
-      tsutils: 3.21.0(typescript@5.1.6)
-      typescript: 5.1.6
+      tsutils: 3.21.0(typescript@5.2.2)
+      typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3866,7 +3866,7 @@ packages:
       - typescript
     dev: true
 
-  /@typescript-eslint/utils@5.59.9(eslint@8.42.0)(typescript@5.1.6):
+  /@typescript-eslint/utils@5.59.9(eslint@8.42.0)(typescript@5.2.2):
     resolution: {integrity: sha512-1PuMYsju/38I5Ggblaeb98TOoUvjhRvLpLa1DoTOFaLWqaXl/1iQ1eGurTXgBY58NUdtfTXKP5xBq7q9NDaLKg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3877,7 +3877,7 @@ packages:
       '@types/semver': 7.5.0
       '@typescript-eslint/scope-manager': 5.59.9
       '@typescript-eslint/types': 5.59.9
-      '@typescript-eslint/typescript-estree': 5.59.9(typescript@5.1.6)
+      '@typescript-eslint/typescript-estree': 5.59.9(typescript@5.2.2)
       eslint: 8.42.0
       eslint-scope: 5.1.1
       semver: 7.5.1
@@ -5650,7 +5650,7 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-jest@27.2.1(eslint@8.42.0)(typescript@5.1.6):
+  /eslint-plugin-jest@27.2.1(eslint@8.42.0)(typescript@5.2.2):
     resolution: {integrity: sha512-l067Uxx7ZT8cO9NJuf+eJHvt6bqJyz2Z29wykyEdz/OtmcELQl2MQGQLX8J94O1cSJWAwUSEvCjwjA7KEK3Hmg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -5663,7 +5663,7 @@ packages:
       jest:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.59.9(eslint@8.42.0)(typescript@5.1.6)
+      '@typescript-eslint/utils': 5.59.9(eslint@8.42.0)(typescript@5.2.2)
       eslint: 8.42.0
     transitivePeerDependencies:
       - supports-color
@@ -7563,7 +7563,7 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /msw@1.2.0(typescript@5.1.6):
+  /msw@1.2.0(typescript@5.2.2):
     resolution: {integrity: sha512-2nbGxmG8Zk/eCiWCAFtgz5kwPE5YnTlOcRBggFkykqkBSPQE+kvlHJElOzrTG21Tb0ZGXWgn0PI5kyANnOpgug==}
     engines: {node: '>=14'}
     hasBin: true
@@ -7592,7 +7592,7 @@ packages:
       path-to-regexp: 6.2.1
       strict-event-emitter: 0.4.6
       type-fest: 2.19.0
-      typescript: 5.1.6
+      typescript: 5.2.2
       yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
@@ -9572,12 +9572,12 @@ packages:
       typescript: 5.0.4
     dev: false
 
-  /ts-essentials@9.3.1(typescript@5.1.6):
+  /ts-essentials@9.3.1(typescript@5.2.2):
     resolution: {integrity: sha512-9CChSvQMyVRo29Vb1A2jbs+LKo3d/bAf+ndSaX0T8cEiy/HChVaRN/HY5DqUryZ8hZ6uol9bEgCnGmnDbwBR9Q==}
     peerDependencies:
       typescript: '>=4.1.0'
     dependencies:
-      typescript: 5.1.6
+      typescript: 5.2.2
     dev: true
 
   /ts-morph@17.0.1:
@@ -9619,14 +9619,14 @@ packages:
       tslib: 1.14.1
       typescript: 5.0.4
 
-  /tsutils@3.21.0(typescript@5.1.6):
+  /tsutils@3.21.0(typescript@5.2.2):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 5.1.6
+      typescript: 5.2.2
     dev: true
 
   /tunnel-agent@0.6.0:
@@ -9777,8 +9777,8 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
 
-  /typescript@5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
