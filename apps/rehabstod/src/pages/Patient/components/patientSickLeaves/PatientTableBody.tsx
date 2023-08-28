@@ -13,6 +13,7 @@ import { useAppSelector } from '../../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
+import { isTruthy } from '../../../../utils/isTruthy'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
 
@@ -37,14 +38,14 @@ function PatientTableCellResolver({
   certificate: PatientSjukfallIntyg
 }) {
   switch (column) {
-    case PatientColumn.Diagnos:
+    case PatientColumn.Diagnos: {
+      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(isTruthy)
       return (
-        <TableCell
-          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}
-        >
+        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
           <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
         </TableCell>
       )
+    }
     case PatientColumn.Grad:
       return (
         <TableCell>
