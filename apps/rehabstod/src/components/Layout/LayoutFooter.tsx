@@ -1,4 +1,4 @@
-import { IDSFooter, IDSIconExternal } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSMobileMenu } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { CookieDialog } from '../dialog/CookieDialog'
@@ -31,15 +31,21 @@ export function LayoutFooter() {
       </div>
 
       {/* Mobile Links */}
-      <p slot="sub-footer-mobile">
-        <div className="flex w-full gap-1 whitespace-nowrap">
-          <span>Rehabstöd drivs av</span>
-          <a className="text-white underline outline-white" href="https://www.inera.se">
-            Inera AB
-          </a>
-          <IDSIconExternal style={{ position: 'relative', bottom: '-2px' }} width="14" height="14" color="white" inline />
+      {links?.ineraMainPage && (
+        <p slot="sub-footer-mobile">
+          <div className="flex w-full gap-1 whitespace-nowrap">
+            <span>Rehabstöd drivs av</span>
+            <DynamicLink type="sub-footer" link={links.ineraMainPage} />
+          </div>
+        </p>
+      )}
+
+      <IDSMobileMenu>
+        <div className="flex flex-col gap-5 px-5">
+          <DynamicLink type="footer" link={links?.ineraManualRehabstod} />
+          <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
         </div>
-      </p>
+      </IDSMobileMenu>
 
       <div slot="sub-footer-links" className="inline-block">
         <DynamicLink type="sub-footer" link={links?.ineraBehandlingPersonuppgifter} />
