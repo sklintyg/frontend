@@ -6,7 +6,9 @@ import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 export function TooltipIcon({ description, icon, alignMiddle = false }: { description: string; icon: ReactNode; alignMiddle?: boolean }) {
   return (
     <Tooltip>
-      <TooltipTrigger alignMiddle={alignMiddle}>{icon}</TooltipTrigger>
+      <TooltipTrigger alignMiddle={alignMiddle} tabIndex={0}>
+        {icon}
+      </TooltipTrigger>
       <TooltipContent>{description}</TooltipContent>
     </Tooltip>
   )
