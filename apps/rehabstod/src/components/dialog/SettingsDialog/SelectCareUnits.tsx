@@ -18,7 +18,7 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
       description='Du kan välja en enhet som du automatiskt loggas in på när Rehabstöd startas. Välj "Ingen förvald enhet" i listan för att
         rensa ditt val.'
     >
-      <div className="w-80">
+      <div className="max-w-xs">
         <IDSSelect className="m-0">
           <label htmlFor={id}>Välj enhet</label>
           <Select id={id} onChange={(event) => onChange(event.currentTarget.value)} value={standardenhet ?? 'Ingen förvald enhet'}>
