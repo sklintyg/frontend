@@ -37,10 +37,16 @@ export function SelectFilter({
             <Select value={value} id={id} onChange={(event) => onChange(event.currentTarget.value)} disabled={disabled}>
               {!hideDefaultValue && (
                 <option className="ml-2" id="" value="">
-                  Visa alla{' '}
+                  Visa alla
                 </option>
               )}
-              {options ? options.map((option) => <option value={option.id} key={option.id} label={option.name} />) : null}
+              {options
+                ? options.map((option) => (
+                    <option value={option.id} key={option.id}>
+                      {option.name}
+                    </option>
+                  ))
+                : null}
             </Select>
           </div>
         </IDSSelect>
