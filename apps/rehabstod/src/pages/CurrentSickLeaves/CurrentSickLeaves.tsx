@@ -17,6 +17,7 @@ import { Filters } from './components/Filters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { useSickLeavesTableColumn } from './hooks/useSickLeavesTableColumns'
+import { TableDescriptionDialog } from '../../components/dialog/TableDescriptionDialog'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
@@ -85,6 +86,7 @@ export function CurrentSickLeaves() {
               />
             </tbody>
           </Table>
+          <TableDescriptionDialog columns={columns} />
         </>
       )}
     </PageContainer>
