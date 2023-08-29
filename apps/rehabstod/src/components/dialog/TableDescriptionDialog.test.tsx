@@ -28,7 +28,7 @@ describe('TableDescriptionDialog', () => {
   it('should show description', async () => {
     renderComponent()
     await userEvent.click(screen.getByText('Beskrivning av tabellens rubriker'))
-    expect(screen.getByText(columns[0].description)).toBeInTheDocument()
+    expect(screen.getByText('Column 1 description')).toBeInTheDocument()
   })
 
   it('should not show title of columns without description', async () => {
