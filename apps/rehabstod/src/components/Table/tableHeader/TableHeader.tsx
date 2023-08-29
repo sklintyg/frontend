@@ -6,13 +6,7 @@ export function TableHeader({ columns }: { columns: Column[] }) {
     <thead>
       <tr>
         {columns.map((column) => (
-          <TableHeaderCell
-            key={column.name}
-            column={column.name}
-            description={column.description}
-            width={`${column.width}px`}
-            sticky={column.sticky}
-          />
+          <TableHeaderCell key={column.name} column={column.name} width={`${column.width}px`} sticky={column.sticky} />
         ))}
       </tr>
     </thead>

@@ -40,22 +40,18 @@ const getSickLeaveColumnWidth = (column: string): number | undefined => {
   }
 }
 
-const getSickLeaveColumnDescription = (
-  column: string,
-  valdVardenhetId?: string,
-  maxAntalDagarSedanSjukfallAvslut?: string
-): string | undefined => {
+const getSickLeaveColumnDescription = (column: string, valdVardenhet?: string): string | undefined => {
   switch (column) {
     case SickLeaveColumn.Diagnos:
-      return 'Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den som påverkar arbetsförmågan mest först. För muspekaren över diagnoskoden för att se diagnos i text.'
+      return 'Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den som påverkar arbetsförmågan mest först.'
     case SickLeaveColumn.Startdatum:
-      return `Datum då sjukfallet började på ${valdVardenhetId}. Alla intyg för samma patient som följer på varandra med max ${maxAntalDagarSedanSjukfallAvslut} dagars uppehåll räknas till samma sjukfall. Max antal dagars uppehåll mellan intyg kan ställas in i inställningar.`
+      return `Datum då sjukfallet började på ${valdVardenhet}.`
     case SickLeaveColumn.Slutdatum:
       return 'Slutdatum för sjukfallet, dvs. den sista dagen då det finns ett giltigt intyg.'
     case SickLeaveColumn.Längd:
-      return 'Sjukfallets totala längd i dagar, från startdatum till slutdatum. Eventuella dagar mellan intyg räknas inte med.'
+      return 'Sjukfallets totala längd i dagar, från startdatum till slutdatum. Dagar mellan intyg räknas inte.'
     case SickLeaveColumn.Intyg:
-      return 'Antalet intyg som ingår i sjukfallet.'
+      return 'Antal intyg som ingår i sjukfallet.'
     case SickLeaveColumn.Grad:
       return 'Sjukskrivningsgrad i nuvarande intyg. Om intyget innehåller flera grader anges de i tidsföljd med den just nu gällande graden i fetstil.'
     case SickLeaveColumn.Läkare:
@@ -64,6 +60,8 @@ const getSickLeaveColumnDescription = (
       return 'Patientens risk som beräknats av läkaren med hjälp av SRS i Webcert och är ett komplement till läkarens egen bedömning.'
     case SickLeaveColumn.Ärenden:
       return 'Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är.'
+    case SickLeaveColumn.RekoStatus:
+      return 'REKO-status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra REKO-status. Dessa alternativ finns: Ingen, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt.'
     default:
       return undefined
   }
@@ -75,8 +73,7 @@ export function useSickLeavesTableColumn(): Column[] {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { data: user } = useGetUserQuery()
 
-  const valdVardenhetId = user?.valdVardenhet?.id
-  const maxAntalDagarSedanSjukfallAvslut = user?.preferences?.maxAntalDagarSedanSjukfallAvslut
+  const valdVardenhet = user?.valdVardenhet?.namn
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
 
   return columns
@@ -87,7 +84,7 @@ export function useSickLeavesTableColumn(): Column[] {
     .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
     .map(({ name }) => ({
       name,
-      description: getSickLeaveColumnDescription(name, valdVardenhetId, maxAntalDagarSedanSjukfallAvslut),
+      description: getSickLeaveColumnDescription(name, valdVardenhet),
       width: getSickLeaveColumnWidth(name),
     }))
 }
