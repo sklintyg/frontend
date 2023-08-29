@@ -1,4 +1,4 @@
-import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement, IDSIconQuestion } from '@frontend/ids-react-ts/dist'
+import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { Column } from '../Table/types/Column'
 
