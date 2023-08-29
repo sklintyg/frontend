@@ -82,12 +82,12 @@ export function OpenInformationWithConsent({
       <div className="pt-3 pb-5">
         <AboutPatientOverview />
       </div>
-      <div className="flex flex-col gap-2 md:flex-row md:justify-center md:gap-5">
+      <div className="flex flex-col gap-5 md:flex-row md:justify-center">
         <IDSButton mblock secondary onClick={onClose}>
           Avbryt
         </IDSButton>
         <IDSButton mblock onClick={handleGiveConsent}>
-          Patienten ger samtycke
+          <span className="-mx-3 whitespace-nowrap">Patienten ger samtycke</span>
         </IDSButton>
       </div>
     </>
