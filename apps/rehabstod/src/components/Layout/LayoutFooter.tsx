@@ -1,4 +1,4 @@
-import { IDSFooter } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSIconExternal } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { CookieDialog } from '../dialog/CookieDialog'
@@ -27,6 +27,24 @@ export function LayoutFooter() {
         <DynamicLink type="sub-footer" link={links?.ineraBehandlingPersonuppgifter} />
       </p>
       <div slot="sub-footer-right" className="inline-block">
+        <CookieDialog />
+      </div>
+
+      {/* Mobile Links */}
+      <p slot="sub-footer-mobile">
+        <div className="flex w-full gap-1 whitespace-nowrap">
+          <span>Rehabstöd drivs av</span>
+          <a className="text-white underline outline-white" href="https://www.inera.se">
+            Inera AB
+          </a>
+          <IDSIconExternal style={{ position: 'relative', bottom: '-2px' }} width="14" height="14" color="white" inline />
+        </div>
+      </p>
+
+      <div slot="sub-footer-links" className="inline-block">
+        <DynamicLink type="sub-footer" link={links?.ineraBehandlingPersonuppgifter} />
+      </div>
+      <div slot="sub-footer-links" className="inline-block">
         <CookieDialog />
       </div>
     </IDSFooter>
