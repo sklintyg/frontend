@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { SelectFilter } from '../../../../components/Table/filter/SelectFilter'
 import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
@@ -21,9 +20,8 @@ export function SelectRekoStatus({
   disabled?: boolean
 }) {
   const [setRekoStatus] = useSetRekoStatusMutation()
-  const { data: rekoStatusFromDatabase } = useGetRekoStatusForPatientQuery({ patientId, endDate, startDate })
+  const { data: rekoStatus } = useGetRekoStatusForPatientQuery({ patientId, endDate, startDate })
   const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
-  const [savedRekoStatus, updateSavedRekoStatus] = useState(rekoStatusFromDatabase?.status.id || emptyRekoStatus?.id)
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeave)
 
@@ -31,18 +29,13 @@ export function SelectRekoStatus({
     const type = rekoStatusTypes.find((rekoStatusType) => id === rekoStatusType.id)
     if (type) {
       setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
-      updateSavedRekoStatus(type.id)
     }
   }
-
-  useEffect(() => {
-    updateSavedRekoStatus(rekoStatusFromDatabase?.status.id)
-  }, [rekoStatusFromDatabase])
 
   return (
     <SelectFilter
       disabled={disabled}
-      value={savedRekoStatus || ''}
+      value={rekoStatus?.status.id || emptyRekoStatus?.id}
       onChange={(id) => handleSetRekoStatus(id)}
       options={rekoStatusTypes}
       hideDefaultValue
