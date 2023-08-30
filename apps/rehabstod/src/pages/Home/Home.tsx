@@ -24,7 +24,7 @@ export function Home() {
         skrivit det senaste intyget.
       </p>
       <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
-      <IDSButton data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
+      <IDSButton sblock data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
         Logga in
       </IDSButton>
     </PageHero>
