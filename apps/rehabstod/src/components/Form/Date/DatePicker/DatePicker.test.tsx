@@ -8,9 +8,9 @@ it('should render without errors', () => {
 
 it('should render placeholders', () => {
   render(<DatePicker label="datumfält" />)
-  expect(screen.getByLabelText('month')).toBeInTheDocument()
-  expect(screen.getByLabelText('day')).toBeInTheDocument()
-  expect(screen.getByLabelText('year')).toBeInTheDocument()
+  expect(screen.getByLabelText('month,')).toBeInTheDocument()
+  expect(screen.getByLabelText('day,')).toBeInTheDocument()
+  expect(screen.getByLabelText('year,')).toBeInTheDocument()
 })
 
 it('should render placeholders with swedish locale', () => {
@@ -19,7 +19,7 @@ it('should render placeholders with swedish locale', () => {
       <DatePicker label="datumfält" />
     </I18nProvider>
   )
-  expect(screen.getByLabelText('dag')).toBeInTheDocument()
-  expect(screen.getByLabelText('månad')).toBeInTheDocument()
-  expect(screen.getByLabelText('år')).toBeInTheDocument()
+  expect(screen.getByLabelText('dag,')).toBeInTheDocument()
+  expect(screen.getByLabelText('månad,')).toBeInTheDocument()
+  expect(screen.getByLabelText('år,')).toBeInTheDocument()
 })

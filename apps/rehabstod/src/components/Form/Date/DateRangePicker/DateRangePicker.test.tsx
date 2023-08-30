@@ -9,12 +9,12 @@ it('should render without errors', () => {
 describe('Segments', () => {
   it('should render date placeholders', () => {
     render(<DateRangePicker label="datumfält" />)
-    expect(screen.getByLabelText('Start Date month')).toBeInTheDocument()
-    expect(screen.getByLabelText('Start Date day')).toBeInTheDocument()
-    expect(screen.getByLabelText('Start Date year')).toBeInTheDocument()
-    expect(screen.getByLabelText('End Date month')).toBeInTheDocument()
-    expect(screen.getByLabelText('End Date day')).toBeInTheDocument()
-    expect(screen.getByLabelText('End Date year')).toBeInTheDocument()
+    expect(screen.getByLabelText('month, Start Date,')).toBeInTheDocument()
+    expect(screen.getByLabelText('day, Start Date,')).toBeInTheDocument()
+    expect(screen.getByLabelText('year, Start Date,')).toBeInTheDocument()
+    expect(screen.getByLabelText('month, End Date,')).toBeInTheDocument()
+    expect(screen.getByLabelText('day, End Date,')).toBeInTheDocument()
+    expect(screen.getByLabelText('year, End Date,')).toBeInTheDocument()
   })
 
   it('should render date placeholders with swedish locales', () => {
@@ -23,11 +23,11 @@ describe('Segments', () => {
         <DateRangePicker label="datumfält" />
       </I18nProvider>
     )
-    expect(screen.getByLabelText('Startdatum dag')).toBeInTheDocument()
-    expect(screen.getByLabelText('Startdatum månad')).toBeInTheDocument()
-    expect(screen.getByLabelText('Startdatum år')).toBeInTheDocument()
-    expect(screen.getByLabelText('Slutdatum dag')).toBeInTheDocument()
-    expect(screen.getByLabelText('Slutdatum månad')).toBeInTheDocument()
-    expect(screen.getByLabelText('Slutdatum år')).toBeInTheDocument()
+    expect(screen.getByLabelText('dag, Startdatum,')).toBeInTheDocument()
+    expect(screen.getByLabelText('månad, Startdatum,')).toBeInTheDocument()
+    expect(screen.getByLabelText('år, Startdatum,')).toBeInTheDocument()
+    expect(screen.getByLabelText('dag, Slutdatum,')).toBeInTheDocument()
+    expect(screen.getByLabelText('månad, Slutdatum,')).toBeInTheDocument()
+    expect(screen.getByLabelText('år, Slutdatum,')).toBeInTheDocument()
   })
 })
