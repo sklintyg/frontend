@@ -31,7 +31,7 @@ function ResolveTableCell({
   column: string
   sickLeave: SickLeaveInfo
   isDoctor: boolean
-  sickLeaves: SickLeaveInfo
+  sickLeaves: SickLeaveInfo[]
 }) {
   switch (column) {
     case SickLeaveColumn.Diagnos: {

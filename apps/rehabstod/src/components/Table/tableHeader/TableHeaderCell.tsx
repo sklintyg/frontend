@@ -13,7 +13,7 @@ export function TableHeaderCell({
   column: string
   width?: string
   sticky?: 'left' | 'top' | 'right'
-  unSortable: boolean
+  unSortable?: boolean
 }) {
   const { sortOnColumn, ascending } = useTableContext()
 
@@ -22,7 +22,7 @@ export function TableHeaderCell({
       <TooltipTrigger asChild>
         <th
           style={{ width: width ?? '25%', zIndex: 11 }}
-          tabIndex={!unSortable ? 0 : null}
+          tabIndex={!unSortable ? 0 : undefined}
           role="columnheader"
           scope="col"
           aria-sort={ascending ? 'ascending' : 'descending'}
