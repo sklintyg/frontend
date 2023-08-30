@@ -17,7 +17,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Patient', 'SickLeaves'],
+  tagTypes: ['User', 'Patient', 'SickLeaves', 'RekoStatus'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
