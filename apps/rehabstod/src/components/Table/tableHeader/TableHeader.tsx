@@ -11,7 +11,7 @@ export function TableHeader({ columns }: { columns: Column[] }) {
             column={column.name}
             width={`${column.width}px`}
             sticky={column.sticky}
-            unSortable={column.unSortable}
+            sortable={column.sortable}
           />
         ))}
       </tr>

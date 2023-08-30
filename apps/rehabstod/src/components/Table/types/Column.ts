@@ -3,5 +3,5 @@ export interface Column {
   width?: number
   description?: string
   sticky?: 'left' | 'top' | 'right'
-  unSortable?: boolean
+  sortable?: boolean
 }
