@@ -1,4 +1,3 @@
-import { faker } from '@frontend/fake'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
@@ -22,9 +21,6 @@ expect.extend(matchers)
 
 // Establish API mocking before all tests.
 beforeAll(() => {
-  // Set faker to use swedish locale
-  faker.setLocale('sv')
-
   // Start MSW server
   server.listen({ onUnhandledRequest: 'error' })
 })
