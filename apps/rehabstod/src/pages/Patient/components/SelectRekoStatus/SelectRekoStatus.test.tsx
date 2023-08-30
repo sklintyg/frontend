@@ -11,7 +11,14 @@ const END_DATE = '2022-01-01'
 
 const renderComponent = (disabled?: boolean) => {
   renderWithRouter(
-    <SelectRekoStatus patientId={PATIENT_ID} endDate={END_DATE} rekoStatusTypes={TYPES} disabled={disabled} description="description" />
+    <SelectRekoStatus
+      patientId={PATIENT_ID}
+      endDate={END_DATE}
+      startDate={END_DATE}
+      rekoStatusTypes={TYPES}
+      disabled={disabled}
+      description="description"
+    />
   )
 }
 
