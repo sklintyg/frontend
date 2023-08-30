@@ -1,21 +1,10 @@
 import { classNames } from '@frontend/components'
 import { Tooltip } from '../../Tooltip/Tooltip'
-import { TooltipContent } from '../../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
-export function TableHeaderCell({
-  description,
-  column,
-  width,
-  sticky,
-}: {
-  column: string
-  description?: string
-  width?: string
-  sticky?: 'left' | 'top' | 'right'
-}) {
+export function TableHeaderCell({ column, width, sticky }: { column: string; width?: string; sticky?: 'left' | 'top' | 'right' }) {
   const { sortOnColumn, ascending } = useTableContext()
 
   return (
@@ -53,7 +42,6 @@ export function TableHeaderCell({
           <span>
             {column} <SortingIcon column={column} />
           </span>
-          {description && <TooltipContent>{description}</TooltipContent>}
         </th>
       </TooltipTrigger>
     </Tooltip>
