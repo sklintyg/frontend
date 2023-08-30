@@ -88,5 +88,6 @@ export function useSickLeavesTableColumn(): Column[] {
       name,
       description: getSickLeaveColumnDescription(name, valdVardenhet),
       width: getSickLeaveColumnWidth(name),
+      unSortable: name === SickLeaveColumn.Index,
     }))
 }

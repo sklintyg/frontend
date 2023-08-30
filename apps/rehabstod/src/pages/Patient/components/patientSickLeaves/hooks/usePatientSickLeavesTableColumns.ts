@@ -50,5 +50,6 @@ export function usePatientSickLeavesTableColumns(): Column[] {
     name,
     width: getPatientSickLeaveColumnWidth(name),
     sticky: name === PatientColumn.Intyg ? 'right' : undefined,
+    unSortable: name === PatientColumn.Num,
   }))
 }

@@ -4,7 +4,17 @@ import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
-export function TableHeaderCell({ column, width, sticky }: { column: string; width?: string; sticky?: 'left' | 'top' | 'right' }) {
+export function TableHeaderCell({
+  column,
+  width,
+  sticky,
+  unSortable,
+}: {
+  column: string
+  width?: string
+  sticky?: 'left' | 'top' | 'right'
+  unSortable: boolean
+}) {
   const { sortOnColumn, ascending } = useTableContext()
 
   return (
@@ -12,7 +22,7 @@ export function TableHeaderCell({ column, width, sticky }: { column: string; wid
       <TooltipTrigger asChild>
         <th
           style={{ width: width ?? '25%', zIndex: 11 }}
-          tabIndex={0}
+          tabIndex={!unSortable ? 0 : null}
           role="columnheader"
           scope="col"
           aria-sort={ascending ? 'ascending' : 'descending'}
@@ -27,9 +37,9 @@ export function TableHeaderCell({ column, width, sticky }: { column: string; wid
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => sortOnColumn(column)}
+          onClick={unSortable ? () => {} : () => sortOnColumn(column)}
           className={classNames(
-            'cursor-pointer',
+            !unSortable && 'cursor-pointer',
             'select-none',
             'overflow-hidden',
             'text-ellipsis',
@@ -40,7 +50,7 @@ export function TableHeaderCell({ column, width, sticky }: { column: string; wid
           )}
         >
           <span>
-            {column} <SortingIcon column={column} />
+            {column} {!unSortable && <SortingIcon column={column} />}
           </span>
         </th>
       </TooltipTrigger>

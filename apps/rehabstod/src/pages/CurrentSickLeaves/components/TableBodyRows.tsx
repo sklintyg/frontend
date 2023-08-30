@@ -62,7 +62,7 @@ function ResolveTableCell({
           <RekoStatusDropdown statusFromSickLeave={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />
         </TableCell>
       ) : (
-        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</TableCell>
+        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave, sickLeaves)}</TableCell>
       )
     case SickLeaveColumn.Risk:
       return <TableCell>{sickLeave.riskSignal && <RiskSignalInfo {...sickLeave.riskSignal} />}</TableCell>
