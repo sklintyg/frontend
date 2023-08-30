@@ -1,9 +1,18 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { I18nProvider } from 'react-aria'
 import { DateRangePicker } from './DateRangePicker'
 
 it('should render without errors', () => {
   expect(() => render(<DateRangePicker label="datumfält" />)).not.toThrow()
+})
+
+it('should toggle open state when button is pressed', async () => {
+  render(<DateRangePicker label="datumfält" />)
+  await userEvent.click(screen.getByTestId('calendar-button'))
+  expect(screen.getByTestId('calendar-button')).toHaveAttribute('data-state', 'open')
+  await userEvent.click(screen.getByTestId('calendar-button'))
+  expect(screen.getByTestId('calendar-button')).toHaveAttribute('data-state', 'closed')
 })
 
 describe('Segments', () => {

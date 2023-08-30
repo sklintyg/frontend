@@ -8,7 +8,7 @@ export function CookieDialog() {
   return (
     <Dialog
       button={
-        <button className="text-sm text-white underline" trigger="" type="button">
+        <button className="text-white underline lg:text-sm" trigger="" type="button">
           Hantering av kakor
         </button>
       }

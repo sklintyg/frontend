@@ -15,7 +15,7 @@ export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<t
       title="Antal dagar mellan intyg"
       description="Välj hur många dagars uppehåll det maximalt får vara mellan två intyg för att de ska räknas till samma sjukfall."
     >
-      <div className="w-80">
+      <div className="max-w-xs">
         <FormattedNumberInput
           label="Dagar mellan intyg (0-90 dagar)"
           onChange={onChange}

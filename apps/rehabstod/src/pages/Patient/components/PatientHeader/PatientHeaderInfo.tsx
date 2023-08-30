@@ -16,9 +16,10 @@ export function PatientHeaderInfo({
   const { showPersonalInformation } = useAppSelector((state) => state.settings)
 
   return (
-    <div className="flex flex-col gap-1 lg:flex-row">
+    <div className="flex flex-col gap-1 text-sm sm:text-base lg:flex-row">
       <div>
-        <IDSIconUser size="s" inline className="float-left mr-2" /> {showPersonalInformation && <span className="font-bold">{namn},</span>}{' '}
+        <IDSIconUser width="100%" height="100%" inline className="float-left mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />{' '}
+        {showPersonalInformation && <span className="font-bold">{namn},</span>}{' '}
         <span className="whitespace-nowrap">
           {showPersonalInformation && <span>{id},</span>} <span>{alder} år,</span> <span>{kon === 'F' ? 'kvinna' : 'man'}</span>
         </span>
@@ -33,7 +34,7 @@ export function PatientHeaderInfo({
             <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar </span>
             <TooltipIcon
               description="Visar antal dagar som sjukfallet pågått från första intygets startdatum till idag."
-              icon={<IDSIconQuestion size="s" className="ml-2" />}
+              icon={<IDSIconQuestion width="100%" height="100%" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
               alignMiddle
             />
           </div>

@@ -1,4 +1,4 @@
-import { IDSAlert, IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
@@ -85,12 +85,14 @@ export function CareProvider() {
           </p>
         ) : null}
         <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
-        <IDSButtonGroup>
-          <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
+        <div className="flex flex-col gap-5 md:flex-row ">
+          <IDSButton mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
           </IDSButton>
-          <IDSButton onClick={handleClick}>Välj</IDSButton>
-        </IDSButtonGroup>
+          <IDSButton mblock onClick={handleClick}>
+            Välj
+          </IDSButton>
+        </div>
       </div>
     </PageContainer>
   )

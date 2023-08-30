@@ -21,7 +21,9 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
           </div>
         ))}
       <IDSDialogActions>
-        <IDSButton onClick={close}>Stäng</IDSButton>
+        <IDSButton sblock onClick={close}>
+          Stäng
+        </IDSButton>
       </IDSDialogActions>
     </IDSDialog>
   )
