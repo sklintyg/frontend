@@ -22,7 +22,7 @@ export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerP
           <span className="grow px-5">
             <DateField {...fieldProps} />
           </span>
-          <DatePickerButton {...buttonProps} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

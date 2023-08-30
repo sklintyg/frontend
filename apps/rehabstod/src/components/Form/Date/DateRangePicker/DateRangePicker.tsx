@@ -42,7 +42,7 @@ export function DateRangePicker({
             <span className="py-3 px-1 sm:hidden">-</span>
             <DateField {...endFieldProps} />
           </div>
-          <DatePickerButton {...buttonProps} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
