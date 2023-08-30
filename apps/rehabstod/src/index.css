@@ -17,6 +17,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
 .ids-content .ids-heading-2,
 .ids-content .ids-heading-2.ids-small,
 .ids-content .ids-heading-3,

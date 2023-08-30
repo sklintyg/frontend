@@ -50,7 +50,12 @@ module.exports = {
         10: '#FF9517',
       },
     },
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        'table-filter': 'repeat(auto-fit, minmax(280px, 1fr))',
+        'table-filter-sm': 'repeat(auto-fit, minmax(300px, 1fr))',
+      },
+    },
   },
   plugins: [],
 }
