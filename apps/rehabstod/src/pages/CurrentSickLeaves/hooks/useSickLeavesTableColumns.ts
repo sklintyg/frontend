@@ -35,6 +35,8 @@ const getSickLeaveColumnWidth = (column: string): number | undefined => {
       return 150
     case SickLeaveColumn.Ärenden:
       return 200
+    case SickLeaveColumn.Index:
+      return 70
     default:
       return undefined
   }

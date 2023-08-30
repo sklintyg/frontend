@@ -22,7 +22,17 @@ import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { isTruthy } from '../../../utils/isTruthy'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
-function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
+function ResolveTableCell({
+  column,
+  sickLeave,
+  isDoctor,
+  sickLeaves,
+}: {
+  column: string
+  sickLeave: SickLeaveInfo
+  isDoctor: boolean
+  sickLeaves: SickLeaveInfo
+}) {
   switch (column) {
     case SickLeaveColumn.Diagnos: {
       const diagnosis = [sickLeave.diagnos, ...sickLeave.biDiagnoser].filter(isTruthy)
@@ -59,7 +69,7 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
     case SickLeaveColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</TableCell>
     default:
-      return <TableCell>{getSickLeavesColumnData(column, sickLeave)}</TableCell>
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave, sickLeaves)}</TableCell>
   }
 }
 
@@ -122,9 +132,11 @@ export function TableBodyRows({
     })
   }
 
+  const sortedList = sortTableList(sickLeaves, getSickLeavesColumnData)
+
   return (
     <>
-      {sortTableList(sickLeaves, getSickLeavesColumnData).map(
+      {sortedList.map(
         (sickLeave) =>
           visibleColumns.length > 0 && (
             <TableRow
@@ -135,7 +147,7 @@ export function TableBodyRows({
               focusable
             >
               {visibleColumns.map(({ name }) => (
-                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />
+                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} sickLeaves={sortedList} />
               ))}
             </TableRow>
           )
