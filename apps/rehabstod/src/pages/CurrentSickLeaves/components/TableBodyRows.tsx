@@ -125,11 +125,7 @@ export function TableBodyRows({
   }
 
   const navigateToPatient = (data: SickLeaveInfo) => {
-    navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`, {
-      state: {
-        rekoStatus: data.rekoStatus,
-      },
-    })
+    navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`)
   }
 
   const sortedList = sortTableList(sickLeaves, getSickLeavesColumnData)

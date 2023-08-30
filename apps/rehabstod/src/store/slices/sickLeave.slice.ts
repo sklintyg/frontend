@@ -8,7 +8,6 @@ export interface SickLeaveState {
   filter: SickLeaveFilter
   hasAppliedFilters: boolean
   sickLeaveLengthIntervals: TimePeriodOption[]
-  rekoStatusId: string
 }
 
 const initialState: SickLeaveState = {
@@ -35,7 +34,6 @@ const initialState: SickLeaveState = {
     { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
     { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
   ],
-  rekoStatusId: '',
 }
 
 const sickLeaveSlice = createSlice({
@@ -52,11 +50,8 @@ const sickLeaveSlice = createSlice({
       Object.assign(state.filter, payload)
       state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
-    updateRekoStatusId(state, { payload }: PayloadAction<string>) {
-      state.rekoStatusId = payload
-    },
   },
 })
 
-export const { reset, resetSickLeaveFilters, updateFilter, updateRekoStatusId } = sickLeaveSlice.actions
+export const { reset, resetSickLeaveFilters, updateFilter } = sickLeaveSlice.actions
 export const { name: sickLeaveReducerPath, reducer: sickLeaveReducer } = sickLeaveSlice
