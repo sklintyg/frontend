@@ -386,8 +386,10 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                 <p className={'iu-fw-heading'}>{question.answer.author}</p>
               </Wrapper>
               <Wrapper>
-                {question.contactInfo && question.contactInfo.length > 0 && <p>{question.contactInfo.join(', ')}</p>}
-                <p className={'iu-fw-heading'}>{'Re: ' + question.subject}</p>
+                <div>
+                  {question.answer.contactInfo && question.answer.contactInfo.length > 0 && <p>{question.answer.contactInfo.join(', ')}</p>}
+                  <p className={'iu-fw-heading iu-m-none'}>{'Re: ' + question.subject}</p>
+                </div>
                 <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.answer.sent), 'yyyy-MM-dd HH:mm')}</p>
               </Wrapper>
             </div>
