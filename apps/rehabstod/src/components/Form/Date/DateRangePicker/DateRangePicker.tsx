@@ -38,10 +38,11 @@ export function DateRangePicker({
         <div {...groupProps} ref={ref} className={style}>
           <div className="inline-flex w-full gap-1 pl-5">
             <DateField {...startFieldProps} />
-            <span className="px-1 py-3">till</span>
+            <span className="hidden px-1 py-3 sm:inline-block">till</span>
+            <span className="px-1 py-3 sm:hidden">-</span>
             <DateField {...endFieldProps} />
           </div>
-          <DatePickerButton {...buttonProps} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

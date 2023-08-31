@@ -1,4 +1,4 @@
-import { IDSAlert, IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton, IDSCard, IDSContainer, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
 import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -114,8 +114,8 @@ export function Welcome() {
             Templatelista till vänster - Manuella ändringar kan göras i jsonstrukturen - detta omvandlas till inloggad userContext
           </IDSCard>
         </div>
-        <div className="flex space-x-7 pb-4">
-          <div className="w-6/12 flex-auto">
+        <div className="flex flex-col gap-5 pb-4 md:flex-row">
+          <div className="md:w-1/2">
             Visa Mallar för
             <div className="pb-2">
               {[
@@ -159,7 +159,7 @@ export function Welcome() {
               </select>
             </label>
           </div>
-          <div className="w-6/12 flex-auto">
+          <div className="md:w-1/2">
             <form id="loginForm" action="/fake" method="POST" acceptCharset="UTF-8">
               <label htmlFor="userJsonDisplay">
                 Result
@@ -173,21 +173,30 @@ export function Welcome() {
                 />
               </label>
 
-              <IDSButton type="submit">Logga in</IDSButton>
+              <IDSButton sblock type="submit">
+                Logga in
+              </IDSButton>
             </form>
           </div>
         </div>
         <div className="mt-12">
           <h1 className="ids-heading-2">Testability Rehabstöd</h1>
           <div className="mb-7">
-            <IDSCard fill>Tryck på knappen *Skapa testdata* för att skjuta in test-data. Beskrivning om datat hittas här: </IDSCard>
-            <a href="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata">
-              https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/RehabstodTestdata
-            </a>
+            <IDSCard className="mb-5" fill>
+              Tryck på knappen *Skapa testdata* för att skjuta in test-data. Beskrivning om datat hittas här:{' '}
+            </IDSCard>
+            <IDSLink>
+              <a target="_blank" href="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
+                Rehabstod - Testdata Documentation
+              </a>
+              <IDSIconExternal />
+            </IDSLink>
           </div>
           <div className="mb-10">
-            <IDSButton onClick={() => triggerDefaultTestDataQuery()}>Skapa testdata</IDSButton>
-            <div className="mt-4">{response ?? <p>{response}</p>}</div>
+            <IDSButton sblock onClick={() => triggerDefaultTestDataQuery()}>
+              Skapa testdata
+            </IDSButton>
+            {response && <div className="mt-4">{response}</div>}
           </div>
           <div className="mb-7">
             <IDSCard fill>Fyll i uppgifter nedan och tryck på knappen *Skapa* för att skapa ett sjukfall på vald patient.</IDSCard>
@@ -378,7 +387,7 @@ export function Welcome() {
                   onChange={(e) => dispatch(setIsRevoked(e.target.checked))}
                 />
               </div>
-              <IDSButton className="mt-12" disabled={isLoading} onclick={createSickleave}>
+              <IDSButton sblock className="mt-12" disabled={isLoading} onclick={createSickleave}>
                 {isLoading ? 'Sending...' : 'Skapa'}
               </IDSButton>
             </form>
