@@ -9,7 +9,7 @@ import { Welcome } from './Welcome'
 
 beforeEach(() => {
   faker.seed(1234)
-  const missions = Array.from({ length: 3 }, fakerFromSchema(medarbetarUppdragSchema))
+  const missions = Array.from({ length: 3 }, () => fakerFromSchema(medarbetarUppdragSchema)())
   const persons = missions.map(({ hsaId }) => fakerFromSchema(personSchema)({ hsaId }))
   const testData = fakerFromSchema(testDataOptionsDTOSchema)
 
@@ -25,8 +25,8 @@ it('Should selected vardgivare and vardenhet once fully loaded', async () => {
 
   expect(screen.getByRole('textbox')).toBeInTheDocument()
   expect(JSON.parse(screen.getByRole<HTMLTextAreaElement>('textbox').value)).toEqual({
-    enhetId: 'DNKYAM1000056356-51255',
-    hsaId: 'EMQVLP1000078535-78135',
+    enhetId: 'DNKYAM6072047130-5523',
+    hsaId: 'EMQVLP8068227251-7942',
   })
 
   expect(screen.getByRole('option', { selected: true })).toBeInTheDocument()
@@ -57,7 +57,7 @@ it('Should be possible to change fakeLogin', async () => {
   expect(screen.getByRole('option', { selected: true })).toHaveValue('illo')
 
   expect(JSON.parse(screen.getByRole<HTMLTextAreaElement>('textbox').value)).toEqual({
-    enhetId: 'SJMFNF1000074624-42956',
-    hsaId: 'ERBYRX1000059462-98530',
+    enhetId: 'SJMFNF7716227042-4776',
+    hsaId: 'ERBYRX6351623000-9777',
   })
 })

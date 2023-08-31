@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { AllowedInApplication, MedarbetarUppdrag, Person } from '../../schemas/hsa'
-import { useAppSelector } from '../../store/hooks'
-import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
+import { AllowedInApplication, MedarbetarUppdrag, Person } from '../../../schemas/hsa'
+import { useAppSelector } from '../../../store/hooks'
+import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../../store/hsaApi'
 
 export function useWelcome() {
   const { selectedFilter } = useAppSelector((state) => state.welcome)

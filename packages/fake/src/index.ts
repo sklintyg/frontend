@@ -5,7 +5,10 @@ import { DeepPartial } from 'ts-essentials'
 import { z, ZodTypeAny } from 'zod'
 
 const fakeHSA = () =>
-  `${faker.string.alpha({ length: 6, casing: 'upper' })}${faker.number.int({ min: 1e9 })}-${faker.number.int({ min: 1e3 })}`
+  `${faker.string.alpha({ length: 6, casing: 'upper' })}${faker.number.int({ min: 1e9, max: 1e10 - 1 })}-${faker.number.int({
+    min: 1e3,
+    max: 1e4 - 1,
+  })}`
 
 export { fakerSV as faker } from '@faker-js/faker'
 
