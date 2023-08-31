@@ -31,8 +31,8 @@ it('Should be possible to enter a year', async () => {
       <DateField label="datumfält" />
     </I18nProvider>
   )
-  await userEvent.type(screen.getByLabelText('år'), '1999')
-  expect(screen.getByLabelText('år')).toHaveTextContent('1999')
+  await userEvent.type(screen.getByLabelText('år,'), '1999')
+  expect(screen.getByLabelText('år,')).toHaveTextContent('1999')
 })
 
 it('Should be possible to enter a month', async () => {
@@ -41,8 +41,8 @@ it('Should be possible to enter a month', async () => {
       <DateField label="datumfält" />
     </I18nProvider>
   )
-  await userEvent.type(screen.getByLabelText('månad'), '09')
-  expect(screen.getByLabelText('månad')).toHaveTextContent('09')
+  await userEvent.type(screen.getByLabelText('månad,'), '09')
+  expect(screen.getByLabelText('månad,')).toHaveTextContent('09')
 })
 
 it('Should be possible to enter a day', async () => {
@@ -51,6 +51,6 @@ it('Should be possible to enter a day', async () => {
       <DateField label="datumfält" />
     </I18nProvider>
   )
-  await userEvent.type(screen.getByLabelText('dag'), '11')
-  expect(screen.getByLabelText('dag')).toHaveTextContent('11')
+  await userEvent.type(screen.getByLabelText('dag,'), '11')
+  expect(screen.getByLabelText('dag,')).toHaveTextContent('11')
 })
