@@ -3,12 +3,12 @@ import { DiagnosisInfo } from './DiagnosisInfo'
 
 describe('DiagnosisInfo', () => {
   it('should print unknown if diagnos is undefined', () => {
-    render(<DiagnosisInfo diagnos={undefined} biDiagnoser={[]} />)
+    render(<DiagnosisInfo diagnosis={undefined} biDiagnoses={[]} />)
     expect(screen.getByText('Okänt')).toBeInTheDocument()
   })
 
   it('should print unknown if diagnos is not set', () => {
-    render(<DiagnosisInfo biDiagnoser={[]} />)
+    render(<DiagnosisInfo biDiagnoses={[]} />)
     expect(screen.getByText('Okänt')).toBeInTheDocument()
   })
 })

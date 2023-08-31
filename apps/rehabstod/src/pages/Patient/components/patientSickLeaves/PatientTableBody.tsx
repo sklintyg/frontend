@@ -1,5 +1,4 @@
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
@@ -13,7 +12,6 @@ import { useAppSelector } from '../../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { isTruthy } from '../../../../utils/isTruthy'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
 
@@ -38,14 +36,8 @@ function PatientTableCellResolver({
   certificate: PatientSjukfallIntyg
 }) {
   switch (column) {
-    case PatientColumn.Diagnos: {
-      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(isTruthy)
-      return (
-        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
-          <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
-        </TableCell>
-      )
-    }
+    case PatientColumn.Diagnos:
+      return <DiagnosisInfoCell diagnosis={certificate.diagnos} biDiagnoses={certificate.bidiagnoser} />
     case PatientColumn.Grad:
       return (
         <TableCell>
