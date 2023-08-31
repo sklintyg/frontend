@@ -22,7 +22,17 @@ import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { isTruthy } from '../../../utils/isTruthy'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 
-function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sickLeave: SickLeaveInfo; isDoctor: boolean }) {
+function ResolveTableCell({
+  column,
+  sickLeave,
+  isDoctor,
+  sickLeaves,
+}: {
+  column: string
+  sickLeave: SickLeaveInfo
+  isDoctor: boolean
+  sickLeaves: SickLeaveInfo[]
+}) {
   switch (column) {
     case SickLeaveColumn.Diagnos: {
       const diagnosis = [sickLeave.diagnos, ...sickLeave.biDiagnoser].filter(isTruthy)
@@ -52,14 +62,14 @@ function ResolveTableCell({ column, sickLeave, isDoctor }: { column: string; sic
           <RekoStatusDropdown statusFromSickLeave={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />
         </TableCell>
       ) : (
-        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave)}</TableCell>
+        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave, sickLeaves)}</TableCell>
       )
     case SickLeaveColumn.Risk:
       return <TableCell>{sickLeave.riskSignal && <RiskSignalInfo {...sickLeave.riskSignal} />}</TableCell>
     case SickLeaveColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</TableCell>
     default:
-      return <TableCell>{getSickLeavesColumnData(column, sickLeave)}</TableCell>
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave, sickLeaves)}</TableCell>
   }
 }
 
@@ -118,9 +128,11 @@ export function TableBodyRows({
     navigate(`/pagaende-sjukfall/${data.encryptedPatientId}`)
   }
 
+  const sortedList = sortTableList(sickLeaves, getSickLeavesColumnData)
+
   return (
     <>
-      {sortTableList(sickLeaves, getSickLeavesColumnData).map(
+      {sortedList.map(
         (sickLeave) =>
           visibleColumns.length > 0 && (
             <TableRow
@@ -131,7 +143,7 @@ export function TableBodyRows({
               focusable
             >
               {visibleColumns.map(({ name }) => (
-                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} />
+                <ResolveTableCell key={name} column={name} sickLeave={sickLeave} isDoctor={isDoctor} sickLeaves={sortedList} />
               ))}
             </TableRow>
           )
