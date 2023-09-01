@@ -11,7 +11,7 @@ export function CertificateList({ certificates }: { certificates: CertificateLis
       {Array.from(years)
         .sort((a, b) => b - a)
         .map((year) => (
-          <>
+          <div key={year}>
             <h2 className="ids-heading-2 mb-5" key={year}>
               {year}
             </h2>
@@ -21,7 +21,7 @@ export function CertificateList({ certificates }: { certificates: CertificateLis
               .map((certificate) => (
                 <CertificateCard key={certificate.certificateId} {...certificate} />
               ))}
-          </>
+          </div>
         ))}
     </div>
   )

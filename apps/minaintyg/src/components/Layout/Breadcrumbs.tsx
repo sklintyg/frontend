@@ -12,19 +12,17 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
 
 function getMatchAt(index: number, matches: MatchWithCrumb[]): { pathname: string; crumb: string } | null {
   const match = matches.at(index)
-  if (match) {
-    return { pathname: match.pathname, crumb: match.handle.crumb(match.params) }
-  }
-  return null
+  return match ? { pathname: match.pathname, crumb: match.handle.crumb(match.params) } : null
 }
 
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
   const prevMatch = getMatchAt(-2, matches)
+  const currentMatch = getMatchAt(-1, matches)
 
   return (
     <div className="mb-5">
-      <IDSBreadcrumbs current={getMatchAt(-1, matches)?.crumb ?? ''} srlabel="Du är här" lead="Du är här:">
+      <IDSBreadcrumbs current={currentMatch?.crumb ?? 'Start'} srlabel="Du är här" lead="Du är här:">
         {matches.slice(0, -1).map(({ handle, params, pathname }) => (
           <IDSCrumb key={pathname}>
             <Link to={pathname}>{handle.crumb(params)}</Link>
