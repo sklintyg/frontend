@@ -1,6 +1,7 @@
 import { IDSLink } from '@frontend/ids-react-ts'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
+import { CertificateList } from './components/CertificateList'
 
 export function Certificates() {
   const { data } = useGetCertificateQuery()

@@ -10,23 +10,29 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
   return (match as MatchWithCrumb).handle !== undefined && typeof (match as MatchWithCrumb).handle.crumb === 'function'
 }
 
+function getMatchAt(index: number, matches: MatchWithCrumb[]): { pathname: string; crumb: string } | null {
+  const match = matches.at(index)
+  if (match) {
+    return { pathname: match.pathname, crumb: match.handle.crumb(match.params) }
+  }
+  return null
+}
+
 export function Breadcrumbs() {
-  const matches = useMatches()
-  const matchesWithCrumbs = matches.filter(hasCrumb)
-  const currentMatch = matchesWithCrumbs.at(-1)
-  const current = currentMatch?.handle.crumb(currentMatch.params)
+  const matches = useMatches().filter(hasCrumb)
+  const prevMatch = getMatchAt(-2, matches)
 
   return (
     <div className="mb-5">
-      <IDSBreadcrumbs current={current} srlabel="Du är här" lead="Du är här:">
-        {matchesWithCrumbs.slice(0, -1).map(({ handle, params, pathname }) => (
+      <IDSBreadcrumbs current={getMatchAt(-1, matches)?.crumb ?? ''} srlabel="Du är här" lead="Du är här:">
+        {matches.slice(0, -1).map(({ handle, params, pathname }) => (
           <IDSCrumb key={pathname}>
             <Link to={pathname}>{handle.crumb(params)}</Link>
           </IDSCrumb>
         ))}
-        {currentMatch && (
+        {prevMatch && (
           <IDSCrumb key="mobile" mobile>
-            <Link to={currentMatch.pathname}>{current}</Link>
+            <Link to={prevMatch.pathname}>{prevMatch.crumb}</Link>
           </IDSCrumb>
         )}
       </IDSBreadcrumbs>
