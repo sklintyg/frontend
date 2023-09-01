@@ -10,6 +10,11 @@ import './index.css'
 import { router } from './router'
 import { store } from './store/store'
 
+if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
+  const { worker } = await import('./mocks/browser')
+  worker.start()
+}
+
 setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
