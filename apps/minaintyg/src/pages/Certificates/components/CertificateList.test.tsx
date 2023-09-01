@@ -24,12 +24,6 @@ it('Should sort certificates by year in descending order', () => {
   expect(yearHeadings[0]).toHaveTextContent('2023')
   expect(yearHeadings[1]).toHaveTextContent('2022')
   expect(yearHeadings[2]).toHaveTextContent('2021')
-
-  // const certificateHeadings = screen.getAllByRole('heading', { level: 3 })
-  // expect(certificateHeadings).toHaveLength(3)
-  // expect(yearHeadings[0]).toHaveTextContent('2023')
-  // expect(yearHeadings[1]).toHaveTextContent('2022')
-  // expect(yearHeadings[2]).toHaveTextContent('2021')
 })
 
 it('Should sort certificates by year in ascending order', () => {
