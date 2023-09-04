@@ -1,16 +1,11 @@
 import { getYear, parseISO } from 'date-fns'
 import { CertificateListItem } from '../../../schema/certificateList.schema'
 import { CertificateCard } from './CertificateCard/CertificateCard'
+import { SortingOrder } from './CertificateListOrder'
 
 const getCertificateYear = ({ timestamp }: CertificateListItem) => getYear(parseISO(timestamp))
 
-export function CertificateList({
-  certificates,
-  order = 'descending',
-}: {
-  certificates: CertificateListItem[]
-  order?: 'ascending' | 'descending'
-}) {
+export function CertificateList({ certificates, order = 'descending' }: { certificates: CertificateListItem[]; order?: SortingOrder }) {
   const years = certificates.reduce((result, certificate) => result.add(getCertificateYear(certificate)), new Set<number>())
   return (
     <div>
