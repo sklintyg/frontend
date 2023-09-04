@@ -4,6 +4,7 @@ export enum CertificateStatus {
   NEW = 'Nytt',
   REPLACE = 'Ersätter intyg',
   SENT = 'Skickat',
+  NOT_SENT = 'Ej skickat',
 }
 
 export const certificateListSummarySchema = z.array(z.tuple([z.string(), z.string()]))
@@ -23,7 +24,7 @@ export const certificateListItemSchema = z.object({
   issuer: certificateListIssuerSchema,
   unit: certificateUnitSchema,
   events: z.array(certificateListEventSchema),
-  status: z.nativeEnum(CertificateStatus),
+  status: z.nativeEnum(CertificateStatus).nullable(),
   certificateId: z.string(),
   timestamp: z.string().datetime(),
 })

@@ -10,6 +10,8 @@ const getBadgeType = (status: CertificateStatus): BadgeTypes => {
       return 'primary'
     case CertificateStatus.SENT:
       return 'success'
+    case CertificateStatus.NOT_SENT:
+      return 'error'
     default:
       return 'secondary'
   }
