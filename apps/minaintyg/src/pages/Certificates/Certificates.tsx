@@ -1,13 +1,18 @@
 import { IDSLink } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { useGetCertificateQuery } from '../../store/api'
+import { CertificateSelectedOptions } from '../../schema/certificateListFilter.schema'
+import { useGetCertificatesQuery } from '../../store/api'
+import { useAppSelector } from '../../store/hooks'
 import { CertificateList } from './components/CertificateList'
+import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
 import { CertificateListOrder, SortingOrder } from './components/CertificateListOrder'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortingOrder>('descending')
-  const { data } = useGetCertificateQuery()
+  const filters = useAppSelector((state) => state.certificateFilter)
+  const [submitFilters, setSubmitFilters] = useState<Partial<CertificateSelectedOptions>>({})
+  const { data } = useGetCertificatesQuery(submitFilters)
 
   return (
     <>
@@ -20,6 +25,7 @@ export function Certificates() {
         </IDSLink>
         .
       </PageHeading>
+      <CertificateListFilter onSubmit={() => setSubmitFilters(filters)} />
       <CertificateListOrder setOrder={setOrder} order={order} />
       {data && <CertificateList certificates={data.content} order={order} />}
     </>

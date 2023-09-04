@@ -5,10 +5,23 @@
 @tailwind components;
 @tailwind utilities;
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::marker {
+  display: none;
+}
+
 ids-input input,
 ids-input select,
 ids-select select,
 ids-textarea textarea {
   padding: 0.75rem 1.25rem;
-  border-width: 1px;
+  border: 1px solid var(--color-web-action);
+}
+
+ids-select {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
