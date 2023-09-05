@@ -12,12 +12,10 @@ export function CertificateStatusFilter({ options }: { options: CertificateStatu
   return (
     <IDSSelect>
       <label htmlFor={id}>Status</label>
-      <select id={id} onChange={(event) => dispatch(update({ statuses: event.target.value as CertificateStatus }))}>
+      <select id={id} value={statuses ?? ''} onChange={(event) => dispatch(update({ statuses: event.target.value as CertificateStatus }))}>
         <option value="">Välj status</option>
         {options.map((option) => (
-          <option key={option} selected={statuses === option}>
-            {option}
-          </option>
+          <option key={option}>{option}</option>
         ))}
       </select>
     </IDSSelect>

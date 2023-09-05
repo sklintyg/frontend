@@ -11,12 +11,10 @@ export function CertificateYearFilter({ options }: { options: string[] }) {
   return (
     <IDSSelect>
       <label htmlFor={id}>År</label>
-      <select id={id} onChange={(event) => dispatch(update({ years: event.target.value }))}>
+      <select id={id} value={years ?? ''} onChange={(event) => dispatch(update({ years: event.target.value }))}>
         <option value="">Välj år</option>
         {options.map((option) => (
-          <option key={option} selected={years === option}>
-            {option}
-          </option>
+          <option key={option}>{option}</option>
         ))}
       </select>
     </IDSSelect>

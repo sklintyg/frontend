@@ -4,6 +4,7 @@ import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
+import { reset as resetCertificateFilter } from './store/slice/certificateFilter.slice'
 
 Object.assign(global, global, {
   open: vi.fn(),
@@ -32,6 +33,8 @@ beforeAll(() => {
 afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
+
+  resetCertificateFilter()
 })
 
 // Clean up after the tests are finished.

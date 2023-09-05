@@ -11,12 +11,10 @@ export function CertificateUnitFilter({ options }: { options: string[] }) {
   return (
     <IDSSelect>
       <label htmlFor={id}>Mottagning</label>
-      <select id={id} onChange={(event) => dispatch(update({ units: event.target.value }))}>
+      <select id={id} value={units ?? ''} onChange={(event) => dispatch(update({ units: event.target.value }))}>
         <option value="">Välj mottagning</option>
         {options.map((option) => (
-          <option key={option} selected={units === option}>
-            {option}
-          </option>
+          <option key={option}>{option}</option>
         ))}
       </select>
     </IDSSelect>

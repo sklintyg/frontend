@@ -11,12 +11,10 @@ export function CertificateTypeFilter({ options }: { options: string[] }) {
   return (
     <IDSSelect>
       <label htmlFor={id}>Intygstyp</label>
-      <select id={id} onChange={(event) => dispatch(update({ certificateTypes: event.target.value }))}>
+      <select id={id} value={certificateTypes ?? ''} onChange={(event) => dispatch(update({ certificateTypes: event.target.value }))}>
         <option value="">Välj intygstyp</option>
         {options.map((option) => (
-          <option key={option} selected={certificateTypes === option}>
-            {option}
-          </option>
+          <option key={option}>{option}</option>
         ))}
       </select>
     </IDSSelect>
