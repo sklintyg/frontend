@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should have correct heading 1`] = `
+<h1
+  class="ids-heading-1"
+>
+  Intyg
+</h1>
+`;
+
+exports[`Should have correct paragraph 1`] = `
+<p
+  class="ids-preamble mb-2 line-clamp-5 md:line-clamp-none"
+  data-clamped="true"
+>
+  Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din arbetsgivare.
+</p>
+`;

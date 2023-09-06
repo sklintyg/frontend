@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render component 1`] = `
+<body>
+  <div>
+    <ids-badge
+      class="[&:not(:last-child)]:mb-2.5"
+    >
+      Nytt
+    </ids-badge>
+  </div>
+</body>
+`;

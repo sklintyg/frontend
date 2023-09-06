@@ -2,9 +2,7 @@ import { IDSBadge } from '@frontend/ids-react-ts'
 import { ComponentProps } from 'react'
 import { CertificateStatus } from '../../../schema/certificateList.schema'
 
-type BadgeTypes = ComponentProps<typeof IDSBadge>['type']
-
-const getBadgeType = (status: CertificateStatus): BadgeTypes => {
+export const getBadgeType = (status: CertificateStatus): ComponentProps<typeof IDSBadge>['type'] => {
   switch (status) {
     case CertificateStatus.NEW:
       return 'primary'

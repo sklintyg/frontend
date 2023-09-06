@@ -47,6 +47,7 @@ export default ({ mode }: UserConfig) => {
       coverage: {
         reporter: ['text', 'json', 'lcov'],
         all: true,
+        exclude: ['coverage/**', 'dist/**', 'public/**', '**/*.cjs', 'vite.config.ts', 'src/mocks/**'],
       },
     },
   })
