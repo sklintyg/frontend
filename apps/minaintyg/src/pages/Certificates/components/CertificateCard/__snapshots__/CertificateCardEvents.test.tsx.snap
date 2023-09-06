@@ -40,17 +40,17 @@ exports[`Should render correctly 1`] = `
              händelser)
           </div>
           <div>
-            2023-09-06 13:00
+            2023-09-06 11:00
              
             excepturi
           </div>
           <div>
-            2023-09-05 13:00
+            2023-09-05 11:00
              
             pariatur
           </div>
           <div>
-            2023-09-04 13:00
+            2023-09-04 11:00
              
             provident
           </div>
@@ -71,17 +71,17 @@ exports[`Should render correctly 1`] = `
            händelser)
         </div>
         <div>
-          2023-09-06 13:00
+          2023-09-06 11:00
            
           excepturi
         </div>
         <div>
-          2023-09-05 13:00
+          2023-09-05 11:00
            
           pariatur
         </div>
         <div>
-          2023-09-04 13:00
+          2023-09-04 11:00
            
           provident
         </div>

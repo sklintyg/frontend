@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:no-watch": "pnpm test run",
-    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
+    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' TZ='UTC' vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
