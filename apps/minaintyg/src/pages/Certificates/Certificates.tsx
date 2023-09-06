@@ -1,3 +1,4 @@
+import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
@@ -7,7 +8,7 @@ import { CertificateListOrder } from './components/CertificateListOrder'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
-  const { data } = useGetCertificateQuery()
+  const { isLoading, data } = useGetCertificateQuery()
 
   return (
     <>
@@ -17,6 +18,11 @@ export function Certificates() {
         arbetsgivare.
       </PageHeading>
       <CertificateListOrder setOrder={setOrder} order={order} />
+      {isLoading && (
+        <div data-testid="certificate-list-spinner">
+          <IDSSpinner />
+        </div>
+      )}
       {data && <CertificateList certificates={data.content} order={order} />}
     </>
   )
