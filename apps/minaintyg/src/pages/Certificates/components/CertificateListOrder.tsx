@@ -19,11 +19,11 @@ export function CertificateListOrder({ order, setOrder }: { order: SortDirection
     <div className="text-stone-dark mb-5 flex flex-col md:flex-row md:gap-1">
       Sortera efter:{' '}
       <div className="inline-flex gap-1">
-        <SortingButton active={order === 'descending'} onClick={() => setOrder('descending')}>
+        <SortingButton active={order === 'descending'} arial-label="Nyast först" onClick={() => setOrder('descending')}>
           Nyast först
         </SortingButton>
         <div role="separator">|</div>
-        <SortingButton active={order === 'ascending'} onClick={() => setOrder('ascending')}>
+        <SortingButton active={order === 'ascending'} arial-label="Äldst först" onClick={() => setOrder('ascending')}>
           Äldst först
         </SortingButton>
       </div>
