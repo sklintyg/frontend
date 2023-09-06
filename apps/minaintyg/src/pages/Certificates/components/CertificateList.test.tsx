@@ -1,10 +1,19 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, within } from '@testing-library/react'
+import { ComponentProps } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { certificateListItemSchema } from '../../../schema/certificateList.schema'
 import { CertificateList } from './CertificateList'
 
 const fakeCertificate = fakerFromSchema(certificateListItemSchema)
+
+function renderComponent(props: ComponentProps<typeof CertificateList>) {
+  return render(
+    <MemoryRouter>
+      <CertificateList {...props} />
+    </MemoryRouter>
+  )
+}
 
 it('Should sort certificates by year in descending order', () => {
   const certificates = [
@@ -13,11 +22,7 @@ it('Should sort certificates by year in descending order', () => {
     fakeCertificate({ timestamp: '2023-01-01' }),
   ]
 
-  render(
-    <MemoryRouter>
-      <CertificateList certificates={certificates} />
-    </MemoryRouter>
-  )
+  renderComponent({ certificates })
 
   const yearHeadings = screen.getAllByRole('heading', { level: 2 })
   expect(yearHeadings).toHaveLength(3)
@@ -33,11 +38,7 @@ it('Should sort certificates by year in ascending order', () => {
     fakeCertificate({ timestamp: '2023-01-01' }),
   ]
 
-  render(
-    <MemoryRouter>
-      <CertificateList certificates={certificates} order="ascending" />
-    </MemoryRouter>
-  )
+  renderComponent({ certificates, order: 'ascending' })
 
   const yearHeadings = screen.getAllByRole('heading', { level: 2 })
   expect(yearHeadings).toHaveLength(3)
@@ -54,11 +55,7 @@ it('Should sort certificates in descending order per year', () => {
     fakeCertificate({ timestamp: '2023-01-01', title: 'Certificate D' }),
   ]
 
-  render(
-    <MemoryRouter>
-      <CertificateList certificates={certificates} />
-    </MemoryRouter>
-  )
+  renderComponent({ certificates })
 
   const container = screen.getByTestId('2022-certificates')
   expect(container).toBeInTheDocument()
@@ -80,11 +77,7 @@ it('Should sort certificates in ascending order per year', () => {
     fakeCertificate({ timestamp: '2023-01-01', title: 'Certificate D' }),
   ]
 
-  render(
-    <MemoryRouter>
-      <CertificateList certificates={certificates} order="ascending" />
-    </MemoryRouter>
-  )
+  renderComponent({ certificates, order: 'ascending' })
 
   const container = screen.getByTestId('2022-certificates')
   expect(container).toBeInTheDocument()
