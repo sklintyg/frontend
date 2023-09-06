@@ -1,7 +1,7 @@
 import { IDSButton, IDSCard } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { CertificateListItem } from '../../../../schema/certificateList.schema'
-import { CertificateCardEvents } from './CertificateCardEvents'
+import { CertificateCardEvents } from './CertificateCardEvents/CertificateCardEvents'
 import { CertificateCardHeading } from './CertificateCardHeading'
 import { CertificateCardInfo } from './CertificateCardInfo'
 import { CertificateCardSummary } from './CertificateCardSummary'
