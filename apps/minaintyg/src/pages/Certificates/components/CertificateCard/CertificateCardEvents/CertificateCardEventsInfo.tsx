@@ -2,7 +2,7 @@ import { useFormat } from '../../../../../hooks/useFormat'
 import { CertificateListEvent } from '../../../../../schema/certificateList.schema'
 
 export function CertificateCardEventsInfo({ events }: { events: CertificateListEvent[] }) {
-  const { formatDatetime } = useFormat()
+  const { datetime } = useFormat()
   return (
     <div>
       <div className="font-bold">
@@ -10,7 +10,7 @@ export function CertificateCardEventsInfo({ events }: { events: CertificateListE
       </div>
       {events.map(({ timestamp, description }) => (
         <div key={timestamp}>
-          {formatDatetime(timestamp)} {description}
+          {datetime(timestamp)} {description}
         </div>
       ))}
     </div>
