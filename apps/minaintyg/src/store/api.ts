@@ -9,13 +9,13 @@ export const api = createApi({
   tagTypes: ['User'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
-      query: () => 'certificates/user',
+      query: () => 'user',
       providesTags: ['User'],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
-        url: '../web/logga-ut',
-        method: 'GET',
+        url: 'testability/logout',
+        method: 'POST',
       }),
       invalidatesTags: ['User'],
     }),

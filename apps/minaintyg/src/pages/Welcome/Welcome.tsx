@@ -21,13 +21,18 @@ export function Welcome() {
 
   const handleSubmit: ReactEventHandler = (event) => {
     event.preventDefault()
-    window.location.assign(`/web/sso?guid=${profile}`)
+    window.location.assign(`/fake/sso`)
   }
-
+  //           // testability/person (hämta testpersoner)
   return (
     <IDSContainer>
       <div className="ids-content py-4">
         <h1 className="ids-heading-2">Testinloggningar Mina Intyg</h1>
+        <div className="w-6/12 flex-auto">
+          <form id="loginForm" action="/fake/sso?personId=198901192396" method="POST" acceptCharset="UTF-8">
+            <IDSButton type="submit">Logga in</IDSButton>
+          </form>
+        </div>
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="flex space-x-7 pb-4">
             <div className="w-6/12 flex-auto">
@@ -46,7 +51,7 @@ export function Welcome() {
                   >
                     {fakeUsers.map(({ personnummer, namn }) => (
                       <option key={personnummer} value={personnummer}>
-                        {namn} ({personnummer})
+                        {namn} ({personnummer}){' '}
                       </option>
                     ))}
                   </select>
