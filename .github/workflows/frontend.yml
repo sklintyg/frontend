@@ -49,4 +49,4 @@ jobs:
         run: pnpm typescript --filter=...[HEAD^1]
 
       - name: Test
-        run: pnpm test --filter=...[HEAD^1]
+        run: pnpm test:ci --filter=...[HEAD^1]

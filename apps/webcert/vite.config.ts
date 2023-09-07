@@ -48,6 +48,10 @@ export default ({ mode }: UserConfig) => {
       coverage: {
         reporter: ['text', 'json', 'lcov'],
         all: true,
+        branches: 80,
+        lines: 80,
+        functions: 80,
+        statements: 80,
       },
     },
     build: {
