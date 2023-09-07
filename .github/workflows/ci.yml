@@ -40,7 +40,7 @@ jobs:
       # Run coverage, linting and tests on changed files
       # Most likely to fail before comitting to run all tests
       - name: Lint-staged
-        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}"
+        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty -q
 
       - name: Test
         run: pnpm test:ci --filter=...[HEAD^1]
