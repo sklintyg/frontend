@@ -97,24 +97,7 @@ To run tests in a perticular workspace `pnpm --filter <name of workspace> test`
 
 ### Writing tests
 
-Smoke test that checks if the component can be rendered without crashing. Ex:
-
-```typescript
-it('renders without crashing', () => {
-  const question = fakeTextElement({ id: 'id' })
-  expect(render(<UvText question={question['id']} />)).not.toThrow()
-})
-```
-
-Tests that verifies the components behavior from a user perspective. Use React Testing Library.
-
-```typescript
-it('displaying empty value', () => {
-  const question = fakeTextElement({ id: 'id' })
-  const { getByText } = render(<UvText question={question['id']} />)
-  getByText(/Ej angivet/i)
-})
-```
+When using testing-library, avoid testing [implementation details](https://kentcdodds.com/blog/testing-implementation-details).
 
 ## Integration tests
 
