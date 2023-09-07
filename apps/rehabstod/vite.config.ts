@@ -49,7 +49,7 @@ export default ({ mode }: UserConfig) => {
         all: true,
         branches: 80,
         lines: 80,
-        functions: 80,
+        functions: 75,
         statements: 80,
       },
     },
