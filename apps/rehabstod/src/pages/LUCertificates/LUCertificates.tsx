@@ -7,7 +7,7 @@ import { TableInfo } from '../../components/Table/TableInfo/TableInfo'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
-import { filterHiddenColumns, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
+import { filterHiddenColumns, filterTableColumn, filterTableColumns } from '../../components/Table/utils/filterTableColumns'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 import { useGetUserQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
@@ -38,7 +38,6 @@ export function LUCertificates() {
     LUCertificatesColumn.Intyg,
     LUCertificatesColumn.Vårdgivare,
     LUCertificatesColumn.Vårdenhet,
-    LUCertificatesColumn.Index,
   ])
   const visibleColumns = filterHiddenColumns(filteredColumns)
   const unansweredCommunicationError = !!luCertificatesInfo?.questionAndAnswersError
@@ -60,7 +59,7 @@ export function LUCertificates() {
         <>
           <TableInfo
             communicationError={unansweredCommunicationError}
-            modifyTable={<ModifyLUCertificatesTableColumns columns={filteredColumns} />}
+            modifyTable={<ModifyLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Index)} />}
             listLength={luCertificatesInfo?.certificates.length ?? 0}
             totalNumber={luCertificatesInfo?.certificates.length ?? 0} // TODO: this should come from backend
           />

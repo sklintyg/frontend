@@ -4,7 +4,7 @@ import { PatientColumn } from '../../../../store/slices/patientTableColumns.slic
 export const getAGCertificatesColumnInfo = (column: string): Column => {
   switch (column) {
     case PatientColumn.Num:
-      return { name: column, width: 62 }
+      return { name: column, width: 62, sortable: false }
     case PatientColumn.Diagnos:
       return { name: column, width: 255 }
     case PatientColumn.Startdatum:

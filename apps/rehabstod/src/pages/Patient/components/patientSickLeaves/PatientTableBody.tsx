@@ -75,14 +75,16 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
     PatientColumn.Intygstyp,
   ])
 
+  const sortedList = sortTableList(certificates, getCertificateColumnData)
+
   return (
     <tbody className="whitespace-normal break-words">
-      {sortTableList(certificates, getCertificateColumnData).map(
+      {sortedList.map(
         (certificate) =>
           columns.length > 0 && (
             <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare || certificate.otherVardenhet ? 'italic' : ''}>
               {visibleColumns.map(({ name }) => (
-                <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
+                <PatientTableCellResolver key={name} column={name} certificate={certificate} list={sortedList} />
               ))}
             </tr>
           )
