@@ -21,6 +21,7 @@ export function Welcome() {
 
   const handleSubmit: ReactEventHandler = (event) => {
     event.preventDefault()
+
     window.location.assign(`/fake/sso`)
   }
   //           // testability/person (hämta testpersoner)
