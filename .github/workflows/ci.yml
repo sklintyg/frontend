@@ -8,14 +8,46 @@ on:
     branches: [main, 'project/**']
 
 jobs:
-  build:
-    name: Build and Test
+  test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     # To use Remote Caching, uncomment the next lines and follow the steps below.
     # env:
     #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
     #  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build --filter=...[HEAD^1]
+
+      # Run coverage, linting and tests on changed files
+      # Most likely to fail before comitting to run all tests
+      - name: Lint-staged
+        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}"
+
+      - name: Test
+        run: pnpm test:ci --filter=...[HEAD^1]
+
+  lint:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
@@ -47,6 +79,3 @@ jobs:
 
       - name: Typescript
         run: pnpm typescript --filter=...[HEAD^1]
-
-      - name: Test
-        run: pnpm test:ci --filter=...[HEAD^1]
