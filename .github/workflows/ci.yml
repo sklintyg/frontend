@@ -19,7 +19,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v2
         with:
@@ -40,7 +40,7 @@ jobs:
       # Run coverage, linting and tests on changed files
       # Most likely to fail before comitting to run all tests
       - name: Lint-staged
-        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty
+        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}"
 
       - name: Test
         run: pnpm test:ci --filter=...[HEAD^1]
@@ -67,9 +67,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build --filter=...[HEAD^1]
 
       - name: Format
         run: pnpm prettier . --check --ignore-unknown
