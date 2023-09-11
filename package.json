@@ -18,7 +18,7 @@
     "start": "turbo dev --concurrency=100%",
     "test:ci": "turbo test:ci",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
-    "test": "turbo test",
+    "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "turbo typescript"
   },
   "devDependencies": {

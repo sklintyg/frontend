@@ -43,7 +43,7 @@ jobs:
         run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty -q
 
       - name: Test
-        run: pnpm test:ci --filter=...[HEAD^1]
+        run: pnpm test
 
   lint:
     timeout-minutes: 15
