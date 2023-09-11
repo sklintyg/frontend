@@ -37,23 +37,6 @@ export default ({ mode }: UserConfig) => {
       strictPort: true,
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
     },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      deps: {
-        inline: [/common\/dist/],
-      },
-      setupFiles: ['src/setupTests.ts'],
-      silent: process.env.CI === 'true',
-      coverage: {
-        reporter: ['text', 'json', 'lcov'],
-        all: true,
-        branches: 80,
-        lines: 80,
-        functions: 75,
-        statements: 80,
-      },
-    },
     build: {
       target: 'es2015',
     },

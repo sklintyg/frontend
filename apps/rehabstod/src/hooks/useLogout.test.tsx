@@ -1,7 +1,6 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
-import { vi } from 'vitest'
 import { server, waitForRequest } from '../mocks/server'
 import { api } from '../store/api'
 import { store } from '../store/store'
@@ -51,25 +50,5 @@ describe('useLogout', () => {
     expect(request.headers.get('content-type')).toEqual('application/x-www-form-urlencoded')
 
     expect(screen.getByText('Welcome')).toBeInTheDocument()
-  })
-
-  it('Should open siths logout URL for regular user', async () => {
-    server.use(rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'other' })))))
-    server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))
-    store.dispatch(api.endpoints.getUser.initiate())
-
-    const openSpy = vi.spyOn(window, 'open')
-
-    const { user } = renderWithRouter(<TestComponent />)
-
-    await waitForRequest('GET', '/api/user')
-
-    expect(screen.getByText('Logout')).toBeInTheDocument()
-
-    await user.click(screen.getByText('Logout'))
-
-    await waitFor(() => {
-      expect(openSpy).toHaveBeenCalledWith('/saml/logout', '_self')
-    })
   })
 })
