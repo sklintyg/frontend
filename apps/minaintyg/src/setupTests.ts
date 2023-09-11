@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { faker } from '@frontend/fake'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
+import { mockViewport } from 'jsdom-testing-mocks'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
@@ -8,6 +10,10 @@ import { server } from './mocks/server'
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
+  visualViewport: {
+    ...mockViewport({ width: '1440px', height: '900px' }),
+    addEventListener: vi.fn(),
+  },
 })
 
 // Used by floating-ui

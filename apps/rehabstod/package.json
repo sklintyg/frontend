@@ -17,7 +17,7 @@
     "*": "prettier --write --ignore-unknown",
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "pnpm test -- related --run --coverage"
+      "pnpm test -- related --coverage.enabled=true --coverage.all=false --run"
     ]
   },
   "dependencies": {
