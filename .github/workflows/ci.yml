@@ -40,11 +40,11 @@ jobs:
       # Run coverage, linting and tests on changed files
       # (Most likely to fail before comitting to runing all tests)
       - name: Lint-staged
-        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty -q
+        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty
 
       # Run all tests for changed packages and dependencies
       - name: Test
-        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test --coverage.enabled --coverage.reporter=text
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test -- --coverage.enabled --coverage.reporter=text
 
   lint:
     timeout-minutes: 15
