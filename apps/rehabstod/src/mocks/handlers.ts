@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'

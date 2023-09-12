@@ -17,7 +17,7 @@ module.exports = {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*'] },
+      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*', 'mocks/**/*'] },
     ],
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',

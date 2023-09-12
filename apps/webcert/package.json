@@ -63,12 +63,15 @@
     "@types/react-scroll": "^1.8.0",
     "@types/styled-components": "^5.1.26",
     "@types/testing-library__jest-dom": "5.14.5",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "@vitejs/plugin-react": "3.1.0",
     "axios-mock-adapter": "^1.19.0",
     "esbuild": "^0.17.6",
     "eslint": "^8.42.0",
     "eslint-config-react": "workspace:*",
     "eslint-plugin-jest": "^27.2.1",
     "faker": "5.5.3",
+    "vitest": "^0.34.3",
     "whatwg-fetch": "^3.6.2"
   }
 }
