@@ -35,16 +35,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm --filter="...origin/${GITHUB_BASE_REF}" build
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" build
 
       # Run coverage, linting and tests on changed files
-      # Most likely to fail before comitting to runing all tests
+      # (Most likely to fail before comitting to runing all tests)
       - name: Lint-staged
         run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty -q
 
       # Run all tests for changed packages and dependencies
       - name: Test
-        run: pnpm --filter="...origin/${GITHUB_BASE_REF}" test --coverage.enabled --coverage.reporter=text
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test --coverage.enabled --coverage.reporter=text
 
   lint:
     timeout-minutes: 15
@@ -70,11 +70,11 @@ jobs:
       - name: Build
         run: pnpm --filter=@frontend/* build
 
+      - name: Typescript
+        run: pnpm --filter=@frontend/* typescript
+
       - name: Format
         run: pnpm prettier . --check --ignore-unknown
 
       - name: Lint
         uses: reviewdog/action-eslint@v1.18.2
-
-      - name: Typescript
-        run: pnpm --filter=@frontend/* typescript
