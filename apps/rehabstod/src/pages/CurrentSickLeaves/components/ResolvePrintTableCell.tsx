@@ -1,4 +1,4 @@
-import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfo } from '../../../components/DiagnosisInfo/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
@@ -26,7 +26,7 @@ function resolveRisk(riskSignal: RiskSignal) {
 export function ResolvePrintTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
   switch (column) {
     case SickLeaveColumn.Diagnos:
-      return sickLeave.diagnos ? <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} /> : <>Okänt</>
+      return sickLeave.diagnos ? <DiagnosisInfo diagnosis={sickLeave.diagnos} biDiagnoses={sickLeave.biDiagnoser} /> : <>Okänt</>
     case SickLeaveColumn.Slutdatum:
       return <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
     case SickLeaveColumn.Grad:

@@ -1,11 +1,9 @@
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
-import { isTruthy } from '../../../../utils/isTruthy'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
 import { OtherUnitInformation } from './OtherUnitInformation'
@@ -20,14 +18,8 @@ export function PatientTableCellResolver({
   certificate: PatientSjukfallIntyg
 }) {
   switch (column) {
-    case PatientColumn.Diagnos: {
-      const diagnosis = [certificate.diagnos, ...certificate.bidiagnoser].filter(isTruthy)
-      return (
-        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
-          <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
-        </TableCell>
-      )
-    }
+    case PatientColumn.Diagnos:
+      return <DiagnosisInfoCell diagnosis={certificate.diagnos} biDiagnoses={certificate.bidiagnoser} />
     case PatientColumn.Grad:
       return (
         <TableCell>
