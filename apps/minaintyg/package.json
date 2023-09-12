@@ -8,7 +8,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
+    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
