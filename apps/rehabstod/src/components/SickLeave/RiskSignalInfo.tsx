@@ -1,21 +1,8 @@
-import { classNames } from '@frontend/components'
 import { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { Tooltip } from '../Tooltip/Tooltip'
 import { TooltipContent } from '../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
-
-function RiskSignalCircle({ riskCategory, index }: { riskCategory: number; index: number }) {
-  return (
-    <span
-      data-testid="riskSignalRing"
-      className={`block h-2.5 w-2.5 rounded-full border border-solid ${
-        riskCategory <= index
-          ? 'bg-white'
-          : classNames(riskCategory === 3 && 'bg-error-40', riskCategory === 2 && 'bg-error-10', riskCategory === 1 && 'bg-attention-40')
-      }`}
-    />
-  )
-}
+import { RiskSignalCircle } from './RiskSignalCircle'
 
 export function RiskSignalInfo({ riskKategori, riskDescription }: RiskSignal) {
   return (

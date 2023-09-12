@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm build --filter=...[HEAD^1]
+        run: pnpm --filter="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" build
 
       # Run coverage, linting and tests on changed files
       # Most likely to fail before comitting to run all tests
