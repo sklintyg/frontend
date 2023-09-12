@@ -11,15 +11,6 @@ importers:
 
   .:
     devDependencies:
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.0
-        version: 25.0.0(rollup@3.29.0)
-      '@rollup/plugin-json':
-        specifier: ^6.0.0
-        version: 6.0.0(rollup@3.29.0)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.0.1
-        version: 15.0.1(rollup@3.29.0)
       '@vitest/coverage-v8':
         specifier: ^0.34.3
         version: 0.34.3(vitest@0.34.3)
