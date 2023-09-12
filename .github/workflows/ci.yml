@@ -44,7 +44,7 @@ jobs:
 
       # Run all tests for changed packages and dependencies
       - name: Test
-        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test -- --coverage.enabled --coverage.reporter=text
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test -- --coverage.enabled --coverage.reporter=text-summary
 
   lint:
     timeout-minutes: 15
