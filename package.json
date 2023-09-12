@@ -13,10 +13,10 @@
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "start:test": "turbo dev --concurrency=100% -- -m test",
-    "start": "turbo dev --concurrency=100%",
-    "test:ci": "turbo test:ci",
+    "start": "pnpm -r --parallel --filter * dev",
     "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
+    "test:ci": "pnpm test -- --coverage",
+    "test:ui": "pnpm test -- --ui --coverage",
     "typescript": "pnpm --filter * typescript"
   },
   "devDependencies": {
@@ -30,7 +30,6 @@
     "lint-staged": "^12.5.0",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
-    "turbo": "^1.10.1",
     "typescript": "^5.0.4",
     "vitest": "^0.34.3"
   },
