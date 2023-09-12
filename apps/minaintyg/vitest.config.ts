@@ -14,5 +14,8 @@ export default defineConfig({
       functions: 80,
       statements: 80,
     },
+    deps: {
+      inline: ['@inera/ids-core', 'handy-scroll'],
+    },
   },
 })

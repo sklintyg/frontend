@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "test:ci": "vitest run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:no-watch": "vitest run",
     "test": "vitest",

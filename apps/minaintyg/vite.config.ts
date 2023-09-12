@@ -36,9 +36,6 @@ export default ({ mode }: UserConfig) => {
       proxy,
       strictPort: true,
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
-      deps: {
-        inline: ['@inera/ids-core', 'handy-scroll'],
-      },
     },
   })
 }

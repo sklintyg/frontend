@@ -9,20 +9,17 @@
     ]
   },
   "scripts": {
-    "build": "turbo build",
+    "build": "pnpm --filter * build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
-    "posttest:ci": "pnpm test:report && pnpm test:coverage",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
     "start:test": "turbo dev --concurrency=100% -- -m test",
     "start": "turbo dev --concurrency=100%",
     "test:ci": "turbo test:ci",
-    "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
-    "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
-    "typescript": "turbo typescript"
+    "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
+    "typescript": "pnpm --filter * typescript"
   },
   "devDependencies": {
-    "@frontend/combine-coverage": "workspace:*",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
@@ -33,9 +30,7 @@
     "eslint-config-custom": "workspace:*",
     "eslint-plugin-jest": "^27.2.1",
     "husky": "^7.0.4",
-    "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
-    "nyc": "^15.1.0",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "turbo": "^1.10.1",
