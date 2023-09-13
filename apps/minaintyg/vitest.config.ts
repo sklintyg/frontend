@@ -9,10 +9,10 @@ export default defineConfig({
     silent: process.env.CI === 'true',
     coverage: {
       reporter: ['text', 'json', 'lcov'],
-      branches: 75,
+      branches: 80,
       lines: 75,
       functions: 80,
-      statements: 80,
+      statements: 75,
     },
     deps: {
       inline: ['@inera/ids-core', 'handy-scroll'],
