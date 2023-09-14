@@ -1,5 +1,4 @@
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
@@ -11,11 +10,7 @@ import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter
 export function AGCertificatesTableCellResolver({ column, data, list }: { column: string; data: AGCertificate; list: AGCertificate[] }) {
   switch (column) {
     case PatientColumn.Diagnos:
-      return (
-        <TableCell description={<DiagnosisDescription diagnos={data.diagnosis} biDiagnoser={data.biDiagnoses} />}>
-          <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />
-        </TableCell>
-      )
+      return <DiagnosisInfoCell diagnosis={data.diagnosis} biDiagnoses={data.biDiagnoses} />
     case PatientColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
     case PatientColumn.Intyg:

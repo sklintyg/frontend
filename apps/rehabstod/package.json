@@ -25,7 +25,7 @@
     "@frontend/components": "workspace:*",
     "@frontend/fake": "workspace:*",
     "@frontend/ids-react-ts": "workspace:*",
-    "@inera/ids-core": "^3.0.8",
+    "@inera/ids-core": "^3.0.9",
     "@internationalized/date": "^3.2.0",
     "@reduxjs/toolkit": "^1.9.3",
     "date-fns": "^2.29.3",

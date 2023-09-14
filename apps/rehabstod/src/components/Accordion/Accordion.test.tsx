@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ExpandableLink } from './ExpandableLink'
+import { Accordion } from './Accordion'
 
 const TITLE = 'TITLE'
 
 const renderComponent = () => {
   render(
-    <ExpandableLink title={TITLE}>
+    <Accordion title={TITLE}>
       <p>Children</p>
-    </ExpandableLink>
+    </Accordion>
   )
 }
 describe('ExpandableLink', () => {

@@ -1,5 +1,4 @@
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
@@ -38,13 +37,7 @@ function PatientTableCellResolver({
 }) {
   switch (column) {
     case PatientColumn.Diagnos:
-      return (
-        <TableCell
-          description={certificate.diagnos && <DiagnosisDescription diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />}
-        >
-          <DiagnosisInfo diagnos={certificate.diagnos} biDiagnoser={certificate.bidiagnoser} />
-        </TableCell>
-      )
+      return <DiagnosisInfoCell diagnosis={certificate.diagnos} biDiagnoses={certificate.bidiagnoser} />
     case PatientColumn.Grad:
       return (
         <TableCell>
@@ -82,14 +75,16 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
     PatientColumn.Intygstyp,
   ])
 
+  const sortedList = sortTableList(certificates, getCertificateColumnData)
+
   return (
     <tbody className="whitespace-normal break-words">
-      {sortTableList(certificates, getCertificateColumnData).map(
+      {sortedList.map(
         (certificate) =>
           columns.length > 0 && (
             <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare || certificate.otherVardenhet ? 'italic' : ''}>
               {visibleColumns.map(({ name }) => (
-                <PatientTableCellResolver key={name} column={name} certificate={certificate} list={certificates} />
+                <PatientTableCellResolver key={name} column={name} certificate={certificate} list={sortedList} />
               ))}
             </tr>
           )

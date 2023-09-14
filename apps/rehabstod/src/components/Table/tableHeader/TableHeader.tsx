@@ -9,9 +9,9 @@ export function TableHeader({ columns }: { columns: Column[] }) {
           <TableHeaderCell
             key={column.name}
             column={column.name}
-            description={column.description}
             width={`${column.width}px`}
             sticky={column.sticky}
+            sortable={column.sortable}
           />
         ))}
       </tr>

@@ -1,20 +1,19 @@
 import { classNames } from '@frontend/components'
 import { Tooltip } from '../../Tooltip/Tooltip'
-import { TooltipContent } from '../../Tooltip/TooltipContent'
 import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
 
 export function TableHeaderCell({
-  description,
   column,
   width,
   sticky,
+  sortable = true,
 }: {
   column: string
-  description?: string
   width?: string
   sticky?: 'left' | 'top' | 'right'
+  sortable?: boolean
 }) {
   const { sortOnColumn, ascending } = useTableContext()
 
@@ -23,13 +22,15 @@ export function TableHeaderCell({
       <TooltipTrigger asChild>
         <th
           style={{ width: width ?? '25%', zIndex: 11 }}
-          tabIndex={0}
+          tabIndex={sortable ? 0 : undefined}
           role="columnheader"
           scope="col"
           aria-sort={ascending ? 'ascending' : 'descending'}
           onKeyDown={({ code, currentTarget }) => {
             if (code === 'Enter' || code === 'Space') {
-              sortOnColumn(column)
+              if (sortable) {
+                sortOnColumn(column)
+              }
             }
             if (code === 'ArrowLeft' && currentTarget.previousElementSibling) {
               ;(currentTarget.previousElementSibling as HTMLElement).focus()
@@ -38,9 +39,9 @@ export function TableHeaderCell({
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => sortOnColumn(column)}
+          onClick={!sortable ? () => {} : () => sortOnColumn(column)}
           className={classNames(
-            'cursor-pointer',
+            sortable && 'cursor-pointer',
             'select-none',
             'overflow-hidden',
             'text-ellipsis',
@@ -51,9 +52,8 @@ export function TableHeaderCell({
           )}
         >
           <span>
-            {column} <SortingIcon column={column} />
+            {column} {sortable && <SortingIcon column={column} />}
           </span>
-          {description && <TooltipContent>{description}</TooltipContent>}
         </th>
       </TooltipTrigger>
     </Tooltip>

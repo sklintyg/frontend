@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
@@ -13,7 +12,7 @@ export function PatientRekoStatus({
   isDoctor: boolean
 }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
-  const { state } = useLocation()
+
   const getCertificateToSaveRekoStatusOn = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
       return currentSickLeaves[0].intyg[0]
@@ -34,8 +33,8 @@ export function PatientRekoStatus({
         <SelectRekoStatus
           disabled={isDoctor}
           endDate={certificateToSaveRekoStatusOn.slut}
+          startDate={certificateToSaveRekoStatusOn.start}
           patientId={certificateToSaveRekoStatusOn.patient.id}
-          statusFromSickLeave={state?.rekoStatus}
           rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
           description={
             isDoctor
