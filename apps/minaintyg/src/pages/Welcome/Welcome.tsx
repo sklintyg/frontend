@@ -1,5 +1,5 @@
 import { IDSButton, IDSContainer, IDSInput, IDSTextarea } from '@frontend/ids-react-ts'
-import { ReactEventHandler, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useGetPersonsQuery } from '../../store/testabilityApi'
 
 const fakeUsers = [
@@ -21,22 +21,11 @@ export function Welcome() {
   const { data: persons } = useGetPersonsQuery()
   const formRef = useRef<HTMLFormElement>(null)
 
-  const handleSubmit: ReactEventHandler = (event) => {
-    event.preventDefault()
-
-    window.location.assign(`/fake/sso`)
-  }
-
   return (
     <IDSContainer>
       <div className="ids-content py-4">
         <h1 className="ids-heading-2">Testinloggningar Mina Intyg</h1>
-        <div className="w-6/12 flex-auto">
-          <form id="loginForm" action="/fake/sso?personId=198901192396" method="POST" acceptCharset="UTF-8">
-            <IDSButton type="submit">Logga in</IDSButton>
-          </form>
-        </div>
-        <form ref={formRef} onSubmit={handleSubmit}>
+        <form ref={formRef} action={`/fake/sso?personId=${profile}`} method="POST" acceptCharset="UTF-8">
           <div className="flex space-x-7 pb-4">
             <div className="w-6/12 flex-auto">
               <label htmlFor="fakelogin">
@@ -52,11 +41,12 @@ export function Welcome() {
                     value={profile}
                     className="h-40 w-full rounded border"
                   >
-                    {fakeUsers.map(({ personnummer, namn }) => (
-                      <option key={personnummer} value={personnummer}>
-                        {namn} ({personnummer}){' '}
-                      </option>
-                    ))}
+                    {persons &&
+                      persons.map(({ personId, personName }) => (
+                        <option key={personId} value={personId}>
+                          {personName} ({personId}){' '}
+                        </option>
+                      ))}
                   </select>
                 </IDSInput>
               </label>
@@ -85,10 +75,8 @@ export function Welcome() {
               </label>
             </div>
           </div>
+          <IDSButton type="submit">Logga in</IDSButton>
         </form>
-        <IDSButton type="submit" onClick={handleSubmit}>
-          Logga in
-        </IDSButton>
       </div>
     </IDSContainer>
   )

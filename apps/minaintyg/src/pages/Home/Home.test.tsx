@@ -9,9 +9,7 @@ import { Home } from './Home'
 
 it('Should have text', async () => {
   server.use(
-    rest.get('/api/certificates/user', (_, res, ctx) =>
-      res(ctx.status(200), ctx.json(fakerFromSchema(userSchema)({ fullName: 'Anton Antonsson' })))
-    )
+    rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userSchema)({ personName: 'Anton Antonsson' }))))
   )
   render(
     <Provider store={store}>

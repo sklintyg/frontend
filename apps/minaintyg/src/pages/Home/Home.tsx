@@ -12,5 +12,5 @@ export function Home() {
     return <p>Inte inloggad</p>
   }
 
-  return <p>Inloggad som: {user.fullName}</p>
+  return <p>Inloggad som: {user.personName}</p>
 }
