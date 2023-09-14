@@ -2,6 +2,7 @@ import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
+import { useGetUserQuery } from '../../store/api'
 
 const links = [
   { title: 'Start', path: '/' },
@@ -16,10 +17,11 @@ const links = [
 
 export function LayoutHeader() {
   const logout = useLogout()
+  const { data: user } = useGetUserQuery()
 
   return (
     <IDSHeader type="1177" hideregionpicker className="z-40 bg-white print:hidden">
-      <IDSHeaderAvatar username="Firstname Lastname">
+      <IDSHeaderAvatar username={user?.personName ?? ''}>
         <button type="button" slot="avatar-left">
           Inställningar
         </button>
