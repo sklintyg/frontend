@@ -2,21 +2,8 @@ import { IDSButton, IDSContainer, IDSInput, IDSTextarea } from '@frontend/ids-re
 import { useRef, useState } from 'react'
 import { useGetPersonsQuery } from '../../store/testabilityApi'
 
-const fakeUsers = [
-  {
-    personnummer: '191212121212',
-    namn: 'Tolvan Tolvansson',
-    sekretessmarkering: false,
-  },
-  {
-    personnummer: '201212121212',
-    namn: 'Lilltolvan Tolvansson',
-    sekretessmarkering: false,
-  },
-]
-
 export function Welcome() {
-  const [profile, setProfile] = useState<string>(fakeUsers[0].personnummer)
+  const [profile, setProfile] = useState<string>()
   const [freeText, setFreeText] = useState<string | null>(null)
   const { data: persons } = useGetPersonsQuery()
   const formRef = useRef<HTMLFormElement>(null)
@@ -61,11 +48,7 @@ export function Welcome() {
                     value={
                       freeText != null
                         ? freeText
-                        : JSON.stringify(
-                            fakeUsers.find(({ personnummer }) => personnummer === profile),
-                            null,
-                            2
-                          )
+                        : JSON.stringify(persons && persons?.find(({ personId }) => personId === profile), null, 2)
                     }
                     onChange={(event) => setFreeText(event.target.value)}
                     className="h-40 w-full"
