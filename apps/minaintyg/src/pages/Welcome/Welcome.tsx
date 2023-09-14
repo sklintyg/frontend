@@ -1,12 +1,20 @@
-import { IDSButton, IDSContainer, IDSInput, IDSTextarea } from '@frontend/ids-react-ts'
-import { useRef, useState } from 'react'
+import { IDSButton, IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
+import { useEffect, useRef, useState } from 'react'
 import { useGetPersonsQuery } from '../../store/testabilityApi'
+import { ResultTextArea } from './components/ResultTextArea'
+import { SelectProfile } from './components/SelectProfile'
 
 export function Welcome() {
   const [profile, setProfile] = useState<string>()
-  const [freeText, setFreeText] = useState<string | null>(null)
-  const { data: persons } = useGetPersonsQuery()
+  const [freeText, setFreeText] = useState<string>()
+  const { data: persons, isLoading } = useGetPersonsQuery()
   const formRef = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (!freeText && persons) {
+      setProfile(persons.at(0)?.personId)
+    }
+  }, [freeText, persons])
 
   return (
     <IDSContainer>
@@ -14,49 +22,28 @@ export function Welcome() {
         <h1 className="ids-heading-2">Testinloggningar Mina Intyg</h1>
         <form ref={formRef} action={`/fake/sso?personId=${profile}`} method="POST" acceptCharset="UTF-8">
           <div className="flex space-x-7 pb-4">
-            <div className="w-6/12 flex-auto">
-              <label htmlFor="fakelogin">
-                Login
-                <IDSInput>
-                  <select
-                    id="fakelogin"
-                    size={6}
+            {isLoading && <IDSSpinner />}
+            {persons && (
+              <>
+                <div className="w-6/12 flex-auto">
+                  <SelectProfile
+                    value={profile}
+                    persons={persons}
                     onChange={({ target }) => {
                       setProfile(target.value)
-                      setFreeText(null)
+                      setFreeText(undefined)
                     }}
-                    value={profile}
-                    className="h-40 w-full rounded border"
-                  >
-                    {persons &&
-                      persons.map(({ personId, personName }) => (
-                        <option key={personId} value={personId}>
-                          {personName} ({personId}){' '}
-                        </option>
-                      ))}
-                  </select>
-                </IDSInput>
-              </label>
-            </div>
-            <div className="w-6/12 flex-auto">
-              <label htmlFor="userJsonDisplay">
-                Result
-                <IDSTextarea className="w-full whitespace-nowrap">
-                  <textarea
-                    id="userJsonDisplay"
-                    name="userJsonDisplay"
-                    value={
-                      freeText != null
-                        ? freeText
-                        : JSON.stringify(persons && persons?.find(({ personId }) => personId === profile), null, 2)
-                    }
-                    onChange={(event) => setFreeText(event.target.value)}
-                    className="h-40 w-full"
-                    rows={5}
                   />
-                </IDSTextarea>
-              </label>
-            </div>
+                </div>
+                <div className="w-6/12 flex-auto">
+                  <ResultTextArea
+                    person={persons.find(({ personId }) => personId === profile)}
+                    freeText={freeText}
+                    onChange={(event) => setFreeText(event.target.value)}
+                  />
+                </div>
+              </>
+            )}
           </div>
           <IDSButton type="submit">Logga in</IDSButton>
         </form>
