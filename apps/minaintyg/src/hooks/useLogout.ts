@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useFakeLogoutMutation } from '../store/api'
+import { useFakeLogoutMutation } from '../store/testabilityApi'
 
 export function useLogout() {
   const [fakeLogout] = useFakeLogoutMutation()

@@ -1,5 +1,6 @@
 import { IDSButton, IDSContainer, IDSInput, IDSTextarea } from '@frontend/ids-react-ts'
 import { ReactEventHandler, useRef, useState } from 'react'
+import { useGetPersonsQuery } from '../../store/testabilityApi'
 
 const fakeUsers = [
   {
@@ -17,6 +18,7 @@ const fakeUsers = [
 export function Welcome() {
   const [profile, setProfile] = useState<string>(fakeUsers[0].personnummer)
   const [freeText, setFreeText] = useState<string | null>(null)
+  const { data: persons } = useGetPersonsQuery()
   const formRef = useRef<HTMLFormElement>(null)
 
   const handleSubmit: ReactEventHandler = (event) => {
@@ -24,7 +26,7 @@ export function Welcome() {
 
     window.location.assign(`/fake/sso`)
   }
-  //           // testability/person (hämta testpersoner)
+
   return (
     <IDSContainer>
       <div className="ids-content py-4">

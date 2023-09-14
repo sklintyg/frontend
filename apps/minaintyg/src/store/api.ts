@@ -12,14 +12,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    fakeLogout: builder.mutation<void, void>({
-      query: () => ({
-        url: 'testability/logout',
-        method: 'POST',
-      }),
-      invalidatesTags: ['User'],
-    }),
   }),
 })
 
-export const { useGetUserQuery, useFakeLogoutMutation } = api
+export const { useGetUserQuery } = api

@@ -16,7 +16,7 @@ export default ({ mode }: UserConfig) => {
     (result, route) => ({
       ...result,
       [`/${route}`]: {
-        target: process.env.VITE_API_TARGET ?? 'https://minaintyg-devtest.intyg.nordicmedtest.se',
+        target: process.env.VITE_API_TARGET ?? 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
         protocolRewrite: 'https',
         changeOrigin: true,
