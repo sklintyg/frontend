@@ -9,12 +9,20 @@ export function SickLeaveDegreeInfo({ degrees }: { degrees: number[] }) {
 
   return (
     <div className="flex gap-1 whitespace-nowrap">
-      <span>{degrees[0]}%</span>
-      {hasSeveralDegrees && (
+      {hasSeveralDegrees ? (
         <>
-          <IDSIconArrow size="xs" className="my-auto" color="currentColor" color2="currentColor" />
-          <span className="font-bold">{degrees[degrees.length - 1]}%</span>
+          <span className="font-bold">{degrees[0]}%</span>
+          {degrees.map((degree, index) =>
+            index !== 0 ? (
+              <>
+                <IDSIconArrow size="xs" className="my-auto" color="currentColor" color2="currentColor" />
+                <span key={`degree${degree}`}>{degree}%</span>
+              </>
+            ) : null
+          )}
         </>
+      ) : (
+        <span>{degrees[0]}</span>
       )}
     </div>
   )
