@@ -35,7 +35,12 @@ export function PatientSickLeaves() {
       <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user}>
         {!error && (
           <div className="flex flex-col lg:flex-row lg:justify-end lg:gap-5">
-            <PatientRekoStatus currentSickLeaves={currentSickLeaves} earlierSickLeaves={earlierSickLeaves} isDoctor={isDoctor} />
+            <PatientRekoStatus
+              currentSickLeaves={currentSickLeaves}
+              earlierSickLeaves={earlierSickLeaves}
+              isDoctor={isDoctor}
+              patientId={firstCertificate ? firstCertificate.patient.id : ''}
+            />
             <div className="lg:w-96">
               <ModifyPatientTableColumns />
             </div>
