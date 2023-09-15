@@ -1,4 +1,3 @@
-import { isBefore } from 'date-fns'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
@@ -18,11 +17,11 @@ export function PatientRekoStatus({
 
   const getLastCertificate = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
-      return currentSickLeaves.sort((a, b) => isBefore(new Date(b.slut), new Date(a.slut)))[0]
+      return currentSickLeaves.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())[0]
     }
 
     if (earlierSickLeaves && earlierSickLeaves.length > 0) {
-      return earlierSickLeaves.sort((a, b) => isBefore(new Date(b.slut), new Date(a.slut)))[0]
+      return earlierSickLeaves.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())[0]
     }
 
     return null
