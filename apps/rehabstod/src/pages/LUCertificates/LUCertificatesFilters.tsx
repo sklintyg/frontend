@@ -43,7 +43,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
             populatedFilters.allDiagnosisChapters.filter((diagnosis) => filter.diagnoses.some((id) => diagnosis.id === id))) ||
           []
         }
-        description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
+        description="Filtrerar på den diagnos som skrivs ut först för läkarutlåtandet uppdelat på kapitel."
       />
       {!isUserDoctor(user) && (
         <DoctorFilter
