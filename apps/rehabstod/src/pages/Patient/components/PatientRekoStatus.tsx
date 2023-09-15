@@ -30,11 +30,11 @@ export function PatientRekoStatus({
 
   const getFirstCertificate = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
-      return currentSickLeaves.sort((a, b) => isBefore(new Date(a.start), new Date(b.start)))[0]
+      return currentSickLeaves.sort((a, b) => new Date(a.start) - Date(b.start))[0]
     }
 
     if (earlierSickLeaves && earlierSickLeaves.length > 0) {
-      return earlierSickLeaves.sort((a, b) => isBefore(new Date(a.start), new Date(b.start)))[0]
+      return earlierSickLeaves.sort((a, b) => new Date(a.start) - new Date(b.start))[0]
     }
 
     return null
@@ -44,8 +44,8 @@ export function PatientRekoStatus({
     <div className="w-full lg:w-64">
       <SelectRekoStatus
         disabled={isDoctor}
-        endDate={getLastCertificate()?.slut}
-        startDate={getFirstCertificate()?.start}
+        endDate={getLastCertificate()?.slut || ''}
+        startDate={getFirstCertificate()?.start || ''}
         patientId={patientId}
         rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
         description={
