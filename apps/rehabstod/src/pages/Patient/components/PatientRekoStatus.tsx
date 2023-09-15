@@ -30,7 +30,7 @@ export function PatientRekoStatus({
 
   const getFirstCertificate = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
-      return currentSickLeaves.sort((a, b) => new Date(a.start) - Date(b.start))[0]
+      return currentSickLeaves.sort((a, b) => new Date(a.start) - new Date(b.start))[0]
     }
 
     if (earlierSickLeaves && earlierSickLeaves.length > 0) {
