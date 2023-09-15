@@ -1,6 +1,7 @@
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormType, InfoCircle } from '@frontend/common'
 import React from 'react'
 import { Italic } from './FMBPanel'
+import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
@@ -26,13 +27,7 @@ const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
         ))}
       <ul>
         {workCapacityList &&
-          workCapacityList.map((form: FMBDiagnosisCodeInfoForm) =>
-            form.content[0].list?.map((item: string, index: number) => (
-              <li key={index} className="iu-mt-300">
-                {item}
-              </li>
-            ))
-          )}
+          workCapacityList.map((form: FMBDiagnosisCodeInfoForm) => <FMBPanelGuidanceInfo info={form.content[0]} key={form.name} />)}
       </ul>
     </div>
   )
