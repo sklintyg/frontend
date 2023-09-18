@@ -27,7 +27,7 @@ function TestComponent() {
 }
 
 describe('useLogout', () => {
-  it.skip('Should call /logout and redirect to welcome screen for fake user', async () => {
+  it('Should call /logout and redirect to welcome screen for fake user', async () => {
     server.use(
       rest.get(`/api/user`, (_, res, ctx) =>
         res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'urn:inera:rehabstod:siths:fake' })))
