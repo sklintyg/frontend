@@ -27,7 +27,7 @@ const getSickLeaveColumnWidth = (column: string): number | undefined => {
     case SickLeaveColumn.Längd:
       return 90
     case SickLeaveColumn.Grad:
-      return 100
+      return 200
     case SickLeaveColumn.Läkare:
       return 114
     case SickLeaveColumn.RekoStatus:
