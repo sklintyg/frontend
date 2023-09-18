@@ -25,10 +25,8 @@ const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
         (workCapacityList.length === 0 && (
           <Italic>För den angivna diagnosen finns ingen FMB-information för Vägledning för sjukskrivning</Italic>
         ))}
-      <ul>
-        {workCapacityList &&
-          workCapacityList.map((form: FMBDiagnosisCodeInfoForm) => <FMBPanelGuidanceInfo info={form.content[0]} key={form.name} />)}
-      </ul>
+      {workCapacityList &&
+        workCapacityList.map((form: FMBDiagnosisCodeInfoForm) => <FMBPanelGuidanceInfo info={form.content[0]} key={form.name} />)}
     </div>
   )
 }

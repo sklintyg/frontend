@@ -7,16 +7,22 @@ interface Props {
 
 const FMBPanelGuidanceInfo: React.FC<Props> = ({ info }) => {
   if (info.text) {
-    return <li>{info.text}</li>
+    return (
+      <ul>
+        <li>{info.text}</li>
+      </ul>
+    )
   }
 
-  return info.list
-    ? info.list?.map((item: string, index: number) => (
+  return info.list ? (
+    <ul>
+      {info.list.map((item: string, index: number) => (
         <li key={index} className="iu-mt-300">
           {item}
         </li>
-      ))
-    : null
+      ))}
+    </ul>
+  ) : null
 }
 
 export default FMBPanelGuidanceInfo
