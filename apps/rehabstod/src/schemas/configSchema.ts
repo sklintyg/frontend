@@ -37,6 +37,7 @@ export const configSchema = z.object({
   statistikSsoUrl: z.string(),
   version: z.string(),
   banners: z.array(bannerSchema),
+  sithsIdpUrl: z.string(),
 })
 
 export type Config = z.infer<typeof configSchema>

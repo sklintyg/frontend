@@ -35,7 +35,7 @@ export function SelectRekoStatus({
   return (
     <SelectFilter
       disabled={disabled}
-      value={rekoStatus?.status.id || emptyRekoStatus?.id}
+      value={rekoStatus?.status?.id || emptyRekoStatus?.id}
       onChange={(id) => handleSetRekoStatus(id)}
       options={rekoStatusTypes}
       hideDefaultValue

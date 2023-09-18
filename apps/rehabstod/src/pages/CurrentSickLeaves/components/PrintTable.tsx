@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
+import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
@@ -9,10 +11,22 @@ import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves?: SickLeaveInfo[]; showPersonalInformation: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
+  const [logPrintInteractionTrigger] = useLogPrintInteractionMutation()
+
+  useEffect(() => {
+    const logPrintInteraction = () => {
+      logPrintInteractionTrigger({ sickLeaves })
+    }
+    window.addEventListener('afterprint', logPrintInteraction)
+    return () => {
+      window.removeEventListener('afterprint', logPrintInteraction)
+    }
+  })
 
   if (!sickLeaves) {
     return null
   }
+
   return (
     <div>
       {sortTableList(sickLeaves, getSickLeavesColumnData)?.map((sickLeave) => (

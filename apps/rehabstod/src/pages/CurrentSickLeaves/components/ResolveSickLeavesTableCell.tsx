@@ -33,7 +33,7 @@ export function ResolveSickLeavesTableCell({
     case SickLeaveColumn.Grad:
       return (
         <TableCell>
-          <SickLeaveDegreeInfo degrees={sickLeave.grader} />
+          <SickLeaveDegreeInfo degrees={sickLeave.grader} activeDegree={sickLeave.aktivGrad} />
         </TableCell>
       )
     case SickLeaveColumn.RekoStatus:

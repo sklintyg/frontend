@@ -1,6 +1,6 @@
 import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
+import { MinimizedSickLeaveDegreeInfo } from '../../../../components/SickLeave/MinimizedSickLeaveDegreeInfo'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
-import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
@@ -23,7 +23,7 @@ export function PatientTableCellResolver({
     case PatientColumn.Grad:
       return (
         <TableCell>
-          <SickLeaveDegreeInfo degrees={certificate.grader} />
+          <MinimizedSickLeaveDegreeInfo degrees={certificate.grader} />
         </TableCell>
       )
     case PatientColumn.Risk:

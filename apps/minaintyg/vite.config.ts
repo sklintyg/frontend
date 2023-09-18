@@ -13,13 +13,13 @@ export default ({ mode }: UserConfig) => {
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
 
-  const proxy = ['api', 'fake', 'error.jsp', 'logout', 'welcome.html', 'saml'].reduce<Record<string, string | ProxyOptions>>(
+  const proxy = ['api', 'fake'].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
       [`/${route}`]: {
-        target: process.env.VITE_API_TARGET ?? 'https://minaintyg-devtest.intyg.nordicmedtest.se',
+        target: process.env.VITE_API_TARGET ?? 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: 'https',
+        protocolRewrite: https ? 'https' : 'http',
         changeOrigin: true,
         autoRewrite: true,
       },
