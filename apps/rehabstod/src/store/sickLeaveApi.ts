@@ -84,6 +84,13 @@ const sickLeaveApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Patient'],
     }),
+    logPrintInteraction: builder.mutation<void, { sickLeaves: SickLeaveInfo[] | undefined }>({
+      query: (sickLeaves) => ({
+        url: 'sickleaves/print',
+        method: 'POST',
+        body: sickLeaves,
+      }),
+    }),
     setRekoStatus: builder.mutation<
       void,
       { patientId: string; status: RekoStatusType; sickLeaveTimestamp: string; filter: SickLeaveFilter }
@@ -164,4 +171,5 @@ export const {
   useLazyGetSickLeavesQuery,
   useSetRekoStatusMutation,
   useGetRekoStatusForPatientQuery,
+  useLogPrintInteractionMutation,
 } = sickLeaveApi

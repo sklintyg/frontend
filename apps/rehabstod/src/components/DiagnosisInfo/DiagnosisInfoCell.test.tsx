@@ -40,5 +40,5 @@ it('should display tooltip on missing diagnosis', async () => {
     </ComponentWrapper>
   )
   fireEvent.mouseEnter(screen.getByRole('cell'))
-  expect(screen.getByText('Patienten har valt att inte förmedla diagnos')).toBeInTheDocument()
+  expect(screen.getByText('Patienten har valt att inte förmedla diagnos.')).toBeInTheDocument()
 })

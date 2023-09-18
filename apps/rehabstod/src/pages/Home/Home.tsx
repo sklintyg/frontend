@@ -2,12 +2,12 @@ import { IDSButton } from '@frontend/ids-react-ts'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
-import { useGetUserQuery } from '../../store/api'
+import { useGetConfigQuery, useGetUserQuery } from '../../store/api'
 import { OverviewStatistics } from './components/OverviewStatistics'
 
 export function Home() {
   const { data: user } = useGetUserQuery()
-  const sithsUrl = '/saml/login/alias/siths-rs2'
+  const { data: config } = useGetConfigQuery()
 
   return user ? (
     <ProtectedRoute requireUnit>
@@ -21,10 +21,10 @@ export function Home() {
       <p className="ids-preamble">
         Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Är du
         rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där du har
-        skrivit det senaste intyget.
+        skrivit det senaste intyget.{' '}
       </p>
       <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
-      <IDSButton sblock data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
+      <IDSButton sblock data-testid="login-btn" onClick={() => window.open(config && config.sithsIdpUrl, '_self')}>
         Logga in
       </IDSButton>
     </PageHero>
