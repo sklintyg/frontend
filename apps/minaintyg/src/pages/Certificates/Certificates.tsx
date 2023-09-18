@@ -4,7 +4,7 @@ import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateList } from './components/CertificateList'
-import { CertificateListOrder } from './components/CertificateListOrder'
+import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')

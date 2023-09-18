@@ -10,18 +10,18 @@ exports[`Should render as expected 1`] = `
         class="z-40 bg-white print:hidden"
       >
         <ids-header-avatar>
-          <a
-            href="/installningar"
+          <button
             slot="avatar-left"
+            type="button"
           >
             Inställningar
-          </a>
-          <a
-            href="/logout"
+          </button>
+          <button
             slot="avatar-right"
+            type="button"
           >
             Logga ut
-          </a>
+          </button>
         </ids-header-avatar>
         <ids-header-nav>
           <ids-header-nav-item>

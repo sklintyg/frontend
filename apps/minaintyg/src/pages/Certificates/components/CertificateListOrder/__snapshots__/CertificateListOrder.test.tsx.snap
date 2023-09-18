@@ -12,6 +12,7 @@ exports[`Should render with order set to "ascending" 1`] = `
         class="inline-flex gap-1"
       >
         <button
+          aria-label="Nyast först"
           class="text-sky-base underline"
           type="button"
         >
@@ -23,6 +24,7 @@ exports[`Should render with order set to "ascending" 1`] = `
           |
         </div>
         <button
+          aria-label="Äldst först"
           class="font-semibold pointer-events-none"
           type="button"
         >
@@ -46,6 +48,7 @@ exports[`Should render with order set to "descending" 1`] = `
         class="inline-flex gap-1"
       >
         <button
+          aria-label="Nyast först"
           class="font-semibold pointer-events-none"
           type="button"
         >
@@ -57,6 +60,7 @@ exports[`Should render with order set to "descending" 1`] = `
           |
         </div>
         <button
+          aria-label="Äldst först"
           class="text-sky-base underline"
           type="button"
         >
