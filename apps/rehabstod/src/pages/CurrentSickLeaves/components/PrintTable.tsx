@@ -1,4 +1,5 @@
-import { DiagnosisInfo } from '../../../components/Diagnosis/DiagnosisInfo'
+import { useEffect } from 'react'
+import { DiagnosisInfo } from '../../../components/DiagnosisInfo/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
@@ -9,6 +10,7 @@ import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.sli
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
+import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
 
 function resolveRisk(riskSignal: RiskSignal) {
   if (riskSignal.riskKategori === 1) {
@@ -29,7 +31,7 @@ function resolveRisk(riskSignal: RiskSignal) {
 function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
   switch (column) {
     case SickLeaveColumn.Diagnos:
-      return sickLeave.diagnos ? <DiagnosisInfo diagnos={sickLeave.diagnos} biDiagnoser={sickLeave.biDiagnoser} /> : <>Okänt</>
+      return sickLeave.diagnos ? <DiagnosisInfo diagnosis={sickLeave.diagnos} biDiagnoses={sickLeave.biDiagnoser} /> : <>Okänt</>
     case SickLeaveColumn.Slutdatum:
       return <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
     case SickLeaveColumn.Grad:
@@ -46,7 +48,16 @@ function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: Si
 export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves?: SickLeaveInfo[]; showPersonalInformation: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
-
+  const [logPrintInteractionTrigger] = useLogPrintInteractionMutation()
+  useEffect(() => {
+    const logPrintInteraction = () => {
+      logPrintInteractionTrigger({ sickLeaves })
+    }
+    window.addEventListener('afterprint', logPrintInteraction)
+    return () => {
+      window.removeEventListener('afterprint', logPrintInteraction)
+    }
+  })
   if (!sickLeaves) {
     return null
   }

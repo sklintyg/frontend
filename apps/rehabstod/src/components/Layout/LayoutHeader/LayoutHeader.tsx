@@ -13,7 +13,7 @@ import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
-import { useGetUserQuery } from '../../../store/api'
+import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
@@ -25,7 +25,7 @@ export function LayoutHeader() {
   const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
-  const sithsUrl = '/saml/login/alias/siths-rs2'
+  const { data: config } = useGetConfigQuery()
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
@@ -81,7 +81,7 @@ export function LayoutHeader() {
       {!isLoading && !user && (
         <IDSHeaderItem type="inera-admin" separator-left>
           <IDSIconUser />
-          <a href={sithsUrl}>Logga in</a>
+          <a href={config && config.sithsIdpUrl}>Logga in</a>
         </IDSHeaderItem>
       )}
     </IDSHeader>

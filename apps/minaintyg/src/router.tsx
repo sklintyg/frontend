@@ -1,7 +1,8 @@
-import { createBrowserRouter, createRoutesFromChildren, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromChildren, Navigate, Route } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { Certificates } from './pages/Certificates/Certificates'
 import { Home } from './pages/Home/Home'
+import { Welcome } from './pages/Welcome/Welcome'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
@@ -18,5 +19,7 @@ export const router = createBrowserRouter(
         />
       </Route>
     </Route>,
+    <Route key="welcome" path="/welcome" element={<Welcome />} />,
+    <Route key="start" path="/web/start" element={<Navigate to="/" replace />} />,
   ])
 )

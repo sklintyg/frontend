@@ -1,24 +1,16 @@
-import { DiagnosisDescription } from '../../../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../../utils/getUnansweredCommunicationFormat'
-import { isTruthy } from '../../../../utils/isTruthy'
 import { CertificateButton } from '../CertificateButton'
 import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
 
 export function AGCertificatesTableCellResolver({ column, data, list }: { column: string; data: AGCertificate; list: AGCertificate[] }) {
   switch (column) {
-    case PatientColumn.Diagnos: {
-      const diagnosis = [data.diagnosis, ...data.biDiagnoses].filter(isTruthy)
-      return (
-        <TableCell description={diagnosis.length > 0 && <DiagnosisDescription diagnosis={diagnosis} />}>
-          <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />
-        </TableCell>
-      )
-    }
+    case PatientColumn.Diagnos:
+      return <DiagnosisInfoCell diagnosis={data.diagnosis} biDiagnoses={data.biDiagnoses} />
     case PatientColumn.Ärenden:
       return <TableCell>{getUnansweredCommunicationFormat(data.unAnsweredComplement, data.unAnsweredOther)}</TableCell>
     case PatientColumn.Intyg:

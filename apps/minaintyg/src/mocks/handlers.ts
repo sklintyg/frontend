@@ -1,10 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
 import { fakeCertificateLabel, faker, fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { certificateListItemSchema } from '../schema/certificateList.schema'
+import { userSchema } from '../schema/user.schema'
 
 export const handlers = [
+  rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userSchema)()))),
   rest.post('/api/certificates', (_, res, ctx) =>
     res(
       ctx.status(200),
