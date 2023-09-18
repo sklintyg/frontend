@@ -5,6 +5,7 @@ import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateList } from './components/CertificateList'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
+import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
@@ -23,6 +24,7 @@ export function Certificates() {
           <IDSSpinner />
         </div>
       )}
+      {data && data.content.length === 0 && <EmptyCertificateListInfo />}
       {data && <CertificateList certificates={data.content} order={order} />}
     </>
   )

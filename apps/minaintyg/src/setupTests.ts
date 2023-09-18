@@ -6,6 +6,8 @@ import { mockViewport } from 'jsdom-testing-mocks'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
+import { api } from './store/api'
+import { store } from './store/store'
 
 Object.assign(global, global, {
   open: vi.fn(),
@@ -38,6 +40,8 @@ beforeAll(() => {
 afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
+
+  store.dispatch(api.util.resetApiState())
 })
 
 // Clean up after the tests are finished.
