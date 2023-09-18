@@ -31,7 +31,7 @@ export function CurrentSickLeavesTableInfo({
       <TableInfoItem>
         <span className="font-bold">{daysBetweenCertificates} dagar</span> mellan intyg
       </TableInfoItem>
-      <TableInfoItem>
+      <TableInfoItem noPrintAfter>
         Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
       </TableInfoItem>
       <div className="print:hidden">
