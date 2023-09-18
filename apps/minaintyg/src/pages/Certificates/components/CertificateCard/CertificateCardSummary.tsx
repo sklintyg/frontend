@@ -9,8 +9,9 @@ export function CertificateCardSummary({ summary, timestamp }: { summary: Certif
       {summary.length > 0 && (
         <p className="grow">
           <span className="font-bold">Avser </span>
-          {summary.map(([description, value]) => (
+          {summary.map(([description, value], index) => (
             <span key={description}>
+              {index > 0 && <span>& </span>}
               <span className="font-bold">{description}:</span> {value}{' '}
             </span>
           ))}

@@ -18,6 +18,20 @@ exports[`Should render correctly with summary 1`] = `
           <span
             class="font-bold"
           >
+            intygsperiod
+            :
+          </span>
+           
+          2023-05-09 - 2023-06-23
+           
+        </span>
+        <span>
+          <span>
+            & 
+          </span>
+          <span
+            class="font-bold"
+          >
             diagnos
             :
           </span>
