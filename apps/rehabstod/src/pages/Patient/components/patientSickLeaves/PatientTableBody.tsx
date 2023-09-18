@@ -1,6 +1,5 @@
 import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
-import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
@@ -14,6 +13,7 @@ import { allPatientColumns } from '../../../../store/slices/patientTableColumns.
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
+import { MinimizedSickLeaveDegreeInfo } from '../../../../components/SickLeave/MinimizedSickLeaveDegreeInfo'
 
 function OtherUnitInformation() {
   return (
@@ -41,7 +41,7 @@ function PatientTableCellResolver({
     case PatientColumn.Grad:
       return (
         <TableCell>
-          <SickLeaveDegreeInfo degrees={certificate.grader} />
+          <MinimizedSickLeaveDegreeInfo degrees={certificate.grader} />
         </TableCell>
       )
     case PatientColumn.Risk:

@@ -16,7 +16,7 @@ export function DiagnosisInfoCell({ diagnosis, biDiagnoses }: { diagnosis?: Diag
             ))}
           </ul>
         ) : (
-          <span>Patienten har valt att inte förmedla diagnos</span>
+          <span>Patienten har valt att inte förmedla diagnos.</span>
         )
       }
     >
