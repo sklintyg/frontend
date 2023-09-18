@@ -8,7 +8,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
 
   return (
     <IDSDialog ref={ref} dismissible headline="Beskrivning av tabellens rubriker">
-      <button className="text-accent-40 pt-5 text-sm underline" trigger="" type="button">
+      <button className="text-accent-40 pt-5 text-sm underline print:hidden" trigger="" type="button">
         <IDSIconQuestion size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
