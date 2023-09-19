@@ -4,7 +4,7 @@ exports[`Should render component 1`] = `
 <body>
   <div>
     <ids-badge
-      class="[&:not(:last-child)]:mb-2.5"
+      class="whitespace-nowrap"
     >
       Nytt
     </ids-badge>

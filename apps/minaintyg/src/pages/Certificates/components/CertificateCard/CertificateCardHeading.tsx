@@ -10,9 +10,11 @@ export function CertificateCardHeading({ title, id, statuses }: { title: string;
           {title}
         </Link>
       </h3>
-      {[...new Set(statuses)].map((status) => (
-        <CertificateStatusBadge key={status} status={status} />
-      ))}
+      <div className="flex gap-1 [&:not(:last-child)]:mb-2.5">
+        {[...new Set(statuses)].map((status) => (
+          <CertificateStatusBadge key={status} status={status} />
+        ))}
+      </div>
     </div>
   )
 }

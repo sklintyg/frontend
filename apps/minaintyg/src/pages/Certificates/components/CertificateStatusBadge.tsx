@@ -17,7 +17,7 @@ export const getBadgeType = (status: CertificateStatus): ComponentProps<typeof I
 
 export function CertificateStatusBadge({ status }: { status: CertificateStatus }) {
   return (
-    <IDSBadge className="[&:not(:last-child)]:mb-2.5" type={getBadgeType(status)}>
+    <IDSBadge className="whitespace-nowrap" type={getBadgeType(status)}>
       {status}
     </IDSBadge>
   )

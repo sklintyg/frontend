@@ -16,6 +16,15 @@ exports[`Should render correctly 1`] = `
           Foo
         </a>
       </h3>
+      <div
+        class="flex gap-1 [&:not(:last-child)]:mb-2.5"
+      >
+        <ids-badge
+          class="whitespace-nowrap"
+        >
+          Nytt
+        </ids-badge>
+      </div>
     </div>
   </div>
 </body>
