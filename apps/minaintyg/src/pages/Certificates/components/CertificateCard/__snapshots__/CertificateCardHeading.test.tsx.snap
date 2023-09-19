@@ -16,11 +16,6 @@ exports[`Should render correctly 1`] = `
           Foo
         </a>
       </h3>
-      <ids-badge
-        class="[&:not(:last-child)]:mb-2.5"
-      >
-        Nytt
-      </ids-badge>
     </div>
   </div>
 </body>

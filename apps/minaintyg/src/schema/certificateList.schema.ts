@@ -16,7 +16,12 @@ export const certificateListEventSchema = z.object({
 })
 
 export const certificateListIssuerSchema = z.object({ name: z.string() })
-export const certificateUnitSchema = z.object({ name: z.string() })
+export const certificateUnitSchema = z.object({ id: z.string(), name: z.string() })
+export const certificateTypeSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  version: z.string(),
+})
 
 export const certificateListItemSchema = z.object({
   title: z.string(),
@@ -24,9 +29,10 @@ export const certificateListItemSchema = z.object({
   issuer: certificateListIssuerSchema,
   unit: certificateUnitSchema,
   events: z.array(certificateListEventSchema),
-  status: z.nativeEnum(CertificateStatus).nullable(),
+  statuses: z.array(z.nativeEnum(CertificateStatus)),
   certificateId: z.string(),
   timestamp: z.string().datetime(),
+  type: certificateTypeSchema,
 })
 
 export type CertificateListEvent = z.infer<typeof certificateListEventSchema>

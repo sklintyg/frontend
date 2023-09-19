@@ -6,12 +6,12 @@ import { CertificateCardHeading } from './CertificateCardHeading'
 import { CertificateCardInfo } from './CertificateCardInfo'
 import { CertificateCardSummary } from './CertificateCardSummary'
 
-export function CertificateCard({ certificateId, title, summary, issuer, timestamp, status, events }: CertificateListItem) {
+export function CertificateCard({ certificateId, title, summary, issuer, timestamp, statuses, events }: CertificateListItem) {
   const navigate = useNavigate()
 
   return (
     <IDSCard className="[&:not(:last-child)]:mb-5">
-      <CertificateCardHeading title={title} id={certificateId} status={status} />
+      <CertificateCardHeading title={title} id={certificateId} statuses={statuses} />
       <CertificateCardSummary summary={summary} timestamp={timestamp} />
       <CertificateCardInfo issuer={issuer} id={certificateId} />
 

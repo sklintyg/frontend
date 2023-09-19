@@ -18,7 +18,7 @@ export const handlers = [
       )
     )
   ),
-  rest.post('/api/certificates', (_, res, ctx) =>
+  rest.post('/api/certificate', (_, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json({

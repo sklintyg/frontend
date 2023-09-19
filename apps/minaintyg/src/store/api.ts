@@ -14,7 +14,7 @@ export const api = createApi({
       providesTags: ['User'],
     }),
     getCertificate: builder.query<{ content: CertificateListItem[] }, void>({
-      query: () => ({ url: 'certificates', method: 'POST' }),
+      query: () => ({ url: 'certificate', method: 'POST' }),
     }),
   }),
 })
