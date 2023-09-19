@@ -1,6 +1,7 @@
 import { faker } from '@frontend/fake'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
+import { mockViewport } from 'jsdom-testing-mocks'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
@@ -8,6 +9,10 @@ import { server } from './mocks/server'
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
+  visualViewport: {
+    ...mockViewport({ width: '1440px', height: '900px' }),
+    addEventListener: vi.fn(),
+  },
 })
 
 // Used by floating-ui
@@ -16,9 +21,6 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }))
-
-// extends Vitest's expect method with methods from react-testing-library
-expect.extend(matchers)
 
 // Establish API mocking before all tests.
 beforeAll(() => {

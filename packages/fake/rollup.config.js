@@ -1,5 +1,4 @@
 /* eslint-disable import/no-default-export */
-/* eslint-disable import/no-extraneous-dependencies */
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'

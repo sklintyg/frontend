@@ -9,7 +9,3 @@ export const ChevronDownIcon = ({ ...props }: ComponentProps<typeof SVGIcon>): R
     />
   </SVGIcon>
 )
-
-export const ChevronUpIcon = ({ style, ...props }: ComponentProps<typeof ChevronDownIcon>): React.ReactElement => (
-  <ChevronDownIcon style={{ transform: 'rotate(180deg)', ...style }} {...props} />
-)

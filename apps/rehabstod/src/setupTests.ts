@@ -1,5 +1,5 @@
 import { faker } from '@frontend/fake'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
@@ -24,9 +24,6 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }))
-
-// extends Vitest's expect method with methods from react-testing-library
-expect.extend(matchers)
 
 // Establish API mocking before all tests.
 beforeAll(() => {

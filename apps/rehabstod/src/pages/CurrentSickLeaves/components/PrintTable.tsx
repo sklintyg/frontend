@@ -1,54 +1,18 @@
 import { useEffect } from 'react'
-import { DiagnosisInfo } from '../../../components/DiagnosisInfo/DiagnosisInfo'
-import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
-import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
-import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
+import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
-import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
-import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
-
-function resolveRisk(riskSignal: RiskSignal) {
-  if (riskSignal.riskKategori === 1) {
-    return 'Måttlig'
-  }
-
-  if (riskSignal.riskKategori === 2) {
-    return 'Hög'
-  }
-
-  if (riskSignal.riskKategori === 3) {
-    return 'Mycket hög'
-  }
-
-  return 'Ej beräknad'
-}
-
-function ResolveTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
-  switch (column) {
-    case SickLeaveColumn.Diagnos:
-      return sickLeave.diagnos ? <DiagnosisInfo diagnosis={sickLeave.diagnos} biDiagnoses={sickLeave.biDiagnoser} /> : <>Okänt</>
-    case SickLeaveColumn.Slutdatum:
-      return <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
-    case SickLeaveColumn.Grad:
-      return <SickLeaveDegreeInfo degrees={sickLeave.grader} />
-    case SickLeaveColumn.Risk:
-      return <div>{sickLeave.riskSignal && resolveRisk(sickLeave.riskSignal)}</div>
-    case SickLeaveColumn.Ärenden:
-      return <>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</>
-    default:
-      return <>{getSickLeavesColumnData(column, sickLeave)}</>
-  }
-}
+import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 
 export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves?: SickLeaveInfo[]; showPersonalInformation: boolean }) {
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
   const [logPrintInteractionTrigger] = useLogPrintInteractionMutation()
+
   useEffect(() => {
     const logPrintInteraction = () => {
       logPrintInteractionTrigger({ sickLeaves })
@@ -58,9 +22,11 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
       window.removeEventListener('afterprint', logPrintInteraction)
     }
   })
+
   if (!sickLeaves) {
     return null
   }
+
   return (
     <div>
       {sortTableList(sickLeaves, getSickLeavesColumnData)?.map((sickLeave) => (
@@ -74,7 +40,7 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
                   <div key={name} className="flex gap-1">
                     <div className="w-5/12 font-bold">{name}:</div>
                     <div key={name} className="w-7/12 overflow-hidden text-ellipsis whitespace-normal">
-                      <ResolveTableCell column={name} sickLeave={sickLeave} />
+                      <ResolvePrintTableCell column={name} sickLeave={sickLeave} />
                     </div>
                   </div>
                 )

@@ -1,0 +1,77 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [main, 'project/**']
+
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" build
+
+      # Run coverage, linting and tests on changed files
+      # (Most likely to fail before comitting to runing all tests)
+      - name: Lint-staged
+        run: pnpm lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}" --allow-empty
+
+      # Run all tests for changed packages and dependencies
+      - name: Test
+        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test -- --coverage.enabled --coverage.reporter=text-summary
+
+  lint:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm --filter=@frontend/* build
+
+      - name: Typescript
+        run: pnpm --filter=@frontend/* typescript
+
+      - name: Format
+        run: pnpm prettier . --check --ignore-unknown
+
+      - name: Lint
+        uses: reviewdog/action-eslint@v1.18.2
