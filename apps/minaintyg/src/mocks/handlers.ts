@@ -2,6 +2,7 @@
 import { fakeCertificateLabel, faker, fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { certificateListItemSchema } from '../schema/certificateList.schema'
+import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
 
 export const handlers = [
@@ -33,5 +34,11 @@ export const handlers = [
         ),
       })
     )
+  ),
+
+  rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
+
+  rest.get('/api/testability/person', (_, res, ctx) =>
+    res(ctx.json({ testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)) }))
   ),
 ]

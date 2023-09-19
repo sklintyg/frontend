@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "test:ci": "vitest run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:no-watch": "vitest run",
     "test": "vitest",
@@ -32,9 +32,11 @@
     "type-fest": "^1.4.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^13.1.1",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@testing-library/jest-dom": "5",
+    "@testing-library/react": "11",
+    "@testing-library/user-event": "^13.5.0",
     "@types/dompurify": "^2.3.3",
     "@types/faker": "^5.5.9",
     "@types/lodash-es": "^4.17.7",
@@ -44,8 +46,7 @@
     "@types/react-dom": "^17.0.11",
     "@types/react-tooltip": "^4.2.4",
     "@types/styled-components": "^5.1.26",
-    "@types/testing-library__jest-dom": "^5.14.5",
-    "@vitest/coverage-c8": "^0.29.2",
+    "@types/testing-library__jest-dom": "5.14.5",
     "ctix": "^1.8.2",
     "eslint": "^8.42.0",
     "eslint-config-react": "workspace:*",
@@ -54,8 +55,11 @@
     "react": "^17.0.2",
     "react-datepicker": "^4.10.0",
     "react-dom": "^17.0.2",
+    "rollup": "^3.20.2",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-svg": "^2.0.0",
     "styled-components": "^5.3.11",
-    "vitest": "^0.29.2"
+    "vitest": "^0.34.3"
   },
   "peerDependencies": {
     "date-fns": "^2.16.1",

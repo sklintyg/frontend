@@ -1,7 +1,6 @@
 import { screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
-import { vi } from 'vitest'
 import { server, waitForRequest } from '../mocks/server'
 import { api } from '../store/api'
 import { store } from '../store/store'
@@ -53,6 +52,7 @@ describe('useLogout', () => {
     expect(screen.getByText('Welcome')).toBeInTheDocument()
   })
 
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('Should open siths logout URL for regular user', async () => {
     server.use(rest.get(`/api/user`, (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ authenticationScheme: 'other' })))))
     server.use(rest.post('/logout', (_, res, ctx) => res(ctx.status(302))))

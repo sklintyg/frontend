@@ -1,4 +1,3 @@
-import { classNames } from '@frontend/components'
 import { Key, useRef } from 'react'
 import {
   AriaListBoxProps,
@@ -8,66 +7,11 @@ import {
   ListKeyboardDelegate,
   mergeProps,
   useDraggableCollection,
-  useDraggableItem,
   useDroppableCollection,
-  useFocusRing,
   useListBox,
-  useOption,
 } from 'react-aria'
-import {
-  DraggableCollectionState,
-  DroppableCollectionState,
-  ListState,
-  Node,
-  useDraggableCollectionState,
-  useDroppableCollectionState,
-  useListState,
-} from 'react-stately'
-import { DropIndicator } from './DropIndicator'
-
-function ReorderableOption<T extends object>({
-  item,
-  state,
-  dragState,
-  dropState,
-}: {
-  item: Node<T>
-  state: ListState<T>
-  dragState: DraggableCollectionState
-  dropState: DroppableCollectionState
-}) {
-  const ref = useRef(null)
-  const { optionProps, isSelected, isDisabled } = useOption({ key: item.key }, state, ref)
-  const { isFocusVisible, focusProps } = useFocusRing()
-  const { dragProps } = useDraggableItem(
-    {
-      key: item.key,
-    },
-    dragState
-  )
-
-  return (
-    <>
-      <DropIndicator target={{ type: 'item', key: item.key, dropPosition: 'before' }} dropState={dropState} />
-      <div
-        role="option"
-        aria-selected={optionProps['aria-selected']}
-        {...mergeProps(optionProps, dragProps, focusProps)}
-        ref={ref}
-        className={classNames(
-          isSelected && 'bg-secondary-95',
-          isDisabled && 'text-neutral-40 italic',
-          isFocusVisible && 'outline-2 outline-black'
-        )}
-      >
-        {item.rendered}
-      </div>
-      {state.collection.getKeyAfter(item.key) == null && (
-        <DropIndicator target={{ type: 'item', key: item.key, dropPosition: 'after' }} dropState={dropState} />
-      )}
-    </>
-  )
-}
+import { useDraggableCollectionState, useDroppableCollectionState, useListState } from 'react-stately'
+import { ReorderableListBoxOption } from './ReorderableListBoxOption'
 
 export function ReorderableListBox<T extends object>({
   label,
@@ -113,7 +57,7 @@ export function ReorderableListBox<T extends object>({
       </div>
       <div role="listbox" {...mergeProps(listBoxProps, collectionProps)} ref={ref}>
         {[...state.collection].map((item) => (
-          <ReorderableOption key={item.key} item={item} state={state} dragState={dragState} dropState={dropState} />
+          <ReorderableListBoxOption key={item.key} item={item} state={state} dragState={dragState} dropState={dropState} />
         ))}
       </div>
     </>

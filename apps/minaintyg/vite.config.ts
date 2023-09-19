@@ -5,8 +5,7 @@ import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
-  process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
-
+  Object.assign(process.env, loadEnv(mode ?? 'development', process.cwd()))
   const https = process.env.VITE_HTTPS === 'true'
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
@@ -35,40 +34,6 @@ export default ({ mode }: UserConfig) => {
       proxy,
       strictPort: true,
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
-    },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/setupTests.ts'],
-      silent: process.env.CI === 'true',
-      deps: {
-        inline: ['@inera/ids-core', 'handy-scroll'],
-      },
-      coverage: {
-        reporter: ['text', 'json', 'lcov'],
-        all: true,
-        exclude: [
-          'coverage/**',
-          'dist/**',
-          'packages/*/test?(s)/**',
-          '**/*.d.ts',
-          '**/virtual:*',
-          '**/__x00__*',
-          '**/\x00*',
-          'cypress/**',
-          'test?(s)/**',
-          'test?(-*).?(c|m)[jt]s?(x)',
-          '**/*{.,-}{test,spec}.?(c|m)[jt]s?(x)',
-          '**/__tests__/**',
-          '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
-          '**/vitest.{workspace,projects}.[jt]s?(on)',
-          '**/.{eslint,mocha,prettier}rc.{?(c|m)js,yml}',
-          'public/**',
-          '**/*.cjs',
-          'vite.config.ts',
-          'src/mocks/**',
-        ],
-      },
     },
   })
 }

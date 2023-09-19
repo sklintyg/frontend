@@ -1,21 +1,21 @@
 import { IDSIconArrow } from '@frontend/ids-react-ts'
+import { classNames } from '@frontend/components'
 
-export function SickLeaveDegreeInfo({ degrees }: { degrees: number[] }) {
-  const hasSeveralDegrees = degrees.length > 1
-
+export function SickLeaveDegreeInfo({ degrees, activeDegree }: { degrees: number[]; activeDegree?: number }) {
   if (degrees.length === 0) {
     return <span>Okänt</span>
   }
 
   return (
     <div className="flex gap-1 whitespace-nowrap">
-      <span>{degrees[0]}%</span>
-      {hasSeveralDegrees && (
+      {degrees.map((degree, index) => (
         <>
-          <IDSIconArrow size="xs" className="my-auto" color="currentColor" color2="currentColor" />
-          <span className="font-bold">{degrees[degrees.length - 1]}%</span>
+          {index > 0 && <IDSIconArrow size="xs" className="my-auto" color="currentColor" color2="currentColor" />}
+          <span className={classNames(activeDegree === degree && 'font-bold')} key={`degree${degree}`}>
+            {degree}%
+          </span>
         </>
-      )}
+      ))}
     </div>
   )
 }
