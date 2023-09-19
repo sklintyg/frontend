@@ -42,7 +42,7 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
   },
-  ignorePatterns: ['dist/**', '**/dist/**'],
+  ignorePatterns: ['dist/**', '**/dist/**', 'public/**', '**/public/**'],
   settings: {
     jest: {
       version: 29,
