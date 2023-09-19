@@ -93,7 +93,13 @@ vitest is used for executing tests.
 
 To run tests in all packages `pnpm test`
 
-To run tests in a perticular workspace `pnpm --filter <name of workspace> test`
+To run tests in all packages with ui `pnpm test:ui`
+
+To run any perticular test `pnpm test /{apps, packages}/<name of application/something.test.ts`
+
+To run tests in a perticular package `pnpm --filter <package_name> test`
+
+Read more about [filtering](https://pnpm.io/filtering)
 
 ### Writing tests
 
