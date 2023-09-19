@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
@@ -7,7 +7,6 @@ import logo from '../components/header/webcert_logo.png'
 import SystemBanners from '../components/notification/SystemBanners'
 import image from '../images/webcert_bild_react.png'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
-import { LoggedInUserRedirect } from '../utils/LoggedInUserRedirect'
 
 const Root = styled.div`
   height: 100vh;
@@ -79,9 +78,3 @@ export const StartPage: React.FC = () => {
     </Root>
   )
 }
-
-export const StartPageWithRedirect: React.FC<ComponentProps<typeof StartPage>> = (props) => (
-  <LoggedInUserRedirect>
-    <StartPage {...props} />
-  </LoggedInUserRedirect>
-)

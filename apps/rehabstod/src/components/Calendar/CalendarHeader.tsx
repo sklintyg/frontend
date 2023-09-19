@@ -1,18 +1,6 @@
 import { IDSIconChevron } from '@frontend/ids-react-ts'
-import { useRef } from 'react'
-import { AriaButtonProps, useButton } from 'react-aria'
-
-function CalendarButton(props: AriaButtonProps) {
-  const ref = useRef<HTMLButtonElement>(null)
-  const { buttonProps } = useButton(props, ref)
-  const { children } = props
-
-  return (
-    <button type="button" {...buttonProps} ref={ref} className="px-3">
-      {children}
-    </button>
-  )
-}
+import { AriaButtonProps } from 'react-aria'
+import { CalendarButton } from './CalendarButton'
 
 export function CalendarHeader({
   prevButtonProps,
