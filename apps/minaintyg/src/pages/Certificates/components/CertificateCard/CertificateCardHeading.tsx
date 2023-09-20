@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { CertificateStatus } from '../../../../schema/certificateList.schema'
 import { CertificateStatusBadge } from '../CertificateStatusBadge'
 
 export function CertificateCardHeading({ title, id, statuses }: { title: string; id: string; statuses: CertificateStatus[] }) {
