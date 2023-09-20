@@ -5,9 +5,8 @@ export function CertificateCardEventsInfo({ events }: { events: CertificateListE
   const { datetime } = useFormat()
   return (
     <div>
-      <div className="font-bold">
-        Senaste händelser (visar {events.length} av {events.length} händelser)
-      </div>
+      <div className="font-bold">Senaste händelser</div>
+      {events.length === 0 && <span>Inga händelser</span>}
       {events.map(({ timestamp, description }) => (
         <div key={timestamp}>
           {datetime(timestamp)} {description}
