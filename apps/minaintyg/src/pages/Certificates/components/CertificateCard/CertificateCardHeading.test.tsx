@@ -7,7 +7,7 @@ it('Should render correctly', () => {
   const { baseElement } = render(
     <MemoryRouter>
       <Routes>
-        <Route path="/" element={<CertificateCardHeading title="Foo" id="123" statuses={[CertificateStatusEnum.NEW]} />} />
+        <Route path="/" element={<CertificateCardHeading title="Foo" id="123" statuses={[CertificateStatusEnum.enum.NEW]} />} />
       </Routes>
     </MemoryRouter>
   )
