@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { fakeCertificate, fakeCertificateLabel, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, faker, fakerFromSchema } from '@frontend/fake'
 import { format, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
 import { CertificateStatus, certificateListItemSchema } from '../schema/certificateList.schema'
@@ -30,18 +30,13 @@ export const handlers = [
           const endDate = parseISO(timestamp)
           const certificate = fakeCertificate()
 
-          return fakerFromSchema(certificateListItemSchema, {
-            stringMap: {
-              title: fakeCertificateLabel,
-              certificateId: faker.datatype.uuid,
-              timestamp: () => timestamp,
-            },
-          })({
+          return fakerFromSchema(certificateListItemSchema)({
+            issued: timestamp,
             type: { id: certificate.id, name: certificate.label, version: '1' },
             statuses: faker.helpers.arrayElements(Object.values(CertificateStatus), faker.datatype.number({ min: 1, max: 2 })),
             summary: faker.helpers.arrayElement([
-              { label: 'intygsperiod', value: `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}` },
-              { label: 'diagnos', value: 'Downs syndrom' },
+              { label: 'Gäller intygsperiod', value: `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}` },
+              { label: 'Avser diagnos', value: 'Downs syndrom' },
             ]),
           })
         }),
