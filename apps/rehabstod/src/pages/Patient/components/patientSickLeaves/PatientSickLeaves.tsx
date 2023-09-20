@@ -27,8 +27,11 @@ export function PatientSickLeaves() {
   const currentSickLeaves = sickLeaves.filter(({ slut }) => !isDateBeforeToday(slut))
   const earlierSickLeaves = sickLeaves.filter(({ slut }) => isDateBeforeToday(slut))
   const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
-  const firstCertificate = currentSickness ? currentSickness.intyg[0] : null
+  const firstActiveCertificate = currentSickness ? currentSickness.intyg[0] : null
   const isDoctor = user ? isUserDoctor(user) : false
+  const firstCertificate =
+    patient && patient.sjukfallList.length > 0 && patient.sjukfallList[0].intyg.length > 0 ? patient.sjukfallList[0].intyg[0] : undefined
+  const patientId = firstCertificate ? firstCertificate.patient.id : ''
 
   return (
     <div>
@@ -39,7 +42,7 @@ export function PatientSickLeaves() {
               currentSickLeaves={currentSickLeaves}
               earlierSickLeaves={earlierSickLeaves}
               isDoctor={isDoctor}
-              patientId={firstCertificate ? firstCertificate.patient.id : ''}
+              patientId={patientId}
             />
             <div className="lg:w-96">
               <ModifyPatientTableColumns />
@@ -53,11 +56,11 @@ export function PatientSickLeaves() {
         <PatientSickLeavesTable sickLeaves={currentSickLeaves} isDoctor={isDoctor} title="Pågående sjukfall">
           <PatientOverview
             sjfMetaData={patient?.sjfMetaData}
-            patientId={firstCertificate ? firstCertificate.patient.id : ''}
+            patientId={firstActiveCertificate ? firstActiveCertificate.patient.id : ''}
             isPersonResponseMissing={
-              firstCertificate
-                ? firstCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
-                  firstCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
+              firstActiveCertificate
+                ? firstActiveCertificate.patient.responseFromPu === PuResponse.NOT_FOUND ||
+                  firstActiveCertificate.patient.responseFromPu === PuResponse.FOUND_NO_NAME
                 : false
             }
             encryptedPatientId={encryptedPatientId || ''}
