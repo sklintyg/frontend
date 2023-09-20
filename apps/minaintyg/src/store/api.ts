@@ -13,10 +13,13 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    getCertificate: builder.query<{ content: CertificateListItem[] }, void>({
+    getCertificates: builder.query<{ content: CertificateListItem[] }, void>({
       query: () => ({ url: 'certificate', method: 'POST' }),
+    }),
+    getCertificate: builder.query<{ content: string }, { id: string }>({
+      query: ({ id }) => `certificate/${id}`,
     }),
   }),
 })
 
-export const { useGetUserQuery, useGetCertificateQuery } = api
+export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificateQuery } = api

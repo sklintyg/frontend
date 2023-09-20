@@ -12,3 +12,28 @@ ids-textarea textarea {
   padding: 0.75rem 1.25rem;
   border-width: 1px;
 }
+
+.ids-certificate p,
+.ids-certificate ul,
+.ids-certificate table {
+  margin-bottom: 0.625rem;
+}
+
+.ids-certificate section {
+  margin-bottom: 2.5rem;
+}
+
+.ids-certificate ul {
+  list-style-type: disc;
+  padding-inline-start: 40px;
+}
+
+.ids-certificate table {
+  width: 100%;
+}
+
+.ids-certificate .ids-heading-4,
+.ids-certificate .ids-heading-5,
+.ids-certificate .ids-heading-6 {
+  margin-bottom: 0.3125rem !important;
+}

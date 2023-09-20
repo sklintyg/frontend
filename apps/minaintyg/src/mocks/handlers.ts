@@ -5,6 +5,7 @@ import { rest } from 'msw'
 import { CertificateStatus, certificateListItemSchema } from '../schema/certificateList.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
+import { certificateContentMock } from './certificateContentMock'
 
 export const handlers = [
   rest.get('/api/user', (_, res, ctx) =>
@@ -46,6 +47,8 @@ export const handlers = [
       })
     )
   ),
+
+  rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: certificateContentMock }))),
 
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
 

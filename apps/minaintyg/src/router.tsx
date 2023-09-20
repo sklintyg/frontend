@@ -1,5 +1,6 @@
 import { createBrowserRouter, createRoutesFromChildren, Navigate, Route } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
+import { CertificatePage } from './pages/Certificate/CertificatePage'
 import { Certificates } from './pages/Certificates/Certificates'
 import { Home } from './pages/Home/Home'
 import { Welcome } from './pages/Welcome/Welcome'
@@ -15,7 +16,7 @@ export const router = createBrowserRouter(
           handle={{
             crumb: ({ id }: { id: string }) => id,
           }}
-          element={<p>Intyget</p>}
+          element={<CertificatePage />}
         />
       </Route>
     </Route>,

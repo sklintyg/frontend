@@ -2,14 +2,14 @@ import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { useGetCertificateQuery } from '../../store/api'
+import { useGetCertificatesQuery } from '../../store/api'
 import { CertificateList } from './components/CertificateList'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
-  const { isLoading, data } = useGetCertificateQuery()
+  const { isLoading, data } = useGetCertificatesQuery()
 
   return (
     <>
