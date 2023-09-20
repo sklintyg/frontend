@@ -8,7 +8,7 @@ import { CertificateCard } from './CertificateCard'
 it('Should navigate to certificate from button', async () => {
   const certificate = fakerFromSchema(certificateListItemSchema)({
     type: { name: 'Certificate Title' },
-    certificateId: '1234',
+    id: '1234',
     summary: undefined,
   })
   render(

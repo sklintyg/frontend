@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export enum CertificateStatus {
   NEW = 'Nytt',
-  REPLACE = 'Ersätter intyg',
+  REPLACED = 'Ersätter intyg',
   SENT = 'Skickat',
   NOT_SENT = 'Ej skickat',
 }
@@ -29,7 +29,7 @@ export const certificateListItemSchema = z.object({
   unit: certificateUnitSchema,
   events: z.array(certificateListEventSchema),
   statuses: z.array(z.nativeEnum(CertificateStatus)),
-  certificateId: z.string(),
+  id: z.string(),
   issued: z.string().datetime(),
   type: certificateTypeSchema,
 })

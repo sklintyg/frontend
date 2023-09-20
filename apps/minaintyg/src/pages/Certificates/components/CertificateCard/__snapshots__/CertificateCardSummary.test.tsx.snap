@@ -12,16 +12,11 @@ exports[`Should render correctly with summary 1`] = `
         <span
           class="font-bold"
         >
-          Avser 
+          Gäller intygsperiod
+          :
         </span>
-        <span>
-          <span
-            class="font-bold"
-          >
-            :
-          </span>
-           
-        </span>
+         
+        2023-05-09 - 2023-06-23
       </p>
       <div
         class="flex flex-col md:flex-row md:gap-1.5"
@@ -46,23 +41,6 @@ exports[`Should render correctly without summary 1`] = `
     <div
       class="mb-2.5 flex flex-col place-content-end gap-2.5 md:mb-5 md:flex-row md:border-b md:pb-5"
     >
-      <p
-        class="grow"
-      >
-        <span
-          class="font-bold"
-        >
-          Avser 
-        </span>
-        <span>
-          <span
-            class="font-bold"
-          >
-            :
-          </span>
-           
-        </span>
-      </p>
       <div
         class="flex flex-col md:flex-row md:gap-1.5"
       >

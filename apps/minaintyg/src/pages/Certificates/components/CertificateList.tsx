@@ -12,7 +12,7 @@ export function CertificateList({ certificates, order = 'descending' }: { certif
         <div key={year} className="[&:not(:last-child)]:mb-10" data-testid={`${year}-certificates`}>
           <h2 className="ids-heading-2 mb-5">{year}</h2>
           {list.map((certificate) => (
-            <CertificateCard key={certificate.certificateId} {...certificate} />
+            <CertificateCard key={certificate.id} {...certificate} />
           ))}
         </div>
       ))}
