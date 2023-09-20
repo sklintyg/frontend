@@ -20,5 +20,5 @@ it('Should return error for certificate status "not sent"', () => {
 })
 
 it('Should return secondary for certificate status "replace"', () => {
-  expect(getBadgeType(CertificateStatus.REPLACE)).toBe('secondary')
+  expect(getBadgeType(CertificateStatus.REPLACED)).toBe('secondary')
 })
