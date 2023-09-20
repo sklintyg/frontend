@@ -32,7 +32,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" build
+        run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." build
 
       # Run coverage, linting and tests on changed files
       # (Most likely to fail before comitting to runing all tests)
@@ -41,7 +41,7 @@ jobs:
 
       # Run all tests for changed packages and dependencies
       - name: Test
-        run: pnpm --filter="...[origin/${GITHUB_BASE_REF}]" test -- --coverage.enabled --coverage.reporter=text-summary
+        run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." test -- --coverage.enabled --coverage.reporter=text-summary
 
   lint:
     timeout-minutes: 15
