@@ -232,3 +232,42 @@ exports[`Should render as expected 1`] = `
   </div>
 </body>
 `;
+
+exports[`Should render without header when user is not logged in 1`] = `
+<body>
+  <div>
+    <div
+      class="flex min-h-screen flex-col"
+    >
+      <ids-header
+        class="z-40 bg-white print:hidden"
+        type="1177"
+      />
+      <main
+        class="flex-1"
+      >
+        <div
+          class="ids-content m-auto max-w-7xl p-5"
+        >
+          <div
+            class="mb-5"
+          >
+            <ids-breadcrumbs />
+          </div>
+          <p>
+            FooBar
+          </p>
+        </div>
+      </main>
+      <ids-footer
+        class="print:hidden ids-type-1177"
+        cols="3"
+        linkcol1="2"
+        linkcol2="2"
+        linkcol3="2"
+        type="1177"
+      />
+    </div>
+  </div>
+</body>
+`;
