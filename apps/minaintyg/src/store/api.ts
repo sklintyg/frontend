@@ -22,4 +22,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificateQuery } = api
+export const { useGetUserQuery, useGetCertificatesQuery } = api
