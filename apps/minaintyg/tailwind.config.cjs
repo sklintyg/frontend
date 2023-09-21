@@ -17,6 +17,13 @@ module.exports = {
         base: 'var(--color-sky-base)',
         clear: 'var(--color-sky-clear)',
       },
+      stone: {
+        dark: 'var(--color-sten-dark)',
+        base: 'var(--color-sten-base)',
+        clear: 'var(--color-sten-clear)',
+        line: 'var(--color-sten-line)',
+        background: 'var(--color-sten-background)',
+      },
       accent: {
         30: 'var(--IDS-COLOR-ACCENT-30)',
         40: 'var(--IDS-COLOR-ACCENT-40)',

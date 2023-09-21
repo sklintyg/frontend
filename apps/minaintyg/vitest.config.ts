@@ -10,9 +10,9 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'lcov'],
       branches: 80,
-      lines: 75,
-      functions: 60,
-      statements: 75,
+      lines: 80,
+      functions: 80,
+      statements: 80,
     },
     deps: {
       inline: ['@inera/ids-core', 'handy-scroll'],

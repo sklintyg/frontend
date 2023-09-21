@@ -6,8 +6,6 @@ import { defineConfig, UserConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
   Object.assign(process.env, loadEnv(mode ?? 'development', process.cwd()))
-  // process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
-
   const https = process.env.VITE_HTTPS === 'true'
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'

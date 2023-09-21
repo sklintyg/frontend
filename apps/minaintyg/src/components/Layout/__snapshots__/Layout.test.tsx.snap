@@ -159,8 +159,13 @@ exports[`Should render as expected 1`] = `
         class="flex-1"
       >
         <div
-          class="ids-content m-auto max-w-7xl py-10 px-2.5"
+          class="ids-content m-auto max-w-7xl p-5"
         >
+          <div
+            class="mb-5"
+          >
+            <ids-breadcrumbs />
+          </div>
           <p>
             FooBar
           </p>
