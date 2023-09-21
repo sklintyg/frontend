@@ -10,7 +10,3 @@ export const ArrowIcon = ({ ...props }: ComponentProps<typeof SVGIcon>): React.R
     />
   </SVGIcon>
 )
-
-export const ArrowLeftIcon = ({ style, ...props }: ComponentProps<typeof ArrowIcon>): React.ReactElement => (
-  <ArrowIcon style={{ transform: 'rotate(180deg)', ...style }} {...props} />
-)

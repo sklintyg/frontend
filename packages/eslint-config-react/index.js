@@ -12,5 +12,6 @@ module.exports = {
   ],
   rules: {
     'react/require-default-props': 'off',
+    'react/no-multi-comp': 'error',
   },
 }

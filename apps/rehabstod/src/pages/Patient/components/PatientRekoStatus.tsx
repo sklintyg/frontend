@@ -39,6 +39,10 @@ export function PatientRekoStatus({
     return null
   }
 
+  if (!patientId) {
+    return null
+  }
+
   return (
     <div className="w-full lg:w-64">
       <SelectRekoStatus
