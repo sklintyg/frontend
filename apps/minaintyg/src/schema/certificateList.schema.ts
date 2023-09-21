@@ -1,13 +1,8 @@
 import { z } from 'zod'
 
-export enum CertificateStatus {
-  NEW = 'Nytt',
-  REPLACE = 'Ersätter intyg',
-  SENT = 'Skickat',
-  NOT_SENT = 'Ej skickat',
-}
+export const CertificateStatusEnum = z.enum(['NEW', 'REPLACED', 'SENT', 'NOT_SENT'])
 
-export const certificateListSummarySchema = z.array(z.tuple([z.string(), z.string()]))
+export const certificateListSummarySchema = z.object({ label: z.string(), value: z.string() }).optional()
 
 export const certificateListEventSchema = z.object({
   timestamp: z.string().datetime(),
@@ -24,14 +19,13 @@ export const certificateTypeSchema = z.object({
 })
 
 export const certificateListItemSchema = z.object({
-  title: z.string(),
   summary: certificateListSummarySchema,
   issuer: certificateListIssuerSchema,
   unit: certificateUnitSchema,
   events: z.array(certificateListEventSchema),
-  statuses: z.array(z.nativeEnum(CertificateStatus)),
-  certificateId: z.string(),
-  timestamp: z.string().datetime(),
+  statuses: z.array(CertificateStatusEnum),
+  id: z.string(),
+  issued: z.string().datetime(),
   type: certificateTypeSchema,
 })
 
@@ -40,3 +34,4 @@ export type CertificateListIssuer = z.infer<typeof certificateListIssuerSchema>
 export type CertificateListUnit = z.infer<typeof certificateUnitSchema>
 export type CertificateListSummary = z.infer<typeof certificateListSummarySchema>
 export type CertificateListItem = z.infer<typeof certificateListItemSchema>
+export type CertificateStatus = z.infer<typeof CertificateStatusEnum>

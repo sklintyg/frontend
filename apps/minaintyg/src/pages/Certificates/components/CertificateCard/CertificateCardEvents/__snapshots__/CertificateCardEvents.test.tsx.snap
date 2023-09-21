@@ -33,11 +33,7 @@ exports[`Should render correctly 1`] = `
           <div
             class="font-bold"
           >
-            Senaste händelser (visar 
-            3
-             av 
-            3
-             händelser)
+            Senaste händelser
           </div>
           <div>
             2023-09-06 11:00
@@ -64,11 +60,7 @@ exports[`Should render correctly 1`] = `
         <div
           class="font-bold"
         >
-          Senaste händelser (visar 
-          3
-           av 
-          3
-           händelser)
+          Senaste händelser
         </div>
         <div>
           2023-09-06 11:00

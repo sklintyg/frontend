@@ -6,7 +6,11 @@ import { certificateListItemSchema } from '../../../../schema/certificateList.sc
 import { CertificateCard } from './CertificateCard'
 
 it('Should navigate to certificate from button', async () => {
-  const certificate = fakerFromSchema(certificateListItemSchema)({ title: 'Certificate Title', certificateId: '1234', summary: [] })
+  const certificate = fakerFromSchema(certificateListItemSchema)({
+    type: { name: 'Certificate Title' },
+    id: '1234',
+    summary: undefined,
+  })
   render(
     <MemoryRouter initialEntries={['/intyg']}>
       <Routes>

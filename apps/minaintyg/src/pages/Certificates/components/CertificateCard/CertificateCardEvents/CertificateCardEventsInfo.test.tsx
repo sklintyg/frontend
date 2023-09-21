@@ -1,9 +1,14 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { certificateListEventSchema } from '../../../../../schema/certificateList.schema'
-import { CertificateCardEvents } from './CertificateCardEvents'
+import { CertificateCardEventsInfo } from './CertificateCardEventsInfo'
 
-it('Should display number of shown events', () => {
-  render(<CertificateCardEvents events={Array.from({ length: 3 }, fakerFromSchema(certificateListEventSchema))} />)
-  expect(screen.getAllByText('Senaste händelser (visar 3 av 3 händelser)')).toHaveLength(2)
+it('Should display header', () => {
+  render(<CertificateCardEventsInfo events={Array.from({ length: 3 }, fakerFromSchema(certificateListEventSchema))} />)
+  expect(screen.getByText('Senaste händelser')).toBeInTheDocument()
+})
+
+it('Should display information when there are no events', () => {
+  render(<CertificateCardEventsInfo events={[]} />)
+  expect(screen.getByText('Inga händelser')).toBeInTheDocument()
 })

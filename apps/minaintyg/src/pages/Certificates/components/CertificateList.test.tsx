@@ -16,9 +16,9 @@ function renderComponent(props: ComponentProps<typeof CertificateList>) {
 }
 describe('Group and sort by year', () => {
   const certificates = [
-    fakeCertificate({ timestamp: '2021-01-01' }),
-    fakeCertificate({ timestamp: '2022-01-01' }),
-    fakeCertificate({ timestamp: '2023-01-01' }),
+    fakeCertificate({ issued: '2021-01-01' }),
+    fakeCertificate({ issued: '2022-01-01' }),
+    fakeCertificate({ issued: '2023-01-01' }),
   ]
 
   it('Should sort certificates by year in descending order', () => {
@@ -44,10 +44,10 @@ describe('Group and sort by year', () => {
 
 describe('Sort certificates', () => {
   const certificates = [
-    fakeCertificate({ timestamp: '2022-01-01', title: 'Certificate A' }),
-    fakeCertificate({ timestamp: '2022-02-02', title: 'Certificate B' }),
-    fakeCertificate({ timestamp: '2022-02-01', title: 'Certificate C' }),
-    fakeCertificate({ timestamp: '2023-01-01', title: 'Certificate D' }),
+    fakeCertificate({ issued: '2022-01-01', type: { name: 'Certificate A' } }),
+    fakeCertificate({ issued: '2022-02-02', type: { name: 'Certificate B' } }),
+    fakeCertificate({ issued: '2022-02-01', type: { name: 'Certificate C' } }),
+    fakeCertificate({ issued: '2023-01-01', type: { name: 'Certificate D' } }),
   ]
 
   it('Should sort certificates in descending order per year', () => {

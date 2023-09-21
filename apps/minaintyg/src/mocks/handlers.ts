@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { fakeCertificateLabel, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, faker, fakerFromSchema } from '@frontend/fake'
 import { format, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
-import { CertificateStatus, certificateListItemSchema } from '../schema/certificateList.schema'
+import { CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
 import { certificateContentMock } from './certificateContentMock'
@@ -29,18 +29,15 @@ export const handlers = [
           const timestamp = faker.date.between('2021-01-01T00:00:00.000Z', new Date().toISOString()).toISOString()
           const startDate = subDays(parseISO(timestamp), faker.datatype.number({ min: 1, max: 120 }))
           const endDate = parseISO(timestamp)
+          const certificate = fakeCertificate()
 
-          return fakerFromSchema(certificateListItemSchema, {
-            stringMap: {
-              title: fakeCertificateLabel,
-              certificateId: faker.datatype.uuid,
-              timestamp: () => timestamp,
-            },
-          })({
-            statuses: faker.helpers.arrayElements(Object.values(CertificateStatus), faker.datatype.number({ min: 1, max: 2 })),
-            summary: faker.helpers.arrayElements([
-              ['intygsperiod', `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}`],
-              ['diagnos', 'Downs syndrom'],
+          return fakerFromSchema(certificateListItemSchema)({
+            issued: timestamp,
+            type: { id: certificate.id, name: certificate.label, version: '1' },
+            statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+            summary: faker.helpers.arrayElement([
+              { label: 'Gäller intygsperiod', value: `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}` },
+              { label: 'Avser diagnos', value: 'Downs syndrom' },
             ]),
           })
         }),
