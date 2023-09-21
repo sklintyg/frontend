@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
@@ -21,33 +22,40 @@ export function LayoutHeader() {
 
   return (
     <IDSHeader type="1177" hideregionpicker className="z-40 bg-white print:hidden">
-      <IDSHeaderAvatar username={user?.personName ?? ''}>
-        <button type="button" slot="avatar-left">
-          Inställningar
-        </button>
-        <button type="button" slot="avatar-right" onClick={logout}>
-          Logga ut
-        </button>
-      </IDSHeaderAvatar>
-      <IDSHeaderNav>
-        {links.map(({ title, path }) => (
-          <HeaderNavItem key={path} to={path} title={title} />
-        ))}
+      {user && (
+        <>
+          <IDSHeaderAvatar username={user?.personName ?? ''}>
+            <button type="button" slot="avatar-left">
+              Inställningar
+            </button>
+            <button type="button" slot="avatar-right" onClick={logout}>
+              Logga ut
+            </button>
+          </IDSHeaderAvatar>
 
-        <IDSHeaderMobileItem>
-          <Link to="/installningar">Inställningar</Link>
-        </IDSHeaderMobileItem>
-        <IDSHeaderMobileItem>
-          <Link to="/logout">Logga ut</Link>
-        </IDSHeaderMobileItem>
+          <IDSHeaderNav>
+            {links.map(({ title, path }) => (
+              <HeaderNavItem key={path} to={path} title={title} />
+            ))}
 
-        <IDSHeaderMobileMenu type="1177">
-          Meny
-          {links.map(({ title, path }) => (
-            <MobileMenuItem key={path} to={path} title={title} />
-          ))}
-        </IDSHeaderMobileMenu>
-      </IDSHeaderNav>
+            <IDSHeaderMobileItem>
+              <Link to="/installningar">Inställningar</Link>
+            </IDSHeaderMobileItem>
+            <IDSHeaderMobileItem>
+              <a href="#" onClick={logout}>
+                Logga ut
+              </a>
+            </IDSHeaderMobileItem>
+
+            <IDSHeaderMobileMenu type="1177">
+              Meny
+              {links.map(({ title, path }) => (
+                <MobileMenuItem key={path} to={path} title={title} />
+              ))}
+            </IDSHeaderMobileMenu>
+          </IDSHeaderNav>
+        </>
+      )}
     </IDSHeader>
   )
 }

@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSButton, IDSSpinner } from '@frontend/ids-react-ts'
 import { useGetUserQuery } from '../../store/api'
 
 export function Home() {
@@ -9,7 +9,7 @@ export function Home() {
   }
 
   if (!user) {
-    return <p>Inte inloggad</p>
+    return <IDSButton onClick={() => window.open('/login/saml2/sso/eleg', '_self')}>Logga in</IDSButton>
   }
 
   return <p>Inloggad som: {user.personName}</p>
