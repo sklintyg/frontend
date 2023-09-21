@@ -5,13 +5,13 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { server } from '../../../../mocks/server'
-import { CertificateStatus } from '../../../../schema/certificateList.schema'
+import { CertificateStatusEnum } from '../../../../schema/certificateList.schema'
 import { certificateFilterOptionsSchema } from '../../../../schema/certificateListFilter.schema'
 import { store } from '../../../../store/store'
 import { CertificateListFilter } from './CertificateListFilter'
 
 const options = {
-  statuses: Object.values(CertificateStatus),
+  statuses: CertificateStatusEnum.options,
   certificateTypes: faker.helpers.uniqueArray(fakeCertificateId, 4),
   units: faker.helpers.uniqueArray(faker.company.name, 4),
   years: ['2023', '2022', '2021', '2020'],
@@ -39,7 +39,7 @@ describe('Options from API', () => {
       (within(screen.getByLabelText(name)).getByRole('option', { name: `Välj ${name.toLowerCase()}` }) as HTMLOptionElement).selected
     ).toBe(true)
     waitFor(() => {
-      expect(within(screen.getByLabelText(name)).getAllByRole('option').length).toBe(Object.values(CertificateStatus).length + 1)
+      expect(within(screen.getByLabelText(name)).getAllByRole('option').length).toBe(CertificateStatusEnum.options.length + 1)
     })
   })
 })

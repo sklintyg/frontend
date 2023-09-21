@@ -3,7 +3,7 @@
 import { fakeCertificate, fakeCertificateId, fakeCertificateLabel, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
-import { CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
+import { CertificateStatus, CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
@@ -64,7 +64,7 @@ export const handlers = [
         fakerFromSchema(certificateFilterOptionsSchema)({
           total: certificates.length,
           years: Array.from(new Set(certificates.map(({ issued }) => getYear(parseISO(issued)).toString()))),
-          // statuses: Array.from(new Set(certificates.map(({ status }) => status))).filter(Boolean) as CertificateStatus[],
+          statuses: Array.from(new Set(certificates.map(({ statuses }) => statuses).flat())).filter(Boolean) as CertificateStatus[],
           certificateTypes: faker.helpers.uniqueArray(() => fakeCertificateId().toUpperCase(), certificates.length),
           units: faker.helpers.uniqueArray(faker.company.name, certificates.length),
         })

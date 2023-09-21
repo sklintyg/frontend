@@ -15,7 +15,7 @@ export const api = createApi({
       providesTags: ['User'],
     }),
     getCertificates: builder.query<{ content: CertificateListItem[] }, Partial<CertificateSelectedOptions>>({
-      query: (body) => ({ url: 'certificates', method: 'POST', body }),
+      query: (body) => ({ url: 'certificate', method: 'POST', body }),
     }),
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filter-certificate',
@@ -23,4 +23,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetUserQuery, useGetCertificatesQuery } = api
+export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificatesFilterQuery } = api
