@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { CertificateListItem } from '../schema/certificateList.schema'
 import { CertificateFilterOptions, CertificateSelectedOptions } from '../schema/certificateListFilter.schema'
+import { User } from '../schema/user.schema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -9,6 +10,10 @@ export const api = createApi({
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
+    getUser: builder.query<User, void>({
+      query: () => 'user',
+      providesTags: ['User'],
+    }),
     getCertificates: builder.query<{ content: CertificateListItem[] }, Partial<CertificateSelectedOptions>>({
       query: (body) => ({ url: 'certificates', method: 'POST', body }),
     }),
@@ -18,4 +23,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetCertificatesQuery, useGetCertificatesFilterQuery } = api
+export const { useGetUserQuery, useGetCertificatesQuery } = api

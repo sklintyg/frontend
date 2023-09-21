@@ -5,7 +5,7 @@ import { ReactNode, useState } from 'react'
 export function PageHeading({ heading, children }: { heading: string; children: ReactNode }) {
   const [clamped, setClamped] = useState(true)
   return (
-    <div className="ids-content mb-7">
+    <header className="ids-content mb-7">
       <h1 className="ids-heading-1">{heading}</h1>
       <p data-clamped={clamped} className={classNames('ids-preamble mb-2', clamped && 'line-clamp-5 md:line-clamp-none')}>
         {children}
@@ -21,6 +21,6 @@ export function PageHeading({ heading, children }: { heading: string; children: 
           <span className="underline">Visa mer text</span>
         </button>
       )}
-    </div>
+    </header>
   )
 }

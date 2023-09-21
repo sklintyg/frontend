@@ -1,16 +1,8 @@
 import { classNames } from '@frontend/components'
-import { Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts'
-import { TooltipWrapper } from '../../../../components/Tooltip/TooltipWrapper'
+import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { ChartLegend } from './ChartLegend'
-
-function CustomTooltip({ payload }: TooltipProps<string, string>) {
-  if (payload && payload.length > 0) {
-    return <TooltipWrapper>{payload[0].payload.tooltip}</TooltipWrapper>
-  }
-
-  return null
-}
+import { PieChartGraphTooltip } from './PieChartGraphTooltip'
 
 export function PieChartGraph({
   data,
@@ -44,7 +36,7 @@ export function PieChartGraph({
                 labelLine={false}
                 stroke={formattedData.length > 1 ? 'white' : 'none'}
               />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<PieChartGraphTooltip />} />
             </PieChart>
           </ResponsiveContainer>
           <ChartLegend data={formattedData.map(({ name, fill }) => ({ label: name, color: fill }))} />

@@ -1,22 +1,9 @@
 import { classNames } from '@frontend/components'
-import { IDSCard, IDSIconMinus, IDSIconPlus } from '@frontend/ids-react-ts'
-import { MouseEventHandler, useState } from 'react'
+import { IDSCard } from '@frontend/ids-react-ts'
+import { useState } from 'react'
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
-
-function ExpandStatisticsButton({ onClick, open }: { onClick: MouseEventHandler; open: boolean }) {
-  return (
-    <button type="button" className="xl:hidden" onClick={onClick}>
-      <div className="text-accent-40 flex items-center gap-2 leading-6 underline">
-        <div className="bg-accent-40 flex h-5 w-5 items-center justify-center rounded-full text-white">
-          {!open && <IDSIconPlus width="10" height="10" color="#FFF" color2="#FFF" />}
-          {open && <IDSIconMinus width="10" height="10" color="#FFF" color2="#FFF" />}
-        </div>
-        Visa statistik per kön
-      </div>
-    </button>
-  )
-}
+import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 
 export function StatisticsCard({
   parentData,

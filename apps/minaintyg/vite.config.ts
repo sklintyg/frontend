@@ -5,20 +5,19 @@ import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
-  process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
-
+  Object.assign(process.env, loadEnv(mode ?? 'development', process.cwd()))
   const https = process.env.VITE_HTTPS === 'true'
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
 
-  const proxy = ['api', 'fake', 'error.jsp', 'logout', 'welcome.html', 'saml'].reduce<Record<string, string | ProxyOptions>>(
+  const proxy = ['api', 'fake'].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
       [`/${route}`]: {
-        target: process.env.VITE_API_TARGET ?? 'https://minaintyg-devtest.intyg.nordicmedtest.se',
+        target: process.env.VITE_API_TARGET ?? 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: 'https',
+        protocolRewrite: https ? 'https' : 'http',
         changeOrigin: true,
         autoRewrite: true,
       },
@@ -35,19 +34,6 @@ export default ({ mode }: UserConfig) => {
       proxy,
       strictPort: true,
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
-    },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/setupTests.ts'],
-      silent: process.env.CI === 'true',
-      deps: {
-        inline: ['@inera/ids-core', 'handy-scroll'],
-      },
-      coverage: {
-        reporter: ['text', 'json', 'lcov'],
-        all: true,
-      },
     },
   })
 }

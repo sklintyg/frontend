@@ -1,12 +1,12 @@
 import { format, parseISO } from 'date-fns'
 
 export function useFormat() {
-  const formatDate = (timestamp: string) => format(parseISO(timestamp), 'yyyy-MM-dd')
-  const formatTime = (timestamp: string) => format(parseISO(timestamp), 'HH:mm')
+  const date = (timestamp: string) => format(parseISO(timestamp), 'yyyy-MM-dd')
+  const time = (timestamp: string) => format(parseISO(timestamp), 'HH:mm')
 
   return {
-    formatDate,
-    formatTime,
-    formatDatetime: (timestamp: string) => `${formatDate(timestamp)} ${formatTime(timestamp)}`,
+    date,
+    time,
+    datetime: (timestamp: string) => `${date(timestamp)} ${time(timestamp)}`,
   }
 }

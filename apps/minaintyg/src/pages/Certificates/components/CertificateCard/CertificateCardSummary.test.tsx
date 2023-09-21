@@ -1,12 +1,17 @@
-import { render, screen } from '@testing-library/react'
-import { CertificateListSummary } from '../../../../schema/certificateList.schema'
+import { render } from '@testing-library/react'
 import { CertificateCardSummary } from './CertificateCardSummary'
 
-it('Should render stuff', () => {
-  const summary: CertificateListSummary = [['diagnos', 'Downs syndrom']]
-  render(<CertificateCardSummary summary={summary} timestamp="2023-05-09T18:37:23.159Z" />)
+it('Should render correctly with summary', () => {
+  const { baseElement } = render(
+    <CertificateCardSummary
+      summary={{ label: 'Gäller intygsperiod', value: '2023-05-09 - 2023-06-23' }}
+      timestamp="2023-05-09T18:37:23.159Z"
+    />
+  )
+  expect(baseElement).toMatchSnapshot()
+})
 
-  expect(screen.getByText('diagnos:')).toBeInTheDocument()
-  expect(screen.getByText('Downs syndrom')).toBeInTheDocument()
-  expect(screen.getByText('2023-05-09')).toBeInTheDocument()
+it('Should render correctly without summary', () => {
+  const { baseElement } = render(<CertificateCardSummary summary={undefined} timestamp="2023-05-09T18:37:23.159Z" />)
+  expect(baseElement).toMatchSnapshot()
 })

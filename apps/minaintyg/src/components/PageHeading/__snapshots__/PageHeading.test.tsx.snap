@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render correctly 1`] = `
+<body>
+  <div>
+    <header
+      class="ids-content mb-7"
+    >
+      <h1
+        class="ids-heading-1"
+      >
+        Test
+      </h1>
+      <p
+        class="ids-preamble mb-2 line-clamp-5 md:line-clamp-none"
+        data-clamped="true"
+      >
+        Lorem ipsum
+      </p>
+      <button
+        aria-label="Visa mer text"
+        class="text-sky-base flex items-center gap-2 md:hidden"
+        type="button"
+      >
+        <ids-icon-plus
+          class="bg-sky-base h-5 w-5 rounded-full p-1 text-white ids-icon"
+        />
+        <span
+          class="underline"
+        >
+          Visa mer text
+        </span>
+      </button>
+    </header>
+  </div>
+</body>
+`;

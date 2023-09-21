@@ -4,7 +4,6 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "types": ["@types/testing-library__jest-dom"]
+    "esModuleInterop": true
   }
 }

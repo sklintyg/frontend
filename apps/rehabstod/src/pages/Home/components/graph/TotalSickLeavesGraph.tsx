@@ -36,7 +36,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         />
       </h2>
       <div>
-        <PieChart width={120} height={200} className="m-auto">
+        <PieChart width={128} height={208} className="m-auto">
           <Pie
             isAnimationActive={false}
             data={data}

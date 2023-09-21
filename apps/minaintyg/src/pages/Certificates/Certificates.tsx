@@ -1,32 +1,36 @@
-import { IDSLink } from '@frontend/ids-react-ts'
+import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { CertificateSelectedOptions } from '../../schema/certificateListFilter.schema'
 import { useGetCertificatesQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 import { CertificateList } from './components/CertificateList'
 import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
-import { CertificateListOrder, SortingOrder } from './components/CertificateListOrder'
+import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
+import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function Certificates() {
-  const [order, setOrder] = useState<SortingOrder>('descending')
-  const filters = useAppSelector((state) => state.certificateFilter)
+  const [order, setOrder] = useState<SortDirection>('descending')
   const [submitFilters, setSubmitFilters] = useState<Partial<CertificateSelectedOptions>>({})
-  const { data } = useGetCertificatesQuery(submitFilters)
+  const { isLoading, data } = useGetCertificatesQuery(submitFilters)
+  const filters = useAppSelector((state) => state.certificateFilter)
 
   return (
     <>
       <PageHeading heading="Intyg">
-        Här listas dina läkarintyg som vården utfärdat digitalt. Du kan skicka intyg digitalt till Försäkringskassan och Transportstyrelsen.
-        Läkarintyg om arbetsförmåga kan inte skickas digitalt till din arbetsgivare, däremot kan du skriva ut intyget. Saknar du ett intyg
-        ska du kontakta vården. Du hittar mer information i{' '}
-        <IDSLink underlined>
-          <a href="/om-intyg">Om Intyg</a>
-        </IDSLink>
-        .
+        Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka
+        intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
+        arbetsgivare.
       </PageHeading>
       <CertificateListFilter onSubmit={() => setSubmitFilters(filters)} />
       <CertificateListOrder setOrder={setOrder} order={order} />
+      {isLoading && (
+        <div data-testid="certificate-list-spinner">
+          <IDSSpinner />
+        </div>
+      )}
+      {data && data.content.length === 0 && <EmptyCertificateListInfo />}
       {data && <CertificateList certificates={data.content} order={order} />}
     </>
   )
