@@ -8,7 +8,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Eleme
     if (isError) {
       window.open('/saml2/authenticate/eleg', '_self')
     }
-  })
+  }, [isError])
 
   if (isError) {
     return null
