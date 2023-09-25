@@ -36,7 +36,7 @@ export function ResolveSickLeavesTableCell({
           <SickLeaveDegreeInfo degrees={sickLeave.grader} activeDegree={sickLeave.aktivGrad} />
         </TableCell>
       )
-    case SickLeaveColumn.RekoStatus:
+    case SickLeaveColumn.Status:
       return !isDoctor ? (
         <TableCell>
           <RekoStatusDropdown statusFromSickLeave={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />

@@ -53,8 +53,8 @@ export function PatientRekoStatus({
         rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
         description={
           isDoctor
-            ? 'Med REKO-status kan du som läkare se patientens nuvarande status. Den visas även i sjukfallstabellen. Som läkare kan du se men inte ändra en status.'
-            : 'Med REKO-status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare.'
+            ? 'Med status kan du som läkare se patientens nuvarande status. Den visas även i sjukfallstabellen. Som läkare kan du se men inte ändra en status.'
+            : 'Med status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare.'
         }
       />
     </div>
