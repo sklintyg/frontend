@@ -4,13 +4,13 @@ import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import { store } from '../../store/store'
-import { Certificates } from './Certificates'
+import { CertificateListPage } from './CertificateListPage'
 
 beforeEach(() => {
   render(
     <Provider store={store}>
       <RouterProvider
-        router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/" element={<Certificates />} />]), {
+        router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/" element={<CertificateListPage />} />]), {
           initialEntries: ['/'],
         })}
       />

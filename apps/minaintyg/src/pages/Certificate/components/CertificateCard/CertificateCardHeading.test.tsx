@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { CertificateStatusEnum } from '../../../../schema/certificateList.schema'
+import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { CertificateCardHeading } from './CertificateCardHeading'
 
 it('Should render correctly', () => {

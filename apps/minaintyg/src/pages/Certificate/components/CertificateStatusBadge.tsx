@@ -1,6 +1,6 @@
 import { IDSBadge } from '@frontend/ids-react-ts'
 import { ComponentProps } from 'react'
-import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificateList.schema'
+import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
 
 export function getBadgeType(status: CertificateStatus): ComponentProps<typeof IDSBadge>['type'] {
   switch (status) {

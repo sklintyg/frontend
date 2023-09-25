@@ -2,7 +2,8 @@
 import { fakeCertificate, faker, fakerFromSchema } from '@frontend/fake'
 import { format, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
-import { CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
+import { CertificateStatusEnum, certificateMetadataSchema, certificateSchema } from '../schema/certificate.schema'
+import { certificateListItemSchema } from '../schema/certificateList.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
 import { certificateContentMock } from './certificateContentMock'
@@ -45,7 +46,24 @@ export const handlers = [
     )
   ),
 
-  rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: certificateContentMock }))),
+  rest.get('/api/certificate/:id', (req, res, ctx) => {
+    const certificate = fakeCertificate()
+    const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? certificate.id
+
+    return res(
+      ctx.status(200),
+      ctx.json(
+        fakerFromSchema(certificateSchema)({
+          content: certificateContentMock,
+          metadata: fakerFromSchema(certificateMetadataSchema)({
+            id,
+            type: { id, name: certificate.label, version: '1' },
+            statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+          }),
+        })
+      )
+    )
+  }),
 
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
 

@@ -35,20 +35,32 @@ exports[`Should render correctly 1`] = `
           >
             Senaste händelser
           </div>
-          <div>
-            2023-09-06 11:00
-             
-            excepturi
+          <div
+            class="flex flex-col md:flex-row md:gap-1"
+          >
+            <span>
+              2023-09-06 11:00
+              :
+            </span>
+            <span />
           </div>
-          <div>
-            2023-09-05 11:00
-             
-            pariatur
+          <div
+            class="flex flex-col md:flex-row md:gap-1"
+          >
+            <span>
+              2023-09-05 11:00
+              :
+            </span>
+            <span />
           </div>
-          <div>
-            2023-09-04 11:00
-             
-            provident
+          <div
+            class="flex flex-col md:flex-row md:gap-1"
+          >
+            <span>
+              2023-09-04 11:00
+              :
+            </span>
+            <span />
           </div>
         </div>
       </details>
@@ -62,20 +74,32 @@ exports[`Should render correctly 1`] = `
         >
           Senaste händelser
         </div>
-        <div>
-          2023-09-06 11:00
-           
-          excepturi
+        <div
+          class="flex flex-col md:flex-row md:gap-1"
+        >
+          <span>
+            2023-09-06 11:00
+            :
+          </span>
+          <span />
         </div>
-        <div>
-          2023-09-05 11:00
-           
-          pariatur
+        <div
+          class="flex flex-col md:flex-row md:gap-1"
+        >
+          <span>
+            2023-09-05 11:00
+            :
+          </span>
+          <span />
         </div>
-        <div>
-          2023-09-04 11:00
-           
-          provident
+        <div
+          class="flex flex-col md:flex-row md:gap-1"
+        >
+          <span>
+            2023-09-04 11:00
+            :
+          </span>
+          <span />
         </div>
       </div>
     </div>

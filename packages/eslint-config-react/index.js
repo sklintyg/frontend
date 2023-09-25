@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'react/require-default-props': 'off',
     'react/no-multi-comp': 'error',
+    'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
   },
 }

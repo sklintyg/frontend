@@ -7,9 +7,9 @@ import { CertificateList } from './components/CertificateList'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
-export function Certificates() {
+export function CertificateListPage() {
   const [order, setOrder] = useState<SortDirection>('descending')
-  const { isLoading, data } = useGetCertificatesQuery()
+  const { isLoading, data } = useGetCertificatesQuery(undefined, { refetchOnMountOrArgChange: true })
 
   return (
     <>
