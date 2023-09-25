@@ -143,11 +143,11 @@ export const certificateContentMock = `
     <h2 class="ids-heading-3">Intyget är utfärdat och signerat av</h2>
     <div>
       <div>
-        <h3 class="ids-heading-4">Arnold Johansson</h3>
+        <strong>Arnold Johansson</strong>
         <p>08-123 456 78</p>
       </div>
       <div>
-        <h3 class="ids-heading-4">Alfa-enheten, Alfamottagningen</h3>
+        <strong>Alfa-enheten, Alfamottagningen</strong>
         <p>Gatuadressens väg 1, 111 11 Storstaden</p>
       </div>
     </div>

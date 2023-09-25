@@ -352,21 +352,17 @@ exports[`Should have article content 1`] = `
     </h2>
     <div>
       <div>
-        <h3
-          class="ids-heading-4"
-        >
+        <strong>
           Arnold Johansson
-        </h3>
+        </strong>
         <p>
           08-123 456 78
         </p>
       </div>
       <div>
-        <h3
-          class="ids-heading-4"
-        >
+        <strong>
           Alfa-enheten, Alfamottagningen
-        </h3>
+        </strong>
         <p>
           Gatuadressens väg 1, 111 11 Storstaden
         </p>
