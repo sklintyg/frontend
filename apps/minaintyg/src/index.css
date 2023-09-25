@@ -37,3 +37,25 @@ ids-textarea textarea {
 .ids-certificate .ids-heading-6 {
   margin-bottom: 0.3125rem !important;
 }
+
+.ids-certificate .ids-certificate-footer {
+  border-top: solid 1px #808285;
+  border-bottom: solid 1px #808285;
+  padding: 1.25rem 0;
+  margin: 1.25rem 0;
+}
+
+.ids-certificate .ids-certificate-footer > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  align-self: stretch;
+}
+
+@media (min-width: 800px) {
+  .ids-certificate .ids-certificate-footer > div {
+    flex-direction: row;
+    gap: 6.25rem;
+  }
+}
