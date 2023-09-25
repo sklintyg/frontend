@@ -2,7 +2,7 @@
 
 exports[`Should have correct heading 1`] = `
 <h1
-  class="ids-heading-1"
+  class="ids-heading-1 text-4xl md:text-5xl"
 >
   Intyg
 </h1>
