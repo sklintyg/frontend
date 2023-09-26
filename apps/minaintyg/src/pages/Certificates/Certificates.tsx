@@ -9,7 +9,7 @@ import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
-  const { isLoading, data } = useGetCertificateQuery()
+  const { isLoading, data } = useGetCertificateQuery(undefined, { refetchOnMountOrArgChange: true })
 
   return (
     <>
