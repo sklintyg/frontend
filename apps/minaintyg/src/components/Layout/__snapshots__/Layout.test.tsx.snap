@@ -156,7 +156,7 @@ exports[`Should render as expected 1`] = `
         </ids-header-nav>
       </ids-header>
       <main
-        class="flex-1"
+        class="relative flex-1"
       >
         <div
           class="ids-content m-auto max-w-7xl p-5"
@@ -169,6 +169,17 @@ exports[`Should render as expected 1`] = `
           <p>
             FooBar
           </p>
+        </div>
+        <div
+          class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"
+        >
+          <ids-button
+            class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
+          >
+            <ids-icon-arrow
+              class="ids-icon"
+            />
+          </ids-button>
         </div>
       </main>
       <ids-footer
