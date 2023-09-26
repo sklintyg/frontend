@@ -13,7 +13,7 @@ export function CertificatePage() {
 
   return (
     <>
-      <PageHeading heading={certificate?.metadata.type.name} />
+      <PageHeading heading={certificate?.metadata.type?.name} />
       {certificate && (
         <>
           <div className="mb-4 flex gap-1">

@@ -1,9 +1,9 @@
 import { SortDirection } from 'react-stately'
-import { CertificateListItem } from '../../../schema/certificateList.schema'
+import { CertificateMetadata } from '../../../schema/certificate.schema'
 import { useGroupCertificateByYear } from '../hooks/useGroupCertificateByYear'
 import { CertificateCard } from './CertificateCard/CertificateCard'
 
-export function CertificateList({ certificates, order = 'descending' }: { certificates: CertificateListItem[]; order?: SortDirection }) {
+export function CertificateList({ certificates, order = 'descending' }: { certificates: CertificateMetadata[]; order?: SortDirection }) {
   const groups = useGroupCertificateByYear(certificates, order)
 
   return (

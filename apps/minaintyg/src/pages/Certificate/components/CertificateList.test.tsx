@@ -2,10 +2,10 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, within } from '@testing-library/react'
 import { ComponentProps } from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { certificateListItemSchema } from '../../../schema/certificateList.schema'
+import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateList } from './CertificateList'
 
-const fakeCertificate = fakerFromSchema(certificateListItemSchema)
+const fakeCertificate = fakerFromSchema(certificateMetadataSchema)
 
 function renderComponent(props: ComponentProps<typeof CertificateList>) {
   return render(

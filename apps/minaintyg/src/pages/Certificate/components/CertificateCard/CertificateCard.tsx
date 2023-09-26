@@ -1,12 +1,12 @@
 import { IDSButton, IDSCard } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
-import { CertificateListItem } from '../../../../schema/certificateList.schema'
+import { CertificateMetadata } from '../../../../schema/certificate.schema'
 import { CertificateCardEvents } from './CertificateCardEvents/CertificateCardEvents'
 import { CertificateCardHeading } from './CertificateCardHeading'
 import { CertificateCardInfo } from './CertificateCardInfo'
 import { CertificateCardSummary } from './CertificateCardSummary'
 
-export function CertificateCard({ id, type, summary, issuer, issued, statuses, events }: CertificateListItem) {
+export function CertificateCard({ id, type, summary, issuer, issued, statuses, events }: CertificateMetadata) {
   const navigate = useNavigate()
 
   return (

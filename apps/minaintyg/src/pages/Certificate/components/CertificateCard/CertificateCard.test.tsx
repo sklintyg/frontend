@@ -2,11 +2,11 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { certificateListItemSchema } from '../../../../schema/certificateList.schema'
+import { certificateMetadataSchema } from '../../../../schema/certificate.schema'
 import { CertificateCard } from './CertificateCard'
 
 it('Should navigate to certificate from button', async () => {
-  const certificate = fakerFromSchema(certificateListItemSchema)({
+  const certificate = fakerFromSchema(certificateMetadataSchema)({
     type: { name: 'Certificate Title' },
     id: '1234',
     summary: undefined,

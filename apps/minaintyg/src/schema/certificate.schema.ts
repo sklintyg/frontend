@@ -8,6 +8,8 @@ export const certificateEventSchema = z.object({
   description: z.string(),
 })
 
+export const certificateSummarySchema = z.object({ label: z.string(), value: z.string() }).optional()
+
 export const certificateTypeSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -33,6 +35,7 @@ export const certificateMetadataSchema = z.object({
   id: z.string(),
   issued: z.string().datetime(),
   type: certificateTypeSchema,
+  summary: certificateSummarySchema,
 })
 
 export const certificateSchema = z.object({
@@ -43,6 +46,7 @@ export const certificateSchema = z.object({
 export type CertificateEvent = z.infer<typeof certificateEventSchema>
 export type CertificateIssuer = z.infer<typeof certificateIssuerSchema>
 export type CertificateMetadata = z.infer<typeof certificateMetadataSchema>
-export type CertificateUnit = z.infer<typeof certificateUnitSchema>
 export type CertificateStatus = z.infer<typeof CertificateStatusEnum>
+export type CertificateSummary = z.infer<typeof certificateSummarySchema>
+export type CertificateUnit = z.infer<typeof certificateUnitSchema>
 export type Certificate = z.infer<typeof certificateSchema>

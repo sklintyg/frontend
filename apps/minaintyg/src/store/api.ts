@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Certificate } from '../schema/certificate.schema'
-import { CertificateListItem } from '../schema/certificateList.schema'
+import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { User } from '../schema/user.schema'
 import { getCookie } from '../utils/cookies'
 
@@ -21,7 +20,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    getCertificates: builder.query<{ content: CertificateListItem[] }, void>({
+    getCertificates: builder.query<{ content: CertificateMetadata[] }, void>({
       query: () => ({ url: 'certificate', method: 'POST' }),
     }),
     getCertificate: builder.query<Certificate, { id: string }>({
