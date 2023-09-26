@@ -139,18 +139,5 @@ export const certificateContentMock = `
     <p>Ej angivet</p>
   </section>
 
-  <section class="ids-certificate-footer">
-    <h2 class="ids-heading-3">Intyget är utfärdat och signerat av</h2>
-    <div>
-      <div>
-        <strong>Arnold Johansson</strong>
-        <p>08-123 456 78</p>
-      </div>
-      <div>
-        <strong>Alfa-enheten, Alfamottagningen</strong>
-        <p>Gatuadressens väg 1, 111 11 Storstaden</p>
-      </div>
-    </div>
-  </section>
 </article>
 `

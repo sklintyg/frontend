@@ -14,9 +14,16 @@ export const certificateTypeSchema = z.object({
   version: z.string(),
 })
 
-export const certificateIssuerSchema = z.object({ name: z.string() })
+export const certificateIssuerSchema = z.object({
+  name: z.string(),
+  phoneNumber: z.string(),
+})
 
-export const certificateUnitSchema = z.object({ id: z.string(), name: z.string() })
+export const certificateUnitSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  address: z.string(),
+})
 
 export const certificateMetadataSchema = z.object({
   issuer: certificateIssuerSchema,

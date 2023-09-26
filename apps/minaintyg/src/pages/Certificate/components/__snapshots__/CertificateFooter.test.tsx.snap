@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected 1`] = `
+<body>
+  <div>
+    <footer
+      class="border-stone-clear my-5 border-y py-5"
+    >
+      <h2
+        class="ids-heading-3"
+      >
+        Intyget är utfärdat och signerat av
+      </h2>
+      <address
+        class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
+      >
+        <div>
+          <strong>
+            Arnold Johansson
+          </strong>
+          <p>
+            08-123 456 78
+          </p>
+        </div>
+        <div>
+          <strong>
+            Alfa-enheten, Alfamottagningen
+          </strong>
+          <p>
+            Gatuadressens väg 1, 111 11 Storstaden
+          </p>
+        </div>
+      </address>
+    </footer>
+  </div>
+</body>
+`;

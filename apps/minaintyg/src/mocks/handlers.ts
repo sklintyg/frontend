@@ -59,6 +59,10 @@ export const handlers = [
             id,
             type: { id, name: certificate.label, version: '1' },
             statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+            unit: {
+              name: faker.company.name(),
+              address: `${faker.address.streetAddress()}, ${faker.address.zipCode('### ##')} ${faker.address.city()}`,
+            },
           }),
         })
       )

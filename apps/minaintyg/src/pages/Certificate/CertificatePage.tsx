@@ -3,6 +3,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { useParams } from 'react-router-dom'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
+import { CertificateFooter } from './components/CertificateFooter'
 import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 
@@ -22,6 +23,7 @@ export function CertificatePage() {
           </div>
           <CertificateInformation {...certificate.metadata} />
           {ReactHtmlParser(certificate.content)}
+          <CertificateFooter {...certificate.metadata} />
         </>
       )}
     </>
