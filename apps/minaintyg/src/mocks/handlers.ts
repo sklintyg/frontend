@@ -12,12 +12,12 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   const startDate = subDays(parseISO(timestamp), faker.datatype.number({ min: 1, max: 120 }))
   const endDate = parseISO(timestamp)
   const certificate = fakeCertificate()
-  const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? certificate.id
+  const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? faker.datatype.uuid()
 
   return fakerFromSchema(certificateMetadataSchema)({
     id,
     issued: timestamp,
-    type: { id, name: certificate.label, version: '1' },
+    type: { id: certificate.id.toUpperCase(), name: certificate.label, version: '1' },
     statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
     events: faker.helpers.uniqueArray(
       () =>
