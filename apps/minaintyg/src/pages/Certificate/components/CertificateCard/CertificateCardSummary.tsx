@@ -1,7 +1,7 @@
 import { useFormat } from '../../../../hooks/useFormat'
-import { CertificateListSummary } from '../../../../schema/certificateList.schema'
+import { CertificateSummary } from '../../../../schema/certificateList.schema'
 
-export function CertificateCardSummary({ summary, timestamp }: { summary: CertificateListSummary; timestamp: string }) {
+export function CertificateCardSummary({ summary, timestamp }: { summary: CertificateSummary; timestamp: string }) {
   const { date } = useFormat()
 
   return (

@@ -1,6 +1,6 @@
-import { CertificateListIssuer } from '../../../../schema/certificateList.schema'
+import { CertificateIssuer } from '../../../../schema/certificate.schema'
 
-export function CertificateCardInfo({ issuer, id }: { issuer: CertificateListIssuer; id: string }) {
+export function CertificateCardInfo({ issuer, id }: { issuer: CertificateIssuer; id: string }) {
   return (
     <div className="mb-2.5 flex flex-col justify-between gap-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0">
       <div>
