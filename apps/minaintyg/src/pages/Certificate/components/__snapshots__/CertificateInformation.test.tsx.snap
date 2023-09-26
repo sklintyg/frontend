@@ -58,7 +58,9 @@ exports[`Should render as expected 1`] = `
             <div
               class="flex flex-col md:flex-row md:gap-1"
             >
-              <span>
+              <span
+                class="whitespace-nowrap"
+              >
                 2023-09-26 03:28
                 :
               </span>

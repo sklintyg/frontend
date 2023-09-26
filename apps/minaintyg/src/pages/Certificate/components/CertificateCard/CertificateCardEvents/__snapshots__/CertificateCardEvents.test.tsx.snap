@@ -38,7 +38,9 @@ exports[`Should render correctly 1`] = `
           <div
             class="flex flex-col md:flex-row md:gap-1"
           >
-            <span>
+            <span
+              class="whitespace-nowrap"
+            >
               2023-09-06 11:00
               :
             </span>
@@ -49,7 +51,9 @@ exports[`Should render correctly 1`] = `
           <div
             class="flex flex-col md:flex-row md:gap-1"
           >
-            <span>
+            <span
+              class="whitespace-nowrap"
+            >
               2023-09-05 11:00
               :
             </span>
@@ -60,7 +64,9 @@ exports[`Should render correctly 1`] = `
           <div
             class="flex flex-col md:flex-row md:gap-1"
           >
-            <span>
+            <span
+              class="whitespace-nowrap"
+            >
               2023-09-04 11:00
               :
             </span>
@@ -83,7 +89,9 @@ exports[`Should render correctly 1`] = `
         <div
           class="flex flex-col md:flex-row md:gap-1"
         >
-          <span>
+          <span
+            class="whitespace-nowrap"
+          >
             2023-09-06 11:00
             :
           </span>
@@ -94,7 +102,9 @@ exports[`Should render correctly 1`] = `
         <div
           class="flex flex-col md:flex-row md:gap-1"
         >
-          <span>
+          <span
+            class="whitespace-nowrap"
+          >
             2023-09-05 11:00
             :
           </span>
@@ -105,7 +115,9 @@ exports[`Should render correctly 1`] = `
         <div
           class="flex flex-col md:flex-row md:gap-1"
         >
-          <span>
+          <span
+            class="whitespace-nowrap"
+          >
             2023-09-04 11:00
             :
           </span>

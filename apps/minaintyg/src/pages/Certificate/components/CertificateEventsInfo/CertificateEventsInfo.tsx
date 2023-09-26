@@ -9,7 +9,7 @@ export function CertificateEventsInfo({ events }: { events: CertificateEvent[] }
       {events.length === 0 && <span>Inga händelser</span>}
       {events.map(({ timestamp, description }) => (
         <div key={timestamp} className="flex flex-col md:flex-row md:gap-1">
-          <span>{datetime(timestamp)}:</span>
+          <span className="whitespace-nowrap">{datetime(timestamp)}:</span>
           <span>{description}</span>
         </div>
       ))}
