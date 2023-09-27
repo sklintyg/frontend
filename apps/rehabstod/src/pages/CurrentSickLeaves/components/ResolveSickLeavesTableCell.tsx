@@ -36,13 +36,13 @@ export function ResolveSickLeavesTableCell({
           <SickLeaveDegreeInfo degrees={sickLeave.grader} activeDegree={sickLeave.aktivGrad} />
         </TableCell>
       )
-    case SickLeaveColumn.RekoStatus:
+    case SickLeaveColumn.Status:
       return !isDoctor ? (
         <TableCell>
           <RekoStatusDropdown statusFromSickLeave={sickLeave.rekoStatus} patientId={sickLeave.patient.id} endDate={sickLeave.slut} />
         </TableCell>
       ) : (
-        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.RekoStatus, sickLeave, sickLeaves)}</TableCell>
+        <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Status, sickLeave, sickLeaves)}</TableCell>
       )
     case SickLeaveColumn.Risk:
       return <TableCell>{sickLeave.riskSignal && <RiskSignalInfo {...sickLeave.riskSignal} />}</TableCell>
