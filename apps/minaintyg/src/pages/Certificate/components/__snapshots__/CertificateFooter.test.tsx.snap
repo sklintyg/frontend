@@ -3,9 +3,14 @@
 exports[`Should render as expected 1`] = `
 <body>
   <div>
-    <footer
-      class="border-stone-clear my-5 border-y py-5"
-    >
+    <footer>
+      <div
+        class="my-7"
+      >
+        <div
+          class="border-stone-clear h-px border-b"
+        />
+      </div>
       <h2
         class="ids-heading-3"
       >
@@ -31,6 +36,13 @@ exports[`Should render as expected 1`] = `
           </p>
         </div>
       </address>
+      <div
+        class="my-7"
+      >
+        <div
+          class="border-stone-clear h-px border-b"
+        />
+      </div>
     </footer>
   </div>
 </body>

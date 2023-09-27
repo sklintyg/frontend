@@ -159,7 +159,7 @@ exports[`Should render as expected 1`] = `
         class="relative flex-1"
       >
         <div
-          class="ids-content m-auto max-w-7xl p-5"
+          class="ids-content m-auto max-w-7xl overflow-hidden p-5"
         >
           <div
             class="mb-5"

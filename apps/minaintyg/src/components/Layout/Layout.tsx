@@ -9,7 +9,7 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="relative flex-1">
-        <div className="ids-content m-auto max-w-7xl p-5">
+        <div className="ids-content m-auto max-w-7xl overflow-hidden p-5">
           <Breadcrumbs />
           <Outlet />
         </div>

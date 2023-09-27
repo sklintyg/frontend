@@ -21,7 +21,6 @@ it('Should render as expected', () => {
         description: 'Ersätter ett intyg som inte längre är aktuellt',
       },
     ],
-    statuses: ['REPLACED', 'SENT'],
     id: '39a4e3af-6f92-46d8-875f-4ca5ff96589f',
     issued: '2022-11-10T22:56:55.241Z',
     type: {

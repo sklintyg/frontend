@@ -38,11 +38,14 @@ export const certificateMetadataSchema = z.object({
   summary: certificateSummarySchema,
 })
 
+export const certificateContentSchema = z.object({ heading: z.string(), body: z.string() })
+
 export const certificateSchema = z.object({
   metadata: certificateMetadataSchema,
-  content: z.string(),
+  content: z.array(certificateContentSchema),
 })
 
+export type CertificateContent = z.infer<typeof certificateContentSchema>
 export type CertificateEvent = z.infer<typeof certificateEventSchema>
 export type CertificateIssuer = z.infer<typeof certificateIssuerSchema>
 export type CertificateMetadata = z.infer<typeof certificateMetadataSchema>

@@ -19,10 +19,6 @@ ids-textarea textarea {
   margin-bottom: 0.625rem;
 }
 
-.ids-certificate section {
-  margin-bottom: 2.5rem;
-}
-
 .ids-certificate ul {
   list-style-type: disc;
   padding-inline-start: 40px;
@@ -30,6 +26,7 @@ ids-textarea textarea {
 
 .ids-certificate table {
   width: 100%;
+  word-break: break-word;
 }
 
 .ids-certificate .ids-heading-4,

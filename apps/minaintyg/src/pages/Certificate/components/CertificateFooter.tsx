@@ -1,8 +1,10 @@
+import { PageDivider } from '../../../components/PageDivider/PageDivider'
 import { CertificateMetadata } from '../../../schema/certificate.schema'
 
 export function CertificateFooter({ issuer, unit }: CertificateMetadata) {
   return (
-    <footer className="border-stone-clear my-5 border-y py-5">
+    <footer>
+      <PageDivider />
       <h2 className="ids-heading-3">Intyget är utfärdat och signerat av</h2>
       <address className="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]">
         <div>
@@ -14,6 +16,7 @@ export function CertificateFooter({ issuer, unit }: CertificateMetadata) {
           <p>{unit.address}</p>
         </div>
       </address>
+      <PageDivider />
     </footer>
   )
 }
