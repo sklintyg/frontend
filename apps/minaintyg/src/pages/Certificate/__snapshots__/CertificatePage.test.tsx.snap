@@ -772,13 +772,9 @@ exports[`Should have article content 1`] = `
     </div>
   </section>
   <footer>
-    <div
-      class="my-7"
-    >
-      <div
-        class="border-stone-clear h-px border-b"
-      />
-    </div>
+    <hr
+      class="border-stone-clear my-7"
+    />
     <h2
       class="ids-heading-3"
     >
@@ -804,13 +800,9 @@ exports[`Should have article content 1`] = `
         </p>
       </div>
     </address>
-    <div
-      class="my-7"
-    >
-      <div
-        class="border-stone-clear h-px border-b"
-      />
-    </div>
+    <hr
+      class="border-stone-clear my-7"
+    />
   </footer>
 </article>
 `;
