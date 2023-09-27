@@ -33,6 +33,16 @@ it('should display diagnosis tooltip', () => {
   expect(screen.getByText('1234 - description')).toBeInTheDocument()
 })
 
+it('should display diagnosis tooltip for unknown diagnosis code', () => {
+  render(
+    <ComponentWrapper>
+      <DiagnosisInfoCell diagnosis={fakerFromSchema(diagnosisSchema)({ kod: 'X' })} biDiagnoses={[]} />
+    </ComponentWrapper>
+  )
+  fireEvent.mouseEnter(screen.getByRole('cell'))
+  expect(screen.getByText('X - Diagnoskod X är okänd och har ingen beskrivning')).toBeInTheDocument()
+})
+
 it('should display tooltip on missing diagnosis', async () => {
   render(
     <ComponentWrapper>
