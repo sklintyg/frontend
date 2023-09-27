@@ -36,7 +36,7 @@ it('should display diagnosis tooltip', () => {
 it('should display diagnosis tooltip for unknown diagnosis code', () => {
   render(
     <ComponentWrapper>
-      <DiagnosisInfoCell diagnosis={fakerFromSchema(diagnosisSchema)({ kod: 'X' })} biDiagnoses={[]} />
+      <DiagnosisInfoCell diagnosis={{ kod: 'X' }} biDiagnoses={[]} />
     </ComponentWrapper>
   )
   fireEvent.mouseEnter(screen.getByRole('cell'))
