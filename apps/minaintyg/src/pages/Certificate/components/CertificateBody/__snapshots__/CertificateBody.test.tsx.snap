@@ -1,0 +1,281 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render h1 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h1
+          class="ids-heading-1"
+        >
+          heading
+        </h1>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h1
+          class="ids-heading-1"
+        >
+          heading
+        </h1>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render h2 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          heading
+        </h2>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h2
+          class="ids-heading-2"
+        >
+          heading
+        </h2>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render h3 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h3
+          class="ids-heading-3"
+        >
+          heading
+        </h3>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h3
+          class="ids-heading-3"
+        >
+          heading
+        </h3>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render h4 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h4
+          class="ids-heading-4"
+        >
+          heading
+        </h4>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h4
+          class="ids-heading-4"
+        >
+          heading
+        </h4>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render h5 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h5
+          class="ids-heading-5"
+        >
+          heading
+        </h5>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h5
+          class="ids-heading-5"
+        >
+          heading
+        </h5>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render h6 heading as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <h6
+          class="ids-heading-6"
+        >
+          heading
+        </h6>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <h6
+          class="ids-heading-6"
+        >
+          heading
+        </h6>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render html as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <p>
+          Test
+        </p>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <p>
+          Test
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+`;
+
+exports[`Should render table as expected 1`] = `
+<body>
+  <div>
+    <section
+      class="md:mb-10"
+    >
+      <ids-expandable
+        class="md:hidden"
+      >
+        <table
+          class="ids-table"
+        >
+          <tbody>
+            <tr>
+              <td>
+                Test
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ids-expandable>
+      <div
+        class="hidden md:block"
+      >
+        <h2
+          class="ids-heading-2"
+        >
+          Rubrik 1
+        </h2>
+        <table
+          class="ids-table"
+        >
+          <tbody>
+            <tr>
+              <td>
+                Test
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+`;
