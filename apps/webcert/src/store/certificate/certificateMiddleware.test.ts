@@ -168,7 +168,7 @@ describe('Test certificate middleware', () => {
       const certificate = getTestCertificate('id')
       certificate.metadata.status = CertificateStatus.SIGNED
 
-      testStore.dispatch(autoSaveCertificate({ certificate }))
+      testStore.dispatch(autoSaveCertificate(certificate))
       await flushPromises()
 
       setTimeout(() => {
@@ -180,7 +180,7 @@ describe('Test certificate middleware', () => {
       const certificate = getTestCertificate('id')
       certificate.metadata.status = CertificateStatus.UNSIGNED
 
-      testStore.dispatch(autoSaveCertificate({ certificate }))
+      testStore.dispatch(autoSaveCertificate(certificate))
       await flushPromises()
 
       setTimeout(() => {
