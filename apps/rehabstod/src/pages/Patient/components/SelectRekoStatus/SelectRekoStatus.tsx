@@ -40,7 +40,7 @@ export function SelectRekoStatus({
       options={rekoStatusTypes}
       hideDefaultValue
       description={description}
-      label="REKO-status"
+      label="Status"
     />
   )
 }

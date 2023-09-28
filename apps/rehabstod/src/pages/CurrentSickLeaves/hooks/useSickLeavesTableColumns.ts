@@ -30,7 +30,7 @@ const getSickLeaveColumnWidth = (column: string): number | undefined => {
       return 200
     case SickLeaveColumn.Läkare:
       return 114
-    case SickLeaveColumn.RekoStatus:
+    case SickLeaveColumn.Status:
     case SickLeaveColumn.Risk:
       return 150
     case SickLeaveColumn.Ärenden:
@@ -62,8 +62,8 @@ const getSickLeaveColumnDescription = (column: string, valdVardenhet?: string): 
       return 'Patientens risk som beräknats av läkaren med hjälp av SRS i Webcert och är ett komplement till läkarens egen bedömning.'
     case SickLeaveColumn.Ärenden:
       return 'Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är.'
-    case SickLeaveColumn.RekoStatus:
-      return 'REKO-status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra REKO-status. Dessa alternativ finns: Ingen, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt.'
+    case SickLeaveColumn.Status:
+      return 'Status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra status. Dessa alternativ finns: Ingen, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt.'
     default:
       return undefined
   }
