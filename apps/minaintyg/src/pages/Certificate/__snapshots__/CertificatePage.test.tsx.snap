@@ -179,21 +179,19 @@ exports[`Should have article content 1`] = `
       <table
         class="ids-table"
       >
-        <thead>
+        <tbody>
           <tr>
             <th>
               Diagnoskod enligt ICD-10 SE
             </th>
-            <th>
-              Diagnos
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
             <td>
               S829
             </td>
+          </tr>
+          <tr>
+            <th>
+              Diagnos
+            </th>
             <td>
               Underbensfraktur med ospecificerad lokalisation
             </td>
@@ -423,6 +421,205 @@ exports[`Should have article content 1`] = `
     <ids-expandable
       class="md:hidden"
     >
+      <table
+        class="ids-table"
+      >
+        <thead>
+          <tr>
+            <th
+              class="text-center"
+              colspan="2"
+            >
+              Höger öga
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              Utan korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Med korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Kontaktlinser
+            </th>
+            <td>
+              Nej
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        class="ids-table"
+      >
+        <thead>
+          <tr>
+            <th
+              class="text-center"
+              colspan="2"
+            >
+              Vänster öga
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              Utan korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Med korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Kontaktlinser
+            </th>
+            <td>
+              Nej
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        class="ids-table"
+      >
+        <thead>
+          <tr>
+            <th
+              class="text-center"
+              colspan="2"
+            >
+              Binokulär
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              Utan korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Med korrektion
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Kontaktlinser
+            </th>
+            <td>
+              -
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ids-expandable>
+    <div
+      class="hidden md:block"
+    >
+      <h2
+        class="ids-heading-2"
+      >
+        Synfält
+      </h2>
+      <table
+        class="ids-table"
+      >
+        <thead>
+          <tr>
+            <th />
+            <th>
+              Utan korrektion
+            </th>
+            <th>
+              Med korrektion
+            </th>
+            <th>
+              Kontaktlinser
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              Höger öga
+            </th>
+            <td>
+              -
+            </td>
+            <td>
+              -
+            </td>
+            <td>
+              Nej
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Vänster öga
+            </th>
+            <td>
+              -
+            </td>
+            <td>
+              -
+            </td>
+            <td>
+              Nej
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Binokulär
+            </th>
+            <td>
+              -
+            </td>
+            <td>
+              -
+            </td>
+            <td>
+              -
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section
+    class="md:mb-10"
+  >
+    <ids-expandable
+      class="md:hidden"
+    >
       <h3
         class="ids-heading-3"
       >
@@ -432,29 +629,59 @@ exports[`Should have article content 1`] = `
       <table
         class="ids-table"
       >
-        <thead>
+        <tbody>
           <tr>
             <th>
               Nedsättningsgrad
             </th>
-            <th>
-              Från och med
-            </th>
-            <th>
-              Till och med
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
             <td>
               100 procent
             </td>
+          </tr>
+          <tr>
+            <th>
+              Från och med
+            </th>
             <td>
               2023-02-07
             </td>
+          </tr>
+          <tr>
+            <th>
+              Till och med
+            </th>
             <td>
               2023-02-20
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        class="ids-table"
+      >
+        <tbody>
+          <tr>
+            <th>
+              Nedsättningsgrad
+            </th>
+            <td>
+              75 procent
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Från och med
+            </th>
+            <td>
+              2023-01-07
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Till och med
+            </th>
+            <td>
+              2023-01-20
             </td>
           </tr>
         </tbody>
@@ -550,6 +777,17 @@ exports[`Should have article content 1`] = `
             </td>
             <td>
               2023-02-20
+            </td>
+          </tr>
+          <tr>
+            <td>
+              75 procent
+            </td>
+            <td>
+              2023-01-07
+            </td>
+            <td>
+              2023-01-20
             </td>
           </tr>
         </tbody>

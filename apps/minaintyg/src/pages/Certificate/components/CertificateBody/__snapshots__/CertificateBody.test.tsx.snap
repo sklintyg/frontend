@@ -242,19 +242,7 @@ exports[`Should render table as expected 1`] = `
     >
       <ids-expandable
         class="md:hidden"
-      >
-        <table
-          class="ids-table"
-        >
-          <tbody>
-            <tr>
-              <td>
-                Test
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </ids-expandable>
+      />
       <div
         class="hidden md:block"
       >

@@ -7,6 +7,32 @@ import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { userSchema } from '../schema/user.schema'
 import { certificateContentMock } from './certificateContentMock'
 
+const certificateIngress = (id: string): string | undefined => {
+  const ingress = [
+    {
+      ids: ['lisjp', 'fk7263'],
+      ingress:
+        'Här kan du läsa ditt läkarintyg. För medicinska frågor kontaktar du den mottagning som utfärdat ditt intyg. Om du vill ansöka om sjukpenning, gör du det på <a href="http://www.forsakringskassan.se/sjuk" target="_blank">Försäkringskassan</a>.',
+    },
+    {
+      ids: ['ag7804', 'ag1-14'],
+      ingress: `
+        <p>Här kan du läsa ditt läkarintyg. För medicinska frågor kontaktar du den mottagning som utfärdat ditt intyg. Detta intyg går inte att skicka digitalt till din arbetsgivare.</p>
+        <p>Vid utskrift av intyget kan du välja om du vill dölja din diagnos för arbetsgivaren. Ingen annan information kan döljas.</p>
+      `,
+    },
+    {
+      ids: ['luse', 'luae-fs', 'luae-na'],
+      ingress: 'Här kan du läsa ditt läkarintyg. För medicinska frågor kontaktar du den mottagning som utfärdat ditt intyg.',
+    },
+    {
+      ids: ['ts-bas', 'ts-diabetes'],
+      ingress: 'Här kan du läsa ditt läkarintyg. För medicinska frågor kontaktar du den mottagning som utfärdat ditt intyg.',
+    },
+  ]
+  return ingress.find(({ ids }) => ids.includes(id.toLowerCase()))?.ingress
+}
+
 const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathParams<string>>) => {
   const timestamp = faker.date.between('2021-01-01T00:00:00.000Z', new Date().toISOString()).toISOString()
   const startDate = subDays(parseISO(timestamp), faker.datatype.number({ min: 1, max: 120 }))
@@ -17,7 +43,12 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   return fakerFromSchema(certificateMetadataSchema)({
     id,
     issued: timestamp,
-    type: { id: certificate.id.toUpperCase(), name: certificate.label, version: '1' },
+    type: {
+      id: certificate.id.toUpperCase(),
+      name: certificate.label,
+      version: '1',
+      description: certificateIngress('fk7263') ?? '',
+    },
     statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
     events: faker.helpers.uniqueArray(
       () =>

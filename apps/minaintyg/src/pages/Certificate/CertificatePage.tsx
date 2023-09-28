@@ -1,5 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
+import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
@@ -12,24 +13,26 @@ export function CertificatePage() {
   const { id } = useParams()
   const { data: certificate } = useGetCertificateQuery(id ? { id } : skipToken)
 
+  if (!certificate) {
+    return null
+  }
+
   return (
     <>
-      <PageHeading heading={certificate?.metadata.type.name} />
-      {certificate && (
-        <>
-          <div className="mb-4 flex gap-1">
-            {certificate.metadata.statuses.map((status) => (
-              <CertificateStatusBadge key={status} status={status} />
-            ))}
-          </div>
-          <CertificateInformation {...certificate.metadata} />
-          <PageDivider />
-          <article className="ids-certificate">
-            <CertificateBody content={certificate.content} />
-            <CertificateFooter {...certificate.metadata} />
-          </article>
-        </>
-      )}
+      <PageHeading heading={certificate.metadata.type.name}>
+        <DisplayHTML html={certificate.metadata.type.description} />
+      </PageHeading>
+      <div className="mb-4 flex gap-1">
+        {certificate.metadata.statuses.map((status) => (
+          <CertificateStatusBadge key={status} status={status} />
+        ))}
+      </div>
+      <CertificateInformation {...certificate.metadata} />
+      <PageDivider />
+      <article className="ids-certificate">
+        <CertificateBody content={certificate.content} />
+        <CertificateFooter {...certificate.metadata} />
+      </article>
     </>
   )
 }

@@ -11,26 +11,11 @@ exports[`Should render correctly 1`] = `
       >
         Test
       </h1>
-      <p
-        class="ids-preamble mb-2 line-clamp-5 md:line-clamp-none"
-        data-clamped="true"
+      <div
+        class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
       >
         Lorem ipsum
-      </p>
-      <button
-        aria-label="Visa mer text"
-        class="text-sky-base flex items-center gap-2 md:hidden"
-        type="button"
-      >
-        <ids-icon-plus
-          class="bg-sky-base h-5 w-5 rounded-full p-1 text-white ids-icon"
-        />
-        <span
-          class="underline"
-        >
-          Visa mer text
-        </span>
-      </button>
+      </div>
     </header>
   </div>
 </body>

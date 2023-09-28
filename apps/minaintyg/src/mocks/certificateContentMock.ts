@@ -75,6 +75,41 @@ export const certificateContentMock = [
     `,
   },
   {
+    heading: 'Synfält',
+    body: `
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Utan korrektion</th>
+            <th>Med korrektion</th>
+            <th>Kontaktlinser</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Höger öga</th>
+            <td>-</td>
+            <td>-</td>
+            <td>Nej</td>
+          </tr>
+          <tr>
+            <th>Vänster öga</th>
+            <td>-</td>
+            <td>-</td>
+            <td>Nej</td>
+          </tr>
+          <tr>
+            <th>Binokulär</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+  },
+  {
     heading: 'Bedömning',
     body: `
       <h3>Min bedömning av patientens nedsättning av arbetsförmågan</h3>
@@ -91,6 +126,11 @@ export const certificateContentMock = [
             <td>100 procent</td>
             <td>2023-02-07</td>
             <td>2023-02-20</td>
+          </tr>
+          <tr>
+            <td>75 procent</td>
+            <td>2023-01-07</td>
+            <td>2023-01-20</td>
           </tr>
         </tbody>
       </table>
