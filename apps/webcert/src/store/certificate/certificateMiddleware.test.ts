@@ -27,6 +27,7 @@ import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
   answerComplementCertificate,
+  autoSaveCertificate,
   autoSaveCertificateError,
   CertificateApiGenericError,
   certificateApiGenericError,
@@ -128,7 +129,7 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle autoSave error', () => {
+  describe('Handle autoSave', () => {
     const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
 
     it('shall throw error if autosave fails', async () => {
@@ -161,6 +162,30 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
+    })
+
+    it('shall not perform api call if not draft', async () => {
+      const certificate = getTestCertificate('id')
+      certificate.metadata.status = CertificateStatus.SIGNED
+
+      testStore.dispatch(autoSaveCertificate({ certificate }))
+      await flushPromises()
+
+      setTimeout(() => {
+        expect(fakeAxios.history.put.length).toBe(0)
+      }, 1000)
+    })
+
+    it('shall perform api call if draft', async () => {
+      const certificate = getTestCertificate('id')
+      certificate.metadata.status = CertificateStatus.UNSIGNED
+
+      testStore.dispatch(autoSaveCertificate({ certificate }))
+      await flushPromises()
+
+      setTimeout(() => {
+        expect(fakeAxios.history.put.length).toBe(1)
+      }, 1000)
     })
   })
 
