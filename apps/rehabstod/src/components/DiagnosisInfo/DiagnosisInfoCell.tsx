@@ -11,7 +11,7 @@ export function DiagnosisInfoCell({ diagnosis, biDiagnoses }: { diagnosis?: Diag
           <ul>
             {filteredDiagnosis.map(({ kod, beskrivning }) => (
               <li key={kod}>
-                {kod} - {beskrivning}
+                {kod} - {beskrivning || `Diagnoskod ${kod} är okänd och har ingen beskrivning`}
               </li>
             ))}
           </ul>

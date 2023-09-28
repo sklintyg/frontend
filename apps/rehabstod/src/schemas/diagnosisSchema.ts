@@ -25,7 +25,7 @@ export const diagnosGruppStatSchema = z.object({
 })
 
 export const diagnosisSchema = z.object({
-  beskrivning: z.string(),
+  beskrivning: z.string().optional(),
   intygsVarde: z.string(),
   kapitel: z.string(),
   kod: z.string(),
