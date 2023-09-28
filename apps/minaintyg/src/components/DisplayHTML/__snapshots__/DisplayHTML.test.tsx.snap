@@ -1,0 +1,140 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`link > Should render link as ids-link 1`] = `
+<body>
+  <div>
+    <ids-link>
+      <a
+        href="http://some-place.com"
+      >
+        Some link
+      </a>
+    </ids-link>
+  </div>
+</body>
+`;
+
+exports[`link > Should render link with external icon when target is _blank 1`] = `
+<body>
+  <div>
+    <ids-link>
+      <a
+        href="http://some-place.com"
+        target="_blank"
+      >
+        Some link
+      </a>
+      <ids-icon-external
+        class="ids-icon"
+        slot="append-icon"
+      />
+    </ids-link>
+  </div>
+</body>
+`;
+
+exports[`tables > Should render mobile table 1`] = `
+<body>
+  <div>
+    \`
+          
+    <table
+      class="ids-table"
+    >
+      <tbody>
+        <tr>
+          <th>
+            First cell
+          </th>
+          <td>
+            123
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Second cell
+          </th>
+          <td>
+            Lorem ipsum
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      class="ids-table"
+    >
+      <tbody>
+        <tr>
+          <th>
+            First cell
+          </th>
+          <td>
+            456
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Second cell
+          </th>
+          <td>
+            dolor sit amet
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+        \`
+  </div>
+</body>
+`;
+
+exports[`tables > Should render mobile table with row headers 1`] = `
+<body>
+  <div>
+    \`
+          
+    <table
+      class="ids-table"
+    >
+      <thead>
+        <tr>
+          <th
+            class="text-center"
+            colspan="2"
+          >
+            Row heading
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>
+            First cell
+          </th>
+          <td>
+            1
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Second cell
+          </th>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Third cell
+          </th>
+          <td>
+            3
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+        \`
+  </div>
+</body>
+`;
