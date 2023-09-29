@@ -11,7 +11,6 @@ import {
   getDiagnosisListValue,
   getHasError,
   getLoading,
-  getLoggedCertificateId,
   getPatientId,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
@@ -46,7 +45,6 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const hasError = useSelector(getHasError)
   const isLoading = useSelector(getLoading)
   const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
-  const loggedCertificateId = useSelector(getLoggedCertificateId)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -68,13 +66,8 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     const currentRef = ref['current']
     if (ref && currentRef) {
       currentRef.addEventListener('scroll', handleScroll)
-      return () => {
-        if (ref && currentRef) {
-          currentRef.removeEventListener('scroll', handleScroll)
-        }
-      }
     }
-  }, [handleScroll, ref, dispatch, certificateId, loggedCertificateId])
+  }, [handleScroll, ref, dispatch])
 
   useEffect(() => {
     if (isPanelActive && !isEmpty && diagnosisCodes.length == 0) {
