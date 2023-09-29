@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { Breadcrumbs } from './Breadcrumbs'
 
-beforeEach(() => {
-  render(
+function renderComponent() {
+  return render(
     <RouterProvider
       router={createMemoryRouter(
         createRoutesFromChildren([
@@ -35,12 +35,14 @@ beforeEach(() => {
       )}
     />
   )
-})
+}
 
 it('Should render starting link', () => {
+  renderComponent()
   expect(screen.getByRole('link', { name: 'Start' })).toBeInTheDocument()
 })
 
 it('Should render intyg link twice (mobile and desktop)', () => {
+  renderComponent()
   expect(screen.getAllByRole('link', { name: 'Intyg' })).toHaveLength(2)
 })
