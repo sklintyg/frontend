@@ -36,6 +36,7 @@ import {
   updateCertificateId,
   updateError,
   updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
@@ -142,6 +143,7 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(updateSrsInfo(action.payload))
     dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
     dispatch(updateHasLoadedSRSContent(true))
+    dispatch(updateHasLoggedMeasuresDisplayed(false))
     dispatch(updateLoggedCertificateId(''))
 
     const filteredPredictions = getFilteredPredictions(action.payload.predictions)

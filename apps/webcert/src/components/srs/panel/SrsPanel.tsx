@@ -12,9 +12,16 @@ import {
   getHasError,
   getLoading,
   getPatientId,
+  hasLoggedMeasuresDisplayed,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
+import {
+  getQuestions,
+  getRecommendations,
+  getSRSCodes,
+  logSrsInteraction,
+  updateHasLoggedMeasuresDisplayed,
+} from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
 import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
@@ -46,6 +53,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const hasError = useSelector(getHasError)
   const isLoading = useSelector(getLoading)
   const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
+  const hasLoggedMeasuresDisplay = useSelector(hasLoggedMeasuresDisplayed)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -57,20 +65,30 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const ref = useRef(null)
   const measuresRef = useRef(null)
 
+  const logMeasuresDisplayed = useCallback(() => {
+    if (measuresRef && measuresRef.current) {
+      const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true)
+      if (isMeasuresVisible) {
+        dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+        dispatch(updateHasLoggedMeasuresDisplayed(true))
+      }
+    }
+  }, [dispatch])
+
   const handleScroll = useCallback(() => {
     if (isPanelActive) {
       dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
-      if (measuresRef && measuresRef.current) {
-        const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true)
-        if (isMeasuresVisible) {
-          dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
-        }
+      if (!hasLoggedMeasuresDisplay) {
+        logMeasuresDisplayed()
       }
     }
-  }, [isPanelActive, dispatch])
+  }, [isPanelActive, dispatch, hasLoggedMeasuresDisplay, logMeasuresDisplayed])
 
   useEffect(() => {
     ReactTooltip.rebuild()
+    if (!hasLoggedMeasuresDisplay) {
+      logMeasuresDisplayed()
+    }
     const currentRef = ref['current']
     if (ref && currentRef) {
       currentRef.addEventListener('scroll', handleScroll)
@@ -78,7 +96,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     return () => {
       currentRef?.removeEventListener('scroll', handleScroll)
     }
-  }, [handleScroll, ref, dispatch])
+  }, [handleScroll, ref, dispatch, logMeasuresDisplayed, hasLoggedMeasuresDisplay])
 
   useEffect(() => {
     if (isPanelActive && !isEmpty && diagnosisCodes.length == 0) {

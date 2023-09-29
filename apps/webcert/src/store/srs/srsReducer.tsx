@@ -9,6 +9,7 @@ import {
   updateCertificateId,
   updateError,
   updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
   updateHasUpdatedAnswers,
   updateIsCertificateRenewed,
   updateLoadingCodes,
@@ -59,6 +60,7 @@ export interface SRSState {
   userLaunchFromOrigin: string
   loggedCertificateId: string
   hasLoadedSRSContent: boolean
+  hasLoggedMeasuresDisplayed: boolean
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -85,6 +87,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     userLaunchFromOrigin: '',
     loggedCertificateId: '',
     hasLoadedSRSContent: false,
+    hasLoggedMeasuresDisplayed: false,
   }
 }
 
@@ -166,6 +169,9 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateHasLoadedSRSContent, (state, action) => {
       state.hasLoadedSRSContent = action.payload
+    })
+    .addCase(updateHasLoggedMeasuresDisplayed, (state, action) => {
+      state.hasLoggedMeasuresDisplayed = action.payload
     })
 )
 
