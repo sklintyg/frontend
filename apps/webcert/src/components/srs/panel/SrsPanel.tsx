@@ -67,6 +67,9 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     ReactTooltip.rebuild()
     if (ref.current) {
       ref.current.addEventListener('scroll', handleScroll)
+      return () => {
+        ref.current.removeEventListener('scroll', handleScroll)
+      }
     }
   }, [handleScroll, ref, dispatch, certificateId, loggedCertificateId])
 
