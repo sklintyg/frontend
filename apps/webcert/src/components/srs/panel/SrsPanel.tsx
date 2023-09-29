@@ -62,8 +62,8 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
-  const ref = useRef(null)
-  const measuresRef = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const measuresRef = useRef<HTMLDivElement>(null)
 
   const logMeasuresDisplayed = useCallback(() => {
     if (measuresRef && measuresRef.current) {
