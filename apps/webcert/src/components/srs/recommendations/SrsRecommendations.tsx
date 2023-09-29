@@ -8,7 +8,7 @@ export const SRS_OBSERVE_TITLE = 'Tänk på att'
 export const SRS_EXTENSION_TITLE = 'Tänk på att vid förlängning'
 export const SRS_RECOMMENDATIONS_TITLE = 'Åtgärdsrekommendationer'
 
-const SrsRecommendations = forwardRef((_: unknown, ref: Ref<HTMLElement>) => {
+const SrsRecommendations = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const info = useSelector(getSrsInfo)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))

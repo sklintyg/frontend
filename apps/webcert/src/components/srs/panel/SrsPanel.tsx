@@ -89,10 +89,8 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     if (!hasLoggedMeasuresDisplay) {
       logMeasuresDisplayed()
     }
-    const currentRef = ref['current']
-    if (ref && currentRef) {
-      currentRef.addEventListener('scroll', handleScroll)
-    }
+    const currentRef = ref.current
+    currentRef?.addEventListener('scroll', handleScroll)
     return () => {
       currentRef?.removeEventListener('scroll', handleScroll)
     }
