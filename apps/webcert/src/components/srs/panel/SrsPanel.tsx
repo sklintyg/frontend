@@ -24,6 +24,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import SrsRisk from '../risk/SrsRisk'
 import { SrsMinimizedView } from '../minimizedView/SrsMinimizedView'
+import { isScrolledIntoView } from '../srsUtils'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 
@@ -54,10 +55,17 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
   const ref = useRef(null)
+  const measuresRef = useRef(null)
 
   const handleScroll = useCallback(() => {
     if (isPanelActive) {
       dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+      if (measuresRef && measuresRef.current) {
+        const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true)
+        if (isMeasuresVisible) {
+          dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+        }
+      }
     }
   }, [isPanelActive, dispatch])
 
@@ -66,6 +74,9 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     const currentRef = ref['current']
     if (ref && currentRef) {
       currentRef.addEventListener('scroll', handleScroll)
+    }
+    return () => {
+      currentRef?.removeEventListener('scroll', handleScroll)
     }
   }, [handleScroll, ref, dispatch])
 
@@ -116,7 +127,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
         <SRSSickleaveChoices />
         <SrsRisk />
         <SrsInformationChoices onChange={updateInformationChoice} currentChoice={informationChoice} />
-        {informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations /> : <SrsNationalStatistics />}
+        {informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations ref={measuresRef} /> : <SrsNationalStatistics />}
       </>
     )
   }

@@ -141,7 +141,6 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(updateError(false))
     dispatch(updateSrsInfo(action.payload))
     dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
-    dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
     dispatch(updateHasLoadedSRSContent(true))
     dispatch(updateLoggedCertificateId(''))
 
