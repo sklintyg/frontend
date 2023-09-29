@@ -65,7 +65,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-    const currentRef = ref.current
+    const currentRef = ref['current']
     if (ref && currentRef) {
       currentRef.addEventListener('scroll', handleScroll)
       return () => {
