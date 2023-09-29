@@ -1,3 +1,4 @@
+import { IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
 import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
@@ -11,7 +12,11 @@ import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 
 export function CertificatePage() {
   const { id } = useParams()
-  const { data: certificate } = useGetCertificateQuery(id ? { id } : skipToken)
+  const { data: certificate, isLoading } = useGetCertificateQuery(id ? { id } : skipToken)
+
+  if (isLoading) {
+    return <IDSSpinner data-testid="spinner" />
+  }
 
   if (!certificate) {
     return null
