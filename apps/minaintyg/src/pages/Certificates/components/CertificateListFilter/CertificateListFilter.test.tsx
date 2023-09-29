@@ -29,7 +29,7 @@ describe('Options from API', () => {
   it.each(['Status', 'Mottagning', 'Intygstyp', 'År'])('Should have corret %s option', async (name) => {
     const { container } = render(
       <Provider store={store}>
-        <CertificateListFilter onSubmit={vi.fn()} />
+        <CertificateListFilter listed={10} onSubmit={vi.fn()} />
       </Provider>
     )
 
@@ -48,7 +48,7 @@ it('Should call on submit when "Filtrera" is pressed', async () => {
   const onSubmit = vi.fn()
   const { container } = render(
     <Provider store={store}>
-      <CertificateListFilter onSubmit={onSubmit} />
+      <CertificateListFilter listed={10} onSubmit={onSubmit} />
     </Provider>
   )
 
@@ -67,7 +67,7 @@ it.each([
 ] as [string, keyof typeof options][])('Should reset %s when "Återställ filter" is pressed', async (fieldName, key) => {
   const { container } = render(
     <Provider store={store}>
-      <CertificateListFilter onSubmit={vi.fn()} />
+      <CertificateListFilter listed={10} onSubmit={vi.fn()} />
     </Provider>
   )
 

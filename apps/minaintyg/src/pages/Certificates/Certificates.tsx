@@ -23,7 +23,7 @@ export function Certificates() {
         intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
         arbetsgivare.
       </PageHeading>
-      <CertificateListFilter onSubmit={() => setSubmitFilters(filters)} />
+      <CertificateListFilter listed={data?.content.length ?? 0} onSubmit={() => setSubmitFilters(filters)} />
       <CertificateListOrder setOrder={setOrder} order={order} />
       {isLoading && (
         <div data-testid="certificate-list-spinner">

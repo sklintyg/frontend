@@ -8,7 +8,7 @@ import { CertificateTypeFilter } from './CertificateTypeFilter'
 import { CertificateUnitFilter } from './CertificateUnitFilter'
 import { CertificateYearFilter } from './CertificateYearFilter'
 
-export function CertificateListFilter({ onSubmit }: { onSubmit: () => void }) {
+export function CertificateListFilter({ listed, onSubmit }: { listed: number; onSubmit: () => void }) {
   const { data: filter } = useGetCertificatesFilterQuery()
   const dispatch = useAppDispatch()
 
@@ -17,7 +17,7 @@ export function CertificateListFilter({ onSubmit }: { onSubmit: () => void }) {
   }
 
   return (
-    <FilterAccordion title={`${filter.total} intyg`}>
+    <FilterAccordion listed={listed} total={filter.total} noun="intyg">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-4 md:gap-10">
         <CertificateStatusFilter options={filter.statuses} />
         <CertificateUnitFilter options={filter.units} />
