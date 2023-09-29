@@ -15,6 +15,7 @@ import {
   RiskOpinionRequest,
   setRiskOpinion,
   updateCertificateId,
+  updateHasLoadedSRSContent,
   updateLoggedCertificateId,
   updateSrsPredictions,
 } from './srsActions'
@@ -271,6 +272,7 @@ describe('Test certificate middleware', () => {
       beforeEach(() => {
         testStore.dispatch(updateCertificateId('ID'))
         testStore.dispatch(updateLoggedCertificateId('ID'))
+        testStore.dispatch(updateHasLoadedSRSContent(true))
       })
 
       it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
@@ -282,8 +284,6 @@ describe('Test certificate middleware', () => {
       })
 
       it('should perform api call for SRS_PANEL_ACTIVATED', async () => {
-        testStore.dispatch(updateCertificateId('ID'))
-        testStore.dispatch(updateLoggedCertificateId('ID'))
         testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
         await flushPromises()
         expect(fakeAxios.history.post).toHaveLength(0)
@@ -296,6 +296,15 @@ describe('Test certificate middleware', () => {
         testStore.dispatch(updateLoggedCertificateId('not ID'))
       })
 
+      it('should perform api call that is not SRS_PANEL_ACTIVATED if SRS has loaded', async () => {
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+        testStore.dispatch(updateHasLoadedSRSContent(true))
+        await flushPromises()
+
+        expect(fakeAxios.history.post).toHaveLength(1)
+        expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+      })
+
       it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
         testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
         await flushPromises()
@@ -304,9 +313,8 @@ describe('Test certificate middleware', () => {
         expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
       })
 
-      it('should not perform api call for SRS_PANEL_ACTIVATED', async () => {
-        testStore.dispatch(updateCertificateId('ID'))
-        testStore.dispatch(updateLoggedCertificateId('ID'))
+      it('should not perform api call for SRS_PANEL_ACTIVATED if SRS has not loaded', async () => {
+        testStore.dispatch(updateHasLoadedSRSContent(false))
         testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
         await flushPromises()
         expect(fakeAxios.history.post).toHaveLength(0)

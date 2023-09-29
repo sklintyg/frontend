@@ -35,6 +35,7 @@ import {
   updateCareProviderId,
   updateCertificateId,
   updateError,
+  updateHasLoadedSRSContent,
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
@@ -141,6 +142,7 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(updateSrsInfo(action.payload))
     dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
     dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+    dispatch(updateHasLoadedSRSContent(true))
 
     const filteredPredictions = getFilteredPredictions(action.payload.predictions)
 
@@ -254,7 +256,7 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
   (action: PayloadAction<SrsEvent>): void => {
     const srsState = getState().ui.uiSRS
     if (action.payload === SrsEvent.SRS_PANEL_ACTIVATED) {
-      if (srsState.certificateId !== srsState.loggedCertificateId) {
+      if (srsState.hasLoadedSRSContent && srsState.certificateId !== srsState.loggedCertificateId) {
         dispatch(updateLoggedCertificateId(getState().ui.uiSRS.certificateId))
       } else {
         return

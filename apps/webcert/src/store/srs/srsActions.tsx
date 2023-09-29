@@ -93,6 +93,7 @@ export const updateUserClientContext = createAction<SrsUserClientContext>(`${SRS
 
 export const updateUserLaunchFromOrigin = createAction<string>(`${SRS} Update user launch from origin`)
 export const updateLoggedCertificateId = createAction<string>(`${SRS} Update last logged ceritifcateId`)
+export const updateHasLoadedSRSContent = createAction<string>(`${SRS} Update has loaded SRS content`)
 
 export interface RecommendationsRequest {
   patientId: string
