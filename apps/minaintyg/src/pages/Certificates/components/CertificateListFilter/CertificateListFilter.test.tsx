@@ -26,15 +26,15 @@ beforeEach(() => {
 })
 
 describe('Options from API', () => {
-  beforeEach(() => {
-    render(
+  it.each(['Status', 'Mottagning', 'Intygstyp', 'År'])('Should have corret %s option', async (name) => {
+    const { container } = render(
       <Provider store={store}>
         <CertificateListFilter onSubmit={vi.fn()} />
       </Provider>
     )
-  })
 
-  it.each(['Status', 'Mottagning', 'Intygstyp', 'År'])('Should have corret %s option', async (name) => {
+    await waitFor(() => expect(container).not.toBeEmptyDOMElement())
+
     expect(
       (within(screen.getByLabelText(name)).getByRole('option', { name: `Välj ${name.toLowerCase()}` }) as HTMLOptionElement).selected
     ).toBe(true)
@@ -46,39 +46,37 @@ describe('Options from API', () => {
 
 it('Should call on submit when "Filtrera" is pressed', async () => {
   const onSubmit = vi.fn()
-  render(
+  const { container } = render(
     <Provider store={store}>
       <CertificateListFilter onSubmit={onSubmit} />
     </Provider>
   )
+
+  await waitFor(() => expect(container).not.toBeEmptyDOMElement())
 
   await userEvent.click(screen.getByLabelText('Filtrera'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
 
-it('Should reset filters when "Återställ filter" is pressed', async () => {
-  render(
+it.each([
+  ['Status', 'statuses'],
+  ['Mottagning', 'units'],
+  ['Intygstyp', 'certificateTypes'],
+  ['År', 'years'],
+] as [string, keyof typeof options][])('Should reset %s when "Återställ filter" is pressed', async (fieldName, key) => {
+  const { container } = render(
     <Provider store={store}>
       <CertificateListFilter onSubmit={vi.fn()} />
     </Provider>
   )
 
-  await waitFor(() => {
-    expect(within(screen.getByLabelText('År')).getAllByRole('option').length).toBe(5)
-  })
+  await waitFor(() => expect(container).not.toBeEmptyDOMElement())
 
-  await Promise.all(
-    ['Status', 'Mottagning', 'Intygstyp', 'År'].map((name) =>
-      userEvent.selectOptions(screen.getByLabelText(name), within(screen.getByLabelText(name)).getAllByRole('option')[3])
-    )
-  )
+  await userEvent.selectOptions(screen.getByLabelText(fieldName), within(screen.getByLabelText(fieldName)).getAllByRole('option')[3])
 
-  expect(store.getState().certificateFilter).toEqual({
-    statuses: options.statuses[2],
-    certificateTypes: options.certificateTypes[2],
-    units: options.units[2],
-    years: options.years[2],
+  expect(store.getState().certificateFilter).toMatchObject({
+    [key]: options[key][2],
   })
 
   await userEvent.click(screen.getByLabelText('Återställ filter'))

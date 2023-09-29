@@ -12,13 +12,17 @@ export function CertificateListFilter({ onSubmit }: { onSubmit: () => void }) {
   const { data: filter } = useGetCertificatesFilterQuery()
   const dispatch = useAppDispatch()
 
+  if (!filter) {
+    return null
+  }
+
   return (
-    <FilterAccordion title={`${filter?.total ?? 0} intyg`}>
+    <FilterAccordion title={`${filter.total} intyg`}>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-4 md:gap-10">
-        <CertificateStatusFilter options={filter?.statuses ?? []} />
-        <CertificateUnitFilter options={filter?.units ?? []} />
-        <CertificateTypeFilter options={filter?.certificateTypes ?? []} />
-        <CertificateYearFilter options={filter?.years ?? []} />
+        <CertificateStatusFilter options={filter.statuses} />
+        <CertificateUnitFilter options={filter.units} />
+        <CertificateTypeFilter options={filter.certificateTypes} />
+        <CertificateYearFilter options={filter.years} />
         <div className="flex flex-col gap-5 md:col-span-4 md:flex-row">
           <IDSButton secondary sblock onClick={() => dispatch(reset())} aria-label="Återställ filter">
             Återställ filter
