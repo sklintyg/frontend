@@ -143,6 +143,7 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
     dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
     dispatch(updateHasLoadedSRSContent(true))
+    dispatch(updateLoggedCertificateId(''))
 
     const filteredPredictions = getFilteredPredictions(action.payload.predictions)
 
