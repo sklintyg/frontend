@@ -8,8 +8,11 @@ exports[`Should render as expected 1`] = `
     >
       <ids-header
         class="z-40 bg-white print:hidden"
+        type="1177"
       >
-        <ids-header-avatar>
+        <ids-header-avatar
+          type="1177"
+        >
           <button
             slot="avatar-left"
             type="button"
@@ -23,57 +26,76 @@ exports[`Should render as expected 1`] = `
             Logga ut
           </button>
         </ids-header-avatar>
-        <ids-header-nav>
-          <ids-header-nav-item>
+        <ids-header-nav
+          slot="header-nav"
+          type="1177"
+        >
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/"
             >
               Start
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/inkorg"
             >
               Inkorg
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/bokade-tider"
             >
               Bokade tider
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/journalen"
             >
               Journalen
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/egen-provhantering"
             >
               Egen provhantering
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/stod-och-behandling"
             >
               Stöd och behandling
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/intyg"
             >
               Intyg
             </a>
           </ids-header-nav-item>
-          <ids-header-nav-item>
+          <ids-header-nav-item
+            type="1177"
+          >
             <a
               href="/ovriga-tjanster"
             >
@@ -89,65 +111,92 @@ exports[`Should render as expected 1`] = `
           </ids-header-mobile-item>
           <ids-header-mobile-item>
             <a
-              href="/logout"
+              href="#"
             >
               Logga ut
             </a>
           </ids-header-mobile-item>
-          <ids-header-mobile-menu>
+          <ids-header-mobile-menu
+            type="1177"
+          >
             Meny
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              active=""
+              slot="menu-link"
+            >
               <a
                 href="/"
+                slot="link"
               >
                 Start
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/inkorg"
+                slot="link"
               >
                 Inkorg
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/bokade-tider"
+                slot="link"
               >
                 Bokade tider
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/journalen"
+                slot="link"
               >
                 Journalen
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/egen-provhantering"
+                slot="link"
               >
                 Egen provhantering
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/stod-och-behandling"
+                slot="link"
               >
                 Stöd och behandling
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/intyg"
+                slot="link"
               >
                 Intyg
               </a>
             </ids-mobile-menu-item>
-            <ids-mobile-menu-item>
+            <ids-mobile-menu-item
+              slot="menu-link"
+            >
               <a
                 href="/ovriga-tjanster"
+                slot="link"
               >
                 Övriga tjänster
               </a>
@@ -172,7 +221,51 @@ exports[`Should render as expected 1`] = `
         </div>
       </main>
       <ids-footer
-        class="print:hidden"
+        class="print:hidden ids-type-1177"
+        cols="3"
+        linkcol1="2"
+        linkcol2="2"
+        linkcol3="2"
+        type="1177"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Should render without header when user is not logged in 1`] = `
+<body>
+  <div>
+    <div
+      class="flex min-h-screen flex-col"
+    >
+      <ids-header
+        class="z-40 bg-white print:hidden"
+        type="1177"
+      />
+      <main
+        class="flex-1"
+      >
+        <div
+          class="ids-content m-auto max-w-7xl p-5"
+        >
+          <div
+            class="mb-5"
+          >
+            <ids-breadcrumbs />
+          </div>
+          <p>
+            FooBar
+          </p>
+        </div>
+      </main>
+      <ids-footer
+        class="print:hidden ids-type-1177"
+        cols="3"
+        linkcol1="2"
+        linkcol2="2"
+        linkcol3="2"
+        type="1177"
       />
     </div>
   </div>
