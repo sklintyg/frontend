@@ -372,7 +372,7 @@ export function Welcome() {
                 <input
                   id="send"
                   type="checkbox"
-                  className="mt-2 ml-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
+                  className="ml-2 mt-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
                   checked={isSend}
                   onChange={(e) => dispatch(setIsSend(e.target.checked))}
                 />
@@ -382,7 +382,7 @@ export function Welcome() {
                 <input
                   id="revoked"
                   type="checkbox"
-                  className="mt-2 ml-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
+                  className="ml-2 mt-2 box-border scale-125 truncate rounded border py-3 pl-5 pr-12 text-left"
                   checked={isRevoked}
                   onChange={(e) => dispatch(setIsRevoked(e.target.checked))}
                 />

@@ -11,7 +11,8 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/no-multi-comp': 'error',
+    'react/require-default-props': 'off',
   },
 }

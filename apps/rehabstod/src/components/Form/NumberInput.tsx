@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Input, classNames } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ComponentProps, useId } from 'react'

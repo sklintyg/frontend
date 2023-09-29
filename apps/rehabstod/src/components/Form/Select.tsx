@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { classNames, useInputStyle } from '@frontend/components'
 import React from 'react'
 

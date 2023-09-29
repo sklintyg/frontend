@@ -32,11 +32,11 @@ describe('vibility', () => {
 
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(true)
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).toBeChecked()
 
     await user.click(screen.getByLabelText('Slutdatum'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(false)
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).not.toBeChecked()
   }, 20000)
 
   it('Should save column visibility changes', async () => {

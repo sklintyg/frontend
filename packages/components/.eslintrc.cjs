@@ -5,7 +5,13 @@ const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://git
 
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:jest/recommended', 'plugin:tailwindcss/recommended'],
+  extends: ['react', 'plugin:tailwindcss/recommended'],
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['react', 'react-test'],
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -32,7 +38,6 @@ module.exports = {
       },
     ],
     'react/no-unknown-property': ['error', { ignore: ['trigger'] }],
-    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': [
       'error',
       {

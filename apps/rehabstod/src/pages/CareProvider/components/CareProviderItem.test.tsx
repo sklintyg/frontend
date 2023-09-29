@@ -25,7 +25,7 @@ it('should display care unit', () => {
   renderComponent()
   const expectedValue = vardgivare.vardenheter[0].namn
   const label = screen.getByText(vardgivare.vardenheter[0].namn)
-  expect(label.textContent).toBe(expectedValue)
+  expect(label).toHaveTextContent(expectedValue)
 })
 
 it('should display sub care unit', () => {
@@ -36,7 +36,7 @@ it('should display sub care unit', () => {
   const subUnits = receptions.filter((unit) => unit !== undefined)
   const expectedSubUnit = subUnits[0].namn
   const label = screen.getByText(expectedSubUnit)
-  expect(label.textContent).toBe(expectedSubUnit)
+  expect(label).toHaveTextContent(expectedSubUnit)
 })
 
 it('should set care unit to selected unit', async () => {
