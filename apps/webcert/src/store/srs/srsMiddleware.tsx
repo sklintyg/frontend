@@ -38,6 +38,7 @@ import {
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
+  updateLoggedCertificateId,
   updatePatientId,
   updateRiskOpinion,
   updateSrsAnswers,
@@ -252,6 +253,14 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
   () =>
   (action: PayloadAction<SrsEvent>): void => {
     const srsState = getState().ui.uiSRS
+    if (action.payload === SrsEvent.SRS_PANEL_ACTIVATED) {
+      if (srsState.certificateId !== srsState.loggedCertificateId) {
+        dispatch(updateLoggedCertificateId(getState().ui.uiSRS.certificateId))
+      } else {
+        return
+      }
+    }
+
     dispatch(
       apiCallBegan({
         url: `/api/jslog/srs`,

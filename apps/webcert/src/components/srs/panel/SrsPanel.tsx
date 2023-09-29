@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PanelHeader from '../../../feature/certificate/CertificateSidePanel/PanelHeader'
 import SrsPanelError from './SrsPanelError'
 import SrsPanelNoSupportInfo from './SrsPanelNoSupportInfo'
@@ -15,7 +15,7 @@ import {
   getPatientId,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction, updateLoggedCertificateId } from '../../../store/srs/srsActions'
+import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
 import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
@@ -55,13 +55,20 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
+  const ref = useRef(null)
+
+  const handleScroll = useCallback(() => {
+    if (isPanelActive) {
+      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+    }
+  }, [isPanelActive, dispatch])
+
   useEffect(() => {
     ReactTooltip.rebuild()
-    if (isPanelActive && certificateId !== loggedCertificateId) {
-      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
-      dispatch(updateLoggedCertificateId(certificateId))
+    if (ref.current) {
+      ref.current.addEventListener('scroll', handleScroll)
     }
-  }, [isPanelActive, dispatch, certificateId, loggedCertificateId])
+  }, [handleScroll, ref, dispatch, certificateId, loggedCertificateId])
 
   useEffect(() => {
     if (isPanelActive && !isEmpty && diagnosisCodes.length == 0) {
@@ -118,7 +125,9 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
   return (
     <>
       <PanelHeader description={SRS_TITLE} />
-      <Wrapper className="iu-border-grey-300 iu-p-500 iu-m-none">{getContent()}</Wrapper>
+      <Wrapper ref={ref} className="iu-border-grey-300 iu-p-500 iu-m-none">
+        {getContent()}
+      </Wrapper>
       {hasSupportedDiagnosisCode && <SRSPanelFooter informationChoice={informationChoice} />}
     </>
   )

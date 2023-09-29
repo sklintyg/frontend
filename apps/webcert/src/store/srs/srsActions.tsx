@@ -91,8 +91,6 @@ export const updateHasUpdatedAnswers = createAction<boolean>(`${SRS} Update has 
 
 export const updateUserClientContext = createAction<SrsUserClientContext>(`${SRS} Update user client context`)
 
-export const updateIsPanelActive = createAction<boolean>(`${SRS} Update is panel active`)
-
 export const updateUserLaunchFromOrigin = createAction<string>(`${SRS} Update user launch from origin`)
 export const updateLoggedCertificateId = createAction<string>(`${SRS} Update last logged ceritifcateId`)
 
