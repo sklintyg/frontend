@@ -19,7 +19,7 @@ export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>
   const isEmpty = info.atgarderStatusCode === 'INFORMATION_SAKNAS'
 
   return (
-    <div>
+    <>
       <SrsRecommendationsBox
         ref={ref}
         recommendations={info.atgarderReh}
@@ -49,6 +49,6 @@ export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>
         diagnosisDescription={diagnosisDescription}
         diagnosisCode={diagnosisCode}
       />
-    </div>
+    </>
   )
 })
