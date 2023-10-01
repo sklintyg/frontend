@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref } from 'react'
+import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { SrsInformationChoice, SrsSickLeaveChoice } from '@frontend/common'
@@ -22,11 +22,12 @@ const SrsRecommendations = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => 
   const isEmpty = info.atgarderStatusCode === 'INFORMATION_SAKNAS'
 
   return (
-    <div ref={ref}>
+    <>
       {isExtension && (
-        <SrsRecommendationsBox recommendations={info.atgarderFrl} isEmpty={isEmpty} title={SRS_EXTENSION_TITLE} id={'EXT-'} />
+        <SrsRecommendationsBox ref={ref} recommendations={info.atgarderFrl} isEmpty={isEmpty} title={SRS_EXTENSION_TITLE} id={'EXT-'} />
       )}
       <SrsRecommendationsBox
+        ref={!isExtension ? ref : null}
         recommendations={info.atgarderObs}
         isEmpty={isEmpty}
         title={SRS_OBSERVE_TITLE}
@@ -42,7 +43,7 @@ const SrsRecommendations = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => 
         diagnosisCode={diagnosisCode}
         diagnosisDescription={diagnosisDescription}
       />
-    </div>
+    </>
   )
 })
 
