@@ -69,6 +69,7 @@ const SrsRisk: React.FC = () => {
   }, [isCalculatingRiskDisabled])
 
   const onButtonClicked = () => {
+    dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
     if (expanded) {
       dispatch(logSrsInteraction(SrsEvent.SRS_HIDE_QUESTIONS_CLICKED))
     } else {

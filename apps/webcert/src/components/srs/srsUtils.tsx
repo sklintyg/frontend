@@ -145,9 +145,9 @@ export const getUserClientContextForCertificate = (metadata: CertificateMetadata
 }
 
 // From original SRS code in Angular-repo
-export const isScrolledIntoView = (element: HTMLElement, fullyInView: boolean) => {
+export const isScrolledIntoView = (element: HTMLElement, fullyInView: boolean, offset: number) => {
   const pageTop = window.document.documentElement.scrollTop
-  const pageBottom = pageTop + window.innerHeight
+  const pageBottom = pageTop + window.innerHeight + offset
   const elementTop = element.getBoundingClientRect().top
   const elementBottom = elementTop + element.getBoundingClientRect().height
 

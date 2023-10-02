@@ -64,10 +64,11 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
 
   const ref = useRef<HTMLDivElement>(null)
   const measuresRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLDivElement>(null)
 
   const logMeasuresDisplayed = useCallback(() => {
-    if (measuresRef && measuresRef.current) {
-      const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true)
+    if (measuresRef && measuresRef.current && footerRef && footerRef.current) {
+      const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true, footerRef.current.clientHeight)
       if (isMeasuresVisible) {
         dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
         dispatch(updateHasLoggedMeasuresDisplayed(true))
@@ -134,7 +135,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
     }
 
     if (minimizedView) {
-      return <SrsMinimizedView />
+      return <SrsMinimizedView ref={measuresRef} />
     }
 
     return (
@@ -154,7 +155,7 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
       <Wrapper ref={ref} className="iu-border-grey-300 iu-p-500 iu-m-none">
         {getContent()}
       </Wrapper>
-      {hasSupportedDiagnosisCode && <SRSPanelFooter informationChoice={informationChoice} />}
+      {hasSupportedDiagnosisCode && <SRSPanelFooter ref={footerRef} informationChoice={informationChoice} />}
     </>
   )
 }
