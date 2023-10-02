@@ -4,18 +4,16 @@ import { format, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
 import { CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
-import { userSchema } from '../schema/user.schema'
+import { loginMethodEnum, userSchema } from '../schema/user.schema'
 
 export const handlers = [
   rest.get('/api/user', (_, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json(
-        fakerFromSchema(userSchema, {
-          stringMap: {
-            personName: faker.name.fullName,
-          },
-        })()
+        fakerFromSchema(userSchema)({
+          loginMethod: loginMethodEnum.enum.FAKE,
+        })
       )
     )
   ),
@@ -47,6 +45,10 @@ export const handlers = [
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
-    res(ctx.json({ testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)) }))
+    res(
+      ctx.json({
+        testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)),
+      })
+    )
   ),
 ]

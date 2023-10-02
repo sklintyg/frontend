@@ -3,12 +3,13 @@ import { faker } from '@faker-js/faker'
 import { deepmergeCustom, DeepMergeLeafURI } from 'deepmerge-ts'
 import { DeepPartial } from 'ts-essentials'
 import { z, ZodTypeAny } from 'zod'
-
-export const fakeHSA = () =>
-  `${faker.random.alpha({ count: 6, casing: 'upper' })}${faker.datatype.number({ min: 1e9 })}-${faker.datatype.number({ min: 1e3 })}`
+import { fakeHSA } from './hsa'
+import { fakePersonId } from './personId'
 
 export { faker } from '@faker-js/faker'
 export * from './certificate'
+export * from './hsa'
+export * from './personId'
 
 export const stringMap = {
   id: faker.datatype.uuid,
@@ -25,6 +26,8 @@ export const stringMap = {
   epost: faker.internet.email,
   telefonnummer: faker.phone.number,
   arbetsplatskod: faker.datatype.uuid,
+  personId: fakePersonId,
+  personName: faker.name.fullName,
 }
 
 const customDeepmerge = deepmergeCustom<{

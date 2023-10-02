@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { Breadcrumbs } from './Breadcrumbs'
 import { LayoutFooter } from './LayoutFooter'
-import { LayoutHeader } from './LayoutHeader'
+import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 
 export function Layout() {
   return (

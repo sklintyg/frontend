@@ -10,21 +10,26 @@ import {
   getPredictions,
   getRecommendations,
   getSRSCodes,
+  logSrsInteraction,
   PredictionsRequest,
   RiskOpinionRequest,
   setRiskOpinion,
+  updateCertificateId,
+  updateHasLoadedSRSContent,
+  updateLoggedCertificateId,
   updateSrsPredictions,
 } from './srsActions'
 import {
+  CertificateStatus,
   fakeCertificate,
-  fakeUser,
+  fakeCertificateMetaData,
   fakeDiagnosesElement,
   fakeRadioMultipleCodeElement,
   fakeSrsAnswer,
   fakeSrsInfo,
   fakeSrsPrediction,
-  fakeCertificateMetaData,
-  CertificateStatus,
+  fakeUser,
+  SrsEvent,
   SrsUserClientContext,
   User,
 } from '@frontend/common'
@@ -259,6 +264,61 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.careProviderId).toEqual(certificate.metadata.careProvider.unitId)
+    })
+  })
+
+  describe('Log SRS interaction', () => {
+    describe('logging has been performed', () => {
+      beforeEach(() => {
+        testStore.dispatch(updateCertificateId('ID'))
+        testStore.dispatch(updateLoggedCertificateId('ID'))
+        testStore.dispatch(updateHasLoadedSRSContent(true))
+      })
+
+      it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+        await flushPromises()
+
+        expect(fakeAxios.history.post).toHaveLength(1)
+        expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+      })
+
+      it('should perform api call for SRS_PANEL_ACTIVATED', async () => {
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+        await flushPromises()
+        expect(fakeAxios.history.post).toHaveLength(0)
+      })
+    })
+
+    describe('logging has not been performed', () => {
+      beforeEach(() => {
+        testStore.dispatch(updateCertificateId('ID'))
+        testStore.dispatch(updateLoggedCertificateId('not ID'))
+      })
+
+      it('should perform api call that is not SRS_PANEL_ACTIVATED if SRS has loaded', async () => {
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+        testStore.dispatch(updateHasLoadedSRSContent(true))
+        await flushPromises()
+
+        expect(fakeAxios.history.post).toHaveLength(1)
+        expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+      })
+
+      it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+        await flushPromises()
+
+        expect(fakeAxios.history.post).toHaveLength(1)
+        expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+      })
+
+      it('should not perform api call for SRS_PANEL_ACTIVATED if SRS has not loaded', async () => {
+        testStore.dispatch(updateHasLoadedSRSContent(false))
+        testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+        await flushPromises()
+        expect(fakeAxios.history.post).toHaveLength(0)
+      })
     })
   })
 })
