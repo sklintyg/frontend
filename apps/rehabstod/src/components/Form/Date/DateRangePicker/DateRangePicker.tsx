@@ -1,4 +1,4 @@
-import { classNames, useInputStyle } from '@frontend/components'
+import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import React from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
@@ -6,7 +6,6 @@ import { useDateRangePickerState } from 'react-stately'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { TooltipIcon } from '../../../TooltipIcon/TooltipIcon'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 
@@ -38,8 +37,8 @@ export function DateRangePicker({
         <div {...groupProps} ref={ref} className={style}>
           <div className="inline-flex w-full gap-1 pl-5">
             <DateField {...startFieldProps} />
-            <span className="hidden py-3 px-1 sm:inline-block">till</span>
-            <span className="py-3 px-1 sm:hidden">-</span>
+            <span className="hidden px-1 py-3 sm:inline-block">till</span>
+            <span className="px-1 py-3 sm:hidden">-</span>
             <DateField {...endFieldProps} />
           </div>
           <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />

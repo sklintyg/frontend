@@ -16,7 +16,8 @@
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^3.0.9",
     "react": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "@floating-ui/react": "^0.25.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -40,6 +41,7 @@
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^2.6.0",
     "react": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "@floating-ui/react": "^0.25.1"
   }
 }

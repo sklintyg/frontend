@@ -1,6 +1,4 @@
-import { Tooltip } from '../../../../components/Tooltip/Tooltip'
-import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
-import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 
 export function OtherUnitInformation() {
   return (

@@ -1,7 +1,5 @@
-import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
+import { Select, classNames, useInputStyle } from '@frontend/components'
 import { useId } from 'react'
-import { Select } from '../../Form/Select'
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function SelectFilter({
@@ -10,7 +8,7 @@ export function SelectFilter({
   description,
   value,
   label,
-  hideDefaultValue = false,
+  error,
   disabled = false,
 }: {
   onChange: (option: string) => void
@@ -18,15 +16,16 @@ export function SelectFilter({
   description: string
   value?: string
   label: string
-  hideDefaultValue?: boolean
+  error?: boolean
   disabled?: boolean
 }) {
   const id = useId()
   const chosenOption = options.find((option) => option.id === value)
+  const style = useInputStyle({ error, disabled })
 
   return (
     <>
-      <div className="flex-1 print:hidden">
+      {/* <div className="flex-1 print:hidden">
         <IDSSelect className="m-0" isDisabled={disabled}>
           <label htmlFor={id} className="mb-0">
             {label}
@@ -47,7 +46,16 @@ export function SelectFilter({
             </Select>
           </div>
         </IDSSelect>
-      </div>
+      </div> */}
+      <Select
+        id={id}
+        label={label}
+        description={description}
+        disabled={disabled}
+        className={classNames(style, 'py-3', 'appearance-none', 'pl-5 pr-12')}
+        options={options.map((opt) => ({ value: opt.id, label: opt.name }))}
+        onChange={(event) => onChange(event.currentTarget.value)}
+      />
 
       <div className="hidden print:block">
         <PrintTitle title={label} />

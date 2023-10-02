@@ -14,11 +14,7 @@ export function CertificateTypeFilter({ options }: { options: string[] }) {
       label="Intygstyp"
       value={certificateTypes ?? ''}
       onChange={(event) => dispatch(update({ certificateTypes: event.target.value }))}
-    >
-      <option value="">Välj intygstyp</option>
-      {options.map((option) => (
-        <option key={option}>{option}</option>
-      ))}
-    </Select>
+      options={[{ value: '', label: 'Välj intygstyp' }, ...options.map((option) => ({ value: option, label: option }))]}
+    />
   )
 }

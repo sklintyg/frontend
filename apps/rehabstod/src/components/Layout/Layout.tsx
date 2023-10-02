@@ -1,3 +1,4 @@
+import { useTheme } from '@frontend/components'
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
@@ -13,6 +14,7 @@ import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 export function Layout() {
   const { user, isLoading } = useSession()
   const { data: config } = useGetConfigQuery()
+  useTheme('ineraAdmin')
 
   return (
     <div className="flex min-h-screen flex-col">

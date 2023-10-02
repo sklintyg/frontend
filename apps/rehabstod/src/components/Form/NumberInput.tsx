@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Input, classNames } from '@frontend/components'
+import { Input, TooltipIcon, classNames } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ComponentProps, useId } from 'react'
-import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
 export function NumberInput({
   label,

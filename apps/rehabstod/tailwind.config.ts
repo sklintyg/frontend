@@ -1,3 +1,5 @@
+import { themes } from '@frontend/components'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/@frontend/components/dist/*.js'],
@@ -49,6 +51,7 @@ module.exports = {
         99: 'var(--IDS-COLOR-ERROR-99)',
         10: '#FF9517',
       },
+      ...themes.ineraAdmin,
     },
     extend: {
       gridTemplateColumns: {

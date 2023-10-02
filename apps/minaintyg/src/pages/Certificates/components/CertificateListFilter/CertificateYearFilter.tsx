@@ -9,11 +9,12 @@ export function CertificateYearFilter({ options }: { options: string[] }) {
   const dispatch = useAppDispatch()
 
   return (
-    <Select id={id} label="År" value={years ?? ''} onChange={(event) => dispatch(update({ years: event.target.value }))}>
-      <option value="">Välj år</option>
-      {options.map((option) => (
-        <option key={option}>{option}</option>
-      ))}
-    </Select>
+    <Select
+      id={id}
+      label="År"
+      value={years ?? ''}
+      onChange={(event) => dispatch(update({ years: event.target.value }))}
+      options={[{ value: '', label: 'Välj år' }, ...options.map((option) => ({ value: option, label: option }))]}
+    />
   )
 }

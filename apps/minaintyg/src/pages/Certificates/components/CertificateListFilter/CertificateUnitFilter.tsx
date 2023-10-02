@@ -9,11 +9,12 @@ export function CertificateUnitFilter({ options }: { options: string[] }) {
   const dispatch = useAppDispatch()
 
   return (
-    <Select id={id} label="Mottagning" value={units ?? ''} onChange={(event) => dispatch(update({ units: event.target.value }))}>
-      <option value="">Välj mottagning</option>
-      {options.map((option) => (
-        <option key={option}>{option}</option>
-      ))}
-    </Select>
+    <Select
+      id={id}
+      label="Mottagning"
+      value={units ?? ''}
+      onChange={(event) => dispatch(update({ units: event.target.value }))}
+      options={[{ value: '', label: 'Välj mottagning' }, ...options.map((option) => ({ value: option, label: option }))]}
+    />
   )
 }

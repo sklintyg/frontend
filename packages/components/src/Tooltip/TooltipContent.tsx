@@ -1,8 +1,8 @@
 import { FloatingPortal, useMergeRefs } from '@floating-ui/react'
-import React from 'react'
+import { HTMLProps, forwardRef } from 'react'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
-export const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props, propRef) => {
+export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>((props, propRef) => {
   const context = useTooltipContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
@@ -11,12 +11,13 @@ export const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLProps<H
   return (
     <FloatingPortal>
       <div
-        className="text-neutral-20 border-neutral-40 pointer-events-none z-50 max-w-xs whitespace-normal rounded border bg-white py-3 px-5 text-base font-normal shadow-[0_0_10px_rgba(0,0,0,0.3)] md:max-w-sm"
+        className="text-tooltip-color border-tooltip-border-color pointer-events-none z-50 max-w-xs whitespace-normal rounded bg-white px-5 py-2.5 text-base font-normal md:max-w-sm"
         ref={ref}
         style={{
           position: context.strategy,
           top: context.y ?? 0,
           left: context.x ?? 0,
+          boxShadow: 'rgba(0, 0, 0, 0.3) 0px 0px 10px',
           // eslint-disable-next-line react/prop-types
           ...props.style,
         }}

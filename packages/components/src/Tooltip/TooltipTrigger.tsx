@@ -1,15 +1,15 @@
 import { useMergeRefs } from '@floating-ui/react'
-import React from 'react'
+import { HTMLProps, cloneElement, forwardRef, isValidElement } from 'react'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
-export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTMLElement> & { asChild?: boolean; alignMiddle?: boolean }>(
+export const TooltipTrigger = forwardRef<HTMLElement, HTMLProps<HTMLElement> & { asChild?: boolean; alignMiddle?: boolean }>(
   ({ children, asChild = false, alignMiddle = false, ...props }, propRef) => {
     const context = useTooltipContext()
     const ref = useMergeRefs([context.refs.setReference, propRef])
 
     // `asChild` allows the user to pass any element as the anchor
-    if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(
+    if (asChild && isValidElement(children)) {
+      return cloneElement(
         children,
         context.getReferenceProps({
           ref,

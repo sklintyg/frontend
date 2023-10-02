@@ -11,7 +11,7 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import React from 'react'
+import { useMemo, useState } from 'react'
 
 export interface TooltipOptions {
   initialOpen?: boolean
@@ -26,7 +26,7 @@ export function useTooltip({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
 }: TooltipOptions = {}) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
@@ -59,7 +59,7 @@ export function useTooltip({
 
   const interactions = useInteractions([hover, focus, dismiss, role])
 
-  return React.useMemo(
+  return useMemo(
     () => ({
       open,
       setOpen,

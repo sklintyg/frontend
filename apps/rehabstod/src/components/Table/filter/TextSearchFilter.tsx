@@ -1,7 +1,6 @@
-import { Input } from '@frontend/components'
+import { Input, TooltipIcon } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useId } from 'react'
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function TextSearchFilter({
