@@ -1,4 +1,4 @@
-import { IDSSelect } from '@frontend/ids-react-ts'
+import { Select } from '@frontend/components'
 import { useId } from 'react'
 import { CertificateStatus } from '../../../../schema/certificateList.schema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
@@ -10,14 +10,16 @@ export function CertificateStatusFilter({ options }: { options: CertificateStatu
   const dispatch = useAppDispatch()
 
   return (
-    <IDSSelect>
-      <label htmlFor={id}>Status</label>
-      <select id={id} value={statuses ?? ''} onChange={(event) => dispatch(update({ statuses: event.target.value as CertificateStatus }))}>
-        <option value="">Välj status</option>
-        {options.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
-      </select>
-    </IDSSelect>
+    <Select
+      id={id}
+      label="Status"
+      value={statuses ?? ''}
+      onChange={(event) => dispatch(update({ statuses: event.target.value as CertificateStatus }))}
+    >
+      <option value="">Välj status</option>
+      {options.map((option) => (
+        <option key={option}>{option}</option>
+      ))}
+    </Select>
   )
 }

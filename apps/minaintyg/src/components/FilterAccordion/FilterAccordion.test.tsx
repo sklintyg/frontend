@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { FilterAccordion } from './FilterAccordion'
 
 it('Should render as expected', () => {
@@ -7,5 +7,6 @@ it('Should render as expected', () => {
       <span>Test</span>
     </FilterAccordion>
   )
+  expect(screen.getByText(`43 av 100 intyg`)).toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })
