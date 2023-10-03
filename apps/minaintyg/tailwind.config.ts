@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import { themes } from '@frontend/components/themes'
 import type { Config } from 'tailwindcss'
 
