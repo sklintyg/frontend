@@ -15,13 +15,7 @@ import {
   hasLoggedMeasuresDisplayed,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import {
-  getQuestions,
-  getRecommendations,
-  getSRSCodes,
-  logSrsInteraction,
-  updateHasLoggedMeasuresDisplayed,
-} from '../../../store/srs/srsActions'
+import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
 import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
@@ -71,7 +65,6 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
       const isMeasuresVisible = isScrolledIntoView(measuresRef.current, true, footerRef.current.clientHeight)
       if (isMeasuresVisible) {
         dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
-        dispatch(updateHasLoggedMeasuresDisplayed(true))
       }
     }
   }, [dispatch])
@@ -87,9 +80,6 @@ const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
-    if (!hasLoggedMeasuresDisplay) {
-      logMeasuresDisplayed()
-    }
     const currentRef = ref.current
     currentRef?.addEventListener('scroll', handleScroll)
     return () => {
