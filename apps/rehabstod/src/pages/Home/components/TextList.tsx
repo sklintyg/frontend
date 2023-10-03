@@ -13,7 +13,7 @@ export function TextList({ data, parentData }: { parentData: SummaryDataPoint[];
               className="marker:text-3xl"
               style={{ color: parentData && parentData.find((point) => point.id === dataPoint.id)?.fill }}
             >
-              <span className="text-neutral-20 align-super text-sm">{dataPoint.name}</span>
+              <span className="align-super text-sm text-neutral-20">{dataPoint.name}</span>
             </li>
           </TooltipTrigger>
           {dataPoint.description && <TooltipContent>{dataPoint.description}</TooltipContent>}
