@@ -11,14 +11,13 @@ export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElemen
   return (
     <FloatingPortal>
       <div
-        className="pointer-events-none z-50 max-w-xs whitespace-normal rounded border border-tooltip-border-color bg-white px-5 py-2.5 text-base font-normal text-tooltip-color md:max-w-sm"
+        className="border-tooltip-border-color text-tooltip-color pointer-events-none z-50 max-w-xs whitespace-normal rounded border bg-white px-5 py-2.5 text-base font-normal md:max-w-sm"
         ref={ref}
         style={{
           position: context.strategy,
           top: context.y ?? 0,
           left: context.x ?? 0,
           boxShadow: 'rgba(0, 0, 0, 0.3) 0px 0px 10px',
-          // eslint-disable-next-line react/prop-types
           ...props.style,
         }}
         {...context.getFloatingProps(props)}
