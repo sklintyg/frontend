@@ -2,9 +2,10 @@
 import type { Config } from 'tailwindcss'
 import { baseTheme } from './src/themes/base'
 
+const colors = Object.fromEntries(Object.keys(baseTheme).map((key) => [key, `var(--${key})`]))
+
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  important: true,
   theme: {
     screens: {
       print: { raw: 'print' },
@@ -13,9 +14,7 @@ export default {
       lg: '1024px',
       xl: '1280px',
     },
-    colors: {
-      ...Object.fromEntries(Object.keys(baseTheme).map((key) => [key, `var(--${key})`])),
-    },
+    colors,
     extend: {},
   },
   plugins: [],
