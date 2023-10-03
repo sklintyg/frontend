@@ -265,6 +265,14 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
       }
     }
 
+    if (action.payload === SrsEvent.SRS_MEASURES_DISPLAYED) {
+      if (!srsState.hasLoadedSRSContent || srsState.hasLoggedMeasuresDisplayed) {
+        return
+      } else {
+        dispatch(updateHasLoggedMeasuresDisplayed(true))
+      }
+    }
+
     dispatch(
       apiCallBegan({
         url: `/api/jslog/srs`,
