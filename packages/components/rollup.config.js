@@ -55,13 +55,6 @@ export default defineConfig([
         chunkFileNames: 'chunk-[name].js',
         sourcemap: true,
       },
-      {
-        dir: 'dist',
-        format: 'cjs',
-        interop: 'auto',
-        entryFileNames: '[name].cjs',
-        chunkFileNames: 'chunk-[name].cjs',
-      },
     ],
     external,
     plugins,
