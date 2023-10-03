@@ -7,6 +7,7 @@ interface SelectProps {
   options?: { value: string; label: string }[]
   description?: string
   disabled?: boolean
+  error?: boolean
 }
 
 export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & SelectProps>(
