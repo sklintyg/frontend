@@ -6,7 +6,7 @@ import { rest } from 'msw'
 import { CertificateStatus, CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
-import { userSchema } from '../schema/user.schema'
+import { loginMethodEnum, userSchema } from '../schema/user.schema'
 
 const certificates = Array.from({ length: 5 }, () => {
   const timestamp = faker.date.between('2021-01-01T00:00:00.000Z', new Date().toISOString()).toISOString()
@@ -30,11 +30,9 @@ export const handlers = [
     res(
       ctx.status(200),
       ctx.json(
-        fakerFromSchema(userSchema, {
-          stringMap: {
-            personName: faker.name.fullName,
-          },
-        })()
+        fakerFromSchema(userSchema)({
+          loginMethod: loginMethodEnum.enum.FAKE,
+        })
       )
     )
   ),
@@ -59,6 +57,10 @@ export const handlers = [
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
-    res(ctx.json({ testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)) }))
+    res(
+      ctx.json({
+        testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)),
+      })
+    )
   ),
 ]

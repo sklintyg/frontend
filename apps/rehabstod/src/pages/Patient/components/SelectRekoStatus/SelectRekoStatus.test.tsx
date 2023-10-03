@@ -29,7 +29,7 @@ describe('SelectRekoStatus', () => {
 
   it('should render label', () => {
     renderComponent()
-    expect(screen.getByText('REKO-status')).toBeInTheDocument()
+    expect(screen.getByText('Status')).toBeInTheDocument()
   })
 
   it('should not render default option', () => {
@@ -44,11 +44,11 @@ describe('SelectRekoStatus', () => {
 
   it('should be enabled as default', () => {
     renderComponent()
-    expect(screen.getByLabelText('REKO-status')).toBeEnabled()
+    expect(screen.getByLabelText('Status')).toBeEnabled()
   })
 
   it('should set disabled value', () => {
     renderComponent(true)
-    expect(screen.getByLabelText('REKO-status')).toBeDisabled()
+    expect(screen.getByLabelText('Status')).toBeDisabled()
   })
 })

@@ -28,11 +28,12 @@ const initialState: SickLeaveState = {
   sickLeaveLengthIntervals: [
     { from: 0, to: 14, metric: TimePeriodMetric.DAYS, id: 1 },
     { from: 15, to: 30, metric: TimePeriodMetric.DAYS, id: 2 },
-    { from: 31, to: 90, metric: TimePeriodMetric.DAYS, id: 3 },
-    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 4 },
-    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 5 },
-    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 6 },
-    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 7 },
+    { from: 31, to: 60, metric: TimePeriodMetric.DAYS, id: 3 },
+    { from: 61, to: 90, metric: TimePeriodMetric.DAYS, id: 4 },
+    { from: 91, to: 180, metric: TimePeriodMetric.DAYS, id: 5 },
+    { from: 181, to: 365, metric: TimePeriodMetric.DAYS, id: 6 },
+    { from: 1, to: 2, metric: TimePeriodMetric.YEARS, id: 7 },
+    { from: 2, to: null, metric: TimePeriodMetric.YEARS, id: 8 },
   ],
 }
 

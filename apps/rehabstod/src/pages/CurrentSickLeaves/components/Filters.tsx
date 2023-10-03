@@ -85,11 +85,11 @@ export function Filters({
         selectedOptions={filter.sickLeaveLengthIntervals}
       />
       <MultipleSelectFilterOption
-        label="REKO-status"
+        label="Status"
         onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
         options={populatedFilters?.rekoStatusTypes ?? []}
         selected={filter.rekoStatusTypeIds}
-        description="Filtrerar på den REKO-status som satts för patienten."
+        description="Filtrerar på den status som satts för patienten."
         placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters?.rekoStatusTypes ?? [])}
       />
       <SelectFilter

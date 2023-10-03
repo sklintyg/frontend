@@ -13,7 +13,7 @@ import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
   const [submitFilters, setSubmitFilters] = useState<Partial<CertificateSelectedOptions>>({})
-  const { isLoading, data } = useGetCertificatesQuery(submitFilters)
+  const { isLoading, data } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
   const filters = useAppSelector((state) => state.certificateFilter)
 
   return (
