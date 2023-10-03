@@ -16,7 +16,8 @@
     },
     "./themes": {
       "types": "./dist/themes.d.ts",
-      "import": "./dist/themes.js"
+      "import": "./dist/themes.js",
+      "require": "./dist/themes.js"
     }
   },
   "files": [
