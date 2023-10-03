@@ -5,6 +5,20 @@
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": {
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "default": "./dist/index.js"
+      }
+    },
+    "./themes": {
+      "types": "./dist/themes.d.ts",
+      "require": "./dist/themes.js"
+    }
+  },
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch",
@@ -13,11 +27,11 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.25.1",
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^3.0.9",
     "react": "^18.2.0",
-    "react-router-dom": "^6.11.1",
-    "@floating-ui/react": "^0.25.1"
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -32,16 +46,17 @@
     "eslint-plugin-tailwindcss": "^3.10.1",
     "postcss": "^8.4.21",
     "rollup": "^3.20.2",
+    "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-svg": "^2.0.0",
     "tailwindcss": "^3.3.3",
     "vitest": "^0.34.3"
   },
   "peerDependencies": {
+    "@floating-ui/react": "^0.25.1",
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^2.6.0",
     "react": "^18.2.0",
-    "react-router-dom": "^6.11.1",
-    "@floating-ui/react": "^0.25.1"
+    "react-router-dom": "^6.11.1"
   }
 }

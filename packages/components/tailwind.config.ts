@@ -1,5 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+import { baseTheme } from './src/themes/base'
+
+export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   important: true,
   theme: {
@@ -11,11 +13,9 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
-      white: '#FFF',
-      'tooltip-color': 'var(--tooltip-color)',
-      'tooltip-border-color': 'var(--tooltip-border-color)',
+      ...Object.fromEntries(Object.keys(baseTheme).map((key) => [key, `var(--${key})`])),
     },
     extend: {},
   },
   plugins: [],
-}
+} satisfies Config

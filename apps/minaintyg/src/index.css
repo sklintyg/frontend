@@ -25,3 +25,7 @@ ids-select {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+ids-select select {
+  padding-right: 2.5rem;
+}

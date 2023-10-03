@@ -1,7 +1,7 @@
-import { themes } from '@frontend/components'
+import { themes } from '@frontend/components/themes'
+import type { Config } from 'tailwindcss'
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/@frontend/components/dist/*.js'],
   important: true,
   theme: {
@@ -13,7 +13,6 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
-      white: '#FFF',
       primary: {
         30: 'var(--IDS-COLOR-PRIMARY-30)',
         40: 'var(--IDS-COLOR-PRIMARY-40)',
@@ -51,7 +50,7 @@ module.exports = {
         99: 'var(--IDS-COLOR-ERROR-99)',
         10: '#FF9517',
       },
-      ...themes.ineraAdmin,
+      ...themes.ineraAdminTheme,
     },
     extend: {
       gridTemplateColumns: {
@@ -61,4 +60,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+} satisfies Config

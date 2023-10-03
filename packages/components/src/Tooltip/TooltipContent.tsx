@@ -11,7 +11,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElemen
   return (
     <FloatingPortal>
       <div
-        className="text-tooltip-color border-tooltip-border-color pointer-events-none z-50 max-w-xs whitespace-normal rounded bg-white px-5 py-2.5 text-base font-normal md:max-w-sm"
+        className="text-tooltip-color border-tooltip-border-color pointer-events-none z-50 max-w-xs whitespace-normal rounded border bg-white px-5 py-2.5 text-base font-normal md:max-w-sm"
         ref={ref}
         style={{
           position: context.strategy,

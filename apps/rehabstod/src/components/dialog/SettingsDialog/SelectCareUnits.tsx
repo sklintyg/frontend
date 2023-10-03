@@ -1,8 +1,7 @@
-import { IDSSelect } from '@frontend/ids-react-ts'
+import { Select } from '@frontend/components'
 import { useId } from 'react'
 import { useGetUserQuery } from '../../../store/api'
 import { getUnitsForUser } from '../../../utils/getUnitsForUser'
-import { Select } from '../../Form/Select'
 import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value: string) => void; standardenhet?: string | null }) {
@@ -19,19 +18,15 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
         rensa ditt val.'
     >
       <div className="max-w-xs">
-        <IDSSelect className="m-0">
-          <label htmlFor={id}>Välj enhet</label>
-          <Select id={id} onChange={(event) => onChange(event.currentTarget.value)} value={standardenhet ?? 'Ingen förvald enhet'}>
-            <option className="ml-2" value="Ingen förvald enhet">
-              Ingen förvald enhet
-            </option>
-            {getUnitsForUser(user).map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.namn}
-              </option>
-            ))}
-          </Select>
-        </IDSSelect>
+        <Select
+          id={id}
+          label="Välj enhet"
+          onChange={(event) => onChange(event.currentTarget.value)}
+          options={[
+            { value: 'Ingen förvald enhet', label: 'Ingen förvald enhet' },
+            ...getUnitsForUser(user).map(({ id, namn }) => ({ value: id, label: namn })),
+          ]}
+        />
       </div>
     </SettingsDialogInput>
   )

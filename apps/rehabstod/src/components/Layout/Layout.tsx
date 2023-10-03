@@ -14,7 +14,7 @@ import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 export function Layout() {
   const { user, isLoading } = useSession()
   const { data: config } = useGetConfigQuery()
-  useTheme('ineraAdmin')
+  useTheme('ineraAdminTheme')
 
   return (
     <div className="flex min-h-screen flex-col">

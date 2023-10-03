@@ -1,5 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import { themes } from '@frontend/components/themes'
+import type { Config } from 'tailwindcss'
+
+export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/@frontend/components/dist/*.js'],
   important: true,
   theme: {
@@ -11,7 +13,6 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
-      white: '#FFF',
       sky: {
         dark: 'var(--color-sky-dark)',
         base: 'var(--color-sky-base)',
@@ -29,8 +30,9 @@ module.exports = {
         40: 'var(--IDS-COLOR-ACCENT-40)',
         90: 'var(--IDS-COLOR-ACCENT-90)',
       },
+      ...themes.baseTheme,
     },
     extend: {},
   },
   plugins: [],
-}
+} satisfies Config
