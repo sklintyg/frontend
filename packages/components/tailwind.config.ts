@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import type { Config } from 'tailwindcss'
 import { baseTheme } from './src/themes/base'
 

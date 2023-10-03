@@ -16,13 +16,13 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
         {label}
         {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
       </label>
-      <select ref={ref} id={id} {...props}>
-        {children}
+      <select ref={ref} id={id} disabled={disabled} {...props}>
         {options?.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
+        {children}
       </select>
     </IDSSelect>
   )

@@ -21,10 +21,11 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
         <Select
           id={id}
           label="Välj enhet"
+          value={standardenhet ?? ''}
           onChange={(event) => onChange(event.currentTarget.value)}
           options={[
-            { value: 'Ingen förvald enhet', label: 'Ingen förvald enhet' },
-            ...getUnitsForUser(user).map(({ id, namn }) => ({ value: id, label: namn })),
+            { value: '', label: 'Ingen förvald enhet' },
+            ...getUnitsForUser(user).map((unit) => ({ value: unit.id, label: unit.namn })),
           ]}
         />
       </div>

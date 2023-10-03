@@ -46,14 +46,23 @@ function onwarn(message) {
 export default defineConfig([
   {
     input: entries,
-    output: {
-      dir: 'dist',
-      format: 'esm',
-      interop: 'auto',
-      entryFileNames: '[name].js',
-      chunkFileNames: 'chunk-[name].js',
-      sourcemap: true,
-    },
+    output: [
+      {
+        dir: 'dist',
+        format: 'esm',
+        interop: 'auto',
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunk-[name].js',
+        sourcemap: true,
+      },
+      {
+        dir: 'dist',
+        format: 'cjs',
+        interop: 'auto',
+        entryFileNames: '[name].cjs',
+        chunkFileNames: 'chunk-[name].cjs',
+      },
+    ],
     external,
     plugins,
     onwarn,
