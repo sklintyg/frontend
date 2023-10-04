@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getIsCertificateRenewed, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { SrsRecommendationsBox } from '../recommendations/SrsRecommendationBox'
@@ -6,7 +6,7 @@ import { SrsInformationChoice } from '@frontend/common'
 import SrsRiskGraph from '../risk/SrsRiskGraph'
 import { SRS_EXTENSION_TITLE } from '../recommendations/SrsRecommendations'
 
-export const SrsMinimizedView: React.FC = () => {
+export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const info = useSelector(getSrsInfo)
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
   const diagnosisDescription = useSelector(getDiagnosisDescription(SrsInformationChoice.RECOMMENDATIONS))
@@ -20,7 +20,13 @@ export const SrsMinimizedView: React.FC = () => {
 
   return (
     <>
-      <SrsRecommendationsBox recommendations={info.atgarderReh} isEmpty={isEmpty} title="Som rehabkoordinator, tänk på att" id={'REKO-'} />
+      <SrsRecommendationsBox
+        ref={ref}
+        recommendations={info.atgarderReh}
+        isEmpty={isEmpty}
+        title="Som rehabkoordinator, tänk på att"
+        id={'REKO-'}
+      />
       <div className="iu-pt-600">
         <SrsRiskGraph />
       </div>
@@ -45,4 +51,4 @@ export const SrsMinimizedView: React.FC = () => {
       />
     </>
   )
-}
+})

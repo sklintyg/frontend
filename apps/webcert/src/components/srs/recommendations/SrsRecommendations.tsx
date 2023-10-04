@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { SrsInformationChoice, SrsSickLeaveChoice } from '@frontend/common'
@@ -8,7 +8,7 @@ export const SRS_OBSERVE_TITLE = 'Tänk på att'
 export const SRS_EXTENSION_TITLE = 'Tänk på att vid förlängning'
 export const SRS_RECOMMENDATIONS_TITLE = 'Åtgärdsrekommendationer'
 
-const SrsRecommendations: React.FC = () => {
+const SrsRecommendations = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const info = useSelector(getSrsInfo)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
@@ -24,9 +24,10 @@ const SrsRecommendations: React.FC = () => {
   return (
     <>
       {isExtension && (
-        <SrsRecommendationsBox recommendations={info.atgarderFrl} isEmpty={isEmpty} title={SRS_EXTENSION_TITLE} id={'EXT-'} />
+        <SrsRecommendationsBox ref={ref} recommendations={info.atgarderFrl} isEmpty={isEmpty} title={SRS_EXTENSION_TITLE} id={'EXT-'} />
       )}
       <SrsRecommendationsBox
+        ref={!isExtension ? ref : null}
         recommendations={info.atgarderObs}
         isEmpty={isEmpty}
         title={SRS_OBSERVE_TITLE}
@@ -44,6 +45,6 @@ const SrsRecommendations: React.FC = () => {
       />
     </>
   )
-}
+})
 
 export default SrsRecommendations

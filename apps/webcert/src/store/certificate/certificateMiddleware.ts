@@ -1,11 +1,11 @@
 import {
   CertificateSignStatus,
   CertificateStatus,
-  SigningMethod,
   decorateCertificateWithInitialValues,
   getCertificateToSave,
   getClientValidationErrors,
   isLocked,
+  SigningMethod,
 } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
@@ -111,8 +111,8 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSignStatus,
   updateCertificateSigningData,
+  updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -919,7 +919,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
 const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
   const certificate = getState().ui.uiCertificate.certificate
 
-  if (!certificate) {
+  if (!certificate || certificate.metadata.status !== CertificateStatus.UNSIGNED) {
     return
   }
 

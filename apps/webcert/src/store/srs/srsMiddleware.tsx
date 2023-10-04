@@ -35,9 +35,12 @@ import {
   updateCareProviderId,
   updateCertificateId,
   updateError,
+  updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
+  updateLoggedCertificateId,
   updatePatientId,
   updateRiskOpinion,
   updateSrsAnswers,
@@ -139,7 +142,9 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(updateError(false))
     dispatch(updateSrsInfo(action.payload))
     dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
-    dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+    dispatch(updateHasLoadedSRSContent(true))
+    dispatch(updateHasLoggedMeasuresDisplayed(false))
+    dispatch(updateLoggedCertificateId(''))
 
     const filteredPredictions = getFilteredPredictions(action.payload.predictions)
 
@@ -252,6 +257,22 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
   () =>
   (action: PayloadAction<SrsEvent>): void => {
     const srsState = getState().ui.uiSRS
+    if (action.payload === SrsEvent.SRS_PANEL_ACTIVATED) {
+      if (srsState.hasLoadedSRSContent && srsState.certificateId !== srsState.loggedCertificateId) {
+        dispatch(updateLoggedCertificateId(getState().ui.uiSRS.certificateId))
+      } else {
+        return
+      }
+    }
+
+    if (action.payload === SrsEvent.SRS_MEASURES_DISPLAYED) {
+      if (!srsState.hasLoadedSRSContent || srsState.hasLoggedMeasuresDisplayed) {
+        return
+      } else {
+        dispatch(updateHasLoggedMeasuresDisplayed(true))
+      }
+    }
+
     dispatch(
       apiCallBegan({
         url: `/api/jslog/srs`,

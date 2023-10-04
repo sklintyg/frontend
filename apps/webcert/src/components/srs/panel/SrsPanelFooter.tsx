@@ -8,7 +8,7 @@ import { logSrsInteraction } from '../../../store/srs/srsActions'
 interface Props {
   informationChoice: SrsInformationChoice
 }
-const SrsPanelFooter: React.FC<Props> = ({ informationChoice }) => {
+const SrsPanelFooter = React.forwardRef<HTMLDivElement, Props>(({ informationChoice }, ref) => {
   const dispatch = useDispatch()
   const diagnosisDescription = useSelector(getDiagnosisDescription(informationChoice))
   const diagnosisCode = useSelector(getDiagnosisCode(informationChoice))
@@ -24,7 +24,7 @@ const SrsPanelFooter: React.FC<Props> = ({ informationChoice }) => {
 
   return (
     <SidePanelFooter additionalStyles="iu-m-none">
-      <div className="iu-flex-column">
+      <div className="iu-flex-column" ref={ref}>
         <p className="iu-fw-bold">Mer information</p>
         <a href={link} target="_blank" rel="noreferrer" onClick={onClick}>
           Information om {diagnosisDescription} hos Rätt Sjukskrivning
@@ -33,6 +33,6 @@ const SrsPanelFooter: React.FC<Props> = ({ informationChoice }) => {
       </div>
     </SidePanelFooter>
   )
-}
+})
 
 export default SrsPanelFooter
