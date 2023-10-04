@@ -1,12 +1,9 @@
-import { useTheme } from '@frontend/components'
 import { Outlet } from 'react-router-dom'
 import { Breadcrumbs } from './Breadcrumbs'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 
 export function Layout() {
-  useTheme('baseTheme')
-
   return (
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
