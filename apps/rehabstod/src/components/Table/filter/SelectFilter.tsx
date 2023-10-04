@@ -8,7 +8,6 @@ export function SelectFilter({
   description,
   value,
   label,
-  hideDefaultValue = false,
   disabled = false,
 }: {
   onChange: (option: string) => void
@@ -16,12 +15,10 @@ export function SelectFilter({
   description: string
   value?: string
   label: string
-  hideDefaultValue?: boolean
   disabled?: boolean
 }) {
   const id = useId()
   const chosenOption = options.find((option) => option.id === value)
-  const opts = options.map((opt) => ({ value: opt.id, label: opt.name }))
 
   return (
     <>
@@ -31,7 +28,7 @@ export function SelectFilter({
         value={value}
         description={description}
         disabled={disabled}
-        options={hideDefaultValue ? opts : [{ value: '', label: 'Visa alla' }, ...opts]}
+        options={[{ value: '', label: 'Visa alla' }, ...options.map((opt) => ({ value: opt.id, label: opt.name }))]}
         onChange={(event) => onChange(event.currentTarget.value)}
       />
       <div className="hidden print:block">

@@ -1,4 +1,4 @@
-import { SelectFilter } from '../../../../components/Table/filter/SelectFilter'
+import { Select } from '@frontend/components'
 import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetRekoStatusForPatientQuery, useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
@@ -33,12 +33,11 @@ export function SelectRekoStatus({
   }
 
   return (
-    <SelectFilter
+    <Select
       disabled={disabled}
       value={rekoStatus?.status?.id || emptyRekoStatus?.id}
-      onChange={(id) => handleSetRekoStatus(id)}
-      options={rekoStatusTypes}
-      hideDefaultValue
+      onChange={(event) => handleSetRekoStatus(event.target.value)}
+      options={rekoStatusTypes.map(({ id, name }) => ({ label: name, value: id }))}
       description={description}
       label="Status"
     />
