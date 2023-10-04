@@ -1,5 +1,4 @@
 import { Select } from '@frontend/components'
-import { useId } from 'react'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function SelectFilter({
@@ -17,13 +16,11 @@ export function SelectFilter({
   label: string
   disabled?: boolean
 }) {
-  const id = useId()
   const chosenOption = options.find((option) => option.id === value)
 
   return (
     <>
       <Select
-        id={id}
         label={label}
         value={value}
         description={description}
