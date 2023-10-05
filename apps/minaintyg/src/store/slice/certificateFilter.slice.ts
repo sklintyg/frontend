@@ -1,7 +1,10 @@
+/* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { CertificateSelectedOptions } from '../../schema/certificateListFilter.schema'
+import { CertificateFilterOptions } from '../../schema/certificateListFilter.schema'
 
-const initialState: Partial<CertificateSelectedOptions> = {}
+export type CertificateFilterState = { [K in keyof CertificateFilterOptions]?: string }
+
+const initialState: CertificateFilterState = {}
 
 const certificateFilterSlice = createSlice({
   name: 'certificateFilter',
@@ -10,8 +13,14 @@ const certificateFilterSlice = createSlice({
     reset() {
       return initialState
     },
-    update(state, { payload }: PayloadAction<Partial<CertificateSelectedOptions>>) {
-      Object.assign(state, payload)
+    update(state, { payload }: PayloadAction<{ key: keyof CertificateFilterState; value: string }>) {
+      const { key, value } = payload
+
+      if (!value && state[key]) {
+        delete state[key]
+      } else {
+        state[key] = value
+      }
     },
   },
 })

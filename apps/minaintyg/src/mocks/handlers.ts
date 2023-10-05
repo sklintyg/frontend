@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { fakeCertificate, fakeCertificateId, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
 import { CertificateStatus, CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
@@ -39,7 +39,7 @@ export const handlers = [
 
   rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: certificates }))),
 
-  rest.get('/api/filter-certificate', (_, res, ctx) =>
+  rest.get('/api/certificate/filters', (_, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json(
@@ -47,8 +47,8 @@ export const handlers = [
           total: certificates.length,
           years: Array.from(new Set(certificates.map(({ issued }) => getYear(parseISO(issued)).toString()))),
           statuses: Array.from(new Set(certificates.map(({ statuses }) => statuses).flat())).filter(Boolean) as CertificateStatus[],
-          certificateTypes: faker.helpers.uniqueArray(() => fakeCertificateId().toUpperCase(), certificates.length),
-          units: faker.helpers.uniqueArray(faker.company.name, certificates.length),
+          certificateTypes: faker.helpers.uniqueArray(fakeCertificate, certificates.length).map(({ id, label }) => ({ id, name: label })),
+          units: faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), certificates.length),
         })
       )
     )

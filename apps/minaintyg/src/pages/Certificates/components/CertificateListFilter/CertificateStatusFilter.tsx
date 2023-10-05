@@ -11,7 +11,7 @@ export function CertificateStatusFilter({ options }: { options: CertificateStatu
     <Select
       label="Status"
       value={statuses ?? ''}
-      onChange={(event) => dispatch(update({ statuses: event.target.value as CertificateStatus }))}
+      onChange={(event) => dispatch(update({ key: 'statuses', value: event.target.value as CertificateStatus }))}
       options={[{ value: '', label: 'Välj status' }, ...options.map((option) => ({ value: option, label: option }))]}
     />
   )

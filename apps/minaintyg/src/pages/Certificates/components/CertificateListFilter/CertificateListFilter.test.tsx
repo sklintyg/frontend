@@ -1,4 +1,4 @@
-import { fakeCertificateId, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
@@ -12,14 +12,14 @@ import { CertificateListFilter } from './CertificateListFilter'
 
 const options = {
   statuses: CertificateStatusEnum.options,
-  certificateTypes: faker.helpers.uniqueArray(fakeCertificateId, 4),
-  units: faker.helpers.uniqueArray(faker.company.name, 4),
+  certificateTypes: faker.helpers.uniqueArray(fakeCertificate, 4).map(({ id, label }) => ({ id, name: label })),
+  units: faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), 4),
   years: ['2023', '2022', '2021', '2020'],
 }
 
 beforeEach(() => {
   server.use(
-    rest.get('/api/filter-certificate', (_, res, ctx) =>
+    rest.get('/api/certificate/filters', (_, res, ctx) =>
       res(ctx.status(200), ctx.json(fakerFromSchema(certificateFilterOptionsSchema)(options)))
     )
   )
@@ -38,6 +38,7 @@ describe('Options from API', () => {
     expect(
       (within(screen.getByLabelText(name)).getByRole('option', { name: `Välj ${name.toLowerCase()}` }) as HTMLOptionElement).selected
     ).toBe(true)
+
     waitFor(() => {
       expect(within(screen.getByLabelText(name)).getAllByRole('option').length).toBe(CertificateStatusEnum.options.length + 1)
     })
@@ -70,13 +71,19 @@ it.each([
       <CertificateListFilter listed={10} onSubmit={vi.fn()} />
     </Provider>
   )
+  const option = options[key][2]
 
   await waitFor(() => expect(container).not.toBeEmptyDOMElement())
 
-  await userEvent.selectOptions(screen.getByLabelText(fieldName), within(screen.getByLabelText(fieldName)).getAllByRole('option')[3])
+  await userEvent.selectOptions(
+    screen.getByLabelText(fieldName),
+    within(screen.getByLabelText(fieldName)).getByRole('option', {
+      name: typeof option === 'string' ? option : option.name,
+    })
+  )
 
   expect(store.getState().certificateFilter).toMatchObject({
-    [key]: options[key][2],
+    [key]: typeof option === 'string' ? option : option.id,
   })
 
   await userEvent.click(screen.getByLabelText('Återställ filter'))

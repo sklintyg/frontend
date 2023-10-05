@@ -2,10 +2,10 @@ import { z } from 'zod'
 import { CertificateStatusEnum } from './certificateList.schema'
 
 export const certificateFilterOptionsSchema = z.object({
-  total: z.number(),
+  total: z.number().optional(),
   statuses: z.array(CertificateStatusEnum),
-  units: z.array(z.string()),
-  certificateTypes: z.array(z.string()),
+  units: z.array(z.object({ id: z.string(), name: z.string() })),
+  certificateTypes: z.array(z.object({ id: z.string(), name: z.string() })),
   years: z.array(z.string()),
 })
 

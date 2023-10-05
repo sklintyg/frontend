@@ -10,7 +10,7 @@ export function CertificateYearFilter({ options }: { options: string[] }) {
     <Select
       label="År"
       value={years ?? ''}
-      onChange={(event) => dispatch(update({ years: event.target.value }))}
+      onChange={(event) => dispatch(update({ key: 'years', value: event.target.value }))}
       options={[{ value: '', label: 'Välj år' }, ...options.map((option) => ({ value: option, label: option }))]}
     />
   )
