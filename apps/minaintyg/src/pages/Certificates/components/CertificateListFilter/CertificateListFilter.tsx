@@ -17,7 +17,7 @@ export function CertificateListFilter({ listed, onSubmit }: { listed: number; on
   }
 
   return (
-    <FilterAccordion listed={listed} total={filter.total ?? 0} noun="intyg">
+    <FilterAccordion listed={listed} total={filter.total} noun="intyg">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-4 md:gap-10">
         <CertificateStatusFilter options={filter.statuses} />
         <CertificateUnitFilter options={filter.units} />
