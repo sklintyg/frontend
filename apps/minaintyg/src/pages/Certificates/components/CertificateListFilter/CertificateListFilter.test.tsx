@@ -5,9 +5,10 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { server } from '../../../../mocks/server'
-import { CertificateStatusEnum } from '../../../../schema/certificateList.schema'
+import { CertificateStatus, CertificateStatusEnum } from '../../../../schema/certificateList.schema'
 import { certificateFilterOptionsSchema } from '../../../../schema/certificateListFilter.schema'
 import { store } from '../../../../store/store'
+import { getStatusBadgeLabel } from '../../utils/getStatusBadgeLabel'
 import { CertificateListFilter } from './CertificateListFilter'
 
 const options = {
@@ -15,6 +16,14 @@ const options = {
   certificateTypes: faker.helpers.uniqueArray(fakeCertificate, 4).map(({ id, label }) => ({ id, name: label })),
   units: faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), 4),
   years: ['2023', '2022', '2021', '2020'],
+}
+
+type FilterOption = (typeof options)[keyof typeof options][number]
+function getLabel(key: string, option: FilterOption) {
+  if (typeof option === 'string') {
+    return key === 'statuses' ? getStatusBadgeLabel(option as CertificateStatus) : option
+  }
+  return option.name
 }
 
 function renderComponent() {
@@ -78,7 +87,7 @@ it.each([
   await userEvent.selectOptions(
     screen.getByLabelText(fieldName),
     within(screen.getByLabelText(fieldName)).getByRole('option', {
-      name: typeof option === 'string' ? option : option.name,
+      name: getLabel(key, option),
     })
   )
 
