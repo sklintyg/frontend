@@ -1,8 +1,10 @@
+import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
+import { certificateFilterOptionsSchema } from '../../schema/certificateListFilter.schema'
 import { store } from '../../store/store'
 import { Certificates } from './Certificates'
 
@@ -24,6 +26,11 @@ it('Should have correct heading', () => {
 
 it('Should render alert message when list is empty', async () => {
   server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: [] }))))
+  server.use(
+    rest.get('/api/certificate/filters', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakerFromSchema(certificateFilterOptionsSchema)({ total: 0 })))
+    )
+  )
   expect(await screen.findByRole('alert')).toMatchSnapshot()
 })
 
