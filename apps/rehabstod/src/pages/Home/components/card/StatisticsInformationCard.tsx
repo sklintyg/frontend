@@ -1,7 +1,5 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import { Tooltip } from '../../../../components/Tooltip/Tooltip'
-import { TooltipContent } from '../../../../components/Tooltip/TooltipContent'
-import { TooltipTrigger } from '../../../../components/Tooltip/TooltipTrigger'
 import { useGetLinksQuery } from '../../../../store/api'
 
 export function StatisticsInformationCard() {

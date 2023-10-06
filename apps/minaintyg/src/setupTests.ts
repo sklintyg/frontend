@@ -7,6 +7,7 @@ import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
+import { reset as resetCertificateFilter } from './store/slice/certificateFilter.slice'
 import { store } from './store/store'
 
 Object.assign(global, global, {
@@ -38,6 +39,7 @@ afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
 
+  resetCertificateFilter()
   store.dispatch(api.util.resetApiState())
 })
 

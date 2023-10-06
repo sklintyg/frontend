@@ -51,11 +51,11 @@ describe('Focus', () => {
 
     await userEvent.type(screen.getByLabelText('Slutdatum dag'), '03')
 
-    expect(document.activeElement).toBe(screen.getByLabelText('Slutdatum dag'))
+    expect(screen.getByLabelText('Slutdatum dag')).toHaveFocus()
 
     await userEvent.keyboard('[Backspace][Backspace]')
 
-    expect(document.activeElement).toBe(screen.getByLabelText('Slutdatum månad'))
+    expect(screen.getByLabelText('Slutdatum månad')).toHaveFocus()
   })
 
   it('Should focus previous field when pressing backspace on empty segment', async () => {
@@ -67,10 +67,10 @@ describe('Focus', () => {
 
     await userEvent.type(screen.getByLabelText('Slutdatum år'), '2')
 
-    expect(document.activeElement).toBe(screen.getByLabelText('Slutdatum år'))
+    expect(screen.getByLabelText('Slutdatum år')).toHaveFocus()
 
     await userEvent.keyboard('[Backspace][Backspace]')
 
-    expect(document.activeElement).toBe(screen.getByLabelText('Startdatum dag'))
+    expect(screen.getByLabelText('Startdatum dag')).toHaveFocus()
   })
 })

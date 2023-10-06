@@ -6,7 +6,7 @@ import { server } from '../../mocks/server'
 import { store } from '../../store/store'
 import { Certificates } from './Certificates'
 
-beforeEach(() => {
+function renderComponent() {
   render(
     <Provider store={store}>
       <RouterProvider
@@ -16,22 +16,26 @@ beforeEach(() => {
       />
     </Provider>
   )
-})
+}
 
 it('Should have correct heading', () => {
+  renderComponent()
   expect(screen.getByRole('heading', { level: 1 })).toMatchSnapshot()
 })
 
 it('Should render alert message when list is empty', async () => {
+  renderComponent()
   server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: [] }))))
   expect(await screen.findByRole('alert')).toMatchSnapshot()
 })
 
 it('Should have correct paragraph', () => {
+  renderComponent()
   expect(screen.getByText(/här listas dina läkarintyg/i)).toMatchSnapshot()
 })
 
 it('Should render list of certificates', async () => {
+  renderComponent()
   expect(screen.getByTestId('certificate-list-spinner')).toBeInTheDocument()
   await waitFor(() => expect(screen.queryByTestId('certificate-list-spinner')).not.toBeInTheDocument())
 })
