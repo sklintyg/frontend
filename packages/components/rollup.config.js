@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
+import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import svg from 'rollup-plugin-svg'
 
@@ -11,6 +12,7 @@ const pkg = require('./package.json')
 
 const entries = {
   index: 'src/index.ts',
+  themes: 'src/themes/index.ts',
 }
 
 const external = [
@@ -44,16 +46,33 @@ function onwarn(message) {
 export default defineConfig([
   {
     input: entries,
-    output: {
-      dir: 'dist',
-      format: 'esm',
-      interop: 'auto',
-      entryFileNames: '[name].js',
-      chunkFileNames: 'chunk-[name].js',
-      sourcemap: true,
-    },
+    output: [
+      {
+        dir: 'dist',
+        format: 'esm',
+        interop: 'auto',
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunk-[name].js',
+        sourcemap: true,
+      },
+    ],
     external,
     plugins,
+    onwarn,
+  },
+  {
+    input: {
+      themes: 'src/themes/index.ts',
+    },
+    output: [
+      {
+        dir: 'dist',
+        format: 'esm',
+        entryFileNames: '[name].d.ts',
+      },
+    ],
+    external,
+    plugins: [dts({ respectExternal: true })],
     onwarn,
   },
 ])

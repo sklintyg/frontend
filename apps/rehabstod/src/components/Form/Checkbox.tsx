@@ -1,6 +1,6 @@
+import { TooltipIcon } from '@frontend/components'
 import { IDSCheckbox, IDSCheckboxElement, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ChangeEvent, useEffect, useId, useRef } from 'react'
-import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
 export function Checkbox({
   label,

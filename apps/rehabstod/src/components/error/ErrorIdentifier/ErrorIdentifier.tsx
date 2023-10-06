@@ -1,8 +1,6 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { IDSIconCopyFile } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { Tooltip } from '../../Tooltip/Tooltip'
-import { TooltipContent } from '../../Tooltip/TooltipContent'
-import { TooltipTrigger } from '../../Tooltip/TooltipTrigger'
 
 export function ErrorIdentifier({ id }: { id: string }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)
