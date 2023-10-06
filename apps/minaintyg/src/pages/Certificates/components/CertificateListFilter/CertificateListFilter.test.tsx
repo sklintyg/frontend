@@ -17,6 +17,14 @@ const options = {
   years: ['2023', '2022', '2021', '2020'],
 }
 
+function renderComponent() {
+  return render(
+    <Provider store={store}>
+      <CertificateListFilter listed={10} onSubmit={vi.fn()} />
+    </Provider>
+  )
+}
+
 beforeEach(() => {
   server.use(
     rest.get('/api/certificate/filters', (_, res, ctx) =>
@@ -27,11 +35,7 @@ beforeEach(() => {
 
 describe('Options from API', () => {
   it.each(['Status', 'Mottagning', 'Intygstyp', 'År'])('Should have corret %s option', async (name) => {
-    const { container } = render(
-      <Provider store={store}>
-        <CertificateListFilter listed={10} onSubmit={vi.fn()} />
-      </Provider>
-    )
+    const { container } = renderComponent()
 
     await waitFor(() => expect(container).not.toBeEmptyDOMElement())
 
@@ -66,11 +70,7 @@ it.each([
   ['Intygstyp', 'certificateTypes'],
   ['År', 'years'],
 ] as [string, keyof typeof options][])('Should reset %s when "Återställ filter" is pressed', async (fieldName, key) => {
-  const { container } = render(
-    <Provider store={store}>
-      <CertificateListFilter listed={10} onSubmit={vi.fn()} />
-    </Provider>
-  )
+  const { container } = renderComponent()
   const option = options[key][2]
 
   await waitFor(() => expect(container).not.toBeEmptyDOMElement())

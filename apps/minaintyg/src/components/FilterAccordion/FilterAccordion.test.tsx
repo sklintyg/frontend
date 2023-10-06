@@ -1,12 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import { FilterAccordion } from './FilterAccordion'
 
-it('Should render as expected', () => {
-  const { container } = render(
+function renderComponent() {
+  return render(
     <FilterAccordion listed={43} total={100} noun="intyg">
       <span>Test</span>
     </FilterAccordion>
   )
-  expect(screen.getByText(`43 av 100 intyg`)).toBeInTheDocument()
+}
+
+it('Should render as expected', () => {
+  const { container } = renderComponent()
   expect(container).toMatchSnapshot()
+})
+
+it('Should render label', () => {
+  renderComponent()
+  expect(screen.getByText(`43 av 100 intyg`)).toBeInTheDocument()
 })
