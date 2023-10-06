@@ -10,7 +10,7 @@ export function CertificateTypeFilter({
     name: string
   }[]
 }) {
-  const { certificateTypes } = useAppSelector((state) => state.certificateFilter)
+  const certificateTypes = useAppSelector((state) => state.certificateFilter.certificateTypes)
   const dispatch = useAppDispatch()
 
   return (

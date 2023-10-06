@@ -10,7 +10,7 @@ export function CertificateUnitFilter({
     name: string
   }[]
 }) {
-  const { units } = useAppSelector((state) => state.certificateFilter)
+  const units = useAppSelector((state) => state.certificateFilter.units)
   const dispatch = useAppDispatch()
 
   return (

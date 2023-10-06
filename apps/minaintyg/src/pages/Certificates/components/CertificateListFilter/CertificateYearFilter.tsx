@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slice/certificateFilter.slice'
 
 export function CertificateYearFilter({ options }: { options: string[] }) {
-  const { years } = useAppSelector((state) => state.certificateFilter)
+  const years = useAppSelector((state) => state.certificateFilter.years)
   const dispatch = useAppDispatch()
 
   return (

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slice/certificateFilter.slice'
 
 export function CertificateStatusFilter({ options }: { options: CertificateStatus[] }) {
-  const { statuses } = useAppSelector((state) => state.certificateFilter)
+  const statuses = useAppSelector((state) => state.certificateFilter.statuses)
   const dispatch = useAppDispatch()
 
   return (
