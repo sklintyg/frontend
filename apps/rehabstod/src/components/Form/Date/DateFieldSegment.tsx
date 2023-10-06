@@ -21,7 +21,7 @@ export function DateFieldSegment({ segment, state }: { segment: DateSegment; sta
         <span
           aria-hidden="true"
           className={classNames(
-            'text-neutral-40 block w-full text-center italic pointer-events-none',
+            'block w-full text-center italic pointer-events-none',
             segment.isPlaceholder ? 'visible' : 'hidden',
             segment.isPlaceholder && 'h-0'
           )}
