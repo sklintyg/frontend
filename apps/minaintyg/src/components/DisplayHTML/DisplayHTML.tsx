@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import parse, { DOMNode, attributesToProps, domToReact } from 'html-react-parser'
-import { createElement } from 'react'
+import { createElement, useMemo } from 'react'
 import { MobileTable } from './MobileTable'
 import { isElement } from './utils/isElement'
 
@@ -39,5 +39,6 @@ const getOptions = (isMobile: boolean) => ({
 })
 
 export function DisplayHTML({ html, mobile = false }: { html: string; mobile?: boolean }) {
-  return <>{parse(html, getOptions(mobile))}</>
+  const options = useMemo(() => getOptions(mobile), [mobile])
+  return <>{parse(html, options)}</>
 }
