@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { ComponentProps } from 'react'
 import { NumberInput } from './NumberInput'
 

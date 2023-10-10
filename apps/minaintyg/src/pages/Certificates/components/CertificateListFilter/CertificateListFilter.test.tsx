@@ -52,7 +52,7 @@ describe('Options from API', () => {
       (within(screen.getByLabelText(name)).getByRole('option', { name: `Välj ${name.toLowerCase()}` }) as HTMLOptionElement).selected
     ).toBe(true)
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(within(screen.getByLabelText(name)).getAllByRole('option').length).toBe(CertificateStatusEnum.options.length + 1)
     })
   })

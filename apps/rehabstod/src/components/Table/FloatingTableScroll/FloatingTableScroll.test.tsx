@@ -7,5 +7,6 @@ it('Should render without issues', () => {
 
 it('Should add handyscroll to element', async () => {
   const { container } = render(<FloatingTableScroll>Hello</FloatingTableScroll>)
+  // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
   expect(container.querySelector('.handy-scroll')).toBeInTheDocument()
 })

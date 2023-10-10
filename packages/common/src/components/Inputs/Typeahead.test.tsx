@@ -11,138 +11,137 @@ const suggestions: Suggestion[] = [
   { label: 'String', disabled: true, title: null },
 ]
 
-const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
-  return render(<Typeahead onSuggestionSelected={vi.fn()} suggestions={[]} onClose={vi.fn()} {...args} />)
-}
+const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) =>
+  render(<Typeahead onSuggestionSelected={vi.fn()} suggestions={[]} onClose={vi.fn()} {...args} />)
 
 describe('Typeahead component', () => {
   beforeEach(() => {
     HTMLElement.prototype.scrollIntoView = vi.fn()
   })
 
-  it('Should render without crashing', () => {
+  it('Should render without crashing', async () => {
     expect(() => renderComponent({})).not.toThrow()
   })
 
-  it('Should not render suggestions when array is empty', () => {
+  it('Should not render suggestions when array is empty', async () => {
     renderComponent({})
-    expect(screen.queryByRole('list')).toBeNull()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 
-  it('Should not render suggestions when open is false', () => {
+  it('Should not render suggestions when open is false', async () => {
     renderComponent({ moreResults: false, suggestions })
-    expect(screen.queryByRole('list')).toBeNull()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 
-  it('Should render suggestions when open is true', () => {
+  it('Should render suggestions when open is true', async () => {
     renderComponent({ moreResults: false, suggestions })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
-    suggestions.forEach((s) => expect(screen.queryByText(s.label)).not.toBeNull())
+    suggestions.forEach((s) => expect(screen.getByText(s.label)).toBeInTheDocument())
   })
 
-  it('Should select first suggestion when opened', () => {
+  it('Should select first suggestion when opened', async () => {
     renderComponent({ moreResults: false, suggestions })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
   })
 
-  it('Should select first suggestion when re-opened', () => {
+  it('Should select first suggestion when re-opened', async () => {
     renderComponent({ moreResults: false, suggestions })
-    userEvent.click(screen.getByRole('textbox'))
-    userEvent.keyboard('{arrowDown}')
+    await userEvent.click(screen.getByRole('textbox'))
+    await userEvent.keyboard('{arrowDown}')
     expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
-    userEvent.keyboard('{esc}')
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.keyboard('{esc}')
+    await userEvent.click(screen.getByRole('textbox'))
     expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
   })
 
-  it("Should close list if input doesn't have focus", () => {
+  it("Should close list if input doesn't have focus", async () => {
     const onClose = vi.fn()
     renderComponent({ onClose })
-    render(<button></button>)
+    render(<button type="button" />)
     expect(onClose).toHaveBeenCalledTimes(0)
-    userEvent.click(screen.getByRole('textbox'))
-    userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('button'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Should show information suggestion if there are more results', () => {
+  it('Should show information suggestion if there are more results', async () => {
     renderComponent({ moreResults: true, suggestions })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(screen.getByText('Det finns fler träffar än vad som kan visas i listan, förfina sökningen.')).toBeInTheDocument()
   })
 
-  it('Should allow user to choose option using click', () => {
+  it('Should allow user to choose option using click', async () => {
     const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.click(screen.getAllByRole('option')[1])
+    await userEvent.click(screen.getAllByRole('option')[1])
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[1].label)
   })
 
-  it('Should allow user to choose option using enter key', () => {
+  it('Should allow user to choose option using enter key', async () => {
     const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{enter}')
+    await userEvent.keyboard('{enter}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[0].label)
   })
 
-  it('Should allow user to choose option using tab', () => {
+  it('Should allow user to choose option using tab', async () => {
     const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.tab()
+    await userEvent.tab()
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[0].label)
   })
 
-  it('Should allow user to tab when there are no suggestions', () => {
+  it('Should allow user to tab when there are no suggestions', async () => {
     renderComponent({ moreResults: false, suggestions: [] })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(screen.getByRole('textbox')).toHaveFocus()
-    userEvent.tab()
+    await userEvent.tab()
     expect(screen.getByRole('textbox')).not.toHaveFocus()
   })
 
-  it('Should allow user to navigate list through hover or arrow keys', () => {
+  it('Should allow user to navigate list through hover or arrow keys', async () => {
     const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{arrowDown}')
-    userEvent.keyboard('{arrowDown}')
+    await userEvent.keyboard('{arrowDown}')
+    await userEvent.keyboard('{arrowDown}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{enter}')
+    await userEvent.keyboard('{enter}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[2].label)
-    userEvent.keyboard('{arrowUp}')
+    await userEvent.keyboard('{arrowUp}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
   })
 
-  it('Should closes list on escape key', () => {
+  it('Should closes list on escape key', async () => {
     const onClose = vi.fn()
     renderComponent({ moreResults: false, suggestions, onClose })
-    userEvent.click(screen.getByRole('textbox'))
+    await userEvent.click(screen.getByRole('textbox'))
     expect(onClose).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{arrowUp}')
-    userEvent.keyboard('{arrowDown}')
+    await userEvent.keyboard('{arrowUp}')
+    await userEvent.keyboard('{arrowDown}')
     expect(onClose).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{escape}')
+    await userEvent.keyboard('{escape}')
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Should calls on change when user types in textbox', () => {
+  it('Should calls on change when user types in textbox', async () => {
     const onChange = vi.fn()
     renderComponent({ moreResults: false, suggestions, onChange })
     expect(onChange).toHaveBeenCalledTimes(0)
-    userEvent.type(screen.getByRole('textbox'), 'test')
+    await userEvent.type(screen.getByRole('textbox'), 'test')
     expect(onChange).toHaveBeenCalledTimes(4)
   })
 })

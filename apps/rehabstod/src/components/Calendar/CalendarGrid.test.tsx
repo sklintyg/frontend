@@ -23,7 +23,7 @@ it('Should render without crashing', () => {
 
 it.each(['må', 'ti', 'on', 'to', 'fr', 'lö', 'sö'])('Should display weekday %s', (weekDay) => {
   render(<CalendarGridWrapper />)
-  expect(screen.queryByText(weekDay)).toBeInTheDocument()
+  expect(screen.getByText(weekDay)).toBeInTheDocument()
 })
 
 it('Should have the correct month', () => {

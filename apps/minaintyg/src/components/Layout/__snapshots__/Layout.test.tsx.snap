@@ -31,6 +31,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -40,6 +41,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -49,6 +51,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -58,6 +61,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -67,6 +71,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -76,6 +81,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -85,6 +91,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a
@@ -94,6 +101,7 @@ exports[`Should render as expected 1`] = `
             </a>
           </ids-header-nav-item>
           <ids-header-nav-item
+            label=""
             type="1177"
           >
             <a

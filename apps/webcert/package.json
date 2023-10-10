@@ -67,7 +67,7 @@
     "esbuild": "^0.17.6",
     "eslint": "^8.42.0",
     "eslint-config-react": "workspace:*",
-    "eslint-plugin-jest": "^27.2.1",
+    "eslint-config-react-test": "workspace:*",
     "faker": "5.5.3",
     "jsdom": "^21.1.1",
     "vite": "^4.4.9",

@@ -103,7 +103,9 @@ Read more about [filtering](https://pnpm.io/filtering)
 
 ### Writing tests
 
-When using testing-library, avoid testing [implementation details](https://kentcdodds.com/blog/testing-implementation-details).
+- [Avoid testing implementation details](https://kentcdodds.com/blog/testing-implementation-details).
+- [Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)
+- [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
 ## Integration tests
 
