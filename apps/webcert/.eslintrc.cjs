@@ -1,6 +1,12 @@
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:jest/recommended'],
+  extends: ['react'],
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['react', 'react-test'],
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -21,11 +27,11 @@ module.exports = {
     'dot-notation': 'off',
     'guard-for-in': 'off',
     'import/no-cycle': 'off',
+    'import/no-default-export': 'off',
     'import/no-useless-path-segments': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',
     'jest/no-disabled-tests': 'off',
-    'import/no-default-export': 'off',
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/aria-activedescendant-has-tabindex': 'off',
@@ -65,9 +71,9 @@ module.exports = {
     'react/jsx-curly-brace-presence': 'off',
     'react/jsx-no-constructed-context-values': 'off',
     'react/jsx-no-useless-fragment': 'off',
-    'react/jsx-props-no-spreading': 'off',
     'react/no-array-index-key': 'off',
     'react/no-danger': 'off',
+    'react/no-multi-comp': 'off',
     'react/no-unescaped-entities': 'off',
     'react/no-unknown-property': 'off',
     'react/no-unused-prop-types': 'off',

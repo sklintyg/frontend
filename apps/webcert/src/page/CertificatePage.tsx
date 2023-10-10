@@ -1,7 +1,7 @@
 import { ResourceLinkType } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -11,18 +11,17 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/Ce
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
-import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
 import {
   getCertificateMetaData,
   getIsCertificateDeleted,
-  getIsRoutedFromDeletedCertificate,
+  getIsShowSpinner,
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
-import { getUserStatistics } from '../store/user/userActions'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { getUserStatistics } from '../store/user/userActions'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -44,21 +43,20 @@ interface Params {
 const CertificatePage: React.FC = () => {
   const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
-  const history = useHistory()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const links = useSelector(getResourceLinks)
   const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const metadata = useSelector(getCertificateMetaData)
   const patient = metadata?.patient
+  const isLoadingCertificate = useSelector(getIsShowSpinner)
 
   useEffect(() => {
-    if (certificateId) {
+    if (certificateId && !isLoadingCertificate && certificateId !== metadata?.id) {
       dispatch(getCertificate(certificateId))
       dispatch(getUserStatistics())
     }
-  }, [dispatch, certificateId])
+  }, [dispatch, certificateId, isLoadingCertificate, metadata, isCertificateDeleted])
 
   useEffect(() => {
     if (error) {
@@ -81,7 +79,6 @@ const CertificatePage: React.FC = () => {
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
-            <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )
       }
@@ -89,7 +86,7 @@ const CertificatePage: React.FC = () => {
       hasSidePanel={true}
     >
       {isCertificateDeleted ? (
-        <CertificateDeletedHandler />
+        <RemovedCertificate />
       ) : (
         <>
           {isDBIntegrated && patient && (

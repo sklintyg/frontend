@@ -6,5 +6,5 @@
   },
   "extends": "./tsconfig.json",
   "exclude": ["dist"],
-  "include": ["src", "*.cjs", "vite.config.ts", "./rollup.config.js"]
+  "include": ["src", "*.cjs", "*.config.ts", "./rollup.config.js"]
 }

@@ -26,7 +26,7 @@ export const getLUCertificatesColumnInfo = (column: string): Column => {
     case LUCertificatesColumn.Vårdgivare:
       return { name: column, width: 150 }
     case LUCertificatesColumn.Index:
-      return { name: column, width: 50 }
+      return { name: column, width: 50, sortable: false }
     case LUCertificatesColumn.Intyg:
       return { name: column, width: 100, sticky: 'right' }
     default:

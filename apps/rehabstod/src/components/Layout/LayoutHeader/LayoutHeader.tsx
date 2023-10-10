@@ -2,6 +2,7 @@ import { HeaderNavItem } from '@frontend/components'
 import {
   IDSHeader,
   IDSHeaderAvatar,
+  IDSHeaderAvatarElement,
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,
@@ -9,11 +10,10 @@ import {
   IDSIconUser,
   IDSLink,
 } from '@frontend/ids-react-ts'
-import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
-import { useGetUserQuery } from '../../../store/api'
+import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
@@ -25,11 +25,11 @@ export function LayoutHeader() {
   const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
-  const sithsUrl = '/saml/login/alias/siths-rs2'
+  const { data: config } = useGetConfigQuery()
   const avatarRef = useRef<IDSHeaderAvatarElement>(null)
 
   return (
-    <IDSHeader fluid type="inera-admin" className="z-40 bg-white print:hidden">
+    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>
@@ -57,16 +57,18 @@ export function LayoutHeader() {
                 }}
                 label="Inställningar"
                 icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
+                testid="settings-button"
               />
-              <hr className="border-neutral-40 mb-5" />
+              <hr className="mb-5 border-neutral-40" />
               <HeaderAvatarMenuButton
                 label="Logga ut"
                 icon={<IDSIconUser color="currentColor" color2="currentColor" height="20" width="20" />}
                 onClick={logout}
+                testid="logout-button"
               />
             </div>
           </IDSHeaderAvatar>
-          <IDSHeaderNav fluid type="inera-admin">
+          <IDSHeaderNav type="inera-admin">
             <HeaderNavItem title="Översikt" to="/" />
             <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
             <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
@@ -79,7 +81,7 @@ export function LayoutHeader() {
       {!isLoading && !user && (
         <IDSHeaderItem type="inera-admin" separator-left>
           <IDSIconUser />
-          <a href={sithsUrl}>Logga in</a>
+          <a href={config && config.sithsIdpUrl}>Logga in</a>
         </IDSHeaderItem>
       )}
     </IDSHeader>

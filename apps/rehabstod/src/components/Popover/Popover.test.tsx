@@ -32,7 +32,8 @@ it('Should be closed by default', () => {
   )
 
   expect(screen.getByLabelText('My Button')).toBeInTheDocument()
-  const dialog = screen.getByLabelText('My Button').parentElement
+
+  const dialog = screen.getByRole('button', { name: 'My Button' })
   expect(dialog).toHaveAttribute('aria-expanded', 'false')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'closed')
@@ -51,7 +52,7 @@ it('Should be possible to control open state', () => {
   )
 
   expect(screen.getByLabelText('My Button')).toBeInTheDocument()
-  const dialog = screen.getByLabelText('My Button').parentElement
+  const dialog = screen.getByRole('button', { name: 'My Button' })
   expect(dialog).toHaveAttribute('aria-expanded', 'true')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'open')
@@ -69,7 +70,7 @@ it('Should display content when popover trigger is pressed', async () => {
     </Popover>
   )
   await userEvent.click(screen.getByLabelText('My Button'))
-  const dialog = screen.getByLabelText('My Button').parentElement
+  const dialog = screen.getByRole('button', { name: 'My Button' })
   expect(dialog).toHaveAttribute('aria-expanded', 'true')
   expect(dialog).toHaveAttribute('aria-haspopup', 'dialog')
   expect(dialog).toHaveAttribute('data-state', 'open')

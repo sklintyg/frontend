@@ -10,11 +10,10 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { classNames, Input } from '@frontend/components'
+import { classNames, Input, TooltipIcon } from '@frontend/components'
 import { IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
 import { hasNoChildren } from '../../../utils/hasNoChildren'
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 
 export function SelectMultiple({
   children,
@@ -56,7 +55,7 @@ export function SelectMultiple({
   }
 
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
       {/* TODO: Replace with IDSInput when working properly */}

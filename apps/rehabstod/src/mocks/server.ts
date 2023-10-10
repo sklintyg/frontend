@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import { matchRequestUrl, MockedRequest } from 'msw'
 import { setupServer } from 'msw/node'
-import { handlers } from './handlers/handlers'
+import { handlers } from './handlers'
 
 export const server = setupServer(...handlers)
 

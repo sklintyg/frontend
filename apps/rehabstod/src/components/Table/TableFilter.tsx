@@ -12,23 +12,19 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
       {expanded && (
-        <div>
-          <div className="grid gap-x-10 gap-y-7" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-            {children}
-          </div>
-          <div className="flex justify-end">
-            <div className="my-4 flex print:hidden" style={{ justifyContent: 'flex-end' }}>
-              <IDSButton secondary onClick={onReset}>
-                Återställ
-              </IDSButton>
-              <IDSButton onClick={() => onSearch()} className="ml-5">
-                Sök
-              </IDSButton>
-            </div>
+        <div className="mb-5">
+          <div className="mb-7 grid grid-cols-table-filter gap-x-10 gap-y-7 sm:grid-cols-table-filter-sm">{children}</div>
+          <div className="flex flex-col gap-5 print:hidden md:flex-row md:justify-end">
+            <IDSButton mblock secondary onClick={onReset}>
+              Återställ
+            </IDSButton>
+            <IDSButton mblock onClick={() => onSearch()}>
+              Sök
+            </IDSButton>
           </div>
         </div>
       )}
-      <hr className="mb-10 opacity-40 print:hidden" />
+      <hr className="mb-5 opacity-40 print:hidden lg:mb-10" />
     </>
   )
 }

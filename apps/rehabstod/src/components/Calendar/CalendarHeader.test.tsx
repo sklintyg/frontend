@@ -7,5 +7,5 @@ it('Should render without crashing', () => {
 
 it('Should display title', () => {
   render(<CalendarHeader title="Hello" prevButtonProps={{}} nextButtonProps={{}} />)
-  expect(screen.queryByText('Hello')).toBeInTheDocument()
+  expect(screen.getByText('Hello')).toBeInTheDocument()
 })

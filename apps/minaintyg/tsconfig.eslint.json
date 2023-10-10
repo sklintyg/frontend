@@ -6,5 +6,5 @@
   },
   "extends": "./tsconfig.json",
   "exclude": ["dist"],
-  "include": ["src", "*.cjs", ".eslintrc.cjs", "vite.config.ts"]
+  "include": ["src", "*.cjs", ".eslintrc.cjs", "*.config.ts"]
 }

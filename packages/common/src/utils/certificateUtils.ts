@@ -29,8 +29,9 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
 
 export const isRenewedChild = (certificateMetadata: CertificateMetadata) => {
   return (
-    certificateMetadata.relations.parent?.type === CertificateRelationType.EXTENDED ||
-    certificateMetadata.relations.parent?.type === CertificateRelationType.RENEW
+    (certificateMetadata.relations.parent?.type === CertificateRelationType.EXTENDED ||
+      certificateMetadata.relations.parent?.type === CertificateRelationType.RENEW) &&
+    certificateMetadata.status !== CertificateStatus.SIGNED
   )
 }
 
@@ -121,4 +122,5 @@ export const getComplementedByCertificateRelation = (certificateMetadata: Certif
 interface Indexable {
   index: number
 }
+
 export const sortByIndex = (a: Indexable, b: Indexable) => a.index - b.index

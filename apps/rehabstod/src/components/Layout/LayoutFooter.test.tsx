@@ -11,8 +11,8 @@ it('Should display links', async () => {
     )
   ).toBeInTheDocument()
 
-  expect(await screen.findByText('ineraManualRehabstod')).toBeInTheDocument()
-  expect(await screen.findByText('ineraNationellKundservice')).toBeInTheDocument()
-  expect(await screen.findByText('ineraMainPage')).toBeInTheDocument()
-  expect(await screen.findByText('ineraBehandlingPersonuppgifter')).toBeInTheDocument()
+  expect(await screen.findAllByText('ineraManualRehabstod')).toHaveLength(2)
+  expect(await screen.findAllByText('ineraNationellKundservice')).toHaveLength(2)
+  expect(await screen.findAllByText('ineraMainPage')).toHaveLength(2)
+  expect(await screen.findAllByText('ineraBehandlingPersonuppgifter')).toHaveLength(2)
 })

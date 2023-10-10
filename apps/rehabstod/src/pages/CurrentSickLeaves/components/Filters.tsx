@@ -11,8 +11,8 @@ import { TimePeriodFilter } from '../../../components/Table/filter/TimePeriodFil
 import { getMultipleSelectPlaceholder } from '../../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
-import { useGetSickLeavesFiltersQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
 
 export function Filters({
@@ -47,16 +47,16 @@ export function Filters({
     <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
       <DiagnosisFilter
         onChange={onDiagnosesChange}
-        allDiagnoses={(populatedFilters && populatedFilters.allDiagnosisChapters) || []}
-        enabledDiagnoses={(populatedFilters && populatedFilters.enabledDiagnosisChapters) || []}
+        allDiagnoses={populatedFilters?.allDiagnosisChapters ?? []}
+        enabledDiagnoses={populatedFilters?.enabledDiagnosisChapters ?? []}
         selected={filter.diagnosisChapters}
         description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
       />
       {!isDoctor && (
         <DoctorFilter
           onChange={onDoctorChange}
-          doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
-          selected={filter ? filter.doctorIds : []}
+          doctors={populatedFilters?.activeDoctors ?? []}
+          selected={filter?.doctorIds ?? []}
           description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
         />
       )}
@@ -85,16 +85,16 @@ export function Filters({
         selectedOptions={filter.sickLeaveLengthIntervals}
       />
       <MultipleSelectFilterOption
-        label="REKO-status"
+        label="Status"
         onChange={(values) => dispatch(updateFilter({ rekoStatusTypeIds: values }))}
-        options={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+        options={populatedFilters?.rekoStatusTypes ?? []}
         selected={filter.rekoStatusTypeIds}
-        description="Filtrerar på den REKO-status som satts för patienten."
-        placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters ? populatedFilters.rekoStatusTypes : [])}
+        description="Filtrerar på den status som satts för patienten."
+        placeholder={getMultipleSelectPlaceholder(filter.rekoStatusTypeIds, populatedFilters?.rekoStatusTypes ?? [])}
       />
       <SelectFilter
         onChange={(id) => dispatch(updateFilter({ unansweredCommunicationFilterTypeId: id }))}
-        options={populatedFilters ? populatedFilters.unansweredCommunicationFilterTypes : []}
+        options={populatedFilters?.unansweredCommunicationFilterTypes ?? []}
         description="Filtrerar på sjukfall med eller utan obesvarade kompletteringar eller administrativa frågor och svar."
         label="Ärendestatus"
         value={filter.unansweredCommunicationFilterTypeId}
@@ -102,10 +102,10 @@ export function Filters({
       <MultipleSelectFilterOption
         label="Sysselsättning"
         onChange={(values) => dispatch(updateFilter({ occupationTypeIds: values }))}
-        options={populatedFilters ? populatedFilters.occupationTypes : []}
+        options={populatedFilters?.occupationTypes ?? []}
         selected={filter.occupationTypeIds}
         description="Filtrerar på patientens sysselsättning."
-        placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters ? populatedFilters.occupationTypes : [])}
+        placeholder={getMultipleSelectPlaceholder(filter.occupationTypeIds, populatedFilters?.occupationTypes ?? [])}
       />
       <DateRangeFilter
         fromDate={filter.fromSickLeaveEndDate}
@@ -113,8 +113,8 @@ export function Filters({
         onChange={(value) => {
           dispatch(
             updateFilter({
-              fromSickLeaveEndDate: value && value.start ? value.start.toString() : null,
-              toSickLeaveEndDate: value && value.end ? value.end.toString() : null,
+              fromSickLeaveEndDate: value?.start ? value.start.toString() : null,
+              toSickLeaveEndDate: value?.end ? value.end.toString() : null,
             })
           )
         }}

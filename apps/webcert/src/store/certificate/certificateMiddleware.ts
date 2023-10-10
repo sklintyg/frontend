@@ -4,8 +4,8 @@ import {
   decorateCertificateWithInitialValues,
   getCertificateToSave,
   getClientValidationErrors,
-  SigningMethod,
   isLocked,
+  SigningMethod,
 } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
@@ -246,9 +246,9 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
       dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
     } else {
       dispatch(updateCertificateAsDeleted())
-      dispatch(hideSpinner())
     }
     dispatch(deleteCertificateCompleted())
+    dispatch(hideSpinner())
   }
 
 const handleForwardCertificate: Middleware<Dispatch> =
@@ -919,7 +919,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
 const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
   const certificate = getState().ui.uiCertificate.certificate
 
-  if (!certificate) {
+  if (!certificate || certificate.metadata.status !== CertificateStatus.UNSIGNED) {
     return
   }
 

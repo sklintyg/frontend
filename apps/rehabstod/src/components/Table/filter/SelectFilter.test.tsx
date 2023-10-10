@@ -12,7 +12,7 @@ const OPTIONS = [{ id: 'id', name: 'name' }]
 const renderComponent = () => {
   onChange = vi.fn()
 
-  renderWithRouter(<SelectFilter onChange={onChange} label={LABEL} description={DESCRIPTION} options={OPTIONS} hideDefaultValue={false} />)
+  renderWithRouter(<SelectFilter onChange={onChange} label={LABEL} description={DESCRIPTION} options={OPTIONS} />)
 }
 
 describe('SelectFilter', () => {
@@ -28,11 +28,6 @@ describe('SelectFilter', () => {
   it('should render default label', () => {
     renderComponent()
     expect(screen.getByText('Visa alla')).toBeInTheDocument()
-  })
-
-  it('should not render default label if it is hidden', () => {
-    renderWithRouter(<SelectFilter onChange={onChange} label={LABEL} description={DESCRIPTION} options={OPTIONS} hideDefaultValue />)
-    expect(screen.queryByText('Visa alla')).not.toBeInTheDocument()
   })
 
   it('should render options', () => {

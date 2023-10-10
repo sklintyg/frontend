@@ -1,11 +1,12 @@
+import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, SrsUserClientContext, fakeCertificate } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import SrsSickLeaveChoices from './SrsSickLeaveChoices'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { CertificateRelationType, CertificateStatus, fakeCertificate, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { updateUserClientContext } from '../../../store/srs/srsActions'
+import store from '../../../store/store'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
+import SrsSickLeaveChoices from './SrsSickLeaveChoices'
 
 const renderComponent = () => {
   render(
@@ -18,6 +19,10 @@ const renderComponent = () => {
 describe('SRS Sick Leave Choices', () => {
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
+  })
+
+  afterEach(() => {
+    store.dispatch(updateUserClientContext(SrsUserClientContext.SRS_UTK))
   })
 
   it('should present new radio button', () => {
@@ -66,6 +71,18 @@ describe('SRS Sick Leave Choices', () => {
     renderComponent()
     setRenewedCertificateToState()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()
+  })
+
+  it('should not update user client context if choosing extension after 60 days', async () => {
+    renderComponent()
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
+    expect(store.getState().ui.uiSRS.userClientContext).not.toEqual(SrsUserClientContext.SRS_FRL)
+  })
+
+  it('should not update user client context if choosing extension', async () => {
+    renderComponent()
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1]))
+    expect(store.getState().ui.uiSRS.userClientContext).not.toEqual(SrsUserClientContext.SRS_FRL)
   })
 })
 

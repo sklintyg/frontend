@@ -9,8 +9,9 @@ import { SelectFilter } from '../../components/Table/filter/SelectFilter'
 import { TextSearchFilter } from '../../components/Table/filter/TextSearchFilter'
 import { getMultipleSelectPlaceholder } from '../../components/Table/filter/utils/getMultipleSelectPlaceholder'
 import { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
-import { useGetLUFiltersQuery, useGetUserQuery } from '../../store/api'
+import { useGetUserQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
+import { useGetLUFiltersQuery } from '../../store/luApi'
 import { resetLUFilters, updateFilter } from '../../store/slices/luCertificates.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 
@@ -42,7 +43,7 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
             populatedFilters.allDiagnosisChapters.filter((diagnosis) => filter.diagnoses.some((id) => diagnosis.id === id))) ||
           []
         }
-        description="Filtrerar på den diagnos som skrivs ut först för sjukfallet uppdelat på kapitel. Diagnoskapitel som saknar data är inte valbara."
+        description="Filtrerar på den diagnos som skrivs ut först för läkarutlåtandet uppdelat på kapitel."
       />
       {!isUserDoctor(user) && (
         <DoctorFilter

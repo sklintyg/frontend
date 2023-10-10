@@ -24,9 +24,11 @@ export function LUCertificatesTableBody({
     navigate(`/lakarutlatanden/${data.encryptedPatientId}`)
   }
 
+  const sortedList = sortTableList(content, getLUCertificatesTableValue)
+
   return (
     <tbody className="whitespace-normal break-words">
-      {sortTableList(content, getLUCertificatesTableValue).map(
+      {sortedList.map(
         (item) =>
           columns.length > 0 && (
             <TableRow
@@ -34,10 +36,10 @@ export function LUCertificatesTableBody({
               focusable={focusable}
               italic={false}
               data={item}
-              onNavigate={clickable ? (data) => navigateToPatient(data) : undefined}
+              onNavigate={clickable ? navigateToPatient : undefined}
             >
               {columns.map(({ name }) => (
-                <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={content} />
+                <LUCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={sortedList} />
               ))}
             </TableRow>
           )

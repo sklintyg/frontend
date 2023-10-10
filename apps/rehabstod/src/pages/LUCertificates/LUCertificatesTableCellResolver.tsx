@@ -1,5 +1,4 @@
-import { DiagnosisDescription } from '../../components/Diagnosis/DiagnosisDescription'
-import { DiagnosisInfo } from '../../components/Diagnosis/DiagnosisInfo'
+import { DiagnosisInfoCell } from '../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { TableCell } from '../../components/Table/tableBody/TableCell'
 import { LUCertificate } from '../../schemas/luCertificatesSchema'
 import { LUCertificatesColumn } from '../../store/slices/luUnitTableColumns.slice'
@@ -10,11 +9,7 @@ import { getLUCertificatesTableValue } from './utils/luCertificatesTableValueFor
 export function LUCertificatesTableCellResolver({ column, data, list }: { column: string; data: LUCertificate; list: LUCertificate[] }) {
   switch (column) {
     case LUCertificatesColumn.Diagnos:
-      return (
-        <TableCell description={<DiagnosisDescription diagnos={data.diagnosis} biDiagnoser={data.biDiagnoses} />}>
-          <DiagnosisInfo biDiagnoser={data.biDiagnoses} diagnos={data.diagnosis} />
-        </TableCell>
-      )
+      return <DiagnosisInfoCell diagnosis={data.diagnosis} biDiagnoses={data.biDiagnoses} />
     case LUCertificatesColumn.Signeringsdatum:
       return <TableCell>{(getLUCertificatesTableValue(column, data) as string).split('T')[0]}</TableCell>
     case LUCertificatesColumn.Ärenden:

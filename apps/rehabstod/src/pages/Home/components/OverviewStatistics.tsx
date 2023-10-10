@@ -1,9 +1,10 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { PageContainer } from '../../../components/PageContainer/PageContainer'
+import { PageHeading } from '../../../components/PageHeading/PageHeading'
 import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { UserUrval } from '../../../schemas'
-import { useGetSickLeavesSummaryQuery, useGetUserQuery } from '../../../store/api'
+import { useGetUserQuery } from '../../../store/api'
+import { useGetSickLeavesSummaryQuery } from '../../../store/sickLeaveApi'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
@@ -43,12 +44,12 @@ export function OverviewStatistics() {
   }
 
   return (
-    <PageContainer>
-      <h1 className="ids-heading-2">
-        {isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
-      </h1>
-      <h2 className="ids-heading-3 mb-10">{unit}</h2>
-      <div className="grid grid-cols-3 gap-4">
+    <>
+      <PageHeading
+        title={isDoctor ? 'Översikt över mina pågående sjukfall just nu' : 'Översikt över alla pågående sjukfall just nu'}
+        subTitle={unit}
+      />
+      <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3">
         <IDSCard fill className="bg-secondary-95">
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />
         </IDSCard>
@@ -58,19 +59,13 @@ export function OverviewStatistics() {
         <IDSCard>
           <StatisticsInformationCard />
         </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <DiagnosisGroupsCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <SickLeaveDegreesCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <CountSickLeaveDegreesCard summary={summary} />
-        </IDSCard>
-        <IDSCard fill className="col-span-3">
-          <SickLeaveLengthsCard summary={summary} />
-        </IDSCard>
       </div>
-    </PageContainer>
+      <div className="grid grid-cols-1 gap-5">
+        <DiagnosisGroupsCard summary={summary} />
+        <SickLeaveDegreesCard summary={summary} />
+        <CountSickLeaveDegreesCard summary={summary} />
+        <SickLeaveLengthsCard summary={summary} />
+      </div>
+    </>
   )
 }

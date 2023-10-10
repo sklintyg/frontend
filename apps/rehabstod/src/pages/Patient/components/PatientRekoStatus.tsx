@@ -1,49 +1,62 @@
-import { useLocation } from 'react-router-dom'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
-import { useGetSickLeavesFiltersQuery } from '../../../store/api'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 
 export function PatientRekoStatus({
   currentSickLeaves,
   earlierSickLeaves,
   isDoctor,
+  patientId,
 }: {
   currentSickLeaves: PatientSjukfall[]
   earlierSickLeaves: PatientSjukfall[]
   isDoctor: boolean
+  patientId: string
 }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
-  const { state } = useLocation()
-  const getCertificateToSaveRekoStatusOn = () => {
+
+  const getLastCertificate = () => {
     if (currentSickLeaves && currentSickLeaves.length > 0) {
-      return currentSickLeaves[0].intyg[0]
+      return currentSickLeaves.sort((a, b) => new Date(b.slut).getTime() - new Date(a.slut).getTime())[0]
     }
 
     if (earlierSickLeaves && earlierSickLeaves.length > 0) {
-      return earlierSickLeaves[0].intyg[0]
+      return earlierSickLeaves.sort((a, b) => new Date(b.slut).getTime() - new Date(a.slut).getTime())[0]
     }
 
     return null
   }
 
-  const certificateToSaveRekoStatusOn = getCertificateToSaveRekoStatusOn()
+  const getFirstCertificate = () => {
+    if (currentSickLeaves && currentSickLeaves.length > 0) {
+      return currentSickLeaves.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())[0]
+    }
+
+    if (earlierSickLeaves && earlierSickLeaves.length > 0) {
+      return earlierSickLeaves.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())[0]
+    }
+
+    return null
+  }
+
+  if (!patientId) {
+    return null
+  }
 
   return (
-    certificateToSaveRekoStatusOn && (
-      <div className="w-64">
-        <SelectRekoStatus
-          disabled={isDoctor}
-          endDate={certificateToSaveRekoStatusOn.slut}
-          patientId={certificateToSaveRekoStatusOn.patient.id}
-          statusFromSickLeave={state?.rekoStatus}
-          rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
-          description={
-            isDoctor
-              ? 'Med REKO-status kan du som läkare se patientens nuvarande status. Den visas även i sjukfallstabellen. Som läkare kan du se men inte ändra en status.'
-              : 'Med REKO-status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare.'
-          }
-        />
-      </div>
-    )
+    <div className="w-full lg:w-64">
+      <SelectRekoStatus
+        disabled={isDoctor}
+        endDate={getLastCertificate()?.slut || ''}
+        startDate={getFirstCertificate()?.start || ''}
+        patientId={patientId}
+        rekoStatusTypes={populatedFilters ? populatedFilters.rekoStatusTypes : []}
+        description={
+          isDoctor
+            ? 'Med status kan du som läkare se patientens nuvarande status. Den visas även i sjukfallstabellen. Som läkare kan du se men inte ändra en status.'
+            : 'Med status kan du som rehabkoordinator ange patientens nuvarande status. Dina ändringar visas även i sjukfallstabellen och kommer sparas tills vidare.'
+        }
+      />
+    </div>
   )
 }

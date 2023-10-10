@@ -8,7 +8,7 @@ export function DatePickerButton(props: AriaButtonProps) {
   const { buttonProps } = useButton(props, ref)
 
   return (
-    <PopoverTrigger ref={ref} {...buttonProps} className="py-3 px-5">
+    <PopoverTrigger ref={ref} {...buttonProps} className="px-5 py-3">
       <IDSIconCalendar width="1.25em" height="1.25em" />
     </PopoverTrigger>
   )

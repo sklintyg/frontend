@@ -1,8 +1,9 @@
 import { Column } from '../../../../../components/Table/types/Column'
 import { filterTableColumns } from '../../../../../components/Table/utils/filterTableColumns'
 import { UserUrval } from '../../../../../schemas'
-import { useGetSickLeavesFiltersQuery, useGetUserQuery } from '../../../../../store/api'
+import { useGetUserQuery } from '../../../../../store/api'
 import { useAppSelector } from '../../../../../store/hooks'
+import { useGetSickLeavesFiltersQuery } from '../../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../../../store/slices/patientTableColumns.slice'
 
@@ -49,5 +50,6 @@ export function usePatientSickLeavesTableColumns(): Column[] {
     name,
     width: getPatientSickLeaveColumnWidth(name),
     sticky: name === PatientColumn.Intyg ? 'right' : undefined,
+    sortable: name !== PatientColumn.Num,
   }))
 }

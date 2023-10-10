@@ -8,6 +8,6 @@ it('Should be possible to copy identifier to clipboard', async () => {
   const writeText = vi.spyOn(navigator.clipboard, 'writeText')
   render(<ErrorIdentifier id="abc123" />)
   await user.click(screen.getByRole('button'))
-  expect(screen.queryByText(/fel-id kopierat till urklipp/i)).toBeInTheDocument()
+  expect(screen.getByText(/fel-id kopierat till urklipp/i)).toBeInTheDocument()
   expect(writeText).toHaveBeenCalledWith('abc123')
 })

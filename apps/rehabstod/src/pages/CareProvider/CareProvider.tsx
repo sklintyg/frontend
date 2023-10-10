@@ -1,7 +1,9 @@
-import { IDSAlert, IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { useUpdateUserPreferences } from '../../store/hooks'
@@ -9,7 +11,7 @@ import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
-  const { isLoading, data: user } = useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
   const { updateUserPreferences } = useUpdateUserPreferences()
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
@@ -52,38 +54,46 @@ export function CareProvider() {
     setSelectedRadio(event.target.id)
   }
 
-  return !isLoading && user ? (
-    <div className="w-full py-10 px-4 md:w-1/2 md:px-0">
-      <div className="mb-6">
-        <h1 className="ids-heading-1 ids-small pb-4">Välj enhet</h1>
-        <p className="ids-preamble my-5">
-          Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
-          inloggning.{' '}
-        </p>
-        {user.roleSwitchPossible && (
-          <IDSAlert className="mb-5">
-            <span className="flex items-center">
-              Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från Läkare
-              till Rehabkoordinator när du väljer att logga in på en sådan enhet.
-            </span>
-          </IDSAlert>
-        )}
-        {user.vardgivare.map((provider) => (
-          <CareProviderItem key={provider.id} provider={provider} handleChooseUnit={handleChooseUnit} selectedRadio={selectedRadio} />
-        ))}
+  if (!user) {
+    return null
+  }
+
+  return (
+    <PageContainer>
+      <div className="max-w-3xl">
+        <div className="mb-6">
+          <PageHeading title="Välj enhet" />
+          <p className="ids-preamble my-5">
+            Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
+            inloggning.{' '}
+          </p>
+          {user.roleSwitchPossible && (
+            <IDSAlert className="mb-5">
+              <span className="flex items-center">
+                Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från
+                Läkare till Rehabkoordinator när du väljer att logga in på en sådan enhet.
+              </span>
+            </IDSAlert>
+          )}
+          {user.vardgivare.map((provider) => (
+            <CareProviderItem key={provider.id} provider={provider} handleChooseUnit={handleChooseUnit} selectedRadio={selectedRadio} />
+          ))}
+        </div>
+        {selectedRadio ? (
+          <p>
+            Du har valt <span className="font-bold">{selectedRadio}</span>
+          </p>
+        ) : null}
+        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
+        <div className="flex flex-col gap-5 md:flex-row ">
+          <IDSButton mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
+            Avbryt
+          </IDSButton>
+          <IDSButton mblock onClick={handleClick}>
+            Välj
+          </IDSButton>
+        </div>
       </div>
-      {selectedRadio ? (
-        <p>
-          Du har valt <span className="font-bold">{selectedRadio}</span>
-        </p>
-      ) : null}
-      <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
-      <IDSButtonGroup>
-        <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
-          Avbryt
-        </IDSButton>
-        <IDSButton onClick={handleClick}>Välj</IDSButton>
-      </IDSButtonGroup>
-    </div>
-  ) : null
+    </PageContainer>
+  )
 }

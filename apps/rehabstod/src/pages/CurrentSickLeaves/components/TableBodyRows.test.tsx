@@ -1,6 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { act, screen } from '@testing-library/react'
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
+import { act, screen, within } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
@@ -18,10 +17,8 @@ beforeEach(() => {
 })
 
 describe('Change focus', () => {
-  let user: UserEvent
-
-  beforeEach(() => {
-    const result = renderWithRouter(
+  function renderComponent() {
+    return renderWithRouter(
       <Table>
         <tbody>
           <TableBodyRows
@@ -34,11 +31,10 @@ describe('Change focus', () => {
         </tbody>
       </Table>
     )
-
-    user = result.user
-  })
+  }
 
   it('Should gain focus with tab', async () => {
+    const { user } = renderComponent()
     expect(await screen.findAllByRole('row')).toHaveLength(2)
 
     expect(document.body).toHaveFocus()
@@ -49,6 +45,7 @@ describe('Change focus', () => {
   })
 
   it('Should change focus with arrow keys', async () => {
+    const { user } = renderComponent()
     expect(await screen.findAllByRole('row')).toHaveLength(2)
 
     screen.getAllByRole('row')[0].focus()
@@ -64,10 +61,8 @@ describe('Change focus', () => {
 })
 
 describe('Navigate', () => {
-  let user: UserEvent
-
-  beforeEach(() => {
-    const result = renderWithRouter(
+  function renderComponent() {
+    return renderWithRouter(
       <Routes>
         <Route
           path="/"
@@ -88,11 +83,10 @@ describe('Navigate', () => {
         <Route path="/pagaende-sjukfall/aperiam" element={<p>Patient Route</p>} />
       </Routes>
     )
-
-    user = result.user
-  })
+  }
 
   it('Should navigate to patient on click', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
     await user.click(screen.getAllByRole('row')[0])
 
@@ -100,6 +94,7 @@ describe('Navigate', () => {
   })
 
   it('Should navigate to patient on enter key', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
     screen.getAllByRole('row')[0].focus()
 
@@ -109,6 +104,7 @@ describe('Navigate', () => {
   })
 
   it('Should navigate to patient on space key', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
 
     screen.getAllByRole('row')[0].focus()
@@ -136,7 +132,7 @@ it('Should render all sickleave columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(14)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
@@ -156,7 +152,7 @@ it('Should render all but doctor column if user is doctor', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(13)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
 })
 
 it('Should render risk column if feature is activated', async () => {
@@ -187,7 +183,7 @@ it('Should render risk column if feature is activated', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(15)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 })
 
 it('Should be possible to hide columns', async () => {
@@ -207,14 +203,14 @@ it('Should be possible to hide columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(14)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Grad)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(13)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Intyg)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(13)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Diagnos)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(12)
 })

@@ -8,10 +8,13 @@ import {
   updateCareProviderId,
   updateCertificateId,
   updateError,
+  updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
   updateHasUpdatedAnswers,
   updateIsCertificateRenewed,
   updateLoadingCodes,
   updateLoadingRecommendations,
+  updateLoggedCertificateId,
   updatePatientId,
   updateRiskOpinion,
   updateSickLeaveChoice,
@@ -20,8 +23,18 @@ import {
   updateSrsPredictions,
   updateSrsQuestions,
   updateUnitId,
+  updateUserClientContext,
+  updateUserLaunchFromOrigin,
 } from './srsActions'
-import { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import {
+  SrsAnswer,
+  SrsInfoForDiagnosis,
+  SrsPrediction,
+  SrsQuestion,
+  SrsSickLeaveChoice,
+  SrsUserClientContext,
+  ValueDiagnosisList,
+} from '@frontend/common'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
 export interface SRSState {
@@ -43,6 +56,11 @@ export interface SRSState {
   loadingRecommendations: boolean
   answers: SrsAnswer[]
   hasUpdatedAnswers: boolean
+  userClientContext: SrsUserClientContext | undefined
+  userLaunchFromOrigin: string
+  loggedCertificateId: string
+  hasLoadedSRSContent: boolean
+  hasLoggedMeasuresDisplayed: boolean
 }
 
 const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
@@ -65,6 +83,11 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     loadingRecommendations: false,
     answers: [],
     hasUpdatedAnswers: true,
+    userClientContext: undefined,
+    userLaunchFromOrigin: '',
+    loggedCertificateId: '',
+    hasLoadedSRSContent: false,
+    hasLoggedMeasuresDisplayed: false,
   }
 }
 
@@ -128,12 +151,28 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
       state.isCertificateRenewed = action.payload
       if (action.payload) {
         state.sickLeaveChoice = SrsSickLeaveChoice.EXTENSION
+        state.userClientContext = SrsUserClientContext.SRS_FRL
       }
     })
     .addCase(updateHasUpdatedAnswers, (state, action) => {
       state.hasUpdatedAnswers = action.payload
     })
     .addCase(resetState, (state) => getInitialState(state.functionDisablers))
+    .addCase(updateUserClientContext, (state, action) => {
+      state.userClientContext = action.payload
+    })
+    .addCase(updateUserLaunchFromOrigin, (state, action) => {
+      state.userLaunchFromOrigin = action.payload
+    })
+    .addCase(updateLoggedCertificateId, (state, action) => {
+      state.loggedCertificateId = action.payload
+    })
+    .addCase(updateHasLoadedSRSContent, (state, action) => {
+      state.hasLoadedSRSContent = action.payload
+    })
+    .addCase(updateHasLoggedMeasuresDisplayed, (state, action) => {
+      state.hasLoggedMeasuresDisplayed = action.payload
+    })
 )
 
 export default srsReducer

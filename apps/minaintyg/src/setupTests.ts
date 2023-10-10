@@ -1,13 +1,22 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { faker } from '@frontend/fake'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
+import { mockViewport } from 'jsdom-testing-mocks'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
+import { api } from './store/api'
+import { reset as resetCertificateFilter } from './store/slice/certificateFilter.slice'
+import { store } from './store/store'
 
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
+  visualViewport: {
+    ...mockViewport({ width: '1440px', height: '900px' }),
+    addEventListener: vi.fn(),
+  },
 })
 
 // Used by floating-ui
@@ -16,9 +25,6 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }))
-
-// extends Vitest's expect method with methods from react-testing-library
-expect.extend(matchers)
 
 // Establish API mocking before all tests.
 beforeAll(() => {
@@ -32,6 +38,9 @@ beforeAll(() => {
 afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
+
+  resetCertificateFilter()
+  store.dispatch(api.util.resetApiState())
 })
 
 // Clean up after the tests are finished.

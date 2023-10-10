@@ -27,6 +27,7 @@ import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
   answerComplementCertificate,
+  autoSaveCertificate,
   autoSaveCertificateError,
   CertificateApiGenericError,
   certificateApiGenericError,
@@ -128,7 +129,7 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle autoSave error', () => {
+  describe('Handle autoSave', () => {
     const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
 
     it('shall throw error if autosave fails', async () => {
@@ -161,6 +162,30 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
+    })
+
+    it('shall not perform api call if not draft', async () => {
+      const certificate = getTestCertificate('id')
+      certificate.metadata.status = CertificateStatus.SIGNED
+
+      testStore.dispatch(autoSaveCertificate(certificate))
+      await flushPromises()
+
+      setTimeout(() => {
+        expect(fakeAxios.history.put.length).toBe(0)
+      }, 1000)
+    })
+
+    it('shall perform api call if draft', async () => {
+      const certificate = getTestCertificate('id')
+      certificate.metadata.status = CertificateStatus.UNSIGNED
+
+      testStore.dispatch(autoSaveCertificate(certificate))
+      await flushPromises()
+
+      setTimeout(() => {
+        expect(fakeAxios.history.put.length).toBe(1)
+      }, 1000)
     })
   })
 
@@ -455,10 +480,22 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(true)
       await flushPromises()
 
-      const spinnerActive = testStore.getState().ui.uiCertificate.spinner
-      expect(spinnerActive).toBe(false)
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(false)
+    })
+
+    it('should hide spinner on successful deletion when parent certificate exist', async () => {
+      const certificate = fakeCertificate({ metadata: { relations: { parent: { certificateId: '2' } } } })
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(true)
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiCertificate.spinner).toBe(false)
     })
 
     it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {

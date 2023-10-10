@@ -10,20 +10,32 @@ import {
   getPredictions,
   getRecommendations,
   getSRSCodes,
+  logSrsInteraction,
   PredictionsRequest,
   RiskOpinionRequest,
   setRiskOpinion,
+  updateCertificateId,
+  updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
+  updateLoggedCertificateId,
   updateSrsPredictions,
 } from './srsActions'
 import {
+  CertificateStatus,
   fakeCertificate,
+  fakeCertificateMetaData,
   fakeDiagnosesElement,
   fakeRadioMultipleCodeElement,
   fakeSrsAnswer,
   fakeSrsInfo,
   fakeSrsPrediction,
+  fakeUser,
+  SrsEvent,
+  SrsUserClientContext,
+  User,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { getUserSuccess } from '../user/userActions'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -203,9 +215,21 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle getUserSuccess', () => {
+    it('should save user launch from origin', () => {
+      const user: User = fakeUser({
+        launchFromOrigin: 'rs',
+      })
+
+      testStore.dispatch(getUserSuccess({ user, links: [] }))
+      expect(testStore.getState().ui.uiSRS.userLaunchFromOrigin).toEqual('rs')
+      expect(testStore.getState().ui.uiSRS.userClientContext).toEqual(SrsUserClientContext.SRS_REH)
+    })
+  })
+
   describe('Handle update certificate', () => {
     const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-    const certificate = fakeCertificate({ data: element })
+    const certificate = fakeCertificate({ data: element, metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }) })
 
     it('should update diagnosis list if certificate updates', async () => {
       testStore.dispatch(updateCertificate(certificate))
@@ -217,6 +241,12 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.patientId).toEqual(certificate.metadata.patient.personId.id)
+    })
+
+    it('should update user client context certificate updates', async () => {
+      testStore.dispatch(updateCertificate(certificate))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.userClientContext).toEqual(SrsUserClientContext.SRS_SIGNED)
     })
 
     it('should update certificate id if certificate updates', async () => {
@@ -235,6 +265,131 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.careProviderId).toEqual(certificate.metadata.careProvider.unitId)
+    })
+  })
+
+  describe('Log SRS interaction', () => {
+    describe('SRS_PANEL_ACTIVATED', () => {
+      describe('logging has been performed', () => {
+        beforeEach(() => {
+          testStore.dispatch(updateCertificateId('ID'))
+          testStore.dispatch(updateLoggedCertificateId('ID'))
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+        })
+
+        it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+          await flushPromises()
+
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should not perform api call for SRS_PANEL_ACTIVATED', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(0)
+        })
+      })
+
+      describe('logging has not been performed', () => {
+        beforeEach(() => {
+          testStore.dispatch(updateCertificateId('ID'))
+          testStore.dispatch(updateLoggedCertificateId('not ID'))
+        })
+
+        it('should perform api call that is not SRS_PANEL_ACTIVATED if SRS has loaded', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          await flushPromises()
+
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should perform api call that is not SRS_PANEL_ACTIVATED', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+          await flushPromises()
+
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should not perform api call for SRS_PANEL_ACTIVATED if SRS has not loaded', async () => {
+          testStore.dispatch(updateHasLoadedSRSContent(false))
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(0)
+        })
+
+        it('should perform api call for SRS_PANEL_ACTIVATED if SRS has loaded', async () => {
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+      })
+    })
+
+    describe('SRS_MEASURES_DISPLAYED', () => {
+      describe('logging has been performed', () => {
+        beforeEach(() => {
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          testStore.dispatch(updateHasLoggedMeasuresDisplayed(true))
+        })
+
+        it('should perform api call that is not measures displayed', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+          await flushPromises()
+
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should not perform api call for measures displayed', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(0)
+        })
+      })
+
+      describe('logging has not been performed', () => {
+        beforeEach(() => {
+          testStore.dispatch(updateHasLoggedMeasuresDisplayed(false))
+        })
+
+        it('should perform api call that is not measures displayed if SRS has loaded', async () => {
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          await flushPromises()
+
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should not perform api call for measures displayed if SRS has not loaded', async () => {
+          testStore.dispatch(updateHasLoadedSRSContent(false))
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(0)
+        })
+
+        it('should perform api call for measures displayed if SRS has loaded', async () => {
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+          await flushPromises()
+          expect(fakeAxios.history.post).toHaveLength(1)
+          expect(fakeAxios.history.post[0].url).toEqual('/api/jslog/srs')
+        })
+
+        it('should update has logged measures displayed after api call', async () => {
+          testStore.dispatch(updateHasLoadedSRSContent(true))
+          testStore.dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
+          await flushPromises()
+          expect(testStore.getState().ui.uiSRS.hasLoggedMeasuresDisplayed).toBeTruthy()
+        })
+      })
     })
   })
 })

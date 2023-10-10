@@ -4,7 +4,9 @@ import { Provider } from 'react-redux'
 import {
   logSrsInteraction,
   setDiagnosisCodes,
+  updateCertificateId,
   updateError,
+  updateLoggedCertificateId,
   updateSrsInfo,
   updateSrsPredictions,
   updateSrsQuestions,
@@ -26,7 +28,7 @@ import { vi } from 'vitest'
 const renderComponent = (minimizedView?: boolean) => {
   render(
     <Provider store={store}>
-      <SrsPanel minimizedView={minimizedView} />
+      <SrsPanel minimizedView={minimizedView} isPanelActive />
     </Provider>
   )
 }
@@ -45,12 +47,30 @@ describe('SrsPanel', () => {
     }))
   })
 
-  afterEach(() => {
+  beforeEach(() => {
     clearDispatchedActions()
   })
 
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
+  })
+
+  it('should not log if panel is active and loggedCertificate matches certificateId', () => {
+    const certiticateId = 'certiticateId'
+    const loggedCertificateId = 'certiticateId'
+    store.dispatch(updateCertificateId(certiticateId))
+    store.dispatch(updateLoggedCertificateId(loggedCertificateId))
+    renderComponent()
+    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
+  })
+
+  it('should not log if panel is inactive', () => {
+    render(
+      <Provider store={store}>
+        <SrsPanel minimizedView isPanelActive={false} />
+      </Provider>
+    )
+    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
   })
 
   it('should show title', () => {

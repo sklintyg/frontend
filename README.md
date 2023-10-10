@@ -93,28 +93,19 @@ vitest is used for executing tests.
 
 To run tests in all packages `pnpm test`
 
-To run tests in a perticular workspace `pnpm --filter <name of workspace> test`
+To run tests in all packages with ui `pnpm test:ui`
+
+To run any perticular test `pnpm test /{apps, packages}/<name of application/something.test.ts`
+
+To run tests in a perticular package `pnpm --filter <package_name> test`
+
+Read more about [filtering](https://pnpm.io/filtering)
 
 ### Writing tests
 
-Smoke test that checks if the component can be rendered without crashing. Ex:
-
-```typescript
-it('renders without crashing', () => {
-  const question = fakeTextElement({ id: 'id' })
-  expect(render(<UvText question={question['id']} />)).not.toThrow()
-})
-```
-
-Tests that verifies the components behavior from a user perspective. Use React Testing Library.
-
-```typescript
-it('displaying empty value', () => {
-  const question = fakeTextElement({ id: 'id' })
-  const { getByText } = render(<UvText question={question['id']} />)
-  getByText(/Ej angivet/i)
-})
-```
+- [Avoid testing implementation details](https://kentcdodds.com/blog/testing-implementation-details).
+- [Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)
+- [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
 ## Integration tests
 
