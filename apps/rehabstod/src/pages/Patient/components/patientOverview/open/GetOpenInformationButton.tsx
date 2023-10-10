@@ -1,4 +1,4 @@
-import { IDSButton, IDSDialog , IDSDialogElement } from '@frontend/ids-react-ts'
+import { IDSButton, IDSDialog, IDSDialogElement } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { SjfItem } from '../../../../../schemas/patientSchema'
 

@@ -8,7 +8,8 @@ import {
   IDSIconSwap,
   IDSIconUser,
   IDSLink,
- IDSHeaderAvatarElement } from '@frontend/ids-react-ts'
+  IDSHeaderAvatarElement,
+} from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
