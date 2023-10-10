@@ -46,13 +46,13 @@ const renderComponent = (initialEntries = ['/']) =>
   )
 
 it('Should render as expected with one level', () => {
-  const { baseElement } = renderComponent(['/'])
-  expect(baseElement).toMatchSnapshot()
+  const { container } = renderComponent(['/'])
+  expect(container).toMatchSnapshot()
 })
 
 it('Should render as expected with two level', () => {
-  const { baseElement } = renderComponent(['/intyg'])
-  expect(baseElement).toMatchSnapshot()
+  const { container } = renderComponent(['/intyg'])
+  expect(container).toMatchSnapshot()
 })
 
 it('Should render as expected with three levels', async () => {
@@ -73,7 +73,7 @@ it('Should render as expected with three levels', async () => {
       )
     )
   )
-  const { baseElement } = renderComponent(['/intyg/12345'])
+  const { container } = renderComponent(['/intyg/12345'])
   expect(await screen.findByText(certificateName)).toBeInTheDocument()
-  expect(baseElement).toMatchSnapshot()
+  expect(container).toMatchSnapshot()
 })

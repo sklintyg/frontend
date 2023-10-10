@@ -1,73 +1,69 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Should render with order set to "ascending" 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+  >
+    Sortera efter:
+     
     <div
-      class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+      class="inline-flex gap-1"
     >
-      Sortera efter:
-       
-      <div
-        class="inline-flex gap-1"
+      <button
+        aria-label="Nyast först"
+        class="text-sky-base underline"
+        type="button"
       >
-        <button
-          aria-label="Nyast först"
-          class="text-sky-base underline"
-          type="button"
-        >
-          Nyast först
-        </button>
-        <div
-          role="separator"
-        >
-          |
-        </div>
-        <button
-          aria-label="Äldst först"
-          class="font-semibold pointer-events-none"
-          type="button"
-        >
-          Äldst först
-        </button>
+        Nyast först
+      </button>
+      <div
+        role="separator"
+      >
+        |
       </div>
+      <button
+        aria-label="Äldst först"
+        class="font-semibold pointer-events-none"
+        type="button"
+      >
+        Äldst först
+      </button>
     </div>
   </div>
-</body>
+</div>
 `;
 
 exports[`Should render with order set to "descending" 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+  >
+    Sortera efter:
+     
     <div
-      class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+      class="inline-flex gap-1"
     >
-      Sortera efter:
-       
-      <div
-        class="inline-flex gap-1"
+      <button
+        aria-label="Nyast först"
+        class="font-semibold pointer-events-none"
+        type="button"
       >
-        <button
-          aria-label="Nyast först"
-          class="font-semibold pointer-events-none"
-          type="button"
-        >
-          Nyast först
-        </button>
-        <div
-          role="separator"
-        >
-          |
-        </div>
-        <button
-          aria-label="Äldst först"
-          class="text-sky-base underline"
-          type="button"
-        >
-          Äldst först
-        </button>
+        Nyast först
+      </button>
+      <div
+        role="separator"
+      >
+        |
       </div>
+      <button
+        aria-label="Äldst först"
+        class="text-sky-base underline"
+        type="button"
+      >
+        Äldst först
+      </button>
     </div>
   </div>
-</body>
+</div>
 `;

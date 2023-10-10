@@ -4,13 +4,13 @@ import { vi } from 'vitest'
 import { CertificateListOrder } from './CertificateListOrder'
 
 it('Should render with order set to "descending"', () => {
-  const { baseElement } = render(<CertificateListOrder order="descending" setOrder={vi.fn()} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateListOrder order="descending" setOrder={vi.fn()} />)
+  expect(container).toMatchSnapshot()
 })
 
 it('Should render with order set to "ascending"', () => {
-  const { baseElement } = render(<CertificateListOrder order="ascending" setOrder={vi.fn()} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateListOrder order="ascending" setOrder={vi.fn()} />)
+  expect(container).toMatchSnapshot()
 })
 
 it('Should return "descending" when newest is pressed', async () => {

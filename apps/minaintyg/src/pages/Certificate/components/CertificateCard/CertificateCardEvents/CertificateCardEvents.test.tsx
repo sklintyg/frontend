@@ -9,6 +9,6 @@ it('Should render correctly', () => {
     fakerFromSchema(certificateEventSchema, { seed: 2 })({ timestamp: '2023-09-05T11:00:00.000Z' }),
     fakerFromSchema(certificateEventSchema, { seed: 3 })({ timestamp: '2023-09-04T11:00:00.000Z' }),
   ]
-  const { baseElement } = render(<CertificateCardEvents events={events} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateCardEvents events={events} />)
+  expect(container).toMatchSnapshot()
 })

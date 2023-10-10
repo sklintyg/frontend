@@ -4,11 +4,11 @@ import { DisplayHTML } from './DisplayHTML'
 describe('tables', () => {
   it('Should add class to tables', () => {
     render(<DisplayHTML html="<table></table>" />)
-    expect(screen.getByRole('table')).toHaveAttribute('class', 'ids-table')
+    expect(screen.getByRole('table')).toHaveClass('ids-table', { exact: true })
   })
 
   it('Should render mobile table', () => {
-    const { baseElement } = render(
+    const { container } = render(
       <DisplayHTML
         html="`
           <table>
@@ -33,11 +33,11 @@ describe('tables', () => {
         mobile
       />
     )
-    expect(baseElement).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
   })
 
   it('Should render mobile table with row headers', () => {
-    const { baseElement } = render(
+    const { container } = render(
       <DisplayHTML
         html="`
           <table>
@@ -62,19 +62,19 @@ describe('tables', () => {
         mobile
       />
     )
-    expect(baseElement).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
   })
 })
 
 describe('link', () => {
   it('Should render link as ids-link', () => {
-    const { baseElement } = render(<DisplayHTML html="<a href='http://some-place.com'>Some link</a>" />)
-    expect(baseElement).toMatchSnapshot()
+    const { container } = render(<DisplayHTML html="<a href='http://some-place.com'>Some link</a>" />)
+    expect(container).toMatchSnapshot()
   })
 
   it('Should render link with external icon when target is _blank', () => {
-    const { baseElement } = render(<DisplayHTML html="<a href='http://some-place.com' target='_blank'>Some link</a>" />)
-    expect(baseElement).toMatchSnapshot()
+    const { container } = render(<DisplayHTML html="<a href='http://some-place.com' target='_blank'>Some link</a>" />)
+    expect(container).toMatchSnapshot()
   })
 })
 
@@ -82,6 +82,6 @@ describe('headings', () => {
   it.each(Array.from({ length: 6 }, (_, index) => index + 1))('Should render %s heading as expected', (level) => {
     const tag = `h${level}`
     render(<DisplayHTML html={`<${tag}>text</${tag}>`} />)
-    expect(screen.getByRole('heading')).toHaveAttribute('class', `ids-heading-${level}`)
+    expect(screen.getByRole('heading')).toHaveClass(`ids-heading-${level}`, { exact: true })
   })
 })

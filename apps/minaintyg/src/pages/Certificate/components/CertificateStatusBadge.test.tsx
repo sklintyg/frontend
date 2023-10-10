@@ -3,8 +3,8 @@ import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certif
 import { CertificateStatusBadge, getBadgeType } from './CertificateStatusBadge'
 
 it('Should render component', () => {
-  const { baseElement } = render(<CertificateStatusBadge status={CertificateStatusEnum.enum.NEW} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateStatusBadge status={CertificateStatusEnum.enum.NEW} />)
+  expect(container).toMatchSnapshot()
 })
 
 it.each([

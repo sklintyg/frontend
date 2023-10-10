@@ -15,6 +15,6 @@ it('Should render as expected', () => {
     },
   })
 
-  const { baseElement } = render(<CertificateFooter {...metadata} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateFooter {...metadata} />)
+  expect(container).toMatchSnapshot()
 })

@@ -33,6 +33,6 @@ it('Should render as expected', () => {
       value: 'Downs syndrom',
     },
   })
-  const { baseElement } = render(<CertificateInformation {...metadata} />)
-  expect(baseElement).toMatchSnapshot()
+  const { container } = render(<CertificateInformation {...metadata} />)
+  expect(container).toMatchSnapshot()
 })
