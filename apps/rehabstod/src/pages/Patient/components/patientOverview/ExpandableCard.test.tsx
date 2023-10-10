@@ -31,20 +31,21 @@ describe('ExpandableCard', () => {
     })
 
     describe('local expanded', () => {
-      beforeEach(async () => {
+      it('should show children', async () => {
         renderComponent()
         await userEvent.click(screen.getByText('Visa'))
-      })
-
-      it('should show children', () => {
         expect(screen.getByText('Children')).toBeInTheDocument()
       })
 
-      it('should not show description', () => {
+      it('should not show description', async () => {
+        renderComponent()
+        await userEvent.click(screen.getByText('Visa'))
         expect(screen.queryByText(DESCRIPTION)).not.toBeInTheDocument()
       })
 
-      it('should show sub title', () => {
+      it('should show sub title', async () => {
+        renderComponent()
+        await userEvent.click(screen.getByText('Visa'))
         expect(screen.getByText(SUB_TITLE)).toBeInTheDocument()
       })
     })

@@ -16,7 +16,7 @@ it('Should render expected month', () => {
 it('Should be possible to select a date', async () => {
   const onChange = vi.fn()
   render(<Calendar defaultValue={parseDate('2020-02-03')} onChange={onChange} />)
-  expect(screen.queryAllByLabelText('February 2020').length).toBeTruthy()
+  expect(screen.getAllByLabelText('February 2020').length).toBeTruthy()
   await userEvent.click(screen.getByRole('button', { name: 'Saturday, February 1, 2020' }))
   expect(onChange).toHaveBeenCalledWith(parseDate('2020-02-01'))
 })

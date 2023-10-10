@@ -4,7 +4,7 @@ exports[`Should render with order set to "ascending" 1`] = `
 <body>
   <div>
     <div
-      class="text-stone-dark mb-5 flex flex-col md:flex-row md:gap-1"
+      class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
     >
       Sortera efter:
        
@@ -40,7 +40,7 @@ exports[`Should render with order set to "descending" 1`] = `
 <body>
   <div>
     <div
-      class="text-stone-dark mb-5 flex flex-col md:flex-row md:gap-1"
+      class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
     >
       Sortera efter:
        

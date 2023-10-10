@@ -17,7 +17,7 @@ it('Should hide children when toggled', async () => {
       <p>Foo</p>
     </PatientAccordion>
   )
-  expect(screen.queryByText('Foo')).toBeInTheDocument()
+  expect(screen.getByText('Foo')).toBeInTheDocument()
   await userEvent.click(screen.getByText('Title'))
   expect(screen.queryByText('Foo')).not.toBeInTheDocument()
 })

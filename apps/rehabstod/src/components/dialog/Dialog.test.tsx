@@ -19,5 +19,5 @@ it('Should not render children while closed', () => {
 
 it('Should render children when open', () => {
   render(<DialogWrapper intialOpen />)
-  expect(screen.queryByText('Content')).toBeInTheDocument()
+  expect(screen.getByText('Content')).toBeInTheDocument()
 })

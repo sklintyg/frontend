@@ -60,28 +60,33 @@ describe('TimePeriodFilter', () => {
   })
 
   describe('open dropdown', () => {
-    beforeEach(async () => {
+    it('should show checkboxes', async () => {
       renderComponent()
       await userEvent.click(screen.getByRole('button'))
-    })
-
-    it('should show checkboxes', () => {
       expect(screen.getAllByRole('checkbox')).toHaveLength(availableOptions.length)
     })
 
-    it('should show days option', () => {
+    it('should show days option', async () => {
+      renderComponent()
+      await userEvent.click(screen.getByRole('button'))
       expect(screen.getByText('1-2 dagar')).toBeInTheDocument()
     })
 
-    it('should show years option', () => {
+    it('should show years option', async () => {
+      renderComponent()
+      await userEvent.click(screen.getByRole('button'))
       expect(screen.getByText('10-20 år')).toBeInTheDocument()
     })
 
     it('should show null to date option', async () => {
+      renderComponent()
+      await userEvent.click(screen.getByRole('button'))
       expect(screen.getByText('Över 5 år')).toBeInTheDocument()
     })
 
     it('should show null from date option', async () => {
+      renderComponent()
+      await userEvent.click(screen.getByRole('button'))
       expect(screen.getByText('Under 10 år')).toBeInTheDocument()
     })
   })

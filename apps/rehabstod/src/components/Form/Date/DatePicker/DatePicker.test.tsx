@@ -42,9 +42,9 @@ it('Should focus previous segment when pressing backspace on empty segment', asy
 
   await userEvent.type(screen.getByLabelText('dag'), '03')
 
-  expect(document.activeElement).toBe(screen.getByLabelText('dag'))
+  expect(screen.getByLabelText('dag')).toHaveFocus()
 
   await userEvent.keyboard('[Backspace][Backspace]')
 
-  expect(document.activeElement).toBe(screen.getByLabelText('månad'))
+  expect(screen.getByLabelText('månad')).toHaveFocus()
 })

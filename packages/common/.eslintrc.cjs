@@ -1,6 +1,12 @@
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:jest/recommended'],
+  extends: ['react'],
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['react', 'react-test'],
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -46,7 +52,6 @@ module.exports = {
     'react/jsx-boolean-value': 'off',
     'react/jsx-curly-brace-presence': 'off',
     'react/jsx-no-useless-fragment': 'off',
-    'react/jsx-props-no-spreading': 'off',
     'react/no-array-index-key': 'off',
     'react/no-danger': 'off',
     'react/no-unknown-property': 'off',
