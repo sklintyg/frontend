@@ -10,7 +10,7 @@ exports[`Should render correctly 1`] = `
         class="group py-2.5"
       >
         <summary
-          class="text-sky-base flex items-center justify-between gap-2 font-semibold group-open:mb-2.5 md:hidden"
+          class="flex items-center justify-between gap-2 font-semibold text-sky-base group-open:mb-2.5 md:hidden"
         >
           <span
             class="inline-block group-open:hidden"
@@ -23,10 +23,10 @@ exports[`Should render correctly 1`] = `
             Dölj händelser
           </span>
           <ids-icon-plus
-            class="bg-sky-base h-5 w-5 rounded-full p-1 text-white group-open:hidden ids-icon"
+            class="h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:hidden ids-icon"
           />
           <ids-icon-minus
-            class="bg-sky-base hidden h-5 w-5 rounded-full p-1 text-white group-open:flex ids-icon"
+            class="hidden h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:flex ids-icon"
           />
         </summary>
         <div>

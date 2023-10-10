@@ -13,7 +13,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       </IDSButton>
       {expanded && (
         <div className="mb-5">
-          <div className="grid-cols-table-filter sm:grid-cols-table-filter-sm mb-7 grid gap-x-10 gap-y-7">{children}</div>
+          <div className="mb-7 grid grid-cols-table-filter gap-x-10 gap-y-7 sm:grid-cols-table-filter-sm">{children}</div>
           <div className="flex flex-col gap-5 print:hidden md:flex-row md:justify-end">
             <IDSButton mblock secondary onClick={onReset}>
               Återställ
