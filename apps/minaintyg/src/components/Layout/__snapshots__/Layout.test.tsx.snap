@@ -30,6 +30,7 @@ exports[`Should render as expected 1`] = `
         type="1177"
       >
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -39,6 +40,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -48,6 +50,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -57,6 +60,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -66,6 +70,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -75,6 +80,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -84,6 +90,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -93,6 +100,7 @@ exports[`Should render as expected 1`] = `
           </a>
         </ids-header-nav-item>
         <ids-header-nav-item
+          label=""
           type="1177"
         >
           <a
@@ -222,7 +230,6 @@ exports[`Should render as expected 1`] = `
         class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"
       >
         <ids-button
-          aria-disabled="false"
           class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
           fab=""
           role="button"
@@ -277,7 +284,6 @@ exports[`Should render without header when user is not logged in 1`] = `
         class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"
       >
         <ids-button
-          aria-disabled="false"
           class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
           fab=""
           role="button"
