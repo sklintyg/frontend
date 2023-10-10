@@ -39,7 +39,7 @@
     "react-stately": "^3.23.0",
     "recharts": "^2.5.0",
     "use-resize-observer": "^9.1.0",
-    "zod": "^3.21.4"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@anatine/zod-mock": "^3.10.0",
