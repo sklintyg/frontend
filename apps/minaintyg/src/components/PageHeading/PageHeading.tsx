@@ -15,9 +15,9 @@ export function PageHeading({ heading, children }: { heading: string; children: 
           aria-label="Visa mer text"
           type="button"
           onClick={() => setClamped(!clamped)}
-          className="text-sky-base flex items-center gap-2 md:hidden"
+          className="flex items-center gap-2 text-sky-base md:hidden"
         >
-          <IDSIconPlus width="100%" height="100%" inline className="bg-sky-base h-5 w-5 rounded-full p-1 text-white" color="currentColor" />
+          <IDSIconPlus width="100%" height="100%" inline className="h-5 w-5 rounded-full bg-sky-base p-1 text-white" color="currentColor" />
           <span className="underline">Visa mer text</span>
         </button>
       )}

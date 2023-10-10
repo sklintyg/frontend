@@ -19,11 +19,11 @@ exports[`Should render correctly 1`] = `
       </p>
       <button
         aria-label="Visa mer text"
-        class="text-sky-base flex items-center gap-2 md:hidden"
+        class="flex items-center gap-2 text-sky-base md:hidden"
         type="button"
       >
         <ids-icon-plus
-          class="bg-sky-base h-5 w-5 rounded-full p-1 text-white ids-icon"
+          class="h-5 w-5 rounded-full bg-sky-base p-1 text-white ids-icon"
         />
         <span
           class="underline"

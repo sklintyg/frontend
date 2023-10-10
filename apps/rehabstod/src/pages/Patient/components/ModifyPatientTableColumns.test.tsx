@@ -32,11 +32,11 @@ describe('vibility', () => {
 
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(true)
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).toBeChecked()
 
     await user.click(screen.getByLabelText('Slutdatum'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(false)
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).not.toBeChecked()
   }, 20000)
 
   it('Should save column visibility changes', async () => {
@@ -58,29 +58,29 @@ describe('vibility', () => {
 })
 
 describe('position', () => {
-  function getOptionByKey(key: string) {
-    return screen.getAllByRole('option').find((element) => element.getAttribute('data-key') === key)
+  function getOptionIndex(key: string) {
+    return screen.getAllByRole('option').findIndex((element) => element.getAttribute('data-key') === key)
   }
 
   it('Should be possible to move column up', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
+    expect(getOptionIndex('Grad')).toBe(3)
 
     await user.click(screen.getByRole('button', { name: 'Flytta upp Grad' }))
 
-    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Intygstyp')
+    expect(getOptionIndex('Grad')).toBe(2)
   })
 
   it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Diagnos/er')
+    expect(getOptionIndex('Grad')).toBe(3)
 
     await user.click(screen.getByLabelText('Flytta ner Grad'))
 
-    expect(getOptionByKey('Grad')?.previousElementSibling?.getAttribute('data-key')).toBe('Startdatum')
+    expect(getOptionIndex('Grad')).toBe(4)
   })
 })
