@@ -31,7 +31,7 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
 
   return (
     <div>
-      {sortTableList(sickLeaves, getSickLeavesColumnData)?.map((sickLeave) => (
+      {sortedList?.map((sickLeave) => (
         <div key={sickLeave.patient.id} className="-mb-px columns-3 break-inside-avoid gap-2 border border-neutral-40 p-4">
           {columns
             .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Personnummer))
