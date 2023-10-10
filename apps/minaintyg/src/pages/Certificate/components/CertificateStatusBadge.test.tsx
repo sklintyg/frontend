@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
 import { CertificateStatusBadge, getBadgeType } from './CertificateStatusBadge'
 
@@ -14,16 +14,6 @@ it.each([
   [CertificateStatusEnum.enum.REPLACED, 'secondary'],
 ])('Should return %s for certificate status %s', (status, expected) => {
   expect(getBadgeType(status)).toBe(expected)
-})
-
-it.each([
-  [CertificateStatusEnum.enum.NEW, 'Nytt'],
-  [CertificateStatusEnum.enum.REPLACED, 'Ersätter intyg'],
-  [CertificateStatusEnum.enum.SENT, 'Skickat'],
-  [CertificateStatusEnum.enum.NOT_SENT, 'Ej skickat'],
-])('Should print %s for status %s', (status, expected) => {
-  render(<CertificateStatusBadge status={status} />)
-  expect(screen.getByText(expected)).toBeInTheDocument()
 })
 
 it('Should not return a badge for unknown status', () => {

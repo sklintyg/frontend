@@ -1,10 +1,17 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { fakeCertificate, fakeCertificateEvent, faker, fakerFromSchema } from '@frontend/fake'
-import { format, parseISO, subDays } from 'date-fns'
+import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
+import { format, getYear, parseISO, subDays } from 'date-fns'
 import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
-import { CertificateStatusEnum, certificateEventSchema, certificateMetadataSchema, certificateSchema } from '../schema/certificate.schema'
+import {
+  CertificateStatus,
+  CertificateStatusEnum,
+  certificateEventSchema,
+  certificateMetadataSchema,
+  certificateSchema,
+} from '../schema/certificate.schema'
+import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
-import { userSchema } from '../schema/user.schema'
+import { loginMethodEnum, userSchema } from '../schema/user.schema'
 import { certificateContentMock } from './certificateContentMock'
 
 const certificateIngress = (id: string): string | undefined => {
@@ -73,11 +80,9 @@ export const handlers = [
     res(
       ctx.status(200),
       ctx.json(
-        fakerFromSchema(userSchema, {
-          stringMap: {
-            personName: faker.name.fullName,
-          },
-        })()
+        fakerFromSchema(userSchema)({
+          loginMethod: loginMethodEnum.enum.FAKE,
+        })
       )
     )
   ),
@@ -103,9 +108,29 @@ export const handlers = [
     )
   ),
 
+  rest.get('/api/certificate/filters', (req, res, ctx) => {
+    const certificates = Array.from({ length: 5 }, () => fakeCertificateMetadata(req))
+    return res(
+      ctx.status(200),
+      ctx.json(
+        fakerFromSchema(certificateFilterOptionsSchema)({
+          total: certificates.length,
+          years: Array.from(new Set(certificates.map(({ issued }) => getYear(parseISO(issued)).toString()))),
+          statuses: Array.from(new Set(certificates.map(({ statuses }) => statuses).flat())).filter(Boolean) as CertificateStatus[],
+          certificateTypes: faker.helpers.uniqueArray(fakeCertificate, certificates.length).map(({ id, label }) => ({ id, name: label })),
+          units: faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), certificates.length),
+        })
+      )
+    )
+  }),
+
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
-    res(ctx.json({ testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)) }))
+    res(
+      ctx.json({
+        testPerson: Array.from({ length: 10 }, fakerFromSchema(testabilityPersonSchema)),
+      })
+    )
   ),
 ]

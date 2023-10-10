@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
+import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { User } from '../schema/user.schema'
 import { getCookie } from '../utils/cookies'
+import { CertificateFilterState } from './slice/certificateFilter.slice'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -20,8 +22,15 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    getCertificates: builder.query<{ content: CertificateMetadata[] }, void>({
-      query: () => ({ url: 'certificate', method: 'POST' }),
+    getCertificates: builder.query<{ content: CertificateMetadata[] }, CertificateFilterState>({
+      query: (body) => ({
+        url: 'certificate',
+        method: 'POST',
+        body: Object.fromEntries(Object.entries(body).map(([key, value]) => [key, [value]])),
+      }),
+    }),
+    getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
+      query: () => 'certificate/filters',
     }),
     getCertificate: builder.query<Certificate, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
@@ -29,4 +38,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificateQuery } = api
+export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificateQuery, useGetCertificatesFilterQuery } = api

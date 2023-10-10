@@ -40,3 +40,37 @@ describe('Segments', () => {
     expect(screen.getByLabelText('Slutdatum år')).toBeInTheDocument()
   })
 })
+
+describe('Focus', () => {
+  it('Should focus previous segment when pressing backspace on empty segment', async () => {
+    render(
+      <I18nProvider locale="sv-SE">
+        <DateRangePicker label="datumfält" />
+      </I18nProvider>
+    )
+
+    await userEvent.type(screen.getByLabelText('Slutdatum dag'), '03')
+
+    expect(screen.getByLabelText('Slutdatum dag')).toHaveFocus()
+
+    await userEvent.keyboard('[Backspace][Backspace]')
+
+    expect(screen.getByLabelText('Slutdatum månad')).toHaveFocus()
+  })
+
+  it('Should focus previous field when pressing backspace on empty segment', async () => {
+    render(
+      <I18nProvider locale="sv-SE">
+        <DateRangePicker label="datumfält" />
+      </I18nProvider>
+    )
+
+    await userEvent.type(screen.getByLabelText('Slutdatum år'), '2')
+
+    expect(screen.getByLabelText('Slutdatum år')).toHaveFocus()
+
+    await userEvent.keyboard('[Backspace][Backspace]')
+
+    expect(screen.getByLabelText('Startdatum dag')).toHaveFocus()
+  })
+})

@@ -1,5 +1,6 @@
-import { createBrowserRouter, createRoutesFromChildren, Navigate, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromChildren, Navigate, Outlet, Route } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
 import { CertificateListPage } from './pages/Certificate/CertificateListPage'
 import { CertificatePage } from './pages/Certificate/CertificatePage'
@@ -10,7 +11,16 @@ export const router = createBrowserRouter(
   createRoutesFromChildren([
     <Route key="root" path="/" handle={{ crumb: () => 'Start' }} element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="/intyg" handle={{ crumb: () => 'Intyg' }}>
+
+      <Route
+        path="/intyg"
+        handle={{ crumb: () => 'Intyg' }}
+        element={
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<CertificateListPage />} />
         <Route
           path=":id"

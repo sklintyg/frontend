@@ -1,11 +1,13 @@
-import { CertificateIssuer } from '../../../../schema/certificate.schema'
+import { CertificateIssuer, CertificateUnit } from '../../../../schema/certificate.schema'
 
-export function CertificateCardInfo({ issuer, id }: { issuer: CertificateIssuer; id: string }) {
+export function CertificateCardInfo({ issuer, unit, id }: { issuer: CertificateIssuer; unit: CertificateUnit; id: string }) {
   return (
     <div className="mb-2.5 flex flex-col justify-between gap-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0">
       <div>
         <p className="font-bold after:content-[':'] md:after:content-['']">Utfärdare</p>
-        <p>{issuer.name}</p>
+        <p>
+          {issuer.name}, {unit.name}
+        </p>
       </div>
       <div className="hidden md:block">
         <p className="font-bold after:content-[':'] md:after:content-['']">Intygs-ID</p>

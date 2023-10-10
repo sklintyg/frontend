@@ -10,10 +10,9 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { classNames, hasNoChildren, Input } from '@frontend/components'
+import { classNames, hasNoChildren, Input, TooltipIcon } from '@frontend/components'
 import { IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 
 export function SelectMultiple({
   children,

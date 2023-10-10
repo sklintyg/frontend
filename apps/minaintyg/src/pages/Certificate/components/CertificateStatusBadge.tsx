@@ -1,6 +1,7 @@
 import { IDSBadge } from '@frontend/ids-react-ts'
 import { ComponentProps } from 'react'
 import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
+import { getStatusBadgeLabel } from '../utils/getStatusBadgeLabel'
 
 export function getBadgeType(status: CertificateStatus): ComponentProps<typeof IDSBadge>['type'] {
   switch (status) {
@@ -15,23 +16,8 @@ export function getBadgeType(status: CertificateStatus): ComponentProps<typeof I
   }
 }
 
-function getBadgeLabel(status: CertificateStatus) {
-  switch (status) {
-    case CertificateStatusEnum.enum.NEW:
-      return 'Nytt'
-    case CertificateStatusEnum.enum.REPLACED:
-      return 'Ersätter intyg'
-    case CertificateStatusEnum.enum.SENT:
-      return 'Skickat'
-    case CertificateStatusEnum.enum.NOT_SENT:
-      return 'Ej skickat'
-    default:
-      return undefined
-  }
-}
-
 export function CertificateStatusBadge({ status }: { status: CertificateStatus }) {
-  const label = getBadgeLabel(status)
+  const label = getStatusBadgeLabel(status)
 
   if (!label) {
     return null

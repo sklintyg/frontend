@@ -1,6 +1,6 @@
+import { TooltipIcon } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
-import { TooltipIcon } from '../../TooltipIcon/TooltipIcon'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({

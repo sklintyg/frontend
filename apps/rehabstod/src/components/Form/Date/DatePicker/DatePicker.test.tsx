@@ -32,3 +32,19 @@ it('should render placeholders with swedish locale', () => {
   expect(screen.getByLabelText('månad')).toBeInTheDocument()
   expect(screen.getByLabelText('år')).toBeInTheDocument()
 })
+
+it('Should focus previous segment when pressing backspace on empty segment', async () => {
+  render(
+    <I18nProvider locale="sv-SE">
+      <DatePicker label="datumfält" />
+    </I18nProvider>
+  )
+
+  await userEvent.type(screen.getByLabelText('dag'), '03')
+
+  expect(screen.getByLabelText('dag')).toHaveFocus()
+
+  await userEvent.keyboard('[Backspace][Backspace]')
+
+  expect(screen.getByLabelText('månad')).toHaveFocus()
+})

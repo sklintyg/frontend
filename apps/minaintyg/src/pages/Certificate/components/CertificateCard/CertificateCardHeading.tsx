@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CertificateStatus } from '../../../../schema/certificate.schema'
+import { CertificateStatus, CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { CertificateStatusBadge } from '../CertificateStatusBadge'
 
 export function CertificateCardHeading({ title, id, statuses }: { title: string; id: string; statuses: CertificateStatus[] }) {
@@ -11,9 +11,11 @@ export function CertificateCardHeading({ title, id, statuses }: { title: string;
         </Link>
       </h3>
       <div className="flex gap-1 [&:not(:last-child)]:mb-2.5">
-        {[...new Set(statuses)].map((status) => (
-          <CertificateStatusBadge key={status} status={status} />
-        ))}
+        {[...new Set(statuses)]
+          .sort((status) => (status === CertificateStatusEnum.enum.NEW ? -1 : 1))
+          .map((status) => (
+            <CertificateStatusBadge key={status} status={status} />
+          ))}
       </div>
     </div>
   )
