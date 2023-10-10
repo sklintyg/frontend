@@ -2,14 +2,19 @@ import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { useGetCertificateQuery } from '../../store/api'
+import { useGetCertificatesQuery } from '../../store/api'
+import { useAppSelector } from '../../store/hooks'
+import { CertificateFilterState } from '../../store/slice/certificateFilter.slice'
 import { CertificateList } from './components/CertificateList'
+import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function Certificates() {
   const [order, setOrder] = useState<SortDirection>('descending')
-  const { isLoading, data } = useGetCertificateQuery(undefined, { refetchOnMountOrArgChange: true })
+  const [submitFilters, setSubmitFilters] = useState<CertificateFilterState>({})
+  const { isLoading, data } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
+  const filters = useAppSelector((state) => state.certificateFilter)
 
   return (
     <>
@@ -18,6 +23,7 @@ export function Certificates() {
         intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
         arbetsgivare.
       </PageHeading>
+      <CertificateListFilter listed={data?.content.length ?? 0} onSubmit={() => setSubmitFilters(filters)} />
       <CertificateListOrder setOrder={setOrder} order={order} />
       {isLoading && (
         <div data-testid="certificate-list-spinner">

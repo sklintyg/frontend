@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const twConfig = require('./tailwind.config.cjs')
-
 const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
+const path = require('path')
 
 module.exports = {
   root: true,
@@ -27,7 +26,6 @@ module.exports = {
     'tailwindcss/no-custom-classname': [
       'warn',
       {
-        config: twConfig,
         whitelist: ['ids\\-.*'],
       },
     ],
@@ -47,6 +45,9 @@ module.exports = {
   settings: {
     react: {
       version: 'detect',
+    },
+    tailwindcss: {
+      config: path.resolve(__dirname, './tailwind.config.ts'),
     },
   },
 }
