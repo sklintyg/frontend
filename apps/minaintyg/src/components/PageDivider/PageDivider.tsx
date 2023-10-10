@@ -1,3 +1,3 @@
 export function PageDivider() {
-  return <hr className="border-stone-clear my-7" />
+  return <hr className="my-7 border-stone-clear" />
 }

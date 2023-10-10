@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { CertificateCardHeading } from './CertificateCardHeading'
@@ -25,5 +25,5 @@ it('Should render correctly', () => {
 
 it('Should sort status badges in correct order', () => {
   renderComponent()
-  expect(Array.from(document.querySelectorAll('ids-badge')).map((el) => el.innerHTML)).toEqual(['Nytt', 'Ej skickat'])
+  expect(screen.getAllByText(/nytt|ej.skickat/i).map((el) => el.innerHTML)).toEqual(['Nytt', 'Ej skickat'])
 })

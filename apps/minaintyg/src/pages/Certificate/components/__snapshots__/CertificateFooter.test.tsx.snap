@@ -4,7 +4,7 @@ exports[`Should render as expected 1`] = `
 <div>
   <footer>
     <hr
-      class="border-stone-clear my-7"
+      class="my-7 border-stone-clear"
     />
     <h2
       class="ids-heading-3"
@@ -32,7 +32,7 @@ exports[`Should render as expected 1`] = `
       </div>
     </address>
     <hr
-      class="border-stone-clear my-7"
+      class="my-7 border-stone-clear"
     />
   </footer>
 </div>
