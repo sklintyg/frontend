@@ -63,8 +63,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.1.3
+        version: 3.1.3
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -214,8 +214,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.1.3
+        version: 3.1.3
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -652,8 +652,8 @@ importers:
         specifier: workspace:*
         version: link:../ids-react-ts
       '@inera/ids-core':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.1.3
+        version: 3.1.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -825,8 +825,8 @@ importers:
   packages/ids-react-ts:
     dependencies:
       '@inera/ids-core':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.1.3
+        version: 3.1.3
       '@lit-labs/react':
         specifier: ^1.1.1
         version: 1.1.1
@@ -1923,8 +1923,8 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
-  /@inera/ids-core@3.1.1:
-    resolution: {integrity: sha512-os115JGVfOgWf45fP9JPivJbxbZeMIT9rdH+Via/458ET2SuDztpOLPXYi9IhlE5WxOFIJb25SKKMnIIBrMUdA==}
+  /@inera/ids-core@3.1.3:
+    resolution: {integrity: sha512-jz/7g9PjN+MrlYFEUtW0ZLxcDdaaRc2BXJN3QZbBx4a5/OLMzEQXRtEnSboccdWGMexwit8BywpOsuvQiXeL4Q==}
     dependencies:
       lit: 2.8.0
       tslib: 2.3.1
@@ -2042,14 +2042,14 @@ packages:
     resolution: {integrity: sha512-9TC+/ZWb6BJlWCyUr14FKFlaGnyKpeEDorufXozQgke/VoVrslUQNaL7nBmrAWdNrmzx5jWgi8lFmWwrxMjnlA==}
     dev: false
 
-  /@lit-labs/ssr-dom-shim@1.1.1:
-    resolution: {integrity: sha512-kXOeFbfCm4fFf2A3WwVEeQj55tMZa8c8/f9AKHMobQMkzNUfUj+antR3fRPaZJawsa1aZiP/Da3ndpZrwEe4rQ==}
+  /@lit-labs/ssr-dom-shim@1.1.2:
+    resolution: {integrity: sha512-jnOD+/+dSrfTWYfSXBXlo5l5f0q1UuJo3tkbMDCYA2lKUYq79jaxqtGEvnRoh049nt1vdo1+45RinipU6FGY2g==}
     dev: false
 
   /@lit/reactive-element@1.6.3:
     resolution: {integrity: sha512-QuTgnG52Poic7uM1AN5yJ09QMe0O28e10XzSvWDz02TJiiKee4stsiownEIadWm8nYzyDAyT+gKzUoZmiWQtsQ==}
     dependencies:
-      '@lit-labs/ssr-dom-shim': 1.1.1
+      '@lit-labs/ssr-dom-shim': 1.1.2
     dev: false
 
   /@mswjs/cookies@0.2.2:
@@ -7593,7 +7593,7 @@ packages:
   /lit-element@3.3.3:
     resolution: {integrity: sha512-XbeRxmTHubXENkV4h8RIPyr8lXc+Ff28rkcQzw3G6up2xg5E8Zu1IgOWIwBLEQsu3cOVFqdYwiVi0hv0SlpqUA==}
     dependencies:
-      '@lit-labs/ssr-dom-shim': 1.1.1
+      '@lit-labs/ssr-dom-shim': 1.1.2
       '@lit/reactive-element': 1.6.3
       lit-html: 2.8.0
     dev: false
