@@ -1,4 +1,5 @@
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
+import { randomUUID } from '@frontend/utils'
 import { useEffect, useRef, useState } from 'react'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
@@ -27,7 +28,7 @@ export function ErrorModal({
 
   useEffect(() => {
     if (show && generateError) {
-      const generatedErrorId = window.crypto.randomUUID()
+      const generatedErrorId = randomUUID()
       setErrorId(generatedErrorId)
       dispatch(
         api.endpoints.logError.initiate({

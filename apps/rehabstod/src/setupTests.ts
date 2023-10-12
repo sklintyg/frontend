@@ -1,7 +1,6 @@
 import { faker } from '@frontend/fake'
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { randomUUID } from 'crypto'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
@@ -17,9 +16,6 @@ import { store } from './store/store'
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
-  crypto: {
-    randomUUID,
-  },
 })
 
 // Used by floating-ui

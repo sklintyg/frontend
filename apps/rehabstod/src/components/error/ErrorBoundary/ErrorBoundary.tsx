@@ -1,4 +1,5 @@
 import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
+import { randomUUID } from '@frontend/utils'
 import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
@@ -26,7 +27,7 @@ function errorStacktrace(error: unknown): string | null {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  const { current: errorId } = useRef(window.crypto.randomUUID())
+  const { current: errorId } = useRef(randomUUID())
   const message = errorMessage(error)
   const stackTrace = errorStacktrace(error)
   const [logError] = useLogErrorMutation()
