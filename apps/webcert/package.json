@@ -12,13 +12,6 @@
     "test": "vitest",
     "typescript": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*": "prettier --write --ignore-unknown",
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "pnpm test -- related --run"
-    ]
-  },
   "dependencies": {
     "@frontend/common": "workspace:*",
     "@frontend/filtrex": "workspace:*",

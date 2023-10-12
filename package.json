@@ -36,7 +36,8 @@
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "pnpm test -- related --run"
     ]
   },
   "browserslist": [
