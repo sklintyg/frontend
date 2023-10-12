@@ -1,6 +1,5 @@
 import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
 import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
-import { uuidv4 } from '../utils/uuidv4'
 import { api } from './api'
 
 /**
@@ -34,7 +33,7 @@ export const errorMiddleware: Middleware =
       const message = getMessage()
       const errorCode = getErrorCode()
       const errorData: ErrorData = {
-        errorId: uuidv4(),
+        errorId: window.crypto.randomUUID(),
         message: getLogMessage(message, method, url),
         errorCode,
         stackTrace: 'NO_STACK_TRACE',

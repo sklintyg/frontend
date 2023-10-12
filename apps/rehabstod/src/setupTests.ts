@@ -16,6 +16,9 @@ import { store } from './store/store'
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
+  crypto: {
+    randomUUID: () => faker.datatype.uuid(),
+  },
 })
 
 // Used by floating-ui

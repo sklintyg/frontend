@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
-import { uuidv4 } from '../../../utils/uuidv4'
 import { PageHero } from '../../PageHero/PageHero'
 import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
@@ -27,7 +26,7 @@ function errorStacktrace(error: unknown): string | null {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  const { current: errorId } = useRef(uuidv4())
+  const { current: errorId } = useRef(window.crypto.randomUUID())
   const message = errorMessage(error)
   const stackTrace = errorStacktrace(error)
   const [logError] = useLogErrorMutation()

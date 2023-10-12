@@ -3,12 +3,11 @@ import { createContext, useRef } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ErrorIdentifier } from '../../components/error/ErrorIdentifier/ErrorIdentifier'
-import { uuidv4 } from '../../utils/uuidv4'
 
 export const ErrorContext = createContext<string | null>(null)
 
 export function Error() {
-  const { current: errorId } = useRef(uuidv4())
+  const { current: errorId } = useRef(window.crypto.randomUUID())
 
   return (
     <IDSContainer>
