@@ -44,7 +44,7 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
           <span className="grow px-5" ref={fieldRef}>
             <DateField {...fieldProps} data={date} onDataChanged={(val) => onDataChanged && onDataChanged(val)} />
           </span>
-          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

@@ -78,7 +78,7 @@ export function DateRangePicker({
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, end: val })}
             />
           </div>
-          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
