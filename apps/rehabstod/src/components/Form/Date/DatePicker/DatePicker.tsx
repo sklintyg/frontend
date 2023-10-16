@@ -1,7 +1,10 @@
 import { useInputStyle } from '@frontend/components'
+import { IDSButton } from '@frontend/ids-react-ts'
+import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDatePickerProps, DateValue, useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
+import { isValidDate } from '../../../../utils/isValidDate'
 import { Calendar } from '../../../Calendar/Calendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
@@ -9,9 +12,25 @@ import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 import { useDateFieldFocus } from '../hooks/useDateFieldFocus'
 
-export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerProps<DateValue> & { error?: boolean; disabled?: boolean }) {
+interface DatePickerProps extends AriaDatePickerProps<DateValue> {
+  error?: boolean
+  disabled?: boolean
+  date?: string | null
+  onDataChanged?: (date?: string | null) => void
+}
+
+export function DatePicker({ label, error, disabled, date, onDataChanged, ...props }: DatePickerProps) {
+  const onChange: (typeof props)['onChange'] = (val) => {
+    if (onDataChanged) {
+      onDataChanged(val?.toString())
+    }
+    if (props.onChange) {
+      props.onChange(val)
+    }
+  }
+  const value = isValidDate(date) ? parseDate(date) : null
   const style = useInputStyle({ error, disabled })
-  const state = useDatePickerState(props)
+  const state = useDatePickerState({ ...props, value, onChange })
   const ref = useRef(null)
   const fieldRef = useRef(null)
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps, calendarProps } = useDatePicker({ label, ...props }, state, ref)
@@ -23,13 +42,16 @@ export function DatePicker({ label, error, disabled, ...props }: AriaDatePickerP
         <div {...labelProps}>{label}</div>
         <div {...groupProps} ref={ref} className={style}>
           <span className="grow px-5" ref={fieldRef}>
-            <DateField {...fieldProps} />
+            <DateField {...fieldProps} data={date} onDataChanged={(val) => onDataChanged && onDataChanged(val)} />
           </span>
           <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} data-testid="calendar-button" />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
             <Calendar {...calendarProps} />
+            <IDSButton size="s" block secondary onClick={() => onDataChanged && onDataChanged(null)}>
+              Återställ
+            </IDSButton>
           </PopoverContent>
         )}
       </div>
