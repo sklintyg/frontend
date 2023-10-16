@@ -14,6 +14,7 @@ import { SickLeaveFilter, SickLeaveLengthInterval } from '../../../schemas/sickL
 import { useAppSelector } from '../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { updateFilter } from '../../../store/slices/sickLeave.slice'
+import { isValidDate } from '../../../utils/isValidDate'
 
 export function Filters({
   onSearch,
@@ -44,7 +45,16 @@ export function Filters({
   }
 
   return (
-    <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
+    <TableFilter
+      onSearch={() =>
+        onSearch({
+          ...filter,
+          fromSickLeaveEndDate: isValidDate(filter.fromSickLeaveEndDate) ? filter.fromSickLeaveEndDate : null,
+          toSickLeaveEndDate: isValidDate(filter.toSickLeaveEndDate) ? filter.toSickLeaveEndDate : null,
+        })
+      }
+      onReset={onReset}
+    >
       <DiagnosisFilter
         onChange={onDiagnosesChange}
         allDiagnoses={populatedFilters?.allDiagnosisChapters ?? []}
@@ -110,11 +120,11 @@ export function Filters({
       <DateRangeFilter
         fromDate={filter.fromSickLeaveEndDate}
         toDate={filter.toSickLeaveEndDate}
-        onChange={(value) => {
+        onDataChanged={({ start, end }) => {
           dispatch(
             updateFilter({
-              fromSickLeaveEndDate: value?.start ? value.start.toString() : null,
-              toSickLeaveEndDate: value?.end ? value.end.toString() : null,
+              fromSickLeaveEndDate: start,
+              toSickLeaveEndDate: end,
             })
           )
         }}
