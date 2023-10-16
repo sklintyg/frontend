@@ -5,6 +5,7 @@ import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
+import { TableDescriptionDialog } from '../../components/dialog/TableDescriptionDialog'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 import { UserUrval } from '../../schemas'
 import { useGetUserQuery } from '../../store/api'
@@ -17,7 +18,6 @@ import { Filters } from './components/Filters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { useSickLeavesTableColumn } from './hooks/useSickLeavesTableColumns'
-import { TableDescriptionDialog } from '../../components/dialog/TableDescriptionDialog'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()

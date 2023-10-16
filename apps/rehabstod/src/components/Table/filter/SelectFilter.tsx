@@ -19,7 +19,7 @@ export function SelectFilter({
   const chosenOption = options.find((option) => option.id === value)
 
   return (
-    <>
+    <div className="print:hidden">
       <Select
         label={label}
         value={value}
@@ -32,6 +32,6 @@ export function SelectFilter({
         <PrintTitle title={label} />
         {chosenOption ? chosenOption.name : '-'}
       </div>
-    </>
+    </div>
   )
 }

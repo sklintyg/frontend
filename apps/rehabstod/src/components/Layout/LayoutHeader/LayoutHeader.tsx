@@ -2,13 +2,13 @@ import { HeaderNavItem } from '@frontend/components'
 import {
   IDSHeader,
   IDSHeaderAvatar,
+  IDSHeaderAvatarElement,
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,
   IDSIconSwap,
   IDSIconUser,
   IDSLink,
-  IDSHeaderAvatarElement,
 } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
