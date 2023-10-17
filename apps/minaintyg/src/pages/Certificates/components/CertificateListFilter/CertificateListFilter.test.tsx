@@ -19,6 +19,7 @@ const options = {
 }
 
 type FilterOption = (typeof options)[keyof typeof options][number]
+
 function getLabel(key: string, option: FilterOption) {
   if (typeof option === 'string') {
     return key === 'statuses' ? getStatusBadgeLabel(option as CertificateStatus) : option
@@ -36,9 +37,7 @@ function renderComponent() {
 
 beforeEach(() => {
   server.use(
-    rest.get('/api/certificate/filters', (_, res, ctx) =>
-      res(ctx.status(200), ctx.json(fakerFromSchema(certificateFilterOptionsSchema)(options)))
-    )
+    rest.get('/api/filters', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(certificateFilterOptionsSchema)(options))))
   )
 })
 

@@ -3,7 +3,7 @@
 import { fakeCertificate, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import { rest } from 'msw'
-import { CertificateStatus, CertificateStatusEnum, certificateListItemSchema } from '../schema/certificateList.schema'
+import { certificateListItemSchema, CertificateStatus, CertificateStatusEnum } from '../schema/certificateList.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { loginMethodEnum, userSchema } from '../schema/user.schema'
@@ -39,7 +39,7 @@ export const handlers = [
 
   rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(200), ctx.json({ content: certificates }))),
 
-  rest.get('/api/certificate/filters', (_, res, ctx) =>
+  rest.get('/api/filters', (_, res, ctx) =>
     res(
       ctx.status(200),
       ctx.json(
