@@ -7,6 +7,7 @@ import { PatientColumn } from '../../../../store/slices/patientTableColumns.slic
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
 import { OtherUnitInformation } from './OtherUnitInformation'
+import { getSickLeavesColumnData } from '../../../CurrentSickLeaves/utils/getSickLeavesColumnData'
 
 export function PatientTableCellResolver({
   column,
@@ -40,6 +41,8 @@ export function PatientTableCellResolver({
       ) : (
         <>-</>
       )
+    case PatientColumn.Längd:
+      return <TableCell>{getSickLeavesColumnData(column, certificate, list)} dagar</TableCell>
     default:
       return (
         <TableCell>

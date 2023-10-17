@@ -44,6 +44,10 @@ export function ResolveSickLeavesTableCell({
       ) : (
         <TableCell>{getSickLeavesColumnData(SickLeaveColumn.Status, sickLeave, sickLeaves)}</TableCell>
       )
+    case SickLeaveColumn.Ålder:
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave, sickLeaves)} år</TableCell>
+    case SickLeaveColumn.Längd:
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave, sickLeaves)} dagar</TableCell>
     case SickLeaveColumn.Risk:
       return <TableCell>{sickLeave.riskSignal && <RiskSignalInfo {...sickLeave.riskSignal} />}</TableCell>
     case SickLeaveColumn.Ärenden:
