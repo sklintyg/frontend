@@ -1,7 +1,7 @@
 import { cloneElement, ReactElement } from 'react'
-import { Tooltip } from '../Tooltip/Tooltip'
-import { TooltipContent } from '../Tooltip/TooltipContent'
-import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
+import { Tooltip } from './Tooltip'
+import { TooltipContent } from './TooltipContent'
+import { TooltipTrigger } from './TooltipTrigger'
 
 export function TooltipIcon({
   description,

@@ -1,6 +1,13 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 
-export function EmptyCertificateListInfo() {
+export function EmptyCertificateListInfo({ total }: { total: number }) {
+  if (total > 0) {
+    return (
+      <IDSAlert headline="Inget resultat">
+        <p>De filter du valt matchar inga av dina intyg. </p>
+      </IDSAlert>
+    )
+  }
   return (
     <IDSAlert headline="Du har inga intyg">
       <p>

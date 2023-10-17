@@ -27,20 +27,22 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
     return null
   }
 
+  const sortedList = sortTableList(sickLeaves, getSickLeavesColumnData)
+
   return (
     <div>
-      {sortTableList(sickLeaves, getSickLeavesColumnData)?.map((sickLeave) => (
-        <div key={sickLeave.patient.id} className="border-neutral-40 -mb-px columns-3 break-inside-avoid gap-2 border p-4">
+      {sortedList?.map((sickLeave) => (
+        <div key={sickLeave.patient.id} className="-mb-px columns-3 break-inside-avoid gap-2 border border-neutral-40 p-4">
           {columns
-            .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
-            .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
+            .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Personnummer))
+            .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Namn))
             .map(
               ({ name, visible }) =>
                 visible && (
                   <div key={name} className="flex gap-1">
                     <div className="w-5/12 font-bold">{name}:</div>
                     <div key={name} className="w-7/12 overflow-hidden text-ellipsis whitespace-normal">
-                      <ResolvePrintTableCell column={name} sickLeave={sickLeave} />
+                      <ResolvePrintTableCell column={name} sickLeave={sickLeave} sickLeaves={sortedList} />
                     </div>
                   </div>
                 )

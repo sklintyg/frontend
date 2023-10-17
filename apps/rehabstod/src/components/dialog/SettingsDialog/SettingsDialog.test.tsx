@@ -43,7 +43,7 @@ it('should not have save button disabled as default', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ preferences })))))
   store.dispatch(updateSettingsPreferences(preferences))
   renderWithRouter(<SettingsDialog />)
-  expect(await screen.findByText('Spara')).not.toBeDisabled()
+  expect(await screen.findByText('Spara')).toBeEnabled()
 })
 
 describe('days after finished sick leaves', () => {

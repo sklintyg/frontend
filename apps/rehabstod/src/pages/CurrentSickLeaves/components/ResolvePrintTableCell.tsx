@@ -24,7 +24,15 @@ function resolveRisk(riskSignal: RiskSignal) {
   return 'Ej beräknad'
 }
 
-export function ResolvePrintTableCell({ column, sickLeave }: { column: string; sickLeave: SickLeaveInfo }) {
+export function ResolvePrintTableCell({
+  column,
+  sickLeave,
+  sickLeaves,
+}: {
+  column: string
+  sickLeave: SickLeaveInfo
+  sickLeaves: SickLeaveInfo[]
+}) {
   switch (column) {
     case SickLeaveColumn.Diagnos:
       return sickLeave.diagnos ? <DiagnosisInfo diagnosis={sickLeave.diagnos} biDiagnoses={sickLeave.biDiagnoser} /> : <>Okänt</>
@@ -41,6 +49,6 @@ export function ResolvePrintTableCell({ column, sickLeave }: { column: string; s
     case SickLeaveColumn.Längd:
       return <TableCell>{getSickLeavesColumnData(column, sickLeave)} dagar</TableCell>
     default:
-      return <>{getSickLeavesColumnData(column, sickLeave)}</>
+      return <>{getSickLeavesColumnData(column, sickLeave, sickLeaves)}</>
   }
 }

@@ -47,5 +47,8 @@ module.exports = {
     jest: {
       version: 29,
     },
+    'import/resolver': {
+      typescript: {},
+    },
   },
 }

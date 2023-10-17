@@ -1,11 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const twConfig = require('./tailwind.config.cjs')
-
 const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
+const path = require('path')
 
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:jest/recommended', 'plugin:tailwindcss/recommended'],
+  extends: ['react', 'plugin:tailwindcss/recommended'],
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['react', 'react-test'],
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -27,12 +31,10 @@ module.exports = {
     'tailwindcss/no-custom-classname': [
       'warn',
       {
-        config: twConfig,
         whitelist: ['ids\\-.*'],
       },
     ],
     'react/no-unknown-property': ['error', { ignore: ['trigger'] }],
-    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': [
       'error',
       {
@@ -47,6 +49,9 @@ module.exports = {
   settings: {
     react: {
       version: 'detect',
+    },
+    tailwindcss: {
+      config: path.resolve(__dirname, './tailwind.config.ts'),
     },
   },
 }

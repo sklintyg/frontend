@@ -1,4 +1,3 @@
-import { IDSContainer } from '@frontend/ids-react-ts'
 import { ReactNode, createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
@@ -65,7 +64,7 @@ export function Table({
 
   return (
     <TableContext.Provider value={table}>
-      <IDSContainer gutterless className="print:hidden">
+      <div className="print:hidden">
         <FloatingTableScroll ref={scrollRef}>
           <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
           <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
@@ -73,7 +72,7 @@ export function Table({
             {children}
           </table>
         </FloatingTableScroll>
-      </IDSContainer>
+      </div>
       <div className="hidden print:block">
         <div className="mb-2">
           Tabellen är sorterad enligt <span className="font-bold">{table.sortColumn}</span> i {table.ascending ? 'stigande' : 'fallande'}{' '}

@@ -50,7 +50,7 @@
     "ctix": "^1.8.2",
     "eslint": "^8.42.0",
     "eslint-config-react": "workspace:*",
-    "eslint-plugin-jest": "^27.2.1",
+    "eslint-config-react-test": "workspace:*",
     "faker": "5.5.3",
     "react": "^17.0.2",
     "react-datepicker": "^4.10.0",

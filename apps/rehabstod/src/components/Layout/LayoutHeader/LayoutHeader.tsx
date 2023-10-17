@@ -2,6 +2,7 @@ import { HeaderNavItem } from '@frontend/components'
 import {
   IDSHeader,
   IDSHeaderAvatar,
+  IDSHeaderAvatarElement,
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,
@@ -9,7 +10,6 @@ import {
   IDSIconUser,
   IDSLink,
 } from '@frontend/ids-react-ts'
-import { IDSHeaderAvatarElement } from '@frontend/ids-react-ts/src'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
@@ -59,7 +59,7 @@ export function LayoutHeader() {
                 icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
                 testid="settings-button"
               />
-              <hr className="border-neutral-40 mb-5" />
+              <hr className="mb-5 border-neutral-40" />
               <HeaderAvatarMenuButton
                 label="Logga ut"
                 icon={<IDSIconUser color="currentColor" color2="currentColor" height="20" width="20" />}

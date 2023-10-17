@@ -26,18 +26,18 @@ function renderComponent() {
 it('renders the unit name in the label', () => {
   renderComponent()
   const label = screen.getByText(vardenhet.namn)
-  expect(label).not.toBeNull()
+  expect(label).toBeInTheDocument()
 })
 
 it('displays accordion content when expanded', async () => {
   renderComponent()
 
   const summary = screen.getByRole('button')
-  expect(summary).not.toBeNull()
+  expect(summary).toBeInTheDocument()
 
-  userEvent.click(summary)
-  const content = await waitFor(() => screen.getByText('Accordion content'))
-  expect(content).not.toBeNull()
+  await userEvent.click(summary)
+  const content = await screen.findByText('Accordion content')
+  expect(content).toBeInTheDocument()
 })
 
 it('renders the unit name in the summary when collapsed', () => {
@@ -52,7 +52,7 @@ it('selects the correct radio button when passed a selectedRadio value', async (
   renderComponent()
 
   const summary = screen.getByRole('button')
-  userEvent.click(summary)
+  await userEvent.click(summary)
 
   const radioBtn = screen.getByLabelText(vardenhet.namn)
   expect(radioBtn).toBeInTheDocument()
@@ -68,7 +68,7 @@ it('calls the handleChooseUnit function when a radio button is clicked', async (
   const radioBtn = screen.getByLabelText(vardenhet.namn)
   expect(radioBtn).toBeInTheDocument()
 
-  userEvent.click(radioBtn)
+  await userEvent.click(radioBtn)
 
   await waitFor(() => {
     expect(handleChooseUnit).toHaveBeenCalledWith(expect.anything(), vardenhet)

@@ -15,6 +15,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --IDS_MAX-WIDTH: 1920px;
+}
+
+ids-input input,
+ids-input select,
+ids-select select,
+ids-textarea textarea {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--IDS-COLOR-ACCENT-40);
+  border-radius: var(--input_border-radius);
+}
+
+ids-select {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+ids-select select {
+  padding-right: 2.5rem;
 }
 
 summary::-webkit-details-marker {
