@@ -38,7 +38,7 @@ export function ResolvePrintTableCell({
     case SickLeaveColumn.Slutdatum:
       return <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
     case SickLeaveColumn.Grad:
-      return <SickLeaveDegreeInfo degrees={sickLeave.grader} />
+      return <SickLeaveDegreeInfo degrees={sickLeave.grader} activeDegree={sickLeave.aktivGrad} />
     case SickLeaveColumn.Risk:
       return <div>{sickLeave.riskSignal && resolveRisk(sickLeave.riskSignal)}</div>
     case SickLeaveColumn.Ärenden:
