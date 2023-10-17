@@ -30,7 +30,7 @@ export const api = createApi({
       }),
     }),
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
-      query: () => 'certificate/filters',
+      query: () => 'filters',
     }),
   }),
 })
