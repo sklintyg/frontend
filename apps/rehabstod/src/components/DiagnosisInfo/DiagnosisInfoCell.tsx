@@ -1,5 +1,5 @@
+import { isTruthy } from '@frontend/utils'
 import { Diagnosis } from '../../schemas/diagnosisSchema'
-import { isTruthy } from '../../utils/isTruthy'
 import { TableCell } from '../Table/tableBody/TableCell'
 
 export function DiagnosisInfoCell({ diagnosis, biDiagnoses }: { diagnosis?: Diagnosis; biDiagnoses: Diagnosis[] }) {
