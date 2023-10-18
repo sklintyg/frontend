@@ -3,8 +3,8 @@ import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../sch
 import { Config } from '../schemas/configSchema'
 import { ErrorData } from '../schemas/errorSchema'
 import { getCookie } from '../utils/cookies'
-import { resetLUFilters } from './slices/luCertificates.slice'
-import { resetSickLeaveFilters } from './slices/sickLeave.slice'
+import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
+import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 
 export const api = createApi({
   reducerPath: 'api',

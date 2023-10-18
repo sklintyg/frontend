@@ -1,14 +1,8 @@
 import isEqual from 'lodash/isEqual'
 import { useRef } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { UserPreferences } from '../schemas'
-import { api, useGetUserQuery } from './api'
-import { AppDispatch, RootState } from './store'
-
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-type DispatchFunc = () => AppDispatch
-export const useAppDispatch: DispatchFunc = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+import { useAppDispatch } from '.'
+import { UserPreferences } from '../../schemas'
+import { api, useGetUserQuery } from '../api'
 
 /**
  * Custom hook for updating user preferences and invalidating necessary states

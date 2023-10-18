@@ -30,7 +30,7 @@ export function TableBodyRows({
   const navigate = useNavigate()
   const { sortTableList } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
-  const { hasAppliedFilters } = useAppSelector((state) => state.sickLeave)
+  const hasAppliedFilters = useAppSelector((state) => state.sickLeaveFilter.hasAppliedFilters)
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
 
   const TABLE_NAME = 'pågående sjukfall'

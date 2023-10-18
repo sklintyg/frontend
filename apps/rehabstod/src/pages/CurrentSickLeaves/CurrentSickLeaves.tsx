@@ -9,12 +9,11 @@ import { TableDescriptionDialog } from '../../components/dialog/TableDescription
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
 import { UserUrval } from '../../schemas'
 import { useGetUserQuery } from '../../store/api'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useLazyGetSickLeavesQuery } from '../../store/sickLeaveApi'
-import { resetSickLeaveFilters } from '../../store/slices/sickLeave.slice'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
+import { CurrentSickLeavesFilters } from './components/CurrentSickLeavesFilters'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
-import { Filters } from './components/Filters'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { useSickLeavesTableColumn } from './hooks/useSickLeavesTableColumns'
@@ -23,13 +22,12 @@ export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeavesInfo, error }] = useLazyGetSickLeavesQuery()
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: SickLeaveColumn.Startdatum,
     ascending: true,
   })
-  const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
@@ -51,13 +49,7 @@ export function CurrentSickLeaves() {
   return (
     <PageContainer>
       <TableHeadingForUnit user={user} tableName={TABLE_NAME} />
-      <Filters
-        onSearch={(request) => triggerGetSickLeaves(request)}
-        onReset={() => {
-          dispatch(resetSickLeaveFilters())
-        }}
-        isDoctor={isDoctor}
-      />
+      <CurrentSickLeavesFilters onSearch={triggerGetSickLeaves} />
       {!hasOngoingSickLeaves() && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (

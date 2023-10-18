@@ -4,11 +4,9 @@ import { rest } from 'msw'
 import { z } from 'zod'
 import { configSchema, Link, linkSchema, userPreferencesSchema } from '../schemas'
 import { agCertificatesInfoSchema } from '../schemas/agCertificatesSchema'
-import { diagnosKapitelSchema } from '../schemas/diagnosisSchema'
-import { lakareSchema } from '../schemas/lakareSchema'
-import { luCertificatesInfoSchema } from '../schemas/luCertificatesSchema'
+import { luCertificateFilterOptions, luCertificatesInfoSchema } from '../schemas/luCertificatesSchema'
 import { patientSchema } from '../schemas/patientSchema'
-import { sickLeaveInfoSchema, sickLeaveSummary } from '../schemas/sickLeaveSchema'
+import { sickLeaveFilterOptions, sickLeaveInfoSchema, sickLeaveSummary } from '../schemas/sickLeaveSchema'
 import { fakeUser } from '../utils/fake/fakeUser'
 
 const fakeLink = fakerFromSchema(linkSchema)
@@ -63,36 +61,11 @@ export const handlers = [
 
   rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
-  rest.get('/api/sickleaves/filters', (_, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json(
-        fakerFromSchema(
-          z.object({
-            activeDoctors: z.array(lakareSchema),
-            allDiagnosisChapters: z.array(diagnosKapitelSchema),
-            enabledDiagnosisChapters: z.array(diagnosKapitelSchema),
-          })
-        )()
-      )
-    )
-  ),
+  rest.get('/api/sickleaves/filters', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveFilterOptions)()))),
 
   rest.get('/api/sickleaves/summary', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveSummary)))),
 
   rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 
-  rest.get('/api/lu/filters', (_, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json(
-        fakerFromSchema(
-          z.object({
-            activeDoctors: z.array(lakareSchema),
-            allDiagnosisChapters: z.array(diagnosKapitelSchema),
-          })
-        )()
-      )
-    )
-  ),
+  rest.get('/api/lu/filters', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(luCertificateFilterOptions)()))),
 ]

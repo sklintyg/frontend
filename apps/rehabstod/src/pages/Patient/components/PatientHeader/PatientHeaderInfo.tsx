@@ -13,7 +13,7 @@ export function PatientHeaderInfo({
   firstCertificate: PatientSjukfallIntyg
   currentSickness?: PatientSjukfall
 }) {
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
 
   return (
     <div className="flex flex-col gap-1 text-sm sm:text-base lg:flex-row">
