@@ -1,5 +1,5 @@
 import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
-import { IDSButton, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
@@ -77,7 +77,7 @@ export function DateRangePicker({
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, end: val })}
             />
           </div>
-          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} error={error} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
@@ -87,6 +87,7 @@ export function DateRangePicker({
             </IDSButton>
           </PopoverContent>
         )}
+        {error && <IDSErrorMessage>Du måste ange ett giltigt datum</IDSErrorMessage>}
       </div>
     </Popover>
   )

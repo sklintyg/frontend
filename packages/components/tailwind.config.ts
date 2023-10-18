@@ -15,7 +15,12 @@ export default {
       xl: '1280px',
     },
     colors,
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'form-invalid_background': 'var(--IDS-FORM-INVALID_BACKGROUND-IMAGE)',
+        'form-disabled_background': 'var(--IDS-FORM-DISABLED_BACKGROUND-IMAGE);',
+      },
+    },
   },
   plugins: [],
 } satisfies Config
