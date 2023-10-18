@@ -23,9 +23,9 @@ it('Should render as expected', () => {
     ],
     id: '39a4e3af-6f92-46d8-875f-4ca5ff96589f',
     issued: '2022-11-10T22:56:55.241Z',
+    name: 'Transportstyrelsens läkarintyg högre körkortsbehörighet',
     type: {
       id: 'ts-bas',
-      name: 'Transportstyrelsens läkarintyg högre körkortsbehörighet',
       version: '1',
     },
     summary: {

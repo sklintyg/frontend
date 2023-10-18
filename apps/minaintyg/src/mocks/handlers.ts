@@ -50,9 +50,9 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   return fakerFromSchema(certificateMetadataSchema)({
     id,
     issued: timestamp,
+    name: certificate.label,
     type: {
       id: certificate.id.toUpperCase(),
-      name: certificate.label,
       version: '1',
       description: certificateIngress('fk7263') ?? '',
     },

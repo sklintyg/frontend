@@ -64,9 +64,7 @@ it('Should render as expected with three levels', async () => {
         ctx.json(
           fakerFromSchema(certificateSchema)({
             metadata: {
-              type: {
-                name: certificateName,
-              },
+              name: certificateName,
             },
           })
         )

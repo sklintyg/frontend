@@ -44,10 +44,10 @@ describe('Group and sort by year', () => {
 
 describe('Sort certificates', () => {
   const certificates = [
-    fakeCertificate({ issued: '2022-01-01', type: { name: 'Certificate A' } }),
-    fakeCertificate({ issued: '2022-02-02', type: { name: 'Certificate B' } }),
-    fakeCertificate({ issued: '2022-02-01', type: { name: 'Certificate C' } }),
-    fakeCertificate({ issued: '2023-01-01', type: { name: 'Certificate D' } }),
+    fakeCertificate({ issued: '2022-01-01', name: 'Certificate A' }),
+    fakeCertificate({ issued: '2022-02-02', name: 'Certificate B' }),
+    fakeCertificate({ issued: '2022-02-01', name: 'Certificate C' }),
+    fakeCertificate({ issued: '2023-01-01', name: 'Certificate D' }),
   ]
 
   it('Should sort certificates in descending order per year', () => {
