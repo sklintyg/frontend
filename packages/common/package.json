@@ -14,6 +14,9 @@
     "test": "vitest",
     "typescript": "tsc --noEmit"
   },
+  "lint-staged": {
+    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+  },
   "dependencies": {
     "@frontend/filtrex": "workspace:*",
     "classnames": "^2.3.2",
