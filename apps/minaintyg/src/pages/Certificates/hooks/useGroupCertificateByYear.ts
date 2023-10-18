@@ -1,8 +1,8 @@
+import { sortBy } from '@frontend/utils'
 import { getYear, parseISO } from 'date-fns'
 import { useMemo } from 'react'
 import { SortDirection } from 'react-stately'
 import { CertificateListItem } from '../../../schema/certificateList.schema'
-import { sortBy } from '../../../utils/sortBy'
 
 const getCertificateYear = ({ issued }: CertificateListItem) => getYear(parseISO(issued))
 

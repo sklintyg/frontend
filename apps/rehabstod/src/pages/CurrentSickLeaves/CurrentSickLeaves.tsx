@@ -26,7 +26,7 @@ export function CurrentSickLeaves() {
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: SickLeaveColumn.Startdatum,
-    ascending: true,
+    ascending: false,
   })
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
