@@ -1,9 +1,5 @@
 import { ReactNode } from 'react'
 
 export function PageContainer({ children }: { children: ReactNode }) {
-  return (
-    <div className="px-5">
-      <div className="ids-content m-auto max-w-7xl py-10">{children}</div>
-    </div>
-  )
+  return <div className="ids-content relative m-auto max-w-screen-xxl px-5 py-10">{children}</div>
 }

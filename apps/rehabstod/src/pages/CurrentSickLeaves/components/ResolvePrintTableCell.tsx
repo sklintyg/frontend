@@ -6,6 +6,7 @@ import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.sli
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
+import { TableCell } from '../../../components/Table/tableBody/TableCell'
 
 function resolveRisk(riskSignal: RiskSignal) {
   if (riskSignal.riskKategori === 1) {
@@ -38,11 +39,15 @@ export function ResolvePrintTableCell({
     case SickLeaveColumn.Slutdatum:
       return <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
     case SickLeaveColumn.Grad:
-      return <SickLeaveDegreeInfo degrees={sickLeave.grader} />
+      return <SickLeaveDegreeInfo degrees={sickLeave.grader} activeDegree={sickLeave.aktivGrad} />
     case SickLeaveColumn.Risk:
       return <div>{sickLeave.riskSignal && resolveRisk(sickLeave.riskSignal)}</div>
     case SickLeaveColumn.Ärenden:
       return <>{getUnansweredCommunicationFormat(sickLeave.obesvaradeKompl, sickLeave.unansweredOther)}</>
+    case SickLeaveColumn.Ålder:
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave)} år</TableCell>
+    case SickLeaveColumn.Längd:
+      return <TableCell>{getSickLeavesColumnData(column, sickLeave)} dagar</TableCell>
     default:
       return <>{getSickLeavesColumnData(column, sickLeave, sickLeaves)}</>
   }

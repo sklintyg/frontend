@@ -1,2 +1,2 @@
-export { classNames } from './classNames'
-export { hasNoChildren } from './hasNoChildren'
+export * from './classNames'
+export * from './hasNoChildren'

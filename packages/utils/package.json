@@ -1,14 +1,11 @@
 {
-  "name": "@frontend/fake",
+  "name": "@frontend/utils",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "./dist"
-  ],
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch",
@@ -20,16 +17,12 @@
     "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.10.0",
-    "@faker-js/faker": "^7.6.0",
-    "deepmerge-ts": "^5.0.0",
-    "lodash": "^4.17.21",
-    "ts-essentials": "^9.3.1",
-    "zod": "^3.22.3"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@types/uuid": "^9.0.5",
     "eslint": "^8.42.0",
     "eslint-config-custom": "workspace:*",
     "rollup": "^3.20.2",
@@ -38,10 +31,6 @@
     "vitest": "^0.34.3"
   },
   "peerDependencies": {
-    "@anatine/zod-mock": "^3",
-    "@faker-js/faker": "^7",
-    "lodash": "^4",
-    "type-fest": "^3",
-    "zod": "^3"
+    "uuid": "^9"
   }
 }

@@ -40,6 +40,8 @@ export function PatientTableCellResolver({
       ) : (
         <>-</>
       )
+    case PatientColumn.Längd:
+      return <TableCell>{getCertificateColumnData(column, certificate, list)} dagar</TableCell>
     default:
       return (
         <TableCell>
