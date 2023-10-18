@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../store/hooks'
-import { resetSickLeaveFilters } from '../store/slices/sickLeave.slice'
-import { resetLUFilters } from '../store/slices/luCertificates.slice'
+import { reset as resetLUFilters } from '../store/slices/luCertificatesFilter.slice'
+import { reset as resetSickLeaveFilters } from '../store/slices/sickLeaveFilter.slice'
 
 export function useResetFilters() {
   const dispatch = useAppDispatch()

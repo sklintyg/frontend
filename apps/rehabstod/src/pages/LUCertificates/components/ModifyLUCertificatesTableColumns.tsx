@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { ModifyTableColumns } from '../../components/Table/ModifyTableColumns/ModifyTableColumns'
-import { TableColumn } from '../../schemas/tableSchema'
-import { useGetUserQuery } from '../../store/api'
-import { useAppDispatch, useAppSelector, useUpdateUserPreferences } from '../../store/hooks'
-import { luUnitTableColumnsString } from '../../store/slices/luUnitTableColumns.selector'
-import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../store/slices/luUnitTableColumns.slice'
+import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
+import { TableColumn } from '../../../schemas/tableSchema'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { useUpdateUserPreferences } from '../../../store/hooks/useUpdateUserPreferences'
+import { luUnitTableColumnsString } from '../../../store/slices/luUnitTableColumns.selector'
+import { hideColumn, moveColumn, setColumnDefaults, showColumn } from '../../../store/slices/luUnitTableColumns.slice'
 
 export function ModifyLUCertificatesTableColumns({ columns }: { columns: TableColumn[] }) {
   const dispatch = useAppDispatch()

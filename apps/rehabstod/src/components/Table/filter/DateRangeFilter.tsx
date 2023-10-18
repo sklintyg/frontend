@@ -2,22 +2,31 @@ import { DateRangePicker } from '../../Form/Date/DateRangePicker/DateRangePicker
 import { PrintTitle } from '../print/PrintTitle'
 
 export function DateRangeFilter({
-  fromDate,
-  toDate,
-  label,
   description,
+  error,
+  fromDate,
+  label,
   onDataChanged,
+  toDate,
 }: {
-  fromDate: string | null
-  toDate: string | null
-  label: string
   description: string
+  error: boolean
+  fromDate?: string | null
+  label: string
   onDataChanged?: ({ start, end }: { start?: string | null; end?: string | null }) => void
+  toDate?: string | null
 }) {
   return (
     <>
       <div className="print:hidden">
-        <DateRangePicker startDate={fromDate} endDate={toDate} onDataChanged={onDataChanged} label={label} description={description} flex />
+        <DateRangePicker
+          description={description}
+          endDate={toDate}
+          error={error}
+          label={label}
+          onDataChanged={onDataChanged}
+          startDate={fromDate}
+        />
       </div>
       <div className="hidden print:block">
         <PrintTitle title={label} />

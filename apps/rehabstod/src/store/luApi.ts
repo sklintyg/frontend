@@ -1,6 +1,5 @@
-import { DiagnosKapitel } from '../schemas/diagnosisSchema'
 import { Lakare } from '../schemas/lakareSchema'
-import { LUCertificatesFilter, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
+import { LUCertificatesFilter, LUCertificatesFilterOptions, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 import { api } from './api'
 
 const luApi = api.injectEndpoints({
@@ -16,13 +15,7 @@ const luApi = api.injectEndpoints({
         dispatch(luApi.endpoints.getLUFilters.initiate(undefined, { forceRefetch: true }))
       },
     }),
-    getLUFilters: builder.query<
-      {
-        doctors: Lakare[]
-        allDiagnosisChapters: DiagnosKapitel[]
-      },
-      void
-    >({
+    getLUFilters: builder.query<LUCertificatesFilterOptions, void>({
       keepUnusedDataFor: 0,
       query: () => 'lu/filters',
       providesTags: ['User'],

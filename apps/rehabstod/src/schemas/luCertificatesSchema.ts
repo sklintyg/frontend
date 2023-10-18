@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { diagnosisSchema } from './diagnosisSchema'
+import { diagnosKapitelSchema, diagnosisSchema } from './diagnosisSchema'
 import { lakareSchema } from './lakareSchema'
 import { patientInfoSchema } from './patientSchema'
 
@@ -37,6 +37,12 @@ export const luCertificatesInfoSchema = z.object({
   questionAndAnswersError: z.boolean(),
 })
 
+export const luCertificateFilterOptions = z.object({
+  doctors: z.array(lakareSchema),
+  allDiagnosisChapters: z.array(diagnosKapitelSchema),
+})
+
 export type LUCertificatesFilter = z.infer<typeof luCertificatesFilterSchema>
+export type LUCertificatesFilterOptions = z.infer<typeof luCertificateFilterOptions>
 export type LUCertificate = z.infer<typeof luCertificateSchema>
 export type LUCertificatesInfo = z.infer<typeof luCertificatesInfoSchema>
