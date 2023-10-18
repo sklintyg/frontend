@@ -9,16 +9,16 @@
     ]
   },
   "scripts": {
-    "build": "pnpm --filter * build",
+    "build": "pnpm run -r build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "start": "pnpm -r --parallel --filter * dev",
+    "start": "pnpm -r --parallel run -r dev",
     "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
     "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:ui": "pnpm test -- --ui --coverage",
     "test:report": "pnpm test:ci",
-    "typescript": "pnpm --filter * typescript"
+    "typescript": "pnpm run -r typescript"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
