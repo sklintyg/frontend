@@ -6,7 +6,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Personnummer:
       return sickLeave.patient.id
     case SickLeaveColumn.Ålder:
-      return `${sickLeave.patient.alder} år`
+      return sickLeave.patient.alder
     case SickLeaveColumn.Namn:
       return sickLeave.patient.namn
     case SickLeaveColumn.Kön:
@@ -18,7 +18,7 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Slutdatum:
       return sickLeave.slut
     case SickLeaveColumn.Längd:
-      return `${sickLeave.dagar} dagar`
+      return sickLeave.dagar
     case SickLeaveColumn.Intyg:
       return sickLeave.intyg
     case SickLeaveColumn.Grad:

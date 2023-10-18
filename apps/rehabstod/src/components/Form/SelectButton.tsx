@@ -10,9 +10,9 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
+import { hasNoChildren } from '@frontend/components'
 import { IDSIconChevron } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { hasNoChildren } from '../../utils/hasNoChildren'
 
 export function SelectButton({
   title,

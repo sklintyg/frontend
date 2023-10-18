@@ -14,6 +14,7 @@ import { useAppSelector } from '../../store/hooks'
 import { useGetLUFiltersQuery } from '../../store/luApi'
 import { resetLUFilters, updateFilter } from '../../store/slices/luCertificates.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
+import { isValidDate } from '../../utils/isValidDate'
 
 export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCertificatesFilter) => void }) {
   const { filter, unansweredCommunicationFilterTypes, certificateFilterTypes } = useAppSelector((state) => state.luCertificates)
@@ -31,7 +32,16 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
   }
 
   return (
-    <TableFilter onSearch={() => onSearch(filter)} onReset={onReset}>
+    <TableFilter
+      onSearch={() =>
+        onSearch({
+          ...filter,
+          fromDate: isValidDate(filter.fromDate) ? filter.fromDate : null,
+          toDate: isValidDate(filter.toDate) ? filter.toDate : null,
+        })
+      }
+      onReset={onReset}
+    >
       <DiagnosisFilter
         onChange={(diagnosisChapters) => {
           dispatch(updateFilter({ diagnoses: diagnosisChapters.map((diagnosisChapter) => diagnosisChapter.id) }))
@@ -88,11 +98,11 @@ export function LUCertificatesFilters({ onSearch }: { onSearch: (filter: LUCerti
       <DateRangeFilter
         fromDate={filter.fromDate}
         toDate={filter.toDate}
-        onChange={(value) => {
+        onDataChanged={(value) => {
           dispatch(
             updateFilter({
-              fromDate: value && value.start ? value.start.toString() : null,
-              toDate: value && value.end ? value.end.toString() : null,
+              fromDate: value.start,
+              toDate: value.end,
             })
           )
         }}

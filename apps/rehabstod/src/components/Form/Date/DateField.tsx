@@ -1,10 +1,15 @@
 import { createCalendar } from '@internationalized/date'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { AriaDateFieldProps, DateValue, useDateField, useLocale } from 'react-aria'
 import { useDateFieldState } from 'react-stately'
 import { DateFieldSegment } from './DateFieldSegment'
 
-export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
+interface DateFieldProps extends AriaDateFieldProps<DateValue> {
+  onDataChanged?: (val: string) => void
+  data?: string | null
+}
+
+export function DateField({ label, onDataChanged, data, ...props }: DateFieldProps) {
   const { locale } = useLocale()
   const state = useDateFieldState({
     ...props,
@@ -13,6 +18,21 @@ export function DateField({ label, ...props }: AriaDateFieldProps<DateValue>) {
   })
   const ref = useRef(null)
   const { labelProps, fieldProps } = useDateField({ label, ...props }, state, ref)
+  const segmentData = state.segments.map(({ text }) => text).join('')
+
+  useEffect(() => {
+    if (data !== segmentData && onDataChanged) {
+      onDataChanged(segmentData)
+    }
+  }, [data, onDataChanged, segmentData])
+
+  useEffect(() => {
+    if (data === null && segmentData.match(/\d/g)) {
+      state.clearSegment('year')
+      state.clearSegment('month')
+      state.clearSegment('day')
+    }
+  }, [data, segmentData, state])
 
   return (
     <div>
