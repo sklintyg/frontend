@@ -16,6 +16,9 @@
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
   },
+  "lint-staged": {
+    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+  },
   "dependencies": {
     "@anatine/zod-mock": "^3.10.0",
     "@faker-js/faker": "^7.6.0",
