@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import { CertificateCrumb } from '../../pages/Certificate/CertificateCrumb'
-import { certificateSchema } from '../../schema/certificate.schema'
+import { certificateResponseSchema } from '../../schema/certificate.schema'
 import { store } from '../../store/store'
 import { Breadcrumbs } from './Breadcrumbs'
 
@@ -62,11 +62,9 @@ it('Should render as expected with three levels', async () => {
       res(
         ctx.status(200),
         ctx.json(
-          fakerFromSchema(certificateSchema)({
+          fakerFromSchema(certificateResponseSchema)({
             metadata: {
-              type: {
-                name: certificateName,
-              },
+              name: certificateName,
             },
           })
         )
