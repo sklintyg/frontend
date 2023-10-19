@@ -99,12 +99,12 @@ export const handlers = [
   rest.get('/api/certificate/:id', (req, res, ctx) =>
     res(
       ctx.status(200),
-      ctx.json(
-        fakerFromSchema(certificateSchema)({
+      ctx.json({
+        certificate: fakerFromSchema(certificateSchema)({
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
-        })
-      )
+        }),
+      })
     )
   ),
 

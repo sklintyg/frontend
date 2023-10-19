@@ -61,15 +61,15 @@ it('Should render as expected with three levels', async () => {
     rest.get('/api/certificate/:id', (_, res, ctx) =>
       res(
         ctx.status(200),
-        ctx.json(
-          fakerFromSchema(certificateSchema)({
+        ctx.json({
+          certificate: fakerFromSchema(certificateSchema)({
             metadata: {
               type: {
                 name: certificateName,
               },
             },
-          })
-        )
+          }),
+        })
       )
     )
   )

@@ -34,6 +34,7 @@ export const api = createApi({
     }),
     getCertificate: builder.query<Certificate, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
+      transformResponse: ({ certificate }: { certificate: Certificate }) => certificate,
     }),
   }),
 })

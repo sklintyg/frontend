@@ -12,7 +12,7 @@ it('Should have article content', async () => {
   faker.seed(1234123)
   server.use(
     rest.get('/api/certificate/:id', (_, res, ctx) =>
-      res(ctx.json(fakerFromSchema(certificateSchema)({ content: [{ heading: 'Rubrik 1', body: '<p>Test</p>' }] })))
+      res(ctx.json({ certificate: fakerFromSchema(certificateSchema)({ content: [{ heading: 'Rubrik 1', body: '<p>Test</p>' }] }) }))
     )
   )
 
