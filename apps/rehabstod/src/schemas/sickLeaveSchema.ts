@@ -120,6 +120,19 @@ export const summaryDataPointSchema = z.object({
   tooltip: z.optional(z.string()),
 })
 
+export const sickLeaveFilterOptions = z.object({
+  activeDoctors: z.array(lakareSchema),
+  allDiagnosisChapters: z.array(diagnosKapitelSchema),
+  enabledDiagnosisChapters: z.array(diagnosKapitelSchema),
+  nbrOfSickLeaves: z.number(),
+  hasOngoingSickLeaves: z.boolean(),
+  rekoStatusTypes: z.array(rekoStatusType),
+  occupationTypes: z.array(occupationType),
+  unansweredCommunicationFilterTypes: z.array(unansweredCommunicationFilterType),
+  srsActivated: z.boolean(),
+})
+
+export type SickLeaveFilterOptions = z.infer<typeof sickLeaveFilterOptions>
 export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
 export type SickLeaveSummary = z.infer<typeof sickLeaveSummary>
@@ -129,7 +142,7 @@ export type SickLeaveLengthSummary = z.infer<typeof sickLeaveLengthSummarySchema
 export type SummaryDataPoint = z.infer<typeof summaryDataPointSchema>
 export type SickLeaveLengthInterval = z.infer<typeof sickLeaveLengthIntervalSchema>
 export type RekoStatusType = z.infer<typeof rekoStatusType>
-export type OccupationType = z.infer<typeof rekoStatusType>
+export type OccupationType = z.infer<typeof occupationType>
 export type UnansweredCommunicationFilterType = z.infer<typeof unansweredCommunicationFilterType>
 export type RekoStatus = z.infer<typeof rekoStatus>
 export type RiskSignal = z.infer<typeof riskSignalSchema>

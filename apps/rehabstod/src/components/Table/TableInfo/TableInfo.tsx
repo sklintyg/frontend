@@ -20,7 +20,7 @@ export function TableInfo({
   printable?: boolean
   communicationError?: boolean
 }) {
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const dispatch = useAppDispatch()
 
   return (

@@ -6,10 +6,12 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
+import { reset as resetCertificatesFilter } from './store/slices/luCertificatesFilter.slice'
 import { resetLUTableColumns } from './store/slices/luTableColumns.slice'
 import { resetLUUnitTableColumns } from './store/slices/luUnitTableColumns.slice'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
 import { resetSettingsState } from './store/slices/settings.slice'
+import { reset as resetSickLeaveFilter } from './store/slices/sickLeaveFilter.slice'
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
@@ -48,6 +50,8 @@ afterEach(() => {
   store.dispatch(resetLUUnitTableColumns())
   store.dispatch(resetLUTableColumns())
   store.dispatch(resetSettingsState())
+  store.dispatch(resetCertificatesFilter())
+  store.dispatch(resetSickLeaveFilter())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.

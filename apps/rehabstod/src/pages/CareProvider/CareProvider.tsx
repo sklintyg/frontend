@@ -6,7 +6,7 @@ import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
-import { useUpdateUserPreferences } from '../../store/hooks'
+import { useUpdateUserPreferences } from '../../store/hooks/useUpdateUserPreferences'
 import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {

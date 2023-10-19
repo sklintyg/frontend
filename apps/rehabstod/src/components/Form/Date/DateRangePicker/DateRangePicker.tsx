@@ -1,5 +1,5 @@
 import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
-import { IDSButton, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
@@ -29,7 +29,6 @@ export function DateRangePicker({
   disabled,
   description,
   inline,
-  flex,
   startDate,
   endDate,
   onDataChanged,
@@ -43,7 +42,7 @@ export function DateRangePicker({
       props.onChange(val)
     }
   }
-  const style = useInputStyle({ error, disabled, flex })
+  const style = useInputStyle({ error, disabled })
   const value = isValidDate(startDate) && isValidDate(endDate) ? { start: parseDate(startDate), end: parseDate(endDate) } : null
   const state = useDateRangePickerState({ value, ...props, onChange })
   const ref = useRef(null)
@@ -63,7 +62,7 @@ export function DateRangePicker({
           <span {...labelProps}>{label}</span>
           {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </div>
-        <div {...groupProps} ref={ref} className={style}>
+        <div {...groupProps} ref={ref} className={`${style} flex`}>
           <div ref={fieldRef} className="inline-flex w-full gap-1 pl-5">
             <DateField
               {...startFieldProps}
@@ -78,7 +77,7 @@ export function DateRangePicker({
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, end: val })}
             />
           </div>
-          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} error={error} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
@@ -88,6 +87,7 @@ export function DateRangePicker({
             </IDSButton>
           </PopoverContent>
         )}
+        {error && <IDSErrorMessage>Du måste ange ett giltigt datum</IDSErrorMessage>}
       </div>
     </Popover>
   )

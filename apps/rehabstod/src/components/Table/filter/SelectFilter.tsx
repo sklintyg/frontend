@@ -12,7 +12,7 @@ export function SelectFilter({
   onChange: (option: string) => void
   options: { id: string; name: string }[]
   description: string
-  value?: string
+  value?: string | number
   label: string
   disabled?: boolean
 }) {
