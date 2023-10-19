@@ -24,8 +24,8 @@ export function CertificatePage() {
 
   return (
     <>
-      <PageHeading heading={certificate.metadata.name}>
-        {certificate.metadata.type.description && <DisplayHTML html={certificate.metadata.type.description} />}
+      <PageHeading heading={certificate.metadata.type.name}>
+        <DisplayHTML html={certificate.metadata.type.description} />
       </PageHeading>
       <div className="mb-4 flex gap-1">
         {certificate.metadata.statuses.map((status) => (

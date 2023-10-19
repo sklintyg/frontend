@@ -12,8 +12,9 @@ export const certificateSummarySchema = z.object({ label: z.string(), value: z.s
 
 export const certificateTypeSchema = z.object({
   id: z.string(),
+  name: z.string(),
   version: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
 })
 
 export const certificateIssuerSchema = z.object({
@@ -30,7 +31,6 @@ export const certificateUnitSchema = z.object({
 export const certificateMetadataSchema = z.object({
   issuer: certificateIssuerSchema,
   unit: certificateUnitSchema,
-  name: z.string(),
   events: z.array(certificateEventSchema),
   statuses: z.array(CertificateStatusEnum),
   id: z.string(),

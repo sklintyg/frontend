@@ -7,7 +7,7 @@ import { CertificateCard } from './CertificateCard'
 
 it('Should navigate to certificate from button', async () => {
   const certificate = fakerFromSchema(certificateMetadataSchema)({
-    name: 'Certificate Title',
+    type: { name: 'Certificate Title' },
     id: '1234',
     summary: undefined,
   })
