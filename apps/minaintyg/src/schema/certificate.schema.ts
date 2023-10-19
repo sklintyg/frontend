@@ -46,22 +46,6 @@ export const certificateSchema = z.object({
   content: z.array(certificateContentSchema),
 })
 
-export const certificateResponseSchema = certificateSchema.omit({ metadata: true }).and(
-  z.object({
-    metadata: certificateMetadataSchema.omit({ type: true }).and(
-      z.object({
-        name: z.string(),
-        type: certificateTypeSchema.omit({ name: true }),
-      })
-    ),
-  })
-)
-
-export const certificateListResponseSchema = z.object({
-  content: z.array(certificateMetadataSchema),
-})
-
-export type CertificateType = z.infer<typeof certificateTypeSchema>
 export type CertificateContent = z.infer<typeof certificateContentSchema>
 export type CertificateEvent = z.infer<typeof certificateEventSchema>
 export type CertificateIssuer = z.infer<typeof certificateIssuerSchema>
@@ -70,6 +54,3 @@ export type CertificateStatus = z.infer<typeof CertificateStatusEnum>
 export type CertificateSummary = z.infer<typeof certificateSummarySchema>
 export type CertificateUnit = z.infer<typeof certificateUnitSchema>
 export type Certificate = z.infer<typeof certificateSchema>
-
-export type CertificateResponse = z.infer<typeof certificateResponseSchema>
-export type CertificateListResponse = z.infer<typeof certificateListResponseSchema>

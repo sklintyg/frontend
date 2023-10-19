@@ -6,9 +6,8 @@ import {
   CertificateStatus,
   CertificateStatusEnum,
   certificateEventSchema,
-  certificateListResponseSchema,
   certificateMetadataSchema,
-  certificateResponseSchema,
+  certificateSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
@@ -91,28 +90,23 @@ export const handlers = [
   rest.post('/api/certificate', (req, res, ctx) =>
     res(
       ctx.status(200),
+      ctx.json({
+        content: Array.from({ length: 5 }, () => fakeCertificateMetadata(req)),
+      })
+    )
+  ),
+
+  rest.get('/api/certificate/:id', (req, res, ctx) =>
+    res(
+      ctx.status(200),
       ctx.json(
-        fakerFromSchema(certificateListResponseSchema)({
-          content: Array.from({ length: 5 }, () => fakeCertificateMetadata(req)),
+        fakerFromSchema(certificateSchema)({
+          content: certificateContentMock,
+          metadata: fakeCertificateMetadata(req),
         })
       )
     )
   ),
-
-  rest.get('/api/certificate/:id', (req, res, ctx) => {
-    const metadata = fakeCertificateMetadata(req)
-    const { name, ...type } = metadata.type
-
-    return res(
-      ctx.status(200),
-      ctx.json(
-        fakerFromSchema(certificateResponseSchema)({
-          content: certificateContentMock,
-          metadata: { ...metadata, name, type },
-        })
-      )
-    )
-  }),
 
   rest.get('/api/certificate/filters', (req, res, ctx) => {
     const certificates = Array.from({ length: 5 }, () => fakeCertificateMetadata(req))

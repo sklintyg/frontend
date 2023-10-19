@@ -1,6 +1,6 @@
 import { getCookie } from '@frontend/utils'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Certificate, CertificateListResponse, CertificateResponse } from '../schema/certificate.schema'
+import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
@@ -22,7 +22,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    getCertificates: builder.query<CertificateListResponse, CertificateFilterState>({
+    getCertificates: builder.query<{ content: CertificateMetadata[] }, CertificateFilterState>({
       query: (body) => ({
         url: 'certificate',
         method: 'POST',
@@ -34,10 +34,6 @@ export const api = createApi({
     }),
     getCertificate: builder.query<Certificate, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({ metadata, content }: CertificateResponse): Certificate => {
-        const { type, name, ...data } = metadata
-        return { metadata: { ...data, type: { ...type, name } }, content }
-      },
     }),
   }),
 })
