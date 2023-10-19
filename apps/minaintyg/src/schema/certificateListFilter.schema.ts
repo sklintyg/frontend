@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { CertificateStatusEnum } from './certificateList.schema'
+import { CertificateStatusEnum } from './certificate.schema'
 
 export const certificateFilterOptionsSchema = z.object({
   total: z.number(),

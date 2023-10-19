@@ -1,7 +1,9 @@
 import { createBrowserRouter, createRoutesFromChildren, Navigate, Outlet, Route } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import { Certificates } from './pages/Certificates/Certificates'
+import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
+import { CertificateListPage } from './pages/Certificate/CertificateListPage'
+import { CertificatePage } from './pages/Certificate/CertificatePage'
 import { Home } from './pages/Home/Home'
 import { Welcome } from './pages/Welcome/Welcome'
 
@@ -19,13 +21,13 @@ export const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route index element={<Certificates />} />
+        <Route index element={<CertificateListPage />} />
         <Route
           path=":id"
           handle={{
-            crumb: ({ id }: { id: string }) => id,
+            crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
           }}
-          element={<p>Intyget</p>}
+          element={<CertificatePage />}
         />
       </Route>
     </Route>,
