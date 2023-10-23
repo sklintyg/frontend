@@ -1,4 +1,4 @@
-import { fakeCategoryElement, fakeCheckboxBooleanElement } from '@frontend/common'
+import { CertificateDataElementStyleEnum, fakeCategoryElement, fakeCheckboxBooleanElement } from '@frontend/common'
 import { structureCertificate } from './structureCertificate'
 
 describe('structureCertificate', () => {
@@ -71,5 +71,13 @@ describe('structureCertificate', () => {
       { id: '1', index: 1, subQuestionIds: [] },
       { id: '2', index: 2 },
     ])
+  })
+
+  it('Should not include hidden subQuestionIds', () => {
+    const input = {
+      ...fakeCategoryElement({ id: '1', index: 1 }),
+      ...fakeCheckboxBooleanElement({ id: '2', index: 2, parent: '1', style: CertificateDataElementStyleEnum.HIDDEN }),
+    }
+    expect(structureCertificate(input)).toMatchObject([{ id: '1', index: 1, subQuestionIds: [] }])
   })
 })
