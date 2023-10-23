@@ -9,7 +9,7 @@ import { Layout } from './Layout'
 it('Should render as expected', async () => {
   const userRequest = waitForRequest('GET', '/api/user')
 
-  const { baseElement } = render(
+  const { container } = render(
     <Provider store={store}>
       <RouterProvider
         router={createMemoryRouter(
@@ -26,14 +26,14 @@ it('Should render as expected', async () => {
 
   await act(async () => userRequest)
 
-  expect(baseElement).toMatchSnapshot()
+  expect(container).toMatchSnapshot()
 })
 
 it('Should render without header when user is not logged in', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(400))))
   const userRequest = waitForRequest('GET', '/api/user')
 
-  const { baseElement } = render(
+  const { container } = render(
     <Provider store={store}>
       <RouterProvider
         router={createMemoryRouter(
@@ -50,5 +50,5 @@ it('Should render without header when user is not logged in', async () => {
 
   await act(async () => userRequest)
 
-  expect(baseElement).toMatchSnapshot()
+  expect(container).toMatchSnapshot()
 })

@@ -1,15 +1,12 @@
 import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
-import { DiagnosKapitel } from '../schemas/diagnosisSchema'
-import { Lakare } from '../schemas/lakareSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
-  OccupationType,
   RekoStatus,
   RekoStatusType,
   SickLeaveFilter,
+  SickLeaveFilterOptions,
   SickLeaveInfo,
   SickLeaveSummary,
-  UnansweredCommunicationFilterType,
 } from '../schemas/sickLeaveSchema'
 import { api } from './api'
 
@@ -26,20 +23,7 @@ const sickLeaveApi = api.injectEndpoints({
         dispatch(sickLeaveApi.endpoints.getSickLeavesFilters.initiate(undefined, { forceRefetch: true }))
       },
     }),
-    getSickLeavesFilters: builder.query<
-      {
-        activeDoctors: Lakare[]
-        allDiagnosisChapters: DiagnosKapitel[]
-        enabledDiagnosisChapters: DiagnosKapitel[]
-        nbrOfSickLeaves: number
-        hasOngoingSickLeaves: boolean
-        rekoStatusTypes: RekoStatusType[]
-        occupationTypes: OccupationType[]
-        unansweredCommunicationFilterTypes: UnansweredCommunicationFilterType[]
-        srsActivated: boolean
-      },
-      void
-    >({
+    getSickLeavesFilters: builder.query<SickLeaveFilterOptions, void>({
       query: () => ({
         url: 'sickleaves/filters',
       }),

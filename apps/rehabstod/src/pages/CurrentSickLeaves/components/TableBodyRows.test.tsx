@@ -4,7 +4,7 @@ import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
 import { server } from '../../../mocks/server'
-import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
+import { sickLeaveFilterOptions, sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
 import { SickLeaveColumn, hideColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { store } from '../../../store/store'
@@ -14,6 +14,11 @@ import { TableBodyRows } from './TableBodyRows'
 
 beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
+  server.use(
+    rest.get('/api/sickleaves/filters', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveFilterOptions)({ srsActivated: true })))
+    )
+  )
 })
 
 describe('Change focus', () => {
@@ -132,7 +137,7 @@ it('Should render all sickleave columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
@@ -152,7 +157,7 @@ it('Should render all but doctor column if user is doctor', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
 })
 
 it('Should render risk column if feature is activated', async () => {
@@ -203,14 +208,14 @@ it('Should be possible to hide columns', async () => {
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Grad)))
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Intyg)))
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(13)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Diagnos)))
-  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(12)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(13)
 })

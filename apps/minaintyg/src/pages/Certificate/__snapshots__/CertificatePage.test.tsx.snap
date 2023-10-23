@@ -1,0 +1,64 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should have article content 1`] = `
+<article
+  class="ids-certificate"
+>
+  <section
+    class="md:mb-10"
+  >
+    <ids-expandable
+      class="md:hidden"
+    >
+      <p>
+        Test
+      </p>
+    </ids-expandable>
+    <div
+      class="hidden md:block"
+    >
+      <h2
+        class="ids-heading-2"
+      >
+        Rubrik 1
+      </h2>
+      <p>
+        Test
+      </p>
+    </div>
+  </section>
+  <footer>
+    <hr
+      class="my-7 border-stone-clear"
+    />
+    <h2
+      class="ids-heading-3"
+    >
+      Intyget är utfärdat och signerat av
+    </h2>
+    <address
+      class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
+    >
+      <div>
+        <strong>
+          Prof. Alexander Gunnarsson II
+        </strong>
+        <p>
+          4698-89516
+        </p>
+      </div>
+      <div>
+        <strong>
+          Kerstin Henriksson
+        </strong>
+        <p>
+          accusamus
+        </p>
+      </div>
+    </address>
+    <hr
+      class="my-7 border-stone-clear"
+    />
+  </footer>
+</article>
+`;

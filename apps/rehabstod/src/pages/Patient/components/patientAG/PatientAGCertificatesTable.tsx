@@ -26,7 +26,7 @@ export function PatientAGCertificatesTable() {
     sortColumn: PatientColumn.Num,
     ascending: false,
   })
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
 
   const isDoctor = user ? isUserDoctor(user) : false
 

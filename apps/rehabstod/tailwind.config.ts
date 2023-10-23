@@ -59,6 +59,10 @@ export default {
         'table-filter': 'repeat(auto-fit, minmax(280px, 1fr))',
         'table-filter-sm': 'repeat(auto-fit, minmax(300px, 1fr))',
       },
+      backgroundImage: {
+        'form-invalid_background': 'var(--IDS-FORM-INVALID_BACKGROUND-IMAGE)',
+        'form-disabled_background': 'var(--IDS-FORM-DISABLED_BACKGROUND-IMAGE);',
+      },
     },
   },
   plugins: [],

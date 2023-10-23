@@ -15,9 +15,9 @@ import { useGetLUFiltersQuery, useLazyGetLUCertificatesQuery } from '../../store
 import { allLUUnitTableColumns } from '../../store/slices/luUnitTableColumns.selector'
 import { LUCertificatesColumn } from '../../store/slices/luUnitTableColumns.slice'
 import { isUserDoctor } from '../../utils/isUserDoctor'
-import { LUCertificatesFilters } from './LUCertificatesFilters'
-import { LUCertificatesTableBody } from './LUCertificatesTableBody'
-import { ModifyLUCertificatesTableColumns } from './ModifyLUCertificatesTableColumns'
+import { LUCertificatesFilters } from './components/LUCertificatesFilters'
+import { LUCertificatesTableBody } from './components/LUCertificatesTableBody'
+import { ModifyLUCertificatesTableColumns } from './components/ModifyLUCertificatesTableColumns'
 import { getLUCertificatesColumnInfo } from './utils/getLUCertificatesColumnsInfo'
 
 export function LUCertificates() {
@@ -30,8 +30,8 @@ export function LUCertificates() {
     ascending: false,
   })
   const { data: populatedFilters } = useGetLUFiltersQuery()
-  const { hasAppliedFilters } = useAppSelector((state) => state.luCertificates)
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const hasAppliedFilters = useAppSelector((state) => state.luCertificatesFilter.hasAppliedFilters)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
 
   const isDoctor = user ? isUserDoctor(user) : false
   const filteredColumns = filterTableColumns(allColumns, isDoctor, showPersonalInformation, false, undefined, [
@@ -52,7 +52,7 @@ export function LUCertificates() {
   return (
     <PageContainer>
       <TableHeadingForUnit tableName={TABLE_NAME} suffix="senaste tre åren" user={user} />
-      <LUCertificatesFilters onSearch={(request) => triggerGetLUCertificates(request)} />
+      <LUCertificatesFilters onSearch={triggerGetLUCertificates} />
       {emptyTableAlert && <EmptyTableAlert tableName={TABLE_NAME} />}
       {error && <TableContentAlert tableName={TABLE_NAME} error={error} />}
       {!error && (

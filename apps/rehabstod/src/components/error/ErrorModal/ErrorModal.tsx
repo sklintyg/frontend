@@ -1,9 +1,9 @@
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
+import { randomUUID } from '@frontend/utils'
 import { useEffect, useRef, useState } from 'react'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
-import { uuidv4 } from '../../../utils/uuidv4'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
 import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 
@@ -28,7 +28,7 @@ export function ErrorModal({
 
   useEffect(() => {
     if (show && generateError) {
-      const generatedErrorId = uuidv4()
+      const generatedErrorId = randomUUID()
       setErrorId(generatedErrorId)
       dispatch(
         api.endpoints.logError.initiate({

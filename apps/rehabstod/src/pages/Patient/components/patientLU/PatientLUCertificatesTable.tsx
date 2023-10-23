@@ -16,7 +16,7 @@ import { useGetPatientLUCertificatesQuery } from '../../../../store/luApi'
 import { allLUTableColumns } from '../../../../store/slices/luTableColumns.selector'
 import { LUCertificatesColumn } from '../../../../store/slices/luUnitTableColumns.slice'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { LUCertificatesTableBody } from '../../../LUCertificates/LUCertificatesTableBody'
+import { LUCertificatesTableBody } from '../../../LUCertificates/components/LUCertificatesTableBody'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
 import { EmptyPatientTableMessage } from '../EmptyPatientTableMessage/EmptyPatientTableMessage'
 import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
@@ -24,7 +24,7 @@ import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertif
 export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()
   const { encryptedPatientId } = useParams()
-  const { showPersonalInformation } = useAppSelector((state) => state.settings)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: LUCertificatesColumn.Signeringsdatum,
     ascending: false,

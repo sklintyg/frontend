@@ -1,10 +1,10 @@
+import { getCookie } from '@frontend/utils'
 import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
 import { ErrorData } from '../schemas/errorSchema'
-import { getCookie } from '../utils/cookies'
-import { resetLUFilters } from './slices/luCertificates.slice'
-import { resetSickLeaveFilters } from './slices/sickLeave.slice'
+import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
+import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -12,7 +12,7 @@ export const api = createApi({
     baseUrl: '/api/',
     prepareHeaders: (headers) => {
       if (getCookie('XSRF-TOKEN')) {
-        headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'))
+        headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN') ?? '')
       }
       return headers
     },

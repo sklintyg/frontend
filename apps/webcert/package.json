@@ -13,11 +13,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*": "prettier --write --ignore-unknown",
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "pnpm test -- related --run"
-    ]
+    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
     "@frontend/common": "workspace:*",
@@ -51,7 +47,6 @@
     "@testing-library/user-event": "13",
     "@types/history": "4.7.11",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^14.14.31",
     "@types/react": "17.0.39",
     "@types/react-datepicker": "^4.3.2",
     "@types/react-dom": "^17.0.11",

@@ -15,11 +15,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*": "prettier --write --ignore-unknown",
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "vitest related --run"
-    ]
+    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
     "@frontend/filtrex": "workspace:*",

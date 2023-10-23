@@ -5,7 +5,7 @@ import { useDateFieldState } from 'react-stately'
 import { DateFieldSegment } from './DateFieldSegment'
 
 interface DateFieldProps extends AriaDateFieldProps<DateValue> {
-  onDataChanged?: (val: string) => void
+  onDataChanged?: (val: string | null) => void
   data?: string | null
 }
 
@@ -18,21 +18,22 @@ export function DateField({ label, onDataChanged, data, ...props }: DateFieldPro
   })
   const ref = useRef(null)
   const { labelProps, fieldProps } = useDateField({ label, ...props }, state, ref)
-  const segmentData = state.segments.map(({ text }) => text).join('')
+  const segmentData = state.segments
+    .map(({ text }) => text.replace(/[^\d]/g, ''))
+    .filter(Boolean)
+    .join('-')
+
+  if (data === null && segmentData.length > 0) {
+    state.clearSegment('year')
+    state.clearSegment('month')
+    state.clearSegment('day')
+  }
 
   useEffect(() => {
     if (data !== segmentData && onDataChanged) {
       onDataChanged(segmentData)
     }
   }, [data, onDataChanged, segmentData])
-
-  useEffect(() => {
-    if (data === null && segmentData.match(/\d/g)) {
-      state.clearSegment('year')
-      state.clearSegment('month')
-      state.clearSegment('day')
-    }
-  }, [data, segmentData, state])
 
   return (
     <div>

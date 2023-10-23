@@ -134,6 +134,14 @@ const certificates = [
   },
 ]
 
+export const fakeCertificateEvent = () =>
+  faker.helpers.arrayElement([
+    'Skickat till Arbetsförmedlingen',
+    'Skickat till Försäkringskassan',
+    'Ersätter ett intyg som inte längre är aktuellt',
+    'Ersattes av vården med ett nytt intyg',
+  ])
+
 export const fakeCertificate = (includeDeprecated = false) =>
   faker.helpers.arrayElement(certificates.filter(({ deprecated }) => !includeDeprecated && deprecated === false))
 
