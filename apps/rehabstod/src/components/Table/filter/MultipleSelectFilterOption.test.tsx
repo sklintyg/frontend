@@ -34,7 +34,7 @@ describe('MultipleSelectFilterOption', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText(LABEL)).toBeInTheDocument()
+    expect(screen.getByLabelText(LABEL)).toBeInTheDocument()
   })
 
   it('should show options when opening dropdown', async () => {

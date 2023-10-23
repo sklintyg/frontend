@@ -36,7 +36,7 @@ describe('TimePeriodFilter', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText(TITLE)).toBeInTheDocument()
+    expect(screen.getByLabelText(TITLE)).toBeInTheDocument()
   })
 
   it('should call on change if checking checkbox', async () => {

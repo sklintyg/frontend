@@ -6,12 +6,7 @@ import { TableInfoRight } from './TableInfoRight'
 
 const renderComponent = (showPersonalInformation: boolean, onShowPersonalInformationChange?: () => void) => {
   render(
-    <TableInfoRight
-      listLength={10}
-      totalNumber={20}
-      showPersonalInformation={showPersonalInformation}
-      onShowPersonalInformationChange={onShowPersonalInformationChange}
-    >
+    <TableInfoRight showPersonalInformation={showPersonalInformation} onShowPersonalInformationChange={onShowPersonalInformationChange}>
       Children
     </TableInfoRight>
   )
@@ -19,12 +14,6 @@ const renderComponent = (showPersonalInformation: boolean, onShowPersonalInforma
 describe('TableInfo', () => {
   it('should render without throwing errors', () => {
     expect(() => renderComponent(true)).not.toThrow()
-  })
-
-  it('should render total number text', () => {
-    renderComponent(false)
-    expect(screen.getByText('Visar', { exact: false })).toBeInTheDocument()
-    expect(screen.getByText('10 av 20', { exact: false })).toBeInTheDocument()
   })
 
   it('should not show personal information checkbox if onChange is not included', () => {

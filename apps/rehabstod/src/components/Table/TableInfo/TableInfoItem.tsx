@@ -10,6 +10,7 @@ export function TableInfoItem({ children, noPrintAfter = false }: { children: Re
         'after:hidden',
         "after:content-['|']",
         'print:after:inline-block',
+        'print:inline-block',
         'xl:inline-block',
         '[&:not(:last-child)]:after:xl:inline-block'
       )}

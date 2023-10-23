@@ -3,6 +3,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
+import { TableInfo } from '../../components/Table/TableInfo/TableInfo'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
 import { TableDescriptionDialog } from '../../components/dialog/TableDescriptionDialog'
@@ -14,6 +15,7 @@ import { useGetSickLeavesFiltersQuery, useLazyGetSickLeavesQuery } from '../../s
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesFilters } from './components/CurrentSickLeavesFilters'
 import { CurrentSickLeavesTableInfo } from './components/CurrentSickLeavesTableInfo'
+import { ModifySicknessTableColumns } from './components/ModifySicknessTableColumns'
 import { PrintTable } from './components/PrintTable'
 import { TableBodyRows } from './components/TableBodyRows'
 import { useSickLeavesTableColumn } from './hooks/useSickLeavesTableColumns'
@@ -54,18 +56,37 @@ export function CurrentSickLeaves() {
       {error && <TableContentAlert tableName="sjukfall" error={error} />}
       {!error && (
         <>
-          <CurrentSickLeavesTableInfo
-            totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
-            listLength={(sickLeaves ?? []).length}
-            daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
-            daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+          <TableInfo
+            printable
             communicationError={currentSickLeavesInfo?.unansweredCommunicationError}
-          />
+            modifyTable={<ModifySicknessTableColumns />}
+          >
+            <CurrentSickLeavesTableInfo
+              daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+              daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+              listLength={(sickLeaves ?? []).length}
+              totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
+            />
+          </TableInfo>
           <Table
             header={<TableHeader columns={columns} />}
             sortColumn={tableState.sortColumn}
             onSortChange={setTableState}
-            print={<PrintTable sickLeaves={sickLeaves} showPersonalInformation={showPersonalInformation} />}
+            print={
+              <PrintTable
+                title="Pågående sjukfall på enheten"
+                sickLeaves={sickLeaves}
+                showPersonalInformation={showPersonalInformation}
+                tableInfo={
+                  <CurrentSickLeavesTableInfo
+                    daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+                    daysBetweenCertificates={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+                    listLength={(sickLeaves ?? []).length}
+                    totalNumber={populatedFilters?.nbrOfSickLeaves ?? 0}
+                  />
+                }
+              />
+            }
             ascending={tableState.ascending}
           >
             <tbody className="whitespace-normal break-words">
