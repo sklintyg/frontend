@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
 import { CertificateListPage } from './pages/Certificate/CertificateListPage'
 import { CertificatePage } from './pages/Certificate/CertificatePage'
+import { SendCertificatePage } from './pages/Certificate/SendCertificatePage'
 import { Home } from './pages/Home/Home'
 import { Welcome } from './pages/Welcome/Welcome'
 
@@ -27,8 +28,11 @@ export const router = createBrowserRouter(
           handle={{
             crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
           }}
-          element={<CertificatePage />}
-        />
+          element={<Outlet />}
+        >
+          <Route index element={<CertificatePage />} />
+          <Route path="skicka" handle={{ crumb: () => 'Skicka intyg' }} element={<SendCertificatePage />} />
+        </Route>
       </Route>
     </Route>,
     <Route key="welcome" path="/welcome" element={<Welcome />} />,

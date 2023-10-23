@@ -16,7 +16,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Certificate'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -28,6 +28,10 @@ export const api = createApi({
         method: 'POST',
         body: Object.fromEntries(Object.entries(body).map(([key, value]) => [key, [value]])),
       }),
+      providesTags: (result) =>
+        result
+          ? [...result.content.map(({ id }) => ({ type: 'Certificate' as const, id })), { type: 'Certificate', id: 'LIST' }]
+          : [{ type: 'Certificate', id: 'LIST' }],
     }),
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
@@ -35,8 +39,22 @@ export const api = createApi({
     getCertificate: builder.query<Certificate, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
       transformResponse: ({ certificate }: { certificate: Certificate }) => certificate,
+      providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.metadata.id }] : []),
+    }),
+    sendCertificate: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `certificate/${id}/send`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, { id }) => (error ? [] : [{ type: 'Certificate', id }]),
     }),
   }),
 })
 
-export const { useGetUserQuery, useGetCertificatesQuery, useGetCertificateQuery, useGetCertificatesFilterQuery } = api
+export const {
+  useGetUserQuery,
+  useGetCertificatesQuery,
+  useGetCertificateQuery,
+  useGetCertificatesFilterQuery,
+  useSendCertificateMutation,
+} = api

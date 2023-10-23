@@ -1,14 +1,23 @@
+import { classNames } from '@frontend/components'
 import { IDSCard } from '@frontend/ids-react-ts'
 import { useFormat } from '../../../hooks/useFormat'
 import { CertificateMetadata } from '../../../schema/certificate.schema'
 import { CertificateEventsInfo } from './CertificateEventsInfo/CertificateEventsInfo'
 
-export function CertificateInformation({ id, issued, issuer, events, summary }: CertificateMetadata) {
+export function CertificateInformation({
+  id,
+  issued,
+  issuer,
+  events,
+  summary,
+  heading,
+  showEvents = true,
+}: CertificateMetadata & { heading?: string; showEvents?: boolean }) {
   const { date } = useFormat()
   return (
-    <IDSCard className="mb-4">
-      <h2 className="ids-heading-3">Information om intyget</h2>
-      <div className="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-2">
+    <IDSCard className="mb-5">
+      <h2 className="ids-heading-3">{heading ?? 'Information om intyget'}</h2>
+      <div className={classNames('flex flex-col gap-4 md:grid md:grid-flow-col', showEvents ? 'md:grid-rows-2' : 'md:grid-rows-1')}>
         <div>
           <strong className="block">Intyg utfärdat</strong>
           {date(issued)}
@@ -29,10 +38,11 @@ export function CertificateInformation({ id, issued, issuer, events, summary }: 
           <strong className="block">Intygs-ID</strong>
           {id}
         </div>
-
-        <div className="row-span-2">
-          <CertificateEventsInfo events={events} />
-        </div>
+        {showEvents && (
+          <div className="row-span-2">
+            <CertificateEventsInfo events={events} />
+          </div>
+        )}
       </div>
     </IDSCard>
   )
