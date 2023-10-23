@@ -75,9 +75,12 @@ describe('structureCertificate', () => {
 
   it('Should not include hidden subQuestionIds', () => {
     const input = {
-      ...fakeCategoryElement({ id: '1', index: 1 }),
-      ...fakeCheckboxBooleanElement({ id: '2', index: 2, parent: '1', style: CertificateDataElementStyleEnum.HIDDEN }),
+      ...fakeCheckboxBooleanElement({ id: '1', index: 1 }),
+      ...fakeCheckboxBooleanElement({ id: '8', index: 8, parent: '1' }),
+      ...fakeCheckboxBooleanElement({ id: '4', index: 4, parent: '1', style: CertificateDataElementStyleEnum.HIDDEN }),
+      ...fakeCheckboxBooleanElement({ id: '3', index: 3, parent: '1' }),
+      ...fakeCheckboxBooleanElement({ id: '7', index: 7, parent: '1' }),
     }
-    expect(structureCertificate(input)).toMatchObject([{ id: '1', index: 1, subQuestionIds: [] }])
+    expect(structureCertificate(input)[0]).toMatchObject({ id: '1', index: 1, subQuestionIds: ['3', '7', '8'] })
   })
 })
