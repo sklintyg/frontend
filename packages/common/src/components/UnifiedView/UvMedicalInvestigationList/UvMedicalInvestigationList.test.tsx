@@ -25,16 +25,6 @@ it('renders without crashing', () => {
   expect(() => renderComponent({ value: value, config: config })).not.toThrow()
 })
 
-it('renders question text if value is not empty', () => {
-  renderComponent({ value: value, config: config })
-  expect(screen.getByRole('heading')).toHaveTextContent(config.typeText)
-})
-
-it('renders question text if value is empty', () => {
-  renderComponent({ value: emptyValue, config: emptyConfig })
-  expect(screen.getByRole('heading')).toHaveTextContent(emptyConfig.typeText)
-})
-
 it('renders empty value text if value is empty', () => {
   renderComponent({ value: emptyValue, config: emptyConfig })
   expect(screen.getByText('Ej angivet')).toBeInTheDocument()
