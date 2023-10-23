@@ -28,6 +28,8 @@ it('Should render as expected', async () => {
         ctx.json({
           certificate: fakerFromSchema(certificateSchema)({
             metadata: fakerFromSchema(certificateMetadataSchema)({
+              events: [],
+              issued: '2023-10-10T13:37:00.000Z',
               recipient: fakerFromSchema(certificateRecipientSchema)({
                 sent: null,
               }),
