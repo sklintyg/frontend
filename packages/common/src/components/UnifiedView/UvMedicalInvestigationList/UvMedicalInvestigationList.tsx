@@ -32,40 +32,34 @@ export const UvMedicalInvestigationList: React.FC<{
   config: ConfigUeMedicalInvestigationList
 }> = ({ value, config }) =>
   isMedicalInvestigationListEmpty(config, value) ? (
-    <div>
-      <h4 className="iu-mb-300">{config.typeText}</h4>
-      <Badge>
-        <p>Ej angivet</p>
-      </Badge>
-    </div>
+    <Badge>
+      <p>Ej angivet</p>
+    </Badge>
   ) : (
-    <>
-      <h4 className="iu-mb-300">{config.typeText}</h4>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableCell>{config.typeText}</TableCell>
-            <TableCell>{config.dateText}</TableCell>
-            <TableCell>{config.informationSourceText}</TableCell>
-          </TableRow>
-        </TableHeader>
-        <tbody>
-          {config.list.map((medicalConfig) => {
-            const medicalValue = getMedicalValue(value, medicalConfig)
-            const codeValue = getCodeValue(medicalConfig, medicalValue)
-            return (
-              codeValue &&
-              medicalValue &&
-              medicalValue.informationSource.text && (
-                <TableRow key={medicalValue.investigationType.id}>
-                  <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
-                  <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
-                  <TableCell data-testid="informationSource">{medicalValue.informationSource.text}</TableCell>
-                </TableRow>
-              )
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableCell>{config.typeText}</TableCell>
+          <TableCell>{config.dateText}</TableCell>
+          <TableCell>{config.informationSourceText}</TableCell>
+        </TableRow>
+      </TableHeader>
+      <tbody>
+        {config.list.map((medicalConfig) => {
+          const medicalValue = getMedicalValue(value, medicalConfig)
+          const codeValue = getCodeValue(medicalConfig, medicalValue)
+          return (
+            codeValue &&
+            medicalValue &&
+            medicalValue.informationSource.text && (
+              <TableRow key={medicalValue.investigationType.id}>
+                <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
+                <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
+                <TableCell data-testid="informationSource">{medicalValue.informationSource.text}</TableCell>
+              </TableRow>
             )
-          })}
-        </tbody>
-      </Table>
-    </>
+          )
+        })}
+      </tbody>
+    </Table>
   )
