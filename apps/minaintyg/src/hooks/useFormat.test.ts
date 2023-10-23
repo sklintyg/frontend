@@ -12,5 +12,5 @@ it('Should format time', () => {
 
 it('Should format datetime', () => {
   const { datetime } = useFormat()
-  expect(datetime('2023-09-06T11:00:00.000Z')).toBe('2023-09-06 11:00')
+  expect(datetime('2023-09-06T11:00:00.000Z')).toBe('2023-09-06, 11:00')
 })

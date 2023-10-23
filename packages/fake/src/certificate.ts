@@ -8,7 +8,7 @@ const certificates = [
     detailedDescription:
       'Arbetsförmedlingen behöver ett medicinskt utlåtande för en arbetssökande som har ett behov av fördjupat stöd.\n\n        Vi behöver ett utlåtande för att kunna:\n\n        • utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga\n        • bedöma om vi behöver göra anpassningar i program eller insatser\n        • erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.',
     issuerTypeId: 'AF00213',
-    recipient: 'AF',
+    recipient: 'Arbetsförmedlingen',
     deprecated: false,
   },
   {
@@ -18,7 +18,7 @@ const certificates = [
     detailedDescription:
       'Transportstyrelsens läkares anmälan TSTRK1009 ska användas för läkares anmälan om medicinsk olämplighet att inneha körkortstillstånd, körkort, traktorkort eller taxiförarlegitimation.',
     issuerTypeId: 'TSTRK1009',
-    recipient: 'TRANSP',
+    recipient: 'Transportstyrelsen',
     deprecated: false,
   },
   {
@@ -28,7 +28,7 @@ const certificates = [
     detailedDescription:
       'Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.',
     issuerTypeId: 'FK 7263',
-    recipient: 'FKASSA',
+    recipient: 'Försäkringskassan',
     deprecated: true,
   },
   {
@@ -39,7 +39,7 @@ const certificates = [
     detailedDescription:
       'Om en programdeltagare är sjuk i mer än 7 dagar behöver hen lämna läkarintyg till Arbetsförmedlingen för att styrka att hen är förhindrad att delta i programmet på grund av sjukdom.\n\n        Arbetsförmedlingen behöver få läkarintyget för att programdeltagaren ska kunna ha möjlighet att få ersättning under sjukfrånvaron.\n        Arbetsförmedlingen använder också informationen i läkarintyget för att utreda om det är möjligt att anpassa aktiviteter i programmet så att programdeltagaren kan delta trots sin sjukdom.',
     issuerTypeId: 'AF00251',
-    recipient: 'AF',
+    recipient: 'Arbetsförmedlingen',
     deprecated: false,
   },
   {
@@ -49,7 +49,7 @@ const certificates = [
     detailedDescription:
       'Vad är sjukpenning?\n        Sjukpenning är en ersättning för personer som arbetar i Sverige och har en nedsatt arbetsförmåga på grund av sjukdom. Beroende på hur mycket arbetsförmågan är nedsatt kan man få en fjärdedels, halv, tre fjärdedels eller hel sjukpenning.\n\n        Andra förmåner som detta läkarintyg används till\n        Om du stänger av patienten enligt smittskyddslagen ska du även använda detta intyg\n    ',
     issuerTypeId: 'FK 7804',
-    recipient: 'FKASSA',
+    recipient: 'Försäkringskassan',
     deprecated: false,
   },
   {
@@ -79,7 +79,7 @@ const certificates = [
     detailedDescription:
       'Vad är aktivitetsersättning vid förlängd skolgång?\nAktivitetsersättning vid förlängd skolgång är en ersättning för unga personer, som på grund av funktionsnedsättning måste förlänga sin skolgång för att slutföra grundskola eller gymnasium. Det är möjligt att ansöka om ersättning även om studietiden är kortare än ett år. Man kan få ersättningen från juli månad det år man fyller 19 år fram till och med månaden innan man fyller 30 år. Ersättningen betalas alltid ut som hel ersättning, även om studierna till följd av funktionsnedsättningen måste bedrivas på deltid.',
     issuerTypeId: 'FK 7802',
-    recipient: 'FKASSA',
+    recipient: 'Försäkringskassan',
     deprecated: false,
   },
   {
@@ -89,7 +89,7 @@ const certificates = [
     detailedDescription:
       'Vad är aktivitetsersättning vid nedsatt arbetsförmåga?\nAktivitetsersättning vid nedsatt arbetsförmåga är en tidsbegränsad ersättning för unga personer som har nedsatt arbetsförmåga på grund av sjukdom, skada eller funktionsnedsättning.',
     issuerTypeId: 'FK 7801',
-    recipient: 'FKASSA',
+    recipient: 'Försäkringskassan',
     deprecated: false,
   },
   {
@@ -99,7 +99,7 @@ const certificates = [
     detailedDescription:
       'Vad är sjukersättning?\nSjukersättning är en ersättning för personer som har en stadigvarande nedsatt arbetsförmåga på grund av sjukdom, skada eller funktionsnedsättning. Man kan få sjukersättning om Försäkringskassan bedömer att arbetsförmågan är nedsatt med minst en fjärdedel för all överskådlig framtid och att alla rehabiliteringsmöjligheter bedöms uttömda.',
     issuerTypeId: 'FK 7800',
-    recipient: 'FKASSA',
+    recipient: 'Försäkringskassan',
     deprecated: false,
   },
   {
@@ -109,7 +109,7 @@ const certificates = [
     detailedDescription:
       'Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning TSTRK1062. ',
     issuerTypeId: 'TSTRK1062',
-    recipient: 'TRANSP',
+    recipient: 'Transportstyrelsen',
     deprecated: false,
   },
   {
@@ -119,7 +119,7 @@ const certificates = [
     detailedDescription:
       'Transportstyrelsens läkarintyg diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.\n\t',
     issuerTypeId: 'TSTRK1031',
-    recipient: 'TRANSP',
+    recipient: 'Transportstyrelsen',
     deprecated: false,
   },
   {
@@ -129,7 +129,7 @@ const certificates = [
     detailedDescription:
       'Transportstyrelsens läkarintyg ska användas vid förlängd giltighet av högre behörighet från 45 år, ansökan om körkortstillstånd för grupp II och III och vid ansökan om taxiförarlegitimation. Transportstyrelsens läkarintyg kan även användas när Transportstyrelsen i annat fall begärt ett allmänt läkarintyg avseende lämplighet att inneha körkort.\n\nSpecialistintyg finns bl.a. för alkohol, läkemedel, synfunktion, Alkolås m.m. Se <LINK:transportstyrelsen>.',
     issuerTypeId: 'TSTRK1007',
-    recipient: 'TRANSP',
+    recipient: 'Transportstyrelsen',
     deprecated: false,
   },
 ]

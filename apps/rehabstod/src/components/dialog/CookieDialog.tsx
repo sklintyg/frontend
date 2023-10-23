@@ -1,6 +1,6 @@
+import { Dialog } from '@frontend/components'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
-import { Dialog } from './Dialog'
 
 export function CookieDialog() {
   const { data: links } = useGetLinksQuery()

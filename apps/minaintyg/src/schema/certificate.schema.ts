@@ -28,6 +28,12 @@ export const certificateUnitSchema = z.object({
   address: z.string(),
 })
 
+export const certificateRecipientSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  sent: z.string().nullable(),
+})
+
 export const certificateMetadataSchema = z.object({
   issuer: certificateIssuerSchema,
   unit: certificateUnitSchema,
@@ -35,6 +41,7 @@ export const certificateMetadataSchema = z.object({
   statuses: z.array(CertificateStatusEnum),
   id: z.string(),
   issued: z.string().datetime(),
+  recipient: certificateRecipientSchema.nullable(),
   type: certificateTypeSchema,
   summary: certificateSummarySchema,
 })
@@ -46,11 +53,12 @@ export const certificateSchema = z.object({
   content: z.array(certificateContentSchema),
 })
 
+export type Certificate = z.infer<typeof certificateSchema>
 export type CertificateContent = z.infer<typeof certificateContentSchema>
 export type CertificateEvent = z.infer<typeof certificateEventSchema>
 export type CertificateIssuer = z.infer<typeof certificateIssuerSchema>
 export type CertificateMetadata = z.infer<typeof certificateMetadataSchema>
+export type CertificateRecipient = z.infer<typeof certificateRecipientSchema>
 export type CertificateStatus = z.infer<typeof CertificateStatusEnum>
 export type CertificateSummary = z.infer<typeof certificateSummarySchema>
 export type CertificateUnit = z.infer<typeof certificateUnitSchema>
-export type Certificate = z.infer<typeof certificateSchema>
