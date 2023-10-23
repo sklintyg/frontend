@@ -1,5 +1,7 @@
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
+import { useRef } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
+import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
@@ -18,6 +20,8 @@ function getMatchAt(index: number, matches: MatchWithCrumb[]): { pathname: strin
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
   const prevMatch = getMatchAt(-2, matches)
+  const ref = useRef<HTMLSpanElement>(null)
+  useDocumentTitle(ref, [matches])
 
   return (
     <div className="mb-5">
@@ -28,7 +32,9 @@ export function Breadcrumbs() {
               <Link to={pathname}>{handle.crumb(params)}</Link>
             </IDSCrumb>
           ) : (
-            <span key={pathname}>{handle.crumb(params)}</span>
+            <span ref={ref} key={pathname}>
+              {handle.crumb(params)}
+            </span>
           )
         )}
         {prevMatch && (
