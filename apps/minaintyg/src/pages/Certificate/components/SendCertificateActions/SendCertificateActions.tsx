@@ -6,16 +6,15 @@ import { SendCertificateErrorAlert } from './SendCertificateErrorAlert'
 import { SendCertificateSuccessAlert } from './SendCertificateSuccessAlert'
 
 export function SendCertificateActions({ id, recipient }: { id: string; recipient: CertificateRecipient }) {
-  const [sendCertificate, { isLoading: isSendingCertificate, isError: isSendingCertificateError, isSuccess: isSendingCertificateSuccess }] =
-    useSendCertificateMutation()
+  const [sendCertificate, { isLoading, isError, isSuccess }] = useSendCertificateMutation()
   const navigate = useNavigate()
 
   return (
     <>
-      {isSendingCertificateError && <SendCertificateErrorAlert recipient={recipient} />}
-      {isSendingCertificateSuccess && recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
+      {isError && <SendCertificateErrorAlert recipient={recipient} />}
+      {isSuccess && recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
       <div className="flex flex-col gap-5 py-5 sm:flex-row">
-        {isSendingCertificateSuccess ? (
+        {isSuccess ? (
           <IDSButton role="button" sblock key="back" onClick={() => navigate('..')}>
             Tillbaka till intyget
           </IDSButton>
@@ -24,7 +23,7 @@ export function SendCertificateActions({ id, recipient }: { id: string; recipien
             <IDSButton role="button" sblock secondary onClick={() => navigate('..')}>
               Avbryt
             </IDSButton>
-            <IDSButton role="button" sblock onClick={() => !isSendingCertificate && sendCertificate({ id })}>
+            <IDSButton role="button" sblock onClick={() => !isLoading && sendCertificate({ id })}>
               Skicka
             </IDSButton>
           </>
