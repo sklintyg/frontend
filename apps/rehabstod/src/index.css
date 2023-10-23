@@ -9,6 +9,13 @@
   size: A4 landscape;
 }
 
+@media print {
+  html,
+  body.ids {
+    font-size: 11px;
+  }
+}
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;

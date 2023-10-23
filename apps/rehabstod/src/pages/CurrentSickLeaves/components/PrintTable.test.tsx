@@ -13,24 +13,43 @@ beforeEach(() => {
   store.dispatch(api.endpoints.getUser.initiate())
 })
 
-it.each(Object.values(SickLeaveColumn))('Should render and hide %s column', async (column) => {
-  renderWithRouter(
-    <Table print={<PrintTable sickLeaves={Array.from({ length: 1 }, fakerFromSchema(sickLeaveInfoSchema))} showPersonalInformation />} />
-  )
-  expect(await screen.findByText(`${column}:`, { exact: false })).toBeInTheDocument()
+it.each(Object.values(SickLeaveColumn).map((col) => (col === 'Personnummer' ? [col, 'Personnr'] : [col, col])))(
+  'Should render and hide %s column',
+  async (column, displayName) => {
+    renderWithRouter(
+      <Table
+        print={
+          <PrintTable
+            title=""
+            tableInfo=""
+            sickLeaves={Array.from({ length: 1 }, fakerFromSchema(sickLeaveInfoSchema))}
+            showPersonalInformation
+          />
+        }
+      />
+    )
+    expect(await screen.findByText(`${displayName}`, { exact: false })).toBeInTheDocument()
 
-  await act(() => store.dispatch(hideColumn(column)))
+    await act(() => store.dispatch(hideColumn(column)))
 
-  expect(screen.queryByText(`${column}:`, { exact: false })).not.toBeInTheDocument()
-})
+    expect(screen.queryByText(`${displayName}`, { exact: false })).not.toBeInTheDocument()
+  }
+)
 
 it('Should hide personal information', async () => {
   renderWithRouter(
     <Table
-      print={<PrintTable sickLeaves={Array.from({ length: 1 }, fakerFromSchema(sickLeaveInfoSchema))} showPersonalInformation={false} />}
+      print={
+        <PrintTable
+          title=""
+          tableInfo=""
+          sickLeaves={Array.from({ length: 1 }, fakerFromSchema(sickLeaveInfoSchema))}
+          showPersonalInformation={false}
+        />
+      }
     />
   )
   expect(await screen.findByText(/diagnos/i)).toBeInTheDocument()
-  expect(screen.queryByText(/personnummer/i)).not.toBeInTheDocument()
+  expect(screen.queryByText(/personnr/i)).not.toBeInTheDocument()
   expect(screen.queryByText(/namn/i)).not.toBeInTheDocument()
 })

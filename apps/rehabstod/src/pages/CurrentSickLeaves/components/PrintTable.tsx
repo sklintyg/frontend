@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../store/hooks'
@@ -8,8 +8,18 @@ import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.sli
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 
-export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves?: SickLeaveInfo[]; showPersonalInformation: boolean }) {
-  const { sortTableList } = useTableContext()
+export function PrintTable({
+  sickLeaves,
+  tableInfo,
+  showPersonalInformation,
+  title,
+}: {
+  sickLeaves?: SickLeaveInfo[]
+  tableInfo: ReactNode
+  showPersonalInformation: boolean
+  title: string
+}) {
+  const { sortTableList, sortColumn, ascending } = useTableContext()
   const columns = useAppSelector(allSickLeaveColumns)
   const [logPrintInteractionTrigger] = useLogPrintInteractionMutation()
 
@@ -30,9 +40,17 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
   const sortedList = sortTableList(sickLeaves, getSickLeavesColumnData)
 
   return (
-    <div>
+    <div className="hidden print:block">
+      <h3 className="ids-heading-4">{title}</h3>
+      <div className="mb-2 flex">
+        <div className="w-1/2 whitespace-nowrap">{tableInfo}</div>
+        <div className="w-1/2 whitespace-nowrap text-right">
+          Tabellen är sorterad enligt <span className="font-bold">{sortColumn}</span> i {ascending ? 'stigande' : 'fallande'} ordning
+        </div>
+      </div>
+
       {sortedList?.map((sickLeave) => (
-        <div key={sickLeave.patient.id} className="-mb-px columns-3 break-inside-avoid gap-2 border border-neutral-40 p-4">
+        <div key={sickLeave.patient.id} className="-mb-px columns-5 break-inside-avoid gap-2 border border-neutral-40 p-4">
           {columns
             .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Personnummer))
             .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Namn))
@@ -40,8 +58,8 @@ export function PrintTable({ sickLeaves, showPersonalInformation }: { sickLeaves
               ({ name, visible }) =>
                 visible && (
                   <div key={name} className="flex gap-1">
-                    <div className="w-5/12 font-bold">{name}:</div>
-                    <div key={name} className="w-7/12 overflow-hidden text-ellipsis whitespace-normal">
+                    <div className="w-5/12 font-bold">{name === 'Personnummer' ? 'Personnr' : name}</div>
+                    <div key={name} className="w-7/12 truncate">
                       <ResolvePrintTableCell column={name} sickLeave={sickLeave} sickLeaves={sortedList} />
                     </div>
                   </div>

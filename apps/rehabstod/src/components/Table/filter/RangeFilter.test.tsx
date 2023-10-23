@@ -33,7 +33,7 @@ describe('RangeFilter', () => {
 
   it('should show title', () => {
     renderComponent('1', '100')
-    expect(screen.getByText(TITLE)).toBeInTheDocument()
+    expect(screen.getByLabelText(TITLE)).toBeInTheDocument()
   })
 
   it('should show to filter', () => {

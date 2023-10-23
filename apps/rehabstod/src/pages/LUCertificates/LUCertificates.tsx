@@ -4,6 +4,7 @@ import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { EmptyTableAlert } from '../../components/Table/EmptyTableAlert'
 import { Table } from '../../components/Table/Table'
 import { TableInfo } from '../../components/Table/TableInfo/TableInfo'
+import { TableRowsInfoItem } from '../../components/Table/TableInfo/TableRowsInfoItem'
 import { TableInfoMessage } from '../../components/Table/TableInfoMessage'
 import { TableHeadingForUnit } from '../../components/Table/heading/TableHeadingForUnit'
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
@@ -60,9 +61,12 @@ export function LUCertificates() {
           <TableInfo
             communicationError={unansweredCommunicationError}
             modifyTable={<ModifyLUCertificatesTableColumns columns={filterTableColumn(filteredColumns, LUCertificatesColumn.Index)} />}
-            listLength={luCertificatesInfo?.certificates.length ?? 0}
-            totalNumber={luCertificatesInfo?.certificates.length ?? 0} // TODO: this should come from backend
-          />
+          >
+            <TableRowsInfoItem
+              listLength={luCertificatesInfo?.certificates.length ?? 0}
+              totalNumber={luCertificatesInfo?.certificates.length ?? 0} // TODO: this should come from backend
+            />
+          </TableInfo>
           <Table
             header={<TableHeader columns={visibleColumns.map((column) => getLUCertificatesColumnInfo(column.name))} />}
             sortColumn={tableState.sortColumn}
