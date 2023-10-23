@@ -79,7 +79,7 @@ exports[`Should render as expected 1`] = `
     Gustav Karlsson
   </div>
   <div
-    class="flex flex-col gap-5 py-5 lg:flex-row"
+    class="flex flex-col gap-5 py-5 sm:flex-row"
   >
     <ids-button
       role="button"

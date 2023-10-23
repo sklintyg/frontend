@@ -7,6 +7,6 @@ export function useFormat() {
   return {
     date,
     time,
-    datetime: (timestamp: string) => `${date(timestamp)}, ${time(timestamp)}`,
+    datetime: (timestamp: string) => `${date(timestamp)} ${time(timestamp)}`,
   }
 }

@@ -14,7 +14,7 @@ export function SendCertificateActions({ id, recipient }: { id: string; recipien
     <>
       {isSendingCertificateError && <SendCertificateErrorAlert recipient={recipient} />}
       {isSendingCertificateSuccess && recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
-      <div className="flex flex-col gap-5 py-5 lg:flex-row">
+      <div className="flex flex-col gap-5 py-5 sm:flex-row">
         {isSendingCertificateSuccess ? (
           <IDSButton role="button" sblock key="back" onClick={() => navigate('..')}>
             Tillbaka till intyget
