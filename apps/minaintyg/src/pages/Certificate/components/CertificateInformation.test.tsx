@@ -1,9 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateInformation } from './CertificateInformation'
 
-it('Should render as expected', () => {
+function renderComponent(showEvents = true) {
   const metadata = fakerFromSchema(certificateMetadataSchema)({
     issuer: {
       name: 'Mats Andersson',
@@ -33,6 +33,17 @@ it('Should render as expected', () => {
       value: 'Downs syndrom',
     },
   })
-  const { container } = render(<CertificateInformation {...metadata} />)
+  return render(<CertificateInformation {...metadata} showEvents={showEvents} />)
+}
+
+it('Should render as expected', () => {
+  const { container } = renderComponent()
+  expect(screen.getByText(/ersätter ett intyg som inte längre är aktuellt/i)).toBeInTheDocument()
+  expect(container).toMatchSnapshot()
+})
+
+it('Should be possible to hide event information', () => {
+  const { container } = renderComponent(false)
+  expect(screen.queryByText(/ersätter ett intyg som inte längre är aktuellt/i)).not.toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })

@@ -5,6 +5,7 @@ import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { useGetCertificateQuery } from '../../store/api'
+import { CertificateActions } from './components/CertificateActions'
 import { CertificateBody } from './components/CertificateBody/CertificateBody'
 import { CertificateFooter } from './components/CertificateFooter'
 import { CertificateInformation } from './components/CertificateInformation'
@@ -33,6 +34,7 @@ export function CertificatePage() {
         ))}
       </div>
       <CertificateInformation {...certificate.metadata} />
+      <CertificateActions recipient={certificate.metadata.recipient} />
       <PageDivider />
       <article className="ids-certificate">
         <CertificateBody content={certificate.content} />

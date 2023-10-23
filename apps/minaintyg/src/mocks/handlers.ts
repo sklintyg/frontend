@@ -7,6 +7,7 @@ import {
   CertificateStatusEnum,
   certificateEventSchema,
   certificateMetadataSchema,
+  certificateRecipientSchema,
   certificateSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
@@ -46,6 +47,10 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   const endDate = parseISO(timestamp)
   const certificate = fakeCertificate()
   const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? faker.datatype.uuid()
+  const recipient = fakerFromSchema(certificateRecipientSchema)({
+    sent: faker.date.recent().toISOString(),
+    name: certificate.recipient,
+  })
 
   return fakerFromSchema(certificateMetadataSchema)({
     id,
@@ -72,6 +77,7 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       { label: 'Gäller intygsperiod', value: `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}` },
       { label: 'Avser diagnos', value: 'Downs syndrom' },
     ]),
+    recipient,
   })
 }
 
@@ -108,7 +114,9 @@ export const handlers = [
     )
   ),
 
-  rest.get('/api/certificate/filters', (req, res, ctx) => {
+  rest.post('/api/certificate/:id/send', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+
+  rest.get('/api/filters', (req, res, ctx) => {
     const certificates = Array.from({ length: 5 }, () => fakeCertificateMetadata(req))
     return res(
       ctx.status(200),
