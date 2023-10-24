@@ -25,7 +25,10 @@ export const certificateIssuerSchema = z.object({
 export const certificateUnitSchema = z.object({
   id: z.string(),
   name: z.string(),
+  city: z.string(),
   address: z.string(),
+  phoneNumber: z.string(),
+  zipCode: z.string(),
 })
 
 export const certificateRecipientSchema = z.object({
@@ -37,6 +40,7 @@ export const certificateRecipientSchema = z.object({
 export const certificateMetadataSchema = z.object({
   issuer: certificateIssuerSchema,
   unit: certificateUnitSchema,
+  careUnit: certificateUnitSchema,
   events: z.array(certificateEventSchema),
   statuses: z.array(CertificateStatusEnum),
   id: z.string(),
