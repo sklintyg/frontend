@@ -11,7 +11,14 @@ import { Welcome } from './pages/Welcome/Welcome'
 export const router = createBrowserRouter(
   createRoutesFromChildren([
     <Route key="root" path="/" handle={{ crumb: () => 'Start' }} element={<Layout />}>
-      <Route index element={<Home />} />
+      <Route
+        index
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/intyg"
