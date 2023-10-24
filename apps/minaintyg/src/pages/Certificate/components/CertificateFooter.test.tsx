@@ -3,18 +3,6 @@ import { render, screen } from '@testing-library/react'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateFooter } from './CertificateFooter'
 
-const metadata = fakerFromSchema(certificateMetadataSchema)({
-  issuer: {
-    name: 'Arnold Johansson',
-  },
-  unit: {
-    name: 'Alfa-enheten, Alfamottagningen',
-    address: 'Gatuadressens väg 1',
-    phoneNumber: '08-123 456 78',
-    city: 'Storstaden',
-    zipCode: '111 11',
-  },
-})
 it('Should render issuerName', () => {
   const metadata = fakerFromSchema(certificateMetadataSchema)({
     issuer: {
