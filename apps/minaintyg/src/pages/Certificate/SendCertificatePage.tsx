@@ -2,6 +2,7 @@ import { IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateInformation } from './components/CertificateInformation'
 import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
@@ -22,8 +23,10 @@ export function SendCertificatePage() {
   return (
     <>
       <PageHeading heading="Skicka intyg ">
-        Från den här sidan kan du välja att skicka ditt intyg elektroniskt till en mottagare. Om du saknar din mottagare i listan beror det
-        på att mottagaren inte kan ta emot elektroniska intyg. Du kan då skriva ut och skicka det per post istället.
+        <PageHeadingDescription>
+          Från den här sidan kan du välja att skicka ditt intyg elektroniskt till en mottagare. Om du saknar din mottagare i listan beror
+          det på att mottagaren inte kan ta emot elektroniska intyg. Du kan då skriva ut och skicka det per post istället.
+        </PageHeadingDescription>
       </PageHeading>
       <div>
         <h2 className="ids-heading-2 mb-5">Intyg som ska skickas</h2>

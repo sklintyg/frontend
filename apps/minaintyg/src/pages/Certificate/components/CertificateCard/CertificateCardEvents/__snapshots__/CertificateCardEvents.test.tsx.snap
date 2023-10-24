@@ -43,35 +43,13 @@ exports[`Should render correctly 1`] = `
             2023-09-06 11:00
             :
           </span>
-          <span>
-            excepturi
-          </span>
-        </div>
-        <div
-          class="flex flex-col md:flex-row md:gap-1"
-        >
-          <span
-            class="whitespace-nowrap"
-          >
-            2023-09-05 11:00
-            :
-          </span>
-          <span>
-            pariatur
-          </span>
-        </div>
-        <div
-          class="flex flex-col md:flex-row md:gap-1"
-        >
-          <span
-            class="whitespace-nowrap"
-          >
-            2023-09-04 11:00
-            :
-          </span>
-          <span>
-            provident
-          </span>
+          <ids-link>
+            <a
+              href="/intyg/excepturi"
+            >
+              excepturi
+            </a>
+          </ids-link>
         </div>
       </div>
     </details>
@@ -94,35 +72,13 @@ exports[`Should render correctly 1`] = `
           2023-09-06 11:00
           :
         </span>
-        <span>
-          excepturi
-        </span>
-      </div>
-      <div
-        class="flex flex-col md:flex-row md:gap-1"
-      >
-        <span
-          class="whitespace-nowrap"
-        >
-          2023-09-05 11:00
-          :
-        </span>
-        <span>
-          pariatur
-        </span>
-      </div>
-      <div
-        class="flex flex-col md:flex-row md:gap-1"
-      >
-        <span
-          class="whitespace-nowrap"
-        >
-          2023-09-04 11:00
-          :
-        </span>
-        <span>
-          provident
-        </span>
+        <ids-link>
+          <a
+            href="/intyg/excepturi"
+          >
+            excepturi
+          </a>
+        </ids-link>
       </div>
     </div>
   </div>
