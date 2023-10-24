@@ -13,6 +13,7 @@ export function CertificateActions({ recipient }: { recipient?: CertificateRecip
       {recipient && (
         <>
           <IDSButton
+            sblock
             role="button"
             onClick={() => {
               if (recipient?.sent) {
