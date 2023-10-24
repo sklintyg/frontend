@@ -13,7 +13,7 @@ exports[`Should render correctly 1`] = `
       </p>
       <p>
         Adamn
-        ,
+        , 
         Alfa-enheten
       </p>
     </div>
