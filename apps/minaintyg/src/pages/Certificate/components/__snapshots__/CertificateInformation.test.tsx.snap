@@ -113,9 +113,13 @@ exports[`Should render as expected 1`] = `
               2023-09-26 03:28
               :
             </span>
-            <span>
-              Ersätter ett intyg som inte längre är aktuellt
-            </span>
+            <ids-link>
+              <a
+                href="/intyg/commodi"
+              >
+                Ersätter ett intyg som inte längre är aktuellt
+              </a>
+            </ids-link>
           </div>
         </div>
       </div>

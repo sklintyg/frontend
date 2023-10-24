@@ -2,6 +2,7 @@ import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
 import { useGetCertificatesFilterQuery, useGetCertificatesQuery } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 import { CertificateFilterState } from '../../store/slice/certificateFilter.slice'
@@ -21,9 +22,11 @@ export function CertificateListPage() {
   return (
     <>
       <PageHeading heading="Intyg">
-        Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka
-        intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
-        arbetsgivare.
+        <PageHeadingDescription>
+          Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka
+          intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
+          arbetsgivare.
+        </PageHeadingDescription>
       </PageHeading>
       <CertificateListFilter listed={list?.content.length ?? 0} onSubmit={() => setSubmitFilters(filters)} />
       <CertificateListOrder setOrder={setOrder} order={order} />
