@@ -1,7 +1,16 @@
 import { PageDivider } from '../../../components/PageDivider/PageDivider'
-import { CertificateMetadata } from '../../../schema/certificate.schema'
+import { CertificateMetadata, CertificateUnit } from '../../../schema/certificate.schema'
 
-export function CertificateFooter({ issuer, unit }: CertificateMetadata) {
+export function CertificateFooter({ issuer, unit, careUnit }: CertificateMetadata) {
+  const buildUnitAddress = (unit: CertificateUnit) => {
+    return `${[unit.address, unit.zipCode, unit.city].join(', ')}`
+  }
+  const buildUnitName = (unit: CertificateUnit, careUnit: CertificateUnit) => {
+    if (unit.name === careUnit.name) {
+      return unit.name
+    }
+    return `${[unit.name, careUnit.name].join(', ')}`
+  }
   return (
     <footer>
       <PageDivider />
@@ -9,11 +18,11 @@ export function CertificateFooter({ issuer, unit }: CertificateMetadata) {
       <address className="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]">
         <div>
           <strong>{issuer.name}</strong>
-          <p>{issuer.phoneNumber}</p>
+          <p>{unit.phoneNumber}</p>
         </div>
         <div>
-          <strong>{unit.name}</strong>
-          <p>{unit.address}</p>
+          <strong>{buildUnitName(unit, careUnit)}</strong>
+          <p>{buildUnitAddress(unit)}</p>
         </div>
       </address>
       <PageDivider />
