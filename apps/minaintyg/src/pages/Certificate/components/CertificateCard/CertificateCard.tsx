@@ -13,7 +13,7 @@ export function CertificateCard({ id, type, summary, issuer, issued, statuses, e
     <IDSCard className="[&:not(:last-child)]:mb-5">
       <CertificateCardHeading title={type.name} id={id} statuses={statuses} />
       <CertificateCardSummary summary={summary} timestamp={issued} />
-      <CertificateCardInfo issuer={issuer} unit={unit} id={id} />
+      <CertificateCardInfo issuer={issuer} unit={unit} />
 
       <div className="flex flex-col justify-between gap-2.5 md:flex-row">
         <CertificateCardEvents events={events} />

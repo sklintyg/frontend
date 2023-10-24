@@ -3,7 +3,7 @@
 exports[`Should render correctly 1`] = `
 <div>
   <div
-    class="mb-2.5 flex flex-col justify-between gap-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0"
+    class="mb-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0"
   >
     <div>
       <p
@@ -13,20 +13,8 @@ exports[`Should render correctly 1`] = `
       </p>
       <p>
         Adamn
-        , 
+        ,
         Alfa-enheten
-      </p>
-    </div>
-    <div
-      class="hidden md:block"
-    >
-      <p
-        class="font-bold after:content-[':'] md:after:content-['']"
-      >
-        Intygs-ID
-      </p>
-      <p>
-        1234
       </p>
     </div>
   </div>
