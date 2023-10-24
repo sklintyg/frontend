@@ -4,7 +4,7 @@ export const CertificateStatusEnum = z.enum(['NEW', 'REPLACED', 'SENT', 'NOT_SEN
 
 export const certificateEventSchema = z.object({
   timestamp: z.string().datetime(),
-  certificateId: z.string(),
+  certificateId: z.string().nullable(),
   description: z.string(),
 })
 

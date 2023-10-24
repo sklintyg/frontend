@@ -5,7 +5,7 @@ export function getStatusBadgeLabel(status: CertificateStatus) {
     case CertificateStatusEnum.enum.NEW:
       return 'Nytt'
     case CertificateStatusEnum.enum.REPLACED:
-      return 'Ersätter intyg'
+      return 'Ersatt'
     case CertificateStatusEnum.enum.SENT:
       return 'Skickat'
     case CertificateStatusEnum.enum.NOT_SENT:

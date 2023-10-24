@@ -11,6 +11,8 @@ export function getBadgeType(status: CertificateStatus): ComponentProps<typeof I
       return 'success'
     case CertificateStatusEnum.enum.NOT_SENT:
       return 'error'
+    case CertificateStatusEnum.enum.REPLACED:
+      return 'neutral'
     default:
       return 'secondary'
   }
