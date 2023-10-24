@@ -8,9 +8,7 @@ import { TableHeadingForUnit } from '../../components/Table/heading/TableHeading
 import { TableHeader } from '../../components/Table/tableHeader/TableHeader'
 import { TableDescriptionDialog } from '../../components/dialog/TableDescriptionDialog'
 import { TableContentAlert } from '../../components/error/ErrorAlert/TableContentAlert'
-import { UserUrval } from '../../schemas'
 import { useGetUserQuery } from '../../store/api'
-import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useLazyGetSickLeavesQuery } from '../../store/sickLeaveApi'
 import { SickLeaveColumn } from '../../store/slices/sickLeaveTableColumns.slice'
 import { CurrentSickLeavesFilters } from './components/CurrentSickLeavesFilters'
@@ -24,14 +22,12 @@ export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeavesInfo, error }] = useLazyGetSickLeavesQuery()
-  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const { encryptedPatientId } = useParams()
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
     sortColumn: SickLeaveColumn.Startdatum,
     ascending: false,
   })
   const isLoading = userLoading || currentSickLeaveLoading
-  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
   const sickLeaves = currentSickLeavesInfo ? currentSickLeavesInfo.content : undefined
   const columns = useSickLeavesTableColumn()
 
@@ -76,7 +72,6 @@ export function CurrentSickLeaves() {
               <PrintTable
                 title="Pågående sjukfall på enheten"
                 sickLeaves={sickLeaves}
-                showPersonalInformation={showPersonalInformation}
                 tableInfo={
                   <CurrentSickLeavesTableInfo
                     daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
@@ -90,13 +85,7 @@ export function CurrentSickLeaves() {
             ascending={tableState.ascending}
           >
             <tbody className="whitespace-normal break-words">
-              <TableBodyRows
-                isDoctor={isDoctor}
-                isLoading={isLoading}
-                showPersonalInformation={showPersonalInformation}
-                sickLeaves={sickLeaves}
-                user={user}
-              />
+              <TableBodyRows isLoading={isLoading} sickLeaves={sickLeaves} />
             </tbody>
           </Table>
           <TableDescriptionDialog columns={columns} />
