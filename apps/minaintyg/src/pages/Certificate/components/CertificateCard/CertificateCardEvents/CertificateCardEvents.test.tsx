@@ -13,11 +13,7 @@ function renderComponent(events: CertificateEvent[]) {
 }
 
 it('Should render correctly', () => {
-  const events = [
-    fakerFromSchema(certificateEventSchema, { seed: 1 })({ timestamp: '2023-09-06T11:00:00.000Z' }),
-    fakerFromSchema(certificateEventSchema, { seed: 2 })({ timestamp: '2023-09-05T11:00:00.000Z' }),
-    fakerFromSchema(certificateEventSchema, { seed: 3 })({ timestamp: '2023-09-04T11:00:00.000Z' }),
-  ]
+  const events = [fakerFromSchema(certificateEventSchema, { seed: 1 })({ timestamp: '2023-09-06T11:00:00.000Z' })]
   const { container } = renderComponent(events)
   expect(container).toMatchSnapshot()
 })

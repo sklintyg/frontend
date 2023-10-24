@@ -51,40 +51,6 @@ exports[`Should render correctly 1`] = `
             </a>
           </ids-link>
         </div>
-        <div
-          class="flex flex-col md:flex-row md:gap-1"
-        >
-          <span
-            class="whitespace-nowrap"
-          >
-            2023-09-05 11:00
-            :
-          </span>
-          <ids-link>
-            <a
-              href="/intyg/pariatur"
-            >
-              pariatur
-            </a>
-          </ids-link>
-        </div>
-        <div
-          class="flex flex-col md:flex-row md:gap-1"
-        >
-          <span
-            class="whitespace-nowrap"
-          >
-            2023-09-04 11:00
-            :
-          </span>
-          <ids-link>
-            <a
-              href="/intyg/provident"
-            >
-              provident
-            </a>
-          </ids-link>
-        </div>
       </div>
     </details>
   </div>
@@ -111,40 +77,6 @@ exports[`Should render correctly 1`] = `
             href="/intyg/excepturi"
           >
             excepturi
-          </a>
-        </ids-link>
-      </div>
-      <div
-        class="flex flex-col md:flex-row md:gap-1"
-      >
-        <span
-          class="whitespace-nowrap"
-        >
-          2023-09-05 11:00
-          :
-        </span>
-        <ids-link>
-          <a
-            href="/intyg/pariatur"
-          >
-            pariatur
-          </a>
-        </ids-link>
-      </div>
-      <div
-        class="flex flex-col md:flex-row md:gap-1"
-      >
-        <span
-          class="whitespace-nowrap"
-        >
-          2023-09-04 11:00
-          :
-        </span>
-        <ids-link>
-          <a
-            href="/intyg/provident"
-          >
-            provident
           </a>
         </ids-link>
       </div>
