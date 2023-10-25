@@ -4,6 +4,7 @@ import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
 import { server } from '../../../mocks/server'
+import { UserUrval } from '../../../schemas'
 import { sickLeaveFilterOptions, sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
 import { SickLeaveColumn, hideColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
@@ -13,12 +14,17 @@ import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
 
 beforeEach(() => {
-  store.dispatch(api.endpoints.getUser.initiate())
+  server.use(
+    rest.get('/api/user', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' }, urval: 'ALL' })))
+    )
+  )
   server.use(
     rest.get('/api/sickleaves/filters', (_, res, ctx) =>
       res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveFilterOptions)({ srsActivated: true })))
     )
   )
+  store.dispatch(api.endpoints.getUser.initiate())
 })
 
 describe('Change focus', () => {
@@ -26,13 +32,7 @@ describe('Change focus', () => {
     return renderWithRouter(
       <Table>
         <tbody>
-          <TableBodyRows
-            isLoading={false}
-            showPersonalInformation
-            sickLeaves={Array.from({ length: 2 }, fakerFromSchema(sickLeaveInfoSchema))}
-            user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-            isDoctor={false}
-          />
+          <TableBodyRows isLoading={false} sickLeaves={Array.from({ length: 2 }, fakerFromSchema(sickLeaveInfoSchema))} />
         </tbody>
       </Table>
     )
@@ -74,13 +74,7 @@ describe('Navigate', () => {
           element={
             <Table>
               <tbody>
-                <TableBodyRows
-                  isLoading={false}
-                  showPersonalInformation
-                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]}
-                  user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-                  isDoctor={false}
-                />
+                <TableBodyRows isLoading={false} sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]} />
               </tbody>
             </Table>
           }
@@ -125,13 +119,7 @@ it('Should render all sickleave columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows
-          sickLeaves={sickLeaves}
-          isLoading={false}
-          showPersonalInformation
-          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-          isDoctor={false}
-        />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
@@ -141,17 +129,16 @@ it('Should render all sickleave columns', async () => {
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
+  server.use(
+    rest.get('/api/user', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' }, urval: UserUrval.ISSUED_BY_ME })))
+    )
+  )
   const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows
-          sickLeaves={sickLeaves}
-          isLoading={false}
-          showPersonalInformation
-          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-          isDoctor
-        />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
@@ -176,13 +163,7 @@ it('Should render risk column if feature is activated', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows
-          sickLeaves={sickLeaves}
-          isLoading={false}
-          showPersonalInformation
-          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-          isDoctor={false}
-        />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
@@ -196,13 +177,7 @@ it('Should be possible to hide columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows
-          sickLeaves={sickLeaves}
-          isLoading={false}
-          showPersonalInformation
-          user={fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' } })}
-          isDoctor={false}
-        />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
