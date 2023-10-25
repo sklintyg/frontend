@@ -65,3 +65,42 @@ it('Should render unit address', () => {
   render(<CertificateFooter {...metadata} />)
   expect(screen.getByText(`Gatuadressens väg 1, 111 11, Storstaden`)).toBeInTheDocument()
 })
+
+it('Should render partial unit address without zipCode', () => {
+  const metadata = fakerFromSchema(certificateMetadataSchema)({
+    unit: {
+      address: 'Gatuadressens väg 1',
+      city: 'Storstaden',
+      zipCode: '',
+    },
+  })
+
+  render(<CertificateFooter {...metadata} />)
+  expect(screen.getByText(`Gatuadressens väg 1, Storstaden`)).toBeInTheDocument()
+})
+
+it('Should render partial unit address without address', () => {
+  const metadata = fakerFromSchema(certificateMetadataSchema)({
+    unit: {
+      address: '',
+      city: 'Storstaden',
+      zipCode: '111 11',
+    },
+  })
+
+  render(<CertificateFooter {...metadata} />)
+  expect(screen.getByText(`111 11, Storstaden`)).toBeInTheDocument()
+})
+
+it('Should render partial unit address without city', () => {
+  const metadata = fakerFromSchema(certificateMetadataSchema)({
+    unit: {
+      address: 'Gatuadressens väg 1',
+      city: '',
+      zipCode: '111 11',
+    },
+  })
+
+  render(<CertificateFooter {...metadata} />)
+  expect(screen.getByText(`Gatuadressens väg 1, 111 11`)).toBeInTheDocument()
+})
