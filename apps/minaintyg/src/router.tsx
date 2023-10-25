@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromChildren, Navigate, Outlet, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromChildren, Navigate, Outlet, Route, ScrollRestoration } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
@@ -16,6 +16,7 @@ export const router = createBrowserRouter(
       element={
         <ProtectedRoute>
           <Layout />
+          <ScrollRestoration />
         </ProtectedRoute>
       }
     >
