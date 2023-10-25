@@ -1,27 +1,17 @@
 import { ReactNode, useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
-import { useAppSelector } from '../../../store/hooks'
 import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
-import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
-import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { useSickLeavesTableColumn } from '../hooks/useSickLeavesTableColumns'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 
-export function PrintTable({
-  sickLeaves,
-  tableInfo,
-  showPersonalInformation,
-  title,
-}: {
-  sickLeaves?: SickLeaveInfo[]
-  tableInfo: ReactNode
-  showPersonalInformation: boolean
-  title: string
-}) {
+const COLUMN_LENGTH = 5
+
+export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: SickLeaveInfo[]; tableInfo: ReactNode; title: string }) {
   const { sortTableList, sortColumn, ascending } = useTableContext()
-  const columns = useAppSelector(allSickLeaveColumns)
   const [logPrintInteractionTrigger] = useLogPrintInteractionMutation()
+  const columns = useSickLeavesTableColumn()
 
   useEffect(() => {
     const logPrintInteraction = () => {
@@ -50,21 +40,21 @@ export function PrintTable({
       </div>
 
       {sortedList?.map((sickLeave) => (
-        <div key={sickLeave.patient.id} className="-mb-px columns-5 break-inside-avoid gap-2 border border-neutral-40 p-4">
-          {columns
-            .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Personnummer))
-            .filter(({ name }) => !(!showPersonalInformation && name === SickLeaveColumn.Namn))
-            .map(
-              ({ name, visible }) =>
-                visible && (
-                  <div key={name} className="flex gap-1">
-                    <div className="w-5/12 font-bold">{name === 'Personnummer' ? 'Personnr' : name}</div>
-                    <div key={name} className="w-7/12 truncate">
+        <div key={sickLeave.patient.id} className="-mb-px flex break-inside-avoid gap-2 border border-neutral-40 p-4">
+          {Array.from({ length: COLUMN_LENGTH }, (_, index) => ({ id: index })).map(({ id }) => (
+            <div key={id} className="flex-1">
+              {columns
+                .filter((_, index) => index % COLUMN_LENGTH === id)
+                .map(({ name }) => (
+                  <div key={name} className="flex gap-2">
+                    <strong>{name === 'Personnummer' ? 'Personnr' : name} </strong>
+                    <div key={name} className="w-56 flex-auto">
                       <ResolvePrintTableCell column={name} sickLeave={sickLeave} sickLeaves={sortedList} />
                     </div>
                   </div>
-                )
-            )}
+                ))}
+            </div>
+          ))}
         </div>
       ))}
     </div>

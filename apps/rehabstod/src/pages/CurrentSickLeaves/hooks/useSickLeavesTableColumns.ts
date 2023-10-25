@@ -1,10 +1,11 @@
 import { Column } from '../../../components/Table/types/Column'
-import { UserUrval } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { allSickLeaveColumns } from '../../../store/slices/sickLeaveTableColumns.selector'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
+import { sickLeaveColumnFilter } from '../utils/sickLeaveColumnFilter'
 
 const getSickLeaveColumnWidth = (column: string): number | undefined => {
   switch (column) {
@@ -75,18 +76,15 @@ export function useSickLeavesTableColumn(): Column[] {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { data: user } = useGetUserQuery()
 
-  const valdVardenhet = user?.valdVardenhet?.namn
-  const isDoctor = user?.urval === UserUrval.ISSUED_BY_ME
+  if (!user || !populatedFilters) {
+    return []
+  }
 
   return columns
-    .filter(({ visible }) => visible)
-    .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Personnummer))
-    .filter(({ name }) => !(showPersonalInformation === false && name === SickLeaveColumn.Namn))
-    .filter(({ name }) => !(isDoctor && name === SickLeaveColumn.Läkare))
-    .filter(({ name }) => !(!populatedFilters?.srsActivated && name === SickLeaveColumn.Risk))
+    .filter(sickLeaveColumnFilter(showPersonalInformation, isUserDoctor(user), populatedFilters.srsActivated))
     .map(({ name }) => ({
       name,
-      description: getSickLeaveColumnDescription(name, valdVardenhet),
+      description: getSickLeaveColumnDescription(name, user?.valdVardenhet?.namn),
       width: getSickLeaveColumnWidth(name),
       sortable: name !== SickLeaveColumn.Index,
     }))
