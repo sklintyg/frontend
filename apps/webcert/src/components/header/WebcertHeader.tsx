@@ -40,7 +40,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const loggedInCareProvider = useSelector(getLoggedInCareProvider)
   const careProviders = user && user?.careProviders
   const unitName = user && user.loggedInUnit.unitName
-  const resourceLink = useSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
+  const displayWarningNormalOriginBanner = useSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -74,9 +74,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       return careProviders?.filter((careProvider) => loggedInCareProvider?.unitId === careProvider.id)[0].missingSubscription
     }
   }
-  const displayWarningNormalOriginBanner = () => {
-    return resourceLink
-  }
 
   const subscriptionWarning: Banner = {
     message:
@@ -90,12 +87,10 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       ' har integrerat sitt journalsystem med Webcert. Om du skapar intyg i fristående Webcert kommer intygen inte synkroniseras med journalsystemet.',
     priority: 'MEDEL',
   }
-  const getBannersToDisplay = (): React.ReactNode[] => {
-    return [
-      missingSubscription() && <SystemBanner key="system-banner-1" banner={subscriptionWarning} />,
-      displayWarningNormalOriginBanner() && <SystemBanner key="system-banner-2" banner={warningNormalOrigin} />,
-    ].filter(Boolean)
-  }
+  const banners: React.ReactNode[] = [
+    missingSubscription() && <SystemBanner key="system-banner-1" banner={subscriptionWarning} />,
+    displayWarningNormalOriginBanner && <SystemBanner key="system-banner-2" banner={warningNormalOrigin} />,
+  ].filter(Boolean)
 
   return (
     <AppHeader
@@ -106,7 +101,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       banners={[<SystemBanners key="system-banners" />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}
-      subMenuBanners={getBannersToDisplay()}
+      subMenuBanners={banners}
     />
   )
 }
