@@ -1,11 +1,11 @@
-import { rest } from 'msw'
 import { screen, waitFor } from '@testing-library/react'
+import { rest } from 'msw'
 import { vi } from 'vitest'
+import { server, waitForRequest } from '../../mocks/server'
+import { api } from '../../store/api'
+import { store } from '../../store/store'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { Home } from './Home'
-import { server, waitForRequest } from '../../mocks/server'
-import { store } from '../../store/store'
-import { api } from '../../store/api'
 
 it('Should render without error', () => {
   expect(() => renderWithRouter(<Home />)).not.toThrow()

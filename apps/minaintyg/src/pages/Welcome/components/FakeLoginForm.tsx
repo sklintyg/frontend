@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
 import { tryCatch } from '@frontend/utils'
 import { useEffect, useState } from 'react'
 import { TestabilityPerson } from '../../../schema/testability/person.schema'
@@ -44,17 +44,22 @@ export function FakeLoginForm({ persons }: { persons: TestabilityPerson[] }) {
           />
         </div>
       </div>
-      <IDSButton
-        type="submit"
-        disabled={!profile}
-        onClick={() => {
-          if (profile) {
-            login({ personId: profile })
-          }
-        }}
-      >
-        Logga in
-      </IDSButton>
+      <IDSButtonGroup>
+        <IDSButton secondary onClick={() => window.open('/saml2/authenticate/eleg', '_self')}>
+          SAML Login
+        </IDSButton>
+        <IDSButton
+          type="submit"
+          disabled={!profile}
+          onClick={() => {
+            if (profile) {
+              login({ personId: profile })
+            }
+          }}
+        >
+          Logga in
+        </IDSButton>
+      </IDSButtonGroup>
     </div>
   )
 }

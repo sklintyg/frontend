@@ -11,7 +11,7 @@ const testabilityApi = api.injectEndpoints({
       }),
       async onQueryStarted(_, { queryFulfilled }) {
         await queryFulfilled
-        window.location.assign('/')
+        window.location.assign('/intyg')
       },
     }),
     fakeLogout: builder.mutation<void, void>({
