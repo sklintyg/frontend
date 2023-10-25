@@ -104,4 +104,3 @@ it('Should render partial unit address without city', () => {
   render(<CertificateFooter {...metadata} />)
   expect(screen.getByText(`Gatuadressens väg 1, 111 11`)).toBeInTheDocument()
 })
-
