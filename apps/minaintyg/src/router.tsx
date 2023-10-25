@@ -5,7 +5,6 @@ import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
 import { CertificateListPage } from './pages/Certificate/CertificateListPage'
 import { CertificatePage } from './pages/Certificate/CertificatePage'
 import { SendCertificatePage } from './pages/Certificate/SendCertificatePage'
-import { Home } from './pages/Home/Home'
 import { Welcome } from './pages/Welcome/Welcome'
 
 export const router = createBrowserRouter(
@@ -20,7 +19,6 @@ export const router = createBrowserRouter(
         </ProtectedRoute>
       }
     >
-      <Route index element={<Home />} />
       <Route path="/intyg" handle={{ crumb: () => 'Intyg' }} element={<Outlet />}>
         <Route index element={<CertificateListPage />} />
         <Route
