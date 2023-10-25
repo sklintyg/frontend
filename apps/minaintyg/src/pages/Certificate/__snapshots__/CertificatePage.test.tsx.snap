@@ -41,18 +41,18 @@ exports[`Should have article content 1`] = `
     >
       <div>
         <strong>
-          Caroline Dahlberg
+          Ajla Doktor
         </strong>
         <p>
-          1235-303268
+          123 112 1212
         </p>
       </div>
       <div>
         <strong>
-          Sofia Björk
+          Stockholm
         </strong>
         <p>
-          repellat
+          Vägen 12, 123 12, Söder
         </p>
       </div>
     </address>

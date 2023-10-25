@@ -35,7 +35,7 @@ it('Should have correct options', () => {
 
 it('Should update on selection', async () => {
   renderComponent()
-  await userEvent.selectOptions(screen.getByRole('combobox'), screen.getByRole('option', { name: 'Ersätter intyg' }))
-  expect((screen.getByRole('option', { name: 'Ersätter intyg' }) as HTMLOptionElement).selected).toBe(true)
+  await userEvent.selectOptions(screen.getByRole('combobox'), screen.getByRole('option', { name: 'Ersatt' }))
+  expect((screen.getByRole('option', { name: 'Ersatt' }) as HTMLOptionElement).selected).toBe(true)
   expect(store.getState().certificateFilter.statuses).toBe('REPLACED')
 })

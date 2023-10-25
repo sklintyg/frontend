@@ -4,11 +4,13 @@ import { useParams } from 'react-router-dom'
 import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateActions } from './components/CertificateActions'
 import { CertificateBody } from './components/CertificateBody/CertificateBody'
 import { CertificateFooter } from './components/CertificateFooter'
 import { CertificateInformation } from './components/CertificateInformation'
+import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 
 export function CertificatePage() {
@@ -26,7 +28,12 @@ export function CertificatePage() {
   return (
     <>
       <PageHeading heading={certificate.metadata.type.name}>
-        {certificate.metadata.type.description && <DisplayHTML html={certificate.metadata.type.description} />}
+        {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
+        {certificate.metadata.type.description && (
+          <PageHeadingDescription>
+            <DisplayHTML html={certificate.metadata.type.description} />
+          </PageHeadingDescription>
+        )}
       </PageHeading>
       <div className="mb-4 flex gap-1">
         {certificate.metadata.statuses.map((status) => (

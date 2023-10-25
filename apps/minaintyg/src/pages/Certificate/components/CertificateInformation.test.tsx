@@ -1,5 +1,6 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateInformation } from './CertificateInformation'
 
@@ -33,7 +34,13 @@ function renderComponent(showEvents = true) {
       value: 'Downs syndrom',
     },
   })
-  return render(<CertificateInformation {...metadata} showEvents={showEvents} />)
+  return render(
+    <RouterProvider
+      router={createMemoryRouter(
+        createRoutesFromElements(<Route path="/" element={<CertificateInformation {...metadata} showEvents={showEvents} />} />)
+      )}
+    />
+  )
 }
 
 it('Should render as expected', () => {
