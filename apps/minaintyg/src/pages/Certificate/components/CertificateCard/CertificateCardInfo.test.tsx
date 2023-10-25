@@ -6,7 +6,6 @@ import { CertificateCardInfo } from './CertificateCardInfo'
 it('Should render correctly', () => {
   const { container } = render(
     <CertificateCardInfo
-      id="1234"
       issuer={fakerFromSchema(certificateIssuerSchema)({ name: 'Adamn' })}
       unit={fakerFromSchema(certificateUnitSchema)({ name: 'Alfa-enheten' })}
     />
