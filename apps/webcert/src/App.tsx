@@ -7,7 +7,6 @@ import { Route, Switch } from 'react-router-dom'
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import ErrorComponent from './components/error/ErrorComponent'
 import CareProviderModal from './feature/careProvider/CareProviderModal'
-import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
 import CertificateDraftsPage from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
@@ -58,7 +57,6 @@ function App(): JSX.Element {
         <ErrorComponent />
         <CareProviderModal />
         <SubscriptionWarningModal />
-        <WarningNormalOriginModal />
         <Switch>
           <Route
             path="/"
