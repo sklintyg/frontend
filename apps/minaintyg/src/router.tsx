@@ -10,25 +10,18 @@ import { Welcome } from './pages/Welcome/Welcome'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
-    <Route key="root" path="/" handle={{ crumb: () => 'Start' }} element={<Layout />}>
-      <Route
-        index
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/intyg"
-        handle={{ crumb: () => 'Intyg' }}
-        element={
-          <ProtectedRoute>
-            <Outlet />
-          </ProtectedRoute>
-        }
-      >
+    <Route
+      key="root"
+      path="/"
+      handle={{ crumb: () => 'Start' }}
+      element={
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      }
+    >
+      <Route index element={<Home />} />
+      <Route path="/intyg" handle={{ crumb: () => 'Intyg' }} element={<Outlet />}>
         <Route index element={<CertificateListPage />} />
         <Route
           path=":id"
