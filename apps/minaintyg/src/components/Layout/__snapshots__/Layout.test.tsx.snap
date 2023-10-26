@@ -112,14 +112,15 @@ exports[`Should render as expected 1`] = `
         </ids-header-nav-item>
         <ids-header-mobile-item>
           <a
-            href="/installningar"
+            href="https://e-tjanster.1177.se/mvk/settings.xhtml"
           >
             Inställningar
           </a>
         </ids-header-mobile-item>
         <ids-header-mobile-item>
           <a
-            href="#"
+            href="/logout"
+            slot="avatar-right"
           >
             Logga ut
           </a>

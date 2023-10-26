@@ -2,31 +2,30 @@
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../../hooks/useLogout'
-import navigation from './1177-navbar-services.json'
+import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
+import navigation from './data/1177-navbar-services.json'
+import settingsUrl from './data/settings-url.json'
 
 export function LayoutHeaderNavigation() {
-  const logout = useLogout()
-
   return (
     <IDSHeaderNav>
       {navigation.menu.items.map(({ id, name, url }) => (
-        <HeaderNavItem key={id} to={url.prod} title={name} />
+        <HeaderNavItem key={id} to={resolveNavigationUrl(url)} title={name} />
       ))}
 
       <IDSHeaderMobileItem>
-        <Link to="/installningar">Inställningar</Link>
+        <Link to={resolveNavigationUrl(settingsUrl)}>Inställningar</Link>
       </IDSHeaderMobileItem>
       <IDSHeaderMobileItem>
-        <a href="#" onClick={logout}>
+        <Link to="/logout" slot="avatar-right">
           Logga ut
-        </a>
+        </Link>
       </IDSHeaderMobileItem>
 
       <IDSHeaderMobileMenu type="1177">
         Meny
         {navigation.menu.items.map(({ id, name, url }) => (
-          <MobileMenuItem key={id} to={url.prod} title={name} />
+          <MobileMenuItem key={id} to={resolveNavigationUrl(url)} title={name} />
         ))}
       </IDSHeaderMobileMenu>
     </IDSHeaderNav>

@@ -54,6 +54,20 @@ Read more about environment files over at [Vite](https://vitejs.dev/guide/env-an
 
 A shared navigation JSON is fetched from 1177 and stored in this project manually as `1177-navbar-services.json`. More information can be found at [1177.se](https://www.1177.se/Vastmanland/riktlinjer-och-material/om-varumarket/Varumarkesmanual/tillampningar/digitala-tjanster/gemensam-menystruktur-for-1177/).
 
+### Change mode
+
+Links are resolved differently depending on build mode. `production` is the default mode.
+
+| mode        | link   |
+| ----------- | ------ |
+| production  | `prod` |
+| development | `sys`  |
+| staging     | `acc`  |
+
+```bash
+pnpm --filter @frontend/minaintyg build --mode staging
+```
+
 ## Resources
 
 - [React](https://react.dev/) ─ Components
