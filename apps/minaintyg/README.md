@@ -58,11 +58,13 @@ A shared navigation JSON is fetched from 1177 and stored in this project manuall
 
 Links are resolved differently depending on build mode. `production` is the default mode.
 
-| mode        | link   |
-| ----------- | ------ |
-| production  | `prod` |
-| development | `sys`  |
-| staging     | `acc`  |
+| mode        | key    | example url                          |
+| ----------- | ------ | ------------------------------------ |
+| production  | `prod` | `https://e-tjanster.1177.se/mvk/`    |
+| development | `sys`  | `https://e-tjanster.st.1177.se/mvk/` |
+| staging     | `acc`  | `https://e-tjanster.at.1177.se/mvk/` |
+
+Use `--mode` to force a different mode when building
 
 ```bash
 pnpm --filter @frontend/minaintyg build --mode staging
