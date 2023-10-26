@@ -55,6 +55,14 @@ it('Should render as expected with two level', () => {
   expect(container).toMatchSnapshot()
 })
 
+it('Should contain correct link for start item, mobile and desktop', () => {
+  renderComponent(['/intyg'])
+  expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
+  screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
+    expect(element).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
+  })
+})
+
 it('Should render as expected with three levels', async () => {
   const certificateName = 'läkares anmälan till transportstyrelsen'
   server.use(
