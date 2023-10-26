@@ -13,12 +13,7 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
   return (match as MatchWithCrumb).handle !== undefined && typeof (match as MatchWithCrumb).handle.crumb === 'function'
 }
 
-function getMatchAt(index: number, matches: MatchWithCrumb[]): { pathname: string; crumb: JSX.Element } | null {
-  const match = matches.at(index)
-  return match ? { pathname: match.pathname, crumb: match.handle.crumb(match.params) } : null
-}
-
-function resolveMatchURL({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
+function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
   const node = handle.crumb(params)
   if (typeof node === 'string') {
     const item = pathname === '/' && navigation.menu.items.find(({ name }) => name === node)
@@ -31,13 +26,14 @@ function resolveMatchURL({ handle, params, pathname }: MatchWithCrumb): [string,
 
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
-  const prevMatch = getMatchAt(-2, matches)
+  const prevMatch = matches.at(-2)
+  const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
   return (
     <div className="mb-5">
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
         {matches.map((match, index) => {
-          const [url, node] = resolveMatchURL(match)
+          const [url, node] = resolveMatch(match)
           return index !== matches.length - 1 ? (
             <IDSCrumb key={url}>
               <Link to={url}>{node}</Link>
@@ -46,9 +42,9 @@ export function Breadcrumbs() {
             <span key={url}>{node}</span>
           )
         })}
-        {prevMatch && (
+        {prevMatchUrl && prevMatchNode && (
           <IDSCrumb key="mobile" mobile>
-            <Link to={prevMatch.pathname}>{prevMatch.crumb}</Link>
+            <Link to={prevMatchUrl}>{prevMatchNode}</Link>
           </IDSCrumb>
         )}
       </IDSBreadcrumbs>
