@@ -9,9 +9,9 @@ export function LayoutHeaderAvatar() {
 
   return (
     <IDSHeaderAvatar username={user?.personName ?? ''}>
-      <a href={resolveNavigationUrl(settingsUrl)} target="_self" slot="avatar-left">
+      <Link to={resolveNavigationUrl(settingsUrl)} slot="avatar-left">
         Inställningar
-      </a>
+      </Link>
       <Link to="/logout" slot="avatar-right">
         Logga ut
       </Link>

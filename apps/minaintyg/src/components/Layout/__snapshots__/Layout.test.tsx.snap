@@ -15,7 +15,6 @@ exports[`Should render as expected 1`] = `
         <a
           href="https://e-tjanster.1177.se/mvk/settings.xhtml"
           slot="avatar-left"
-          target="_self"
         >
           Inställningar
         </a>
