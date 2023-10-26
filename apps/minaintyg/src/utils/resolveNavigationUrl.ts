@@ -1,4 +1,4 @@
-function getSystemFromMode() {
+function getKeyFromMode() {
   switch (import.meta.env.MODE) {
     case 'development':
       return 'sys'
@@ -10,5 +10,5 @@ function getSystemFromMode() {
 }
 
 export function resolveNavigationUrl(url: { prod: string; acc: string; sys: string }) {
-  return url[getSystemFromMode()]
+  return url[getKeyFromMode()]
 }
