@@ -2,7 +2,7 @@ import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
 import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
-import navigationUrl from './LayoutHeader/data/1177-navbar-services.json'
+import navigation from './LayoutHeader/data/1177-navbar-services.json'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
@@ -21,7 +21,7 @@ function getMatchAt(index: number, matches: MatchWithCrumb[]): { pathname: strin
 function resolveMatchURL({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
   const node = handle.crumb(params)
   if (typeof node === 'string') {
-    const item = pathname === '/' && navigationUrl.menu.items.find(({ name }) => name === node)
+    const item = pathname === '/' && navigation.menu.items.find(({ name }) => name === node)
     if (item) {
       return [resolveNavigationUrl(item.url), node]
     }
