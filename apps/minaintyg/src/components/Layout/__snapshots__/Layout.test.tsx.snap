@@ -12,18 +12,19 @@ exports[`Should render as expected 1`] = `
       <ids-header-avatar
         type="1177"
       >
-        <button
+        <a
+          href="https://e-tjanster.1177.se/mvk/settings.xhtml"
           slot="avatar-left"
-          type="button"
+          target="_self"
         >
           Inställningar
-        </button>
-        <button
+        </a>
+        <a
+          href="/logout"
           slot="avatar-right"
-          type="button"
         >
           Logga ut
-        </button>
+        </a>
       </ids-header-avatar>
       <ids-header-nav
         slot="header-nav"
@@ -34,7 +35,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/"
+            href="https://e-tjanster.1177.se/mvk/"
           >
             Start
           </a>
@@ -44,7 +45,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/inkorg"
+            href="https://e-tjanster.1177.se/mvk/messageList.xhtml"
           >
             Inkorg
           </a>
@@ -54,7 +55,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/bokade-tider"
+            href="https://bokadetider.1177.se/"
           >
             Bokade tider
           </a>
@@ -64,7 +65,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/journalen"
+            href="https://journalen.1177.se/"
           >
             Journalen
           </a>
@@ -74,7 +75,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/egen-provhantering"
+            href="https://pep.1177.se/"
           >
             Egen provhantering
           </a>
@@ -84,7 +85,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/stod-och-behandling"
+            href="https://sob.1177.se/"
           >
             Stöd och behandling
           </a>
@@ -104,7 +105,7 @@ exports[`Should render as expected 1`] = `
           type="1177"
         >
           <a
-            href="/ovriga-tjanster"
+            href="https://e-tjanster.1177.se/mvk/services.xhtml?tab=3"
           >
             Övriga tjänster
           </a>
@@ -128,11 +129,10 @@ exports[`Should render as expected 1`] = `
         >
           Meny
           <ids-mobile-menu-item
-            active=""
             slot="menu-link"
           >
             <a
-              href="/"
+              href="https://e-tjanster.1177.se/mvk/"
               slot="link"
             >
               Start
@@ -142,7 +142,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/inkorg"
+              href="https://e-tjanster.1177.se/mvk/messageList.xhtml"
               slot="link"
             >
               Inkorg
@@ -152,7 +152,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/bokade-tider"
+              href="https://bokadetider.1177.se/"
               slot="link"
             >
               Bokade tider
@@ -162,7 +162,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/journalen"
+              href="https://journalen.1177.se/"
               slot="link"
             >
               Journalen
@@ -172,7 +172,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/egen-provhantering"
+              href="https://pep.1177.se/"
               slot="link"
             >
               Egen provhantering
@@ -182,7 +182,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/stod-och-behandling"
+              href="https://sob.1177.se/"
               slot="link"
             >
               Stöd och behandling
@@ -202,7 +202,7 @@ exports[`Should render as expected 1`] = `
             slot="menu-link"
           >
             <a
-              href="/ovriga-tjanster"
+              href="https://e-tjanster.1177.se/mvk/services.xhtml?tab=3"
               slot="link"
             >
               Övriga tjänster

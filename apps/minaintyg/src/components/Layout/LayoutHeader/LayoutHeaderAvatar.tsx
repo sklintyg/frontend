@@ -1,4 +1,5 @@
 import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'
 
@@ -8,12 +9,12 @@ export function LayoutHeaderAvatar() {
 
   return (
     <IDSHeaderAvatar username={user?.personName ?? ''}>
-      <button type="button" slot="avatar-left">
+      <a href="https://e-tjanster.1177.se/mvk/settings.xhtml" target="_self" slot="avatar-left">
         Inställningar
-      </button>
-      <button type="button" slot="avatar-right" onClick={logout}>
+      </a>
+      <Link to="/logout" slot="avatar-right" onClick={logout}>
         Logga ut
-      </button>
+      </Link>
     </IDSHeaderAvatar>
   )
 }

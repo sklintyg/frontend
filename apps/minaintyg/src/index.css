@@ -51,3 +51,8 @@ ids-select select {
 .ids-certificate .ids-heading-6 {
   margin-bottom: 0.3125rem !important;
 }
+
+ids-header-avatar a {
+  color: rgb(160, 11, 54) !important;
+  text-decoration: underline !important;
+}
