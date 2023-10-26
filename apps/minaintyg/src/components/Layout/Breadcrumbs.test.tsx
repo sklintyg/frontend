@@ -55,7 +55,7 @@ it('Should render as expected with two level', () => {
   expect(container).toMatchSnapshot()
 })
 
-it('Should contain correct link for start item mobile and desktop', () => {
+it('Should contain correct link for start item, mobile and desktop', () => {
   renderComponent(['/intyg'])
   expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
   screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
