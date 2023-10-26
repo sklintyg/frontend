@@ -28,7 +28,7 @@ exports[`Should render as expected with three levels 1`] = `
       <ids-breadcrumbs>
         <ids-crumb>
           <a
-            href="/"
+            href="https://e-tjanster.1177.se/mvk/"
           >
             Start
           </a>
@@ -70,7 +70,7 @@ exports[`Should render as expected with two level 1`] = `
       <ids-breadcrumbs>
         <ids-crumb>
           <a
-            href="/"
+            href="https://e-tjanster.1177.se/mvk/"
           >
             Start
           </a>
