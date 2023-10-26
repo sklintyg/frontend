@@ -32,17 +32,16 @@ export function Breadcrumbs() {
   return (
     <div className="mb-5">
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
-        {matches.map((match, index) => {
-          const [url, node] = resolveMatch(match)
-          return index !== matches.length - 1 ? (
+        {matches.map(resolveMatch).map(([url, node], index) =>
+          index !== matches.length - 1 ? (
             <IDSCrumb key={url}>
               <Link to={url}>{node}</Link>
             </IDSCrumb>
           ) : (
             <span key={url}>{node}</span>
           )
-        })}
-        {prevMatchUrl && prevMatchNode && (
+        )}
+        {prevMatchUrl && (
           <IDSCrumb key="mobile" mobile>
             <Link to={prevMatchUrl}>{prevMatchNode}</Link>
           </IDSCrumb>
