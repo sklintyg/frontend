@@ -1,8 +1,8 @@
 import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
+import settingsUrl from '../../../data/settings-url.json'
 import { useGetUserQuery } from '../../../store/api'
 import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
-import settingsUrl from './data/settings-url.json'
 
 export function LayoutHeaderAvatar() {
   const { data: user } = useGetUserQuery()

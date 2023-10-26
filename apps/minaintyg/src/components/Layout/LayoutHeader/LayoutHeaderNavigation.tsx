@@ -2,9 +2,9 @@
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
+import navigation from '../../../data/1177-navbar-services.json'
+import settingsUrl from '../../../data/settings-url.json'
 import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
-import navigation from './data/1177-navbar-services.json'
-import settingsUrl from './data/settings-url.json'
 
 export function LayoutHeaderNavigation() {
   return (

@@ -1,8 +1,8 @@
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
+import navigation from '../../data/1177-navbar-services.json'
 import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
-import navigation from './LayoutHeader/data/1177-navbar-services.json'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
