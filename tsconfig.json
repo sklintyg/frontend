@@ -16,6 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "paths": {
+      "@frontend/common": ["./packages/common/src/index.ts"],
       "@frontend/components": ["./packages/components/src/index.ts"],
       "@frontend/components/themes": ["./packages/components/src/themes/index.ts"],
       "@frontend/fake": ["./packages/fake/src/index.ts"],
