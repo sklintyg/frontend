@@ -5,7 +5,7 @@ import { renderWithStore } from '../../../../utils/renderWithStore'
 import UeRadio from './UeRadio'
 
 it('displays two radio buttons that toggle checked mode correctly', async () => {
-  const mockQuestion = ({
+  const mockQuestion = {
     value: {
       type: CertificateDataValueType.BOOLEAN,
       selected: true,
