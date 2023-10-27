@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected with one level 1`] = `
+<div>
+  <div>
+    <div
+      class="mb-5"
+    >
+      <ids-breadcrumbs>
+        <span>
+          Start
+        </span>
+      </ids-breadcrumbs>
+    </div>
+    <p>
+      Start
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Should render as expected with three levels 1`] = `
+<div>
+  <div>
+    <div
+      class="mb-5"
+    >
+      <ids-breadcrumbs>
+        <ids-crumb>
+          <a
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            Start
+          </a>
+        </ids-crumb>
+        <ids-crumb>
+          <a
+            href="/intyg"
+          >
+            Intyg
+          </a>
+        </ids-crumb>
+        <span>
+          läkares anmälan till transportstyrelsen
+        </span>
+        <ids-crumb
+          slot="mobile"
+        >
+          <a
+            href="/intyg"
+          >
+            Intyg
+          </a>
+        </ids-crumb>
+      </ids-breadcrumbs>
+    </div>
+    <p>
+      Intyget
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Should render as expected with two level 1`] = `
+<div>
+  <div>
+    <div
+      class="mb-5"
+    >
+      <ids-breadcrumbs>
+        <ids-crumb>
+          <a
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            Start
+          </a>
+        </ids-crumb>
+        <span>
+          Intyg
+        </span>
+        <ids-crumb>
+          <a
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            Start
+          </a>
+        </ids-crumb>
+      </ids-breadcrumbs>
+    </div>
+    <p>
+      Certificates List
+    </p>
+  </div>
+</div>
+`;

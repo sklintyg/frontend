@@ -1,18 +1,16 @@
-import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
+import { IDSIconChevron, IDSRadio } from '@frontend/ids-react-ts'
 import { ReactNode, useEffect } from 'react'
-import { Vardenhet, Vardgivare } from '../../../schemas'
+import { Vardenhet } from '../../../schemas'
 
 export function CareProviderAccordion({
   unit,
-  provider,
   selectedRadio,
   handleChooseUnit,
   children,
 }: {
   unit: Vardenhet
-  provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, unit: Vardenhet) => void
   children: ReactNode
 }) {
   function selectedUnitIsSubUnit() {
@@ -31,7 +29,7 @@ export function CareProviderAccordion({
   })
 
   return (
-    <details id={unit.id} className="border-neutral-90 group my-2 border-b pb-2">
+    <details id={unit.id} className="group my-2 border-b border-neutral-90 pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between">
           <IDSRadio>
@@ -47,16 +45,17 @@ export function CareProviderAccordion({
                   detailsEl.setAttribute('open', '')
                 }
               }}
-              onChange={(event) => handleChooseUnit(event, provider, unit)}
+              onChange={(event) => handleChooseUnit(event, unit)}
             />
             <label
               htmlFor={unit.namn}
-              className={`flex cursor-pointer items-center ${selectedRadio === unit.namn ? 'font-bold' : ''} mb-0 w-full justify-between`}>
+              className={`flex cursor-pointer items-center ${selectedRadio === unit.namn ? 'font-bold' : ''} mb-0 w-full justify-between`}
+            >
               <span>{unit.namn}</span>
             </label>
           </IDSRadio>
           <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-            <IDSIcon name="chevron" width="100%" height="100%" className="h-full w-full" />
+            <IDSIconChevron width="100%" height="100%" className="h-full w-full" />
           </span>
         </div>
       </summary>

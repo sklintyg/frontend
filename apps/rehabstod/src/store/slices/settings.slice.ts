@@ -3,33 +3,50 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserPreferences } from '../../schemas'
 
 export interface Settings {
-  showDialog: boolean
+  showSettingsDialog: boolean
   preferences: Partial<UserPreferences>
+  showPersonalInformation: boolean
+  showAboutDialog: boolean
 }
 
 const initialState: Settings = {
-  showDialog: false,
+  showSettingsDialog: false,
   preferences: {},
+  showPersonalInformation: true,
+  showAboutDialog: false,
 }
 
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    resetSettings() {
+    resetSettingsState() {
       return initialState
     },
-    showSettingsDialog(state) {
-      state.showDialog = true
+    resetSettingsPreferences(state) {
+      state.preferences = initialState.preferences
     },
-    hideSettingsDialog(state) {
-      state.showDialog = false
+    updateShowSettingsDialog(state, { payload }: PayloadAction<boolean>) {
+      state.showSettingsDialog = payload
     },
-    updateSettings(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
+    updateSettingsPreferences(state, { payload }: PayloadAction<Partial<UserPreferences>>) {
       state.preferences = Object.assign(state.preferences, payload)
+    },
+    updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
+      state.showPersonalInformation = payload
+    },
+    updateShowAboutDialog(state, { payload }: PayloadAction<boolean>) {
+      state.showAboutDialog = payload
     },
   },
 })
 
-export const { resetSettings, showSettingsDialog, hideSettingsDialog, updateSettings } = settingsSlice.actions
+export const {
+  resetSettingsState,
+  resetSettingsPreferences,
+  updateShowSettingsDialog,
+  updateSettingsPreferences,
+  updateShowPersonalInformation,
+  updateShowAboutDialog,
+} = settingsSlice.actions
 export const { name: settingsReducerPath, reducer: settingsReducer } = settingsSlice

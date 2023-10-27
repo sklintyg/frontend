@@ -7,19 +7,20 @@
 
 - Install [Node v18](https://nodejs.org/en/download/releases/)
   - Alternatively via [nvm](https://github.com/nvm-sh/nvm)
-- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
+- Install [pnpm](https://pnpm.io/installation).
 
-1. Install dependencies with `yarn install`
-2. Execute a build with `yarn build`
-3. Start development environment and watchers with `yarn start`
-4. Run tests with `yarn test`
+1. Install dependencies with `pnpm install`
+2. Execute a build with `pnpm build`
+3. Start development environment and watchers with `pnpm start`
+4. Run tests with `pnpm test`
 
 ## Applications
 
 This repo holds multiple applications, read more about getting started with each application in their respective README.
 
+- [minaintyg](apps/minaintyg/README.md)
 - [rehabstod](apps/rehabstod/README.md)
-- [webcert](packages/webcert/README.md)
+- [webcert](apps/webcert/README.md)
 
 ## Repository structure
 
@@ -40,7 +41,7 @@ This is the invisioned structure for the future.
 ### Shared libraries
 
 The `/packages` folder contain documented libraries that is utilized between applications/libraries.
-We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `yarn start`, or build everything that needs to be bundled with `yarn build`.
+We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `pnpm start`, or build everything that needs to be bundled with `pnpm build`.
 
 Shared libraries should generally:
 
@@ -90,30 +91,21 @@ _Plugin recommendations can be found by opening the extension panel `ctrl` + `x`
 
 vitest is used for executing tests.
 
-To run tests in all packages `yarn test`
+To run tests in all packages `pnpm test`
 
-To run tests in a perticular workspace `yarn workspace <name of workspace> test`
+To run tests in all packages with ui `pnpm test:ui`
+
+To run any perticular test `pnpm test /{apps, packages}/<name of application/something.test.ts`
+
+To run tests in a perticular package `pnpm --filter <package_name> test`
+
+Read more about [filtering](https://pnpm.io/filtering)
 
 ### Writing tests
 
-Smoke test that checks if the component can be rendered without crashing. Ex:
-
-```typescript
-it('renders without crashing', () => {
-  const question = fakeTextElement({ id: 'id' })
-  expect(render(<UvText question={question['id']} />)).not.toThrow()
-})
-```
-
-Tests that verifies the components behavior from a user perspective. Use React Testing Library.
-
-```typescript
-it('displaying empty value', () => {
-  const question = fakeTextElement({ id: 'id' })
-  const { getByText } = render(<UvText question={question['id']} />)
-  getByText(/Ej angivet/i)
-})
-```
+- [Avoid testing implementation details](https://kentcdodds.com/blog/testing-implementation-details).
+- [Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)
+- [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
 ## Integration tests
 

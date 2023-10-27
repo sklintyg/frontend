@@ -2,20 +2,23 @@ name: End-To-End
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   webcert-e2e:
     runs-on: ubuntu-20.04
     container: cypress/base:18.15.0
     steps:
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.5.1
       - uses: cypress-io/github-action@v4
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         with:
-          install-command: yarn --frozen-lockfile --silent
-          build: yarn build --filter=@frontend/webcert
-          start: yarn workspace @frontend/webcert dev -m test
+          install-command: pnpm install --frozen-lockfile --silent
+          build: pnpm build --filter=@frontend/webcert
+          start: pnpm --filter @frontend/webcert dev -m test
           wait-on: 'https://127.0.0.1:3000'
-          command: yarn workspace @frontend/e2e webcert:run
+          command: pnpm --filter @frontend/e2e webcert:run
             --config baseUrl=https://127.0.0.1:3000

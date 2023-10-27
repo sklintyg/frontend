@@ -2,6 +2,7 @@ import { createTableColumnSlice } from '../utils/createTableColumnSlice'
 
 export enum PatientColumn {
   Num = '#',
+  Intygstyp = 'Intygstyp',
   Diagnos = 'Diagnos/er',
   Grad = 'Grad',
   Startdatum = 'Startdatum',
@@ -10,13 +11,17 @@ export enum PatientColumn {
   Ärenden = 'Ärenden',
   Läkare = 'Läkare',
   Sysselsättning = 'Sysselsättning',
+  Vårdenhet = 'Vårdenhet',
+  Vårdgivare = 'Vårdgivare',
+  Risk = 'Risk',
   Intyg = 'Intyg',
 }
 
-export const { slice: patientTableColumnsSlice, getSelectors: getPatientTableColumnsSelectors } = createTableColumnSlice(
-  'patientTableColumns',
-  Object.values(PatientColumn)
-)
+export const {
+  slice: patientTableColumnsSlice,
+  getSelectors: getPatientTableColumnsSelectors,
+  reducerPath: patientTableColumnsReducerPath,
+} = createTableColumnSlice('patientTableColumns', Object.values(PatientColumn))
 
 export const {
   reset: resetPatientTableColumns,
@@ -27,4 +32,3 @@ export const {
   moveColumn,
   setColumnDefaults,
 } = patientTableColumnsSlice.actions
-export const { name: patientTableColumnsReducerPath, reducer: patientTableColumnsReducer } = patientTableColumnsSlice

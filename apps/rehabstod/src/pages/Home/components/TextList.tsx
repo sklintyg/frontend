@@ -1,7 +1,5 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { SummaryDataPoint } from '../../../schemas/sickLeaveSchema'
-import { Tooltip } from '../../../components/Tooltip/Tooltip'
-import { TooltipTrigger } from '../../../components/Tooltip/TooltipTrigger'
-import { TooltipContent } from '../../../components/Tooltip/TooltipContent'
 
 export function TextList({ data, parentData }: { parentData: SummaryDataPoint[]; data: SummaryDataPoint[] }) {
   return (
@@ -13,8 +11,9 @@ export function TextList({ data, parentData }: { parentData: SummaryDataPoint[];
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={dataPoint.description ? 0 : undefined}
               className="marker:text-3xl"
-              style={{ color: parentData && parentData.find((point) => point.id === dataPoint.id)?.fill }}>
-              <span className="text-neutral-20 align-super text-sm">{dataPoint.name}</span>
+              style={{ color: parentData && parentData.find((point) => point.id === dataPoint.id)?.fill }}
+            >
+              <span className="align-super text-sm text-neutral-20">{dataPoint.name}</span>
             </li>
           </TooltipTrigger>
           {dataPoint.description && <TooltipContent>{dataPoint.description}</TooltipContent>}

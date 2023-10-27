@@ -8,42 +8,34 @@
       "e2e"
     ]
   },
-  "resolutions": {
-    "nwsapi": "2.2.2"
-  },
   "scripts": {
-    "build": "turbo build",
+    "build": "pnpm run -r build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
+    "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "start": "turbo dev",
-    "start:test": "turbo dev -- -m test",
-    "test:ci": "turbo test:ci",
-    "posttest:ci": "yarn test:report && yarn test:coverage",
-    "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
-    "test:coverage": "coverage",
-    "test": "turbo test",
-    "typescript": "turbo typescript"
+    "start": "pnpm -r --parallel run -r dev",
+    "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
+    "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
+    "test:ui": "pnpm test -- --ui --coverage",
+    "test:report": "pnpm test:ci",
+    "typescript": "pnpm run -r typescript"
   },
   "devDependencies": {
-    "@frontend/combine-coverage": "*",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "eslint": "^8.34.0",
-    "eslint-config-custom": "*",
+    "@types/node": "^18.11.9",
+    "@vitest/coverage-v8": "^0.34.3",
+    "@vitest/ui": "^0.34.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.42.0",
+    "eslint-config-custom": "workspace:*",
     "husky": "^7.0.4",
-    "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
-    "nyc": "^15.1.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
-    "rollup": "^3.20.2",
-    "rollup-plugin-dts": "^5.3.0",
-    "rollup-plugin-esbuild": "^5.0.0",
-    "rollup-plugin-svg": "^2.0.0",
-    "turbo": "^1.7.4",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4",
+    "vitest": "^0.34.3"
   },
   "lint-staged": {
+    "*": "prettier --write --ignore-unknown",
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "browserslist": [
@@ -52,5 +44,9 @@
     "not op_mini all",
     "ie 11"
   ],
-  "dependencies": {}
+  "pnpm": {
+    "overrides": {
+      "intl-messageformat": "10.3.5"
+    }
+  }
 }

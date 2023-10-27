@@ -40,8 +40,17 @@ export default ({ mode }: UserConfig) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: ['src/setupTests.ts'],
+      silent: process.env.CI === 'true',
       deps: {
-        inline: ['@inera/ids-core'],
+        inline: ['@inera/ids-core', 'handy-scroll'],
+      },
+      coverage: {
+        reporter: ['text', 'json', 'lcov'],
+        all: true,
+        branches: 80,
+        lines: 80,
+        functions: 75,
+        statements: 80,
       },
     },
   })

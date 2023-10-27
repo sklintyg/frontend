@@ -1,0 +1,129 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should be possible to hide event information 1`] = `
+<div>
+  <ids-card
+    class="mb-5"
+  >
+    <h2
+      class="ids-heading-3"
+    >
+      Information om intyget
+    </h2>
+    <div
+      class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-1"
+    >
+      <div>
+        <strong
+          class="block"
+        >
+          Intyg utfärdat
+        </strong>
+        2022-11-10
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Avser diagnos
+        </strong>
+        Downs syndrom
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Utfärdat av
+        </strong>
+        Mats Andersson
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Intygs-ID
+        </strong>
+        39a4e3af-6f92-46d8-875f-4ca5ff96589f
+      </div>
+    </div>
+  </ids-card>
+</div>
+`;
+
+exports[`Should render as expected 1`] = `
+<div>
+  <ids-card
+    class="mb-5"
+  >
+    <h2
+      class="ids-heading-3"
+    >
+      Information om intyget
+    </h2>
+    <div
+      class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-2"
+    >
+      <div>
+        <strong
+          class="block"
+        >
+          Intyg utfärdat
+        </strong>
+        2022-11-10
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Avser diagnos
+        </strong>
+        Downs syndrom
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Utfärdat av
+        </strong>
+        Mats Andersson
+      </div>
+      <div>
+        <strong
+          class="block"
+        >
+          Intygs-ID
+        </strong>
+        39a4e3af-6f92-46d8-875f-4ca5ff96589f
+      </div>
+      <div
+        class="row-span-2"
+      >
+        <div>
+          <div
+            class="font-bold"
+          >
+            Senaste händelser
+          </div>
+          <div
+            class="flex flex-col md:flex-row md:gap-1"
+          >
+            <span
+              class="whitespace-nowrap"
+            >
+              2023-09-26 03:28
+              :
+            </span>
+            <ids-link>
+              <a
+                href="/intyg/commodi"
+              >
+                Ersätter ett intyg som inte längre är aktuellt
+              </a>
+            </ids-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ids-card>
+</div>
+`;

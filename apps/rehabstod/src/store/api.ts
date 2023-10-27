@@ -1,11 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet, Vardgivare } from '../schemas'
-import { Lakare } from '../schemas/lakareSchema'
-import { Patient } from '../schemas/patientSchema'
-import { DiagnosKapitel, SickLeaveFilter, SickLeaveInfo, SickLeaveSummary } from '../schemas/sickLeaveSchema'
-import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
-import { getCookie } from '../utils/cookies'
+import { getCookie } from '@frontend/utils'
+import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
+import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
+import { Config } from '../schemas/configSchema'
+import { ErrorData } from '../schemas/errorSchema'
+import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
+import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -13,33 +12,37 @@ export const api = createApi({
     baseUrl: '/api/',
     prepareHeaders: (headers) => {
       if (getCookie('XSRF-TOKEN')) {
-        headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'))
+        headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN') ?? '')
       }
       return headers
     },
   }),
-  tagTypes: ['User', 'SickLeavesFilter', 'SickLeaveSummary', 'SickLeaves', 'SickLeavePatient'],
+  tagTypes: ['User', 'Patient', 'SickLeaves', 'RekoStatus'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet | Mottagning }>({
+    getConfig: builder.query<Config, void>({
+      query: () => 'config',
+    }),
+    changeUnit: builder.mutation<User, { vardenhet: Vardenhet | Mottagning }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['SickLeavesFilter', 'SickLeaveSummary'],
-      async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
+      invalidatesTags: ['User'],
+      async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
             Object.assign(draft, {
-              valdVardgivare: vardgivare,
               valdVardenhet: vardenhet,
             })
           )
         )
+        dispatch(resetLUFilters())
+        dispatch(resetSickLeaveFilters())
         try {
           await queryFulfilled
         } catch {
@@ -80,129 +83,29 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
-      query: (request) => ({
-        url: 'sickleaves/active',
+
+    logError: builder.mutation<void, { errorData: ErrorData }>({
+      query: (errorData) => ({
+        url: 'log/error',
         method: 'POST',
-        body: request,
-        providesTags: ['SickLeaves'],
+        body: errorData,
       }),
-      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
-      providesTags: ['SickLeaves'],
-    }),
-    getPopulatedFilters: builder.query<
-      {
-        activeDoctors: Lakare[]
-        allDiagnosisChapters: DiagnosKapitel[]
-        enabledDiagnosisChapters: DiagnosKapitel[]
-        nbrOfSickLeaves: number
-      },
-      void
-    >({
-      query: () => ({
-        url: 'sickleaves/filters',
-      }),
-      providesTags: ['SickLeavesFilter'],
-    }),
-    getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
-      query: () => ({
-        url: 'sickleaves/summary',
-      }),
-      providesTags: ['SickLeaveSummary'],
-    }),
-    getSickLeavePatient: builder.query<Patient, { encryptedPatientId: string }>({
-      query: ({ encryptedPatientId }) => ({
-        url: 'sjukfall/patient',
-        method: 'POST',
-        body: { encryptedPatientId },
-      }),
-      providesTags: ['SickLeavePatient'],
-    }),
-    createDefaultTestData: builder.mutation<string, void>({
-      query: () => ({
-        url: '/testability/createDefault',
-        method: 'POST',
-      }),
-      transformResponse: (response: { content: string }) => response.content,
-    }),
-    getTestDataOptions: builder.query<TestDataOptionsDTO, void>({
-      query: () => ({
-        url: '/testability/testDataOptions',
-        method: 'GET',
-      }),
-    }),
-    createSickLeave: builder.mutation<string, CreateSickleaveDTO>({
-      query: (request) => ({
-        url: '/testability/createSickLeave',
-        method: 'POST',
-        body: request,
-      }),
-      transformResponse: (response: { content: string }) => response.content,
-    }),
-    addVardenhet: builder.mutation<string[], { patientId: string; vardenhetId: string }>({
-      query: ({ patientId, vardenhetId }) => ({
-        url: 'sjukfall/patient/addVardenhet',
-        method: 'POST',
-        body: { patientId, vardenhetId },
-      }),
-      invalidatesTags: ['SickLeavePatient'],
-    }),
-    addVardgivare: builder.mutation<string[], { patientId: string; vardgivareId: string }>({
-      query: ({ patientId, vardgivareId }) => ({
-        url: 'sjukfall/patient/addVardgivare',
-        method: 'POST',
-        body: { patientId, vardgivareId },
-      }),
-      invalidatesTags: ['SickLeavePatient'],
-    }),
-    giveSjfConsent: builder.mutation<
-      { registeredBy: string; responseCode: string; responseMessage: string },
-      { days: number; onlyCurrentUser: boolean; patientId: string; encryptedPatientId: string }
-    >({
-      query: ({ days, onlyCurrentUser, patientId }) => ({
-        url: 'consent',
-        method: 'POST',
-        body: { days, onlyCurrentUser, patientId },
-      }),
-      async onQueryStarted({ encryptedPatientId }, { dispatch, queryFulfilled }) {
-        try {
-          const {
-            data: { responseCode },
-          } = await queryFulfilled
-          dispatch(
-            api.util.updateQueryData('getSickLeavePatient', { encryptedPatientId }, (draft) =>
-              Object.assign(draft, {
-                sjfMetaData: {
-                  ...(draft.sjfMetaData ?? {}),
-                  samtyckeFinns: responseCode === 'OK',
-                },
-              })
-            )
-          )
-        } catch {
-          dispatch(api.util.invalidateTags(['SickLeavePatient']))
-        }
-      },
     }),
   }),
 })
 
+export function useGetUserQuery() {
+  const { data: session } = api.useGetSessionPingQuery()
+  return api.useGetUserQuery(session?.authenticated && session?.hasSession ? undefined : skipToken)
+}
+
 export const {
   useChangeUnitMutation,
-  useCreateDefaultTestDataMutation,
   useFakeLogoutMutation,
+  useGetConfigQuery,
   useGetLinksQuery,
-  useGetPopulatedFiltersQuery,
   useGetSessionPingQuery,
-  useGetSickLeavePatientQuery,
-  useGetSickLeavesQuery,
-  useGetSickLeavesSummaryQuery,
-  useGetUserQuery,
   useGiveConsentMutation,
-  useLazyGetSickLeavesQuery,
-  useAddVardenhetMutation,
-  useAddVardgivareMutation,
-  useGiveSjfConsentMutation,
-  useGetTestDataOptionsQuery,
-  useCreateSickLeaveMutation,
+  useLogErrorMutation,
+  useUpdateUserPreferencesMutation,
 } = api

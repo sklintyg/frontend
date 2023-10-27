@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { vi } from 'vitest'
 import Typeahead, { Suggestion } from './Typeahead'
 
@@ -11,34 +11,33 @@ const suggestions: Suggestion[] = [
   { label: 'String', disabled: true, title: null },
 ]
 
-const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
-  return render(<Typeahead onSuggestionSelected={vi.fn()} suggestions={[]} onClose={vi.fn()} {...args} />)
-}
+const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) =>
+  render(<Typeahead onSuggestionSelected={vi.fn()} suggestions={[]} onClose={vi.fn()} {...args} />)
 
 describe('Typeahead component', () => {
   beforeEach(() => {
     HTMLElement.prototype.scrollIntoView = vi.fn()
   })
 
-  it('Should render without crashing', () => {
+  it('Should render without crashing', async () => {
     expect(() => renderComponent({})).not.toThrow()
   })
 
-  it('Should not render suggestions when array is empty', () => {
+  it('Should not render suggestions when array is empty', async () => {
     renderComponent({})
-    expect(screen.queryByRole('list')).toBeNull()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 
-  it('Should not render suggestions when open is false', () => {
+  it('Should not render suggestions when open is false', async () => {
     renderComponent({ moreResults: false, suggestions })
-    expect(screen.queryByRole('list')).toBeNull()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 
   it('Should render suggestions when open is true', async () => {
     renderComponent({ moreResults: false, suggestions })
     await userEvent.click(screen.getByRole('textbox'))
     expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
-    suggestions.forEach((s) => expect(screen.queryByText(s.label)).not.toBeNull())
+    suggestions.forEach((s) => expect(screen.getByText(s.label)).toBeInTheDocument())
   })
 
   it('Should select first suggestion when opened', async () => {
@@ -50,7 +49,7 @@ describe('Typeahead component', () => {
   it("Should close list if input doesn't have focus", async () => {
     const onClose = vi.fn()
     renderComponent({ onClose })
-    render(<button></button>)
+    render(<button type="button" />)
     expect(onClose).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByRole('textbox'))
     await userEvent.click(screen.getByRole('button'))

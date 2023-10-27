@@ -3,9 +3,13 @@ import { faker } from '@faker-js/faker'
 import { deepmergeCustom, DeepMergeLeafURI } from 'deepmerge-ts'
 import { DeepPartial } from 'ts-essentials'
 import { z, ZodTypeAny } from 'zod'
+import { fakeHSA } from './hsa'
+import { fakePersonId } from './personId'
 
-const fakeHSA = () =>
-  `${faker.random.alpha({ count: 6, casing: 'upper' })}${faker.datatype.number({ min: 1e9 })}-${faker.datatype.number({ min: 1e3 })}`
+export { faker } from '@faker-js/faker'
+export * from './certificate'
+export * from './hsa'
+export * from './personId'
 
 export const stringMap = {
   id: faker.datatype.uuid,
@@ -22,6 +26,8 @@ export const stringMap = {
   epost: faker.internet.email,
   telefonnummer: faker.phone.number,
   arbetsplatskod: faker.datatype.uuid,
+  personId: fakePersonId,
+  personName: faker.name.fullName,
 }
 
 const customDeepmerge = deepmergeCustom<{
@@ -31,15 +37,14 @@ const customDeepmerge = deepmergeCustom<{
 })
 
 export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: GenerateMockOptions) {
-  return (data?: DeepPartial<z.infer<T>>) => customDeepmerge(generateMock(schema, { stringMap, faker, ...options }), data ?? {})
+  return (data?: DeepPartial<z.infer<T>>) =>
+    customDeepmerge(generateMock(schema, { faker, ...options, stringMap: { ...stringMap, ...options?.stringMap } }), data ?? {})
 }
 
 export function fakerFromSchemaFactory<T extends ZodTypeAny>(
   schema: T,
-  initialData: DeepPartial<z.infer<T>>,
+  initialData: (data?: DeepPartial<z.infer<T>>) => DeepPartial<z.infer<T>>,
   options?: GenerateMockOptions
 ) {
-  return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData, ...data })
+  return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData(data), ...data })
 }
-
-export { faker }

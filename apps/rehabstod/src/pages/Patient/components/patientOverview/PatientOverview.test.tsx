@@ -1,17 +1,13 @@
-import { screen } from '@testing-library/react'
 import { fakerFromSchema } from '@frontend/fake'
-import { PatientOverview } from './PatientOverview'
-import { SjfMetaData, sjfMetaDataSchema } from '../../../../schemas/patientSchema'
+import { screen } from '@testing-library/react'
+import { sjfMetaDataSchema } from '../../../../schemas/patientSchema'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { PatientOverview } from './PatientOverview'
 
 const renderComponent = () => {
+  const sjfMetaData = fakerFromSchema(sjfMetaDataSchema)({ haveSekretess: false, blockingServiceError: false, consentServiceError: false })
   renderWithRouter(
-    <PatientOverview
-      sjfMetaData={(fakerFromSchema(sjfMetaDataSchema) as unknown) as SjfMetaData}
-      patientId="191212121212"
-      isPersonResponseMissing={false}
-      encryptedPatientId=""
-    />
+    <PatientOverview sjfMetaData={sjfMetaData} patientId="191212121212" isPersonResponseMissing={false} encryptedPatientId="" />
   )
 }
 

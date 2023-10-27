@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render correctly 1`] = `
+<div>
+  <div
+    class="mb-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0"
+  >
+    <div>
+      <p
+        class="font-bold after:content-[':'] md:after:content-['']"
+      >
+        Utfärdare
+      </p>
+      <p>
+        Adamn
+        , 
+        Alfa-enheten
+      </p>
+    </div>
+  </div>
+</div>
+`;

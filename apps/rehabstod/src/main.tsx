@@ -1,22 +1,27 @@
 /* eslint-disable import/order */
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
-import { App } from './App'
-import './index.css'
-import { store } from './store/store'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
+import React from 'react'
+import { I18nProvider } from 'react-aria'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
+import './index.css'
+import { router } from './router'
+import { persistor, store } from './store/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { IDSSpinner } from '@frontend/ids-react-ts'
 
 setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <I18nProvider locale="sv-SE">
       <Provider store={store}>
-        <App />
+        <PersistGate loading={<IDSSpinner />} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
-    </BrowserRouter>
+    </I18nProvider>
   </React.StrictMode>
 )

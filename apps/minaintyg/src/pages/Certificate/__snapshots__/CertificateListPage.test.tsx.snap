@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should have correct heading 1`] = `
+<h1
+  class="ids-heading-1 text-[min(2.25rem,9.25vw)]/[min(2.25rem,9.25vw)] md:text-5xl"
+>
+  Intyg
+</h1>
+`;
+
+exports[`Should have correct paragraph 1`] = `
+<div
+  class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
+>
+  Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din arbetsgivare.
+</div>
+`;
+
+exports[`Should render alert message when list is empty 1`] = `
+<ids-alert
+  role="alert"
+>
+  <p>
+    I Intyg visas endast intyg som utfärdats digitalt till dig. Intyg har ingen ombudsfunktion och du kan inte ladda upp egna intyg.
+  </p>
+  <p>
+    Om du saknar ett intyg, vänd dig till din mottagning.
+  </p>
+</ids-alert>
+`;

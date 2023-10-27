@@ -1,21 +1,22 @@
-import { IDSAlert, IDSButton, IDSButtonGroup, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
-import { Mottagning, Vardenhet, Vardgivare } from '../../schemas'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
-import { useUpdateUserPreferences } from '../../store/hooks'
+import { useUpdateUserPreferences } from '../../store/hooks/useUpdateUserPreferences'
 import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
-  const { isLoading, data: user } = useGetUserQuery()
+  const { data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
   const { updateUserPreferences } = useUpdateUserPreferences()
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null | Mottagning>(
     user?.valdVardenhet || user?.vardgivare[0]?.vardenheter[0] || null
   )
-  const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(user?.vardgivare[0] || null)
   const [selectedRadio, setSelectedRadio] = useState<string>(selectedUnit?.namn ?? '')
   const [isChecked, setIsChecked] = useState(false)
 
@@ -28,9 +29,8 @@ export function CareProvider() {
   }
 
   const handleChangeUnit = async () => {
-    if (selectedUnit && selectedProvider) {
+    if (selectedUnit) {
       await changeUnit({
-        vardgivare: selectedProvider,
         vardenhet: {
           ...selectedUnit,
           id: selectedUnit.id,
@@ -49,17 +49,20 @@ export function CareProvider() {
     setIsChecked(event.target.checked)
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet | Mottagning) => {
-    setSelectedProvider(provider)
+  const handleChooseUnit = (event: React.ChangeEvent, unit: Vardenhet | Mottagning) => {
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
   }
 
-  return !isLoading && user ? (
-    <IDSContainer>
-      <div className="w-full py-10 px-4 md:w-1/2 md:px-0">
+  if (!user) {
+    return null
+  }
+
+  return (
+    <PageContainer>
+      <div className="max-w-3xl">
         <div className="mb-6">
-          <h1 className="ids-heading-1 ids-small pb-4">Välj enhet</h1>
+          <PageHeading title="Välj enhet" />
           <p className="ids-preamble my-5">
             Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
             inloggning.{' '}
@@ -82,13 +85,15 @@ export function CareProvider() {
           </p>
         ) : null}
         <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
-        <IDSButtonGroup>
-          <IDSButton disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
+        <div className="flex flex-col gap-5 md:flex-row ">
+          <IDSButton mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
           </IDSButton>
-          <IDSButton onClick={handleClick}>Välj</IDSButton>
-        </IDSButtonGroup>
+          <IDSButton mblock onClick={handleClick}>
+            Välj
+          </IDSButton>
+        </div>
       </div>
-    </IDSContainer>
-  ) : null
+    </PageContainer>
+  )
 }

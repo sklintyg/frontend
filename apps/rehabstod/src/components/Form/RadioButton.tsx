@@ -1,6 +1,6 @@
-import { IDSRadio } from '@frontend/ids-react-ts'
+import { TooltipIcon } from '@frontend/components'
+import { IDSIconQuestion, IDSRadio } from '@frontend/ids-react-ts'
 import { ChangeEvent, useId } from 'react'
-import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
 export function RadioButton({
   label,
@@ -9,6 +9,7 @@ export function RadioButton({
   description,
   disabled,
   value,
+  light = false,
 }: {
   label: string
   checked: boolean
@@ -16,12 +17,13 @@ export function RadioButton({
   description?: string
   disabled?: boolean
   value: string
+  light?: boolean
 }) {
   const id = useId()
 
   return (
-    <IDSRadio>
-      {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
+    <IDSRadio light={light}>
+      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="ml-2" />} />}
       <input id={id} type="radio" checked={checked} onChange={onChange} disabled={disabled} value={value} />
       <label htmlFor={id} className="cursor-pointer">
         {label}

@@ -1,26 +1,41 @@
-import { IDSContainer } from '@frontend/ids-react-ts'
-import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
+import { ReactNode, createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
+import { FixedTable } from './FixedTable'
+import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
 
-interface TableOptions {
+export interface TableOptions {
   ascending?: boolean
   sortColumn?: string
+  onSortChange?: (state: { sortColumn: string; ascending: boolean }) => void
 }
 
-function useTable(options: TableOptions) {
+export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
+
+export function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
+  const [scrollDiv, setScrollDiv] = useState<HTMLDivElement>()
+
+  const updateSorting = useCallback(
+    (column: string, asc: boolean) => {
+      setSortColumn(column)
+      setAscending(asc)
+      if (options.onSortChange) {
+        options.onSortChange({ sortColumn: column, ascending: asc })
+      }
+    },
+    [options]
+  )
 
   const sortOnColumn = useCallback(
     (desiredColumn: string) => {
       if (desiredColumn !== sortColumn) {
-        setSortColumn(desiredColumn)
-        setAscending(options.ascending ?? false)
+        updateSorting(desiredColumn, options.ascending ?? false)
       } else {
-        setAscending(!ascending)
+        updateSorting(sortColumn, !ascending)
       }
     },
-    [ascending, sortColumn, options.ascending]
+    [ascending, options.ascending, sortColumn, updateSorting]
   )
 
   const sortTableList = getTableSorter(sortColumn, ascending)
@@ -31,30 +46,34 @@ function useTable(options: TableOptions) {
       sortColumn,
       sortOnColumn,
       sortTableList,
+      scrollDiv,
+      setScrollDiv,
     }),
-    [ascending, sortColumn, sortOnColumn, sortTableList]
+    [ascending, sortColumn, sortOnColumn, sortTableList, scrollDiv]
   )
 }
 
-export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
-
-export function Table({ children, print, ...options }: { children?: ReactNode; print?: ReactNode } & TableOptions) {
+export function Table({
+  children,
+  print,
+  header,
+  ...options
+}: { children?: ReactNode; print?: ReactNode; header?: ReactNode } & TableOptions) {
   const table = useTable(options)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
     <TableContext.Provider value={table}>
-      <IDSContainer gutterless className="overflow-auto pb-4 pt-1 print:hidden">
-        <div className="relative">
-          <table className="ids-table w-full overflow-visible whitespace-nowrap border-none text-sm">{children}</table>
-        </div>
-      </IDSContainer>
-      <div className="hidden print:block">
-        <div className="mb-2">
-          Tabellen är sorterad enligt <span className="font-bold">{table.sortColumn}</span> i {table.ascending ? 'stigande' : 'fallande'}{' '}
-          ordning
-        </div>
-        {print}
+      <div className="print:hidden">
+        <FloatingTableScroll ref={scrollRef}>
+          <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
+          <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
+            {header}
+            {children}
+          </table>
+        </FloatingTableScroll>
       </div>
+      {print}
     </TableContext.Provider>
   )
 }

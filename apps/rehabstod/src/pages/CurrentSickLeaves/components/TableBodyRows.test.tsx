@@ -1,41 +1,45 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { act, screen } from '@testing-library/react'
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
+import { act, screen, within } from '@testing-library/react'
+import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { Table } from '../../../components/Table/Table'
-import { sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
+import { server } from '../../../mocks/server'
+import { UserUrval } from '../../../schemas'
+import { sickLeaveFilterOptions, sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
 import { api } from '../../../store/api'
-import { hideColumn, SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
+import { SickLeaveColumn, hideColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { store } from '../../../store/store'
+import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { TableBodyRows } from './TableBodyRows'
 
 beforeEach(() => {
+  server.use(
+    rest.get('/api/user', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' }, urval: 'ALL' })))
+    )
+  )
+  server.use(
+    rest.get('/api/sickleaves/filters', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakerFromSchema(sickLeaveFilterOptions)({ srsActivated: true })))
+    )
+  )
   store.dispatch(api.endpoints.getUser.initiate())
 })
 
 describe('Change focus', () => {
-  let user: UserEvent
-
-  beforeEach(() => {
-    const result = renderWithRouter(
+  function renderComponent() {
+    return renderWithRouter(
       <Table>
         <tbody>
-          <TableBodyRows
-            isLoading={false}
-            showPersonalInformation
-            sickLeaves={Array.from({ length: 2 }, fakerFromSchema(sickLeaveInfoSchema))}
-            unitId="Alfa Vårdenhet"
-            isDoctor={false}
-          />
+          <TableBodyRows isLoading={false} sickLeaves={Array.from({ length: 2 }, fakerFromSchema(sickLeaveInfoSchema))} />
         </tbody>
       </Table>
     )
-
-    user = result.user
-  })
+  }
 
   it('Should gain focus with tab', async () => {
+    const { user } = renderComponent()
     expect(await screen.findAllByRole('row')).toHaveLength(2)
 
     expect(document.body).toHaveFocus()
@@ -46,6 +50,7 @@ describe('Change focus', () => {
   })
 
   it('Should change focus with arrow keys', async () => {
+    const { user } = renderComponent()
     expect(await screen.findAllByRole('row')).toHaveLength(2)
 
     screen.getAllByRole('row')[0].focus()
@@ -61,23 +66,15 @@ describe('Change focus', () => {
 })
 
 describe('Navigate', () => {
-  let user: UserEvent
-
-  beforeEach(() => {
-    const result = renderWithRouter(
+  function renderComponent() {
+    return renderWithRouter(
       <Routes>
         <Route
           path="/"
           element={
             <Table>
               <tbody>
-                <TableBodyRows
-                  isLoading={false}
-                  showPersonalInformation
-                  sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]}
-                  unitId="Alfa Vårdenhet"
-                  isDoctor={false}
-                />
+                <TableBodyRows isLoading={false} sickLeaves={[fakerFromSchema(sickLeaveInfoSchema)({ encryptedPatientId: 'aperiam' })]} />
               </tbody>
             </Table>
           }
@@ -85,11 +82,10 @@ describe('Navigate', () => {
         <Route path="/pagaende-sjukfall/aperiam" element={<p>Patient Route</p>} />
       </Routes>
     )
-
-    user = result.user
-  })
+  }
 
   it('Should navigate to patient on click', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
     await user.click(screen.getAllByRole('row')[0])
 
@@ -97,6 +93,7 @@ describe('Navigate', () => {
   })
 
   it('Should navigate to patient on enter key', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
     screen.getAllByRole('row')[0].focus()
 
@@ -106,6 +103,7 @@ describe('Navigate', () => {
   })
 
   it('Should navigate to patient on space key', async () => {
+    const { user } = renderComponent()
     expect(await screen.findByRole('row')).toBeInTheDocument()
 
     screen.getAllByRole('row')[0].focus()
@@ -121,27 +119,57 @@ it('Should render all sickleave columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 })
 
 it('Should render all but doctor column if user is doctor', async () => {
+  server.use(
+    rest.get('/api/user', (_, res, ctx) =>
+      res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: { namn: 'Alfa Vårdenhet' }, urval: UserUrval.ISSUED_BY_ME })))
+    )
+  )
   const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
+})
+
+it('Should render risk column if feature is activated', async () => {
+  server.use(
+    rest.get('/api/sickleaves/filters', (_, res, ctx) =>
+      res(
+        ctx.status(200),
+        ctx.json({
+          srsActivated: true,
+        })
+      )
+    )
+  )
+
+  const sickLeaves = Array.from({ length: 10 }, fakerFromSchema(sickLeaveInfoSchema))
+  renderWithRouter(
+    <Table>
+      <tbody>
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
+      </tbody>
+    </Table>
+  )
+
+  expect(await screen.findAllByRole('row')).toHaveLength(10)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 })
 
 it('Should be possible to hide columns', async () => {
@@ -149,20 +177,20 @@ it('Should be possible to hide columns', async () => {
   renderWithRouter(
     <Table>
       <tbody>
-        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} showPersonalInformation unitId="Alfa Vårdenhet" isDoctor={false} />
+        <TableBodyRows sickLeaves={sickLeaves} isLoading={false} />
       </tbody>
     </Table>
   )
 
   expect(await screen.findAllByRole('row')).toHaveLength(10)
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(12)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(16)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Grad)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(11)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(15)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Intyg)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(10)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(14)
 
   await act(() => store.dispatch(hideColumn(SickLeaveColumn.Diagnos)))
-  expect(screen.getAllByRole('row')[0].children).toHaveLength(9)
+  expect(within(screen.getAllByRole('row')[0]).getAllByRole('cell')).toHaveLength(13)
 })

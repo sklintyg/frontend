@@ -1,0 +1,86 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render correctly 1`] = `
+<div>
+  <div
+    class="md:hidden"
+  >
+    <details
+      class="group py-2.5"
+    >
+      <summary
+        class="flex items-center justify-between gap-2 font-semibold text-sky-base group-open:mb-2.5 md:hidden"
+      >
+        <span
+          class="inline-block group-open:hidden"
+        >
+          Visa händelser
+        </span>
+        <span
+          class="hidden group-open:inline-block"
+        >
+          Dölj händelser
+        </span>
+        <ids-icon-plus
+          class="h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:hidden ids-icon"
+        />
+        <ids-icon-minus
+          class="hidden h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:flex ids-icon"
+        />
+      </summary>
+      <div>
+        <div
+          class="font-bold"
+        >
+          Senaste händelser
+        </div>
+        <div
+          class="flex flex-col md:flex-row md:gap-1"
+        >
+          <span
+            class="whitespace-nowrap"
+          >
+            2023-09-06 11:00
+            :
+          </span>
+          <ids-link>
+            <a
+              href="/intyg/excepturi"
+            >
+              excepturi
+            </a>
+          </ids-link>
+        </div>
+      </div>
+    </details>
+  </div>
+  <div
+    class="hidden md:block"
+  >
+    <div>
+      <div
+        class="font-bold"
+      >
+        Senaste händelser
+      </div>
+      <div
+        class="flex flex-col md:flex-row md:gap-1"
+      >
+        <span
+          class="whitespace-nowrap"
+        >
+          2023-09-06 11:00
+          :
+        </span>
+        <ids-link>
+          <a
+            href="/intyg/excepturi"
+          >
+            excepturi
+          </a>
+        </ids-link>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -16,12 +16,12 @@ describe('CountSickLeaveDegreesCard', () => {
 
   it('should show title', () => {
     renderComponent()
-    expect(screen.getByText('Fler än en sjukskrivningsgrad')).toBeInTheDocument()
+    expect(screen.getByText('Flera sjukskrivningsgrader')).toBeInTheDocument()
   })
 
   it('should show sub title', () => {
     renderComponent()
-    expect(screen.getByText('Andel sjukfall som har fler än en sjukskrivningsgrad.')).toBeInTheDocument()
+    expect(screen.getByText('Sjukfall fördelat på om aktuellt intyg innehåller en eller flera sjukskrivningsgrader')).toBeInTheDocument()
   })
 
   it('should show male sub title', () => {

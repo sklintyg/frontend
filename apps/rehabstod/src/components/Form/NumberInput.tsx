@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { Input, TooltipIcon, classNames } from '@frontend/components'
+import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { ComponentProps, useId } from 'react'
-import { classNames } from '../../utils/classNames'
-import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
-import { Input } from './Input'
 
 export function NumberInput({
   label,
+  id: controlledId,
   description,
   inline = false,
   ...props
@@ -14,11 +14,12 @@ export function NumberInput({
   description?: string
   inline?: boolean
 }) {
-  const id = useId()
+  const uncontrolledId = useId()
+  const id = controlledId || uncontrolledId
   return (
     <div className={classNames(inline && 'flex items-baseline gap-3', 'w-full')}>
       <label htmlFor={id}>
-        {label} {description && <TooltipIcon description={description} name="question" size="s" />}
+        {label} {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" />} />}
       </label>
       <Input type="number" id={id} {...props} />
     </div>

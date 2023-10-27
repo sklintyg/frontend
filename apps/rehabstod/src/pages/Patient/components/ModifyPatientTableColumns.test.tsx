@@ -5,7 +5,7 @@ import { server, waitForRequest } from '../../../mocks/server'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
+import { ModifyPatientTableColumns } from './patientSickLeaves/ModifyPatientTableColumns'
 
 beforeEach(() => {
   server.use(
@@ -32,12 +32,12 @@ describe('vibility', () => {
 
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(true)
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).toBeChecked()
 
     await user.click(screen.getByLabelText('Slutdatum'))
 
-    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum').checked).toEqual(false)
-  })
+    expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).not.toBeChecked()
+  }, 20000)
 
   it('Should save column visibility changes', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
@@ -54,29 +54,33 @@ describe('vibility', () => {
         .map((name) => `${name}:${name === 'Slutdatum' ? '0' : '1'}`)
         .join(';'),
     })
-  })
+  }, 20000)
 })
 
 describe('position', () => {
+  function getOptionIndex(key: string) {
+    return screen.getAllByRole('option').findIndex((element) => element.getAttribute('data-key') === key)
+  }
+
   it('Should be possible to move column up', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
+    expect(getOptionIndex('Grad')).toBe(3)
 
-    await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta upp Grad'))
+    await user.click(screen.getByRole('button', { name: 'Flytta upp Grad' }))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('#-column')
+    expect(getOptionIndex('Grad')).toBe(2)
   })
 
   it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
     await user.click(await screen.findByRole('button'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('diagnos/er-column')
+    expect(getOptionIndex('Grad')).toBe(3)
 
-    await user.click(screen.getByLabelText<HTMLButtonElement>('Flytta ner Grad'))
+    await user.click(screen.getByLabelText('Flytta ner Grad'))
 
-    expect(screen.getByTestId('grad-column').previousElementSibling?.getAttribute('data-testid')).toBe('startdatum-column')
+    expect(getOptionIndex('Grad')).toBe(4)
   })
 })

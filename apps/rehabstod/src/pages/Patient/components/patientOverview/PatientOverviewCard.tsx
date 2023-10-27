@@ -1,7 +1,7 @@
 import { IDSCard } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { ExpandableCard } from './ExpandableCard'
 import { EmptyInformation } from './EmptyInformation'
+import { ExpandableCard } from './ExpandableCard'
 
 export function PatientOverviewCard({
   title,
@@ -21,16 +21,18 @@ export function PatientOverviewCard({
   onExpand?: () => void
 }) {
   return (
-    <IDSCard fill>
-      <h3 className="ids-heading-4">{title}</h3>
-      <hr />
-      {!isEmpty ? (
-        <ExpandableCard description={description} subTitle={subTitle} expanded={expanded} onExpand={onExpand}>
-          {children}
-        </ExpandableCard>
-      ) : (
-        <EmptyInformation />
-      )}
-    </IDSCard>
+    <div className="bg-secondary-95">
+      <IDSCard fill>
+        <h3 className="ids-heading-4">{title}</h3>
+        <hr />
+        {!isEmpty ? (
+          <ExpandableCard description={description} subTitle={subTitle} expanded={expanded} onExpand={onExpand}>
+            {children}
+          </ExpandableCard>
+        ) : (
+          <EmptyInformation />
+        )}
+      </IDSCard>
+    </div>
   )
 }

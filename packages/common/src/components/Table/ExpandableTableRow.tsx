@@ -29,7 +29,8 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
                   type="button"
                   id={id}
                   onClick={handleClick}
-                  disabled={disabled}>
+                  disabled={disabled}
+                >
                   {cell}
                 </button>
               </td>

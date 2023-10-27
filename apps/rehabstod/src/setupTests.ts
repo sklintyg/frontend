@@ -1,12 +1,17 @@
 import { faker } from '@frontend/fake'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
+import { reset as resetCertificatesFilter } from './store/slices/luCertificatesFilter.slice'
+import { resetLUTableColumns } from './store/slices/luTableColumns.slice'
+import { resetLUUnitTableColumns } from './store/slices/luUnitTableColumns.slice'
 import { resetPatientTableColumns } from './store/slices/patientTableColumns.slice'
+import { resetSettingsState } from './store/slices/settings.slice'
+import { reset as resetSickLeaveFilter } from './store/slices/sickLeaveFilter.slice'
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
@@ -22,9 +27,6 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   disconnect: vi.fn(),
 }))
 
-// extends Vitest's expect method with methods from react-testing-library
-expect.extend(matchers)
-
 // Establish API mocking before all tests.
 beforeAll(() => {
   // Set faker to use swedish locale
@@ -32,11 +34,6 @@ beforeAll(() => {
 
   // Start MSW server
   server.listen({ onUnhandledRequest: 'error' })
-})
-
-beforeEach(() => {
-  // Set faker to be predictable
-  faker.seed(1234)
 })
 
 afterEach(() => {
@@ -50,6 +47,11 @@ afterEach(() => {
   // Reset slice states
   store.dispatch(resetPatientTableColumns())
   store.dispatch(resetSickLeaveTableColumns())
+  store.dispatch(resetLUUnitTableColumns())
+  store.dispatch(resetLUTableColumns())
+  store.dispatch(resetSettingsState())
+  store.dispatch(resetCertificatesFilter())
+  store.dispatch(resetSickLeaveFilter())
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.

@@ -16,21 +16,29 @@
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
   },
+  "lint-staged": {
+    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+  },
   "dependencies": {
+    "@anatine/zod-mock": "^3.10.0",
+    "@faker-js/faker": "^7.6.0",
     "deepmerge-ts": "^5.0.0",
+    "lodash": "^4.17.21",
     "ts-essentials": "^9.3.1",
-    "zod": "^3.21.4"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
-    "@anatine/zod-mock": "3.10.0",
-    "@faker-js/faker": "^7.6.0",
-    "eslint": "^8.34.0",
-    "eslint-config-custom": "*",
-    "typescript": "^4.9.3",
-    "vitest": "^0.29.7"
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "eslint": "^8.42.0",
+    "eslint-config-custom": "workspace:*",
+    "rollup": "^3.20.2",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "vitest": "^0.34.3"
   },
   "peerDependencies": {
-    "@anatine/zod-mock": "3.10.0",
+    "@anatine/zod-mock": "^3",
     "@faker-js/faker": "^7",
     "lodash": "^4",
     "type-fest": "^3",

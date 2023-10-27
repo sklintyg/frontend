@@ -1,7 +1,7 @@
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
-export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo) {
+export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo, list?: SickLeaveInfo[]) {
   switch (column) {
     case SickLeaveColumn.Personnummer:
       return sickLeave.patient.id
@@ -26,7 +26,15 @@ export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo
     case SickLeaveColumn.Läkare:
       return sickLeave.lakare.namn
     case SickLeaveColumn.Sysselsättning:
-      return sickLeave.sysselsattning.map((occupation) => occupation).join('\n')
+      return sickLeave.sysselsattning.map((occupation) => occupation).join(',\n')
+    case SickLeaveColumn.Status:
+      return sickLeave.rekoStatus ? sickLeave.rekoStatus.status.name : 'Ingen'
+    case SickLeaveColumn.Risk:
+      return sickLeave.riskSignal ? sickLeave.riskSignal.riskKategori : 0
+    case SickLeaveColumn.Ärenden:
+      return sickLeave.unansweredOther + sickLeave.obesvaradeKompl
+    case SickLeaveColumn.Index:
+      return list ? list.indexOf(sickLeave) + 1 : 0
     default:
       return undefined
   }

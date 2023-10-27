@@ -1,10 +1,12 @@
 import { faker, fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
-import { patientSchema, patientSjukfallSchema } from '../../schemas/patientSchema'
+import { patientSchema, patientSjukfallIntygSchema, patientSjukfallSchema } from '../../schemas/patientSchema'
 
-const fakePatientSjukfallFactory = fakerFromSchema(patientSjukfallSchema)
+const fakePatientSjukfallFactory = fakerFromSchemaFactory(patientSjukfallSchema, () => ({
+  intyg: Array.from({ length: faker.datatype.number({ min: 1, max: 5 }) }, fakerFromSchema(patientSjukfallIntygSchema)),
+}))
 
-export const fakePatient = fakerFromSchemaFactory(patientSchema, {
+export const fakePatient = fakerFromSchemaFactory(patientSchema, () => ({
   sjukfallList: Array.from({ length: faker.datatype.number({ min: 1, max: 5 }) }, fakePatientSjukfallFactory),
   srsError: faker.datatype.boolean(),
   kompletteringInfoError: faker.datatype.boolean(),
-})
+}))

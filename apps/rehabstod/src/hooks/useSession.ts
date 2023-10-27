@@ -1,21 +1,31 @@
-import { useEffect } from 'react'
-import { useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
+import { useEffect, useState } from 'react'
+import { api, useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
 import { useLogout } from './useLogout'
 
 export function useSession() {
+  useGetUserQuery()
   const { logout } = useLogout()
-  const { data: user } = useGetUserQuery()
   const [giveConsent, { isUninitialized }] = useGiveConsentMutation()
-  const { data: session } = useGetSessionPingQuery(undefined, {
+  const [isPollingActive, setIsPollingActive] = useState(true)
+  const { data: user, isLoading: isLoadingUser } = api.endpoints.getUser.useQueryState()
+  const { data: session, isLoading: isLoadingSession } = useGetSessionPingQuery(undefined, {
     pollingInterval: 30e3,
+    skip: !isPollingActive,
   })
 
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
       giveConsent({ pdlConsentGiven: true })
     }
-    if (user && session && !session.authenticated) {
-      logout()
+    if (session && user) {
+      if (session.authenticated && !isPollingActive) {
+        setIsPollingActive(true)
+      } else if (!session.authenticated) {
+        setIsPollingActive(false)
+        logout()
+      }
     }
-  }, [user, session, logout, giveConsent])
+  }, [user, session, logout, giveConsent, isUninitialized, isPollingActive])
+
+  return { user, session, isLoading: isLoadingSession || isLoadingUser }
 }
