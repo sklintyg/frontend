@@ -8,8 +8,8 @@ import { createCertificateMetadata } from './statusTestUtils'
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
   render(
     <Provider store={store}>
-        <CertificateHeaderStatuses certificateMetadata={certificateMetadata} questions={questions} />
-      </Provider>
+      <CertificateHeaderStatuses certificateMetadata={certificateMetadata} questions={questions} />
+    </Provider>
   )
 }
 

@@ -10,15 +10,11 @@ const question = fakeTypeaheadElement({ id: '1' })['1']
 const mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = () => {
-  render(
-    <UeTypeahead question={question} disabled={false} />
-  )
+  render(<UeTypeahead question={question} disabled={false} />)
 }
 
 const renderWithSuggestions = () => {
-  render(
-    <UeTypeahead question={question} disabled />
-  )
+  render(<UeTypeahead question={question} disabled />)
 }
 
 beforeEach(() => {

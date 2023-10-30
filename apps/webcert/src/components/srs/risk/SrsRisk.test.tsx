@@ -54,7 +54,7 @@ describe('SrsRisk', () => {
         store.dispatch(updateSrsPredictions([]))
       })
       expect(
-        screen.getByText(`Risken gäller ${  srsInfo.predictions[0].diagnosisCode  } ${  srsInfo.predictions[0].diagnosisDescription}`)
+        screen.getByText(`Risken gäller ${srsInfo.predictions[0].diagnosisCode} ${srsInfo.predictions[0].diagnosisDescription}`)
       ).toBeInTheDocument()
     })
 
@@ -63,9 +63,7 @@ describe('SrsRisk', () => {
       renderComponent()
       store.dispatch(updateSrsInfo(undefined))
       store.dispatch(updateSrsPredictions(predictions))
-      expect(
-        screen.getByText(`Risken gäller ${  predictions[0].diagnosisCode  } ${  predictions[0].diagnosisDescription}`)
-      ).toBeInTheDocument()
+      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from predictions if both predictions and srs info is set', () => {
@@ -74,9 +72,7 @@ describe('SrsRisk', () => {
       renderComponent()
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions(predictions))
-      expect(
-        screen.getByText(`Risken gäller ${  predictions[0].diagnosisCode  } ${  predictions[0].diagnosisDescription}`)
-      ).toBeInTheDocument()
+      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from last predictions matching chosen diagnosis code', () => {
@@ -87,7 +83,7 @@ describe('SrsRisk', () => {
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions(predictions))
       expect(
-        screen.getByText(`Risken gäller ${  chosenPrediction.diagnosisCode  } ${  chosenPrediction.diagnosisDescription}`)
+        screen.getByText(`Risken gäller ${chosenPrediction.diagnosisCode} ${chosenPrediction.diagnosisDescription}`)
       ).toBeInTheDocument()
     })
   })
