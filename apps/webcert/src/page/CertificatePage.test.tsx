@@ -1,12 +1,12 @@
-import CertificatePage from './CertificatePage'
 import { render } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { configureApplicationStore } from '../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { createMemoryHistory } from 'history'
 import { vi } from 'vitest'
+import { configureApplicationStore } from '../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import CertificatePage from './CertificatePage'
 import { throwError } from '../store/error/errorActions'
 
 let testStore: EnhancedStore

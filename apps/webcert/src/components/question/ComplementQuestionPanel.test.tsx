@@ -24,6 +24,37 @@ const renderComponent = (questions: Question[], isDisplayingCertificateDraft: bo
   )
 }
 
+function createQuestion(): Question {
+  return {
+    author: 'author',
+    id: String(Math.random()),
+    forwarded: true,
+    handled: true,
+    lastUpdate: '2021-07-08',
+    message: 'message',
+    sent: '2021-07-08',
+    complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
+    subject: 'subject',
+    reminders: [],
+    type: QuestionType.COMPLEMENT,
+    links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
+  }
+}
+
+function addAnswerByCertificate(question: Question, answerByCertifiate: CertificateRelation): Question {
+  return {
+    ...question,
+    answeredByCertificate: { ...answerByCertifiate },
+  }
+}
+
+function addAnswerByMessage(question: Question): Question {
+  return {
+    ...question,
+    answer: { author: 'Nisse', message: 'Det här är ett svar på en kompletteringsbegäran', id: 'svarsId', sent: new Date().toISOString() },
+  }
+}
+
 describe('ComplementQuestionPanel', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([questionMiddleware])
@@ -43,27 +74,28 @@ describe('ComplementQuestionPanel', () => {
   describe('renders a question', () => {
     const expectedQuestion = createQuestion()
 
-    beforeEach(() => {
-      renderComponent([expectedQuestion], false)
-    })
-
     it('displays author', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(expectedQuestion.author)).toBeInTheDocument()
     })
 
     it('displays message', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(expectedQuestion.message)).toBeInTheDocument()
     })
 
     it('displays sent', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(expectedQuestion.sent, { exact: false })).toBeInTheDocument()
     })
 
     it('displays subject', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(expectedQuestion.subject)).toBeInTheDocument()
     })
 
     it('displays complement question text', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(expectedQuestion.complements[0].questionText)).toBeInTheDocument()
     })
   })
@@ -101,15 +133,13 @@ describe('ComplementQuestionPanel', () => {
       status: CertificateStatus.SIGNED,
     })
 
-    beforeEach(() => {
-      renderComponent([expectedQuestion], false)
-    })
-
     it('displays information about complement certificate', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText('Kompletteringsbegäran besvarades med ett nytt intyg.')).toBeInTheDocument()
     })
 
     it('displays link to open complement certificate', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText('Öppna intyget')).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/certificateId')
     })
@@ -118,43 +148,9 @@ describe('ComplementQuestionPanel', () => {
   describe('answered complement', () => {
     const expectedQuestion = addAnswerByMessage(createQuestion())
 
-    beforeEach(() => {
-      renderComponent([expectedQuestion], false)
-    })
-
     it('displays information', () => {
+      renderComponent([expectedQuestion], false)
       expect(screen.getByText(COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE)).toBeInTheDocument()
     })
   })
 })
-
-function createQuestion(): Question {
-  return {
-    author: 'author',
-    id: String(Math.random()),
-    forwarded: true,
-    handled: true,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-    complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
-    subject: 'subject',
-    reminders: [],
-    type: QuestionType.COMPLEMENT,
-    links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
-  }
-}
-
-function addAnswerByCertificate(question: Question, answerByCertifiate: CertificateRelation): Question {
-  return {
-    ...question,
-    answeredByCertificate: { ...answerByCertifiate },
-  }
-}
-
-function addAnswerByMessage(question: Question): Question {
-  return {
-    ...question,
-    answer: { author: 'Nisse', message: 'Det här är ett svar på en kompletteringsbegäran', id: 'svarsId', sent: new Date().toISOString() },
-  }
-}

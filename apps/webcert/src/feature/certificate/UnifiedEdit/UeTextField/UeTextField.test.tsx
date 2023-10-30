@@ -36,8 +36,8 @@ describe('UeTextArea', () => {
     renderDefaultComponent({ question: mockQuestion, disabled: false })
     const inputString = 'Hello, World'
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, inputString)
+    await userEvent.clear(input)
+    await userEvent.type(input, inputString)
     expect(input).toHaveValue(inputString)
   })
 

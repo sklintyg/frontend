@@ -37,15 +37,16 @@ describe('CertificateFooter', () => {
         },
       ]
       testStore.dispatch(updateCertificate(certificate))
-      renderComponent()
     })
 
     it('should show category title', () => {
+      renderComponent()
       const heading = screen.getByText('Patientens adressuppgifter')
       expect(heading).toBeInTheDocument()
     })
 
     it('should show disabled textboxes', () => {
+      renderComponent()
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).toBeDisabled()
@@ -53,6 +54,7 @@ describe('CertificateFooter', () => {
     })
 
     it('should show patients address in the textboxes', () => {
+      renderComponent()
       const textboxes = screen.getAllByRole('textbox')
       expect(textboxes[0]).toHaveValue('Street 1')
       expect(textboxes[1]).toHaveValue('12345')
@@ -73,13 +75,13 @@ describe('CertificateFooter', () => {
         { type: ResourceLinkType.EDIT_CERTIFICATE, name: 'Certificate editable', description: 'RFS description', enabled: true },
       ]
       testStore.dispatch(updateCertificate(certificate))
-      renderComponent()
     })
 
     it('should show enabled textboxes', () => {
+      renderComponent()
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
-        expect(textbox).not.toBeDisabled()
+        expect(textbox).toBeEnabled()
       })
     })
   })

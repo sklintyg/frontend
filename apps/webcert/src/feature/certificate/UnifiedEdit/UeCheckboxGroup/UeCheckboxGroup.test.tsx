@@ -30,11 +30,7 @@ const question: CertificateDataElement = {
 }
 
 const renderDefaultComponent = () => {
-  render(
-    <>
-      <UeCheckboxGroup question={question} disabled={false} />
-    </>
-  )
+  render(<UeCheckboxGroup question={question} disabled={false} />)
 }
 
 beforeEach(() => {
@@ -49,41 +45,25 @@ describe('Checkbox group component', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
-  it('disables correctly all checkboxes', () => {
-    render(
-      <>
-        <UeCheckboxGroup question={question} disabled={true} />
-      </>
-    )
-    const checkboxes = screen.queryAllByRole('checkbox')
-    expect(checkboxes).toHaveLength(CHECKBOXES.length)
-    checkboxes.forEach((c: any) => {
-      expect(c).toBeDisabled()
-    })
+  it.each(CHECKBOXES.map(({ label }) => label))('Disable checbox for option %s', (label) => {
+    render(<UeCheckboxGroup question={question} disabled />)
+    expect(screen.getByRole('checkbox', { name: label })).toBeDisabled()
   })
 
-  it('allows user to check and uncheck checkboxes', () => {
+  it.each(CHECKBOXES.map(({ label }) => label))('allows user to check and uncheck checkbox for option %s', async (label) => {
     renderDefaultComponent()
-    const checkboxes = screen.queryAllByRole('checkbox')
-    expect(checkboxes).toHaveLength(CHECKBOXES.length)
-    checkboxes.forEach((c: any) => {
-      expect(c).not.toBeDisabled()
-      expect(c).not.toBeChecked()
-      userEvent.click(c)
-      expect(c).toBeChecked()
-    })
+    expect(screen.queryAllByRole('checkbox')).toHaveLength(CHECKBOXES.length)
+    expect(screen.getByRole('checkbox', { name: label })).toBeEnabled()
+    expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox', { name: label }))
+    expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
   })
 
-  it('allows user to check and uncheck checkboxes by clicking on label', () => {
+  it.each(CHECKBOXES.map(({ label }) => label))('allows user to check and uncheck checkboxes by clicking on label %s', async (label) => {
     renderDefaultComponent()
-    const checkboxes = screen.queryAllByRole('checkbox')
-    expect(checkboxes).toHaveLength(CHECKBOXES.length)
-    checkboxes.forEach((c: any, index: number) => {
-      const label = screen.getByText(CHECKBOXES[index].label)
-      expect(c).not.toBeChecked()
-      expect(label).not.toBeNull()
-      userEvent.click(label)
-      expect(c).toBeChecked()
-    })
+    expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
+    expect(screen.getByText(label)).toBeInTheDocument()
+    await userEvent.click(screen.getByText(label))
+    expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
   })
 })

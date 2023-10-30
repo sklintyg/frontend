@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-disabled-tests */
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -26,6 +27,8 @@ const mockContext = { certificateContainerId: '', certificateContainerRef: creat
 
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
 
+const getIcfValues = () => ['1', '2']
+
 const renderComponent = (
   infoText = 'infoText test',
   icfData = getIcfData().activityLimitation,
@@ -50,6 +53,27 @@ const renderComponent = (
       </Router>
     </Provider>
   )
+}
+
+const updateOriginalIcd10Codes = () => {
+  const codeInfo: string[] = ['A02', 'U071']
+
+  testStore.dispatch(setOriginalIcd10Codes(codeInfo))
+}
+const setDefaultIcfState = () => {
+  const icfData = getIcfData()
+  testStore.dispatch(updateIcfCodes(icfData))
+  updateOriginalIcd10Codes()
+}
+
+const toggleIcfDropdown = async () => {
+  await userEvent.click(screen.getByText('Ta hjälp av ICF'))
+}
+
+const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfValues?: string[]) => {
+  renderComponent(title, icfData, icfValues)
+  setDefaultIcfState()
+  toggleIcfDropdown()
 }
 
 // Scroll library is not working correctly with jsdom
@@ -83,13 +107,13 @@ describe.skip('IcfDropdown', () => {
     expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
   })
 
-  it.skip('display tooltip if no icd codes', () => {
+  it.skip('display tooltip if no icd codes', async () => {
     renderComponent()
     const expected = 'Ange minst en diagnos för att få ICF-stöd.'
 
-    userEvent.hover(screen.getByText('Ta hjälp av ICF'))
+    await userEvent.hover(screen.getByText('Ta hjälp av ICF'))
 
-    expect(screen.queryByText(expected)).not.toBeNull()
+    expect(screen.getByText(expected)).toBeInTheDocument()
   })
 
   it('display enabled button if icd codes exist', () => {
@@ -135,25 +159,25 @@ describe.skip('IcfDropdown', () => {
     expect(screen.getAllByText(expected)[0]).toBeInTheDocument()
   })
 
-  it('display description when expanding show more', () => {
+  it('display description when expanding show more', async () => {
     const icfData = getIcfData()
     const sut = icfData.activityLimitation?.commonCodes.icfCodes[0]
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
+    await userEvent.click(screen.getAllByTestId(`${sut?.title}-showmore`)[0])
 
     expect(screen.getByText(`${expected}`)).toBeInTheDocument()
   })
 
-  it('hides description when expanding and de-expanding show more', () => {
+  it('hides description when expanding and de-expanding show more', async () => {
     const icfData = getIcfData()
     const sut = icfData.activityLimitation?.commonCodes.icfCodes[0]
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
-    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
+    await userEvent.click(screen.getAllByTestId(`${sut?.title}-showmore`)[0])
+    await userEvent.click(screen.getAllByTestId(`${sut?.title}-showmore`)[0])
 
     expect(screen.queryByText(`${expected}`)).not.toBeInTheDocument()
   })
@@ -219,7 +243,7 @@ describe.skip('IcfDropdown', () => {
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one original code
-    expect(screen.queryByTestId('originalWarningIcf')).toBeInTheDocument()
+    expect(screen.getByTestId('originalWarningIcf')).toBeInTheDocument()
   })
 
   it('shall not show info symbol that support exists for another icd10 code', () => {
@@ -230,57 +254,33 @@ describe.skip('IcfDropdown', () => {
     expect(screen.queryByTestId('originalWarningIcf')).not.toBeInTheDocument()
   })
 
-  it('should close dropdown on escape press', () => {
+  it('should close dropdown on escape press', async () => {
     const expectedText = 'Test'
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
-    userEvent.keyboard('{escape}')
+    await userEvent.keyboard('{escape}')
     expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
   })
 
-  it('should have correct tab order', () => {
+  it('should have correct tab order', async () => {
     const expectedText = 'Test'
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
 
+    // eslint-disable-next-line testing-library/no-node-access
     const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
 
-    userEvent.tab({ focusTrap: container })
+    await userEvent.tab({ focusTrap: container })
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
 
-    userEvent.tab({ focusTrap: container })
+    await userEvent.tab({ focusTrap: container })
     expect(screen.getByLabelText('title 0')).toHaveFocus()
 
-    userEvent.tab({ focusTrap: container })
+    await userEvent.tab({ focusTrap: container })
     expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
   })
 })
-
-const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfValues?: string[]) => {
-  renderComponent(title, icfData, icfValues)
-  setDefaultIcfState()
-  toggleIcfDropdown()
-}
-
-const setDefaultIcfState = () => {
-  const icfData = getIcfData()
-  testStore.dispatch(updateIcfCodes(icfData))
-  updateOriginalIcd10Codes()
-}
-
-const toggleIcfDropdown = () => {
-  userEvent.click(screen.getByText('Ta hjälp av ICF'))
-}
-
-const getIcfValues = () => {
-  return ['1', '2']
-}
-
-const updateOriginalIcd10Codes = () => {
-  const codeInfo: string[] = ['A02', 'U071']
-
-  testStore.dispatch(setOriginalIcd10Codes(codeInfo))
-}

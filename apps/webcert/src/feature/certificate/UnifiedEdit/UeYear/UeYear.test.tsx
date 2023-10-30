@@ -18,11 +18,9 @@ const question = fakeYearElement({ id: QUESTION_ID, value: { year: testYear } })
 
 const renderComponent = (props: ComponentProps<typeof UeYear>) => {
   render(
-    <>
-      <Provider store={testStore}>
-        <UeYear {...props} />
-      </Provider>
-    </>
+    <Provider store={testStore}>
+      <UeYear {...props} />
+    </Provider>
   )
 }
 
@@ -45,8 +43,8 @@ describe('YearPicker component', () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).not.toBeDisabled()
-    expect(button).not.toBeDisabled()
+    expect(input).toBeEnabled()
+    expect(button).toBeEnabled()
   })
 
   it('disables component if disabled is set', () => {
@@ -66,19 +64,20 @@ describe('YearPicker component', () => {
   })
 
   it('should display picker with correct value selected and correct limits', async () => {
-    const question = fakeYearElement({
+    const element = fakeYearElement({
       config: { id: 'field', maxYear: testYear + 2, minYear: testYear - 2 },
       value: { id: 'field', year: testYear },
       id: QUESTION_ID,
     })[QUESTION_ID]
 
-    renderComponent({ disabled: false, question })
+    renderComponent({ disabled: false, question: element })
 
     const button = screen.getByRole('button')
 
-    userEvent.click(button)
+    await userEvent.click(button)
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.react-datepicker-popper') as HTMLElement).toBeInTheDocument()
     })
 
@@ -95,7 +94,7 @@ describe('YearPicker component', () => {
   })
 
   it('should display server validation errors on question.config.id (field)', () => {
-    const question = fakeYearElement({
+    const element = fakeYearElement({
       config: { id: 'field' },
       id: QUESTION_ID,
       validationErrors: [
@@ -106,26 +105,26 @@ describe('YearPicker component', () => {
         },
       ],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
-    renderComponent({ disabled: false, question })
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
+    renderComponent({ disabled: false, question: element })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
-    expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
+    expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
   it('should display server validation errors on question.id', () => {
-    const question = fakeYearElement({
+    const element = fakeYearElement({
       id: QUESTION_ID,
       validationErrors: [{ text: VALIDATION_ERROR }],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
-    renderComponent({ disabled: false, question })
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
+    renderComponent({ disabled: false, question: element })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
-    expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
+    expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()

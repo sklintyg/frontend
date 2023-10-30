@@ -3,10 +3,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
+  ListResponse,
   getCertificateList,
   getCertificateListConfig,
   getDraftListConfig,
@@ -15,15 +17,12 @@ import {
   getPreviousCertificatesListConfig,
   getUnhandledCertificates,
   getUnhandledCertificatesListConfig,
-  ListResponse,
   resetListState,
   updateActiveListConfig,
   updateActiveListType,
   updateListConfig,
 } from './listActions'
 import { listMiddleware } from './listMiddleware'
-
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 describe('Test list middleware', () => {
   let fakeAxios: MockAdapter

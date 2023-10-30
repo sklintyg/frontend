@@ -29,9 +29,9 @@ describe('UeTextArea', () => {
     renderDefaultComponent({ question: mockQuestion, disabled: false })
 
     const input = screen.getByRole('textbox')
-    userEvent.type(input, 'Hello, World!')
+    await userEvent.type(input, 'Hello, World!')
     expect(input).toHaveValue('Hello, World!')
-    //TODO: Perhaps this will work if we update our testing packages. Can't break to new lines currently
+    // TODO: Perhaps this will work if we update our testing packages. Can't break to new lines currently
     //   userEvent.type(input, 'Hello,{enter}World!')
     //   expect(input).toHaveValue('Hello,\nWorld!')
   })

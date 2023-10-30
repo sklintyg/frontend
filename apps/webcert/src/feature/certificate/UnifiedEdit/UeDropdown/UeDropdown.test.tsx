@@ -33,11 +33,7 @@ const question: CertificateDataElement = {
 }
 
 const renderComponent = () => {
-  render(
-    <>
-      <UeDropdown question={question} disabled={false}></UeDropdown>
-    </>
-  )
+  render(<UeDropdown question={question} disabled={false} />)
 }
 
 beforeEach(() => {
@@ -48,15 +44,11 @@ beforeEach(() => {
 })
 
 describe('Dropdown component', () => {
-  it('Renders element', () => {
-    renderComponent()
-  })
-
   it('renders label and all options', () => {
     renderComponent()
-    expect(screen.queryByText(LABEL)).toBeInTheDocument()
+    expect(screen.getByText(LABEL)).toBeInTheDocument()
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).not.toBeDisabled()
+    expect(dropdown).toBeEnabled()
     expect(dropdown).toBeInTheDocument()
     const options = screen.queryAllByRole('option')
     expect(options).toHaveLength(OPTIONS.length)
@@ -72,26 +64,22 @@ describe('Dropdown component', () => {
     })
   })
 
-  it('lets user choose option', () => {
+  it('lets user choose option', async () => {
     renderComponent()
     const dropdown = screen.getByRole('combobox')
     const options = screen.queryAllByRole('option') as HTMLOptionElement[]
     expect(dropdown).toHaveValue(OPTIONS[0].id)
     expect(options[0].selected).toBeTruthy()
     expect(options[1].selected).toBeFalsy()
-    userEvent.click(dropdown)
-    userEvent.selectOptions(dropdown, OPTIONS[1].id)
+    await userEvent.click(dropdown)
+    await userEvent.selectOptions(dropdown, OPTIONS[1].id)
     expect(dropdown).toHaveValue(OPTIONS[1].id)
     expect(options[1].selected).toBeTruthy()
     expect(options[0].selected).toBeFalsy()
   })
 
   it('gets disabled correctly', () => {
-    render(
-      <>
-        <UeDropdown question={question} disabled={true}></UeDropdown>
-      </>
-    )
+    render(<UeDropdown question={question} disabled />)
     const dropdown = screen.getByRole('combobox')
     expect(dropdown).toBeDisabled()
   })

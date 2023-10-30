@@ -3,6 +3,7 @@ import { SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
@@ -21,8 +22,43 @@ import {
 } from './sessionActions'
 import { sessionMiddleware } from './sessionMiddleware'
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+function getDummyUnit(): Unit {
+  return {
+    address: 'adress',
+    city: 'city',
+    email: 'email',
+    phoneNumber: 'phonenumber',
+    unitId: 'unitid',
+    unitName: 'unitname',
+    zipCode: 'zipcode',
+  } as Unit
+}
+
+function getDummyUser(): User {
+  return {
+    protectedPerson: false,
+    hsaId: 'hsaid',
+    loggedInCareProvider: getDummyUnit(),
+    loggedInUnit: getDummyUnit(),
+    name: 'name',
+    preferences: null,
+    role: 'role',
+    signingMethod: SigningMethod.FAKE,
+  } as User
+}
+
+function getDummyUserWithoutLoggedInUnit(): User {
+  return {
+    protectedPerson: false,
+    hsaId: 'hsaid',
+    loggedInCareProvider: {},
+    loggedInUnit: {},
+    name: 'name',
+    preferences: null,
+    role: 'role',
+    signingMethod: SigningMethod.FAKE,
+  } as User
+}
 
 describe('Test session middleware', () => {
   let fakeAxios: MockAdapter
@@ -260,41 +296,3 @@ describe('Test session middleware', () => {
     })
   })
 })
-
-function getDummyUser(): User {
-  return {
-    protectedPerson: false,
-    hsaId: 'hsaid',
-    loggedInCareProvider: getDummyUnit(),
-    loggedInUnit: getDummyUnit(),
-    name: 'name',
-    preferences: null,
-    role: 'role',
-    signingMethod: SigningMethod.FAKE,
-  } as User
-}
-
-function getDummyUnit(): Unit {
-  return {
-    address: 'adress',
-    city: 'city',
-    email: 'email',
-    phoneNumber: 'phonenumber',
-    unitId: 'unitid',
-    unitName: 'unitname',
-    zipCode: 'zipcode',
-  } as Unit
-}
-
-function getDummyUserWithoutLoggedInUnit(): User {
-  return {
-    protectedPerson: false,
-    hsaId: 'hsaid',
-    loggedInCareProvider: {},
-    loggedInUnit: {},
-    name: 'name',
-    preferences: null,
-    role: 'role',
-    signingMethod: SigningMethod.FAKE,
-  } as User
-}

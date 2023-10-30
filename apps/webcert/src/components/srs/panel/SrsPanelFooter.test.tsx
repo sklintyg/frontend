@@ -32,27 +32,27 @@ describe('SrsPanelFooter', () => {
 
   it('should set correct link in footer for recommendations', () => {
     renderComponent(SrsInformationChoice.RECOMMENDATIONS)
-    expect(screen.getByRole('link')).toHaveAttribute('href', 'https://skr.se/' + srsInfo.atgarderDiagnosisCode)
+    expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${  srsInfo.atgarderDiagnosisCode}`)
   })
 
   it('should set correct text in footer for recommendations', () => {
     renderComponent(SrsInformationChoice.RECOMMENDATIONS)
-    expect(screen.getByText('Information om ' + srsInfo.atgarderDiagnosisDescription + ' hos Rätt Sjukskrivning')).toBeInTheDocument()
+    expect(screen.getByText(`Information om ${  srsInfo.atgarderDiagnosisDescription  } hos Rätt Sjukskrivning`)).toBeInTheDocument()
   })
 
   it('should set correct link in footer for statistics', () => {
     renderComponent(SrsInformationChoice.STATISTICS)
-    expect(screen.getByRole('link')).toHaveAttribute('href', 'https://skr.se/' + srsInfo.statistikDiagnosisCode)
+    expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${  srsInfo.statistikDiagnosisCode}`)
   })
 
   it('should set correct text in footer for statistics', () => {
     renderComponent(SrsInformationChoice.STATISTICS)
-    expect(screen.getByText('Information om ' + srsInfo.statistikDiagnosisDescription + ' hos Rätt Sjukskrivning')).toBeInTheDocument()
+    expect(screen.getByText(`Information om ${  srsInfo.statistikDiagnosisDescription  } hos Rätt Sjukskrivning`)).toBeInTheDocument()
   })
 
-  it('should log when clicking link', () => {
+  it('should log when clicking link', async () => {
     renderComponent(SrsInformationChoice.STATISTICS)
-    userEvent.click(screen.getByRole('link'))
+    await userEvent.click(screen.getByRole('link'))
     expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
   })
 })

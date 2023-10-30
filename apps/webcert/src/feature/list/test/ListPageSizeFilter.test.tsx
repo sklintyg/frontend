@@ -9,22 +9,19 @@ const onFilterChange = vi.fn()
 const TITLE = 'title for filter pagesize'
 const pageSizes = [10, 20, 50, 100]
 
-const getFilterValue = (): ListFilterValueNumber => {
-  return {
-    type: ListFilterType.NUMBER,
-    id: 'PAGESIZE',
-    value: 10,
-  }
-}
+const getFilterValue = (): ListFilterValueNumber => ({
+  type: ListFilterType.NUMBER,
+  id: 'PAGESIZE',
+  value: 10,
+})
 
-const getFilterConfig = (pageSizes: number[]): ListFilterPageSizeConfig => {
-  return {
+const getFilterConfig = (size: number[]): ListFilterPageSizeConfig =>
+  ({
     type: ListFilterType.PAGESIZE,
     id: 'PAGESIZE',
     title: TITLE,
-    pageSizes: pageSizes,
-  } as ListFilterPageSizeConfig
-}
+    pageSizes: size,
+  } as ListFilterPageSizeConfig)
 
 const renderComponent = (totalCount: number) => {
   render(

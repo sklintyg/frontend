@@ -1,4 +1,4 @@
-import { Certificate } from '@frontend/common'
+import { fakeCertificate, fakeCertificateMetaData } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -17,6 +17,10 @@ const renderDefaultComponent = () => {
 }
 
 const INFO_TEXT = 'Du kan inte använda alla funktioner, intyget är av en äldre version.'
+
+const setState = (latestMajorVersion: boolean) => {
+  testStore.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ latestMajorVersion }) })))
+}
 
 describe('MajorVersionNotification', () => {
   beforeEach(() => {
@@ -40,16 +44,3 @@ describe('MajorVersionNotification', () => {
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 })
-
-const setState = (isLatestMajorVersion: boolean) => {
-  const certificate = createCertificate(isLatestMajorVersion)
-  testStore.dispatch(updateCertificate(certificate))
-}
-
-const createCertificate = (isLatestMajorVersion: boolean): Certificate => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: { latestMajorVersion: isLatestMajorVersion },
-  }
-}

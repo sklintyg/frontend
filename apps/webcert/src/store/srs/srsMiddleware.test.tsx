@@ -1,25 +1,3 @@
-import MockAdapter from 'axios-mock-adapter'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { configureApplicationStore } from '../configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { utilsMiddleware } from '../utils/utilsMiddleware'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { srsMiddleware } from './srsMiddleware'
-import {
-  getPredictions,
-  getRecommendations,
-  getSRSCodes,
-  logSrsInteraction,
-  PredictionsRequest,
-  RiskOpinionRequest,
-  setRiskOpinion,
-  updateCertificateId,
-  updateHasLoadedSRSContent,
-  updateHasLoggedMeasuresDisplayed,
-  updateLoggedCertificateId,
-  updateSrsPredictions,
-} from './srsActions'
 import {
   CertificateStatus,
   fakeCertificate,
@@ -34,10 +12,31 @@ import {
   SrsUserClientContext,
   User,
 } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { getUserSuccess } from '../user/userActions'
-
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+import { utilsMiddleware } from '../utils/utilsMiddleware'
+import {
+  getPredictions,
+  getRecommendations,
+  getSRSCodes,
+  logSrsInteraction,
+  PredictionsRequest,
+  RiskOpinionRequest,
+  setRiskOpinion,
+  updateCertificateId,
+  updateHasLoadedSRSContent,
+  updateHasLoggedMeasuresDisplayed,
+  updateLoggedCertificateId,
+  updateSrsPredictions,
+} from './srsActions'
+import { srsMiddleware } from './srsMiddleware'
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
@@ -80,23 +79,23 @@ describe('Test certificate middleware', () => {
   describe('Handle update diagnosis list value', () => {
     it('should update diagnosis list if certificate data element updates', async () => {
       const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-      testStore.dispatch(updateCertificateDataElement(element['QUESTION_ID']))
+      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
       await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element['QUESTION_ID'].value)
+      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
     })
 
     it('should update diagnosis list if certificate updates', async () => {
       const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
       testStore.dispatch(updateCertificate(fakeCertificate({ data: element })))
       await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element['QUESTION_ID'].value)
+      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
     })
 
     it('should reset predictions if certificate data element updates with diagnosis list', async () => {
       const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
       const prediction = fakeSrsPrediction()
       testStore.dispatch(updateSrsPredictions([prediction]))
-      testStore.dispatch(updateCertificateDataElement(element['QUESTION_ID']))
+      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
       await flushPromises()
 
       expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(0)
@@ -106,7 +105,7 @@ describe('Test certificate middleware', () => {
       const element = fakeRadioMultipleCodeElement({ id: 'QUESTION_ID' })
       const prediction = fakeSrsPrediction()
       testStore.dispatch(updateSrsPredictions([prediction]))
-      testStore.dispatch(updateCertificateDataElement(element['QUESTION_ID']))
+      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
       await flushPromises()
 
       expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(1)
@@ -234,7 +233,7 @@ describe('Test certificate middleware', () => {
     it('should update diagnosis list if certificate updates', async () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element['QUESTION_ID'].value)
+      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
     })
 
     it('should update patient id if certificate updates', async () => {

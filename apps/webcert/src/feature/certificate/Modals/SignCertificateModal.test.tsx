@@ -63,7 +63,7 @@ describe('SingCertificateModal', () => {
 
     it('Should display correct title', () => {
       render(<SignCertificateModal />)
-      expect(screen.queryByText('Ditt intyg signeras')).toBeInTheDocument()
+      expect(screen.getByText('Ditt intyg signeras')).toBeInTheDocument()
     })
 
     it('Should not have any buttons', () => {
@@ -73,7 +73,7 @@ describe('SingCertificateModal', () => {
 
     it('Should display desktop text', () => {
       render(<SignCertificateModal />)
-      expect(screen.queryByText(/Om ditt BankID säkerhetsprogram inte öppnas/i)).toBeInTheDocument()
+      expect(screen.getByText(/Om ditt BankID säkerhetsprogram inte öppnas/i)).toBeInTheDocument()
       expect(screen.queryByText(/Starta mobilt BankID/i)).not.toBeInTheDocument()
     })
 
@@ -82,7 +82,7 @@ describe('SingCertificateModal', () => {
         callback(getTestState(CertificateSignStatus.PROCESSING, LoginMethod.BANK_ID_MOBILE))
       )
       render(<SignCertificateModal />)
-      expect(screen.queryByText(/Starta mobilt BankID/i)).toBeInTheDocument()
+      expect(screen.getByText(/Starta mobilt BankID/i)).toBeInTheDocument()
       expect(screen.queryByText(/Om ditt BankID säkerhetsprogram inte öppnas/i)).not.toBeInTheDocument()
     })
   })
@@ -94,7 +94,7 @@ describe('SingCertificateModal', () => {
 
     it('Should display correct title', () => {
       render(<SignCertificateModal />)
-      expect(screen.queryByText('Ditt intyg signeras')).toBeInTheDocument()
+      expect(screen.getByText('Ditt intyg signeras')).toBeInTheDocument()
     })
 
     it('Should not have any buttons', () => {
@@ -104,7 +104,7 @@ describe('SingCertificateModal', () => {
 
     it('Should display desktop text', () => {
       render(<SignCertificateModal />)
-      expect(screen.queryByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).toBeInTheDocument()
+      expect(screen.getByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).toBeInTheDocument()
       expect(screen.queryByText(/Mobilt BankID-servern får ej kontakt/i)).not.toBeInTheDocument()
     })
 
@@ -113,7 +113,7 @@ describe('SingCertificateModal', () => {
         callback(getTestState(CertificateSignStatus.NO_CLIENT, LoginMethod.BANK_ID_MOBILE))
       )
       render(<SignCertificateModal />)
-      expect(screen.queryByText(/Mobilt BankID-servern får ej kontakt/i)).toBeInTheDocument()
+      expect(screen.getByText(/Mobilt BankID-servern får ej kontakt/i)).toBeInTheDocument()
       expect(screen.queryByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).not.toBeInTheDocument()
     })
   })

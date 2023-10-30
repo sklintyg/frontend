@@ -5,11 +5,9 @@ import {
   ConfigTypes,
   ConfigUeSickLeavePeriod,
   getCertificateWithQuestion,
-  getValidDate,
 } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { addDays, isEqual } from 'date-fns'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
@@ -82,11 +80,20 @@ const renderDefaultComponent = (question?: CertificateDataElement, disabled?: bo
 }
 
 describe('UeSickLeavePeriod', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('Renders without crashing', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('Gets a correct starting date with no prior date period', async () => {
+    vi.setSystemTime(new Date(2000, 1, 1, 13))
     renderDefaultComponent()
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
@@ -96,44 +103,34 @@ describe('UeSickLeavePeriod', () => {
     screen.getByLabelText(TRE_FJARDEDEL_LABEL).click()
     screen.getByLabelText(HELT_NEDSATT_LABEL).click()
 
-    const expectedDate = getValidDate((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value)
-    const halfDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
-    const threeFourthsDate = getValidDate((screen.getByTestId(`from${TRE_FJARDEDEL_ID}`) as HTMLInputElement).value)
-    const fullTimeDate = getValidDate((screen.getByTestId(`from${HELT_NEDSATT_ID}`) as HTMLInputElement).value)
-
-    expect(isEqual(expectedDate!, halfDate!)).toBeTruthy()
-    expect(isEqual(expectedDate!, threeFourthsDate!)).toBeTruthy()
-    expect(isEqual(expectedDate!, fullTimeDate!)).toBeTruthy()
+    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-01')
+    expect(screen.getByTestId(`from${TRE_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
+    expect(screen.getByTestId(`from${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-01')
+    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
   })
 
   it('Gets a correct starting date with one prior date period', async () => {
+    vi.setSystemTime(new Date(2000, 1, 1, 13))
     renderDefaultComponent()
-    // Enter first period, click second period checkbox and make sure its one day ahead
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
-    userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
+    await userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${EN_FJARDEDEL_ID}`) as HTMLInputElement).value)
-    const actualDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
-    const expectedDate = addDays(endOfPriorPeriodDate!, 1)
-
-    expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
+    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-07')
+    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
   it('Gets a correct starting date with one later date period', async () => {
+    vi.setSystemTime(new Date(2000, 1, 1, 13))
     renderDefaultComponent()
-    // Enter last period, click prior period checkbox and make sure its one day ahead
 
     screen.getByLabelText(HELT_NEDSATT_LABEL).click()
-    userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
+    await userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${HELT_NEDSATT_ID}`) as HTMLInputElement).value)
-    const actualDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
-    const expectedDate = addDays(endOfPriorPeriodDate!, 1)
-
-    expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
+    expect(screen.getByTestId(`tom${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-07')
+    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
   it('inputs are disabled correctly', () => {
@@ -211,7 +208,7 @@ describe('UeSickLeavePeriod', () => {
 
     renderDefaultComponent(question)
 
-    expect(screen.queryByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
+    expect(screen.getByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
   })
 
   it('does display validation error if child has no client validation errors', () => {
@@ -237,7 +234,7 @@ describe('UeSickLeavePeriod', () => {
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
 
-  it('does not display validation error if child has client validation errors', () => {
+  it('does not display validation error if child has client validation errors', async () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
     const question: CertificateDataElement = {
       ...defaultQuestion,
@@ -260,11 +257,11 @@ describe('UeSickLeavePeriod', () => {
 
     renderDefaultComponent(question)
 
-    userEvent.click(screen.getAllByRole('checkbox')[0])
+    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
-  it('does display validation error if missing tom date', () => {
+  it('does display validation error if missing tom date', async () => {
     const expectedValidationMessage = 'Ange ett datum'
     const question: CertificateDataElement = {
       ...defaultQuestion,
@@ -287,12 +284,12 @@ describe('UeSickLeavePeriod', () => {
 
     renderDefaultComponent(question)
 
-    userEvent.click(screen.getAllByRole('checkbox')[0])
+    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
-    expect(screen.queryByText(expectedValidationMessage)).toBeInTheDocument()
+    expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
 
-  it('does display validation error if missing from date', () => {
+  it('does display validation error if missing from date', async () => {
     const expectedValidationMessage = 'Ange ett datum'
     const question: CertificateDataElement = {
       ...defaultQuestion,
@@ -315,8 +312,8 @@ describe('UeSickLeavePeriod', () => {
 
     renderDefaultComponent(question)
 
-    userEvent.click(screen.getAllByRole('checkbox')[0])
+    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
-    expect(screen.queryByText(expectedValidationMessage)).toBeInTheDocument()
+    expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
 })

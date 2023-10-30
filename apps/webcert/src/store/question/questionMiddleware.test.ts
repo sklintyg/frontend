@@ -11,12 +11,15 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
 import { certificateMiddleware } from '../certificate/certificateMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
+  QuestionResponse,
+  QuestionsResponse,
   createAnswer,
   deleteAnswer,
   deleteQuestion,
@@ -24,8 +27,6 @@ import {
   editQuestion,
   getQuestions,
   handleQuestion,
-  QuestionResponse,
-  QuestionsResponse,
   sendAnswer,
   sendQuestion,
   sendQuestionError,
@@ -39,8 +40,89 @@ import {
 } from './questionActions'
 import { questionMiddleware } from './questionMiddleware'
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => ({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  metadata: { id: 'certificateId' },
+  status: CertificateStatus.SIGNED,
+  links: [
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
+  ],
+})
+
+const addParentCertificate = (certificate: Certificate, parentId: string): Certificate => ({
+  ...certificate,
+  metadata: {
+    ...certificate.metadata,
+    status: CertificateStatus.UNSIGNED,
+    relations: {
+      parent: {
+        certificateId: parentId,
+        type: CertificateRelationType.COMPLEMENTED,
+        status: CertificateStatus.SIGNED,
+        created: new Date().toISOString(),
+      },
+      children: [],
+    },
+  },
+})
+
+const addAnswerToQuestion = (question: Question, message: string): Question =>
+  ({
+    ...question,
+    answer: { author: '', id: '', message, sent: '' },
+  } as Question)
+
+const addComplementsToQuestion = (question: Question, complements: Complement[]): Question =>
+  ({
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [...complements],
+  } as Question)
+
+const createQuestion = (): Question => ({
+  type: QuestionType.COORDINATION,
+  author: 'author',
+  id: 'id',
+  forwarded: true,
+  handled: false,
+  lastUpdate: '2021-07-08',
+  message: 'message',
+  sent: '2021-07-08',
+  complements: [],
+  subject: 'subject',
+  reminders: [],
+  links: [],
+})
+
+const createComplement = (): Question => ({
+  type: QuestionType.COMPLEMENT,
+  author: 'author',
+  id: 'id',
+  forwarded: true,
+  handled: false,
+  lastUpdate: '2021-07-08',
+  message: 'message',
+  sent: '2021-07-08',
+  complements: [],
+  subject: 'subject',
+  reminders: [],
+  links: [],
+})
+
+const createQuestionDraft = (): Question =>
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  ({
+    id: 'id',
+    message: 'message',
+    type: QuestionType.COORDINATION,
+  })
 
 describe('Test question middleware', () => {
   let fakeAxios: MockAdapter
@@ -58,7 +140,7 @@ describe('Test question middleware', () => {
   describe('Handle GetQuestions', () => {
     it('shall handle get questions', async () => {
       const expectedQuestion = createQuestion()
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse: QuestionsResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(getQuestions('certificateId'))
@@ -69,7 +151,7 @@ describe('Test question middleware', () => {
 
     it('shall handle get questions with question draft', async () => {
       const expectedQuestion = createQuestionDraft()
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse: QuestionsResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCreateQuestionsAvailable(true))
@@ -83,7 +165,7 @@ describe('Test question middleware', () => {
 
     it('shall handle get questions with question draft when create question not available', async () => {
       const expectedQuestion = createQuestionDraft()
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse: QuestionsResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCreateQuestionsAvailable(false))
@@ -95,7 +177,7 @@ describe('Test question middleware', () => {
     })
 
     it('shall handle get questions without question draft', async () => {
-      const getQuestionResponse = { questions: [] } as QuestionsResponse
+      const getQuestionResponse: QuestionsResponse = { questions: [] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
       const questionDraft = createQuestionDraft()
 
@@ -109,7 +191,7 @@ describe('Test question middleware', () => {
 
     it('shall handle get questions with question answer draft', async () => {
       const expectedQuestion = addAnswerToQuestion(createQuestion(), '')
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(getQuestions('certificateId'))
@@ -120,11 +202,11 @@ describe('Test question middleware', () => {
     })
 
     it('shall handle get questions with complements', async () => {
-      const expectedComplements = [
+      const expectedComplements: Complement[] = [
         { message: 'Vi behöver komplettering', valueId: 'valueId', questionId: 'questionId', questionText: 'questionText' },
-      ] as Complement[]
+      ]
       const expectedQuestion = addComplementsToQuestion(createQuestion(), expectedComplements)
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(getQuestions('certificateId'))
@@ -158,7 +240,7 @@ describe('Test question middleware', () => {
   describe('Handle UpdateCertificate', () => {
     it('shall get questions when certificate is updated', async () => {
       const expectedQuestion = createQuestion()
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
@@ -170,7 +252,7 @@ describe('Test question middleware', () => {
     it('shall get questions for complemented certificate when certificate is a draft is updated', async () => {
       const certificate = addParentCertificate(getCertificate('certificateId', true), 'parentId')
       const expectedQuestion = addComplementsToQuestion(createQuestion(), [])
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/parentId/complements').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCertificate(certificate))
@@ -182,7 +264,7 @@ describe('Test question middleware', () => {
 
     it('shall not get questions when resource link is missing', async () => {
       const expectedQuestion = createQuestion()
-      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      const getQuestionResponse = { questions: [expectedQuestion] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCertificate(getCertificate('certificateId', false)))
@@ -203,7 +285,7 @@ describe('Test question middleware', () => {
     })
 
     it('shall set certificateId when certificate is updated', async () => {
-      const getQuestionResponse = { questions: [] } as QuestionsResponse
+      const getQuestionResponse = { questions: [] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
@@ -213,7 +295,7 @@ describe('Test question middleware', () => {
     })
 
     it('shall set isCreateQuestionsAvailable when certificate is updated', async () => {
-      const getQuestionResponse = { questions: [] } as QuestionsResponse
+      const getQuestionResponse = { questions: [] }
       fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
 
       testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
@@ -227,7 +309,7 @@ describe('Test question middleware', () => {
     it('shall handle delete question', async () => {
       const questionDraft = createQuestionDraft()
       testStore.dispatch(updateQuestionDraft(questionDraft))
-      fakeAxios.onDelete('/api/question/' + questionDraft.id).reply(200)
+      fakeAxios.onDelete(`/api/question/${questionDraft.id}`).reply(200)
 
       testStore.dispatch(deleteQuestion(questionDraft))
 
@@ -240,7 +322,7 @@ describe('Test question middleware', () => {
     it('shall handle save question', async () => {
       const questionDraft = createQuestionDraft()
       testStore.dispatch(updateQuestionDraft(questionDraft))
-      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+      fakeAxios.onPost(`/api/question/${questionDraft.id}`).reply(200)
 
       const editedDraft = { ...questionDraft, message: 'new message' }
       testStore.dispatch(editQuestion(editedDraft))
@@ -266,7 +348,7 @@ describe('Test question middleware', () => {
 
     it('shall set isQuestionDraftSaved when question has been saved', async () => {
       const questionDraft = createQuestionDraft()
-      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+      fakeAxios.onPost(`/api/question/${questionDraft.id}`).reply(200)
 
       testStore.dispatch(editQuestion(questionDraft))
 
@@ -289,7 +371,7 @@ describe('Test question middleware', () => {
 
     it('shall set isDisplayValidationMessages to false when question has been edited', async () => {
       const questionDraft = createQuestionDraft()
-      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+      fakeAxios.onPost(`/api/question/${questionDraft.id}`).reply(200)
 
       testStore.dispatch(editQuestion(questionDraft))
 
@@ -299,7 +381,7 @@ describe('Test question middleware', () => {
 
     it('shall validate question when question has been edited', async () => {
       const questionDraft = createQuestionDraft()
-      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+      fakeAxios.onPost(`/api/question/${questionDraft.id}`).reply(200)
 
       questionDraft.message = ''
       testStore.dispatch(editQuestion(questionDraft))
@@ -338,7 +420,7 @@ describe('Test question middleware', () => {
       const expectedQuestion = createQuestion()
       const sendQuestionResponse = { question: expectedQuestion } as QuestionResponse
       testStore.dispatch(updateQuestionDraft(questionDraft))
-      fakeAxios.onPost('/api/question/' + questionDraft.id + '/send').reply(200, sendQuestionResponse)
+      fakeAxios.onPost(`/api/question/${questionDraft.id}/send`).reply(200, sendQuestionResponse)
 
       testStore.dispatch(sendQuestion(questionDraft))
 
@@ -421,7 +503,7 @@ describe('Test question middleware', () => {
       testStore.dispatch(updateQuestions([question]))
       const answer = { ...question.answer, message: 'Det här är det första i svaret...' } as Answer
       const saveAnswerResponse = { question: { ...question, answer } } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/saveanswer').reply(200, saveAnswerResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/saveanswer`).reply(200, saveAnswerResponse)
 
       testStore.dispatch(editAnswer({ questionId: question.id, answer }))
 
@@ -435,7 +517,7 @@ describe('Test question middleware', () => {
       testStore.dispatch(updateQuestions([question]))
       const answer = { ...question.answer, message: 'Det här är det första i svaret...' } as Answer
       const saveAnswerResponse = { question: { ...question, answer } } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/saveanswer').reply(200, saveAnswerResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/saveanswer`).reply(200, saveAnswerResponse)
 
       testStore.dispatch(editAnswer({ questionId: question.id, answer }))
 
@@ -456,7 +538,7 @@ describe('Test question middleware', () => {
           answer: { ...answer, id: 'answerId', author: 'author', sent: new Date().toISOString() },
         },
       } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/sendanswer').reply(200, sendAnswerResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/sendanswer`).reply(200, sendAnswerResponse)
 
       testStore.dispatch(sendAnswer({ questionId: question.id, answer }))
 
@@ -476,7 +558,7 @@ describe('Test question middleware', () => {
           answer: undefined,
         },
       } as QuestionResponse
-      fakeAxios.onDelete('/api/question/' + question.id + '/answer').reply(200, deleteAnswerResponse)
+      fakeAxios.onDelete(`/api/question/${question.id}/answer`).reply(200, deleteAnswerResponse)
 
       testStore.dispatch(deleteAnswer(question))
 
@@ -496,7 +578,7 @@ describe('Test question middleware', () => {
           handled: true,
         },
       } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/handle`).reply(200, handleQuestionResponse)
 
       testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
 
@@ -514,7 +596,7 @@ describe('Test question middleware', () => {
           handled: true,
         },
       } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/handle`).reply(200, handleQuestionResponse)
 
       testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
 
@@ -532,7 +614,7 @@ describe('Test question middleware', () => {
           handled: true,
         },
       } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/handle`).reply(200, handleQuestionResponse)
 
       testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
 
@@ -549,7 +631,7 @@ describe('Test question middleware', () => {
           handled: false,
         },
       } as QuestionResponse
-      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+      fakeAxios.onPost(`/api/question/${question.id}/handle`).reply(200, handleQuestionResponse)
 
       testStore.dispatch(handleQuestion({ questionId: question.id, handled: false }))
 
@@ -559,98 +641,3 @@ describe('Test question middleware', () => {
     })
   })
 })
-
-const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: { id: 'certificateId' },
-    status: CertificateStatus.SIGNED,
-    links: [
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      { enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS },
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
-    ],
-  }
-}
-
-const addParentCertificate = (certificate: Certificate, parentId: string): Certificate => {
-  return {
-    ...certificate,
-    metadata: {
-      ...certificate.metadata,
-      status: CertificateStatus.UNSIGNED,
-      relations: {
-        parent: {
-          certificateId: parentId,
-          type: CertificateRelationType.COMPLEMENTED,
-          status: CertificateStatus.SIGNED,
-          created: new Date().toISOString(),
-        },
-        children: [],
-      },
-    },
-  }
-}
-
-const addAnswerToQuestion = (question: Question, message: string): Question => {
-  return {
-    ...question,
-    answer: { author: '', id: '', message, sent: '' },
-  } as Question
-}
-
-const addComplementsToQuestion = (question: Question, complements: Complement[]): Question => {
-  return {
-    ...question,
-    type: QuestionType.COMPLEMENT,
-    complements: [...complements],
-  } as Question
-}
-
-const createQuestion = (): Question => {
-  return {
-    type: QuestionType.COORDINATION,
-    author: 'author',
-    id: 'id',
-    forwarded: true,
-    handled: false,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    links: [],
-  }
-}
-
-const createComplement = (): Question => {
-  return {
-    type: QuestionType.COMPLEMENT,
-    author: 'author',
-    id: 'id',
-    forwarded: true,
-    handled: false,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    links: [],
-  }
-}
-
-const createQuestionDraft = (): Question => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return {
-    id: 'id',
-    message: 'message',
-    type: QuestionType.COORDINATION,
-  }
-}

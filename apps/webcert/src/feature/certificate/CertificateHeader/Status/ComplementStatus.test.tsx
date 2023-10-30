@@ -7,11 +7,9 @@ import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
   render(
-    <>
-      <Provider store={store}>
+    <Provider store={store}>
         <CertificateHeaderStatuses certificateMetadata={certificateMetadata} questions={questions} />
       </Provider>
-    </>
   )
 }
 

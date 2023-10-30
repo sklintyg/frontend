@@ -20,6 +20,7 @@ import { answerComplementCertificate, complementCertificate, updateCertificate }
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
 import QuestionPanelFooter from './QuestionPanelFooter'
 
 const getTestCertificate = (
@@ -32,9 +33,6 @@ const getTestCertificate = (
   fakeCertificate({
     metadata: fakeCertificateMetaData({ id, type, version, readyForSign, relations }),
   })
-
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 let testStore: EnhancedStore
 
@@ -49,86 +47,6 @@ const renderComponent = (questions: Question[]) => {
     </Provider>
   )
 }
-
-describe('QuestionPanelFooter', () => {
-  beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, questionMiddleware])
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
-  describe('not started complement', () => {
-    const expectedQuestion = createQuestion()
-
-    beforeEach(() => {
-      renderComponent([expectedQuestion])
-    })
-
-    it('display complement button if resource link is available', () => {
-      expect(screen.getByText('Komplettera')).toBeInTheDocument()
-    })
-
-    it('complement certificate if button clicked', () => {
-      userEvent.click(screen.getByText('Komplettera'))
-
-      flushPromises()
-      const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
-      expect(complementCertificateAction).toBeTruthy()
-    })
-
-    it('display cannot complement button if resource link is available', () => {
-      expect(screen.getByText('Kan inte komplettera')).toBeInTheDocument()
-    })
-
-    it('complement certificate with a new certificate and message', () => {
-      userEvent.click(screen.getByText('Kan inte komplettera'))
-      userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
-      const newMessage = 'Det här är ett meddelande'
-      const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
-      userEvent.click(screen.getByText('Skicka svar'))
-
-      flushPromises()
-      const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
-      expect(complementCertificateAction?.payload.message).toEqual(newMessage)
-    })
-
-    it('answer complement with a message', () => {
-      userEvent.click(screen.getByText('Kan inte komplettera'))
-      userEvent.click(screen.getByText('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.'))
-      const newMessage = 'Det här är ett meddelande'
-      const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
-      userEvent.click(screen.getByText('Skicka svar'))
-
-      flushPromises()
-      const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))
-      expect(answerComplementCertificateAction?.payload).toEqual(newMessage)
-    })
-
-    it('display forward button if resource link is available', () => {
-      flushPromises()
-      const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
-      const unit = getUnit()
-      const certificate = getTestCertificate('certificateId')
-      certificate.links = resourceLinks
-      certificate.metadata.unit = unit
-      certificate.metadata.careProvider = unit
-      testStore.dispatch(updateCertificate(certificate))
-      const question = createQuestion()
-      question.links.push(resourceLinks[0])
-      renderComponent([question])
-
-      expect(screen.getByText('Vidarebefordra')).toBeInTheDocument()
-    })
-
-    it('does not display forward button if resource link is not available', () => {
-      expect(screen.queryByText('Vidarebefordra')).not.toBeInTheDocument()
-    })
-  })
-})
 
 function createQuestion(): Question {
   return {
@@ -154,3 +72,86 @@ function createQuestion(): Question {
     ],
   }
 }
+
+describe('QuestionPanelFooter', () => {
+  beforeEach(() => {
+    testStore = configureApplicationStore([dispatchHelperMiddleware, questionMiddleware])
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
+  })
+
+  describe('not started complement', () => {
+    const expectedQuestion = createQuestion()
+
+    it('display complement button if resource link is available', () => {
+      renderComponent([expectedQuestion])
+      expect(screen.getByText('Komplettera')).toBeInTheDocument()
+    })
+
+    it('complement certificate if button clicked', async () => {
+      renderComponent([expectedQuestion])
+      await userEvent.click(screen.getByText('Komplettera'))
+
+      flushPromises()
+      const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
+      expect(complementCertificateAction).toBeTruthy()
+    })
+
+    it('display cannot complement button if resource link is available', () => {
+      renderComponent([expectedQuestion])
+      expect(screen.getByText('Kan inte komplettera')).toBeInTheDocument()
+    })
+
+    it('complement certificate with a new certificate and message', async () => {
+      renderComponent([expectedQuestion])
+      await userEvent.click(screen.getByText('Kan inte komplettera'))
+      await userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
+      const newMessage = 'Det här är ett meddelande'
+      const messageField = screen.getByRole('textbox')
+      await userEvent.type(messageField, newMessage)
+      await userEvent.click(screen.getByText('Skicka svar'))
+
+      flushPromises()
+      const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
+      expect(complementCertificateAction?.payload.message).toEqual(newMessage)
+    })
+
+    it('answer complement with a message', async () => {
+      renderComponent([expectedQuestion])
+      await userEvent.click(screen.getByText('Kan inte komplettera'))
+      await userEvent.click(screen.getByText('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.'))
+      const newMessage = 'Det här är ett meddelande'
+      const messageField = screen.getByRole('textbox')
+      await userEvent.type(messageField, newMessage)
+      await userEvent.click(screen.getByText('Skicka svar'))
+
+      flushPromises()
+      const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))
+      expect(answerComplementCertificateAction?.payload).toEqual(newMessage)
+    })
+
+    it('display forward button if resource link is available', () => {
+      renderComponent([expectedQuestion])
+      flushPromises()
+      const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
+      const unit = getUnit()
+      const certificate = getTestCertificate('certificateId')
+      certificate.links = resourceLinks
+      certificate.metadata.unit = unit
+      certificate.metadata.careProvider = unit
+      testStore.dispatch(updateCertificate(certificate))
+      const question = createQuestion()
+      question.links.push(resourceLinks[0])
+      renderComponent([question])
+
+      expect(screen.getByText('Vidarebefordra')).toBeInTheDocument()
+    })
+
+    it('does not display forward button if resource link is not available', () => {
+      renderComponent([expectedQuestion])
+      expect(screen.queryByText('Vidarebefordra')).not.toBeInTheDocument()
+    })
+  })
+})

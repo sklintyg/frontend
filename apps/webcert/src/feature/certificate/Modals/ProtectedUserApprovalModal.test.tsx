@@ -9,7 +9,7 @@ import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 const renderDefaultComponent = (showModal: boolean) => {
   render(
     <Provider store={store}>
-      <ProtectedUserApprovalModal showModal={showModal} preferenceKey={'KEY'}></ProtectedUserApprovalModal>
+      <ProtectedUserApprovalModal showModal={showModal} preferenceKey="KEY" />
     </Provider>
   )
 }
@@ -29,7 +29,7 @@ describe('Create certificate from candidate modal', () => {
 
   it('shall show modal if enabled', () => {
     renderDefaultComponent(true)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('shall not show modal if disabled', () => {
@@ -57,15 +57,15 @@ describe('Create certificate from candidate modal', () => {
     expect(screen.getByText('Till Webcert')).toBeDisabled()
   })
 
-  it('shall enable confirm button if checkbox is checked', () => {
+  it('shall enable confirm button if checkbox is checked', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByRole('checkbox'))
+    await userEvent.click(screen.getByRole('checkbox'))
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
-  it('shall dispatch error if cancel button is pressed', () => {
+  it('shall dispatch error if cancel button is pressed', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByText('Avbryt'))
+    await userEvent.click(screen.getByText('Avbryt'))
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(useDispatchSpy).toHaveBeenCalled()

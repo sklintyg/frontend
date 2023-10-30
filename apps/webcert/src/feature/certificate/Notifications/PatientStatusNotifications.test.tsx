@@ -22,7 +22,53 @@ const INFO_TEXT_DIFFERENT_NAME = 'Patientens namn skiljer sig från det i journa
 const INFO_TEXT_DIFFERENT_ID = 'Patientens personnummer har ändrats'
 const ALTERNATE_ID = '1912121213'
 const PERSON_ID = '191111111111'
-const INFO_TEXT_RESERVE_ID = 'Patienten har samordningsnummer kopplat till reservnummer: ' + PERSON_ID
+const INFO_TEXT_RESERVE_ID = `Patienten har samordningsnummer kopplat till reservnummer: ${PERSON_ID}`
+
+const createCertificate = (
+  deceased: boolean,
+  protectedPerson: boolean,
+  differentNameFromEHR: boolean,
+  previousPersonId: PersonId | undefined,
+  personIdChanged: boolean,
+  reserveId: boolean
+): Certificate =>
+  ({
+    metadata: {
+      patient: {
+        deceased,
+        protectedPerson,
+        differentNameFromEHR,
+        previousPersonId,
+        personIdChanged,
+        reserveId,
+        personId: {
+          id: PERSON_ID,
+        } as PersonId,
+      } as Patient,
+    } as CertificateMetadata,
+  } as Certificate)
+
+const setState = ({
+  isDeceased,
+  isProtectedPerson,
+  isNameDifferentFromEHR,
+  previousPersonId,
+  personIdChanged,
+  reserveId = false,
+}: {
+  isDeceased: boolean
+  isProtectedPerson: boolean
+  isNameDifferentFromEHR: boolean
+  previousPersonId: PersonId | undefined
+  personIdChanged: boolean
+  reserveId?: boolean
+}) => {
+  testStore.dispatch(
+    updateCertificate(
+      createCertificate(isDeceased, isProtectedPerson, isNameDifferentFromEHR, previousPersonId, personIdChanged, reserveId)
+    )
+  )
+}
 
 describe('PatientStatusNotifications', () => {
   beforeEach(() => {
@@ -183,50 +229,3 @@ describe('PatientStatusNotifications', () => {
     expect(screen.getByText(INFO_TEXT_PROTECTED)).toBeInTheDocument()
   })
 })
-
-const setState = ({
-  isDeceased,
-  isProtectedPerson,
-  isNameDifferentFromEHR,
-  previousPersonId,
-  personIdChanged,
-  reserveId = false,
-}: {
-  isDeceased: boolean
-  isProtectedPerson: boolean
-  isNameDifferentFromEHR: boolean
-  previousPersonId: PersonId | undefined
-  personIdChanged: boolean
-  reserveId?: boolean
-}) => {
-  testStore.dispatch(
-    updateCertificate(
-      createCertificate(isDeceased, isProtectedPerson, isNameDifferentFromEHR, previousPersonId, personIdChanged, reserveId)
-    )
-  )
-}
-
-const createCertificate = (
-  deceased: boolean,
-  protectedPerson: boolean,
-  differentNameFromEHR: boolean,
-  previousPersonId: PersonId | undefined,
-  personIdChanged: boolean,
-  reserveId: boolean
-): Certificate => {
-  return {
-    metadata: {
-      patient: {
-        deceased,
-        protectedPerson,
-        differentNameFromEHR,
-        previousPersonId,
-        personIdChanged,
-        reserveId,
-        personId: {
-          id: PERSON_ID,
-        } as PersonId,
-      } as Patient,
-    } as CertificateMetadata,
-  } as Certificate
-}

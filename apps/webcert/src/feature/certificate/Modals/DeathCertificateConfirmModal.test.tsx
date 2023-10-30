@@ -16,9 +16,7 @@ let mockDispatchFn = vi.fn()
 let testStore: EnhancedStore
 const history = createMemoryHistory()
 const PERSON_ID = '191212121212'
-const setOpen = () => {
-  return true
-}
+const setOpen = () => true
 
 const renderComponent = (isOpen: boolean) => {
   render(
@@ -42,7 +40,7 @@ describe('DeathCertificateConfirmModal', () => {
 
   it('should show modal if open is true', () => {
     renderComponent(true)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should not render when open is false', () => {
@@ -57,7 +55,7 @@ describe('DeathCertificateConfirmModal', () => {
 
   it('should display patients full name', () => {
     renderComponent(true)
-    expect(screen.queryByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
   })
 })
 
@@ -74,26 +72,26 @@ describe('Confirm button', () => {
     expect(confirmButton).toBeDisabled()
   })
 
-  it('should enable confirm button when checkbox in checked', () => {
+  it('should enable confirm button when checkbox in checked', async () => {
     renderComponent(true)
     const confirmCheckbox = screen.getByRole('checkbox')
-    userEvent.click(confirmCheckbox)
+    await userEvent.click(confirmCheckbox)
 
     const confirmButton = screen.getByText('Gå vidare')
-    expect(confirmButton).not.toBeDisabled()
+    expect(confirmButton).toBeEnabled()
   })
 
-  it('should dispatch create new certificate on proceed', () => {
+  it('should dispatch create new certificate on proceed', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
 
     const confirmCheckbox = screen.getByRole('checkbox')
-    userEvent.click(confirmCheckbox)
+    await userEvent.click(confirmCheckbox)
 
     const confirmButton = screen.getByText('Gå vidare')
-    userEvent.click(confirmButton)
+    await userEvent.click(confirmButton)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 })
@@ -108,13 +106,13 @@ describe('Cancel button', () => {
     expect(screen.getByText('Avbryt')).toBeInTheDocument()
   })
 
-  it('Cancelling shall not create certificate', () => {
+  it('Cancelling shall not create certificate', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
     const cancelButton = screen.getByText('Avbryt')
-    userEvent.click(cancelButton)
+    await userEvent.click(cancelButton)
 
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })

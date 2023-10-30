@@ -101,16 +101,16 @@ describe('Cause of death component', () => {
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
     descriptions.forEach((description) => {
-      expect(description).not.toBeDisabled()
+      expect(description).toBeEnabled()
     })
     specifications.forEach((specification) => {
-      expect(specification).not.toBeDisabled()
+      expect(specification).toBeEnabled()
     })
     dates.forEach((date) => {
-      expect(date).not.toBeDisabled()
+      expect(date).toBeEnabled()
     })
     buttons.forEach((button) => {
-      expect(button).not.toBeDisabled()
+      expect(button).toBeEnabled()
     })
   })
 
@@ -139,36 +139,36 @@ describe('Cause of death component', () => {
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
     const inputDate = '20200202'
     const expected = '2020-02-02'
-    dates.forEach((date) => {
-      userEvent.clear(date)
-      userEvent.type(date, inputDate)
+    dates.forEach(async (date) => {
+      await userEvent.clear(date)
+      await userEvent.type(date, inputDate)
       expect(date).toHaveValue(expected)
     })
   })
 
-  it('should add new row when button is clicked', () => {
+  it('should add new row when button is clicked', async () => {
     renderComponent({ disabled: false, question })
     const button = screen.getByLabelText(ADD_BUTTON_TEXT)
-    userEvent.click(button)
+    await userEvent.click(button)
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(2)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(2)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(2)
   })
 
-  it('should not add more than 7 rows', () => {
+  it('should not add more than 7 rows', async () => {
     renderComponent({ disabled: false, question })
     const button = screen.getByLabelText(ADD_BUTTON_TEXT)
-    userEvent.click(button)
-    userEvent.click(button)
-    userEvent.click(button)
-    userEvent.click(button)
-    userEvent.click(button)
-    userEvent.click(button)
+    await userEvent.click(button)
+    await userEvent.click(button)
+    await userEvent.click(button)
+    await userEvent.click(button)
+    await userEvent.click(button)
+    await userEvent.click(button)
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(7)
-    expect(button).not.toBeDisabled()
-    userEvent.click(button)
+    expect(button).toBeEnabled()
+    await userEvent.click(button)
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(8)

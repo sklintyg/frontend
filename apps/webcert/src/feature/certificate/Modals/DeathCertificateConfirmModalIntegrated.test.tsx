@@ -16,9 +16,7 @@ const mockDispatchFn = vi.fn()
 let testStore: EnhancedStore
 const history = createMemoryHistory()
 const PERSON_ID = '191212121212'
-const setOpen = () => {
-  return true
-}
+const setOpen = () => true
 
 const renderComponent = (isOpen: boolean) => {
   render(
@@ -46,7 +44,7 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
 
   it('should show modal if open is true', () => {
     renderComponent(true)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should not render when open is false', () => {
@@ -61,7 +59,7 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
 
   it('should display patients full name', () => {
     renderComponent(true)
-    expect(screen.queryByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
   })
 
   it('should show button for delete', () => {
@@ -69,21 +67,21 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
     expect(screen.getByText('Radera')).toBeInTheDocument()
   })
 
-  it('should dispatch delete certificate on close', () => {
+  it('should dispatch delete certificate on close', async () => {
     const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
 
     const deleteButton = screen.getByText('Radera')
-    userEvent.click(deleteButton)
+    await userEvent.click(deleteButton)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
-  it('should not close modal when clicking outside the modal', () => {
+  it('should not close modal when clicking outside the modal', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    await userEvent.click(screen.getByTestId('modal-backdrop'))
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   describe('Confirm button', () => {
@@ -99,13 +97,13 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
       expect(confirmButton).toBeDisabled()
     })
 
-    it('should enable confirm button when checkbox in checked', () => {
+    it('should enable confirm button when checkbox in checked', async () => {
       renderComponent(true)
       const confirmCheckbox = screen.getByRole('checkbox')
-      userEvent.click(confirmCheckbox)
+      await userEvent.click(confirmCheckbox)
 
       const confirmButton = screen.getByText('Gå vidare')
-      expect(confirmButton).not.toBeDisabled()
+      expect(confirmButton).toBeEnabled()
     })
   })
 })

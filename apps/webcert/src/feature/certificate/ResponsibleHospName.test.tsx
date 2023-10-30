@@ -1,4 +1,4 @@
-import { Certificate, CertificateStatus, User } from '@frontend/common'
+import { CertificateStatus, fakeCertificate, fakeCertificateMetaData, fakeUser } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -22,6 +22,13 @@ const ROLE_CARE_ADMIN = 'Vårdadministratör'
 const RESPONSIBLE_HOSP_NAME = 'Doctor Test-Doctorsson'
 const RESPONSIBLE_CERTIFICATE_ISSUER = 'Ansvarig intygsutfärdare'
 const NOT_SPECIFIED = 'Ej angivet'
+
+const setState = (userRole: string, certificateStatus: CertificateStatus, responsibleHospName: string) => {
+  const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ status: certificateStatus, responsibleHospName }) })
+  const user = fakeUser({ role: userRole })
+  testStore.dispatch(updateUser(user))
+  testStore.dispatch(updateCertificate(certificate))
+}
 
 describe('ResponsibleHospName', () => {
   beforeEach(() => {
@@ -58,29 +65,3 @@ describe('ResponsibleHospName', () => {
     expect(screen.getByText(NOT_SPECIFIED)).toBeInTheDocument()
   })
 })
-
-const setState = (userRole: string, certificateStatus: CertificateStatus, responsibleHospName: string) => {
-  const certificate = createCertificate(certificateStatus, responsibleHospName)
-  const user = createUser(userRole)
-  testStore.dispatch(updateUser(user))
-  testStore.dispatch(updateCertificate(certificate))
-}
-
-const createCertificate = (certificateStatus: CertificateStatus, responsibleHospName: string): Certificate => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: {
-      status: certificateStatus,
-      responsibleHospName: responsibleHospName,
-    },
-  }
-}
-
-const createUser = (userRole: string): User => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return {
-    role: userRole,
-  }
-}

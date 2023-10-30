@@ -11,17 +11,13 @@ const mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = () => {
   render(
-    <>
-      <UeTypeahead question={question} disabled={false} />
-    </>
+    <UeTypeahead question={question} disabled={false} />
   )
 }
 
 const renderWithSuggestions = () => {
   render(
-    <>
-      <UeTypeahead question={question} disabled={true} />
-    </>
+    <UeTypeahead question={question} disabled />
   )
 }
 
@@ -49,7 +45,7 @@ describe('Typeahead component', () => {
   it('does not render suggestions when array is empty', () => {
     renderDefaultComponent()
     const list = screen.queryByRole('list')
-    expect(list).toBeNull()
+    expect(list).not.toBeInTheDocument()
   })
 
   it('disables component if disabled is set', () => {
@@ -58,53 +54,53 @@ describe('Typeahead component', () => {
     expect(input).toBeDisabled()
   })
 
-  it('shows results when users types text', () => {
+  it('shows results when users types text', async () => {
     renderDefaultComponent()
     const testinput = 'Ö'
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
+    await userEvent.clear(input)
     checkListVisibility(false)
-    userEvent.type(input, testinput)
+    await userEvent.type(input, testinput)
     checkListVisibility(true)
     expect(input).toHaveValue(testinput)
     checkListVisibility(true)
   })
 
-  it.skip('dispatches results when users types text', () => {
+  it.skip('dispatches results when users types text', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'Ö')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Ö')
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
   it.skip('dispatches results when users types new text only after a wait', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'Ö')
-    userEvent.type(input, 's')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Ö')
+    await userEvent.type(input, 's')
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
     await waitFor(() => {
       expect(mockDispatchFn).toHaveBeenCalledTimes(1)
     })
   })
 
-  it('does not dispatch results when users text is not changed, even after wait', () => {
+  it('does not dispatch results when users text is not changed, even after wait', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'Ö')
-    userEvent.clear(input)
-    userEvent.type(input, 'Ö')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Ö')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Ö')
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 
-  it('Render correct suggestions', () => {
+  it('Render correct suggestions', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'ors')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'ors')
     const listItems = screen.queryAllByRole('option')
     expect(listItems[0].title).toBe('ORSA')
     expect(listItems[1].title).toBe('BENGTSFORS')

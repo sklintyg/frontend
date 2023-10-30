@@ -24,7 +24,7 @@ const resourceLinkDisabled: ResourceLink = {
 }
 
 const renderDefaultComponent = () => {
-  render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkEnabled}></CreateCertificateFromCandidateModal>)
+  render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkEnabled} />)
 }
 
 beforeEach(() => {
@@ -39,16 +39,16 @@ describe('Create certificate from candidate modal', () => {
 
   it('shall show modal if enabled', () => {
     renderDefaultComponent()
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('shall not show modal if disabled', () => {
-    render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateModal>)
+    render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled} />)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('shall not show modal if resourcelink is undefined', () => {
-    render(<CreateCertificateFromCandidateModal resourceLink={undefined}></CreateCertificateFromCandidateModal>)
+    render(<CreateCertificateFromCandidateModal resourceLink={undefined} />)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 

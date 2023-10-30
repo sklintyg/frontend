@@ -7,14 +7,72 @@ import {
   getCodeElement,
   getDiagnosisElementWithCodeSystem,
 } from '../../components/icf/icfTestUtils'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
-import { getIcfCodes, IcfRequest, IcfResponse, updateIcfCodes } from './icfActions'
+import { IcfRequest, IcfResponse, getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+const getCertificate = (icfTitles: IcfTitles): Certificate => ({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  metadata: { id: 'certificateId' },
+  status: CertificateStatus.SIGNED,
+  icfTitles,
+})
+
+const getIcfTitles = (): IcfTitles => ({
+  disability: { unique: ['Test 2', 'Test 3'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
+  activityLimitation: { unique: ['Test 0', 'Test 1'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
+})
+
+const getIcfData = (): IcfResponse => {
+  const icfCodes: IcfCode[] = [
+    {
+      code: '1',
+      description: 'description 0',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 0',
+    },
+    {
+      code: '2',
+      description: 'description 1',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 1',
+    },
+    {
+      code: '3',
+      description: 'description 2',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 2',
+    },
+  ]
+
+  const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
+  const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
+  const icdCodes: Icd10Code[] = [ICD_CODE_1, ICD_CODE_2]
+
+  return {
+    activityLimitation: {
+      commonCodes: { icfCodes, icd10Codes: icdCodes },
+      uniqueCodes: [
+        { icfCodes, icd10Codes: [ICD_CODE_1] },
+        { icfCodes, icd10Codes: [ICD_CODE_2] },
+      ],
+    },
+    disability: {
+      commonCodes: { icfCodes, icd10Codes: icdCodes },
+      uniqueCodes: [
+        { icfCodes, icd10Codes: [ICD_CODE_1] },
+        { icfCodes, icd10Codes: [ICD_CODE_2] },
+      ],
+    },
+  }
+}
 
 describe('Test ICF middleware', () => {
   let fakeAxios: MockAdapter
@@ -123,67 +181,3 @@ describe('Test ICF middleware', () => {
     })
   })
 })
-
-const getIcfData = (): IcfResponse => {
-  const icfCodes: IcfCode[] = [
-    {
-      code: '1',
-      description: 'description 0',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 0',
-    },
-    {
-      code: '2',
-      description: 'description 1',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 1',
-    },
-    {
-      code: '3',
-      description: 'description 2',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 2',
-    },
-  ]
-
-  const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
-  const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
-  const icdCodes: Icd10Code[] = [ICD_CODE_1, ICD_CODE_2]
-
-  return {
-    activityLimitation: {
-      commonCodes: { icfCodes: icfCodes, icd10Codes: icdCodes },
-      uniqueCodes: [
-        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_2] },
-      ],
-    },
-    disability: {
-      commonCodes: { icfCodes: icfCodes, icd10Codes: icdCodes },
-      uniqueCodes: [
-        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_2] },
-      ],
-    },
-  }
-}
-
-const getCertificate = (icfTitles: IcfTitles): Certificate => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: { id: 'certificateId' },
-    status: CertificateStatus.SIGNED,
-    icfTitles: icfTitles,
-  }
-}
-
-const getIcfTitles = (): IcfTitles => {
-  return {
-    disability: { unique: ['Test 2', 'Test 3'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
-    activityLimitation: { unique: ['Test 0', 'Test 1'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
-  }
-}

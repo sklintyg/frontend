@@ -50,7 +50,7 @@ describe('StartPage', () => {
     }
     testStore.dispatch(updateConfig(config))
 
-    expect(screen.getByText('SITHS-kort').closest('a')).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
-    expect(screen.getByText('E-legitimation').closest('a')).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
+    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
+    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
   })
 })

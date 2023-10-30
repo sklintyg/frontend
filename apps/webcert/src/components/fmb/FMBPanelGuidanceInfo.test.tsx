@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 import { FMBDiagnosisCodeInfoFormContentHeading } from '@frontend/common'
+import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 
 describe('FMBPanelGuidanceInfo', () => {
   it('should show text if avaialble', () => {

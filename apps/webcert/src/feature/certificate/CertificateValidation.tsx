@@ -30,12 +30,13 @@ const CertificateValidation: React.FC = () => {
           return (
             <p key={i} className={'iu-mt-none'}>
               <ErrorLink
+                role="link"
                 className={'iu-color-error iu-fs-300'}
                 duration={250}
                 smooth
                 offset={-20}
                 containerId="questions-container"
-                to={`${validation.id}`}
+                to={validation.id}
               >
                 {validation.text}
               </ErrorLink>
