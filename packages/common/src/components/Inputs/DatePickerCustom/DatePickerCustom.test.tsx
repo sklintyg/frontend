@@ -1,6 +1,5 @@
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { vi } from 'vitest'
 import DatePickerCustom from './DatePickerCustom'
 
@@ -9,16 +8,14 @@ describe('DatePickerCustom', () => {
     render(
       <DatePickerCustom
         setDate={vi.fn()}
-        inputString={'1974-04-01'}
+        inputString="1974-04-01"
         textInputOnChange={vi.fn()}
         displayValidationErrorOutline={false}
-        max={'1974-04-06'}
+        max="1974-04-06"
       />
     )
 
-    await act(async () => {
-      userEvent.click(screen.getByAltText('Kalender'))
-    })
+    await userEvent.click(screen.getByAltText('Kalender'))
 
     expect(screen.getAllByLabelText(/Not available .* 1974/)).toHaveLength(29)
   })

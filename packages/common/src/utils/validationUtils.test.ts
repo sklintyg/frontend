@@ -39,6 +39,14 @@ import {
   validateExpressions,
 } from './validationUtils'
 
+const getValidationError = (type: string): ValidationError => ({
+  id: 'id',
+  type,
+  field: 'field',
+  category: 'category',
+  text: 'text',
+})
+
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
 
@@ -891,92 +899,98 @@ describe('Set initial values to a certificate', () => {
   })
 
   describe('Intialize values for autoFill validation', () => {
-    const certificate = getCertificate()
+    const cert = getCertificate()
 
     it('should autoFill value if validation is true', () => {
-      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      const booleanValue: ValueBoolean = cert.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect((certificate.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
+      expect((cert.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
     })
 
     it('should not autoFill value if validation is false', () => {
-      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      const booleanValue: ValueBoolean = cert.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect((certificate.data['1.3'].value as ValueText).text).toBe(null)
+      expect((cert.data['1.3'].value as ValueText).text).toBe(null)
     })
   })
 
   describe('Intialize values when certificate is not UNSIGNED', () => {
-    const certificate = getCertificate()
+    const cert = getCertificate()
 
     const clearValues = () => {
-      for (const id in certificate.data) {
-        certificate.data[id].value = null
-        certificate.data[id].readOnly = false
-        certificate.data[id].disabled = false
-      }
+      cert.data = Object.fromEntries(
+        Object.entries(cert.data).map(([id, question]) => [
+          id,
+          {
+            ...question,
+            value: null,
+            readOnly: false,
+            disabled: false,
+          },
+        ])
+      )
     }
 
     it('Shall set all data elements as disabled when certificate is LOCKED but still validate rules', () => {
-      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      const booleanValue: ValueBoolean = cert.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
-      certificate.metadata.status = CertificateStatus.LOCKED
+      cert.metadata.status = CertificateStatus.LOCKED
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect(certificate.data['1.1'].disabled).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].disabled).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
-      expect(certificate.data['1.3'].disabled).toBe(true)
-      expect(certificate.data['1.3'].visible).toBe(false)
+      expect(cert.data['1.1'].disabled).toBe(true)
+      expect(cert.data['1.1'].visible).toBe(true)
+      expect(cert.data['1.2'].disabled).toBe(true)
+      expect(cert.data['1.2'].visible).toBe(true)
+      expect(cert.data['1.3'].disabled).toBe(true)
+      expect(cert.data['1.3'].visible).toBe(false)
     })
 
     it('Shall set all data elements as disabled when certificate is LOCKED_REVOKED but still validate rules', () => {
-      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      const booleanValue: ValueBoolean = cert.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
-      certificate.metadata.status = CertificateStatus.LOCKED_REVOKED
+      cert.metadata.status = CertificateStatus.LOCKED_REVOKED
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect(certificate.data['1.1'].disabled).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].disabled).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
-      expect(certificate.data['1.3'].disabled).toBe(true)
-      expect(certificate.data['1.3'].visible).toBe(false)
+      expect(cert.data['1.1'].disabled).toBe(true)
+      expect(cert.data['1.1'].visible).toBe(true)
+      expect(cert.data['1.2'].disabled).toBe(true)
+      expect(cert.data['1.2'].visible).toBe(true)
+      expect(cert.data['1.3'].disabled).toBe(true)
+      expect(cert.data['1.3'].visible).toBe(false)
     })
 
     it('Shall set all data elements as readOnly when certificate is SIGNED', () => {
       clearValues()
-      certificate.metadata.status = CertificateStatus.SIGNED
+      cert.metadata.status = CertificateStatus.SIGNED
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect(certificate.data['1.1'].readOnly).toBe(true)
-      expect(certificate.data['1.2'].readOnly).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
+      expect(cert.data['1.1'].readOnly).toBe(true)
+      expect(cert.data['1.2'].readOnly).toBe(true)
+      expect(cert.data['1.1'].visible).toBe(true)
+      expect(cert.data['1.2'].visible).toBe(true)
     })
 
     it('Shall set all data elements as readOnly when certificate is REVOKED', () => {
       clearValues()
-      certificate.metadata.status = CertificateStatus.REVOKED
+      cert.metadata.status = CertificateStatus.REVOKED
 
-      decorateCertificateWithInitialValues(certificate)
+      decorateCertificateWithInitialValues(cert)
 
-      expect(certificate.data['1.1'].readOnly).toBe(true)
-      expect(certificate.data['1.2'].readOnly).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
+      expect(cert.data['1.1'].readOnly).toBe(true)
+      expect(cert.data['1.2'].readOnly).toBe(true)
+      expect(cert.data['1.1'].visible).toBe(true)
+      expect(cert.data['1.2'].visible).toBe(true)
     })
   })
 
@@ -1002,11 +1016,11 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should disable all categories if no edit link', () => {
-    const certificate = getCertificate()
+    const cert = getCertificate()
 
-    decorateCertificateWithInitialValues(certificate)
+    decorateCertificateWithInitialValues(cert)
 
-    Object.values(certificate.data).forEach((data) => {
+    Object.values(cert.data).forEach((data) => {
       expect(data.disabled).toBe(true)
     })
   })
@@ -1018,11 +1032,11 @@ describe('Set initial values to a certificate', () => {
       description: '',
       enabled: false,
     }
-    const certificate = getCertificate({ links: [editLink] })
+    const cert = getCertificate({ links: [editLink] })
 
-    decorateCertificateWithInitialValues(certificate)
+    decorateCertificateWithInitialValues(cert)
 
-    Object.values(certificate.data).forEach((data) => {
+    Object.values(cert.data).forEach((data) => {
       expect(data.disabled).toBeFalsy()
     })
   })
@@ -1153,13 +1167,3 @@ describe('Validate expressions with boolean values set to null or undefined shou
     expect(result).toBe(false)
   })
 })
-
-const getValidationError = (type: string): ValidationError => {
-  return {
-    id: 'id',
-    type: type,
-    field: 'field',
-    category: 'category',
-    text: 'text',
-  }
-}

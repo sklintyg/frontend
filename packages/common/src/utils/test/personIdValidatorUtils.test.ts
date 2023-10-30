@@ -17,8 +17,8 @@ describe('patientIdValidatorUtils', () => {
   it('should not validate person ids in future', () => {
     const oldDate = add(new Date(), { years: 1 })
     const dateStr = formatISO(oldDate, { format: 'basic', representation: 'date' })
-    const validCheckDigit = calculateCheckDigit(dateStr + '001x')
-    expect(isPersonIdValid(dateStr + '001' + validCheckDigit)).toBeFalsy()
+    const validCheckDigit = calculateCheckDigit(`${dateStr}001x`)
+    expect(isPersonIdValid(`${dateStr}001${validCheckDigit}`)).toBeFalsy()
   })
 
   it('should not validate person ids older than 125 years', () => {

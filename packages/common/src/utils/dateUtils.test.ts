@@ -31,25 +31,25 @@ const HELT_NEDSATT_LABEL = '100 procent'
 
 const configList: ConfigUeCheckboxDateRange[] = [
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore Skipping additional data for tests
+  // @ts-ignore Skipping additional data for tests
   {
     id: EN_FJARDEDEL_ID,
     label: EN_FJARDEDEL_LABEL,
   },
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore Skipping additional data for tests
+  // @ts-ignore Skipping additional data for tests
   {
     id: HALFTEN_ID,
     label: HALFTEN_LABEL,
   },
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore Skipping additional data for tests
+  // @ts-ignore Skipping additional data for tests
   {
     id: TRE_FJARDEDEL_ID,
     label: TRE_FJARDEDEL_LABEL,
   },
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore Skipping additional data for tests
+  // @ts-ignore Skipping additional data for tests
   {
     id: HELT_NEDSATT_ID,
     label: HELT_NEDSATT_LABEL,
