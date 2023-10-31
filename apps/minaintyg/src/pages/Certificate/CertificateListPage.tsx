@@ -1,4 +1,5 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
+import { useSessionStorage } from '@react-hooks-library/core'
 import { useState } from 'react'
 import { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
@@ -12,7 +13,7 @@ import { CertificateListOrder } from './components/CertificateListOrder/Certific
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 
 export function CertificateListPage() {
-  const [order, setOrder] = useState<SortDirection>('descending')
+  const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')
   const [submitFilters, setSubmitFilters] = useState<CertificateFilterState>({})
   const { isLoading: isLoadingList, data: list } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
   const { isLoading: isLoadingFilters, data: filter } = useGetCertificatesFilterQuery()
