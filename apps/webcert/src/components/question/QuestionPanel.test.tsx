@@ -25,6 +25,36 @@ const renderDefaultComponent = () => {
   )
 }
 
+const createCertificate = (metadata: CertificateMetadata): Certificate =>
+  ({
+    metadata,
+    links: [],
+  } as unknown as Certificate)
+
+function createQuestion(handled = true): Question {
+  return {
+    author: 'author',
+    id: String(Math.random()),
+    forwarded: true,
+    handled,
+    lastUpdate: '2021-07-08',
+    message: 'message',
+    sent: '2021-07-08',
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    type: QuestionType.COORDINATION,
+    links: [],
+  }
+}
+
+const addComplementsToQuestion = (question: Question): Question =>
+  ({
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
+  } as Question)
+
 describe('QuestionPanel', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([questionMiddleware])
@@ -36,7 +66,7 @@ describe('QuestionPanel', () => {
 
   it('displays header for complement questions', () => {
     renderDefaultComponent()
-    expect(screen.queryByText('Kompletteringsbegäran')).toBeInTheDocument()
+    expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
   })
 
   it('should not display header while questions are loading', () => {
@@ -151,40 +181,9 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Det finns ingen kompletteringsbegäran på detta intyg.')).toBeInTheDocument()
   })
 
-  it('should allow user to switch tab', () => {
+  it('should allow user to switch tab', async () => {
     renderDefaultComponent()
-    userEvent.click(screen.getByText('Administrativa frågor'))
+    await userEvent.click(screen.getByText('Administrativa frågor'))
     expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
   })
 })
-
-const createCertificate = (metadata: CertificateMetadata): Certificate =>
-  ({
-    metadata,
-    links: [],
-  } as unknown as Certificate)
-
-function createQuestion(handled = true): Question {
-  return {
-    author: 'author',
-    id: String(Math.random()),
-    forwarded: true,
-    handled: handled,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    type: QuestionType.COORDINATION,
-    links: [],
-  }
-}
-
-const addComplementsToQuestion = (question: Question): Question => {
-  return {
-    ...question,
-    type: QuestionType.COMPLEMENT,
-    complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
-  } as Question
-}

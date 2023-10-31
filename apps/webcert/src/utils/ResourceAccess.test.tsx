@@ -63,7 +63,7 @@ describe('withAccessResource', () => {
     renderComponent()
     testStore.dispatch(updateIsLoadingUser(true))
 
-    expect(screen.queryByText('Laddar...')).toBeInTheDocument()
+    expect(screen.getByText('Laddar...')).toBeInTheDocument()
   })
 
   it('should throw a not authorized error', () => {

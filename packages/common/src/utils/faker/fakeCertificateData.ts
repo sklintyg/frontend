@@ -20,8 +20,10 @@ import {
   ConfigUeIcf,
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
+  ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
@@ -426,4 +428,16 @@ export const fakeViewListElement = fakeDataElement<ConfigUeViewList, ValueViewLi
 export const fakeViewTableElement = fakeDataElement<ConfigUeViewTable, ValueViewTable>((config, value) => ({
   config: fakeCertificateConfig.viewTable(config),
   value: fakeCertificateValue.viewTable(value),
+}))
+
+export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElement<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>(
+  (config, value) => ({
+    config: fakeCertificateConfig.radioMultipleCodesOptionalDropdown(config),
+    value: fakeCertificateValue.code(value),
+  })
+)
+
+export const fakeMessageElement = fakeDataElement<ConfigUeMessage, ValueText>((config, value) => ({
+  config: fakeCertificateConfig.message(config),
+  value: fakeCertificateValue.text(value),
 }))

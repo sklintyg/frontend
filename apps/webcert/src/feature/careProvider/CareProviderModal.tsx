@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
-import { selectIsLoadingUserStatistics, getIsCareProviderModalOpen, getUserResourceLinks } from '../../store/user/userSelectors'
+import { getIsCareProviderModalOpen, getUserResourceLinks, selectIsLoadingUserStatistics } from '../../store/user/userSelectors'
 import { CareProviderModalContent } from './CareProviderModalContent'
 
 const ModalBaseLarge = styled(ModalBase)`

@@ -192,7 +192,7 @@ describe('Certificate header statuses', () => {
 
     it('should not display stauses for signed certificate when certificate is a draft', () => {
       renderComponentWithDraft(CertificateStatus.UNSIGNED, false, false)
-      SIGNED_STATUSES.map((status) => {
+      SIGNED_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -209,42 +209,42 @@ describe('Certificate header statuses', () => {
 
     it('should not display stauses for signed certificate when certificate is a locked draft', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED, false, false)
-      SIGNED_STATUSES.map((status) => {
+      SIGNED_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display stauses for signed certificate when certificate is a locked revoked draft', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED_REVOKED, false, false)
-      SIGNED_STATUSES.map((status) => {
+      SIGNED_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display stauses for saving draft when certificate is locked and validating', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED, true, false)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display staus for saving draft when certificate is locked revoked and validating', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED_REVOKED, true, false)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display stauses for saving draft when certificate is locked', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED, false, true)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display staus for saving draft when certificate is locked revoked', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED_REVOKED, false, true)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -253,12 +253,12 @@ describe('Certificate header statuses', () => {
   describe('Revoked certificate statuses', () => {
     it('should display revoked message when revoked', () => {
       renderComponent(CertificateStatus.REVOKED, false, false, false)
-      expect(screen.queryByText(REVOKED_TEXT)).toBeInTheDocument()
+      expect(screen.getByText(REVOKED_TEXT)).toBeInTheDocument()
     })
 
     it('should not display draft messages when revoked', () => {
       renderComponent(CertificateStatus.REVOKED, false, false, false)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -271,7 +271,7 @@ describe('Certificate header statuses', () => {
 
     it('should not display signed messages when renewed certificate is revoked', () => {
       renderComponentWithParentRelation(CertificateStatus.REVOKED, CertificateStatus.SIGNED, CertificateRelationType.EXTENDED, false)
-      SIGNED_STATUSES_WITHOUT_REVOKED.map((status) => {
+      SIGNED_STATUSES_WITHOUT_REVOKED.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -284,7 +284,7 @@ describe('Certificate header statuses', () => {
 
     it('should not display signed messages when replaced certificate is revoked', () => {
       renderComponentWithParentRelation(CertificateStatus.REVOKED, CertificateStatus.SIGNED, CertificateRelationType.REPLACED, false)
-      SIGNED_STATUSES_WITHOUT_REVOKED.map((status) => {
+      SIGNED_STATUSES_WITHOUT_REVOKED.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -297,7 +297,7 @@ describe('Certificate header statuses', () => {
 
     it('should not display signed messages when complemented certificate is revoked', () => {
       renderComponentWithParentRelation(CertificateStatus.REVOKED, CertificateStatus.SIGNED, CertificateRelationType.COMPLEMENTED, false)
-      SIGNED_STATUSES_WITHOUT_REVOKED.map((status) => {
+      SIGNED_STATUSES_WITHOUT_REVOKED.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -327,7 +327,7 @@ describe('Certificate header statuses', () => {
 
     it('should not display draft statuses when certificate has unhandled complements', () => {
       renderComponent(CertificateStatus.SIGNED, true, true, false)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -353,7 +353,7 @@ describe('Certificate header statuses', () => {
         true,
         true
       )
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -366,7 +366,7 @@ describe('Certificate header statuses', () => {
         true,
         true
       )
-      SIGNED_STATUSES_WITHOUT_COMPLEMENT.map((status) => {
+      SIGNED_STATUSES_WITHOUT_COMPLEMENT.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
@@ -386,7 +386,7 @@ describe('Certificate header statuses', () => {
         true,
         true
       )
-      expect(screen.queryByText(FK_ASKED_COMPLEMENT_TEXT)).toBeInTheDocument()
+      expect(screen.getByText(FK_ASKED_COMPLEMENT_TEXT)).toBeInTheDocument()
       expect(screen.queryByText(COMPLEMENT_CERTIFICATE)).not.toBeInTheDocument()
       expect(screen.queryByText(COMPLEMENT_DRAFT)).not.toBeInTheDocument()
       expect(screen.getByText(AVAILABLE_TEXT)).toBeInTheDocument()
@@ -410,14 +410,14 @@ describe('Certificate header statuses', () => {
 
     it('should not display draft statuses when certificate has been replaced', () => {
       renderComponentWithChildRelation(CertificateStatus.SIGNED, CertificateStatus.UNSIGNED, CertificateRelationType.REPLACED, true, true)
-      DRAFT_STATUSES.map((status) => {
+      DRAFT_STATUSES.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
     it('should not display draft statuses when certificate has been replaced and signed', () => {
       renderComponentWithChildRelation(CertificateStatus.SIGNED, CertificateStatus.UNSIGNED, CertificateRelationType.REPLACED, true, true)
-      SIGNED_STATUSES_WITHOUT_REPLACED.map((status) => {
+      SIGNED_STATUSES_WITHOUT_REPLACED.forEach((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })

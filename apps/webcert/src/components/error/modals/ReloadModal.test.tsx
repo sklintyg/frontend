@@ -28,6 +28,12 @@ const renderComponent = (errorData: ErrorData) => {
   )
 }
 
+const createError = (errorId = '123'): ErrorData => ({
+  errorCode: ErrorCode.CONCURRENT_MODIFICATION,
+  errorId,
+  type: ErrorType.ROUTE,
+})
+
 describe('ReloadModal', () => {
   beforeEach(() => {
     location = window.location
@@ -44,14 +50,14 @@ describe('ReloadModal', () => {
     expect(() => renderComponent(createError())).not.toThrow()
   })
 
-  it('shall reload page on confirm', () => {
+  it('shall reload page on confirm', async () => {
     vi.spyOn(window, 'location', 'get').mockReturnValue({
       ...location,
       reload: vi.fn(),
     })
     renderComponent(createError())
 
-    userEvent.click(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT))
     expect(window.location.reload).toHaveBeenCalledTimes(1)
   })
 
@@ -67,22 +73,14 @@ describe('ReloadModal', () => {
     expect(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT)).toBeInTheDocument()
   })
 
-  it('shall clear error on close', () => {
+  it('shall clear error on close', async () => {
     const expectedErrorId = 'errorid'
     clearDispatchedActions()
     renderComponent(createError(expectedErrorId))
 
-    userEvent.click(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT))
+    await userEvent.click(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT))
 
     const clearedError = dispatchedActions.find((action) => clearError.match(action))
     expect(expectedErrorId).toEqual(clearedError?.payload.errorId)
   })
 })
-
-const createError = (errorId = '123'): ErrorData => {
-  return {
-    errorCode: ErrorCode.CONCURRENT_MODIFICATION,
-    errorId: errorId,
-    type: ErrorType.ROUTE,
-  }
-}

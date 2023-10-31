@@ -1,7 +1,6 @@
 import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
@@ -37,7 +36,7 @@ const resourceLinkDisabled: ResourceLink = {
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <CreateCertificateFromCandidateWithMessageModal resourceLink={resourceLinkEnabled}></CreateCertificateFromCandidateWithMessageModal>
+      <CreateCertificateFromCandidateWithMessageModal resourceLink={resourceLinkEnabled} />
     </Provider>
   )
 }
@@ -60,15 +59,13 @@ describe('Create certificate from candidate modal', () => {
 
   it('shall show modal if enabled', () => {
     renderDefaultComponent()
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('shall not show modal if disabled', () => {
     render(
       <Provider store={testStore}>
-        <CreateCertificateFromCandidateWithMessageModal
-          resourceLink={resourceLinkDisabled}
-        ></CreateCertificateFromCandidateWithMessageModal>
+        <CreateCertificateFromCandidateWithMessageModal resourceLink={resourceLinkDisabled} />
       </Provider>
     )
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
@@ -77,7 +74,7 @@ describe('Create certificate from candidate modal', () => {
   it('shall not show modal if resourcelink is undefined', () => {
     render(
       <Provider store={testStore}>
-        <CreateCertificateFromCandidateWithMessageModal resourceLink={undefined}></CreateCertificateFromCandidateWithMessageModal>
+        <CreateCertificateFromCandidateWithMessageModal resourceLink={undefined} />
       </Provider>
     )
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
@@ -97,16 +94,5 @@ describe('Create certificate from candidate modal', () => {
     renderDefaultComponent()
     expect(screen.getByText('Visa')).toBeInTheDocument()
     expect(screen.getByText('Avbryt')).toBeInTheDocument()
-  })
-
-  it.skip('When show is clicked, new message and show button removed, but cancel button remaining', async () => {
-    renderDefaultComponent()
-    userEvent.click(screen.getByText('Visa'))
-    await waitFor(() => {
-      expect(screen.queryByText('Visa')).not.toBeInTheDocument()
-    })
-    expect(screen.getByText('Avbryt')).toBeInTheDocument()
-    expect(screen.getByText(createCertificateFromCandidateWithMessageSuccess.modal.title)).toBeInTheDocument()
-    expect(screen.getByText(createCertificateFromCandidateWithMessageSuccess.modal.message)).toBeInTheDocument()
   })
 })

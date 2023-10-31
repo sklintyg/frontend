@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
-import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import { fakeSrsInfo, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
+import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { EnhancedStore } from '@reduxjs/toolkit'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 
 let store: EnhancedStore
@@ -91,22 +91,22 @@ describe('SRS Recommendations', () => {
       expect(screen.getAllByText('Visa mer').length > 0).toBeTruthy()
     })
 
-    it('should show text to show less if show more is pressed', () => {
+    it('should show text to show less if show more is pressed', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
-      expect(screen.getByText('Visa mindre')).toBeTruthy()
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
+      expect(screen.getByText('Visa mindre')).toBeInTheDocument()
     })
 
-    it('should log when pressing show more', () => {
+    it('should log when pressing show more', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
 
-    it('should show measure description if show more is pressed', () => {
+    it('should show measure description if show more is pressed', async () => {
       renderComponent()
       expect(screen.queryByText(srsInfo.atgarderObs[0].recommendationText)).not.toBeInTheDocument()
-      userEvent.click(screen.getAllByText('Visa mer')[0])
+      await userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(screen.getByText(srsInfo.atgarderObs[0].recommendationText)).toBeInTheDocument()
     })
 
@@ -115,9 +115,9 @@ describe('SRS Recommendations', () => {
       expect(screen.getAllByText('Se fler').length > 0).toBeTruthy()
     })
 
-    it('should log when pressing show more recommendations', () => {
+    it('should log when pressing show more recommendations', async () => {
       renderComponent()
-      userEvent.click(screen.getAllByText('Se fler')[0])
+      await userEvent.click(screen.getAllByText('Se fler')[0])
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })

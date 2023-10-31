@@ -22,7 +22,7 @@ const renderComponent = (props: ComponentProps<typeof UvMedicalInvestigationList
 }
 
 it('renders without crashing', () => {
-  expect(() => renderComponent({ value: value, config: config })).not.toThrow()
+  expect(() => renderComponent({ value, config })).not.toThrow()
 })
 
 it('renders empty value text if value is empty', () => {
@@ -31,16 +31,16 @@ it('renders empty value text if value is empty', () => {
 })
 
 it('renders date if question value is not empty', () => {
-  renderComponent({ value: value, config: config })
+  renderComponent({ value, config })
   expect(screen.getByText(value.list[0].date.date as string)).toBeInTheDocument()
 })
 
 it('renders information source if question value is not empty', () => {
-  renderComponent({ value: value, config: config })
+  renderComponent({ value, config })
   expect(screen.getByText(value.list[0].informationSource.text as string)).toBeInTheDocument()
 })
 
 it('renders investigation type if question value is not empty', () => {
-  renderComponent({ value: value, config: config })
+  renderComponent({ value, config })
   expect(screen.getAllByTestId('informationSource').length > 0).toBeTruthy()
 })

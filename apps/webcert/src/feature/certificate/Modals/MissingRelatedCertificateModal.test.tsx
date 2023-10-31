@@ -16,9 +16,7 @@ let testStore: EnhancedStore
 const history = createMemoryHistory()
 const PATIENT_ID = '191212121212'
 const CONFIRM_BUTTON = 'Skapa dödsorsaksintyg'
-const setOpen = () => {
-  return true
-}
+const setOpen = () => true
 const missingRelatedCertificate = fakeResourceLink({
   type: ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION,
   name: 'Dödsbevis saknas',
@@ -53,7 +51,7 @@ describe('MissingRelatedCertificateModal', () => {
 
   it('should show modal if open is true', () => {
     renderComponent(true)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should not render when open is false', () => {
@@ -71,9 +69,9 @@ describe('MissingRelatedCertificateModal', () => {
     expect(screen.getByText('Är du säker att du vill skapa ett dödsorsaksintyg?')).toBeInTheDocument()
   })
 
-  it('should create certificate on confirm', () => {
+  it('should create certificate on confirm', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText(CONFIRM_BUTTON))
+    await userEvent.click(screen.getByText(CONFIRM_BUTTON))
 
     const createNewCertificateAction = dispatchedActions.find((action) => createNewCertificate.match(action))
     expect(createNewCertificateAction?.payload).toEqual({ certificateType: 'doi', patientId: PATIENT_ID })

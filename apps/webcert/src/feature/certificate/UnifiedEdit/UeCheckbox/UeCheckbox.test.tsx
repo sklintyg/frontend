@@ -14,7 +14,7 @@ const questionBoolean: CertificateDataElement = fakeCheckboxBooleanElement({
     label: CHECKBOX_LABEL_BOOLEAN,
     description: '',
   },
-})['checkbox']
+}).checkbox
 
 const questionCode: CertificateDataElement = fakeCheckboxCodeElement({
   id: 'checkbox',
@@ -23,14 +23,14 @@ const questionCode: CertificateDataElement = fakeCheckboxCodeElement({
     label: CHECKBOX_LABEL_CODE,
     description: '',
   },
-})['checkbox']
+}).checkbox
 
 const renderBooleanComponent = () => {
-  render(<UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />)
+  render(<UeCheckbox question={questionBoolean} disabled={false} id="checkbox" />)
 }
 
 const renderCodeComponent = () => {
-  render(<UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />)
+  render(<UeCheckbox question={questionCode} disabled={false} id="checkbox" />)
 }
 
 beforeEach(() => {
@@ -39,25 +39,6 @@ beforeEach(() => {
   useDispatchSpy.mockReturnValue(vi.fn())
   useSelectorSpy.mockReturnValue(vi.fn())
 })
-
-const testClickOnCheckbox = (label?: string) => {
-  let clickable
-  if (label) {
-    clickable = screen.getByText(label)
-  } else {
-    clickable = screen.getByRole('checkbox')
-  }
-  const checkbox = screen.queryByRole('checkbox')
-  expect(checkbox).not.toBeNull()
-  expect(checkbox).not.toBeDisabled()
-  expect(checkbox).not.toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).not.toBeChecked()
-  userEvent.click(clickable)
-  expect(checkbox).toBeChecked()
-}
 
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
@@ -68,44 +49,80 @@ describe('Checkbox component', () => {
   it('sets the label given in question object', () => {
     renderBooleanComponent()
     renderCodeComponent()
-    expect(screen.queryByText(CHECKBOX_LABEL_BOOLEAN)).not.toBeNull()
-    expect(screen.queryByText(CHECKBOX_LABEL_CODE)).not.toBeNull()
+    expect(screen.getByText(CHECKBOX_LABEL_BOOLEAN)).toBeInTheDocument()
+    expect(screen.getByText(CHECKBOX_LABEL_CODE)).toBeInTheDocument()
   })
 
-  it('allows user to check and uncheck by clicking on boolean checkbox', () => {
+  it('allows user to check and uncheck by clicking on boolean checkbox', async () => {
     renderBooleanComponent()
-    testClickOnCheckbox()
+    const checkbox = screen.queryByRole('checkbox')
+    expect(checkbox).toBeInTheDocument()
+    expect(checkbox).toBeEnabled()
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking boolean checkbox label', () => {
+  it('allows user to check and uncheck by clicking boolean checkbox label', async () => {
     renderBooleanComponent()
-    testClickOnCheckbox(CHECKBOX_LABEL_BOOLEAN)
+    const checkbox = screen.queryByRole('checkbox')
+    expect(checkbox).toBeInTheDocument()
+    expect(checkbox).toBeEnabled()
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(checkbox).toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
+    expect(checkbox).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking on code checkbox', () => {
+  it('allows user to check and uncheck by clicking on code checkbox', async () => {
     renderCodeComponent()
-    testClickOnCheckbox()
+    const checkbox = screen.queryByRole('checkbox')
+    expect(checkbox).toBeInTheDocument()
+    expect(checkbox).toBeEnabled()
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(checkbox).toBeChecked()
   })
 
-  it('allows user to check and uncheck by clicking on code label', () => {
+  it('allows user to check and uncheck by clicking on code label', async () => {
     renderCodeComponent()
-    testClickOnCheckbox(CHECKBOX_LABEL_CODE)
+    const checkbox = screen.queryByRole('checkbox')
+    expect(checkbox).toBeInTheDocument()
+    expect(checkbox).toBeEnabled()
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(checkbox).toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
+    expect(checkbox).toBeChecked()
   })
 
   it('gets disabled when value is given', () => {
     render(
       <>
-        <UeCheckbox question={questionCode} disabled={true} id={'checkbox'} />
-        <UeCheckbox question={questionBoolean} disabled={true} id={'checkbox'} />
-        <UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />
-        <UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />
+        <UeCheckbox question={questionCode} disabled id="checkbox" />
+        <UeCheckbox question={questionBoolean} disabled id="checkbox" />
+        <UeCheckbox question={questionCode} disabled={false} id="checkbox" />
+        <UeCheckbox question={questionBoolean} disabled={false} id="checkbox" />
       </>
     )
     const checkboxes = screen.queryAllByRole('checkbox')
     expect(checkboxes).toHaveLength(4)
     expect(checkboxes[0]).toBeDisabled()
     expect(checkboxes[1]).toBeDisabled()
-    expect(checkboxes[2]).not.toBeDisabled()
-    expect(checkboxes[3]).not.toBeDisabled()
+    expect(checkboxes[2]).toBeEnabled()
+    expect(checkboxes[3]).toBeEnabled()
   })
 })

@@ -351,7 +351,7 @@ describe('SRS Utils', () => {
         status: CertificateStatus.UNSIGNED,
       }
       const metadata: CertificateMetadata = fakeCertificateMetaData({
-        relations: { parent: parent, children: [] },
+        relations: { parent, children: [] },
       })
 
       expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)
@@ -365,7 +365,7 @@ describe('SRS Utils', () => {
         status: CertificateStatus.SIGNED,
       }
       const metadata: CertificateMetadata = fakeCertificateMetaData({
-        relations: { parent: parent, children: [] },
+        relations: { parent, children: [] },
       })
 
       expect(getUserClientContextForCertificate(metadata)).toEqual(SrsUserClientContext.SRS_FRL)

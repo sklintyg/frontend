@@ -27,6 +27,23 @@ const renderDefaultComponent = (questions: Question[], isQuestionFormVisible: bo
   )
 }
 
+function createQuestion(): Question {
+  return {
+    author: 'author',
+    id: String(Math.random()),
+    forwarded: true,
+    handled: true,
+    lastUpdate: '2021-07-08',
+    message: 'message',
+    sent: '2021-07-08',
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    type: QuestionType.COORDINATION,
+    links: [],
+  }
+}
+
 describe('QuestionPanel', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([questionMiddleware])
@@ -46,23 +63,23 @@ describe('QuestionPanel', () => {
   describe('renders a question', () => {
     const expectedQuestion = createQuestion()
 
-    beforeEach(() => {
-      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
-    })
-
     it('displays author', () => {
+      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
       expect(screen.getByText(expectedQuestion.author)).toBeInTheDocument()
     })
 
     it('displays message', () => {
+      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
       expect(screen.getByText(expectedQuestion.message)).toBeInTheDocument()
     })
 
     it('displays sent', () => {
+      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
       expect(screen.getByText(expectedQuestion.sent, { exact: false })).toBeInTheDocument()
     })
 
     it('displays subject', () => {
+      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
       expect(screen.getByText(expectedQuestion.subject)).toBeInTheDocument()
     })
   })
@@ -77,20 +94,3 @@ describe('QuestionPanel', () => {
     expect(screen.queryByText('Här kan du ställa en ny fråga till Försäkringskassan.')).not.toBeInTheDocument()
   })
 })
-
-function createQuestion(): Question {
-  return {
-    author: 'author',
-    id: String(Math.random()),
-    forwarded: true,
-    handled: true,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    type: QuestionType.COORDINATION,
-    links: [],
-  }
-}

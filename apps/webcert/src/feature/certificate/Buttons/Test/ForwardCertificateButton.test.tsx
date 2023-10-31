@@ -29,7 +29,7 @@ const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWAR
         certificateId={CERTIFICATE_ID}
         type={type}
         certificateType={CERTIFICATE_TYPE}
-        enabled={true}
+        enabled
         forwarded={false}
         functionDisabled={false}
       />

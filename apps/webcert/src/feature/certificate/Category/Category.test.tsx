@@ -30,7 +30,7 @@ describe('Category', () => {
     testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
     renderComponent()
 
-    expect(screen.queryByText('En annan beskrivning')).not.toBeNull()
+    expect(screen.getByText('En annan beskrivning')).toBeInTheDocument()
   })
 
   it('should not render description if question is disabled', () => {
@@ -40,7 +40,7 @@ describe('Category', () => {
     testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
     renderComponent()
 
-    expect(screen.queryByText('En annan beskrivning')).toBeNull()
+    expect(screen.queryByText('En annan beskrivning')).not.toBeInTheDocument()
   })
 
   it('should not render description if question is read only', () => {
@@ -50,7 +50,7 @@ describe('Category', () => {
     testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
     renderComponent()
 
-    expect(screen.queryByText('En annan beskrivning')).toBeNull()
+    expect(screen.queryByText('En annan beskrivning')).not.toBeInTheDocument()
   })
 
   it('should not render description if description is missing', () => {
@@ -60,6 +60,6 @@ describe('Category', () => {
     testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
     renderComponent()
 
-    expect(screen.queryByText('En annan beskrivning')).toBeNull()
+    expect(screen.queryByText('En annan beskrivning')).not.toBeInTheDocument()
   })
 })

@@ -16,7 +16,7 @@ beforeEach(() => {
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <SickLeavePeriodWarning></SickLeavePeriodWarning>
+      <SickLeavePeriodWarning />
     </Provider>
   )
 }
@@ -34,6 +34,6 @@ describe('Sick leave period warning', () => {
   it('displays warning', () => {
     renderComponent()
     testStore.dispatch(setSickLeavePeriodWarning(WARNING))
-    expect(screen.queryByText(WARNING)).toBeInTheDocument()
+    expect(screen.getByText(WARNING)).toBeInTheDocument()
   })
 })

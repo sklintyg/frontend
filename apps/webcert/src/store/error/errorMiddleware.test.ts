@@ -1,14 +1,13 @@
 import { getCertificate } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { setActiveCertificateId, throwError } from './errorActions'
 import { errorMiddleware } from './errorMiddleware'
-import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
-
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
 
 describe('Test error middleware', () => {
   let testStore: EnhancedStore
@@ -92,7 +91,7 @@ describe('Test error middleware', () => {
       testStore.dispatch(throwError({ errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, type: ErrorType.MODAL }))
 
       await flushPromises()
-      const error: ErrorData = testStore.getState().ui.uiError.error
+      const { error } = testStore.getState().ui.uiError
       const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
       expect(apiCallBeganAction?.payload.data.errorId).toEqual(error.errorId)
     })
@@ -101,7 +100,7 @@ describe('Test error middleware', () => {
       testStore.dispatch(throwError({ errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, type: ErrorType.MODAL }))
 
       await flushPromises()
-      const error: ErrorData = testStore.getState().ui.uiError.error
+      const { error } = testStore.getState().ui.uiError
       const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
       expect(apiCallBeganAction?.payload.data.errorCode).toEqual(error.errorCode)
     })
@@ -110,7 +109,7 @@ describe('Test error middleware', () => {
       testStore.dispatch(throwError({ errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, type: ErrorType.MODAL }))
 
       await flushPromises()
-      const error: ErrorData = testStore.getState().ui.uiError.error
+      const { error } = testStore.getState().ui.uiError
       const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
       expect(apiCallBeganAction?.payload.data.certificateId).toEqual(error.certificateId)
     })
@@ -181,7 +180,7 @@ describe('Test error middleware', () => {
 
       await flushPromises()
       const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
-      expect((apiCallBeganAction?.payload.data.errorId).length > 0).toBeTruthy()
+      expect(apiCallBeganAction?.payload.data.errorId).toHaveLength(36)
     })
   })
 

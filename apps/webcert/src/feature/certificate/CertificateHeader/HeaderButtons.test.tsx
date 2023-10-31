@@ -72,7 +72,7 @@ describe('Verify header buttons', () => {
     vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     renderComponent([{ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE }])
     await screen.findByRole('button', { name: expectedButton })
-    userEvent.click(screen.getByText(expectedButton))
+    await userEvent.click(screen.getByText(expectedButton))
     expect(screen.getByText('Skriv ut intyg')).toBeInTheDocument()
     expect(screen.getByText('Expected body')).toBeInTheDocument()
   })

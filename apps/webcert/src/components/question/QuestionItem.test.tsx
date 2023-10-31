@@ -6,7 +6,6 @@ import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -20,6 +19,153 @@ let testStore: EnhancedStore
 const history = createMemoryHistory()
 
 const setupStore = () => configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, questionMiddleware])
+
+const actionHasSimilarPayload = (action: AnyAction | undefined, payload: unknown) => {
+  if (!action || !action.payload) return false
+  if (payload instanceof Object) {
+    return Boolean(
+      Object.entries(payload).filter(
+        ([prop, val]) =>
+          Object.prototype.hasOwnProperty.call(payload, prop) &&
+          Object.prototype.hasOwnProperty.call(action.payload, prop) &&
+          isEqual(action.payload[prop], val)
+      )
+    )
+  }
+  return true
+}
+
+const addAnswerDraftToQuestion = (question: Question, message: string): Question =>
+  ({
+    ...question,
+    answer: { author: '', id: '', message, sent: '' },
+  } as Question)
+
+const addAnswerToQuestion = (question: Question, message: string): Question =>
+  ({
+    ...question,
+    answer: { author: 'answerAuthor', id: 'answerId', message, sent: '2021-07-16' },
+  } as Question)
+
+const addReminderToQuestion = (question: Question, message: string): Question =>
+  ({
+    ...question,
+    reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
+  } as Question)
+
+const handleQuestion = (question: Question): Question =>
+  ({
+    ...question,
+    handled: true,
+  } as Question)
+
+const addComplementsToQuestion = (question: Question, complements: Complement[]): Question =>
+  ({
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [...complements],
+  } as Question)
+
+const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: string): Question => ({
+  ...question,
+  lastDateToReply,
+})
+
+const createComplementWithLongText = (): Question => ({
+  type: QuestionType.COMPLEMENT,
+  author: 'author',
+  id: 'id',
+  forwarded: true,
+  handled: false,
+  lastUpdate: '2021-07-08',
+  message:
+    'message message message message message message message message message' +
+    'message message message message message message message message message message message ' +
+    'message message message message message message message message message' +
+    'message message message message message message message message message',
+  sent: '2021-07-08',
+
+  complements: [],
+  subject: 'subject',
+  reminders: [],
+  links: [
+    {
+      type: ResourceLinkType.ANSWER_QUESTION,
+      enabled: true,
+      name: 'Svara',
+      description: 'Svara på fråga',
+    },
+    {
+      type: ResourceLinkType.HANDLE_QUESTION,
+      enabled: true,
+      name: 'Hantera',
+      description: 'Hantera fråga',
+    },
+  ],
+})
+
+const createQuestionWithLongText = (): Question => ({
+  type: QuestionType.COORDINATION,
+  author: 'author',
+  id: 'id',
+  forwarded: true,
+  handled: false,
+  lastUpdate: '2021-07-08',
+  message:
+    'message message message message message message message message message' +
+    'message message message message message message message message message message message ' +
+    'message message message message message message message message message' +
+    'message message message message message message message message message',
+  sent: '2021-07-08',
+
+  complements: [],
+  subject: 'subject',
+  reminders: [],
+  links: [
+    {
+      type: ResourceLinkType.ANSWER_QUESTION,
+      enabled: true,
+      name: 'Svara',
+      description: 'Svara på fråga',
+    },
+    {
+      type: ResourceLinkType.HANDLE_QUESTION,
+      enabled: true,
+      name: 'Hantera',
+      description: 'Hantera fråga',
+    },
+  ],
+})
+
+const createQuestion = (): Question => ({
+  type: QuestionType.COORDINATION,
+  author: 'author',
+  id: 'id',
+  forwarded: true,
+  handled: false,
+  lastUpdate: '2021-07-08',
+  message: 'message',
+  sent: '2021-07-08',
+
+  complements: [],
+  contactInfo: ['Fk kontaktinfo'],
+  subject: 'subject',
+  reminders: [],
+  links: [
+    {
+      type: ResourceLinkType.ANSWER_QUESTION,
+      enabled: true,
+      name: 'Svara',
+      description: 'Svara på fråga',
+    },
+    {
+      type: ResourceLinkType.HANDLE_QUESTION,
+      enabled: true,
+      name: 'Hantera',
+      description: 'Hantera fråga',
+    },
+  ],
+})
 
 const renderComponent = (question: Question) => {
   render(
@@ -148,7 +294,7 @@ describe('QuestionItem', () => {
       renderComponent(question)
 
       expect(question.answer).toBeTruthy()
-      expect(screen.getByText('Re: ' + question.subject)).toBeInTheDocument()
+      expect(screen.getByText(`Re: ${question.subject}`)).toBeInTheDocument()
     })
   })
 
@@ -189,17 +335,6 @@ describe('QuestionItem', () => {
       clearDispatchedActions()
     })
 
-    it.skip('writes a message', () => {
-      vi.useFakeTimers()
-      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
-      const newMessage = 'Det här är ett meddelande'
-      const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, newMessage)
-
-      vi.advanceTimersByTime(10000)
-      expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
-    })
-
     it('enable send and cancel when answer has value', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
@@ -215,20 +350,20 @@ describe('QuestionItem', () => {
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 
-    it('hides message that answer has been saved if the user starts edit', () => {
+    it('hides message that answer has been saved if the user starts edit', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const messageField = screen.getByRole('textbox')
-      userEvent.type(messageField, 'Nu ändrar jag mitt svar')
+      await userEvent.type(messageField, 'Nu ändrar jag mitt svar')
 
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
 
-    it('shall delete answer when delete is confirmed', () => {
+    it('shall delete answer when delete is confirmed', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      userEvent.click(screen.getByText('Avbryt'))
-      userEvent.click(screen.getByText('Ja, radera'))
+      await userEvent.click(screen.getByText('Avbryt'))
+      await userEvent.click(screen.getByText('Ja, radera'))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -240,35 +375,35 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall not delete answer when delete is cancelled', () => {
+    it('shall not delete answer when delete is cancelled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      userEvent.click(screen.getByText('Avbryt'))
-      userEvent.click(screen.getAllByText('Avbryt')[1])
+      await userEvent.click(screen.getByText('Avbryt'))
+      await userEvent.click(screen.getAllByText('Avbryt')[1])
 
       expect(dispatchedActions).toHaveLength(0)
     })
 
-    it('disable send and cancel while sending answer draft', () => {
+    it('disable send and cancel while sending answer draft', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
       const cancelButton = screen.getByText('Avbryt')
 
-      userEvent.click(sendButton)
+      await userEvent.click(sendButton)
 
       expect(sendButton).toBeDisabled()
       expect(cancelButton).toBeDisabled()
     })
 
-    it('disable send and cancel while deleting answer draft', () => {
+    it('disable send and cancel while deleting answer draft', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
       const cancelButton = screen.getByText('Avbryt')
 
-      userEvent.click(cancelButton)
-      userEvent.click(screen.getByText('Ja, radera'))
+      await userEvent.click(cancelButton)
+      await userEvent.click(screen.getByText('Ja, radera'))
 
       expect(sendButton).toBeDisabled()
       expect(cancelButton).toBeDisabled()
@@ -288,7 +423,7 @@ describe('QuestionItem', () => {
       renderComponent(createQuestion())
 
       expect(screen.getByText('Hanterad')).toBeInTheDocument()
-      expect(screen.queryByRole('checkbox')).toBeInTheDocument()
+      expect(screen.getByRole('checkbox')).toBeInTheDocument()
     })
 
     it('display checkbox as checked if handled', () => {
@@ -320,7 +455,7 @@ describe('QuestionItem', () => {
       question.handled = true
       renderComponent(question)
 
-      expect(screen.queryByText('Hanterad')).toBeInTheDocument()
+      expect(screen.getByText('Hanterad')).toBeInTheDocument()
     })
 
     it('dont display as handled when question missing resource link handled and is unhandled', () => {
@@ -331,10 +466,10 @@ describe('QuestionItem', () => {
       expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
     })
 
-    it('shall set as handled if checkbox selected', () => {
+    it('shall set as handled if checkbox selected', async () => {
       renderComponent(createQuestion())
 
-      userEvent.click(screen.getByText('Hanterad'))
+      await userEvent.click(screen.getByText('Hanterad'))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -346,12 +481,12 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall set as unhandled if checkbox deselected', () => {
+    it('shall set as unhandled if checkbox deselected', async () => {
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
 
-      userEvent.click(screen.getByText('Hanterad'))
+      await userEvent.click(screen.getByText('Hanterad'))
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -363,7 +498,7 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall set as handled when handle is confirmed', () => {
+    it('shall set as handled when handle is confirmed', async () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -375,8 +510,8 @@ describe('QuestionItem', () => {
         ])
       )
 
-      userEvent.click(screen.getByText('Hanterad'))
-      userEvent.click(screen.getAllByText('Markera som hanterad')[1])
+      await userEvent.click(screen.getByText('Hanterad'))
+      await userEvent.click(screen.getAllByText('Markera som hanterad')[1])
 
       const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
 
@@ -388,7 +523,7 @@ describe('QuestionItem', () => {
       ).toEqual(true)
     })
 
-    it('shall not set as handled when handle is cancelled', () => {
+    it('shall not set as handled when handle is cancelled', async () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -400,8 +535,8 @@ describe('QuestionItem', () => {
         ])
       )
 
-      userEvent.click(screen.getByText('Hanterad'))
-      userEvent.click(screen.getByText('Avbryt'))
+      await userEvent.click(screen.getByText('Hanterad'))
+      await userEvent.click(screen.getByText('Avbryt'))
 
       expect(dispatchedActions).toHaveLength(0)
     })
@@ -435,7 +570,11 @@ describe('QuestionItem', () => {
   })
 
   describe('question with complements', () => {
-    beforeEach(() => {
+    afterEach(() => {
+      clearDispatchedActions()
+    })
+
+    it('display complement title', () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -446,21 +585,35 @@ describe('QuestionItem', () => {
           },
         ])
       )
-    })
-
-    afterEach(() => {
-      clearDispatchedActions()
-    })
-    it('display complement title', () => {
       expect(screen.getByText(/Visa kompletteringsbegäran för:/i)).toBeInTheDocument()
     })
 
     it('display complement question', () => {
+      renderComponent(
+        addComplementsToQuestion(createQuestion(), [
+          {
+            questionId: 'questionId',
+            valueId: 'valueId',
+            questionText: 'questionText',
+            message: 'complementMessage',
+          },
+        ])
+      )
       expect(screen.getByText(/questionText/i)).toBeInTheDocument()
     })
 
-    it('goto question if complement clicked', () => {
-      userEvent.click(screen.getByText(/questionText/i))
+    it('goto question if complement clicked', async () => {
+      renderComponent(
+        addComplementsToQuestion(createQuestion(), [
+          {
+            questionId: 'questionId',
+            valueId: 'valueId',
+            questionText: 'questionText',
+            message: 'complementMessage',
+          },
+        ])
+      )
+      await userEvent.click(screen.getByText(/questionText/i))
 
       const updateComplementsAction = dispatchedActions.find((action) => gotoComplement.match(action))
       expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
@@ -495,168 +648,3 @@ describe('QuestionItem', () => {
     })
   })
 })
-
-const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
-  return {
-    ...question,
-    answer: { author: '', id: '', message, sent: '' },
-  } as Question
-}
-
-const addAnswerToQuestion = (question: Question, message: string): Question => {
-  return {
-    ...question,
-    answer: { author: 'answerAuthor', id: 'answerId', message, sent: '2021-07-16' },
-  } as Question
-}
-
-const addReminderToQuestion = (question: Question, message: string): Question => {
-  return {
-    ...question,
-    reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
-  } as Question
-}
-
-const handleQuestion = (question: Question): Question => {
-  return {
-    ...question,
-    handled: true,
-  } as Question
-}
-
-const addComplementsToQuestion = (question: Question, complements: Complement[]): Question => {
-  return {
-    ...question,
-    type: QuestionType.COMPLEMENT,
-    complements: [...complements],
-  } as Question
-}
-
-const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: string): Question => {
-  return {
-    ...question,
-    lastDateToReply: lastDateToReply,
-  }
-}
-
-const createComplementWithLongText = (): Question => {
-  return {
-    type: QuestionType.COMPLEMENT,
-    author: 'author',
-    id: 'id',
-    forwarded: true,
-    handled: false,
-    lastUpdate: '2021-07-08',
-    message:
-      'message message message message message message message message message' +
-      'message message message message message message message message message message message ' +
-      'message message message message message message message message message' +
-      'message message message message message message message message message',
-    sent: '2021-07-08',
-
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    links: [
-      {
-        type: ResourceLinkType.ANSWER_QUESTION,
-        enabled: true,
-        name: 'Svara',
-        description: 'Svara på fråga',
-      },
-      {
-        type: ResourceLinkType.HANDLE_QUESTION,
-        enabled: true,
-        name: 'Hantera',
-        description: 'Hantera fråga',
-      },
-    ],
-  }
-}
-
-const createQuestionWithLongText = (): Question => {
-  return {
-    type: QuestionType.COORDINATION,
-    author: 'author',
-    id: 'id',
-    forwarded: true,
-    handled: false,
-    lastUpdate: '2021-07-08',
-    message:
-      'message message message message message message message message message' +
-      'message message message message message message message message message message message ' +
-      'message message message message message message message message message' +
-      'message message message message message message message message message',
-    sent: '2021-07-08',
-
-    complements: [],
-    subject: 'subject',
-    reminders: [],
-    links: [
-      {
-        type: ResourceLinkType.ANSWER_QUESTION,
-        enabled: true,
-        name: 'Svara',
-        description: 'Svara på fråga',
-      },
-      {
-        type: ResourceLinkType.HANDLE_QUESTION,
-        enabled: true,
-        name: 'Hantera',
-        description: 'Hantera fråga',
-      },
-    ],
-  }
-}
-
-const createQuestion = (): Question => {
-  return {
-    type: QuestionType.COORDINATION,
-    author: 'author',
-    id: 'id',
-    forwarded: true,
-    handled: false,
-    lastUpdate: '2021-07-08',
-    message: 'message',
-    sent: '2021-07-08',
-
-    complements: [],
-    contactInfo: ['Fk kontaktinfo'],
-    subject: 'subject',
-    reminders: [],
-    links: [
-      {
-        type: ResourceLinkType.ANSWER_QUESTION,
-        enabled: true,
-        name: 'Svara',
-        description: 'Svara på fråga',
-      },
-      {
-        type: ResourceLinkType.HANDLE_QUESTION,
-        enabled: true,
-        name: 'Hantera',
-        description: 'Hantera fråga',
-      },
-    ],
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const actionHasSimilarPayload = (action: AnyAction | undefined, payload: any) => {
-  if (!action || !action.payload) return false
-
-  let similar = true
-  for (const prop in payload) {
-    if (
-      !(
-        Object.prototype.hasOwnProperty.call(payload, prop) &&
-        Object.prototype.hasOwnProperty.call(action.payload, prop) &&
-        isEqual(action.payload[prop], payload[prop])
-      )
-    ) {
-      similar = false
-      break
-    }
-  }
-  return similar
-}

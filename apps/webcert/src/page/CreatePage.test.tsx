@@ -27,43 +27,6 @@ const renderComponent = () => {
   )
 }
 
-describe('SearchAndCreatePage', () => {
-  beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware])
-
-    testStore.dispatch(updateIsLoadingUser(false))
-    testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(
-      updateUserResourceLinks([{ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, description: '', name: '', body: '', enabled: true }])
-    )
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
-  it('should dispatch resetCertificateState and updateShouldRouteAfterDelete actions on mount', () => {
-    renderComponent()
-    expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
-    expect(dispatchedActions.find((action) => updateShouldRouteAfterDelete.match(action))).toBeDefined()
-  })
-
-  it('should reset state when page is loaded', () => {
-    renderComponent()
-    expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
-  })
-
-  it('should dispatch resetCertificateState before updateShouldRouteAfterDelete', () => {
-    renderComponent()
-
-    const resetCertificateStateIndex = dispatchedActions.findIndex((action) => resetCertificateState.match(action))
-
-    const updateShouldRouteAfterDeleteIndex = dispatchedActions.findIndex((action) => updateShouldRouteAfterDelete.match(action))
-
-    expect(resetCertificateStateIndex).toBeLessThan(updateShouldRouteAfterDeleteIndex)
-  })
-})
-
 const getUser = (): User => {
   const unit: Unit = {
     unitId: '',
@@ -119,3 +82,40 @@ const getUser = (): User => {
     ],
   }
 }
+
+describe('SearchAndCreatePage', () => {
+  beforeEach(() => {
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
+
+    testStore.dispatch(updateIsLoadingUser(false))
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(
+      updateUserResourceLinks([{ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, description: '', name: '', body: '', enabled: true }])
+    )
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
+  })
+
+  it('should dispatch resetCertificateState and updateShouldRouteAfterDelete actions on mount', () => {
+    renderComponent()
+    expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
+    expect(dispatchedActions.find((action) => updateShouldRouteAfterDelete.match(action))).toBeDefined()
+  })
+
+  it('should reset state when page is loaded', () => {
+    renderComponent()
+    expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
+  })
+
+  it('should dispatch resetCertificateState before updateShouldRouteAfterDelete', () => {
+    renderComponent()
+
+    const resetCertificateStateIndex = dispatchedActions.findIndex((action) => resetCertificateState.match(action))
+
+    const updateShouldRouteAfterDeleteIndex = dispatchedActions.findIndex((action) => updateShouldRouteAfterDelete.match(action))
+
+    expect(resetCertificateStateIndex).toBeLessThan(updateShouldRouteAfterDeleteIndex)
+  })
+})

@@ -51,20 +51,20 @@ describe('ReadyForSign button', () => {
   it('shall set the name passed as prop and isValidForSigning is true', () => {
     renderDefaultComponent(true, true)
     const name = screen.queryByText(NAME)
-    expect(name).not.toBeNull()
+    expect(name).toBeInTheDocument()
   })
 
-  it('shall set the description passed as prop and isValidForSigning is true', () => {
+  it('shall set the description passed as prop and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
-    userEvent.hover(screen.getByText(NAME))
+    await userEvent.hover(screen.getByText(NAME))
     const description = screen.queryByText(DESCRIPTION)
-    expect(description).not.toBeNull()
+    expect(description).toBeInTheDocument()
   })
 
-  it("shall dispatch readyForSign when button 'readyForSign' is clicked and isValidForSigning is true", () => {
+  it("shall dispatch readyForSign when button 'readyForSign' is clicked and isValidForSigning is true", async () => {
     renderDefaultComponent(true, true)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText(NAME))
+    await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    await userEvent.click(screen.getByText(NAME))
     expect(dispatchedActions.find((action) => readyForSign.match(action))).toBeDefined()
   })
 
@@ -89,34 +89,34 @@ describe('ReadyForSign button', () => {
   it('shall set the name passed as prop and isValidForSigning is false', () => {
     renderDefaultComponent(true, false)
     const name = screen.queryByText(NAME)
-    expect(name).not.toBeNull()
+    expect(name).toBeInTheDocument()
   })
 
-  it('shall set the description passed as prop and isValidForSigning is false', () => {
+  it('shall set the description passed as prop and isValidForSigning is false', async () => {
     renderDefaultComponent(true, false)
-    userEvent.hover(screen.getByText(NAME))
+    await userEvent.hover(screen.getByText(NAME))
     const description = screen.queryByText(DESCRIPTION)
-    expect(description).not.toBeNull()
+    expect(description).toBeInTheDocument()
   })
 
-  it('shall open modal when clicked and isValidForSigning is false', () => {
+  it('shall open modal when clicked and isValidForSigning is false', async () => {
     renderDefaultComponent(true, false)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
-    expect(screen.queryByRole('dialog')).not.toBeNull()
+    await userEvent.click(button)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it("shall dispatch readyForSign when modal dialog button 'readyForSign' is clicked", () => {
+  it("shall dispatch readyForSign when modal dialog button 'readyForSign' is clicked", async () => {
     renderDefaultComponent(true, false)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Markera klart för signering'))
+    await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    await userEvent.click(screen.getByText('Markera klart för signering'))
     expect(dispatchedActions.find((action) => readyForSign.match(action))).toBeDefined()
   })
 
-  it("shall not dispatch readyForSign when modal dialog button 'cancelled' is clicked", () => {
+  it("shall not dispatch readyForSign when modal dialog button 'cancelled' is clicked", async () => {
     renderDefaultComponent(true, false)
-    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
-    userEvent.click(screen.getByText('Avbryt'))
+    await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    await userEvent.click(screen.getByText('Avbryt'))
     expect(dispatchedActions.find((action) => readyForSign.match(action))).not.toBeDefined()
   })
 })

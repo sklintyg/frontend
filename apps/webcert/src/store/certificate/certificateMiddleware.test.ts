@@ -17,6 +17,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { vi } from 'vitest'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
@@ -58,19 +59,34 @@ import {
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
+  error: {
+    api: 'POST /api/call',
+    errorCode,
+    message: 'This is the message',
+  },
+  certificateId: 'certificateId',
+})
 
-const getExpectedError = (errorCode: string): CertificateApiGenericError => {
-  return {
-    error: {
-      api: 'POST /api/call',
-      errorCode: errorCode,
-      message: 'This is the message',
-    },
-    certificateId: 'certificateId',
-  }
-}
+const getTestCertificate = (id: string, type?: string, version?: number, ready?: string, relations?: CertificateRelations): Certificate =>
+  fakeCertificate({
+    metadata: fakeCertificateMetaData({ id, type, version, readyForSign: ready, relations }),
+  })
+
+const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
+  fakeCertificate({
+    data: fakeRadioBooleanElement({
+      id: '0',
+      value: { id: 'val', selected },
+      validation: [
+        fakeCertificateDataValidation({
+          questionId: '0',
+          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+          expression: '$val',
+        }),
+      ],
+    }),
+  })
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
@@ -279,8 +295,9 @@ describe('Test certificate middleware', () => {
     it.skip('shall update certificate when complemented', async () => {
       const certificateToComplement = getTestCertificate('originalCertificateId')
       const expectedCertificate = getTestCertificate('newCertificateId')
-      const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
-      fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
+      fakeAxios
+        .onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`)
+        .reply(200, { certificate: expectedCertificate } as ComplementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
       testStore.dispatch(complementCertificate({ message: '' }))
       await flushPromises()
@@ -348,8 +365,9 @@ describe('Test certificate middleware', () => {
     it('shall update certificate when complemented', async () => {
       const certificateToComplement = getTestCertificate('originalCertificateId')
       const expectedCertificate = getTestCertificate('updatedCertificateId')
-      const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
-      fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/answercomplement`).reply(200, complementCertificateSuccess)
+      fakeAxios
+        .onPost(`/api/certificate/${certificateToComplement.metadata.id}/answercomplement`)
+        .reply(200, { certificate: expectedCertificate } as ComplementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
 
       testStore.dispatch(answerComplementCertificate('Vi svarar denna komplettering med ett meddelande'))
@@ -470,7 +488,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
-      const isDeleted = testStore.getState().ui.uiCertificate.isDeleted
+      const { isDeleted } = testStore.getState().ui.uiCertificate
       expect(isDeleted).toBe(true)
     })
 
@@ -512,7 +530,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
-      const routedFromDeletedCertificate = testStore.getState().ui.uiCertificate.routedFromDeletedCertificate
+      const { routedFromDeletedCertificate } = testStore.getState().ui.uiCertificate
       expect(routedFromDeletedCertificate).toBe(true)
     })
 
@@ -582,7 +600,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(createNewCertificate(data))
 
       await flushPromises()
-      const createdCertificateId = testStore.getState().ui.uiCertificate.createdCertificateId
+      const { createdCertificateId } = testStore.getState().ui.uiCertificate
       expect(createdCertificateId).toEqual(response.certificateId)
     })
   })
@@ -759,29 +777,3 @@ describe('Test certificate middleware', () => {
     })
   })
 })
-
-const getTestCertificate = (
-  id: string,
-  type?: string,
-  version?: number,
-  readyForSign?: string,
-  relations?: CertificateRelations
-): Certificate =>
-  fakeCertificate({
-    metadata: fakeCertificateMetaData({ id, type, version, readyForSign, relations }),
-  })
-
-const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
-  fakeCertificate({
-    data: fakeRadioBooleanElement({
-      id: '0',
-      value: { id: 'val', selected },
-      validation: [
-        fakeCertificateDataValidation({
-          questionId: '0',
-          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-          expression: '$val',
-        }),
-      ],
-    }),
-  })

@@ -3,15 +3,14 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { createPatient } from '../../components/patient/patientTestUtils'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { ErrorCode } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { getCertificateTypes, getPatient, GetPatientResponse, updateCertificateTypes } from './patientActions'
+import { GetPatientResponse, getCertificateTypes, getPatient, updateCertificateTypes } from './patientActions'
 import { patientMiddleware } from './patientMiddleware'
-
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const certificateTypes: CertificateType[] = [
   {

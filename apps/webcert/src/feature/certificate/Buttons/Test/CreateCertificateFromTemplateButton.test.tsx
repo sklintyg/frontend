@@ -9,7 +9,7 @@ const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'
 const BODY = 'Template button body'
 
-//@ts-expect-error creating object so component renders
+// @ts-expect-error creating object so component renders
 const certificateMetadata: CertificateMetadata = {}
 
 const renderDefaultComponent = (enabled: boolean) => {
@@ -54,21 +54,21 @@ describe('Create certificate from template button', () => {
     expect(screen.getByText(NAME)).toBeInTheDocument()
   })
 
-  it('shall set description for button', () => {
+  it('shall set description for button', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await userEvent.hover(screen.getByText(NAME))
     expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('shall not show modal if button is not pressed', () => {
     renderDefaultComponent(true)
-    expect(screen.queryByRole('dialog')).toBeNull()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.queryByText(BODY)).not.toBeInTheDocument()
   })
 
-  it('renders modal when button is clicked', () => {
+  it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
-    userEvent.click(screen.getByLabelText('Template button name'))
+    await userEvent.click(screen.getByLabelText('Template button name'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(BODY)).toBeInTheDocument()
   })

@@ -23,7 +23,7 @@ describe('CertificateValidation component', () => {
 
     const { container } = render(<CertificateValidation />)
 
-    expect(container.firstChild).toBe(null)
+    expect(container).toBeEmptyDOMElement()
   })
 
   it('shall display all validation errors', (): void => {
@@ -31,10 +31,10 @@ describe('CertificateValidation component', () => {
     useSelectorSpy.mockReturnValueOnce(true)
     useSelectorSpy.mockReturnValue(getValidationErrorSummary())
 
-    const { container } = render(<CertificateValidation />)
+    render(<CertificateValidation />)
 
     expect(screen.getByText(/Utkastet saknar uppgifter i följande avsnitt:/)).toBeInTheDocument()
-    expect(container.getElementsByClassName('iu-color-error').length).toBe(2)
+    expect(screen.getAllByRole('link').filter((link) => link.className.includes('iu-color-error'))).toHaveLength(2)
     expect(screen.getByText(GRUND_FOR_MEDICINSKT_UNDERLAG)).toBeInTheDocument()
     expect(screen.getByText(SYSSELSATTNING)).toBeInTheDocument()
   })

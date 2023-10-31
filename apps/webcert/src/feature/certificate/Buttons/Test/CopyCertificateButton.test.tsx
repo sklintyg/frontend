@@ -52,42 +52,42 @@ describe('Copy certificate button', () => {
   it('sets correct name for button', () => {
     renderDefaultComponent(true)
     const name = screen.queryByText(NAME)
-    expect(name).not.toBeNull()
+    expect(name).toBeInTheDocument()
   })
 
   it('sets correct description for button', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    expect(screen.queryByText(DESCRIPTION)).not.toBeNull()
+    expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('sets correct body for button', () => {
     renderDefaultComponent(true)
     const body = screen.queryByText(BODY)
-    expect(body).toBeNull()
+    expect(body).not.toBeInTheDocument()
   })
 
-  it('renders modal when button is clicked', () => {
+  it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    expect(button).not.toBeDisabled()
-    expect(screen.queryByText(BODY)).toBeNull()
-    expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
-    expect(screen.queryByRole('dialog')).not.toBeNull()
-    expect(screen.queryByText(BODY)).not.toBeNull()
+    expect(button).toBeEnabled()
+    expect(screen.queryByText(BODY)).not.toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await userEvent.click(button)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(BODY)).toBeInTheDocument()
   })
 
-  it('allows user to interact with modal', () => {
+  it('allows user to interact with modal', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
-    expect(screen.queryByRole('dialog')).not.toBeNull()
-    userEvent.click(screen.getByText('Kopiera'))
-    expect(screen.queryByRole('dialog')).toBeNull()
-    userEvent.click(button)
-    expect(screen.queryByRole('dialog')).not.toBeNull()
-    userEvent.click(screen.getByText('Avbryt'))
-    expect(screen.queryByRole('dialog')).toBeNull()
+    await userEvent.click(button)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    await userEvent.click(screen.getByText('Kopiera'))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await userEvent.click(button)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    await userEvent.click(screen.getByText('Avbryt'))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })

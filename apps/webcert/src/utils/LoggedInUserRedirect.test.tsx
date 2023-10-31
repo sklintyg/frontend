@@ -64,7 +64,7 @@ describe('LoggedInUserRedirect', () => {
     renderComponent()
     testStore.dispatch(updateIsLoadingUser(true))
 
-    expect(screen.queryByText('Laddar...')).toBeInTheDocument()
+    expect(screen.getByText('Laddar...')).toBeInTheDocument()
   })
 
   it('should redirect to /create if logged in as doctor', () => {
@@ -94,6 +94,6 @@ describe('LoggedInUserRedirect', () => {
   it('should render wrapped component if doctor or care admin not loaded', () => {
     renderComponent()
 
-    expect(screen.queryByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeInTheDocument()
   })
 })

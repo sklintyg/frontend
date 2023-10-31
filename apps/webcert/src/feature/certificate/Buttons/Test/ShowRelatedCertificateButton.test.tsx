@@ -52,12 +52,12 @@ describe('Show related certificate button', () => {
   it('sets correct name for button', () => {
     renderDefaultComponent(true)
     const name = screen.queryByText(NAME)
-    expect(name).not.toBeNull()
+    expect(name).toBeInTheDocument()
   })
 
   it('sets correct description for button', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    expect(screen.queryByText(DESCRIPTION)).not.toBeNull()
+    expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
   })
 })

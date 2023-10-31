@@ -1,6 +1,6 @@
 import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import { ComponentProps } from 'react'
@@ -66,15 +66,15 @@ describe('Medical investigation component', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(6)
 
     screen.getAllByRole('combobox').forEach((investigationType) => {
-      expect(investigationType).not.toBeDisabled()
+      expect(investigationType).toBeEnabled()
     })
 
     screen.getAllByRole('button').forEach((button) => {
-      expect(button).not.toBeDisabled()
+      expect(button).toBeEnabled()
     })
 
     screen.getAllByRole('textbox').forEach((textinput) => {
-      expect(textinput).not.toBeDisabled()
+      expect(textinput).toBeEnabled()
     })
   })
 
@@ -114,7 +114,7 @@ describe('Medical investigation component', () => {
       ])
     )
     renderComponent({ question })
-    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
   })
 
   it.each(config.list)('Should display validation error for investation field %#', ({ investigationTypeId }) => {
@@ -131,7 +131,7 @@ describe('Medical investigation component', () => {
       ])
     )
     renderComponent({ question })
-    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
   })
 
   it.each(config.list)('Should display validation error for date field %#', ({ dateId }) => {
@@ -148,7 +148,7 @@ describe('Medical investigation component', () => {
       ])
     )
     renderComponent({ question })
-    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
   })
 
   it.each(config.list)('Should not display empty validationErrors for information source field %#', ({ informationSourceId }) => {
@@ -199,10 +199,10 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  it('Sets the value to null if the text is empty', () => {
+  it('Sets the value to null if the text is empty', async () => {
     renderComponent({ question, disabled: false })
     const input = screen.queryAllByRole('textbox')
-    userEvent.clear(input[1])
+    await userEvent.clear(input[1])
     expect(input[1]).toHaveValue('')
   })
 
@@ -210,25 +210,8 @@ describe('Medical investigation component', () => {
     renderComponent({ disabled: false, question })
     const inputs = screen.getAllByRole('textbox')
     const newValue = 'text'
-    userEvent.clear(inputs[1])
-    userEvent.type(inputs[1], newValue)
+    await userEvent.clear(inputs[1])
+    await userEvent.type(inputs[1], newValue)
     expect(inputs[1]).toHaveValue(newValue)
-  })
-
-  it.skip('Should disable options past max date', async () => {
-    renderComponent({
-      disabled: false,
-      question: fakeMedicalInvestigationListElement({
-        id: 'id',
-        config: { list: [{ dateId: 'date', maxDate: '2023-02-27' }] },
-        value: { list: [{ id: 'date', date: '2023-02-27' }] },
-      })['id'],
-    })
-
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
-
-    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(1)
   })
 })

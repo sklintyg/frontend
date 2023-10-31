@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react'
 
 import PatientStatusNotification from './PatientStatusNotification'
 
+const INFO_TEXT = 'Patientstatus'
+
 const renderDefaultComponent = (status: boolean) => {
   render(<PatientStatusNotification status={status} title={INFO_TEXT} type="info" />)
 }
-
-const INFO_TEXT = 'Patientstatus'
 
 describe('PatientStatusNotification', () => {
   it('shall render notification if status is set', () => {

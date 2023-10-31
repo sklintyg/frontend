@@ -32,20 +32,21 @@ describe('QuestionWithSubQuestions', () => {
     clearDispatchedActions()
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
     testStore.dispatch(updateCertificate(getCertificate()))
-    renderComponent()
   })
 
   it('should render all questions', () => {
+    renderComponent()
     const questions = [
       'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       'En annan text',
     ]
 
-    questions.forEach((q) => expect(screen.queryByText(q)).toBeInTheDocument())
+    questions.forEach((q) => expect(screen.getByText(q)).toBeInTheDocument())
   })
 
   it('should render complements for all questions', () => {
+    renderComponent()
     const complements = [
       createComplement({ questionId: '1.1', message: 'Komplettering för 1.1' }),
       createComplement({ questionId: '1.2', message: 'Komplettering för 1.2' }),
@@ -53,7 +54,7 @@ describe('QuestionWithSubQuestions', () => {
     ]
     testStore.dispatch(updateCertificateComplements(complements))
 
-    complements.forEach((c) => expect(screen.queryByText(c.message)).toBeInTheDocument())
+    complements.forEach((c) => expect(screen.getByText(c.message)).toBeInTheDocument())
   })
 
   it('Should return null if parentQuestion is false or not visible', () => {

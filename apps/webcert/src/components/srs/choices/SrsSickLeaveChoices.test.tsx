@@ -16,6 +16,17 @@ const renderComponent = () => {
   )
 }
 
+const setRenewedCertificateToState = () => {
+  const certificate = fakeCertificate()
+  certificate.metadata.relations.parent = {
+    certificateId: 'id',
+    type: CertificateRelationType.RENEW,
+    status: CertificateStatus.SIGNED,
+    created: '',
+  }
+  store.dispatch(updateCertificate(certificate))
+}
+
 describe('SRS Sick Leave Choices', () => {
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
@@ -55,15 +66,15 @@ describe('SRS Sick Leave Choices', () => {
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
-  it('should switch checked radio button when user clicks', () => {
+  it('should switch checked radio button when user clicks', async () => {
     renderComponent()
-    userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
   })
 
-  it('should update state when clicking radio button', () => {
+  it('should update state when clicking radio button', async () => {
     renderComponent()
-    userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
+    await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
     expect(store.getState().ui.uiSRS.sickLeaveChoice).toEqual(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS)
   })
 
@@ -85,14 +96,3 @@ describe('SRS Sick Leave Choices', () => {
     expect(store.getState().ui.uiSRS.userClientContext).not.toEqual(SrsUserClientContext.SRS_FRL)
   })
 })
-
-const setRenewedCertificateToState = () => {
-  const certificate = fakeCertificate()
-  certificate.metadata.relations.parent = {
-    certificateId: 'id',
-    type: CertificateRelationType.RENEW,
-    status: CertificateStatus.SIGNED,
-    created: '',
-  }
-  store.dispatch(updateCertificate(certificate))
-}

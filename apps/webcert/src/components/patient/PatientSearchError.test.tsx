@@ -13,6 +13,15 @@ const renderComponent = () => {
   )
 }
 
+const getErrorRequest = (code: ErrorCode): ErrorRequest => ({
+  errorCode: code,
+  errorId: 'id',
+  message: 'message',
+  stackTrace: 'stackTrace',
+  certificateId: 'certificateId',
+  type: ErrorType.SILENT,
+})
+
 describe('PatientSearchError', () => {
   it('should show patient not found error message', () => {
     store.dispatch(setPatientError(getErrorRequest(ErrorCode.PATIENT_NOT_FOUND)))
@@ -74,14 +83,3 @@ describe('PatientSearchError', () => {
     expect(screen.queryByText('Ange fel-id', { exact: false })).not.toBeInTheDocument()
   })
 })
-
-const getErrorRequest = (code: ErrorCode): ErrorRequest => {
-  return {
-    errorCode: code,
-    errorId: 'id',
-    message: 'message',
-    stackTrace: 'stackTrace',
-    certificateId: 'certificateId',
-    type: ErrorType.SILENT,
-  }
-}
