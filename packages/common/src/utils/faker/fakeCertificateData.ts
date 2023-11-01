@@ -58,7 +58,6 @@ import {
   ValueYear,
 } from '../../types/certificate'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
-import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
@@ -71,7 +70,7 @@ const fakeDataElement =
     config,
     value,
     ...data
-  }: PartialDeep<CertificateDataElement> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData => {
+  }: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData => {
     const id = data?.id ?? faker.random.alpha({ count: 5 })
     return {
       [id]: {
@@ -81,9 +80,9 @@ const fakeDataElement =
         readOnly: false,
         mandatory: false,
         id: faker.random.alpha({ count: 5 }),
+        validation: [],
+        validationErrors: [],
         ...data,
-        validation: data.validation ? data.validation.map(fakeCertificateDataValidation) : [],
-        validationErrors: data.validationErrors ? data.validationErrors.map(fakeCertificateValidationError) : [],
         ...callback(config, value),
       },
     }

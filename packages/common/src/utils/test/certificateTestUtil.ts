@@ -4,11 +4,13 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateStatus,
+  ConfigLayout,
   ConfigTypes,
   ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
+import { fakeDateRangeElement } from '../faker'
 import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 
@@ -103,6 +105,7 @@ export const getTextElement = (): CertificateDataElement => {
       {
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         questionId: '1.1',
+        id: 'foobar',
         expression: '$harFunktionsnedsattning',
         fillValue: {
           type: CertificateDataValueType.TEXT,
@@ -198,8 +201,8 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
-export const getDateRangeElement = (): CertificateDataElement => {
-  return {
+export const getDateRangeElement = (): CertificateDataElement =>
+  fakeDateRangeElement({
     id: '1.4',
     parent: '1.1',
     index: 1,
@@ -217,8 +220,8 @@ export const getDateRangeElement = (): CertificateDataElement => {
     },
     validation: [],
     validationErrors: [],
-  }
-}
+  })['1.4']
+
 export const getAnotherTextElement = (): CertificateDataElement => {
   return {
     id: '1.3',
@@ -252,6 +255,7 @@ export const getAnotherTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         questionId: '1.1',
         expression: '!$harFunktionsnedsattning',
+        id: 'foobar',
         fillValue: {
           type: CertificateDataValueType.TEXT,
           id: 'annanFunktionsnedsattning',
@@ -273,6 +277,7 @@ export const getCheckBoxElement = (): CertificateDataElement => {
     readOnly: false,
     config: {
       type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      layout: ConfigLayout.COLUMN,
       text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
       description:
         'Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.',
