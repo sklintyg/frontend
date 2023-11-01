@@ -388,6 +388,9 @@ importers:
       '@frontend/filtrex':
         specifier: workspace:*
         version: link:../../packages/filtrex
+      '@frontend/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils
       '@reduxjs/toolkit':
         specifier: 1.7.2
         version: 1.7.2(react-redux@7.2.9)(react@17.0.2)
@@ -524,6 +527,9 @@ importers:
       jsdom:
         specifier: ^21.1.1
         version: 21.1.1
+      msw:
+        specifier: ^1.2.0
+        version: 1.2.0(typescript@5.0.4)
       vite:
         specifier: ^4.4.9
         version: 4.4.9(@types/node@18.18.4)
@@ -7796,6 +7802,42 @@ packages:
 
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  /msw@1.2.0(typescript@5.0.4):
+    resolution: {integrity: sha512-2nbGxmG8Zk/eCiWCAFtgz5kwPE5YnTlOcRBggFkykqkBSPQE+kvlHJElOzrTG21Tb0ZGXWgn0PI5kyANnOpgug==}
+    engines: {node: '>=14'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      typescript: '>= 4.4.x <= 5.0.x'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@mswjs/cookies': 0.2.2
+      '@mswjs/interceptors': 0.17.9
+      '@open-draft/until': 1.0.3
+      '@types/cookie': 0.4.1
+      '@types/js-levenshtein': 1.1.1
+      chalk: 4.1.1
+      chokidar: 3.5.3
+      cookie: 0.4.2
+      graphql: 16.6.0
+      headers-polyfill: 3.1.2
+      inquirer: 8.2.5
+      is-node-process: 1.2.0
+      js-levenshtein: 1.1.6
+      node-fetch: 2.6.11
+      outvariant: 1.4.0
+      path-to-regexp: 6.2.1
+      strict-event-emitter: 0.4.6
+      type-fest: 2.19.0
+      typescript: 5.0.4
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: true
 
   /msw@1.2.0(typescript@5.2.2):
     resolution: {integrity: sha512-2nbGxmG8Zk/eCiWCAFtgz5kwPE5YnTlOcRBggFkykqkBSPQE+kvlHJElOzrTG21Tb0ZGXWgn0PI5kyANnOpgug==}
