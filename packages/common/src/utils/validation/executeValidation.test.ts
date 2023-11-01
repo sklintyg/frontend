@@ -63,7 +63,7 @@ describe('Recursive', () => {
       expect(result).toBe(true)
     })
 
-    it('Should still return true when any validation is false', () => {
+    it('Should return true when any validation is true', () => {
       const result = executeValidation(
         fakeShowValidation({
           questions: [
@@ -105,6 +105,21 @@ describe('Recursive', () => {
           expressionType: 'AND',
         }),
         fakeRadioBooleanElement({ id: 'elementId', value: { id: 'valueId', selected: true } })
+      )
+
+      expect(result).toBe(false)
+    })
+
+    it('Should return false when all validations are false', () => {
+      const result = executeValidation(
+        fakeShowValidation({
+          questions: [
+            fakeShowValidation({ questionId: 'elementId', expression: 'valueId' }),
+            fakeShowValidation({ questionId: 'elementId', expression: 'valueId' }),
+          ],
+          expressionType: 'AND',
+        }),
+        fakeRadioBooleanElement({ id: 'elementId', value: { id: 'valueId', selected: false } })
       )
 
       expect(result).toBe(false)
