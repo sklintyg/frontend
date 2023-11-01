@@ -13,16 +13,7 @@ import {
   ResourceLinkType,
 } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
-import { getValidationResult } from './getValidationResult'
-import { ValidationResult } from './types'
-
-function getValidations(data: CertificateData, element: CertificateDataElement): ValidationResult[] {
-  return (element.validation ?? []).map((validation) => ({
-    element,
-    result: getValidationResult(validation, data),
-    validation,
-  }))
-}
+import { getValidationResults } from './getValidationResults'
 
 function shouldBeReadOnly(metadata: CertificateMetadata) {
   return metadata.status === CertificateStatus.SIGNED || metadata.status === CertificateStatus.REVOKED
@@ -64,7 +55,7 @@ function getDisabledSubElements(
 }
 
 function validateElement(data: CertificateData, element: CertificateDataElement): CertificateDataElement {
-  return filterValidationResults(getValidations(data, element)).reduce(
+  return filterValidationResults(getValidationResults(data, element)).reduce(
     (el: CertificateDataElement, { result, validation }): CertificateDataElement => {
       switch (validation.type) {
         case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:

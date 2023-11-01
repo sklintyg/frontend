@@ -1,6 +1,6 @@
 import { CertificateData, CertificateDataElement } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
-import { getValidationResult } from './getValidationResult'
+import { getValidationResults } from './getValidationResults'
 import { ValidationResult } from './types'
 
 export function validateExpressions(data: CertificateData, updated: CertificateDataElement): ValidationResult[] {
@@ -12,9 +12,7 @@ export function validateExpressions(data: CertificateData, updated: CertificateD
             validation.questionId === updated.id || validation.questions?.some((validation) => validation.questionId === updated.id)
         )
       )
-      .map((element): ValidationResult[] =>
-        (element.validation ?? []).map((validation) => ({ element, result: getValidationResult(validation, data), validation }))
-      )
+      .map((element) => getValidationResults(data, element))
       .flat()
   )
 }
