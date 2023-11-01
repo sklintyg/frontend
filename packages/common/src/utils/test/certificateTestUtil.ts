@@ -14,6 +14,9 @@ import { fakeDateRangeElement } from '../faker'
 import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 
+/**
+ * @deprecated use fakeRadioBooleanElement()
+ */
 export const getBooleanElement = (): CertificateDataElement => {
   return {
     id: '1.1',
@@ -49,6 +52,10 @@ export const getBooleanElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
+
+/**
+ * @deprecated use fakeDateElement()
+ */
 export const getDateElement = (): CertificateDataElement => {
   return {
     id: '1.1',
@@ -72,6 +79,9 @@ export const getDateElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeTextAreaElement()
+ */
 export const getTextElement = (): CertificateDataElement => {
   return {
     id: '1.2',
@@ -118,6 +128,9 @@ export const getTextElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeICFDataElement()
+ */
 export const getIcfElement = (): CertificateDataElement => {
   return {
     id: '1.2',
@@ -153,6 +166,9 @@ export const getIcfElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeSickLeavePeriod()
+ */
 export const getSickLeavePeriodElement = (): CertificateDataElement => {
   return {
     id: '1.4',
@@ -201,6 +217,10 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
+
+/**
+ * @deprecated use fakeDateRangeElement()
+ */
 export const getDateRangeElement = (): CertificateDataElement =>
   fakeDateRangeElement({
     id: '1.4',
@@ -222,6 +242,9 @@ export const getDateRangeElement = (): CertificateDataElement =>
     validationErrors: [],
   })['1.4']
 
+/**
+ * @deprecated use fakeTextAreaElement()
+ */
 export const getAnotherTextElement = (): CertificateDataElement => {
   return {
     id: '1.3',
@@ -267,6 +290,9 @@ export const getAnotherTextElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCheckboxMultipleCodeElement()
+ */
 export const getCheckBoxElement = (): CertificateDataElement => {
   return {
     id: '28',
@@ -331,6 +357,9 @@ export const getCheckBoxElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCategoryElement()
+ */
 export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
   return {
     id: 'funktionsnedsattning',
@@ -350,6 +379,9 @@ export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCategoryElement()
+ */
 export const getCategorySysselsattning = (): CertificateDataElement => {
   return {
     id: 'sysselsattning',
@@ -369,6 +401,9 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCertificate()
+ */
 export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
@@ -456,6 +491,9 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
   }
 }
 
+/**
+ * @deprecated use fakeCertificate()
+ */
 export const getCertificateWithQuestion = (question: CertificateDataElement): Certificate => {
   return {
     metadata: {
