@@ -19,7 +19,7 @@ import { ValidationResult } from './types'
 function getValidations(data: CertificateData, element: CertificateDataElement): ValidationResult[] {
   return (element.validation ?? []).map((validation) => ({
     element,
-    result: getValidationResult(validation, data, element.id),
+    result: getValidationResult(validation, data),
     validation,
   }))
 }

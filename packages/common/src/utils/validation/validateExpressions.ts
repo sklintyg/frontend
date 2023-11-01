@@ -13,7 +13,7 @@ export function validateExpressions(data: CertificateData, updated: CertificateD
         )
       )
       .map((element): ValidationResult[] =>
-        (element.validation ?? []).map((validation) => ({ element, result: getValidationResult(validation, data, element.id), validation }))
+        (element.validation ?? []).map((validation) => ({ element, result: getValidationResult(validation, data), validation }))
       )
       .flat()
   )

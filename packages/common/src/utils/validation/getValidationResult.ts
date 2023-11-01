@@ -1,17 +1,17 @@
 import { CertificateData, CertificateDataValidation } from '../../types'
 import { validateExpression } from './validateExpression'
 
-export const getValidationResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
-  const question = data[validation.questionId]
+export const getValidationResult = (validation: CertificateDataValidation, data: CertificateData): boolean => {
+  const element = data[validation.questionId]
 
   if (validation.questions != null) {
     return validation.expressionType === 'OR'
-      ? validation.questions.some((v) => getValidationResult(v, data, questionId))
-      : validation.questions.every((v) => getValidationResult(v, data, questionId))
+      ? validation.questions.some((v) => getValidationResult(v, data))
+      : validation.questions.every((v) => getValidationResult(v, data))
   }
 
-  if (question && question.visible && validation.expression != null && question.value != null) {
-    return validateExpression(validation.expression, question.value)
+  if (element && element.visible && validation.expression != null && element.value != null) {
+    return validateExpression(validation.expression, element.value)
   }
 
   return false
