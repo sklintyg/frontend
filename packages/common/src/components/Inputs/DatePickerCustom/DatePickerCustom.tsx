@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import sv, { isValid, parse } from 'date-fns'
+import { isValid, parse } from 'date-fns'
+import sv from 'date-fns/locale/sv'
 import React, { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import styled, { CSSProp } from 'styled-components'
@@ -226,10 +227,8 @@ const DatePickerCustom: React.FC<Props> = ({
                   fn({ state }) {
                     const isReferenceHidden = state.attributes.popper['data-popper-reference-hidden']
                     if (typeof isReferenceHidden !== 'string' && isReferenceHidden) {
-                      // eslint-disable-next-line no-param-reassign
                       state.elements.popper.dataset.popperReferenceHidden = ''
                     } else {
-                      // eslint-disable-next-line no-param-reassign
                       delete state.elements.popper.dataset.popperReferenceHidden
                     }
                     return state
