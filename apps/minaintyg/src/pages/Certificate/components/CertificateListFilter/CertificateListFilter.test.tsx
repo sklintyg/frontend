@@ -3,7 +3,6 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
 import { server } from '../../../../mocks/server'
 import { CertificateStatus, CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../../../../schema/certificateListFilter.schema'
@@ -30,7 +29,7 @@ function getLabel(key: string, option: FilterOption) {
 function renderComponent() {
   return render(
     <Provider store={store}>
-      <CertificateListFilter listed={10} onSubmit={vi.fn()} />
+      <CertificateListFilter listed={10} />
     </Provider>
   )
 }
@@ -57,21 +56,6 @@ describe('Options from API', () => {
   })
 })
 
-it('Should call on submit when "Filtrera" is pressed', async () => {
-  const onSubmit = vi.fn()
-  const { container } = render(
-    <Provider store={store}>
-      <CertificateListFilter listed={10} onSubmit={onSubmit} />
-    </Provider>
-  )
-
-  await waitFor(() => expect(container).not.toBeEmptyDOMElement())
-
-  await userEvent.click(screen.getByLabelText('Filtrera'))
-
-  expect(onSubmit).toHaveBeenCalledTimes(1)
-})
-
 it.each([
   ['Status', 'statuses'],
   ['Mottagning', 'units'],
@@ -96,5 +80,5 @@ it.each([
 
   await userEvent.click(screen.getByLabelText('Återställ filter'))
 
-  expect(store.getState().certificateFilter).toEqual({})
+  expect(store.getState().certificateFilter).toEqual({ submitFilters: {} })
 })
