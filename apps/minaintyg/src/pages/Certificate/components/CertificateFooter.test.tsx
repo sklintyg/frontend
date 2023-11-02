@@ -11,7 +11,7 @@ it('Should render issuerName', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Arnold Johansson`)).toBeInTheDocument()
+  expect(screen.getByText('Arnold Johansson')).toBeInTheDocument()
 })
 
 it('Should render unit phoneNumber', () => {
@@ -22,7 +22,7 @@ it('Should render unit phoneNumber', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`08-123 456 78`)).toBeInTheDocument()
+  expect(screen.getByText('08-123 456 78')).toBeInTheDocument()
 })
 
 it('Should only render unit name if matching careUnit name', () => {
@@ -36,7 +36,7 @@ it('Should only render unit name if matching careUnit name', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Alfa-enheten`)).toBeInTheDocument()
+  expect(screen.getByText('Alfa-enheten')).toBeInTheDocument()
 })
 
 it('Should render unit name and careUnit name if not the same', () => {
@@ -50,7 +50,7 @@ it('Should render unit name and careUnit name if not the same', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Alfa-enheten, Alfamottagningen`)).toBeInTheDocument()
+  expect(screen.getByText('Alfa-enheten, Alfamottagningen')).toBeInTheDocument()
 })
 
 it('Should render unit address', () => {
@@ -63,7 +63,7 @@ it('Should render unit address', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Gatuadressens väg 1, 111 11, Storstaden`)).toBeInTheDocument()
+  expect(screen.getByText('Gatuadressens väg 1, 111 11 Storstaden')).toBeInTheDocument()
 })
 
 it('Should render partial unit address without zipCode', () => {
@@ -76,7 +76,7 @@ it('Should render partial unit address without zipCode', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Gatuadressens väg 1, Storstaden`)).toBeInTheDocument()
+  expect(screen.getByText('Gatuadressens väg 1 Storstaden')).toBeInTheDocument()
 })
 
 it('Should render partial unit address without address', () => {
@@ -89,7 +89,7 @@ it('Should render partial unit address without address', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`111 11, Storstaden`)).toBeInTheDocument()
+  expect(screen.getByText('111 11 Storstaden')).toBeInTheDocument()
 })
 
 it('Should render partial unit address without city', () => {
@@ -102,5 +102,5 @@ it('Should render partial unit address without city', () => {
   })
 
   render(<CertificateFooter {...metadata} />)
-  expect(screen.getByText(`Gatuadressens väg 1, 111 11`)).toBeInTheDocument()
+  expect(screen.getByText('Gatuadressens väg 1, 111 11')).toBeInTheDocument()
 })
