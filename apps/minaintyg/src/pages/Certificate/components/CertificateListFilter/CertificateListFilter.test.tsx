@@ -56,6 +56,28 @@ describe('Options from API', () => {
   })
 })
 
+it('Should update submitted filters when pressing submit', async () => {
+  const { container } = render(
+    <Provider store={store}>
+      <CertificateListFilter listed={10} />
+    </Provider>
+  )
+  await waitFor(() => expect(container).not.toBeEmptyDOMElement())
+
+  await userEvent.selectOptions(
+    screen.getByLabelText('Status'),
+    within(screen.getByLabelText('Status')).getByRole('option', {
+      name: getLabel('statuses', options.statuses[2]),
+    })
+  )
+
+  expect(store.getState().certificateFilter.submitFilters).toEqual({})
+
+  await userEvent.click(screen.getByLabelText('Filtrera'))
+
+  expect(store.getState().certificateFilter.submitFilters).toEqual({ statuses: options.statuses[2] })
+})
+
 it.each([
   ['Status', 'statuses'],
   ['Mottagning', 'units'],
