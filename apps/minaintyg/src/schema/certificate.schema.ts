@@ -19,7 +19,6 @@ export const certificateTypeSchema = z.object({
 
 export const certificateIssuerSchema = z.object({
   name: z.string(),
-  phoneNumber: z.string(),
 })
 
 export const certificateUnitSchema = z.object({

@@ -28,9 +28,18 @@ it('Should render as expected', async () => {
         ctx.json({
           certificate: fakerFromSchema(certificateSchema)({
             metadata: fakerFromSchema(certificateMetadataSchema)({
+              id: '16eb261e-545c-41db-8a6c-59133ead80a4',
               events: [],
               issued: '2023-10-10T13:37:00.000Z',
+              issuer: {
+                name: 'Jenny Ström',
+              },
+              summary: {
+                label: 'Gäller intygsperiod',
+                value: '2021-04-22 - 2021-07-19',
+              },
               recipient: fakerFromSchema(certificateRecipientSchema)({
+                name: 'Transportstyrelsen',
                 sent: null,
               }),
             }),
