@@ -28,7 +28,7 @@ exports[`Should render as expected 1`] = `
       <h2
         class="ids-heading-3"
       >
-        Jenny Ström
+        Dr. Robert Svensson
       </h2>
       <div
         class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-1"
@@ -45,9 +45,9 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
-            voluptatum
+            fugit
           </strong>
-          vero
+          dignissimos
         </div>
         <div>
           <strong
@@ -63,7 +63,7 @@ exports[`Should render as expected 1`] = `
           >
             Intygs-ID
           </strong>
-          16eb261e-545c-41db-8a6c-59133ead80a4
+          94dd9489-16eb-4261-a545-c1db8a6c5913
         </div>
       </div>
     </ids-card>
