@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { Breadcrumbs } from './Breadcrumbs'
-import { LayoutFooter } from './LayoutFooter'
+import { LayoutFooter } from './LayoutFooter/LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 import { ScrollTopButton } from './ScrollTopButton'
 
