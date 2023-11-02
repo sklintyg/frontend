@@ -251,61 +251,319 @@ exports[`Should render as expected 1`] = `
       linkcol2="2"
       linkcol3="2"
       type="1177"
-    />
-  </div>
-</div>
-`;
-
-exports[`Should render without header when user is not logged in 1`] = `
-<div>
-  <div
-    class="flex min-h-screen flex-col"
-  >
-    <ids-header
-      class="z-40 bg-white print:hidden"
-      type="1177"
-    />
-    <main
-      class="relative flex-1"
     >
-      <div
-        class="ids-content m-auto max-w-7xl overflow-hidden p-5"
+      <p>
+        1177 är en tjänst från Sveriges regioner. Vi finns alltid med dig när du vill må bättre.
+      </p>
+      <ids-link
+        color="var(--link-colorpreset-2_color)"
+        colorpreset="2"
+        hovercolor="var(--link-colorpreset-2-hover_color)"
+        slot="link-col-2"
       >
-        <div
-          class="mb-5"
-        >
-          <ids-breadcrumbs />
-        </div>
-        <p>
-          FooBar
-        </p>
-      </div>
-      <div
-        class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"
-      >
-        <ids-button
-          class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
-          fab=""
-          role="button"
+        <ids-icon-chevron-bold
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="0.625rem"
           size="m"
-          tabindex="0"
-          type=""
+          slot="prepend-icon"
+          width="0.625rem"
+        />
+        <a
+          href="https://www.1177.se/e-tjanster-support"
+          target="_blank"
         >
-          <ids-icon-arrow
-            class="ids-icon"
-            size="s"
-          />
-        </ids-button>
-      </div>
-    </main>
-    <ids-footer
-      class="print:hidden ids-type-1177"
-      cols="3"
-      linkcol1="2"
-      linkcol2="2"
-      linkcol3="2"
-      type="1177"
-    />
+          Support
+        </a>
+        <ids-icon-external
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="1rem"
+          size="m"
+          slot="append-icon"
+          width="1rem"
+        />
+      </ids-link>
+      <ids-link
+        color="var(--link-colorpreset-2_color)"
+        colorpreset="2"
+        hovercolor="var(--link-colorpreset-2-hover_color)"
+        slot="link-col-2"
+      >
+        <ids-icon-chevron-bold
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="0.625rem"
+          size="m"
+          slot="prepend-icon"
+          width="0.625rem"
+        />
+        <a
+          href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
+          target="_blank"
+        >
+          Tillgänglighet
+        </a>
+        <ids-icon-external
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="1rem"
+          size="m"
+          slot="append-icon"
+          width="1rem"
+        />
+      </ids-link>
+      <ids-link
+        color="var(--link-colorpreset-2_color)"
+        colorpreset="2"
+        hovercolor="var(--link-colorpreset-2-hover_color)"
+        slot="link-col-3"
+      >
+        <ids-icon-chevron-bold
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="0.625rem"
+          size="m"
+          slot="prepend-icon"
+          width="0.625rem"
+        />
+        <a
+          href="https://www.1177.se/e-tjanster"
+          target="_blank"
+        >
+          Läs mer om e-tjänster
+        </a>
+        <ids-icon-external
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="1rem"
+          size="m"
+          slot="append-icon"
+          width="1rem"
+        />
+      </ids-link>
+      <ids-link
+        color="var(--link-colorpreset-2_color)"
+        colorpreset="2"
+        hovercolor="var(--link-colorpreset-2-hover_color)"
+        slot="link-col-3"
+      >
+        <ids-icon-chevron-bold
+          class="ids-icon"
+          color="var(--link-colorpreset-2_color)"
+          color2="var(--link-colorpreset-2_color)"
+          height="0.625rem"
+          size="m"
+          slot="prepend-icon"
+          width="0.625rem"
+        />
+        <a
+          href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+          target="_self"
+        >
+          Webbkarta
+        </a>
+      </ids-link>
+      <span
+        class="relative"
+        slot="sub-footer-right"
+      >
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Behandling av personuppgifter
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+      </span>
+      <span
+        class="relative"
+        slot="sub-footer-right"
+      >
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Hantering av kakor
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+      </span>
+      <span
+        class="relative"
+        slot="sub-footer-left"
+      >
+        1177 drivs av
+         
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://e-tjanster.1177.se/mvk/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Inera AB
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+         
+        på uppdrag av Sveriges regioner.
+      </span>
+      <span
+        class="relative"
+        slot="sub-footer-mobile"
+      >
+        1177 drivs av
+         
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://e-tjanster.1177.se/mvk/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Inera AB
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+         
+        på uppdrag av Sveriges regioner.
+      </span>
+      <ids-mobile-menu
+        slot="mobile-menu"
+        variation="1"
+      >
+        <ids-mobile-menu-item
+          first="true"
+          variation="1"
+        >
+          <a
+            class="relative"
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            slot="link"
+            target="_blank"
+          >
+            Support
+            <ids-icon-external
+              class="ids-ml-2 relative -bottom-0.5 ids-icon"
+              inline=""
+              size="m"
+            />
+          </a>
+        </ids-mobile-menu-item>
+        <ids-mobile-menu-item
+          variation="1"
+        >
+          <a
+            class="relative"
+            href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
+            rel="noreferrer"
+            slot="link"
+            target="_blank"
+          >
+            Tillgänglighet
+            <ids-icon-external
+              class="ids-ml-2 relative -bottom-0.5 ids-icon"
+              inline=""
+              size="m"
+            />
+          </a>
+        </ids-mobile-menu-item>
+        <ids-mobile-menu-item
+          variation="1"
+        >
+          <a
+            class="relative"
+            href="https://www.1177.se/e-tjanster"
+            rel="noreferrer"
+            slot="link"
+            target="_blank"
+          >
+            Läs mer om e-tjänster
+            <ids-icon-external
+              class="ids-ml-2 relative -bottom-0.5 ids-icon"
+              inline=""
+              size="m"
+            />
+          </a>
+        </ids-mobile-menu-item>
+        <ids-mobile-menu-item
+          variation="1"
+        >
+          <a
+            class="relative"
+            href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+            rel="noreferrer"
+            slot="link"
+            target="_self"
+          >
+            Webbkarta
+          </a>
+        </ids-mobile-menu-item>
+      </ids-mobile-menu>
+      <span
+        slot="sub-footer-links"
+      >
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Behandling av personuppgifter
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+      </span>
+      <span
+        slot="sub-footer-links"
+      >
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Hantering av kakor
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+      </span>
+    </ids-footer>
   </div>
 </div>
 `;
