@@ -2,7 +2,7 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import {
   CertificateMetadata,
@@ -43,7 +43,6 @@ it('Should have article content', async () => {
     fakerFromSchema(certificateMetadataSchema)({
       issuer: {
         name: 'Ajla Doktor',
-        phoneNumber: '123456',
       },
       unit: {
         name: 'Stockholm',
