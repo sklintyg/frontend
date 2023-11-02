@@ -45,9 +45,9 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
-            fugit
+            Gäller intygsperiod
           </strong>
-          dignissimos
+          2021-04-22 - 2021-07-19
         </div>
         <div>
           <strong
@@ -55,7 +55,7 @@ exports[`Should render as expected 1`] = `
           >
             Utfärdat av
           </strong>
-          PhD. Mattias Ali
+          Jenny Ström
         </div>
         <div>
           <strong
@@ -63,7 +63,7 @@ exports[`Should render as expected 1`] = `
           >
             Intygs-ID
           </strong>
-          94dd9489-16eb-4261-a545-c1db8a6c5913
+          16eb261e-545c-41db-8a6c-59133ead80a4
         </div>
       </div>
     </ids-card>
@@ -76,7 +76,7 @@ exports[`Should render as expected 1`] = `
     >
       Mottagare
     </h2>
-    Gustav Karlsson
+    Transportstyrelsen
   </div>
   <div
     class="flex flex-col gap-5 py-5 sm:flex-row"
