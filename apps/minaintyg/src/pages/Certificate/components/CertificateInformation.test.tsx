@@ -8,12 +8,12 @@ function renderComponent(showEvents = true) {
   const metadata = fakerFromSchema(certificateMetadataSchema)({
     issuer: {
       name: 'Mats Andersson',
-      phoneNumber: '3226-91101',
     },
     unit: {
       id: 'fac5103a-357b-4037-847e-eadf5866573a',
       name: 'Jansson, Lundqvist Kommanditbolag',
       address: 'Löfgrens Väg 262, 904 38 Båhamn',
+      phoneNumber: '3226-91101',
     },
     events: [
       {

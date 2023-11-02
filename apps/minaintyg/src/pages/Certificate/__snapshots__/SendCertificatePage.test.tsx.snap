@@ -28,7 +28,7 @@ exports[`Should render as expected 1`] = `
       <h2
         class="ids-heading-3"
       >
-        Jenny Ström
+        Dr. Robert Svensson
       </h2>
       <div
         class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-1"
@@ -45,9 +45,9 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
-            voluptatum
+            Gäller intygsperiod
           </strong>
-          vero
+          2021-04-22 - 2021-07-19
         </div>
         <div>
           <strong
@@ -55,7 +55,7 @@ exports[`Should render as expected 1`] = `
           >
             Utfärdat av
           </strong>
-          PhD. Mattias Ali
+          Jenny Ström
         </div>
         <div>
           <strong
@@ -76,7 +76,7 @@ exports[`Should render as expected 1`] = `
     >
       Mottagare
     </h2>
-    Gustav Karlsson
+    Transportstyrelsen
   </div>
   <div
     class="flex flex-col gap-5 py-5 sm:flex-row"
