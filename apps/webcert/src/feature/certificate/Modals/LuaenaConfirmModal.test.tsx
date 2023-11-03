@@ -117,5 +117,3 @@ describe('Cancel button', () => {
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 })
-
-

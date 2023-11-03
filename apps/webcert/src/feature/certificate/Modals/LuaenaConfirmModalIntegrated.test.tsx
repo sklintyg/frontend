@@ -22,12 +22,7 @@ const renderComponent = (isOpen: boolean) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <LuaenaConfirmModalIntegrated
-          patient={createPatient(PERSON_ID)}
-          certificateId="certificateId"
-          setOpen={setOpen}
-          open={isOpen}
-        />
+        <LuaenaConfirmModalIntegrated patient={createPatient(PERSON_ID)} certificateId="certificateId" setOpen={setOpen} open={isOpen} />
       </Router>
     </Provider>
   )
