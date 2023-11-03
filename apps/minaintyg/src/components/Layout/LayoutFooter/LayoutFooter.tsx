@@ -8,7 +8,7 @@ import { LayoutFooterMobile } from './LayoutFooterMobile'
 export function LayoutFooter() {
   const startLinkItem = navigation.menu.items.find(({ name }) => name === 'Start')
   return (
-    <IDSFooter type="1177" headline="1177" subheadline="– tryggt om din hälsa och vård" className="print:hidden">
+    <IDSFooter type="1177" headline="1177" subheadline="– tryggt om din hälsa och vård" cols={2} className="print:hidden">
       <p>1177 är en tjänst från Sveriges regioner. Vi finns alltid med dig när du vill må bättre.</p>
 
       {footerLinks.map(({ col, links }) =>
