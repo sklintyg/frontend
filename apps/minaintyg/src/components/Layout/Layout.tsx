@@ -9,9 +9,11 @@ export function Layout() {
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="relative flex-1">
-        <div className="ids-content m-auto max-w-7xl overflow-hidden p-5">
+        <div className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
           <Breadcrumbs />
-          <Outlet />
+          <div className="max-w-screen-lg">
+            <Outlet />
+          </div>
         </div>
         <ScrollTopButton />
       </main>

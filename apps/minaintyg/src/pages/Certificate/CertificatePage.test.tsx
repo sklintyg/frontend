@@ -41,6 +41,7 @@ function renderComponent(metadata: CertificateMetadata) {
 it('Should have article content', async () => {
   renderComponent(
     fakerFromSchema(certificateMetadataSchema)({
+      id: '0b295069-d03c-413c-9f4a-b6fd81ad2d87',
       issuer: {
         name: 'Ajla Doktor',
       },

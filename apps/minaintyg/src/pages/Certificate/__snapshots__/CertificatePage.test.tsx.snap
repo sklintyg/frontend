@@ -59,6 +59,15 @@ exports[`Should have article content 1`] = `
     <hr
       class="my-7 border-stone-clear"
     />
+    <div
+      class="mb-3"
+    >
+      <strong>
+        Intygs-ID:
+      </strong>
+       
+      0b295069-d03c-413c-9f4a-b6fd81ad2d87
+    </div>
   </footer>
 </article>
 `;
