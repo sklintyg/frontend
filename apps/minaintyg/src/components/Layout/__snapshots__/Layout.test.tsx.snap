@@ -250,10 +250,10 @@ exports[`Should render as expected 1`] = `
     </main>
     <ids-footer
       class="print:hidden ids-type-1177"
-      cols="3"
-      linkcol1="2"
-      linkcol2="2"
-      linkcol3="2"
+      cols="2"
+      linkcol1="3"
+      linkcol2="3"
+      linkcol3="3"
       type="1177"
     >
       <p>
@@ -263,7 +263,7 @@ exports[`Should render as expected 1`] = `
         color="var(--link-colorpreset-2_color)"
         colorpreset="2"
         hovercolor="var(--link-colorpreset-2-hover_color)"
-        slot="link-col-2"
+        slot="link-col-1"
       >
         <ids-icon-chevron-bold
           class="ids-icon"
@@ -294,7 +294,7 @@ exports[`Should render as expected 1`] = `
         color="var(--link-colorpreset-2_color)"
         colorpreset="2"
         hovercolor="var(--link-colorpreset-2-hover_color)"
-        slot="link-col-2"
+        slot="link-col-1"
       >
         <ids-icon-chevron-bold
           class="ids-icon"
@@ -325,7 +325,7 @@ exports[`Should render as expected 1`] = `
         color="var(--link-colorpreset-2_color)"
         colorpreset="2"
         hovercolor="var(--link-colorpreset-2-hover_color)"
-        slot="link-col-3"
+        slot="link-col-2"
       >
         <ids-icon-chevron-bold
           class="ids-icon"
@@ -356,7 +356,7 @@ exports[`Should render as expected 1`] = `
         color="var(--link-colorpreset-2_color)"
         colorpreset="2"
         hovercolor="var(--link-colorpreset-2-hover_color)"
-        slot="link-col-3"
+        slot="link-col-2"
       >
         <ids-icon-chevron-bold
           class="ids-icon"
