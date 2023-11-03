@@ -2,7 +2,7 @@ import { isTruthy } from '@frontend/utils/src'
 import { PageDivider } from '../../../components/PageDivider/PageDivider'
 import { CertificateMetadata } from '../../../schema/certificate.schema'
 
-export function CertificateFooter({ issuer, unit, careUnit }: CertificateMetadata) {
+export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMetadata) {
   const unitName = unit.name === careUnit.name ? unit.name : [unit.name, careUnit.name].join(', ')
   const unitAddress = [[unit.address, unit.zipCode].filter(isTruthy).join(', '), unit.city].filter(isTruthy).join(' ')
 
@@ -21,6 +21,9 @@ export function CertificateFooter({ issuer, unit, careUnit }: CertificateMetadat
         </div>
       </address>
       <PageDivider />
+      <div className="mb-3">
+        <strong>Intygs-ID:</strong> {id}
+      </div>
     </footer>
   )
 }

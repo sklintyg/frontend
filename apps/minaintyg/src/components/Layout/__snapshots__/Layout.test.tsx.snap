@@ -215,16 +215,20 @@ exports[`Should render as expected 1`] = `
       class="relative flex-1"
     >
       <div
-        class="ids-content m-auto max-w-7xl overflow-hidden p-5"
+        class="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5"
       >
         <div
           class="mb-5"
         >
           <ids-breadcrumbs />
         </div>
-        <p>
-          FooBar
-        </p>
+        <div
+          class="max-w-screen-lg"
+        >
+          <p>
+            FooBar
+          </p>
+        </div>
       </div>
       <div
         class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"

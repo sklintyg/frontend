@@ -1,10 +1,10 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateInformation } from './CertificateInformation'
 
-function renderComponent(showEvents = true) {
+function renderComponent() {
   const metadata = fakerFromSchema(certificateMetadataSchema)({
     issuer: {
       name: 'Mats Andersson',
@@ -15,13 +15,7 @@ function renderComponent(showEvents = true) {
       address: 'Löfgrens Väg 262, 904 38 Båhamn',
       phoneNumber: '3226-91101',
     },
-    events: [
-      {
-        timestamp: '2023-09-26T03:28:09.273Z',
-        certificateId: 'commodi',
-        description: 'Ersätter ett intyg som inte längre är aktuellt',
-      },
-    ],
+    events: [],
     id: '39a4e3af-6f92-46d8-875f-4ca5ff96589f',
     issued: '2022-11-10T22:56:55.241Z',
     type: {
@@ -36,21 +30,12 @@ function renderComponent(showEvents = true) {
   })
   return render(
     <RouterProvider
-      router={createMemoryRouter(
-        createRoutesFromElements(<Route path="/" element={<CertificateInformation {...metadata} showEvents={showEvents} />} />)
-      )}
+      router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<CertificateInformation {...metadata} />} />))}
     />
   )
 }
 
 it('Should render as expected', () => {
   const { container } = renderComponent()
-  expect(screen.getByText(/ersätter ett intyg som inte längre är aktuellt/i)).toBeInTheDocument()
-  expect(container).toMatchSnapshot()
-})
-
-it('Should be possible to hide event information', () => {
-  const { container } = renderComponent(false)
-  expect(screen.queryByText(/ersätter ett intyg som inte längre är aktuellt/i)).not.toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })
