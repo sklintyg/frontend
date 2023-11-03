@@ -4,12 +4,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { createMemoryHistory } from 'history'
 import { vi } from 'vitest'
+import { fakeCertificate, ResourceLinkType } from '@frontend/common'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import CertificatePage from './CertificatePage'
 import { throwError } from '../store/error/errorActions'
 import { updateCertificate } from '../store/certificate/certificateActions'
-import { fakeCertificate, ResourceLinkType } from '@frontend/common'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
