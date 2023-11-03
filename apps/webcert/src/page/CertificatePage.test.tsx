@@ -8,8 +8,8 @@ import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import CertificatePage from './CertificatePage'
 import { throwError } from '../store/error/errorActions'
-import {updateCertificate} from "../store/certificate/certificateActions";
-import {fakeCertificate, ResourceLinkType} from "@frontend/common";
+import { updateCertificate } from '../store/certificate/certificateActions'
+import { fakeCertificate, ResourceLinkType } from '@frontend/common'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -51,7 +51,20 @@ describe('CertificatePage', () => {
   })
 
   it('should show modal when WARNING_DODSBEVIS_INTEGRATED resource link exists', async () => {
-    testStore.dispatch(updateCertificate(fakeCertificate({links: [{type: ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED, name: 'Name', description: '', enabled: true}]})));
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          links: [
+            {
+              type: ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED,
+              name: 'Name',
+              description: '',
+              enabled: true,
+            },
+          ],
+        })
+      )
+    )
 
     render(
       <Provider store={testStore}>
@@ -67,7 +80,20 @@ describe('CertificatePage', () => {
   })
 
   it('should show confirm modal when WARNING_LUAENA_INTEGRATED resource link exists', async () => {
-    testStore.dispatch(updateCertificate(fakeCertificate({links: [{type: ResourceLinkType.WARNING_LUAENA_INTEGRATED, name: 'Name', description: '', enabled: true}]})));
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          links: [
+            {
+              type: ResourceLinkType.WARNING_LUAENA_INTEGRATED,
+              name: 'Name',
+              description: '',
+              enabled: true,
+            },
+          ],
+        })
+      )
+    )
 
     render(
       <Provider store={testStore}>
