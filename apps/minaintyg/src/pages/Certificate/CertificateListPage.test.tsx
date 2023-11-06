@@ -2,7 +2,7 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import { certificateMetadataSchema } from '../../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../../schema/certificateListFilter.schema'
@@ -37,7 +37,7 @@ it('Should render alert message when list is empty', async () => {
 
 it('Should have correct paragraph', () => {
   renderComponent()
-  expect(screen.getByText(/här listas dina läkarintyg/i)).toMatchSnapshot()
+  expect(screen.getByText(/här hittar du dina digitala intyg/i, { exact: false })).toMatchSnapshot()
 })
 
 it('Should render list of certificates', async () => {

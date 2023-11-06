@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 export function FilterAccordion({ total, listed, noun, children }: { noun: string; total: number; listed: number; children: ReactNode }) {
   return (
-    <details open className="group mb-5">
+    <details className="group mb-5">
       <summary className="flex cursor-pointer select-none flex-col md:flex-row">
         <div className="grow border-y border-stone-clear py-2.5 md:pl-5">
           {listed} av {total} {noun}

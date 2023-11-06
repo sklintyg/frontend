@@ -17,7 +17,7 @@ export function CertificateCard({ id, type, summary, issuer, issued, statuses, e
 
       <div className="flex flex-col justify-between gap-2.5 md:flex-row">
         <CertificateCardEvents events={events} />
-        <IDSButton role="button" sblock onClick={() => navigate(`/intyg/${id}`)} className="md:self-end" secondary>
+        <IDSButton role="button" sblock onClick={() => navigate(`/intyg/${id}`)} className="md:self-end">
           Visa intyg
         </IDSButton>
       </div>
