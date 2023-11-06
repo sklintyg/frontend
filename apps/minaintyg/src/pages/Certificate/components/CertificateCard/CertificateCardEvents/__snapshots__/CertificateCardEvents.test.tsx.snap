@@ -28,6 +28,11 @@ exports[`Should render correctly 1`] = `
           class="hidden h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:flex ids-icon"
         />
       </summary>
+      <h5
+        class="ids-heading-4 mb-0"
+      >
+        Händelser
+      </h5>
       <div>
         <div
           class="flex flex-col md:flex-row md:gap-2.5"
@@ -51,6 +56,11 @@ exports[`Should render correctly 1`] = `
   <div
     class="hidden md:block"
   >
+    <h5
+      class="ids-heading-4 mb-0"
+    >
+      Händelser
+    </h5>
     <div>
       <div
         class="flex flex-col md:flex-row md:gap-2.5"
