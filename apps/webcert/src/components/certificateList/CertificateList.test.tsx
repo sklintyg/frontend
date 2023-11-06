@@ -80,6 +80,14 @@ describe('CertificateList', () => {
       createType({ id: 'typ3', label: 'Typ 3' }),
       createType({ id: 'typ4', label: 'Typ 4' }),
       createType({ id: 'typ5', label: 'Typ 5' }),
+      createType({
+        id: 'typ6',
+        label: 'Typ 6',
+        links: [
+          fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' }),
+          fakeResourceLink({ type: ResourceLinkType.CREATE_LUAENA_CONFIRMATION, name: 'Luaena saknas' }),
+        ],
+      }),
     ]
 
     testStore.dispatch(updateCertificateTypes(types))
@@ -106,7 +114,7 @@ describe('CertificateList', () => {
     renderComponent()
 
     const labels = screen.getAllByText('Typ', { exact: false }).map((el) => el.textContent?.trim())
-    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5'])
+    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5', 'Typ 6'])
   })
 
   it('should add favorites', async () => {
@@ -169,6 +177,18 @@ describe('CertificateList', () => {
     await userEvent.click(button[1])
 
     expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should show confirm modal when CREATE_LUAENA_CONFIRMATION resource link exists', async () => {
+    testStore.dispatch(setPatient(fakePatient()))
+    renderComponent()
+
+    const button = screen.getAllByRole('button', {
+      name: /Skapa intyg/,
+    }) as HTMLElement[]
+    await userEvent.click(button[2])
+
+    expect(screen.getByText('Du är på väg att utfärda Läkarutlåtande för', { exact: false })).toBeInTheDocument()
   })
 
   it('should show modal when MISSING_RELATED_CERTIFICATE_CONFIRMATION resource link exists', async () => {
