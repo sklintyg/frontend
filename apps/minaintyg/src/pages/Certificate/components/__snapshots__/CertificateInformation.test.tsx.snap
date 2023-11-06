@@ -6,28 +6,30 @@ exports[`Should render as expected 1`] = `
     class="flex flex-col gap-5 md:flex-row md:gap-10"
   >
     <div>
-      <h3
-        class="ids-heading-4 mb-0"
-      >
-        Intyg utfärdat
-      </h3>
-      2022-11-10
-    </div>
-    <div>
-      <h3
-        class="ids-heading-4 mb-0"
+      <strong
+        class="block"
       >
         Avser diagnos
-      </h3>
+      </strong>
       Downs syndrom
     </div>
     <div>
-      <h3
-        class="ids-heading-4 mb-0"
+      <strong
+        class="block"
+      >
+        Intyg utfärdat
+      </strong>
+      2022-11-10
+    </div>
+    <div>
+      <strong
+        class="block"
       >
         Skrivet av
-      </h3>
+      </strong>
       Mats Andersson
+      , 
+      Jansson, Lundqvist Kommanditbolag
     </div>
   </div>
 </div>

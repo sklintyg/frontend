@@ -1,23 +1,23 @@
 import { useFormat } from '../../../hooks/useFormat'
 import { CertificateMetadata } from '../../../schema/certificate.schema'
 
-export function CertificateInformation({ issued, issuer, summary }: CertificateMetadata) {
+export function CertificateInformation({ issued, issuer, summary, unit }: CertificateMetadata) {
   const { date } = useFormat()
   return (
     <div className="flex flex-col gap-5 md:flex-row md:gap-10">
-      <div>
-        <h3 className="ids-heading-4 mb-0">Intyg utfärdat</h3>
-        {date(issued)}
-      </div>
       {summary && (
         <div>
-          <h3 className="ids-heading-4 mb-0">{summary.label}</h3>
+          <strong className="block">{summary.label}</strong>
           {summary.value}
         </div>
       )}
       <div>
-        <h3 className="ids-heading-4 mb-0">Skrivet av</h3>
-        {issuer.name}
+        <strong className="block">Intyg utfärdat</strong>
+        {date(issued)}
+      </div>
+      <div>
+        <strong className="block">Skrivet av</strong>
+        {issuer.name}, {unit.name}
       </div>
     </div>
   )
