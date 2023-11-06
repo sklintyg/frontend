@@ -43,7 +43,7 @@ export function CertificatePage() {
 
       <div className="rounded-[10px] border-stone-line md:border md:p-7 md:shadow-[0_0_2px_0px_rgba(0,0,0,0.3)]">
         <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
-          <h2 className="ids-heading-3 mb-0 text-[22px]/[28px] text-main">{certificate.metadata.type.name}</h2>
+          <h2 className="ids-heading-2">{certificate.metadata.type.name}</h2>
           <div className="flex gap-1">
             {certificate.metadata.statuses.map((status) => (
               <CertificateStatusBadge key={status} status={status} />
