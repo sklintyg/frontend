@@ -83,7 +83,7 @@ it.each([
   ['Mottagning', 'units'],
   ['Intygstyp', 'certificateTypes'],
   ['År', 'years'],
-] as [string, keyof typeof options][])('Should reset %s when "Återställ filter" is pressed', async (fieldName, key) => {
+] as [string, keyof typeof options][])('Should reset %s when "Rensa filter" is pressed', async (fieldName, key) => {
   const { container } = renderComponent()
   const option = options[key][2]
 
@@ -100,7 +100,7 @@ it.each([
     [key]: typeof option === 'string' ? option : option.id,
   })
 
-  await userEvent.click(screen.getByLabelText('Återställ filter'))
+  await userEvent.click(screen.getByLabelText('Rensa filter'))
 
   expect(store.getState().certificateFilter).toEqual({ submitFilters: {} })
 })

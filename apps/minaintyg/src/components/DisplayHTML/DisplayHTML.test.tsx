@@ -8,7 +8,7 @@ describe('tables', () => {
   })
 
   it('Should render mobile table', () => {
-    const { container } = render(
+    render(
       <DisplayHTML
         html="`
           <table>
@@ -30,14 +30,13 @@ describe('tables', () => {
             </tbody>
           </table>
         `"
-        mobile
       />
     )
-    expect(container).toMatchSnapshot()
+    expect(screen.getAllByRole('table')[0]).toMatchSnapshot()
   })
 
   it('Should render mobile table with row headers', () => {
-    const { container } = render(
+    render(
       <DisplayHTML
         html="`
           <table>
@@ -59,10 +58,9 @@ describe('tables', () => {
             </tbody>
           </table>
         `"
-        mobile
       />
     )
-    expect(container).toMatchSnapshot()
+    expect(screen.getAllByRole('table')[0]).toMatchSnapshot()
   })
 })
 

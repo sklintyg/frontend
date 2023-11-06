@@ -21,9 +21,9 @@ export function CertificateListPage() {
     <>
       <PageHeading heading="Intyg">
         <PageHeadingDescription>
-          Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka
-          intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din
-          arbetsgivare.
+          Här hittar du dina digitala intyg som vården skrivit. I Intyg kan du läsa, skicka och skriva ut dina intyg. Saknar du ett intyg,
+          eller vill begära ett intyg? Vänd dig till din mottagning. Klicka på länken “Läs mer” nedan om du vill veta vad du kan göra i
+          Intyg.
         </PageHeadingDescription>
       </PageHeading>
       <CertificateListFilter listed={list?.content.length ?? 0} />

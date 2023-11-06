@@ -4,7 +4,6 @@ exports[`Should render as expected 1`] = `
 <div>
   <details
     class="group mb-5"
-    open=""
   >
     <summary
       class="flex cursor-pointer select-none flex-col md:flex-row"

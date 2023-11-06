@@ -4,7 +4,7 @@ export function CertificateCardInfo({ issuer, unit }: { issuer: CertificateIssue
   return (
     <div className="mb-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0">
       <div>
-        <p className="font-bold after:content-[':'] md:after:content-['']">Utfärdare</p>
+        <h4 className="ids-heading-4 mb-0">Skrivet av</h4>
         <p>
           {issuer.name}, {unit.name}
         </p>

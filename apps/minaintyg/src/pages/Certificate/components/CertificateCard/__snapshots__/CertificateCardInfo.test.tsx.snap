@@ -6,11 +6,11 @@ exports[`Should render correctly 1`] = `
     class="mb-2.5 border-b pb-5 md:flex-row md:border-0 md:pb-0"
   >
     <div>
-      <p
-        class="font-bold after:content-[':'] md:after:content-['']"
+      <h4
+        class="ids-heading-4 mb-0"
       >
-        Utfärdare
-      </p>
+        Skrivet av
+      </h4>
       <p>
         Adamn
         , 
