@@ -5,7 +5,7 @@ export function CertificateCardSummary({ summary, timestamp }: { summary: Certif
   const { date } = useFormat()
 
   return (
-    <div className="mb-2.5 flex flex-col place-content-end gap-2.5 md:mb-5 md:flex-row md:border-b md:pb-5">
+    <div className="mb-2.5 flex flex-col place-content-end gap-2.5 border-stone-clear md:mb-5 md:flex-row md:border-b md:pb-5">
       {summary && (
         <p className="grow">
           <span className="font-bold">{summary.label}:</span> {summary.value}

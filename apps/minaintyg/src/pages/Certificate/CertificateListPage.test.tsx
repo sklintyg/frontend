@@ -37,7 +37,7 @@ it('Should render alert message when list is empty', async () => {
 
 it('Should have correct paragraph', () => {
   renderComponent()
-  expect(screen.getByText(/här listas dina läkarintyg/i)).toMatchSnapshot()
+  expect(screen.getByText(/här hittar du dina digitala intyg/i, { exact: false })).toMatchSnapshot()
 })
 
 it('Should render list of certificates', async () => {

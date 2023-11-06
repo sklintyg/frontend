@@ -11,16 +11,16 @@ exports[`Should render correctly 1`] = `
       <summary
         class="flex items-center justify-between gap-2 font-semibold text-sky-base group-open:mb-2.5 md:hidden"
       >
-        <span
+        <h4
           class="inline-block group-open:hidden"
         >
           Visa händelser
-        </span>
-        <span
+        </h4>
+        <h4
           class="hidden group-open:inline-block"
         >
           Dölj händelser
-        </span>
+        </h4>
         <ids-icon-plus
           class="h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:hidden ids-icon"
         />

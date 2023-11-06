@@ -26,8 +26,8 @@ export function CertificateListFilter({ listed }: { listed: number }) {
         <CertificateTypeFilter options={filterOptions.certificateTypes} />
         <CertificateYearFilter options={filterOptions.years} />
         <div className="flex flex-col gap-5 md:col-span-4 md:flex-row">
-          <IDSButton secondary sblock onClick={() => dispatch(reset())} aria-label="Återställ filter">
-            Återställ filter
+          <IDSButton secondary sblock onClick={() => dispatch(reset())} aria-label="Rensa filter">
+            Rensa filter
           </IDSButton>
           <IDSButton
             sblock
