@@ -29,12 +29,12 @@ export function CertificatePage() {
   return (
     <>
       <PageHeading heading="Läs och hantera ditt intyg">
-        {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
         {certificate.metadata.type.description && (
           <PageHeadingDescription>
             <DisplayHTML html={certificate.metadata.type.description} />
           </PageHeadingDescription>
         )}
+        {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
       </PageHeading>
 
       <div className="mb-5">

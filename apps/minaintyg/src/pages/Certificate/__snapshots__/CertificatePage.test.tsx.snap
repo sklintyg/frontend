@@ -16,7 +16,7 @@ exports[`Should have article content 1`] = `
     <h2
       class="ids-heading-3"
     >
-      Intyget är utfärdat och signerat av
+      Intyget är skrivet av
     </h2>
     <address
       class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
