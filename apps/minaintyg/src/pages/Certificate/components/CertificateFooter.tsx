@@ -21,9 +21,7 @@ export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMet
         </div>
       </address>
       <PageDivider />
-      <div className="mb-3">
-        <strong>Intygs-ID:</strong> {id}
-      </div>
+      <strong>Intygs-ID:</strong> {id}
     </footer>
   )
 }

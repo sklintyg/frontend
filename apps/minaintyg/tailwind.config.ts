@@ -14,6 +14,7 @@ export default {
       xl: '1280px',
     },
     colors: {
+      main: 'var(--color-main)',
       sky: {
         dark: 'var(--color-sky-dark)',
         base: 'var(--color-sky-base)',

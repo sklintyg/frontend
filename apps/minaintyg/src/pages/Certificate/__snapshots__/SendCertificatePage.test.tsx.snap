@@ -34,27 +34,27 @@ exports[`Should render as expected 1`] = `
         class="flex flex-col gap-5 md:flex-row md:gap-10"
       >
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Intyg utfärdat
-          </strong>
+          </h3>
           2023-10-10
         </div>
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Gäller intygsperiod
-          </strong>
+          </h3>
           2021-04-22 - 2021-07-19
         </div>
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Skrivet av
-          </strong>
+          </h3>
           Jenny Ström
         </div>
       </div>
