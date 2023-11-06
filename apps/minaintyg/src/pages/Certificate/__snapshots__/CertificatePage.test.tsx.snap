@@ -4,29 +4,11 @@ exports[`Should have article content 1`] = `
 <article
   class="ids-certificate"
 >
-  <section
-    class="md:mb-10"
-  >
-    <ids-expandable
-      class="md:hidden"
-    >
-      <p>
-        Test
-      </p>
-    </ids-expandable>
-    <div
-      class="hidden md:block"
-    >
-      <h2
-        class="ids-heading-2"
-      >
-        Rubrik 1
-      </h2>
-      <p>
-        Test
-      </p>
-    </div>
-  </section>
+  <ids-expandable>
+    <p>
+      Test
+    </p>
+  </ids-expandable>
   <footer>
     <hr
       class="my-7 border-stone-clear"
@@ -34,7 +16,7 @@ exports[`Should have article content 1`] = `
     <h2
       class="ids-heading-3"
     >
-      Intyget är utfärdat och signerat av
+      Intyget är skrivet av
     </h2>
     <address
       class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
@@ -59,15 +41,11 @@ exports[`Should have article content 1`] = `
     <hr
       class="my-7 border-stone-clear"
     />
-    <div
-      class="mb-3"
-    >
-      <strong>
-        Intygs-ID:
-      </strong>
-       
-      0b295069-d03c-413c-9f4a-b6fd81ad2d87
-    </div>
+    <strong>
+      Intygs-ID:
+    </strong>
+     
+    0b295069-d03c-413c-9f4a-b6fd81ad2d87
   </footer>
 </article>
 `;

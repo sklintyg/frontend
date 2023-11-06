@@ -30,103 +30,69 @@ exports[`link > Should render link with external icon when target is _blank 1`] 
 `;
 
 exports[`tables > Should render mobile table 1`] = `
-<div>
-  \`
-          
-  <table
-    class="ids-table"
-  >
-    <tbody>
-      <tr>
-        <th>
-          First cell
-        </th>
-        <td>
-          123
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Second cell
-        </th>
-        <td>
-          Lorem ipsum
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table
-    class="ids-table"
-  >
-    <tbody>
-      <tr>
-        <th>
-          First cell
-        </th>
-        <td>
-          456
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Second cell
-        </th>
-        <td>
-          dolor sit amet
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-        \`
-</div>
+<table
+  class="ids-table"
+>
+  <tbody>
+    <tr>
+      <th>
+        First cell
+      </th>
+      <td>
+        123
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Second cell
+      </th>
+      <td>
+        Lorem ipsum
+      </td>
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`tables > Should render mobile table with row headers 1`] = `
-<div>
-  \`
-          
-  <table
-    class="ids-table"
-  >
-    <thead>
-      <tr>
-        <th
-          class="text-center"
-          colspan="2"
-        >
-          Row heading
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>
-          First cell
-        </th>
-        <td>
-          1
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Second cell
-        </th>
-        <td>
-          2
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Third cell
-        </th>
-        <td>
-          3
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-        \`
-</div>
+<table
+  class="ids-table"
+>
+  <thead>
+    <tr>
+      <th
+        class="text-center"
+        colspan="2"
+      >
+        Row heading
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        First cell
+      </th>
+      <td>
+        1
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Second cell
+      </th>
+      <td>
+        2
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Third cell
+      </th>
+      <td>
+        3
+      </td>
+    </tr>
+  </tbody>
+</table>
 `;

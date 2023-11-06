@@ -9,7 +9,7 @@ export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMet
   return (
     <footer>
       <PageDivider />
-      <h2 className="ids-heading-3">Intyget är utfärdat och signerat av</h2>
+      <h2 className="ids-heading-3">Intyget är skrivet av</h2>
       <address className="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]">
         <div>
           <strong>{issuer.name}</strong>
@@ -21,9 +21,7 @@ export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMet
         </div>
       </address>
       <PageDivider />
-      <div className="mb-3">
-        <strong>Intygs-ID:</strong> {id}
-      </div>
+      <strong>Intygs-ID:</strong> {id}
     </footer>
   )
 }

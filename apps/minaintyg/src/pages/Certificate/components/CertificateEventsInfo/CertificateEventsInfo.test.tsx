@@ -12,11 +12,6 @@ function renderComponent(events: CertificateEvent[]) {
   )
 }
 
-it('Should display header', () => {
-  renderComponent(Array.from({ length: 3 }, fakerFromSchema(certificateEventSchema)))
-  expect(screen.getByText('Senaste händelser')).toBeInTheDocument()
-})
-
 it('Should display information when there are no events', () => {
   renderComponent([])
   expect(screen.getByText('Inga händelser')).toBeInTheDocument()

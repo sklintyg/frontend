@@ -43,7 +43,17 @@ it('Should have correct paragraph', () => {
 it('Should render list of certificates', async () => {
   server.use(
     rest.post('/api/certificate', (_, res, ctx) =>
-      res(ctx.status(200), ctx.json({ content: Array.from({ length: 6 }, fakerFromSchema(certificateMetadataSchema)) }))
+      res(
+        ctx.status(200),
+        ctx.json({
+          content: Array.from({ length: 6 }, () =>
+            fakerFromSchema(certificateMetadataSchema)({
+              events: [],
+              statuses: [],
+            })
+          ),
+        })
+      )
     )
   )
   renderComponent()

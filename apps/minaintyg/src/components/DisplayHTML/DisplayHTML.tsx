@@ -1,11 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import parse, { DOMNode, attributesToProps, domToReact } from 'html-react-parser'
-import { createElement, useMemo } from 'react'
+import { createElement } from 'react'
 import { MobileTable } from './MobileTable'
 import { isElement } from './utils/isElement'
 
-const getOptions = (isMobile: boolean) => ({
+const options = {
   replace: (domNode: DOMNode) => {
     if (isElement(domNode)) {
       const { name, attribs, children } = domNode
@@ -18,10 +18,15 @@ const getOptions = (isMobile: boolean) => ({
 
       if (name === 'table') {
         const elements = children.filter(isElement)
-        return isMobile ? (
-          <MobileTable header={elements.find((node) => node.name === 'thead')} body={elements.find((node) => node.name === 'tbody')} />
-        ) : (
-          <table className="ids-table">{domToReact(children)}</table>
+        return (
+          <>
+            <div className="md:hidden">
+              <MobileTable header={elements.find((node) => node.name === 'thead')} body={elements.find((node) => node.name === 'tbody')} />
+            </div>
+            <div className="hidden md:block">
+              <table className="ids-table">{domToReact(children)}</table>
+            </div>
+          </>
         )
       }
 
@@ -36,9 +41,8 @@ const getOptions = (isMobile: boolean) => ({
     }
     return undefined
   },
-})
+}
 
-export function DisplayHTML({ html, mobile = false }: { html: string; mobile?: boolean }) {
-  const options = useMemo(() => getOptions(mobile), [mobile])
+export function DisplayHTML({ html }: { html: string }) {
   return <>{parse(html, options)}</>
 }

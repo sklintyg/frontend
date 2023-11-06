@@ -1,7 +1,6 @@
 import { createBrowserRouter, createRoutesFromChildren, Navigate, Route, ScrollRestoration } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import { CertificateCrumb } from './pages/Certificate/CertificateCrumb'
 import { CertificateListPage } from './pages/Certificate/CertificateListPage'
 import { CertificatePage } from './pages/Certificate/CertificatePage'
 import { SendCertificatePage } from './pages/Certificate/SendCertificatePage'
@@ -26,7 +25,7 @@ export const router = createBrowserRouter(
         <Route
           path=":id"
           handle={{
-            crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
+            crumb: () => 'Läs och hantera ditt intyg',
           }}
         >
           <Route index element={<CertificatePage />} />
