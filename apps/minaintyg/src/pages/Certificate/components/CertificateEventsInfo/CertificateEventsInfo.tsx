@@ -7,7 +7,6 @@ export function CertificateEventsInfo({ events }: { events: CertificateEvent[] }
   const { datetime } = useFormat()
   return (
     <div>
-      <h3 className="ids-heading-4 mb-0">Händelser</h3>
       {events.length === 0 && <span>Inga händelser</span>}
       {events.map(({ timestamp, description, certificateId }) => (
         <div key={timestamp} className="flex flex-col md:flex-row md:gap-2.5">

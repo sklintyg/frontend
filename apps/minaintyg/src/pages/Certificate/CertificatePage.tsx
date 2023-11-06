@@ -53,6 +53,7 @@ export function CertificatePage() {
         <div className="mb-5">
           <CertificateInformation {...certificate.metadata} />
         </div>
+        <h3 className="ids-heading-4 mb-0">Händelser</h3>
         <CertificateEventsInfo events={certificate.metadata.events} />
         <PageDivider />
         <article className="ids-certificate">
