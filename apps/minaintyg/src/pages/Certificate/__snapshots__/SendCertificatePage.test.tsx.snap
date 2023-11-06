@@ -13,7 +13,7 @@ exports[`Should render as expected 1`] = `
     <div
       class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
     >
-      Från den här sidan kan du välja att skicka ditt intyg elektroniskt till en mottagare. Om du saknar din mottagare i listan beror det på att mottagaren inte kan ta emot elektroniska intyg. Du kan då skriva ut och skicka det per post istället.
+      Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.
     </div>
   </header>
   <div>
@@ -31,7 +31,7 @@ exports[`Should render as expected 1`] = `
         Dr. Robert Svensson
       </h2>
       <div
-        class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-1"
+        class="flex flex-col gap-5 md:flex-row md:gap-10"
       >
         <div>
           <strong
@@ -53,17 +53,9 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
-            Utfärdat av
+            Skrivet av
           </strong>
           Jenny Ström
-        </div>
-        <div>
-          <strong
-            class="block"
-          >
-            Intygs-ID
-          </strong>
-          16eb261e-545c-41db-8a6c-59133ead80a4
         </div>
       </div>
     </ids-card>
@@ -76,7 +68,9 @@ exports[`Should render as expected 1`] = `
     >
       Mottagare
     </h2>
-    Transportstyrelsen
+    <ids-card>
+      Transportstyrelsen
+    </ids-card>
   </div>
   <div
     class="flex flex-col gap-5 py-5 sm:flex-row"
@@ -89,7 +83,7 @@ exports[`Should render as expected 1`] = `
       tabindex="0"
       type=""
     >
-      Avbryt
+      Tillbaka till intyget
     </ids-button>
     <ids-button
       role="button"

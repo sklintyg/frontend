@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
 import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
@@ -8,6 +8,7 @@ import { PageHeadingDescription } from '../../components/PageHeading/PageHeading
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateActions } from './components/CertificateActions'
 import { CertificateBody } from './components/CertificateBody/CertificateBody'
+import { CertificateEventsInfo } from './components/CertificateEventsInfo/CertificateEventsInfo'
 import { CertificateFooter } from './components/CertificateFooter'
 import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
@@ -27,7 +28,7 @@ export function CertificatePage() {
 
   return (
     <>
-      <PageHeading heading={certificate.metadata.type.name}>
+      <PageHeading heading="Läs och hantera ditt intyg">
         {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
         {certificate.metadata.type.description && (
           <PageHeadingDescription>
@@ -35,18 +36,30 @@ export function CertificatePage() {
           </PageHeadingDescription>
         )}
       </PageHeading>
-      <div className="mb-4 flex gap-1">
-        {certificate.metadata.statuses.map((status) => (
-          <CertificateStatusBadge key={status} status={status} />
-        ))}
+
+      <div className="mb-5">
+        <CertificateActions recipient={certificate.metadata.recipient} />
       </div>
-      <CertificateInformation {...certificate.metadata} />
-      <CertificateActions recipient={certificate.metadata.recipient} />
-      <PageDivider />
-      <article className="ids-certificate">
-        <CertificateBody content={certificate.content} />
-        <CertificateFooter {...certificate.metadata} />
-      </article>
+
+      <IDSCard>
+        <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
+          <h2 className="ids-heading-2 mb-0">{certificate.metadata.type.name}</h2>
+          <div className="flex gap-1">
+            {certificate.metadata.statuses.map((status) => (
+              <CertificateStatusBadge key={status} status={status} />
+            ))}
+          </div>
+        </div>
+        <div className="mb-5">
+          <CertificateInformation {...certificate.metadata} />
+        </div>
+        <CertificateEventsInfo events={certificate.metadata.events} />
+        <PageDivider />
+        <article className="ids-certificate">
+          <CertificateBody content={certificate.content} />
+          <CertificateFooter {...certificate.metadata} />
+        </article>
+      </IDSCard>
     </>
   )
 }

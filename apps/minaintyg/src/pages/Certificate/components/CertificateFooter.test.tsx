@@ -104,3 +104,12 @@ it('Should render partial unit address without city', () => {
   render(<CertificateFooter {...metadata} />)
   expect(screen.getByText('Gatuadressens väg 1, 111 11')).toBeInTheDocument()
 })
+
+it('Should render certificate id', () => {
+  const metadata = fakerFromSchema(certificateMetadataSchema)({
+    id: 'some-certificate-identification',
+  })
+
+  render(<CertificateFooter {...metadata} />)
+  expect(screen.getByText('some-certificate-identification')).toBeInTheDocument()
+})

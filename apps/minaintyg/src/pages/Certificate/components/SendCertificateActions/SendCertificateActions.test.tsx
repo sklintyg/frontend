@@ -46,19 +46,8 @@ it('Should display error-message when certificate was unable to be sent', async 
   expect(screen.getByText(/på grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:/i)).toBeInTheDocument()
 })
 
-it('Should navigate back when pressing the abort button', async () => {
+it('Should navigate back when pressing the back button', async () => {
   renderComponent(fakerFromSchema(certificateRecipientSchema)({ sent: '2023-10-23T11:13:37.000Z' }))
-  await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }))
-  expect(screen.getByText('Certificate page')).toBeInTheDocument()
-})
-
-it('Should navigate back when pressing the back button on success', async () => {
-  server.use(rest.post('/api/certificate/:id/send', (req, res, ctx) => res(ctx.status(200), ctx.json({}))))
-  renderComponent(fakerFromSchema(certificateRecipientSchema)({ sent: '2023-10-23T11:13:37.000Z' }))
-  await userEvent.click(screen.getByRole('button', { name: 'Skicka' }))
-
-  expect(await screen.findByRole('button', { name: 'Tillbaka till intyget' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Tillbaka till intyget' }))
-
   expect(screen.getByText('Certificate page')).toBeInTheDocument()
 })
