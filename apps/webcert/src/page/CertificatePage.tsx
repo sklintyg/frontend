@@ -9,6 +9,7 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
+import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
@@ -46,7 +47,9 @@ const CertificatePage: React.FC = () => {
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
   const links = useSelector(getResourceLinks)
   const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
+  const isLuaenaIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_LUAENA_INTEGRATED)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
+  const [showLuaenaModal, setShowLuaenaModal] = useState(true)
   const metadata = useSelector(getCertificateMetaData)
   const patient = metadata?.patient
   const isLoadingCertificate = useSelector(getIsShowSpinner)
@@ -95,6 +98,15 @@ const CertificatePage: React.FC = () => {
               patient={patient}
               setOpen={setShowDeathCertificateModal}
               open={showDeathCertificateModal}
+            />
+          )}
+          ,
+          {isLuaenaIntegrated && patient && (
+            <LuaenaConfirmModalIntegrated
+              certificateId={certificateId}
+              patient={patient}
+              setOpen={setShowLuaenaModal}
+              open={showLuaenaModal}
             />
           )}
           <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">

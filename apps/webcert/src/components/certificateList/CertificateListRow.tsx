@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
+import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
 import { createNewCertificate } from '../../store/certificate/certificateActions'
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
@@ -55,6 +56,7 @@ const CertificateListRow: React.FC<Props> = ({
   const isLoadingCertificateTypes = useSelector(loadingCertificateTypes)
   const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
+  const [showLuaenaModal, setShowLuaenaModal] = useState(false)
 
   const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
   const missingRelatedCertificateLink = links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
@@ -66,10 +68,13 @@ const CertificateListRow: React.FC<Props> = ({
 
   const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
     const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
+    const createLuaena = links.some((link) => link.type === ResourceLinkType.CREATE_LUAENA_CONFIRMATION)
     const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
     if (createDodsbevis) {
       setShowDeathCertificateModal(true)
+    } else if (createLuaena) {
+      setShowLuaenaModal(true)
     } else if (hasMissingRelatedCertificate) {
       setShowMissingRelatedCertificateModal(true)
     } else {
@@ -82,6 +87,7 @@ const CertificateListRow: React.FC<Props> = ({
       {patient && (
         <>
           <DeathCertificateConfirmModal patient={patient} setOpen={setShowDeathCertificateModal} open={showDeathCertificateModal} />
+          <LuaenaConfirmModal patient={patient} setOpen={setShowLuaenaModal} open={showLuaenaModal} />
           {missingRelatedCertificateLink?.type !== undefined && (
             <MissingRelatedCertificateModal
               createCertificateType={id}
