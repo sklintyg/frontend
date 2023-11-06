@@ -9,14 +9,6 @@ exports[`Should render as expected 1`] = `
       <strong
         class="block"
       >
-        Intyg utfärdat
-      </strong>
-      2022-11-10
-    </div>
-    <div>
-      <strong
-        class="block"
-      >
         Avser diagnos
       </strong>
       Downs syndrom
@@ -25,9 +17,19 @@ exports[`Should render as expected 1`] = `
       <strong
         class="block"
       >
+        Intyg utfärdat
+      </strong>
+      2022-11-10
+    </div>
+    <div>
+      <strong
+        class="block"
+      >
         Skrivet av
       </strong>
       Mats Andersson
+      , 
+      Jansson, Lundqvist Kommanditbolag
     </div>
   </div>
 </div>
