@@ -37,14 +37,6 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
-            Intyg utfärdat
-          </strong>
-          2023-10-10
-        </div>
-        <div>
-          <strong
-            class="block"
-          >
             Gäller intygsperiod
           </strong>
           2021-04-22 - 2021-07-19
@@ -53,9 +45,19 @@ exports[`Should render as expected 1`] = `
           <strong
             class="block"
           >
+            Intyg utfärdat
+          </strong>
+          2023-10-10
+        </div>
+        <div>
+          <strong
+            class="block"
+          >
             Skrivet av
           </strong>
           Jenny Ström
+          , 
+          Tommy Claesson
         </div>
       </div>
     </ids-card>
