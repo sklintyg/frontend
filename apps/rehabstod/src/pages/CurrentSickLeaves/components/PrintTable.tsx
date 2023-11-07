@@ -44,6 +44,7 @@ export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: Sick
       {sortedList?.map((sickLeave) => (
         <div
           key={sickLeave.patient.id}
+          data-testid="sickleave-row"
           className={classNames(
             '-mb-px flex break-inside-avoid gap-2 border border-neutral-40 p-4',
             isDateBeforeToday(sickLeave.slut) && 'italic'
