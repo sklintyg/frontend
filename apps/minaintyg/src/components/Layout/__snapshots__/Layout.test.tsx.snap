@@ -386,7 +386,7 @@ exports[`Should render as expected 1`] = `
         >
           Behandling av personuppgifter
         </a>
-
+         
         <ids-icon-external
           class="relative -bottom-0.5 ids-icon"
           inline=""
@@ -405,7 +405,7 @@ exports[`Should render as expected 1`] = `
         >
           Hantering av kakor
         </a>
-
+         
         <ids-icon-external
           class="relative -bottom-0.5 ids-icon"
           inline=""
@@ -417,30 +417,7 @@ exports[`Should render as expected 1`] = `
         slot="sub-footer-left"
       >
         1177 drivs av
-
-        <a
-          class="text-white outline-white hover:underline"
-          href="https://e-tjanster.1177.se/mvk/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Inera AB
-        </a>
-
-        <ids-icon-external
-          class="relative -bottom-0.5 ids-icon"
-          inline=""
-          size="m"
-        />
-
-        på uppdrag av Sveriges regioner.
-      </span>
-      <span
-        class="relative"
-        slot="sub-footer-mobile"
-      >
-        1177 drivs av
-
+         
         <a
           class="text-white outline-white hover:underline"
           href="https://www.inera.se/"
@@ -449,13 +426,36 @@ exports[`Should render as expected 1`] = `
         >
           Inera AB
         </a>
-
+         
         <ids-icon-external
           class="relative -bottom-0.5 ids-icon"
           inline=""
           size="m"
         />
-
+         
+        på uppdrag av Sveriges regioner.
+      </span>
+      <span
+        class="relative"
+        slot="sub-footer-mobile"
+      >
+        1177 drivs av
+         
+        <a
+          class="text-white outline-white hover:underline"
+          href="https://www.inera.se/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Inera AB
+        </a>
+         
+        <ids-icon-external
+          class="relative -bottom-0.5 ids-icon"
+          inline=""
+          size="m"
+        />
+         
         på uppdrag av Sveriges regioner.
       </span>
       <ids-mobile-menu
@@ -542,7 +542,7 @@ exports[`Should render as expected 1`] = `
         >
           Behandling av personuppgifter
         </a>
-
+         
         <ids-icon-external
           class="relative -bottom-0.5 ids-icon"
           inline=""
@@ -560,7 +560,7 @@ exports[`Should render as expected 1`] = `
         >
           Hantering av kakor
         </a>
-
+         
         <ids-icon-external
           class="relative -bottom-0.5 ids-icon"
           inline=""
