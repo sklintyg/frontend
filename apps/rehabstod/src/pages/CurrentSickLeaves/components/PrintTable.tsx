@@ -50,13 +50,13 @@ export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: Sick
           )}
         >
           {Array.from({ length: COLUMN_LENGTH }, (_, index) => ({ id: index })).map(({ id }) => (
-            <div key={id} className="flex-1">
+            <div key={id} className="min-w-0 flex-1">
               {columns
                 .filter((_, index) => index % COLUMN_LENGTH === id)
                 .map(({ name }) => (
                   <div key={name} className="flex gap-2">
                     <strong>{name === 'Personnummer' ? 'Personnr' : name} </strong>
-                    <div key={name} className="w-56 flex-auto">
+                    <div key={name} className="w-56 min-w-0">
                       <ResolvePrintTableCell column={name} sickLeave={sickLeave} sickLeaves={sortedList} />
                     </div>
                   </div>
