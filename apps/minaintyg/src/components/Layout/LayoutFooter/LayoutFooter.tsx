@@ -31,16 +31,15 @@ export function LayoutFooter() {
         </LayoutFooterLink>
       </span>
 
-      {
-        ['left', 'mobile'].map((slot) => (
-          <span key={slot} slot={`sub-footer-${slot}`} className="relative">
-            1177 drivs av{' '}
-            <LayoutFooterLink href="https://www.inera.se/" target="_blank">
-              Inera AB
-            </LayoutFooterLink>{' '}
-            på uppdrag av Sveriges regioner.
-          </span>
-        ))}
+      {['left', 'mobile'].map((slot) => (
+        <span key={slot} slot={`sub-footer-${slot}`} className="relative">
+          1177 drivs av{' '}
+          <LayoutFooterLink href="https://www.inera.se/" target="_blank">
+            Inera AB
+          </LayoutFooterLink>{' '}
+          på uppdrag av Sveriges regioner.
+        </span>
+      ))}
       <LayoutFooterMobile />
     </IDSFooter>
   )
