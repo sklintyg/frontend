@@ -6,7 +6,7 @@ exports[`Should render as expected 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-1 text-[min(2.25rem,9.25vw)]/[min(2.25rem,9.25vw)] md:text-5xl"
+      class="ids-heading-1"
     >
       Skicka intyg 
     </h1>
@@ -34,27 +34,27 @@ exports[`Should render as expected 1`] = `
         class="flex flex-col gap-5 md:flex-row md:gap-10"
       >
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Gäller intygsperiod
-          </strong>
+          </h3>
           2021-04-22 - 2021-07-19
         </div>
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Intyg utfärdat
-          </strong>
+          </h3>
           2023-10-10
         </div>
         <div>
-          <strong
-            class="block"
+          <h3
+            class="ids-heading-4 mb-0"
           >
             Skrivet av
-          </strong>
+          </h3>
           Jenny Ström
           , 
           Tommy Claesson
