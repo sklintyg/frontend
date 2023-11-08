@@ -111,6 +111,6 @@ a:hover {
   border-top: 0;
 }
 
-.ids table.ids-table tbody tr:last-child th + td {
+.ids table.ids-table tbody tr:last-child th + td:last-child {
   border-bottom: 0;
 }
