@@ -107,10 +107,10 @@ a:hover {
   border-radius: 10px 0 0 10px;
 }
 
-.ids table.ids-table tbody:first-child tr:first-child th + td {
+.ids table.ids-table tbody:first-child tr:first-child th ~ td {
   border-top: 0;
 }
 
-.ids table.ids-table tbody tr:last-child th + td:last-child {
+.ids table.ids-table tbody tr:last-child th ~ td {
   border-bottom: 0;
 }
