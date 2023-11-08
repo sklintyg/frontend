@@ -75,10 +75,6 @@ a:hover {
   border-bottom: var(--table_border-bottom);
 }
 
-.ids table.ids-table tbody tr:last-child th {
-  border-bottom: 0;
-}
-
 .ids table.ids-table tbody:not(:first-child) tr:first-child th {
   border-top: var(--table-cell_border);
 }
@@ -100,6 +96,7 @@ a:hover {
 }
 
 .ids table.ids-table tbody tr:last-child th {
+  border-bottom: 0;
   border-radius: 0 0 0 10px;
 }
 
