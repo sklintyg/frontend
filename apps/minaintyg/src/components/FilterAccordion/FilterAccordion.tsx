@@ -6,7 +6,7 @@ export function FilterAccordion({ total, listed, noun, children }: { noun: strin
     <details className="group mb-5">
       <summary className="flex cursor-pointer select-none flex-col md:flex-row">
         <div className="grow border-y border-stone-clear py-2.5 md:pl-5">
-          {listed} av {total} {noun}
+          Visar {listed} av {total} {noun}
         </div>
         <div className="-mt-px flex justify-between gap-5 border-y border-stone-clear py-2.5 md:mt-0 md:border-l md:px-5">
           Filtrera lista

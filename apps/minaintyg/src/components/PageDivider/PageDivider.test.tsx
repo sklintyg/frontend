@@ -6,7 +6,7 @@ it('Should render as expected', () => {
   expect(container).toMatchInlineSnapshot(`
     <div>
       <hr
-        class="my-7 border-stone-clear"
+        class="my-7 border-stone-line"
       />
     </div>
   `)

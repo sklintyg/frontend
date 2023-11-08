@@ -6,7 +6,7 @@ exports[`Should render correctly 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-1 text-[min(2.25rem,9.25vw)]/[min(2.25rem,9.25vw)] md:text-5xl"
+      class="ids-heading-1"
     >
       Test
     </h1>

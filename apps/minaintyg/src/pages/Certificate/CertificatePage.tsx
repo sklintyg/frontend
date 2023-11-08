@@ -41,6 +41,10 @@ export function CertificatePage() {
         <CertificateActions recipient={certificate.metadata.recipient} />
       </div>
 
+      <div className="md:hidden">
+        <PageDivider />
+      </div>
+
       <div className="rounded-[10px] border-stone-line md:border md:p-7 md:shadow-[0_0_2px_0px_rgba(0,0,0,0.3)]">
         <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
           <h2 className="ids-heading-2">{certificate.metadata.type.name}</h2>
@@ -55,7 +59,7 @@ export function CertificatePage() {
         </div>
         <h3 className="ids-heading-4 mb-0">Händelser</h3>
         <CertificateEventsInfo events={certificate.metadata.events} />
-        <PageDivider />
+
         <article className="ids-certificate">
           <CertificateBody content={certificate.content} />
           <CertificateFooter {...certificate.metadata} />

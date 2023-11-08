@@ -20,25 +20,25 @@ export function CertificateListFilter({ listed }: { listed: number }) {
 
   return (
     <FilterAccordion listed={listed} total={filterOptions.total} noun="intyg">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-4 md:gap-10">
+      <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-x-10">
         <CertificateStatusFilter options={filterOptions.statuses} />
         <CertificateUnitFilter options={filterOptions.units} />
         <CertificateTypeFilter options={filterOptions.certificateTypes} />
         <CertificateYearFilter options={filterOptions.years} />
-        <div className="flex flex-col gap-5 md:col-span-4 md:flex-row">
-          <IDSButton secondary sblock onClick={() => dispatch(reset())} aria-label="Rensa filter">
-            Rensa filter
-          </IDSButton>
-          <IDSButton
-            sblock
-            onClick={() => {
-              dispatch(submit(omit(filter, ['submitFilters'])))
-            }}
-            aria-label="Filtrera"
-          >
-            Filtrera
-          </IDSButton>
-        </div>
+      </div>
+      <div className="flex flex-col justify-end gap-5 md:flex-row">
+        <IDSButton secondary mblock onClick={() => dispatch(reset())} aria-label="Rensa filter">
+          Rensa filter
+        </IDSButton>
+        <IDSButton
+          mblock
+          onClick={() => {
+            dispatch(submit(omit(filter, ['submitFilters'])))
+          }}
+          aria-label="Filtrera"
+        >
+          Filtrera
+        </IDSButton>
       </div>
     </FilterAccordion>
   )
