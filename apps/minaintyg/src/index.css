@@ -56,3 +56,12 @@ ids-header-avatar a {
   color: rgb(160, 11, 54) !important;
   text-decoration: underline !important;
 }
+
+a {
+  color: var(--color-sky-base);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--color-sky-dark);
+}

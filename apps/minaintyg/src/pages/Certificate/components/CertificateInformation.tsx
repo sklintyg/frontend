@@ -7,16 +7,16 @@ export function CertificateInformation({ issued, issuer, summary, unit }: Certif
     <div className="flex flex-col gap-5 md:flex-row md:gap-10">
       {summary && (
         <div>
-          <strong className="block">{summary.label}</strong>
+          <h3 className="ids-heading-4 mb-0">{summary.label}</h3>
           {summary.value}
         </div>
       )}
       <div>
-        <strong className="block">Intyg utfärdat</strong>
+        <h3 className="ids-heading-4 mb-0">Intyg utfärdat</h3>
         {date(issued)}
       </div>
       <div>
-        <strong className="block">Skrivet av</strong>
+        <h3 className="ids-heading-4 mb-0">Skrivet av</h3>
         {issuer.name}, {unit.name}
       </div>
     </div>

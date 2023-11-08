@@ -14,7 +14,7 @@ export function SendCertificateActions({ id, recipient }: { id: string; recipien
       {isError && <SendCertificateErrorAlert recipient={recipient} />}
       {isSuccess && recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
       <div className="flex flex-col gap-5 py-5 sm:flex-row">
-        <IDSButton role="button" sblock secondary onClick={() => navigate('..')}>
+        <IDSButton role="button" sblock secondary={!isSuccess} onClick={() => navigate('..')}>
           Tillbaka till intyget
         </IDSButton>
 
