@@ -420,7 +420,7 @@ exports[`Should render as expected 1`] = `
          
         <a
           class="text-white outline-white hover:underline"
-          href="https://e-tjanster.1177.se/mvk/"
+          href="https://www.inera.se/"
           rel="noreferrer"
           target="_blank"
         >
@@ -443,7 +443,7 @@ exports[`Should render as expected 1`] = `
          
         <a
           class="text-white outline-white hover:underline"
-          href="https://e-tjanster.1177.se/mvk/"
+          href="https://www.inera.se/"
           rel="noreferrer"
           target="_blank"
         >
