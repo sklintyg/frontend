@@ -90,7 +90,7 @@ it('Should display alert message when certificate is replaced', async () => {
   `)
 })
 
-it('Should render error message when unable to load list', async () => {
+it('Should render error message when unable to load certificate', async () => {
   server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
 
   render(
