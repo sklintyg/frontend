@@ -5,7 +5,7 @@ export function CertificateListOrderButton({ active, label, onClick }: { active:
   return (
     <button
       type="button"
-      className={classNames(active ? 'font-semibold pointer-events-none' : 'text-sky-base underline')}
+      className={classNames(active ? 'font-semibold pointer-events-none' : 'text-sky-base underline hover:text-sky-dark')}
       onClick={onClick}
       aria-label={label}
     >
