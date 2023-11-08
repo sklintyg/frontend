@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
@@ -88,4 +88,20 @@ it('Should display alert message when certificate is replaced', async () => {
       Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
     </ids-alert>
   `)
+})
+
+it('Should render error message when unable to load list', async () => {
+  server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+
+  render(
+    <Provider store={store}>
+      <RouterProvider
+        router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/:id" element={<CertificatePage />} />]), {
+          initialEntries: ['/12345'],
+        })}
+      />
+    </Provider>
+  )
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.getAllByRole('alert')).toMatchSnapshot()
 })

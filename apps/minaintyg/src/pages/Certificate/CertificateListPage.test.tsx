@@ -61,3 +61,10 @@ it('Should render list of certificates', async () => {
   await waitFor(() => expect(screen.queryByTestId('certificate-list-spinner')).not.toBeInTheDocument())
   expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(6)
 })
+
+it('Should render error message when unable to load list', async () => {
+  server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(500))))
+  renderComponent()
+  await waitFor(() => expect(screen.queryByTestId('certificate-list-spinner')).not.toBeInTheDocument())
+  expect(screen.getAllByRole('alert')).toMatchSnapshot()
+})

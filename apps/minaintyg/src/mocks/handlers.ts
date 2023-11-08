@@ -61,7 +61,7 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       version: '1',
       description: certificateIngress('fk7263') ?? '',
     },
-    statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+    statuses: faker.helpers.uniqueArray(CertificateStatusEnum.options, 2),
     events: faker.helpers.uniqueArray(
       () =>
         fakerFromSchema(certificateEventSchema)({
