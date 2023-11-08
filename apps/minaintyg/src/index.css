@@ -65,3 +65,52 @@ a {
 a:hover {
   color: var(--color-sky-dark);
 }
+
+.ids table.ids-table {
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+.ids table.ids-table tbody tr:last-child td {
+  border-bottom: var(--table_border-bottom);
+}
+
+.ids table.ids-table tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+.ids table.ids-table tbody:not(:first-child) tr:first-child th {
+  border-top: var(--table-cell_border);
+}
+
+.ids table.ids-table thead th:first-child {
+  border-radius: 10px 0 0 0;
+}
+
+.ids table.ids-table thead th:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+.ids table.ids-table thead th:last-child:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+.ids table.ids-table tbody:first-child tr:first-child th {
+  border-radius: 10px 0 0 0;
+}
+
+.ids table.ids-table tbody tr:last-child th {
+  border-radius: 0 0 0 10px;
+}
+
+.ids table.ids-table tbody:first-child tr:last-child:first-child th {
+  border-radius: 10px 0 0 10px;
+}
+
+.ids table.ids-table tbody:first-child tr:first-child th + td {
+  border-top: 0;
+}
+
+.ids table.ids-table tbody tr:last-child th + td {
+  border-bottom: 0;
+}
