@@ -43,7 +43,9 @@ export function Breadcrumbs() {
         )}
         {prevMatchUrl && (
           <IDSCrumb key="mobile" mobile>
-            <Link to={prevMatchUrl}>{prevMatchNode}</Link>
+            <Link className="no-underline" to={prevMatchUrl}>
+              {prevMatchNode}
+            </Link>
           </IDSCrumb>
         )}
       </IDSBreadcrumbs>
