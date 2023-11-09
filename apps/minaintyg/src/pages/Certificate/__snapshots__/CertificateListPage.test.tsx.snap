@@ -34,23 +34,34 @@ exports[`Should render error message when unable to load list 1`] = `
   <ids-alert
     role="alert"
   >
-    <p>
-      Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-      <ids-link
-        color="var(--link-colorpreset-1_color)"
-        hovercolor="var(--link-colorpreset-1-hover_color)"
-      >
-        <a
-          href="https://www.1177.se/e-tjanster-support "
+    <div
+      class="flex flex-col gap-4"
+    >
+      <p>
+        Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+        <ids-link
+          color="var(--link-colorpreset-1_color)"
+          hovercolor="var(--link-colorpreset-1-hover_color)"
         >
-          support
-        </a>
-      </ids-link>
-      .
-    </p>
-    <p>
-      Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.
-    </p>
+          <a
+            href="https://www.1177.se/e-tjanster-support "
+          >
+            support
+          </a>
+        </ids-link>
+        .
+      </p>
+      <p>
+        Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.
+      </p>
+      <p>
+        <strong>
+          Fel-ID:
+        </strong>
+         
+        5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+      </p>
+    </div>
   </ids-alert>,
 ]
 `;

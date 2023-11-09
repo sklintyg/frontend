@@ -5,8 +5,6 @@ import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
-import { SupportLink } from '../../components/error/SupportLink/SupportLink'
-import { TechnicalIssueAlert } from '../../components/error/TechnicalIssueAlert'
 import { useGetCertificateQuery } from '../../store/api'
 import { CertificateActions } from './components/CertificateActions'
 import { CertificateBody } from './components/CertificateBody/CertificateBody'
@@ -15,10 +13,11 @@ import { CertificateFooter } from './components/CertificateFooter'
 import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
+import { ReadCertificateError } from './components/ReadCertificateError'
 
 export function CertificatePage() {
   const { id } = useParams()
-  const { data: certificate, isLoading, isError } = useGetCertificateQuery(id ? { id } : skipToken)
+  const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
 
   return (
     <>
@@ -36,15 +35,7 @@ export function CertificatePage() {
       </PageHeading>
 
       {isLoading && <IDSSpinner data-testid="spinner" />}
-      {isError && (
-        <TechnicalIssueAlert>
-          <p>
-            Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta <SupportLink /> och ange
-            intygs-id: {id}.
-          </p>
-        </TechnicalIssueAlert>
-      )}
-
+      {error && <ReadCertificateError id={id} error={error} />}
       {certificate && (
         <>
           <div className="mb-5">

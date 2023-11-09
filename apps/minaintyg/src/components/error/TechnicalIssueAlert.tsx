@@ -1,11 +1,24 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
+import { ErrorObject } from '../../store/errorMiddleware'
 
-export function TechnicalIssueAlert({ children }: { children: ReactNode }) {
+export function TechnicalIssueAlert({
+  children,
+  headline = 'Tekniskt fel',
+  error,
+}: {
+  children: ReactNode
+  headline?: string
+  error: ErrorObject
+}) {
   return (
-    <IDSAlert headline="Tekniskt fel" type="error">
-      {children}
-      <p>Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.</p>
+    <IDSAlert headline={headline} type="error">
+      <div className="flex flex-col gap-4">
+        {children}
+        <p>
+          <strong>Fel-ID:</strong> {error.id}
+        </p>
+      </div>
     </IDSAlert>
   )
 }

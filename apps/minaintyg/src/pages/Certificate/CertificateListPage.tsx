@@ -15,7 +15,7 @@ import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 export function CertificateListPage() {
   const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')
   const { submitFilters } = useAppSelector((state) => state.certificateFilter)
-  const { isLoading: isLoadingList, data: list, isError } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
+  const { isLoading: isLoadingList, data: list, error } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
   const { isLoading: isLoadingFilters, data: filter } = useGetCertificatesFilterQuery()
   const isLoading = isLoadingList || isLoadingFilters
 
@@ -31,11 +31,12 @@ export function CertificateListPage() {
       <CertificateListFilter listed={list?.content.length ?? 0} />
       <CertificateListOrder setOrder={setOrder} order={order} />
       {isLoading && <IDSSpinner data-testid="certificate-list-spinner" />}
-      {isError && (
-        <TechnicalIssueAlert>
+      {error && (
+        <TechnicalIssueAlert error={error}>
           <p>
             Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta <SupportLink />.
           </p>
+          <p>Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.</p>
         </TechnicalIssueAlert>
       )}
       {list && list.content.length === 0 && <EmptyCertificateListInfo total={filter?.total ?? 0} />}

@@ -17,6 +17,9 @@ Object.assign(global, global, {
     ...mockViewport({ width: '1440px', height: '900px' }),
     addEventListener: vi.fn(),
   },
+  crypto: {
+    randomUUID: () => '5f92e947-e2ee-4238-bf29-4cdc6b6c4b54',
+  },
 })
 
 // Used by floating-ui
