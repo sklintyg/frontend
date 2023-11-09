@@ -47,6 +47,7 @@ exports[`Should render as expected with three levels 1`] = `
           slot="mobile"
         >
           <a
+            class="no-underline"
             href="/intyg"
           >
             Intyg
@@ -80,6 +81,7 @@ exports[`Should render as expected with two level 1`] = `
         </span>
         <ids-crumb>
           <a
+            class="no-underline"
             href="https://e-tjanster.1177.se/mvk/"
           >
             Start
