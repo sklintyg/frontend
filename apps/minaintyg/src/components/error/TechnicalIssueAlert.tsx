@@ -1,6 +1,6 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { ErrorObject } from '../../store/errorMiddleware'
+import { QueryError } from '../../store/errorMiddleware'
 
 export function TechnicalIssueAlert({
   children,
@@ -9,7 +9,7 @@ export function TechnicalIssueAlert({
 }: {
   children: ReactNode
   headline?: string
-  error: ErrorObject
+  error: QueryError
 }) {
   return (
     <IDSAlert headline={headline} type="error">

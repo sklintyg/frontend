@@ -1,8 +1,8 @@
 import { TechnicalIssueAlert } from '../../../../components/error/TechnicalIssueAlert'
 import { CertificateRecipient } from '../../../../schema/certificate.schema'
-import { ErrorObject } from '../../../../store/errorMiddleware'
+import { QueryError } from '../../../../store/errorMiddleware'
 
-export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: ErrorObject }) {
+export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: QueryError }) {
   return (
     <TechnicalIssueAlert headline="Intyget kunde inte skickas" error={error}>
       <p>På grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:</p>

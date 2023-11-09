@@ -2,7 +2,7 @@ import { randomUUID } from '@frontend/utils'
 import { isRejectedWithValue, Middleware, MiddlewareAPI, SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 
-export type ErrorObject = (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
+export type QueryError = (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
 
 /**
  * Error handling middleware
