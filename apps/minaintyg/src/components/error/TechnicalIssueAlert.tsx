@@ -15,9 +15,11 @@ export function TechnicalIssueAlert({
     <IDSAlert headline={headline} type="error">
       <div className="flex flex-col gap-4">
         {children}
-        <p>
-          <strong>Fel-ID:</strong> {error.id}
-        </p>
+        {error.id && (
+          <p>
+            <strong>Fel-ID:</strong> {error.id}
+          </p>
+        )}
       </div>
     </IDSAlert>
   )
