@@ -42,12 +42,24 @@ exports[`Should render error message when unable to load list 1`] = `
         <ids-link
           color="var(--link-colorpreset-1_color)"
           hovercolor="var(--link-colorpreset-1-hover_color)"
+          underlined=""
         >
           <a
-            href="https://www.1177.se/e-tjanster-support "
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            target="_blank"
           >
             support
           </a>
+          <ids-icon-external
+            class="ids-icon"
+            color="var(--link-colorpreset-1_color)"
+            color2="var(--link-colorpreset-1_color)"
+            height="1rem"
+            size="m"
+            slot="append-icon"
+            width="1rem"
+          />
         </ids-link>
         .
       </p>

@@ -1,10 +1,12 @@
-import { IDSLink } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
+import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 
 export function SupportLink() {
   return (
-    <IDSLink>
-      <Link to="https://www.1177.se/e-tjanster-support ">support</Link>
+    <IDSLink underlined>
+      <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer">
+        support
+      </a>
+      <IDSIconExternal slot="append-icon" />
     </IDSLink>
   )
 }
