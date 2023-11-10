@@ -16,7 +16,7 @@ export function LayoutHeaderAvatar() {
       <Link to={resolveNavigationUrl(settingsUrl)} slot="avatar-left">
         Inställningar
       </Link>
-      <Link to="/logout" slot="avatar-right">
+      <Link to="/logga-ut" slot="avatar-right">
         Logga ut
       </Link>
     </IDSHeaderAvatar>

@@ -19,7 +19,7 @@ exports[`Should render as expected 1`] = `
           Inställningar
         </a>
         <a
-          href="/logout"
+          href="/logga-ut"
           slot="avatar-right"
         >
           Logga ut
@@ -118,7 +118,7 @@ exports[`Should render as expected 1`] = `
         </ids-header-mobile-item>
         <ids-header-mobile-item>
           <a
-            href="/logout"
+            href="/logga-ut"
             slot="avatar-right"
           >
             Logga ut

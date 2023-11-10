@@ -16,3 +16,14 @@ it('Should display session ended information after 403 request', async () => {
 
   expect(await screen.findByRole('heading', { name: 'Du är utloggad', level: 1 })).toBeInTheDocument()
 })
+
+it('Should end session when visiting /logga-ut', async () => {
+  render(
+    <Provider store={store}>
+      <RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/logga-ut'] })} />
+    </Provider>
+  )
+
+  expect(await screen.findByRole('heading', { name: 'Du är utloggad', level: 1 })).toBeInTheDocument()
+  expect(store.getState().sessionSlice.hasSessionEnded).toBe(true)
+})

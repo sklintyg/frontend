@@ -1,19 +1,19 @@
 import { getCookie } from '@frontend/utils'
-import { useNavigate } from 'react-router-dom'
 import { loginMethodEnum } from '../schema/user.schema'
-import { useGetUserQuery } from '../store/hooks'
+import { api } from '../store/api'
+import { useAppDispatch, useGetUserQuery } from '../store/hooks'
+import { updateHasSessionEnded } from '../store/slice/session.slice'
 import { useFakeLogoutMutation } from '../store/testabilityApi'
 
 export function useLogout() {
   const [fakeLogout] = useFakeLogoutMutation()
   const { data: user } = useGetUserQuery()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   return () => {
     if (user) {
       if (user.loginMethod === loginMethodEnum.enum.FAKE) {
         fakeLogout()
-        navigate('/welcome')
       } else {
         const form = document.createElement('form')
         const input = document.createElement('input')
@@ -27,5 +27,7 @@ export function useLogout() {
         form.submit()
       }
     }
+    dispatch(updateHasSessionEnded(true))
+    dispatch(api.util.invalidateTags(['User']))
   }
 }

@@ -16,7 +16,7 @@ export function SessionEnded() {
       <PageHeroActions>
         <IDSLink>
           <IDSIconChevron />
-          <Link to="/saml2/authenticate/eleg">Till inloggning</Link>
+          <Link to={import.meta.env.VITE_LOGIN_URL}>Till inloggning</Link>
         </IDSLink>
         {linkItem && (
           <IDSLink>

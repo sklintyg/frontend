@@ -37,8 +37,8 @@ export const routes = createRoutesFromChildren([
         <Route path="skicka" handle={{ crumb: () => 'Skicka intyg' }} element={<SendCertificatePage />} />
       </Route>
     </Route>
+    <Route key="logout" path="/logga-ut" element={<LogoutPage />} />,
   </Route>,
   <Route key="welcome" path="/welcome" element={<Welcome />} />,
-  <Route key="logout" path="/logout" element={<LogoutPage />} />,
   <Route key="start" path="/web/start" element={<Navigate to="/" replace />} />,
 ])

@@ -9,11 +9,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Eleme
   }
 
   if (isError) {
-    if (import.meta.env.MODE === 'development') {
-      window.open('/welcome', '_self')
-    } else {
-      window.open('/saml2/authenticate/eleg', '_self')
-    }
+    window.open(import.meta.env.VITE_LOGIN_URL, '_self')
     return null
   }
 
