@@ -1,14 +1,11 @@
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { waitForRequest } from '../../mocks/server'
 import { updateHasSessionEnded } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Layout } from './Layout'
 
-it('Should render as expected', async () => {
-  const userRequest = waitForRequest('GET', '/api/user')
-
+it('Should render as expected', () => {
   const { container } = render(
     <Provider store={store}>
       <RouterProvider
@@ -16,9 +13,6 @@ it('Should render as expected', async () => {
       />
     </Provider>
   )
-
-  await act(async () => userRequest)
-
   expect(container).toMatchSnapshot()
 })
 
