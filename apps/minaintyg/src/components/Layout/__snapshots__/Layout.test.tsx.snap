@@ -217,9 +217,7 @@ exports[`Should render as expected 1`] = `
       <div
         class="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5"
       >
-        <p>
-          FooBar
-        </p>
+        Test
       </div>
       <div
         class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out"

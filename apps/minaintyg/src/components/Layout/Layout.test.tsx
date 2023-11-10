@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { waitForRequest } from '../../mocks/server'
 import { updateHasSessionEnded } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
@@ -12,22 +12,7 @@ it('Should render as expected', async () => {
   const { container } = render(
     <Provider store={store}>
       <RouterProvider
-        router={createMemoryRouter(
-          createRoutesFromChildren([
-            <Route
-              key="root"
-              path="/"
-              element={
-                <Layout>
-                  <Outlet />
-                </Layout>
-              }
-            >
-              <Route index element={<p>FooBar</p>} />
-            </Route>,
-          ]),
-          { initialEntries: ['/'] }
-        )}
+        router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<Layout>Test</Layout>} />), { initialEntries: ['/'] })}
       />
     </Provider>
   )
@@ -42,7 +27,7 @@ it('Should display session ended information', () => {
   render(
     <Provider store={store}>
       <RouterProvider
-        router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/" element={<Layout>Test</Layout>} />]), {
+        router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<Layout>Test</Layout>} />), {
           initialEntries: ['/'],
         })}
       />
