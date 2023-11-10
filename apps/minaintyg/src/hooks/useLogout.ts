@@ -1,7 +1,7 @@
 import { getCookie } from '@frontend/utils'
 import { useNavigate } from 'react-router-dom'
 import { loginMethodEnum } from '../schema/user.schema'
-import { useGetUserQuery } from '../store/api'
+import { useGetUserQuery } from '../store/hooks'
 import { useFakeLogoutMutation } from '../store/testabilityApi'
 
 export function useLogout() {

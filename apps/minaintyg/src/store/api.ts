@@ -1,4 +1,5 @@
 import { getCookie } from '@frontend/utils'
+import { isAnyOf } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
@@ -51,10 +52,7 @@ export const api = createApi({
   }),
 })
 
-export const {
-  useGetUserQuery,
-  useGetCertificatesQuery,
-  useGetCertificateQuery,
-  useGetCertificatesFilterQuery,
-  useSendCertificateMutation,
-} = api
+export const { useGetCertificatesQuery, useGetCertificateQuery, useGetCertificatesFilterQuery, useSendCertificateMutation } = api
+
+export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchFulfilled))
+export const isRejectedEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchRejected))
