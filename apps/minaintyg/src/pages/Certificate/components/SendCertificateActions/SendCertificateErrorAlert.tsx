@@ -1,14 +1,15 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { TechnicalIssueAlert } from '../../../../components/error/TechnicalIssueAlert'
 import { CertificateRecipient } from '../../../../schema/certificate.schema'
+import { QueryError } from '../../../../store/errorMiddleware'
 
-export function SendCertificateErrorAlert({ recipient: { name } }: { recipient: CertificateRecipient }) {
+export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: QueryError }) {
   return (
-    <IDSAlert headline="Intyget kunde inte skickas" type="error" className="ids-content">
-      <p className="mb-4">På grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:</p>
-      <p className="mb-4">
+    <TechnicalIssueAlert headline="Intyget kunde inte skickas" error={error}>
+      <p>På grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:</p>
+      <p>
         <strong>{name}</strong>
       </p>
       <p>Försök igen senare. Om problemet kvarstår, kontakta support.</p>
-    </IDSAlert>
+    </TechnicalIssueAlert>
   )
 }

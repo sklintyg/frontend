@@ -53,3 +53,10 @@ it('Should render as expected', async () => {
   await waitFor(() => expect(screen.queryByText('spinner')).not.toBeInTheDocument())
   expect(container).toMatchSnapshot()
 })
+
+it('Should render error message when unable to load certificate', async () => {
+  server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+  renderComponent()
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.getAllByRole('alert')).toMatchSnapshot()
+})
