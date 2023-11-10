@@ -6,7 +6,7 @@ import { server } from './mocks/server'
 import { routes } from './routes'
 import { store } from './store/store'
 
-it('Should display session ended information after 400 request', async () => {
+it('Should display session ended information after 403 request', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(403))))
   render(
     <Provider store={store}>

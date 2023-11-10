@@ -18,6 +18,5 @@ export const sessionMiddleware: Middleware =
         }
       }
     }
-
     return next(action)
   }

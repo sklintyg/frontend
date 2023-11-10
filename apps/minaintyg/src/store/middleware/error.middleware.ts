@@ -12,6 +12,5 @@ export const errorMiddleware: Middleware = (_: MiddlewareAPI) => (next) => (acti
   if (isRejectedWithValue(action)) {
     return next(Object.assign(action, { payload: { ...action.payload, id: randomUUID() } }))
   }
-
   return next(action)
 }
