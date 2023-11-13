@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import { store } from '../../store/store'
 import { ProtectedRoute } from './ProtectedRoute'
@@ -8,9 +9,14 @@ import { ProtectedRoute } from './ProtectedRoute'
 function renderComponent() {
   return render(
     <Provider store={store}>
-      <ProtectedRoute>
-        <p>content</p>
-      </ProtectedRoute>
+      <RouterProvider
+        router={createMemoryRouter(
+          createRoutesFromElements(<Route key="root" path="/" element={<ProtectedRoute>content</ProtectedRoute>} />),
+          {
+            initialEntries: ['/'],
+          }
+        )}
+      />
     </Provider>
   )
 }
