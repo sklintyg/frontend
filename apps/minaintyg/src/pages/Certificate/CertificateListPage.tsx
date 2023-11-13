@@ -19,6 +19,8 @@ export function CertificateListPage() {
   const { isLoading: isLoadingFilters, data: filter } = useGetCertificatesFilterQuery()
   const isLoading = isLoadingList || isLoadingFilters
 
+  throw new Error('test')
+
   return (
     <>
       <PageHeading heading="Intyg">
