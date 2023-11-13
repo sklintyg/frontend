@@ -1,13 +1,9 @@
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import navigation from '../../data/1177-navbar-services.json'
-import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 import { PageHero } from '../PageHero/PageHero'
 import { PageHeroActions } from '../PageHero/PageHeroActions'
 
 export function SessionEnded() {
-  const linkItem = navigation.menu.items.find(({ name }) => name === 'Start')
-
   return (
     <PageHero heading="Du är utloggad" type="success">
       <p className="ids-preamble">
@@ -18,13 +14,11 @@ export function SessionEnded() {
           <IDSIconChevron />
           <Link to={import.meta.env.VITE_LOGIN_URL}>Till inloggning</Link>
         </IDSLink>
-        {linkItem && (
-          <IDSLink>
-            <IDSIconChevron />
-            <Link to={resolveNavigationUrl(linkItem.url)}>Till 1177</Link>
-            <IDSIconExternal slot="append-icon" />
-          </IDSLink>
-        )}
+        <IDSLink>
+          <IDSIconChevron />
+          <Link to="https://www.1177.se">Till 1177</Link>
+          <IDSIconExternal slot="append-icon" />
+        </IDSLink>
       </PageHeroActions>
     </PageHero>
   )
