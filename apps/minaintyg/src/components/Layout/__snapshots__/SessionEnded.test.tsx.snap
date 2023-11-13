@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected 1`] = `
+<div>
+  <div
+    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  >
+    <ids-icon-success
+      class="mx-auto ids-icon"
+    />
+    <div>
+      <h1
+        class="ids-heading-1 text-center"
+      >
+        Du är utloggad
+      </h1>
+      <p
+        class="ids-preamble"
+      >
+        Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.
+      </p>
+      <div
+        class="text-left md:text-center"
+      >
+        <div
+          class="mb-5 mt-8 w-[43px] border-b border-stone-clear md:hidden"
+        />
+        <div
+          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
+        >
+          <ids-link>
+            <ids-icon-chevron
+              class="ids-icon"
+            />
+            <a
+              href="/saml2/authenticate/eleg"
+            >
+              Till inloggning
+            </a>
+          </ids-link>
+          <ids-link>
+            <ids-icon-chevron
+              class="ids-icon"
+            />
+            <a
+              href="https://www.1177.se"
+            >
+              Till 1177
+            </a>
+            <ids-icon-external
+              class="ids-icon"
+              slot="append-icon"
+            />
+          </ids-link>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

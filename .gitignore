@@ -21,6 +21,7 @@ dist-ssr
 *.local
 dist
 .turbo
+vitest.config.*.timestamp*
 
 # End-To-End
 /e2e/results/
