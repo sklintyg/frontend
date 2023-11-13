@@ -1,8 +1,7 @@
 import { getCookie } from '@frontend/utils'
 import { loginMethodEnum } from '../schema/user.schema'
-import { api } from '../store/api'
 import { useAppDispatch, useGetUserQuery } from '../store/hooks'
-import { updateHasSessionEnded } from '../store/slice/session.slice'
+import { invalidateSession } from '../store/middleware/session.middleware'
 import { useFakeLogoutMutation } from '../store/testabilityApi'
 
 export function useLogout() {
@@ -27,7 +26,6 @@ export function useLogout() {
         form.submit()
       }
     }
-    dispatch(updateHasSessionEnded(true))
-    dispatch(api.util.invalidateTags(['User']))
+    dispatch(invalidateSession())
   }
 }
