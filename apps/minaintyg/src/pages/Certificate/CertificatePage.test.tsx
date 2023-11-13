@@ -104,4 +104,35 @@ it('Should render error message when unable to load certificate', async () => {
   )
   await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
   expect(screen.getAllByRole('alert')).toMatchSnapshot()
+  expect(screen.getByText(/det här är ditt intyg/i)).toBeInTheDocument()
+  expect(screen.getByText(/det här är ditt intyg/i)).toHaveClass('ids-preamble')
+})
+
+describe('Unable to load certificate', () => {
+  function renderWithFault() {
+    server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+
+    render(
+      <Provider store={store}>
+        <RouterProvider
+          router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/:id" element={<CertificatePage />} />]), {
+            initialEntries: ['/12345'],
+          })}
+        />
+      </Provider>
+    )
+  }
+
+  it('Should render error message', async () => {
+    renderWithFault()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    expect(screen.getAllByRole('alert')).toMatchSnapshot()
+  })
+
+  it('Should display fallback description', async () => {
+    renderWithFault()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    expect(screen.getByText(/det här är ditt intyg/i)).toBeInTheDocument()
+    expect(screen.getByText(/det här är ditt intyg/i)).toHaveClass('ids-preamble')
+  })
 })
