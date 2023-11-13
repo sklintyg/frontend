@@ -43,22 +43,16 @@ export const routes = createRoutesFromChildren([
   </Route>,
   <Route
     key="error"
-    path="/error/:type/:id"
-    element={
-      <Layout>
-        <ErrorPage />
-      </Layout>
-    }
-  />,
-  <Route
-    key="error-without-id"
     path="/error/:type"
     element={
       <Layout>
-        <ErrorPage />
+        <Outlet />
       </Layout>
     }
-  />,
+  >
+    <Route index element={<ErrorPage />} />
+    <Route path=":id" element={<ErrorPage />} />
+  </Route>,
   <Route key="welcome" path="/welcome" element={<Welcome />} />,
   <Route key="start" path="/web/start" element={<Navigate to="/" replace />} />,
 ])
