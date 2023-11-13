@@ -50,7 +50,7 @@ exports[`Should have article content 1`] = `
 </article>
 `;
 
-exports[`Should render error message when unable to load certificate 1`] = `
+exports[`Unable to load certificate > Should render error message 1`] = `
 [
   <ids-alert
     role="alert"
