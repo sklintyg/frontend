@@ -15,6 +15,8 @@ import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
 
+const FALLBACK_DESCRIPTIOM = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
+
 export function CertificatePage() {
   const { id } = useParams()
   const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
@@ -32,6 +34,7 @@ export function CertificatePage() {
             {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
           </>
         )}
+        {error && <PageHeadingDescription>{FALLBACK_DESCRIPTIOM}</PageHeadingDescription>}
       </PageHeading>
 
       {isLoading && <IDSSpinner data-testid="spinner" />}
