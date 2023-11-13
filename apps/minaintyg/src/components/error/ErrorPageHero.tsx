@@ -7,7 +7,7 @@ import { PageHero } from '../PageHero/PageHero'
 import { PageHeroActions } from '../PageHero/PageHeroActions'
 import { SupportLink } from './SupportLink/SupportLink'
 
-const ErrorType = z.enum(['unknown', 'login-failed'])
+export const ErrorType = z.enum(['unknown', 'login-failed'])
 export type ErrorTypeEnum = z.infer<typeof ErrorType>
 const ActionType = z.enum(['start'])
 export type ActionTypeEnum = z.infer<typeof ActionType>
