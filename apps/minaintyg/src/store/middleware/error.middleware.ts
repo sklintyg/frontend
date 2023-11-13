@@ -10,13 +10,7 @@ export type QueryError = (FetchBaseQueryError & { id?: string }) | (SerializedEr
  */
 export const errorMiddleware: Middleware = (_: MiddlewareAPI) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
-    const id = randomUUID()
-    // const { method, url } = action.meta.baseQueryMeta.request
-    // const { status } = action.meta.baseQueryMeta.response
-
-    // Append identifier to payload
-    return next(Object.assign(action, { payload: { ...action.payload, id } }))
+    return next(Object.assign(action, { payload: { ...action.payload, id: randomUUID() } }))
   }
-
   return next(action)
 }

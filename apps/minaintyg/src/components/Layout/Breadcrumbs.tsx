@@ -29,6 +29,10 @@ export function Breadcrumbs() {
   const prevMatch = matches.at(-2)
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
+  if (matches.length === 0) {
+    return null
+  }
+
   return (
     <div className="mb-5">
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">

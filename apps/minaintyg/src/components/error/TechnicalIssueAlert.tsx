@@ -1,6 +1,6 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { QueryError } from '../../store/errorMiddleware'
+import { QueryError } from '../../store/middleware/error.middleware'
 
 export function TechnicalIssueAlert({
   children,

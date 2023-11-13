@@ -12,9 +12,7 @@ exports[`Should render as expected with one level 1`] = `
         </span>
       </ids-breadcrumbs>
     </div>
-    <p>
-      Start
-    </p>
+    Start
   </div>
 </div>
 `;
@@ -55,9 +53,7 @@ exports[`Should render as expected with three levels 1`] = `
         </ids-crumb>
       </ids-breadcrumbs>
     </div>
-    <p>
-      Intyget
-    </p>
+    Intyget
   </div>
 </div>
 `;
@@ -89,9 +85,7 @@ exports[`Should render as expected with two level 1`] = `
         </ids-crumb>
       </ids-breadcrumbs>
     </div>
-    <p>
-      Certificates List
-    </p>
+    Certificates List
   </div>
 </div>
 `;

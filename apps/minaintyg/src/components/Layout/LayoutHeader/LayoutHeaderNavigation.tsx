@@ -17,7 +17,7 @@ export function LayoutHeaderNavigation() {
         <Link to={resolveNavigationUrl(settingsUrl)}>Inställningar</Link>
       </IDSHeaderMobileItem>
       <IDSHeaderMobileItem>
-        <Link to="/logout" slot="avatar-right">
+        <Link to="/logga-ut" slot="avatar-right">
           Logga ut
         </Link>
       </IDSHeaderMobileItem>

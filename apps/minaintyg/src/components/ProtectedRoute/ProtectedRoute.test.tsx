@@ -27,7 +27,7 @@ it('Should render children when user is available', async () => {
 })
 
 it('Should redirect to saml login when unable to load user', async () => {
-  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(401))))
+  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(500))))
   const openSpy = vi.spyOn(window, 'open')
 
   renderComponent()
