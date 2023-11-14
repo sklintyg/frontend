@@ -11,7 +11,7 @@ export const store = configureStore({
     [certificateFilterReducerPath]: certificateFilterReducer,
     [sessionReducerPath]: sessionReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, sessionMiddleware, errorMiddleware]),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, errorMiddleware, sessionMiddleware]),
 })
 
 export type RootState = ReturnType<typeof store.getState>

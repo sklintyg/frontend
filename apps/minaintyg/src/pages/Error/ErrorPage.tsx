@@ -3,6 +3,5 @@ import { ErrorPageHero, ErrorTypeEnum } from '../../components/error/ErrorPageHe
 
 export function ErrorPage() {
   const { id, type } = useParams<{ id?: string; type?: ErrorTypeEnum }>()
-  // TODO: useEffect hook that logs error back to the backend.
   return <ErrorPageHero id={id} type={type} />
 }
