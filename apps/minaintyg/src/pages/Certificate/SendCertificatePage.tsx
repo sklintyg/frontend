@@ -7,15 +7,14 @@ import { useGetCertificateQuery } from '../../store/api'
 import { CertificateInformation } from './components/CertificateInformation'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
-import { AvailableFunctionType } from '../../schema/availableFunction.schema'
+import { AvailableFunctionsTypeEnum } from '../../schema/certificate.schema'
 
 export function SendCertificatePage() {
   const { id } = useParams()
-  const { data: certificateResponse, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
-  const certificate = certificateResponse ? certificateResponse.certificate : null
+  const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
   const { recipient } = certificate?.metadata || {}
-  const sendFunction = certificateResponse?.availableFunctions.find(
-    (availableFunction) => availableFunction.type === AvailableFunctionType.enum.SEND_CERTIFICATE
+  const sendFunction = certificate?.availableFunctions.find(
+    (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
   )
 
   return (
