@@ -1,9 +1,8 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CertificateRecipient } from '../../../schema/certificate.schema'
+import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../schema/certificate.schema'
 import { CertificateSentDialog } from './CertificateSentDialog/CertificateSentDialog'
-import { AvailableFunction, AvailableFunctionType } from '../../../schema/availableFunction.schema'
 
 export function CertificateActions({
   recipient,
@@ -15,7 +14,7 @@ export function CertificateActions({
   const [showCertificateSentDialog, updateShowCertificateSentDialog] = useState(false)
   const navigate = useNavigate()
   const sendFunction = availableFunctions.find(
-    (availableFunction) => availableFunction.type === AvailableFunctionType.enum.SEND_CERTIFICATE
+    (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
   )
 
   return (

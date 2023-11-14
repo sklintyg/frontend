@@ -1,7 +1,7 @@
 import { getCookie } from '@frontend/utils'
 import { isAnyOf } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AvailableFunctions, Certificate, CertificateMetadata } from '../schema/certificate.schema'
+import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
@@ -44,7 +44,7 @@ export const api = createApi({
         availableFunctions,
       }: {
         certificate: Omit<Certificate, 'availableFunctions'>
-        availableFunctions: AvailableFunctions
+        availableFunctions: AvailableFunction[]
       }) => ({
         ...certificate,
         availableFunctions,

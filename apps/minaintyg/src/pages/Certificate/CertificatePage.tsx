@@ -14,14 +14,12 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
-import { availableFunctionSchema } from '../../schema/availableFunction.schema'
 
-const FALLBACK_DESCRIPTIOM = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
+const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
 export function CertificatePage() {
   const { id } = useParams()
-  const { data: certificateResponse, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
-  const certificate = certificateResponse ? certificateResponse.certificate : null
+  const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
 
   return (
     <>
@@ -36,7 +34,7 @@ export function CertificatePage() {
             {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
           </>
         )}
-        {error && <PageHeadingDescription>{FALLBACK_DESCRIPTIOM}</PageHeadingDescription>}
+        {error && <PageHeadingDescription>{FALLBACK_DESCRIPTION}</PageHeadingDescription>}
       </PageHeading>
 
       {isLoading && <IDSSpinner data-testid="spinner" />}
@@ -44,10 +42,7 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateActions
-              recipient={certificate.metadata.recipient}
-              availableFunctions={certificateResponse ? certificateResponse.availableFunctions : []}
-            />
+            <CertificateActions recipient={certificate.metadata.recipient} availableFunctions={certificate.availableFunctions} />
           </div>
 
           <div className="md:hidden">

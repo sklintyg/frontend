@@ -3,9 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
-import { certificateRecipientSchema } from '../../../schema/certificate.schema'
+import { AvailableFunction, AvailableFunctionsTypeEnum, certificateRecipientSchema } from '../../../schema/certificate.schema'
 import { CertificateActions } from './CertificateActions'
-import { AvailableFunction, AvailableFunctionType } from '../../../schema/availableFunction.schema'
 
 function renderComponent(props: ComponentProps<typeof CertificateActions>) {
   return render(
@@ -25,7 +24,7 @@ function renderComponent(props: ComponentProps<typeof CertificateActions>) {
 
 const availableActionsWithSend: AvailableFunction[] = [
   {
-    type: AvailableFunctionType.enum.SEND_CERTIFICATE,
+    type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
     name: 'Skicka intyg',
     information: [],
   },
