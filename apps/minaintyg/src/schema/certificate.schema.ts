@@ -52,7 +52,7 @@ export const certificateMetadataSchema = z.object({
 })
 
 export const certificateContentSchema = z.object({ heading: z.string(), body: z.string() })
-export const informationSchema = z.object({ id: z.string(), text: z.string(), type: z.array(InformationTypeEnum) })
+export const informationSchema = z.object({ id: z.optional(z.string()), text: z.string(), type: z.array(InformationTypeEnum) })
 
 export const availableFunctionsSchema = z.object({
   type: z.array(AvailableFunctionsTypeEnum),
