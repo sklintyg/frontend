@@ -57,9 +57,9 @@ export const informationSchema = z.object({ id: z.string(), text: z.string(), ty
 export const availableFunctionsSchema = z.object({
   type: z.array(AvailableFunctionsTypeEnum),
   name: z.string(),
-  title: z.string(),
-  description: z.string(),
-  body: z.string(),
+  title: z.optional(z.string()),
+  description: z.optional(z.string()),
+  body: z.optional(z.string()),
   information: z.array(informationSchema),
 })
 
