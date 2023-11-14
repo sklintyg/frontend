@@ -37,15 +37,9 @@ export const api = createApi({
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
     }),
-    getCertificate: builder.query<Certificate, { id: string }>({
+    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[] }, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({
-        certificate,
-        availableFunctions,
-      }: {
-        certificate: Omit<Certificate, 'availableFunctions'>
-        availableFunctions: AvailableFunction[]
-      }) => ({
+      transformResponse: ({ certificate, availableFunctions }: { certificate: Certificate; availableFunctions: AvailableFunction[] }) => ({
         ...certificate,
         availableFunctions,
       }),

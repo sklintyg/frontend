@@ -66,7 +66,6 @@ export const availableFunctionSchema = z.object({
 export const certificateSchema = z.object({
   metadata: certificateMetadataSchema,
   content: z.array(certificateContentSchema),
-  availableFunctions: z.array(availableFunctionSchema),
 })
 
 export type AvailableFunction = z.infer<typeof availableFunctionSchema>
