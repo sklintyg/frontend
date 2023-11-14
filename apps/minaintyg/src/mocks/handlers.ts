@@ -1,14 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import { DefaultBodyType, PathParams, rest, RestRequest } from 'msw'
 import {
-  CertificateStatus,
-  CertificateStatusEnum,
+  availableFunctionsSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
+  CertificateStatus,
+  CertificateStatusEnum,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
@@ -110,6 +111,7 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
+        availableFunctions: fakerFromSchema(availableFunctionsSchema),
       })
     )
   ),
