@@ -7,13 +7,15 @@ import { PageHero } from '../PageHero/PageHero'
 import { PageHeroActions } from '../PageHero/PageHeroActions'
 import { SupportLink } from './SupportLink/SupportLink'
 
-export const ErrorType = z.enum(['unknown', 'login-failed'])
+export const ErrorType = z.enum(['unknown', 'login-failed', 'unavailable'])
 export type ErrorTypeEnum = z.infer<typeof ErrorType>
 const ActionType = z.enum(['start'])
 export type ActionTypeEnum = z.infer<typeof ActionType>
 
 function getErrorHeading(type?: ErrorTypeEnum) {
   switch (type) {
+    case ErrorType.enum.unavailable:
+      return 'Tjänsten är inte tillgänglig just nu'
     case ErrorType.enum['login-failed']:
       return 'Inloggning misslyckades'
     default:
@@ -23,6 +25,8 @@ function getErrorHeading(type?: ErrorTypeEnum) {
 
 function getErrorDescription(type?: ErrorTypeEnum) {
   switch (type) {
+    case ErrorType.enum.unavailable:
+      return 'Välkommen tillbaka vid senare tillfälle.'
     case ErrorType.enum['login-failed']:
       return 'På grund av ett tekniskt fel går det inte att logga in just nu. Försök igen senare.'
     default:
@@ -50,12 +54,15 @@ function getAction(type: ActionTypeEnum) {
 
 function getActions(type?: ErrorTypeEnum): ActionTypeEnum[] {
   switch (type) {
+    case ErrorType.enum.unavailable:
+      return []
     default:
       return ['start']
   }
 }
 
 export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum }) {
+  // TODO: useEffect hook that logs error back to the backend.
   return (
     <PageHero heading={getErrorHeading(type)} type="error">
       <p className="ids-preamble">{getErrorDescription(type)}</p>
