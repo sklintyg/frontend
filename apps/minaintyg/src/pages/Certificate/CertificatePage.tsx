@@ -14,12 +14,14 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
+import { availableFunctionSchema } from '../../schema/availableFunction.schema'
 
 const FALLBACK_DESCRIPTIOM = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
 export function CertificatePage() {
   const { id } = useParams()
-  const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
+  const { data: certificateResponse, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
+  const certificate = certificateResponse ? certificateResponse.certificate : null
 
   return (
     <>
@@ -42,7 +44,10 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateActions recipient={certificate.metadata.recipient} />
+            <CertificateActions
+              recipient={certificate.metadata.recipient}
+              availableFunctions={certificateResponse ? certificateResponse.availableFunctions : []}
+            />
           </div>
 
           <div className="md:hidden">

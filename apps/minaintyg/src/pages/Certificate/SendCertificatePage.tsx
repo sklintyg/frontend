@@ -7,23 +7,25 @@ import { useGetCertificateQuery } from '../../store/api'
 import { CertificateInformation } from './components/CertificateInformation'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
+import { AvailableFunctionType } from '../../schema/availableFunction.schema'
 
 export function SendCertificatePage() {
   const { id } = useParams()
-  const { data: certificate, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
+  const { data: certificateResponse, isLoading, error } = useGetCertificateQuery(id ? { id } : skipToken)
+  const certificate = certificateResponse ? certificateResponse.certificate : null
   const { recipient } = certificate?.metadata || {}
+  const sendFunction = certificateResponse?.availableFunctions.find(
+    (availableFunction) => availableFunction.type === AvailableFunctionType.enum.SEND_CERTIFICATE
+  )
 
   return (
     <>
       <PageHeading heading="Skicka intyg ">
-        <PageHeadingDescription>
-          Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg
-          visas nedan.
-        </PageHeadingDescription>
+        <PageHeadingDescription>{sendFunction?.body}</PageHeadingDescription>
       </PageHeading>
       {isLoading && <IDSSpinner data-testid="spinner" />}
       {error && <ReadCertificateError id={id} error={error} />}
-      {certificate && recipient && (
+      {certificate && recipient && sendFunction && (
         <>
           <div>
             <h2 className="ids-heading-2 mb-5">Intyg som ska skickas</h2>

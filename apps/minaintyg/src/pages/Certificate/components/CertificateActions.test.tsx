@@ -5,6 +5,7 @@ import { ComponentProps } from 'react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { certificateRecipientSchema } from '../../../schema/certificate.schema'
 import { CertificateActions } from './CertificateActions'
+import { AvailableFunction, AvailableFunctionType } from '../../../schema/availableFunction.schema'
 
 function renderComponent(props: ComponentProps<typeof CertificateActions>) {
   return render(
@@ -22,18 +23,34 @@ function renderComponent(props: ComponentProps<typeof CertificateActions>) {
   )
 }
 
+const availableActionsWithSend: AvailableFunction[] = [
+  {
+    type: AvailableFunctionType.enum.SEND_CERTIFICATE,
+    name: 'Skicka intyg',
+    information: [],
+  },
+]
+
 it('Should hide send button when there is no provided recipient', () => {
-  renderComponent({})
+  renderComponent({ availableFunctions: availableActionsWithSend })
+  expect(screen.queryByRole('button', { name: 'Skicka intyg' })).not.toBeInTheDocument()
+})
+
+it('Should hide send button when there is no send available function', () => {
+  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: null }), availableFunctions: [] })
   expect(screen.queryByRole('button', { name: 'Skicka intyg' })).not.toBeInTheDocument()
 })
 
 it('Should show send button when there is a provided recipient', () => {
-  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: null }) })
+  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: null }), availableFunctions: availableActionsWithSend })
   expect(screen.getByRole('button', { name: 'Skicka intyg' })).toBeInTheDocument()
 })
 
 it('Should display modal if certificate is already sent', async () => {
-  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: faker.date.recent().toISOString() }) })
+  renderComponent({
+    recipient: fakerFromSchema(certificateRecipientSchema)({ sent: faker.date.recent().toISOString() }),
+    availableFunctions: availableActionsWithSend,
+  })
   expect(screen.queryByText(/intyget har redan skickats och kan inte skickas igen/i)).not.toBeInTheDocument()
 
   await userEvent.click(screen.getByRole('button', { name: 'Skicka intyg' }))
@@ -41,7 +58,7 @@ it('Should display modal if certificate is already sent', async () => {
 })
 
 it('Should navigate to /skicka when pressing send button', async () => {
-  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: null }) })
+  renderComponent({ recipient: fakerFromSchema(certificateRecipientSchema)({ sent: null }), availableFunctions: availableActionsWithSend })
   await userEvent.click(screen.getByRole('button', { name: 'Skicka intyg' }))
   expect(screen.getByText(/send page/i)).toBeInTheDocument()
 })

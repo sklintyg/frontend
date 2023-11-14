@@ -5,6 +5,7 @@ import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
+import { AvailableFunction } from '../schema/availableFunction.schema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -37,10 +38,9 @@ export const api = createApi({
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
     }),
-    getCertificate: builder.query<Certificate, { id: string }>({
+    getCertificate: builder.query<{ certificate: Certificate; availableFunctions: AvailableFunction[] }, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({ certificate }: { certificate: Certificate }) => certificate,
-      providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.metadata.id }] : []),
+      providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.certificate.metadata.id }] : []),
     }),
     sendCertificate: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
