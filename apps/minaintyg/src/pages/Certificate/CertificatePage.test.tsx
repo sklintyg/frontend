@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import {
+  AvailableFunctionsTypeEnum,
   CertificateMetadata,
   certificateMetadataSchema,
   certificateRecipientSchema,
@@ -22,6 +23,11 @@ function renderComponent(metadata: CertificateMetadata) {
             metadata,
             content: [{ heading: 'Rubrik 1', body: '<p>Test</p>' }],
           }),
+          availableFunctions: [
+            {
+              type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
+            },
+          ],
         })
       )
     )
