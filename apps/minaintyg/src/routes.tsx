@@ -13,7 +13,7 @@ import { Welcome } from './pages/Welcome/Welcome'
 export const routes = createRoutesFromChildren([
   <Route
     key="root"
-    path="/"
+    path="/intyg"
     handle={{ crumb: () => 'Start' }}
     element={
       <ProtectedRoute>
@@ -39,8 +39,16 @@ export const routes = createRoutesFromChildren([
         <Route path="skicka" handle={{ crumb: () => 'Skicka intyg' }} element={<SendCertificatePage />} />
       </Route>
     </Route>
-    <Route key="logout" path="/logga-ut" element={<LogoutPage />} />,
   </Route>,
+  <Route
+    key="logout"
+    path="/logga-ut"
+    element={
+      <Layout>
+        <LogoutPage />
+      </Layout>
+    }
+  />,
   <Route
     key="error"
     path="/error/:type"

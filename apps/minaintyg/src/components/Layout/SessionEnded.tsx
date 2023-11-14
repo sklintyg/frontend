@@ -1,9 +1,17 @@
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../../store/hooks'
 import { PageHero } from '../PageHero/PageHero'
 import { PageHeroActions } from '../PageHero/PageHeroActions'
+import { ErrorPageHero } from '../error/ErrorPageHero'
 
 export function SessionEnded() {
+  const serviceUnavailableError = useAppSelector((state) => state.sessionSlice.serviceUnavailableError)
+
+  if (serviceUnavailableError) {
+    return <ErrorPageHero type="unavailable" id={serviceUnavailableError.id} />
+  }
+
   return (
     <PageHero heading="Du är utloggad" type="success">
       <p className="ids-preamble">
