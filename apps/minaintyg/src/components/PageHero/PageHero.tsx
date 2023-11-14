@@ -1,4 +1,4 @@
-import { IDSIconSuccess } from '@frontend/ids-react-ts'
+import { IDSIconAttention, IDSIconSuccess } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 
 export function PageHero({ heading, type, children }: { heading: ReactNode; type: 'success' | 'error'; children: ReactNode }) {
@@ -12,6 +12,16 @@ export function PageHero({ heading, type, children }: { heading: ReactNode; type
           height="70px"
           color="var(--color-grass-dark)"
           color2="var(--color-grass-base)"
+        />
+      )}
+      {type === 'error' && (
+        <IDSIconAttention
+          inline
+          className="mx-auto"
+          width="70px"
+          height="70px"
+          color="var(--color-main)"
+          color2="var(--color-secondary-dark)"
         />
       )}
       <div>

@@ -20,7 +20,7 @@ exports[`Should render as expected 1`] = `
         Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.
       </p>
       <div
-        class="text-left md:text-center"
+        class="mb-5 text-left md:text-center"
       >
         <div
           class="mb-5 mt-8 w-[43px] border-b border-stone-clear md:hidden"
