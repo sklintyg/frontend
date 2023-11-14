@@ -4,10 +4,14 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
-import { certificateMetadataSchema, certificateRecipientSchema, certificateSchema } from '../../schema/certificate.schema'
+import {
+  AvailableFunctionsTypeEnum,
+  certificateMetadataSchema,
+  certificateRecipientSchema,
+  certificateSchema,
+} from '../../schema/certificate.schema'
 import { store } from '../../store/store'
 import { SendCertificatePage } from './SendCertificatePage'
-import { AvailableFunctionType } from '../../schema/availableFunction.schema'
 
 function renderComponent() {
   return render(
@@ -47,7 +51,7 @@ it('Should render as expected', async () => {
           }),
           availableFunctions: [
             {
-              type: AvailableFunctionType.enum.SEND_CERTIFICATE,
+              type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
               body: 'Skicka intyget body',
             },
           ],
