@@ -1,7 +1,7 @@
 import { getCookie } from '@frontend/utils'
 import { isAnyOf } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Certificate, CertificateMetadata } from '../schema/certificate.schema'
+import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
@@ -37,9 +37,12 @@ export const api = createApi({
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
     }),
-    getCertificate: builder.query<Certificate, { id: string }>({
+    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[] }, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({ certificate }: { certificate: Certificate }) => certificate,
+      transformResponse: ({ certificate, availableFunctions }: { certificate: Certificate; availableFunctions: AvailableFunction[] }) => ({
+        ...certificate,
+        availableFunctions,
+      }),
       providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.metadata.id }] : []),
     }),
     sendCertificate: builder.mutation<void, { id: string }>({
