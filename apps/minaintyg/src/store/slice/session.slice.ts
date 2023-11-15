@@ -43,12 +43,11 @@ const sessionSlice = createSlice({
     builder.addMatcher(isRejectedEndpoint, (state, action) => {
       const error = isQueryError(action) ? action.payload : null
 
-      if (hasResponse(action.meta.baseQueryMeta)) {
+      if (hasResponse(action.meta.baseQueryMeta) && state.hasSession === true) {
         const { status } = action.meta.baseQueryMeta.response
         const isUnauthorized = status >= 401 && status <= 403
 
-        // End session on failed or unauthorized requests
-        if (state.hasSession === true && (status >= 500 || isUnauthorized)) {
+        if (status >= 500 || isUnauthorized) {
           state.hasSession = false
           state.hasSessionEnded = true
         }
