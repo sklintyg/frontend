@@ -48,11 +48,9 @@ const sessionSlice = createSlice({
         const isUnauthorized = status >= 401 && status <= 403
 
         // End session on failed or unauthorized requests
-        if (state.hasSession === true) {
-          if (status >= 500 || isUnauthorized) {
-            state.hasSession = false
-            state.hasSessionEnded = true
-          }
+        if (state.hasSession === true && (status >= 500 || isUnauthorized)) {
+          state.hasSession = false
+          state.hasSessionEnded = true
         }
 
         if (isUnauthorized) {
