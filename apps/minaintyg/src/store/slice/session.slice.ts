@@ -1,13 +1,23 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { QueryError } from '../middleware/error.middleware'
+import { z } from 'zod'
+import { ErrorTypeEnum } from '../../schema/error.schema'
+import { api, hasResponse, isRejectedEndpoint } from '../api'
+import { isQueryError } from '../middleware/error.middleware'
+
+export const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
+export type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
 
 const initialState: {
+  hasSession: boolean
   hasSessionEnded: boolean
-  serviceUnavailableError: QueryError | null
+  reason: ErrorTypeEnum
+  errorId?: string
 } = {
+  hasSession: false,
   hasSessionEnded: false,
-  serviceUnavailableError: null,
+  reason: 'unknown',
+  errorId: undefined,
 }
 
 const sessionSlice = createSlice({
@@ -17,14 +27,48 @@ const sessionSlice = createSlice({
     reset() {
       return initialState
     },
-    updateHasSessionEnded(state, { payload }: PayloadAction<boolean>) {
-      state.hasSessionEnded = payload
+    endSession(state, { payload }: PayloadAction<{ reason: ErrorTypeEnum; errorId?: string }>) {
+      state.hasSession = false
+      state.hasSessionEnded = true
+      state.reason = payload.reason
+      state.errorId = payload.errorId
     },
-    updateServiceAvailability(state, { payload }: PayloadAction<QueryError | null>) {
-      state.serviceUnavailableError = payload
-    },
+  },
+  extraReducers: (builder) => {
+    // Start session after successful user fetch
+    builder.addMatcher(api.endpoints.getUser.matchFulfilled, (state) => {
+      state.hasSession = true
+    })
+
+    // End session on failed or unauthorized requests
+    builder.addMatcher(isRejectedEndpoint, (state, action) => {
+      if (hasResponse(action.meta.baseQueryMeta) && state.hasSession === true) {
+        const { status } = action.meta.baseQueryMeta.response
+        if (status >= 500 || (status >= 401 && status <= 403)) {
+          state.hasSession = false
+          state.hasSessionEnded = true
+        }
+      }
+    })
+
+    // Add session failed reason and error
+    builder.addMatcher(isRejectedEndpoint, (state, action) => {
+      const error = isQueryError(action) ? action.payload : null
+      if (hasResponse(action.meta.baseQueryMeta)) {
+        const { status } = action.meta.baseQueryMeta.response
+
+        if (status >= 401 && status <= 403) {
+          state.reason = 'logged-out'
+        } else if (status === 503) {
+          state.reason = 'unavailable'
+          state.errorId = error?.id
+        } else if (status >= 500) {
+          state.errorId = error?.id
+        }
+      }
+    })
   },
 })
 
-export const { updateHasSessionEnded, updateServiceAvailability, reset } = sessionSlice.actions
+export const { endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice
