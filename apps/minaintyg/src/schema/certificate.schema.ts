@@ -54,8 +54,8 @@ export const certificateMetadataSchema = z.object({
 export const certificateContentSchema = z.object({ heading: z.string(), body: z.string() })
 export const informationSchema = z.object({ id: z.optional(z.string()), text: z.string(), type: z.array(InformationTypeEnum) })
 
-export const availableFunctionsSchema = z.object({
-  type: z.array(AvailableFunctionsTypeEnum),
+export const availableFunctionSchema = z.object({
+  type: AvailableFunctionsTypeEnum,
   name: z.string(),
   title: z.optional(z.string()),
   description: z.optional(z.string()),
@@ -66,10 +66,9 @@ export const availableFunctionsSchema = z.object({
 export const certificateSchema = z.object({
   metadata: certificateMetadataSchema,
   content: z.array(certificateContentSchema),
-  availableFunctions: availableFunctionsSchema,
 })
 
-export type AvailableFunctions = z.infer<typeof availableFunctionsSchema>
+export type AvailableFunction = z.infer<typeof availableFunctionSchema>
 export type Certificate = z.infer<typeof certificateSchema>
 export type CertificateContent = z.infer<typeof certificateContentSchema>
 export type CertificateEvent = z.infer<typeof certificateEventSchema>

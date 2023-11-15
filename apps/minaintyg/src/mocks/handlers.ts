@@ -3,7 +3,7 @@ import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema 
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import { DefaultBodyType, PathParams, rest, RestRequest } from 'msw'
 import {
-  availableFunctionsSchema,
+  availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
@@ -111,7 +111,7 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
-        availableFunctions: fakerFromSchema(availableFunctionsSchema),
+        availableFunctions: Array.from({ length: 1 }, () => fakerFromSchema(availableFunctionSchema)),
       })
     )
   ),
