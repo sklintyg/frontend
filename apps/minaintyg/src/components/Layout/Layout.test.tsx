@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { updateHasSessionEnded } from '../../store/slice/session.slice'
+import { endSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Layout } from './Layout'
 
@@ -17,7 +17,7 @@ it('Should render as expected', () => {
 })
 
 it('Should display session ended information', () => {
-  store.dispatch(updateHasSessionEnded(true))
+  store.dispatch(endSession({ reason: 'logged-out' }))
   render(
     <Provider store={store}>
       <RouterProvider

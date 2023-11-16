@@ -6,15 +6,19 @@ import { server } from './mocks/server'
 import { routes } from './routes'
 import { store } from './store/store'
 
-it('Should display session ended information after 403 request', async () => {
-  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(403))))
+it.each([
+  [403, 'Du är utloggad'],
+  [503, 'Tjänsten är inte tillgänglig just nu'],
+  [504, 'Någonting gick fel'],
+] as const)('Should display %s when request status is %i', async (status, headline) => {
+  server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(status))))
   render(
     <Provider store={store}>
       <RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/intyg'] })} />
     </Provider>
   )
 
-  expect(await screen.findByRole('heading', { name: 'Du är utloggad', level: 1 })).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
 
 it('Should end session when visiting /logga-ut', async () => {
