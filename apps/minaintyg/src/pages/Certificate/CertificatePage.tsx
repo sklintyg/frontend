@@ -6,7 +6,7 @@ import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
 import { useGetCertificateQuery } from '../../store/api'
-import { CertificateActions } from './components/CertificateActions'
+import { CertificateActions } from './components/CertificateActions/CertificateActions'
 import { CertificateBody } from './components/CertificateBody/CertificateBody'
 import { CertificateEventsInfo } from './components/CertificateEventsInfo/CertificateEventsInfo'
 import { CertificateFooter } from './components/CertificateFooter'
@@ -42,7 +42,11 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateActions recipient={certificate.metadata.recipient} availableFunctions={certificate.availableFunctions} />
+            <CertificateActions
+              recipient={certificate.metadata.recipient}
+              availableFunctions={certificate.availableFunctions}
+              id={certificate.metadata.id}
+            />
           </div>
 
           <div className="md:hidden">
