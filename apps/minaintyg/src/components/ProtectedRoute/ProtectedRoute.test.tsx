@@ -22,7 +22,7 @@ it('Should render children when user is available', async () => {
 })
 
 it('Should display dialog when there is 5 minutes left of the session', async () => {
-  server.use(rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 250 }))))
+  server.use(rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 300 }))))
   renderComponent()
 
   expect(await screen.findByText('content')).toBeInTheDocument()
