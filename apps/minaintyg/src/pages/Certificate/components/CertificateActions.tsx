@@ -1,5 +1,5 @@
-import { IDSButton, IDSButtonGroup, IDSColumn, IDSIconFilePdf, IDSRow } from '@frontend/ids-react-ts'
-import { useRef, useState } from 'react'
+import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../schema/certificate.schema'
 import { CertificateSentDialog } from './CertificateSentDialog/CertificateSentDialog'
@@ -21,20 +21,6 @@ export function CertificateActions({
   const printFunction = availableFunctions.find(
     (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE
   )
-  const iframeRef = useRef<HTMLIFrameElement>(null)
-
-  const printCertificate = (customizeId: string | undefined) => {
-    if (!iframeRef || !iframeRef.current) {
-      return
-    }
-    iframeRef.current.onload = () => {
-      setTimeout(() => {
-        iframeRef.current?.focus()
-        iframeRef.current?.contentWindow?.print()
-      }, 1)
-    }
-    iframeRef.current.src = `/api/certificate/${id}/pdf/${customizeId && ''}`
-  }
 
   return (
     <IDSButtonGroup rtl>
@@ -57,17 +43,9 @@ export function CertificateActions({
         </>
       )}
       {printFunction && (
-        <>
-          <IDSButton secondary sblock role="button" onClick={() => printCertificate(undefined)}>
-            <IDSRow className="justify-center" align="center">
-              <IDSColumn cols="auto" className="ids-mr-3">
-                <IDSIconFilePdf />
-              </IDSColumn>
-              <IDSColumn cols="auto">Skriv ut</IDSColumn>
-            </IDSRow>
-          </IDSButton>
-          <iframe ref={iframeRef} title="title" hidden />
-        </>
+        <IDSButton secondary sblock role="button" onClick={() => window.open(`/api/certificate/${id}/pdf`, '_blank')}>
+          Skriv ut
+        </IDSButton>
       )}
     </IDSButtonGroup>
   )
