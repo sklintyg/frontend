@@ -1,8 +1,11 @@
 import { randomUUID } from '@frontend/utils'
-import { isRejectedWithValue, Middleware, MiddlewareAPI, SerializedError } from '@reduxjs/toolkit'
+import { isPlainObject, isRejectedWithValue, Middleware, MiddlewareAPI, PayloadAction, SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 
 export type QueryError = (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
+
+export const isQueryError = (action: PayloadAction<unknown>): action is PayloadAction<QueryError> =>
+  isPlainObject(action.payload) && 'id' in action.payload && typeof action?.payload.id === 'string'
 
 /**
  * Error handling middleware
