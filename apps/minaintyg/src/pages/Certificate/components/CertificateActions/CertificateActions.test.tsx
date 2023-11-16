@@ -2,8 +2,8 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
-import { AvailableFunction, AvailableFunctionsTypeEnum, certificateRecipientSchema } from '../../../schema/certificate.schema'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { AvailableFunctionsTypeEnum, availableFunctionSchema, certificateRecipientSchema } from '../../../../schema/certificate.schema'
 import { CertificateActions } from './CertificateActions'
 
 function renderComponent(props: ComponentProps<typeof CertificateActions>) {
@@ -23,20 +23,20 @@ function renderComponent(props: ComponentProps<typeof CertificateActions>) {
 }
 
 const id = 'id'
-const availableActionsWithSend: AvailableFunction[] = [
-  {
+const availableActionsWithSend = [
+  fakerFromSchema(availableFunctionSchema)({
     type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
     name: 'Skicka intyg',
     information: [],
-  },
+  }),
 ]
 
-const availableActionsWithPrint: AvailableFunction[] = [
-  {
+const availableActionsWithPrint = [
+  fakerFromSchema(availableFunctionSchema)({
     type: AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE,
     name: 'Skicka intyg',
     information: [],
-  },
+  }),
 ]
 it('Should hide send button when there is no provided recipient', () => {
   renderComponent({ availableFunctions: availableActionsWithSend, id })
