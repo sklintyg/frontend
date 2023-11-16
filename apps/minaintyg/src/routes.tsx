@@ -1,8 +1,10 @@
+import { randomUUID } from '@frontend/utils'
 import { Navigate, Outlet, Route, ScrollRestoration, createRoutesFromChildren } from 'react-router-dom'
 import { Breadcrumbs } from './components/Layout/Breadcrumbs'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { ErrorBoundary } from './components/error/ErrorBoundary'
+import { ErrorPageHero } from './components/error/ErrorPageHero'
 import { CertificateListPage } from './pages/Certificate/CertificateListPage'
 import { CertificatePage } from './pages/Certificate/CertificatePage'
 import { SendCertificatePage } from './pages/Certificate/SendCertificatePage'
@@ -63,4 +65,13 @@ export const routes = createRoutesFromChildren([
   </Route>,
   <Route key="welcome" path="/welcome" element={<Welcome />} />,
   <Route key="start" path="/web/start" element={<Navigate to="/" replace />} />,
+  <Route
+    key="not_found"
+    path="*"
+    element={
+      <Layout>
+        <ErrorPageHero type="not-found" id={randomUUID()} />
+      </Layout>
+    }
+  />,
 ])

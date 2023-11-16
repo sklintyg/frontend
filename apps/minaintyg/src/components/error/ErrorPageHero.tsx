@@ -19,6 +19,8 @@ function getErrorHeading(type?: ErrorTypeEnum) {
       return 'Inloggning misslyckades'
     case ErrorType.enum['logged-out']:
       return 'Du är utloggad'
+    case ErrorType.enum['not-found']:
+      return 'Sidan hittades inte'
     default:
       return 'Någonting gick fel'
   }
@@ -32,6 +34,8 @@ function getErrorDescription(type?: ErrorTypeEnum) {
       return 'På grund av ett tekniskt fel går det inte att logga in just nu. Försök igen senare.'
     case ErrorType.enum['logged-out']:
       return 'Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.'
+    case ErrorType.enum['not-found']:
+      return 'Sidan du söker har fått en ny adress eller är borttagen.'
     default:
       return 'På grund av ett tekniskt fel går det inte att visa Intyg just nu. Försök igen senare.'
   }
