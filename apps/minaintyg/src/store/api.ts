@@ -3,6 +3,7 @@ import { isAnyOf } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
+import { Session } from '../schema/session.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
 
@@ -52,10 +53,20 @@ export const api = createApi({
       }),
       invalidatesTags: (result, error, { id }) => (error ? [] : [{ type: 'Certificate', id }]),
     }),
+    getSessionPing: builder.query<Session, void>({
+      query: () => 'session/ping',
+      providesTags: ['User'],
+    }),
   }),
 })
 
-export const { useGetCertificatesQuery, useGetCertificateQuery, useGetCertificatesFilterQuery, useSendCertificateMutation } = api
+export const {
+  useGetCertificatesQuery,
+  useGetCertificateQuery,
+  useGetCertificatesFilterQuery,
+  useSendCertificateMutation,
+  useGetSessionPingQuery,
+} = api
 
 export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchFulfilled))
 export const isRejectedEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchRejected))
