@@ -1,16 +1,25 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CertificateRecipient } from '../../../schema/certificate.schema'
+import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../schema/certificate.schema'
 import { CertificateSentDialog } from './CertificateSentDialog/CertificateSentDialog'
 
-export function CertificateActions({ recipient }: { recipient?: CertificateRecipient | null }) {
+export function CertificateActions({
+  recipient,
+  availableFunctions,
+}: {
+  recipient?: CertificateRecipient | null
+  availableFunctions: AvailableFunction[]
+}) {
   const [showCertificateSentDialog, updateShowCertificateSentDialog] = useState(false)
   const navigate = useNavigate()
+  const sendFunction = availableFunctions.find(
+    (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
+  )
 
   return (
     <div className="flex justify-end">
-      {recipient && (
+      {sendFunction && recipient && (
         <>
           <IDSButton
             sblock
@@ -23,7 +32,7 @@ export function CertificateActions({ recipient }: { recipient?: CertificateRecip
               }
             }}
           >
-            Skicka intyg
+            {sendFunction.name}
           </IDSButton>
           <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
         </>

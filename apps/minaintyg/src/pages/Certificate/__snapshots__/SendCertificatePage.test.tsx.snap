@@ -13,7 +13,7 @@ exports[`Should render as expected 1`] = `
     <div
       class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
     >
-      Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.
+      Skicka intyget body
     </div>
   </header>
   <div>
