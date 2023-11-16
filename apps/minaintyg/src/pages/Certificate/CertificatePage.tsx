@@ -42,7 +42,11 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateActions recipient={certificate.metadata.recipient} availableFunctions={certificate.availableFunctions} />
+            <CertificateActions
+              recipient={certificate.metadata.recipient}
+              availableFunctions={certificate.availableFunctions}
+              id={certificate.metadata.id}
+            />
           </div>
 
           <div className="md:hidden">

@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../schema/certificate.schema'
@@ -7,18 +7,23 @@ import { CertificateSentDialog } from './CertificateSentDialog/CertificateSentDi
 export function CertificateActions({
   recipient,
   availableFunctions,
+  id,
 }: {
   recipient?: CertificateRecipient | null
   availableFunctions: AvailableFunction[]
+  id: string
 }) {
   const [showCertificateSentDialog, updateShowCertificateSentDialog] = useState(false)
   const navigate = useNavigate()
   const sendFunction = availableFunctions.find(
     (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
   )
+  const printFunction = availableFunctions.find(
+    (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE
+  )
 
   return (
-    <div className="flex justify-end">
+    <IDSButtonGroup rtl>
       {sendFunction && recipient && (
         <>
           <IDSButton
@@ -37,6 +42,11 @@ export function CertificateActions({
           <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
         </>
       )}
-    </div>
+      {printFunction && (
+        <IDSButton secondary sblock role="button" onClick={() => window.open(`/api/certificate/${id}/pdf`, '_blank')}>
+          Skriv ut
+        </IDSButton>
+      )}
+    </IDSButtonGroup>
   )
 }
