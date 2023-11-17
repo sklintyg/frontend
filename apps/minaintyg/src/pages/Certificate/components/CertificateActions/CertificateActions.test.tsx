@@ -38,14 +38,6 @@ const availableActionsWithPrint = [
     information: [],
   }),
 ]
-const availableActionsWithInfo = [
-  fakerFromSchema(availableFunctionSchema)({
-    type: AvailableFunctionsTypeEnum.enum.INFO,
-    name: 'Presentera informationsruta',
-    body: "I intyg som gäller avstängning enligt smittskyddslagen kan du inte dölja din diagnos. När du klickar på 'Skriv ut intyg' hämtas hela intyget.",
-    information: [],
-  }),
-]
 it('Should hide send button when there is no provided recipient', () => {
   renderComponent({ availableFunctions: availableActionsWithSend, id })
   expect(screen.queryByRole('button', { name: 'Skicka intyg' })).not.toBeInTheDocument()
@@ -95,20 +87,4 @@ it('Should hide print button when there is no print availableFunction provided',
 it('Should show print button when there is print availableFunction provided', () => {
   renderComponent({ availableFunctions: availableActionsWithPrint, id })
   expect(screen.getByRole('button', { name: 'Skriv ut' })).toBeInTheDocument()
-})
-
-it('Should hide info alert when there is no info availableFunction provided', () => {
-  renderComponent({ availableFunctions: availableActionsWithSend, id })
-  expect(screen.queryByRole('alert', { name: 'Presentera informationsruta' })).not.toBeInTheDocument()
-})
-
-it('Should show info alert when there is info availableFunction provided', () => {
-  renderComponent({ availableFunctions: availableActionsWithInfo, id })
-  expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
-    <ids-alert
-      role="alert"
-    >
-      I intyg som gäller avstängning enligt smittskyddslagen kan du inte dölja din diagnos. När du klickar på 'Skriv ut intyg' hämtas hela intyget.
-    </ids-alert>
-  `)
 })

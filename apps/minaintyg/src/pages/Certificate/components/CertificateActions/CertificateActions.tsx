@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../../schema/certificate.schema'
 import { CertificateSentDialog } from '../CertificateSentDialog/CertificateSentDialog'
 import { PrintCertificateAction } from './PrintCertificateAction'
-import { CertificateInfoAlert } from '../CertificateInfoAlert/CertificateInfoAlert'
 
 export function CertificateActions({
   recipient,
@@ -22,29 +21,26 @@ export function CertificateActions({
   )
 
   return (
-    <>
-      <CertificateInfoAlert availableFunctions={availableFunctions} />
-      <div className="flex flex-col justify-end gap-5 md:flex-row">
-        <PrintCertificateAction id={id} availableFunctions={availableFunctions} />
-        {sendFunction && recipient && (
-          <>
-            <IDSButton
-              sblock
-              role="button"
-              onClick={() => {
-                if (recipient?.sent) {
-                  updateShowCertificateSentDialog(true)
-                } else {
-                  navigate('./skicka')
-                }
-              }}
-            >
-              {sendFunction.name}
-            </IDSButton>
-            <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
-          </>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col justify-end gap-5 md:flex-row">
+      <PrintCertificateAction id={id} availableFunctions={availableFunctions} />
+      {sendFunction && recipient && (
+        <>
+          <IDSButton
+            sblock
+            role="button"
+            onClick={() => {
+              if (recipient?.sent) {
+                updateShowCertificateSentDialog(true)
+              } else {
+                navigate('./skicka')
+              }
+            }}
+          >
+            {sendFunction.name}
+          </IDSButton>
+          <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
+        </>
+      )}
+    </div>
   )
 }
