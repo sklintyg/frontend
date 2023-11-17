@@ -1,8 +1,14 @@
 import { ReactNode } from 'react'
+import { useGetSessionPingQuery } from '../../store/api'
 import { useGetUserQuery } from '../../store/hooks'
+import { SessionDialog } from '../SessionDialog/SessionDialog'
 
 export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Element | null {
-  const { isError, isLoading } = useGetUserQuery()
+  const { isError, isLoading, data: user } = useGetUserQuery()
+  const { data: session } = useGetSessionPingQuery(undefined, {
+    pollingInterval: 30e3,
+    skip: !user,
+  })
 
   if (isLoading) {
     return null
@@ -13,5 +19,10 @@ export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Eleme
     return null
   }
 
-  return <>{children}</>
+  return (
+    <>
+      {session && session.secondsUntilExpire <= 300 && <SessionDialog />}
+      {children}
+    </>
+  )
 }
