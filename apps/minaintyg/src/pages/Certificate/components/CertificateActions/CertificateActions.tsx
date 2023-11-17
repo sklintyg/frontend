@@ -1,9 +1,10 @@
-import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../../schema/certificate.schema'
 import { CertificateSentDialog } from '../CertificateSentDialog/CertificateSentDialog'
 import { PrintCertificateAction } from './PrintCertificateAction'
+import { CertificateInfoAlert } from '../CertificateInfoAlert/CertificateInfoAlert'
 
 export function CertificateActions({
   recipient,
@@ -19,17 +20,10 @@ export function CertificateActions({
   const sendFunction = availableFunctions.find(
     (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
   )
-  const infoFunction = availableFunctions.find((availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.INFO)
 
   return (
     <>
-      {infoFunction && (
-        <div className="mb-5">
-          <IDSAlert key={infoFunction.name} type="info" headline={infoFunction.title || ''}>
-            {infoFunction.body}
-          </IDSAlert>
-        </div>
-      )}
+      <CertificateInfoAlert availableFunctions={availableFunctions} />
       <div className="flex flex-col justify-end gap-5 md:flex-row">
         <PrintCertificateAction id={id} availableFunctions={availableFunctions} />
         {sendFunction && recipient && (
