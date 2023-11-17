@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../../schema/certificate.schema'
@@ -19,28 +19,38 @@ export function CertificateActions({
   const sendFunction = availableFunctions.find(
     (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE
   )
+  const infoFunction = availableFunctions.find((availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.INFO)
 
   return (
-    <div className="flex flex-col justify-end gap-5 md:flex-row">
-      <PrintCertificateAction id={id} availableFunctions={availableFunctions} />
-      {sendFunction && recipient && (
-        <>
-          <IDSButton
-            sblock
-            role="button"
-            onClick={() => {
-              if (recipient?.sent) {
-                updateShowCertificateSentDialog(true)
-              } else {
-                navigate('./skicka')
-              }
-            }}
-          >
-            {sendFunction.name}
-          </IDSButton>
-          <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
-        </>
+    <>
+      {infoFunction && (
+        <div className="mb-5">
+          <IDSAlert key={infoFunction.name} type="info" headline={infoFunction.title || ''}>
+            {infoFunction.body}
+          </IDSAlert>
+        </div>
       )}
-    </div>
+      <div className="flex flex-col justify-end gap-5 md:flex-row">
+        <PrintCertificateAction id={id} availableFunctions={availableFunctions} />
+        {sendFunction && recipient && (
+          <>
+            <IDSButton
+              sblock
+              role="button"
+              onClick={() => {
+                if (recipient?.sent) {
+                  updateShowCertificateSentDialog(true)
+                } else {
+                  navigate('./skicka')
+                }
+              }}
+            >
+              {sendFunction.name}
+            </IDSButton>
+            <CertificateSentDialog recipient={recipient} open={showCertificateSentDialog} onOpenChange={updateShowCertificateSentDialog} />
+          </>
+        )}
+      </div>
+    </>
   )
 }

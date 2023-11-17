@@ -2,8 +2,8 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
-import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
-import { AvailableFunctionsTypeEnum, availableFunctionSchema, certificateRecipientSchema } from '../../../../schema/certificate.schema'
+import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { availableFunctionSchema, AvailableFunctionsTypeEnum, certificateRecipientSchema } from '../../../../schema/certificate.schema'
 import { CertificateActions } from './CertificateActions'
 
 function renderComponent(props: ComponentProps<typeof CertificateActions>) {
@@ -35,6 +35,14 @@ const availableActionsWithPrint = [
   fakerFromSchema(availableFunctionSchema)({
     type: AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE,
     name: 'Skicka intyg',
+    information: [],
+  }),
+]
+const availableActionsWithInfo = [
+  fakerFromSchema(availableFunctionSchema)({
+    type: AvailableFunctionsTypeEnum.enum.INFO,
+    name: 'Presentera informationsruta',
+    body: "I intyg som gäller avstängning enligt smittskyddslagen kan du inte dölja din diagnos. När du klickar på 'Skriv ut intyg' hämtas hela intyget.",
     information: [],
   }),
 ]
@@ -87,4 +95,20 @@ it('Should hide print button when there is no print availableFunction provided',
 it('Should show print button when there is print availableFunction provided', () => {
   renderComponent({ availableFunctions: availableActionsWithPrint, id })
   expect(screen.getByRole('button', { name: 'Skriv ut' })).toBeInTheDocument()
+})
+
+it('Should hide info alert when there is no info availableFunction provided', () => {
+  renderComponent({ availableFunctions: availableActionsWithSend, id })
+  expect(screen.queryByRole('alert', { name: 'Presentera informationsruta' })).not.toBeInTheDocument()
+})
+
+it('Should show info alert when there is info availableFunction provided', () => {
+  renderComponent({ availableFunctions: availableActionsWithInfo, id })
+  expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
+    <ids-alert
+      role="alert"
+    >
+      I intyg som gäller avstängning enligt smittskyddslagen kan du inte dölja din diagnos. När du klickar på 'Skriv ut intyg' hämtas hela intyget.
+    </ids-alert>
+  `)
 })
