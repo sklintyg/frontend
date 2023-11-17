@@ -23,6 +23,9 @@ it.each([
   await act(async () => userRequest)
   await act(async () => certificateListRequest)
 
+  expect(store.getState().sessionSlice.hasSession).toBe(false)
+  expect(store.getState().sessionSlice.hasSessionEnded).toBe(true)
+
   expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
 
