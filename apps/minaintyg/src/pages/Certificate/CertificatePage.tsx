@@ -14,6 +14,7 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
+import { CertificateInfoAlert } from './components/CertificateInfoAlert/CertificateInfoAlert'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
@@ -42,6 +43,7 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
+            <CertificateInfoAlert availableFunctions={certificate.availableFunctions} />
             <CertificateActions
               recipient={certificate.metadata.recipient}
               availableFunctions={certificate.availableFunctions}
