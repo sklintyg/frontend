@@ -145,4 +145,5 @@ export const handlers = [
   ),
 
   rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
+  rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]

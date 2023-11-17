@@ -3,6 +3,7 @@ import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
+import { ErrorData } from '../schema/error.schema'
 import { Session } from '../schema/session.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
@@ -57,6 +58,13 @@ export const api = createApi({
       query: () => 'session/ping',
       providesTags: ['User'],
     }),
+    logError: builder.mutation<void, ErrorData>({
+      query: (body) => ({
+        url: 'log/error',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
@@ -66,6 +74,7 @@ export const {
   useGetCertificatesFilterQuery,
   useSendCertificateMutation,
   useGetSessionPingQuery,
+  useLogErrorMutation,
 } = api
 
 export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchFulfilled))
