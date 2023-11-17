@@ -1,22 +1,30 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { server } from './mocks/server'
+import { server, waitForRequest } from './mocks/server'
 import { routes } from './routes'
 import { store } from './store/store'
 
 it.each([
-  [403, 'Du är utloggad'],
-  [503, 'Tjänsten är inte tillgänglig just nu'],
-  [504, 'Någonting gick fel'],
-] as const)('Should display %s when request status is %i', async (status, headline) => {
+  ['Du är utloggad', 403],
+  ['Tjänsten är inte tillgänglig just nu', 503],
+  ['Någonting gick fel', 504],
+] as const)('Should display %s when request status is %s', async (headline, status) => {
   server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(status))))
+  const userRequest = waitForRequest('GET', '/api/user')
+  const certificateListRequest = waitForRequest('POST', '/api/certificate')
   render(
     <Provider store={store}>
       <RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/intyg'] })} />
     </Provider>
   )
+
+  await act(async () => userRequest)
+  await act(async () => certificateListRequest)
+
+  expect(store.getState().sessionSlice.hasSession).toBe(false)
+  expect(store.getState().sessionSlice.hasSessionEnded).toBe(true)
 
   expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
