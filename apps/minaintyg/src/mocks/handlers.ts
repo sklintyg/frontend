@@ -111,7 +111,16 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
-        availableFunctions: Array.from({ length: 1 }, () => fakerFromSchema(availableFunctionSchema)),
+        availableFunctions: [
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'SEND_CERTIFICATE',
+            name: 'Skicka intyg',
+            title: 'Skicka intyg',
+            description: null,
+            body: 'Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.',
+            information: [],
+          }),
+        ],
       })
     )
   ),
