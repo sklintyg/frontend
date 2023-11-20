@@ -61,6 +61,7 @@ export const availableFunctionSchema = z.object({
   description: z.string().nullable(),
   body: z.string().nullable(),
   information: z.array(informationSchema),
+  enabled: z.boolean(),
 })
 
 export const certificateSchema = z.object({
