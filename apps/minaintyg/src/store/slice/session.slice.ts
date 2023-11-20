@@ -27,6 +27,9 @@ const sessionSlice = createSlice({
     reset() {
       return initialState
     },
+    startSession(state) {
+      state.hasSession = true
+    },
     endSession(state, { payload }: PayloadAction<{ reason: ErrorTypeEnum; errorId?: string }>) {
       state.hasSession = false
       state.hasSessionEnded = true
@@ -66,5 +69,5 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { endSession, reset } = sessionSlice.actions
+export const { startSession, endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice
