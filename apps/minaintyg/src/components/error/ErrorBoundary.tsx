@@ -1,5 +1,5 @@
 import { randomUUID } from '@frontend/utils'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../schema/error.schema'
 import { useLogErrorMutation } from '../../store/api'
@@ -11,9 +11,12 @@ export function ErrorBoundary() {
   const id = useMemo(randomUUID, [])
   const error = useRouteError()
   const [logError] = useLogErrorMutation()
+  const isCalledRef = useRef(false)
 
   useEffect(() => {
-    if (error instanceof Error && hasSession) {
+    if (error instanceof Error && hasSession && !isCalledRef.current) {
+      isCalledRef.current = true
+
       logError({
         id,
         code: ErrorCode.enum.CLIENT_ERROR,
