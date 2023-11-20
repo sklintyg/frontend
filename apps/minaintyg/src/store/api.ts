@@ -81,3 +81,4 @@ export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((
 export const isRejectedEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchRejected))
 export const hasResponse = (o: unknown): o is { response: Response } =>
   isPlainObject(o) && 'response' in o && o.response instanceof Response
+export const hasRequest = (o: unknown): o is { request: Request } => isPlainObject(o) && 'request' in o && o.request instanceof Request
