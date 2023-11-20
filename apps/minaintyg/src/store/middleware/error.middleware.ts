@@ -38,7 +38,7 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
         )
       }
 
-      return next(Object.assign(action, { payload: { ...action.payload, id: randomUUID() } }))
+      return next(Object.assign(action, { payload: { ...action.payload, id } }))
     }
     return next(action)
   }
