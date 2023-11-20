@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const CertificateStatusEnum = z.enum(['NEW', 'REPLACED', 'SENT', 'NOT_SENT'])
 export const AvailableFunctionsTypeEnum = z.enum(['CUSTOMIZE_PRINT_CERTIFICATE', 'PRINT_CERTIFICATE', 'INFO', 'SEND_CERTIFICATE'])
 export const InformationTypeEnum = z.enum(['OPTIONS', 'ALERT'])
+export const CertificateTextTypeEnum = z.enum(['PREAMBLE_TEXT'])
 
 export const certificateEventSchema = z.object({
   timestamp: z.string().datetime(),
@@ -16,7 +17,6 @@ export const certificateTypeSchema = z.object({
   id: z.string(),
   name: z.string(),
   version: z.string(),
-  description: z.string().optional(),
 })
 
 export const certificateIssuerSchema = z.object({
@@ -63,11 +63,13 @@ export const availableFunctionSchema = z.object({
   information: z.array(informationSchema),
 })
 
+export const certificateTextSchema = z.record(CertificateTextTypeEnum, z.string())
 export const certificateSchema = z.object({
   metadata: certificateMetadataSchema,
   content: z.array(certificateContentSchema),
 })
 
+export type CertificateText = z.infer<typeof certificateTextSchema>
 export type AvailableFunction = z.infer<typeof availableFunctionSchema>
 export type Certificate = z.infer<typeof certificateSchema>
 export type CertificateContent = z.infer<typeof certificateContentSchema>
