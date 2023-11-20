@@ -1,7 +1,7 @@
 import { getCookie } from '@frontend/utils'
 import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
+import { AvailableFunction, Certificate, CertificateMetadata, CertificateText } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import { Session } from '../schema/session.schema'
 import { User } from '../schema/user.schema'
@@ -38,11 +38,20 @@ export const api = createApi({
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
     }),
-    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[] }, { id: string }>({
+    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[]; texts: CertificateText }, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({ certificate, availableFunctions }: { certificate: Certificate; availableFunctions: AvailableFunction[] }) => ({
+      transformResponse: ({
+        certificate,
+        availableFunctions,
+        texts,
+      }: {
+        certificate: Certificate
+        availableFunctions: AvailableFunction[]
+        texts: CertificateText
+      }) => ({
         ...certificate,
         availableFunctions,
+        texts,
       }),
       providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.metadata.id }] : []),
     }),

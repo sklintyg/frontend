@@ -2,7 +2,7 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import {
   AvailableFunctionsTypeEnum,
