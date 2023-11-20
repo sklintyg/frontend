@@ -2,8 +2,8 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
-import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
-import { AvailableFunctionsTypeEnum, availableFunctionSchema, certificateRecipientSchema } from '../../../../schema/certificate.schema'
+import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { availableFunctionSchema, AvailableFunctionsTypeEnum, certificateRecipientSchema } from '../../../../schema/certificate.schema'
 import { CertificateActions } from './CertificateActions'
 
 function renderComponent(props: ComponentProps<typeof CertificateActions>) {
