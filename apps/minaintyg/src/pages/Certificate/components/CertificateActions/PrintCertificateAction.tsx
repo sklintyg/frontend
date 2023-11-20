@@ -49,7 +49,14 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
             <IDSButton mblock onClick={() => showCustomizePrintDialog(false)} role="button" secondary>
               Avbryt
             </IDSButton>
-            <IDSButton mblock onClick={() => openFile()} role="button">
+            <IDSButton
+              mblock
+              onClick={() => {
+                openFile()
+                showCustomizePrintDialog(false)
+              }}
+              role="button"
+            >
               Skriv ut
             </IDSButton>
           </IDSDialogActions>
