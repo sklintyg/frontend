@@ -1,7 +1,6 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { DisplayHTML } from '../../components/DisplayHTML/DisplayHTML'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
@@ -15,6 +14,7 @@ import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { CertificateInfoAlert } from './components/CertificateInfoAlert/CertificateInfoAlert'
+import { CertificatePreambleText } from './components/CertificatePremableText/CertificatePreambleText'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
@@ -27,11 +27,7 @@ export function CertificatePage() {
       <PageHeading heading="Läs och hantera ditt intyg">
         {certificate && (
           <>
-            {certificate.metadata.type.description && (
-              <PageHeadingDescription>
-                <DisplayHTML html={certificate.metadata.type.description} />
-              </PageHeadingDescription>
-            )}
+            <CertificatePreambleText texts={certificate.texts} />
             {certificate.metadata.statuses.includes('REPLACED') && <CertificateReplacedAlert />}
           </>
         )}

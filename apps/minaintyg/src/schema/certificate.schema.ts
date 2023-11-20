@@ -63,11 +63,15 @@ export const availableFunctionSchema = z.object({
   information: z.array(informationSchema),
 })
 
+export const certificateTextSchema = z.object({
+  PREAMBLE_TEXT: z.string(),
+})
 export const certificateSchema = z.object({
   metadata: certificateMetadataSchema,
   content: z.array(certificateContentSchema),
 })
 
+export type CertificateText = z.infer<typeof certificateTextSchema>
 export type AvailableFunction = z.infer<typeof availableFunctionSchema>
 export type Certificate = z.infer<typeof certificateSchema>
 export type CertificateContent = z.infer<typeof certificateContentSchema>
