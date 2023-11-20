@@ -61,7 +61,6 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       id: certificate.id.toUpperCase(),
       name: certificate.label,
       version: '1',
-      description: certificateIngress('fk7263') ?? '',
     },
     statuses: faker.helpers.uniqueArray(CertificateStatusEnum.options, 2),
     events: faker.helpers.uniqueArray(
@@ -122,7 +121,7 @@ export const handlers = [
             information: [],
           }),
         ],
-        texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: 'Ingresstext' }),
+        texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: certificateIngress('fk7263') ?? 'Ingresstext' }),
       })
     )
   ),
