@@ -2,8 +2,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { z } from 'zod'
 import { ErrorTypeEnum } from '../../schema/error.schema'
+import { isQueryError } from '../../utils/isQueryError'
 import { api, hasResponse, isRejectedEndpoint } from '../api'
-import { isQueryError } from '../middleware/error.middleware'
 
 export const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
 export type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
