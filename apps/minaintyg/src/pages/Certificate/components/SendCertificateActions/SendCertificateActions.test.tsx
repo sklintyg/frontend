@@ -39,7 +39,7 @@ it('Should display message when certificate is sent', async () => {
 
 it('Should display error-message when certificate was unable to be sent', async () => {
   server.use(rest.post('/api/certificate/:id/send', (req, res, ctx) => res(ctx.status(500))))
-  renderComponent(fakerFromSchema(certificateRecipientSchema)({ sent: '2023-10-23T11:13:37.000Z' }))
+  renderComponent(fakerFromSchema(certificateRecipientSchema)({ sent: undefined }))
 
   await userEvent.click(screen.getByRole('button', { name: 'Skicka' }))
 
