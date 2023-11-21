@@ -12,13 +12,12 @@ export function SendCertificateActions({ id, recipient }: { id: string; recipien
   return (
     <>
       {error && <SendCertificateErrorAlert recipient={recipient} error={error} />}
-      {isSuccess && recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
+      {recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
       <div className="flex flex-col gap-5 py-5 sm:flex-row">
         <IDSButton role="button" sblock secondary={!isSuccess} onClick={() => navigate('..')}>
           Tillbaka till intyget
         </IDSButton>
-
-        {!isSuccess && (
+        {!recipient.sent && (
           <IDSButton role="button" sblock onClick={() => !isLoading && sendCertificate({ id })}>
             Skicka
           </IDSButton>
