@@ -15,7 +15,7 @@ import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 export function CertificateListPage() {
   const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')
   const { submitFilters } = useAppSelector((state) => state.certificateFilter)
-  const { isLoading: isLoadingList, data: list, error } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
+  const { isLoading: isLoadingList, data: list, error } = useGetCertificatesQuery(submitFilters)
   const { isLoading: isLoadingFilters, data: filter } = useGetCertificatesFilterQuery()
   const isLoading = isLoadingList || isLoadingFilters
 
