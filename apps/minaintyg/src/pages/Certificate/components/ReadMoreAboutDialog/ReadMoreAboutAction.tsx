@@ -8,7 +8,7 @@ export function ReadMoreAboutAction() {
     <div>
       <button
         type="button"
-        className="text-sky-base bg-amber-300 hover:text-sky-dark flex mt-4"
+        className="text-sky-base hover:text-sky-dark flex mt-4"
         onClick={() => showReadMoreDialog(true)}
         aria-label="Läs mer om vad du kan göra i Intyg"
       >
