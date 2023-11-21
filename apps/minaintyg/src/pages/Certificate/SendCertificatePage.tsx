@@ -8,6 +8,7 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
 import { AvailableFunctionsTypeEnum } from '../../schema/certificate.schema'
+import {ReadMoreAboutAction} from "./components/ReadMoreAboutDialog/ReadMoreAboutAction";
 
 export function SendCertificatePage() {
   const { id } = useParams()
@@ -21,6 +22,7 @@ export function SendCertificatePage() {
     <>
       <PageHeading heading="Skicka intyg ">
         <PageHeadingDescription>{sendFunction?.body}</PageHeadingDescription>
+        <ReadMoreAboutAction />
       </PageHeading>
       {isLoading && <IDSSpinner data-testid="spinner" />}
       {error && <ReadCertificateError id={id} error={error} />}
