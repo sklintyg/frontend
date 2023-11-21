@@ -98,6 +98,14 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
     })
   })
 
+  it('Should close dialog after open file from dialog', async () => {
+    renderCustomizePrint()
+
+    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
+    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
+    expect(screen.getByRole('dialog')).toHaveAttribute('show', 'false')
+  })
+
   it('Should be able to select second option and open file', async () => {
     const openSpy = vi.spyOn(window, 'open')
     renderCustomizePrint()
@@ -106,10 +114,9 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
     await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
     await userEvent.click(screen.getByRole('radio', { name: 'Dölj Diagnos' }))
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
-
     expect(screen.getByText(/Information om diagnos kan vara viktig/i)).toBeInTheDocument()
 
+    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
     await waitFor(() => {
       expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf?customizationId=!diagnoser', '_blank')
     })

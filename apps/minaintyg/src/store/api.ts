@@ -1,8 +1,9 @@
 import { getCookie } from '@frontend/utils'
 import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AvailableFunction, Certificate, CertificateMetadata } from '../schema/certificate.schema'
+import { AvailableFunction, Certificate, CertificateMetadata, CertificateText } from '../schema/certificate.schema'
 import { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
+import { ErrorData } from '../schema/error.schema'
 import { Session } from '../schema/session.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
@@ -38,11 +39,20 @@ export const api = createApi({
     getCertificatesFilter: builder.query<CertificateFilterOptions, void>({
       query: () => 'filters',
     }),
-    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[] }, { id: string }>({
+    getCertificate: builder.query<Certificate & { availableFunctions: AvailableFunction[]; texts: CertificateText }, { id: string }>({
       query: ({ id }) => `certificate/${id}`,
-      transformResponse: ({ certificate, availableFunctions }: { certificate: Certificate; availableFunctions: AvailableFunction[] }) => ({
+      transformResponse: ({
+        certificate,
+        availableFunctions,
+        texts,
+      }: {
+        certificate: Certificate
+        availableFunctions: AvailableFunction[]
+        texts: CertificateText
+      }) => ({
         ...certificate,
         availableFunctions,
+        texts,
       }),
       providesTags: (result) => (result ? [{ type: 'Certificate' as const, id: result.metadata.id }] : []),
     }),
@@ -57,6 +67,13 @@ export const api = createApi({
       query: () => 'session/ping',
       providesTags: ['User'],
     }),
+    logError: builder.mutation<void, ErrorData>({
+      query: (body) => ({
+        url: 'log/error',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
@@ -66,9 +83,11 @@ export const {
   useGetCertificatesFilterQuery,
   useSendCertificateMutation,
   useGetSessionPingQuery,
+  useLogErrorMutation,
 } = api
 
 export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchFulfilled))
 export const isRejectedEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchRejected))
 export const hasResponse = (o: unknown): o is { response: Response } =>
   isPlainObject(o) && 'response' in o && o.response instanceof Response
+export const hasRequest = (o: unknown): o is { request: Request } => isPlainObject(o) && 'request' in o && o.request instanceof Request

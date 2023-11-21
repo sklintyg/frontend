@@ -1,15 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import { DefaultBodyType, PathParams, rest, RestRequest } from 'msw'
 import {
-  CertificateStatus,
-  CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
+  CertificateStatus,
+  CertificateStatusEnum,
+  certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
@@ -60,7 +61,6 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       id: certificate.id.toUpperCase(),
       name: certificate.label,
       version: '1',
-      description: certificateIngress('fk7263') ?? '',
     },
     statuses: faker.helpers.uniqueArray(CertificateStatusEnum.options, 2),
     events: faker.helpers.uniqueArray(
@@ -111,7 +111,17 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
-        availableFunctions: Array.from({ length: 1 }, () => fakerFromSchema(availableFunctionSchema)),
+        availableFunctions: [
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'SEND_CERTIFICATE',
+            name: 'Skicka intyg',
+            title: 'Skicka intyg',
+            description: null,
+            body: 'Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.',
+            information: [],
+          }),
+        ],
+        texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: certificateIngress('fk7263') ?? 'Ingresstext' }),
       })
     )
   ),
@@ -145,4 +155,5 @@ export const handlers = [
   ),
 
   rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
+  rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]
