@@ -11,7 +11,7 @@ import { CertificateList } from './components/CertificateList'
 import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
-import {ReadMoreAboutAction} from "./components/ReadMoreAboutDialog/ReadMoreAboutAction";
+import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
 export function CertificateListPage() {
   const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')

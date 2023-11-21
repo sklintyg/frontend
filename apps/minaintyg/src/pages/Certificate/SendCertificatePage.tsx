@@ -8,7 +8,7 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
 import { AvailableFunctionsTypeEnum } from '../../schema/certificate.schema'
-import {ReadMoreAboutAction} from "./components/ReadMoreAboutDialog/ReadMoreAboutAction";
+import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
 export function SendCertificatePage() {
   const { id } = useParams()

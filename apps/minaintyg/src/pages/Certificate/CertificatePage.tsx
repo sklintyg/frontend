@@ -15,7 +15,7 @@ import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { CertificateInfoAlert } from './components/CertificateInfoAlert/CertificateInfoAlert'
 import { CertificatePreambleText } from './components/CertificatePremableText/CertificatePreambleText'
-import {ReadMoreAboutAction} from "./components/ReadMoreAboutDialog/ReadMoreAboutAction";
+import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
