@@ -8,11 +8,11 @@ export function ReadMoreAboutAction() {
     <div>
       <button
         type="button"
-        className="text-sky-base hover:text-sky-dark flex mt-4"
+        className="mt-4 flex text-sky-base hover:text-sky-dark"
         onClick={() => showReadMoreDialog(true)}
         aria-label="Läs mer om vad du kan göra i Intyg"
       >
-        <IDSIconInformation size={'s'} className="mr-2 inline mt-0.5" />
+        <IDSIconInformation size="s" className="mr-2 mt-0.5 inline" />
         Läs mer om vad du kan göra i Intyg
       </button>
 
