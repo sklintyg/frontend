@@ -58,7 +58,7 @@ function getAction(type: ActionTypeEnum) {
       return (
         <IDSLink key="login">
           <IDSIconChevron />
-          <Link to={import.meta.env.VITE_LOGIN_URL}>Till inloggning</Link>
+          <a href={import.meta.env.VITE_LOGIN_URL}>Till inloggning</a>
         </IDSLink>
       )
     case ActionType.enum['1177']:
