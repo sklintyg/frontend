@@ -48,7 +48,7 @@ function getAction(type: ActionTypeEnum) {
     case ActionType.enum.start:
       return (
         startLinkItem && (
-          <IDSLink>
+          <IDSLink key="start">
             <IDSIconChevron />
             <Link to={resolveNavigationUrl(startLinkItem.url)}>Till startsidan</Link>
           </IDSLink>
@@ -56,14 +56,14 @@ function getAction(type: ActionTypeEnum) {
       )
     case ActionType.enum.login:
       return (
-        <IDSLink>
+        <IDSLink key="login">
           <IDSIconChevron />
           <Link to={import.meta.env.VITE_LOGIN_URL}>Till inloggning</Link>
         </IDSLink>
       )
     case ActionType.enum['1177']:
       return (
-        <IDSLink>
+        <IDSLink key="inera">
           <IDSIconChevron />
           <Link to="https://www.1177.se">Till 1177</Link>
           <IDSIconExternal slot="append-icon" />
@@ -86,7 +86,6 @@ function getActions(type?: ErrorTypeEnum): ActionTypeEnum[] {
 }
 
 export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum }) {
-  // TODO: useEffect hook that logs error back to the backend.
   return (
     <PageHero heading={getErrorHeading(type)} type={type === ErrorType.enum['logged-out'] ? 'success' : 'error'}>
       <p className="ids-preamble">{getErrorDescription(type)}</p>

@@ -1,6 +1,6 @@
 import { TechnicalIssueAlert } from '../../../../components/error/TechnicalIssueAlert'
 import { CertificateRecipient } from '../../../../schema/certificate.schema'
-import { QueryError } from '../../../../store/middleware/error.middleware'
+import { QueryError } from '../../../../utils/isQueryError'
 
 export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: QueryError }) {
   return (

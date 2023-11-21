@@ -2,8 +2,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { z } from 'zod'
 import { ErrorTypeEnum } from '../../schema/error.schema'
+import { isQueryError } from '../../utils/isQueryError'
 import { api, hasResponse, isRejectedEndpoint } from '../api'
-import { isQueryError } from '../middleware/error.middleware'
 
 export const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
 export type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
@@ -26,6 +26,9 @@ const sessionSlice = createSlice({
   reducers: {
     reset() {
       return initialState
+    },
+    startSession(state) {
+      state.hasSession = true
     },
     endSession(state, { payload }: PayloadAction<{ reason: ErrorTypeEnum; errorId?: string }>) {
       state.hasSession = false
@@ -66,5 +69,5 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { endSession, reset } = sessionSlice.actions
+export const { startSession, endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice

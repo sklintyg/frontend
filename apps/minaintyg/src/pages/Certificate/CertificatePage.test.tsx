@@ -1,9 +1,9 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
-import { server } from '../../mocks/server'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { server, waitForRequest } from '../../mocks/server'
 import {
   AvailableFunctionsTypeEnum,
   CertificateMetadata,
@@ -11,6 +11,7 @@ import {
   certificateRecipientSchema,
   certificateSchema,
 } from '../../schema/certificate.schema'
+import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { CertificatePage } from './CertificatePage'
 
@@ -122,5 +123,26 @@ describe('Unable to load certificate', () => {
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
     expect(screen.getByText(/det här är ditt intyg/i)).toBeInTheDocument()
     expect(screen.getByText(/det här är ditt intyg/i)).toHaveClass('ids-preamble')
+  })
+
+  it('Should log error and display id', async () => {
+    store.dispatch(startSession())
+    server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+    const pendingLogRequest = waitForRequest('POST', '/api/log/error')
+
+    vi.stubGlobal('crypto', { randomUUID: faker.datatype.uuid })
+
+    renderWithFault()
+
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    const logRequest = await pendingLogRequest
+    const logResult = await logRequest.json<{ id: string; code: number; message: string }>()
+
+    expect(logResult).toMatchObject({
+      code: 500,
+      message: "'Rejected' method 'GET' url '/api/certificate/12345'",
+    })
+
+    expect(screen.getByText(logResult.id)).toBeInTheDocument()
   })
 })

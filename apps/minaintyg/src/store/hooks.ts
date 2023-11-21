@@ -2,7 +2,8 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { api } from './api'
-import { AppDispatch, RootState } from './store'
+import { RootState } from './reducer'
+import { AppDispatch } from './store'
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 type DispatchFunc = () => AppDispatch
