@@ -15,6 +15,24 @@ exports[`Should render as expected 1`] = `
     >
       Skicka intyget body
     </div>
+    <div>
+      <button
+        aria-label="Läs mer om vad du kan göra i Intyg"
+        class="mt-4 flex text-sky-base hover:text-sky-dark"
+        type="button"
+      >
+        <ids-icon-information
+          class="mr-2 mt-0.5 inline ids-icon"
+          size="s"
+        />
+        Läs mer om vad du kan göra i Intyg
+      </button>
+      <ids-dialog
+        role="dialog"
+        show="false"
+        srclosetext="Stäng"
+      />
+    </div>
   </header>
   <div>
     <h2
