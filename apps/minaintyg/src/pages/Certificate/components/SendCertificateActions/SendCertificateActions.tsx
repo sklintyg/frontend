@@ -1,11 +1,19 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
-import { CertificateRecipient } from '../../../../schema/certificate.schema'
+import { AvailableFunction, CertificateRecipient } from '../../../../schema/certificate.schema'
 import { useSendCertificateMutation } from '../../../../store/api'
 import { SendCertificateErrorAlert } from './SendCertificateErrorAlert'
 import { SendCertificateSuccessAlert } from './SendCertificateSuccessAlert'
 
-export function SendCertificateActions({ id, recipient }: { id: string; recipient: CertificateRecipient }) {
+export function SendCertificateActions({
+  id,
+  recipient,
+  sendFunction,
+}: {
+  id: string
+  recipient: CertificateRecipient
+  sendFunction: AvailableFunction
+}) {
   const [sendCertificate, { isLoading, error, isSuccess }] = useSendCertificateMutation()
   const navigate = useNavigate()
 
@@ -17,7 +25,7 @@ export function SendCertificateActions({ id, recipient }: { id: string; recipien
         <IDSButton role="button" sblock secondary={!isSuccess} onClick={() => navigate('..')}>
           Tillbaka till intyget
         </IDSButton>
-        {!recipient.sent && (
+        {sendFunction.enabled && (
           <IDSButton role="button" sblock onClick={() => !isLoading && sendCertificate({ id })}>
             Skicka
           </IDSButton>

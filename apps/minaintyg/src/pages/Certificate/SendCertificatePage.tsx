@@ -37,7 +37,7 @@ export function SendCertificatePage() {
             <h2 className="ids-heading-2 mb-5">Mottagare</h2>
             <IDSCard>{recipient.name}</IDSCard>
           </div>
-          {id && <SendCertificateActions id={id} recipient={recipient} />}
+          {id && <SendCertificateActions id={id} recipient={recipient} sendFunction={sendFunction} />}
         </>
       )}
     </>
