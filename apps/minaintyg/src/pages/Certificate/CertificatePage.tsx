@@ -13,7 +13,7 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
-import { CertificateInfoAlert } from './components/CertificateInfoAlert/CertificateInfoAlert'
+import { CertificateAttentionAlert } from './components/CertificateAttentionAlert/CertificateAttentionAlert'
 import { CertificatePreambleText } from './components/CertificatePremableText/CertificatePreambleText'
 import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
@@ -41,7 +41,7 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateInfoAlert availableFunctions={certificate.availableFunctions} />
+            <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
             <CertificateActions
               recipient={certificate.metadata.recipient}
               availableFunctions={certificate.availableFunctions}
