@@ -1,4 +1,5 @@
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { ErrorIdentifier } from '@frontend/components'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import navigation from '../../data/1177-navbar-services.json'
@@ -94,7 +95,7 @@ export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum 
         <div className="border-y border-stone-clear py-5">
           Om problemet kvarstår, spara nedan id och kontakta <SupportLink />
           <br />
-          <strong>{id}</strong>
+          <ErrorIdentifier id={id} showTitle={false} />
         </div>
       )}
     </PageHero>
