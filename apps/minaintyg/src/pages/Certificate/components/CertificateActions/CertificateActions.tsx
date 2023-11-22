@@ -29,7 +29,7 @@ export function CertificateActions({
             sblock
             role="button"
             onClick={() => {
-              if (recipient?.sent) {
+              if (!sendFunction?.enabled) {
                 updateShowCertificateSentDialog(true)
               } else {
                 navigate('./skicka')
