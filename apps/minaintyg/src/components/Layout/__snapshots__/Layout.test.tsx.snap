@@ -85,19 +85,6 @@ exports[`Should render as expected 1`] = `
           slot="append-icon"
         />
       </ids-link>
-      <ids-link
-        slot="link-col-2"
-      >
-        <ids-icon-chevron-bold
-          class="ids-icon"
-        />
-        <a
-          href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
-          target="_self"
-        >
-          Webbkarta
-        </a>
-      </ids-link>
       <span
         class="relative"
         slot="sub-footer-right"
@@ -212,16 +199,6 @@ exports[`Should render as expected 1`] = `
             <ids-icon-external
               class="ids-ml-2 relative -bottom-0.5 ids-icon"
             />
-          </a>
-        </ids-mobile-menu-item>
-        <ids-mobile-menu-item>
-          <a
-            class="relative"
-            href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
-            rel="noreferrer"
-            target="_self"
-          >
-            Webbkarta
           </a>
         </ids-mobile-menu-item>
       </ids-mobile-menu>

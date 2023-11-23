@@ -2,7 +2,7 @@ import { IDSHeader } from '@frontend/ids-react-ts'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { store } from '../../../store/store'
+import { store } from '../../store/store'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
 
 it('Should render links', async () => {

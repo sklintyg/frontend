@@ -1,8 +1,7 @@
+import { getSettingsUrl } from '@frontend/components/1177'
 import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import settingsUrl from '../../../data/settings-url.json'
-import { useGetUserQuery } from '../../../store/hooks'
-import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
+import { useGetUserQuery } from '../../store/hooks'
 
 export function LayoutHeaderAvatar() {
   const { data: user } = useGetUserQuery()
@@ -13,7 +12,7 @@ export function LayoutHeaderAvatar() {
 
   return (
     <IDSHeaderAvatar username={user.personName}>
-      <Link to={resolveNavigationUrl(settingsUrl)} slot="avatar-left">
+      <Link to={getSettingsUrl(import.meta.env.MODE)} slot="avatar-left">
         Inställningar
       </Link>
       <Link to="/logga-ut" slot="avatar-right">

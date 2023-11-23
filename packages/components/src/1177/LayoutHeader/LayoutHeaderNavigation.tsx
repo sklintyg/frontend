@@ -1,0 +1,31 @@
+import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
+import { Link } from 'react-router-dom'
+import { HeaderNavItem } from '../../header/HeaderNavItem'
+import { MobileMenuItem } from '../../header/MobileMenuItem'
+import { getNavigation, getNavigationItemUrl, getSettingsUrl } from '../navigation'
+
+export function LayoutHeaderNavigation({ mode }: { mode: string }) {
+  return (
+    <IDSHeaderNav>
+      {getNavigation().map((item) => (
+        <HeaderNavItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} />
+      ))}
+
+      <IDSHeaderMobileItem>
+        <Link to={getSettingsUrl(mode)}>Inställningar</Link>
+      </IDSHeaderMobileItem>
+      <IDSHeaderMobileItem>
+        <Link to="/logga-ut" slot="avatar-right">
+          Logga ut
+        </Link>
+      </IDSHeaderMobileItem>
+
+      <IDSHeaderMobileMenu type="1177">
+        Meny
+        {getNavigation().map((item) => (
+          <MobileMenuItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} />
+        ))}
+      </IDSHeaderMobileMenu>
+    </IDSHeaderNav>
+  )
+}
