@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -18,11 +18,9 @@ const question = fakeDateElement({ id: QUESTION_ID, value: { date: '2022-09-29' 
 
 const renderComponent = (props: ComponentProps<typeof UeDate>) => {
   render(
-    <>
-      <Provider store={testStore}>
-        <UeDate {...props} />
-      </Provider>
-    </>
+    <Provider store={testStore}>
+      <UeDate {...props} />
+    </Provider>
   )
 }
 
@@ -45,8 +43,8 @@ describe('DatePicker component', () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).not.toBeDisabled()
-    expect(button).not.toBeDisabled()
+    expect(input).toBeEnabled()
+    expect(button).toBeEnabled()
   })
 
   it('disables component if disabled is set', () => {
@@ -57,14 +55,14 @@ describe('DatePicker component', () => {
     expect(button).toBeDisabled()
   })
 
-  it('formats input into yyyy-mm-dd', () => {
+  it('formats input into yyyy-mm-dd', async () => {
     renderComponent({ disabled: false, question })
 
     const inputDate = '20220929'
     const expected = '2022-09-29'
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, inputDate)
+    await userEvent.type(input, inputDate)
     expect(input).toHaveValue(expected)
   })
 
@@ -77,7 +75,7 @@ describe('DatePicker component', () => {
   })
 
   it('should display server validation errors on question.config.id (field)', () => {
-    const question = fakeDateElement({
+    const element = fakeDateElement({
       config: { id: 'field' },
       id: QUESTION_ID,
       validationErrors: [
@@ -88,26 +86,26 @@ describe('DatePicker component', () => {
         },
       ],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
-    renderComponent({ disabled: false, question })
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
+    renderComponent({ disabled: false, question: element })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
-    expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
+    expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
   it('should display server validation errors on question.id', () => {
-    const question = fakeDateElement({
+    const element = fakeDateElement({
       id: QUESTION_ID,
       validationErrors: [{ text: VALIDATION_ERROR }],
     })[QUESTION_ID]
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
-    renderComponent({ disabled: false, question })
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
+    renderComponent({ disabled: false, question: element })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
-    expect(screen.queryByText(VALIDATION_ERROR)).toBeNull()
+    expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
@@ -120,12 +118,10 @@ describe('DatePicker component', () => {
         id: 'id',
         config: { maxDate: '2023-02-17' },
         value: { date: '2023-02-17' },
-      })['id'],
+      }).id,
     })
 
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
+    await userEvent.click(screen.getByLabelText('Öppna kalendern'))
 
     expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })

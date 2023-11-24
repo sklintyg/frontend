@@ -1,13 +1,28 @@
 import { ReactNode } from 'react'
-import { useGetUserQuery } from '../../store/api'
+import { useGetSessionPingQuery } from '../../store/api'
+import { useGetUserQuery } from '../../store/hooks'
+import { SessionDialog } from '../SessionDialog/SessionDialog'
 
 export function ProtectedRoute({ children }: { children: ReactNode }): JSX.Element | null {
-  const { isError } = useGetUserQuery()
+  const { isError, isLoading, data: user } = useGetUserQuery()
+  const { data: session } = useGetSessionPingQuery(undefined, {
+    pollingInterval: 30e3,
+    skip: !user,
+  })
 
-  if (isError) {
-    window.open('/saml2/authenticate/eleg', '_self')
+  if (isLoading) {
     return null
   }
 
-  return <>{children}</>
+  if (isError) {
+    window.open(import.meta.env.VITE_LOGIN_URL, '_self')
+    return null
+  }
+
+  return (
+    <>
+      {session && session.secondsUntilExpire <= 300 && <SessionDialog />}
+      {children}
+    </>
+  )
 }

@@ -31,15 +31,15 @@ describe('Subscription warning modal', () => {
     testStore.dispatch(updateUserResourceLinks(getSubscriptionWarningResourceLink()))
 
     renderComponent()
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('should close modal when clicking on close button', () => {
+  it('should close modal when clicking on close button', async () => {
     testStore.dispatch(updateUserResourceLinks(getSubscriptionWarningResourceLink()))
 
     renderComponent()
 
-    userEvent.click(screen.getByText('Stäng'))
+    await userEvent.click(screen.getByText('Stäng'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })

@@ -122,6 +122,7 @@ export function Welcome() {
                 ['all', 'All'],
                 ['dev', 'Dev'],
                 ['demo', 'Demo'],
+                ['utbildning', 'Utbildning'],
               ].map(([id, label]) => (
                 <label key={id} htmlFor={id} className="pr-2">
                   <input

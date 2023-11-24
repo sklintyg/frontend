@@ -1,26 +1,21 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render } from '@testing-library/react'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateInformation } from './CertificateInformation'
 
-it('Should render as expected', () => {
+function renderComponent() {
   const metadata = fakerFromSchema(certificateMetadataSchema)({
     issuer: {
       name: 'Mats Andersson',
-      phoneNumber: '3226-91101',
     },
     unit: {
       id: 'fac5103a-357b-4037-847e-eadf5866573a',
       name: 'Jansson, Lundqvist Kommanditbolag',
       address: 'Löfgrens Väg 262, 904 38 Båhamn',
+      phoneNumber: '3226-91101',
     },
-    events: [
-      {
-        timestamp: '2023-09-26T03:28:09.273Z',
-        certificateId: 'commodi',
-        description: 'Ersätter ett intyg som inte längre är aktuellt',
-      },
-    ],
+    events: [],
     id: '39a4e3af-6f92-46d8-875f-4ca5ff96589f',
     issued: '2022-11-10T22:56:55.241Z',
     type: {
@@ -33,6 +28,14 @@ it('Should render as expected', () => {
       value: 'Downs syndrom',
     },
   })
-  const { container } = render(<CertificateInformation {...metadata} />)
+  return render(
+    <RouterProvider
+      router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<CertificateInformation {...metadata} />} />))}
+    />
+  )
+}
+
+it('Should render as expected', () => {
+  const { container } = renderComponent()
   expect(container).toMatchSnapshot()
 })

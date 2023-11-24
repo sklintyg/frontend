@@ -3,14 +3,12 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
 import { updateActiveList, updateListItemAsForwarded } from './listActions'
 
-const getList = () => {
-  return [
-    { values: { CERTIFICATE_ID: 'id1', FORWARDED: false } },
-    { values: { CERTIFICATE_ID: 'id1', FORWARDED: false } },
-    { values: { CERTIFICATE_ID: 'id2', FORWARDED: false } },
-    { values: { CERTIFICATE_ID: 'id3', FORWARDED: false } },
-  ]
-}
+const getList = () => [
+  { values: { CERTIFICATE_ID: 'id1', FORWARDED: false } },
+  { values: { CERTIFICATE_ID: 'id1', FORWARDED: false } },
+  { values: { CERTIFICATE_ID: 'id2', FORWARDED: false } },
+  { values: { CERTIFICATE_ID: 'id3', FORWARDED: false } },
+]
 describe('List reducer test', () => {
   let testStore: EnhancedStore
 
@@ -22,11 +20,11 @@ describe('List reducer test', () => {
     testStore.dispatch(updateActiveList(getList()))
     testStore.dispatch(updateListItemAsForwarded('id1'))
 
-    const activeList = testStore.getState().ui.uiList.activeList
+    const { activeList } = testStore.getState().ui.uiList
 
-    expect(activeList[0].values['FORWARDED']).toBeTruthy()
-    expect(activeList[1].values['FORWARDED']).toBeTruthy()
-    expect(activeList[2].values['FORWARDED']).toBeFalsy()
-    expect(activeList[3].values['FORWARDED']).toBeFalsy()
+    expect(activeList[0].values.FORWARDED).toBeTruthy()
+    expect(activeList[1].values.FORWARDED).toBeTruthy()
+    expect(activeList[2].values.FORWARDED).toBeFalsy()
+    expect(activeList[3].values.FORWARDED).toBeFalsy()
   })
 })

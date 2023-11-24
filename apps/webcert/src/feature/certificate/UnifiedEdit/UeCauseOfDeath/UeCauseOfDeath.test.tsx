@@ -1,5 +1,5 @@
 import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
 import { ComponentProps } from 'react'
@@ -63,9 +63,9 @@ describe('Cause of death component', () => {
   it('does not disable component if disabled is not set', () => {
     renderComponent({ disabled: false, question })
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).not.toBeDisabled()
-    expect(screen.getByLabelText('Beskrivning')).not.toBeDisabled()
-    expect(screen.getByLabelText('Ungefärlig debut')).not.toBeDisabled()
+    expect(dropdown).toBeEnabled()
+    expect(screen.getByLabelText('Beskrivning')).toBeEnabled()
+    expect(screen.getByLabelText('Ungefärlig debut')).toBeEnabled()
   })
 
   it('disables component if disabled is set', () => {
@@ -76,34 +76,13 @@ describe('Cause of death component', () => {
     expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
   })
 
-  it('formats input into yyyy-mm-dd', () => {
+  it('formats input into yyyy-mm-dd', async () => {
     renderComponent({ disabled: false, question })
 
     const inputDate = '20200202'
     const expected = '2020-02-02'
     const input = screen.getByLabelText('Ungefärlig debut')
-    userEvent.type(input, inputDate)
+    await userEvent.type(input, inputDate)
     expect(input).toHaveValue(expected)
-  })
-
-  it.skip('Should disable options past max date', async () => {
-    renderComponent({
-      disabled: false,
-      question: fakeCauseOfDeathElement({
-        id: 'id',
-        config: {
-          causeOfDeath: {
-            maxDate: '2023-02-17',
-          },
-        },
-        value: { debut: { date: '2023-02-17' } },
-      })['id'],
-    })
-
-    await act(async () => {
-      userEvent.click(screen.getByLabelText('Öppna kalendern'))
-    })
-
-    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
 })

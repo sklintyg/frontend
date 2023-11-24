@@ -54,7 +54,7 @@ describe('SrsRisk', () => {
         store.dispatch(updateSrsPredictions([]))
       })
       expect(
-        screen.getByText('Risken gäller ' + srsInfo.predictions[0].diagnosisCode + ' ' + srsInfo.predictions[0].diagnosisDescription)
+        screen.getByText(`Risken gäller ${srsInfo.predictions[0].diagnosisCode} ${srsInfo.predictions[0].diagnosisDescription}`)
       ).toBeInTheDocument()
     })
 
@@ -63,9 +63,7 @@ describe('SrsRisk', () => {
       renderComponent()
       store.dispatch(updateSrsInfo(undefined))
       store.dispatch(updateSrsPredictions(predictions))
-      expect(
-        screen.getByText('Risken gäller ' + predictions[0].diagnosisCode + ' ' + predictions[0].diagnosisDescription)
-      ).toBeInTheDocument()
+      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from predictions if both predictions and srs info is set', () => {
@@ -74,9 +72,7 @@ describe('SrsRisk', () => {
       renderComponent()
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions(predictions))
-      expect(
-        screen.getByText('Risken gäller ' + predictions[0].diagnosisCode + ' ' + predictions[0].diagnosisDescription)
-      ).toBeInTheDocument()
+      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from last predictions matching chosen diagnosis code', () => {
@@ -87,7 +83,7 @@ describe('SrsRisk', () => {
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions(predictions))
       expect(
-        screen.getByText('Risken gäller ' + chosenPrediction.diagnosisCode + ' ' + chosenPrediction.diagnosisDescription)
+        screen.getByText(`Risken gäller ${chosenPrediction.diagnosisCode} ${chosenPrediction.diagnosisDescription}`)
       ).toBeInTheDocument()
     })
   })
@@ -103,23 +99,23 @@ describe('SrsRisk', () => {
       expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
     })
 
-    it('should show chevron up icon when button has not been pressed', () => {
+    it('should show chevron up icon when button has not been pressed', async () => {
       renderComponent()
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
     })
 
-    it('should show questions when clicking button', () => {
+    it('should show questions when clicking button', async () => {
       renderComponent()
       const question = fakeSrsQuestion()
       store.dispatch(updateSrsQuestions([question]))
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       expect(screen.getByText(question.text)).toBeInTheDocument()
     })
 
-    it('should log when clicking button', () => {
+    it('should log when clicking button', async () => {
       renderComponent()
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
 
@@ -131,25 +127,25 @@ describe('SrsRisk', () => {
   })
 
   describe('calculate risk button', () => {
-    it('should show button when opening form', () => {
+    it('should show button when opening form', async () => {
       renderComponent()
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       expect(screen.getByText('Beräkna')).toBeInTheDocument()
     })
 
-    it('should log when clicking button', () => {
+    it('should log when clicking button', async () => {
       renderComponent()
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      userEvent.click(screen.getByText('Beräkna'))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText('Beräkna'))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
 
-    it('should close risk form if open risk form button gets disabled', () => {
+    it('should close risk form if open risk form button gets disabled', async () => {
       renderComponent()
       const question = fakeSrsQuestion()
       store.dispatch(updateSrsQuestions([question]))
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      userEvent.click(screen.getByText('Beräkna'))
+      await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
+      await userEvent.click(screen.getByText('Beräkna'))
       expect(screen.queryByText(question.text)).not.toBeInTheDocument()
     })
   })

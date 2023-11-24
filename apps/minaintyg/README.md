@@ -50,6 +50,26 @@ Start the application with `pnpm --filter @frontend/minaintyg dev` for only webc
 
 Read more about environment files over at [Vite](https://vitejs.dev/guide/env-and-mode.html#env-files).
 
+## Navbar links
+
+A shared navigation JSON is fetched from 1177 and stored in this project manually as `1177-navbar-services.json`. More information can be found at [1177.se](https://www.1177.se/Vastmanland/riktlinjer-och-material/om-varumarket/Varumarkesmanual/tillampningar/digitala-tjanster/gemensam-menystruktur-for-1177/).
+
+### Change mode
+
+Links are resolved differently depending on build mode. `production` is the default mode.
+
+| mode        | key    | example url                          |
+| ----------- | ------ | ------------------------------------ |
+| production  | `prod` | `https://e-tjanster.1177.se/mvk/`    |
+| development | `sys`  | `https://e-tjanster.st.1177.se/mvk/` |
+| staging     | `acc`  | `https://e-tjanster.at.1177.se/mvk/` |
+
+Use `--mode` to force a different mode when building
+
+```bash
+pnpm --filter @frontend/minaintyg build --mode staging
+```
+
 ## Resources
 
 - [React](https://react.dev/) ─ Components

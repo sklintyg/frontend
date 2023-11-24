@@ -3,8 +3,8 @@ import { IDSAlert } from '@frontend/ids-react-ts'
 export function EmptyCertificateListInfo({ total }: { total: number }) {
   if (total > 0) {
     return (
-      <IDSAlert headline="Inget resultat">
-        <p>De filter du valt matchar inga av dina intyg. </p>
+      <IDSAlert headline="Din filtrering gav inga träffar">
+        <p>Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.</p>
       </IDSAlert>
     )
   }

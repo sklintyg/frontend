@@ -1,36 +1,27 @@
 import {
-  CertificateDataConfig,
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigLayout,
   ConfigTypes,
-  ConfigUeCheckboxBoolean,
-  ConfigUeCheckboxMultipleCodes,
-  ConfigUeCheckboxMultipleDate,
-  ConfigUeDateRange,
-  ConfigUeDropdown,
   ConfigUeIcf,
-  ConfigUeInteger,
-  ConfigUeMessage,
-  ConfigUeRadioBoolean,
-  ConfigUeRadioMultipleCodes,
-  ConfigUeRadioMultipleCodesOptionalDropdown,
-  ConfigUeSickLeavePeriod,
-  ConfigUeTextArea,
-  ConfigUeYear,
+  fakeCertificateConfig,
+  fakeCertificateValue,
+  fakeCheckboxBooleanElement,
+  fakeCheckboxMultipleCodeElement,
+  fakeCheckboxMultipleDate,
   fakeDateRangeElement,
+  fakeDropdownElement,
+  fakeICFDataElement,
+  fakeIntegerElement,
+  fakeMessageElement,
+  fakeRadioBooleanElement,
+  fakeRadioMultipleCodesOptionalDropdown,
+  fakeSickLeavePeriod,
+  fakeTextAreaElement,
+  fakeYearElement,
   getCertificateWithQuestion,
   MessageLevel,
-  ValueBoolean,
-  ValueCode,
-  ValueCodeList,
-  ValueDateList,
-  ValueDateRange,
-  ValueDateRangeList,
   ValueIcf,
-  ValueInteger,
   ValueText,
-  ValueType,
   ValueYear,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
@@ -42,6 +33,211 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
+
+function createQuestionWithTextValue(): CertificateDataElement {
+  return fakeTextAreaElement({ id: 'id', value: { text: 'Text' } }).id
+}
+
+function createQuestionWithCheckboxBooleanValue(): CertificateDataElement {
+  return fakeCheckboxBooleanElement({
+    id: 'id',
+    value: { selected: true },
+    config: {
+      selectedText: 'Boolean value = true',
+      unselectedText: 'Boolean value = false',
+      label: 'This is the label',
+    },
+  }).id
+}
+
+function createQuestionWithBooleanValue(): CertificateDataElement {
+  return fakeRadioBooleanElement({
+    id: 'id',
+    value: { selected: true },
+    config: { selectedText: 'Boolean value = true', unselectedText: 'Boolean value = false' },
+  }).id
+}
+
+function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataElement {
+  return fakeICFDataElement({
+    id: 'id',
+    value: { text: 'text value', icfCodes },
+    config: { label: 'label', collectionsLabel: 'collections label' },
+  }).id
+}
+
+function createQuestionWithCodeValue(): CertificateDataElement {
+  return fakeDropdownElement({
+    id: 'id',
+    value: { id: 'THIS_CODE', code: 'CODE' },
+    config: {
+      list: [
+        fakeCertificateConfig.radioCode({
+          id: 'THIS_CODE',
+          label: 'This code',
+        }),
+        fakeCertificateConfig.radioCode({
+          id: 'NOT_THIS_CODE',
+          label: 'Not this code',
+        }),
+      ],
+    },
+  }).id
+}
+
+function createQuestionWithMultipleCodeValues(): CertificateDataElement {
+  return fakeCheckboxMultipleCodeElement({
+    id: 'id',
+    value: {
+      list: Array.from({ length: 2 }, (_, index) =>
+        fakeCertificateValue.code({
+          id: `CODE_${index + 1}`,
+          code: `CODE_${index + 1}`,
+        })
+      ),
+    },
+    config: {
+      list: Array.from({ length: 3 }, (_, index) => ({
+        id: `CODE_${index + 1}`,
+        label: `Code ${index + 1}`,
+      })),
+    },
+  }).id
+}
+
+function createQuestionWithMultipleDates(): CertificateDataElement {
+  return fakeCheckboxMultipleDate({
+    id: 'id',
+    value: {
+      list: [
+        fakeCertificateValue.date({
+          id: 'DATE_1',
+          date: '2020-02-02',
+        }),
+        fakeCertificateValue.date({
+          id: 'DATE_2',
+          date: '2021-05-05',
+        }),
+      ],
+    },
+    config: {
+      list: Array.from({ length: 3 }, (_, index) =>
+        fakeCertificateConfig.checkboxDate({ id: `DATE_${index + 1}`, label: `Datum ${index + 1}` })
+      ),
+    },
+  }).id
+}
+
+const createQuestionWithDateRange = (): CertificateDataElement =>
+  fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  }).id
+
+const createQuestionWithMultipleDateRanges = (): CertificateDataElement =>
+  fakeSickLeavePeriod({
+    id: 'id',
+    value: {
+      list: [
+        {
+          id: 'DATE_1',
+          from: '2021-06-22',
+          to: '2021-06-25',
+        },
+        {
+          id: 'DATE_2',
+          from: '2021-06-26',
+          to: '2021-06-28',
+        },
+      ],
+    },
+    config: {
+      list: Array.from({ length: 3 }, (_, index) => ({
+        id: `DATE_${index + 1}`,
+        label: `Datum ${index + 1}`,
+      })),
+    },
+  }).id
+
+const createQuestionWithOptionalDropdown = () =>
+  fakeRadioMultipleCodesOptionalDropdown({
+    id: 'id',
+    value: {
+      id: 'CODE_1',
+      code: 'CODE_1',
+    },
+    config: {
+      list: [
+        {
+          id: 'CODE_1',
+          label: 'Code 1',
+          dropdownQuestionId: 'questionId',
+        },
+        {
+          id: 'CODE_2',
+          label: 'Code 2',
+          dropdownQuestionId: '',
+        },
+        {
+          id: 'CODE_3',
+          label: 'Code 3',
+          dropdownQuestionId: '',
+        },
+      ],
+    },
+  }).id
+
+const createDropdownQuestion = () =>
+  fakeDropdownElement({
+    id: 'questionId',
+    value: {
+      type: CertificateDataValueType.CODE,
+      id: 'CODE_DROPDOWN',
+      code: 'CODE_DROPDOWN',
+    },
+    config: {
+      type: ConfigTypes.UE_DROPDOWN,
+      list: [
+        {
+          id: 'CODE_DROPDOWN',
+          label: 'dropdown value',
+        },
+      ],
+    },
+  }).questionId
+
+function createQuestionWithUeMessageConfig(): CertificateDataElement {
+  return fakeMessageElement({
+    id: 'id',
+    config: {
+      level: MessageLevel.OBSERVE,
+      message: 'Hello from UE_MESSAGE',
+      id: '1.1',
+    },
+  }).id
+}
+
+function createQuestionWithIntegerValue(): CertificateDataElement {
+  return fakeIntegerElement({
+    id: 'id',
+    value: { value: 50 },
+    config: { unitOfMeasurement: '%' },
+  }).id
+}
+
+function createQuestionWithYearValue(): CertificateDataElement {
+  return fakeYearElement({
+    id: 'id',
+    value: { year: 2020 },
+  }).id
+}
 
 const renderDefaultComponent = (question: CertificateDataElement) => {
   render(
@@ -184,7 +380,7 @@ describe('QuestionUvResolve', () => {
   it('should render ue_message if visible is true', () => {
     const question = createQuestionWithUeMessageConfig()
     renderDefaultComponent(question)
-    expect(screen.queryByText(/Hello from UE_MESSAGE/i)).toBeInTheDocument()
+    expect(screen.getByText(/Hello from UE_MESSAGE/i)).toBeInTheDocument()
   })
   it('should not render ue_message if visible is false', () => {
     const question = createQuestionWithUeMessageConfig()
@@ -226,388 +422,3 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('50%')).toBeInTheDocument()
   })
 })
-
-// Helper functions... Probably a good idea to create some utilities that can be reused....
-function createQuestionWithTextValue(): CertificateDataElement {
-  const value: ValueText = {
-    type: CertificateDataValueType.TEXT,
-    text: 'Text',
-    id: '',
-  }
-  const config: ConfigUeTextArea = {
-    description: '',
-    id: '',
-    text: '',
-    type: ConfigTypes.UE_TEXTAREA,
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithCheckboxBooleanValue(): CertificateDataElement {
-  const value: ValueBoolean = {
-    type: CertificateDataValueType.BOOLEAN,
-    selected: true,
-    id: '',
-  }
-  const config: ConfigUeCheckboxBoolean = {
-    id: '',
-    selectedText: 'Boolean value = true',
-    unselectedText: 'Boolean value = false',
-    description: '',
-    label: 'This is the label',
-    text: '',
-    type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithBooleanValue(): CertificateDataElement {
-  const value: ValueBoolean = {
-    type: CertificateDataValueType.BOOLEAN,
-    selected: true,
-    id: '',
-  }
-  const config: ConfigUeRadioBoolean = {
-    id: '',
-    selectedText: 'Boolean value = true',
-    unselectedText: 'Boolean value = false',
-    description: '',
-    label: '',
-    text: '',
-    type: ConfigTypes.UE_RADIO_BOOLEAN,
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataElement {
-  const value: ValueIcf = {
-    type: CertificateDataValueType.ICF,
-    id: '',
-    text: 'text value',
-    icfCodes: icfCodes,
-  }
-  const config: ConfigUeIcf = {
-    description: '',
-    id: '',
-    text: '',
-    type: ConfigTypes.UE_ICF,
-    label: 'label',
-    collectionsLabel: 'collections label',
-    modalLabel: '',
-    placeholder: '',
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithCodeValue(): CertificateDataElement {
-  const value: ValueCode = {
-    type: CertificateDataValueType.CODE,
-    id: 'THIS_CODE',
-    code: 'CODE',
-  }
-  const config: ConfigUeRadioMultipleCodes = {
-    description: '',
-    id: '',
-    text: '',
-    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-    layout: ConfigLayout.ROWS,
-    list: [
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_RADIO_CODE,
-        id: 'THIS_CODE',
-        label: 'This code',
-      },
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_RADIO_CODE,
-        id: 'NOT_THIS_CODE',
-        label: 'Not this code',
-      },
-    ],
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithMultipleCodeValues(): CertificateDataElement {
-  const value: ValueCodeList = {
-    type: CertificateDataValueType.CODE_LIST,
-    list: [
-      {
-        type: CertificateDataValueType.CODE,
-        id: 'CODE_1',
-        code: 'CODE_1',
-      },
-      {
-        type: CertificateDataValueType.CODE,
-        id: 'CODE_2',
-        code: 'CODE_2',
-      },
-    ],
-  }
-  const config: ConfigUeCheckboxMultipleCodes = {
-    description: '',
-    text: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
-    layout: ConfigLayout.ROWS,
-    list: [
-      {
-        id: 'CODE_1',
-        label: 'Code 1',
-      },
-      {
-        id: 'CODE_2',
-        label: 'Code 2',
-      },
-      {
-        id: 'CODE_3',
-        label: 'Code 3',
-      },
-    ],
-  }
-  return createQuestion(value, config)
-}
-
-function createQuestionWithMultipleDates(): CertificateDataElement {
-  const value: ValueDateList = {
-    type: CertificateDataValueType.DATE_LIST,
-    list: [
-      {
-        type: CertificateDataValueType.DATE,
-        id: 'DATE_1',
-        date: '2020-02-02',
-      },
-      {
-        type: CertificateDataValueType.DATE,
-        id: 'DATE_2',
-        date: '2021-05-05',
-      },
-    ],
-  }
-  const config: ConfigUeCheckboxMultipleDate = {
-    description: '',
-    text: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
-    list: [
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_DATE,
-        id: 'DATE_1',
-        label: 'Datum 1',
-      },
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_DATE,
-        id: 'DATE_2',
-        label: 'Datum 2',
-      },
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_DATE,
-        id: 'DATE_3',
-        label: 'Datum 3',
-      },
-    ],
-  }
-  return createQuestion(value, config)
-}
-
-const createQuestionWithDateRange = (): CertificateDataElement => {
-  const question = fakeDateRangeElement({
-    id: 'id',
-    value: {
-      id: 'DATE_1',
-      from: '2021-06-22',
-      to: '2021-06-25',
-    },
-    config: {
-      id: 'DATE_1',
-    },
-  })['id']
-
-  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
-}
-
-const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
-  const value: ValueDateRangeList = {
-    type: CertificateDataValueType.DATE_RANGE_LIST,
-    list: [
-      {
-        id: 'DATE_1',
-        from: '2021-06-22',
-        to: '2021-06-25',
-        type: CertificateDataValueType.DATE_RANGE,
-      },
-      {
-        id: 'DATE_2',
-        from: '2021-06-26',
-        to: '2021-06-28',
-        type: CertificateDataValueType.DATE_RANGE,
-      },
-    ],
-  }
-  const config: ConfigUeSickLeavePeriod = {
-    description: '',
-    text: '',
-    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
-    previousSickLeavePeriod: '',
-    list: [
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE,
-        id: 'DATE_1',
-        label: 'Datum 1',
-      },
-      {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE,
-        id: 'DATE_2',
-        label: 'Datum 2',
-      },
-    ],
-  }
-
-  return createQuestion(value, config)
-}
-
-const createQuestionWithOptionalDropdown = () => {
-  const value: ValueCode = {
-    type: CertificateDataValueType.CODE,
-    id: 'CODE_1',
-    code: 'CODE_1',
-  }
-
-  const config: ConfigUeRadioMultipleCodesOptionalDropdown = {
-    description: '',
-    id: '',
-    text: '',
-    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
-    list: [
-      {
-        id: 'CODE_1',
-        label: 'Code 1',
-        dropdownQuestionId: 'questionId',
-      },
-      {
-        id: 'CODE_2',
-        label: 'Code 2',
-        dropdownQuestionId: '',
-      },
-      {
-        id: 'CODE_3',
-        label: 'Code 3',
-        dropdownQuestionId: '',
-      },
-    ],
-  }
-  return createQuestion(value, config)
-}
-
-const createDropdownQuestion = () => {
-  const value: ValueCode = {
-    type: CertificateDataValueType.CODE,
-    id: 'CODE_DROPDOWN',
-    code: 'CODE_DROPDOWN',
-  }
-
-  const config: ConfigUeDropdown = {
-    description: '',
-    text: '',
-    type: ConfigTypes.UE_DROPDOWN,
-    list: [
-      {
-        id: 'CODE_DROPDOWN',
-        label: 'dropdown value',
-      },
-    ],
-  }
-  return {
-    id: 'questionId',
-    readOnly: true,
-    index: 0,
-    mandatory: false,
-    visible: true,
-    parent: 'parent',
-    validationErrors: [],
-    validation: [],
-    config,
-    value,
-  }
-}
-function createQuestionWithUeMessageConfig(): CertificateDataElement {
-  const value: ValueText = {
-    type: CertificateDataValueType.TEXT,
-    text: 'Text',
-    id: '',
-  }
-  const config: ConfigUeMessage = {
-    description: '',
-    text: '',
-    type: ConfigTypes.UE_MESSAGE,
-    level: MessageLevel.OBSERVE,
-    message: 'Hello from UE_MESSAGE',
-    id: '1.1',
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithIntegerValue(): CertificateDataElement {
-  const value: ValueInteger = {
-    type: CertificateDataValueType.INTEGER,
-    id: '',
-    value: 50,
-  }
-  const config: ConfigUeInteger = {
-    type: ConfigTypes.UE_INTEGER,
-    id: '',
-    unitOfMeasurement: '%',
-    text: '',
-    description: '',
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestionWithYearValue(): CertificateDataElement {
-  const value: ValueYear = {
-    type: CertificateDataValueType.YEAR,
-    year: 2020,
-    id: '',
-  }
-  const config: ConfigUeYear = {
-    description: '',
-    text: '',
-    id: '',
-    type: ConfigTypes.UE_YEAR,
-  }
-
-  return createQuestion(value, config)
-}
-
-function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
-  return {
-    id: 'id',
-    readOnly: true,
-    index: 0,
-    mandatory: false,
-    visible: true,
-    parent: 'parent',
-    validationErrors: [],
-    validation: [],
-    config,
-    value,
-  }
-}

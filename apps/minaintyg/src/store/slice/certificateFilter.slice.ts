@@ -4,7 +4,7 @@ import { CertificateFilterOptions } from '../../schema/certificateListFilter.sch
 
 export type CertificateFilterState = { [K in keyof CertificateFilterOptions]?: string }
 
-const initialState: CertificateFilterState = {}
+const initialState: CertificateFilterState & { submitFilters: CertificateFilterState } = { submitFilters: {} }
 
 const certificateFilterSlice = createSlice({
   name: 'certificateFilter',
@@ -22,8 +22,11 @@ const certificateFilterSlice = createSlice({
         state[key] = value
       }
     },
+    submit(state, { payload }: PayloadAction<CertificateFilterState>) {
+      state.submitFilters = payload
+    },
   },
 })
 
-export const { reset, update } = certificateFilterSlice.actions
+export const { reset, update, submit } = certificateFilterSlice.actions
 export const { reducer: certificateFilterReducer, name: certificateFilterReducerPath } = certificateFilterSlice

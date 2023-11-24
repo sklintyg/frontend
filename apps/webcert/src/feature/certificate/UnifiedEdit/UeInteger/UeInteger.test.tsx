@@ -15,11 +15,9 @@ const question = fakeIntegerElement({ id: QUESTION_ID, value: { value: testValue
 
 const renderComponent = (props: ComponentProps<typeof UeInteger>) => {
   render(
-    <>
-      <Provider store={testStore}>
-        <UeInteger {...props} />
-      </Provider>
-    </>
+    <Provider store={testStore}>
+      <UeInteger {...props} />
+    </Provider>
   )
 }
 describe('Integer component', () => {
@@ -36,26 +34,26 @@ describe('Integer component', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('should not allow numbers bigger than three digits', () => {
+  it('should not allow numbers bigger than three digits', async () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('testNumber'), '199')
+    await userEvent.type(screen.getByTestId('testNumber'), '199')
 
     expect(screen.getByTestId('testNumber')).not.toHaveValue('')
   })
 
-  it('should not allow letters', () => {
+  it('should not allow letters', async () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('testNumber'), 'ABC')
+    await userEvent.type(screen.getByTestId('testNumber'), 'ABC')
 
     expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
   })
 
-  it('should not allow strings starting with numbers and containing other characters', () => {
+  it('should not allow strings starting with numbers and containing other characters', async () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('testNumber'), '012')
+    await userEvent.type(screen.getByTestId('testNumber'), '012')
 
     expect(screen.getByTestId('testNumber')).not.toHaveValue('012')
   })

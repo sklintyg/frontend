@@ -1,18 +1,18 @@
 import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
-import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
-import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 
 let testStore: EnhancedStore
 
@@ -27,6 +27,20 @@ const renderComponent = () => {
       </Router>
     </Provider>
   )
+}
+
+const createCertificate = (resourceLinks: ResourceLink[]): Certificate =>
+  ({
+    links: resourceLinks,
+    metadata: { status: CertificateStatus.SIGNED } as CertificateMetadata,
+  } as Certificate)
+
+const renderTab = async (tabText: string, resourceLinkType: ResourceLinkType) => {
+  const resourceLinks: ResourceLink[] = [{ type: resourceLinkType, name: tabText } as ResourceLink]
+  const certificate = createCertificate(resourceLinks)
+  testStore.dispatch(updateCertificate(certificate))
+  renderComponent()
+  await userEvent.click(screen.getAllByText('Om intyget')[0])
 }
 
 describe('CertificateSidePanel', () => {
@@ -117,7 +131,7 @@ describe('CertificateSidePanel', () => {
       const tabText = 'FMB'
       const expectedContent = 'Ange minst en diagnos för att få FMB-stöd.'
       renderTab(tabText, ResourceLinkType.FMB)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      await userEvent.click(screen.getByText(tabText))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
@@ -126,7 +140,7 @@ describe('CertificateSidePanel', () => {
       const expectedComplementText = 'Kompletteringsbegäran'
       const expectedAdministrativeText = 'Administrativa frågor'
       renderTab(tabText, ResourceLinkType.QUESTIONS)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      await userEvent.click(screen.getByText(tabText))
       expect(screen.getByText(expectedComplementText)).toBeVisible()
       expect(screen.getByText(expectedAdministrativeText)).toBeVisible()
     })
@@ -135,7 +149,7 @@ describe('CertificateSidePanel', () => {
       const tabText = 'Question not available'
       const expectedContent = 'Intyget är inte skickat till Försäkringskassan.'
       renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      await userEvent.click(screen.getByText(tabText))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
@@ -143,7 +157,7 @@ describe('CertificateSidePanel', () => {
       const tabText = 'SRS'
       const expectedContent = SRS_TITLE
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      await userEvent.click(screen.getByText(tabText))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
@@ -154,27 +168,8 @@ describe('CertificateSidePanel', () => {
       testStore.dispatch(updateCertificateId(certiticateId))
       testStore.dispatch(updateLoggedCertificateId(loggedCertificateId))
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      await userEvent.click(screen.getByText(tabText))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })
-
-const renderTab = (tabText: string, resourceLinkType: ResourceLinkType) => {
-  const resourceLinks: ResourceLink[] = [{ type: resourceLinkType, name: tabText } as ResourceLink]
-  const certificate = createCertificate(resourceLinks)
-  testStore.dispatch(updateCertificate(certificate))
-  renderComponent()
-  openAboutTab()
-}
-
-const openAboutTab = () => {
-  userEvent.click(screen.getAllByText('Om intyget')[0])
-}
-
-const createCertificate = (resourceLinks: ResourceLink[]): Certificate => {
-  return {
-    links: resourceLinks,
-    metadata: { status: CertificateStatus.SIGNED } as CertificateMetadata,
-  } as Certificate
-}

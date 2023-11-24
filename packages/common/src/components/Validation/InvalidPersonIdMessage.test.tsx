@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import InvalidPersonIdMessage from './InvalidPersonIdMessage'
 
 const EXPECTED_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
@@ -10,7 +9,7 @@ const renderComponent = (display: boolean) => {
 
 describe('InvalidPersonIdMessage', () => {
   it('should render component', () => {
-    renderComponent(false)
+    expect(() => renderComponent(false)).not.toThrow()
   })
 
   it('should show error message if display is true', () => {

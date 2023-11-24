@@ -16,6 +16,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -30,8 +31,174 @@ import {
 } from './fmbActions'
 import { fmbMiddleware } from './fmbMiddleware'
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+const getFMBDiagnoseRequest = (code: string, index: number): FMBDiagnoseRequest => ({
+  icd10Code: code,
+  icd10Description: `Description for ${code}`,
+  index,
+})
+
+const getResponseWithFMB = (code: string) => ({
+  icd10Code: code,
+  icd10Description: `Description for ${code}`,
+  diagnosTitle: 'diagnosTitle',
+  forms: [],
+  referenceDescription: 'referenceDescription',
+  referenceLink: 'referenceLink',
+  relatedDiagnoses: 'relatedDiagnoses',
+})
+
+const getResponseWithEmptyFMB = () => ({})
+
+const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => ({
+  icd10Code: code,
+  originalIcd10Code: code,
+  icd10Description: `Description for ${code}`,
+  index,
+  originalIcd10Description: `Description for ${code}`,
+  diagnosTitle: 'diagnosTitle',
+  forms: [],
+  referenceDescription: 'referenceDescription',
+  referenceLink: 'referenceLink',
+  relatedDiagnoses: 'relatedDiagnoses',
+})
+
+const getFMBDiagnosisCodeInfoResultWithOtherCode = (code: string, index: number, originalCode: string) => ({
+  icd10Code: code,
+  originalIcd10Code: originalCode,
+  icd10Description: `Description for ${code}`,
+  originalIcd10Description: `Description for ${originalCode}`,
+  diagnosTitle: 'diagnosTitle',
+  forms: [],
+  referenceDescription: 'referenceDescription',
+  referenceLink: 'referenceLink',
+  relatedDiagnoses: 'relatedDiagnoses',
+  index,
+})
+
+const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => ({
+  index,
+  originalIcd10Code: code,
+  originalIcd10Description: `Description for ${code}`,
+})
+
+const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
+  fakeDiagnosesElement({
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: fakeCertificateConfig.diagnoses({
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+    }),
+    value: {
+      list: [
+        {
+          code: 'code',
+          terminology: codeSystem,
+          id: '1',
+        },
+      ],
+    },
+  })['6.1']
+
+const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
+  fakeDiagnosesElement({
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+    },
+    value: {
+      list: codes.map((value, index) => ({
+        id: String(index + 1),
+        terminology: 'icd10',
+        code: value.icd10Code,
+        description: value.icd10Description,
+      })),
+    },
+  })['6.1']
+
+const getDateRangeListValue = (): ValueDateRangeList => ({
+  type: CertificateDataValueType.DATE_RANGE_LIST,
+  list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
+})
+
+const getDiagnosisListValue = (): ValueDiagnosisList => ({
+  type: CertificateDataValueType.DIAGNOSIS_LIST,
+  list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
+})
+
+const getDateRangeListElement = (): CertificateDataElement =>
+  fakeSickLeavePeriod({
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    value: {
+      list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
+    },
+    validation: [],
+    validationErrors: [],
+  })['6.1']
+
+const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => ({
+  links: [
+    {
+      type: ResourceLinkType.FMB,
+      enabled: true,
+      name: 'FMB',
+      description: 'FMB',
+    },
+  ],
+  data: {
+    '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
+  },
+  metadata: {
+    patient: {
+      personId: {
+        type: 'type',
+        id: '1912121212',
+      },
+    } as Patient,
+  } as CertificateMetadata,
+})
+
+const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => ({
+  links:
+    fmbActive === undefined
+      ? []
+      : [
+          {
+            type: ResourceLinkType.FMB,
+            enabled: fmbActive,
+            name: 'FMB',
+            description: 'FMB',
+          },
+        ],
+  data: {
+    '6.1': getDiagnosesElement(codes),
+  },
+  metadata: {
+    patient: {
+      personId: {
+        type: 'type',
+        id: '1912121212',
+      },
+    } as Patient,
+  } as CertificateMetadata,
+})
 
 describe('Test FMB middleware', () => {
   let fakeAxios: MockAdapter
@@ -47,7 +214,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
       const fmbDiagnosisResponse = getResponseWithFMB(fmbDiagnosisRequest.icd10Code)
       const expectedFMBDiagnosisInfo = getFMBDiagnosisCodeInfoResult(fmbDiagnosisRequest.icd10Code, fmbDiagnosisRequest.index)
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(200, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(getFMBDiagnosisCodeInfo(fmbDiagnosisRequest))
 
@@ -59,7 +226,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
       const fmbDiagnosisResponse = getResponseWithEmptyFMB()
       const expectedFMBDiagnosisInfo = getEmptyFMBDiagnosisCodeInfoResult(fmbDiagnosisRequest.icd10Code, fmbDiagnosisRequest.index)
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(204, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(204, fmbDiagnosisResponse)
 
       testStore.dispatch(getFMBDiagnosisCodeInfo(fmbDiagnosisRequest))
 
@@ -77,7 +244,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
       const fmbDiagnosisResponse = getResponseWithFMB(fmbDiagnosisRequest.icd10Code)
       const expectedFMBDiagnosisInfo = getFMBDiagnosisCodeInfoResult(fmbDiagnosisRequest.icd10Code, fmbDiagnosisRequest.index)
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(200, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
 
@@ -104,7 +271,7 @@ describe('Test FMB middleware', () => {
       const expectedFMBDiagnosisInfoOne = getFMBDiagnosisCodeInfoResult(fmbDiagnosisRequestOne.icd10Code, fmbDiagnosisRequestOne.index)
       const expectedFMBDiagnosisInfoTwo = getFMBDiagnosisCodeInfoResult(fmbDiagnosisRequestTwo.icd10Code, fmbDiagnosisRequestTwo.index)
       testStore.dispatch(updateFMBDiagnosisCodeInfo(expectedFMBDiagnosisInfoTwo))
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequestOne.icd10Code).reply(200, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequestOne.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequestOne, fmbDiagnosisRequestTwo])))
 
@@ -224,7 +391,7 @@ describe('Test FMB middleware', () => {
       testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
       testStore.dispatch(
         updateCertificateDataElement(
-          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } })['id']
+          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } }).id
         )
       )
 
@@ -300,7 +467,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
       const fmbDiagnosisResponse = getResponseWithFMB(fmbDiagnosisRequest.icd10Code)
       const expectedFMBDiagnosisInfo = getFMBDiagnosisCodeInfoResult(fmbDiagnosisRequest.icd10Code, fmbDiagnosisRequest.index)
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(200, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
 
@@ -314,7 +481,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest(originalCode, 0)
       const fmbDiagnosisResponse = getResponseWithFMB(actualCode)
       const expectedFMBDiagnosisInfo = getFMBDiagnosisCodeInfoResultWithOtherCode(actualCode, fmbDiagnosisRequest.index, originalCode)
-      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(200, fmbDiagnosisResponse)
+      fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
 
@@ -331,188 +498,3 @@ describe('Test FMB middleware', () => {
     })
   })
 })
-
-const getFMBDiagnoseRequest = (code: string, index: number): FMBDiagnoseRequest => {
-  return { icd10Code: code, icd10Description: 'Description for ' + code, index: index }
-}
-
-const getResponseWithFMB = (code: string) => {
-  return {
-    icd10Code: code,
-    icd10Description: 'Description for ' + code,
-    diagnosTitle: 'diagnosTitle',
-    forms: [],
-    referenceDescription: 'referenceDescription',
-    referenceLink: 'referenceLink',
-    relatedDiagnoses: 'relatedDiagnoses',
-  }
-}
-
-const getResponseWithEmptyFMB = () => {
-  return {}
-}
-
-const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
-  return {
-    icd10Code: code,
-    originalIcd10Code: code,
-    icd10Description: 'Description for ' + code,
-    index: index,
-    originalIcd10Description: 'Description for ' + code,
-    diagnosTitle: 'diagnosTitle',
-    forms: [],
-    referenceDescription: 'referenceDescription',
-    referenceLink: 'referenceLink',
-    relatedDiagnoses: 'relatedDiagnoses',
-  }
-}
-
-const getFMBDiagnosisCodeInfoResultWithOtherCode = (code: string, index: number, originalCode: string) => {
-  return {
-    icd10Code: code,
-    originalIcd10Code: originalCode,
-    icd10Description: 'Description for ' + code,
-    originalIcd10Description: 'Description for ' + originalCode,
-    diagnosTitle: 'diagnosTitle',
-    forms: [],
-    referenceDescription: 'referenceDescription',
-    referenceLink: 'referenceLink',
-    relatedDiagnoses: 'relatedDiagnoses',
-    index: index,
-  }
-}
-
-const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
-  return {
-    index: index,
-    originalIcd10Code: code,
-    originalIcd10Description: 'Description for ' + code,
-  }
-}
-
-const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
-  fakeDiagnosesElement({
-    id: '6.1',
-    parent: '6',
-    index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.diagnoses({
-      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
-      description:
-        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-    }),
-    value: {
-      list: [
-        {
-          code: 'code',
-          terminology: codeSystem,
-          id: '1',
-        },
-      ],
-    },
-  })['6.1']
-
-const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
-  fakeDiagnosesElement({
-    id: '6.1',
-    parent: '6',
-    index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {
-      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
-      description:
-        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-    },
-    value: {
-      list: codes.map((value, index) => ({
-        id: String(index + 1),
-        terminology: 'icd10',
-        code: value.icd10Code,
-        description: value.icd10Description,
-      })),
-    },
-  })['6.1']
-
-const getDateRangeListValue = (): ValueDateRangeList => {
-  return {
-    type: CertificateDataValueType.DATE_RANGE_LIST,
-    list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
-  }
-}
-
-const getDiagnosisListValue = (): ValueDiagnosisList => {
-  return {
-    type: CertificateDataValueType.DIAGNOSIS_LIST,
-    list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
-  }
-}
-
-const getDateRangeListElement = (): CertificateDataElement =>
-  fakeSickLeavePeriod({
-    id: '6.1',
-    parent: '6',
-    index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    value: {
-      list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
-    },
-    validation: [],
-    validationErrors: [],
-  })['6.1']
-
-const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
-  return {
-    links: [
-      {
-        type: ResourceLinkType.FMB,
-        enabled: true,
-        name: 'FMB',
-        description: 'FMB',
-      },
-    ],
-    data: {
-      '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
-    },
-    metadata: {
-      patient: {
-        personId: {
-          type: 'type',
-          id: '1912121212',
-        },
-      } as Patient,
-    } as CertificateMetadata,
-  }
-}
-
-const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
-  return {
-    links:
-      fmbActive === undefined
-        ? []
-        : [
-            {
-              type: ResourceLinkType.FMB,
-              enabled: fmbActive,
-              name: 'FMB',
-              description: 'FMB',
-            },
-          ],
-    data: {
-      '6.1': getDiagnosesElement(codes),
-    },
-    metadata: {
-      patient: {
-        personId: {
-          type: 'type',
-          id: '1912121212',
-        },
-      } as Patient,
-    } as CertificateMetadata,
-  }
-}

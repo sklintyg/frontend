@@ -1,6 +1,6 @@
 import { UserTab } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -14,16 +14,14 @@ let testStore: EnhancedStore
 const PAGE_URL = '/url'
 const TAB_TITLE = 'Tab1'
 
-const getTabs = (url: string, matchedUrl: string): UserTab[] => {
-  return [
-    {
-      title: TAB_TITLE,
-      url: url,
-      number: 10,
-      matchedUrls: [matchedUrl],
-    },
-  ]
-}
+const getTabs = (url: string, matchedUrl: string): UserTab[] => [
+  {
+    title: TAB_TITLE,
+    url,
+    number: 10,
+    matchedUrls: [matchedUrl],
+  },
+]
 
 const onSwitchTab = vi.fn()
 
@@ -56,22 +54,22 @@ describe('AppHeaderTabs', () => {
 
   it('should set tab as selected if url is matched', () => {
     renderComponent(PAGE_URL, '')
-    expect(screen.getByRole('listitem').firstChild).toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
   it('should set tab as selected if matched url is matched', () => {
     renderComponent('', PAGE_URL)
-    expect(screen.getByRole('listitem').firstChild).toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
   it('should not set tab as selected if url is not matched', () => {
     renderComponent('notMatched', 'notMatched')
-    expect(screen.getByRole('listitem').firstChild).not.toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).not.toHaveClass('selected')
   })
 
-  it('should call onSwitchTab when switching tab', () => {
+  it('should call onSwitchTab when switching tab', async () => {
     renderComponent('', '')
-    userEvent.click(screen.getByText(TAB_TITLE))
+    await userEvent.click(screen.getByText(TAB_TITLE))
     expect(onSwitchTab).toHaveBeenCalled()
   })
 })

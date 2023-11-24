@@ -2,41 +2,30 @@
 import { HeaderNavItem, MobileMenuItem } from '@frontend/components'
 import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../../hooks/useLogout'
-
-const links = [
-  { title: 'Start', path: '/' },
-  { title: 'Inkorg', path: '/inkorg' },
-  { title: 'Bokade tider', path: '/bokade-tider' },
-  { title: 'Journalen', path: '/journalen' },
-  { title: 'Egen provhantering', path: '/egen-provhantering' },
-  { title: 'Stöd och behandling', path: '/stod-och-behandling' },
-  { title: 'Intyg', path: '/intyg' },
-  { title: 'Övriga tjänster', path: '/ovriga-tjanster' },
-]
+import navigation from '../../../data/1177-navbar-services.json'
+import settingsUrl from '../../../data/settings-url.json'
+import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
 
 export function LayoutHeaderNavigation() {
-  const logout = useLogout()
-
   return (
     <IDSHeaderNav>
-      {links.map(({ title, path }) => (
-        <HeaderNavItem key={path} to={path} title={title} />
+      {navigation.menu.items.map(({ id, name, url }) => (
+        <HeaderNavItem key={id} to={resolveNavigationUrl(url)} title={name} />
       ))}
 
       <IDSHeaderMobileItem>
-        <Link to="/installningar">Inställningar</Link>
+        <Link to={resolveNavigationUrl(settingsUrl)}>Inställningar</Link>
       </IDSHeaderMobileItem>
       <IDSHeaderMobileItem>
-        <a href="#" onClick={logout}>
+        <Link to="/logga-ut" slot="avatar-right">
           Logga ut
-        </a>
+        </Link>
       </IDSHeaderMobileItem>
 
       <IDSHeaderMobileMenu type="1177">
         Meny
-        {links.map(({ title, path }) => (
-          <MobileMenuItem key={path} to={path} title={title} />
+        {navigation.menu.items.map(({ id, name, url }) => (
+          <MobileMenuItem key={id} to={resolveNavigationUrl(url)} title={name} />
         ))}
       </IDSHeaderMobileMenu>
     </IDSHeaderNav>

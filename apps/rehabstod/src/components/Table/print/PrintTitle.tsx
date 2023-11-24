@@ -1,3 +1,3 @@
 export function PrintTitle({ title }: { title: string }) {
-  return <p className="font-bold">{title}:</p>
+  return <span className="font-bold">{title} </span>
 }

@@ -17,26 +17,23 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeDateRange>) => {
   )
 }
 
-const getValidationErrors = (field: string) => {
-  return [
-    {
-      id: QUESTION_ID,
-      field: field,
-      type: 'EMPTY',
-      text: ERROR_TEXT,
-      category: '',
-    },
-  ]
-}
+const getValidationErrors = (field: string) => [
+  {
+    id: QUESTION_ID,
+    field,
+    type: 'EMPTY',
+    text: ERROR_TEXT,
+    category: '',
+  },
+]
 
-const getQuestion = (validationErrors: ValidationError[]) => {
-  return fakeDateRangeElement({
+const getQuestion = (validationErrors: ValidationError[]) =>
+  fakeDateRangeElement({
     id: QUESTION_ID,
     value: { date: '2022-09-29' },
     config: { id: 'jsonid' },
-    validationErrors: validationErrors,
+    validationErrors,
   })[QUESTION_ID]
-}
 
 describe('Date range picker', () => {
   it('renders without crashing', () => {

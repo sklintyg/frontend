@@ -19,6 +19,11 @@ const renderDefaultComponent = () => {
   )
 }
 
+const setDefaultStoreValues = () => {
+  const signingData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
+  testStore.dispatch(updateCertificateSigningData(signingData))
+}
+
 describe('SigningForm', () => {
   beforeEach(() => {
     window.HTMLFormElement.prototype.submit = mockSubmit
@@ -41,8 +46,3 @@ describe('SigningForm', () => {
     expect(screen.getAllByRole('textbox', { hidden: true })[0]).toBeInTheDocument()
   })
 })
-
-const setDefaultStoreValues = () => {
-  const signingData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
-  testStore.dispatch(updateCertificateSigningData(signingData))
-}

@@ -1,4 +1,5 @@
 import { TableFilter } from '../../../components/Table/TableFilter'
+import { PrintTitle } from '../../../components/Table/print/PrintTitle'
 import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -18,6 +19,7 @@ import { CurrentSickLeavesTimePeriodFilter } from './CurrentSickLeavesFilter/Cur
 export function CurrentSickLeavesFilters({ onSearch }: { onSearch: (filter: SickLeaveFilter) => void }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const { filter, isValidDateRange } = useAppSelector((state) => state.sickLeaveFilter)
+  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const { data: user } = useGetUserQuery()
   const dispatch = useAppDispatch()
 
@@ -37,6 +39,10 @@ export function CurrentSickLeavesFilters({ onSearch }: { onSearch: (filter: Sick
       }}
       onReset={() => dispatch(reset())}
     >
+      <div className="hidden print:block">
+        <PrintTitle title="Personuppgifter" />
+        {showPersonalInformation ? 'Visas' : 'Visas ej'}
+      </div>
       <CurrentSickLeavesDiagnosisFilter />
       {!isUserDoctor(user) && <CurrentSickLeavesDoctorFilter options={populatedFilters.activeDoctors} />}
       <CurrentSickLeavesSearchFilter />

@@ -26,24 +26,34 @@ const renderComponent = (initialEntries = ['/']) =>
                 </div>
               }
             >
-              <Route index element={<p>Start</p>} />
+              <Route index element="Start" />
               <Route path="/intyg" handle={{ crumb: () => 'Intyg' }}>
-                <Route index element={<p>Certificates List</p>} />
+                <Route index element="Certificates List" />
                 <Route
                   path=":id"
                   handle={{
                     crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
                   }}
-                  element={<p>Intyget</p>}
+                  element="Intyget"
                 />
               </Route>
             </Route>,
+            <Route key="no-match" path="/no-matches" element="No available breadcrumbs" />,
           ]),
           { initialEntries }
         )}
       />
     </Provider>
   )
+
+it('Should render as expected with no matches', () => {
+  const { container } = renderComponent(['/no-matches'])
+  expect(container).toMatchInlineSnapshot(`
+    <div>
+      No available breadcrumbs
+    </div>
+  `)
+})
 
 it('Should render as expected with one level', () => {
   const { container } = renderComponent(['/'])
@@ -53,6 +63,14 @@ it('Should render as expected with one level', () => {
 it('Should render as expected with two level', () => {
   const { container } = renderComponent(['/intyg'])
   expect(container).toMatchSnapshot()
+})
+
+it('Should contain correct link for start item, mobile and desktop', () => {
+  renderComponent(['/intyg'])
+  expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
+  screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
+    expect(element).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
+  })
 })
 
 it('Should render as expected with three levels', async () => {

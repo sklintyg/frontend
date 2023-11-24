@@ -1,19 +1,24 @@
 import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
-import { useLogout } from '../../../hooks/useLogout'
-import { useGetUserQuery } from '../../../store/api'
+import { Link } from 'react-router-dom'
+import settingsUrl from '../../../data/settings-url.json'
+import { useGetUserQuery } from '../../../store/hooks'
+import { resolveNavigationUrl } from '../../../utils/resolveNavigationUrl'
 
 export function LayoutHeaderAvatar() {
-  const logout = useLogout()
   const { data: user } = useGetUserQuery()
 
+  if (!user) {
+    return null
+  }
+
   return (
-    <IDSHeaderAvatar username={user?.personName ?? ''}>
-      <button type="button" slot="avatar-left">
+    <IDSHeaderAvatar username={user.personName}>
+      <Link to={resolveNavigationUrl(settingsUrl)} slot="avatar-left">
         Inställningar
-      </button>
-      <button type="button" slot="avatar-right" onClick={logout}>
+      </Link>
+      <Link to="/logga-ut" slot="avatar-right">
         Logga ut
-      </button>
+      </Link>
     </IDSHeaderAvatar>
   )
 }

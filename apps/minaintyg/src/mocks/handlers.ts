@@ -1,13 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import { DefaultBodyType, PathParams, rest, RestRequest } from 'msw'
 import {
-  CertificateStatus,
-  CertificateStatusEnum,
+  availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
+  certificateRecipientSchema,
   certificateSchema,
+  CertificateStatus,
+  CertificateStatusEnum,
+  certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
@@ -46,6 +49,10 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   const endDate = parseISO(timestamp)
   const certificate = fakeCertificate()
   const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? faker.datatype.uuid()
+  const recipient = fakerFromSchema(certificateRecipientSchema)({
+    sent: faker.date.recent().toISOString(),
+    name: certificate.recipient,
+  })
 
   return fakerFromSchema(certificateMetadataSchema)({
     id,
@@ -54,9 +61,8 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       id: certificate.id.toUpperCase(),
       name: certificate.label,
       version: '1',
-      description: certificateIngress('fk7263') ?? '',
     },
-    statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+    statuses: faker.helpers.uniqueArray(CertificateStatusEnum.options, 2),
     events: faker.helpers.uniqueArray(
       () =>
         fakerFromSchema(certificateEventSchema)({
@@ -72,6 +78,7 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       { label: 'Gäller intygsperiod', value: `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}` },
       { label: 'Avser diagnos', value: 'Downs syndrom' },
     ]),
+    recipient,
   })
 }
 
@@ -104,11 +111,24 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
+        availableFunctions: [
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'SEND_CERTIFICATE',
+            name: 'Skicka intyg',
+            title: 'Skicka intyg',
+            description: null,
+            body: 'Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.',
+            information: [],
+          }),
+        ],
+        texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: certificateIngress('fk7263') ?? 'Ingresstext' }),
       })
     )
   ),
 
-  rest.get('/api/certificate/filters', (req, res, ctx) => {
+  rest.post('/api/certificate/:id/send', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+
+  rest.get('/api/filters', (req, res, ctx) => {
     const certificates = Array.from({ length: 5 }, () => fakeCertificateMetadata(req))
     return res(
       ctx.status(200),
@@ -133,4 +153,7 @@ export const handlers = [
       })
     )
   ),
+
+  rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
+  rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]

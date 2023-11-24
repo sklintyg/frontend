@@ -27,9 +27,7 @@ const mockedUseSelector = useSelector as Mock
 
 describe('CareUnitAddress component', () => {
   beforeEach(() => {
-    mockedUseSelector.mockImplementation((callback) => {
-      return callback({ ui: { uiCertificate: {} } })
-    })
+    mockedUseSelector.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
   })
 
   afterEach(() => {
@@ -37,7 +35,7 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display all input fields with labels, mandatory and no validation errors', (): void => {
-    const { container } = render(<UeCareUnitAddress />)
+    render(<UeCareUnitAddress />)
 
     expect(screen.getByRole('heading', { name: /vårdenhetens adress/i })).toBeInTheDocument()
     expect(screen.getByText(/postadress/i)).toBeInTheDocument()
@@ -113,7 +111,7 @@ describe('CareUnitAddress component', () => {
     expect(screen.queryAllByText(/\*/i)).toHaveLength(0)
   })
 
-  it('numeric inputs should only allow numbers', () => {
+  it('numeric inputs should only allow numbers', async () => {
     mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {
@@ -132,10 +130,10 @@ describe('CareUnitAddress component', () => {
     const zipcodeInput = screen.getByRole('textbox', { name: /postnummer/i })
     const phoneNumberInput = screen.getByRole('textbox', { name: /telefonnummer/i })
 
-    userEvent.type(zipcodeInput, '1a2b3c4d5e6f')
+    await userEvent.type(zipcodeInput, '1a2b3c4d5e6f')
     expect(zipcodeInput).toHaveValue('123 45')
 
-    userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
+    await userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
     expect(phoneNumberInput).toHaveValue('262662286')
   })
 })

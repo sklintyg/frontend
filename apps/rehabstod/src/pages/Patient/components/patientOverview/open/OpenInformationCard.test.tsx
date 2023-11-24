@@ -1,6 +1,9 @@
+import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
+import { StickyContainerProvider } from '../../../../../components/StickyContainer/StickyContainerProvider'
+import { sjfItemSchema } from '../../../../../schemas/patientSchema'
 import { OpenInformationCard } from './OpenInformationCard'
 
 const TITLE = 'Title'
@@ -46,7 +49,9 @@ let onGetInformation: (id: string) => void
 const renderComponent = (items = ITEMS) => {
   onGetInformation = vi.fn()
   render(
-    <OpenInformationCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={items} onGetInformation={onGetInformation} />
+    <StickyContainerProvider>
+      <OpenInformationCard title={TITLE} subTitle={SUB_TITLE} description={DESCRIPTION} items={items} onGetInformation={onGetInformation} />
+    </StickyContainerProvider>
   )
 }
 
@@ -96,16 +101,16 @@ describe('has information', () => {
   })
 
   it('should not call get information if clicking on item with bidrarTillAktivtSjukfall false', async () => {
-    renderComponent()
+    renderComponent([fakerFromSchema(sjfItemSchema)({ bidrarTillAktivtSjukfall: false, includedInSjukfall: false })])
     await userEvent.click(screen.getByText('Visa'))
-    await userEvent.click(screen.getAllByText('Hämta')[1])
+    await userEvent.click(screen.getByRole('button', { name: 'Hämta' }))
     expect(onGetInformation).toHaveBeenCalledTimes(0)
   })
 
   it('should open modal if clicking on item with bidrarTillAktivtSjukfall false', async () => {
-    renderComponent()
+    renderComponent([fakerFromSchema(sjfItemSchema)({ bidrarTillAktivtSjukfall: false, includedInSjukfall: false })])
     await userEvent.click(screen.getByText('Visa'))
-    await userEvent.click(screen.getAllByText('Hämta')[1])
+    await userEvent.click(screen.getByRole('button', { name: 'Hämta' }))
     expect(screen.getByText('Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.')).toBeInTheDocument()
   })
 

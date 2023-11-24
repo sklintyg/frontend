@@ -15,6 +15,7 @@ import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../../../store/icf/icfActions'
 import { icfMiddleware } from '../../../../store/icf/icfMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import { flushPromises } from '../../../../utils/flushPromises'
 import { CertificateContext } from '../../CertificateContext'
 import UeIcf from './UeIcf'
 
@@ -24,9 +25,6 @@ const PLACEHOLDER = 'placeholder'
 let testStore: EnhancedStore
 const history = createMemoryHistory()
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
-
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
 
@@ -42,8 +40,8 @@ const renderComponent = (props: ComponentProps<typeof UeIcf>) => {
   )
 }
 
-const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
-  return fakeICFDataElement({
+const createQuestion = (icfCodes?: string[]): CertificateDataElement =>
+  fakeICFDataElement({
     id: QUESTION_ID,
     value: { icfCodes },
     config: {
@@ -55,7 +53,6 @@ const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
       placeholder: PLACEHOLDER,
     },
   })[QUESTION_ID]
-}
 
 const setDefaultIcfState = () => {
   const group = fakeIcf.group({ icfCodes: Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `title ${index}` })) })
@@ -90,7 +87,7 @@ describe.skip('UeIcf', () => {
     expect(() => renderComponent({ question: createQuestion(), disabled: false })).not.toThrow()
   })
 
-  it('Should dispatch updateCertificateDataElement when clicking icf value', () => {
+  it('Should dispatch updateCertificateDataElement when clicking icf value', async () => {
     setDefaultIcfState()
 
     const question = createQuestion()
@@ -98,9 +95,9 @@ describe.skip('UeIcf', () => {
     const expectedValue = fakeCertificateValue.icf({ icfCodes: [expectedIcfValueTitle], text: '' })
 
     renderComponent({ question, disabled: false })
-    userEvent.click(screen.getByText('Ta hjälp av ICF'))
+    await userEvent.click(screen.getByText('Ta hjälp av ICF'))
 
-    userEvent.click(screen.getByLabelText(expectedIcfValueTitle))
+    await userEvent.click(screen.getByLabelText(expectedIcfValueTitle))
     vi.advanceTimersByTime(2000)
 
     flushPromises()
@@ -108,14 +105,14 @@ describe.skip('UeIcf', () => {
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValue.icfCodes)
   })
 
-  it('Should dispatch updateCertificateDataElement when entering text value', () => {
+  it('Should dispatch updateCertificateDataElement when entering text value', async () => {
     setDefaultIcfState()
     const question = createQuestion()
     renderComponent({ question, disabled: false })
     const expectedTextValue = 'Det här är ett meddelande'
 
     const messageField = screen.getByRole('textbox')
-    userEvent.type(messageField, expectedTextValue)
+    await userEvent.type(messageField, expectedTextValue)
     vi.advanceTimersByTime(2000)
 
     flushPromises()

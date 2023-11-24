@@ -29,10 +29,19 @@ let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-const location: Location = window.location
+const { location } = window
 window.location = {
   ...location,
   reload: vi.fn(),
+}
+
+const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
+  const error: ErrorRequest = {
+    type,
+    errorCode,
+  }
+
+  testStore.dispatch(throwError(error))
 }
 
 const renderComponent = () => {
@@ -214,12 +223,3 @@ describe('ErrorComponent', () => {
     })
   })
 })
-
-const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
-  const error: ErrorRequest = {
-    type: type,
-    errorCode: errorCode,
-  }
-
-  testStore.dispatch(throwError(error))
-}

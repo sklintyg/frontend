@@ -71,6 +71,9 @@ importers:
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
+      '@react-hooks-library/core':
+        specifier: ^0.5.1
+        version: 0.5.1(react@18.2.0)
       '@reduxjs/toolkit':
         specifier: ^1.9.3
         version: 1.9.3(react-redux@8.0.5)(react@18.2.0)
@@ -2652,6 +2655,19 @@ packages:
       '@swc/helpers': 0.4.14
       clsx: 1.2.1
       react: 18.2.0
+    dev: false
+
+  /@react-hooks-library/core@0.5.1(react@18.2.0):
+    resolution: {integrity: sha512-YVXPeopEuXb9UR/YCaRfRgsDi/2K7OahdI+XHqT7WX8l706f73egbsOpicNEYAI+pfvOjr5XblPGJV/LJMrL7Q==}
+    peerDependencies:
+      react: '>=16.9.0'
+    dependencies:
+      '@react-hooks-library/shared': 0.5.1
+      react: 18.2.0
+    dev: false
+
+  /@react-hooks-library/shared@0.5.1:
+    resolution: {integrity: sha512-pBX36Yh7dwIMQWx3m4zUCM7ytdTb+X+KAWE00ZOgBWSr7JRiRhRntFXIfdj0R/osQo4PdbDS4bf6SeodkUE/5Q==}
     dev: false
 
   /@react-stately/calendar@3.2.1(react@18.2.0):

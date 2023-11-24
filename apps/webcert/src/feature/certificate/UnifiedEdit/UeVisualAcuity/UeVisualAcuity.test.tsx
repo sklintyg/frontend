@@ -56,8 +56,8 @@ describe('Visual Acuity component', () => {
     renderComponent({ disabled: false, question })
     const textboxes = screen.getAllByRole('textbox')
     const checkboxes = screen.getAllByRole('checkbox')
-    textboxes.forEach((textbox) => expect(textbox).not.toBeDisabled())
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeDisabled())
+    textboxes.forEach((textbox) => expect(textbox).toBeEnabled())
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeEnabled())
   })
 
   it('disables component if disabled is set', () => {
@@ -68,19 +68,19 @@ describe('Visual Acuity component', () => {
     checkboxes.forEach((checkbox) => expect(checkbox).toBeDisabled())
   })
 
-  it('formats input into float with decimal comma', () => {
+  it('formats input into float with decimal comma', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getAllByRole('textbox')[0]
-    userEvent.type(input, 'abc')
+    await userEvent.type(input, 'abc')
     expect(input).toHaveValue('')
-    userEvent.clear(input)
-    userEvent.type(input, '1.5')
+    await userEvent.clear(input)
+    await userEvent.type(input, '1.5')
     expect(input).toHaveValue('1,5')
-    userEvent.clear(input)
-    userEvent.type(input, '0,3')
+    await userEvent.clear(input)
+    await userEvent.type(input, '0,3')
     expect(input).toHaveValue('0,3')
-    userEvent.clear(input)
-    userEvent.type(input, '0,35')
+    await userEvent.clear(input)
+    await userEvent.type(input, '0,35')
     expect(input).toHaveValue('0,3')
   })
 
@@ -100,6 +100,6 @@ describe('Visual Acuity component', () => {
       ])
     )
     renderComponent({ question })
-    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
   })
 })

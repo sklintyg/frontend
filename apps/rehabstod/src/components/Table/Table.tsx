@@ -73,13 +73,7 @@ export function Table({
           </table>
         </FloatingTableScroll>
       </div>
-      <div className="hidden print:block">
-        <div className="mb-2">
-          Tabellen är sorterad enligt <span className="font-bold">{table.sortColumn}</span> i {table.ascending ? 'stigande' : 'fallande'}{' '}
-          ordning
-        </div>
-        {print}
-      </div>
+      {print}
     </TableContext.Provider>
   )
 }

@@ -5,6 +5,7 @@ import { ComponentProps, useId } from 'react'
 
 export function NumberInput({
   label,
+  id: controlledId,
   description,
   inline = false,
   ...props
@@ -13,7 +14,8 @@ export function NumberInput({
   description?: string
   inline?: boolean
 }) {
-  const id = useId()
+  const uncontrolledId = useId()
+  const id = controlledId || uncontrolledId
   return (
     <div className={classNames(inline && 'flex items-baseline gap-3', 'w-full')}>
       <label htmlFor={id}>

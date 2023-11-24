@@ -11,7 +11,7 @@ it.each([
   [CertificateStatusEnum.enum.NEW, 'primary'],
   [CertificateStatusEnum.enum.SENT, 'success'],
   [CertificateStatusEnum.enum.NOT_SENT, 'error'],
-  [CertificateStatusEnum.enum.REPLACED, 'secondary'],
+  [CertificateStatusEnum.enum.REPLACED, 'neutral'],
 ])('Should return %s for certificate status %s', (status, expected) => {
   expect(getBadgeType(status)).toBe(expected)
 })

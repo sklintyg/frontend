@@ -4,5 +4,5 @@ import { StickyContext } from './StickyContainerProvider'
 
 export function StickyPortal({ children, key }: { children: ReactNode; key?: string }) {
   const stickyContainer = useContext(StickyContext)
-  return stickyContainer && createPortal(children, stickyContainer, key)
+  return createPortal(children, stickyContainer ?? document.body, key)
 }

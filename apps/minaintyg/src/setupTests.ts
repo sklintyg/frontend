@@ -8,6 +8,7 @@ import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { reset as resetCertificateFilter } from './store/slice/certificateFilter.slice'
+import { reset as resetSession } from './store/slice/session.slice'
 import { store } from './store/store'
 
 Object.assign(global, global, {
@@ -16,6 +17,9 @@ Object.assign(global, global, {
   visualViewport: {
     ...mockViewport({ width: '1440px', height: '900px' }),
     addEventListener: vi.fn(),
+  },
+  crypto: {
+    randomUUID: () => '5f92e947-e2ee-4238-bf29-4cdc6b6c4b54',
   },
 })
 
@@ -39,7 +43,8 @@ afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
 
-  resetCertificateFilter()
+  store.dispatch(resetCertificateFilter())
+  store.dispatch(resetSession())
   store.dispatch(api.util.resetApiState())
 })
 

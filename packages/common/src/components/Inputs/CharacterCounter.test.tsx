@@ -1,15 +1,10 @@
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import CharacterCounter from './CharacterCounter'
 
 const TEXT = 'tecken'
 
 const renderComponent = (limit: number | undefined, value: string) => {
-  render(
-    <>
-      <CharacterCounter limit={limit} value={value} />
-    </>
-  )
+  render(<CharacterCounter limit={limit} value={value} />)
 }
 
 describe('Character Counter', () => {

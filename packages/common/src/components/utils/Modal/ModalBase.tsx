@@ -56,6 +56,7 @@ const ModalBase: React.FC<Props> = ({
         role="none"
         className="ic-backdrop iu-lh-body"
         ref={backdropRef}
+        data-testid="modal-backdrop"
         onClick={(event) => {
           if (closeOnBackdropClick && backdropRef.current === event.target) {
             handleClose(event)

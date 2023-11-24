@@ -24,14 +24,13 @@ import { setPatient } from '../../store/patient/patientActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
 import CareProviderModal from './CareProviderModal'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 const history = createMemoryHistory()
 history.push = vi.fn()
-
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const renderComponent = () => {
   render(
@@ -80,16 +79,16 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Avbryt')).toBeInTheDocument()
     })
 
-    it('should set navigate to start page when choosing unit', () => {
+    it('should set navigate to start page when choosing unit', async () => {
       renderComponent()
 
-      userEvent.click(screen.getByText('Care unit 2'))
+      await userEvent.click(screen.getByText('Care unit 2'))
       expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
 
-    it('should close modal when clicking outside the modal', () => {
+    it('should close modal when clicking outside the modal', async () => {
       renderComponent()
-      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      await userEvent.click(screen.getByTestId('modal-backdrop'))
       expect(screen.queryByText('Byt vårdenhet')).not.toBeInTheDocument()
     })
   })
@@ -104,7 +103,7 @@ describe('Care provider modal', () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
-      expect(screen.queryByRole('dialog')).toBeInTheDocument()
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
     })
 
     it('should NOT show care provider modal if resource link does not exist', () => {
@@ -121,7 +120,7 @@ describe('Care provider modal', () => {
 
       expect(testStore.getState().ui.uiPatient.patient).not.toBeUndefined()
 
-      userEvent.click(screen.getByText('Care unit'))
+      await userEvent.click(screen.getByText('Care unit'))
 
       await flushPromises()
 
@@ -136,10 +135,10 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Care unit')).toBeInTheDocument()
     })
 
-    it('should show total amount of unhandled questions if user has units under the care unit', () => {
+    it('should show total amount of unhandled questions if user has units under the care unit', async () => {
+      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
       renderComponent()
-      const text = screen.queryAllByText('total', { exact: false })
-      expect(text).toBeTruthy()
+      expect(await screen.findByText('3 (totalt 4)')).toBeInTheDocument()
     })
 
     it('should show title for choosing unit', () => {
@@ -149,11 +148,11 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
 
-    it('should not close the modal if choose unit resource link exists', () => {
+    it('should not close the modal if choose unit resource link exists', async () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
-      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      await userEvent.click(screen.getByTestId('modal-backdrop'))
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })

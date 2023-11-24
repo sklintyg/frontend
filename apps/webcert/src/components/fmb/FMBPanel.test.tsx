@@ -14,6 +14,52 @@ let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
+const getDiagnosisValueWithCodeSystem = (codeSystem: string): ValueDiagnosisList => ({
+  type: CertificateDataValueType.DIAGNOSIS_LIST,
+  list:
+    codeSystem.length === 0
+      ? []
+      : [
+          {
+            id: '1',
+            type: CertificateDataValueType.DIAGNOSIS,
+            code: 'CODE',
+            description: 'DESC',
+            terminology: codeSystem,
+          },
+        ],
+})
+
+const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => ({
+  icd10Code: code,
+  icd10Description: `Description for ${code}`,
+  diagnosTitle: `diagnosTitle ${code}`,
+  forms: [],
+  referenceDescription: `referenceDescription ${code}`,
+  referenceLink: `referenceLink ${code}`,
+  relatedDiagnoses: `relatedDiagnoses ${code}`,
+  index,
+  originalIcd10Code: code,
+  originalIcd10Description: `Description for ${code}`,
+})
+
+const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => ({
+  index,
+  icd10Code: code,
+  icd10Description: `Description for ${code}`,
+  originalIcd10Code: code,
+  originalIcd10Description: `Description for ${code}`,
+})
+
+const getFMBDiagnosisCodeInfoResultWithOtherDiagnosis = (code: string, originalCode: string, index: number) => ({
+  icd10Code: code,
+  icd10Description: `Description for ${code}`,
+  index,
+
+  originalIcd10Code: originalCode,
+  originalIcd10Description: `Description for ${originalCode}`,
+})
+
 const renderDefaultComponent = () => {
   testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
@@ -44,7 +90,7 @@ describe('FMBPanel', () => {
   it('shall display empty panel when no diagnoses are selected', async () => {
     renderDefaultComponent()
 
-    expect(screen.queryByText(/Ange minst en diagnos för att få FMB-stöd/i)).toBeInTheDocument()
+    expect(screen.getByText(/Ange minst en diagnos för att få FMB-stöd/i)).toBeInTheDocument()
   })
 
   it('shall display detail panel when diagnosis has FMB recommendation', async () => {
@@ -110,7 +156,7 @@ describe('FMBPanel', () => {
 
     screen.getByLabelText(/Description for B01/i).click()
 
-    expect(screen.queryByText(/relatedDiagnoses B01/i)).toBeInTheDocument()
+    expect(screen.getByText(/relatedDiagnoses B01/i)).toBeInTheDocument()
   })
 
   it('shall display link where to get more information at Socialstyrelsen', async () => {
@@ -119,7 +165,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateDynamicLinks({ fmbSoc: { text: expectedText, target: '', key: 'fmbSoc', url: expectedLink, tooltip: '' } }))
     renderDefaultComponent()
 
-    expect(screen.getByText(expectedText).closest('a')).toHaveAttribute('href', expectedLink)
+    expect(screen.getByRole('link', { name: expectedText })).toHaveAttribute('href', expectedLink)
   })
 
   it('shall show symbol that fmb info is shown for other diagnosis code if fmb result doesnt exist for code', async () => {
@@ -167,57 +213,3 @@ describe('FMBPanel', () => {
     expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
   })
 })
-
-const getDiagnosisValueWithCodeSystem = (codeSystem: string): ValueDiagnosisList => {
-  return {
-    type: CertificateDataValueType.DIAGNOSIS_LIST,
-    list:
-      codeSystem.length === 0
-        ? []
-        : [
-            {
-              id: '1',
-              type: CertificateDataValueType.DIAGNOSIS,
-              code: 'CODE',
-              description: 'DESC',
-              terminology: codeSystem,
-            },
-          ],
-  }
-}
-
-const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
-  return {
-    icd10Code: code,
-    icd10Description: 'Description for ' + code,
-    diagnosTitle: 'diagnosTitle ' + code,
-    forms: [],
-    referenceDescription: 'referenceDescription ' + code,
-    referenceLink: 'referenceLink ' + code,
-    relatedDiagnoses: 'relatedDiagnoses ' + code,
-    index: index,
-    originalIcd10Code: code,
-    originalIcd10Description: 'Description for ' + code,
-  }
-}
-
-const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
-  return {
-    index: index,
-    icd10Code: code,
-    icd10Description: 'Description for ' + code,
-    originalIcd10Code: code,
-    originalIcd10Description: 'Description for ' + code,
-  }
-}
-
-const getFMBDiagnosisCodeInfoResultWithOtherDiagnosis = (code: string, originalCode: string, index: number) => {
-  return {
-    icd10Code: code,
-    icd10Description: 'Description for ' + code,
-    index: index,
-
-    originalIcd10Code: originalCode,
-    originalIcd10Description: 'Description for ' + originalCode,
-  }
-}

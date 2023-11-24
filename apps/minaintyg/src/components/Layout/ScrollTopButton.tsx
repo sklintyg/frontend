@@ -7,7 +7,7 @@ export function ScrollTopButton() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShow(document.body.getBoundingClientRect().top < -360)
+      setShow(document.body.getBoundingClientRect().top < -180)
     }
 
     window.addEventListener('scroll', handleScroll, true)

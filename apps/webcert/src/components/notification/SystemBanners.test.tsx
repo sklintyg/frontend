@@ -18,6 +18,10 @@ const renderDefaultComponent = () => {
 
 const INFO_TEXT = 'Detta är ett informationsmeddelande.'
 
+const setState = () => {
+  testStore.dispatch(updateConfig({ version: '1.0', banners: [{ message: INFO_TEXT, priority: 'HOG' }] } as Configuration))
+}
+
 describe('SystemBanners', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([])
@@ -34,7 +38,3 @@ describe('SystemBanners', () => {
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 })
-
-const setState = () => {
-  testStore.dispatch(updateConfig({ version: '1.0', banners: [{ message: INFO_TEXT, priority: 'HOG' }] } as Configuration))
-}

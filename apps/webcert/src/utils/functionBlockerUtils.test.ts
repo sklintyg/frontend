@@ -45,14 +45,14 @@ describe('functionDisablerUtils', () => {
 
     it('shall remove correct functionDisabler from array if multiple entries', () => {
       const functionDisabler = generateFunctionDisabler()
-      const functionDisabler_2 = generateFunctionDisabler()
+      const functionDisablerSecond = generateFunctionDisabler()
       functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler)
-      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler_2)
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisablerSecond)
 
       functionDisablers = removeFunctionDisabler(functionDisablers, functionDisabler)
 
       expect(functionDisablers.length).toBe(1)
-      expect(functionDisablers[0].id).toBe(functionDisabler_2.id)
+      expect(functionDisablers[0].id).toBe(functionDisablerSecond.id)
     })
   })
 
@@ -78,13 +78,13 @@ describe('functionDisablerUtils', () => {
     it('shall remove correct functionDisabler if multiple entries exist', () => {
       const functionDisablerToRemove = generateFunctionDisabler()
       functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisablerToRemove)
-      const functionDisabler_2 = generateFunctionDisabler()
-      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisabler_2)
+      const functionDisablerSecond = generateFunctionDisabler()
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisablerSecond)
 
       functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisablerToRemove)
 
       expect(functionDisablers.length).toBe(1)
-      expect(functionDisablers[0].id).toBe(functionDisabler_2.id)
+      expect(functionDisablers[0].id).toBe(functionDisablerSecond.id)
     })
   })
 

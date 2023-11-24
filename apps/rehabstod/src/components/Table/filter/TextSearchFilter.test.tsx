@@ -30,7 +30,7 @@ it('should render without throwing', () => {
 
 it('should show title', () => {
   renderComponent()
-  expect(screen.getByText(TITLE)).toBeInTheDocument()
+  expect(screen.getByLabelText(TITLE)).toBeInTheDocument()
 })
 
 it('should call onChange', async () => {

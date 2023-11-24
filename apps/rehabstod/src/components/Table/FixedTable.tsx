@@ -37,7 +37,7 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         ref={stickyRef}
         style={{ width: `${tableWidth}px` }}
         className={classNames(
-          'm-auto max-w-7xl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
+          'm-auto max-w-screen-xxl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
           fixed ? 'h-auto border-x border-b' : 'h-0'
         )}
       >

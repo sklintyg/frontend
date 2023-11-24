@@ -5,7 +5,7 @@ import { getClientValidationErrors } from './getClientValidationErrors'
 describe('Validation based on value', () => {
   describe(`${CertificateDataValueType.DATE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
-      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: 'abc' } })['question']
+      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: 'abc' } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -18,7 +18,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the future', () => {
-      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: '2099-12-13' } })['question']
+      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: '2099-12-13' } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -31,7 +31,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the past', () => {
-      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: '1212-12-12' } })['question']
+      const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: '1212-12-12' } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -46,7 +46,7 @@ describe('Validation based on value', () => {
 
   describe(`${CertificateDataValueType.DATE_RANGE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } })['question']
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -66,9 +66,10 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the future', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2099-12-13', to: '2099-12-13' }] } })[
-        'question'
-      ]
+      const dataElement = fakeSickLeavePeriod({
+        id: 'question',
+        value: { list: [{ id: 'foo', from: '2099-12-13', to: '2099-12-13' }] },
+      }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -88,9 +89,10 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the past', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '1212-12-12', to: '1212-12-12' }] } })[
-        'question'
-      ]
+      const dataElement = fakeSickLeavePeriod({
+        id: 'question',
+        value: { list: [{ id: 'foo', from: '1212-12-12', to: '1212-12-12' }] },
+      }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -110,7 +112,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } }).question
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
@@ -124,9 +126,10 @@ describe('Validation based on value', () => {
     })
 
     it('Should return INVALID_DATE_PERIOD_ERROR for invalid periods', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] } })[
-        'question'
-      ]
+      const dataElement = fakeSickLeavePeriod({
+        id: 'question',
+        value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] },
+      }).question
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
@@ -142,7 +145,7 @@ describe('Validation based on value', () => {
 
   describe(`${CertificateDataValueType.YEAR}`, () => {
     it('Should return INVALID_YEAR_FORMAT for invalid date', () => {
-      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 'abc' } })['question']
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 'abc' } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -155,7 +158,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_YEAR for dates too far in the future', () => {
-      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 3000 } })['question']
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 3000 } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -168,7 +171,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_YEAR for dates too far in the past', () => {
-      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 1200 } })['question']
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 1200 } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -193,7 +196,7 @@ describe('Validation based on config', () => {
             { id: 'second', from: '2022-01-06', to: '2022-03-12' },
           ],
         },
-      })['question']
+      }).question
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {

@@ -4,61 +4,99 @@ exports[`Should have article content 1`] = `
 <article
   class="ids-certificate"
 >
-  <section
-    class="md:mb-10"
-  >
-    <ids-expandable
-      class="md:hidden"
-    >
-      <p>
-        Test
-      </p>
-    </ids-expandable>
-    <div
-      class="hidden md:block"
-    >
-      <h2
-        class="ids-heading-2"
-      >
-        Rubrik 1
-      </h2>
-      <p>
-        Test
-      </p>
-    </div>
-  </section>
+  <ids-expandable>
+    <p>
+      Test
+    </p>
+  </ids-expandable>
   <footer>
     <hr
-      class="my-7 border-stone-clear"
+      class="my-7 border-stone-line"
     />
     <h2
       class="ids-heading-3"
     >
-      Intyget är utfärdat och signerat av
+      Intyget är skrivet av
     </h2>
     <address
       class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
     >
       <div>
         <strong>
-          Prof. Alexander Gunnarsson II
+          Ajla Doktor
         </strong>
         <p>
-          4698-89516
+          123 112 1212
         </p>
       </div>
       <div>
         <strong>
-          Kerstin Henriksson
+          Stockholm
         </strong>
         <p>
-          accusamus
+          Vägen 12, 123 12 Söder
         </p>
       </div>
     </address>
     <hr
-      class="my-7 border-stone-clear"
+      class="my-7 border-stone-line"
     />
+    <strong>
+      Intygs-ID:
+    </strong>
+     
+    0b295069-d03c-413c-9f4a-b6fd81ad2d87
   </footer>
 </article>
+`;
+
+exports[`Unable to load certificate > Should render error message 1`] = `
+[
+  <ids-alert
+    role="alert"
+  >
+    <div
+      class="flex flex-col gap-4"
+    >
+      <p>
+        Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+        <ids-link
+          color="var(--link-colorpreset-1_color)"
+          hovercolor="var(--link-colorpreset-1-hover_color)"
+          underlined=""
+        >
+          <a
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            target="_blank"
+          >
+            support
+          </a>
+          <ids-icon-external
+            class="ids-icon"
+            color="var(--link-colorpreset-1_color)"
+            color2="var(--link-colorpreset-1_color)"
+            height="1rem"
+            size="m"
+            slot="append-icon"
+            width="1rem"
+          />
+        </ids-link>
+         och ange intygs-id: 
+        12345
+        .
+      </p>
+      <p>
+        Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.
+      </p>
+      <p>
+        <strong>
+          Fel-ID:
+        </strong>
+         
+        5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+      </p>
+    </div>
+  </ids-alert>,
+]
 `;

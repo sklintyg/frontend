@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { vi } from 'vitest'
 import Pagination from './Pagination'
 
@@ -52,15 +51,15 @@ describe('Pagination', () => {
       expect(screen.getByText('Nästa')).toBeDisabled()
     })
 
-    it('should run page change function with page and start from when clicking on next', () => {
+    it('should run page change function with page and start from when clicking on next', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('Nästa'))
+      await userEvent.click(screen.getByText('Nästa'))
       expect(handlePageChange).toHaveBeenCalledWith(2, 10)
     })
 
-    it('should run page change function with page and start from when clicking on previous', () => {
+    it('should run page change function with page and start from when clicking on previous', async () => {
       renderComponent(2, 2, 10, 110)
-      userEvent.click(screen.getByText('Föregående'))
+      await userEvent.click(screen.getByText('Föregående'))
       expect(handlePageChange).toHaveBeenCalledWith(1, 0)
     })
   })
@@ -86,15 +85,15 @@ describe('Pagination', () => {
       expect(screen.getByText('Visa mer')).toBeDisabled()
     })
 
-    it('should run page tuple change function with page tuple + 1 when clicking on next', () => {
+    it('should run page tuple change function with page tuple + 1 when clicking on next', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('Visa mer'))
+      await userEvent.click(screen.getByText('Visa mer'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(2)
     })
 
-    it('should run page tuple change function with page tuple - 1 when clicking on next', () => {
+    it('should run page tuple change function with page tuple - 1 when clicking on next', async () => {
       renderComponent(1, 2, 10, 110)
-      userEvent.click(screen.getByText('Visa färre'))
+      await userEvent.click(screen.getByText('Visa färre'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(1)
     })
   })
@@ -120,9 +119,9 @@ describe('Pagination', () => {
       expect(screen.queryByText((22).toString())).not.toBeInTheDocument()
     })
 
-    it('should run function with updated page and start from when page is clicked', () => {
+    it('should run function with updated page and start from when page is clicked', async () => {
       renderComponent()
-      userEvent.click(screen.getByText('5'))
+      await userEvent.click(screen.getByText('5'))
       expect(handlePageChange).toHaveBeenCalledWith(5, 40)
     })
   })

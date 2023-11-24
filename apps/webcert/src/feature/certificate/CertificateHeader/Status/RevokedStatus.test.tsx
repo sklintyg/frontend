@@ -30,25 +30,25 @@ describe('Revoked status', () => {
     expect(screen.getByText('Intyget är makulerat')).toBeInTheDocument()
   })
 
-  it('should display heading of modal if clicking on link', () => {
+  it('should display heading of modal if clicking on link', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är makulerat'))
+    await userEvent.click(screen.getByText('Intyget är makulerat'))
     expect(screen.getByRole('heading', { name: 'Intyget är makulerat' })).toBeInTheDocument()
   })
 
-  it('should display body of modal if clicking on link', () => {
+  it('should display body of modal if clicking on link', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är makulerat'))
+    await userEvent.click(screen.getByText('Intyget är makulerat'))
     expect(
       screen.getByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
     ).toBeInTheDocument()
   })
 
-  it('should close modal correctly', () => {
+  it('should close modal correctly', async () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Intyget är makulerat'))
+    await userEvent.click(screen.getByText('Intyget är makulerat'))
     expect(screen.getByRole('button', { name: 'Stäng' })).toBeInTheDocument()
-    userEvent.click(screen.getByText('Stäng'))
+    await userEvent.click(screen.getByText('Stäng'))
     expect(
       screen.queryByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
     ).not.toBeInTheDocument()

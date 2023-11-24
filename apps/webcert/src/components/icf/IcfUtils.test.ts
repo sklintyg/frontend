@@ -2,6 +2,14 @@ import { fakeIcf } from '@frontend/common'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
 
+function getIcfData(): AvailableIcfCodes {
+  const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `${index}` }))
+  return fakeIcf.collection({
+    commonCodes: fakeIcf.group({ icfCodes }),
+    uniqueCodes: [fakeIcf.group({ icfCodes })],
+  })
+}
+
 describe('IcfUtils', () => {
   describe('getIcfValues', () => {
     it('shall return empty array if no values', () => {
@@ -35,11 +43,3 @@ describe('IcfUtils', () => {
     })
   })
 })
-
-function getIcfData(): AvailableIcfCodes {
-  const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `${index}` }))
-  return fakeIcf.collection({
-    commonCodes: fakeIcf.group({ icfCodes }),
-    uniqueCodes: [fakeIcf.group({ icfCodes })],
-  })
-}

@@ -1,27 +1,37 @@
-import { IDSButton, IDSDialog, IDSDialogElement } from '@frontend/ids-react-ts'
-import { useRef } from 'react'
+import { Dialog } from '@frontend/components'
+import { IDSButton } from '@frontend/ids-react-ts'
+import { useState } from 'react'
+import { StickyPortal } from '../../../../../components/StickyContainer/StickyPortal'
 import { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onClick: (id: string) => void }) {
-  const ref = useRef<IDSDialogElement>(null)
-
-  if (item.bidrarTillAktivtSjukfall) {
-    return (
-      <IDSButton tertiary onClick={() => onClick(item.itemId)}>
-        Hämta
-      </IDSButton>
-    )
-  }
+  const [open, setOpen] = useState(false)
 
   return (
-    <IDSDialog headline="Ingen information hämtad" ref={ref}>
-      <IDSButton trigger="" tertiary>
+    <>
+      <IDSButton
+        role="button"
+        onClick={() => {
+          if (item.bidrarTillAktivtSjukfall) {
+            onClick(item.itemId)
+          } else {
+            setOpen(!open)
+          }
+        }}
+        tertiary
+      >
         Hämta
       </IDSButton>
-      <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-      <IDSButton onClick={() => ref.current?.hideDialog()} className="flex justify-center pb-5 pt-10">
-        Stäng
-      </IDSButton>
-    </IDSDialog>
+      {open && (
+        <StickyPortal>
+          <Dialog open={open} headline="Ingen information hämtad">
+            <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
+            <IDSButton onClick={() => setOpen(!open)} className="flex justify-center pb-5 pt-10">
+              Stäng
+            </IDSButton>
+          </Dialog>
+        </StickyPortal>
+      )}
+    </>
   )
 }

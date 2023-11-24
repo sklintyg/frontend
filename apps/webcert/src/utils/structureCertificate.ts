@@ -1,4 +1,4 @@
-import { CertificateData, CertificateDataElement, ConfigTypes, sortByIndex } from '@frontend/common'
+import { CertificateData, CertificateDataElement, CertificateDataElementStyleEnum, ConfigTypes, sortByIndex } from '@frontend/common'
 import { CertificateStructure } from '../store/certificate/certificateSelectors'
 
 const hasSubQuestionId =
@@ -8,8 +8,8 @@ const hasSubQuestionId =
 
 const filterSubQuestions =
   (id: string) =>
-  ({ config, parent }: CertificateDataElement) =>
-    config.type !== ConfigTypes.CATEGORY && parent === id
+  ({ config, parent, style }: CertificateDataElement) =>
+    config.type !== ConfigTypes.CATEGORY && parent === id && style !== CertificateDataElementStyleEnum.HIDDEN
 
 export const structureCertificate = (data: CertificateData): CertificateStructure[] => {
   const elements = Object.values(data).sort(sortByIndex)

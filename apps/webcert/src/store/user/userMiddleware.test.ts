@@ -1,14 +1,15 @@
 import {
-  getSubscriptionWarningResourceLink,
-  getUser,
-  getUserStatistics as statistics,
-  getUserWithLaunchId,
   ResourceLink,
   ResourceLinkType,
+  getSubscriptionWarningResourceLink,
+  getUser,
+  getUserWithLaunchId,
+  getUserStatistics as statistics,
 } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { stopPoll } from '../session/sessionActions'
@@ -24,9 +25,6 @@ import {
   updateUserResourceLinks,
 } from './userActions'
 import { userMiddleware } from './userMiddleware'
-
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 describe('Test user middleware', () => {
   let fakeAxios: MockAdapter
@@ -189,7 +187,7 @@ describe('Test user middleware', () => {
 
       await flushPromises()
 
-      const user = testStore.getState().ui.uiUser.user
+      const { user } = testStore.getState().ui.uiUser
       expect(user).toBe(data.user)
     })
     it('should dispatch updateUserResources action', async () => {
@@ -244,7 +242,7 @@ describe('Test user middleware', () => {
 
       await flushPromises()
 
-      const isLoadingUser = testStore.getState().ui.uiUser.isLoadingUser
+      const { isLoadingUser } = testStore.getState().ui.uiUser
 
       expect(isLoadingUser).toBeFalsy()
     })
