@@ -1,8 +1,7 @@
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
-import { ReactNode, useRef } from 'react'
+import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
 import navigation from '../../data/1177-navbar-services.json'
-import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 
 type Match = ReturnType<typeof useMatches>[number]
@@ -29,8 +28,6 @@ export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
   const prevMatch = matches.at(-2)
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
-  const ref = useRef<HTMLSpanElement>(null)
-  useDocumentTitle(ref, [matches])
 
   if (matches.length === 0) {
     return null
@@ -45,9 +42,7 @@ export function Breadcrumbs() {
               <Link to={url}>{node}</Link>
             </IDSCrumb>
           ) : (
-            <span ref={ref} key={url}>
-              {node}
-            </span>
+            <span key={url}>{node}</span>
           )
         )}
         {prevMatchUrl && (

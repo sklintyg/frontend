@@ -1,24 +1,29 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { RefObject, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
-function updateDocumentTitle(el: HTMLElement | null) {
-  if (el && el.innerText && el.innerText.length > 0) {
-    document.title = `${el.innerText} - 1177`
+function updateDocumentTitle(el?: HTMLElement | null) {
+  if (el && el.textContent && el.textContent.length > 0) {
+    document.title = `${el.textContent} - 1177`
   }
 }
 
-export function useDocumentTitle(ref: RefObject<HTMLElement>, dependencies: unknown[]) {
+function getHeadingElement() {
+  return Array.from(document.getElementsByTagName('h1')).at(0)
+}
+
+export function useDocumentTitle(ref: RefObject<HTMLElement>) {
+  const location = useLocation()
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      updateDocumentTitle(ref.current)
+      updateDocumentTitle(getHeadingElement())
     })
 
     if (ref.current) {
       observer.observe(ref.current, { childList: true })
-      updateDocumentTitle(ref.current)
+      updateDocumentTitle(getHeadingElement())
     }
     return () => {
       observer.disconnect()
     }
-  }, dependencies)
+  }, [location, ref])
 }
