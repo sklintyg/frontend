@@ -34,11 +34,14 @@ export function CertificateListPage() {
       <CertificateListOrder setOrder={setOrder} order={order} />
       {isLoading && <IDSSpinner data-testid="certificate-list-spinner" />}
       {error && (
-        <TechnicalIssueAlert error={error}>
+        <TechnicalIssueAlert
+          error={error}
+          additionalInfo={<p>Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.</p>}
+        >
           <p>
-            Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta <SupportLink />.
+            Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta <SupportLink />
+            och ange nedan fel-id:
           </p>
-          <p>Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.</p>
         </TechnicalIssueAlert>
       )}
       {list && list.content.length === 0 && <EmptyCertificateListInfo total={filter?.total ?? 0} />}
