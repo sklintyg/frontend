@@ -25,7 +25,7 @@ export function SendCertificatePage() {
         <ReadMoreAboutAction />
       </PageHeading>
       {isLoading && <IDSSpinner data-testid="spinner" />}
-      {error && <ReadCertificateError id={id} error={error} />}
+      {error && <ReadCertificateError error={error} />}
       {certificate && recipient && sendFunction && (
         <>
           <div>

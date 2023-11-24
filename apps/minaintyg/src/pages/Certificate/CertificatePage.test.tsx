@@ -92,7 +92,39 @@ it('Should display alert message when certificate is replaced', async () => {
     <ids-alert
       role="alert"
     >
-      Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
+      <div
+        class="flex flex-col gap-4"
+      >
+        <p>
+          Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+          <ids-link
+            color="var(--link-colorpreset-1_color)"
+            hovercolor="var(--link-colorpreset-1-hover_color)"
+            underlined=""
+          >
+            <a
+              href="https://www.1177.se/e-tjanster-support"
+              rel="noreferrer"
+              target="_blank"
+            >
+              support
+            </a>
+            <ids-icon-external
+              class="ids-icon"
+              color="var(--link-colorpreset-1_color)"
+              color2="var(--link-colorpreset-1_color)"
+              height="1rem"
+              size="m"
+              slot="append-icon"
+              width="1rem"
+            />
+          </ids-link>
+          och ange nedan fel-id:
+        </p>
+        <p>
+          Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.
+        </p>
+      </div>
     </ids-alert>
   `)
 })
