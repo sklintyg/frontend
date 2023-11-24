@@ -15,7 +15,7 @@ import { Welcome } from './pages/Welcome/Welcome'
 export const routes = createRoutesFromChildren([
   <Route
     key="root"
-    path="/intyg"
+    path="/"
     handle={{ crumb: () => 'Start' }}
     element={
       <ProtectedRoute>
@@ -28,6 +28,7 @@ export const routes = createRoutesFromChildren([
       </ProtectedRoute>
     }
   >
+    <Route index element={<Navigate to="/intyg" replace />} />
     <Route path="/intyg" handle={{ crumb: () => 'Intyg' }} errorElement={<ErrorBoundary />}>
       <Route index element={<CertificateListPage />} />
       <Route
