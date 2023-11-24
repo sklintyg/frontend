@@ -40,11 +40,37 @@ it('Should render with error id', () => {
           Some error text
         </p>
         <p>
-          <strong>
-            Fel-ID:
-          </strong>
-           
-          some-error-id
+          <div
+            class=""
+          >
+            <button
+              aria-label="Kopiera fel-id"
+              tabindex="0"
+              type="button"
+              value="some-error-id"
+            >
+              <p
+                class="flex justify-center gap-1 align-bottom font-bold"
+                data-state="closed"
+              >
+                <span>
+                  Fel-id: 
+                </span>
+                 
+                <span
+                  class="font-normal"
+                >
+                  some-error-id
+                </span>
+                <ids-icon-copy-file
+                  class="ids-icon"
+                />
+              </p>
+              <p
+                class="flex justify-items-start"
+              />
+            </button>
+          </div>
         </p>
       </div>
     </ids-alert>
