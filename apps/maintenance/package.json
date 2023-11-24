@@ -8,7 +8,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
+    "test": "echo No tests available",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -25,8 +25,6 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^4.2.0",
-    "@vitest/coverage-v8": "^0.34.3",
-    "@vitest/ui": "^0.34.3",
     "eslint": "^8.42.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
