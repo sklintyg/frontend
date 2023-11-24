@@ -1,5 +1,55 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Should have article content 1`] = `
+<article
+  class="ids-certificate"
+>
+  <ids-expandable>
+    <p>
+      Test
+    </p>
+  </ids-expandable>
+  <footer>
+    <hr
+      class="my-7 border-stone-line"
+    />
+    <h2
+      class="ids-heading-3"
+    >
+      Intyget är skrivet av
+    </h2>
+    <address
+      class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
+    >
+      <div>
+        <strong>
+          Ajla Doktor
+        </strong>
+        <p>
+          123 112 1212
+        </p>
+      </div>
+      <div>
+        <strong>
+          Stockholm
+        </strong>
+        <p>
+          Vägen 12, 123 12 Söder
+        </p>
+      </div>
+    </address>
+    <hr
+      class="my-7 border-stone-line"
+    />
+    <strong>
+      Intygs-ID:
+    </strong>
+     
+    0b295069-d03c-413c-9f4a-b6fd81ad2d87
+  </footer>
+</article>
+`;
+
 exports[`Unable to load certificate > Should render error message 1`] = `
 [
   <ids-alert
@@ -33,6 +83,40 @@ exports[`Unable to load certificate > Should render error message 1`] = `
           />
         </ids-link>
         och ange nedan fel-id:
+      </p>
+      <p>
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              class="flex justify-center gap-1 align-bottom font-bold"
+              data-state="closed"
+            >
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
+              >
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <ids-icon-copy-file
+                class="ids-icon"
+                size="s"
+              />
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
+        </div>
       </p>
       <p>
         Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.

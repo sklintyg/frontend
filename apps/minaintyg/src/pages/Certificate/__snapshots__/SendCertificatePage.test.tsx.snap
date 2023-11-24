@@ -1,5 +1,123 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Should render as expected 1`] = `
+<div>
+  <header
+    class="ids-content mb-7"
+  >
+    <h1
+      class="ids-heading-1"
+    >
+      Skicka intyg 
+    </h1>
+    <div
+      class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
+    >
+      Skicka intyget body
+    </div>
+    <div>
+      <button
+        aria-label="Läs mer om vad du kan göra i Intyg"
+        class="mt-4 flex text-sky-base hover:text-sky-dark"
+        type="button"
+      >
+        <ids-icon-information
+          class="mr-2 mt-0.5 inline ids-icon"
+          size="s"
+        />
+        Läs mer om vad du kan göra i Intyg
+      </button>
+      <ids-dialog
+        role="dialog"
+        show="false"
+        srclosetext="Stäng"
+      />
+    </div>
+  </header>
+  <div>
+    <h2
+      class="ids-heading-2 mb-5"
+    >
+      Intyg som ska skickas
+    </h2>
+    <ids-card
+      class="mb-5"
+    >
+      <h2
+        class="ids-heading-3"
+      >
+        Dr. Robert Svensson
+      </h2>
+      <div
+        class="flex flex-col gap-5 md:flex-row md:gap-10"
+      >
+        <div>
+          <h3
+            class="ids-heading-4 mb-0"
+          >
+            Gäller intygsperiod
+          </h3>
+          2021-04-22 - 2021-07-19
+        </div>
+        <div>
+          <h3
+            class="ids-heading-4 mb-0"
+          >
+            Intyg utfärdat
+          </h3>
+          2023-10-10
+        </div>
+        <div>
+          <h3
+            class="ids-heading-4 mb-0"
+          >
+            Skrivet av
+          </h3>
+          Jenny Ström
+          , 
+          Tommy Claesson
+        </div>
+      </div>
+    </ids-card>
+  </div>
+  <div
+    class="mb-5"
+  >
+    <h2
+      class="ids-heading-2 mb-5"
+    >
+      Mottagare
+    </h2>
+    <ids-card>
+      Transportstyrelsen
+    </ids-card>
+  </div>
+  <div
+    class="flex flex-col gap-5 py-5 sm:flex-row"
+  >
+    <ids-button
+      role="button"
+      sblock=""
+      secondary=""
+      size="m"
+      tabindex="0"
+      type=""
+    >
+      Tillbaka till intyget
+    </ids-button>
+    <ids-button
+      role="button"
+      sblock=""
+      size="m"
+      tabindex="0"
+      type=""
+    >
+      Skicka
+    </ids-button>
+  </div>
+</div>
+`;
+
 exports[`Should render error message when unable to load certificate 1`] = `
 [
   <ids-alert
@@ -9,7 +127,7 @@ exports[`Should render error message when unable to load certificate 1`] = `
       class="flex flex-col gap-4"
     >
       <p>
-        Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta
+        Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
         <ids-link
           color="var(--link-colorpreset-1_color)"
           hovercolor="var(--link-colorpreset-1-hover_color)"
@@ -33,6 +151,40 @@ exports[`Should render error message when unable to load certificate 1`] = `
           />
         </ids-link>
         och ange nedan fel-id:
+      </p>
+      <p>
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              class="flex justify-center gap-1 align-bottom font-bold"
+              data-state="closed"
+            >
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
+              >
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <ids-icon-copy-file
+                class="ids-icon"
+                size="s"
+              />
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
+        </div>
       </p>
       <p>
         Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
