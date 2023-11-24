@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
@@ -6,6 +6,14 @@ import { server, waitForRequest } from './mocks/server'
 import { routes } from './routes'
 import { startSession } from './store/slice/session.slice'
 import { store } from './store/store'
+
+function renderComponent(initialEntries: string[]) {
+  return render(
+    <Provider store={store}>
+      <RouterProvider router={createMemoryRouter(routes, { initialEntries })} />
+    </Provider>
+  )
+}
 
 it.each([
   ['Du är utloggad', 403],
@@ -18,11 +26,7 @@ it.each([
   const pendingCertificateListRequest = waitForRequest('POST', '/api/certificate')
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')
 
-  render(
-    <Provider store={store}>
-      <RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/intyg'] })} />
-    </Provider>
-  )
+  renderComponent(['/intyg'])
 
   await act(async () => pendingUserRequest)
   await act(async () => pendingCertificateListRequest)
@@ -41,12 +45,24 @@ it.each([
 })
 
 it('Should end session when visiting /logga-ut', async () => {
-  render(
-    <Provider store={store}>
-      <RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/logga-ut'] })} />
-    </Provider>
-  )
+  renderComponent(['/logga-ut'])
 
   expect(await screen.findByRole('heading', { name: 'Du är utloggad', level: 1 })).toBeInTheDocument()
   expect(store.getState().sessionSlice.hasSessionEnded).toBe(true)
+  await waitFor(() => expect(document.title).toBe('Du är utloggad - 1177'))
+})
+
+it('Should update document title for certificate list', async () => {
+  renderComponent(['/intyg'])
+  await waitFor(() => expect(document.title).toBe('Intyg - 1177'))
+})
+
+it('Should update document title for certificate page', async () => {
+  renderComponent(['/intyg/1234'])
+  await waitFor(() => expect(document.title).toBe('Läs och hantera ditt intyg - 1177'))
+})
+
+it('Should update document title for send certificate page', async () => {
+  renderComponent(['/intyg/1234/skicka'])
+  await waitFor(() => expect(document.title).toBe('Skicka intyg - 1177'))
 })
