@@ -15,7 +15,7 @@ exports[`Should render as expected 1`] = `
     </div>
     <div>
       <h3
-        class="ids-heading-4 mb-0"
+        class="ids-heading-4 mb-0 whitespace-nowrap"
       >
         Intyg utfärdat
       </h3>
