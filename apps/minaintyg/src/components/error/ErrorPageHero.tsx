@@ -1,12 +1,10 @@
+import { PageHero, PageHeroActions, getNavigationItem } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { ErrorIdentifier } from '@frontend/components'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
-import navigation from '../../data/1177-navbar-services.json'
 import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
 import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
-import { PageHero } from '../PageHero/PageHero'
-import { PageHeroActions } from '../PageHero/PageHeroActions'
 import { SupportLink } from './SupportLink/SupportLink'
 
 const ActionType = z.enum(['start', 'login', '1177'])
@@ -43,7 +41,7 @@ function getErrorDescription(type?: ErrorTypeEnum) {
 }
 
 function getAction(type: ActionTypeEnum) {
-  const startLinkItem = navigation.menu.items.find(({ name }) => name === 'Start')
+  const startLinkItem = getNavigationItem('Start')
 
   switch (type) {
     case ActionType.enum.start:

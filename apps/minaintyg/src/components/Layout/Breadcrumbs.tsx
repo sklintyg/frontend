@@ -1,7 +1,7 @@
+import { getNavigationItem } from '@frontend/components/1177'
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
-import navigation from '../../data/1177-navbar-services.json'
 import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 
 type Match = ReturnType<typeof useMatches>[number]
@@ -16,7 +16,7 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
 function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
   const node = handle.crumb(params)
   if (typeof node === 'string') {
-    const item = pathname === '/' && navigation.menu.items.find(({ name }) => name === node)
+    const item = pathname === '/' && getNavigationItem(node)
     if (item) {
       return [resolveNavigationUrl(item.url), node]
     }
