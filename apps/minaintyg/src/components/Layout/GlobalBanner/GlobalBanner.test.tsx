@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Banner, BannerPriority } from '../../../schema/info.schema'
+import { Banner, BannerPriority } from '../../../schema/informationSchema'
 import { GlobalBanner } from './GlobalBanner'
 
 function renderComponent(banner: Banner) {

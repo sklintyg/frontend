@@ -7,7 +7,7 @@ import { ErrorData } from '../schema/error.schema'
 import { Session } from '../schema/session.schema'
 import { User } from '../schema/user.schema'
 import { CertificateFilterState } from './slice/certificateFilter.slice'
-import { Info } from '../schema/info.schema'
+import { InformationResponse } from '../schema/informationSchema'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -75,7 +75,7 @@ export const api = createApi({
         body,
       }),
     }),
-    getInfo: builder.query<Info, void>({
+    getInfo: builder.query<InformationResponse, void>({
       query: () => 'info',
     }),
   }),

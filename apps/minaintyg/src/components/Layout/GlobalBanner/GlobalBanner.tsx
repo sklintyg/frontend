@@ -1,5 +1,5 @@
 import { IDSAlertGlobal, IDSIconAttention, IDSIconInformation, IDSIconWarning } from '@frontend/ids-react-ts'
-import { Banner, BannerPriority } from '../../../schema/info.schema'
+import { Banner, BannerPriority } from '../../../schema/informationSchema'
 
 export function GlobalBanner({ banner }: { banner: Banner }) {
   return (
