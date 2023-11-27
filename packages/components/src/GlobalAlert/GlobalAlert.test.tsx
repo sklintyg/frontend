@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { BannerPriority } from '../../../schemas'
-import { GlobalAlert } from './GlobalAlert'
+import { GlobalAlert, PriorityEnum } from './GlobalAlert'
 
-const renderComponent = (priority: BannerPriority) => {
+const renderComponent = (priority: PriorityEnum) => {
   render(
     <GlobalAlert priority={priority}>
       <p>Children</p>
@@ -12,31 +11,31 @@ const renderComponent = (priority: BannerPriority) => {
 
 describe('GlobalAlert', () => {
   it('should render without issues', () => {
-    expect(() => renderComponent(BannerPriority.MEDIUM)).not.toThrow()
+    expect(() => renderComponent(PriorityEnum.OBSERVE)).not.toThrow()
   })
 
   it('should render alert', () => {
-    renderComponent(BannerPriority.LOW)
+    renderComponent(PriorityEnum.OBSERVE)
     expect(screen.getByRole('alert')).toBeInTheDocument()
   })
 
   it('should render children', () => {
-    renderComponent(BannerPriority.LOW)
+    renderComponent(PriorityEnum.OBSERVE)
     expect(screen.getByText('Children')).toBeInTheDocument()
   })
 
-  it('should render low icon', () => {
-    renderComponent(BannerPriority.LOW)
+  it('should render info icon', () => {
+    renderComponent(PriorityEnum.INFO)
     expect(screen.getByTestId('LOW_ICON')).toBeInTheDocument()
   })
 
-  it('should render medium icon', () => {
-    renderComponent(BannerPriority.MEDIUM)
+  it('should render observe icon', () => {
+    renderComponent(PriorityEnum.OBSERVE)
     expect(screen.getByTestId('MEDIUM_ICON')).toBeInTheDocument()
   })
 
-  it('should render high icon', () => {
-    renderComponent(BannerPriority.HIGH)
+  it('should render error icon', () => {
+    renderComponent(PriorityEnum.ERROR)
     expect(screen.getByTestId('HIGH_ICON')).toBeInTheDocument()
   })
 })
