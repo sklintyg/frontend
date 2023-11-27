@@ -20,7 +20,7 @@ describe('ErrorModal', () => {
 
   it('should display error id', () => {
     renderComponent()
-    expect(screen.getByText('FEL-ID:')).toBeInTheDocument()
+    expect(screen.getByText('Fel-id:')).toBeInTheDocument()
   })
 
   it('should display cancel button', () => {
