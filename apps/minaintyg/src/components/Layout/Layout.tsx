@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
+import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { useAppSelector } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutFooter } from './LayoutFooter/LayoutFooter'
@@ -7,12 +8,14 @@ import { ScrollTopButton } from './ScrollTopButton'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { hasSessionEnded, reason, errorId } = useAppSelector((state) => state.sessionSlice)
+  const ref = useRef<HTMLDivElement>(null)
+  useDocumentTitle(ref)
 
   return (
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
       <main className="relative flex-1">
-        <div className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
+        <div ref={ref} className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
           {hasSessionEnded ? <ErrorPageHero type={reason} id={errorId} /> : children}
         </div>
         <ScrollTopButton />
