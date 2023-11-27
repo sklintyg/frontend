@@ -1,7 +1,7 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { availableFunctionSchema, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
-import { CertificateInfoAlert } from './CertificateInfoAlert'
+import { CertificateAttentionAlert } from './CertificateAttentionAlert'
 
 const availableActionsWithPrint = [
   fakerFromSchema(availableFunctionSchema)({
@@ -12,19 +12,19 @@ const availableActionsWithPrint = [
 ]
 const availableActionsWithInfo = [
   fakerFromSchema(availableFunctionSchema)({
-    type: AvailableFunctionsTypeEnum.enum.INFO,
+    type: AvailableFunctionsTypeEnum.enum.ATTENTION,
     name: 'Presentera informationsruta',
     body: 'text',
     information: [],
   }),
 ]
 it('Should hide info alert when there is no info availableFunction provided', () => {
-  render(<CertificateInfoAlert availableFunctions={availableActionsWithPrint} />)
+  render(<CertificateAttentionAlert availableFunctions={availableActionsWithPrint} />)
   expect(screen.queryByRole('alert', { name: 'Presentera informationsruta' })).not.toBeInTheDocument()
 })
 
 it('Should show info alert when there is info availableFunction provided', () => {
-  render(<CertificateInfoAlert availableFunctions={availableActionsWithInfo} />)
+  render(<CertificateAttentionAlert availableFunctions={availableActionsWithInfo} />)
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
     <ids-alert
       role="alert"

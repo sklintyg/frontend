@@ -11,11 +11,12 @@ import { CertificateList } from './components/CertificateList'
 import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
+import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
 export function CertificateListPage() {
   const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')
   const { submitFilters } = useAppSelector((state) => state.certificateFilter)
-  const { isLoading: isLoadingList, data: list, error } = useGetCertificatesQuery(submitFilters, { refetchOnMountOrArgChange: true })
+  const { isLoading: isLoadingList, data: list, error } = useGetCertificatesQuery(submitFilters)
   const { isLoading: isLoadingFilters, data: filter } = useGetCertificatesFilterQuery()
   const isLoading = isLoadingList || isLoadingFilters
 
@@ -27,6 +28,7 @@ export function CertificateListPage() {
           eller vill begära ett intyg? Vänd dig till din mottagning. Klicka på länken “Läs mer” nedan om du vill veta vad du kan göra i
           Intyg.
         </PageHeadingDescription>
+        <ReadMoreAboutAction />
       </PageHeading>
       <CertificateListFilter listed={list?.content.length ?? 0} />
       <CertificateListOrder setOrder={setOrder} order={order} />

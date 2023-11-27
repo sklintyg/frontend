@@ -1,5 +1,6 @@
 import { PageHero, PageHeroActions, getNavigationItem } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { ErrorIdentifier } from '@frontend/components'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
@@ -56,7 +57,7 @@ function getAction(type: ActionTypeEnum) {
       return (
         <IDSLink key="login">
           <IDSIconChevron />
-          <Link to={import.meta.env.VITE_LOGIN_URL}>Till inloggning</Link>
+          <a href={import.meta.env.VITE_LOGIN_URL}>Till inloggning</a>
         </IDSLink>
       )
     case ActionType.enum['1177']:
@@ -92,7 +93,7 @@ export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum 
         <div className="border-y border-stone-clear py-5">
           Om problemet kvarstår, spara nedan id och kontakta <SupportLink />
           <br />
-          <strong>{id}</strong>
+          <ErrorIdentifier id={id} showTitle={false} />
         </div>
       )}
     </PageHero>

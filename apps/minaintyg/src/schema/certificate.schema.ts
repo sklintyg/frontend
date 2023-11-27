@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const CertificateStatusEnum = z.enum(['NEW', 'REPLACED', 'SENT', 'NOT_SENT'])
-export const AvailableFunctionsTypeEnum = z.enum(['CUSTOMIZE_PRINT_CERTIFICATE', 'PRINT_CERTIFICATE', 'INFO', 'SEND_CERTIFICATE'])
+export const AvailableFunctionsTypeEnum = z.enum(['CUSTOMIZE_PRINT_CERTIFICATE', 'PRINT_CERTIFICATE', 'ATTENTION', 'SEND_CERTIFICATE'])
 export const InformationTypeEnum = z.enum(['OPTIONS', 'ALERT'])
 export const CertificateTextTypeEnum = z.enum(['PREAMBLE_TEXT'])
 
@@ -61,6 +61,7 @@ export const availableFunctionSchema = z.object({
   description: z.string().nullable(),
   body: z.string().nullable(),
   information: z.array(informationSchema),
+  enabled: z.boolean(),
 })
 
 export const certificateTextSchema = z.record(CertificateTextTypeEnum, z.string())

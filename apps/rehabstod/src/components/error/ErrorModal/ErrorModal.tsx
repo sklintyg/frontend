@@ -1,11 +1,11 @@
 import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
 import { randomUUID } from '@frontend/utils'
 import { useEffect, useRef, useState } from 'react'
+import { ErrorIdentifier } from '@frontend/components'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
-import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 
 export function ErrorModal({
   description,

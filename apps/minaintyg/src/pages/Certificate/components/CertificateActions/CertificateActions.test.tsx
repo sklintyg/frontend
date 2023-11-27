@@ -28,6 +28,16 @@ const availableActionsWithSend = [
     type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
     name: 'Skicka intyg',
     information: [],
+    enabled: true,
+  }),
+]
+
+const availableActionsWithSendDisabled = [
+  fakerFromSchema(availableFunctionSchema)({
+    type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
+    name: 'Skicka intyg',
+    information: [],
+    enabled: false,
   }),
 ]
 
@@ -60,7 +70,7 @@ it('Should show send button when there is a provided recipient', () => {
 it('Should display modal if certificate is already sent', async () => {
   renderComponent({
     recipient: fakerFromSchema(certificateRecipientSchema)({ sent: faker.date.recent().toISOString() }),
-    availableFunctions: availableActionsWithSend,
+    availableFunctions: availableActionsWithSendDisabled,
     id,
   })
   expect(screen.queryByText(/intyget har redan skickats och kan inte skickas igen/i)).not.toBeInTheDocument()

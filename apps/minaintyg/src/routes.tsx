@@ -1,5 +1,5 @@
 import { randomUUID } from '@frontend/utils'
-import { Navigate, Outlet, Route, ScrollRestoration, createRoutesFromChildren } from 'react-router-dom'
+import { Navigate, Outlet, Route, createRoutesFromChildren } from 'react-router-dom'
 import { Breadcrumbs } from './components/Layout/Breadcrumbs'
 import { Layout } from './components/Layout/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
@@ -15,7 +15,7 @@ import { Welcome } from './pages/Welcome/Welcome'
 export const routes = createRoutesFromChildren([
   <Route
     key="root"
-    path="/intyg"
+    path="/"
     handle={{ crumb: () => 'Start' }}
     element={
       <ProtectedRoute>
@@ -25,10 +25,10 @@ export const routes = createRoutesFromChildren([
             <Outlet />
           </div>
         </Layout>
-        <ScrollRestoration />
       </ProtectedRoute>
     }
   >
+    <Route index element={<Navigate to="/intyg" replace />} />
     <Route path="/intyg" handle={{ crumb: () => 'Intyg' }} errorElement={<ErrorBoundary />}>
       <Route index element={<CertificateListPage />} />
       <Route

@@ -13,8 +13,9 @@ import { CertificateInformation } from './components/CertificateInformation'
 import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
-import { CertificateInfoAlert } from './components/CertificateInfoAlert/CertificateInfoAlert'
+import { CertificateAttentionAlert } from './components/CertificateAttentionAlert/CertificateAttentionAlert'
 import { CertificatePreambleText } from './components/CertificatePremableText/CertificatePreambleText'
+import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
@@ -32,6 +33,7 @@ export function CertificatePage() {
           </>
         )}
         {error && <PageHeadingDescription>{FALLBACK_DESCRIPTION}</PageHeadingDescription>}
+        <ReadMoreAboutAction />
       </PageHeading>
 
       {isLoading && <IDSSpinner data-testid="spinner" />}
@@ -39,7 +41,7 @@ export function CertificatePage() {
       {certificate && (
         <>
           <div className="mb-5">
-            <CertificateInfoAlert availableFunctions={certificate.availableFunctions} />
+            <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
             <CertificateActions
               recipient={certificate.metadata.recipient}
               availableFunctions={certificate.availableFunctions}
