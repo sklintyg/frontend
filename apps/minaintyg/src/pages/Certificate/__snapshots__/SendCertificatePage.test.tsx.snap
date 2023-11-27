@@ -150,19 +150,44 @@ exports[`Should render error message when unable to load certificate 1`] = `
             width="1rem"
           />
         </ids-link>
-         och ange intygs-id: 
-        12345
-        .
+        och ange nedan fel-id:
       </p>
       <p>
-        Om du inte kan nå ditt intyg, kontakta din läkare för att få en kopia av intyget.
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              class="flex justify-center gap-1 align-bottom font-bold"
+              data-state="closed"
+            >
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
+              >
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <ids-icon-copy-file
+                class="ids-icon"
+                size="s"
+              />
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
+        </div>
       </p>
       <p>
-        <strong>
-          Fel-ID:
-        </strong>
-         
-        5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+        Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
       </p>
     </div>
   </ids-alert>,

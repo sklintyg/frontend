@@ -37,7 +37,7 @@ export function CertificatePage() {
       </PageHeading>
 
       {isLoading && <IDSSpinner data-testid="spinner" />}
-      {error && <ReadCertificateError id={id} error={error} />}
+      {error && <ReadCertificateError error={error} />}
       {certificate && (
         <>
           <div className="mb-5">
