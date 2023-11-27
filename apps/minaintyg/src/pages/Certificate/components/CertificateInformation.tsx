@@ -12,7 +12,7 @@ export function CertificateInformation({ issued, issuer, summary, unit }: Certif
         </div>
       )}
       <div>
-        <h3 className="ids-heading-4 mb-0">Intyg utfärdat</h3>
+        <h3 className="ids-heading-4 mb-0 whitespace-nowrap">Intyg utfärdat</h3>
         {date(issued)}
       </div>
       <div>
