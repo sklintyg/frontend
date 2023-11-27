@@ -1,6 +1,6 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useParams } from 'react-router-dom'
+import { ScrollRestoration, useParams } from 'react-router-dom'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
@@ -25,6 +25,7 @@ export function CertificatePage() {
 
   return (
     <>
+      <ScrollRestoration />
       <PageHeading heading="Läs och hantera ditt intyg">
         {certificate && (
           <>
