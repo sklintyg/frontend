@@ -5,6 +5,8 @@ import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
 import { ScrollTopButton } from './ScrollTopButton'
+import { useGetInfoQuery } from '../../store/api'
+import { GlobalBanner } from './GlobalBanner/GlobalBanner'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { hasSessionEnded, reason, errorId } = useAppSelector((state) => state.sessionSlice)
@@ -12,7 +14,7 @@ export function Layout({ children }: { children: ReactNode }) {
   useDocumentTitle(ref)
   const { data: user } = useGetUserQuery()
   const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)
-
+  const { data: info } = useGetInfoQuery()
   return (
     <div className="flex min-h-screen flex-col">
       <LayoutHeader mode={import.meta.env.MODE}>
@@ -24,6 +26,7 @@ export function Layout({ children }: { children: ReactNode }) {
         )}
       </LayoutHeader>
       <main className="relative flex-1">
+        {info && info.banners.length > 0 && info.banners.map((banner) => <GlobalBanner key={banner.type} banner={banner} />)}
         <div ref={ref} className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
           {hasSessionEnded ? <ErrorPageHero type={reason} id={errorId} /> : children}
         </div>
