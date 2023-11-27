@@ -1,15 +1,18 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
+import { ErrorIdentifier } from '@frontend/components'
 import { QueryError } from '../../utils/isQueryError'
 
 export function TechnicalIssueAlert({
   children,
   headline = 'Tekniskt fel',
   error,
+  additionalInfo,
 }: {
   children: ReactNode
   headline?: string
   error: QueryError
+  additionalInfo?: ReactNode
 }) {
   return (
     <IDSAlert headline={headline} type="error">
@@ -17,9 +20,10 @@ export function TechnicalIssueAlert({
         {children}
         {error.id && (
           <p>
-            <strong>Fel-ID:</strong> {error.id}
+            <ErrorIdentifier id={error.id} centerText={false} />
           </p>
         )}
+        {additionalInfo && additionalInfo}
       </div>
     </IDSAlert>
   )

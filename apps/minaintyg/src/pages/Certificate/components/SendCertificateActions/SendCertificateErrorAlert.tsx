@@ -1,6 +1,7 @@
 import { TechnicalIssueAlert } from '../../../../components/error/TechnicalIssueAlert'
 import { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { QueryError } from '../../../../utils/isQueryError'
+import { SupportLink } from '../../../../components/error/SupportLink/SupportLink'
 
 export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: QueryError }) {
   return (
@@ -9,7 +10,9 @@ export function SendCertificateErrorAlert({ recipient: { name }, error }: { reci
       <p>
         <strong>{name}</strong>
       </p>
-      <p>Försök igen senare. Om problemet kvarstår, kontakta support.</p>
+      <p>
+        Försök igen senare. Om problemet kvarstår, kontakta <SupportLink /> och ange nedan fel-id:
+      </p>
     </TechnicalIssueAlert>
   )
 }
