@@ -16,13 +16,13 @@ export function HeaderAvatarMenuButton({
   return (
     <button
       onClick={onClick}
-      className="ids-link-block mt-2 flex w-full items-center text-primary-40 [&:not(:last-child)]:mb-5"
+      className="ids-link-block mt-2 flex w-full items-center text-primary-40 hover:text-primary-30 [&:not(:last-child)]:mb-5"
       trigger={trigger}
       data-testid={testid}
       type="button"
     >
       <div className="mr-2.5">{icon}</div>
-      <div className="flex-auto text-left">{label}</div>
+      <div className="flex-auto text-left hover:underline">{label}</div>
     </button>
   )
 }

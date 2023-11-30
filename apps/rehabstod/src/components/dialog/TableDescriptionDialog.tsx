@@ -1,4 +1,4 @@
-import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSButton, IDSDialog, IDSDialogElement, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { Column } from '../Table/types/Column'
 
@@ -7,7 +7,10 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   const close = () => ref.current?.hideDialog()
 
   return (
-    <IDSDialog ref={ref} dismissible headline="Beskrivning av tabellens rubriker">
+    <IDSDialog ref={ref} dismissible>
+      <h3 className="ids-heading-1" slot="headline">
+        Beskrivning av tabellens rubriker
+      </h3>
       <button className="pt-5 text-sm text-accent-40 underline print:hidden" trigger="" type="button">
         <IDSIconQuestion size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
@@ -20,11 +23,9 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
             <p>{column.description}</p>
           </div>
         ))}
-      <IDSDialogActions>
-        <IDSButton sblock onClick={close}>
-          Stäng
-        </IDSButton>
-      </IDSDialogActions>
+      <IDSButton slot="action" sblock onClick={close}>
+        Stäng
+      </IDSButton>
     </IDSDialog>
   )
 }

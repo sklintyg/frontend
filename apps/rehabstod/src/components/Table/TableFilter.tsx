@@ -8,7 +8,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
     <>
       <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4 print:hidden">
-        <IDSIconChevron size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="mr-2 inline" />
+        <IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" inline />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
       </IDSButton>
       {expanded && (

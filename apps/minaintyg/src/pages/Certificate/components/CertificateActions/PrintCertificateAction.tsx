@@ -1,4 +1,4 @@
-import { IDSButton, IDSDialogActions } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { AvailableFunction, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
@@ -45,21 +45,20 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
           onChange={(event) => setCustomizeId(event.target.value)}
           onOpenChange={showCustomizePrintDialog}
         >
-          <IDSDialogActions>
-            <IDSButton mblock onClick={() => showCustomizePrintDialog(false)} role="button" secondary>
-              Avbryt
-            </IDSButton>
-            <IDSButton
-              mblock
-              onClick={() => {
-                openFile()
-                showCustomizePrintDialog(false)
-              }}
-              role="button"
-            >
-              Skriv ut
-            </IDSButton>
-          </IDSDialogActions>
+          <IDSButton slot="action" mblock onClick={() => showCustomizePrintDialog(false)} role="button" secondary>
+            Avbryt
+          </IDSButton>
+          <IDSButton
+            slot="action"
+            mblock
+            onClick={() => {
+              openFile()
+              showCustomizePrintDialog(false)
+            }}
+            role="button"
+          >
+            Skriv ut
+          </IDSButton>
         </CustomizePrintDialog>
       )}
     </div>

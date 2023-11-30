@@ -26,7 +26,7 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
         <StickyPortal>
           <Dialog open={open} headline="Ingen information hämtad">
             <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-            <IDSButton onClick={() => setOpen(!open)} className="flex justify-center pb-5 pt-10">
+            <IDSButton slot="action" onClick={() => setOpen(!open)}>
               Stäng
             </IDSButton>
           </Dialog>

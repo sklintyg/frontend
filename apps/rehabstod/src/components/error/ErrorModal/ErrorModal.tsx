@@ -1,7 +1,7 @@
-import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
+import { ErrorIdentifier } from '@frontend/components'
+import { IDSButton, IDSDialog, IDSDialogElement } from '@frontend/ids-react-ts'
 import { randomUUID } from '@frontend/utils'
 import { useEffect, useRef, useState } from 'react'
-import { ErrorIdentifier } from '@frontend/components'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
@@ -44,17 +44,18 @@ export function ErrorModal({
   }, [show, dispatch, description, errorCode, generateError])
 
   return (
-    <IDSDialog dismissible headline="Tekniskt fel" ref={ref} show={show ? 'true' : 'false'}>
+    <IDSDialog dismissible ref={ref} show={show ? 'true' : 'false'}>
+      <h3 className="ids-heading-1" slot="headline">
+        Tekniskt fel
+      </h3>
       <p className="mb-5">
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}.
       </p>
       {errorId && <ErrorIdentifier id={errorId} />}
-      <IDSDialogActions>
-        <IDSButton secondary onClick={close}>
-          Stäng
-        </IDSButton>
-      </IDSDialogActions>
+      <IDSButton slot="action" secondary onClick={close}>
+        Stäng
+      </IDSButton>
     </IDSDialog>
   )
 }

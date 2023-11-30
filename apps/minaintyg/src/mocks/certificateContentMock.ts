@@ -80,7 +80,7 @@ export const certificateContentMock = [
       <table>
         <thead>
           <tr>
-            <th></th>
+            <td></td>
             <th>Utan korrektion</th>
             <th>Med korrektion</th>
             <th>Kontaktlinser</th>

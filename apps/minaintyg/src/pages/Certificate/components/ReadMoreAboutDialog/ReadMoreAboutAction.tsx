@@ -1,5 +1,5 @@
+import { IDSButton, IDSIconInformation } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { IDSButton, IDSDialogActions, IDSIconInformation } from '@frontend/ids-react-ts'
 import { ReadMoreAboutDialog } from './ReadMoreAboutDialog'
 
 export function ReadMoreAboutAction() {
@@ -17,11 +17,9 @@ export function ReadMoreAboutAction() {
       </button>
 
       <ReadMoreAboutDialog open={readMoreDialogOpen} onOpenChange={showReadMoreDialog}>
-        <IDSDialogActions>
-          <IDSButton mblock onClick={() => showReadMoreDialog(false)} role="button">
-            Stäng
-          </IDSButton>
-        </IDSDialogActions>
+        <IDSButton slot="action" mblock onClick={() => showReadMoreDialog(false)} role="button">
+          Stäng
+        </IDSButton>
       </ReadMoreAboutDialog>
     </div>
   )
