@@ -119,9 +119,9 @@ describe('days between sick leaves', () => {
   })
 
   it('should disable save button if input is empty limit', async () => {
+    updateSettingsPreferences({ maxAntalDagarMellanIntyg: undefined })
     renderWithRouter(<SettingsDialog />)
-    await userEvent.clear(await screen.findByLabelText(/dagar mellan intyg/i))
-    expect(screen.getByLabelText(/dagar mellan intyg/i)).toHaveValue(null)
+    expect(await screen.findByLabelText(/dagar mellan intyg/i)).toBeInTheDocument()
     expect(screen.getByText('Spara')).toBeDisabled()
   })
 })

@@ -22,7 +22,6 @@ const tabbables = [
 
 export function Dialog({
   children,
-  button,
   initialOpen = false,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
@@ -32,7 +31,6 @@ export function Dialog({
   children: ReactNode
   initialOpen?: boolean
   open?: boolean
-  button?: ReactNode
   headline?: string
   onOpenChange?: (open: boolean) => void
 }) {
@@ -86,11 +84,10 @@ export function Dialog({
     >
       <IDSDialog role="dialog" nofocustrap autofocus={false} ref={ref} {...props}>
         {headline && (
-          <h3 className="ids-heading-2" slot="headline">
+          <h1 className="ids-heading-1 ids-small" slot="headline">
             {headline}
-          </h3>
+          </h1>
         )}
-        {button}
         {open && children}
       </IDSDialog>
     </FocusOn>
