@@ -91,7 +91,7 @@ export function Dialog({
           </h3>
         )}
         {button}
-        {children}
+        {open && children}
       </IDSDialog>
     </FocusOn>
   )
