@@ -146,9 +146,6 @@ importers:
       date-fns:
         specifier: ^2.29.3
         version: 2.29.3
-      focus-trap-react:
-        specifier: ^10.2.3
-        version: 10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       html-react-parser:
         specifier: ^4.2.2
         version: 4.2.2(react@18.2.0)
@@ -167,6 +164,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-focus-on:
+        specifier: ^3.9.1
+        version: 3.9.1(@types/react@18.0.27)(react@18.2.0)
       react-merge-refs:
         specifier: ^2.0.2
         version: 2.0.2
@@ -336,9 +336,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
-      react-focus-lock:
-        specifier: ^2.9.6
-        version: 2.9.6(@types/react@18.0.27)(react@18.2.0)
       react-focus-on:
         specifier: ^3.9.1
         version: 3.9.1(@types/react@18.0.27)(react@18.2.0)
@@ -6694,30 +6691,10 @@ packages:
       tabbable: 6.1.2
     dev: false
 
-  /focus-trap-react@10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-YXBpFu/hIeSu6NnmV2xlXzOYxuWkoOtar9jzgp3lOmjWLWY59C/b8DtDHEAV4SPU07Nd/t+nS/SBNGkhUBFmEw==}
-    peerDependencies:
-      prop-types: ^15.8.1
-      react: '>=16.3.0'
-      react-dom: '>=16.3.0'
-    dependencies:
-      focus-trap: 7.5.4
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      tabbable: 6.2.0
-    dev: false
-
   /focus-trap@7.4.3:
     resolution: {integrity: sha512-BgSSbK4GPnS2VbtZ50VtOv1Sti6DIkj3+LkVjiWMNjLeAp1SH1UlLx3ULu/DCu4vq5R4/uvTm+zrvsMsuYmGLg==}
     dependencies:
       tabbable: 6.1.2
-    dev: false
-
-  /focus-trap@7.5.4:
-    resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
-    dependencies:
-      tabbable: 6.2.0
     dev: false
 
   /follow-redirects@1.15.2:
@@ -10168,10 +10145,6 @@ packages:
 
   /tabbable@6.1.2:
     resolution: {integrity: sha512-qCN98uP7i9z0fIS4amQ5zbGBOq+OSigYeGvPy7NDk8Y9yncqDZ9pRPgfsc2PJIVM9RrJj7GIfuRgmjoUU9zTHQ==}
-    dev: false
-
-  /tabbable@6.2.0:
-    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
     dev: false
 
   /tailwindcss@3.3.3:

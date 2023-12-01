@@ -32,7 +32,6 @@
     "react": "^18.2.0",
     "react-aria": "^3.25.0",
     "react-dom": "^18.2.0",
-    "react-focus-lock": "^2.9.6",
     "react-focus-on": "^3.9.1",
     "react-merge-refs": "^2.0.2",
     "react-redux": "^8.0.5",
