@@ -40,12 +40,12 @@ exports[`Should render as expected 1`] = `
           show="false"
           srclosetext="Stäng"
         >
-          <h3
-            class="ids-heading-2"
+          <h1
+            class="ids-heading-1 ids-small"
             slot="headline"
           >
             Vad kan du göra i Intyg
-          </h3>
+          </h1>
         </ids-dialog>
       </div>
       <div

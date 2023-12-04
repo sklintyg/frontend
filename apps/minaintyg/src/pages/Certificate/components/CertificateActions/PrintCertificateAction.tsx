@@ -45,20 +45,24 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
           onChange={(event) => setCustomizeId(event.target.value)}
           onOpenChange={showCustomizePrintDialog}
         >
-          <IDSButton slot="action" mblock onClick={() => showCustomizePrintDialog(false)} role="button" secondary>
-            Avbryt
-          </IDSButton>
-          <IDSButton
-            slot="action"
-            mblock
-            onClick={() => {
-              openFile()
-              showCustomizePrintDialog(false)
-            }}
-            role="button"
-          >
-            Skriv ut
-          </IDSButton>
+          {customizePrintDialogOpen && (
+            <>
+              <IDSButton slot="action" mblock onClick={() => showCustomizePrintDialog(false)} role="button" secondary>
+                Avbryt
+              </IDSButton>
+              <IDSButton
+                slot="action"
+                mblock
+                onClick={() => {
+                  openFile()
+                  showCustomizePrintDialog(false)
+                }}
+                role="button"
+              >
+                Skriv ut
+              </IDSButton>
+            </>
+          )}
         </CustomizePrintDialog>
       )}
     </div>
