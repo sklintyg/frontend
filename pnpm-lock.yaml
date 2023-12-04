@@ -62,8 +62,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^4.2.0
+        version: 4.2.0
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -129,8 +129,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       '@inera/ids-core':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^4.2.0
+        version: 4.2.0
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -182,6 +182,9 @@ importers:
       recharts:
         specifier: ^2.5.0
         version: 2.5.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+      redux:
+        specifier: ^4.2.1
+        version: 4.2.1
       use-resize-observer:
         specifier: ^9.1.0
         version: 9.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -301,8 +304,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       '@inera/ids-core':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^4.2.0
+        version: 4.2.0
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -354,6 +357,9 @@ importers:
       recharts:
         specifier: ^2.5.0
         version: 2.5.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+      redux:
+        specifier: ^4.2.1
+        version: 4.2.1
       redux-persist:
         specifier: ^6.0.0
         version: 6.0.0(react@18.2.0)(redux@4.2.1)
@@ -751,8 +757,8 @@ importers:
         specifier: workspace:*
         version: link:../ids-react-ts
       '@inera/ids-core':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^4.2.0
+        version: 4.2.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -960,8 +966,8 @@ importers:
   packages/ids-react-ts:
     dependencies:
       '@inera/ids-core':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^4.2.0
+        version: 4.2.0
       '@lit-labs/react':
         specifier: ^1.1.1
         version: 1.1.1
@@ -1063,6 +1069,14 @@ packages:
     dependencies:
       '@babel/highlight': 7.23.4
       chalk: 2.4.2
+
+  /@babel/code-frame@7.23.5:
+    resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/highlight': 7.23.4
+      chalk: 2.4.2
+    dev: true
 
   /@babel/compat-data@7.22.9:
     resolution: {integrity: sha512-5UamI7xkUcJ3i9qVDS+KFDEK8/7oJ55/sJMB1Ge7IEapr7KfdfV/HErR+koZwOfd+SgtFKOKRhRakdg++DcJpQ==}
@@ -1316,8 +1330,8 @@ packages:
       regenerator-runtime: 0.13.11
     dev: false
 
-  /@babel/runtime@7.23.4:
-    resolution: {integrity: sha512-2Yv65nlWnWlSpe3fXEyX5i7fx5kIKo4Qbcj+hMO0odwaneFjfXw5fdum+4yL20O0QiaHpia0cYQ9xpNMqrBwHg==}
+  /@babel/runtime@7.23.5:
+    resolution: {integrity: sha512-NdUTHcPe4C99WxPub+K9l9tK5/lV4UXIoaHSYgzco9BCyjKAAwzdBI+wWtYqHt7LJdbo74ZjRPJgzVweq1sz0w==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
@@ -1965,16 +1979,20 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
-  /@inera/ids-core@4.1.2:
-    resolution: {integrity: sha512-xDecmPi1EZcpxjTTEHsp9nqf839nhZHbGjKwIBT8RIwpDMwyMFTYgjCux0n7ky8FyHQMVO+LFxRwwkOlMqTeLw==}
+  /@inera/ids-core@4.2.0:
+    resolution: {integrity: sha512-/XLNM925tXjoOO9Ivq44b3zaIpTw/Jz801Xitc46pV+JKUCfjHr88m+tpdGncovRZmaySwJ42OlQul7lqDjT+Q==}
     dependencies:
-      '@inera/ids-design': 4.1.1
+      '@inera/ids-design': 4.2.0
       lit: 2.8.0
       tslib: 2.3.1
     dev: false
 
   /@inera/ids-design@4.1.1:
     resolution: {integrity: sha512-QFTgqDteB3uzU5lWuoTaLAMK41w6wUcp9VwRYRXxZXZvz94oGFKa3TxR9+8BLbSm37iDmGJguEmH7p+3XfzB3A==}
+    dev: false
+
+  /@inera/ids-design@4.2.0:
+    resolution: {integrity: sha512-CRw7IJLzwVYwe6J5Ou4V9U4QRRxX975U9DWHE1+HRXZHPl7lLMhoNffSEw03h3ah+8WT0q7Ag7VAqufvKk9pBA==}
     dev: false
 
   /@internationalized/date@3.2.0:
@@ -3514,7 +3532,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@babel/code-frame': 7.23.4
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
       '@types/aria-query': 4.2.2
       aria-query: 4.2.2
       chalk: 4.1.2
@@ -3541,8 +3559,8 @@ packages:
     resolution: {integrity: sha512-fB0R+fa3AUqbLHWyxXa2kGVtf1Fe1ZZFr0Zp6AIbIAzXb2mKbEXl+PCQNUOaq5lbTab5tfctfXRNsWXxa2f7Aw==}
     engines: {node: '>=14'}
     dependencies:
-      '@babel/code-frame': 7.23.4
-      '@babel/runtime': 7.23.4
+      '@babel/code-frame': 7.23.5
+      '@babel/runtime': 7.23.5
       '@types/aria-query': 5.0.4
       aria-query: 5.1.3
       chalk: 4.1.2
@@ -4475,7 +4493,7 @@ packages:
     resolution: {integrity: sha512-o/HelwhuKpTj/frsOsbNLNgnNGVIFsVP/SW2BSF14gVl7kAfMOJ6/8wUAUvG1R1NHKrfG+2sHZTu0yauT1qBrA==}
     engines: {node: '>=6.0'}
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
       '@babel/runtime-corejs3': 7.22.15
     dev: true
 
@@ -5598,7 +5616,7 @@ packages:
   /dom-helpers@3.4.0:
     resolution: {integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==}
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
     dev: false
 
   /dom-serializer@2.0.0:
@@ -8071,7 +8089,7 @@ packages:
       prop-types: ^15.0.0
       react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
       prop-types: 15.8.1
       react: 17.0.2
       tiny-warning: 1.0.3
@@ -8858,7 +8876,7 @@ packages:
     peerDependencies:
       react: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
       react: 18.2.0
     dev: false
 
@@ -8918,7 +8936,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
       '@types/react': 18.0.27
       focus-lock: 1.0.0(patch_hash=ehrrl72wt5ekmnrwdl2kdwig24)
       prop-types: 15.8.1
@@ -9433,7 +9451,7 @@ packages:
   /redux@4.2.1:
     resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.5
 
   /regenerator-runtime@0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
@@ -9588,7 +9606,7 @@ packages:
       rollup: 3.29.0
       typescript: 5.3.2
     optionalDependencies:
-      '@babel/code-frame': 7.23.4
+      '@babel/code-frame': 7.23.5
     dev: true
 
   /rollup-plugin-esbuild@5.0.0(esbuild@0.17.6)(rollup@3.29.0):

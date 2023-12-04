@@ -20,7 +20,7 @@
     "@frontend/fake": "workspace:*",
     "@frontend/ids-react-ts": "workspace:*",
     "@frontend/utils": "workspace:*",
-    "@inera/ids-core": "^4.1.2",
+    "@inera/ids-core": "^4.2.0",
     "@inera/ids-design": "^4.1.1",
     "@internationalized/date": "^3.2.0",
     "@react-hooks-library/core": "^0.5.1",
@@ -38,6 +38,7 @@
     "react-router-dom": "^6.11.1",
     "react-stately": "^3.23.0",
     "recharts": "^2.5.0",
+    "redux": "^4.2.1",
     "use-resize-observer": "^9.1.0",
     "uuid": "^9.0.1",
     "zod": "^3.22.3"

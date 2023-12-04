@@ -17,7 +17,7 @@
   "dependencies": {
     "@frontend/components": "workspace:*",
     "@frontend/ids-react-ts": "workspace:*",
-    "@inera/ids-core": "^4.1.2",
+    "@inera/ids-core": "^4.2.0",
     "@inera/ids-design": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

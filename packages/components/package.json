@@ -42,7 +42,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
     "@frontend/ids-react-ts": "workspace:*",
-    "@inera/ids-core": "^4.1.2",
+    "@inera/ids-core": "^4.2.0",
     "react": "^18.2.0",
     "react-focus-lock": "^2.9.6",
     "react-focus-on": "^3.9.1",
