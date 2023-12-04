@@ -1,5 +1,5 @@
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
-@import '@inera/ids-core/styles/themes/1177.css';
+@import '@inera/ids-design/themes/1177/1177.css';
 
 @tailwind base;
 @tailwind components;

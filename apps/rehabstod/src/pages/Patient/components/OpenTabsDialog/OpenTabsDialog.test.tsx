@@ -52,11 +52,12 @@ it('Should stop navigation when there are open tabs', async () => {
   renderComponent()
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
-  expect(screen.getByTestId('open-tabs-dialog')).toBeInTheDocument()
-  expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'false')
+  expect(screen.getByRole('dialog')).toBeInTheDocument()
+  expect(screen.getByRole('dialog')).toHaveAttribute('show', 'false')
 
   await userEvent.click(screen.getByRole('button', { name: 'Navigate' }))
-  expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'true')
+  expect(screen.getByRole('dialog')).toHaveAttribute('show', 'true')
+
   expect(screen.queryByText('Welcome')).not.toBeInTheDocument()
 })
 
@@ -65,10 +66,10 @@ it('Should hide the dialog when cancel is pressed', async () => {
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
   await userEvent.click(screen.getByRole('button', { name: 'Navigate' }))
-  expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'true')
+  expect(screen.getByRole('dialog')).toHaveAttribute('show', 'true')
 
   await userEvent.click(screen.getByText('Avbryt'))
-  expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'false')
+  expect(screen.getByRole('dialog')).toHaveAttribute('show', 'false')
   expect(screen.queryByText('Welcome')).not.toBeInTheDocument()
 })
 
@@ -77,7 +78,7 @@ it('Should close tabs and navigate away when close is pressed', async () => {
 
   await userEvent.click(screen.getByRole('button', { name: 'Open webcert' }))
   await userEvent.click(screen.getByRole('button', { name: 'Navigate' }))
-  expect(screen.getByTestId('open-tabs-dialog')).toHaveAttribute('show', 'true')
+  expect(screen.getByRole('dialog')).toHaveAttribute('show', 'true')
 
   await userEvent.click(screen.getByText('Stäng patientvy'))
   expect(screen.getByText('Welcome')).toBeInTheDocument()

@@ -23,7 +23,7 @@ function renderComponent() {
 
 it('Should have correct heading', () => {
   renderComponent()
-  expect(screen.getByRole('heading', { level: 1 })).toMatchSnapshot()
+  expect(screen.getByRole('heading', { level: 1, name: 'Intyg' })).toMatchSnapshot()
 })
 
 it('Should render alert message when list is empty', async () => {

@@ -44,7 +44,7 @@ export function LayoutHeader() {
             ref={avatarRef}
           >
             <div slot="dropdown">
-              <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
+              <IDSLink colorpreset={2} block className="ids-mb-5 ids-mt-2 ">
                 <IDSIconSwap height="20" width="20" />
                 <Link to="/enhet" onClick={() => avatarRef.current?.tooggleExpand()}>
                   Byt vårdenhet

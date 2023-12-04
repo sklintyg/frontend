@@ -51,7 +51,6 @@ export function PatientOverview({
   if (sjfMetaData.consentServiceError || sjfMetaData.blockingServiceError) {
     return (
       <ErrorModal
-        show={sjfMetaData.consentServiceError || sjfMetaData.blockingServiceError}
         description={
           sjfMetaData.consentServiceError
             ? 'Information från andra vårdgivare kan inte hämtas på grund av ett tekniskt fel. Försök igen om en stund.'
@@ -66,13 +65,15 @@ export function PatientOverview({
 
   return (
     <>
-      <ErrorModal
-        show={giveConsentError !== undefined || (consentResponse && consentResponse.responseCode !== 'OK')}
-        description="Samtycke kan inte registreras på grund av ett tekniskt fel. Försök igen om en stund."
-        errorCode={ErrorCode.REGISTER_SJF_CONSENT_ERROR}
-        generateError={giveConsentError === undefined}
-        dynamicLink
-      />
+      {giveConsentError !== undefined ||
+        (consentResponse && consentResponse.responseCode !== 'OK' && (
+          <ErrorModal
+            description="Samtycke kan inte registreras på grund av ett tekniskt fel. Försök igen om en stund."
+            errorCode={ErrorCode.REGISTER_SJF_CONSENT_ERROR}
+            generateError={giveConsentError === undefined}
+            dynamicLink
+          />
+        ))}
       <div className="flex grid-cols-2 flex-col gap-5 py-5 lg:grid">
         <OpenInformationCard
           title="Ospärrad information inom egen vårdgivare"

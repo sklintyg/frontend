@@ -1,7 +1,6 @@
 import { Dialog } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { StickyPortal } from '../../../../../components/StickyContainer/StickyPortal'
 import { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onClick: (id: string) => void }) {
@@ -22,16 +21,12 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
       >
         Hämta
       </IDSButton>
-      {open && (
-        <StickyPortal>
-          <Dialog open={open} headline="Ingen information hämtad">
-            <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-            <IDSButton onClick={() => setOpen(!open)} className="flex justify-center pb-5 pt-10">
-              Stäng
-            </IDSButton>
-          </Dialog>
-        </StickyPortal>
-      )}
+      <Dialog open={open} onOpenChange={setOpen} headline="Ingen information hämtad">
+        <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
+        <IDSButton slot="action" onClick={() => setOpen(false)}>
+          Stäng
+        </IDSButton>
+      </Dialog>
     </>
   )
 }

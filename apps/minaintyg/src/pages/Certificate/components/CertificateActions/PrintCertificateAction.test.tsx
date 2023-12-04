@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { availableFunctionSchema } from '../../../../schema/certificate.schema'
 import { PrintCertificateAction } from './PrintCertificateAction'
@@ -73,7 +73,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
     expect(screen.getByRole('dialog')).not.toHaveAttribute('show', 'true')
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
+    await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
 
     expect(screen.getByRole('dialog')).toHaveAttribute('show', 'true')
   })
@@ -81,7 +81,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
   it('Should be able to close dialog with button', async () => {
     renderCustomizePrint()
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
+    await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
     await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }))
 
     expect(screen.getByRole('dialog')).toHaveAttribute('show', 'false')
@@ -91,8 +91,8 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
     const openSpy = vi.spyOn(window, 'open')
     renderCustomizePrint()
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
+    await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
       expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf', '_blank')
     })
@@ -101,8 +101,8 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
   it('Should close dialog after open file from dialog', async () => {
     renderCustomizePrint()
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
+    await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     expect(screen.getByRole('dialog')).toHaveAttribute('show', 'false')
   })
 
@@ -112,11 +112,11 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
     expect(screen.queryByText(/Information om diagnos kan vara viktig/i)).not.toBeInTheDocument()
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[0])
+    await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
     await userEvent.click(screen.getByRole('radio', { name: 'Dölj Diagnos' }))
     expect(screen.getByText(/Information om diagnos kan vara viktig/i)).toBeInTheDocument()
 
-    await userEvent.click(screen.getAllByRole('button', { name: 'Skriv ut' })[1])
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
       expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf?customizationId=!diagnoser', '_blank')
     })
