@@ -51,11 +51,9 @@ export function Dialog({
 
     if (open === true && !isShown) {
       returnElRef.current = document.activeElement as HTMLElement
-      dialogEl?.setAttribute('show', 'true')
       dialogEl?.showDialog()
     }
     if (open === false && isShown) {
-      dialogEl?.setAttribute('show', 'false')
       dialogEl?.hideDialog()
     }
 
@@ -66,7 +64,7 @@ export function Dialog({
   return (
     <FocusOn
       enabled={open}
-      scrollLock={false}
+      scrollLock
       autoFocus={false}
       onActivation={() => {
         setTimeout(() => {
@@ -82,7 +80,7 @@ export function Dialog({
         setTimeout(() => returnElRef?.current?.focus(), 0)
       }}
     >
-      <IDSDialog role="dialog" nofocustrap autofocus={false} ref={ref} {...props}>
+      <IDSDialog role="dialog" nofocustrap keepscrollbar autofocus={false} ref={ref} show={open ? 'true' : 'false'} {...props}>
         {headline && (
           <h1 className="ids-heading-1 ids-small" slot="headline">
             {headline}

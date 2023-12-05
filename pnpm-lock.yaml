@@ -9,7 +9,7 @@ overrides:
 
 patchedDependencies:
   focus-lock@1.0.0:
-    hash: ehrrl72wt5ekmnrwdl2kdwig24
+    hash: bzzitpzsf5jp5eenoafyrhwjam
     path: patches/focus-lock@1.0.0.patch
 
 importers:
@@ -6687,7 +6687,7 @@ packages:
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
 
-  /focus-lock@1.0.0(patch_hash=ehrrl72wt5ekmnrwdl2kdwig24):
+  /focus-lock@1.0.0(patch_hash=bzzitpzsf5jp5eenoafyrhwjam):
     resolution: {integrity: sha512-a8Ge6cdKh9za/GZR/qtigTAk7SrGore56EFcoMshClsh7FLk1zwszc/ltuMfKhx56qeuyL/jWQ4J4axou0iJ9w==}
     engines: {node: '>=10'}
     dependencies:
@@ -8938,7 +8938,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.5
       '@types/react': 18.0.27
-      focus-lock: 1.0.0(patch_hash=ehrrl72wt5ekmnrwdl2kdwig24)
+      focus-lock: 1.0.0(patch_hash=bzzitpzsf5jp5eenoafyrhwjam)
       prop-types: 15.8.1
       react: 18.2.0
       react-clientside-effect: 1.2.6(react@18.2.0)
