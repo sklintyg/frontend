@@ -15,7 +15,13 @@ function renderWithPrint() {
           title: null,
           description: null,
           body: null,
-          information: [],
+          information: [
+            {
+              id: null,
+              text: 'filename',
+              type: 'FILENAME',
+            },
+          ],
         }),
       ]}
     />
@@ -45,6 +51,11 @@ function renderCustomizePrint() {
               text: 'Dölj Diagnos',
               type: 'OPTIONS',
             },
+            {
+              id: null,
+              text: 'filename',
+              type: 'FILENAME',
+            },
           ],
         }),
       ]}
@@ -58,7 +69,7 @@ it('Should open file for PRINT_CERTIFICATE', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
 
   await waitFor(() => {
-    expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf', '_blank')
+    expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename', '_blank')
   })
 })
 
@@ -94,7 +105,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
     await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
-      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf', '_blank')
+      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename', '_blank')
     })
   })
 
@@ -118,7 +129,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
     await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
-      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf?customizationId=!diagnoser', '_blank')
+      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename?customizationId=!diagnoser', '_blank')
     })
   })
 })
