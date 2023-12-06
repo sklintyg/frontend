@@ -19,10 +19,14 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
   const activePrintFunction = printFunction ?? customizePrintFunction
 
   const fileName = activePrintFunction?.information.find((info) => info.type === InformationTypeEnum.enum.FILENAME)
-  const datetime = format(Date.now(), 'yy-MM-dd_HHmm')
 
   const openFile = () =>
-    window.open(`/api/certificate/${id}/pdf/${fileName?.text}_${datetime}${customizeId ? `?customizationId=${customizeId}` : ''}`, '_blank')
+    window.open(
+      `/api/certificate/${id}/pdf/${fileName?.text}_${format(Date.now(), 'yy-MM-dd_HHmm')}${
+        customizeId ? `?customizationId=${customizeId}` : ''
+      }`,
+      '_blank'
+    )
 
   if (!(printFunction || customizePrintFunction)) {
     return null
