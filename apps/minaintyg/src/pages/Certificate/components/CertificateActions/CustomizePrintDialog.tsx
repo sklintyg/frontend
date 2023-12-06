@@ -1,7 +1,7 @@
 import { Dialog, Radio } from '@frontend/components'
 import { IDSRadioGroup } from '@frontend/ids-react-ts'
 import { ChangeEventHandler, ReactNode } from 'react'
-import { AvailableFunction } from '../../../../schema/certificate.schema'
+import { AvailableFunction, InformationTypeEnum } from '../../../../schema/certificate.schema'
 
 export function CustomizePrintDialog({
   open,
@@ -22,9 +22,11 @@ export function CustomizePrintDialog({
     <Dialog open={open} onOpenChange={onOpenChange} headline={title ?? ''}>
       <p className="mb-5">{body}</p>
       <IDSRadioGroup>
-        {information.map(({ id, text }) => (
-          <Radio key={text} label={text} value={id || ''} name="option" checked={currentValue === (id || '')} onChange={onChange} />
-        ))}
+        {information
+          .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
+          .map(({ id, text }) => (
+            <Radio key={text} label={text} value={id || ''} name="option" checked={currentValue === (id || '')} onChange={onChange} />
+          ))}
       </IDSRadioGroup>
       {currentValue === '!diagnoser' && <p className="mb-5">{description}</p>}
       {children}
