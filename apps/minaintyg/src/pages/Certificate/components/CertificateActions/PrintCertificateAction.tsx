@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { format } from 'date-fns'
 import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
-import { useFormat } from '../../../../hooks/useFormat'
 
 export function PrintCertificateAction({ id, availableFunctions }: { id: string; availableFunctions: AvailableFunction[] }) {
   const [customizePrintDialogOpen, showCustomizePrintDialog] = useState(false)
