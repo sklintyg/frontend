@@ -1,7 +1,9 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { format } from 'date-fns'
 import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
+import { useFormat } from '../../../../hooks/useFormat'
 
 export function PrintCertificateAction({ id, availableFunctions }: { id: string; availableFunctions: AvailableFunction[] }) {
   const [customizePrintDialogOpen, showCustomizePrintDialog] = useState(false)
@@ -18,9 +20,10 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
   const activePrintFunction = printFunction ?? customizePrintFunction
 
   const fileName = activePrintFunction?.information.find((info) => info.type === InformationTypeEnum.enum.FILENAME)
+  const datetime = format(Date.now(), 'yy-MM-dd_HHmm')
 
   const openFile = () =>
-    window.open(`/api/certificate/${id}/pdf/${fileName?.text}${customizeId ? `?customizationId=${customizeId}` : ''}`, '_blank')
+    window.open(`/api/certificate/${id}/pdf/${fileName?.text}_${datetime}${customizeId ? `?customizationId=${customizeId}` : ''}`, '_blank')
 
   if (!(printFunction || customizePrintFunction)) {
     return null

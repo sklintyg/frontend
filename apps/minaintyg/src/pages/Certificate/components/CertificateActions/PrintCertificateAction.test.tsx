@@ -1,6 +1,7 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { format } from 'date-fns'
 import { availableFunctionSchema } from '../../../../schema/certificate.schema'
 import { PrintCertificateAction } from './PrintCertificateAction'
 
@@ -66,10 +67,11 @@ function renderCustomizePrint() {
 it('Should open file for PRINT_CERTIFICATE', async () => {
   renderWithPrint()
   const openSpy = vi.spyOn(window, 'open')
+  const datetime = format(Date.now(), 'yy-MM-dd_HHmm')
   await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
 
   await waitFor(() => {
-    expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename', '_blank')
+    expect(openSpy).toHaveBeenCalledWith(`/api/certificate/4b740d71/pdf/filename_${datetime}`, '_blank')
   })
 })
 
@@ -100,12 +102,13 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
   it('Should be able to open file from dialog', async () => {
     const openSpy = vi.spyOn(window, 'open')
+    const datetime = format(Date.now(), 'yy-MM-dd_HHmm')
     renderCustomizePrint()
 
     await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
     await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
-      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename', '_blank')
+      expect(openSpy).toHaveBeenCalledWith(`/api/certificate/4b740d71/pdf/filename_${datetime}`, '_blank')
     })
   })
 
@@ -119,6 +122,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
   it('Should be able to select second option and open file', async () => {
     const openSpy = vi.spyOn(window, 'open')
+    const datetime = format(Date.now(), 'yy-MM-dd_HHmm')
     renderCustomizePrint()
 
     expect(screen.queryByText(/Information om diagnos kan vara viktig/i)).not.toBeInTheDocument()
@@ -129,7 +133,7 @@ describe('CUSTOMIZE_PRINT_CERTIFICATE', () => {
 
     await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Skriv ut' }))
     await waitFor(() => {
-      expect(openSpy).toHaveBeenCalledWith('/api/certificate/4b740d71/pdf/filename?customizationId=!diagnoser', '_blank')
+      expect(openSpy).toHaveBeenCalledWith(`/api/certificate/4b740d71/pdf/filename_${datetime}?customizationId=!diagnoser`, '_blank')
     })
   })
 })
