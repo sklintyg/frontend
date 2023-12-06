@@ -65,7 +65,7 @@
     "eslint-config-react-test": "workspace:*",
     "faker": "5.5.3",
     "jsdom": "^21.1.1",
-    "vite": "^4.4.9",
+    "vite": "^4.4.12",
     "vitest": "^0.34.3",
     "whatwg-fetch": "^3.6.2"
   }
