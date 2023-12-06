@@ -1,6 +1,6 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { AvailableFunction, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
+import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
 
 export function PrintCertificateAction({ id, availableFunctions }: { id: string; availableFunctions: AvailableFunction[] }) {
@@ -15,7 +15,12 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
     (availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.CUSTOMIZE_PRINT_CERTIFICATE
   )
 
-  const openFile = () => window.open(`/api/certificate/${id}/pdf${customizeId ? `?customizationId=${customizeId}` : ''}`, '_blank')
+  const activePrintFunction = printFunction ?? customizePrintFunction
+
+  const fileName = activePrintFunction?.information.find((info) => info.type === InformationTypeEnum.enum.FILENAME)
+
+  const openFile = () =>
+    window.open(`/api/certificate/${id}/pdf/${fileName?.text}${customizeId ? `?customizationId=${customizeId}` : ''}`, '_blank')
 
   if (!(printFunction || customizePrintFunction)) {
     return null
