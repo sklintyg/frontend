@@ -13,23 +13,6 @@ import { LogoutPage } from './pages/Logout/LogoutPage'
 import { Welcome } from './pages/Welcome/Welcome'
 
 export const routes = createRoutesFromChildren([
-  // <Route
-  //   key="root"
-  //   path="/"
-  //   handle={{ crumb: () => 'Start' }}
-  //   element={
-  //     <ProtectedRoute>
-  //       <Layout>
-  //         <Breadcrumbs />
-  //         <div className="max-w-screen-lg">
-  //           <Outlet />
-  //         </div>
-  //       </Layout>
-  //     </ProtectedRoute>
-  //   }
-  // >
-  //   <Route index element={<Navigate to="/intyg" replace />} />
-  // </Route>,
   <Route
     key="intyg"
     path="/"
