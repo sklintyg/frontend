@@ -14,9 +14,10 @@ import { Welcome } from './pages/Welcome/Welcome'
 
 export const routes = createRoutesFromChildren([
   <Route
-    key="root"
+    key="intyg"
     path="/"
-    handle={{ crumb: () => 'Start' }}
+    handle={{ crumb: () => 'Intyg' }}
+    errorElement={<ErrorBoundary />}
     element={
       <ProtectedRoute>
         <Layout>
@@ -28,18 +29,15 @@ export const routes = createRoutesFromChildren([
       </ProtectedRoute>
     }
   >
-    <Route index element={<Navigate to="/intyg" replace />} />
-    <Route path="/intyg" handle={{ crumb: () => 'Intyg' }} errorElement={<ErrorBoundary />}>
-      <Route index element={<CertificateListPage />} />
-      <Route
-        path=":id"
-        handle={{
-          crumb: () => 'Läs och hantera ditt intyg',
-        }}
-      >
-        <Route index element={<CertificatePage />} />
-        <Route path="skicka" handle={{ crumb: () => 'Skicka intyg' }} element={<SendCertificatePage />} />
-      </Route>
+    <Route index element={<CertificateListPage />} />
+    <Route
+      path=":id"
+      handle={{
+        crumb: () => 'Läs och hantera ditt intyg',
+      }}
+    >
+      <Route index element={<CertificatePage />} />
+      <Route path="skicka" handle={{ crumb: () => 'Skicka intyg' }} element={<SendCertificatePage />} />
     </Route>
   </Route>,
   <Route

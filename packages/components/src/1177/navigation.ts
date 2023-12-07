@@ -66,9 +66,9 @@ const data = {
         id: 7,
         name: 'Intyg',
         url: {
-          prod: '/intyg',
-          acc: '/intyg',
-          sys: '/intyg',
+          prod: '/',
+          acc: '/',
+          sys: '/',
         },
         isAgentModeSupported: true,
       },
