@@ -1,4 +1,4 @@
-import { PageHero, PageHeroActions, getNavigationItem } from '@frontend/components/1177'
+import { getNavigationItem, PageHero, PageHeroActions } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { ErrorIdentifier } from '@frontend/components'
 import { Link } from 'react-router-dom'
@@ -89,7 +89,7 @@ export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum 
     <PageHero heading={getErrorHeading(type)} type={type === ErrorType.enum['logged-out'] ? 'success' : 'error'}>
       <p className="ids-preamble">{getErrorDescription(type)}</p>
       <PageHeroActions>{getActions(type).map(getAction)}</PageHeroActions>
-      {id && (
+      {id && type !== ErrorType.enum['logged-out'] && (
         <div className="border-y border-stone-clear py-5">
           Om problemet kvarstår, spara nedan id och kontakta <SupportLink />
           <br />

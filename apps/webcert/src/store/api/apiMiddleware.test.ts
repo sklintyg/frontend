@@ -204,14 +204,14 @@ describe('Test API middleware', () => {
       sessionStorage.setItem('launchId', user.launchId)
 
       fakeAxios.onGet('api/call').reply((config) => {
-        expect(config.headers.launchId).toEqual(user.launchId)
+        expect(config.headers?.launchId).toEqual(user.launchId)
         return [200]
       })
     })
 
     it('should not add launchId to header if its not present in sessionStorage', async () => {
       fakeAxios.onGet('api/call').reply((config) => {
-        expect(config.headers.launchId).toEqual(null)
+        expect(config.headers?.launchId).toEqual(null)
         return [200]
       })
     })
