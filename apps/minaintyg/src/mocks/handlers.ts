@@ -1,15 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, rest, RestRequest } from 'msw'
+import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
 import {
+  CertificateStatus,
+  CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
-  CertificateStatus,
-  CertificateStatusEnum,
   certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
@@ -112,6 +112,45 @@ export const handlers = [
           metadata: fakeCertificateMetadata(req),
         }),
         availableFunctions: [
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'PRINT_CERTIFICATE',
+            name: 'Intyget kan skrivas ut',
+            title: null,
+            description: null,
+            body: null,
+            information: [
+              {
+                id: null,
+                text: 'filename',
+                type: 'FILENAME',
+              },
+            ],
+          }),
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'CUSTOMIZE_PRINT_CERTIFICATE',
+            name: 'Anpassa intyget för utskrift',
+            title: 'Vill du visa eller dölja diagnos?',
+            description:
+              'Information om diagnos kan vara viktig för din arbetsgivare. Det kan underlätta anpassning av din arbetssituation. Det kan också göra att du snabbare kommer tillbaka till arbetet.',
+            body: 'När du skriver ut ett läkarintyg du ska lämna till din arbetsgivare kan du välja om du vill att din diagnos ska visas eller döljas. Ingen annan information kan döljas. ',
+            information: [
+              {
+                id: null,
+                text: 'Visa Diagnos',
+                type: 'OPTIONS',
+              },
+              {
+                id: '!diagnoser',
+                text: 'Dölj Diagnos',
+                type: 'OPTIONS',
+              },
+              {
+                id: null,
+                text: 'filename',
+                type: 'FILENAME',
+              },
+            ],
+          }),
           fakerFromSchema(availableFunctionSchema)({
             type: 'SEND_CERTIFICATE',
             name: 'Skicka intyg',

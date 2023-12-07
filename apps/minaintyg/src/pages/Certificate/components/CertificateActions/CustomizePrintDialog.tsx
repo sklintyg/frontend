@@ -20,15 +20,17 @@ export function CustomizePrintDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange} headline={title ?? ''}>
-      <p className="mb-5">{body}</p>
-      <IDSRadioGroup>
-        {information
-          .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
-          .map(({ id, text }) => (
-            <Radio key={text} label={text} value={id || ''} name="option" checked={currentValue === (id || '')} onChange={onChange} />
-          ))}
-      </IDSRadioGroup>
-      {currentValue === '!diagnoser' && <p className="mb-5">{description}</p>}
+      <div className="max-w-5xl">
+        <p className="mb-5">{body}</p>
+        <IDSRadioGroup>
+          {information
+            .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
+            .map(({ id, text }) => (
+              <Radio key={text} label={text} value={id || ''} name="option" checked={currentValue === (id || '')} onChange={onChange} />
+            ))}
+        </IDSRadioGroup>
+        {currentValue === '!diagnoser' && <p className="mb-5">{description}</p>}
+      </div>
       {children}
     </Dialog>
   )
