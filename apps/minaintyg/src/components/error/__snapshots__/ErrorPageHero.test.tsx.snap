@@ -33,7 +33,7 @@ exports[`Should render logged-out type error 1`] = `
               class="ids-icon"
             />
             <a
-              href="/saml2/authenticate/eleg"
+              href="/"
             >
               Till inloggning
             </a>
