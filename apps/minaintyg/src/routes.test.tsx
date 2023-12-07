@@ -26,7 +26,7 @@ it.each([
   const pendingCertificateListRequest = waitForRequest('POST', '/api/certificate')
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')
 
-  renderComponent(['/intyg'])
+  renderComponent(['/'])
 
   await act(async () => pendingUserRequest)
   await act(async () => pendingCertificateListRequest)
@@ -53,16 +53,16 @@ it('Should end session when visiting /logga-ut', async () => {
 })
 
 it('Should update document title for certificate list', async () => {
-  renderComponent(['/intyg'])
+  renderComponent(['/'])
   await waitFor(() => expect(document.title).toBe('Intyg - 1177'))
 })
 
 it('Should update document title for certificate page', async () => {
-  renderComponent(['/intyg/1234'])
+  renderComponent(['/1234'])
   await waitFor(() => expect(document.title).toBe('Läs och hantera ditt intyg - 1177'))
 })
 
 it('Should update document title for send certificate page', async () => {
-  renderComponent(['/intyg/1234/skicka'])
+  renderComponent(['/1234/skicka'])
   await waitFor(() => expect(document.title).toBe('Skicka intyg - 1177'))
 })

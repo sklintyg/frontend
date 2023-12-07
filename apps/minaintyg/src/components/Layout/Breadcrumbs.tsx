@@ -14,14 +14,7 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
 }
 
 function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
-  const node = handle.crumb(params)
-  if (typeof node === 'string') {
-    const item = pathname === '/' && getNavigationItem(node)
-    if (item) {
-      return [resolveNavigationUrl(item.url), node]
-    }
-  }
-  return [pathname, node]
+  return [pathname, handle.crumb(params)]
 }
 
 export function Breadcrumbs() {
@@ -33,9 +26,16 @@ export function Breadcrumbs() {
     return null
   }
 
+  const startLink = getNavigationItem('Start')
+
   return (
     <div className="mb-5">
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
+        {startLink && (
+          <IDSCrumb key="start">
+            <Link to={resolveNavigationUrl(startLink.url)}>Start</Link>
+          </IDSCrumb>
+        )}
         {matches.map(resolveMatch).map(([url, node], index) =>
           index !== matches.length - 1 ? (
             <IDSCrumb key={url}>
@@ -49,6 +49,13 @@ export function Breadcrumbs() {
           <IDSCrumb key="mobile" mobile>
             <Link className="no-underline" to={prevMatchUrl}>
               {prevMatchNode}
+            </Link>
+          </IDSCrumb>
+        )}
+        {!prevMatchUrl && startLink && (
+          <IDSCrumb key="mobile" mobile>
+            <Link className="no-underline" to={resolveNavigationUrl(startLink.url)}>
+              Start
             </Link>
           </IDSCrumb>
         )}

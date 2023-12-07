@@ -20,5 +20,5 @@ it('Should display information when there are no events', () => {
 it('Should link to certificate when there is a certificateId', () => {
   renderComponent([fakerFromSchema(certificateEventSchema)({ certificateId: '12345', description: 'Ersatt' })])
   expect(screen.getByRole('link', { name: 'Ersatt' })).toBeInTheDocument()
-  expect(screen.getByRole('link', { name: 'Ersatt' })).toHaveAttribute('href', '/intyg/12345')
+  expect(screen.getByRole('link', { name: 'Ersatt' })).toHaveAttribute('href', '/12345')
 })

@@ -16,9 +16,9 @@ const renderComponent = (initialEntries = ['/']) =>
         router={createMemoryRouter(
           createRoutesFromChildren([
             <Route
-              key="root"
+              key="intyg"
               path="/"
-              handle={{ crumb: () => 'Start' }}
+              handle={{ crumb: () => 'Intyg' }}
               element={
                 <div>
                   <Breadcrumbs />
@@ -26,17 +26,14 @@ const renderComponent = (initialEntries = ['/']) =>
                 </div>
               }
             >
-              <Route index element="Start" />
-              <Route path="/intyg" handle={{ crumb: () => 'Intyg' }}>
-                <Route index element="Certificates List" />
-                <Route
-                  path=":id"
-                  handle={{
-                    crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
-                  }}
-                  element="Intyget"
-                />
-              </Route>
+              <Route index element="Certificates List" />
+              <Route
+                path=":id"
+                handle={{
+                  crumb: ({ id }: { id: string }) => <CertificateCrumb id={id} />,
+                }}
+                element="Intyget"
+              />
             </Route>,
             <Route key="no-match" path="/no-matches" element="No available breadcrumbs" />,
           ]),
@@ -66,7 +63,7 @@ it('Should render as expected with two level', () => {
 })
 
 it('Should contain correct link for start item, mobile and desktop', () => {
-  renderComponent(['/intyg'])
+  renderComponent(['/'])
   expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
   screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
     expect(element).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
@@ -91,7 +88,7 @@ it('Should render as expected with three levels', async () => {
       )
     )
   )
-  const { container } = renderComponent(['/intyg/12345'])
+  const { container } = renderComponent(['/12345'])
   expect(await screen.findByText(certificateName)).toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })

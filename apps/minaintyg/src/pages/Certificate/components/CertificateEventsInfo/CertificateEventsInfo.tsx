@@ -13,7 +13,7 @@ export function CertificateEventsInfo({ events }: { events: CertificateEvent[] }
           <span className="whitespace-nowrap">{datetime(timestamp)}</span>
           {certificateId ? (
             <IDSLink underlined>
-              <Link to={`/intyg/${certificateId}`}>{description}</Link>
+              <Link to={`/${certificateId}`}>{description}</Link>
             </IDSLink>
           ) : (
             <span>{description}</span>
