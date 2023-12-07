@@ -1,6 +1,6 @@
+import { ErrorIdentifier } from '@frontend/components'
 import { getNavigationItem, PageHero, PageHeroActions } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import { ErrorIdentifier } from '@frontend/components'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
@@ -57,7 +57,7 @@ function getAction(type: ActionTypeEnum) {
       return (
         <IDSLink key="login">
           <IDSIconChevron />
-          <a href={import.meta.env.VITE_LOGIN_URL}>Till inloggning</a>
+          <a href="/">Till inloggning</a>
         </IDSLink>
       )
     case ActionType.enum['1177']:
