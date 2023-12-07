@@ -12,10 +12,10 @@ it('Should navigate to certificate from button', async () => {
     summary: undefined,
   })
   render(
-    <MemoryRouter initialEntries={['/intyg']}>
+    <MemoryRouter initialEntries={['/']}>
       <Routes>
-        <Route key="1" path="intyg" element={<CertificateCard {...certificate} />} />,
-        <Route key="2" path="intyg/:id" element={<p>Some certificate page</p>} />,
+        <Route key="1" path="/" element={<CertificateCard {...certificate} />} />,
+        <Route key="2" path="/:id" element={<p>Some certificate page</p>} />,
       </Routes>
     </MemoryRouter>
   )
