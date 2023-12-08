@@ -17,10 +17,17 @@ export function ScrollTopButton() {
   }, [])
 
   return (
-    <div className={classNames('sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out', show && 'opacity-100')}>
+    <div
+      className={classNames(
+        'sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out pointer-events-none',
+        show && 'opacity-100 pointer-events-auto'
+      )}
+    >
       <IDSButton
         fab
+        role="button"
         className="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
+        aria-label="Till toppen av sidan"
         onClick={() =>
           window.scrollTo({
             top: 0,
