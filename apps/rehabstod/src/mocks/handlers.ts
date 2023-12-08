@@ -31,7 +31,7 @@ export const handlers = [
         ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
         ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
         statistiktjanstenTooltip: fakeLink({ text: 'statistiktjanstenTooltip' }),
-        rehabstodTillganglighetsredogorelse: fakeLink({ text: 'Tillgänglighetsredogörelse' })
+        rehabstodTillganglighetsredogorelse: fakeLink({ text: 'Tillgänglighetsredogörelse' }),
       })
     )
   ),
