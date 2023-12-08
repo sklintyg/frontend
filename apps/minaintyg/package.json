@@ -26,6 +26,7 @@
     "@react-hooks-library/core": "^0.5.1",
     "@reduxjs/toolkit": "^1.9.3",
     "date-fns": "^2.29.3",
+    "focus-lock": "^1.0.0",
     "html-react-parser": "^4.2.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
