@@ -11,11 +11,9 @@ export function ScrollTopButton() {
     let previousScrollPos = 0
     const handleScroll = () => {
       const scrollPos = document.body.getBoundingClientRect().top
-
-      setShow(scrollPos < -180)
-
       const isScrollInterupted = previousScrollPos > 0 && scrollPos > previousScrollPos
 
+      setShow(scrollPos < -180)
       if (isScrolling && (scrollPos === 0 || isScrollInterupted)) {
         updateIsScrolling(false)
         const mainElement = document.querySelector('main')
