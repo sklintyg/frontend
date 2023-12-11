@@ -1,15 +1,17 @@
-import { fakerFromSchema } from '@frontend/fake'
-import { render, screen } from '@testing-library/react'
+import { faker, fakerFromSchema } from '@frontend/fake'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
-import { server } from '../../mocks/server'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { server, waitForRequest } from '../../mocks/server'
 import {
+  AvailableFunctionsTypeEnum,
   CertificateMetadata,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
 } from '../../schema/certificate.schema'
+import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { CertificatePage } from './CertificatePage'
 
@@ -22,6 +24,11 @@ function renderComponent(metadata: CertificateMetadata) {
             metadata,
             content: [{ heading: 'Rubrik 1', body: '<p>Test</p>' }],
           }),
+          availableFunctions: [
+            {
+              type: AvailableFunctionsTypeEnum.enum.SEND_CERTIFICATE,
+            },
+          ],
         })
       )
     )
@@ -41,9 +48,9 @@ function renderComponent(metadata: CertificateMetadata) {
 it('Should have article content', async () => {
   renderComponent(
     fakerFromSchema(certificateMetadataSchema)({
+      id: '0b295069-d03c-413c-9f4a-b6fd81ad2d87',
       issuer: {
         name: 'Ajla Doktor',
-        phoneNumber: '123456',
       },
       unit: {
         name: 'Stockholm',
@@ -88,4 +95,54 @@ it('Should display alert message when certificate is replaced', async () => {
       Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
     </ids-alert>
   `)
+})
+
+describe('Unable to load certificate', () => {
+  function renderWithFault() {
+    server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+
+    render(
+      <Provider store={store}>
+        <RouterProvider
+          router={createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/:id" element={<CertificatePage />} />]), {
+            initialEntries: ['/12345'],
+          })}
+        />
+      </Provider>
+    )
+  }
+
+  it('Should render error message', async () => {
+    renderWithFault()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    expect(screen.getAllByRole('alert')).toMatchSnapshot()
+  })
+
+  it('Should display fallback description', async () => {
+    renderWithFault()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    expect(screen.getByText(/det här är ditt intyg/i)).toBeInTheDocument()
+    expect(screen.getByText(/det här är ditt intyg/i)).toHaveClass('ids-preamble')
+  })
+
+  it('Should log error and display id', async () => {
+    store.dispatch(startSession())
+    server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
+    const pendingLogRequest = waitForRequest('POST', '/api/log/error')
+
+    vi.stubGlobal('crypto', { randomUUID: faker.datatype.uuid })
+
+    renderWithFault()
+
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+    const logRequest = await pendingLogRequest
+    const logResult = await logRequest.json<{ id: string; code: number; message: string }>()
+
+    expect(logResult).toMatchObject({
+      code: 500,
+      message: "'Rejected' method 'GET' url '/api/certificate/12345'",
+    })
+
+    expect(screen.getByText(logResult.id)).toBeInTheDocument()
+  })
 })

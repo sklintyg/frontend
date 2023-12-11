@@ -13,6 +13,7 @@ const pkg = require('./package.json')
 const entries = {
   index: 'src/index.ts',
   themes: 'src/themes/index.ts',
+  1177: 'src/1177/index.ts',
 }
 
 const external = [

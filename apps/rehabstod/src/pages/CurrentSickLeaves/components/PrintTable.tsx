@@ -1,7 +1,9 @@
+import { classNames } from '@frontend/components'
 import { ReactNode, useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
+import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { useSickLeavesTableColumn } from '../hooks/useSickLeavesTableColumns'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
 import { ResolvePrintTableCell } from './ResolvePrintTableCell'
@@ -40,15 +42,22 @@ export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: Sick
       </div>
 
       {sortedList?.map((sickLeave) => (
-        <div key={sickLeave.patient.id} className="-mb-px flex break-inside-avoid gap-2 border border-neutral-40 p-4">
+        <div
+          key={sickLeave.patient.id}
+          data-testid="sickleave-row"
+          className={classNames(
+            '-mb-px flex break-inside-avoid gap-2 border border-neutral-40 p-4',
+            isDateBeforeToday(sickLeave.slut) && 'italic'
+          )}
+        >
           {Array.from({ length: COLUMN_LENGTH }, (_, index) => ({ id: index })).map(({ id }) => (
-            <div key={id} className="flex-1">
+            <div key={id} className="min-w-0 flex-1">
               {columns
                 .filter((_, index) => index % COLUMN_LENGTH === id)
                 .map(({ name }) => (
                   <div key={name} className="flex gap-2">
                     <strong>{name === 'Personnummer' ? 'Personnr' : name} </strong>
-                    <div key={name} className="w-56 flex-auto">
+                    <div key={name} className="w-56 min-w-0">
                       <ResolvePrintTableCell column={name} sickLeave={sickLeave} sickLeaves={sortedList} />
                     </div>
                   </div>

@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should display information if total above 0 1`] = `
+<div>
+  <ids-alert
+    role="alert"
+  >
+    <p>
+      Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.
+    </p>
+  </ids-alert>
+</div>
+`;
+
+exports[`Should display information if total is 0 1`] = `
+<div>
+  <ids-alert
+    role="alert"
+  >
+    <p>
+      I Intyg visas endast intyg som utfärdats digitalt till dig. Intyg har ingen ombudsfunktion och du kan inte ladda upp egna intyg.
+    </p>
+    <p>
+      Om du saknar ett intyg, vänd dig till din mottagning.
+    </p>
+  </ids-alert>
+</div>
+`;

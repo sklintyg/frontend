@@ -6,7 +6,7 @@ import { ErrorModal } from './ErrorModal'
 const TEXT = 'Ett fel har uppstått'
 
 const renderComponent = () => {
-  renderWithRouter(<ErrorModal description={TEXT} errorCode={ErrorCode.CLIENT_ERROR} generateError show dynamicLink />)
+  renderWithRouter(<ErrorModal description={TEXT} errorCode={ErrorCode.CLIENT_ERROR} generateError dynamicLink />)
 }
 describe('ErrorModal', () => {
   it('should render without a problem', () => {
@@ -20,7 +20,7 @@ describe('ErrorModal', () => {
 
   it('should display error id', () => {
     renderComponent()
-    expect(screen.getByText('FEL-ID:')).toBeInTheDocument()
+    expect(screen.getByText('Fel-id:')).toBeInTheDocument()
   })
 
   it('should display cancel button', () => {

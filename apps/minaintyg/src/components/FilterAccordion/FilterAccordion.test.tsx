@@ -16,5 +16,5 @@ it('Should render as expected', () => {
 
 it('Should render label', () => {
   renderComponent()
-  expect(screen.getByText(`43 av 100 intyg`)).toBeInTheDocument()
+  expect(screen.getByText(`Visar 43 av 100 intyg`)).toBeInTheDocument()
 })

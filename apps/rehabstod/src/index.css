@@ -1,9 +1,16 @@
 @import 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&family=Poppins:wght@600&display=swap';
-@import '@inera/ids-core/styles/themes/inera-admin.css';
+@import '@inera/ids-design/themes/inera-admin/inera-admin.css';
+@import '@inera/ids-design/components/table/table.css';
+@import '@inera/ids-design/components/link/link.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --font-family_2: Poppins, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+}
 
 @page {
   size: A4 landscape;

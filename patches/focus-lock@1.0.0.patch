@@ -1,0 +1,82 @@
+diff --git a/dist/es2015/utils/DOMutils.js b/dist/es2015/utils/DOMutils.js
+index e724274ff5bf1acc6359d81a4a57a119ea42cc9a..82fd0437674a3919b73e2913b1ff711016f346d8 100644
+--- a/dist/es2015/utils/DOMutils.js
++++ b/dist/es2015/utils/DOMutils.js
+@@ -54,24 +54,24 @@ export var parentAutofocusables = function (topNode, visibilityCache) {
+  * Determines if element is contained in scope, including nested shadow DOMs
+  */
+ export var contains = function (scope, element) {
+-    if (scope.shadowRoot) {
+-        return contains(scope.shadowRoot, element);
++    if (Object.getPrototypeOf(scope).contains !== undefined &&
++        Object.getPrototypeOf(scope).contains.call(scope, element)) {
++        return true;
+     }
+-    else {
+-        if (Object.getPrototypeOf(scope).contains !== undefined &&
+-            Object.getPrototypeOf(scope).contains.call(scope, element)) {
+-            return true;
+-        }
+-        return toArray(scope.children).some(function (child) {
+-            var _a;
+-            if (child instanceof HTMLIFrameElement) {
+-                var iframeBody = (_a = child.contentDocument) === null || _a === void 0 ? void 0 : _a.body;
+-                if (iframeBody) {
+-                    return contains(iframeBody, element);
+-                }
+-                return false;
+-            }
+-            return contains(child, element);
+-        });
++
++    if (scope.shadowRoot && contains(scope.shadowRoot, element)) {
++        return true
+     }
++
++    return toArray(scope instanceof HTMLSlotElement ? scope.assignedElements() : scope.children).some(function (child) {
++        var _a;
++        if (child instanceof HTMLIFrameElement) {
++            var iframeBody = (_a = child.contentDocument) === null || _a === void 0 ? void 0 : _a.body;
++            if (iframeBody) {
++                return contains(iframeBody, element);
++            }
++            return false;
++        }
++        return contains(child, element);
++    });
+ };
+diff --git a/dist/es2015/utils/getActiveElement.js b/dist/es2015/utils/getActiveElement.js
+index 906a433b783af588ecf8ad7d9598d1c373428e91..9c4a18d99a2f199229c3d888e50fe1512b17e695 100644
+--- a/dist/es2015/utils/getActiveElement.js
++++ b/dist/es2015/utils/getActiveElement.js
+@@ -12,9 +12,11 @@ export var getActiveElement = function (inDocument) {
+         return undefined;
+     }
+     var activeElement = inDocument.activeElement;
+-    return (activeElement.shadowRoot
+-        ? getActiveElement(activeElement.shadowRoot)
+-        : activeElement instanceof HTMLIFrameElement && safeProbe(function () { return activeElement.contentWindow.document; })
+-            ? getActiveElement(activeElement.contentWindow.document)
+-            : activeElement);
++    var activeInShadow = activeElement.shadowRoot && getActiveElement(activeElement.shadowRoot) 
++    var activeInIframe = activeElement instanceof HTMLIFrameElement && safeProbe(function () { return activeElement.contentWindow.document; })
++
++    return activeInShadow || (activeInIframe
++        ? getActiveElement(activeElement.contentWindow.document)
++        : activeElement);
+ };
++
+diff --git a/dist/es2015/utils/tabUtils.js b/dist/es2015/utils/tabUtils.js
+index 7eb1b3b5e5e1b3c99fec096f42fe8243395b92f1..304473754fd47f6eb6454ea0ca5f0d7e81440049 100644
+--- a/dist/es2015/utils/tabUtils.js
++++ b/dist/es2015/utils/tabUtils.js
+@@ -4,7 +4,8 @@ import { tabbables } from './tabbables';
+ var queryTabbables = tabbables.join(',');
+ var queryGuardTabbables = "".concat(queryTabbables, ", [data-focus-guard]");
+ var getFocusablesWithShadowDom = function (parent, withGuards) {
+-    return toArray((parent.shadowRoot || parent).children).reduce(function (acc, child) {
++    var element = (parent.shadowRoot || parent)
++    return toArray(element instanceof HTMLSlotElement ? element.assignedElements() : element.children).reduce(function (acc, child) {
+         return acc.concat(child.matches(withGuards ? queryGuardTabbables : queryTabbables) ? [child] : [], getFocusablesWithShadowDom(child));
+     }, []);
+ };

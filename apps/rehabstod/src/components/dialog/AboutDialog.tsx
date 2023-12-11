@@ -46,7 +46,7 @@ export function AboutDialog() {
       </div>
       {user && hasUserFeature(user, 'SRS') && (
         <div className="ids-content text-base">
-          <h4 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h4>
+          <h2 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h2>
           <p className="ids-body" />
           <p>
             Om du vill se mer information om SRS, t.ex. hur prediktionen räknas ut, fler åtgärder, mer nationell statistik så kan du gå till

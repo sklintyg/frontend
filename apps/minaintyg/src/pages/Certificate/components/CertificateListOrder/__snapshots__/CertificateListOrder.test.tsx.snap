@@ -12,7 +12,7 @@ exports[`Should render with order set to "ascending" 1`] = `
     >
       <button
         aria-label="Nyast först"
-        class="text-sky-base underline"
+        class="text-sky-base underline hover:text-sky-dark"
         type="button"
       >
         Nyast först
@@ -58,7 +58,7 @@ exports[`Should render with order set to "descending" 1`] = `
       </div>
       <button
         aria-label="Äldst först"
-        class="text-sky-base underline"
+        class="text-sky-base underline hover:text-sky-dark"
         type="button"
       >
         Äldst först

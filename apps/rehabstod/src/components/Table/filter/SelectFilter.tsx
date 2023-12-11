@@ -19,19 +19,21 @@ export function SelectFilter({
   const chosenOption = options.find((option) => option.id === value)
 
   return (
-    <div className="print:hidden">
-      <Select
-        label={label}
-        value={value}
-        description={description}
-        disabled={disabled}
-        options={[{ value: '', label: 'Visa alla' }, ...options.map((opt) => ({ value: opt.id, label: opt.name }))]}
-        onChange={(event) => onChange(event.currentTarget.value)}
-      />
+    <>
+      <div className="print:hidden">
+        <Select
+          label={label}
+          value={value}
+          description={description}
+          disabled={disabled}
+          options={[{ value: '', label: 'Visa alla' }, ...options.map((opt) => ({ value: opt.id, label: opt.name }))]}
+          onChange={(event) => onChange(event.currentTarget.value)}
+        />
+      </div>
       <div className="hidden print:block">
         <PrintTitle title={label} />
         {chosenOption ? chosenOption.name : '-'}
       </div>
-    </div>
+    </>
   )
 }

@@ -5,8 +5,8 @@ export function CertificateCardEventsAccordion({ children }: { children: ReactNo
   return (
     <details className="group py-2.5">
       <summary className="flex items-center justify-between gap-2 font-semibold text-sky-base group-open:mb-2.5 md:hidden">
-        <span className="inline-block group-open:hidden">Visa händelser</span>
-        <span className="hidden group-open:inline-block">Dölj händelser</span>
+        <h4 className="inline-block group-open:hidden">Visa händelser</h4>
+        <h4 className="hidden group-open:inline-block">Dölj händelser</h4>
         <IDSIconPlus
           width="100%"
           height="100%"

@@ -1,9 +1,9 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
+import { ErrorIdentifier } from '@frontend/components'
 import { useGetLinksQuery } from '../../../store/api'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
-import { ErrorIdentifier } from '../ErrorIdentifier/ErrorIdentifier'
 
 export function ErrorAlert({
   heading,

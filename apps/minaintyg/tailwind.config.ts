@@ -10,10 +10,11 @@ export default {
       print: { raw: 'print' },
       sm: '480px',
       md: '800px',
-      lg: '1024px',
+      lg: '940px',
       xl: '1280px',
     },
     colors: {
+      main: 'var(--color-main)',
       sky: {
         dark: 'var(--color-sky-dark)',
         base: 'var(--color-sky-base)',
