@@ -5,9 +5,9 @@ import {
   CertificateDataValidation,
   CertificateDataValidationType,
   ValueType,
+  validateExpressions,
 } from '@frontend/common'
-import { getValidationResults } from '@frontend/common/src/utils/validation/getValidationResults'
-import { AnyAction } from '@reduxjs/toolkit'
+import { PayloadAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import {
@@ -30,7 +30,7 @@ import {
 export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
-  (action: AnyAction): void => {
+  (action: PayloadAction<CertificateDataElement>): void => {
     const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
     dispatch(validateCertificateInFrontEndCompleted())
 
@@ -49,9 +49,9 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
     return []
   }
 
-  const questionIdsToValidate = [] as string[]
+  const questionIdsToValidate: string[] = []
 
-  getValidationResults(certificate.data, update).forEach((validationResult) => {
+  validateExpressions(certificate.data, update).forEach((validationResult) => {
     const { result, element, validation } = validationResult
     switch (validation.type) {
       case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
