@@ -83,3 +83,17 @@ describe('headings', () => {
     expect(screen.getByRole('heading')).toHaveClass(`ids-heading-${level}`, { exact: true })
   })
 })
+
+describe('Table header', () => {
+  it('Empty table header cell should be converted to td', () => {
+    render(<DisplayHTML html="<table><thead><tr><th></th></tr></thead></table>" />)
+    expect(screen.getByRole('cell')).toBeInTheDocument()
+    expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
+  })
+
+  it('Populated table header cell should not be converted to td', () => {
+    render(<DisplayHTML html="<table><thead><tr><th>Hello</th></tr></thead></table>" />)
+    expect(screen.getByRole('columnheader')).toBeInTheDocument()
+    expect(screen.queryByRole('cell')).not.toBeInTheDocument()
+  })
+})
