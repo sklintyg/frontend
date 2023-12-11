@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 import { CertificateDataValidation, CertificateDataValidationType } from '../../types'
-import { ValidationResult } from './types'
+import { ValidationResult } from './getValidationResults'
 
 function resolvePriorityBetweenValidationTypes(result: ValidationResult, _: number, list: ValidationResult[]) {
   // HIDE validation has priority over SHOW when HIDE true

@@ -1,5 +1,4 @@
 import {
-  autoFillElement,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -10,7 +9,6 @@ import {
   ConfigTypes,
   isShowAlways,
   ModalData,
-  setDisableForChildElement,
   ValueBoolean,
   ValueText,
 } from '@frontend/common'

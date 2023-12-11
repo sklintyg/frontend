@@ -13,10 +13,10 @@ import {
   PersonId,
   ResourceLink,
   ResourceLinkType,
-  sortedValidationErrorSummary,
   Unit,
   ValidationError,
   ValidationErrorSummary,
+  sortedValidationErrorSummary,
 } from '@frontend/common'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'

@@ -1,6 +1,11 @@
-import { CertificateData, CertificateDataElement } from '../../types'
+import { CertificateData, CertificateDataElement, CertificateDataValidation } from '../../types'
 import { executeValidation } from './executeValidation'
-import { ValidationResult } from './types'
+
+export interface ValidationResult {
+  element: CertificateDataElement
+  result: boolean
+  validation: CertificateDataValidation
+}
 
 export const getValidationResults = (data: CertificateData, element?: CertificateDataElement) =>
   element == null

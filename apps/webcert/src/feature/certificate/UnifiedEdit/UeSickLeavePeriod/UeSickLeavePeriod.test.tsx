@@ -2,8 +2,8 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  ConfigTypes,
   ConfigUeSickLeavePeriod,
+  fakeCertificateConfig,
   getCertificateWithQuestion,
 } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
@@ -34,10 +34,9 @@ const defaultQuestion: CertificateDataElement = {
   visible: true,
   readOnly: false,
   mandatory: true,
-  config: {
+  config: fakeCertificateConfig.sickLeavePeriod({
     text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
     description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
-    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     list: [
       {
         id: EN_FJARDEDEL_ID,
@@ -56,7 +55,7 @@ const defaultQuestion: CertificateDataElement = {
         label: HELT_NEDSATT_LABEL,
       },
     ],
-  },
+  }),
   value: {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [],

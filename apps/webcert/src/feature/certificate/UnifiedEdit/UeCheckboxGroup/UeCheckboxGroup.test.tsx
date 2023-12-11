@@ -1,4 +1,4 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, fakeCertificateConfig } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
@@ -21,12 +21,11 @@ const question: CertificateDataElement = {
   validation: [],
   validationErrors: [],
   value: { type: CertificateDataValueType.CODE_LIST, list: [] },
-  config: {
+  config: fakeCertificateConfig.checkboxMultipleCodes({
     text: '',
     description: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     list: CHECKBOXES,
-  },
+  }),
 }
 
 const renderDefaultComponent = () => {

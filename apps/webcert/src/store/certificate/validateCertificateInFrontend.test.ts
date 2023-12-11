@@ -2,9 +2,11 @@ import {
   Certificate,
   CertificateDataValidationType,
   CertificateDataValueType,
+  fakeAutoFillValidation,
   fakeCertificate,
-  fakeCertificateDataValidation,
+  fakeHideValidation,
   fakeRadioBooleanElement,
+  fakeShowValidation,
   fakeTextAreaElement,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
@@ -48,9 +50,8 @@ describe('Test certificate frontend validation', () => {
               id: '1.2',
               visible,
               validation: [
-                fakeCertificateDataValidation({
+                fakeShowValidation({
                   questionId: '1.1',
-                  type: CertificateDataValidationType.SHOW_VALIDATION,
                   expression: '$haveValue',
                 }),
               ],
@@ -151,7 +152,7 @@ describe('Test certificate frontend validation', () => {
               id: '1.2',
               visible,
               validation: [
-                fakeCertificateDataValidation({
+                fakeHideValidation({
                   questionId: '1.1',
                   type: CertificateDataValidationType.HIDE_VALIDATION,
                   expression: '$haveValue',
@@ -238,14 +239,12 @@ describe('Test certificate frontend validation', () => {
               id: '1.2',
               visible,
               validation: [
-                fakeCertificateDataValidation({
+                fakeHideValidation({
                   questionId: '1.1',
-                  type: CertificateDataValidationType.HIDE_VALIDATION,
                   expression: '$haveValue',
                 }),
-                fakeCertificateDataValidation({
+                fakeShowValidation({
                   questionId: '1.1',
-                  type: CertificateDataValidationType.SHOW_VALIDATION,
                   expression: '$haveValue',
                 }),
               ],
@@ -331,9 +330,8 @@ describe('Test certificate frontend validation', () => {
               id: 'myValue',
             },
             validation: [
-              fakeCertificateDataValidation({
+              fakeAutoFillValidation({
                 questionId: '1.1',
-                type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
                 expression: '$haveValue',
                 fillValue: {
                   type: CertificateDataValueType.BOOLEAN,
@@ -341,7 +339,7 @@ describe('Test certificate frontend validation', () => {
                   id: 'myValue',
                 },
               }),
-              fakeCertificateDataValidation({
+              fakeAutoFillValidation({
                 questionId: '1.1',
                 type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
                 expression: '!$haveValue',

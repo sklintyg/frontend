@@ -4,9 +4,9 @@ import {
   CertificateDataElement,
   CertificateDataValidation,
   CertificateDataValidationType,
-  validateExpressions,
   ValueType,
 } from '@frontend/common'
+import { getValidationResults } from '@frontend/common/src/utils/validation/getValidationResults'
 import { AnyAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
@@ -50,49 +50,49 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   }
 
   const questionIdsToValidate = [] as string[]
-  const validationResults = validateExpressions(certificate, update)
-  validationResults.forEach((validationResult) => {
-    const { result, type, id } = validationResult
-    switch (type) {
+
+  getValidationResults(certificate.data, update).forEach((validationResult) => {
+    const { result, element, validation } = validationResult
+    switch (validation.type) {
       case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
       case CertificateDataValidationType.MANDATORY_VALIDATION:
         if (result) {
-          dispatch(hideCertificateDataElementMandatory(id))
+          dispatch(hideCertificateDataElementMandatory(element.id))
         } else {
-          dispatch(showCertificateDataElementMandatory(id))
+          dispatch(showCertificateDataElementMandatory(element.id))
         }
         break
       case CertificateDataValidationType.HIDE_VALIDATION:
         if (result) {
-          dispatch(hideCertificateDataElement(id))
-          if (certificate.data[id].visible) {
-            questionIdsToValidate.push(id)
+          dispatch(hideCertificateDataElement(element.id))
+          if (certificate.data[element.id].visible) {
+            questionIdsToValidate.push(element.id)
           }
         } else {
-          dispatch(showCertificateDataElement(id))
-          if (!certificate.data[id].visible) {
-            questionIdsToValidate.push(id)
+          dispatch(showCertificateDataElement(element.id))
+          if (!certificate.data[element.id].visible) {
+            questionIdsToValidate.push(element.id)
           }
         }
         break
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result) {
-          dispatch(showCertificateDataElement(id))
-          if (!certificate.data[id].visible) {
-            questionIdsToValidate.push(id)
+          dispatch(showCertificateDataElement(element.id))
+          if (!certificate.data[element.id].visible) {
+            questionIdsToValidate.push(element.id)
           }
         } else {
-          dispatch(hideCertificateDataElement(id))
-          if (certificate.data[id].visible) {
-            questionIdsToValidate.push(id)
+          dispatch(hideCertificateDataElement(element.id))
+          if (certificate.data[element.id].visible) {
+            questionIdsToValidate.push(element.id)
           }
         }
         break
       case CertificateDataValidationType.DISABLE_VALIDATION:
         if (result) {
-          dispatch(disableCertificateDataElement(id))
+          dispatch(disableCertificateDataElement(element.id))
         } else {
-          dispatch(enableCertificateDataElement(id))
+          dispatch(enableCertificateDataElement(element.id))
         }
         break
       case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
@@ -100,24 +100,24 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         break
       case CertificateDataValidationType.ENABLE_VALIDATION:
         if (result) {
-          dispatch(enableCertificateDataElement(id))
+          dispatch(enableCertificateDataElement(element.id))
         } else {
-          dispatch(disableCertificateDataElement(id))
+          dispatch(disableCertificateDataElement(element.id))
         }
         break
       case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
         if (result) {
-          dispatch(highlightCertificateDataElement(id))
+          dispatch(highlightCertificateDataElement(element.id))
         } else {
-          dispatch(unstyleCertificateDataElement(id))
+          dispatch(unstyleCertificateDataElement(element.id))
         }
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:
-        if (result && !_.isEqual(certificate.data[id].value, getAutoFillValidation(validationResult.validation))) {
+        if (result && !_.isEqual(certificate.data[element.id].value, getAutoFillValidation(validation))) {
           dispatch(applyCertificateDataElementAutoFill(validationResult))
           dispatch(validateCertificate(certificate))
           dispatch(autoSaveCertificate(certificate))
-          questionIdsToValidate.push(id)
+          questionIdsToValidate.push(element.id)
         }
         break
     }

@@ -1,14 +1,13 @@
 import {
   Certificate,
   CertificateDataElementStyleEnum,
-  CertificateDataValidationType,
   CertificateRelation,
   CertificateRelations,
   CertificateRelationType,
   CertificateStatus,
   fakeCertificate,
-  fakeCertificateDataValidation,
   fakeCertificateMetaData,
+  fakeHighlightValidation,
   fakeRadioBooleanElement,
   getUser,
   SigningMethod,
@@ -79,9 +78,8 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
       id: '0',
       value: { id: 'val', selected },
       validation: [
-        fakeCertificateDataValidation({
+        fakeHighlightValidation({
           questionId: '0',
-          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
           expression: '$val',
         }),
       ],

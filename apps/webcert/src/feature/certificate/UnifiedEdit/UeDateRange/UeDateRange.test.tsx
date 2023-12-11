@@ -30,7 +30,6 @@ const getValidationErrors = (field: string) => [
 const getQuestion = (validationErrors: ValidationError[]) =>
   fakeDateRangeElement({
     id: QUESTION_ID,
-    value: { date: '2022-09-29' },
     config: { id: 'jsonid' },
     validationErrors,
   })[QUESTION_ID]
