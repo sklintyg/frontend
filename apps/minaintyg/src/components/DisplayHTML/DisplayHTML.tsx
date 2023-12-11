@@ -13,7 +13,7 @@ const options = {
       const match = name.match(/^h(\d)$/)
 
       if (match) {
-        return createElement(match[0], { className: `ids-heading-${match[1]}` }, domToReact(children))
+        return createElement(match[0], { className: `ids-heading-${match[1]}` }, domToReact(children, options))
       }
 
       if (name === 'table') {
@@ -21,10 +21,14 @@ const options = {
         return (
           <>
             <div className="md:hidden">
-              <MobileTable header={elements.find((node) => node.name === 'thead')} body={elements.find((node) => node.name === 'tbody')} />
+              <MobileTable
+                header={elements.find((node) => node.name === 'thead')}
+                body={elements.find((node) => node.name === 'tbody')}
+                options={options}
+              />
             </div>
             <div className="hidden md:block">
-              <table className="ids-table">{domToReact(children)}</table>
+              <table className="ids-table">{domToReact(children, options)}</table>
             </div>
           </>
         )
@@ -33,10 +37,14 @@ const options = {
       if (name === 'a') {
         return (
           <IDSLink underlined>
-            <a {...props}>{domToReact(children)}</a>
+            <a {...props}>{domToReact(children, options)}</a>
             {attribs.target === '_blank' && <IDSIconExternal slot="append-icon" size="s" />}
           </IDSLink>
         )
+      }
+
+      if (name === 'th' && children.length === 0) {
+        return <td />
       }
     }
     return undefined
