@@ -1,6 +1,5 @@
 import { classNames } from '@frontend/components'
 import { IDSButton, IDSIconArrow } from '@frontend/ids-react-ts'
-import { getTabbableNodes } from 'focus-lock'
 import { useEffect, useState } from 'react'
 
 export function ScrollTopButton() {
@@ -16,10 +15,7 @@ export function ScrollTopButton() {
       setShow(scrollPos < -180)
       if (isScrolling && (scrollPos === 0 || isScrollInterupted)) {
         updateIsScrolling(false)
-        const mainElement = document.querySelector('main')
-        if (!isScrollInterupted && mainElement instanceof HTMLElement) {
-          getTabbableNodes([mainElement], new Map())[0].node.focus()
-        }
+        window.open('#top', '_self')
         previousScrollPos = 0
       }
       previousScrollPos = scrollPos

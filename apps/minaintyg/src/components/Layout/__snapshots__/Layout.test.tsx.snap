@@ -4,12 +4,14 @@ exports[`Should render as expected 1`] = `
 <div>
   <div
     class="flex min-h-screen flex-col"
+    id="top"
   >
     <ids-header
       class="z-40 bg-white print:hidden"
     />
     <main
       class="relative flex-1"
+      id="content"
     >
       <div
         class="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5"
