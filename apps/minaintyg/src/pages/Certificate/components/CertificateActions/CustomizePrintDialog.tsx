@@ -25,7 +25,14 @@ export function CustomizePrintDialog({
         {information
           .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
           .map(({ id, text }) => (
-            <Radio key={text} label={text} value={id || ''} name="option" checked={currentValue === (id || '')} onChange={onChange} />
+            <Radio
+              key={text}
+              label={text}
+              value={id || ''}
+              name={`option-${id}`}
+              checked={currentValue === (id || '')}
+              onChange={onChange}
+            />
           ))}
       </IDSRadioGroup>
       {currentValue === '!diagnoser' && <p className="mb-5">{description}</p>}
