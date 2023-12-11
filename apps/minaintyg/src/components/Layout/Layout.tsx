@@ -1,13 +1,13 @@
+import { GlobalAlert, PriorityEnum } from '@frontend/components'
 import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
 import { ReactNode, useRef } from 'react'
-import { GlobalAlert, PriorityEnum } from '@frontend/components'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
+import { BannerPriority } from '../../schema/informationSchema'
+import { useGetInfoQuery } from '../../store/api'
 import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
 import { ScrollTopButton } from './ScrollTopButton'
-import { useGetInfoQuery } from '../../store/api'
-import { BannerPriority } from '../../schema/informationSchema'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { hasSessionEnded, reason, errorId } = useAppSelector((state) => state.sessionSlice)
@@ -23,7 +23,7 @@ export function Layout({ children }: { children: ReactNode }) {
     return priority === BannerPriority.OBSERVE ? PriorityEnum.OBSERVE : PriorityEnum.INFO
   }
   return (
-    <div className="flex min-h-screen flex-col">
+    <div id="top" className="flex min-h-screen flex-col">
       <LayoutHeader mode={import.meta.env.MODE}>
         {user && (
           <>
@@ -32,7 +32,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </>
         )}
       </LayoutHeader>
-      <main className="relative flex-1">
+      <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&
           info.banners.map((banner) => (

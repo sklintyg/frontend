@@ -20,7 +20,7 @@ export function CustomizePrintDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange} headline={title ?? ''}>
-      <div className="max-w-5xl">
+      <div className="max-w-3xl">
         <p className="mb-5">{body}</p>
         <IDSRadioGroup>
           {information
