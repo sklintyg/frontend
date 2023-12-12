@@ -93,10 +93,11 @@ export function getDecoratedCertificateData(certificate: Certificate): Certifica
   const readOnly = shouldBeReadOnly(metadata)
   const disabled = shouldBeDisabled(metadata, links)
 
-  return Object.fromEntries(
-    Object.entries(data).map(([id, el]) => {
+  return Object.entries(data).reduce(
+    (data, [id, el]) => {
       const element = { ...el, visible: el.visible ?? true }
-      return [id, readOnly ? { ...element, readOnly } : { ...validateElement(certificate.data, element), disabled }]
-    })
+      return { ...data, [id]: readOnly ? { ...element, readOnly } : { ...validateElement(data, element), disabled } }
+    },
+    { ...certificate.data }
   )
 }
