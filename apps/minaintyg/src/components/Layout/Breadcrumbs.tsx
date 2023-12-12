@@ -19,7 +19,7 @@ function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, Re
 
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
-  const prevMatch = matches.at(-2)
+  const prevMatch = matches?.at(-2)
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
   if (matches.length === 0) {
