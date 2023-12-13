@@ -22,3 +22,8 @@ it('Should render correctly', () => {
   )
   expect(container).toMatchSnapshot()
 })
+
+it('Should not crash outside router context', () => {
+  const { container } = render(<LayoutHeaderNavigation mode="development" />)
+  expect(container).toBeEmptyDOMElement()
+})

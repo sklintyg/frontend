@@ -28,7 +28,7 @@ export function Layout({ children }: { children: ReactNode }) {
         {user && (
           <>
             <LayoutHeaderAvatar />
-            <LayoutHeaderNavigation mode={import.meta.env.MODE} />
+            <LayoutHeaderNavigation mode={import.meta.env.MODE} activeLink="Intyg" />
           </>
         )}
       </LayoutHeader>
