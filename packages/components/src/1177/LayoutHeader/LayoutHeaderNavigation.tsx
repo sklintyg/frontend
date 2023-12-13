@@ -1,14 +1,20 @@
 import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
+import { Link, useInRouterContext } from 'react-router-dom'
 import { HeaderNavItem } from '../../header/HeaderNavItem'
 import { MobileMenuItem } from '../../header/MobileMenuItem'
 import { getNavigation, getNavigationItemUrl, getSettingsUrl } from '../navigation'
 
-export function LayoutHeaderNavigation({ mode }: { mode: string }) {
+export function LayoutHeaderNavigation({ mode, activeLink }: { mode: string; activeLink?: string }) {
+  const inRouterContext = useInRouterContext()
+
+  if (!inRouterContext) {
+    return null
+  }
+
   return (
     <IDSHeaderNav>
       {getNavigation().map((item) => (
-        <HeaderNavItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} />
+        <HeaderNavItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} active={activeLink === item.name} />
       ))}
 
       <IDSHeaderMobileItem>
@@ -23,7 +29,7 @@ export function LayoutHeaderNavigation({ mode }: { mode: string }) {
       <IDSHeaderMobileMenu type="1177">
         Meny
         {getNavigation().map((item) => (
-          <MobileMenuItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} />
+          <MobileMenuItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} active={activeLink === item.name} />
         ))}
       </IDSHeaderMobileMenu>
     </IDSHeaderNav>
