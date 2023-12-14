@@ -31,7 +31,6 @@ module.exports = {
     'no-continue': 'off',
     'no-else-return': 'off',
     'no-nested-ternary': 'off',
-    // 'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-restricted-globals': 'off',
     'no-restricted-syntax': 'off',
