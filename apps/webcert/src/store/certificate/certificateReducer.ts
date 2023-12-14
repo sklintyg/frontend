@@ -25,7 +25,6 @@ import {
   hideValidationErrors,
   highlightCertificateDataElement,
   resetCertificateState,
-  setCertificateDataElement,
   setCertificatePatientData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
@@ -157,13 +156,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       for (const questionId in state.certificate.data) {
         state.certificate.data[questionId].readOnly = true
       }
-    })
-    .addCase(setCertificateDataElement, (state, action) => {
-      if (!state.certificate) {
-        return
-      }
-
-      state.certificate.data[action.payload.id] = action.payload
     })
     .addCase(setCertificateUnitData, (state, action) => {
       if (!state.certificate) {

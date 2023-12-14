@@ -497,8 +497,6 @@ interface AutoSaveCertificateError {
 
 export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
 
-export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
-
 export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
 
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
@@ -530,8 +528,6 @@ export const setDisabledCertificateDataChild = createAction<ValidationResult>(SE
 export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
 
 export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
-
-export const setCertificateDataElement = createAction<CertificateDataElement>(SET_CERTIFICATE_DATA_ELEMENT)
 
 export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER)
 

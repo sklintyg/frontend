@@ -89,7 +89,6 @@ import {
   revokeCertificateSuccess,
   sendCertificate,
   sendCertificateSuccess,
-  setCertificateDataElement,
   setCertificatePatientData,
   setCertificateUnitData,
   setReadyForSign,
@@ -124,11 +123,9 @@ import {
   validateCertificate,
   validateCertificateCompleted,
   validateCertificateError,
-  validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
-import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
@@ -153,7 +150,8 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(action.payload.certificate) }
+    const { data, metadata, links } = action.payload.certificate
+    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
     dispatch(updateCertificate(certificate))
     dispatch(getCertificateCompleted())
     dispatch(hideSpinner())
@@ -277,7 +275,8 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(action.payload.certificate) }
+    const { data, metadata, links } = action.payload.certificate
+    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
     dispatch(updateCertificate(certificate))
     dispatch(hideSpinner())
     dispatch(forwardCertificateCompleted())
@@ -522,7 +521,8 @@ const handleFakeSignCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(action.payload.certificate) }
+    const { data, metadata, links } = action.payload.certificate
+    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
     dispatch(hideValidationErrors())
     dispatch(updateCertificate(certificate))
     dispatch(hideSpinner())
@@ -559,7 +559,8 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(action.payload.certificate) }
+    const { data, metadata, links } = action.payload.certificate
+    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
     dispatch(updateCertificate(certificate))
     dispatch(hideSpinner())
     dispatch(revokeCertificateCompleted())
@@ -632,7 +633,8 @@ const handleAnswerComplementCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(action.payload.certificate) }
+    const { data, metadata, links } = action.payload.certificate
+    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
     dispatch(updateCertificate(certificate))
     dispatch(hideSpinner())
     dispatch(getCertificateEvents(certificate.metadata.id))
@@ -883,8 +885,19 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
       dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
 
       if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
-        dispatch(setCertificateDataElement(action.payload))
-        dispatch(validateCertificateInFrontEnd(action.payload))
+        // dispatch(setCertificateDataElement(action.payload))
+        // dispatch(validateCertificateInFrontEnd(action.payload))
+        dispatch(
+          updateCertificate({
+            ...certificate,
+            data: getDecoratedCertificateData(
+              { ...certificate.data, [action.payload.id]: action.payload },
+              certificate.metadata,
+              certificate.links
+            ),
+          })
+        )
+
         dispatch(validateCertificate(certificate))
         dispatch(autoSaveCertificate(certificate))
       }
@@ -1068,7 +1081,6 @@ const middlewareMethods = {
   [startSignCertificate.type]: handleStartSignCertificate,
   [startSignCertificateSuccess.type]: handleStartSignCertificateSuccess,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
-  [validateCertificateInFrontEnd.type]: handleValidateCertificateInFrontEnd,
   [validateCertificate.type]: handleValidateCertificate,
   [validateCertificateSuccess.type]: handleValidateCertificateSuccess,
   [autoSaveCertificate.type]: handleAutoSaveCertificate,

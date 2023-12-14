@@ -52,9 +52,9 @@ import {
   SigningData,
   startSignCertificate,
   updateCertificate,
+  updateCertificateDataElement,
   updateValidationErrors,
   validateCertificate,
-  validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
@@ -461,7 +461,7 @@ describe('Test certificate middleware', () => {
       const certificate = getCertificateWithHiglightValidation(true)
 
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+      testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
@@ -470,7 +470,7 @@ describe('Test certificate middleware', () => {
     it('shall unstyle certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(false)
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+      testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)

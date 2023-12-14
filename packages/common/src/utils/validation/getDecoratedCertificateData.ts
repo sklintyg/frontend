@@ -1,5 +1,4 @@
 import {
-  Certificate,
   CertificateData,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
@@ -88,8 +87,7 @@ function validateElement(data: CertificateData, element: CertificateDataElement)
   )
 }
 
-export function getDecoratedCertificateData(certificate: Certificate): CertificateData {
-  const { data, metadata, links } = certificate
+export function getDecoratedCertificateData(data: CertificateData, metadata: CertificateMetadata, links: ResourceLink[]): CertificateData {
   const readOnly = shouldBeReadOnly(metadata)
   const disabled = shouldBeDisabled(metadata, links)
 
