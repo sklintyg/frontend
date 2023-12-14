@@ -1,6 +1,10 @@
 import {
   fakeCategoryElement,
+  fakeCertificateConfig,
   fakeCertificateMetaData,
+  fakeCertificateValue,
+  fakeCheckboxMultipleCodeElement,
+  fakeDisableSubElementValidation,
   fakeRadioBooleanElement,
   fakeResourceLink,
   fakeTextFieldElement,
@@ -13,104 +17,109 @@ import {
   ConfigUeCheckboxMultipleCodes,
   ResourceLinkType,
   ValueBoolean,
+  ValueCodeList,
   ValueText,
 } from '../../types'
 import { getDecoratedCertificateData } from './getDecoratedCertificateData'
 
-it('Should set mandatory to true on boolean element if empty', () => {
-  const { data, metadata, links } = getCertificate()
+describe('mandatory', () => {
+  it('Should set mandatory to true on boolean element if empty', () => {
+    const { data, metadata, links } = getCertificate()
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
+    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
+  })
+
+  it('Should set mandatory to true on boolean element if undefined', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+
+    booleanValue.selected = undefined
+
+    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
+  })
+
+  it('Should set mandatory to false on boolean element if it is true', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
+
+    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
+  })
+
+  it('Should set mandatory to false on boolean element if it is false', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
+
+    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
+  })
 })
 
-it('Should set mandatory to true on boolean element if undefined', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+describe('visibility', () => {
+  it('Should set visible to false on boolean element if empty', () => {
+    const { data, metadata, links } = getCertificate()
 
-  booleanValue.selected = undefined
+    expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
+  })
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
-})
+  it('Should set visible to false on boolean element if undefined', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    // Test when selected is undefined when arriving from backend.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    booleanValue.selected = undefined
 
-it('Should set mandatory to false on boolean element if it is true', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = true
+    expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
+  })
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
-})
+  it('Should set visible to true on boolean element if it is true', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
 
-it('Should set mandatory to false on boolean element if it is false', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = false
+    expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(true)
+  })
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
-})
+  it('Should set visible to false on boolean element if it is false', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
 
-it('Should set visible to false on boolean element if empty', () => {
-  const { data, metadata, links } = getCertificate()
+    expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
+  })
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
-})
+  it('Should set visible to false if show rule not valid, even if hide rule is not valid', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
 
-it('Should set visible to false on boolean element if undefined', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  // Test when selected is undefined when arriving from backend.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  booleanValue.selected = undefined
+    expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
+  })
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
-})
+  it('Should set visible to true if show rule valid, even if hide rule is not valid', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
 
-it('Should set visible to true on boolean element if it is true', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = true
+    data['1.2'].visible = true // Set it visible as default
+    data['1.2'].validation = [] // Clear the validations so they don't affect this test.
+    const textValue: ValueText = data['1.2'].value as ValueText
+    textValue.text = 'A little text'
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(true)
-})
+    expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(true)
+  })
 
-it('Should set visible to false on boolean element if it is false', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = false
+  it('Should set visible to false if hide rule valid, even if show rule is valid', () => {
+    const { data, metadata, links } = getCertificate()
+    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
 
-  expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
-})
+    const textValue: ValueText = data['1.2'].value as ValueText
+    textValue.text = 'A little text'
 
-it('Should set visible to false if show rule not valid, even if hide rule is not valid', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = false
-
-  expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
-})
-
-it('Should set visible to true if show rule valid, even if hide rule is not valid', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = false
-
-  data['1.2'].visible = true // Set it visible as default
-  data['1.2'].validation = [] // Clear the validations so they don't affect this test.
-  const textValue: ValueText = data['1.2'].value as ValueText
-  textValue.text = 'A little text'
-
-  expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(true)
-})
-
-it('Should set visible to false if hide rule valid, even if show rule is valid', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = true
-
-  const textValue: ValueText = data['1.2'].value as ValueText
-  textValue.text = 'A little text'
-
-  expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
+    expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
+  })
 })
 
 it('Should set highlight if validation is true', () => {
@@ -127,17 +136,6 @@ it('Should unstyle element if validation is false', () => {
   booleanValue.selected = false
 
   expect(getDecoratedCertificateData(data, metadata, links)['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
-})
-
-it('Should disable child element if validation is true', () => {
-  const { data, metadata, links } = getCertificate()
-
-  expect((getDecoratedCertificateData(data, metadata, links)['28'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeTruthy()
-})
-
-it('Should enable child element if validation is false', () => {
-  const { data, metadata, links } = getCertificate()
-  expect((getDecoratedCertificateData(data, metadata, links)['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
 })
 
 describe('Intialize values for autoFill validation', () => {
@@ -270,4 +268,89 @@ it('Should not disable category if there is an edit link', () => {
   )
 
   expect(result.categoryId.disabled).toBe(false)
+})
+
+describe('getDisabledSubElements', () => {
+  const validation = [
+    fakeDisableSubElementValidation({
+      questionId: '40',
+      expression: 'exists(ARBETSTRANING) || exists(ARBETSANPASSNING)',
+      id: ['EJ_AKTUELLT'],
+    }),
+    fakeDisableSubElementValidation({
+      questionId: '40',
+      expression: 'exists(EJ_AKTUELLT)',
+      id: ['ARBETSTRANING', 'ARBETSANPASSNING'],
+    }),
+  ]
+
+  const config = fakeCertificateConfig.checkboxMultipleCodes({
+    list: [
+      {
+        id: 'EJ_AKTUELLT',
+        disabled: false,
+      },
+      {
+        id: 'ARBETSTRANING',
+        disabled: false,
+      },
+      {
+        id: 'ARBETSANPASSNING',
+        disabled: false,
+      },
+    ],
+  })
+
+  it('Should disable EJ_AKTUELLT', () => {
+    const result = getDecoratedCertificateData(
+      fakeCheckboxMultipleCodeElement({
+        id: '40',
+        validation,
+        config,
+        value: { list: [fakeCertificateValue.code({ id: 'ARBETSANPASSNING', code: 'ARBETSANPASSNING' })] },
+      }),
+      fakeCertificateMetaData(),
+      []
+    )
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(0)).toMatchObject({ disabled: true })
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(1)).toMatchObject({ disabled: false })
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(2)).toMatchObject({ disabled: false })
+    expect((result['40'].value as ValueCodeList).list.length).toBe(1)
+  })
+
+  it('Should disable ARBETSTRANING and ARBETSANPASSNING', () => {
+    const result = getDecoratedCertificateData(
+      fakeCheckboxMultipleCodeElement({
+        id: '40',
+        validation,
+        config,
+        value: { list: [fakeCertificateValue.code({ id: 'EJ_AKTUELLT', code: 'EJ_AKTUELLT' })] },
+      }),
+      fakeCertificateMetaData(),
+      []
+    )
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(0)).toMatchObject({ disabled: false })
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(1)).toMatchObject({ disabled: true })
+    expect((result['40'].config as ConfigUeCheckboxMultipleCodes).list.at(2)).toMatchObject({ disabled: true })
+    expect((result['40'].value as ValueCodeList).list.length).toBe(1)
+  })
+
+  it('Should remove conflicting items', () => {
+    const result = getDecoratedCertificateData(
+      fakeCheckboxMultipleCodeElement({
+        id: '40',
+        validation,
+        config,
+        value: {
+          list: [
+            fakeCertificateValue.code({ id: 'EJ_AKTUELLT', code: 'EJ_AKTUELLT' }),
+            fakeCertificateValue.code({ id: 'ARBETSANPASSNING', code: 'ARBETSANPASSNING' }),
+          ],
+        },
+      }),
+      fakeCertificateMetaData(),
+      []
+    )
+    expect((result['40'].value as ValueCodeList).list.length).toBe(0)
+  })
 })

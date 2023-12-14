@@ -14,7 +14,6 @@ import {
 } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  applyCertificateDataElementAutoFill,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -27,7 +26,6 @@ import {
   resetCertificateState,
   setCertificatePatientData,
   setCertificateUnitData,
-  setDisabledCertificateDataChild,
   setReadyForSign,
   setValidationErrorsForQuestion,
   showCertificateDataElement,
@@ -285,30 +283,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       state.certificate = undefined
       state.isDeleted = true
     })
-    .addCase(setDisabledCertificateDataChild, (state, action) => {
-      if (!state.certificate || !action.payload) {
-        return
-      }
-      const certificate = state.certificate
-      const { validation, element, result } = action.payload
-
-      const question = certificate.data[element.id]
-      if (question && validation.id && question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
-        question.config.list = question.config.list.map((item) => {
-          const isAffected = validation.id instanceof Array ? validation.id.some((id: string) => item.id === id) : item.id === validation.id
-          if (isAffected) {
-            item.disabled = result
-            if (question.value?.type === CertificateDataValueType.CODE_LIST) {
-              const index = question.value.list.findIndex((value) => item.id === value.id)
-              if (index !== -1) {
-                question.value.list.splice(index, 1)
-              }
-            }
-          }
-          return item
-        })
-      }
-    })
     .addCase(updateCertificateComplements, (state, action) => {
       state.complements = action.payload
     })
@@ -337,18 +311,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
 
       state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.NORMAL
-    })
-    .addCase(applyCertificateDataElementAutoFill, (state, action) => {
-      if (!state.certificate) {
-        return
-      }
-
-      const { validation, element } = action.payload
-      const question = state.certificate.data[element.id]
-
-      if (validation && validation.type === CertificateDataValidationType.AUTO_FILL_VALIDATION && question) {
-        question.value = validation.fillValue
-      }
     })
     .addCase(setReadyForSign, (state, action) => {
       if (!state.certificate) {

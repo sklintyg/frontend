@@ -43,10 +43,13 @@ function getDisabledSubElements(
       : element.config
 
   const value =
-    element.value?.type === CertificateDataValueType.CODE_LIST
+    element.value?.type === CertificateDataValueType.CODE_LIST && config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
       ? {
           ...element.value,
-          list: element.value.list.filter((item) => (validation.id.includes(item.id) ? result : true)),
+          list: element.value.list.filter((item) => {
+            const configItem = config.list.find((c) => c.id === item.id)
+            return configItem && !configItem.disabled
+          }),
         }
       : element.value
 
