@@ -100,6 +100,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
       panel.setAttribute('role', 'tabpanel')
       panel.setAttribute('tabindex', '-1')
       panel.setAttribute('aria-labelledby', tabRefs.current[i].id)
+      // eslint-disable-next-line no-param-reassign
       panel.hidden = true
     })
 
