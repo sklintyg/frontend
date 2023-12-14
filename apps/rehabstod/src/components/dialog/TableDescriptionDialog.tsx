@@ -11,7 +11,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
         <IDSIconQuestion size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
-      <Dialog dismissible open={open} headline="Beskrivning av tabellens rubriker">
+      <Dialog dismissible open={open} onOpenChange={setOpen} headline="Beskrivning av tabellens rubriker">
         {columns
           .filter((column) => column.description && column.description?.length > 0)
           .map((column) => (

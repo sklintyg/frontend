@@ -44,20 +44,6 @@ it('Should return true when location starts with path', () => {
   expect(screen.getByTestId('active')).toHaveTextContent('true')
 })
 
-it('Should return true when location starts with path and path is /', () => {
-  render(
-    <MemoryRouter initialEntries={['/some-path']}>
-      <Routes>
-        <Route path="/*" element={<TestComponent to="/" />} />
-      </Routes>
-    </MemoryRouter>
-  )
-  expect(screen.getByTestId('resolved')).toHaveTextContent('/')
-  expect(screen.getByTestId('current')).toHaveTextContent('/some-path')
-  expect(screen.getByTestId('needle')).toHaveTextContent('/')
-  expect(screen.getByTestId('active')).toHaveTextContent('true')
-})
-
 it('Should return false when location is different', () => {
   render(
     <MemoryRouter initialEntries={['/first/second']}>

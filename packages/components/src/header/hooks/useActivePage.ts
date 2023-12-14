@@ -6,6 +6,6 @@ export function useActivePage(to: string) {
 
   return (
     location.pathname === path.pathname ||
-    (location.pathname.startsWith(path.pathname) && location.pathname.charAt(path.pathname.length > 1 ? path.pathname.length : 0) === '/')
+    (location.pathname.startsWith(path.pathname) && location.pathname.charAt(path.pathname.length) === '/')
   )
 }
