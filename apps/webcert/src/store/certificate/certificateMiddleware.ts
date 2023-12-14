@@ -885,8 +885,6 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
       dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
 
       if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
-        // dispatch(setCertificateDataElement(action.payload))
-        // dispatch(validateCertificateInFrontEnd(action.payload))
         dispatch(
           updateCertificate({
             ...certificate,
