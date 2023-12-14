@@ -301,7 +301,7 @@ describe('getDisabledSubElements', () => {
     ],
   })
 
-  it('Should disable EJ_AKTUELLT', () => {
+  it('Should disable EJ_AKTUELLT when value has ARBETSANPASSNING', () => {
     const result = getDecoratedCertificateData(
       fakeCheckboxMultipleCodeElement({
         id: '40',
@@ -318,7 +318,7 @@ describe('getDisabledSubElements', () => {
     expect((result['40'].value as ValueCodeList).list.length).toBe(1)
   })
 
-  it('Should disable ARBETSTRANING and ARBETSANPASSNING', () => {
+  it('Should disable ARBETSTRANING and ARBETSANPASSNING when value has EJ_AKTUELLT', () => {
     const result = getDecoratedCertificateData(
       fakeCheckboxMultipleCodeElement({
         id: '40',
@@ -335,7 +335,7 @@ describe('getDisabledSubElements', () => {
     expect((result['40'].value as ValueCodeList).list.length).toBe(1)
   })
 
-  it('Should remove conflicting items', () => {
+  it('Should remove conflicting values', () => {
     const result = getDecoratedCertificateData(
       fakeCheckboxMultipleCodeElement({
         id: '40',
