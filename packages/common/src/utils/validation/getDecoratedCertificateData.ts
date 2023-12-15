@@ -69,15 +69,10 @@ function validateElement(data: CertificateData, element: CertificateDataElement)
           return { ...el, visible: !result }
         case CertificateDataValidationType.ENABLE_VALIDATION:
           return { ...el, disabled: !result }
-        case CertificateDataValidationType.HIGHLIGHT_VALIDATION: {
-          if (result) {
-            return { ...el, style: CertificateDataElementStyleEnum.HIGHLIGHTED }
-          } else {
-            return { ...el, style: CertificateDataElementStyleEnum.NORMAL }
-          }
-        }
         case CertificateDataValidationType.DISABLE_VALIDATION:
           return { ...el, disabled: result }
+        case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
+          return { ...el, style: result ? CertificateDataElementStyleEnum.HIGHLIGHTED : CertificateDataElementStyleEnum.NORMAL }
         case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
           return getDisabledSubElements(el, validation, result)
         case CertificateDataValidationType.AUTO_FILL_VALIDATION:
@@ -98,11 +93,17 @@ export function getDecoratedCertificateData(data: CertificateData, metadata: Cer
   dataMap.forEach((element, id) => {
     const visible = element.visible ?? true
     if (readOnly) {
-      dataMap.set(id, { ...element, readOnly, visible })
+      dataMap.set(id, { ...element, visible, readOnly })
     } else {
-      dataMap.set(id, { ...validateElement(Object.fromEntries(dataMap), { ...element, visible, disabled }), disabled })
+      dataMap.set(id, { ...element, visible, disabled })
     }
   })
+
+  if (!readOnly) {
+    dataMap.forEach((element, id) => {
+      dataMap.set(id, validateElement(Object.fromEntries(dataMap), element))
+    })
+  }
 
   return Object.fromEntries(dataMap)
 }

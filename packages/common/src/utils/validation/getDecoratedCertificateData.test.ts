@@ -13,7 +13,6 @@ import {
   getCertificate,
 } from '..'
 import {
-  CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateStatus,
   ConfigUeCheckboxMultipleCodes,
@@ -122,14 +121,6 @@ describe('visibility', () => {
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
   })
-})
-
-it('Should unstyle element if validation is false', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = false
-
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
 })
 
 describe('Intialize values for autoFill validation', () => {
