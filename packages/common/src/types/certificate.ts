@@ -48,7 +48,7 @@ export interface CertificateDataElement {
   id: string
   parent: string
   index: number
-  visible: boolean
+  visible?: boolean
   disabled?: boolean
   readOnly: boolean
   mandatory: boolean

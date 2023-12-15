@@ -508,4 +508,14 @@ describe('validateExpression', () => {
       })
     })
   })
+
+  describe('Quick expressions', () => {
+    it('Should return true for "1" expression', () => {
+      expect(validateExpression('1', { type: CertificateDataValueType.UNKNOWN })).toBe(true)
+    })
+
+    it('Should return false for "0" expression', () => {
+      expect(validateExpression('0', { type: CertificateDataValueType.UNKNOWN })).toBe(false)
+    })
+  })
 })

@@ -153,13 +153,13 @@ export const fakeSickLeavePeriod = fakeDataElement<ConfigUeSickLeavePeriod, Valu
   value: fakeCertificateValue.dateRangeList(value),
 }))
 
-export const fakeRadioMultipleCodeElement = fakeDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>((config, value) => ({
+export const fakeRadioMultipleCodeElement = fakeDataElement<ConfigUeRadioMultipleCodes, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.radioMultipleCodes({
     list: fakeList(7),
     layout: ConfigLayout.ROWS,
     ...config,
   }),
-  value: fakeCertificateValue.codeList(value),
+  value: fakeCertificateValue.code(value),
 }))
 
 export const fakeRadioBooleanElement = fakeDataElement<ConfigUeRadioBoolean, ValueBoolean>((config, value) => ({

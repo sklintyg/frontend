@@ -5,7 +5,9 @@ import {
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
   fakeDisableSubElementValidation,
+  fakeHighlightValidation,
   fakeRadioBooleanElement,
+  fakeRadioMultipleCodeElement,
   fakeResourceLink,
   fakeTextFieldElement,
   getCertificate,
@@ -120,14 +122,6 @@ describe('visibility', () => {
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
   })
-})
-
-it('Should set highlight if validation is true', () => {
-  const { data, metadata, links } = getCertificate()
-  const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-  booleanValue.selected = true
-
-  expect(getDecoratedCertificateData(data, metadata, links)['1.1'].style).toBe(CertificateDataElementStyleEnum.HIGHLIGHTED)
 })
 
 it('Should unstyle element if validation is false', () => {
@@ -352,5 +346,33 @@ describe('getDisabledSubElements', () => {
       []
     )
     expect((result['40'].value as ValueCodeList).list.length).toBe(0)
+  })
+})
+
+describe('highlight', () => {
+  it('Should highlight question when expression is true', () => {
+    const result = getDecoratedCertificateData(
+      fakeRadioMultipleCodeElement({
+        id: '100',
+        validation: [fakeHighlightValidation({ questionId: '100', expression: '1' })],
+      }),
+      fakeCertificateMetaData(),
+      []
+    )
+
+    expect(result['100'].style).toBe('HIGHLIGHTED')
+  })
+
+  it('Should not highlight question when expression is false', () => {
+    const result = getDecoratedCertificateData(
+      fakeRadioMultipleCodeElement({
+        id: '100',
+        validation: [fakeHighlightValidation({ questionId: '100', expression: '0' })],
+      }),
+      fakeCertificateMetaData(),
+      []
+    )
+
+    expect(result['100'].style).toBe('NORMAL')
   })
 })

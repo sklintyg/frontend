@@ -10,7 +10,7 @@ export const executeValidation = (validation: CertificateDataValidation, data: C
       : validation.questions.every((v) => executeValidation(v, data))
   }
 
-  if (element && element.visible && validation.expression != null && element.value != null) {
+  if (element && (element.visible ?? true) && validation.expression != null && element.value != null) {
     return validateExpression(validation.expression, element.value)
   }
 

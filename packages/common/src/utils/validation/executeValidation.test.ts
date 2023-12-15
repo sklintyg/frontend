@@ -1,4 +1,4 @@
-import { fakeRadioBooleanElement, fakeShowValidation } from '../faker'
+import { fakeHighlightValidation, fakeRadioBooleanElement, fakeShowValidation } from '../faker'
 import { executeValidation } from './executeValidation'
 
 it('Should return true for passed validation', () => {
@@ -44,6 +44,13 @@ it('Should return false for missing value', () => {
   )
 
   expect(result).toBe(false)
+})
+
+it('Should fallback to true on missing visiblity paramter', () => {
+  const data = fakeRadioBooleanElement({ id: '100' })
+  delete data['100'].visible
+  const result = executeValidation(fakeHighlightValidation({ expression: '1', questionId: '100' }), data)
+  expect(result).toBe(true)
 })
 
 describe('Recursive', () => {

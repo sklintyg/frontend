@@ -100,7 +100,7 @@ export function getDecoratedCertificateData(data: CertificateData, metadata: Cer
     if (readOnly) {
       dataMap.set(id, { ...element, readOnly, visible })
     } else {
-      dataMap.set(id, { ...validateElement(Object.fromEntries(dataMap), { ...element, visible }), disabled })
+      dataMap.set(id, { ...validateElement(Object.fromEntries(dataMap), { ...element, visible, disabled }), disabled })
     }
   })
 
