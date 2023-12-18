@@ -101,7 +101,7 @@ export function getDecoratedCertificateData(data: CertificateData, metadata: Cer
 
   return validateData(
     Object.fromEntries(
-      Object.entries(data).map<[string, CertificateDataElement]>(([id, element]) =>
+      Object.entries(data).map(([id, element]) =>
         readOnly ? [id, { ...element, visible: isVisible(element), readOnly }] : [id, { ...element, visible: isVisible(element), disabled }]
       )
     ),
