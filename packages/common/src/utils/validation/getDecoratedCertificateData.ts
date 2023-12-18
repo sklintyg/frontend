@@ -89,17 +89,22 @@ function isVisible(element: CertificateDataElement) {
   return element.visible ?? true
 }
 
+function validateData(data: CertificateData, metadata: CertificateMetadata): CertificateData {
+  return shouldBeReadOnly(metadata)
+    ? data
+    : Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
+}
+
 export function getDecoratedCertificateData(data: CertificateData, metadata: CertificateMetadata, links: ResourceLink[]): CertificateData {
   const readOnly = shouldBeReadOnly(metadata)
   const disabled = shouldBeDisabled(metadata, links)
 
-  const decoratedData = Object.fromEntries(
-    Object.entries(data).map<[string, CertificateDataElement]>(([id, element]) =>
-      readOnly ? [id, { ...element, visible: isVisible(element), readOnly }] : [id, { ...element, visible: isVisible(element), disabled }]
-    )
+  return validateData(
+    Object.fromEntries(
+      Object.entries(data).map<[string, CertificateDataElement]>(([id, element]) =>
+        readOnly ? [id, { ...element, visible: isVisible(element), readOnly }] : [id, { ...element, visible: isVisible(element), disabled }]
+      )
+    ),
+    metadata
   )
-
-  return readOnly
-    ? decoratedData
-    : Object.fromEntries(Object.entries(decoratedData).map(([id, element]) => [id, validateElement(decoratedData, element)]))
 }
