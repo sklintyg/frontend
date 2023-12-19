@@ -54,4 +54,7 @@ module.exports = {
       config: path.resolve(__dirname, './tailwind.config.ts'),
     },
   },
+  env: {
+    browser: true,
+  },
 }

@@ -39,10 +39,12 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "browserslist": [
-    ">0.2%",
+    ">0.3%",
+    "last 2 versions",
     "not dead",
+    "Firefox ESR",
     "not op_mini all",
-    "ie 11"
+    "not kaios > 0"
   ],
   "pnpm": {
     "overrides": {
