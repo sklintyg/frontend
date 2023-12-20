@@ -18,7 +18,7 @@ export function CookieDialog() {
             Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du
             vår användning av kakor.
           </p>
-          <h4 className="ids-heading-3">Så här använder vi kakor</h4>
+          <h2 className="ids-heading-3">Så här använder vi kakor</h2>
           <p className="ids-body">
             Den typ av kakor som används på den här webbplatsen kallas för sessionskakor. De lagras temporärt i din dators minne under tiden
             du är inne på webbplatsen. Sessionskakor sparar ingen personlig information om dig, och de försvinner när du stänger din
