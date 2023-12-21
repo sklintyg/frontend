@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "pnpm run -r build",
+    "build:dev": "pnpm cross-env NODE_ENV='development' pnpm run -r build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "pre-commit": "lint-staged",
     "prepare": "husky install",

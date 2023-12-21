@@ -6,7 +6,8 @@ name: Frontend CI
 on:
   pull_request:
     branches: [main, 'project/**']
-
+env:
+  NODE_EMV: development
 jobs:
   test:
     timeout-minutes: 30

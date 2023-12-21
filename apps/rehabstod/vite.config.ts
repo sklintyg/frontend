@@ -29,12 +29,15 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
-    plugins: [
-      react(),
-      legacy({
-        targets: ['defaults', 'not IE 11'],
-      }),
-    ].concat(https ? [basicSsl()] : []),
+    plugins: [react()]
+      .concat(
+        process.env.NODE_ENV !== 'development'
+          ? legacy({
+              targets: ['defaults', 'not IE 11'],
+            })
+          : []
+      )
+      .concat(https ? [basicSsl()] : []),
     server: {
       host,
       https,
