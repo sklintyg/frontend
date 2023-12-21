@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [main, 'project/**']
 env:
-  NODE_ENV: development
+  LEGACY_SUPPORT: false
 jobs:
   test:
     timeout-minutes: 30

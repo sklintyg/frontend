@@ -30,7 +30,7 @@ export default ({ mode }: UserConfig) => {
   return defineConfig({
     plugins: [react()]
       .concat(
-        process.env.NODE_ENV !== 'development'
+        process.env.LEGACY_SUPPORT !== 'false'
           ? legacy({
               targets: ['defaults', 'not IE 11'],
             })

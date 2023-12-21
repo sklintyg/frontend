@@ -8,7 +8,7 @@ const outDir = resolve(__dirname, 'dist')
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins:
-    process.env.NODE_ENV !== 'development'
+    process.env.LEGACY_SUPPORT !== 'false'
       ? [
           legacy({
             targets: ['defaults', 'not IE 11'],
