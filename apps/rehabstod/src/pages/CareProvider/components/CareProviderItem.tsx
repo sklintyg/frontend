@@ -14,7 +14,7 @@ export function CareProviderItem({
 }) {
   return (
     <div className="mb-6">
-      <h4 className="ids-heading-4 my-2 border-b border-neutral-90 pb-2">{provider.namn}</h4>
+      <h2 className="ids-heading-4 my-2 border-b border-neutral-90 pb-2">{provider.namn}</h2>
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
           {unit.mottagningar && unit.mottagningar.length > 0 ? (

@@ -14,7 +14,7 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
 
   return (
     <div>
-      <h2 className="ids-heading-4">Könsfördelning totalt</h2>
+      <h3 className="ids-heading-4">Könsfördelning totalt</h3>
       <div className="mb-2 flex items-center justify-center">
         <GenderGraph gender={female} />
         <GenderGraph gender={male} />
