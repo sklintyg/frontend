@@ -10,8 +10,8 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { classNames, hasNoChildren, Input, TooltipIcon } from '@frontend/components'
-import { IDSIconChevronBold, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { classNames, hasNoChildren, Input } from '@frontend/components'
+import { IDSIconChevronBold } from '@frontend/ids-react-ts'
 import { ReactNode, useId, useState } from 'react'
 
 export function SelectMultiple({
@@ -55,31 +55,29 @@ export function SelectMultiple({
 
   return (
     <div className="w-full">
-      <label htmlFor={id}>{label}</label>
-      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
-      {/* TODO: Replace with IDSInput when working properly */}
-      <div className="relative">
-        <Input
-          hasIcon
-          ref={refs.setReference}
-          id={id}
-          type="button"
-          aria-expanded={open}
-          value={placeholder}
-          onClick={() => setOpen(!open)}
-        />
-        <IDSIconChevronBold
-          size="xs"
-          className={classNames(
-            open ? '-rotate-90' : 'rotate-90',
-            'top-1/2',
-            'absolute',
-            'right-6',
-            '-translate-y-1/2',
-            'pointer-events-none'
-          )}
-        />
-      </div>
+      <Input
+        label={label}
+        description={description}
+        ref={refs.setReference}
+        id={id}
+        type="button"
+        aria-expanded={open}
+        value={placeholder}
+        onClick={() => setOpen(!open)}
+        icon={
+          <IDSIconChevronBold
+            size="xs"
+            className={classNames(
+              open ? '-rotate-90' : 'rotate-90',
+              'top-1/2',
+              'absolute',
+              'right-6',
+              '-translate-y-1/2',
+              'pointer-events-none'
+            )}
+          />
+        }
+      />
       {open && (
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
