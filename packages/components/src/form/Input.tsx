@@ -36,7 +36,12 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
           {...props}
           id={id}
           disabled={disabled}
-          className={classNames('text-left', !error && 'bg-[--input_background]', props.className ?? '')}
+          className={classNames(
+            'text-left whitespace-nowrap text-ellipsis overflow-hidden',
+            !error && 'bg-[--input_background]',
+            Boolean(icon) && 'pr-[50px]',
+            props.className ?? ''
+          )}
         />
         {icon}
       </IDSInput>
