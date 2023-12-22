@@ -28,7 +28,7 @@ export function RangeFilter({
   return (
     <>
       <div className="print:hidden">
-        <div>
+        <div className="mb-[5px]">
           <label htmlFor={id}>{title}</label>
           <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />
         </div>

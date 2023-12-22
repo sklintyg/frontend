@@ -8,6 +8,9 @@ overrides:
   intl-messageformat: 10.3.5
 
 patchedDependencies:
+  '@inera/ids-core@4.2.0':
+    hash: 64bfivthf25vjsjiadtpd7toxm
+    path: patches/@inera__ids-core@4.2.0.patch
   focus-lock@1.0.0:
     hash: bzzitpzsf5jp5eenoafyrhwjam
     path: patches/focus-lock@1.0.0.patch
@@ -63,7 +66,7 @@ importers:
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm)
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -133,7 +136,7 @@ importers:
         version: link:../../packages/utils
       '@inera/ids-core':
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm)
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -314,7 +317,7 @@ importers:
         version: link:../../packages/utils
       '@inera/ids-core':
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm)
       '@inera/ids-design':
         specifier: ^4.1.1
         version: 4.1.1
@@ -773,7 +776,7 @@ importers:
         version: link:../ids-react-ts
       '@inera/ids-core':
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -985,7 +988,7 @@ importers:
     dependencies:
       '@inera/ids-core':
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm)
       '@lit-labs/react':
         specifier: ^1.1.1
         version: 1.1.1
@@ -2932,13 +2935,14 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
-  /@inera/ids-core@4.2.0:
+  /@inera/ids-core@4.2.0(patch_hash=64bfivthf25vjsjiadtpd7toxm):
     resolution: {integrity: sha512-/XLNM925tXjoOO9Ivq44b3zaIpTw/Jz801Xitc46pV+JKUCfjHr88m+tpdGncovRZmaySwJ42OlQul7lqDjT+Q==}
     dependencies:
       '@inera/ids-design': 4.2.0
       lit: 2.8.0
       tslib: 2.3.1
     dev: false
+    patched: true
 
   /@inera/ids-design@4.1.1:
     resolution: {integrity: sha512-QFTgqDteB3uzU5lWuoTaLAMK41w6wUcp9VwRYRXxZXZvz94oGFKa3TxR9+8BLbSm37iDmGJguEmH7p+3XfzB3A==}

@@ -60,7 +60,7 @@ export function OpenInformationWithConsent({
           max="365"
           min="1"
           defaultValue="7"
-          bright
+          light
         />
         <p>dagar</p>
       </div>

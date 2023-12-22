@@ -1,10 +1,9 @@
 import { ErrorIdentifier } from '@frontend/components'
-import { getNavigationItem, PageHero, PageHeroActions } from '@frontend/components/1177'
+import { getNavigationItem, getNavigationItemUrl, PageHero, PageHeroActions } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
-import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 import { SupportLink } from './SupportLink/SupportLink'
 
 const ActionType = z.enum(['start', 'login', '1177'])
@@ -42,14 +41,13 @@ function getErrorDescription(type?: ErrorTypeEnum) {
 
 function getAction(type: ActionTypeEnum) {
   const startLinkItem = getNavigationItem('Start')
-
   switch (type) {
     case ActionType.enum.start:
       return (
         startLinkItem && (
           <IDSLink key="start">
             <IDSIconChevron />
-            <Link to={resolveNavigationUrl(startLinkItem.url)}>Till startsidan</Link>
+            <Link to={getNavigationItemUrl(startLinkItem, import.meta.env.MODE)}>Till startsidan</Link>
           </IDSLink>
         )
       )
