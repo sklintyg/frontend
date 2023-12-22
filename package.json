@@ -49,7 +49,8 @@
       "intl-messageformat": "10.3.5"
     },
     "patchedDependencies": {
-      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch"
+      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch",
+      "@inera/ids-core@4.2.0": "patches/@inera__ids-core@4.2.0.patch"
     }
   }
 }

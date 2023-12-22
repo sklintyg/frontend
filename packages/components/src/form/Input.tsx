@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
           {...props}
           id={id}
           disabled={disabled}
-          className={classNames('text-left bg-[--input_background]', props.className ?? '')}
+          className={classNames('text-left', !error && 'bg-[--input_background]', props.className ?? '')}
         />
         {icon}
       </IDSInput>
