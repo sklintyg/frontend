@@ -8,10 +8,11 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:compat/recommended',
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'compat'],
   rules: {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [

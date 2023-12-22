@@ -19,6 +19,7 @@
     "@frontend/common": "workspace:*",
     "@frontend/filtrex": "workspace:*",
     "@reduxjs/toolkit": "1.7.2",
+    "@vitejs/plugin-legacy": "^5.2.0",
     "axios": "^1.6.0",
     "classnames": "^2.3.2",
     "connected-react-router": "^6.9.3",

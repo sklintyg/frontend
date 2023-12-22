@@ -25,6 +25,7 @@
     "@internationalized/date": "^3.2.0",
     "@react-hooks-library/core": "^0.5.1",
     "@reduxjs/toolkit": "^1.9.3",
+    "@vitejs/plugin-legacy": "^5.2.0",
     "date-fns": "^2.29.3",
     "focus-lock": "^1.0.0",
     "html-react-parser": "^4.2.2",
