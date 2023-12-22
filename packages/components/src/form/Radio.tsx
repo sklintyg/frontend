@@ -9,7 +9,7 @@ interface RadioProps {
 export const Radio = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & RadioProps>(({ label, light, ...props }, ref) => {
   const id = useId()
   return (
-    <IDSRadio light={light}>
+    <IDSRadio light={light} className="my-0">
       <input id={id} ref={ref} type="radio" {...props} />
       <label htmlFor={id}>{label}</label>
     </IDSRadio>
