@@ -1,13 +1,12 @@
-import { IDSIconQuestion, IDSSelect } from '@frontend/ids-react-ts'
+import { IDSSelect } from '@frontend/ids-react-ts'
 import { forwardRef, useId } from 'react'
-import { TooltipIcon } from '../Tooltip'
+import { InputLabel } from './InputLabel'
 
 interface SelectProps {
   label: string
   options?: { value: string; label: string }[]
   description?: string
   disabled?: boolean
-  error?: boolean
 }
 
 export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & SelectProps>(
@@ -16,11 +15,12 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
     const id = controlledId ?? uncontrolledId
 
     return (
-      <IDSSelect isDisabled={disabled}>
-        <label htmlFor={id}>
-          {label}
-          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
-        </label>
+      <IDSSelect isDisabled={disabled} className="my-0">
+        {label && (
+          <InputLabel htmlFor={id} description={description}>
+            {label}
+          </InputLabel>
+        )}
         <select ref={ref} id={id} disabled={disabled} {...props}>
           {options?.map((option) => (
             <option key={option.value} value={option.value}>

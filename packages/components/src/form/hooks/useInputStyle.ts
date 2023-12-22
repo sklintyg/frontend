@@ -16,5 +16,5 @@ const getStyle = ({ error, disabled, bright }: Record<string, boolean | undefine
 }
 
 export function useInputStyle(props: Record<string, boolean | undefined>): string {
-  return classNames('text-neutral-20 my-3 box-border w-full rounded border text-left truncate', getStyle(props))
+  return classNames('text-neutral-20 box-border w-full rounded border text-left truncate', getStyle(props))
 }
