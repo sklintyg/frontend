@@ -24,7 +24,7 @@ export function PatientSickLeavesTable({
 
   return (
     <>
-      <h3 className="ids-heading-3">{title}</h3>
+      <h2 className="ids-heading-3">{title}</h2>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
         <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar} open={open}>
           <Table header={<TableHeader columns={columns} />} sortColumn={PatientColumn.Num}>
