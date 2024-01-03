@@ -7,7 +7,7 @@ export function MobileTable({ header, body, options }: { header?: Element; body?
     return null
   }
 
-  const headerRow = header.children.filter(isElement).at(0)
+  const headerRow = header.children.filter(isElement)[0]
 
   return (
     <>
@@ -29,7 +29,7 @@ export function MobileTable({ header, body, options }: { header?: Element; body?
             )}
             <tbody>
               {headerRows?.map((node, rIndex) => {
-                const cellElement = bodyCells.at(rIndex)
+                const cellElement = bodyCells[rIndex]
 
                 if (!cellElement) {
                   return null
