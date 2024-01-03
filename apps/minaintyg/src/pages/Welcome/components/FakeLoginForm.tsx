@@ -7,7 +7,7 @@ import { ResultTextArea } from './ResultTextArea'
 import { SelectProfile } from './SelectProfile'
 
 export function FakeLoginForm({ persons }: { persons: TestabilityPerson[] }) {
-  const [profile, setProfile] = useState<string | undefined>(persons.at(0)?.personId)
+  const [profile, setProfile] = useState<string | undefined>(persons[0]?.personId)
   const [freeText, setFreeText] = useState<string>()
   const [login] = useFakeLoginMutation()
 

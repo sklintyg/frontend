@@ -8,7 +8,7 @@ function updateDocumentTitle(el?: HTMLElement | null) {
 }
 
 function getHeadingElement() {
-  return Array.from(document.getElementsByTagName('h1')).at(0)
+  return Array.from(document.getElementsByTagName('h1'))[0]
 }
 
 export function useDocumentTitle(ref: RefObject<HTMLElement>) {
