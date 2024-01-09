@@ -25,7 +25,7 @@ export function AboutDialog() {
           Tjänsten kräver att JavaScript är aktiverat.{' '}
         </p>
 
-        <h1 className="ids-heading-3">Vad kan jag se i Rehabstöd?</h1>
+        <h2 className="ids-heading-3">Vad kan jag se i Rehabstöd?</h2>
         <p className="ids-body">
           Är du rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där
           du har skrivit det senaste intyget.{' '}
