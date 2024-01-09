@@ -30,8 +30,8 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
   (next) =>
   (action) => {
     if (
-      isRejectedEndpoint(action) &&
       !api.endpoints.logError.matchRejected(action) &&
+      isRejectedEndpoint(action) &&
       hasRequest(action.meta.baseQueryMeta) &&
       action.payload
     ) {
