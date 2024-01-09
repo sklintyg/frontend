@@ -137,8 +137,6 @@ const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save certificate completed`
 const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save certificate success`
 const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save certificate error`
 
-const VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED = `${CERTIFICATE} Validate in frontend completed`
-
 const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
 const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
@@ -491,8 +489,6 @@ interface AutoSaveCertificateError {
 }
 
 export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
-
-export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
 
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
 
