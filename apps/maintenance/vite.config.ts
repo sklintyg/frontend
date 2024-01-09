@@ -1,3 +1,4 @@
+import legacy from '@vitejs/plugin-legacy'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
@@ -6,6 +7,14 @@ const outDir = resolve(__dirname, 'dist')
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
+  plugins:
+    process.env.LEGACY_SUPPORT !== 'false'
+      ? [
+          legacy({
+            targets: ['defaults', 'not IE 11'],
+          }),
+        ]
+      : [],
   root,
   build: {
     outDir,

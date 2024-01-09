@@ -1,8 +1,7 @@
-import { getNavigationItem } from '@frontend/components/1177'
+import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
-import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
@@ -19,7 +18,7 @@ function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, Re
 
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
-  const prevMatch = matches?.at(-2)
+  const prevMatch = matches ? matches[matches.length - 2] : undefined
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
   if (matches.length === 0) {
@@ -33,7 +32,7 @@ export function Breadcrumbs() {
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
         {startLink && (
           <IDSCrumb key="start">
-            <Link to={resolveNavigationUrl(startLink.url)}>Start</Link>
+            <Link to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>Start</Link>
           </IDSCrumb>
         )}
         {matches.map(resolveMatch).map(([url, node], index) =>
@@ -54,7 +53,7 @@ export function Breadcrumbs() {
         )}
         {!prevMatchUrl && startLink && (
           <IDSCrumb key="mobile" mobile>
-            <Link className="no-underline" to={resolveNavigationUrl(startLink.url)}>
+            <Link className="no-underline" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
               Start
             </Link>
           </IDSCrumb>

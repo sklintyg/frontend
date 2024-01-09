@@ -39,7 +39,7 @@ export function OpenInformationWithConsent({
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} inline />
-      <h4 className="ids-heading-4 pt-2">Samtycke sammanhållen vårddokumentation</h4>
+      <h5 className="ids-heading-4 pt-2">Samtycke sammanhållen vårddokumentation</h5>
       <Checkbox
         label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
         checked={checkedConsent}
@@ -60,11 +60,11 @@ export function OpenInformationWithConsent({
           max="365"
           min="1"
           defaultValue="7"
-          bright
+          light
         />
         <p>dagar</p>
       </div>
-      <h4 className="ids-heading-4 pt-3">Vem har samtycke?</h4>
+      <h5 className="ids-heading-4 pt-3">Vem har samtycke?</h5>
       <RadioButton
         label="Bara jag"
         onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}

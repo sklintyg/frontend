@@ -6,7 +6,8 @@ name: Frontend CI
 on:
   pull_request:
     branches: [main, 'project/**']
-
+env:
+  LEGACY_SUPPORT: false
 jobs:
   test:
     timeout-minutes: 30

@@ -1,4 +1,5 @@
 import basicSsl from '@vitejs/plugin-basic-ssl'
+import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import { loadEnv, ProxyOptions, UserConfig } from 'vite'
 import { defineConfig } from 'vitest/config'
@@ -29,7 +30,15 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
-    plugins: [react()].concat(https ? [basicSsl()] : []),
+    plugins: [react()]
+      .concat(
+        process.env.LEGACY_SUPPORT !== 'false'
+          ? legacy({
+              targets: ['defaults', 'not IE 11'],
+            })
+          : []
+      )
+      .concat(https ? [basicSsl()] : []),
     server: {
       host,
       https,
@@ -37,9 +46,6 @@ export default ({ mode }: UserConfig) => {
       proxy,
       strictPort: true,
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
-    },
-    build: {
-      target: 'es2015',
     },
   })
 }

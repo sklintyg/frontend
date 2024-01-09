@@ -26,7 +26,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
 
   return (
     <>
-      <h2 className="ids-heading-4">
+      <h3 className="ids-heading-4">
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
@@ -34,7 +34,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
             <IDSIconQuestion size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
           }
         />
-      </h2>
+      </h3>
       <div>
         <PieChart width={128} height={208} className="m-auto">
           <Pie
