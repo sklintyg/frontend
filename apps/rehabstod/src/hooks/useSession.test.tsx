@@ -8,7 +8,7 @@ import { store } from '../store/store'
 import { fakeUser } from '../utils/fake/fakeUser'
 import { useSession } from './useSession'
 
-function StartPage() {
+function SessionPage() {
   const { session, isLoading, isPollingActive } = useSession()
   if (isLoading) {
     return <span>Loading</span>
@@ -24,18 +24,6 @@ function StartPage() {
   )
 }
 
-function TestComponent() {
-  return (
-    <Provider store={store}>
-      <RouterProvider
-        router={createMemoryRouter(
-          createRoutesFromChildren([<Route path="/" element={<StartPage />} />, <Route path="/welcome" element="Welcome" />])
-        )}
-      />
-    </Provider>
-  )
-}
-
 it('Should logout once the session is over', async () => {
   server.use(
     rest.get(`/api/user`, (_, res, ctx) =>
@@ -44,7 +32,18 @@ it('Should logout once the session is over', async () => {
   )
   store.dispatch(api.endpoints.getUser.initiate())
 
-  render(<TestComponent />)
+  render(
+    <Provider store={store}>
+      <RouterProvider
+        router={createMemoryRouter(
+          createRoutesFromChildren([
+            <Route key="start" path="/" element={<SessionPage />} />,
+            <Route key="welcome" path="/welcome" element="Welcome" />,
+          ])
+        )}
+      />
+    </Provider>
+  )
 
   expect(screen.getByText('Loading')).toBeInTheDocument()
 
