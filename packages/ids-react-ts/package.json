@@ -17,13 +17,13 @@
     "@lit-labs/react": "^1.1.1"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/react": "^18.0.27",
     "eslint": "^8.42.0",
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
-    "rollup": "^3.20.2",
-    "rollup-plugin-esbuild": "^5.0.0"
+    "rollup": "^4.9.4",
+    "rollup-plugin-esbuild": "^6.1.0"
   },
   "peerDependencies": {
     "@inera/ids-core": "^2",
