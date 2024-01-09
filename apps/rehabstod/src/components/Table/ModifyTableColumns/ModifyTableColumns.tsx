@@ -65,8 +65,8 @@ export function ModifyTableColumns({
                 disableCheckbox={numVisible === 1 && column.visible}
                 onVisibilityChange={onVisibilityChange}
                 onReorder={onReorder}
-                before={index > 0 ? columns.at(index - 1) : undefined}
-                after={columns.at(index + 1)}
+                before={index > 0 ? columns[index - 1] : undefined}
+                after={columns[index + 1]}
               />
             </Item>
           ))}

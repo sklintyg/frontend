@@ -48,7 +48,7 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   const startDate = subDays(parseISO(timestamp), faker.datatype.number({ min: 1, max: 120 }))
   const endDate = parseISO(timestamp)
   const certificate = fakeCertificate()
-  const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? faker.datatype.uuid()
+  const id = (req.params.id instanceof Array ? req.params.id[0] : req.params.id) ?? faker.datatype.uuid()
   const recipient = fakerFromSchema(certificateRecipientSchema)({
     sent: faker.date.recent().toISOString(),
     name: certificate.recipient,
