@@ -12,7 +12,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
