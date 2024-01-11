@@ -12,7 +12,7 @@ module.exports = {
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'compat'],
+  plugins: ['@typescript-eslint', 'compat', 'unused-imports'],
   rules: {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
@@ -37,11 +37,15 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    // '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     semi: ['error', 'never'],
     'semi-spacing': ['error', { before: false, after: true }],
     'quote-props': ['error', 'as-needed'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': ['warn', { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }],
   },
   ignorePatterns: ['dist/**', '**/dist/**', 'public/**', '**/public/**'],
   settings: {
