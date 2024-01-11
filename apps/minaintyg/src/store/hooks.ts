@@ -1,4 +1,4 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { skipToken } from '@reduxjs/toolkit/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { api } from './api'

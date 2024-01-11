@@ -81,6 +81,7 @@ Cypress.Commands.add('renewCertificate', () => {
 })
 
 Cypress.Commands.add('copyCertificateDraft', () => {
+  // eslint-disable-next-line cypress/unsafe-to-chain-command
   cy.contains('Kopiera')
     .click()
     .then(() => {
@@ -194,7 +195,8 @@ Cypress.Commands.add('createAdministratorQuestion', () => {
   cy.get('#new-question-topic-selected-item-label').click()
   cy.get('#new-question-topic-AVSTMN').click()
 
-  cy.get('#arendeNewModelText').type('SKAPAR ADM FRÅGA').type('{enter}')
+  cy.get('#arendeNewModelText').type('SKAPAR ADM FRÅGA')
+  cy.get('#arendeNewModelText').type('{enter}')
   cy.get('#sendArendeBtn').click()
 })
 
