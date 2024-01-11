@@ -47,7 +47,6 @@ export default ({ mode }: UserConfig) => {
       hmr: hmr ? { host, protocol: hmrProtocol } : false,
     },
     test: {
-      globals: true,
       environment: 'jsdom',
       setupFiles: ['src/setupTests.ts'],
       silent: process.env.CI === 'true',

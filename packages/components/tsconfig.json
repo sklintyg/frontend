@@ -5,8 +5,7 @@
     "target": "ES5",
     "module": "ESNext",
     "declaration": false,
-    "jsx": "react-jsx",
-    "types": ["vitest/globals"]
+    "jsx": "react-jsx"
   },
   "exclude": ["dist", "node_modules"]
 }
