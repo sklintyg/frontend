@@ -86,7 +86,9 @@ describe(`Signerat ${name} intyg`, () => {
     // Läkarens utlåtande om dödsorsaken
     cy.get('[id="terminalDodsorsak"]').eq(1).type('Infektion')
     cy.get('[id="8.2"]').type('2021-11-01')
-    cy.get('[id="specification_undefined"]').select('Akut').invoke('val').should('eq', 'PLOTSLIG')
+    cy.get('[id="specification_undefined"]').select('Akut')
+    cy.get('[id="specification_undefined"]').invoke('val')
+    cy.get('[id="specification_undefined"]').should('eq', 'PLOTSLIG')
 
     // Operarad inom fyra veckor före döden
     cy.get('[id="NEJ"]').check({ force: true })
