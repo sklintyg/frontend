@@ -13,7 +13,8 @@
     "eslint-plugin-compat": "^4.2.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.0.2",
-    "eslint-plugin-promise": "^6.1.1"
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-unused-imports": "2.0.0"
   },
   "peerDependencies": {
     "eslint": "^8"
