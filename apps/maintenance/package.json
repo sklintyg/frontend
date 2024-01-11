@@ -32,7 +32,7 @@
     "eslint-config-react-test": "workspace:*",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-tailwindcss": "^3.13.0",
-    "jsdom": "^21.1.1",
+    "jsdom": "^23.2.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.12"
