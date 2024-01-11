@@ -16,7 +16,7 @@ export const ErrorCodeEnum = z.nativeEnum(ErrorCode)
 
 export const errorSchema = z.object({
   errorId: z.string(),
-  errorCode: ErrorCodeEnum,
+  errorCode: ErrorCodeEnum.or(z.string()),
   message: z.string(),
   stackTrace: nullable(z.string()),
 })

@@ -4,12 +4,12 @@ import { TableColumn } from '../../schemas/tableSchema'
 import { api } from '../api'
 
 export function createTableColumnSlice<T extends keyof UserPreferences>(sliceName: T, columns: string[]) {
-  const columnsAdapter = createEntityAdapter<TableColumn>({
+  const columnsAdapter = createEntityAdapter<TableColumn, string>({
     selectId: ({ name }) => name,
     sortComparer: (a, b) => (a.index < b.index ? -1 : 1),
   })
 
-  function getSelectors<V>(selectState: (state: V) => EntityState<TableColumn>) {
+  function getSelectors<V>(selectState: (state: V) => EntityState<TableColumn, string>) {
     return {
       ...columnsAdapter.getSelectors(selectState),
       selectColumnString: (state: V) =>
