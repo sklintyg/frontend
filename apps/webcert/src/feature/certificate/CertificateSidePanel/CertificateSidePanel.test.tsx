@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import CertificateSidePanel from './CertificateSidePanel'
 import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
@@ -12,7 +14,6 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore
 

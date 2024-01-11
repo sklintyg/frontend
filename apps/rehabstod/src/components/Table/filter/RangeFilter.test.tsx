@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
 import { RangeFilter } from './RangeFilter'
 
 const TITLE = 'title'

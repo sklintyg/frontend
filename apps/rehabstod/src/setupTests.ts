@@ -1,7 +1,7 @@
 import { faker } from '@frontend/fake'
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'

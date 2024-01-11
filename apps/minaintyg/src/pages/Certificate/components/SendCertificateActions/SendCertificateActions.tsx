@@ -1,9 +1,9 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
-import { AvailableFunction, CertificateRecipient } from '../../../../schema/certificate.schema'
-import { useSendCertificateMutation } from '../../../../store/api'
 import { SendCertificateErrorAlert } from './SendCertificateErrorAlert'
 import { SendCertificateSuccessAlert } from './SendCertificateSuccessAlert'
+import { AvailableFunction, CertificateRecipient } from '../../../../schema/certificate.schema'
+import { useSendCertificateMutation } from '../../../../store/api'
 
 export function SendCertificateActions({
   id,

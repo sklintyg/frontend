@@ -2,7 +2,9 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { SendCertificatePage } from './SendCertificatePage'
 import { server } from '../../mocks/server'
 import {
   AvailableFunctionsTypeEnum,
@@ -11,7 +13,6 @@ import {
   certificateSchema,
 } from '../../schema/certificate.schema'
 import { store } from '../../store/store'
-import { SendCertificatePage } from './SendCertificatePage'
 
 function renderComponent() {
   return render(

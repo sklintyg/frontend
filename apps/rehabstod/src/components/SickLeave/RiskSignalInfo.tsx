@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { RiskSignalCircle } from './RiskSignalCircle'
+import { RiskSignal } from '../../schemas/sickLeaveSchema'
 
 export function RiskSignalInfo({ riskKategori, riskDescription }: RiskSignal) {
   return (

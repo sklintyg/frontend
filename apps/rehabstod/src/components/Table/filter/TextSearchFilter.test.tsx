@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import { TextSearchFilter } from './TextSearchFilter'
 
 const TITLE = 'titel'

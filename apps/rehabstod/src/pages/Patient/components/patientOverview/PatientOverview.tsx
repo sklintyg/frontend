@@ -1,11 +1,11 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
+import { BlockedInformationCard } from './blocked/BlockedInformationCard'
+import { OpenInformationCard } from './open/OpenInformationCard'
+import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
 import { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/sickLeaveApi'
-import { BlockedInformationCard } from './blocked/BlockedInformationCard'
-import { OpenInformationCard } from './open/OpenInformationCard'
-import { OpenInformationWithConsentCard } from './open/OpenInformationWithConsentCard'
 
 export function PatientOverview({
   sjfMetaData,

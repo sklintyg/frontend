@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
-import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateStatusBadge, getBadgeType } from './CertificateStatusBadge'
+import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
 
 it('Should render component', () => {
   const { container } = render(<CertificateStatusBadge status={CertificateStatusEnum.enum.NEW} />)

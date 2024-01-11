@@ -4,13 +4,13 @@ import { render, screen } from '@testing-library/react'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 import { apiMiddleware } from '../store/api/apiMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
-import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()

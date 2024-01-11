@@ -1,7 +1,7 @@
 /* eslint-disable import/no-default-export */
+import { builtinModules, createRequire } from 'module'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'

@@ -3,7 +3,8 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
   logSrsInteraction,
@@ -14,7 +15,6 @@ import {
 } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
 
 let store: EnhancedStore
 const renderComponent = () => {

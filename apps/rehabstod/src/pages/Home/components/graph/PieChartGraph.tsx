@@ -1,8 +1,8 @@
 import { classNames } from '@frontend/components'
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { ChartLegend } from './ChartLegend'
 import { PieChartGraphTooltip } from './PieChartGraphTooltip'
+import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 
 export function PieChartGraph({
   data,

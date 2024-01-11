@@ -1,10 +1,4 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
-import { PageHeading } from '../../../components/PageHeading/PageHeading'
-import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
-import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
-import { UserUrval } from '../../../schemas'
-import { useGetUserQuery } from '../../../store/api'
-import { useGetSickLeavesSummaryQuery } from '../../../store/sickLeaveApi'
 import { CountSickLeaveDegreesCard } from './card/CountSickLeaveDegreesCard'
 import { DiagnosisGroupsCard } from './card/DiagnosisGroupsCard'
 import { SickLeaveDegreesCard } from './card/SickLeaveDegreesCard'
@@ -12,6 +6,12 @@ import { SickLeaveLengthsCard } from './card/SickLeaveLengthsCard'
 import { StatisticsInformationCard } from './card/StatisticsInformationCard'
 import { GenderDivisionGraph } from './graph/GenderDivisionGraph'
 import { TotalSickLeavesGraph } from './graph/TotalSickLeavesGraph'
+import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
+import { PageHeading } from '../../../components/PageHeading/PageHeading'
+import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
+import { UserUrval } from '../../../schemas'
+import { useGetUserQuery } from '../../../store/api'
+import { useGetSickLeavesSummaryQuery } from '../../../store/sickLeaveApi'
 
 export function OverviewStatistics() {
   const { data: user } = useGetUserQuery()

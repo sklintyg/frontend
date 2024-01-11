@@ -16,10 +16,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { configureApplicationStore } from '../configureApplicationStore'
+import { expect, it, describe, beforeEach } from 'vitest'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
@@ -30,6 +27,10 @@ import {
   updateFMBPanelActive,
 } from './fmbActions'
 import { fmbMiddleware } from './fmbMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 const getFMBDiagnoseRequest = (code: string, index: number): FMBDiagnoseRequest => ({
   icd10Code: code,

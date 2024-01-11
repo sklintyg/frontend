@@ -2,12 +2,12 @@ import { Complement, getCertificate } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 
 let testStore: EnhancedStore
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })

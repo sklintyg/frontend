@@ -4,11 +4,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import UeDate from './UeDate'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeDate from './UeDate'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'

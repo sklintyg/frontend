@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import { TableContentAlert } from './TableContentAlert'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 

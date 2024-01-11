@@ -15,13 +15,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { configureApplicationStore } from '../configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { getUserSuccess } from '../user/userActions'
-import { utilsMiddleware } from '../utils/utilsMiddleware'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import {
   getPredictions,
   getRecommendations,
@@ -37,6 +31,13 @@ import {
   updateSrsPredictions,
 } from './srsActions'
 import { srsMiddleware } from './srsMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import { getUserSuccess } from '../user/userActions'
+import { utilsMiddleware } from '../utils/utilsMiddleware'
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter

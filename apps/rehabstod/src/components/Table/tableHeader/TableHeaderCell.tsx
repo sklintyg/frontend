@@ -1,6 +1,6 @@
 import { Tooltip, TooltipTrigger, classNames } from '@frontend/components'
-import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'
+import { useTableContext } from '../hooks/useTableContext'
 
 export function TableHeaderCell({
   column,

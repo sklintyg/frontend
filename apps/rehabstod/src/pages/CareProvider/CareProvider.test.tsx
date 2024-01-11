@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
+import { expect, it } from 'vitest'
+import { CareProvider } from './CareProvider'
 import { server } from '../../mocks/server'
 import { fakeUser } from '../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { CareProvider } from './CareProvider'
 
 it('Should render without error', () => {
   expect(() => renderWithRouter(<CareProvider />)).not.toThrow()

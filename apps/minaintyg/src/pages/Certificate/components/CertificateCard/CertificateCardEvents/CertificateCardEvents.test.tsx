@@ -1,8 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { CertificateEvent, certificateEventSchema } from '../../../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateCardEvents } from './CertificateCardEvents'
+import { CertificateEvent, certificateEventSchema } from '../../../../../schema/certificate.schema'
 
 function renderComponent(events: CertificateEvent[]) {
   return render(

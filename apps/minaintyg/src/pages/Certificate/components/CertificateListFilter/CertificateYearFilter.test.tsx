@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { store } from '../../../../store/store'
+import { expect, it } from 'vitest'
 import { CertificateYearFilter } from './CertificateYearFilter'
+import { store } from '../../../../store/store'
 
 const options = ['2023', '2022', '2021', '2020']
 

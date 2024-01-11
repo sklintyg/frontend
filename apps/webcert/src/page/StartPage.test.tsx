@@ -2,12 +2,13 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { StartPage } from './StartPage'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
 import { Configuration } from '../store/utils/utilsReducer'
-import { StartPage } from './StartPage'
 
 let testStore: EnhancedStore
 

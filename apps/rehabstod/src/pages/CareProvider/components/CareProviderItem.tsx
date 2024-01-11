@@ -1,7 +1,7 @@
 import { classNames } from '@frontend/components'
 import { IDSRadio } from '@frontend/ids-react-ts'
-import { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
+import { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 
 export function CareProviderItem({
   provider,

@@ -2,7 +2,7 @@ import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import ReplaceCertificateButton from '../ReplaceCertificateButton'
 
 const NAME = 'Replace button name'

@@ -2,8 +2,9 @@ import { fakeHSA, faker } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { store } from '../../../../store/store'
+import { expect, it } from 'vitest'
 import { CertificateUnitFilter } from './CertificateUnitFilter'
+import { store } from '../../../../store/store'
 
 const options = faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), 4)
 

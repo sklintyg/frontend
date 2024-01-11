@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { ErrorBoundary } from './ErrorBoundary'
 import { waitForRequest } from '../../../mocks/server'
 import { store } from '../../../store/store'
-import { ErrorBoundary } from './ErrorBoundary'
 
 it('Should display error message', async () => {
   const pendingRequest = waitForRequest('POST', '/api/log/error')

@@ -1,9 +1,9 @@
-import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
-import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
-import { TableColumn } from '../../../../schemas/tableSchema'
-import { TableRow } from '../../../../components/Table/tableBody/TableRow'
-import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
 import { AGCertificatesTableCellResolver } from './AGCertificatesTableCellResolver'
+import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
+import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
+import { TableRow } from '../../../../components/Table/tableBody/TableRow'
+import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
+import { TableColumn } from '../../../../schemas/tableSchema'
 
 export function AGCertificatesTableBody({ content, columns }: { content: AGCertificate[]; columns: TableColumn[] }) {
   const { sortTableList } = useTableContext()

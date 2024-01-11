@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { useState } from 'react'
+import { expect, it } from 'vitest'
 import { Dialog } from './Dialog'
 
 function DialogWrapper({ intialOpen }: { intialOpen: boolean }) {

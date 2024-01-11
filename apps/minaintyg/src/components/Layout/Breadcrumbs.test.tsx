@@ -3,11 +3,12 @@ import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { Breadcrumbs } from './Breadcrumbs'
 import { server } from '../../mocks/server'
 import { CertificateCrumb } from '../../pages/Certificate/CertificateCrumb'
 import { certificateSchema } from '../../schema/certificate.schema'
 import { store } from '../../store/store'
-import { Breadcrumbs } from './Breadcrumbs'
 
 const renderComponent = (initialEntries = ['/']) =>
   render(

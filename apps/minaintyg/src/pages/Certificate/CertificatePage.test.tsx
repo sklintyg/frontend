@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it, describe, vi } from 'vitest'
+import { CertificatePage } from './CertificatePage'
 import { server, waitForRequest } from '../../mocks/server'
 import {
   AvailableFunctionsTypeEnum,
@@ -13,7 +15,6 @@ import {
 } from '../../schema/certificate.schema'
 import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
-import { CertificatePage } from './CertificatePage'
 
 function renderComponent(metadata: CertificateMetadata) {
   server.use(

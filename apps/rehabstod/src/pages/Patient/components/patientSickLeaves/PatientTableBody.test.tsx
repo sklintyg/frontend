@@ -2,6 +2,8 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { act, screen, waitFor, within } from '@testing-library/react'
 import { rest } from 'msw'
 import { ReactNode } from 'react'
+import { expect, it, beforeEach } from 'vitest'
+import { PatientTableBody } from './PatientTableBody'
 import { Table } from '../../../../components/Table/Table'
 import { server } from '../../../../mocks/server'
 import { patientSjukfallIntygSchema } from '../../../../schemas/patientSchema'
@@ -11,7 +13,6 @@ import { store } from '../../../../store/store'
 import { fakeUser } from '../../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
 import { PatientContext, usePatientState } from '../../hooks/usePatient'
-import { PatientTableBody } from './PatientTableBody'
 
 function ComponentWrapper({ children }: { children: ReactNode }) {
   const state = usePatientState()

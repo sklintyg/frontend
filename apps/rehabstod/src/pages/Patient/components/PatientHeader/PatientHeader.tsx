@@ -1,8 +1,8 @@
 import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-import { Patient } from '../../../../schemas/patientSchema'
 import { PatientHeaderInfo } from './PatientHeaderInfo'
+import { Patient } from '../../../../schemas/patientSchema'
 
 export function PatientHeader({ patient }: { patient?: Patient }) {
   const navigate = useNavigate()

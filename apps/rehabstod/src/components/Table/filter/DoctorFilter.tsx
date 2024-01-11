@@ -1,9 +1,9 @@
+import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
 import { Lakare } from '../../../schemas/lakareSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
-import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
 
 export function DoctorFilter({
   onChange,

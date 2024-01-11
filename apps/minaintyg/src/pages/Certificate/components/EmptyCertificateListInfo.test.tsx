@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { EmptyCertificateListInfo } from './EmptyCertificateListInfo'
 
 it('Should display information if total above 0', () => {

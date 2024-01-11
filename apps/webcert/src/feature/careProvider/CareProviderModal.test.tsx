@@ -16,7 +16,8 @@ import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import CareProviderModal from './CareProviderModal'
 import { START_URL_FOR_DOCTORS } from '../../constants'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -25,7 +26,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { flushPromises } from '../../utils/flushPromises'
-import CareProviderModal from './CareProviderModal'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore

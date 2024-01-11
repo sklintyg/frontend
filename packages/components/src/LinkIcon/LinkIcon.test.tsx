@@ -1,5 +1,6 @@
 import { IDSIconCalendar } from '@frontend/ids-react-ts'
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { LinkIcon } from './LinkIcon'
 
 it('Should render as expected', () => {

@@ -4,9 +4,10 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import AppHeader from './AppHeader'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import AppHeader from './AppHeader'
 
 let testStore: EnhancedStore
 

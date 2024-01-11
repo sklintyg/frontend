@@ -1,6 +1,6 @@
 import { IDSIconExternal, IDSMobileMenu, IDSMobileMenuItem } from '@frontend/ids-react-ts'
-import { LayoutFooterLink } from './LayoutFooterLink'
 import { footerLinks } from './footerLinks'
+import { LayoutFooterLink } from './LayoutFooterLink'
 
 export function LayoutFooterMobile({ hasSession }: { hasSession: boolean }) {
   return (

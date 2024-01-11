@@ -10,7 +10,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
 import ReplaceCertificateContinueButton from '../ReplaceCertificateContinueButton'
 
 const NAME = 'Replace continue button name'

@@ -1,6 +1,7 @@
+import { expect, it, describe } from 'vitest'
+import { fakeUser } from './fake/fakeUser'
 import { isUserDoctor } from './isUserDoctor'
 import { UserUrval } from '../schemas'
-import { fakeUser } from './fake/fakeUser'
 
 describe('isUserDoctor', () => {
   it('should return true if urval is issued by me', () => {

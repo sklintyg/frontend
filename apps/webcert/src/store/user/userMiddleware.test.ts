@@ -9,11 +9,7 @@ import {
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
-import { stopPoll } from '../session/sessionActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import {
   acknowledgeSubscription,
   getUserStatistics,
@@ -25,6 +21,11 @@ import {
   updateUserResourceLinks,
 } from './userActions'
 import { userMiddleware } from './userMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import { stopPoll } from '../session/sessionActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 
 describe('Test user middleware', () => {
   let fakeAxios: MockAdapter

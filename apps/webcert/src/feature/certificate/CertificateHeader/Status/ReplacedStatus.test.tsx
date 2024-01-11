@@ -2,9 +2,10 @@ import { CertificateRelationType, CertificateStatus } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import store from '../../../../store/store'
+import { expect, it, describe } from 'vitest'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
+import store from '../../../../store/store'
 
 const renderComponent = (childStatus?: CertificateStatus) => {
   render(

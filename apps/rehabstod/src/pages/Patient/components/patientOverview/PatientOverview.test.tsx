@@ -1,8 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
+import { PatientOverview } from './PatientOverview'
 import { sjfMetaDataSchema } from '../../../../schemas/patientSchema'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'
-import { PatientOverview } from './PatientOverview'
 
 const renderComponent = () => {
   const sjfMetaData = fakerFromSchema(sjfMetaDataSchema)({ haveSekretess: false, blockingServiceError: false, consentServiceError: false })

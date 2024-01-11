@@ -2,8 +2,9 @@ import { IDSHeader } from '@frontend/ids-react-ts'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { store } from '../../store/store'
+import { expect, it } from 'vitest'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
+import { store } from '../../store/store'
 
 it('Should render links', async () => {
   render(

@@ -4,12 +4,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import NavigateBackButton from './NavigateBackButton'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import { userMiddleware } from '../../../store/user/userMiddleware'
-import NavigateBackButton from './NavigateBackButton'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

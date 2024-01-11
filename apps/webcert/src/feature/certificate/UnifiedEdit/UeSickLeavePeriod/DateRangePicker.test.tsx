@@ -5,9 +5,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps, useState } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import DateRangePicker from './DateRangePicker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import DateRangePicker from './DateRangePicker'
 
 let testStore: EnhancedStore
 

@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { ComponentProps } from 'react'
+import { expect, it } from 'vitest'
+import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'
 import { CertificateDataElement, ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
 import { fakeMedicalInvestigationListElement } from '../../../utils/faker/fakeCertificateData'
-import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'
 
 const QUESTION_ID = 'questionId'
 

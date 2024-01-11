@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useCallback, useMemo, useRef, useState } from 'react'
-import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
 import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
+import { getTableSorter } from '../../utils/getTableSorter'
 
 export interface TableOptions {
   ascending?: boolean

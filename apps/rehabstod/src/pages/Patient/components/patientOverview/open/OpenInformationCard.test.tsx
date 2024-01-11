@@ -1,10 +1,10 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
+import { OpenInformationCard } from './OpenInformationCard'
 import { StickyContainerProvider } from '../../../../../components/StickyContainer/StickyContainerProvider'
 import { sjfItemSchema } from '../../../../../schemas/patientSchema'
-import { OpenInformationCard } from './OpenInformationCard'
 
 const TITLE = 'Title'
 const SUB_TITLE = 'Sub title'

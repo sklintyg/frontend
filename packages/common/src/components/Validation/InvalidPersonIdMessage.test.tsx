@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import InvalidPersonIdMessage from './InvalidPersonIdMessage'
 
 const EXPECTED_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'

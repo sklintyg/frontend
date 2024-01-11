@@ -2,7 +2,7 @@ import { ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useSelector } from 'react-redux'
-import { Mock, vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
 import UeCareUnitAddress, {
   CARE_UNIT_ADDRESS_FIELD,
   CARE_UNIT_CITY_FIELD,

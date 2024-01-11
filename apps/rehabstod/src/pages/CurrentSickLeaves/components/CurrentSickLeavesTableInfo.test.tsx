@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { expect, it } from 'vitest'
 import { CurrentSickLeavesTableInfo } from './CurrentSickLeavesTableInfo'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 function renderComponent() {
   return renderWithRouter(

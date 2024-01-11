@@ -1,10 +1,10 @@
 import { getCookie } from '@frontend/utils'
 import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
+import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
+import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
 import { ErrorData } from '../schemas/errorSchema'
-import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
-import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 
 export const api = createApi({
   reducerPath: 'api',

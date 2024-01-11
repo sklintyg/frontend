@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
+import { UnknownInternalError } from './UnknownInternalError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
-import { UnknownInternalError } from './UnknownInternalError'
 
 const renderComponent = () => {
   renderWithRouter(

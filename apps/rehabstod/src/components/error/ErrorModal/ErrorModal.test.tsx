@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
+import { ErrorModal } from './ErrorModal'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ErrorModal } from './ErrorModal'
 
 const TEXT = 'Ett fel har uppstått'
 

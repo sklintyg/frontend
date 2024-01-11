@@ -1,10 +1,10 @@
 import { randomUUID } from '@frontend/utils'
 import { useEffect, useMemo, useRef } from 'react'
 import { useRouteError } from 'react-router-dom'
+import { ErrorPageHero } from './ErrorPageHero'
 import { ErrorCode } from '../../schema/error.schema'
 import { useLogErrorMutation } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
-import { ErrorPageHero } from './ErrorPageHero'
 
 export function ErrorBoundary() {
   const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)

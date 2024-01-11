@@ -1,6 +1,6 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
-import { useGetUserQuery } from '../../store/api'
 import { getEmptyTableText } from './utils/tableTextGeneratorUtils'
+import { useGetUserQuery } from '../../store/api'
 
 export function EmptyTableAlert({ tableName }: { tableName: string }) {
   const { data: user } = useGetUserQuery()

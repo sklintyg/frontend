@@ -3,11 +3,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { updateActiveListFilterValue } from '../../../store/list/listActions'
-import { listMiddleware } from '../../../store/list/listMiddleware'
-import ListFilterComponent from '../filter/ListFilterComponent'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import {
   getBooleanFilter,
   getDateRangeFilter,
@@ -17,6 +13,10 @@ import {
   getSelectFilter,
   getTextFilter,
 } from './listTestUtils'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateActiveListFilterValue } from '../../../store/list/listActions'
+import { listMiddleware } from '../../../store/list/listMiddleware'
+import ListFilterComponent from '../filter/ListFilterComponent'
 
 let testStore: EnhancedStore
 let onChange = vi.fn()

@@ -1,8 +1,8 @@
 import { ComponentProps } from 'react'
+import { SettingsDialogInput } from './SettingsDialogInput'
 import { DAYS_FINISHED_SICK_LEAVE } from '../../../schemas/userSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
-import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function DaysFinishedSickLeave({ value, onChange }: Pick<ComponentProps<typeof FormattedNumberInput>, 'value' | 'onChange'>) {
   const { data: user, isLoading } = useGetUserQuery()

@@ -4,11 +4,12 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import ComplementQuestionPanel from './ComplementQuestionPanel'
+import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import ComplementQuestionPanel from './ComplementQuestionPanel'
-import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 
 let testStore: EnhancedStore
 

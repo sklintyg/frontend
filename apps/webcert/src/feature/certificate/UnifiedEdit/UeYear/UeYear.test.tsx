@@ -4,11 +4,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import UeYear from './UeYear'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeYear from './UeYear'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett år mellan patientens födelseår och aktuellt år.'

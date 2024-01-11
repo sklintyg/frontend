@@ -9,12 +9,13 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
 

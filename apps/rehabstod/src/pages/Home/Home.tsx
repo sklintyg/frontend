@@ -1,9 +1,9 @@
 import { IDSButton } from '@frontend/ids-react-ts'
+import { OverviewStatistics } from './components/OverviewStatistics'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
 import { useGetConfigQuery, useGetUserQuery } from '../../store/api'
-import { OverviewStatistics } from './components/OverviewStatistics'
 
 export function Home() {
   const { data: user } = useGetUserQuery()

@@ -3,13 +3,13 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import ErrorPage from './ErrorPage'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import ErrorPage from './ErrorPage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

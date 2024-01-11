@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Table } from '../../../../components/Table/Table'
+import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
+import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import {
   filterHiddenColumns,
@@ -9,7 +11,6 @@ import {
   filterTableColumns,
   isPatientViewColumn,
 } from '../../../../components/Table/utils/filterTableColumns'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetPatientLUCertificatesQuery } from '../../../../store/luApi'
@@ -19,7 +20,6 @@ import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { LUCertificatesTableBody } from '../../../LUCertificates/components/LUCertificatesTableBody'
 import { getLUCertificatesColumnInfo } from '../../../LUCertificates/utils/getLUCertificatesColumnsInfo'
 import { EmptyPatientTableMessage } from '../EmptyPatientTableMessage/EmptyPatientTableMessage'
-import { ModifyPatientLUCertificatesTableColumns } from './ModifyPatientLUCertificatesTableColumns'
 
 export function PatientLUCertificatesTable() {
   const { data: user } = useGetUserQuery()

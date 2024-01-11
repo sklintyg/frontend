@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { fakeUser } from '../../utils/fake/fakeUser'
+import { expect, it, describe } from 'vitest'
 import { TableInfoMessage } from './TableInfoMessage'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
+import { fakeUser } from '../../utils/fake/fakeUser'
 
 const user = fakeUser({ urval: '' })
 const TABLE_NAME = 'pågående sjukfall'

@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import { replaceDecimalSeparator } from './textUtils'
 
 describe('Text utils tests', () => {

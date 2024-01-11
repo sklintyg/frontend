@@ -1,14 +1,14 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
-import { expect } from 'vitest'
+import { expect, it, beforeEach } from 'vitest'
+import { AboutDialog } from './AboutDialog'
 import { server } from '../../mocks/server'
 import { configSchema } from '../../schemas'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { store } from '../../store/store'
 import { fakeUser } from '../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { AboutDialog } from './AboutDialog'
 
 beforeEach(() => {
   store.dispatch(updateShowAboutDialog(true))

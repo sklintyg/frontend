@@ -1,6 +1,7 @@
+import { expect, it, describe } from 'vitest'
+import { getClientValidationErrors } from './getClientValidationErrors'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker/fakeCertificateData'
-import { getClientValidationErrors } from './getClientValidationErrors'
 
 describe('Validation based on value', () => {
   describe(`${CertificateDataValueType.DATE}`, () => {

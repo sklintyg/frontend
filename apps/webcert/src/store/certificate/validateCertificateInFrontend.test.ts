@@ -8,8 +8,7 @@ import {
   fakeTextAreaElement,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { configureApplicationStore } from '../configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import {
   autoSaveCertificate,
   hideCertificateDataElement,
@@ -19,6 +18,8 @@ import {
   validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 
 describe('Test certificate frontend validation', () => {
   let testStore: EnhancedStore

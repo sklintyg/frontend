@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
 import { FMBDiagnosisCodeInfoFormContentHeading } from '@frontend/common'
+import { render, screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 
 describe('FMBPanelGuidanceInfo', () => {

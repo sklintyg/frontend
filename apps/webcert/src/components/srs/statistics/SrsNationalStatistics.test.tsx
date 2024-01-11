@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
+import { expect, it, describe } from 'vitest'
 import SrsNationalStatistics, { SRS_STATISTICS_INFO, SRS_STATISTICS_TITLE } from './SrsNationalStatistics'
+import store from '../../../store/store'
 
 const renderComponent = () => {
   render(

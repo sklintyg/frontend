@@ -16,12 +16,13 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import QuestionPanelFooter from './QuestionPanelFooter'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { flushPromises } from '../../utils/flushPromises'
-import QuestionPanelFooter from './QuestionPanelFooter'
 
 const getTestCertificate = (
   id: string,

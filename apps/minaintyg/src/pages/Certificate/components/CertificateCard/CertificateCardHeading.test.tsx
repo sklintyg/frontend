@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateCardHeading } from './CertificateCardHeading'
+import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
 
 function renderComponent() {
   return render(

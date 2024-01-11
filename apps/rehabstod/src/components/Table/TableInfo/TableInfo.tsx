@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
+import { TableInfoLeft } from './TableInfoLeft'
+import { TableInfoRight } from './TableInfoRight'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { updateShowPersonalInformation } from '../../../store/slices/settings.slice'
 import { UnansweredCommunicationAlert } from '../../error/ErrorAlert/UnansweredCommunicationAlert'
-import { TableInfoLeft } from './TableInfoLeft'
-import { TableInfoRight } from './TableInfoRight'
 
 export function TableInfo({
   children,

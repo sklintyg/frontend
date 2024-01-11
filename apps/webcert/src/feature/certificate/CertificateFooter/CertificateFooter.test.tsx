@@ -2,11 +2,12 @@ import { CertificateSignStatus, fakeCertificate, fakeCertificateMetaData, fakeTe
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { CertificateFooter } from './CertificateFooter'
 import { updateCertificate, updateCertificateSignStatus, updateValidationErrors } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { CertificateFooter } from './CertificateFooter'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore

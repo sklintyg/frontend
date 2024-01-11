@@ -1,15 +1,9 @@
-/* eslint-disable no-console */
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
+/* eslint-disable no-console */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import {
   getSessionStatus,
   getSessionStatusError,
@@ -21,6 +15,13 @@ import {
   stopPoll,
 } from './sessionActions'
 import { sessionMiddleware } from './sessionMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import { throwError } from '../error/errorActions'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 
 function getDummyUnit(): Unit {
   return {

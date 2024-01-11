@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
+import HeaderButtons from './HeaderButtons'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 import store from '../../../store/store'
-import HeaderButtons from './HeaderButtons'
 
 describe('Verify header buttons', () => {
   const description = 'description'

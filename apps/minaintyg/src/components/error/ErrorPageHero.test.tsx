@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
+import { ErrorPageHero } from './ErrorPageHero'
 import { ErrorType } from '../../schema/error.schema'
 import { withRouter } from '../../utils/withRouter'
-import { ErrorPageHero } from './ErrorPageHero'
 
 it('Should render identifier', () => {
   render(withRouter(<ErrorPageHero id="037b5ea0-ca66-49dd-abfa-a498dc0b1027" />))

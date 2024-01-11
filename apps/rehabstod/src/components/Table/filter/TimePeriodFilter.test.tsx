@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
+import { TimePeriodFilter } from './TimePeriodFilter'
 import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
-import { TimePeriodFilter } from './TimePeriodFilter'
 
 const TITLE = 'title'
 const DESCRIPTION = 'description'

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import Typeahead, { Suggestion } from './Typeahead'
 
 const suggestions: Suggestion[] = [

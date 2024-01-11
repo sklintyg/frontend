@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
 import { SelectButton } from './SelectButton'
 
 const renderComponent = (open = false) => {

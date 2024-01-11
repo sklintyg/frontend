@@ -1,8 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'
-import { diagnosisSchema } from '../../schemas/diagnosisSchema'
+import { expect, it } from 'vitest'
 import { DiagnosisInfoCell } from './DiagnosisInfoCell'
+import { diagnosisSchema } from '../../schemas/diagnosisSchema'
 
 function ComponentWrapper({ children }: { children: ReactNode }) {
   return (

@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { LayoutFooterLink } from './LayoutFooterLink'
 
 it('Should render as expected', () => {

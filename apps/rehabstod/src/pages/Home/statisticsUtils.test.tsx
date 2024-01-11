@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import { getGenderText } from './statisticsUtils'
 import { Gender } from '../../schemas/patientSchema'
 

@@ -1,3 +1,5 @@
+import { expect, it, describe } from 'vitest'
+import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 import { fakeCertificate } from '../faker/fakeCertificate'
 import {
   fakeCategoryElement,
@@ -7,7 +9,6 @@ import {
   fakeTextFieldElement,
 } from '../faker/fakeCertificateData'
 import { fakeCertificateValidationError } from '../faker/fakeCertificateDataValidation'
-import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 
 const getCertificate = () =>
   fakeCertificate({

@@ -2,13 +2,14 @@ import { CertificateRelationType, CertificateStatus, Question, QuestionType } fr
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import store from '../../../../store/store'
+import { expect, it, describe } from 'vitest'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import {
   createCertificateMetadata,
   createCertificateMetadataWithChildRelation,
   createCertificateMetadataWithParentRelation,
 } from './statusTestUtils'
+import store from '../../../../store/store'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'

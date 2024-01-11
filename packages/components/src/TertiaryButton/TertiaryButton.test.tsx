@@ -1,5 +1,6 @@
 import { IDSIconExternal } from '@frontend/ids-react-ts'
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { TertiaryButton } from './TertiaryButton'
 
 it('Should render as expected', () => {

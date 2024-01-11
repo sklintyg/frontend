@@ -1,6 +1,6 @@
+import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 import { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
-import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 
 export function PatientRekoStatus({
   currentSickLeaves,

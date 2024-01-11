@@ -3,12 +3,13 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { CertificateListFilter } from './CertificateListFilter'
 import { server } from '../../../../mocks/server'
 import { CertificateStatus, CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../../../../schema/certificateListFilter.schema'
 import { store } from '../../../../store/store'
 import { getStatusBadgeLabel } from '../../utils/getStatusBadgeLabel'
-import { CertificateListFilter } from './CertificateListFilter'
 
 const options = {
   statuses: CertificateStatusEnum.options,

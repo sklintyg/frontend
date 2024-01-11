@@ -1,5 +1,5 @@
-import { PageHeadingDescription } from '../../../../components/PageHeading/PageHeadingDescription'
 import { DisplayHTML } from '../../../../components/DisplayHTML/DisplayHTML'
+import { PageHeadingDescription } from '../../../../components/PageHeading/PageHeadingDescription'
 import { CertificateText } from '../../../../schema/certificate.schema'
 
 export function CertificatePreambleText({ texts }: { texts?: CertificateText }) {

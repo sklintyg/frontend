@@ -12,14 +12,14 @@ import {
 } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { AboutHeaderItem } from './AboutHeaderItem'
+import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
+import { LayoutMobileHeader } from './LayoutMobileHeader'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
-import { AboutHeaderItem } from './AboutHeaderItem'
-import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
-import { LayoutMobileHeader } from './LayoutMobileHeader'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()

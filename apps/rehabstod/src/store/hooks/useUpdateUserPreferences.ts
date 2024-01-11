@@ -1,8 +1,8 @@
 import isEqual from 'lodash/isEqual'
 import { useRef } from 'react'
-import { useAppDispatch } from '.'
 import { UserPreferences } from '../../schemas'
 import { api, useGetUserQuery } from '../api'
+import { useAppDispatch } from '.'
 
 /**
  * Custom hook for updating user preferences and invalidating necessary states

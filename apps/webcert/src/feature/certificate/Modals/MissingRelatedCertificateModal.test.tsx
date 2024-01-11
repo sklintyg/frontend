@@ -5,12 +5,13 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
 import { createPatient } from '../../../components/patient/patientTestUtils'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

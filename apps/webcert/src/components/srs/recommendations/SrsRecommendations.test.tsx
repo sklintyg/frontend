@@ -1,13 +1,14 @@
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { fakeSrsInfo, SrsSickLeaveChoice } from '@frontend/common'
-import userEvent from '@testing-library/user-event'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
-import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 
 let store: EnhancedStore
 

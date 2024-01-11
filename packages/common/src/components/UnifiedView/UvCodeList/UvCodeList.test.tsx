@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { ComponentProps } from 'react'
+import { expect, it, describe } from 'vitest'
+import { UvCodeList } from './UvCodeList'
 import { CertificateDataValueType, ConfigLayout, ConfigUeCheckboxMultipleCodes, ValueCodeList } from '../../../types'
 import { fakeCheckboxMultipleCodeElement } from '../../../utils'
-import { UvCodeList } from './UvCodeList'
 
 const QUESTION_ID = 'questionId'
 

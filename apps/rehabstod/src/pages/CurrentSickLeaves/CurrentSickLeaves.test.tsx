@@ -1,10 +1,11 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { screen, within } from '@testing-library/react'
 import { rest } from 'msw'
+import { expect, it } from 'vitest'
+import { CurrentSickLeaves } from './CurrentSickLeaves'
 import { server } from '../../mocks/server'
 import { sickLeaveFilterOptions } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { CurrentSickLeaves } from './CurrentSickLeaves'
 
 it('Should display error when request for fetching sickleave fails', async () => {
   server.use(rest.post('/api/sickleaves/active', (_, res, ctx) => res(ctx.status(400))))

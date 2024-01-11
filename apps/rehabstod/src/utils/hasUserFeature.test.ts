@@ -1,7 +1,8 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { srsFeatureSchema } from '../schemas'
+import { expect, it } from 'vitest'
 import { fakeUser } from './fake/fakeUser'
 import { hasUserFeature } from './hasUserFeature'
+import { srsFeatureSchema } from '../schemas'
 
 it('Should return false if the feature is undefined', () => {
   const user = fakeUser()

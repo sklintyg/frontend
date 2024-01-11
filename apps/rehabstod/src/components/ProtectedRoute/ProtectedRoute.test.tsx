@@ -2,10 +2,11 @@ import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { ProtectedRoute } from './ProtectedRoute'
 import { server } from '../../mocks/server'
 import { store } from '../../store/store'
 import { fakeUser } from '../../utils/fake/fakeUser'
-import { ProtectedRoute } from './ProtectedRoute'
 
 it('Should navigate to /enhet if unit is missing', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ valdVardenhet: null })))))

@@ -1,10 +1,11 @@
-import { getResourceLinkWithType, getUserWithMissingSubscription, ResourceLinkType } from '@frontend/common'
+import { ResourceLinkType, getResourceLinkWithType, getUserWithMissingSubscription } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { expect, it, describe } from 'vitest'
+import WebcertHeader from './WebcertHeader'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
-import WebcertHeader from './WebcertHeader'
 
 const renderComponent = () => {
   render(

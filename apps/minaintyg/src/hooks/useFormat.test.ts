@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { useFormat } from './useFormat'
 
 it('Should format date', () => {

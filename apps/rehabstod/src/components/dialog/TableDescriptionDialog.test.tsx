@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Column } from '../Table/types/Column'
+import { expect, it, describe } from 'vitest'
 import { TableDescriptionDialog } from './TableDescriptionDialog'
+import { Column } from '../Table/types/Column'
 
 const columns: Column[] = [{ name: 'Column 1', description: 'Column 1 description' }, { name: 'Column 2' }]
 

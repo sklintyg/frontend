@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { TechnicalIssueAlert } from './TechnicalIssueAlert'
 
 it('Should render without error id', () => {

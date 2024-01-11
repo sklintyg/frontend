@@ -1,3 +1,4 @@
+import { expect, it, describe, beforeEach } from 'vitest'
 import {
   addFunctionDisabler,
   FunctionDisabler,

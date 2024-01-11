@@ -1,7 +1,8 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { updateActiveList, updateListItemAsForwarded } from './listActions'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
-import { updateActiveList, updateListItemAsForwarded } from './listActions'
 
 const getList = () => [
   { values: { CERTIFICATE_ID: 'id1', FORWARDED: false } },

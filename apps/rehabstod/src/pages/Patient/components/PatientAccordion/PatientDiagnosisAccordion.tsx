@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { PatientSjukfall } from '../../../../schemas/patientSchema'
 import { PatientAccordion } from './PatientAccordion'
+import { PatientSjukfall } from '../../../../schemas/patientSchema'
 
 export function PatientDiagnosisAccordion({
   diagnos,

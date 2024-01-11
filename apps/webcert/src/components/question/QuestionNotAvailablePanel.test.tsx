@@ -3,9 +3,10 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import QuestionNotAvailablePanel from './QuestionNotAvailablePanel'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import QuestionNotAvailablePanel from './QuestionNotAvailablePanel'
 
 let testStore: EnhancedStore
 

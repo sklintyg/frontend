@@ -4,11 +4,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import UeDiagnoses from './UeDiagnoses'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
-import UeDiagnoses from './UeDiagnoses'
 
 let testStore: EnhancedStore
 

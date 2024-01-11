@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe } from 'vitest'
+import PatientSearchError from './PatientSearchError'
 import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
 import { setPatientError } from '../../store/patient/patientActions'
 import store from '../../store/store'
-import PatientSearchError from './PatientSearchError'
 
 const renderComponent = () => {
   render(

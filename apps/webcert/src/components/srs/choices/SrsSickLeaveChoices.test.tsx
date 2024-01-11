@@ -2,11 +2,12 @@ import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, SrsUser
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { expect, it, describe, afterEach } from 'vitest'
+import SrsSickLeaveChoices from './SrsSickLeaveChoices'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { updateUserClientContext } from '../../../store/srs/srsActions'
 import store from '../../../store/store'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
-import SrsSickLeaveChoices from './SrsSickLeaveChoices'
 
 const renderComponent = () => {
   render(

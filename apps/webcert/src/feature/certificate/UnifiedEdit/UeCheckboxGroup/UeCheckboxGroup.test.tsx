@@ -2,7 +2,7 @@ import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import UeCheckboxGroup from './UeCheckboxGroup'
 
 const CHECKBOXES = [

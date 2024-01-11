@@ -1,8 +1,8 @@
 import { Select } from '@frontend/components'
 import { useId } from 'react'
+import { SettingsDialogInput } from './SettingsDialogInput'
 import { useGetUserQuery } from '../../../store/api'
 import { getUnitsForUser } from '../../../utils/getUnitsForUser'
-import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value: string) => void; standardenhet?: string | null }) {
   const { data: user, isLoading } = useGetUserQuery()

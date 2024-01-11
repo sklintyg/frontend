@@ -31,6 +31,18 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'import/no-unresolved': 'error',
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', 'internal', ['sibling', 'parent'], 'index', 'unknown'],
+        'newlines-between': 'never',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
     'jsdoc/require-jsdoc': 'off',
     'jsdoc/require-param': 'off',
     'jsdoc/require-returns': 'off',

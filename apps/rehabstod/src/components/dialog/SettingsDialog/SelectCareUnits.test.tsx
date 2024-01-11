@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
-import { beforeEach, expect, vi } from 'vitest'
+import { expect, it, vi, beforeEach } from 'vitest'
+import { SelectCareUnits } from './SelectCareUnits'
 import { server } from '../../../mocks/server'
 import { User } from '../../../schemas'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { getUnitsForUser } from '../../../utils/getUnitsForUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { SelectCareUnits } from './SelectCareUnits'
 
 let user: User
 beforeEach(() => {

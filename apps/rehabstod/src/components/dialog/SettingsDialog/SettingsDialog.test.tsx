@@ -1,12 +1,13 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { SettingsDialog } from './SettingsDialog'
 import { server } from '../../../mocks/server'
 import { updateSettingsPreferences, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { store } from '../../../store/store'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { SettingsDialog } from './SettingsDialog'
 
 beforeEach(() => {
   store.dispatch(updateShowSettingsDialog(true))

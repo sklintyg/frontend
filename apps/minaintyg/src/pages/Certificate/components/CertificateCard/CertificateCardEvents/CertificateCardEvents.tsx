@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
+import { CertificateCardEventsAccordion } from './CertificateCardEventsAccordion'
 import { CertificateEvent } from '../../../../../schema/certificate.schema'
 import { CertificateEventsInfo } from '../../CertificateEventsInfo/CertificateEventsInfo'
-import { CertificateCardEventsAccordion } from './CertificateCardEventsAccordion'
 
 export function CertificateCardEvents({ events, heading }: { events: CertificateEvent[]; heading: ReactNode }) {
   return (

@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { ErrorPage } from './ErrorPage'
 import { waitForRequest } from '../../mocks/server'
 import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
-import { ErrorPage } from './ErrorPage'
 
 it('Should log error', async () => {
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')

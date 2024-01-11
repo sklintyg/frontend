@@ -1,13 +1,14 @@
 import { getCertificate } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { setActiveCertificateId, throwError } from './errorActions'
+import { errorMiddleware } from './errorMiddleware'
+import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { setActiveCertificateId, throwError } from './errorActions'
-import { errorMiddleware } from './errorMiddleware'
-import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
 
 describe('Test error middleware', () => {
   let testStore: EnhancedStore

@@ -2,9 +2,10 @@ import { fakeCertificate, fakeCertificateMetaData } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import MajorVersionNotification from './MajorVersionNotification'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import MajorVersionNotification from './MajorVersionNotification'
 
 let testStore: EnhancedStore
 

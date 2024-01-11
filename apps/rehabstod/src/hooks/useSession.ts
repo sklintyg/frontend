@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { api, useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
 import { useLogout } from './useLogout'
+import { api, useGetSessionPingQuery, useGetUserQuery, useGiveConsentMutation } from '../store/api'
 
 export function useSession() {
   useGetUserQuery()

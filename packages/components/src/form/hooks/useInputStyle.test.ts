@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { useInputStyle } from './useInputStyle'
 
 it('Should return correct standard styling', () => {

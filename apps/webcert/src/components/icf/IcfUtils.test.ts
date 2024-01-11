@@ -1,6 +1,7 @@
 import { fakeIcf } from '@frontend/common'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { expect, it, describe } from 'vitest'
 import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 
 function getIcfData(): AvailableIcfCodes {
   const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `${index}` }))

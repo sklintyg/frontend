@@ -2,6 +2,8 @@ import { ListType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { getConfig, getDefaultList, getFilter } from './listTestUtils'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
 import {
@@ -14,7 +16,6 @@ import {
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ListContainer from '../ListContainer'
-import { getConfig, getDefaultList, getFilter } from './listTestUtils'
 
 let testStore: EnhancedStore
 

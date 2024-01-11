@@ -1,6 +1,6 @@
 import { faker, fakerFromSchemaFactory } from '@frontend/fake'
-import { vardgivareSchema } from '../../schemas'
 import { fakeVardenhet } from './fakeVardenhet'
+import { vardgivareSchema } from '../../schemas'
 
 export const fakeVardgivare = fakerFromSchemaFactory(
   vardgivareSchema,

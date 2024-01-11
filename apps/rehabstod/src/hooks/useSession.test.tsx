@@ -1,13 +1,13 @@
 import { act, screen } from '@testing-library/react'
 import { matchRequestUrl, rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import { useSession } from './useSession'
 import { server } from '../mocks/server'
 import { api } from '../store/api'
 import { store } from '../store/store'
 import { fakeUser } from '../utils/fake/fakeUser'
 import { renderWithRouter } from '../utils/renderWithRouter'
-import { useSession } from './useSession'
 
 function TestComponent() {
   const { isLoading } = useSession()

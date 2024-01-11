@@ -5,13 +5,13 @@ import { createMemoryHistory } from 'history'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import ErrorModalBase from './ErrorModalBase'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import ErrorModalBase from './ErrorModalBase'
 
 let testStore: EnhancedStore
 

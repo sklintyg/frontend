@@ -1,18 +1,18 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
+import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
+import { PatientSickLeavesTable } from './PatientSickLeavesTable'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { PuResponse } from '../../../../schemas/patientSchema'
 import { useGetUserQuery } from '../../../../store/api'
 import { useGetPatientSickLeavesQuery } from '../../../../store/sickLeaveApi'
 import { isDateBeforeToday } from '../../../../utils/isDateBeforeToday'
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
-import { PatientRekoStatus } from '../PatientRekoStatus'
 import { PatientAGCertificatesTable } from '../patientAG/PatientAGCertificatesTable'
 import { PatientOverview } from '../patientOverview/PatientOverview'
-import { ModifyPatientTableColumns } from './ModifyPatientTableColumns'
-import { PatientSickLeavesTable } from './PatientSickLeavesTable'
+import { PatientRekoStatus } from '../PatientRekoStatus'
 
 export function PatientSickLeaves() {
   const { encryptedPatientId } = useParams()

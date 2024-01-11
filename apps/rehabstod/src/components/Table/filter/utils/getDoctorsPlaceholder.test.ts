@@ -1,6 +1,7 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { lakareSchema } from '../../../../schemas/lakareSchema'
+import { expect, it } from 'vitest'
 import { getDoctorsPlaceholder } from './getDoctorsPlaceholder'
+import { lakareSchema } from '../../../../schemas/lakareSchema'
 
 it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(lakareSchema))

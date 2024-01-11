@@ -1,7 +1,8 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
-import { certificateMetadataSchema } from '../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateFooter } from './CertificateFooter'
+import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 
 it('Should render issuerName', () => {
   const metadata = fakerFromSchema(certificateMetadataSchema)({

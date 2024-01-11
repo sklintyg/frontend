@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import CharacterCounter from './CharacterCounter'
 
 const TEXT = 'tecken'

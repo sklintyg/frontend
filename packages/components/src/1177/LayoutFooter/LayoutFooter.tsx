@@ -1,7 +1,7 @@
 import { IDSFooter, IDSIconChevronBold, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { footerLinks } from './footerLinks'
 import { LayoutFooterLink } from './LayoutFooterLink'
 import { LayoutFooterMobile } from './LayoutFooterMobile'
-import { footerLinks } from './footerLinks'
 
 export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
   return (

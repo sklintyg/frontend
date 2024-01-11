@@ -1,5 +1,5 @@
-import { TestabilityPerson } from '../schema/testability/person.schema'
 import { api } from './api'
+import { TestabilityPerson } from '../schema/testability/person.schema'
 
 const testabilityApi = api.injectEndpoints({
   endpoints: (builder) => ({

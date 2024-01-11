@@ -1,8 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { certificateMetadataSchema } from '../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateInformation } from './CertificateInformation'
+import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 
 function renderComponent() {
   const metadata = fakerFromSchema(certificateMetadataSchema)({

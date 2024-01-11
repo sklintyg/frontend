@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { fakeUser } from '../../../../utils/fake/fakeUser'
+import { expect, it, describe } from 'vitest'
 import { EmptyPatientTableMessage } from './EmptyPatientTableMessage'
+import { fakeUser } from '../../../../utils/fake/fakeUser'
 
 describe('EmptyPatientTableMessage', () => {
   it('should show default text if user is not defined', () => {

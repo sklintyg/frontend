@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { expect, it, describe, beforeEach } from 'vitest'
 import { SickLeaveDegreesCard } from './SickLeaveDegreesCard'
 import { fakeSickLeaveSummary } from '../../../../utils/fake/fakeSickLeave'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
   renderWithRouter(<SickLeaveDegreesCard summary={fakeSickLeaveSummary()} />)

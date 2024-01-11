@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { ScrollTopButton } from './ScrollTopButton'
 
 it('Should render as expected', () => {

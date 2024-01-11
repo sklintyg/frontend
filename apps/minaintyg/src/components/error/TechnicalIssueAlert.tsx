@@ -1,6 +1,6 @@
+import { ErrorIdentifier } from '@frontend/components'
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { ErrorIdentifier } from '@frontend/components'
 import { QueryError } from '../../utils/isQueryError'
 
 export function TechnicalIssueAlert({

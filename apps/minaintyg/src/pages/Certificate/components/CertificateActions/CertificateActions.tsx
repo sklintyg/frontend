@@ -1,9 +1,9 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PrintCertificateAction } from './PrintCertificateAction'
 import { AvailableFunction, AvailableFunctionsTypeEnum, CertificateRecipient } from '../../../../schema/certificate.schema'
 import { CertificateSentDialog } from '../CertificateSentDialog/CertificateSentDialog'
-import { PrintCertificateAction } from './PrintCertificateAction'
 
 export function CertificateActions({
   recipient,

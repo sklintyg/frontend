@@ -3,7 +3,8 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import SrsPanel, { SRS_TITLE } from './SrsPanel'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
@@ -23,7 +24,6 @@ import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations
 import { SRS_RISK_BUTTON_TEXT } from '../risk/SrsRisk'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
 import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
-import SrsPanel, { SRS_TITLE } from './SrsPanel'
 
 let store: EnhancedStore
 

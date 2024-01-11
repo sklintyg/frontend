@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { CertificateCardSummary } from './CertificateCardSummary'
 
 it('Should render correctly with summary', () => {

@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
-import { describe } from 'vitest'
+import { expect, it, describe } from 'vitest'
+import { LoginFailedError } from './LoginFailedError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
-import { LoginFailedError } from './LoginFailedError'
 
 const renderComponent = () => {
   renderWithRouter(

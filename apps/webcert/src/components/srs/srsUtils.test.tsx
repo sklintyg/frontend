@@ -8,6 +8,7 @@ import {
   CertificateRelation,
   CertificateRelationType,
 } from '@frontend/common'
+import { expect, it, describe } from 'vitest'
 import {
   getCurrentRiskDataPoint,
   getFilteredPredictions,

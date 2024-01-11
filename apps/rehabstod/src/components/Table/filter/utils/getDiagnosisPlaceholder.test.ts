@@ -1,4 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
+import { expect, it } from 'vitest'
 import { getDiagnosisPlaceholder } from './getDiagnosisPlaceholder'
 import { diagnosKapitelSchema } from '../../../../schemas/diagnosisSchema'
 

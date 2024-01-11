@@ -4,10 +4,9 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
-
-import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
 import AboutCertificatePanel from './AboutCertificatePanel'
+import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 
 const history = createMemoryHistory()
 

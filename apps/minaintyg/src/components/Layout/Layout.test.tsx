@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { Layout } from './Layout'
 import { endSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
-import { Layout } from './Layout'
 
 it('Should render as expected', () => {
   const { container } = render(

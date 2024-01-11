@@ -1,13 +1,13 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { omit } from '@frontend/utils'
-import { FilterAccordion } from '../../../../components/FilterAccordion/FilterAccordion'
-import { useGetCertificatesFilterQuery } from '../../../../store/api'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { reset, submit } from '../../../../store/slice/certificateFilter.slice'
 import { CertificateStatusFilter } from './CertificateStatusFilter'
 import { CertificateTypeFilter } from './CertificateTypeFilter'
 import { CertificateUnitFilter } from './CertificateUnitFilter'
 import { CertificateYearFilter } from './CertificateYearFilter'
+import { FilterAccordion } from '../../../../components/FilterAccordion/FilterAccordion'
+import { useGetCertificatesFilterQuery } from '../../../../store/api'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { reset, submit } from '../../../../store/slice/certificateFilter.slice'
 
 export function CertificateListFilter({ listed }: { listed: number }) {
   const { data: filterOptions } = useGetCertificatesFilterQuery()

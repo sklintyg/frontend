@@ -2,9 +2,10 @@ import { CertificateStatus } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
+import { expect, it, describe } from 'vitest'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
+import store from '../../../../store/store'
 
 const renderComponent = (isSigned: boolean, type?: string) => {
   render(

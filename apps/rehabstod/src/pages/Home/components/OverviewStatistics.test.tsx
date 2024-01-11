@@ -1,9 +1,10 @@
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
+import { expect, it, describe } from 'vitest'
+import { OverviewStatistics } from './OverviewStatistics'
 import { server } from '../../../mocks/server'
 import { fakeError } from '../../../utils/fake/fakeError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { OverviewStatistics } from './OverviewStatistics'
 
 const renderComponent = () => {
   renderWithRouter(<OverviewStatistics />)

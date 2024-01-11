@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { AGCertificatesTableBody } from './AGCertificatesTableBody'
+import { getAGCertificatesColumnInfo } from './getAGCertificatesColumnsInfo'
+import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import { filterHiddenColumns, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { useGetUserQuery } from '../../../../store/api'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetAGCertificatesForPatientQuery } from '../../../../store/sickLeaveApi'
@@ -12,8 +14,6 @@ import { PatientColumn } from '../../../../store/slices/patientTableColumns.slic
 import { isUserDoctor } from '../../../../utils/isUserDoctor'
 import { EmptyPatientTableMessage } from '../EmptyPatientTableMessage/EmptyPatientTableMessage'
 import { PatientAccordion } from '../PatientAccordion/PatientAccordion'
-import { AGCertificatesTableBody } from './AGCertificatesTableBody'
-import { getAGCertificatesColumnInfo } from './getAGCertificatesColumnsInfo'
 
 export function PatientAGCertificatesTable() {
   const { data: user } = useGetUserQuery()

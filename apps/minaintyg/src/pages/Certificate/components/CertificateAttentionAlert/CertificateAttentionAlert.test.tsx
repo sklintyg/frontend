@@ -1,7 +1,8 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
-import { availableFunctionSchema, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { CertificateAttentionAlert } from './CertificateAttentionAlert'
+import { AvailableFunctionsTypeEnum, availableFunctionSchema } from '../../../../schema/certificate.schema'
 
 const availableActionsWithPrint = [
   fakerFromSchema(availableFunctionSchema)({

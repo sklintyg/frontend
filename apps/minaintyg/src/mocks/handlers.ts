@@ -2,6 +2,7 @@
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import { certificateContentMock } from './certificateContentMock'
 import {
   CertificateStatus,
   CertificateStatusEnum,
@@ -15,7 +16,6 @@ import {
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
 import { loginMethodEnum, userSchema } from '../schema/user.schema'
-import { certificateContentMock } from './certificateContentMock'
 
 const certificateIngress = (id: string): string | undefined => {
   const ingress = [

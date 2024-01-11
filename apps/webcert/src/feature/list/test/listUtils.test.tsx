@@ -1,6 +1,5 @@
 import { ListFilterType } from '@frontend/common'
-
-import { getListFilterDefaultValue, isFilterValueDefault } from '../listUtils'
+import { expect, it, describe } from 'vitest'
 import {
   getBooleanFilter,
   getDateRangeFilter,
@@ -10,6 +9,7 @@ import {
   getSelectFilter,
   getTextFilter,
 } from './listTestUtils'
+import { getListFilterDefaultValue, isFilterValueDefault } from '../listUtils'
 
 describe('listUtils', () => {
   describe('getListFilterDefaultValue', () => {

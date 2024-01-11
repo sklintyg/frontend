@@ -3,10 +3,11 @@ import { rest } from 'msw'
 import { ReactNode } from 'react'
 import { I18nProvider } from 'react-aria'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom'
+import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { Patient } from './Patient'
 import { server } from '../../mocks/server'
 import { store } from '../../store/store'
-import { Patient } from './Patient'
 
 function PatientWrapper({ children }: { children: ReactNode }) {
   const router = createMemoryRouter(createRoutesFromChildren([<Route key="root" path="/:encryptedPatientId" element={children} />]), {

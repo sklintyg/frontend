@@ -2,12 +2,12 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
+import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 import { TableColumn } from '../../../schemas/tableSchema'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleActions } from '../../Form/SelectMultiple/SelectMultipleActions'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
-import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 
 export function ModifyTableColumns({
   columns,

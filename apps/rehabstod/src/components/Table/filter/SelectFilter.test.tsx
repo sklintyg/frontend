@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { expect, it, describe, vi } from 'vitest'
 import { SelectFilter } from './SelectFilter'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 let onChange: (id: string) => void
 const LABEL = 'LABEL'

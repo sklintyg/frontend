@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { store } from '../../../../store/store'
+import { Provider } from 'react-redux'
+import { expect, it, describe } from 'vitest'
 import { ReadMoreAboutAction } from './ReadMoreAboutAction'
+import { store } from '../../../../store/store'
 
 function renderComponent() {
   return render(

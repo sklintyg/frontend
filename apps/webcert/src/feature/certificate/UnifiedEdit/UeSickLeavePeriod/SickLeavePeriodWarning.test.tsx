@@ -1,10 +1,11 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
 import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
-import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 
 let testStore: EnhancedStore
 const WARNING = 'warning string'

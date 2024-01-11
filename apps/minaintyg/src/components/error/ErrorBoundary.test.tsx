@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { ErrorBoundary } from './ErrorBoundary'
 import { waitForRequest } from '../../mocks/server'
 import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
-import { ErrorBoundary } from './ErrorBoundary'
 
 it('Should log client error for active session', async () => {
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')

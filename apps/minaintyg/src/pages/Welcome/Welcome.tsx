@@ -1,6 +1,6 @@
 import { IDSContainer, IDSSpinner } from '@frontend/ids-react-ts'
-import { useGetPersonsQuery } from '../../store/testabilityApi'
 import { FakeLoginForm } from './components/FakeLoginForm'
+import { useGetPersonsQuery } from '../../store/testabilityApi'
 
 export function Welcome() {
   const { data: persons, isLoading } = useGetPersonsQuery()

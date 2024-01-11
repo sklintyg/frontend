@@ -1,11 +1,11 @@
 import { CertificateListItem, ListFilter, ListType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../../store/list/listActions'
 import store from '../../../store/store'
 import List from '../List'
-import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {
   store.dispatch(updateTotalCount(totalCount))

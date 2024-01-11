@@ -1,6 +1,7 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { occupationType } from '../../../../schemas/sickLeaveSchema'
+import { expect, it } from 'vitest'
 import { getMultipleSelectPlaceholder } from './getMultipleSelectPlaceholder'
+import { occupationType } from '../../../../schemas/sickLeaveSchema'
 
 it('Should return Alla valda if nothing is selected', () => {
   const options = Array.from({ length: 3 }, fakerFromSchema(occupationType))

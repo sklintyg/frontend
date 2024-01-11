@@ -1,7 +1,7 @@
 import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
 import store from '../../../store/store'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 

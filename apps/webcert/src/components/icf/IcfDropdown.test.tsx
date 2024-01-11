@@ -6,7 +6,9 @@ import { createMemoryHistory } from 'history'
 import { createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach, afterAll } from 'vitest'
+import IcfDropdown from './IcfDropdown'
+import { getIcfData } from './icfTestUtils'
 import { CertificateContext } from '../../feature/certificate/CertificateContext'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -14,8 +16,6 @@ import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfAction
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import IcfDropdown from './IcfDropdown'
-import { getIcfData } from './icfTestUtils'
 
 let testStore: EnhancedStore
 

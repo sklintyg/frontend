@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi } from 'vitest'
+import PatientSearch from './PatientSearch'
 import { setPatient } from '../../store/patient/patientActions'
 import store from '../../store/store'
-import PatientSearch from './PatientSearch'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 

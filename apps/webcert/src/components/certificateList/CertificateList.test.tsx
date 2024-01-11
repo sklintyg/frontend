@@ -1,11 +1,12 @@
-import { CertificateType, fakePatient, fakeResourceLink, ResourceLink, ResourceLinkType, User } from '@frontend/common'
+import { CertificateType, ResourceLink, ResourceLinkType, User, fakePatient, fakeResourceLink } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import CertificateList from './CertificateList'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
@@ -13,7 +14,6 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import CertificateList from './CertificateList'
 
 const createType = ({
   description = '',

@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { expect, it, describe } from 'vitest'
+import { RiskSignalInfo } from './RiskSignalInfo'
 import { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { RiskSignalInfo } from './RiskSignalInfo'
 
 const renderComponent = (riskSignal: RiskSignal) => {
   renderWithRouter(<RiskSignalInfo {...riskSignal} />)

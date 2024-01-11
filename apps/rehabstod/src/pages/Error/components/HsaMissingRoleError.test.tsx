@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
-import { describe } from 'vitest'
+import { expect, it, describe } from 'vitest'
+import { MissingHsaRoleError } from './HsaMissingRoleError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { ErrorContext } from '../Error'
-import { MissingHsaRoleError } from './HsaMissingRoleError'
 
 const renderComponent = () => {
   renderWithRouter(

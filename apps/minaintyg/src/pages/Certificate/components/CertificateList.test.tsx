@@ -2,8 +2,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, within } from '@testing-library/react'
 import { ComponentProps } from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { certificateMetadataSchema } from '../../../schema/certificate.schema'
+import { expect, it, describe } from 'vitest'
 import { CertificateList } from './CertificateList'
+import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 
 const fakeCertificate = fakerFromSchema(certificateMetadataSchema)
 

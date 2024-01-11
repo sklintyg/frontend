@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import { BlockedInformation } from './BlockedInformation'
 
 const ITEMS = ['1', 'V2', 'Test test 3']

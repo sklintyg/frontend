@@ -3,11 +3,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { CertificateListPage } from './CertificateListPage'
 import { server } from '../../mocks/server'
 import { certificateMetadataSchema } from '../../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../../schema/certificateListFilter.schema'
 import { store } from '../../store/store'
-import { CertificateListPage } from './CertificateListPage'
 
 function renderComponent() {
   render(

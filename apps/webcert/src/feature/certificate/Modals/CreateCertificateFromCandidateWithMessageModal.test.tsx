@@ -4,12 +4,13 @@ import { render, screen } from '@testing-library/react'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { CreateCertificateFromCandidateWithMessageSuccess, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
-import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore

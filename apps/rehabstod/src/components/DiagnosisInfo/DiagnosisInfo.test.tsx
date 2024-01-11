@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { expect, it, describe } from 'vitest'
 import { DiagnosisInfo } from './DiagnosisInfo'
 
 describe('DiagnosisInfo', () => {

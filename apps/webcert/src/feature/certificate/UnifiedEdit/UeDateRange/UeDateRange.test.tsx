@@ -2,9 +2,10 @@ import { fakeCertificate, fakeDateRangeElement, ValidationError } from '@fronten
 import { render, screen } from '@testing-library/react'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe } from 'vitest'
+import UeDateRange from './UeDateRange'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
-import UeDateRange from './UeDateRange'
 
 const QUESTION_ID = 'QUESTION_ID'
 const ERROR_TEXT = 'ErrorText'

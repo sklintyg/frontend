@@ -1,11 +1,12 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
+import { expect, it, beforeEach } from 'vitest'
+import { Welcome } from './Welcome'
 import { server } from '../../mocks/server'
 import { medarbetarUppdragSchema, personSchema } from '../../schemas/hsa'
 import { testDataOptionsDTOSchema } from '../../schemas/testabilitySchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
-import { Welcome } from './Welcome'
 
 beforeEach(() => {
   faker.seed(1234)

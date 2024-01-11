@@ -2,6 +2,8 @@ import { fakerFromSchema } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { act } from 'react-dom/test-utils'
+import { expect, it, beforeEach } from 'vitest'
+import { PrintTable } from './PrintTable'
 import { Table } from '../../../components/Table/Table'
 import { server } from '../../../mocks/server'
 import { sickLeaveFilterOptions, sickLeaveInfoSchema } from '../../../schemas/sickLeaveSchema'
@@ -11,7 +13,6 @@ import { SickLeaveColumn, hideColumn } from '../../../store/slices/sickLeaveTabl
 import { store } from '../../../store/store'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { PrintTable } from './PrintTable'
 
 beforeEach(() => {
   server.use(

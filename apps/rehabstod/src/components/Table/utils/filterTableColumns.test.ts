@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import { filterTableColumns } from './filterTableColumns'
 import { TableColumn } from '../../../schemas/tableSchema'
 

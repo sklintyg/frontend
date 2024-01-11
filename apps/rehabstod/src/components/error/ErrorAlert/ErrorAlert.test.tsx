@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { expect, it, describe } from 'vitest'
 import { ErrorAlert } from './ErrorAlert'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 const HEADLINE = 'Tekniskt fel'
 const TYPE = 'error'

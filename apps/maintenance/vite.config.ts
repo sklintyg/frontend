@@ -1,5 +1,5 @@
-import legacy from '@vitejs/plugin-legacy'
 import { resolve } from 'path'
+import legacy from '@vitejs/plugin-legacy'
 import { defineConfig } from 'vite'
 
 const root = resolve(__dirname, 'src')

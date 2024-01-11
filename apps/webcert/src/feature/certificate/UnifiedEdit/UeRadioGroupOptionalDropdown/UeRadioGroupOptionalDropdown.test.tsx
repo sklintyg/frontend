@@ -3,12 +3,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import UeRadioGroupOptionalDropdown from './UeRadioGroupOptionalDropdown'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadioGroup from '../UeRadioGroup/UeRadioGroup'
-import UeRadioGroupOptionalDropdown from './UeRadioGroupOptionalDropdown'
 
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
 

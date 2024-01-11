@@ -1,10 +1,10 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Mock, vi } from 'vitest'
+import { expect, it, vi, beforeEach } from 'vitest'
+import { CareProviderItem } from './CareProviderItem'
 import { Mottagning, Vardenhet, vardenhetSchema } from '../../../schemas'
 import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
-import { CareProviderItem } from './CareProviderItem'
 
 let handleChooseUnit: Mock<unknown[], unknown>
 const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.datatype.uuid() })] })

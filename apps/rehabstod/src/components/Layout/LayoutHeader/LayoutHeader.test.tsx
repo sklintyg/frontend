@@ -1,9 +1,10 @@
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { LayoutHeader } from './LayoutHeader'
 import { server, waitForRequest } from '../../../mocks/server'
 import { fakeError } from '../../../utils/fake/fakeError'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { LayoutHeader } from './LayoutHeader'
 
 describe('With user session', () => {
   it('Should have "about rehabstod" button', async () => {

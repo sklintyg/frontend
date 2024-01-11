@@ -1,6 +1,7 @@
+import { expect, it, describe } from 'vitest'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './tableTextGeneratorUtils'
-import { fakeUser } from '../../../utils/fake/fakeUser'
 import { UserUrval } from '../../../schemas'
+import { fakeUser } from '../../../utils/fake/fakeUser'
 
 describe('Table text generator utils', () => {
   describe('getEmptyFiltrationText', () => {

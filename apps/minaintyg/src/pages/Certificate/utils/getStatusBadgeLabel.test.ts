@@ -1,5 +1,6 @@
-import { CertificateStatusEnum } from '../../../schema/certificate.schema'
+import { expect, it } from 'vitest'
 import { getStatusBadgeLabel } from './getStatusBadgeLabel'
+import { CertificateStatusEnum } from '../../../schema/certificate.schema'
 
 it.each([
   [CertificateStatusEnum.enum.NEW, 'Nytt'],

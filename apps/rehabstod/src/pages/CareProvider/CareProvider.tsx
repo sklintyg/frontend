@@ -1,13 +1,13 @@
 import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { CareProviderItem } from './components/CareProviderItem'
 import { Checkbox } from '../../components/Form/Checkbox'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { useUpdateUserPreferences } from '../../store/hooks/useUpdateUserPreferences'
-import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()

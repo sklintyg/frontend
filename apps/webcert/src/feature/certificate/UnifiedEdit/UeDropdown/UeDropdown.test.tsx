@@ -2,7 +2,7 @@ import { CertificateDataElement, ConfigTypes, fakeCertificateConfig, fakeCertifi
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import UeDropdown from './UeDropdown'
 
 const OPTIONS = [

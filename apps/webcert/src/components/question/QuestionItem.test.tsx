@@ -6,13 +6,14 @@ import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import QuestionItem from './QuestionItem'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import QuestionItem from './QuestionItem'
 
 let testStore: EnhancedStore
 

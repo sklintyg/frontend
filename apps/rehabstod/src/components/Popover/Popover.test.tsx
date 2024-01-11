@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { expect, it } from 'vitest'
 import { Popover } from './Popover'
 import { PopoverContent } from './PopoverContent'
 import { PopoverTrigger } from './PopoverTrigger'

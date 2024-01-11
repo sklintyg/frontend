@@ -4,11 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { useLogout } from './useLogout'
 import { server, waitForRequest } from '../mocks/server'
 import { userSchema } from '../schema/user.schema'
 import { useGetUserQuery } from '../store/hooks'
 import { store } from '../store/store'
-import { useLogout } from './useLogout'
 
 function ComponentWrapper() {
   const { data: user } = useGetUserQuery()

@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { expect, it, describe } from 'vitest'
 import { GenderDivisionGraph } from './GenderDivisionGraph'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const genders = [
   {

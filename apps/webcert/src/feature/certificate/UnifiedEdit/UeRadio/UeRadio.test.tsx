@@ -3,10 +3,11 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { expect, it, beforeEach } from 'vitest'
+import UeRadio from './UeRadio'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeRadio from './UeRadio'
 
 let testStore: EnhancedStore
 

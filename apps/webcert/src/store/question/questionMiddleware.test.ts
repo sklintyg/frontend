@@ -11,12 +11,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { updateCertificate } from '../certificate/certificateActions'
-import { certificateMiddleware } from '../certificate/certificateMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import {
   QuestionResponse,
   QuestionsResponse,
@@ -39,6 +34,12 @@ import {
   validateQuestion,
 } from './questionActions'
 import { questionMiddleware } from './questionMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { updateCertificate } from '../certificate/certificateActions'
+import { certificateMiddleware } from '../certificate/certificateMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 
 const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

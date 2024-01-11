@@ -4,11 +4,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import * as redux from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import UeDiagnosis from './UeDiagnosis'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
-import UeDiagnosis from './UeDiagnosis'
 
 const DIAGNOSES = [
   { kod: 'F50', beskrivning: 'Ätstörningar' },

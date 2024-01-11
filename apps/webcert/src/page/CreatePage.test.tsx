@@ -4,12 +4,12 @@ import { render } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
+import { CreatePageWithRedirect } from './CreatePage'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
-import { CreatePageWithRedirect } from './CreatePage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

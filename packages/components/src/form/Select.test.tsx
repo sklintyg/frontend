@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
+import { expect, it, vi } from 'vitest'
 import { Select } from './Select'
 
 const options = Array.from({ length: 5 }, (_, i) => ({ label: `Option ${i}`, value: `${i}` }))

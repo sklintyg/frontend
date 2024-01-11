@@ -1,10 +1,10 @@
 import { ErrorIdentifier } from '@frontend/components'
-import { getNavigationItem, getNavigationItemUrl, PageHero, PageHeroActions } from '@frontend/components/1177'
+import { PageHero, PageHeroActions, getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
-import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
 import { SupportLink } from './SupportLink/SupportLink'
+import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
 
 const ActionType = z.enum(['start', 'login', '1177'])
 export type ActionTypeEnum = z.infer<typeof ActionType>

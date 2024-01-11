@@ -2,6 +2,8 @@ import { fakerFromSchema } from '@frontend/fake'
 import { act, screen, within } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { TableBodyRows } from './TableBodyRows'
 import { Table } from '../../../components/Table/Table'
 import { server } from '../../../mocks/server'
 import { UserUrval } from '../../../schemas'
@@ -11,7 +13,6 @@ import { SickLeaveColumn, hideColumn } from '../../../store/slices/sickLeaveTabl
 import { store } from '../../../store/store'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { TableBodyRows } from './TableBodyRows'
 
 beforeEach(() => {
   server.use(

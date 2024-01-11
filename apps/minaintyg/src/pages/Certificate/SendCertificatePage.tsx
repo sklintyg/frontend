@@ -1,14 +1,14 @@
 import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
-import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
-import { useGetCertificateQuery } from '../../store/api'
 import { CertificateInformation } from './components/CertificateInformation'
 import { ReadCertificateError } from './components/ReadCertificateError'
-import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
-import { AvailableFunctionsTypeEnum } from '../../schema/certificate.schema'
 import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
+import { SendCertificateActions } from './components/SendCertificateActions/SendCertificateActions'
+import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
+import { AvailableFunctionsTypeEnum } from '../../schema/certificate.schema'
+import { useGetCertificateQuery } from '../../store/api'
 
 export function SendCertificatePage() {
   const { id } = useParams()

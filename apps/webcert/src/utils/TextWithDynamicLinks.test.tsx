@@ -4,12 +4,13 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import TextWithDynamicLinks from './TextWithDynamicLinks'
 import { certificateMiddleware } from '../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateDynamicLinks } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
-import TextWithDynamicLinks from './TextWithDynamicLinks'
 
 let testStore: EnhancedStore
 

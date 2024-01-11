@@ -1,5 +1,6 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
+import { ResolveSickLeavesTableCell } from './ResolveSickLeavesTableCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { MaxColspanRow } from '../../../components/Table/tableBody/MaxColspanRow'
 import { TableRow } from '../../../components/Table/tableBody/TableRow'
@@ -11,7 +12,6 @@ import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { useSickLeavesTableColumn } from '../hooks/useSickLeavesTableColumns'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { ResolveSickLeavesTableCell } from './ResolveSickLeavesTableCell'
 
 export function TableBodyRows({ isLoading, sickLeaves }: { isLoading: boolean; sickLeaves?: SickLeaveInfo[] }) {
   const navigate = useNavigate()

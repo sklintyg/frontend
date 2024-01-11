@@ -1,6 +1,6 @@
 /* eslint-disable import/no-default-export */
-import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'
+import resolve from '@rollup/plugin-node-resolve'
 import { defineConfig } from 'rollup'
 import esbuild from 'rollup-plugin-esbuild'
 

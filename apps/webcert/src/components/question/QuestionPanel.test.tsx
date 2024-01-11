@@ -5,11 +5,12 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import QuestionPanel from './QuestionPanel'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
 

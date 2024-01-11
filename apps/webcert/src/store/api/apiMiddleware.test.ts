@@ -1,14 +1,15 @@
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
+import { apiMiddleware } from './apiMiddleware'
 import { flushPromises } from '../../utils/flushPromises'
 import { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorType } from '../error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
-import { apiMiddleware } from './apiMiddleware'
 
 describe('Test API middleware', () => {
   let fakeAxios: MockAdapter

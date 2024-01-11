@@ -27,10 +27,11 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import QuestionUvResolve from './QuestionUvResolve'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
 

@@ -2,8 +2,9 @@ import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
-import { availableFunctionSchema } from '../../../../schema/certificate.schema'
+import { expect, it, describe, vi } from 'vitest'
 import { PrintCertificateAction } from './PrintCertificateAction'
+import { availableFunctionSchema } from '../../../../schema/certificate.schema'
 
 function renderWithPrint() {
   return render(

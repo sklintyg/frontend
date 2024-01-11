@@ -16,16 +16,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { vi } from 'vitest'
-import { flushPromises } from '../../utils/flushPromises'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { configureApplicationStore, history } from '../configureApplicationStore'
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
-import { getSessionStatusError } from '../session/sessionActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { updateUser } from '../user/userActions'
-import { utilsMiddleware } from '../utils/utilsMiddleware'
+import { expect, it, describe, vi, beforeEach, afterEach } from 'vitest'
 import {
   answerComplementCertificate,
   autoSaveCertificate,
@@ -58,6 +49,15 @@ import {
   validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
+import { flushPromises } from '../../utils/flushPromises'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore, history } from '../configureApplicationStore'
+import { throwError } from '../error/errorActions'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { getSessionStatusError } from '../session/sessionActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { updateUser } from '../user/userActions'
+import { utilsMiddleware } from '../utils/utilsMiddleware'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {

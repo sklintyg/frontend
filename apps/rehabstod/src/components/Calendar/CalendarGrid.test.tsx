@@ -2,6 +2,7 @@ import { GregorianCalendar, parseDate } from '@internationalized/date'
 import { render, screen } from '@testing-library/react'
 import { useCalendar } from 'react-aria'
 import { useCalendarState } from 'react-stately'
+import { expect, it } from 'vitest'
 import { CalendarGrid } from './CalendarGrid'
 
 function CalendarGridWrapper() {

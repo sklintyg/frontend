@@ -1,9 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
-import { testabilityPersonSchema } from '../../../schema/testability/person.schema'
+import { expect, it, vi } from 'vitest'
 import { ResultTextArea } from './ResultTextArea'
+import { testabilityPersonSchema } from '../../../schema/testability/person.schema'
 
 const fakePerson = fakerFromSchema(testabilityPersonSchema)
 

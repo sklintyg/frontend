@@ -1,3 +1,4 @@
+import { OtherUnitInformation } from './OtherUnitInformation'
 import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { MinimizedSickLeaveDegreeInfo } from '../../../../components/SickLeave/MinimizedSickLeaveDegreeInfo'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
@@ -6,7 +7,6 @@ import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'
-import { OtherUnitInformation } from './OtherUnitInformation'
 
 export function PatientTableCellResolver({
   column,

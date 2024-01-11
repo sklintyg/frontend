@@ -1,12 +1,12 @@
 import { IDSButton, IDSErrorMessage } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { OpenInformation } from './OpenInformation'
 import { Checkbox } from '../../../../../components/Form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
 import { RadioButton } from '../../../../../components/Form/RadioButton'
 import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
 import { BlockedInformation } from '../blocked/BlockedInformation'
-import { OpenInformation } from './OpenInformation'
 
 export function OpenInformationWithConsent({
   items,

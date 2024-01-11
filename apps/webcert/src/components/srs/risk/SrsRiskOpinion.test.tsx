@@ -1,10 +1,11 @@
+import { fakeSrsPrediction } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { fakeSrsPrediction } from '@frontend/common'
-import store from '../../../store/store'
+import { expect, it, describe } from 'vitest'
 import SrsRiskOpinion from './SrsRiskOpinion'
-import { SRS_OPINION_LABELS } from '../srsUtils'
 import { updateSrsPredictions } from '../../../store/srs/srsActions'
+import store from '../../../store/store'
+import { SRS_OPINION_LABELS } from '../srsUtils'
 
 const renderComponent = () => {
   render(

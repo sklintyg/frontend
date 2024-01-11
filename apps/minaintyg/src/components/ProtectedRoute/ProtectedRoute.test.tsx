@@ -1,10 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
+import { expect, it, vi } from 'vitest'
+import { ProtectedRoute } from './ProtectedRoute'
 import { server } from '../../mocks/server'
 import { store } from '../../store/store'
 import { withRouter } from '../../utils/withRouter'
-import { ProtectedRoute } from './ProtectedRoute'
 
 function renderComponent() {
   return render(<Provider store={store}>{withRouter(<ProtectedRoute>content</ProtectedRoute>)}</Provider>)

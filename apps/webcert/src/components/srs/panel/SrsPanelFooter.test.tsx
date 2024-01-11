@@ -3,11 +3,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import SrsPanelFooter from './SrsPanelFooter'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import SrsPanelFooter from './SrsPanelFooter'
 
 let store: EnhancedStore
 let srsInfo: SrsInfoForDiagnosis

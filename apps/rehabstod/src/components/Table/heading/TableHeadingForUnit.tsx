@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
+import { TableHeading } from './TableHeading'
 import { User } from '../../../schemas'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
-import { TableHeading } from './TableHeading'
 
 export function TableHeadingForUnit({
   children,

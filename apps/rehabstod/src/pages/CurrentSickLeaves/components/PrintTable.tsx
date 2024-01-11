@@ -1,12 +1,12 @@
 import { classNames } from '@frontend/components'
 import { ReactNode, useEffect } from 'react'
+import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { useSickLeavesTableColumn } from '../hooks/useSickLeavesTableColumns'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
-import { ResolvePrintTableCell } from './ResolvePrintTableCell'
 
 const COLUMN_LENGTH = 5
 

@@ -2,8 +2,9 @@ import { fakeCertificate, faker } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { store } from '../../../../store/store'
+import { expect, it } from 'vitest'
 import { CertificateTypeFilter } from './CertificateTypeFilter'
+import { store } from '../../../../store/store'
 
 const options = faker.helpers.uniqueArray(fakeCertificate, 4).map(({ id, label }) => ({ id, name: label }))
 

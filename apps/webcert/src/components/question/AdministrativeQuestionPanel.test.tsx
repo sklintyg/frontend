@@ -4,10 +4,11 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { expect, it, describe, beforeEach } from 'vitest'
+import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 
 let testStore: EnhancedStore
 

@@ -1,8 +1,8 @@
+import { ChartLegend } from './ChartLegend'
+import { GenderGraph } from './GenderGraph'
 import { Gender } from '../../../../schemas/patientSchema'
 import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
-import { ChartLegend } from './ChartLegend'
-import { GenderGraph } from './GenderGraph'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   const female = genders.find((gender) => gender.gender === Gender.F)

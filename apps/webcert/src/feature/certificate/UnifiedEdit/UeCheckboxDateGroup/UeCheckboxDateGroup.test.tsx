@@ -10,11 +10,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import { Provider, useSelector } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import UeCheckboxDateGroup from './UeCheckboxDateGroup'
 import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import store from '../../../../store/store'
-import UeCheckboxDateGroup from './UeCheckboxDateGroup'
 
 const DATE_CHECKBOXES = [
   {

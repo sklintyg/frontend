@@ -1,9 +1,9 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
-import { tableColumnSchema } from '../../../schemas/tableSchema'
+import { expect, it, vi } from 'vitest'
 import { ModifyTableColumns } from './ModifyTableColumns'
+import { tableColumnSchema } from '../../../schemas/tableSchema'
 
 it('Should render without crash', async () => {
   const columns = Array.from({ length: 3 }, fakerFromSchema(tableColumnSchema))

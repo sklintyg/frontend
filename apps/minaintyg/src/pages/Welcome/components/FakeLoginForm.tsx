@@ -1,10 +1,10 @@
 import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
 import { tryCatch } from '@frontend/utils'
 import { useEffect, useState } from 'react'
-import { TestabilityPerson } from '../../../schema/testability/person.schema'
-import { useFakeLoginMutation } from '../../../store/testabilityApi'
 import { ResultTextArea } from './ResultTextArea'
 import { SelectProfile } from './SelectProfile'
+import { TestabilityPerson } from '../../../schema/testability/person.schema'
+import { useFakeLoginMutation } from '../../../store/testabilityApi'
 
 export function FakeLoginForm({ persons }: { persons: TestabilityPerson[] }) {
   const [profile, setProfile] = useState<string | undefined>(persons[0]?.personId)

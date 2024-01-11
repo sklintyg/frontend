@@ -1,5 +1,5 @@
-import { PatientOverviewCard } from '../PatientOverviewCard'
 import { BlockedInformation } from './BlockedInformation'
+import { PatientOverviewCard } from '../PatientOverviewCard'
 
 export function BlockedInformationCard({
   items,

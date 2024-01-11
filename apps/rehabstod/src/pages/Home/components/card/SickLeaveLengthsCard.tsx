@@ -1,7 +1,7 @@
-import { SickLeaveLengthSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
-import { idsGraphColors } from '../../assets/Colors'
 import { StatisticsCard } from './StatisticsCard'
 import { Gender } from '../../../../schemas/patientSchema'
+import { SickLeaveLengthSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import { idsGraphColors } from '../../assets/Colors'
 import { getGenderText } from '../../statisticsUtils'
 
 export function SickLeaveLengthsCard({ summary }: { summary: SickLeaveSummary | undefined }) {

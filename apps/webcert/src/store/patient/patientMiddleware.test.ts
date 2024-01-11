@@ -2,6 +2,9 @@ import { CertificateType, PatientStatus } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { GetPatientResponse, getCertificateTypes, getPatient, updateCertificateTypes } from './patientActions'
+import { patientMiddleware } from './patientMiddleware'
 import { createPatient } from '../../components/patient/patientTestUtils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
@@ -9,8 +12,6 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import { ErrorCode } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { GetPatientResponse, getCertificateTypes, getPatient, updateCertificateTypes } from './patientActions'
-import { patientMiddleware } from './patientMiddleware'
 
 const certificateTypes: CertificateType[] = [
   {

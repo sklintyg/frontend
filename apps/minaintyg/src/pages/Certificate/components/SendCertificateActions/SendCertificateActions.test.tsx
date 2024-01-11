@@ -3,16 +3,17 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Outlet, Route, RouterProvider } from 'react-router-dom'
+import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
+import { expect, it } from 'vitest'
+import { SendCertificateActions } from './SendCertificateActions'
 import { server } from '../../../../mocks/server'
 import {
   AvailableFunction,
-  availableFunctionSchema,
   CertificateRecipient,
+  availableFunctionSchema,
   certificateRecipientSchema,
 } from '../../../../schema/certificate.schema'
 import { store } from '../../../../store/store'
-import { SendCertificateActions } from './SendCertificateActions'
 
 function renderComponent(recipient: CertificateRecipient, sendFunction: AvailableFunction) {
   return render(

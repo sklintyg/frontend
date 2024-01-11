@@ -4,10 +4,10 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import AppHeaderTabs from './AppHeaderTabs'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import AppHeaderTabs from './AppHeaderTabs'
 
 let testStore: EnhancedStore
 

@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { getNavigation, getNavigationItem, getNavigationItemUrl, getSettingsUrl } from './navigation'
 
 it('Should return list of items', () => {

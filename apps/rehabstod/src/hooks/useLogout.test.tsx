@@ -1,12 +1,13 @@
 import { screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
+import { expect, it, describe, vi } from 'vitest'
+import { useLogout } from './useLogout'
 import { server, waitForRequest } from '../mocks/server'
 import { api } from '../store/api'
 import { store } from '../store/store'
 import { fakeUser } from '../utils/fake/fakeUser'
 import { renderWithRouter } from '../utils/renderWithRouter'
-import { useLogout } from './useLogout'
 
 function TestComponent() {
   const { logout } = useLogout()

@@ -1,3 +1,4 @@
+import { PatientTableCellResolver } from './PatientTableCellResolver'
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
 import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
@@ -6,7 +7,6 @@ import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
-import { PatientTableCellResolver } from './PatientTableCellResolver'
 
 export function PatientTableBody({ certificates, isDoctor }: { certificates: PatientSjukfallIntyg[]; isDoctor: boolean }) {
   const { sortTableList } = useTableContext()

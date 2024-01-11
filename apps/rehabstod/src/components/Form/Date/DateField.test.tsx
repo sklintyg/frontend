@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nProvider } from 'react-aria'
+import { expect, it } from 'vitest'
 import { DateField } from './DateField'
 
 it('should render without errors', () => {

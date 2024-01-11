@@ -1,11 +1,12 @@
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { act } from 'react-dom/test-utils'
+import { expect, it, describe, beforeEach } from 'vitest'
+import { ModifyPatientTableColumns } from './patientSickLeaves/ModifyPatientTableColumns'
 import { server, waitForRequest } from '../../../mocks/server'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
-import { ModifyPatientTableColumns } from './patientSickLeaves/ModifyPatientTableColumns'
 
 beforeEach(() => {
   server.use(

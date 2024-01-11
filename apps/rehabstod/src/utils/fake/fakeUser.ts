@@ -1,7 +1,7 @@
 import { faker, fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
-import { userPreferencesSchema, userSchema } from '../../schemas'
 import { fakeVardenhet } from './fakeVardenhet'
 import { fakeVardgivare } from './fakeVardgivare'
+import { userPreferencesSchema, userSchema } from '../../schemas'
 
 const fakeUserPreferences = fakerFromSchema(userPreferencesSchema, {
   stringMap: {

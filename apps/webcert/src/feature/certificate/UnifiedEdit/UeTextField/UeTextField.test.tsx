@@ -4,10 +4,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { expect, it, describe, beforeEach } from 'vitest'
+import UeTextField from './UeTextField'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeTextArea from '../UeTextArea/UeTextArea'
-import UeTextField from './UeTextField'
 
 const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 

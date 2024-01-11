@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { getTableSorter } from './getTableSorter'
 
 it('Should sort a list of objects', () => {

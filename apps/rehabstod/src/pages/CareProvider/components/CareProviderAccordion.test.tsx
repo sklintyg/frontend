@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Mock, vi } from 'vitest'
-import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
+import { expect, it, vi, beforeEach } from 'vitest'
 import { CareProviderAccordion } from './CareProviderAccordion'
+import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
 
 let selectedRadio: string | null
 let handleChooseUnit: Mock<unknown[], unknown>

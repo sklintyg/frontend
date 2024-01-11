@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { expect, it, describe } from 'vitest'
 import { StatisticsInformationCard } from './StatisticsInformationCard'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
   renderWithRouter(<StatisticsInformationCard />)

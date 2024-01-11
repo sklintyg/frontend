@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { SrsInformationChoice } from '@frontend/common'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { Provider } from 'react-redux'
+import { expect, it, describe, vi } from 'vitest'
 import SrsInformationChoices, { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
 import store from '../../../store/store'
 

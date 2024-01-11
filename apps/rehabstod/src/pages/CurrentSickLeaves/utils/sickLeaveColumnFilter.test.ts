@@ -1,7 +1,8 @@
 import { fakerFromSchema } from '@frontend/fake'
+import { expect, it, describe } from 'vitest'
+import { sickLeaveColumnFilter } from './sickLeaveColumnFilter'
 import { tableColumnSchema } from '../../../schemas/tableSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
-import { sickLeaveColumnFilter } from './sickLeaveColumnFilter'
 
 it('Should show columns', () => {
   const column = fakerFromSchema(tableColumnSchema)({ visible: true })

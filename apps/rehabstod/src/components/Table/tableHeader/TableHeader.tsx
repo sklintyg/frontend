@@ -1,5 +1,5 @@
-import { Column } from '../types/Column'
 import { TableHeaderCell } from './TableHeaderCell'
+import { Column } from '../types/Column'
 
 export function TableHeader({ columns }: { columns: Column[] }) {
   return (

@@ -1,8 +1,8 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { useState } from 'react'
 import { format } from 'date-fns'
-import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
+import { useState } from 'react'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
+import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
 
 export function PrintCertificateAction({ id, availableFunctions }: { id: string; availableFunctions: AvailableFunction[] }) {
   const [customizePrintDialogOpen, showCustomizePrintDialog] = useState(false)

@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import { CertificateBody } from './CertificateBody'
 
 it('Should render html as expected', () => {

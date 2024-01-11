@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { expect, it } from 'vitest'
+import { CertificateStatusFilter } from './CertificateStatusFilter'
 import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { store } from '../../../../store/store'
-import { CertificateStatusFilter } from './CertificateStatusFilter'
 
 function renderComponent() {
   return render(

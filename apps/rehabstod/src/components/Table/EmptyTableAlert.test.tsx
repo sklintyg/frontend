@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../utils/renderWithRouter'
+import { expect, it } from 'vitest'
 import { EmptyTableAlert } from './EmptyTableAlert'
+import { renderWithRouter } from '../../utils/renderWithRouter'
 
 it('Should display alert', async () => {
   const tableName = 'tableName'

@@ -1,9 +1,9 @@
 import { classNames } from '@frontend/components'
 import { IDSCard } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
-import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 
 export function StatisticsCard({
   parentData,

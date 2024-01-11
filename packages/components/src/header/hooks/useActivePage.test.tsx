@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes, useLocation, useResolvedPath } from 'react-router-dom'
+import { expect, it } from 'vitest'
 import { useActivePage } from './useActivePage'
 
 function TestComponent({ to }: { to: string }) {

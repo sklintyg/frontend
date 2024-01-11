@@ -1,3 +1,4 @@
+import { api } from './api'
 import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
 import { Patient } from '../schemas/patientSchema'
 import {
@@ -8,7 +9,6 @@ import {
   SickLeaveInfo,
   SickLeaveSummary,
 } from '../schemas/sickLeaveSchema'
-import { api } from './api'
 
 const sickLeaveApi = api.injectEndpoints({
   endpoints: (builder) => ({

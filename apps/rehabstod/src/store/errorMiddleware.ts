@@ -1,7 +1,7 @@
 import { randomUUID } from '@frontend/utils'
-import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
-import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
+import { AnyAction, Middleware, MiddlewareAPI, ThunkDispatch, isRejectedWithValue } from '@reduxjs/toolkit'
 import { api } from './api'
+import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
 
 /**
  * Error handling middleware

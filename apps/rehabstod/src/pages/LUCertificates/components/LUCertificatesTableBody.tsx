@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { TableRow } from '../../../components/Table/tableBody/TableRow'
 import { LUCertificate } from '../../../schemas/luCertificatesSchema'
 import { TableColumn } from '../../../schemas/tableSchema'
 import { getLUCertificatesTableValue } from '../utils/luCertificatesTableValueFormatter'
-import { LUCertificatesTableCellResolver } from './LUCertificatesTableCellResolver'
 
 export function LUCertificatesTableBody({
   content,

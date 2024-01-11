@@ -1,11 +1,3 @@
-import { TableFilter } from '../../../components/Table/TableFilter'
-import { PrintTitle } from '../../../components/Table/print/PrintTitle'
-import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
-import { useGetUserQuery } from '../../../store/api'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
-import { displayErrors, reset } from '../../../store/slices/sickLeaveFilter.slice'
-import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { CurrentSickLeavesAgeFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesAgeFilter'
 import { CurrentSickLeavesDateRangeFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesDateRangeFilter'
 import { CurrentSickLeavesDiagnosisFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesDiagnosisFilter'
@@ -15,6 +7,14 @@ import { CurrentSickLeavesQAFilter } from './CurrentSickLeavesFilter/CurrentSick
 import { CurrentSickLeavesSearchFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesSearchFilter'
 import { CurrentSickLeavesStatusFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesStatusFilter'
 import { CurrentSickLeavesTimePeriodFilter } from './CurrentSickLeavesFilter/CurrentSickLeavesTimePeriodFilter'
+import { PrintTitle } from '../../../components/Table/print/PrintTitle'
+import { TableFilter } from '../../../components/Table/TableFilter'
+import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
+import { useGetUserQuery } from '../../../store/api'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
+import { displayErrors, reset } from '../../../store/slices/sickLeaveFilter.slice'
+import { isUserDoctor } from '../../../utils/isUserDoctor'
 
 export function CurrentSickLeavesFilters({ onSearch }: { onSearch: (filter: SickLeaveFilter) => void }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()

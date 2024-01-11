@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { expect, it, describe } from 'vitest'
 import { Accordion } from './Accordion'
 
 const TITLE = 'TITLE'

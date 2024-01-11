@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { Table } from '../Table'
+import { expect, it } from 'vitest'
 import { TableHeader } from './TableHeader'
+import { Table } from '../Table'
 
 const columns = [
   { name: 'Personnummer', width: 50 },

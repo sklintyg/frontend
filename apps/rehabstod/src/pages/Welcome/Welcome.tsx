@@ -1,5 +1,6 @@
 import { IDSAlert, IDSButton, IDSCard, IDSContainer, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { useEffect } from 'react'
+import { useWelcome } from './useWelcome'
 import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import {
@@ -24,7 +25,6 @@ import {
   updateFreetext,
 } from '../../store/slices/welcome.slice'
 import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/testabilityApi'
-import { useWelcome } from './useWelcome'
 
 export function Welcome() {
   const {

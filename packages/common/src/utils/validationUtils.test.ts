@@ -1,4 +1,17 @@
 import { addDays } from 'date-fns'
+import { expect, it, describe } from 'vitest'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
+import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
+import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
+import {
+  autoFillElement,
+  decorateCertificateWithInitialValues,
+  getValidationErrors,
+  isShowAlways,
+  parseExpression,
+  validateExpressions,
+} from './validationUtils'
 import {
   Certificate,
   CertificateDataElement,
@@ -26,18 +39,6 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
-import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
-import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
-import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
-import {
-  autoFillElement,
-  decorateCertificateWithInitialValues,
-  getValidationErrors,
-  isShowAlways,
-  parseExpression,
-  validateExpressions,
-} from './validationUtils'
 
 const getValidationError = (type: string): ValidationError => ({
   id: 'id',

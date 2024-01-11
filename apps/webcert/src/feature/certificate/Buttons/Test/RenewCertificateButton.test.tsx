@@ -2,7 +2,7 @@ import { CertificateMetadata, CustomTooltip, Unit, User } from '@frontend/common
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
 import RenewCertificateButton from '../RenewCertificateButton'
 
 const NAME = 'Renew button name'

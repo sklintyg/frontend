@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react'
-import { format } from 'date-fns'
 import userEvent from '@testing-library/user-event'
-import { renderWithRouter } from '../../../../utils/renderWithRouter'
+import { format } from 'date-fns'
+import { expect, it, describe, beforeEach } from 'vitest'
 import { TotalSickLeavesGraph } from './TotalSickLeavesGraph'
+import { renderWithRouter } from '../../../../utils/renderWithRouter'
 
 const renderComponent = () => {
   renderWithRouter(<TotalSickLeavesGraph total={5} />)

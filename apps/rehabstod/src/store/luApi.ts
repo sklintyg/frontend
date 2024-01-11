@@ -1,6 +1,6 @@
+import { api } from './api'
 import { Lakare } from '../schemas/lakareSchema'
 import { LUCertificatesFilter, LUCertificatesFilterOptions, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
-import { api } from './api'
 
 const luApi = api.injectEndpoints({
   endpoints: (builder) => ({

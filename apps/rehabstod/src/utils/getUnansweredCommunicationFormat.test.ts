@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { getUnansweredCommunicationFormat } from './getUnansweredCommunicationFormat'
 
 it('Should return - when there is no data', () => {

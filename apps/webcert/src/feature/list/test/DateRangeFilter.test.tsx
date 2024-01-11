@@ -4,12 +4,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { expect, it, describe, vi, beforeEach } from 'vitest'
+import { getDateRangeFilter } from './listTestUtils'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import DateRangeFilter from '../filter/DateRangeFilter'
-import { getDateRangeFilter } from './listTestUtils'
 
 let onChange = vi.fn()
 

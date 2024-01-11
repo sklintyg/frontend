@@ -1,7 +1,7 @@
 import { parseDate } from '@internationalized/date'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import { Calendar } from './Calendar'
 
 it('Should render without crashing', () => {

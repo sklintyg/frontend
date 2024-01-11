@@ -3,11 +3,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { ResourceAccess } from './ResourceAccess'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
-import { ResourceAccess } from './ResourceAccess'
 
 let testStore: EnhancedStore
 

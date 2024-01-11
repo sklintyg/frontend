@@ -1,17 +1,17 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useSessionStorage } from '@react-hooks-library/core'
 import { SortDirection } from 'react-stately'
-import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
-import { SupportLink } from '../../components/error/SupportLink/SupportLink'
-import { TechnicalIssueAlert } from '../../components/error/TechnicalIssueAlert'
-import { useGetCertificatesFilterQuery, useGetCertificatesQuery } from '../../store/api'
-import { useAppSelector } from '../../store/hooks'
 import { CertificateList } from './components/CertificateList'
 import { CertificateListFilter } from './components/CertificateListFilter/CertificateListFilter'
 import { CertificateListOrder } from './components/CertificateListOrder/CertificateListOrder'
 import { EmptyCertificateListInfo } from './components/EmptyCertificateListInfo'
 import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
+import { SupportLink } from '../../components/error/SupportLink/SupportLink'
+import { TechnicalIssueAlert } from '../../components/error/TechnicalIssueAlert'
+import { PageHeading } from '../../components/PageHeading/PageHeading'
+import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
+import { useGetCertificatesFilterQuery, useGetCertificatesQuery } from '../../store/api'
+import { useAppSelector } from '../../store/hooks'
 
 export function CertificateListPage() {
   const [order, setOrder] = useSessionStorage<SortDirection>('certificate-list-order', 'descending')
