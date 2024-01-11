@@ -37,7 +37,7 @@ export function ExpandableCard({
 
   return (
     <>
-      <h5 className="ids-heading-4 pt-5">{subTitle}</h5>
+      <h6 className="ids-heading-4 pt-5">{subTitle}</h6>
       {children}
     </>
   )
