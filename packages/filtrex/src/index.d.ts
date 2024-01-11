@@ -5,7 +5,6 @@
 declare module '@frontend/filtrex' {
   /**
    * A simple, safe, JavaScript expression engine, allowing end-users to enter arbitrary expressions without p0wning you.
-   *
    * @example
    * // Input from user (e.g. search filter)
    * let expression = 'transactions <= 5 and abs(profit) > 20.5';
@@ -73,7 +72,6 @@ declare module '@frontend/filtrex' {
      * the object's prototype, not on the object itself. This is important, because otherwise the user
      * could access things like `toString.constructor` and maybe do some nasty things with it. Bear
      * this in mind if you decide not to use `get` and access the properties yourself.
-     *
      * @param name - name of the property being accessed
      * @param get - safe getter that retrieves the property from obj
      * @param obj - the object passed to compiled expression
