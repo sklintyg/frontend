@@ -66,5 +66,8 @@
     "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.11",
     "type-fest": "^1.4.0"
+  },
+  "optionalDependencies": {
+    "vitest": "*"
   }
 }

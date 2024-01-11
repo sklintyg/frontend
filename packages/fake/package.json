@@ -42,5 +42,8 @@
     "lodash": "^4",
     "type-fest": "^3",
     "zod": "^3"
+  },
+  "optionalDependencies": {
+    "vitest": "*"
   }
 }

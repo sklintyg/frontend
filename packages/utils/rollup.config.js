@@ -1,7 +1,8 @@
+/* eslint-disable import/order */
 /* eslint-disable import/no-default-export */
-import { builtinModules, createRequire } from 'module'
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
+import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
 import esbuild from 'rollup-plugin-esbuild'
 

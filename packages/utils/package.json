@@ -31,5 +31,8 @@
   },
   "peerDependencies": {
     "uuid": "^9"
+  },
+  "optionalDependencies": {
+    "vitest": "*"
   }
 }

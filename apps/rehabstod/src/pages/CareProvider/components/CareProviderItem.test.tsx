@@ -1,7 +1,7 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, it, vi, beforeEach } from 'vitest'
+import { Mock, beforeEach, expect, it, vi } from 'vitest'
 import { CareProviderItem } from './CareProviderItem'
 import { Mottagning, Vardenhet, vardenhetSchema } from '../../../schemas'
 import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
