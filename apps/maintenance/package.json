@@ -19,13 +19,13 @@
     "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-core": "^4.2.0",
     "@inera/ids-design": "^4.1.1",
-    "@vitejs/plugin-legacy": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-legacy": "^5.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
