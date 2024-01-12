@@ -89,8 +89,8 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
           dir === 'down'
             ? panels.current[i].focus()
             : tabRefs.current[dir]
-            ? switchTab(e.currentTarget as HTMLElement, tabRefs.current[dir])
-            : void 0
+              ? switchTab(e.currentTarget as HTMLElement, tabRefs.current[dir])
+              : void 0
         }
       })
     })

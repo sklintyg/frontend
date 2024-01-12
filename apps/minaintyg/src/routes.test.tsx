@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { server } from './mocks/server'
 import { routes } from './routes'
+import { api } from './store/api'
 import { startSession } from './store/slice/session.slice'
 import { store } from './store/store'
 
@@ -24,8 +25,10 @@ it.each([
   server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(status), ctx.json({}))))
 
   renderComponent(['/'])
+  await waitFor(() => expect(api.endpoints.getUser.select(undefined)(store.getState()).isSuccess).toBe(true))
+  await waitFor(() => expect(api.endpoints.getCertificates.select({})(store.getState()).isError).toBe(true))
   await waitFor(() => expect(store.getState().sessionSlice.hasSessionEnded).toBe(true))
-  expect(store.getState().sessionSlice.hasSession).toBe(false)
+  await waitFor(() => expect(store.getState().sessionSlice.hasSession).toBe(false))
 
   expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
