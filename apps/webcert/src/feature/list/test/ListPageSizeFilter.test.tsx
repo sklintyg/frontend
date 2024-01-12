@@ -21,7 +21,7 @@ const getFilterConfig = (size: number[]): ListFilterPageSizeConfig =>
     id: 'PAGESIZE',
     title: TITLE,
     pageSizes: size,
-  } as ListFilterPageSizeConfig)
+  }) as ListFilterPageSizeConfig
 
 const renderComponent = (totalCount: number) => {
   render(

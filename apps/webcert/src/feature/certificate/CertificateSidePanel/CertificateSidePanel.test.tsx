@@ -33,7 +33,7 @@ const createCertificate = (resourceLinks: ResourceLink[]): Certificate =>
   ({
     links: resourceLinks,
     metadata: { status: CertificateStatus.SIGNED } as CertificateMetadata,
-  } as Certificate)
+  }) as Certificate
 
 const renderTab = async (tabText: string, resourceLinkType: ResourceLinkType) => {
   const resourceLinks: ResourceLink[] = [{ type: resourceLinkType, name: tabText } as ResourceLink]

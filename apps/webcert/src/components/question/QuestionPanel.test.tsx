@@ -29,7 +29,7 @@ const createCertificate = (metadata: CertificateMetadata): Certificate =>
   ({
     metadata,
     links: [],
-  } as unknown as Certificate)
+  }) as unknown as Certificate
 
 function createQuestion(handled = true): Question {
   return {
@@ -53,7 +53,7 @@ const addComplementsToQuestion = (question: Question): Question =>
     ...question,
     type: QuestionType.COMPLEMENT,
     complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
-  } as Question)
+  }) as Question
 
 describe('QuestionPanel', () => {
   beforeEach(() => {
