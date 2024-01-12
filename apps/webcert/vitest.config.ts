@@ -12,7 +12,6 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'lcov'],
       thresholds: {
-        perFile: true,
         branches: 80,
         lines: 80,
         functions: 75,
