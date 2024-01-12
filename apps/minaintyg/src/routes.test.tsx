@@ -25,7 +25,7 @@ it.each([
 
   renderComponent(['/'])
   await waitFor(() => expect(store.getState().sessionSlice.hasSessionEnded).toBe(true))
-  expect(store.getState().sessionSlice.hasSession).toBe(false)
+  await waitFor(() => expect(store.getState().sessionSlice.hasSession).toBe(false))
 
   expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
