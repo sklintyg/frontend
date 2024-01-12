@@ -76,14 +76,14 @@ const addAnswerToQuestion = (question: Question, message: string): Question =>
   ({
     ...question,
     answer: { author: '', id: '', message, sent: '' },
-  } as Question)
+  }) as Question
 
 const addComplementsToQuestion = (question: Question, complements: Complement[]): Question =>
   ({
     ...question,
     type: QuestionType.COMPLEMENT,
     complements: [...complements],
-  } as Question)
+  }) as Question
 
 const createQuestion = (): Question => ({
   type: QuestionType.COORDINATION,

@@ -2,7 +2,7 @@ export const omit = <
   T extends {
     [s: string]: unknown
   },
-  K extends (keyof T)[]
+  K extends (keyof T)[],
 >(
   obj: T,
   keys: K

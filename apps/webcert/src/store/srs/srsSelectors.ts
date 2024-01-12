@@ -36,8 +36,8 @@ export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
   state.ui.uiSRS.srsPredictions.length > 0
     ? state.ui.uiSRS.srsPredictions
     : state.ui.uiSRS.srsInfo
-    ? state.ui.uiSRS.srsInfo.predictions
-    : []
+      ? state.ui.uiSRS.srsInfo.predictions
+      : []
 
 export const getPreviousAnswers = (state: RootState): SrsAnswer[] => state.ui.uiSRS.answers
 

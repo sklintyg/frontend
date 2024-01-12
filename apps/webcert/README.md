@@ -42,12 +42,10 @@ Create a `.env.development.local` in the same folder as `.env.development`. This
 
 ```bash
 VITE_API_TARGET=http://localhost:8020
-VITE_HTTPS=false
 VITE_WS_PROTOCOL=wss
 ```
 
 - `VITE_API_TARGET` tells the application that our backend is on localhost:8020.
-- `VITE_HTTPS` make sure that we don't use ssl.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl.
 
 Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc2.wc.localtest.me/welcome>
