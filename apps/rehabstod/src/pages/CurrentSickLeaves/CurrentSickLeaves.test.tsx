@@ -1,5 +1,5 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { screen, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'
 import { sickLeaveFilterOptions } from '../../schemas/sickLeaveSchema'
@@ -15,7 +15,7 @@ it('Should display error when request for fetching sickleave fails', async () =>
   )
   const { user } = renderWithRouter(<CurrentSickLeaves />)
   await user.click(await screen.findByText('Sök'))
-  expect(screen.queryByRole('table')).not.toBeInTheDocument()
+  await waitFor(() => expect(screen.queryAllByRole('table')).toHaveLength(0))
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(
     within(screen.getByRole('alert')).getByText(/sjukfall för enheten kan inte visas på grund av ett tekniskt fel/i)

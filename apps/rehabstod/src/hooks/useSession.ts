@@ -27,5 +27,5 @@ export function useSession() {
     }
   }, [user, session, logout, giveConsent, isUninitialized, isPollingActive])
 
-  return { user, session, isLoading: isLoadingSession || isLoadingUser }
+  return { user, session, isLoading: isLoadingSession || isLoadingUser, isPollingActive }
 }
