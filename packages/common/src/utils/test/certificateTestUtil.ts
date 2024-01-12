@@ -4,14 +4,19 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateStatus,
+  ConfigLayout,
   ConfigTypes,
   ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
+import { fakeDateRangeElement } from '../faker'
 import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 
+/**
+ * @deprecated use fakeRadioBooleanElement()
+ */
 export const getBooleanElement = (): CertificateDataElement => {
   return {
     id: '1.1',
@@ -47,6 +52,10 @@ export const getBooleanElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
+
+/**
+ * @deprecated use fakeDateElement()
+ */
 export const getDateElement = (): CertificateDataElement => {
   return {
     id: '1.1',
@@ -70,6 +79,9 @@ export const getDateElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeTextAreaElement()
+ */
 export const getTextElement = (): CertificateDataElement => {
   return {
     id: '1.2',
@@ -103,6 +115,7 @@ export const getTextElement = (): CertificateDataElement => {
       {
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         questionId: '1.1',
+        id: 'foobar',
         expression: '$harFunktionsnedsattning',
         fillValue: {
           type: CertificateDataValueType.TEXT,
@@ -115,6 +128,9 @@ export const getTextElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeICFDataElement()
+ */
 export const getIcfElement = (): CertificateDataElement => {
   return {
     id: '1.2',
@@ -150,6 +166,9 @@ export const getIcfElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeSickLeavePeriod()
+ */
 export const getSickLeavePeriodElement = (): CertificateDataElement => {
   return {
     id: '1.4',
@@ -198,8 +217,12 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
-export const getDateRangeElement = (): CertificateDataElement => {
-  return {
+
+/**
+ * @deprecated use fakeDateRangeElement()
+ */
+export const getDateRangeElement = (): CertificateDataElement =>
+  fakeDateRangeElement({
     id: '1.4',
     parent: '1.1',
     index: 1,
@@ -217,8 +240,11 @@ export const getDateRangeElement = (): CertificateDataElement => {
     },
     validation: [],
     validationErrors: [],
-  }
-}
+  })['1.4']
+
+/**
+ * @deprecated use fakeTextAreaElement()
+ */
 export const getAnotherTextElement = (): CertificateDataElement => {
   return {
     id: '1.3',
@@ -252,6 +278,7 @@ export const getAnotherTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         questionId: '1.1',
         expression: '!$harFunktionsnedsattning',
+        id: 'foobar',
         fillValue: {
           type: CertificateDataValueType.TEXT,
           id: 'annanFunktionsnedsattning',
@@ -263,6 +290,9 @@ export const getAnotherTextElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCheckboxMultipleCodeElement()
+ */
 export const getCheckBoxElement = (): CertificateDataElement => {
   return {
     id: '28',
@@ -273,6 +303,7 @@ export const getCheckBoxElement = (): CertificateDataElement => {
     readOnly: false,
     config: {
       type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      layout: ConfigLayout.COLUMN,
       text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
       description:
         'Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.',
@@ -326,6 +357,9 @@ export const getCheckBoxElement = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCategoryElement()
+ */
 export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
   return {
     id: 'funktionsnedsattning',
@@ -345,6 +379,9 @@ export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCategoryElement()
+ */
 export const getCategorySysselsattning = (): CertificateDataElement => {
   return {
     id: 'sysselsattning',
@@ -364,6 +401,9 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
   }
 }
 
+/**
+ * @deprecated use fakeCertificate()
+ */
 export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
@@ -451,6 +491,9 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
   }
 }
 
+/**
+ * @deprecated use fakeCertificate()
+ */
 export const getCertificateWithQuestion = (question: CertificateDataElement): Certificate => {
   return {
     metadata: {

@@ -148,7 +148,7 @@ const getIsIntervalsCorrect = (leftStartTime: Date, leftEndTime: Date, rightStar
 }
 
 const calculatePeriodWorkHours = (hoursWorkingPerWeek: number, percentage: number) => {
-  const periodWorkHoursToString = (hoursWorkingPerWeek *= percentage).toString()
+  const periodWorkHoursToString = (hoursWorkingPerWeek * percentage).toString()
   return replaceDecimalSeparator(periodWorkHoursToString)
 }
 
@@ -184,16 +184,11 @@ export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]): numbe
 
 export const filterDateRangeValueList = (valueList: ValueDateRange[]): ValueDateRange[] => {
   return valueList
-    .map((val) => {
-      if (getValidDate(val?.from) === undefined) {
-        delete val.from
-      }
-      if (getValidDate(val?.to) === undefined) {
-        delete val.to
-      }
-
-      return val
-    })
+    .map((val) => ({
+      ...val,
+      from: getValidDate(val?.from) ? val?.from : undefined,
+      to: getValidDate(val?.to) ? val?.to : undefined,
+    }))
     .filter((val) => val.to !== undefined || val.from !== undefined)
 }
 

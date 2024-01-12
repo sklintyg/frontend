@@ -1,4 +1,4 @@
-import { Certificate, ValidationError, ConfigTypes, CertificateDataElement, CertificateData } from '../../types/certificate'
+import { Certificate, CertificateData, CertificateDataElement, ConfigTypes, ValidationError } from '../../types/certificate'
 import { sortByIndex } from '../certificateUtils'
 
 export interface ValidationErrorSummary {
@@ -9,13 +9,7 @@ export interface ValidationErrorSummary {
 
 const getCategoryValidationErrors = (data: CertificateData): ValidationErrorSummary[] => {
   const getCategory = (element: CertificateDataElement): CertificateDataElement | undefined => {
-    while (element != null) {
-      if (element.config.type === ConfigTypes.CATEGORY) {
-        return element
-      } else {
-        element = data[element.parent]
-      }
-    }
+    return element.config.type === ConfigTypes.CATEGORY ? element : getCategory(data[element.parent])
   }
 
   return Object.values(data)

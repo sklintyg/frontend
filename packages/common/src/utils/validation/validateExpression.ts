@@ -1,8 +1,8 @@
 import { compileExpression } from '@frontend/filtrex'
 import { differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
-import { CertificateDataValueType, ValueType } from '../types/certificate'
-import { getFieldValuePair } from './certificate/getFieldValuePair'
-import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
+import { CertificateDataValueType, ValueType } from '../../types/certificate'
+import { getFieldValuePair } from '../certificate/getFieldValuePair'
+import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from '../dateUtils'
 
 /**
  * Return difference in days
@@ -68,30 +68,32 @@ export const convertExpression = (expression: string): string =>
 
 /** Compile and execute expression on a certificate value */
 export const validateExpression = (expression: string, value: ValueType): boolean =>
-  Boolean(
-    compileExpression(convertExpression(expression), {
-      customProp: (id: string, get: (s: string) => unknown, obj: unknown) => (obj == null ? obj : get(id.replace(/\$/g, ''))),
-      extraFunctions: {
-        epochDay: (val: unknown) => {
-          if (typeof val === 'number') {
-            return epochDaysAdjustedToTimezone(fromUnixTime(val))
-          }
-          return NaN
-        },
-        days: (val: unknown) => {
-          if (typeof val === 'number') {
-            return differenceInDays(startOfDay(fromUnixTime(val)), startOfToday())
-          }
-          return NaN
-        },
-        uncertainDate: (val: unknown) => {
-          if (typeof val === 'string') {
-            return isValidUncertainDate(val)
-          }
-          return false
-        },
-        exists: (val: unknown) => val != null,
-        empty: (val: unknown) => val == null || val === '' || (Array.isArray(val) && val.length === 0),
-      },
-    })(getKeyValuePair(value))
-  )
+  expression === '1' || expression === '0'
+    ? expression === '1'
+    : Boolean(
+        compileExpression(convertExpression(expression), {
+          customProp: (id: string, get: (s: string) => unknown, obj: unknown) => (obj == null ? obj : get(id.replace(/\$/g, ''))),
+          extraFunctions: {
+            epochDay: (val: unknown) => {
+              if (typeof val === 'number') {
+                return epochDaysAdjustedToTimezone(fromUnixTime(val))
+              }
+              return NaN
+            },
+            days: (val: unknown) => {
+              if (typeof val === 'number') {
+                return differenceInDays(startOfDay(fromUnixTime(val)), startOfToday())
+              }
+              return NaN
+            },
+            uncertainDate: (val: unknown) => {
+              if (typeof val === 'string') {
+                return isValidUncertainDate(val)
+              }
+              return false
+            },
+            exists: (val: unknown) => val != null,
+            empty: (val: unknown) => val == null || val === '' || (Array.isArray(val) && val.length === 0),
+          },
+        })(getKeyValuePair(value))
+      )

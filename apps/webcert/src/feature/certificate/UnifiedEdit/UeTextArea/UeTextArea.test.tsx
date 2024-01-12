@@ -1,4 +1,4 @@
-import { CertificateDataValidationType, fakeCertificateDataValidation, fakeTextAreaElement } from '@frontend/common'
+import { fakeTextAreaElement, fakeTextValidation } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -41,8 +41,7 @@ describe('UeTextArea', () => {
       id: '1',
       value: { text: null },
       validation: [
-        fakeCertificateDataValidation({
-          type: CertificateDataValidationType.TEXT_VALIDATION,
+        fakeTextValidation({
           questionId: 'id',
           limit: 100,
         }),

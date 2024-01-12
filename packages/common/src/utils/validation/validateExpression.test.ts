@@ -1,8 +1,8 @@
 import { compileExpression } from '@frontend/filtrex'
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
 import { vi } from 'vitest'
-import { CertificateDataValueType } from '../types/certificate'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
+import { CertificateDataValueType } from '../../types/certificate'
+import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 import { convertExpression, differenceInDays, getKeyValuePair, parseDateValue, validateExpression } from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')
@@ -506,6 +506,16 @@ describe('validateExpression', () => {
       it('Should return false when value is populated string', () => {
         expect(validateExpression('empty(ID)', { type: CertificateDataValueType.TEXT, id: 'ID', text: 'lorem' })).toBe(false)
       })
+    })
+  })
+
+  describe('Quick expressions', () => {
+    it('Should return true for "1" expression', () => {
+      expect(validateExpression('1', { type: CertificateDataValueType.UNKNOWN })).toBe(true)
+    })
+
+    it('Should return false for "0" expression', () => {
+      expect(validateExpression('0', { type: CertificateDataValueType.UNKNOWN })).toBe(false)
     })
   })
 })
