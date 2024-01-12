@@ -66,9 +66,6 @@ describe('visibility', () => {
   it('Should set visible to false on boolean element if undefined', () => {
     const { data, metadata, links } = getCertificate()
     const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    // Test when selected is undefined when arriving from backend.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     booleanValue.selected = undefined
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
