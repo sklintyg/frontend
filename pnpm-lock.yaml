@@ -988,8 +988,8 @@ importers:
         specifier: ^15.2.3
         version: 15.2.3(rollup@4.9.5)
       '@types/react':
-        specifier: ^18.0.27
-        version: 18.0.27
+        specifier: ^18.2.47
+        version: 18.2.47
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
@@ -4909,14 +4909,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
-
-  /@types/react@18.0.27:
-    resolution: {integrity: sha512-3vtRKHgVxu3Jp9t718R9BuzoD4NcQ8YJ5XRzsSKxNDiDonD2MXIT1TmSkenxuCycZJoQT5d2vE8LwWJxBC1gmA==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.3
-      csstype: 3.1.2
-    dev: true
 
   /@types/react@18.2.47:
     resolution: {integrity: sha512-xquNkkOirwyCgoClNk85BjP+aqnIS+ckAJ8i37gAbDs14jfW/J23f2GItAf33oiUPQnqNMALiFeoM9Y5mbjpVQ==}
