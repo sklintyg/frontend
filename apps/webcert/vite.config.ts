@@ -1,4 +1,3 @@
-import basicSsl from '@vitejs/plugin-basic-ssl'
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import { loadEnv, ProxyOptions, UserConfig } from 'vite'
@@ -7,10 +6,9 @@ import { defineConfig } from 'vitest/config'
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
 
-  const https = process.env.VITE_HTTPS === 'true'
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
-  const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
+  const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? 'ws'
 
   const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
     Record<string, string | ProxyOptions>
@@ -20,7 +18,7 @@ export default ({ mode }: UserConfig) => {
       [route]: {
         target: process.env.VITE_API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: https ? 'https' : 'http',
+        protocolRewrite: 'http',
         changeOrigin: true,
         autoRewrite: true,
       },
@@ -29,18 +27,15 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
-    plugins: [react()]
-      .concat(
-        process.env.LEGACY_SUPPORT !== 'false'
-          ? legacy({
-              targets: ['defaults', 'not IE 11'],
-            })
-          : []
-      )
-      .concat(https ? [basicSsl()] : []),
+    plugins: [react()].concat(
+      process.env.LEGACY_SUPPORT !== 'false'
+        ? legacy({
+            targets: ['defaults', 'not IE 11'],
+          })
+        : []
+    ),
     server: {
       host,
-      https,
       port: 3000,
       proxy,
       strictPort: true,
