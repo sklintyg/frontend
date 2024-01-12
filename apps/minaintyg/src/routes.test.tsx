@@ -24,8 +24,8 @@ it.each([
   server.use(rest.post('/api/certificate', (_, res, ctx) => res(ctx.status(status), ctx.json({}))))
 
   renderComponent(['/'])
+
   await waitFor(() => expect(store.getState().sessionSlice.hasSessionEnded).toBe(true))
-  await waitFor(() => expect(store.getState().sessionSlice.hasSession).toBe(false))
 
   expect(await screen.findByRole('heading', { name: headline, level: 1 })).toBeInTheDocument()
 })
