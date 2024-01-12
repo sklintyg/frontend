@@ -1,6 +1,6 @@
+import { ErrorIdentifier } from '@frontend/components'
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { ErrorIdentifier } from '@frontend/components'
 import { QueryError } from '../../utils/isQueryError'
 
 export function TechnicalIssueAlert({
@@ -15,14 +15,10 @@ export function TechnicalIssueAlert({
   additionalInfo?: ReactNode
 }) {
   return (
-    <IDSAlert headline={headline} type="error">
+    <IDSAlert headline={headline} role="alert" type="error">
       <div className="flex flex-col gap-4">
         {children}
-        {error.id && (
-          <p>
-            <ErrorIdentifier id={error.id} centerText={false} />
-          </p>
-        )}
+        {error.id && <ErrorIdentifier id={error.id} centerText={false} />}
         {additionalInfo && additionalInfo}
       </div>
     </IDSAlert>

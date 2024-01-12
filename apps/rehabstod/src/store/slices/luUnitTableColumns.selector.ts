@@ -1,4 +1,4 @@
-import { RootState } from '../store'
+import { RootState } from '../reducer'
 import { getLUUnitTableColumnsSelectors } from './luUnitTableColumns.slice'
 
 export const { selectAll: allLUUnitTableColumns, selectColumnString: luUnitTableColumnsString } = getLUUnitTableColumnsSelectors(

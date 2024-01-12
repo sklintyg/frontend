@@ -1,4 +1,5 @@
 import { getCookie } from '@frontend/utils'
+import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
 import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
 import { Config } from '../schemas/configSchema'
@@ -93,6 +94,12 @@ export const api = createApi({
     }),
   }),
 })
+
+export const isFulfilledEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchFulfilled))
+export const isRejectedEndpoint = isAnyOf(...Object.values(api.endpoints).map((endpoint) => endpoint.matchRejected))
+export const hasResponse = (o: unknown): o is { response: Response } =>
+  isPlainObject(o) && 'response' in o && o.response instanceof Response
+export const hasRequest = (o: unknown): o is { request: Request } => isPlainObject(o) && 'request' in o && o.request instanceof Request
 
 export function useGetUserQuery() {
   const { data: session } = api.useGetSessionPingQuery()
