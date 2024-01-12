@@ -14,7 +14,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
     "uuid": "^9.0.1"
