@@ -46,7 +46,7 @@ const createCertificate = (
         } as PersonId,
       } as Patient,
     } as CertificateMetadata,
-  } as Certificate)
+  }) as Certificate
 
 const setState = ({
   isDeceased,
