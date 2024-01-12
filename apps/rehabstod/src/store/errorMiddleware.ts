@@ -1,42 +1,47 @@
 import { randomUUID } from '@frontend/utils'
-import { AnyAction, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch } from '@reduxjs/toolkit'
+import { isPlainObject, SerializedError, ThunkMiddleware } from '@reduxjs/toolkit'
 import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
-import { api } from './api'
+import { api, hasRequest, isRejectedEndpoint } from './api'
+import { RootState } from './reducer'
+
+function getActionMessage(data: unknown, error?: SerializedError) {
+  if (isPlainObject(data) && 'message' in data && typeof data.message === 'string') {
+    return data.message
+  }
+  if (error && error.message) {
+    return error.message
+  }
+  return 'NO_MESSAGE'
+}
+
+function getActionStatus(data: unknown) {
+  if (isPlainObject(data) && 'status' in data && typeof data.status === 'string') {
+    return data.status
+  }
+  return undefined
+}
+
+function getRequestMethod(action: unknown) {
+  if (isRejectedEndpoint(action) && hasRequest(action.meta.baseQueryMeta)) {
+    const { method, url } = action.meta.baseQueryMeta.request
+    return ` method '${method}' url '${url}'`
+  }
+  return ''
+}
 
 /**
  * Error handling middleware
  * https://redux-toolkit.js.org/rtk-query/usage/error-handling
  */
-export const errorMiddleware: Middleware =
-  ({ dispatch }: MiddlewareAPI<ThunkDispatch<unknown, unknown, AnyAction>>) =>
+export const errorMiddleware: ThunkMiddleware<RootState> =
+  ({ dispatch }) =>
   (next) =>
   (action) => {
-    function getMessage() {
-      if (action.payload.data && action.payload.data.message) {
-        return action.payload.data.message
-      }
-      if (action.error && action.error.message) {
-        return action.error.message
-      }
-      return 'NO_MESSAGE'
-    }
-
-    function getLogMessage(message: string, method: string, url: string) {
-      return `${message}' method '${method}' url '${url}'`
-    }
-
-    function getErrorCode() {
-      return action.payload.data?.status ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR
-    }
-
-    if (isRejectedWithValue(action) && !api.endpoints.logError.matchRejected(action)) {
-      const { method, url } = action.meta.baseQueryMeta.request
-      const message = getMessage()
-      const errorCode = getErrorCode()
+    if (!api.endpoints.logError.matchRejected(action) && isRejectedEndpoint(action) && action.payload) {
       const errorData: ErrorData = {
         errorId: randomUUID(),
-        message: getLogMessage(message, method, url),
-        errorCode,
+        message: `${getActionMessage(action.payload.data, action.error)}${getRequestMethod(action)}`,
+        errorCode: getActionStatus(action.payload.data) ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
         stackTrace: 'NO_STACK_TRACE',
       }
 

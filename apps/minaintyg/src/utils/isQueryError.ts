@@ -1,5 +1,5 @@
 import { PayloadAction, SerializedError, isPlainObject } from '@reduxjs/toolkit'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 export type QueryError = (FetchBaseQueryError & { id?: string }) | (SerializedError & { id?: string })
 

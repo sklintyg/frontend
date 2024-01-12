@@ -15,7 +15,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{test,spec}.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
     "@frontend/filtrex": "workspace:*",
@@ -28,8 +28,8 @@
     "type-fest": "^1.4.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@testing-library/jest-dom": "5",
     "@testing-library/react": "11",
     "@testing-library/user-event": "^13.5.0",
@@ -44,15 +44,15 @@
     "@types/styled-components": "^5.1.26",
     "@types/testing-library__jest-dom": "5.14.5",
     "ctix": "^1.8.2",
-    "eslint": "^8.42.0",
+    "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
     "faker": "5.5.3",
     "react": "^17.0.2",
     "react-datepicker": "^4.10.0",
     "react-dom": "^17.0.2",
-    "rollup": "^3.20.2",
-    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup": "^4.9.4",
+    "rollup-plugin-esbuild": "^6.1.0",
     "rollup-plugin-svg": "^2.0.0",
     "styled-components": "^5.3.11",
     "vitest": "^0.34.3"
