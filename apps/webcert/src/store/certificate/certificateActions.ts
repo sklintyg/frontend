@@ -10,7 +10,6 @@ import {
   Patient,
   Unit,
   ValidationError,
-  ValidationResult,
 } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
@@ -138,9 +137,6 @@ const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save certificate completed`
 const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save certificate success`
 const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save certificate error`
 
-const VALIDATE_CERTIFICATE_IN_FRONTEND = `${CERTIFICATE} Validate in frontend`
-const VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED = `${CERTIFICATE} Validate in frontend completed`
-
 const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
 const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
@@ -152,7 +148,6 @@ const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate comple
 const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
 const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
 
-const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
 const SET_CERTIFICATE_PATIENT_DATA = `${CERTIFICATE} Set certificate patient data`
 
@@ -171,7 +166,6 @@ const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation error
 
 const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
 
-const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate child element to disabled or not`
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
@@ -179,7 +173,6 @@ const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
-const APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL = `${CERTIFICATE} Apply data element auto fill`
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
 
 const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
@@ -497,10 +490,6 @@ interface AutoSaveCertificateError {
 
 export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
 
-export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
-
-export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
-
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
 
 export const updateCertificateEvents = createAction<CertificateEvent[]>(UPDATE_CERTIFICATE_EVENTS)
@@ -525,13 +514,9 @@ export const showCertificateDataElementMandatory = createAction<string>(SHOW_CER
 
 export const hideCertificateDataElementMandatory = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 
-export const setDisabledCertificateDataChild = createAction<ValidationResult>(SET_DISABLED_CERTIFICATE_DATA_CHILD)
-
 export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
 
 export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
-
-export const setCertificateDataElement = createAction<CertificateDataElement>(SET_CERTIFICATE_DATA_ELEMENT)
 
 export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER)
 
@@ -574,8 +559,6 @@ export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIF
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
-
-export const applyCertificateDataElementAutoFill = createAction<ValidationResult>(APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL)
 
 export interface CertificateApiGenericError {
   error: ApiError

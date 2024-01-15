@@ -39,32 +39,32 @@ const addAnswerDraftToQuestion = (question: Question, message: string): Question
   ({
     ...question,
     answer: { author: '', id: '', message, sent: '' },
-  } as Question)
+  }) as Question
 
 const addAnswerToQuestion = (question: Question, message: string): Question =>
   ({
     ...question,
     answer: { author: 'answerAuthor', id: 'answerId', message, sent: '2021-07-16' },
-  } as Question)
+  }) as Question
 
 const addReminderToQuestion = (question: Question, message: string): Question =>
   ({
     ...question,
     reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
-  } as Question)
+  }) as Question
 
 const handleQuestion = (question: Question): Question =>
   ({
     ...question,
     handled: true,
-  } as Question)
+  }) as Question
 
 const addComplementsToQuestion = (question: Question, complements: Complement[]): Question =>
   ({
     ...question,
     type: QuestionType.COMPLEMENT,
     complements: [...complements],
-  } as Question)
+  }) as Question
 
 const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: string): Question => ({
   ...question,

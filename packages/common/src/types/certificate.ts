@@ -48,11 +48,11 @@ export interface CertificateDataElement {
   id: string
   parent: string
   index: number
-  visible: boolean
+  visible?: boolean
   disabled?: boolean
   readOnly: boolean
   mandatory: boolean
-  config: CertificateDataConfig
+  config: CertificateDataConfigType
   value: ValueType | null
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
@@ -666,42 +666,57 @@ export enum CertificateDataValidationType {
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
 }
 
-export interface CertificateDataValidation {
-  type: CertificateDataValidationType
+export type CertificateDataValidation =
+  | AutoFillValidation
+  | TextValidation
+  | ShowValidation
+  | HideValidation
+  | DisableValidation
+  | DisableSubElementValidation
+  | EnableValidation
+  | MandatoryValidation
+  | CategoryMandatoryValidation
+  | HighlightValidation
+
+interface CertificateDataValidationBase<T extends CertificateDataValidationType> {
+  type: T
   questionId: string
+  id?: string | string[]
   expression?: string
   expressionType?: string
   questions?: CertificateDataValidation[]
-
-  [propName: string]: unknown
 }
 
-export interface AutoFillValidation extends CertificateDataValidation {
+export interface AutoFillValidation extends CertificateDataValidationBase<CertificateDataValidationType.AUTO_FILL_VALIDATION> {
   id: string
   fillValue: ValueType
 }
 
-export interface TextValidation extends CertificateDataValidation {
+export interface TextValidation extends CertificateDataValidationBase<CertificateDataValidationType.TEXT_VALIDATION> {
   id: string
   limit: number
-  // expression: string // '$6.1 > 5000' // Kan allt beskrivas med expression?
 }
 
-export type ShowValidation = CertificateDataValidation
+export type ShowValidation = CertificateDataValidationBase<CertificateDataValidationType.SHOW_VALIDATION>
 
-export type HideValidation = CertificateDataValidation
+export type HideValidation = CertificateDataValidationBase<CertificateDataValidationType.HIDE_VALIDATION>
 
-export interface DisableValidation extends CertificateDataValidation {
+export interface DisableValidation extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_VALIDATION> {
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
-export type EnableValidation = CertificateDataValidation
+export interface DisableSubElementValidation
+  extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION> {
+  id: string[]
+}
 
-export type MandatoryValidation = CertificateDataValidation
+export type EnableValidation = CertificateDataValidationBase<CertificateDataValidationType.ENABLE_VALIDATION>
 
-export type CategoryMandatoryValidation = CertificateDataValidation
+export type MandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.MANDATORY_VALIDATION>
 
-export type HighlightValidation = CertificateDataValidation
+export type CategoryMandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION>
+
+export type HighlightValidation = CertificateDataValidationBase<CertificateDataValidationType.HIGHLIGHT_VALIDATION>
 
 // --------------------------------------------
 export interface ValidationError {

@@ -1,4 +1,4 @@
-import { fakeCertificate, fakeRadioMultipleCodeElement } from '@frontend/common'
+import { fakeCertificate, fakeRadioBooleanElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -20,7 +20,7 @@ const CODES = [
 
 let testStore: EnhancedStore
 
-const question = fakeRadioMultipleCodeElement({
+const question = fakeRadioBooleanElement({
   id: 'id',
   value: { selected: true },
   config: {
