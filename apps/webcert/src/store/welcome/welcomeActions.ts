@@ -1,6 +1,6 @@
+import { Patient } from '@frontend/common/types'
 import { createAction } from '@reduxjs/toolkit'
 import { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers } from './welcomeReducer'
-import { Patient } from '@frontend/common'
 
 export const getCertificateTypes = createAction('[Welcome] Get certificate types')
 export const getCertificateTypesStarted = createAction('[Welcome] Get certificate types started')

@@ -1,11 +1,5 @@
-import {
-  ResourceLink,
-  ResourceLinkType,
-  getSubscriptionWarningResourceLink,
-  getUser,
-  getUserWithLaunchId,
-  getUserStatistics as statistics,
-} from '@frontend/common'
+import { getSubscriptionWarningResourceLink, getUser, getUserWithLaunchId, getUserStatistics as statistics } from '@frontend/common'
+import { ResourceLink, ResourceLinkType } from '@frontend/common/types'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

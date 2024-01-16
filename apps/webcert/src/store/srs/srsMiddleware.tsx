@@ -1,7 +1,23 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { isRenewedChild } from '@frontend/common'
 import {
+  Certificate,
+  CertificateDataValueType,
+  SrsEvent,
+  SrsInfoForDiagnosis,
+  SrsQuestion,
+  SrsUserClientContext,
+  ValueDiagnosisList,
+} from '@frontend/common/types'
+import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
+import { apiCallBegan } from '../api/apiActions'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { getUserSuccess } from '../user/userActions'
+import {
+  PredictionsRequest,
+  RecommendationsRequest,
+  RiskOpinionRequest,
   getPredictions,
   getPredictionsError,
   getPredictionsStarted,
@@ -22,10 +38,7 @@ import {
   logSrsInteractionError,
   logSrsInteractionStarted,
   logSrsInteractionSuccess,
-  PredictionsRequest,
-  RecommendationsRequest,
   resetState,
-  RiskOpinionRequest,
   setDiagnosisCodes,
   setDiagnosisListValue,
   setRiskOpinion,
@@ -51,19 +64,6 @@ import {
   updateUserClientContext,
   updateUserLaunchFromOrigin,
 } from './srsActions'
-import {
-  Certificate,
-  CertificateDataValueType,
-  isRenewedChild,
-  SrsEvent,
-  SrsInfoForDiagnosis,
-  SrsQuestion,
-  SrsUserClientContext,
-  ValueDiagnosisList,
-} from '@frontend/common'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
-import { getUserSuccess } from '../user/userActions'
 
 export const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>

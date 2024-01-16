@@ -1,4 +1,4 @@
-import { ResourceLink, User, UserStatistics } from '@frontend/common'
+import { ResourceLink, User, UserStatistics } from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   removeResourceLink,

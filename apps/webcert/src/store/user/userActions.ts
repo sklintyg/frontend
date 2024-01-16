@@ -1,5 +1,5 @@
+import { ResourceLink, ResourceLinkType, Unit, User, UserProperty, UserStatistics } from '@frontend/common/types'
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty, UserStatistics, Unit, ResourceLinkType } from '@frontend/common'
 
 const USER = '[User]'
 

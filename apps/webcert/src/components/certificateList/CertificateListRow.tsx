@@ -1,4 +1,5 @@
-import { InfoBox, Patient, ResourceLink, ResourceLinkType, StarFilledIcon, StarIcon, TextWithInfoModal } from '@frontend/common'
+import { InfoBox, StarFilledIcon, StarIcon, TextWithInfoModal } from '@frontend/common'
+import { Patient, ResourceLink, ResourceLinkType } from '@frontend/common/types'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'

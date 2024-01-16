@@ -1,6 +1,6 @@
-import { RootState } from '../store'
-import { CertificateType, Patient } from '@frontend/common'
+import { CertificateType, Patient } from '@frontend/common/types'
 import { ErrorRequest } from '../error/errorReducer'
+import { RootState } from '../store'
 
 export const getActivePatient = (state: RootState): Patient | undefined => state.ui.uiPatient.patient
 

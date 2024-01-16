@@ -1,4 +1,4 @@
-import { UserTab } from '@frontend/common'
+import { UserTab } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

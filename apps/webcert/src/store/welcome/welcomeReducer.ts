@@ -1,4 +1,4 @@
-import { Patient } from '@frontend/common'
+import { Patient } from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
 import { mockUserData } from './mockUserData'
 import {

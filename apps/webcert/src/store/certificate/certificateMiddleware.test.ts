@@ -1,17 +1,14 @@
+import { getUser } from '@frontend/common'
+import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '@frontend/common/faker'
 import {
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateRelation,
-  CertificateRelations,
   CertificateRelationType,
+  CertificateRelations,
   CertificateStatus,
-  fakeCertificate,
-  fakeCertificateMetaData,
-  fakeHighlightValidation,
-  fakeRadioBooleanElement,
-  getUser,
   SigningMethod,
-} from '@frontend/common'
+} from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -26,20 +23,21 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
+  CertificateApiGenericError,
+  ComplementCertificateSuccess,
+  CreateCertificate,
+  CreateCertificateFromCandidateSuccess,
+  CreateCertificateFromCandidateWithMessageSuccess,
+  CreateCertificateResponse,
+  SigningData,
   answerComplementCertificate,
   autoSaveCertificate,
   autoSaveCertificateError,
-  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
-  ComplementCertificateSuccess,
-  CreateCertificate,
   createCertificateFromCandidate,
-  CreateCertificateFromCandidateSuccess,
   createCertificateFromCandidateWithMessage,
-  CreateCertificateFromCandidateWithMessageSuccess,
-  CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
   getCertificate,
@@ -49,7 +47,6 @@ import {
   readyForSignSuccess,
   showRelatedCertificate,
   signCertificateStatusError,
-  SigningData,
   startSignCertificate,
   updateCertificate,
   updateCertificateDataElement,

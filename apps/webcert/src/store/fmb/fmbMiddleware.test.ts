@@ -1,18 +1,15 @@
+import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement, fakeSickLeavePeriod } from '@frontend/common/faker'
 import {
   Certificate,
   CertificateDataElement,
   CertificateDataValueType,
   CertificateMetadata,
-  fakeCertificateConfig,
-  fakeCertificateValue,
-  fakeDiagnosesElement,
-  fakeSickLeavePeriod,
   Patient,
   PersonId,
   ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
-} from '@frontend/common'
+} from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

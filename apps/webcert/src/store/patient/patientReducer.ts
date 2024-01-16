@@ -1,4 +1,4 @@
-import { CertificateType, Patient, PatientStatus } from '@frontend/common'
+import { CertificateType, Patient, PatientStatus } from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
 import { ErrorRequest } from '../error/errorReducer'
 import {

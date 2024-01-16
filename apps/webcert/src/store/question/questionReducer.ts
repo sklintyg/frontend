@@ -1,4 +1,4 @@
-import { Question, QuestionType } from '@frontend/common'
+import { Question, QuestionType } from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
@@ -13,8 +13,8 @@ import {
   updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
-  updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
+  updateDisplayingCertificateDraft,
   updateHandledQuestion,
   updateIsLoadingQuestions,
   updateQuestion,

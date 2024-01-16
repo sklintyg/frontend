@@ -1,4 +1,4 @@
-import { LoginMethod, ResourceLink, User } from '@frontend/common'
+import { LoginMethod, ResourceLink, User } from '@frontend/common/types'
 import React from 'react'
 import styled from 'styled-components'
 

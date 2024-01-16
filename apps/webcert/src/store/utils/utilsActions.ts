@@ -1,4 +1,4 @@
-import { DiagnosisTypeahead } from '@frontend/common'
+import { DiagnosisTypeahead } from '@frontend/common/types'
 import { createAction } from '@reduxjs/toolkit'
 import { Configuration, DynamicLinkMap } from './utilsReducer'
 

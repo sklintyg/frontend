@@ -1,13 +1,12 @@
+import { getResourceLink, isDateRangeValid } from '@frontend/common'
 import {
   CertificateDataValueType,
   FMBDiagnosisCodeInfo,
-  getResourceLink,
-  isDateRangeValid,
   ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueType,
-} from '@frontend/common'
+} from '@frontend/common/types'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'

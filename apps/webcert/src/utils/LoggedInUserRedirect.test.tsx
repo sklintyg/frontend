@@ -1,4 +1,4 @@
-import { SigningMethod, Unit, User } from '@frontend/common'
+import { SigningMethod, Unit, User } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createBrowserHistory } from 'history'

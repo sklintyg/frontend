@@ -1,3 +1,4 @@
+import { ValidationErrorSummary, sortedValidationErrorSummary } from '@frontend/common'
 import {
   Certificate,
   CertificateDataElement,
@@ -15,9 +16,7 @@ import {
   ResourceLinkType,
   Unit,
   ValidationError,
-  ValidationErrorSummary,
-  sortedValidationErrorSummary,
-} from '@frontend/common'
+} from '@frontend/common/types'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'

@@ -1,4 +1,5 @@
-import { CertificateType, fakePatient, fakeResourceLink, ResourceLink, ResourceLinkType, User } from '@frontend/common'
+import { fakePatient, fakeResourceLink } from '@frontend/common/faker'
+import { CertificateType, ResourceLink, ResourceLinkType, User } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

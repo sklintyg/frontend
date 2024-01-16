@@ -1,4 +1,5 @@
-import { ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
+import { SpinnerBackdrop } from '@frontend/common'
+import { ResourceLinkType } from '@frontend/common/types'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { throwError } from '../store/error/errorActions'

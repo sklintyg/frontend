@@ -1,4 +1,5 @@
-import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
+import { getResourceLink } from '@frontend/common'
+import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '@frontend/common/types'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
@@ -53,8 +54,8 @@ import {
   updateCertificateId,
   updateComplements,
   updateCreateQuestionsAvailable,
-  updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
+  updateDisplayingCertificateDraft,
   updateHandledQuestion,
   updateIsLoadingQuestions,
   updateQuestion,

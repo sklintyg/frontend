@@ -1,4 +1,4 @@
-import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '@frontend/common'
+import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '@frontend/common/types'
 
 export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
   if (isDoctor) {

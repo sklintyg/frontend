@@ -1,13 +1,4 @@
-import {
-  Answer,
-  Certificate,
-  CertificateRelationType,
-  CertificateStatus,
-  Complement,
-  Question,
-  QuestionType,
-  ResourceLinkType,
-} from '@frontend/common'
+import { Answer, Certificate, CertificateRelationType, CertificateStatus, Complement, Question, QuestionType } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

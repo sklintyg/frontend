@@ -1,4 +1,5 @@
-import { NumberCircle, UserTab } from '@frontend/common'
+import { NumberCircle } from '@frontend/common'
+import { UserTab } from '@frontend/common/types'
 import classNames from 'classnames'
 import React from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'

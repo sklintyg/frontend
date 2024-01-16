@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { SigningMethod, Unit, User } from '@frontend/common'
+import { SigningMethod, Unit, User } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

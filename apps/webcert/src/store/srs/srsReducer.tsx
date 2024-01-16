@@ -1,4 +1,14 @@
+import {
+  SrsAnswer,
+  SrsInfoForDiagnosis,
+  SrsPrediction,
+  SrsQuestion,
+  SrsSickLeaveChoice,
+  SrsUserClientContext,
+  ValueDiagnosisList,
+} from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
+import { getFilteredPredictions } from '../../components/srs/srsUtils'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   resetState,
@@ -26,16 +36,6 @@ import {
   updateUserClientContext,
   updateUserLaunchFromOrigin,
 } from './srsActions'
-import {
-  SrsAnswer,
-  SrsInfoForDiagnosis,
-  SrsPrediction,
-  SrsQuestion,
-  SrsSickLeaveChoice,
-  SrsUserClientContext,
-  ValueDiagnosisList,
-} from '@frontend/common'
-import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
 export interface SRSState {
   diagnosisListValue: ValueDiagnosisList | null

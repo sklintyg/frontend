@@ -1,4 +1,4 @@
-import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
+import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common/types'
 import { RootState } from '../store'
 import { Configuration } from './utilsReducer'
 
