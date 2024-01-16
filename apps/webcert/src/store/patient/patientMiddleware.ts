@@ -1,6 +1,6 @@
-import { PatientStatus } from '@frontend/common/types'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { PatientStatus } from '../../types'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestWithErrorId } from '../error/errorCreator'

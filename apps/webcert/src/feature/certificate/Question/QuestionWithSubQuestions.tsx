@@ -1,4 +1,3 @@
-import { CertificateDataElementStyleEnum } from '@frontend/common'
 import { isEqual } from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -6,6 +5,7 @@ import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
 import Question from './Question'
 import QuestionWrapper from './QuestionWrapper'
+import { CertificateDataElementStyleEnum } from '../../../types'
 
 interface HighlightedProps {
   highlight: boolean

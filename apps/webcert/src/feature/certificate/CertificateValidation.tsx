@@ -1,10 +1,9 @@
-import { InfoBox } from '@frontend/common'
 import _ from 'lodash'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-scroll'
 import styled from 'styled-components'
 import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
+import InfoBox from '../../components/utils/InfoBox'
 
 const ErrorLink = styled(Link)`
   cursor: pointer;

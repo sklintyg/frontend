@@ -1,9 +1,9 @@
-import { QuestionValidationTexts } from '@frontend/common'
 import { isEqual } from 'lodash'
 import { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
 
 const ValidationErrorWrapper = styled.div`
   :not(:last-child) {

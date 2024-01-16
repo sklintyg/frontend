@@ -1,4 +1,3 @@
-import { CertificateDataElement, fakeCertificateValue, fakeIcf, fakeICFDataElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -18,6 +17,8 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { flushPromises } from '../../../../utils/flushPromises'
 import { CertificateContext } from '../../CertificateContext'
 import UeIcf from './UeIcf'
+import { fakeICFDataElement, fakeIcf, fakeCertificateValue } from '../../../../faker'
+import { CertificateDataElement } from '../../../../types'
 
 const QUESTION_ID = 'questionid'
 const PLACEHOLDER = 'placeholder'

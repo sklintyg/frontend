@@ -1,9 +1,9 @@
-import { fakeCauseOfDeathElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
+import { fakeCauseOfDeathElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeCauseOfDeath',

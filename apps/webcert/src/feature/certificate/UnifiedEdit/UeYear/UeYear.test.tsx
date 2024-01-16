@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeCertificateValidationError, fakeYearElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeYear from './UeYear'
+import { fakeYearElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett år mellan patientens födelseår och aktuellt år.'

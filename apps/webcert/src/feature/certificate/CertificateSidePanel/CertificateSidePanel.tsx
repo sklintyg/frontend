@@ -1,15 +1,17 @@
-import { LightbulpIcon, ResourceLink, ResourceLinkType, SrsEvent, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
-import AboutCertificatePanel from './AboutCertificatePanel'
-import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
+import QuestionPanel from '../../../components/question/QuestionPanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
+import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
+import AboutCertificatePanel from './AboutCertificatePanel'
+import { Tabs } from '../../../components/Tabs/Tabs'
+import { LightbulpIcon } from '../../../images'
+import { ResourceLinkType, ResourceLink, SrsEvent } from '../../../types'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)

@@ -1,5 +1,8 @@
-import { getUser } from '@frontend/common'
-import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '@frontend/common/faker'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '../../faker'
 import {
   Certificate,
   CertificateDataElementStyleEnum,
@@ -8,11 +11,8 @@ import {
   CertificateRelations,
   CertificateStatus,
   SigningMethod,
-} from '@frontend/common/types'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import { vi } from 'vitest'
+} from '../../types'
+import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'

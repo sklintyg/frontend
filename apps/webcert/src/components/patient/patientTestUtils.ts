@@ -1,4 +1,4 @@
-import { Patient } from '@frontend/common'
+import { Patient } from '../../types'
 
 export const createPatient = (patientId: string): Patient => {
   return {

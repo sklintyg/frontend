@@ -1,4 +1,3 @@
-import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -13,6 +12,7 @@ import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/que
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import QuestionItem from './QuestionItem'
+import { Question, Complement, QuestionType, ResourceLinkType } from '../../types'
 
 let testStore: EnhancedStore
 

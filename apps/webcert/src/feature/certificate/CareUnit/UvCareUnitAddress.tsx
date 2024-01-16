@@ -1,4 +1,3 @@
-import { calendarImage } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -6,6 +5,7 @@ import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryTitle from '../Category/CategoryTitle'
+import { calendarImage } from '../../../images'
 
 const CareUnitHeaderWrapper = styled.div`
   color: white !important;

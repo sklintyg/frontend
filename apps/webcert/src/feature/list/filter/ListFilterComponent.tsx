@@ -1,3 +1,6 @@
+import { isEqual } from 'lodash'
+import { useSelector } from 'react-redux'
+import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import {
   ListFilterConfig,
   ListFilterDateRangeConfig,
@@ -5,11 +8,7 @@ import {
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValue,
-} from '@frontend/common'
-import { isEqual } from 'lodash'
-import * as React from 'react'
-import { useSelector } from 'react-redux'
-import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+} from '../../../types'
 import { getListFilterDefaultValue } from '../listUtils'
 import DateRangeFilter from './DateRangeFilter'
 import PersonIdFilter from './PersonIdFilter'

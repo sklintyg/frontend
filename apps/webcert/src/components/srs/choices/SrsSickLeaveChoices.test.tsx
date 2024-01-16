@@ -1,10 +1,11 @@
-import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, SrsUserClientContext, fakeCertificate } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificate } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { updateUserClientContext } from '../../../store/srs/srsActions'
 import store from '../../../store/store'
+import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, SrsUserClientContext } from '../../../types'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
 import SrsSickLeaveChoices from './SrsSickLeaveChoices'
 

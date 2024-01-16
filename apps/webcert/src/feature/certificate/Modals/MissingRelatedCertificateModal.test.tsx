@@ -1,4 +1,3 @@
-import { fakeResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -11,6 +10,8 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
+import { fakeResourceLink } from '../../../faker'
+import { ResourceLinkType } from '../../../types'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

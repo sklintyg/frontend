@@ -1,16 +1,11 @@
-import {
-  CertificateDataElement,
-  ConfigLayout,
-  ConfigUeRadioMultipleCodes,
-  QuestionValidationTexts,
-  RadioButton,
-  ValueCode,
-} from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import RadioButton from '../../../../components/Inputs/RadioButton'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { CertificateDataElement, ConfigLayout, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 

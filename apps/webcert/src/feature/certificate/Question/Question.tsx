@@ -1,6 +1,4 @@
-import { CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon } from '@frontend/common'
 import _ from 'lodash'
-import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -9,6 +7,9 @@ import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
 import QuestionUvResolve from './QuestionUvResolve'
+import Icon from '../../../components/image/image/Icon'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import { ConfigTypes, CertificateDataConfig } from '../../../types'
 
 export interface QuestionProps {
   id: string

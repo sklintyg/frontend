@@ -1,7 +1,7 @@
-import { Answer, Certificate, CertificateRelationType, CertificateStatus, Complement, Question, QuestionType } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { Answer, Certificate, CertificateRelationType, CertificateStatus, Complement, Question, QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'

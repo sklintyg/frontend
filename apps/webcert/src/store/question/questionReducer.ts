@@ -1,5 +1,5 @@
-import { Question, QuestionType } from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
+import { Question, QuestionType } from '../../types'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,

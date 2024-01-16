@@ -1,8 +1,12 @@
-import { Accordion, AccordionHeader, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import Accordion from '../../../components/utils/Accordion'
+import AccordionHeader from '../../../components/utils/AccordionHeader'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import { Text } from '../../../components/utils/Text'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
+import { sanitizeText } from '../../../utils'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
 

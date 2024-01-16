@@ -1,7 +1,7 @@
-import { CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import styled from 'styled-components'
 import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'
+import { CertificateMetadata } from '../../../types'
 
 const Wrapper = styled.section`
   flex-grow: 1;

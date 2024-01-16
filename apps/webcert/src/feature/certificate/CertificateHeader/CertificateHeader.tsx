@@ -1,5 +1,3 @@
-import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
@@ -19,9 +17,12 @@ import ShowHistory from './ShowHistory'
 
 import _ from 'lodash'
 import { getQuestions } from '../../../store/question/questionSelectors'
+import { SignCertificateModal } from '../Modals/SignCertificateModal'
 import NavigateBackButton from './NavigateBackButton'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
-import { SignCertificateModal } from '../Modals/SignCertificateModal'
+import { Divider } from '../../../components/utils/Divider'
+import { ResourceLinkType } from '../../../types'
+import { resourceLinksAreEqual } from '../../../utils'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);

@@ -1,4 +1,3 @@
-import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
@@ -6,6 +5,8 @@ import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
+import { fakeCauseOfDeathElement } from '../../../../faker'
+import { CertificateDataElement, CertificateDataValidationType } from '../../../../types'
 
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'causeOfDeath'

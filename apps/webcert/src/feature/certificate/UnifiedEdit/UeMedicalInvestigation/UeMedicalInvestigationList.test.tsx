@@ -1,4 +1,3 @@
-import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,8 @@ import { showValidationErrors, updateCertificate, updateValidationErrors } from 
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
+import { fakeMedicalInvestigationListElement, fakeCertificate } from '../../../../faker'
+import { ConfigUeMedicalInvestigationList } from '../../../../types'
 
 faker.seed(10)
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { InfoBox } from '@frontend/common'
 import { useDispatch } from 'react-redux'
 import { throwError } from '../../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
+import InfoBox from '../../utils/InfoBox'
 
 const SrsPanelError: React.FC = () => {
   const dispatch = useDispatch()

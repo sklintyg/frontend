@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-es'
+import { isEqual } from 'lodash'
 import { CertificateDataValidation, CertificateDataValidationType } from '../../types'
 import { ValidationResult } from './getValidationResults'
 

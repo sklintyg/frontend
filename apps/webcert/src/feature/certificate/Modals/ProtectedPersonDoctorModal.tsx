@@ -1,7 +1,8 @@
-import { InfoBox, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { isDoctor } from '../../../store/user/userSelectors'
+import InfoBox from '../../../components/utils/InfoBox'
+import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
 
 const ProtectedPersonDoctorModal: React.FC = () => {
   const isUserDoctor = useSelector(isDoctor)

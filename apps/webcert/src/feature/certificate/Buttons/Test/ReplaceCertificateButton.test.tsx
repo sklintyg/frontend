@@ -1,9 +1,9 @@
-import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import ReplaceCertificateButton from '../ReplaceCertificateButton'
+import CustomTooltip from '../../../../components/utils/CustomTooltip'
 
 const NAME = 'Replace button name'
 const DESCRIPTION = 'Replace button description'

@@ -1,6 +1,6 @@
-import { LoginMethod, ResourceLink, User } from '@frontend/common/types'
 import React from 'react'
 import styled from 'styled-components'
+import { ResourceLink, User, LoginMethod } from '../types'
 
 const StyledLink = styled.button`
   text-align: center;

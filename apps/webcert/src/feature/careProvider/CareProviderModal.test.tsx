@@ -1,13 +1,3 @@
-import {
-  fakePatient,
-  getChangeUnitResourceLink,
-  getChooseUnitResourceLink,
-  getUser,
-  getUserStatistics,
-  getUserStatisticsForOneCareUnit,
-  getUserWithEmptyCareUnitWithoutUnits,
-  getUserWithEmptyUnit,
-} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -18,12 +8,22 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { START_URL_FOR_DOCTORS } from '../../constants'
+import { fakePatient } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient } from '../../store/patient/patientActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import {
+  getChangeUnitResourceLink,
+  getChooseUnitResourceLink,
+  getUser,
+  getUserStatistics,
+  getUserStatisticsForOneCareUnit,
+  getUserWithEmptyCareUnitWithoutUnits,
+  getUserWithEmptyUnit,
+} from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import CareProviderModal from './CareProviderModal'
 

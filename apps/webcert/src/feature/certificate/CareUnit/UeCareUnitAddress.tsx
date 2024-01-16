@@ -1,4 +1,3 @@
-import { getValidationErrors, MandatoryIcon, QuestionValidationTexts, TextArea, Unit } from '@frontend/common'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +13,11 @@ import {
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import TextArea from '../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import { Unit } from '../../../types'
+import { getValidationErrors } from '../../../utils'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'

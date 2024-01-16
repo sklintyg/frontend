@@ -1,20 +1,15 @@
-import {
-  ButtonWithConfirmModal,
-  CustomButton,
-  editImage,
-  getResourceLink,
-  Question,
-  ResourceLink,
-  ResourceLinkType,
-  speechBubbleImage,
-} from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
+import { editImage, speechBubbleImage } from '../../images'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
+import { Question, ResourceLink, ResourceLinkType } from '../../types'
+import { getResourceLink } from '../../utils'
+import { CustomButton } from '../Inputs/CustomButton'
+import ButtonWithConfirmModal from '../utils/Modal/ButtonWithConfirmModal'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 
 interface Props {

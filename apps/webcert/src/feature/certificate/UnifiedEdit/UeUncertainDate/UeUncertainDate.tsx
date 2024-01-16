@@ -1,18 +1,13 @@
-import {
-  CertificateDataElement,
-  ConfigUeDropdownItem,
-  ConfigUeUncertainDate,
-  Dropdown,
-  QuestionValidationTexts,
-  TextInput,
-  ValueUncertainDate,
-} from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import Dropdown from '../../../../components/Inputs/Dropdown'
+import TextInput from '../../../../components/Inputs/TextInput'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { CertificateDataElement, ConfigUeDropdownItem, ConfigUeUncertainDate, ValueUncertainDate } from '../../../../types'
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;

@@ -1,8 +1,7 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import alertImage from '../../images/alert.svg'
-import warningImage from '../../images/warning.svg'
 import lockClosed from '../../images/lock-closed.svg'
+import warningImage from '../../images/warning.svg'
 import { PatientListInfo } from '../../types/list'
 import { formatPersonId } from '../../utils/personIdValidatorUtils'
 

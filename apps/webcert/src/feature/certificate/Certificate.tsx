@@ -1,4 +1,3 @@
-import { CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,6 +24,9 @@ import { QuestionValidationError } from './Question/QuestionValidationError'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
+import InfoBox from '../../components/utils/InfoBox'
+import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
+import { ResourceLinkType, CertificateDataElementStyleEnum, ConfigTypes } from '../../types'
 
 const Wrapper = styled.div`
   overflow-y: auto;

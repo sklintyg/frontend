@@ -1,7 +1,7 @@
-import { InfoBox } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getSickLeavePeriodWarning } from '../../../../store/fmb/fmbSelectors'
+import InfoBox from '../../../../components/utils/InfoBox'
 
 export const SickLeavePeriodWarning: React.FC = () => {
   const warning = useSelector(getSickLeavePeriodWarning)

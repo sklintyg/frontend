@@ -1,9 +1,10 @@
-import { getResourceLinkWithType, getUserWithMissingSubscription, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { ResourceLinkType } from '../../types'
+import { getResourceLinkWithType, getUserWithMissingSubscription } from '../../utils'
 import WebcertHeader from './WebcertHeader'
 
 const renderComponent = () => {

@@ -1,4 +1,4 @@
-import { CertificateType, Patient } from '@frontend/common/types'
+import { CertificateType, Patient } from '../../types'
 import { ErrorRequest } from '../error/errorReducer'
 import { RootState } from '../store'
 

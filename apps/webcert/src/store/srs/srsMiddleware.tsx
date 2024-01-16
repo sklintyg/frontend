@@ -1,4 +1,6 @@
-import { isRenewedChild } from '@frontend/common'
+import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
 import {
   Certificate,
   CertificateDataValueType,
@@ -7,10 +9,8 @@ import {
   SrsQuestion,
   SrsUserClientContext,
   ValueDiagnosisList,
-} from '@frontend/common/types'
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
+} from '../../types'
+import { isRenewedChild } from '../../utils'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { getUserSuccess } from '../user/userActions'

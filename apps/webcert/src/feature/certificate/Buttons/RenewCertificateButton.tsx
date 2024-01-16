@@ -1,4 +1,3 @@
-import { ButtonWithConfirmModal, Checkbox, CustomButton, ReloadIcon, sanitizeText } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,6 +5,11 @@ import { renewCertificate } from '../../../store/certificate/certificateActions'
 import { setUserPreference } from '../../../store/user/userActions'
 import { getUser } from '../../../store/user/userSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import Checkbox from '../../../components/Inputs/Checkbox'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { ReloadIcon } from '../../../images'
+import { sanitizeText } from '../../../utils'
 
 interface Props extends FunctionDisabled {
   name: string

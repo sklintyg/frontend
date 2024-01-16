@@ -1,8 +1,9 @@
 import React, { ChangeEvent } from 'react'
-import { Checkbox, TextInput } from '@frontend/common'
-import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateIntegrationParameters, updateIntegrationParametersDisablers } from '../../store/welcome/welcomeActions'
+import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
+import Checkbox from '../Inputs/Checkbox'
+import TextInput from '../Inputs/TextInput'
 
 const WelcomeIntegrationParameters: React.FC = () => {
   const integrationParameters = useSelector(getIntegrationParameters())

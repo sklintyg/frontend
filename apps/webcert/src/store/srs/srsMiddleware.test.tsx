@@ -1,3 +1,6 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import {
   fakeCertificate,
   fakeCertificateMetaData,
@@ -7,11 +10,8 @@ import {
   fakeSrsInfo,
   fakeSrsPrediction,
   fakeUser,
-} from '@frontend/common/faker'
-import { CertificateStatus, SrsEvent, SrsUserClientContext, User } from '@frontend/common/types'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+} from '../../faker'
+import { CertificateStatus, SrsEvent, SrsUserClientContext, User } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'

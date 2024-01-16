@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import PanelHeader from '../../../feature/certificate/CertificateSidePanel/PanelHeader'
-import SrsPanelError from './SrsPanelError'
-import SrsPanelNoSupportInfo from './SrsPanelNoSupportInfo'
-import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
 import { useDispatch, useSelector } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+import PanelHeader from '../../../feature/certificate/CertificateSidePanel/PanelHeader'
+import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
 import {
   getCertificateId,
   getDiagnosisCode,
@@ -14,18 +14,19 @@ import {
   getPatientId,
   hasLoggedMeasuresDisplayed,
 } from '../../../store/srs/srsSelectors'
-import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
-import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
+import { SrsEvent, SrsInformationChoice } from '../../../types'
+import Spinner from '../../utils/Spinner'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
-import { Spinner, SrsEvent, SrsInformationChoice } from '@frontend/common'
-import SrsRecommendations from '../recommendations/SrsRecommendations'
-import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
-import ReactTooltip from 'react-tooltip'
-import styled from 'styled-components'
-import SrsRisk from '../risk/SrsRisk'
+import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import { SrsMinimizedView } from '../minimizedView/SrsMinimizedView'
+import SrsRecommendations from '../recommendations/SrsRecommendations'
+import SrsRisk from '../risk/SrsRisk'
 import { isScrolledIntoView } from '../srsUtils'
+import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
+import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
+import SrsPanelError from './SrsPanelError'
+import SRSPanelFooter from './SrsPanelFooter'
+import SrsPanelNoSupportInfo from './SrsPanelNoSupportInfo'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 

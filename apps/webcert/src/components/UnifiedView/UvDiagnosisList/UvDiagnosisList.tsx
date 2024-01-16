@@ -1,7 +1,11 @@
 import React from 'react'
 import { ValueDiagnosisList } from '../../../types'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
 import { Badge } from '../Badge'
+import { Table } from '../../Table/Table'
+import { TableBody } from '../../Table/TableBody'
+import { TableCell } from '../../Table/TableCell'
+import { TableHeader } from '../../Table/TableHeader'
+import { TableRow } from '../../Table/TableRow'
 
 export const UvDiagnosisList: React.FC<{
   value: ValueDiagnosisList

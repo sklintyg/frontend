@@ -1,7 +1,11 @@
 import React from 'react'
 import { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
-import { formatAcuity } from '../../../utils'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
+import { formatAcuity } from '../../../utils/format/formatAcuity'
+import { Table } from '../../Table/Table'
+import { TableBody } from '../../Table/TableBody'
+import { TableCell } from '../../Table/TableCell'
+import { TableHeader } from '../../Table/TableHeader'
+import { TableRow } from '../../Table/TableRow'
 
 export const UvVisualAcuity: React.FC<{
   value: ValueVisualAcuity

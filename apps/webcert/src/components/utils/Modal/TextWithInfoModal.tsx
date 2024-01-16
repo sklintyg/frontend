@@ -2,7 +2,7 @@ import classnames from 'classnames'
 import React, { useEffect } from 'react'
 import { LinkButton } from '../../../styles'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
-import { CustomButton } from '../../Inputs'
+import { CustomButton } from '../../Inputs/CustomButton'
 import ModalBase from './ModalBase'
 
 interface Props {

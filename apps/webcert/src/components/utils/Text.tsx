@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Text = styled.p`
+export const Text = styled.p`
   max-height: 195px;
   overflow-y: auto;
   white-space: pre-wrap;
@@ -26,4 +26,3 @@ const Text = styled.p`
     }
   }
 `
-export default Text

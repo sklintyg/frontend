@@ -1,5 +1,4 @@
-import { InfoBox } from '@frontend/common'
-import * as React from 'react'
+import InfoBox from '../../../components/utils/InfoBox'
 
 interface Props {
   type: 'info' | 'error' | 'success' | 'observe'

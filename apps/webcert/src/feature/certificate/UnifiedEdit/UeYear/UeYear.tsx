@@ -1,15 +1,10 @@
-import {
-  CertificateDataElement,
-  ConfigUeYear,
-  DatePickerCustom,
-  QuestionValidationTexts,
-  ValidationWrapper,
-  ValueYear,
-} from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import DatePickerCustom, { ValidationWrapper } from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { CertificateDataElement, ConfigUeYear, ValueYear } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

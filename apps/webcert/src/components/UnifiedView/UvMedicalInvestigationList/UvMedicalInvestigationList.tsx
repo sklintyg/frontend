@@ -5,8 +5,11 @@ import {
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
 } from '../../../types'
-import { Table, TableCell, TableHeader, TableRow } from '../../Table'
 import { Badge } from '../Badge'
+import { Table } from '../../Table/Table'
+import { TableCell } from '../../Table/TableCell'
+import { TableHeader } from '../../Table/TableHeader'
+import { TableRow } from '../../Table/TableRow'
 
 const getMedicalValue = (value: ValueMedicalInvestigationList, medicalConfig: ConfigUeMedicalInvestigation) => {
   return value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)

@@ -1,4 +1,3 @@
-import { ListType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -15,6 +14,7 @@ import { listMiddleware } from '../../../store/list/listMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ListContainer from '../ListContainer'
 import { getConfig, getDefaultList, getFilter } from './listTestUtils'
+import { ListType } from '../../../types'
 
 let testStore: EnhancedStore
 

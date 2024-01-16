@@ -1,23 +1,23 @@
+import _ from 'lodash'
+import React, { useEffect, useRef } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
+import styled, { css } from 'styled-components'
+import Typeahead from '../../../../components/Inputs/Typeahead'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../../store/store'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   Diagnosis,
-  QuestionValidationTexts,
   TextValidation,
-  Typeahead,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
-} from '@frontend/common'
-import _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
-import styled, { css } from 'styled-components'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
-import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
-import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
+} from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

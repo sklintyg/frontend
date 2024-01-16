@@ -1,21 +1,19 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeTypeahead,
-  GetFilteredSuggestions,
-  QuestionValidationTexts,
-  Suggestion,
-  TextValidation,
-  Typeahead,
-  ValueText,
-} from '@frontend/common'
 import _ from 'lodash'
-import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Typeahead, { Suggestion } from '../../../../components/Inputs/Typeahead'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import {
+  CertificateDataElement,
+  ConfigUeTypeahead,
+  CertificateDataValidationType,
+  TextValidation,
+  ValueText,
+  CertificateDataValueType,
+} from '../../../../types'
+import { GetFilteredSuggestions } from '../../../../utils'
 
 export interface Props {
   question: CertificateDataElement

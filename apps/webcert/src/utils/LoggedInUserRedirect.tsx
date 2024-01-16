@@ -1,4 +1,3 @@
-import { SpinnerBackdrop } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -8,6 +7,7 @@ import {
   isDoctor as selectIsDoctor,
   selectIsLoadingUser,
 } from '../store/user/userSelectors'
+import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 
 export const LoggedInUserRedirect: React.FC = ({ children }) => {
   const isLoadingUser = useSelector(selectIsLoadingUser)

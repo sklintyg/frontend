@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { merge } from 'lodash-es'
+import { merge } from 'lodash'
 import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,

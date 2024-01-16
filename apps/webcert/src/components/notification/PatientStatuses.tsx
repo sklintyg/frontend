@@ -1,8 +1,7 @@
-import * as React from 'react'
+import { Patient } from '../../types'
 import PatientDeceasedStatus from './PatientDeceasedStatus'
-import { Patient } from '@frontend/common'
-import ProtectedPatientStatus from './ProtectedPatientStatus'
 import PatientTestIndicatedStatus from './PatientTestIndicatedStatus'
+import ProtectedPatientStatus from './ProtectedPatientStatus'
 
 interface Props {
   patient: Patient

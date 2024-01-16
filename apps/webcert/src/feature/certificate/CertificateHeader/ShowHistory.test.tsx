@@ -1,13 +1,8 @@
-import {
-  CertificateEvent,
-  CertificateEventType,
-  CertificateRelationType,
-  CertificateStatus,
-  fakeCertificateMetaData,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../faker'
+import { CertificateEvent, CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
 import ShowHistory from './ShowHistory'
 
 describe('Verify history events', () => {

@@ -1,9 +1,10 @@
-import { Dropdown, ListFilterSelectConfig, ListFilterType, ListFilterValue, ListFilterValueSelect, sanitizeText } from '@frontend/common'
-import * as React from 'react'
 import { ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'
+import Dropdown from '../../../components/Inputs/Dropdown'
+import { ListFilterSelectConfig, ListFilterValue, ListFilterValueSelect, ListFilterType } from '../../../types'
+import { sanitizeText } from '../../../utils'
 
 interface Props {
   /** Contains all filter options that should be displayed. */

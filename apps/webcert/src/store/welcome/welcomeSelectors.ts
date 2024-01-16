@@ -1,4 +1,4 @@
-import { Patient } from '@frontend/common/types'
+import { Patient } from '../../types'
 import { RootState } from '../store'
 import { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
 

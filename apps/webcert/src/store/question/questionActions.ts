@@ -1,5 +1,5 @@
-import { Answer, Complement, Question } from '@frontend/common/types'
 import { createAction } from '@reduxjs/toolkit'
+import { Answer, Complement, Question } from '../../types'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { ApiGenericError } from '../api/apiActions'
 

@@ -1,17 +1,3 @@
-import { isShowAlways } from '@frontend/common'
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  CertificateEvent,
-  CertificateSignStatus,
-  Complement,
-  ConfigTypes,
-  ModalData,
-  ValueBoolean,
-  ValueText,
-} from '@frontend/common/types'
 import { createReducer } from '@reduxjs/toolkit'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { ErrorData } from '../error/errorReducer'
@@ -57,6 +43,20 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
+import {
+  Certificate,
+  CertificateEvent,
+  Complement,
+  CertificateSignStatus,
+  ModalData,
+  ConfigTypes,
+  CertificateDataValueType,
+  ValueText,
+  ValueBoolean,
+  CertificateDataValidationType,
+  CertificateDataElementStyleEnum,
+} from '../../types'
+import { isShowAlways } from '../../utils'
 
 export interface CertificateState {
   certificate?: Certificate

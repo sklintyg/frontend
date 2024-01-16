@@ -1,13 +1,3 @@
-import {
-  Certificate,
-  CertificateSignStatus,
-  CertificateStatus,
-  getCertificateToSave,
-  getClientValidationErrors,
-  getDecoratedCertificateData,
-  isLocked,
-  SigningMethod,
-} from '@frontend/common'
 import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
 import _ from 'lodash'
@@ -111,8 +101,8 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSigningData,
   updateCertificateSignStatus,
+  updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -126,6 +116,10 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
+import { Certificate, CertificateStatus, CertificateSignStatus, SigningMethod } from '../../types'
+import { isLocked, getCertificateToSave } from '../../utils'
+import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
+import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
 
 const handleGetCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>

@@ -1,4 +1,3 @@
-import { fakeCauseOfDeathListElement, fakeCertificateMetaData } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider, useSelector } from 'react-redux'
@@ -7,6 +6,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
+import { fakeCertificateMetaData, fakeCauseOfDeathListElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeCauseOfDeathList',

@@ -1,15 +1,8 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  ConfigUeIcf,
-  QuestionValidationTexts,
-  TextArea,
-  TextValidation,
-  ValueIcf,
-} from '@frontend/common'
 import { debounce, isEqual } from 'lodash'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import TextArea from '../../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import IcfDropdown from '../../../../components/icf/IcfDropdown'
 import { getFilteredIcfValues, getIcfValueList } from '../../../../components/icf/IcfUtils'
 import usePrevious from '../../../../hooks/usePrevious'
@@ -17,6 +10,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { getIcfData } from '../../../../store/icf/icfSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { CertificateDataElement, CertificateDataValidationType, ConfigUeIcf, TextValidation, ValueIcf } from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

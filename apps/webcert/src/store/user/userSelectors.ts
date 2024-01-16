@@ -1,4 +1,4 @@
-import { ResourceLink, ResourceLinkType, Unit, UnitStatistics, User, UserStatistics } from '@frontend/common/types'
+import { ResourceLink, ResourceLinkType, Unit, UnitStatistics, User, UserStatistics } from '../../types'
 import { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user

@@ -1,22 +1,21 @@
-import {
-  addCircleImage,
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigUeCauseOfDeathList,
-  CustomButton,
-  removeCircleImage,
-  ValueCauseOfDeath,
-  ValueCauseOfDeathList,
-  ValueDate,
-  ValueText,
-} from '@frontend/common'
 import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { CustomButton } from '../../../../components/Inputs/CustomButton'
+import { addCircleImage, removeCircleImage } from '../../../../images'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigUeCauseOfDeathList,
+  ValueCauseOfDeath,
+  ValueCauseOfDeathList,
+  ValueDate,
+  ValueText,
+} from '../../../../types'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {

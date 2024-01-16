@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react'
 import { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
+import { Table } from '../../Table/Table'
+import { TableBody } from '../../Table/TableBody'
+import { TableCell } from '../../Table/TableCell'
+import { TableHeader } from '../../Table/TableHeader'
+import { TableRow } from '../../Table/TableRow'
 import { Badge } from '../Badge'
 
 export const UvCauseOfDeathList: React.FC<{

@@ -1,8 +1,8 @@
-import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import ListFilterButtons from '../ListFilterButtons'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
 const TOOLTIP_RESET = 'Återställ sökfilter.'

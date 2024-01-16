@@ -1,8 +1,8 @@
-import { InfoBox } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'
+import InfoBox from '../../../components/utils/InfoBox'
 
 export const RevokeDBAndDOIModalContent: React.FC = () => {
   const locked = useSelector(getIsLocked)

@@ -1,4 +1,3 @@
-import { CustomButton, ModalBase, ResourceLinkType } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,6 +5,9 @@ import styled from 'styled-components'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import { getIsCareProviderModalOpen, getUserResourceLinks, selectIsLoadingUserStatistics } from '../../store/user/userSelectors'
 import { CareProviderModalContent } from './CareProviderModalContent'
+import { CustomButton } from '../../components/Inputs/CustomButton'
+import ModalBase from '../../components/utils/Modal/ModalBase'
+import { ResourceLinkType } from '../../types'
 
 const ModalBaseLarge = styled(ModalBase)`
   max-width: 55rem;

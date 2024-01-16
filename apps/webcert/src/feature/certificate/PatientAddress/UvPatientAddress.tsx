@@ -1,12 +1,12 @@
+import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { css } from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
-import { css } from 'styled-components'
-import { Badge } from '@frontend/common'
-import _ from 'lodash'
+import { Badge } from '../../../components/UnifiedView/Badge'
 
 const additionalContentStyles = css`
   p + p {

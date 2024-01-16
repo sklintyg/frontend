@@ -1,6 +1,4 @@
-import { CertificateSignStatus, getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
 import _ from 'lodash'
-import * as React from 'react'
 
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -15,6 +13,10 @@ import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
+import InfoBox from '../../../components/utils/InfoBox'
+import StatusWithIcon from '../../../components/utils/StatusWithIcon'
+import { CertificateSignStatus, ResourceLinkType } from '../../../types'
+import { resourceLinksAreEqual, getResourceLink } from '../../../utils'
 
 const Wrapper = styled.div`
   display: flex;

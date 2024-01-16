@@ -1,9 +1,10 @@
-import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import CopyCertificateButton from '../CopyCertificateButton'
+import CustomTooltip from '../../../../components/utils/CustomTooltip'
+import { CertificateMetadata } from '../../../../types'
 
 const NAME = 'Copy button name'
 const DESCRIPTION = 'Copy button description'

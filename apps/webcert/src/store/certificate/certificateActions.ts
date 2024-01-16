@@ -1,19 +1,19 @@
-import {
-  Certificate,
-  CertificateDataElement,
-  CertificateEvent,
-  CertificateMetadata,
-  CertificateSignStatus,
-  CertificateStatus,
-  Complement,
-  ModalData,
-  Patient,
-  Unit,
-  ValidationError,
-} from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { ApiError } from '../api/apiActions'
+import {
+  Certificate,
+  CertificateEvent,
+  CertificateSignStatus,
+  ModalData,
+  ValidationError,
+  CertificateStatus,
+  CertificateDataElement,
+  Unit,
+  Patient,
+  CertificateMetadata,
+  Complement,
+} from '../../types'
 
 const CERTIFICATE = '[CERTIFICATE]'
 

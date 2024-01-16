@@ -1,16 +1,11 @@
-import {
-  CertificateRelationType,
-  CertificateStatus,
-  CustomTooltip,
-  fakeCertificateMetaData,
-  fakeCertificateRelation,
-  fakeCertificateRelations,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
+import CustomTooltip from '../../../../components/utils/CustomTooltip'
+import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../../faker'
+import { CertificateRelationType, CertificateStatus } from '../../../../types'
 import ReplaceCertificateContinueButton from '../ReplaceCertificateContinueButton'
 
 const NAME = 'Replace continue button name'

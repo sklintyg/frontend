@@ -1,4 +1,4 @@
-import { Question } from '@frontend/common/types'
+import { Question } from '../../types'
 import { RootState } from '../store'
 
 export const getQuestions = (state: RootState): Question[] => state.ui.uiQuestion.questions

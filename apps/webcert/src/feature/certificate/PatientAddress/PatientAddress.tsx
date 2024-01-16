@@ -1,17 +1,10 @@
-import {
-  getResourceLink,
-  getValidationErrors,
-  MandatoryIcon,
-  Patient,
-  QuestionValidationTexts,
-  resourceLinksAreEqual,
-  ResourceLinkType,
-  TextArea,
-} from '@frontend/common'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import TextArea from '../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getIsEditable,
@@ -21,6 +14,8 @@ import {
   getResourceLinks,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
+import { Patient, ResourceLinkType } from '../../../types'
+import { getResourceLink, getValidationErrors, resourceLinksAreEqual } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'

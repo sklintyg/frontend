@@ -1,4 +1,3 @@
-import { CustomButton, Question, QuestionType } from '@frontend/common'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,6 +12,8 @@ import {
   isCreateQuestionsAvailable,
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
+import { Question, QuestionType } from '../../types'
+import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'

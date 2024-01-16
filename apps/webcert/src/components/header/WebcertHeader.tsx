@@ -1,4 +1,3 @@
-import { Banner, ResourceLinkType, SystemBanner, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -13,10 +12,13 @@ import {
   getUserStatistics,
   isDoctor,
 } from '../../store/user/userSelectors'
+import { Banner, ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import AppHeader from '../AppHeader/AppHeader'
 import SystemBanners from '../notification/SystemBanners'
+import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
+import SystemBanner from '../utils/SystemBanner'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import logo from './webcert_logo.png'

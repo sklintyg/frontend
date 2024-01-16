@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -6,6 +5,7 @@ import { updateCertificate } from '../../../../store/certificate/certificateActi
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
+import { fakeCertificate, fakeUncertainDateElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeUncertainDate',

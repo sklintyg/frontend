@@ -1,6 +1,9 @@
-import { CertificateMetadata, isSigned, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
+import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
+import { CertificateMetadata } from '../../../../types'
+import { isSigned } from '../../../../utils'
 
 interface Props {
   certificateMetadata: CertificateMetadata

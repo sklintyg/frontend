@@ -1,5 +1,28 @@
+import { isEqual } from 'lodash'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Badge } from '../../../components/UnifiedView/Badge'
+import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
+import { UvCauseOfDeath } from '../../../components/UnifiedView/UvCauseOfDeath/UvCauseOfDeath'
+import { UvCauseOfDeathList } from '../../../components/UnifiedView/UvCauseOfDeathList/UvCauseOfDeathList'
+import { UvCode } from '../../../components/UnifiedView/UvCode/UvCode'
+import { UvCodeList } from '../../../components/UnifiedView/UvCodeList/UvCodeList'
+import { UvDate } from '../../../components/UnifiedView/UvDate/UvDate'
+import { UvDateList } from '../../../components/UnifiedView/UvDateList/UvDateList'
+import { UvDateRange } from '../../../components/UnifiedView/UvDateRange/UvDateRange'
+import { UvDateRangeList } from '../../../components/UnifiedView/UvDateRangeList/UvDateRangeList'
+import { UvDiagnosisList } from '../../../components/UnifiedView/UvDiagnosisList/UvDiagnosisList'
+import { UvIcf } from '../../../components/UnifiedView/UvIcf/UvIcf'
+import { UvInteger } from '../../../components/UnifiedView/UvInteger/UvInteger'
+import { UvMedicalInvestigationList } from '../../../components/UnifiedView/UvMedicalInvestigationList/UvMedicalInvestigationList'
+import { UvTable } from '../../../components/UnifiedView/UvTable/UvTable'
+import { UvText } from '../../../components/UnifiedView/UvText/UvText'
+import { UvUncertainDate } from '../../../components/UnifiedView/UvUncertainDate/UvUncertainDate'
+import { UvViewList } from '../../../components/UnifiedView/UvViewList/UvViewList'
+import { UvVisualAcuity } from '../../../components/UnifiedView/UvVisualAcuity/UvVisualAcuity'
+import { UvYear } from '../../../components/UnifiedView/UvYear/UvYear'
+import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import {
-  Badge,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateDataValueType,
@@ -16,25 +39,6 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
   ConfigUeVisualAcuity,
-  UvBoolean,
-  UvCauseOfDeath,
-  UvCauseOfDeathList,
-  UvCode,
-  UvCodeList,
-  UvDate,
-  UvDateList,
-  UvDateRange,
-  UvDateRangeList,
-  UvDiagnosisList,
-  UvIcf,
-  UvInteger,
-  UvMedicalInvestigationList,
-  UvTable,
-  UvText,
-  UvUncertainDate,
-  UvViewList,
-  UvVisualAcuity,
-  UvYear,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -52,11 +56,7 @@ import {
   ValueViewList,
   ValueViewTable,
   ValueVisualAcuity,
-} from '@frontend/common'
-import _ from 'lodash'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { getQuestion } from '../../../store/certificate/certificateSelectors'
+} from '../../../types'
 import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
 
 const QuestionUvResolve: React.FC<{
@@ -70,7 +70,7 @@ const QuestionUvResolve: React.FC<{
     }
   }
   const optionalDropdown = getOptionalDropdown()
-  const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
+  const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
 
   if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
     return <UeMessage key={question.id} disabled={false} question={question} />

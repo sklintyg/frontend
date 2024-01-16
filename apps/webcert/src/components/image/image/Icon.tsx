@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LightbulpIcon } from '../../images'
+import { LightbulpIcon } from '../../../images'
 
 interface Props {
   iconType: string

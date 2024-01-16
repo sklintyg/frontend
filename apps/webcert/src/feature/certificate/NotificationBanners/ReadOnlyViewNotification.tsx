@@ -1,8 +1,7 @@
-import * as React from 'react'
+import _ from 'lodash'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
-import _ from 'lodash'
 import NotificationBannerBase from './NotificationBannerBase'
 
 const ReadOnlyViewNotification: React.FC = () => {

@@ -1,6 +1,6 @@
-import { ResourceLinkType } from '@frontend/common/types'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { deleteCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'
 import { handleQuestionSuccess } from '../question/questionActions'

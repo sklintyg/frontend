@@ -1,3 +1,4 @@
+import { getFilteredPredictions } from '../../components/srs/srsUtils'
 import {
   SrsAnswer,
   SrsInfoForDiagnosis,
@@ -5,9 +6,8 @@ import {
   SrsPrediction,
   SrsQuestion,
   SrsSickLeaveChoice,
-} from '@frontend/common/src/types/srs'
-import { ValueDiagnosisList } from '@frontend/common/types'
-import { getFilteredPredictions } from '../../components/srs/srsUtils'
+  ValueDiagnosisList,
+} from '../../types'
 import { RootState } from '../store'
 
 export const getDiagnosisListValue = (state: RootState): ValueDiagnosisList | null => state.ui.uiSRS.diagnosisListValue

@@ -1,9 +1,9 @@
-import { fakeDropdownElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeDropdown, { Props } from './UeDropdown'
+import { fakeDropdownElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeDropdown',

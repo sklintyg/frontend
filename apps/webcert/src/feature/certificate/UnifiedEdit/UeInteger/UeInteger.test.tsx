@@ -1,4 +1,3 @@
-import { fakeIntegerElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,6 +6,7 @@ import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeInteger from './UeInteger'
+import { fakeIntegerElement } from '../../../../faker'
 
 let testStore: EnhancedStore
 const QUESTION_ID = 'number'

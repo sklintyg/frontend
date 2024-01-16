@@ -1,6 +1,5 @@
-import { CertificateDataElement, ConfigUeViewText, ValueViewText, UvText } from '@frontend/common'
-
-import * as React from 'react'
+import { UvText } from '../../../../components/UnifiedView/UvText/UvText'
+import { CertificateDataElement, ConfigUeViewText, ValueViewText } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

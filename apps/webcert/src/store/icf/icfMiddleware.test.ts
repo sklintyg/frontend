@@ -1,4 +1,3 @@
-import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -13,6 +12,7 @@ import { updateCertificate, updateCertificateDataElement } from '../certificate/
 import { configureApplicationStore } from '../configureApplicationStore'
 import { IcfRequest, IcfResponse, getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
+import { IcfTitles, Certificate, CertificateStatus, IcfCode, Icd10Code } from '../../types'
 
 const getCertificate = (icfTitles: IcfTitles): Certificate => ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

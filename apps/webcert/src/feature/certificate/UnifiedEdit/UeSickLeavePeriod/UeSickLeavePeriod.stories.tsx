@@ -1,9 +1,9 @@
-import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import { Props, UeSickLeavePeriod } from './UeSickLeavePeriod'
+import { ConfigTypes, CertificateDataValueType, CertificateDataValidationType } from '../../../../types'
 
 export default {
   title: 'Webcert/UeSickLeavePeriod',

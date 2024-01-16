@@ -1,10 +1,10 @@
-import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
+import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../../types'
 
 interface Props {
   disabled?: boolean

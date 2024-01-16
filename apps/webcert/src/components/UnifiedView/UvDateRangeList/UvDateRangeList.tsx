@@ -1,6 +1,10 @@
 import React from 'react'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../../types'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
+import { Table } from '../../Table/Table'
+import { TableBody } from '../../Table/TableBody'
+import { TableCell } from '../../Table/TableCell'
+import { TableHeader } from '../../Table/TableHeader'
+import { TableRow } from '../../Table/TableRow'
 import { Badge } from '../Badge'
 
 export const UvDateRangeList: React.FC<{

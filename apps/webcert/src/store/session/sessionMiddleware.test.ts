@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { SigningMethod, Unit, User } from '@frontend/common/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -21,6 +20,7 @@ import {
   stopPoll,
 } from './sessionActions'
 import { sessionMiddleware } from './sessionMiddleware'
+import { Unit, User, SigningMethod } from '../../types'
 
 function getDummyUnit(): Unit {
   return {

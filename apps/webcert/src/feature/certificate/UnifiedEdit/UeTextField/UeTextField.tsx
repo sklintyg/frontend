@@ -1,19 +1,18 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeTextField,
-  QuestionValidationTexts,
-  TextInput,
-  TextValidation,
-  ValueText,
-} from '@frontend/common'
 import _ from 'lodash'
-import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import TextInput from '../../../../components/Inputs/TextInput'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import {
+  CertificateDataElement,
+  ConfigUeTextField,
+  CertificateDataValidationType,
+  TextValidation,
+  ValueText,
+  CertificateDataValueType,
+} from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement
