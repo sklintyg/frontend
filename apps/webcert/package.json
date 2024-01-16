@@ -10,19 +10,20 @@
     "preview": "vite preview",
     "start": "pnpm dev",
     "test": "vitest",
+    "test:e2e": "playwright test",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@frontend/common": "workspace:*",
     "@frontend/filtrex": "workspace:*",
     "@reduxjs/toolkit": "1.7.2",
     "axios": "^1.6.0",
     "classnames": "^2.3.2",
     "connected-react-router": "^6.9.3",
     "date-fns": "^2.16.1",
+    "dompurify": "^3.0.8",
     "focus-trap-react": "^10.1.0",
     "history": "^4.9.0",
     "inera-core-css": "https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz",
@@ -42,11 +43,15 @@
     "type-fest": "^1.4.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.1",
     "@testing-library/jest-dom": "5",
     "@testing-library/react": "11",
     "@testing-library/user-event": "13",
+    "@types/dompurify": "2.3.3",
+    "@types/faker": "^5.5.9",
     "@types/history": "4.7.11",
     "@types/lodash": "^4.14.191",
+    "@types/node": "^20.11.0",
     "@types/react": "17.0.39",
     "@types/react-datepicker": "^4.3.2",
     "@types/react-dom": "^17.0.11",

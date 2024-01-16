@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import externalLink from '../../images/external_link.svg'
-import externalLinkLight from '../../images/external_link_light.svg'
+import externalLink from '../../../images/external_link.svg'
+import externalLinkLight from '../../../images/external_link_light.svg'
 
 interface Props {
   className: string
