@@ -12,7 +12,7 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/Webcert/)
 })
 
-test('has header elements', async ({ page }) => {
+test('has header content', async ({ page }) => {
   await page.goto('https://wc2.wc.localtest.me/')
 
   await expect(page.getByRole('img', { name: 'Webcert', exact: true })).toBeVisible()
@@ -31,7 +31,7 @@ test('has page content', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'E-legitimation' })).toBeVisible()
 })
 
-test('has footer elements', async ({ page }) => {
+test('has footer content', async ({ page }) => {
   await page.goto('https://wc2.wc.localtest.me/')
 
   await expect(page.getByText('Webcert', { exact: true })).toBeVisible()
