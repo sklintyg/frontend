@@ -1,13 +1,10 @@
-import { defineConfig } from 'vitest/config'
+import { defineProject } from 'vitest/config'
 
-export default defineConfig({
+export default defineProject({
   test: {
     globals: true,
     environment: 'jsdom',
-    include: ['**/*.{test}.?(c|m)[jt]s?(x)'],
-    deps: {
-      inline: [/common\/dist/],
-    },
+    include: ['./src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
     setupFiles: ['src/setupTests.ts'],
     silent: process.env.CI === 'true',
     coverage: {

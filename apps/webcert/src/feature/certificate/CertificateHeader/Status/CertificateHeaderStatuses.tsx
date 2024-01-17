@@ -1,10 +1,10 @@
-import { isDraft } from '@reduxjs/toolkit'
 import React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import { CertificateMetadata, Question } from '../../../../types'
 import {
   getComplementedByCertificateRelation,
   hasUnhandledComplementQuestions,
+  isDraft,
   isLocked,
   isReplacedByActiveChild,
   isRevoked,
