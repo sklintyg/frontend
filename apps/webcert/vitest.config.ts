@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    include: ['**/*.{test}.?(c|m)[jt]s?(x)'],
     deps: {
       inline: [/common\/dist/],
     },
