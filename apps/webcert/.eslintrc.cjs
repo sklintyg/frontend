@@ -1,9 +1,9 @@
 module.exports = {
   root: true,
-  extends: ['react'],
+  extends: ['react', 'plugin:playwright/recommended'],
   overrides: [
     {
-      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(test).[jt]s?(x)'],
       extends: ['react', 'react-test'],
     },
   ],
