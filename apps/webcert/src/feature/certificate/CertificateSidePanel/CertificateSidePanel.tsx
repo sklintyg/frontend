@@ -1,24 +1,24 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Tabs } from '../../../components/Tabs/Tabs'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
+import { LightbulpIcon } from '../../../images'
 import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { ResourceLink, ResourceLinkType, SrsEvent } from '../../../types'
 import AboutCertificatePanel from './AboutCertificatePanel'
-import { Tabs } from '../../../components/Tabs/Tabs'
-import { LightbulpIcon } from '../../../images'
-import { ResourceLinkType, ResourceLink, SrsEvent } from '../../../types'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
-  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
-  const questions = useSelector(getQuestions, _.isEqual)
+  const resourceLinks = useSelector(getResourceLinks, isEqual)
+  const questions = useSelector(getQuestions, isEqual)
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-  const certificate = useSelector(getCertificate, _.isEqual)
+  const certificate = useSelector(getCertificate, isEqual)
   const resourceLinksForTabs = [
     ResourceLinkType.SRS_FULL_VIEW,
     ResourceLinkType.SRS_MINIMIZED_VIEW,

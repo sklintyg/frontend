@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }) => {
-  const originalIcd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
+  const originalIcd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
 
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
     if (!icfCodeValues) return false

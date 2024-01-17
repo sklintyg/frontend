@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { uniqWith } from 'lodash'
+import { uniqWith } from 'lodash-es'
 import {
   Certificate,
   CertificateDataElement,

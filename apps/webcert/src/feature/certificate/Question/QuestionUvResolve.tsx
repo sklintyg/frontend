@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'

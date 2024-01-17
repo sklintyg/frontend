@@ -1,15 +1,15 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
+import Icon from '../../../components/image/image/Icon'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { CertificateDataConfig, ConfigTypes } from '../../../types'
 import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
 import QuestionUvResolve from './QuestionUvResolve'
-import Icon from '../../../components/image/image/Icon'
-import MandatoryIcon from '../../../components/utils/MandatoryIcon'
-import { ConfigTypes, CertificateDataConfig } from '../../../types'
 
 export interface QuestionProps {
   id: string
@@ -17,7 +17,7 @@ export interface QuestionProps {
 }
 
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
-  const question = useSelector(getQuestion(id), _.isEqual)
+  const question = useSelector(getQuestion(id), isEqual)
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
   const displayMandatory =

@@ -1,12 +1,12 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'
 import InfoBox from '../../../components/utils/InfoBox'
+import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'
 
 export const RevokeDBAndDOIModalContent: React.FC = () => {
   const locked = useSelector(getIsLocked)
-  const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const metadata = useSelector(getCertificateMetaData, isEqual)
   const isDodsbevis = metadata?.type === 'db'
   const isDodsorsaksIntyg = metadata?.type === 'doi'
 

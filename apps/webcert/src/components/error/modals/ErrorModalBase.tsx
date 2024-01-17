@@ -42,7 +42,7 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
 
   return (
     <FocusTrap
-      active={open}
+      active={false}
       focusTrapOptions={{
         tabbableOptions: {
           displayCheck: 'none',

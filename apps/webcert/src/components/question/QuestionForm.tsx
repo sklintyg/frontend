@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -54,7 +54,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   }
 
   const dispatchEditDraft = useRef(
-    _.debounce((questionDraft: Question, value: string) => {
+    debounce((questionDraft: Question, value: string) => {
       const updatedQuestionDraft = { ...questionDraft, message: value }
       dispatch(editQuestion(updatedQuestionDraft))
     }, 1000)

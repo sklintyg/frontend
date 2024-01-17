@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -128,7 +128,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   }, [incommingMessage])
 
   const dispatchEditAnswer = useRef(
-    _.debounce((question: Question, value: string) => {
+    debounce((question: Question, value: string) => {
       const updatedAnswer = { ...question.answer, message: value } as Answer
       dispatch(editAnswer({ questionId: question.id, answer: updatedAnswer }))
     }, 1000)

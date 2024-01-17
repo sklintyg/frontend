@@ -1,9 +1,9 @@
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 const ValidationErrorWrapper = styled.div`
   :not(:last-child) {

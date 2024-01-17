@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -43,8 +43,8 @@ const QuestionPanel: React.FC = () => {
 }
 
 const QuestionPanelInner: React.FC = () => {
-  const questions = useSelector(getQuestions, _.isEqual)
-  const questionDraft = useSelector(getQuestionDraft, _.isEqual)
+  const questions = useSelector(getQuestions, isEqual)
+  const questionDraft = useSelector(getQuestionDraft, isEqual)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const isSigned = useSelector(getIsSigned())

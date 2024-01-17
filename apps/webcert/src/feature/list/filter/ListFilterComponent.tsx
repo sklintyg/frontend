@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import {

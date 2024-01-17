@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import React, { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
@@ -139,13 +139,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const dispatchTypeahead = useRef(
-    _.debounce((value: string, selectedCodeSystem: string) => {
+    debounce((value: string, selectedCodeSystem: string) => {
       updateTypeaheadResult(value, false, selectedCodeSystem)
     }, 150)
   ).current
 
   const dispatchUpdateDiagnosis = useRef(
-    _.debounce((question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
+    debounce((question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
       updateSavedDiagnosis(question, code, description, selectedCodeSystem)
     }, 500)
   ).current

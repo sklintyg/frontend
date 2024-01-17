@@ -1,7 +1,10 @@
-import _ from 'lodash'
+import { debounce, isEqual } from 'lodash-es'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import TextArea from '../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,
@@ -10,14 +13,11 @@ import {
   getShowValidationErrors,
   getUnit,
 } from '../../../store/certificate/certificateSelectors'
+import { Unit } from '../../../types'
+import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
-import TextArea from '../../../components/Inputs/TextArea'
-import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
-import MandatoryIcon from '../../../components/utils/MandatoryIcon'
-import { Unit } from '../../../types'
-import { getValidationErrors } from '../../../utils'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -64,9 +64,9 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 
 const UeCareUnitAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getCareUnitValidationErrors(), _.isEqual)
+  const validationErrors = useSelector(getCareUnitValidationErrors(), isEqual)
   const dispatch = useDispatch()
-  const unit = useSelector(getUnit(), _.isEqual)
+  const unit = useSelector(getUnit(), isEqual)
   const disabled = useSelector(getIsLocked)
   const editable = useSelector(getIsEditable)
   const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
@@ -77,7 +77,7 @@ const UeCareUnitAddress: React.FC = () => {
   const phoneNumberValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_PHONE_NUMBER_FIELD)
 
   const dispatchEditDraft = useRef(
-    _.debounce((state: Unit) => {
+    debounce((state: Unit) => {
       dispatch(updateCertificateUnit(state))
     }, 1000)
   ).current

@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-scroll'
 import styled from 'styled-components'
-import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 import InfoBox from '../../components/utils/InfoBox'
+import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 
 const ErrorLink = styled(Link)`
   cursor: pointer;
@@ -15,7 +15,7 @@ const ErrorLink = styled(Link)`
 
 const CertificateValidation: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getValidationErrorSummary(), _.isEqual)
+  const validationErrors = useSelector(getValidationErrorSummary(), isEqual)
 
   if (!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 

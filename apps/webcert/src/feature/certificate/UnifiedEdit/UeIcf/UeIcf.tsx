@@ -1,4 +1,4 @@
-import { debounce, isEqual } from 'lodash'
+import { debounce, isEqual } from 'lodash-es'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import TextArea from '../../../../components/Inputs/TextArea'

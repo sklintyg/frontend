@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -16,9 +16,9 @@ export const Italic = styled.p`
 `
 
 const FMBPanel: React.FC = () => {
-  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
+  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
-  const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
+  const diagnosisValue = useSelector(getDiagnosisListValue, isEqual)
   const isIcd10Chosen =
     !diagnosisValue || diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd')
 

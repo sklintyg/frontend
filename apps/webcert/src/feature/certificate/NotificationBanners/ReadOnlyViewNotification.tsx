@@ -1,11 +1,11 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
 import NotificationBannerBase from './NotificationBannerBase'
 
 const ReadOnlyViewNotification: React.FC = () => {
-  const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const metadata = useSelector(getCertificateMetaData, isEqual)
   const user = useSelector(getUser)
 
   const shouldRender = (): boolean => {

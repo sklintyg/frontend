@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { debounce, isEqual } from 'lodash-es'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -56,9 +56,9 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 
 const PatientAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getPatientValidationErrors(), _.isEqual)
-  const patient = useSelector(getPatient, _.isEqual)
-  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
+  const patient = useSelector(getPatient, isEqual)
+  const resourceLinks = useSelector(getResourceLinks, isEqual)
   const disabled = useSelector(getIsLocked)
   const editable =
     useSelector(getIsEditable) &&
@@ -74,7 +74,7 @@ const PatientAddress: React.FC = () => {
   const cityValidationErrors = getValidationErrors(validationErrors, PATIENT_CITY_FIELD)
 
   const dispatchEditDraft = useRef(
-    _.debounce((state: Patient) => {
+    debounce((state: Patient) => {
       dispatch(updateCertificatePatient(state))
     }, 1000)
   ).current

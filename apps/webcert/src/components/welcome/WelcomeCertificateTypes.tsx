@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'

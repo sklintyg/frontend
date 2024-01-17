@@ -1,7 +1,8 @@
-import _ from 'lodash'
-
+import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import InfoBox from '../../../components/utils/InfoBox'
+import StatusWithIcon from '../../../components/utils/StatusWithIcon'
 import {
   getCertificateMetaData,
   getIsValidForSigning,
@@ -9,14 +10,12 @@ import {
   getSigningStatus,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
+import { CertificateSignStatus, ResourceLinkType } from '../../../types'
+import { getResourceLink, resourceLinksAreEqual } from '../../../utils'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
-import InfoBox from '../../../components/utils/InfoBox'
-import StatusWithIcon from '../../../components/utils/StatusWithIcon'
-import { CertificateSignStatus, ResourceLinkType } from '../../../types'
-import { resourceLinksAreEqual, getResourceLink } from '../../../utils'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,8 +33,8 @@ const RightWrapper = styled.div`
 `
 
 export const CertificateFooter: React.FC = () => {
-  const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
-  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const certificateMetadata = useSelector(getCertificateMetaData, isEqual)
+  const resourceLinks = useSelector(getResourceLinks, isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const functionDisabled = useSelector(isCertificateFunctionDisabled)
   const isSigned = useSelector(getSigningStatus) === CertificateSignStatus.SIGNED

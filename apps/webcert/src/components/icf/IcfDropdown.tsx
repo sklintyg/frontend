@@ -1,5 +1,5 @@
 import FocusTrap from 'focus-trap-react'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -44,7 +44,7 @@ const IcfDropdown: React.FC<Props> = ({
   disabled,
   id,
 }) => {
-  const icd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
+  const icd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)

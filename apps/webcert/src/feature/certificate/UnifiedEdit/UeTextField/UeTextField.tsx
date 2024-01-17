@@ -1,17 +1,17 @@
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import {
   CertificateDataElement,
-  ConfigUeTextField,
   CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigUeTextField,
   TextValidation,
   ValueText,
-  CertificateDataValueType,
 } from '../../../../types'
 
 export interface Props {
@@ -30,7 +30,7 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
     : undefined
 
   const dispatchEditDraft = useRef(
-    _.debounce((question: CertificateDataElement, value: string) => {
+    debounce((question: CertificateDataElement, value: string) => {
       const updatedValue = getUpdatedValue(question, value)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)

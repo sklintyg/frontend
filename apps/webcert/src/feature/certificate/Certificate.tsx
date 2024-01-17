@@ -1,8 +1,10 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
 import styled from 'styled-components'
+import InfoBox from '../../components/utils/InfoBox'
+import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
@@ -14,6 +16,7 @@ import {
   getResourceLinks,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
+import { CertificateDataElementStyleEnum, ConfigTypes, ResourceLinkType } from '../../types'
 import CareUnit from './CareUnit/CareUnit'
 import Category from './Category/Category'
 import { CertificateContext } from './CertificateContext'
@@ -24,9 +27,6 @@ import { QuestionValidationError } from './Question/QuestionValidationError'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
-import InfoBox from '../../components/utils/InfoBox'
-import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
-import { ResourceLinkType, CertificateDataElementStyleEnum, ConfigTypes } from '../../types'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -54,7 +54,7 @@ const CategoryWrapper = styled.div`
 
 const Certificate: React.FC = () => {
   const dispatch = useDispatch()
-  const certificateStructure = useSelector(getCertificateDataElements, _.isEqual)
+  const certificateStructure = useSelector(getCertificateDataElements, isEqual)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
   const gotoId = useSelector(getGotoId)

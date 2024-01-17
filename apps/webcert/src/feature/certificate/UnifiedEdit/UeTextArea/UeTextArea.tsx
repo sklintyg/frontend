@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import TextArea from '../../../../components/Inputs/TextArea'
@@ -30,7 +30,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
     : undefined
 
   const dispatchEditDraft = useRef(
-    _.debounce((question: CertificateDataElement, value: string) => {
+    debounce((question: CertificateDataElement, value: string) => {
       const updatedValue = getUpdatedValue(question, value)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
