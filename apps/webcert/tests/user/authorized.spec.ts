@@ -1,9 +1,5 @@
-import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../../src/faker'
-import { ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
-
-const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })
-const careProvider = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Hälsa' })
+import { setupUser } from '../mocks/user'
 
 const question = {
   filters: [],
@@ -49,33 +45,7 @@ test.beforeEach(async ({ page }) => {
 
 for (const role of ['Läkare', 'Privatläkare', 'Vårdadministratör']) {
   test.describe(`${role}`, () => {
-    test.beforeEach(async ({ page }) => {
-      await page.route('**/*/api/user', async (route) => {
-        await route.fulfill({
-          json: {
-            user: fakeUser({
-              hsaId: 'FAKE_HSAID-1234',
-              name: `Alva ${role}`,
-              role,
-              loggedInUnit: unit,
-              loggedInCareUnit: unit,
-              loggedInCareProvider: careProvider,
-              preferences: {},
-              protectedPerson: false,
-              careProviders: [
-                fakeCareProvider({ id: careProvider.unitId, name: careProvider.unitName, careUnits: [{ ...unit, units: [] }] }),
-              ],
-            }),
-            links: [
-              fakeResourceLink({ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, name: 'Sök / skriv intyg' }),
-              fakeResourceLink({ type: ResourceLinkType.ACCESS_DRAFT_LIST, name: 'Ej signerade utkast' }),
-              fakeResourceLink({ type: ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, name: 'Signerade intyg' }),
-              fakeResourceLink({ type: ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, name: 'Ej hanterade ärenden' }),
-            ],
-          },
-        })
-      })
-    })
+    test.beforeEach(async ({ page }) => setupUser(page, { role }))
 
     if (role.includes('Vårdadministratör')) {
       test(`redirect to "Ej hanterade ärenden" for ${role}`, async ({ page }) => {
@@ -107,3 +77,19 @@ for (const role of ['Läkare', 'Privatläkare', 'Vårdadministratör']) {
     }
   })
 }
+
+test('session expired', async ({ page }) => {
+  await page.route('**/*/api/session-auth-check/ping', async (route) => {
+    await route.fulfill({
+      json: { hasSession: true, secondsUntilExpire: 0, authenticated: false },
+    })
+  })
+
+  await page.goto('https://wc2.wc.localtest.me/')
+
+  await expect(page.getByText('Du är utloggad')).toBeVisible()
+  await expect(page.getByText('Du har blivit utloggad från')).toBeVisible()
+
+  await expect(page.locator('nav').filter({ hasText: 'Sök / skriv intygEj hanterade' })).toBeHidden()
+  await expect(page.getByRole('banner').locator('div').first()).toBeEmpty()
+})

@@ -2,6 +2,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { SigningMethod, Unit, User } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -20,7 +21,6 @@ import {
   stopPoll,
 } from './sessionActions'
 import { sessionMiddleware } from './sessionMiddleware'
-import { Unit, User, SigningMethod } from '../../types'
 
 function getDummyUnit(): Unit {
   return {
@@ -76,8 +76,8 @@ describe('Test session middleware', () => {
   describe('Handle StartPolling', () => {
     it('shall start polling if not active', async () => {
       testStore.dispatch(startPoll())
-      await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
+      await flushPromises()
     })
 
     it('shall ignore start polling if already active', async () => {
@@ -254,23 +254,20 @@ describe('Test session middleware', () => {
   describe('Handle Login', () => {
     it('shall start polling when logging in', async () => {
       testStore.dispatch(getUserSuccess({ user: getDummyUser(), links: [] }))
-
-      await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
+      await flushPromises()
     })
 
     it('shall not start polling when unit it not set', async () => {
       testStore.dispatch(getUserSuccess({ user: getDummyUserWithoutLoggedInUnit(), links: [] }))
-
-      await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeFalsy()
+      await flushPromises()
     })
 
     it('shall start polling when user has logged in and chosen a unit', async () => {
       testStore.dispatch(setUnitSuccess(getDummyUnit()))
-
-      await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
+      await flushPromises()
     })
   })
 
