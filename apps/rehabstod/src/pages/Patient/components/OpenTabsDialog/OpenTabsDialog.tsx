@@ -1,7 +1,7 @@
 import { Dialog } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { unstable_useBlocker as useBlocker } from 'react-router-dom'
+import { useBlocker } from 'react-router-dom'
 import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {
