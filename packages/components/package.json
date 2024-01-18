@@ -46,7 +46,7 @@
     "react": "^18.2.0",
     "react-focus-lock": "^2.9.6",
     "react-focus-on": "^3.9.1",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.21.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
