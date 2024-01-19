@@ -1,6 +1,7 @@
-import { CertificateDataValueType, fakeViewTableElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import UeViewTable from './UeViewTable'
+import { fakeViewTableElement } from '../../../../faker'
+import { CertificateDataValueType } from '../../../../types'
 
 const mockQuestion = fakeViewTableElement({
   id: '1',

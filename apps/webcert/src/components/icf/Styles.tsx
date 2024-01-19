@@ -1,5 +1,5 @@
-import { getFilter } from '@frontend/common'
 import styled from 'styled-components'
+import { getFilter } from '../../utils'
 
 export const Root = styled.div`
   position: relative;

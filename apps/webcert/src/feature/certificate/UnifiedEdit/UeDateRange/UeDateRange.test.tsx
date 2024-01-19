@@ -1,10 +1,11 @@
-import { fakeCertificate, fakeDateRangeElement, ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import UeDateRange from './UeDateRange'
+import { fakeDateRangeElement, fakeCertificate } from '../../../../faker'
+import { ValidationError } from '../../../../types'
 
 const QUESTION_ID = 'QUESTION_ID'
 const ERROR_TEXT = 'ErrorText'

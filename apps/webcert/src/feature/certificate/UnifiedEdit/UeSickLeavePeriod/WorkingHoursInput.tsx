@@ -1,6 +1,7 @@
-import { Icon, TextInput } from '@frontend/common'
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
+import TextInput from '../../../../components/Inputs/TextInput'
+import Icon from '../../../../components/image/image/Icon'
 
 const StyledTextInput = styled(TextInput)`
   width: 40px;

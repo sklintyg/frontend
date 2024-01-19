@@ -1,3 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
+import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
 import {
   CertificateListItemValueType,
   ListConfig,
@@ -6,12 +10,7 @@ import {
   ListFilterType,
   ListFilterValue,
   ListFilterValueNumber,
-} from '@frontend/common'
-import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
-import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
+} from '../../../types'
 import ListFilterButtons from '../ListFilterButtons'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { getTooltip } from '../listUtils'

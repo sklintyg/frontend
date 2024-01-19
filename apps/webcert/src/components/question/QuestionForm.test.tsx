@@ -1,4 +1,3 @@
-import { Question, QuestionType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -21,6 +20,7 @@ import {
   validateQuestion,
 } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { Question, QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import QuestionForm from './QuestionForm'

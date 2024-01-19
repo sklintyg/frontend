@@ -1,17 +1,17 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  fakeCauseOfDeathListElement,
-  ValueCode,
-  ValueDate,
-  ValueText,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCauseOfDeathListElement } from '../../../../faker'
 import store from '../../../../store/store'
+import {
+  CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ValueCode,
+  ValueDate,
+  ValueText,
+} from '../../../../types'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 const DESCRIPTION_LABEL = 'Beskrivning'

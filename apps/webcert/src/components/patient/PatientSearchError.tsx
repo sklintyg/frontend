@@ -1,4 +1,3 @@
-import { InfoBox } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -6,6 +5,7 @@ import { ErrorCode } from '../../store/error/errorReducer'
 import { getPatientError } from '../../store/patient/patientSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import ErrorCopyText from '../error/ErrorCopyText'
+import InfoBox from '../utils/InfoBox'
 
 const Wrapper = styled.div`
   max-width: 720px;

@@ -1,16 +1,11 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeSickLeavePeriod,
-  fakeCertificateConfig,
-  getCertificateWithQuestion,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificateConfig } from '../../../../faker'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
+import { CertificateDataElement, CertificateDataValidationType, CertificateDataValueType, ConfigUeSickLeavePeriod } from '../../../../types'
+import { getCertificateWithQuestion } from '../../../../utils'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const QUESTION_ID = 'Test'

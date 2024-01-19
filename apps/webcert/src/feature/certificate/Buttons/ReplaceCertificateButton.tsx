@@ -1,9 +1,11 @@
-import { ButtonWithConfirmModal, DoubleArrowIcon, InfoBox } from '@frontend/common'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import InfoBox from '../../../components/utils/InfoBox'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { DoubleArrowIcon } from '../../../images'
 
 interface Props extends FunctionDisabled {
   name: string

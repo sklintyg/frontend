@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeCertificateValidationError, fakeDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeDate from './UeDate'
+import { fakeDateElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'

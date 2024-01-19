@@ -1,9 +1,9 @@
-import { CertificateDataElementStyleEnum } from '@frontend/common'
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { CertificateDataElementStyleEnum } from '../../../types'
 import Question from './Question'
 import QuestionWrapper from './QuestionWrapper'
 

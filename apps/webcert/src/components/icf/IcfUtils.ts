@@ -1,5 +1,5 @@
-import { IcfCode } from '@frontend/common'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { IcfCode } from '../../types'
 
 export const getIcfValueList = (icfData?: AvailableIcfCodes): string[] => {
   return [

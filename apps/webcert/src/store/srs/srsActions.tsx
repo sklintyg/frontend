@@ -1,7 +1,16 @@
 import { createAction } from '@reduxjs/toolkit'
-import { SrsAnswer, SrsPrediction, SrsPredictionInfo, SrsQuestion, ValueDiagnosisList } from '@frontend/common'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { SrsEvent, SrsInfoForDiagnosis, SrsSickLeaveChoice, SrsUserClientContext } from '@frontend/common/src/types/srs'
+import {
+  ValueDiagnosisList,
+  SrsInfoForDiagnosis,
+  SrsQuestion,
+  SrsPredictionInfo,
+  SrsSickLeaveChoice,
+  SrsPrediction,
+  SrsAnswer,
+  SrsEvent,
+  SrsUserClientContext,
+} from '../../types'
 
 const SRS = '[SRS]'
 export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${SRS} Set diagnosis list value`)

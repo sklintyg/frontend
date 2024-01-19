@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import SrsRiskForm from './SrsRiskForm'
-import styled from 'styled-components'
-import { ChevronDownIcon, ChevronUpIcon, SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { ChevronDownIcon, ChevronUpIcon } from '../../../images'
+import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
 import {
   getCertificateId,
   getDiagnosisListValue,
@@ -10,10 +10,11 @@ import {
   getPreviousAnswers,
   getSickLeaveChoice,
 } from '../../../store/srs/srsSelectors'
+import { SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '../../../types'
+import { getMainDiagnosisCode } from '../srsUtils'
+import SrsRiskForm from './SrsRiskForm'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
-import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
-import { getMainDiagnosisCode } from '../srsUtils'
 
 interface StyledButtonProps {
   disabled: boolean

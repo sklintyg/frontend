@@ -1,4 +1,3 @@
-import { ListFilterConfig, ListFilterType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -17,6 +16,7 @@ import {
   getSelectFilter,
   getTextFilter,
 } from './listTestUtils'
+import { ListFilterConfig, ListFilterType } from '../../../types'
 
 let testStore: EnhancedStore
 let onChange = vi.fn()

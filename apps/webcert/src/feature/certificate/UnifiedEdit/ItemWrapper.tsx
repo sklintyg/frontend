@@ -1,5 +1,5 @@
-import { ConfigLayout } from '@frontend/common'
 import styled, { css } from 'styled-components'
+import { ConfigLayout } from '../../../types'
 
 interface Props {
   layout: ConfigLayout

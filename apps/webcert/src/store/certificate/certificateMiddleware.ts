@@ -1,17 +1,11 @@
-import {
-  Certificate,
-  CertificateSignStatus,
-  CertificateStatus,
-  getCertificateToSave,
-  getClientValidationErrors,
-  getDecoratedCertificateData,
-  isLocked,
-  SigningMethod,
-} from '@frontend/common'
 import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { Certificate, CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
+import { getCertificateToSave, isLocked } from '../../utils'
+import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
+import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
@@ -111,8 +105,8 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSigningData,
   updateCertificateSignStatus,
+  updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -928,7 +922,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
     dispatch(autoSaveCertificate(certificate))
   }
 
-const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
+const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
   const certificate = getState().ui.uiCertificate.certificate
 
   if (!certificate || certificate.metadata.status !== CertificateStatus.UNSIGNED) {
@@ -977,7 +971,7 @@ const handleAutoSaveCertificateError: Middleware<Dispatch> =
     }
   }
 
-const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
+const validating = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
   const certificate = getState().ui.uiCertificate.certificate
 
   if (!certificate) {

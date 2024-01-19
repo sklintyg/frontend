@@ -1,4 +1,5 @@
-import { CertificateDataElementStyleEnum, fakeCategoryElement, fakeCheckboxBooleanElement } from '@frontend/common'
+import { fakeCategoryElement, fakeCheckboxBooleanElement } from '../faker'
+import { CertificateDataElementStyleEnum } from '../types'
 import { structureCertificate } from './structureCertificate'
 
 describe('structureCertificate', () => {

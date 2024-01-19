@@ -1,5 +1,5 @@
-import { CertificateDataElement, ConfigUeViewTable, ValueViewTable, UvTable } from '@frontend/common'
-import * as React from 'react'
+import { UvTable } from '../../../../components/UnifiedView/UvTable/UvTable'
+import { CertificateDataElement, ValueViewTable, ConfigUeViewTable } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

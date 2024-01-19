@@ -1,9 +1,11 @@
-import { CertificateMetadata, CertificateRelationType, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
+import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
+import { CertificateMetadata, CertificateRelationType } from '../../../../types'
 
 interface Props {
   certificateMetadata: CertificateMetadata

@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { InfoBox, TextWithInfoModal } from '@frontend/common'
 import styled from 'styled-components'
+import InfoBox from '../../../components/utils/InfoBox'
+import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
 
 interface Props {
   status: boolean

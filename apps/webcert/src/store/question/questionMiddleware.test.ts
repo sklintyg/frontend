@@ -1,3 +1,7 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink } from '../../faker'
 import {
   Answer,
   Certificate,
@@ -7,10 +11,7 @@ import {
   Question,
   QuestionType,
   ResourceLinkType,
-} from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+} from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
@@ -40,20 +41,14 @@ import {
 } from './questionActions'
 import { questionMiddleware } from './questionMiddleware'
 
-const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => ({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  metadata: { id: 'certificateId' },
-  status: CertificateStatus.SIGNED,
-  links: [
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
-  ],
-})
+const getCertificate = (id: string, enabled: boolean) =>
+  fakeCertificate({
+    metadata: fakeCertificateMetaData({ id: 'certificateId', status: CertificateStatus.SIGNED }),
+    links: [
+      fakeResourceLink({ enabled, type: ResourceLinkType.QUESTIONS }),
+      fakeResourceLink({ enabled, type: ResourceLinkType.CREATE_QUESTIONS }),
+    ],
+  })
 
 const addParentCertificate = (certificate: Certificate, parentId: string): Certificate => ({
   ...certificate,

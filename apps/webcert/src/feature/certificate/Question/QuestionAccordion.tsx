@@ -1,6 +1,9 @@
-import { Accordion, AccordionHeader, ConfigAccordion, Icon } from '@frontend/common'
 import React, { useRef } from 'react'
 import styled from 'styled-components'
+import Icon from '../../../components/image/image/Icon'
+import Accordion from '../../../components/utils/Accordion'
+import AccordionHeader from '../../../components/utils/AccordionHeader'
+import { ConfigAccordion } from '../../../types'
 
 export interface Props {
   accordion: ConfigAccordion

@@ -1,15 +1,8 @@
-import {
-  ListFilterRadioConfig,
-  ListFilterType,
-  ListFilterValue,
-  ListFilterValueRadio,
-  ListFilterValueSelect,
-  RadioButton,
-} from '@frontend/common'
-import * as React from 'react'
 import { ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
+import RadioButton from '../../../components/Inputs/RadioButton'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { ListFilterRadioConfig, ListFilterType, ListFilterValue, ListFilterValueRadio, ListFilterValueSelect } from '../../../types'
 import { FilterWrapper } from './filterStyles'
 
 interface Props {

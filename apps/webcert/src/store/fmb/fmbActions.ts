@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '@frontend/common'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ValueDateRangeList, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '../../types'
 
 export interface FMBDiagnoseRequest {
   icd10Code: string

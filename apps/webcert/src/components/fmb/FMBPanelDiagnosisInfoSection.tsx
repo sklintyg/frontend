@@ -1,5 +1,6 @@
-import { ExpandableText, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '@frontend/common'
 import React from 'react'
+import { FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '../../types'
+import { ExpandableText } from '../utils/ExpandableText'
 import { Italic } from './FMBPanel'
 
 interface Props {

@@ -1,18 +1,18 @@
+import React from 'react'
+import styled from 'styled-components'
+import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
+import Dropdown from '../../../../components/Inputs/Dropdown'
+import TextInput from '../../../../components/Inputs/TextInput'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
   ConfigUeCauseOfDeathControl,
   ConfigUeCodeItem,
-  DatePickerCustom,
-  Dropdown,
-  QuestionValidationTexts,
-  TextInput,
   TextValidation,
   ValidationError,
   ValueCauseOfDeath,
-} from '@frontend/common'
-import React from 'react'
-import styled from 'styled-components'
+} from '../../../../types'
 
 export interface Props {
   config: ConfigUeCauseOfDeathControl

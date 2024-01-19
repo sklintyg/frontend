@@ -1,4 +1,3 @@
-import { CertificateDataValueType, ValueType, ValueDiagnosisList } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
@@ -14,6 +13,7 @@ import {
   toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
+import { ValueType, CertificateDataValueType, ValueDiagnosisList } from '../../types'
 
 export const handleGetIcfCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>

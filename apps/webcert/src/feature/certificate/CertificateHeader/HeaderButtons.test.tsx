@@ -1,4 +1,3 @@
-import { CertificateRelationType, CertificateStatus, fakeCertificateMetaData, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -7,6 +6,8 @@ import { vi } from 'vitest'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 import store from '../../../store/store'
 import HeaderButtons from './HeaderButtons'
+import { fakeCertificateMetaData } from '../../../faker'
+import { ResourceLink, CertificateStatus, CertificateRelationType, ResourceLinkType } from '../../../types'
 
 describe('Verify header buttons', () => {
   const description = 'description'

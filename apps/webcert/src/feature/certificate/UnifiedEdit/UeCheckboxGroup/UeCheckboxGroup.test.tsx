@@ -1,9 +1,10 @@
-import { CertificateDataElement, CertificateDataValueType, fakeCertificateConfig } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeCheckboxGroup from './UeCheckboxGroup'
+import { fakeCertificateConfig } from '../../../../faker'
+import { CertificateDataElement, CertificateDataValueType } from '../../../../types'
 
 const CHECKBOXES = [
   { label: 'Checkbox1', id: 'Checkbox_1' },

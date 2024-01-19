@@ -1,16 +1,10 @@
-import {
-  isPersonIdValid,
-  ListFilterConfig,
-  ListFilterType,
-  ListFilterValue,
-  ListFilterValuePersonId,
-  PersonIdInput,
-} from '@frontend/common'
-import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import PersonIdInput from '../../../components/Inputs/PersonIdInput'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { ListFilterConfig, ListFilterType, ListFilterValue, ListFilterValuePersonId } from '../../../types'
+import { isPersonIdValid } from '../../../utils'
 import { FilterWrapper } from './filterStyles'
 
 interface Props {

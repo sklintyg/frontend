@@ -1,4 +1,3 @@
-import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -7,6 +6,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import Category from './Category'
+import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '../../../utils'
 
 let testStore: EnhancedStore
 

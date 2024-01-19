@@ -1,4 +1,3 @@
-import { CertificateListItem, ListFilter, ListType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -6,6 +5,7 @@ import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from
 import store from '../../../store/store'
 import List from '../List'
 import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
+import { CertificateListItem, ListFilter, ListType } from '../../../types'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {
   store.dispatch(updateTotalCount(totalCount))

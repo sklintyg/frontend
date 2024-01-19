@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { RadioButton, SrsQuestion, SrsEvent } from '@frontend/common'
 import { useDispatch } from 'react-redux'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { SrsEvent, SrsQuestion } from '../../../types'
+import RadioButton from '../../Inputs/RadioButton'
 
 interface Props {
   question: SrsQuestion

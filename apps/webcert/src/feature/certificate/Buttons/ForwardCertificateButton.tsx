@@ -1,8 +1,11 @@
-import { ButtonWithConfirmModal, CustomButton, ResourceLinkType, ShareIcon } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { ShareIcon } from '../../../images'
+import { ResourceLinkType } from '../../../types'
 
 interface Props extends FunctionDisabled {
   name: string

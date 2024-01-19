@@ -1,15 +1,6 @@
-import {
-  CertificateDataValueType,
-  FMBDiagnosisCodeInfo,
-  getResourceLink,
-  isDateRangeValid,
-  ResourceLinkType,
-  ValueDateRangeList,
-  ValueDiagnosisList,
-  ValueType,
-} from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { getResourceLink, isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import {
@@ -28,6 +19,14 @@ import {
   validateSickLeavePeriodStarted,
   validateSickLeavePeriodSuccess,
 } from './fmbActions'
+import {
+  ValueType,
+  CertificateDataValueType,
+  ValueDiagnosisList,
+  ResourceLinkType,
+  ValueDateRangeList,
+  FMBDiagnosisCodeInfo,
+} from '../../types'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>

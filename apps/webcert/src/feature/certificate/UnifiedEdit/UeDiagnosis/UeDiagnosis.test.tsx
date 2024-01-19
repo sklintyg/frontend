@@ -1,4 +1,3 @@
-import { fakeDiagnosesElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { configureApplicationStore } from '../../../../store/configureApplicatio
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import UeDiagnosis from './UeDiagnosis'
+import { fakeDiagnosesElement } from '../../../../faker'
 
 const DIAGNOSES = [
   { kod: 'F50', beskrivning: 'Ätstörningar' },

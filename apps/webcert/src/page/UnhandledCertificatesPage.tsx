@@ -1,5 +1,3 @@
-import { ListHeader, ListType, noQuestionImage, ResourceLinkType, speechBubbleImage } from '@frontend/common'
-import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -10,6 +8,9 @@ import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/ce
 import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import { ResourceAccess } from '../utils/ResourceAccess'
+import ListHeader from '../components/List/ListHeader'
+import { speechBubbleImage, noQuestionImage } from '../images'
+import { ResourceLinkType, ListType } from '../types'
 
 const UnhandledCertificatsPage: React.FC = () => {
   const dispatch = useDispatch()

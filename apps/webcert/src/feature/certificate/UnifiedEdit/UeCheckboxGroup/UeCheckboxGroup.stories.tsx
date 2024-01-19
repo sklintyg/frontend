@@ -1,10 +1,11 @@
-import { ConfigLayout, fakeCheckboxMultipleCodeElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCheckboxGroup, { Props } from './UeCheckboxGroup'
+import { fakeCheckboxMultipleCodeElement } from '../../../../faker'
+import { ConfigLayout } from '../../../../types'
 
 export default {
   title: 'Webcert/UeCheckboxGroup',

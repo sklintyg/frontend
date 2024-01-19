@@ -1,6 +1,5 @@
-import * as React from 'react'
-import { InfoBox } from '@frontend/common'
 import styled from 'styled-components'
+import InfoBox from '../../../components/utils/InfoBox'
 
 interface Props {
   status: boolean

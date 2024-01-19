@@ -1,25 +1,23 @@
-import {
-  Accordion,
-  AccordionHeader,
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigUeSickLeavePeriod,
-  formatDateToString,
-  getLatestPeriodEndDate,
-  getNumberOfSickLeavePeriodDays,
-  Icon,
-  QuestionValidationTexts,
-  Text,
-  ValidationError,
-  ValueDateRange,
-  ValueDateRangeList,
-} from '@frontend/common'
 import { addDays, isValid } from 'date-fns'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import Icon from '../../../../components/image/image/Icon'
+import Accordion from '../../../../components/utils/Accordion'
+import AccordionHeader from '../../../../components/utils/AccordionHeader'
+import { Text } from '../../../../components/utils/Text'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigUeSickLeavePeriod,
+  ValidationError,
+  ValueDateRange,
+  ValueDateRangeList,
+} from '../../../../types'
+import { formatDateToString, getLatestPeriodEndDate, getNumberOfSickLeavePeriodDays } from '../../../../utils'
 import DateRangePicker from './DateRangePicker'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'

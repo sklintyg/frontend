@@ -1,6 +1,8 @@
-import { CertificateMetadata, CertificateStatus, getReplacedCertificateStatus, StatusWithIcon } from '@frontend/common'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
+import { CertificateMetadata, CertificateStatus } from '../../../../types'
+import { getReplacedCertificateStatus } from '../../../../utils'
 
 interface Props {
   certificateMetadata: CertificateMetadata

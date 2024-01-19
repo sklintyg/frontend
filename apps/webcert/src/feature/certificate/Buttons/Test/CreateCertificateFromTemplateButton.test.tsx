@@ -1,9 +1,9 @@
-import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
+import CustomTooltip from '../../../../components/utils/CustomTooltip'
 
 const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'

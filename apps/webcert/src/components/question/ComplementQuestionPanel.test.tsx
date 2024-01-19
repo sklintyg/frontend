@@ -1,4 +1,3 @@
-import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -7,6 +6,7 @@ import { Router } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '../../types'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 

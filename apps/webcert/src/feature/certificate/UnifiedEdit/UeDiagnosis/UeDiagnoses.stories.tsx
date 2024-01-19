@@ -1,4 +1,3 @@
-import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes, fakeCertificateConfig } from '@frontend/common'
 import { Story } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
@@ -6,6 +5,9 @@ import { configureApplicationStore } from '../../../../store/configureApplicatio
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import UeDiagnoses, { Props } from './UeDiagnoses'
+import React from 'react'
+import { fakeCertificateConfig } from '../../../../faker'
+import { ConfigTypes, CertificateDataValueType, CertificateDataValidationType } from '../../../../types'
 
 export default {
   title: 'Webcert/UeDiagnoses',

@@ -1,4 +1,4 @@
-import { Question } from '@frontend/common'
+import { Question } from '../../types'
 import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled, getShouldComplementedBeActive } from './questionUtils'
 
 describe('questionUtils', () => {

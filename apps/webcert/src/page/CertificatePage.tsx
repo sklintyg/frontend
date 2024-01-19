@@ -1,4 +1,3 @@
-import { ResourceLinkType } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -23,6 +22,7 @@ import {
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { getUserStatistics } from '../store/user/userActions'
+import { ResourceLinkType } from '../types'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;

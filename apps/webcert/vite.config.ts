@@ -8,7 +8,6 @@ export default ({ mode }: UserConfig) => {
 
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
-  const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? 'ws'
 
   const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
     Record<string, string | ProxyOptions>
@@ -40,7 +39,12 @@ export default ({ mode }: UserConfig) => {
       port: 3000,
       proxy,
       strictPort: true,
-      hmr: hmr ? { host, protocol: hmrProtocol } : false,
+      hmr: hmr
+        ? {
+            host: process.env.VITE_WS_HOST ?? 'wc2.wc.localtest.me',
+            protocol: process.env.VITE_WS_PROTOCOL ?? 'ws',
+          }
+        : false,
     },
   })
 }

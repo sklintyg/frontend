@@ -1,4 +1,3 @@
-import { ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -6,6 +5,7 @@ import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../../store/test/dispatchHelperMiddleware'
 import ForwardCertificateButton from '../ForwardCertificateButton'
+import { ResourceLinkType } from '../../../../types'
 
 const NAME = 'Forward button name'
 const DESCRIPTION = 'Forward button description'

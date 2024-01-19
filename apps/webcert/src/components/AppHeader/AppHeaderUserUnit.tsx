@@ -1,6 +1,6 @@
-import { houseImage } from '@frontend/common'
 import React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
+import { houseImage } from '../../images'
 
 interface Props {
   items: React.ReactNode

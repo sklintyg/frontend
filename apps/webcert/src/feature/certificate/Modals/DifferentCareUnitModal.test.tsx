@@ -1,8 +1,8 @@
-import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
+import { ResourceLink, ResourceLinkType } from '../../../types'
 
 const NAME = 'Name'
 const BODY = 'Body'

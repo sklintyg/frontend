@@ -1,10 +1,11 @@
-import { CertificateDataValueType, fakeViewListElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeViewList, { Props } from './UeViewList'
+import { fakeViewListElement } from '../../../../faker'
+import { CertificateDataValueType } from '../../../../types'
 
 export default {
   title: 'Webcert/UeViewList',

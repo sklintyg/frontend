@@ -1,12 +1,14 @@
-import { ExpandableBox, lockClosedImage, ResourceLinkType, User, userImage } from '@frontend/common'
 import React, { useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
+import { lockClosedImage, userImage } from '../../images'
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
+import { ResourceLinkType, User } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
+import ExpandableBox from '../utils/ExpandableBox'
 
 const Wrapper = styled.div`
   display: flex;

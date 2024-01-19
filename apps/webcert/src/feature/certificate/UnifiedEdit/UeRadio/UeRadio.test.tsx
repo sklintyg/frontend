@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeRadioBooleanElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,6 +6,7 @@ import { updateCertificate } from '../../../../store/certificate/certificateActi
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadio from './UeRadio'
+import { fakeRadioBooleanElement, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 

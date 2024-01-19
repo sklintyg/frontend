@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,6 +7,7 @@ import { updateCertificate } from '../../../../store/certificate/certificateActi
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
+import { fakeUncertainDateElement, fakeCertificate } from '../../../../faker'
 
 const YEARS = ['2020', '2021', '2022']
 const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']

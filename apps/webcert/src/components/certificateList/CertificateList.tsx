@@ -1,17 +1,18 @@
-import { fileImage, Spinner } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import { fileImage } from '../../images'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 import { getActivePatient, selectCertificateTypes } from '../../store/patient/patientSelectors'
 import { setUserPreference } from '../../store/user/userActions'
 import { getUserPreference } from '../../store/user/userSelectors'
-import CertificateListRow from './CertificateListRow'
 import { selectIsLoadingInitialState } from '../../store/utils/utilsSelectors'
+import Spinner from '../utils/Spinner'
+import CertificateListRow from './CertificateListRow'
 
 const sortByFavorite = (a: boolean, b: boolean): number => {
   if (a > b) {

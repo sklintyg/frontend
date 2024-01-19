@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit'
+import { uniqWith } from 'lodash-es'
 import {
   Certificate,
   CertificateDataElement,
@@ -15,12 +17,9 @@ import {
   ResourceLinkType,
   Unit,
   ValidationError,
-  ValidationErrorSummary,
-  sortedValidationErrorSummary,
-} from '@frontend/common'
-import { createSelector } from '@reduxjs/toolkit'
-import { uniqWith } from 'lodash'
+} from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
+import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'

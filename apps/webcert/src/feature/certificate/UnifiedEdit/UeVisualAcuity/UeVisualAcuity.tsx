@@ -1,10 +1,11 @@
-import { CertificateDataElement, ConfigUeVisualAcuity, MandatoryIcon, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
-import { useSelector } from 'react-redux'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import MandatoryIcon from '../../../../components/utils/MandatoryIcon'
+import { CertificateDataElement, ValueVisualAcuity, ConfigUeVisualAcuity, ValueEyeAcuity } from '../../../../types'
 
 export interface Props {
   disabled?: boolean

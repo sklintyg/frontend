@@ -1,23 +1,12 @@
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  CertificateEvent,
-  CertificateSignStatus,
-  Complement,
-  ConfigTypes,
-  isShowAlways,
-  ModalData,
-  ValueBoolean,
-  ValueText,
-} from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { ErrorData } from '../error/errorReducer'
 import {
+  GotoCertificateDataElement,
+  SigningData,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
-  GotoCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -32,7 +21,6 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  SigningData,
   toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
   unstyleCertificateDataElement,
@@ -41,8 +29,8 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
-  updateCertificateSigningData,
   updateCertificateSignStatus,
+  updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -55,9 +43,20 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { ErrorData } from '../error/errorReducer'
+import {
+  Certificate,
+  CertificateEvent,
+  Complement,
+  CertificateSignStatus,
+  ModalData,
+  ConfigTypes,
+  CertificateDataValueType,
+  ValueText,
+  ValueBoolean,
+  CertificateDataValidationType,
+  CertificateDataElementStyleEnum,
+} from '../../types'
+import { isShowAlways } from '../../utils'
 
 export interface CertificateState {
   certificate?: Certificate

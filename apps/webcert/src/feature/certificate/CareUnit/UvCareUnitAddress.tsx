@@ -1,9 +1,9 @@
-import { calendarImage } from '@frontend/common'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
+import { calendarImage } from '../../../images'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryTitle from '../Category/CategoryTitle'
 
@@ -35,8 +35,8 @@ const CareUnitAddress = styled.section`
 `
 
 const UvCareUnitAddress: React.FC = () => {
-  const metadata = useSelector(getCertificateMetaData, _.isEqual)
-  const signedCertificate = useSelector(getCertificateEvents, _.isEqual)
+  const metadata = useSelector(getCertificateMetaData, isEqual)
+  const signedCertificate = useSelector(getCertificateEvents, isEqual)
   const signedCertificateDate = signedCertificate
     .filter((obj) => obj && obj.type === 'SIGNED')
     .sort((a, b) => b.timestamp.localeCompare(a.timestamp))

@@ -1,6 +1,7 @@
-import { FMBDiagnosisCodeInfo, InfoCircle } from '@frontend/common'
 import React, { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
+import { InfoCircle } from '../../images'
+import { FMBDiagnosisCodeInfo } from '../../types'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo

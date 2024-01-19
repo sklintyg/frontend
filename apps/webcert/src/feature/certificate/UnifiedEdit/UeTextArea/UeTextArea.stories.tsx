@@ -1,9 +1,9 @@
-import { fakeTextAreaElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeTextArea, { Props } from './UeTextArea'
+import { fakeTextAreaElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeTextArea',

@@ -1,4 +1,3 @@
-import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -12,6 +11,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore

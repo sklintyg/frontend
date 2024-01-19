@@ -1,19 +1,17 @@
+import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
+import { CustomButton } from '../../components/Inputs/CustomButton'
+import PatientListInfoContent from '../../components/List/PatientListInfoContent'
+import { checkImage, readImage } from '../../images'
 import {
   CertificateListItemValueType,
-  checkImage,
-  CustomButton,
-  formatDate,
   ForwardedListInfo,
   ListButtonTooltips,
   PatientListInfo,
-  PatientListInfoContent,
-  readImage,
   ResourceLink,
   ResourceLinkType,
-} from '@frontend/common'
-import * as React from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
+} from '../../types'
+import { formatDate } from '../../utils'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 

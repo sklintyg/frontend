@@ -1,5 +1,4 @@
-import { CustomButton, Question, QuestionType } from '@frontend/common'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -13,6 +12,8 @@ import {
   isCreateQuestionsAvailable,
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
+import { Question, QuestionType } from '../../types'
+import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
@@ -42,8 +43,8 @@ const QuestionPanel: React.FC = () => {
 }
 
 const QuestionPanelInner: React.FC = () => {
-  const questions = useSelector(getQuestions, _.isEqual)
-  const questionDraft = useSelector(getQuestionDraft, _.isEqual)
+  const questions = useSelector(getQuestions, isEqual)
+  const questionDraft = useSelector(getQuestionDraft, isEqual)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const isSigned = useSelector(getIsSigned())

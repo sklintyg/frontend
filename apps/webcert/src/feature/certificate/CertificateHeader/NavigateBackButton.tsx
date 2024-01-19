@@ -1,8 +1,9 @@
-import { LinkButton, ResourceLinkType, StatusWithIcon } from '@frontend/common'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getUserResourceLinks } from '../../../store/user/userSelectors'
+import StatusWithIcon from '../../../components/utils/StatusWithIcon'
+import { LinkButton } from '../../../styles'
+import { ResourceLinkType } from '../../../types'
 
 const NavigateBackButton: React.FC = () => {
   const history = useHistory()

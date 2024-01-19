@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { InfoCircle } from '../../../images'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
-import { InfoCircle, SrsInformationChoice } from '@frontend/common'
+import { SrsInformationChoice } from '../../../types'
 import SrsNationalStatisticsLineChart from './SrsNationalStatisticsLineChart'
 
 export const SRS_STATISTICS_TITLE = 'Andel avslutade sjukskrivningsfall*'

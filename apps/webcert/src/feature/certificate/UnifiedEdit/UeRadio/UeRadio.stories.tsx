@@ -1,9 +1,9 @@
-import { fakeRadioBooleanElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeRadio, { Props } from './UeRadio'
+import { fakeRadioBooleanElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeRadio',

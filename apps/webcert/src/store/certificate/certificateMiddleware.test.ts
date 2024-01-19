@@ -1,21 +1,18 @@
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateRelation,
-  CertificateRelations,
-  CertificateRelationType,
-  CertificateStatus,
-  fakeCertificate,
-  fakeCertificateMetaData,
-  fakeHighlightValidation,
-  fakeRadioBooleanElement,
-  getUser,
-  SigningMethod,
-} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '../../faker'
+import {
+  Certificate,
+  CertificateDataElementStyleEnum,
+  CertificateRelation,
+  CertificateRelationType,
+  CertificateRelations,
+  CertificateStatus,
+  SigningMethod,
+} from '../../types'
+import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
@@ -26,20 +23,21 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
+  CertificateApiGenericError,
+  ComplementCertificateSuccess,
+  CreateCertificate,
+  CreateCertificateFromCandidateSuccess,
+  CreateCertificateFromCandidateWithMessageSuccess,
+  CreateCertificateResponse,
+  SigningData,
   answerComplementCertificate,
   autoSaveCertificate,
   autoSaveCertificateError,
-  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
-  ComplementCertificateSuccess,
-  CreateCertificate,
   createCertificateFromCandidate,
-  CreateCertificateFromCandidateSuccess,
   createCertificateFromCandidateWithMessage,
-  CreateCertificateFromCandidateWithMessageSuccess,
-  CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
   getCertificate,
@@ -49,7 +47,6 @@ import {
   readyForSignSuccess,
   showRelatedCertificate,
   signCertificateStatusError,
-  SigningData,
   startSignCertificate,
   updateCertificate,
   updateCertificateDataElement,
