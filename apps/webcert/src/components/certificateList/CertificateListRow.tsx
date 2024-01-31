@@ -106,7 +106,7 @@ const CertificateListRow: React.FC<Props> = ({
             {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
           </Star>
           <CertificateName>
-            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
+            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId.toUpperCase()}
           </CertificateName>
           <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
             <ModalContent>
