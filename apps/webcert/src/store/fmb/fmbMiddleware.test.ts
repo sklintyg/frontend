@@ -1,21 +1,18 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement, fakeSickLeavePeriod } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
   CertificateDataValueType,
   CertificateMetadata,
-  fakeCertificateConfig,
-  fakeCertificateValue,
-  fakeDiagnosesElement,
-  fakeSickLeavePeriod,
   Patient,
   PersonId,
   ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
-} from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+} from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'

@@ -1,22 +1,18 @@
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateDataValidationType,
-  CertificateRelation,
-  CertificateRelations,
-  CertificateRelationType,
-  CertificateStatus,
-  fakeCertificate,
-  fakeCertificateDataValidation,
-  fakeCertificateMetaData,
-  fakeRadioBooleanElement,
-  getUser,
-  SigningMethod,
-} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '../../faker'
+import {
+  Certificate,
+  CertificateDataElementStyleEnum,
+  CertificateRelation,
+  CertificateRelationType,
+  CertificateRelations,
+  CertificateStatus,
+  SigningMethod,
+} from '../../types'
+import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
@@ -27,20 +23,21 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
+  CertificateApiGenericError,
+  ComplementCertificateSuccess,
+  CreateCertificate,
+  CreateCertificateFromCandidateSuccess,
+  CreateCertificateFromCandidateWithMessageSuccess,
+  CreateCertificateResponse,
+  SigningData,
   answerComplementCertificate,
   autoSaveCertificate,
   autoSaveCertificateError,
-  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
-  ComplementCertificateSuccess,
-  CreateCertificate,
   createCertificateFromCandidate,
-  CreateCertificateFromCandidateSuccess,
   createCertificateFromCandidateWithMessage,
-  CreateCertificateFromCandidateWithMessageSuccess,
-  CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
   getCertificate,
@@ -50,12 +47,11 @@ import {
   readyForSignSuccess,
   showRelatedCertificate,
   signCertificateStatusError,
-  SigningData,
   startSignCertificate,
   updateCertificate,
+  updateCertificateDataElement,
   updateValidationErrors,
   validateCertificate,
-  validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
@@ -79,9 +75,8 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
       id: '0',
       value: { id: 'val', selected },
       validation: [
-        fakeCertificateDataValidation({
+        fakeHighlightValidation({
           questionId: '0',
-          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
           expression: '$val',
         }),
       ],
@@ -457,7 +452,7 @@ describe('Test certificate middleware', () => {
       const certificate = getCertificateWithHiglightValidation(true)
 
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+      testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
@@ -466,7 +461,7 @@ describe('Test certificate middleware', () => {
     it('shall unstyle certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(false)
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+      testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)

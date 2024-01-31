@@ -1,5 +1,4 @@
 /* eslint-disable react/function-component-definition */
-import { fakeCertificateValue, formatDateToString, ValueDateRange } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,6 +7,9 @@ import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import DateRangePicker from './DateRangePicker'
+import { fakeCertificateValue } from '../../../../faker'
+import { ValueDateRange } from '../../../../types'
+import { formatDateToString } from '../../../../utils'
 
 let testStore: EnhancedStore
 

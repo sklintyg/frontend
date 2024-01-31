@@ -1,10 +1,10 @@
 import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getIsCertificateRenewed, getSrsInfo } from '../../../store/srs/srsSelectors'
+import { SrsInformationChoice } from '../../../types'
 import { SrsRecommendationsBox } from '../recommendations/SrsRecommendationBox'
-import { SrsInformationChoice } from '@frontend/common'
-import SrsRiskGraph from '../risk/SrsRiskGraph'
 import { SRS_EXTENSION_TITLE } from '../recommendations/SrsRecommendations'
+import SrsRiskGraph from '../risk/SrsRiskGraph'
 
 export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>) => {
   const info = useSelector(getSrsInfo)

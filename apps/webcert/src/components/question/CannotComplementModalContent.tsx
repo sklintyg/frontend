@@ -1,5 +1,8 @@
-import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
+import RadioButton from '../Inputs/RadioButton'
+import TextArea from '../Inputs/TextArea'
+import InfoBox from '../utils/InfoBox'
+import MandatoryIcon from '../utils/MandatoryIcon'
 
 export interface CannotComplementData {
   answerWithCertificate: boolean

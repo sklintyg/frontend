@@ -1,5 +1,5 @@
-import { InfoBox } from '@frontend/common'
 import React from 'react'
+import InfoBox from '../../../../components/utils/InfoBox'
 
 interface Props {
   previousSickLeavePeriod: string

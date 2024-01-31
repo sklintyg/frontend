@@ -1,8 +1,13 @@
-import { ButtonWithConfirmModal, CertificateMetadata, CustomButton, isDraft, isLocked, printImage, sanitizeText } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { printCertificate } from '../../../store/certificate/certificateActions'
+import { isDraft } from '@reduxjs/toolkit'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { printImage } from '../../../images'
+import { CertificateMetadata } from '../../../types'
+import { isLocked, sanitizeText } from '../../../utils'
 
 interface Props {
   name: string

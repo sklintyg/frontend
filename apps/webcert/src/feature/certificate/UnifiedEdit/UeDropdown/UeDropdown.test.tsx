@@ -1,9 +1,10 @@
-import { CertificateDataElement, ConfigTypes, fakeCertificateConfig, fakeCertificateValue } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeDropdown from './UeDropdown'
+import { fakeCertificateValue, fakeCertificateConfig } from '../../../../faker'
+import { CertificateDataElement, ConfigTypes } from '../../../../types'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },

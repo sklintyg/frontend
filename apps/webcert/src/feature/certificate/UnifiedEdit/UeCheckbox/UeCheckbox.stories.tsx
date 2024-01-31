@@ -1,9 +1,9 @@
-import { fakeCheckboxBooleanElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCheckbox, { Props } from './UeCheckbox'
+import { fakeCheckboxBooleanElement } from '../../../../faker'
 
 export default {
   title: 'Webcert/UeCheckbox',

@@ -1,10 +1,11 @@
-import { CertificateDataValueType, fakeViewTableElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeViewTable, { Props } from './UeViewTable'
+import { fakeViewTableElement } from '../../../../faker'
+import { CertificateDataValueType } from '../../../../types'
 
 export default {
   title: 'Webcert/UeViewTable',

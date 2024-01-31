@@ -1,4 +1,3 @@
-import { InfoBox, Patient, ResourceLink, ResourceLinkType, StarFilledIcon, StarIcon, TextWithInfoModal } from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -9,6 +8,10 @@ import { createNewCertificate } from '../../store/certificate/certificateActions
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
 import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
 import { CreateCertificateButton } from './CreateCertificateButton'
+import { StarFilledIcon, StarIcon } from '../../images'
+import { Patient, ResourceLink, ResourceLinkType } from '../../types'
+import InfoBox from '../utils/InfoBox'
+import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 
 interface Props {
   certificateName: string

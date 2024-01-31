@@ -1,11 +1,13 @@
-import { CustomButton, isPersonIdValid, PersonIdInput, useKeyPress } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
-import PatientSearchError from './PatientSearchError'
 import { getActivePatient } from '../../store/patient/patientSelectors'
+import PatientSearchError from './PatientSearchError'
+import { useKeyPress, isPersonIdValid } from '../../utils'
+import { CustomButton } from '../Inputs/CustomButton'
+import PersonIdInput from '../Inputs/PersonIdInput'
 
 const FormWrapper = styled.div`
   display: flex;

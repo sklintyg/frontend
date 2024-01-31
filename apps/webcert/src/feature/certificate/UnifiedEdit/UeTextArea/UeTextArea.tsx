@@ -1,19 +1,18 @@
+import { debounce } from 'lodash-es'
+import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import TextArea from '../../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigUeTextArea,
-  QuestionValidationTexts,
-  TextArea,
   TextValidation,
   ValueText,
-} from '@frontend/common'
-import _ from 'lodash'
-import * as React from 'react'
-import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+} from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement
@@ -31,7 +30,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
     : undefined
 
   const dispatchEditDraft = useRef(
-    _.debounce((question: CertificateDataElement, value: string) => {
+    debounce((question: CertificateDataElement, value: string) => {
       const updatedValue = getUpdatedValue(question, value)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)

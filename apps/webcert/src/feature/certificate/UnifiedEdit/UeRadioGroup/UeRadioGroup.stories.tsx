@@ -1,10 +1,11 @@
-import { ConfigLayout, fakeRadioMultipleCodeElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeRadioGroup, { Props } from './UeRadioGroup'
+import { fakeRadioMultipleCodeElement } from '../../../../faker'
+import { ConfigLayout } from '../../../../types'
 
 export default {
   title: 'Webcert/UeRadioGroup',

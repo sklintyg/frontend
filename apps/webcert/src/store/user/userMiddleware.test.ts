@@ -1,14 +1,8 @@
-import {
-  ResourceLink,
-  ResourceLinkType,
-  getSubscriptionWarningResourceLink,
-  getUser,
-  getUserWithLaunchId,
-  getUserStatistics as statistics,
-} from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { ResourceLink, ResourceLinkType } from '../../types'
+import { getSubscriptionWarningResourceLink, getUser, getUserWithLaunchId, getUserStatistics as statistics } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'

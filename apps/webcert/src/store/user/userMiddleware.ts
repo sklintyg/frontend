@@ -1,8 +1,9 @@
-import { ResourceLinkType } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { deleteCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'
+import { handleQuestionSuccess } from '../question/questionActions'
 import { stopPoll } from '../session/sessionActions'
 import {
   acknowledgeSubscription,
@@ -40,7 +41,6 @@ import {
   updateUserResourceLinks,
   updateUserStatistics,
 } from './userActions'
-import { handleQuestionSuccess } from '../question/questionActions'
 
 const handleGetUser: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>

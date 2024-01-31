@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomButton, ModalBase, ResourceLinkType } from '@frontend/common'
-import { getUserResourceLinks } from '../../store/user/userSelectors'
 import { acknowledgeSubscription } from '../../store/user/userActions'
+import { getUserResourceLinks } from '../../store/user/userSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
+import { CustomButton } from '../../components/Inputs/CustomButton'
+import ModalBase from '../../components/utils/Modal/ModalBase'
+import { ResourceLinkType } from '../../types'
 
 const ModalContent = () => {
   return (

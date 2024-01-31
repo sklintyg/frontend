@@ -1,4 +1,3 @@
-import { getSubscriptionWarningResourceLink } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateUserResourceLinks } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import SubscriptionWarningModal from './SubscriptionWarningModal'
+import { getSubscriptionWarningResourceLink } from '../../utils'
 
 let testStore: EnhancedStore
 

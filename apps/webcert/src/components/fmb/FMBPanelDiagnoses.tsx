@@ -1,6 +1,8 @@
-import { FMBDiagnosisCodeInfo, InfoCircle, RadioButton } from '@frontend/common'
 import React, { ChangeEvent, useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
+import { InfoCircle } from '../../images'
+import { FMBDiagnosisCodeInfo } from '../../types'
+import RadioButton from '../Inputs/RadioButton'
 
 interface Props {
   fmbDiagnosisCodes: FMBDiagnosisCodeInfo[]

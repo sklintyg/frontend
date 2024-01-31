@@ -1,6 +1,6 @@
-import { listImage } from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { listImage } from '../../images'
 
 const StyledIcon = styled.img`
   display: inline;

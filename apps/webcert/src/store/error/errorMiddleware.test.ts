@@ -1,5 +1,5 @@
-import { getCertificate } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { getCertificate } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'

@@ -1,20 +1,20 @@
-import {
-  Accordion,
-  AccordionHeader,
-  CertificateDataElement,
-  ConfigUeMedicalInvestigationList,
-  QuestionValidationTexts,
-  sanitizeText,
-  Text,
-  ValueMedicalInvestigation,
-  ValueMedicalInvestigationList,
-} from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import Accordion from '../../../../components/utils/Accordion'
+import AccordionHeader from '../../../../components/utils/AccordionHeader'
+import { Text } from '../../../../components/utils/Text'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import {
+  CertificateDataElement,
+  ConfigUeMedicalInvestigationList,
+  ValueMedicalInvestigation,
+  ValueMedicalInvestigationList,
+} from '../../../../types'
+import { sanitizeText } from '../../../../utils'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
 import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 

@@ -1,13 +1,12 @@
+import { fakeSrsPrediction, fakeCertificateMetaData } from '../../faker'
 import {
-  fakeSrsPrediction,
   SrsSickLeaveChoice,
-  CertificateStatus,
-  CertificateMetadata,
-  fakeCertificateMetaData,
-  SrsUserClientContext,
   CertificateRelation,
   CertificateRelationType,
-} from '@frontend/common'
+  CertificateStatus,
+  CertificateMetadata,
+  SrsUserClientContext,
+} from '../../types'
 import {
   getCurrentRiskDataPoint,
   getFilteredPredictions,

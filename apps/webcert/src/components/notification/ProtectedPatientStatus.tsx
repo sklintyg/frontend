@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import PatientStatusNotificationWithModal from '../../feature/certificate/Notifications/PatientStatusNotificationWithModal'
 

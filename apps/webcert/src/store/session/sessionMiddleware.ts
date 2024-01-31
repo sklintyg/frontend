@@ -25,6 +25,8 @@ const handleStartPoll: Middleware<Dispatch> =
       return
     }
 
+    dispatch(getSessionStatus())
+
     const handlePoll = setInterval(() => {
       dispatch(getSessionStatus())
     }, 30000)

@@ -1,9 +1,10 @@
-import { CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
 import styled from 'styled-components'
+import InfoBox from '../../components/utils/InfoBox'
+import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
@@ -15,6 +16,7 @@ import {
   getResourceLinks,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
+import { CertificateDataElementStyleEnum, ConfigTypes, ResourceLinkType } from '../../types'
 import CareUnit from './CareUnit/CareUnit'
 import Category from './Category/Category'
 import { CertificateContext } from './CertificateContext'
@@ -52,7 +54,7 @@ const CategoryWrapper = styled.div`
 
 const Certificate: React.FC = () => {
   const dispatch = useDispatch()
-  const certificateStructure = useSelector(getCertificateDataElements, _.isEqual)
+  const certificateStructure = useSelector(getCertificateDataElements, isEqual)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
   const gotoId = useSelector(getGotoId)

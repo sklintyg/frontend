@@ -1,17 +1,17 @@
+import React from 'react'
+import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
+import Dropdown from '../../../../components/Inputs/Dropdown'
+import TextInput from '../../../../components/Inputs/TextInput'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
-  DatePickerCustom,
-  Dropdown,
-  QuestionValidationTexts,
-  TextInput,
   TextValidation,
   ValidationError,
   ValueMedicalInvestigation,
-} from '@frontend/common'
-import React from 'react'
+} from '../../../../types'
 import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 
 export interface Props {

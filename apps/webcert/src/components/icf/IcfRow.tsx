@@ -1,6 +1,7 @@
-import { Checkbox, IcfCode } from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { IcfCode } from '../../types'
+import Checkbox from '../Inputs/Checkbox'
 
 const TitleWrapper = styled.div`
   display: flex;

@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeTextAreaElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,8 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import SignAndSendButton from '../SignAndSendButton'
+import { fakeCertificate, fakeTextAreaElement } from '../../../../faker'
+import { ResourceLinkType } from '../../../../types'
 
 const commonProps = {
   body: 'Sign modal body',

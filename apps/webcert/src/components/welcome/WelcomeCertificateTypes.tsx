@@ -1,11 +1,13 @@
-import { Dropdown, RadioButton, SpinnerBackdrop } from '@frontend/common'
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useDeepCompareEffect } from '../../hooks/useDeepCompareEffect'
 import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
 import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
+import Dropdown from '../Inputs/Dropdown'
+import RadioButton from '../Inputs/RadioButton'
+import SpinnerBackdrop from '../utils/SpinnerBackdrop'
 
 const PatientWrapper = styled.div`
   max-width: 600px;

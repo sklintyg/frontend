@@ -1,9 +1,9 @@
-import { fakeTypeaheadElement } from '@frontend/common'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeTypeahead from './UeTypeahead'
+import { fakeTypeaheadElement } from '../../../../faker'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 

@@ -1,4 +1,3 @@
-import { getPrivatePractitionerPortalResourceLink, getUser } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,6 +7,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import { getPrivatePractitionerPortalResourceLink, getUser } from '../../utils'
 import WebcertHeaderUser from './WebcertHeaderUser'
 
 let testStore: EnhancedStore

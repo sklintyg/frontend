@@ -1,10 +1,10 @@
-import { CertificateStatus } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
+import { CertificateStatus } from '../../../../types'
 
 const renderComponent = (isSigned: boolean, isValidForSigning: boolean) => {
   render(

@@ -1,9 +1,10 @@
-import { CertificateDataElement, fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeCheckbox from './UeCheckbox'
+import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '../../../../faker'
+import { CertificateDataElement } from '../../../../types'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
 const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'

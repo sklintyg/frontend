@@ -1,8 +1,13 @@
-import { Accordion, AccordionHeader, CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import Icon from '../../../components/image/image/Icon'
+import Accordion from '../../../components/utils/Accordion'
+import AccordionHeader from '../../../components/utils/AccordionHeader'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import { Text } from '../../../components/utils/Text'
 import { getQuestion, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { CertificateDataConfig, ConfigTypes } from '../../../types'
+import { sanitizeText } from '../../../utils'
 
 export interface Props {
   config: CertificateDataConfig

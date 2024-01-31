@@ -1,15 +1,14 @@
+import { fakeCertificateConfig, fakeDiagnosesElement } from '../../faker'
+import { IcfState } from '../../store/icf/icfReducer'
 import {
   Certificate,
   CertificateDataElement,
   CertificateDataValueType,
   ConfigTypes,
-  fakeCertificateConfig,
-  fakeDiagnosesElement,
   Icd10Code,
   IcfCode,
   ResourceLinkType,
-} from '@frontend/common'
-import { IcfState } from '../../store/icf/icfReducer'
+} from '../../types'
 
 export const getIcfData = (): IcfState => {
   const commonIcfCodes: IcfCode[] = [

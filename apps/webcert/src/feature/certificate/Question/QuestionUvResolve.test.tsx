@@ -1,8 +1,7 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import {
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigTypes,
-  ConfigUeIcf,
   fakeCertificateConfig,
   fakeCertificateValue,
   fakeCheckboxBooleanElement,
@@ -18,18 +17,21 @@ import {
   fakeSickLeavePeriod,
   fakeTextAreaElement,
   fakeYearElement,
-  getCertificateWithQuestion,
+} from '../../../faker'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigTypes,
+  ConfigUeIcf,
   MessageLevel,
   ValueIcf,
   ValueText,
   ValueYear,
-} from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
+} from '../../../types'
+import { getCertificateWithQuestion } from '../../../utils'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore

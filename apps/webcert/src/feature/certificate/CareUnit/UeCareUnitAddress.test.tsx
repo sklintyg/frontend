@@ -1,4 +1,3 @@
-import { ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useSelector } from 'react-redux'
@@ -9,6 +8,7 @@ import UeCareUnitAddress, {
   CARE_UNIT_PHONE_NUMBER_FIELD,
   CARE_UNIT_ZIP_CODE_FIELD,
 } from './UeCareUnitAddress'
+import { ValidationError } from '../../../types'
 
 const getValidationErrors = (): ValidationError[] => {
   const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: 'Valideringstext' }

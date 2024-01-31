@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash-es'
 import {
   CertificateListItemValueType,
   ListConfig,
@@ -12,8 +13,7 @@ import {
   ListFilterValue,
   ListFilterValueDateRange,
   ListFilterValues,
-} from '@frontend/common'
-import { isEqual } from 'lodash'
+} from '../../types'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
   switch (filter.type) {

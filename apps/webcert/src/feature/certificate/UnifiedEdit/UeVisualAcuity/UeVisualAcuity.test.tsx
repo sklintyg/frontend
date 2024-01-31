@@ -1,4 +1,3 @@
-import { CertificateDataElement, ConfigUeVisualAcuity, fakeCertificate, fakeVisualAcuityElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,6 +7,8 @@ import { showValidationErrors, updateCertificate, updateValidationErrors } from 
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeVisualAcuity from './UeVisualAcuity'
+import { fakeVisualAcuityElement, fakeCertificate } from '../../../../faker'
+import { CertificateDataElement, ConfigUeVisualAcuity } from '../../../../types'
 
 const QUESTION_ID = 'visualAcuity'
 

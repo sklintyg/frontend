@@ -1,7 +1,7 @@
 import { forwardRef, Ref } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
-import { SrsInformationChoice, SrsSickLeaveChoice } from '@frontend/common'
+import { SrsInformationChoice, SrsSickLeaveChoice } from '../../../types'
 import { SrsRecommendationsBox } from './SrsRecommendationBox'
 
 export const SRS_OBSERVE_TITLE = 'Tänk på att'

@@ -1,9 +1,12 @@
-import { bankIdLogoImage, CertificateSignStatus, LoginMethod, ModalBase, SigningMethod, Spinner } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
+import ModalBase from '../../../components/utils/Modal/ModalBase'
+import Spinner from '../../../components/utils/Spinner'
+import { bankIdLogoImage } from '../../../images'
+import { CertificateSignStatus, LoginMethod, SigningMethod } from '../../../types'
 
 const NO_CLIENT_MOBILE = 'Mobilt BankID-servern får ej kontakt med din enhet. Kontrollera att du har startat Mobilt BankID på din enhet.'
 const NO_CLIENT_DESKTOP =

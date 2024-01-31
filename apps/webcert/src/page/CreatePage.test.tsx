@@ -1,4 +1,3 @@
-import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -10,6 +9,7 @@ import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { CreatePageWithRedirect } from './CreatePage'
+import { User, Unit, LoginMethod, SigningMethod, ResourceLinkType } from '../types'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

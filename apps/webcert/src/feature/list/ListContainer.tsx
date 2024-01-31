@@ -1,5 +1,3 @@
-import { ImageCentered, InfoBox, ListType } from '@frontend/common'
-import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -16,6 +14,9 @@ import {
 } from '../../store/list/listSelectors'
 import { getLoggedInUnit } from '../../store/user/userSelectors'
 import List from './List'
+import ImageCentered from '../../components/image/image/ImageCentered'
+import InfoBox from '../../components/utils/InfoBox'
+import { ListType } from '../../types'
 
 interface Props {
   type: ListType

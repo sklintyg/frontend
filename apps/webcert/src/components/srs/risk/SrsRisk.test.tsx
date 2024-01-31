@@ -1,9 +1,9 @@
-import { SrsSickLeaveChoice, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
+import { fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
   logSrsInteraction,
@@ -14,6 +14,7 @@ import {
 } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { SrsSickLeaveChoice } from '../../../types'
 import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
 
 let store: EnhancedStore

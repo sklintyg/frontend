@@ -1,9 +1,9 @@
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import store from '../../../store/store'
 import ListPageSizeFilter from '../ListPageSizeFilter'
+import { ListFilterValueNumber, ListFilterType, ListFilterPageSizeConfig } from '../../../types'
 
 const onFilterChange = vi.fn()
 const TITLE = 'title for filter pagesize'
@@ -21,7 +21,7 @@ const getFilterConfig = (size: number[]): ListFilterPageSizeConfig =>
     id: 'PAGESIZE',
     title: TITLE,
     pageSizes: size,
-  } as ListFilterPageSizeConfig)
+  }) as ListFilterPageSizeConfig
 
 const renderComponent = (totalCount: number) => {
   render(

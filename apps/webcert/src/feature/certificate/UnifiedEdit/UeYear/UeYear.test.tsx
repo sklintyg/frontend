@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeYearElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeYear from './UeYear'
+import { fakeYearElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett år mellan patientens födelseår och aktuellt år.'
@@ -98,11 +98,11 @@ describe('YearPicker component', () => {
       config: { id: 'field' },
       id: QUESTION_ID,
       validationErrors: [
-        {
+        fakeCertificateValidationError({
           field: 'field',
           id: QUESTION_ID,
           text: VALIDATION_ERROR,
-        },
+        }),
       ],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
@@ -118,7 +118,7 @@ describe('YearPicker component', () => {
   it('should display server validation errors on question.id', () => {
     const element = fakeYearElement({
       id: QUESTION_ID,
-      validationErrors: [{ text: VALIDATION_ERROR }],
+      validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
     renderComponent({ disabled: false, question: element })

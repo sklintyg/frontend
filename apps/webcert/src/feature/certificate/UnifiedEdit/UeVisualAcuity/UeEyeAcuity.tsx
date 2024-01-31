@@ -1,14 +1,10 @@
-import {
-  Checkbox,
-  ConfigEyeAcuity,
-  formatAcuity,
-  QuestionValidationTexts,
-  TextInput,
-  ValidationError,
-  ValueEyeAcuity,
-} from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Checkbox from '../../../../components/Inputs/Checkbox'
+import TextInput from '../../../../components/Inputs/TextInput'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
+import { formatAcuity } from '../../../../utils/format/formatAcuity'
 
 const AcuityInput = styled(TextInput)`
   width: 40px;

@@ -1,6 +1,7 @@
-import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
+import { getResourceLink } from '../../utils'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { throwError } from '../error/errorActions'
@@ -53,8 +54,8 @@ import {
   updateCertificateId,
   updateComplements,
   updateCreateQuestionsAvailable,
-  updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
+  updateDisplayingCertificateDraft,
   updateHandledQuestion,
   updateIsLoadingQuestions,
   updateQuestion,

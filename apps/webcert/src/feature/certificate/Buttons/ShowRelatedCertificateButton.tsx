@@ -1,8 +1,8 @@
-import { CustomButton, fileImage } from '@frontend/common'
-import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import { fileImage } from '../../../images'
 
 interface Props extends FunctionDisabled {
   name: string

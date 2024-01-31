@@ -1,5 +1,5 @@
 import React from 'react'
-import { InfoBox } from '@frontend/common'
+import InfoBox from '../../utils/InfoBox'
 
 interface Props {
   diagnosisCode?: string

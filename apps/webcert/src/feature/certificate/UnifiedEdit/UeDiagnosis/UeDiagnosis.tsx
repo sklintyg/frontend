@@ -1,23 +1,23 @@
+import { debounce } from 'lodash-es'
+import React, { useEffect, useRef } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
+import styled, { css } from 'styled-components'
+import Typeahead from '../../../../components/Inputs/Typeahead'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../../store/store'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   Diagnosis,
-  QuestionValidationTexts,
   TextValidation,
-  Typeahead,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
-} from '@frontend/common'
-import _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
-import styled, { css } from 'styled-components'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
-import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
-import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
+} from '../../../../types'
 
 interface Props {
   question: CertificateDataElement
@@ -139,13 +139,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const dispatchTypeahead = useRef(
-    _.debounce((value: string, selectedCodeSystem: string) => {
+    debounce((value: string, selectedCodeSystem: string) => {
       updateTypeaheadResult(value, false, selectedCodeSystem)
     }, 150)
   ).current
 
   const dispatchUpdateDiagnosis = useRef(
-    _.debounce((question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
+    debounce((question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
       updateSavedDiagnosis(question, code, description, selectedCodeSystem)
     }, 500)
   ).current

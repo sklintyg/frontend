@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
-import { createMemoryRouter, createRoutesFromChildren, Outlet, Route, RouterProvider } from 'react-router-dom'
+import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../../../mocks/server'
 import {
   AvailableFunction,
-  availableFunctionSchema,
   CertificateRecipient,
+  availableFunctionSchema,
   certificateRecipientSchema,
 } from '../../../../schema/certificate.schema'
 import { store } from '../../../../store/store'
@@ -21,7 +21,7 @@ function renderComponent(recipient: CertificateRecipient, sendFunction: Availabl
         router={createMemoryRouter(
           createRoutesFromChildren([
             <Route key="cert" path="/" element={<Outlet />}>
-              <Route index element={<p>Certificate page</p>} />
+              <Route index element="Certificate page" />
               <Route path="skicka" element={<SendCertificateActions id="12345" recipient={recipient} sendFunction={sendFunction} />} />,
             </Route>,
           ]),
@@ -50,9 +50,13 @@ it('Should display error-message when certificate was unable to be sent', async 
     fakerFromSchema(availableFunctionSchema)({ enabled: true })
   )
 
+  expect(screen.getByRole('button', { name: 'Skicka' })).toBeInTheDocument()
+
   await userEvent.click(screen.getByRole('button', { name: 'Skicka' }))
 
-  expect(screen.getByText(/på grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:/i)).toBeInTheDocument()
+  expect(
+    await screen.findByText(/på grund av ett tekniskt fel kunde ditt intyg inte skickas till följande mottagare:/i)
+  ).toBeInTheDocument()
 })
 
 it('Should navigate back when pressing the back button', async () => {

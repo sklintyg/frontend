@@ -1,8 +1,9 @@
-import { CustomTooltip, DatePickerBoundryContext } from '@frontend/common'
 import classnames from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import { DatePickerBoundryContext } from '../Inputs/DatePickerCustom/DatePickerBoundryContext'
+import CustomTooltip from '../utils/CustomTooltip'
 
 const Root = styled.div`
   height: 100vh;

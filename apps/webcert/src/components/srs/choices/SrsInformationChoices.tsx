@@ -1,6 +1,7 @@
 import React from 'react'
-import { CustomButton, SrsInformationChoice } from '@frontend/common'
 import styled from 'styled-components'
+import { SrsInformationChoice } from '../../../types'
+import { CustomButton } from '../../Inputs/CustomButton'
 
 export const SRS_RECOMMENDATIONS_BUTTON_TEXT = 'Råd och åtgärder'
 export const SRS_STATISTICS_BUTTON_TEXT = 'Nationell statistik'

@@ -1,4 +1,3 @@
-import { ListFilterType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -10,6 +9,7 @@ import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import DateRangeFilter from '../filter/DateRangeFilter'
 import { getDateRangeFilter } from './listTestUtils'
+import { ListFilterType } from '../../../types'
 
 let onChange = vi.fn()
 

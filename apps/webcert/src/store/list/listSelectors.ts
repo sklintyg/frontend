@@ -1,4 +1,4 @@
-import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common'
+import { ListFilter, CertificateListItem, ListConfig, ListType } from '../../types'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 

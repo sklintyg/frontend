@@ -1,7 +1,11 @@
-import { CopyIcon, CustomButton, ModalBase, ResourceLink, sanitizeText, useKeyPress } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ModalBase from '../../../components/utils/Modal/ModalBase'
+import { CopyIcon } from '../../../images'
+import { ResourceLink } from '../../../types'
+import { useKeyPress, sanitizeText } from '../../../utils'
 
 interface Props {
   resourceLink: ResourceLink | undefined

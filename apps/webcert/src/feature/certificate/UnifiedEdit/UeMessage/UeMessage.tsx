@@ -1,5 +1,6 @@
-import { CertificateDataElement, ConfigUeMessage, InfoBox, MessageLevel, Text } from '@frontend/common'
-import * as React from 'react'
+import InfoBox from '../../../../components/utils/InfoBox'
+import { Text } from '../../../../components/utils/Text'
+import { CertificateDataElement, ConfigUeMessage, MessageLevel } from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

@@ -1,7 +1,14 @@
-import { RootState } from '../store'
-import { SrsAnswer, SrsInformationChoice, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
-import { SrsInfoForDiagnosis } from '@frontend/common/src/types/srs'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
+import {
+  SrsAnswer,
+  SrsInfoForDiagnosis,
+  SrsInformationChoice,
+  SrsPrediction,
+  SrsQuestion,
+  SrsSickLeaveChoice,
+  ValueDiagnosisList,
+} from '../../types'
+import { RootState } from '../store'
 
 export const getDiagnosisListValue = (state: RootState): ValueDiagnosisList | null => state.ui.uiSRS.diagnosisListValue
 
@@ -36,8 +43,8 @@ export const getSrsPredictions = (state: RootState): SrsPrediction[] =>
   state.ui.uiSRS.srsPredictions.length > 0
     ? state.ui.uiSRS.srsPredictions
     : state.ui.uiSRS.srsInfo
-    ? state.ui.uiSRS.srsInfo.predictions
-    : []
+      ? state.ui.uiSRS.srsInfo.predictions
+      : []
 
 export const getPreviousAnswers = (state: RootState): SrsAnswer[] => state.ui.uiSRS.answers
 

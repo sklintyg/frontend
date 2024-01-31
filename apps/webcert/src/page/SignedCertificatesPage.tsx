@@ -1,5 +1,3 @@
-import { epostImage, ListHeader, ListType, noDraftsImage, ResourceLinkType } from '@frontend/common'
-import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import ListContainer from '../feature/list/ListContainer'
@@ -17,6 +15,9 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { ResourceAccess } from '../utils/ResourceAccess'
+import ListHeader from '../components/List/ListHeader'
+import { epostImage, noDraftsImage } from '../images'
+import { ResourceLinkType, ListType } from '../types'
 
 const SignedCertificatesPage: React.FC = () => {
   const dispatch = useDispatch()

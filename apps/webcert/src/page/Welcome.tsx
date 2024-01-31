@@ -1,4 +1,3 @@
-import { CustomButton, RadioButton, TextArea } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -20,6 +19,9 @@ import {
 } from '../store/welcome/welcomeActions'
 import { MockUser } from '../store/welcome/welcomeReducer'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { CustomButton } from '../components/Inputs/CustomButton'
+import RadioButton from '../components/Inputs/RadioButton'
+import TextArea from '../components/Inputs/TextArea'
 
 interface JsonUser extends MockUser {
   origin: string

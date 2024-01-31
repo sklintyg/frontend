@@ -1,4 +1,3 @@
-import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '../../types'
 import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
@@ -29,7 +29,7 @@ const createCertificate = (metadata: CertificateMetadata): Certificate =>
   ({
     metadata,
     links: [],
-  } as unknown as Certificate)
+  }) as unknown as Certificate
 
 function createQuestion(handled = true): Question {
   return {
@@ -53,7 +53,7 @@ const addComplementsToQuestion = (question: Question): Question =>
     ...question,
     type: QuestionType.COMPLEMENT,
     complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
-  } as Question)
+  }) as Question
 
 describe('QuestionPanel', () => {
   beforeEach(() => {

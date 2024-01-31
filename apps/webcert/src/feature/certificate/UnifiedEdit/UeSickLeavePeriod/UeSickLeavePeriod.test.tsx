@@ -1,16 +1,11 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-  ConfigUeSickLeavePeriod,
-  getCertificateWithQuestion,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificateConfig } from '../../../../faker'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
+import { CertificateDataElement, CertificateDataValidationType, CertificateDataValueType, ConfigUeSickLeavePeriod } from '../../../../types'
+import { getCertificateWithQuestion } from '../../../../utils'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const QUESTION_ID = 'Test'
@@ -34,10 +29,9 @@ const defaultQuestion: CertificateDataElement = {
   visible: true,
   readOnly: false,
   mandatory: true,
-  config: {
+  config: fakeCertificateConfig.sickLeavePeriod({
     text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
     description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
-    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     list: [
       {
         id: EN_FJARDEDEL_ID,
@@ -56,7 +50,7 @@ const defaultQuestion: CertificateDataElement = {
         label: HELT_NEDSATT_LABEL,
       },
     ],
-  },
+  }),
   value: {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [],

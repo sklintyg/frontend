@@ -1,8 +1,7 @@
-import { ConfigTypes } from '@frontend/common'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
+import { ConfigTypes } from '../../../types'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;

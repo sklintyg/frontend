@@ -1,5 +1,6 @@
-import { CustomButton, ExternalLinkIcon } from '@frontend/common'
 import React from 'react'
+import { CustomButton } from '../Inputs/CustomButton'
+import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 import { ButtonWrapper, Footer } from './Styles'
 
 interface IcfFooterProps {

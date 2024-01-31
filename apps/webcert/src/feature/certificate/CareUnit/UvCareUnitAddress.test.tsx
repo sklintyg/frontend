@@ -1,8 +1,8 @@
-import { CertificateMetadata } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UvCareUnitAddress from './UvCareUnitAddress'
+import { CertificateMetadata } from '../../../types'
 
 it('displays all care unit info', (): void => {
   const mockData = {

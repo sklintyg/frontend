@@ -1,5 +1,5 @@
-import { StatusWithIcon } from '@frontend/common'
 import React from 'react'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 
 const ComplementStatus: React.FC = () => {
   return (

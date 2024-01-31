@@ -1,6 +1,5 @@
-import { CustomButton } from '@frontend/common'
-import * as React from 'react'
 import styled from 'styled-components'
+import { CustomButton } from '../../components/Inputs/CustomButton'
 
 interface Props {
   searchTooltip: string

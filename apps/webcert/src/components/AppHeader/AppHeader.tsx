@@ -1,8 +1,8 @@
 import React from 'react'
-import AppHeaderTitle from './AppHeaderTitle'
 import styled from 'styled-components'
+import { UserTab } from '../../types'
 import AppHeaderTabs from './AppHeaderTabs'
-import { UserTab } from '@frontend/common'
+import AppHeaderTitle from './AppHeaderTitle'
 
 const HeaderInner = styled.div`
   height: unset;

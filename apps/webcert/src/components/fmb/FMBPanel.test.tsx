@@ -1,4 +1,3 @@
-import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -9,6 +8,7 @@ import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/f
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
 import FMBPanel from './FMBPanel'
+import { ValueDiagnosisList, CertificateDataValueType } from '../../types'
 
 let testStore: EnhancedStore
 

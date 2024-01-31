@@ -1,12 +1,13 @@
-import { SrsAnswer, fakeSrsAnswerOption, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeSrsAnswerOption, fakeSrsPrediction, fakeSrsQuestion } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateSrsPredictions, updateSrsQuestions } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { SrsAnswer } from '../../../types'
 import SrsRiskForm from './SrsRiskForm'
 
 let testStore: EnhancedStore

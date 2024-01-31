@@ -1,6 +1,6 @@
-import { sanitizeText } from '@frontend/common'
 import React from 'react'
 import WCDynamicLink from './WCDynamicLink'
+import { sanitizeText } from './sanitizeText'
 
 interface Props {
   text: string

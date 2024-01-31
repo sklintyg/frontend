@@ -1,8 +1,11 @@
-import { Checkbox, ConfirmModal, InfoBox, Patient } from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
+import Checkbox from '../../../components/Inputs/Checkbox'
+import InfoBox from '../../../components/utils/InfoBox'
+import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
+import { Patient } from '../../../types'
 
 interface Props {
   patient: Patient

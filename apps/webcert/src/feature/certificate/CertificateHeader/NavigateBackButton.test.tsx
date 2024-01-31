@@ -1,4 +1,3 @@
-import { getNavigateBackButtonLink, getUser } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -9,6 +8,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import { userMiddleware } from '../../../store/user/userMiddleware'
+import { getNavigateBackButtonLink, getUser } from '../../../utils'
 import NavigateBackButton from './NavigateBackButton'
 
 let testStore: EnhancedStore

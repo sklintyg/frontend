@@ -1,15 +1,16 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { MemoryRouter, Route } from 'react-router-dom'
 import { vi } from 'vitest'
-import { fakeCertificate, ResourceLinkType } from '@frontend/common'
+import { updateCertificate } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
+import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import CertificatePage from './CertificatePage'
-import { throwError } from '../store/error/errorActions'
-import { updateCertificate } from '../store/certificate/certificateActions'
+import { fakeCertificate } from '../faker'
+import { ResourceLinkType } from '../types'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

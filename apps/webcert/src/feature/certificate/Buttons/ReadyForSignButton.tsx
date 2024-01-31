@@ -1,9 +1,11 @@
-import { ButtonWithConfirmModal, checkImage, CustomButton } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import { readyForSign } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { checkImage } from '../../../images'
 
 interface Props extends FunctionDisabled {
   name: string

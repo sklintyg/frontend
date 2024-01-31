@@ -33,6 +33,7 @@ it('Should display dialog when there is 5 minutes left of the session', async ()
 it('Should redirect to saml login when unable to load user', async () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(500))))
   const openSpy = vi.spyOn(window, 'open')
+  vi.stubEnv('VITE_LOGIN_URL', '/saml2/authenticate/eleg')
 
   renderComponent()
 
