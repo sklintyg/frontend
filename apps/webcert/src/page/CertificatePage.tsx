@@ -100,7 +100,6 @@ const CertificatePage: React.FC = () => {
               open={showDeathCertificateModal}
             />
           )}
-          ,
           {isLuaenaIntegrated && patient && (
             <LuaenaConfirmModalIntegrated
               certificateId={certificateId}
