@@ -484,7 +484,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/filtrex
       '@frontend/utils':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/utils
       '@reduxjs/toolkit':
         specifier: 1.7.2
