@@ -64,7 +64,7 @@ const AppHeader: React.FC<Props> = ({
       {banners}
       <header className="ic-page-header">
         <HeaderInner className="ic-page-header__inner">
-          {title && title}
+          {title}
           {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
           <UserMenu className="ic-page-header__item iu-mr-900 iu-lh-narrow">
             {getPrimary()}

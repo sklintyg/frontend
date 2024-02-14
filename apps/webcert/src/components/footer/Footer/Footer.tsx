@@ -17,16 +17,16 @@ export const Footer: React.FC<Props> = ({ title, description, footerMenu, mobile
       </div>
       <div className="iu-grid-cols-lg-12 ic-container--narrow-md ic-container">
         <div className="iu-grid-span-lg-5 iu-color-white ic-text">
-          <p>{description && description}</p>
+          <p>{description}</p>
         </div>
         <nav className="iu-grid iu-grid-span-lg-7 iu-grid-cols-3 iu-pl-xxl iu-hide-sm iu-hide-md" aria-label="Sidfot meny">
-          {footerMenu && footerMenu}
+          {footerMenu}
         </nav>
       </div>
     </div>
     <div className="ic-page-footer__menu iu-hide-from-lg iu-bg-main">
       <nav className="ic-nav-list" id="mobile-nav" aria-label="Sidfot meny mobil">
-        {mobileFooterMenu && mobileFooterMenu}
+        {mobileFooterMenu}
       </nav>
     </div>
   </footer>

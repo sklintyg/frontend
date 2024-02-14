@@ -73,7 +73,7 @@ const CertificateSidePanel: React.FC = () => {
     return (
       <div data-tip={description}>
         <p>
-          {icon && icon}
+          {icon}
           {name}
         </p>
       </div>

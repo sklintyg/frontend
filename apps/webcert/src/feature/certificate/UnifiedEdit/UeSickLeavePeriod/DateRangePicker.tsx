@@ -231,7 +231,8 @@ const DateRangePicker: React.FC<Props> = ({
       <QuestionValidationTexts validationErrors={validationErrors} />
       {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
-          Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
+          Arbetstid: {workHoursPerWeek} timmar/vecka{' '}
+          {workDaysPerWeek !== null && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>
       )}
     </>

@@ -109,7 +109,6 @@ img {
 .ic-page-header__logo-link_webcert {
   background-image: url('./components/header/webcert_logo.png');
   background-size: 3.75rem 2.3125rem;
-  width: 3.75rem;
   background-position: center center;
   background-repeat: no-repeat;
   display: block;
@@ -200,7 +199,7 @@ img {
 }
 
 .ic-tabbed__tab {
-  font-family: 'Open Sans' !important;
+  font-family: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif !important;
 }
 
 .ic-textarea--error {
