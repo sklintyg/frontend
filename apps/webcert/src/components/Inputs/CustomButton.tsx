@@ -30,7 +30,7 @@ interface Props {
   tooltip?: string
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
-  number?: string | number | undefined
+  number?: string | number
   tooltipPlacement?: Place
   buttonClasses?: string
   'data-testid'?: string
