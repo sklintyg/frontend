@@ -1,6 +1,6 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import { useState } from 'react'
 import { format } from 'date-fns'
+import { useState } from 'react'
 import { AvailableFunction, AvailableFunctionsTypeEnum, InformationTypeEnum } from '../../../../schema/certificate.schema'
 import { CustomizePrintDialog } from './CustomizePrintDialog'
 
@@ -25,7 +25,7 @@ export function PrintCertificateAction({ id, availableFunctions }: { id: string;
       `/api/certificate/${id}/pdf/${fileName?.text}_${format(Date.now(), 'yy-MM-dd_HHmm')}${
         customizeId ? `?customizationId=${customizeId}` : ''
       }`,
-      '_blank'
+      window.navigator.userAgent.includes('1177-appen') ? '_self' : '_blank'
     )
 
   if (!(printFunction || customizePrintFunction)) {
