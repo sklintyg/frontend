@@ -75,6 +75,20 @@ it('Should open file for PRINT_CERTIFICATE', async () => {
   })
 })
 
+it('Should open file on _self for PRINT_CERTIFICATE when using mobile app', async () => {
+  vi.stubGlobal('navigator', {
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 9; SM-A530F Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.110 Mobile Safari/537.36 1177-appen_1.0.6_Android_9.0',
+  })
+  renderWithPrint()
+  const openSpy = vi.spyOn(window, 'open')
+  await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
+  await waitFor(() => {
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('/api/certificate/4b740d71/pdf/filename_'), '_self')
+  })
+  vi.unstubAllGlobals()
+})
+
 it('Should not render when there are no availableFuntions', () => {
   const { container } = render(<PrintCertificateAction id="4b740d71" availableFunctions={[]} />)
   expect(container).toBeEmptyDOMElement()
