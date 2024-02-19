@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
+import Pagination from '../../../components/Pagination/Pagination'
 import { performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
-import PaginationContainer from '../../../components/Pagination/PaginationContainer'
-import { ListFilterValueNumber, ListFilterType } from '../../../types'
+import { ListFilterType, ListFilterValueNumber } from '../../../types'
 
 const ListPagination: React.FC = () => {
   const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber
@@ -10,13 +10,13 @@ const ListPagination: React.FC = () => {
   const totalCount = useSelector(getListTotalCount)
   const dispatch = useDispatch()
 
-  const handlePageChange = (updatedPage: number, startFrom: number) => {
+  const handlePageChange = (startFrom: number) => {
     dispatch(updateActiveListFilterValue({ id: 'START_FROM', filterValue: { type: ListFilterType.NUMBER, value: startFrom } }))
     dispatch(performListSearch)
   }
 
   return (
-    <PaginationContainer
+    <Pagination
       onPageChange={handlePageChange}
       pageSize={pageSize ? pageSize.value : 0}
       totalCount={totalCount ? totalCount : 0}
