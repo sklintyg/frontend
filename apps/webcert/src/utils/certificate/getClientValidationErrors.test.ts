@@ -11,7 +11,7 @@ describe('Validation based on value', () => {
           id: 'question',
           field: 'field',
           type: 'INVALID_DATE_FORMAT',
-          text: 'Ange datum i formatet åååå-mm-dd.',
+          text: 'Ange giltigt datum i formatet åååå-mm-dd.',
           showAlways: true,
         },
       ])
@@ -52,14 +52,14 @@ describe('Validation based on value', () => {
           id: 'question',
           field: 'from.foo',
           type: 'INVALID_DATE_FORMAT',
-          text: 'Ange datum i formatet åååå-mm-dd.',
+          text: 'Ange giltigt datum i formatet åååå-mm-dd.',
           showAlways: true,
         },
         {
           id: 'question',
           field: 'tom.foo',
           type: 'INVALID_DATE_FORMAT',
-          text: 'Ange datum i formatet åååå-mm-dd.',
+          text: 'Ange giltigt datum i formatet åååå-mm-dd.',
           showAlways: true,
         },
       ])
