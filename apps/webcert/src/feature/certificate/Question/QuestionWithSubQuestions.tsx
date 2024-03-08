@@ -1,17 +1,17 @@
-import { isEqual } from 'lodash-es'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { RootState, useAppSelector } from '../../../store/store'
 import { CertificateDataElementStyleEnum } from '../../../types'
 import Question from './Question'
+import { QuestionComplements } from './QuestionComplements'
 import QuestionWrapper from './QuestionWrapper'
 
 interface HighlightedProps {
   highlight: boolean
 }
 
-export const Highlighted = styled.div<HighlightedProps>`
+const Highlighted = styled.div<HighlightedProps>`
   :not(:last-child) {
     margin-bottom: 0.625rem;
   }
@@ -28,17 +28,6 @@ export const Highlighted = styled.div<HighlightedProps>`
     `}
 `
 
-export const Complement = styled.div`
-  display: flex;
-  align-items: top;
-  justify-content: space-between;
-  padding: 5px;
-`
-
-export const ComplementMessage = styled.div`
-  white-space: pre-line;
-`
-
 const QuestionWithMargin = styled(Question)`
   :not(:last-child) {
     padding-bottom: 0.9375rem;
@@ -50,29 +39,22 @@ interface Props {
 }
 
 export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
-  const complements = useSelector(getComplementsForQuestions(questionIds), isEqual)
-  const parentQuestion = useSelector(getQuestion(questionIds[0]), isEqual)
+  const hasComplements = useAppSelector((state) => getComplementsForQuestions(questionIds)(state).length > 0)
+  const hasParentQuestion = useAppSelector((state) => getQuestion(questionIds[0])(state)?.visible ?? false)
+  const isParentHighlighted = useAppSelector(
+    (state: RootState) => getQuestion(questionIds[0])(state)?.style === CertificateDataElementStyleEnum.HIGHLIGHTED
+  )
 
-  if (!parentQuestion || !parentQuestion.visible) return null
+  if (!hasParentQuestion) return null
 
-  return parentQuestion.visible ? (
-    <Highlighted highlight={complements.length > 0}>
-      <QuestionWrapper highlighted={parentQuestion.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
+  return (
+    <Highlighted highlight={hasComplements}>
+      <QuestionWrapper highlighted={isParentHighlighted}>
         {questionIds.map((id) => (
           <QuestionWithMargin key={id} id={id} />
         ))}
-        {complements.map((complement, index) => (
-          <div key={index} className="ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400">
-            <Complement>
-              <i className="ic-alert__icon ic-info-icon iu-m-none" />
-              <div className="iu-fullwidth iu-pl-300 iu-fs-200">
-                <p className="iu-fw-heading">Kompletteringsbegäran:</p>
-                <ComplementMessage>{complement.message}</ComplementMessage>
-              </div>
-            </Complement>
-          </div>
-        ))}
+        <QuestionComplements questionIds={questionIds} />
       </QuestionWrapper>
     </Highlighted>
-  ) : null
+  )
 }

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import InfoBox from '../../../components/utils/InfoBox'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import { Patient } from '../../../types'
+import { RootState } from '../../../store/store'
+import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props {
-  patient: Patient
   certificateId: string
   setOpen: (val: boolean) => void
   open: boolean
@@ -19,9 +19,14 @@ const ContentWrapper = styled.div`
   gap: 1em;
 `
 
-export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patient, certificateId, setOpen, open }) => {
+export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ certificateId, setOpen, open }) => {
   const [disabled, setDisabled] = useState(true)
   const deleteCertificate = useDeleteCertificate(certificateId)
+  const patient = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient)
+
+  if (!patient) {
+    return null
+  }
 
   return (
     <ConfirmModal

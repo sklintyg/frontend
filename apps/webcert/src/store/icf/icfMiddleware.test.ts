@@ -6,13 +6,13 @@ import {
   getCodeElement,
   getDiagnosisElementWithCodeSystem,
 } from '../../components/icf/icfTestUtils'
+import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { IcfRequest, IcfResponse, getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
-import { IcfTitles, Certificate, CertificateStatus, IcfCode, Icd10Code } from '../../types'
 
 const getCertificate = (icfTitles: IcfTitles): Certificate => ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
