@@ -7,6 +7,9 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { createPatient } from '../../../components/patient/patientTestUtils'
+import { fakeCertificate } from '../../../faker'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
@@ -22,7 +25,7 @@ const renderComponent = (isOpen: boolean) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <LuaenaConfirmModalIntegrated patient={createPatient(PERSON_ID)} certificateId="certificateId" setOpen={setOpen} open={isOpen} />
+        <LuaenaConfirmModalIntegrated certificateId="certificateId" setOpen={setOpen} open={isOpen} />
       </Router>
     </Provider>
   )
@@ -30,7 +33,8 @@ const renderComponent = (isOpen: boolean) => {
 
 describe('LuaenaConfirmModalIntegrated', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware, certificateMiddleware])
+    testStore.dispatch(updateCertificate(fakeCertificate({ metadata: { patient: createPatient(PERSON_ID) } })))
   })
 
   afterEach(() => {
@@ -85,11 +89,11 @@ describe('LuaenaConfirmModalIntegrated', () => {
       expect(screen.getByText('Gå vidare')).toBeInTheDocument()
     })
 
-    it('should disable confirm button when checkbox in not checked', () => {
+    it('should disable confirm button when checkbox in not checked', async () => {
       renderComponent(true)
       const confirmButton = screen.getByText('Gå vidare')
 
-      expect(confirmButton).toBeDisabled()
+      await expect(confirmButton).toBeDisabled()
     })
 
     it('should enable confirm button when checkbox in checked', async () => {
@@ -98,7 +102,7 @@ describe('LuaenaConfirmModalIntegrated', () => {
       await userEvent.click(confirmCheckbox)
 
       const confirmButton = screen.getByText('Gå vidare')
-      expect(confirmButton).toBeEnabled()
+      await expect(confirmButton).toBeEnabled()
     })
   })
 })

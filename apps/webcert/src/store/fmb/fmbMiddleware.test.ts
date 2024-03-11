@@ -20,6 +20,7 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
+  initializeFMBPanel,
   setDiagnosisListValue,
   setPatientId,
   setSickLeavePeriodValue,
@@ -232,7 +233,7 @@ describe('Test FMB middleware', () => {
     })
   })
 
-  describe('Handle UpdateCertificateDataElement', () => {
+  describe('Handle 1CertificateDataElement', () => {
     beforeEach(() => {
       testStore.dispatch(updateFMBPanelActive(true))
     })
@@ -404,6 +405,7 @@ describe('Test FMB middleware', () => {
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
       expect(fakeAxios.history.get.length).toBe(0)
     })
+
     it('should use previousPersonId if reserveId is true and previousPersonId exists', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const expectedPersonId = '201212121212'
@@ -416,9 +418,11 @@ describe('Test FMB middleware', () => {
       certificate.metadata.patient.previousPersonId = patientId
 
       testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(initializeFMBPanel())
 
       expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
+
     it('should use personId if reserveId is true and previousPersonId is missing', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const expectedPersonId = '1912121212'
@@ -426,6 +430,7 @@ describe('Test FMB middleware', () => {
       certificate.metadata.patient.reserveId = true
 
       testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(initializeFMBPanel())
 
       expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
@@ -436,6 +441,7 @@ describe('Test FMB middleware', () => {
       certificate.metadata.patient.reserveId = false
 
       testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(initializeFMBPanel())
 
       expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
@@ -455,6 +461,7 @@ describe('Test FMB middleware', () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
 
       testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest])))
+      testStore.dispatch(initializeFMBPanel())
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(0)
@@ -467,6 +474,7 @@ describe('Test FMB middleware', () => {
       fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(initializeFMBPanel())
 
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo[0]).toEqual(expectedFMBDiagnosisInfo)
@@ -481,6 +489,7 @@ describe('Test FMB middleware', () => {
       fakeAxios.onGet(`/api/fmb/${fmbDiagnosisRequest.icd10Code}`).reply(200, fmbDiagnosisResponse)
 
       testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(initializeFMBPanel())
 
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo[0]).toEqual(expectedFMBDiagnosisInfo)

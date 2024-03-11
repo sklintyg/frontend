@@ -483,6 +483,9 @@ importers:
       '@frontend/filtrex':
         specifier: workspace:*
         version: link:../../packages/filtrex
+      '@frontend/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils
       '@reduxjs/toolkit':
         specifier: 1.7.2
         version: 1.7.2(react-redux@7.2.9)(react@17.0.2)

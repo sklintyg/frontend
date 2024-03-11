@@ -1,14 +1,13 @@
 import { isEqual } from 'lodash-es'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import Icon from '../../../components/image/image/Icon'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
-import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
-import { CertificateDataConfig, ConfigTypes } from '../../../types'
+import { displayAsMandatory, getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
-import QuestionHeading from './QuestionHeading'
+import { QuestionHeading } from './QuestionHeading'
 import QuestionUvResolve from './QuestionUvResolve'
 
 export interface QuestionProps {
@@ -17,64 +16,34 @@ export interface QuestionProps {
 }
 
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
-  const question = useSelector(getQuestion(id), isEqual)
-  const isEditable = useSelector(getIsEditable)
-  const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
-  const displayMandatory =
-    (!question?.readOnly && question?.mandatory && !question.disabled && question.config.type !== ConfigTypes.UE_VISUAL_ACUITY) ?? false
+  const question = useAppSelector(getQuestion(id), isEqual)
+  const isEditable = useAppSelector(getIsEditable)
+  const disabled = useAppSelector(getIsLocked) || Boolean(question?.disabled) || !isEditable
+  const hasDescription = useAppSelector((state) => getQuestion(id)(state)?.config.description !== null)
+  const isReadOnly = useAppSelector((state) => getQuestion(id)(state)?.readOnly)
+  const displayMandatory = useAppSelector(displayAsMandatory(id))
 
   useEffect(() => {
     ReactTooltip.rebuild()
   }, [question])
 
-  // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
-
-  const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
-    const hideLabel = question.config.type === ConfigTypes.UE_CAUSE_OF_DEATH
-
-    if (disabled) {
-      return (
-        <QuestionHeading
-          readOnly={question.readOnly}
-          questionId={question.id}
-          hideLabel={hideLabel}
-          questionParent={question.parent}
-          {...question.config}
-        />
-      )
-    }
-
-    if (!readOnly && config.description) {
-      return (
-        <div id={question.id}>
-          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} questionId={question.parent} />
-        </div>
-      )
-    }
-
-    return (
-      <>
-        {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
-        {displayMandatory && <MandatoryIcon />}
-        {
-          <QuestionHeading
-            readOnly={question.readOnly}
-            questionId={question.id}
-            hideLabel={hideLabel}
-            questionParent={question.parent}
-            {...question.config}
-          />
-        }
-      </>
-    )
-  }
 
   return (
     <div className={className}>
-      {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
+      {!isReadOnly && hasDescription ? (
+        <div id={question.id}>
+          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} questionId={question.parent} />
+        </div>
+      ) : (
+        <>
+          {question.config.icon && !disabled && <Icon iconType={question.config.icon} includeTooltip />}
+          {displayMandatory && !disabled && <MandatoryIcon />}
+          {<QuestionHeading question={question} />}
+        </>
+      )}
       <div>
-        {question.readOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
+        {isReadOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
       </div>
     </div>
   )
