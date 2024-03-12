@@ -10,7 +10,8 @@
     "types": ["vitest/globals", "@types/testing-library__jest-dom"],
     // Tell compiler to use React 17 dependencies.
     "paths": {
-      "react": ["./node_modules/@types/react"]
+      "react": ["./node_modules/@types/react"],
+      "@frontend/utils": ["../../packages/utils/src/index.ts"]
     }
   }
 }

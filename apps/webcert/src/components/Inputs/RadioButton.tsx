@@ -5,7 +5,7 @@ interface Props {
   label: string
   id?: string
   name?: string
-  value?: string | number | readonly string[] | undefined
+  value?: string | number | readonly string[]
   checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   hasValidationError?: boolean

@@ -10,12 +10,12 @@ import AppHeader from './AppHeader'
 
 let testStore: EnhancedStore
 
-const renderComponent = (primaryItems: React.ReactNode[], secondaryItems: React.ReactNode[]) => {
+const renderComponent = (primaryUserMenu: React.ReactNode[], secondaryItems: React.ReactNode[]) => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create">
-          <AppHeader primaryItems={primaryItems} secondaryItems={secondaryItems} />
+          <AppHeader primaryUserMenu={primaryUserMenu} secondaryUserMenu={secondaryItems} />
         </Route>
       </MemoryRouter>
     </Provider>

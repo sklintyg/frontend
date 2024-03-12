@@ -1,9 +1,11 @@
 import { isEqual } from 'lodash-es'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
+import { initializeFMBPanel } from '../../store/fmb/fmbActions'
 import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
+import { useAppDispatch } from '../../store/store'
 import { FMBDiagnosisCodeInfo } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
@@ -16,6 +18,7 @@ export const Italic = styled.p`
 `
 
 const FMBPanel: React.FC = () => {
+  const dispatch = useAppDispatch()
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
   const diagnosisValue = useSelector(getDiagnosisListValue, isEqual)
@@ -54,6 +57,10 @@ const FMBPanel: React.FC = () => {
   if (!isEmpty() && isNoDiagnosesSelected()) {
     selectDefaultDiagnosis()
   }
+
+  useEffect(() => {
+    dispatch(initializeFMBPanel())
+  })
 
   return !isIcd10Chosen ? (
     <ImageCentered imgSrc={noDiagnosisIcon} alt={'Inget FMB-stöd'}>
