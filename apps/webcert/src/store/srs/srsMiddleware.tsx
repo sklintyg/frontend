@@ -64,6 +64,7 @@ import {
   updateUserClientContext,
   updateUserLaunchFromOrigin,
 } from './srsActions'
+import { getCertificateId } from './srsSelectors'
 
 export const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -318,6 +319,10 @@ const handleUpdateCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
+    if (action.payload.metadata.id === getCertificateId(getState())) {
+      return
+    }
+
     const clientContext = getUserClientContextForCertificate(action.payload.metadata, getState().ui.uiSRS.userLaunchFromOrigin)
     dispatch(resetState())
     dispatch(updateUserClientContext(clientContext))

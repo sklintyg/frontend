@@ -1,4 +1,6 @@
 import React from 'react'
+import InfoBox from '../../../components/utils/InfoBox'
+import { CertificateDataElement, ConfigTypes } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
@@ -25,8 +27,6 @@ import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
 import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
 import UeYear from '../UnifiedEdit/UeYear/UeYear'
-import InfoBox from '../../../components/utils/InfoBox'
-import { CertificateDataElement, ConfigTypes } from '../../../types'
 
 interface Props {
   question: CertificateDataElement

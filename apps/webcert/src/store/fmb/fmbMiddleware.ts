@@ -1,13 +1,23 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import {
+  CertificateDataValueType,
+  FMBDiagnosisCodeInfo,
+  ResourceLinkType,
+  ValueDateRangeList,
+  ValueDiagnosisList,
+  ValueType,
+} from '../../types'
 import { getResourceLink, isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificateDataElement } from '../certificate/certificateActions'
+import { getCertificate } from '../certificate/certificateSelectors'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
+  initializeFMBPanel,
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,
   setPatientId,
@@ -19,14 +29,6 @@ import {
   validateSickLeavePeriodStarted,
   validateSickLeavePeriodSuccess,
 } from './fmbActions'
-import {
-  ValueType,
-  CertificateDataValueType,
-  ValueDiagnosisList,
-  ResourceLinkType,
-  ValueDateRangeList,
-  FMBDiagnosisCodeInfo,
-} from '../../types'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -62,33 +64,37 @@ const isIcdCodeSystemChosen = (value: ValueType) => {
   return (value as ValueDiagnosisList).list.length === 0 || (value as ValueDiagnosisList).list[0].terminology.toLowerCase().includes('icd')
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> =
+const handleInitializeFMBPanel: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
-  (action: AnyAction): void => {
-    const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)?.enabled
+  (): void => {
+    const certificate = getCertificate(getState())
+    if (!certificate) {
+      return
+    }
+    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {
       return
     }
 
-    if (action.payload.metadata.patient.reserveId && action.payload.metadata.patient.previousPersonId) {
-      dispatch(setPatientId(action.payload.metadata.patient.previousPersonId.id))
+    if (certificate.metadata.patient.reserveId && certificate.metadata.patient.previousPersonId) {
+      dispatch(setPatientId(certificate.metadata.patient.previousPersonId.id))
     } else {
-      dispatch(setPatientId(action.payload.metadata.patient.personId.id))
+      dispatch(setPatientId(certificate.metadata.patient.personId.id))
     }
 
-    for (const questionId in action.payload.data) {
-      if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
-        const question = action.payload.data[questionId]
+    for (const questionId in certificate.data) {
+      if (Object.prototype.hasOwnProperty.call(certificate.data, questionId)) {
+        const question = certificate.data[questionId]
         if (isValueDateRangeList(question.value)) {
           dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
         }
         if (isValueDiagnoses(question.value)) {
           dispatch(setDiagnosisListValue(question.value as ValueDiagnosisList))
         }
-        if (!isIcdCodeSystemChosen(question.value)) {
+        if (!question.value || !isIcdCodeSystemChosen(question.value)) {
           return
         }
         getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
@@ -251,10 +257,10 @@ export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> =
 const middlewareMethods = {
   [getFMBDiagnosisCodeInfo.type]: handleGetFMBDiagnosisCodeInfo,
   [getFMBDiagnosisCodeInfoSuccess.type]: handleGetFMBDiagnosisCodeInfoSuccess,
-  [updateCertificate.type]: handleUpdateCertificate,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [validateSickLeavePeriod.type]: handleValidateSickLeavePeriod,
   [validateSickLeavePeriodSuccess.type]: handleValidateSickLeavePeriodSuccess,
+  [initializeFMBPanel.type]: handleInitializeFMBPanel,
 }
 
 export const fmbMiddleware: Middleware<Dispatch> =
