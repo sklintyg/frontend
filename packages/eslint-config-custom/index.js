@@ -8,6 +8,7 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:deprecation/recommended',
     'plugin:compat/recommended',
     'prettier',
   ],
@@ -54,6 +55,14 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        'deprecation/deprecation': 'off',
+      },
+    },
+  ],
   ignorePatterns: ['dist/**', '**/dist/**', 'public/**', '**/public/**'],
   settings: {
     jest: {

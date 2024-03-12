@@ -5,7 +5,7 @@ import { Link, Params, useMatches } from 'react-router-dom'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
-  handle: { crumb: (data: Params<string>) => JSX.Element }
+  handle: { crumb: (data: Params<string>) => React.JSX.Element }
 }
 
 function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
