@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import Pagination from '../../../components/Pagination/Pagination'
+import { Pagination } from '../../../components/Pagination/Pagination'
 import { performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
 import { ListFilterType, ListFilterValueNumber } from '../../../types'

@@ -85,5 +85,3 @@ export function Pagination({
     </Wrapper>
   )
 }
-
-export default Pagination
