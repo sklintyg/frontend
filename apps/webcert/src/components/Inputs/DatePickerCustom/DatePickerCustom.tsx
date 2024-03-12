@@ -90,14 +90,14 @@ interface Props {
   textInputOnKeyDown?: (event: React.KeyboardEvent) => void
   id?: string
   textInputName?: string
-  textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
+  textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null
   textInputDataTestId?: string
   displayValidationErrorOutline: boolean
   additionalStyles?: string
   max?: string
   min?: string
   vertical?: boolean
-  inputCss?: CSSProp | undefined
+  inputCss?: CSSProp
   yearOnly?: boolean
 }
 

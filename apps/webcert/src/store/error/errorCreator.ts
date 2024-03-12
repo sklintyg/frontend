@@ -1,6 +1,6 @@
-import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
+import { randomUUID } from '@frontend/utils'
 import { ApiError } from '../api/apiActions'
-import { uuidv4 } from '../../components/error/modals/errorUtils'
+import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
 
 export const createConcurrencyErrorRequestFromApiError = (apiError: ApiError, certificateId?: string): ErrorRequest => {
   const concurrencyError: ApiError = { ...apiError, errorCode: ErrorCode.CONCURRENT_MODIFICATION }
@@ -45,7 +45,7 @@ export const createErrorRequestWithErrorId = (
   certificateId?: string,
   stackTrace?: string
 ): ErrorRequest => {
-  return { certificateId, errorCode, message, stackTrace, type, errorId: uuidv4() }
+  return { certificateId, errorCode, message, stackTrace, type, errorId: randomUUID() }
 }
 
 function convert(errorCodeAsString: string): ErrorCode {

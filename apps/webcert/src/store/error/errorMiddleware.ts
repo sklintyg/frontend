@@ -1,6 +1,6 @@
+import { randomUUID } from '@frontend/utils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { uuidv4 } from '../../components/error/modals/errorUtils'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { setActiveCertificateId, setError, throwError } from './errorActions'
@@ -15,7 +15,7 @@ const handleThrowError: Middleware<Dispatch> =
     }
 
     const errorData: ErrorData = !action.payload.errorId
-      ? { ...action.payload, errorId: uuidv4() }
+      ? { ...action.payload, errorId: randomUUID() }
       : { ...action.payload, errorId: action.payload.errorId as string }
 
     if (!errorData.certificateId) {

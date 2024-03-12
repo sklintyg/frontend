@@ -192,7 +192,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
               {suggestions.map((item, index) => (
                 <SuggestionListItem
                   data-testid={`${props['data-testid'] ?? 'typeahead'}-list-option-${index}`}
-                  key={index}
+                  key={item.label}
                   role="option"
                   title={item.title ?? 'unknown-title'}
                   className={getItemClassName(item, index)}
