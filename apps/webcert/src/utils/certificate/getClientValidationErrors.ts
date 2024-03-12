@@ -12,7 +12,7 @@ import { getFieldValuePair } from './getFieldValuePair'
 
 const INVALID_DATE_FORMAT = {
   type: 'INVALID_DATE_FORMAT',
-  text: 'Ange datum i formatet åååå-mm-dd.',
+  text: 'Ange giltigt datum i formatet åååå-mm-dd.',
   showAlways: true,
 }
 
