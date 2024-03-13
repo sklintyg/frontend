@@ -122,8 +122,8 @@ export const links = {
   },
   minaintyg: {
     key: 'minaintyg',
-    url: 'https://minaintyg.se/',
-    text: 'minaintyg.se',
+    url: 'https://intyg.1177.se/',
+    text: 'intyg.1177.se',
     target: '_blank',
   },
   ptsCookies: {
