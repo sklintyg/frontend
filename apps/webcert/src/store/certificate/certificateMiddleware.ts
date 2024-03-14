@@ -186,6 +186,7 @@ const handleGetCertificateEvents: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
+    dispatch(updateCertificateEvents([]))
     dispatch(
       apiCallBegan({
         url: '/api/certificate/' + action.payload + '/events',
