@@ -1,4 +1,5 @@
 export * from './cookies'
+export * from './groupBy'
 export * from './isTruthy'
 export * from './omit'
 export * from './randomUUID'
