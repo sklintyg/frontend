@@ -1,8 +1,5 @@
 # `Frontend`
 
-![End-To-End](https://github.com/sklintyg/frontend/actions/workflows/e2e.yml/badge.svg)
-![Frontend CI](https://github.com/sklintyg/frontend/actions/workflows/frontend.yml/badge.svg)
-
 ## Setup
 
 - Install [Node v18](https://nodejs.org/en/download/releases/)
@@ -21,6 +18,7 @@ This repo holds multiple applications, read more about getting started with each
 - [minaintyg](apps/minaintyg/README.md)
 - [rehabstod](apps/rehabstod/README.md)
 - [webcert](apps/webcert/README.md)
+- [maintenance](apps/maintenance/README.md)
 
 ## Repository structure
 
@@ -31,7 +29,6 @@ This is the invisioned structure for the future.
 ├── apps ─ End products
 │   ├── rehabstod
 │   └── webcert
-├── e2e ─ Integration tests for all applications
 └── packages ─ Shared between applications and libraries
     ├── eslint-config-custom ─ Linting configuration
     ├── eslint-config-react ─ Linting configuration for react applications
@@ -41,7 +38,6 @@ This is the invisioned structure for the future.
 ### Shared libraries
 
 The `/packages` folder contain documented libraries that is utilized between applications/libraries.
-We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `pnpm start`, or build everything that needs to be bundled with `pnpm build`.
 
 Shared libraries should generally:
 
@@ -107,10 +103,6 @@ Read more about [filtering](https://pnpm.io/filtering)
 - [Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)
 - [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
-## Integration tests
-
-Read about [integration tests](./e2e/README.md).
-
 ## Build pipelines
 
 Read about build pipelines using [openshift](./openshift/README.md).
@@ -118,4 +110,4 @@ Read about build pipelines using [openshift](./openshift/README.md).
 ## Resources
 
 - [ESlint](https://eslint.org/)
-- [Turbo Repo](https://turbo.build/repo)
+- [pnpm](https://pnpm.io/)

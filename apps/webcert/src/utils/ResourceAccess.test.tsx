@@ -1,4 +1,3 @@
-import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -7,6 +6,7 @@ import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
+import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '../types'
 import { ResourceAccess } from './ResourceAccess'
 
 let testStore: EnhancedStore

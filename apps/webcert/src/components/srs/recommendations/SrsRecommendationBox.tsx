@@ -1,8 +1,10 @@
 import React from 'react'
-import { ExpandableList, ExpandableTextWithTitle, SrsRecommendation, SrsEvent } from '@frontend/common'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { SrsEvent, SrsRecommendation } from '../../../types'
+import { ExpandableList } from '../../utils/ExpandableList'
+import { ExpandableTextWithTitle } from '../../utils/ExpandableTextWithTitle'
 import { EmptySrsRecommendations } from './EmptySrsRecommendations'
 
 interface Props {

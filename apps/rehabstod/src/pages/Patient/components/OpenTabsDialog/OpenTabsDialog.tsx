@@ -1,13 +1,14 @@
-import { IDSButton, IDSDialog, IDSDialogActions, IDSDialogElement } from '@frontend/ids-react-ts'
-import { useCallback, useEffect, useRef } from 'react'
-import { unstable_useBlocker as useBlocker } from 'react-router-dom'
+import { Dialog } from '@frontend/components'
+import { IDSButton } from '@frontend/ids-react-ts'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useBlocker } from 'react-router-dom'
 import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {
-  const ref = useRef<IDSDialogElement>(null)
   const { tabs, hasOpenTabs, closeTabs } = usePatient()
   const blocker = useBlocker(useCallback(() => tabs.filter((window) => !window.closed).length > 0, [tabs]))
   const prevState = useRef(blocker.state)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if (blocker.state === 'blocked' && !hasOpenTabs) {
@@ -18,47 +19,44 @@ export function OpenTabsDialog() {
 
   useEffect(() => {
     if (blocker.state === 'blocked') {
-      ref.current?.showDialog()
+      setOpen(true)
     } else {
-      ref.current?.hideDialog()
+      setOpen(false)
     }
   }, [blocker.state])
 
-  useEffect(() => {
-    const dialogEl = ref.current
-
-    function handleVisibilityChanged() {
-      if (dialogEl?.show === 'false') {
-        blocker.reset?.()
-      }
-    }
-
-    dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
-    return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
-  })
-
   return (
-    <IDSDialog dismissible={false} headline="Öppnade patientfönster" ref={ref} data-testid="open-tabs-dialog">
+    <Dialog
+      dismissible={false}
+      open={open}
+      onOpenChange={(status) => {
+        setOpen(status)
+        if (status === false) {
+          blocker.reset?.()
+        }
+      }}
+    >
+      <h2 className="ids-heading-2">Öppnade patientfönster</h2>
       <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
-      <IDSDialogActions>
-        <IDSButton
-          secondary
-          onClick={() => {
-            blocker.reset?.()
-            ref.current?.hideDialog()
-          }}
-        >
-          Avbryt
-        </IDSButton>
-        <IDSButton
-          onClick={() => {
-            closeTabs()
-            blocker.proceed?.()
-          }}
-        >
-          Stäng patientvy
-        </IDSButton>
-      </IDSDialogActions>
-    </IDSDialog>
+      <IDSButton
+        slot="action"
+        secondary
+        onClick={() => {
+          blocker.reset?.()
+          setOpen(false)
+        }}
+      >
+        Avbryt
+      </IDSButton>
+      <IDSButton
+        slot="action"
+        onClick={() => {
+          closeTabs()
+          blocker.proceed?.()
+        }}
+      >
+        Stäng patientvy
+      </IDSButton>
+    </Dialog>
   )
 }

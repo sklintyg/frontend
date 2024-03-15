@@ -1,5 +1,6 @@
-import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormType, InfoCircle } from '@frontend/common'
 import React from 'react'
+import { InfoCircle } from '../../images'
+import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormType } from '../../types'
 import { Italic } from './FMBPanel'
 import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 

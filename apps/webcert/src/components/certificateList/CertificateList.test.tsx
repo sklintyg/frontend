@@ -1,4 +1,3 @@
-import { CertificateType, fakePatient, fakeResourceLink, ResourceLink, ResourceLinkType, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -6,6 +5,7 @@ import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
+import { fakePatient, fakeResourceLink } from '../../faker'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
@@ -13,6 +13,7 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import { CertificateType, ResourceLink, ResourceLinkType, User } from '../../types'
 import CertificateList from './CertificateList'
 
 const createType = ({
@@ -80,6 +81,14 @@ describe('CertificateList', () => {
       createType({ id: 'typ3', label: 'Typ 3' }),
       createType({ id: 'typ4', label: 'Typ 4' }),
       createType({ id: 'typ5', label: 'Typ 5' }),
+      createType({
+        id: 'typ6',
+        label: 'Typ 6',
+        links: [
+          fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' }),
+          fakeResourceLink({ type: ResourceLinkType.CREATE_LUAENA_CONFIRMATION, name: 'Luaena saknas' }),
+        ],
+      }),
     ]
 
     testStore.dispatch(updateCertificateTypes(types))
@@ -106,7 +115,7 @@ describe('CertificateList', () => {
     renderComponent()
 
     const labels = screen.getAllByText('Typ', { exact: false }).map((el) => el.textContent?.trim())
-    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5'])
+    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5', 'Typ 6'])
   })
 
   it('should add favorites', async () => {
@@ -169,6 +178,18 @@ describe('CertificateList', () => {
     await userEvent.click(button[1])
 
     expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should show confirm modal when CREATE_LUAENA_CONFIRMATION resource link exists', async () => {
+    testStore.dispatch(setPatient(fakePatient()))
+    renderComponent()
+
+    const button = screen.getAllByRole('button', {
+      name: /Skapa intyg/,
+    }) as HTMLElement[]
+    await userEvent.click(button[2])
+
+    expect(screen.getByText('Du är på väg att utfärda Läkarutlåtande för', { exact: false })).toBeInTheDocument()
   })
 
   it('should show modal when MISSING_RELATED_CERTIFICATE_CONFIRMATION resource link exists', async () => {

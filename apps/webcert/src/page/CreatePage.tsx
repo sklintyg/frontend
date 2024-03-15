@@ -1,4 +1,3 @@
-import { ListFilterType, listImage, ListType, noDraftsImage, ResourceLinkType } from '@frontend/common'
 import React, { ComponentProps, useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
@@ -16,6 +15,8 @@ import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
 import { ResourceAccess } from '../utils/ResourceAccess'
+import { listImage, noDraftsImage } from '../images'
+import { ListFilterType, ListType, ResourceLinkType } from '../types'
 
 interface Params {
   patientId: string

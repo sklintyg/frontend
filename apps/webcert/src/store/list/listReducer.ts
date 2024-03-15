@@ -1,4 +1,3 @@
-import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
 import { ErrorData } from '../error/errorReducer'
 import {
@@ -22,6 +21,7 @@ import {
   updateTotalCount,
   updateValidationError,
 } from './listActions'
+import { CertificateListItem, ListConfig, ListFilter, ListType } from '../../types'
 
 export interface ListState {
   activeList: CertificateListItem[]

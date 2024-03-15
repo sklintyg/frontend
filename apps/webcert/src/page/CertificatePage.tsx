@@ -1,4 +1,3 @@
-import { ResourceLinkType } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -9,19 +8,17 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
+import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
-import {
-  getCertificateMetaData,
-  getIsCertificateDeleted,
-  getIsShowSpinner,
-  getResourceLinks,
-} from '../store/certificate/certificateSelectors'
+import { getIsCertificateDeleted, getIsShowSpinner, getResourceLink } from '../store/certificate/certificateSelectors'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { RootState } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
+import { ResourceLinkType } from '../types'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -41,22 +38,23 @@ interface Params {
 }
 
 const CertificatePage: React.FC = () => {
-  const { certificateId, error } = useParams<Params>()
   const dispatch = useDispatch()
+  const { certificateId, error } = useParams<Params>()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const links = useSelector(getResourceLinks)
-  const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
-  const metadata = useSelector(getCertificateMetaData)
-  const patient = metadata?.patient
+  const hasPatient = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
+  const currentCertificateId = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
   const isLoadingCertificate = useSelector(getIsShowSpinner)
+  const isDBIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
+  const isLuaenaIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
+  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
+  const [showLuaenaModal, setShowLuaenaModal] = useState(true)
 
   useEffect(() => {
-    if (certificateId && !isLoadingCertificate && certificateId !== metadata?.id) {
+    if (certificateId && !isLoadingCertificate && certificateId !== currentCertificateId) {
       dispatch(getCertificate(certificateId))
       dispatch(getUserStatistics())
     }
-  }, [dispatch, certificateId, isLoadingCertificate, metadata, isCertificateDeleted])
+  }, [dispatch, certificateId, isLoadingCertificate, isCertificateDeleted, currentCertificateId])
 
   useEffect(() => {
     if (error) {
@@ -89,13 +87,15 @@ const CertificatePage: React.FC = () => {
         <RemovedCertificate />
       ) : (
         <>
-          {isDBIntegrated && patient && (
+          {isDBIntegrated && hasPatient && (
             <DeathCertificateConfirmModalIntegrated
               certificateId={certificateId}
-              patient={patient}
               setOpen={setShowDeathCertificateModal}
               open={showDeathCertificateModal}
             />
+          )}
+          {isLuaenaIntegrated && hasPatient && (
+            <LuaenaConfirmModalIntegrated certificateId={certificateId} setOpen={setShowLuaenaModal} open={showLuaenaModal} />
           )}
           <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
             <OverflowScroll className="iu-grid-span-7">

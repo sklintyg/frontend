@@ -1,4 +1,3 @@
-import { ListFilterConfig, ListType } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
@@ -57,6 +56,7 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
+import { ListType, ListFilterConfig } from '../../types'
 
 const handlePerformListSearch: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>

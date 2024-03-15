@@ -1,10 +1,11 @@
-import { Icd10Code, IcfCode, InfoCircle } from '@frontend/common'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import { InfoCircle } from '../../images'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
+import { Icd10Code, IcfCode } from '../../types'
 import IcfRow from './IcfRow'
 
 const IcdWrapper = styled.div`
@@ -24,7 +25,7 @@ interface Props {
 }
 
 const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }) => {
-  const originalIcd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
+  const originalIcd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
 
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
     if (!icfCodeValues) return false

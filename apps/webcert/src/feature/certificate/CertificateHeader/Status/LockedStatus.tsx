@@ -1,5 +1,8 @@
-import { CertificateMetadata, isLockedRevoked, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
+import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
+import { CertificateMetadata } from '../../../../types'
+import { isLockedRevoked } from '../../../../utils'
 
 interface Props {
   certificateMetadata: CertificateMetadata

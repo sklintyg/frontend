@@ -1,8 +1,8 @@
-import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from '../../../../store/store'
+import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import {
   createCertificateMetadata,

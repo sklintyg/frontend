@@ -1,5 +1,3 @@
-import { PersonId } from '@frontend/common'
-import * as React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PatientDeceasedStatus from '../../../components/notification/PatientDeceasedStatus'
@@ -17,6 +15,7 @@ import {
 } from '../../../store/certificate/certificateSelectors'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
+import { PersonId } from '../../../types'
 
 const Wrapper = styled.div`
   display: flex;

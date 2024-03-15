@@ -1,8 +1,9 @@
-import { NumberCircle, UserTab } from '@frontend/common'
 import classNames from 'classnames'
 import React from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
+import { UserTab } from '../../types'
+import { NumberCircle } from '../utils/NumberCircle'
 
 const Wrapper = styled.nav`
   button {
@@ -42,9 +43,9 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
   return (
     <Wrapper className="ic-topnav iu-pb-300">
       <ul className="ic-container">
-        {tabs.map((tab, index) => {
+        {tabs.map((tab) => {
           return (
-            <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
+            <li className="ic-topnav__item iu-display-flex" key={tab.title}>
               <Link
                 to={tab.url}
                 className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}

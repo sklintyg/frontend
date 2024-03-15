@@ -1,8 +1,11 @@
-import { ButtonWithConfirmModal, CertificateMetadata, epostImage, sanitizeText } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { epostImage } from '../../../images'
+import { CertificateMetadata } from '../../../types'
+import { sanitizeText } from '../../../utils'
 
 interface Props extends FunctionDisabled {
   name: string

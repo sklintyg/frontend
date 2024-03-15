@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import { Element, domToReact } from 'html-react-parser'
+import { Element, HTMLReactParserOptions, domToReact } from 'html-react-parser'
 import { isElement } from './utils/isElement'
 
-export function MobileTable({ header, body }: { header?: Element; body?: Element }) {
+export function MobileTable({ header, body, options }: { header?: Element; body?: Element; options: HTMLReactParserOptions }) {
   if (!header || !body) {
     return null
   }
 
-  const headerRow = header.children.filter(isElement).at(0)
+  const headerRow = header.children.filter(isElement)[0]
 
   return (
     <>
@@ -22,14 +22,14 @@ export function MobileTable({ header, body }: { header?: Element; body?: Element
               <thead>
                 <tr>
                   <th colSpan={2} className="text-center">
-                    {domToReact(rowHeader.children)}
+                    {domToReact(rowHeader.children, options)}
                   </th>
                 </tr>
               </thead>
             )}
             <tbody>
               {headerRows?.map((node, rIndex) => {
-                const cellElement = bodyCells.at(rIndex)
+                const cellElement = bodyCells[rIndex]
 
                 if (!cellElement) {
                   return null
@@ -37,8 +37,8 @@ export function MobileTable({ header, body }: { header?: Element; body?: Element
 
                 return (
                   <tr key={rIndex}>
-                    <th>{domToReact(node.children)}</th>
-                    <td>{domToReact(cellElement.children)}</td>
+                    <th>{domToReact(node.children, options)}</th>
+                    <td>{domToReact(cellElement.children, options)}</td>
                   </tr>
                 )
               })}

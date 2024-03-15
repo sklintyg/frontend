@@ -1,9 +1,10 @@
-import { ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
+import { ResourceLinkType } from '../types'
 
 interface Props {
   linkType: ResourceLinkType

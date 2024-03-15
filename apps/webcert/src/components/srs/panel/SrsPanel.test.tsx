@@ -1,9 +1,9 @@
-import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {

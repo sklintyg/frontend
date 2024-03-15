@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeDate from './UeDate'
+import { fakeDateElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
@@ -79,11 +79,11 @@ describe('DatePicker component', () => {
       config: { id: 'field' },
       id: QUESTION_ID,
       validationErrors: [
-        {
+        fakeCertificateValidationError({
           field: 'field',
           id: QUESTION_ID,
           text: VALIDATION_ERROR,
-        },
+        }),
       ],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
@@ -99,7 +99,7 @@ describe('DatePicker component', () => {
   it('should display server validation errors on question.id', () => {
     const element = fakeDateElement({
       id: QUESTION_ID,
-      validationErrors: [{ text: VALIDATION_ERROR }],
+      validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
     renderComponent({ disabled: false, question: element })

@@ -1,5 +1,3 @@
-import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
@@ -17,11 +15,14 @@ import CertificateInfo from './CertificateInfo'
 import HeaderButtons from './HeaderButtons'
 import ShowHistory from './ShowHistory'
 
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
+import { Divider } from '../../../components/utils/Divider'
 import { getQuestions } from '../../../store/question/questionSelectors'
+import { ResourceLinkType } from '../../../types'
+import { resourceLinksAreEqual } from '../../../utils'
+import { SignCertificateModal } from '../Modals/SignCertificateModal'
 import NavigateBackButton from './NavigateBackButton'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
-import { SignCertificateModal } from '../Modals/SignCertificateModal'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -44,17 +45,17 @@ const StatusLeftSide = styled.div`
 `
 
 const CertificateHeader: React.FC = () => {
-  const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
-  const historyEntries = useSelector(getCertificateEvents, _.isEqual)
+  const certificateMetadata = useSelector(getCertificateMetaData, isEqual)
+  const historyEntries = useSelector(getCertificateEvents, isEqual)
   const isShowSpinner = useSelector(getIsShowSpinner)
-  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const resourceLinks = useSelector(getResourceLinks, isEqual)
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
   const candidateWithMessageResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
   )
-  const questions = useSelector(getQuestions, _.isEqual)
+  const questions = useSelector(getQuestions, isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const functionDisabled = useSelector(isCertificateFunctionDisabled)

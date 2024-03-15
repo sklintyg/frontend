@@ -1,9 +1,10 @@
 import React from 'react'
-import SidePanelFooter from '../../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
-import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExternalLinkIcon, SrsEvent, SrsInformationChoice } from '@frontend/common'
+import SidePanelFooter from '../../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
+import { SrsEvent, SrsInformationChoice } from '../../../types'
+import ExternalLinkIcon from '../../image/image/ExternalLinkIcon'
 
 interface Props {
   informationChoice: SrsInformationChoice

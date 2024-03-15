@@ -1,4 +1,3 @@
-import { CareProvider, CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -8,10 +7,13 @@ import { clearPatient } from '../../store/patient/patientActions'
 import { setUnit } from '../../store/user/userActions'
 import {
   getLoggedInUnit,
-  getUnitStatistics as selectUnitStatistics,
   getUser,
   isCareAdministrator as selectIsCareAdministrator,
+  getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
+import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
+import SimpleTable from '../../components/Table/SimpleTable'
+import { CareUnit, Unit, CareProvider } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;

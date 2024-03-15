@@ -1,8 +1,7 @@
+import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Link, Params, useMatches } from 'react-router-dom'
-import navigation from '../../data/1177-navbar-services.json'
-import { resolveNavigationUrl } from '../../utils/resolveNavigationUrl'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
@@ -14,24 +13,28 @@ function hasCrumb(match: MatchWithCrumb | Match): match is MatchWithCrumb {
 }
 
 function resolveMatch({ handle, params, pathname }: MatchWithCrumb): [string, ReactNode] {
-  const node = handle.crumb(params)
-  if (typeof node === 'string') {
-    const item = pathname === '/' && navigation.menu.items.find(({ name }) => name === node)
-    if (item) {
-      return [resolveNavigationUrl(item.url), node]
-    }
-  }
-  return [pathname, node]
+  return [pathname, handle.crumb(params)]
 }
 
 export function Breadcrumbs() {
   const matches = useMatches().filter(hasCrumb)
-  const prevMatch = matches.at(-2)
+  const prevMatch = matches ? matches[matches.length - 2] : undefined
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
+
+  if (matches.length === 0) {
+    return null
+  }
+
+  const startLink = getNavigationItem('Start')
 
   return (
     <div className="mb-5">
       <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
+        {startLink && (
+          <IDSCrumb key="start">
+            <Link to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>Start</Link>
+          </IDSCrumb>
+        )}
         {matches.map(resolveMatch).map(([url, node], index) =>
           index !== matches.length - 1 ? (
             <IDSCrumb key={url}>
@@ -43,7 +46,16 @@ export function Breadcrumbs() {
         )}
         {prevMatchUrl && (
           <IDSCrumb key="mobile" mobile>
-            <Link to={prevMatchUrl}>{prevMatchNode}</Link>
+            <Link className="no-underline" to={prevMatchUrl}>
+              {prevMatchNode}
+            </Link>
+          </IDSCrumb>
+        )}
+        {!prevMatchUrl && startLink && (
+          <IDSCrumb key="mobile" mobile>
+            <Link className="no-underline" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
+              Start
+            </Link>
           </IDSCrumb>
         )}
       </IDSBreadcrumbs>

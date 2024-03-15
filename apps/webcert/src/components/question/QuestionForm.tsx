@@ -1,16 +1,6 @@
-import {
-  ButtonWithConfirmModal,
-  CustomButton,
-  Dropdown,
-  Question,
-  QuestionType,
-  StatusWithIcon,
-  TextArea,
-  ValidationText,
-} from '@frontend/common'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import {
@@ -20,6 +10,14 @@ import {
   isQuestionMissingMessage,
   isQuestionMissingType,
 } from '../../store/question/questionSelectors'
+import { useAppDispatch } from '../../store/store'
+import { Question, QuestionType } from '../../types'
+import { CustomButton } from '../Inputs/CustomButton'
+import Dropdown from '../Inputs/Dropdown'
+import TextArea from '../Inputs/TextArea'
+import ValidationText from '../Validation/ValidationText'
+import ButtonWithConfirmModal from '../utils/Modal/ButtonWithConfirmModal'
+import StatusWithIcon from '../utils/StatusWithIcon'
 
 interface Props {
   questionDraft: Question
@@ -36,7 +34,7 @@ const Wrapper = styled.div`
 `
 
 const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
   const isSaved = useSelector(isQuestionDraftSaved)
   const isMissingType = useSelector(isQuestionMissingType)
@@ -56,7 +54,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   }
 
   const dispatchEditDraft = useRef(
-    _.debounce((questionDraft: Question, value: string) => {
+    debounce((questionDraft: Question, value: string) => {
       const updatedQuestionDraft = { ...questionDraft, message: value }
       dispatch(editQuestion(updatedQuestionDraft))
     }, 1000)

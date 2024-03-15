@@ -1,5 +1,5 @@
 import { Dialog } from '@frontend/components'
-import { IDSButton, IDSDialogActions } from '@frontend/ids-react-ts'
+import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
@@ -80,14 +80,12 @@ export function SettingsDialog() {
         standardenhet={preferences.standardenhet}
         onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
-      <IDSDialogActions>
-        <IDSButton mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
-          Avbryt
-        </IDSButton>
-        <IDSButton mblock onClick={onSave} disabled={!isSaveEnabled}>
-          Spara
-        </IDSButton>
-      </IDSDialogActions>
+      <IDSButton slot="action" role="button" mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
+        Avbryt
+      </IDSButton>
+      <IDSButton slot="action" role="button" mblock onClick={onSave} disabled={!isSaveEnabled}>
+        Spara
+      </IDSButton>
     </Dialog>
   )
 }

@@ -1,7 +1,11 @@
-import { Checkbox, DatePickerCustom, QuestionValidationTexts, ValidationError, ValueDate, _format } from '@frontend/common'
 import { format } from 'date-fns'
 import React from 'react'
 import styled from 'styled-components'
+import Checkbox from '../../../../components/Inputs/Checkbox'
+import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { ValueDate, ValidationError } from '../../../../types'
+import { _format } from '../../../../utils'
 
 const Wrapper = styled.div`
   display: flex;

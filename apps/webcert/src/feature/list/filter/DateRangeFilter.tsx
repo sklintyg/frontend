@@ -1,22 +1,14 @@
-import {
-  DatePickerCustom,
-  getDateValidationError,
-  isDateBehindLimit,
-  isDateRangeValidOrIncomplete,
-  isFutureDate,
-  ListFilterDateConfig,
-  ListFilterDateRangeConfig,
-  ListFilterValue,
-  ListFilterValueDateRange,
-  questionImage,
-  ValidationError,
-} from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import DatePickerCustom from '../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
+import { questionImage } from '../../../images'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange, ValidationError } from '../../../types'
+import { isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate } from '../../../utils'
+import { getDateValidationError } from '../../../utils/certificate/getClientValidationErrors'
 import { FilterWrapper } from './filterStyles'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'

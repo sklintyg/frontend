@@ -1,5 +1,5 @@
+import { Input } from '@frontend/components'
 import { ComponentProps } from 'react'
-import { NumberInput } from './NumberInput'
 
 export function FormattedNumberInput({
   onChange,
@@ -8,7 +8,7 @@ export function FormattedNumberInput({
   value,
   defaultValue,
   ...props
-}: Omit<ComponentProps<typeof NumberInput>, 'onChange' | 'value'> & {
+}: Omit<ComponentProps<typeof Input>, 'onChange' | 'value'> & {
   defaultValue: string
   min: string
   max: string
@@ -37,7 +37,7 @@ export function FormattedNumberInput({
   }
 
   return (
-    <NumberInput
+    <Input
       type="number"
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
       onBlur={() => onChange(convertValue(value === '' ? NaN : Number(value), Number(min), Number(max)).toString())}

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import PatientStatusNotification from '../../feature/certificate/Notifications/PatientStatusNotification'
 
 interface Props {

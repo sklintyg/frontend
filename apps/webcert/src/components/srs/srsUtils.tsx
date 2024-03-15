@@ -1,12 +1,12 @@
 import {
-  CertificateMetadata,
-  CertificateStatus,
-  isRenewedChild,
-  SrsPrediction,
   SrsSickLeaveChoice,
-  SrsUserClientContext,
+  SrsPrediction,
   ValueDiagnosisList,
-} from '@frontend/common'
+  CertificateMetadata,
+  SrsUserClientContext,
+  CertificateStatus,
+} from '../../types'
+import { isRenewedChild } from '../../utils'
 
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']
 export const SRS_OPINION_LABELS = ['Högre', 'Korrekt', 'Lägre', 'Kan ej bedöma']

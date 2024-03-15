@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
-import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
-import SrsRiskFormQuestion from './SrsRiskFormQuestion'
-import { hasCurrentRiskDataPoint } from '../srsUtils'
 import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
+import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
+import { SrsAnswer, SrsQuestion } from '../../../types'
+import { CustomButton } from '../../Inputs/CustomButton'
+import InfoBox from '../../utils/InfoBox'
+import { hasCurrentRiskDataPoint } from '../srsUtils'
+import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 
 interface Props {
   previousAnswers: SrsAnswer[]

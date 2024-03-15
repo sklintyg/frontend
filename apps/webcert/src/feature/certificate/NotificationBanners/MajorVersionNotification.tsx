@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { getIsLatestMajorVersion } from '../../../store/certificate/certificateSelectors'
 import NotificationBannerBase from './NotificationBannerBase'

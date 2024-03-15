@@ -1,5 +1,5 @@
+import { createReducer } from '@reduxjs/toolkit'
 import {
-  autoFillElement,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -8,36 +8,33 @@ import {
   CertificateSignStatus,
   Complement,
   ConfigTypes,
-  isShowAlways,
   ModalData,
-  setDisableForChildElement,
   ValueBoolean,
   ValueText,
-} from '@frontend/common'
-import { createReducer } from '@reduxjs/toolkit'
+} from '../../types'
+import { isShowAlways } from '../../utils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { ErrorData } from '../error/errorReducer'
 import {
-  applyCertificateDataElementAutoFill,
+  GotoCertificateDataElement,
+  SigningData,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
-  GotoCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
   highlightCertificateDataElement,
   resetCertificateState,
-  setCertificateDataElement,
   setCertificatePatientData,
   setCertificateUnitData,
-  setDisabledCertificateDataChild,
   setReadyForSign,
   setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  SigningData,
   toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
   unstyleCertificateDataElement,
@@ -46,8 +43,8 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
-  updateCertificateSigningData,
   updateCertificateSignStatus,
+  updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -60,9 +57,6 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { ErrorData } from '../error/errorReducer'
 
 export interface CertificateState {
   certificate?: Certificate
@@ -110,7 +104,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
       state.isDeleted = false
-      state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
         if (question.visible === undefined) {
@@ -141,8 +134,7 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
     })
     .addCase(updateCertificateEvents, (state, action) => {
-      state.certificateEvents.splice(0, state.certificateEvents.length)
-      state.certificateEvents.push(...action.payload)
+      state.certificateEvents = action.payload
     })
     .addCase(updateCertificateStatus, (state, action) => {
       if (!state.certificate) {
@@ -159,13 +151,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       for (const questionId in state.certificate.data) {
         state.certificate.data[questionId].readOnly = true
       }
-    })
-    .addCase(setCertificateDataElement, (state, action) => {
-      if (!state.certificate) {
-        return
-      }
-
-      state.certificate.data[action.payload.id] = action.payload
     })
     .addCase(setCertificateUnitData, (state, action) => {
       if (!state.certificate) {
@@ -295,12 +280,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       state.certificate = undefined
       state.isDeleted = true
     })
-    .addCase(setDisabledCertificateDataChild, (state, action) => {
-      if (!state.certificate || !action.payload.affectedIds) {
-        return
-      }
-      setDisableForChildElement(state.certificate.data, action.payload)
-    })
     .addCase(updateCertificateComplements, (state, action) => {
       state.complements = action.payload
     })
@@ -329,18 +308,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
 
       state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.NORMAL
-    })
-    .addCase(applyCertificateDataElementAutoFill, (state, action) => {
-      if (!state.certificate) {
-        return
-      }
-
-      const { id, validation } = action.payload
-      const question = state.certificate.data[id]
-
-      if (validation && question) {
-        autoFillElement(validation, question)
-      }
     })
     .addCase(setReadyForSign, (state, action) => {
       if (!state.certificate) {

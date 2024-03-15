@@ -1,7 +1,7 @@
-import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
 

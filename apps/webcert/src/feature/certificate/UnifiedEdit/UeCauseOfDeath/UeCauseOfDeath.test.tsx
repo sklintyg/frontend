@@ -1,10 +1,11 @@
-import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import _ from 'lodash'
+import { merge } from 'lodash-es'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCauseOfDeathElement } from '../../../../faker'
 import store from '../../../../store/store'
+import { CertificateDataElement, CertificateDataValidationType } from '../../../../types'
 import UeCauseOfDeath from './UeCauseOfDeath'
 
 const VALIDATION_ERROR = 'Ange ett svar'
@@ -46,7 +47,7 @@ describe('Cause of death component', () => {
     renderComponent({
       disabled: false,
 
-      question: _.merge(question, {
+      question: merge(question, {
         value: {
           description: { text: 'description' },
           debut: { date: '2020-02-02' },

@@ -1,7 +1,7 @@
-import { SpinnerBackdrop } from '@frontend/common'
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
+import SpinnerBackdrop from '../utils/SpinnerBackdrop'
 
 interface Props {
   certificateId: string

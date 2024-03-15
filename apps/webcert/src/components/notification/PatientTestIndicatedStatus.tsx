@@ -1,4 +1,3 @@
-import * as React from 'react'
 import PatientStatusNotificationWithModal from '../../feature/certificate/Notifications/PatientStatusNotificationWithModal'
 
 interface Props {
@@ -13,7 +12,7 @@ const PatientTestIndicatedStatus: React.FC<Props> = ({ isTestIndicated }) => {
       <p>
         En valideringsperson är en fingerad person som används i syfte att validera funktion, felsöka och säkerställa kvalitet i tjänsten.
         Intyg utfärdade på valideringsperson kan inte skickas till intygsmottagare. De kommer inte heller visas i Intygsstatistik, Rehabstöd
-        eller i Mina intyg.{' '}
+        eller i Intyg.{' '}
       </p>
     </PatientStatusNotificationWithModal>
   )

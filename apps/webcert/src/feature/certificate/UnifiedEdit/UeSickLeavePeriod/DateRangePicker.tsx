@@ -1,9 +1,13 @@
+import { addDays, isValid } from 'date-fns'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import styled from 'styled-components'
+import Checkbox from '../../../../components/Inputs/Checkbox'
+import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { ValidationError, ValueDateRange } from '../../../../types'
 import {
   _dateReg,
   _dateRegDashesOptional,
-  Checkbox,
-  DatePickerCustom,
   dayCodeReg,
   formatDateToString,
   getPeriodWorkDays,
@@ -11,14 +15,8 @@ import {
   getValidDate,
   monthCodeReg,
   parseDayCodes,
-  QuestionValidationTexts,
-  ValidationError,
-  ValueDateRange,
   weekCodeReg,
-} from '@frontend/common'
-
-import { addDays, isValid } from 'date-fns'
-import styled from 'styled-components'
+} from '../../../../utils'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
@@ -233,7 +231,8 @@ const DateRangePicker: React.FC<Props> = ({
       <QuestionValidationTexts validationErrors={validationErrors} />
       {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
-          Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
+          Arbetstid: {workHoursPerWeek} timmar/vecka{' '}
+          {workDaysPerWeek !== null && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>
       )}
     </>

@@ -2,7 +2,7 @@
 
 exports[`Should have correct heading 1`] = `
 <h1
-  class="ids-heading-1 text-[min(2.25rem,9.25vw)]/[min(2.25rem,9.25vw)] md:text-5xl"
+  class="ids-heading-1"
 >
   Intyg
 </h1>
@@ -12,7 +12,7 @@ exports[`Should have correct paragraph 1`] = `
 <div
   class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
 >
-  Här listas dina läkarintyg som vården utfärdat digitalt. Hittar du inte ditt intyg, vänd dig till din mottagning. Du kan skicka intyg digitalt till Försäkringskassan och Transportstyrelsen. Läkarintyg om arbetsförmåga kan inte skickas digitalt till din arbetsgivare.
+  Här hittar du dina digitala intyg som vården skrivit. I Intyg kan du läsa, skicka och skriva ut dina intyg. Saknar du ett intyg, eller vill begära ett intyg? Vänd dig till din mottagning. Klicka på länken “Läs mer” nedan om du vill veta vad du kan göra i Intyg.
 </div>
 `;
 
@@ -27,4 +27,78 @@ exports[`Should render alert message when list is empty 1`] = `
     Om du saknar ett intyg, vänd dig till din mottagning.
   </p>
 </ids-alert>
+`;
+
+exports[`Should render error message when unable to load list 1`] = `
+[
+  <ids-alert
+    role="alert"
+  >
+    <div
+      class="flex flex-col gap-4"
+    >
+      <p>
+        Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+        <ids-link
+          color="var(--link-colorpreset-1_color)"
+          hovercolor="var(--link-colorpreset-1-hover_color)"
+          underlined=""
+        >
+          <a
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            target="_blank"
+          >
+            support
+          </a>
+          <ids-icon-external
+            class="ids-icon"
+            color="var(--link-colorpreset-1_color)"
+            color2="var(--link-colorpreset-1_color)"
+            height="1rem"
+            size="m"
+            slot="append-icon"
+            width="1rem"
+          />
+        </ids-link>
+        och ange nedan fel-id:
+      </p>
+      <div
+        class=""
+      >
+        <button
+          aria-label="Kopiera fel-id"
+          tabindex="0"
+          type="button"
+          value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+        >
+          <p
+            class="flex justify-center gap-1 align-bottom font-bold"
+            data-state="closed"
+          >
+            <span>
+              Fel-id: 
+            </span>
+             
+            <span
+              class="font-normal"
+            >
+              5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+            </span>
+            <ids-icon-copy-file
+              class="ids-icon"
+              size="s"
+            />
+          </p>
+          <p
+            class="flex justify-items-start"
+          />
+        </button>
+      </div>
+      <p>
+        Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+      </p>
+    </div>
+  </ids-alert>,
+]
 `;

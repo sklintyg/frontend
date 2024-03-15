@@ -5,10 +5,12 @@ import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
 import {
   CertificateStatus,
   CertificateStatusEnum,
+  availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
+  certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
 import { testabilityPersonSchema } from '../schema/testability/person.schema'
@@ -46,7 +48,7 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
   const startDate = subDays(parseISO(timestamp), faker.datatype.number({ min: 1, max: 120 }))
   const endDate = parseISO(timestamp)
   const certificate = fakeCertificate()
-  const id = (req.params.id instanceof Array ? req.params.id.at(0) : req.params.id) ?? faker.datatype.uuid()
+  const id = (req.params.id instanceof Array ? req.params.id[0] : req.params.id) ?? faker.datatype.uuid()
   const recipient = fakerFromSchema(certificateRecipientSchema)({
     sent: faker.date.recent().toISOString(),
     name: certificate.recipient,
@@ -59,9 +61,8 @@ const fakeCertificateMetadata = (req: RestRequest<never | DefaultBodyType, PathP
       id: certificate.id.toUpperCase(),
       name: certificate.label,
       version: '1',
-      description: certificateIngress('fk7263') ?? '',
     },
-    statuses: faker.helpers.arrayElements(CertificateStatusEnum.options, faker.datatype.number({ min: 1, max: 2 })),
+    statuses: faker.helpers.uniqueArray(CertificateStatusEnum.options, 2),
     events: faker.helpers.uniqueArray(
       () =>
         fakerFromSchema(certificateEventSchema)({
@@ -110,6 +111,56 @@ export const handlers = [
           content: certificateContentMock,
           metadata: fakeCertificateMetadata(req),
         }),
+        availableFunctions: [
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'PRINT_CERTIFICATE',
+            name: 'Intyget kan skrivas ut',
+            title: null,
+            description: null,
+            body: null,
+            information: [
+              {
+                id: null,
+                text: 'filename',
+                type: 'FILENAME',
+              },
+            ],
+          }),
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'CUSTOMIZE_PRINT_CERTIFICATE',
+            name: 'Anpassa intyget för utskrift',
+            title: 'Vill du visa eller dölja diagnos?',
+            description:
+              'Information om diagnos kan vara viktig för din arbetsgivare. Det kan underlätta anpassning av din arbetssituation. Det kan också göra att du snabbare kommer tillbaka till arbetet.',
+            body: 'När du skriver ut ett läkarintyg du ska lämna till din arbetsgivare kan du välja om du vill att din diagnos ska visas eller döljas. Ingen annan information kan döljas. ',
+            information: [
+              {
+                id: null,
+                text: 'Visa Diagnos',
+                type: 'OPTIONS',
+              },
+              {
+                id: '!diagnoser',
+                text: 'Dölj Diagnos',
+                type: 'OPTIONS',
+              },
+              {
+                id: null,
+                text: 'filename',
+                type: 'FILENAME',
+              },
+            ],
+          }),
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'SEND_CERTIFICATE',
+            name: 'Skicka intyg',
+            title: 'Skicka intyg',
+            description: null,
+            body: 'Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.',
+            information: [],
+          }),
+        ],
+        texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: certificateIngress('fk7263') ?? 'Ingresstext' }),
       })
     )
   ),
@@ -141,4 +192,7 @@ export const handlers = [
       })
     )
   ),
+  rest.get('/api/info', (_, res, ctx) => res(ctx.status(200))),
+  rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
+  rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]

@@ -9,7 +9,6 @@ export default defineConfig({
     silent: process.env.CI === 'true',
     coverage: {
       reporter: ['text', 'json', 'lcov'],
-      all: true,
     },
   },
 })

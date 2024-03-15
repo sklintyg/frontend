@@ -1,25 +1,16 @@
-import {
-  Certificate,
-  CertificateRelations,
-  fakeCertificate,
-  fakeCertificateMetaData,
-  getForwardResourceLink,
-  getUnit,
-  Question,
-  QuestionType,
-  ResourceLink,
-  ResourceLinkType,
-} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { Certificate, CertificateRelations, Question, QuestionType, ResourceLink, ResourceLinkType } from '../../types'
+import { getForwardResourceLink, getUnit } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import QuestionPanelFooter from './QuestionPanelFooter'
 

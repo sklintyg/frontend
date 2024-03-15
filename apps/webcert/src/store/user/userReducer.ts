@@ -1,5 +1,5 @@
-import { ResourceLink, User, UserStatistics } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
+import { ResourceLink, User, UserStatistics } from '../../types'
 import {
   removeResourceLink,
   updateInactivateAutomaticLogout,

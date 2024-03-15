@@ -1,12 +1,13 @@
-import { SrsInfoForDiagnosis, SrsInformationChoice, fakeSrsInfo } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeSrsInfo } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { SrsInfoForDiagnosis, SrsInformationChoice } from '../../../types'
 import SrsPanelFooter from './SrsPanelFooter'
 
 let store: EnhancedStore

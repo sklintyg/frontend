@@ -6,100 +6,129 @@ exports[`Should render as expected 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-1 text-[min(2.25rem,9.25vw)]/[min(2.25rem,9.25vw)] md:text-5xl"
+      class="ids-heading-1"
     >
       Skicka intyg 
     </h1>
     <div
       class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
-    >
-      Från den här sidan kan du välja att skicka ditt intyg elektroniskt till en mottagare. Om du saknar din mottagare i listan beror det på att mottagaren inte kan ta emot elektroniska intyg. Du kan då skriva ut och skicka det per post istället.
+    />
+    <div>
+      <button
+        aria-label="Läs mer om vad du kan göra i Intyg"
+        class="mt-4 flex text-sky-base hover:text-sky-dark"
+        type="button"
+      >
+        <ids-icon-information
+          class="mr-2 mt-0.5 inline ids-icon"
+          size="s"
+        />
+        Läs mer om vad du kan göra i Intyg
+      </button>
+      <div
+        data-focus-guard="true"
+        style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+        tabindex="-1"
+      />
+      <div
+        data-focus-lock-disabled="disabled"
+      >
+        <ids-dialog
+          role="dialog"
+          show="false"
+          srclosetext="Stäng"
+        >
+          <h1
+            class="ids-heading-1 ids-small"
+            slot="headline"
+          >
+            Vad kan du göra i Intyg
+          </h1>
+        </ids-dialog>
+      </div>
+      <div
+        data-focus-guard="true"
+        style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+        tabindex="-1"
+      />
     </div>
   </header>
-  <div>
-    <h2
-      class="ids-heading-2 mb-5"
-    >
-      Intyg som ska skickas
-    </h2>
-    <ids-card
-      class="mb-5"
-    >
-      <h2
-        class="ids-heading-3"
-      >
-        Jenny Ström
-      </h2>
-      <div
-        class="flex flex-col gap-4 md:grid md:grid-flow-col md:grid-rows-1"
-      >
-        <div>
-          <strong
-            class="block"
-          >
-            Intyg utfärdat
-          </strong>
-          2023-10-10
-        </div>
-        <div>
-          <strong
-            class="block"
-          >
-            voluptatum
-          </strong>
-          vero
-        </div>
-        <div>
-          <strong
-            class="block"
-          >
-            Utfärdat av
-          </strong>
-          PhD. Mattias Ali
-        </div>
-        <div>
-          <strong
-            class="block"
-          >
-            Intygs-ID
-          </strong>
-          16eb261e-545c-41db-8a6c-59133ead80a4
-        </div>
-      </div>
-    </ids-card>
-  </div>
-  <div
-    class="mb-5"
-  >
-    <h2
-      class="ids-heading-2 mb-5"
-    >
-      Mottagare
-    </h2>
-    Gustav Karlsson
-  </div>
-  <div
-    class="flex flex-col gap-5 py-5 sm:flex-row"
-  >
-    <ids-button
-      role="button"
-      sblock=""
-      secondary=""
-      size="m"
-      tabindex="0"
-      type=""
-    >
-      Avbryt
-    </ids-button>
-    <ids-button
-      role="button"
-      sblock=""
-      size="m"
-      tabindex="0"
-      type=""
-    >
-      Skicka
-    </ids-button>
-  </div>
+  <ids-spinner
+    data-testid="spinner"
+  />
 </div>
+`;
+
+exports[`Should render error message when unable to load certificate 1`] = `
+[
+  <ids-alert
+    role="alert"
+  >
+    <div
+      class="flex flex-col gap-4"
+    >
+      <p>
+        Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+        <ids-link
+          color="var(--link-colorpreset-1_color)"
+          hovercolor="var(--link-colorpreset-1-hover_color)"
+          underlined=""
+        >
+          <a
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            target="_blank"
+          >
+            support
+          </a>
+          <ids-icon-external
+            class="ids-icon"
+            color="var(--link-colorpreset-1_color)"
+            color2="var(--link-colorpreset-1_color)"
+            height="1rem"
+            size="m"
+            slot="append-icon"
+            width="1rem"
+          />
+        </ids-link>
+        och ange nedan fel-id:
+      </p>
+      <div
+        class=""
+      >
+        <button
+          aria-label="Kopiera fel-id"
+          tabindex="0"
+          type="button"
+          value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+        >
+          <p
+            class="flex justify-center gap-1 align-bottom font-bold"
+            data-state="closed"
+          >
+            <span>
+              Fel-id: 
+            </span>
+             
+            <span
+              class="font-normal"
+            >
+              5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+            </span>
+            <ids-icon-copy-file
+              class="ids-icon"
+              size="s"
+            />
+          </p>
+          <p
+            class="flex justify-items-start"
+          />
+        </button>
+      </div>
+      <p>
+        Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+      </p>
+    </div>
+  </ids-alert>,
+]
 `;

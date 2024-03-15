@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server, waitForRequest } from '../mocks/server'
 import { userSchema } from '../schema/user.schema'
-import { useGetUserQuery } from '../store/api'
+import { useGetUserQuery } from '../store/hooks'
 import { store } from '../store/store'
 import { useLogout } from './useLogout'
 

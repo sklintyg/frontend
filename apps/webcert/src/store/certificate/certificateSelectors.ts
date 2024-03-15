@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit'
+import { uniqWith } from 'lodash-es'
 import {
   Certificate,
   CertificateDataElement,
@@ -8,19 +10,17 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
+  ConfigTypes,
   ModalData,
   Patient,
   PersonId,
   ResourceLink,
   ResourceLinkType,
-  sortedValidationErrorSummary,
   Unit,
   ValidationError,
-  ValidationErrorSummary,
-} from '@frontend/common'
-import { createSelector } from '@reduxjs/toolkit'
-import { uniqWith } from 'lodash'
+} from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
+import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
@@ -46,6 +46,15 @@ export const getQuestion =
   (id: string) =>
   (state: RootState): CertificateDataElement | undefined =>
     state.ui.uiCertificate.certificate?.data[id]
+
+export const displayAsMandatory =
+  (questionId: string) =>
+  (state: RootState): boolean => {
+    const question = getQuestion(questionId)(state)
+    return (
+      (!question?.readOnly && question?.mandatory && !question?.disabled && question.config.type !== ConfigTypes.UE_VISUAL_ACUITY) ?? false
+    )
+  }
 
 export const getIsComplementingCertificate = (state: RootState): boolean => {
   const metadata = state.ui.uiCertificate.certificate?.metadata
@@ -190,6 +199,10 @@ export const getVisibleValidationErrors =
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
 export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
+export const getResourceLink =
+  (type: ResourceLinkType) =>
+  (state: RootState): ResourceLink | undefined =>
+    state.ui.uiCertificate.certificate?.links.find((link) => link.type === type)
 
 export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||

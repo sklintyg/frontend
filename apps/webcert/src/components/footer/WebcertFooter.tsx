@@ -1,8 +1,8 @@
-import { FooterCookiesModal } from './FooterCookiesModal'
 import React from 'react'
 import styled from 'styled-components'
 import WCDynamicLink from '../../utils/WCDynamicLink'
-import { Footer } from '@frontend/common'
+import { Footer } from './Footer/Footer'
+import { FooterCookiesModal } from './FooterCookiesModal'
 
 const LinkList = styled.ul`
   columns: 2;

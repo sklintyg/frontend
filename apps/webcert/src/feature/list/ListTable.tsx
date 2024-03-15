@@ -1,7 +1,9 @@
-import { ChevronDownIcon, ChevronUpIcon, Spinner, TableHeading } from '@frontend/common'
 import React, { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import Spinner from '../../components/utils/Spinner'
+import { ChevronUpIcon, ChevronDownIcon } from '../../images'
+import { TableHeading } from '../../types'
 
 interface Props {
   caption?: string

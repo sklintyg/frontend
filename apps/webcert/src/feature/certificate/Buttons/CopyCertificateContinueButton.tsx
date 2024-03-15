@@ -1,7 +1,9 @@
-import { ButtonWithConfirmModal, CertificateMetadata, CopyIcon } from '@frontend/common'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { CopyIcon } from '../../../images'
+import { CertificateMetadata } from '../../../types'
 
 interface Props extends FunctionDisabled {
   name: string

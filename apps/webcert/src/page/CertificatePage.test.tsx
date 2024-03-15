@@ -1,13 +1,16 @@
-import { render } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { MemoryRouter, Route } from 'react-router-dom'
 import { vi } from 'vitest'
+import { updateCertificate } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
+import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import CertificatePage from './CertificatePage'
-import { throwError } from '../store/error/errorActions'
+import { fakeCertificate } from '../faker'
+import { ResourceLinkType } from '../types'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -46,5 +49,63 @@ describe('CertificatePage', () => {
     )
 
     expect(dispatchedActions.find((action) => throwError.match(action))).not.toBeDefined()
+  })
+
+  it('should show modal when WARNING_DODSBEVIS_INTEGRATED resource link exists', async () => {
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          links: [
+            {
+              type: ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED,
+              name: 'Name',
+              description: '',
+              enabled: true,
+            },
+          ],
+        })
+      )
+    )
+
+    render(
+      <Provider store={testStore}>
+        <MemoryRouter initialEntries={['/certificate/error}']}>
+          <Route path="/certificate/">
+            <CertificatePage />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(screen.getByText('Kontrollera namn och personnummer', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should show confirm modal when WARNING_LUAENA_INTEGRATED resource link exists', async () => {
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          links: [
+            {
+              type: ResourceLinkType.WARNING_LUAENA_INTEGRATED,
+              name: 'Name',
+              description: '',
+              enabled: true,
+            },
+          ],
+        })
+      )
+    )
+
+    render(
+      <Provider store={testStore}>
+        <MemoryRouter initialEntries={['/certificate/error}']}>
+          <Route path="/certificate/">
+            <CertificatePage />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(screen.getByText('Kontrollera att du använder dig av rätt läkarutlåtande', { exact: false })).toBeInTheDocument()
   })
 })

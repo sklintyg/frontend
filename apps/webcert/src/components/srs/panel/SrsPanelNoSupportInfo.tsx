@@ -1,5 +1,5 @@
 import React from 'react'
-import { InfoBox } from '@frontend/common'
+import InfoBox from '../../utils/InfoBox'
 
 const SrsPanelNoSupportInfo: React.FC = () => {
   return <InfoBox type="info">För den angivna diagnosen finns för tillfället inget stöd för sjukskrivning.</InfoBox>

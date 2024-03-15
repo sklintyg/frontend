@@ -8,7 +8,7 @@ describe('tables', () => {
   })
 
   it('Should render mobile table', () => {
-    const { container } = render(
+    render(
       <DisplayHTML
         html="`
           <table>
@@ -30,14 +30,13 @@ describe('tables', () => {
             </tbody>
           </table>
         `"
-        mobile
       />
     )
-    expect(container).toMatchSnapshot()
+    expect(screen.getAllByRole('table')[0]).toMatchSnapshot()
   })
 
   it('Should render mobile table with row headers', () => {
-    const { container } = render(
+    render(
       <DisplayHTML
         html="`
           <table>
@@ -59,10 +58,9 @@ describe('tables', () => {
             </tbody>
           </table>
         `"
-        mobile
       />
     )
-    expect(container).toMatchSnapshot()
+    expect(screen.getAllByRole('table')[0]).toMatchSnapshot()
   })
 })
 
@@ -83,5 +81,19 @@ describe('headings', () => {
     const tag = `h${level}`
     render(<DisplayHTML html={`<${tag}>text</${tag}>`} />)
     expect(screen.getByRole('heading')).toHaveClass(`ids-heading-${level}`, { exact: true })
+  })
+})
+
+describe('Table header', () => {
+  it('Empty table header cell should be converted to td', () => {
+    render(<DisplayHTML html="<table><thead><tr><th></th></tr></thead></table>" />)
+    expect(screen.getByRole('cell')).toBeInTheDocument()
+    expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
+  })
+
+  it('Populated table header cell should not be converted to td', () => {
+    render(<DisplayHTML html="<table><thead><tr><th>Hello</th></tr></thead></table>" />)
+    expect(screen.getByRole('columnheader')).toBeInTheDocument()
+    expect(screen.queryByRole('cell')).not.toBeInTheDocument()
   })
 })

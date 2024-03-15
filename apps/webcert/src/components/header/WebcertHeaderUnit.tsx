@@ -1,7 +1,7 @@
-import { AlertCircle, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
 import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { AlertCircle } from '../../images'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import {
   getTotalDraftsAndUnhandledQuestionsOnOtherUnits,
@@ -9,7 +9,9 @@ import {
   getUserResourceLinks,
   isPrivatePractitioner,
 } from '../../store/user/userSelectors'
+import { ResourceLinkType, User } from '../../types'
 import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
+import ExpandableBox from '../utils/ExpandableBox'
 
 const Wrapper = styled.div`
   display: flex;

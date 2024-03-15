@@ -58,7 +58,7 @@ export function DateRangePicker({
   return (
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className={classNames('inline-flex w-full ', inline ? 'flex-row gap-3' : 'flex-col')}>
-        <div>
+        <div className="mb-[5px]">
           <span {...labelProps}>{label}</span>
           {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </div>

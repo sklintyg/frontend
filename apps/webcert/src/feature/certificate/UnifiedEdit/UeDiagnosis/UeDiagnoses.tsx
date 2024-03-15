@@ -1,11 +1,12 @@
-import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
-import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import RadioButton from '../../../../components/Inputs/RadioButton'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
 import UeDiagnosis from './UeDiagnosis'
 
 const RadioWrapper = styled.div`

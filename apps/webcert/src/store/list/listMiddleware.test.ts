@@ -1,4 +1,3 @@
-import { CertificateListItem, ListType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -23,6 +22,7 @@ import {
   updateListConfig,
 } from './listActions'
 import { listMiddleware } from './listMiddleware'
+import { CertificateListItem, ListType } from '../../types'
 
 describe('Test list middleware', () => {
   let fakeAxios: MockAdapter

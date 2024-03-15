@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { setOriginalIcd10Codes, toggleIcfFunctionDisabler, updateIcfCodes } from './icfActions'
+import { IcfCodeCollection } from '../../types'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { IcfCodeCollection } from '@frontend/common'
+import { setOriginalIcd10Codes, toggleIcfFunctionDisabler, updateIcfCodes } from './icfActions'
 
 export interface AvailableIcfCodes {
   commonCodes: IcfCodeCollection

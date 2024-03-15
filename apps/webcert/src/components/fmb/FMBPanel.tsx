@@ -1,10 +1,13 @@
-import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
-import _ from 'lodash'
-import React, { useState } from 'react'
+import { isEqual } from 'lodash-es'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
+import { initializeFMBPanel } from '../../store/fmb/fmbActions'
 import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
+import { useAppDispatch } from '../../store/store'
+import { FMBDiagnosisCodeInfo } from '../../types'
+import ImageCentered from '../image/image/ImageCentered'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 import FMBPanelFooter from './FMBPanelFooter'
@@ -15,9 +18,10 @@ export const Italic = styled.p`
 `
 
 const FMBPanel: React.FC = () => {
-  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
+  const dispatch = useAppDispatch()
+  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
-  const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
+  const diagnosisValue = useSelector(getDiagnosisListValue, isEqual)
   const isIcd10Chosen =
     !diagnosisValue || diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd')
 
@@ -53,6 +57,10 @@ const FMBPanel: React.FC = () => {
   if (!isEmpty() && isNoDiagnosesSelected()) {
     selectDefaultDiagnosis()
   }
+
+  useEffect(() => {
+    dispatch(initializeFMBPanel())
+  })
 
   return !isIcd10Chosen ? (
     <ImageCentered imgSrc={noDiagnosisIcon} alt={'Inget FMB-stöd'}>

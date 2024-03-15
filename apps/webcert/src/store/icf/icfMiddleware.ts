@@ -1,6 +1,7 @@
-import { CertificateDataValueType, ValueType, ValueDiagnosisList } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
+import { isEqual } from 'lodash-es'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { CertificateDataValueType, ValueDiagnosisList, ValueType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { throwError } from '../error/errorActions'
@@ -14,6 +15,7 @@ import {
   toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
+import { getOriginalIcd10Codes } from './icfSelectors'
 
 export const handleGetIcfCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
@@ -50,37 +52,37 @@ const handleGetIcfCodesError: Middleware<Dispatch> =
     dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
   }
 
-function handleUpdateIcfState(value: ValueType, dispatch: Dispatch<AnyAction>) {
+function handleUpdateIcfState(originalIcd10Codes: string[], value: ValueType, dispatch: Dispatch<AnyAction>) {
   const icdCodes = getIcdCodesFromQuestionValue(value)
 
-  if (icdCodes) {
+  if (icdCodes && !isEqual(icdCodes, originalIcd10Codes)) {
     dispatch(getIcfCodes({ icdCodes: icdCodes }))
     dispatch(setOriginalIcd10Codes(icdCodes))
   }
 }
 
 const handleUpdateCertificate: Middleware<Dispatch> =
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
     for (const questionId in action.payload.data) {
       if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
         const question = action.payload.data[questionId]
-        handleUpdateIcfState(question.value, dispatch)
+        handleUpdateIcfState(getOriginalIcd10Codes(getState()), question.value, dispatch)
       }
     }
   }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI) =>
+  ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
-    handleUpdateIcfState(action.payload.value, dispatch)
+    handleUpdateIcfState(getOriginalIcd10Codes(getState()), action.payload.value, dispatch)
   }
 
 function getIcdCodesFromQuestionValue(value: ValueType | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map((code) => code.code)
+    return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map(({ code }) => code)
   } else {
     return undefined
   }

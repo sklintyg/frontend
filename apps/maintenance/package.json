@@ -1,0 +1,40 @@
+{
+  "name": "@frontend/maintenance",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "echo No tests available",
+    "typescript": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+  },
+  "dependencies": {
+    "@frontend/components": "workspace:*",
+    "@frontend/ids-react-ts": "workspace:*",
+    "@inera/ids-core": "^4.2.0",
+    "@inera/ids-design": "^4.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-legacy": "^5.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-config-react": "workspace:*",
+    "eslint-config-react-test": "workspace:*",
+    "eslint-plugin-jest": "^27.6.1",
+    "eslint-plugin-tailwindcss": "^3.13.1",
+    "jsdom": "^21.1.1",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "vite": "^5.0.12"
+  }
+}

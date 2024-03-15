@@ -1,5 +1,8 @@
-import { CertificateMetadata, isSigned, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
+import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
+import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
+import { CertificateMetadata } from '../../../../types'
+import { isSigned } from '../../../../utils'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {
@@ -14,7 +17,7 @@ const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => 
     <StatusWithIcon icon={'CheckIcon'} isModal={true}>
       <TextWithInfoModal text="Intyget är tillgängligt för patienten" modalTitle="Intyget är tillgängligt för patienten">
         <p>
-          Intyget är tillgängligt för patienten i Mina intyg, som nås via <WCDynamicLink linkKey={'minaintyg'} />.
+          Intyget är tillgängligt för patienten i Intyg, som nås via <WCDynamicLink linkKey={'minaintyg'} />.
         </p>
         {isLisjp && (
           <>

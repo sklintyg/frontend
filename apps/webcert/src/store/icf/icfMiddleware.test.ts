@@ -1,4 +1,3 @@
-import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -7,6 +6,7 @@ import {
   getCodeElement,
   getDiagnosisElementWithCodeSystem,
 } from '../../components/icf/icfTestUtils'
+import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'

@@ -1,4 +1,3 @@
-import { SystemBanner } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
@@ -6,16 +5,17 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import SystemBanner from '../utils/SystemBanner'
 import AppHeader from './AppHeader'
 
 let testStore: EnhancedStore
 
-const renderComponent = (primaryItems: React.ReactNode[], secondaryItems: React.ReactNode[]) => {
+const renderComponent = (primaryUserMenu: React.ReactNode[], secondaryItems: React.ReactNode[]) => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create">
-          <AppHeader primaryItems={primaryItems} secondaryItems={secondaryItems} />
+          <AppHeader primaryUserMenu={primaryUserMenu} secondaryUserMenu={secondaryItems} />
         </Route>
       </MemoryRouter>
     </Provider>

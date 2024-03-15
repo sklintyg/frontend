@@ -1,6 +1,7 @@
-import { CertificateDataValueType, fakeViewListElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import UeViewList from './UeViewList'
+import { fakeViewListElement } from '../../../../faker'
+import { CertificateDataValueType } from '../../../../types'
 
 const mockQuestion = fakeViewListElement({
   id: '1',

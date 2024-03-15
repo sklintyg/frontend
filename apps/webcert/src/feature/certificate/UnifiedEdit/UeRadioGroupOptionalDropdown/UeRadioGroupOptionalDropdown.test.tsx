@@ -1,4 +1,3 @@
-import { fakeCertificate, fakeRadioMultipleCodeElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadioGroup from '../UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from './UeRadioGroupOptionalDropdown'
+import { fakeRadioBooleanElement, fakeCertificate } from '../../../../faker'
 
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
 
@@ -20,7 +20,7 @@ const CODES = [
 
 let testStore: EnhancedStore
 
-const question = fakeRadioMultipleCodeElement({
+const question = fakeRadioBooleanElement({
   id: 'id',
   value: { selected: true },
   config: {

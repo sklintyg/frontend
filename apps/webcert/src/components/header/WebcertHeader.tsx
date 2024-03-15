@@ -1,4 +1,3 @@
-import { Banner, ResourceLinkType, SystemBanner, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -13,10 +12,14 @@ import {
   getUserStatistics,
   isDoctor,
 } from '../../store/user/userSelectors'
+import { Banner, ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import AppHeader from '../AppHeader/AppHeader'
+import { UserHeaderMenu, UserHeaderMenuItem } from '../AppHeader/UserHeaderMenu'
 import SystemBanners from '../notification/SystemBanners'
+import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
+import SystemBanner from '../utils/SystemBanner'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import logo from './webcert_logo.png'
@@ -25,12 +28,9 @@ const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;
 `
 
-interface Props {
-  isEmpty?: boolean
-}
-
-const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
+function WebcertHeader({ isEmpty = false }) {
   const userLinks = useSelector(getUserResourceLinks)
+  const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
   const user = useSelector(getUser)
   const isUserDoctor = useSelector(isDoctor)
   const links = useSelector(getUserResourceLinks)
@@ -41,26 +41,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const careProviders = user && user?.careProviders
   const unitName = user && user.loggedInUnit.unitName
   const displayWarningNormalOriginBanner = useSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
-
-  const getSecondaryItems = (): React.ReactNode[] => {
-    const secondaryItems: React.ReactNode[] = []
-    if (isEmpty) {
-      return secondaryItems
-    }
-
-    secondaryItems.push(
-      <InfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
-        <AboutWebcertModalContent />
-      </InfoModal>
-    )
-
-    const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
-    if (logoutLink) {
-      secondaryItems.push(<Logout user={user} link={logoutLink} />)
-    }
-
-    return secondaryItems
-  }
 
   const onSwitchTab = () => {
     dispatch(resetPatientState())
@@ -96,8 +76,34 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     <AppHeader
       logo={logo}
       alt={'Logo Webcert'}
-      primaryItems={isEmpty ? [] : [<WebcertHeaderUser key="user" />, <WebcertHeaderUnit key="header" />]}
-      secondaryItems={getSecondaryItems()}
+      primaryUserMenu={
+        isEmpty ? (
+          []
+        ) : (
+          <>
+            <WebcertHeaderUser />
+            <WebcertHeaderUnit />
+          </>
+        )
+      }
+      secondaryUserMenu={
+        <UserHeaderMenu>
+          {!isEmpty && (
+            <>
+              <UserHeaderMenuItem>
+                <InfoModal text="Om Webcert" modalTitle="Om Webcert">
+                  <AboutWebcertModalContent />
+                </InfoModal>
+              </UserHeaderMenuItem>
+              {logoutLink && (
+                <UserHeaderMenuItem>
+                  <Logout user={user} link={logoutLink} />
+                </UserHeaderMenuItem>
+              )}
+            </>
+          )}
+        </UserHeaderMenu>
+      }
       banners={[<SystemBanners key="system-banners" />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}

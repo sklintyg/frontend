@@ -1,4 +1,3 @@
-import { CertificateSignStatus, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -7,6 +6,8 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { CertificateFooter } from './CertificateFooter'
+import { fakeCertificate, fakeTextFieldElement, fakeCertificateMetaData } from '../../../faker'
+import { CertificateSignStatus, ResourceLinkType } from '../../../types'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore

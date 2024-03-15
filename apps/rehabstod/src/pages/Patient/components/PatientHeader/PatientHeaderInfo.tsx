@@ -16,7 +16,7 @@ export function PatientHeaderInfo({
   const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
 
   return (
-    <div className="flex flex-col gap-1 text-sm sm:text-base lg:flex-row">
+    <div className="flex flex-col gap-1 text-sm sm:text-base xl:flex-row">
       <div>
         <IDSIconUser width="100%" height="100%" inline className="float-left mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />{' '}
         {showPersonalInformation && <span className="font-bold">{namn},</span>}{' '}
@@ -26,7 +26,7 @@ export function PatientHeaderInfo({
       </div>
       {currentSickness && (
         <>
-          <div role="separator" color="neutral-20" className="hidden space-x-2 lg:inline-block">
+          <div role="separator" color="neutral-20" className="hidden space-x-2 xl:inline-block">
             |
           </div>
           <div>

@@ -1,4 +1,3 @@
-import { UserTab } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,6 +6,7 @@ import { MemoryRouter, Route } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import { UserTab } from '../../types'
 import AppHeaderTabs from './AppHeaderTabs'
 
 let testStore: EnhancedStore

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -34,7 +34,7 @@ const CertificateVersion = styled.span`
 `
 
 const AboutCertificatePanel: React.FC = () => {
-  const certMetaData = useSelector(getCertificateMetaData, _.isEqual)
+  const certMetaData = useSelector(getCertificateMetaData, isEqual)
 
   return (
     <Wrapper>

@@ -4,7 +4,6 @@ exports[`Should render as expected 1`] = `
 <div>
   <details
     class="group mb-5"
-    open=""
   >
     <summary
       class="flex cursor-pointer select-none flex-col md:flex-row"
@@ -12,6 +11,7 @@ exports[`Should render as expected 1`] = `
       <div
         class="grow border-y border-stone-clear py-2.5 md:pl-5"
       >
+        Visar 
         43
          av 
         100

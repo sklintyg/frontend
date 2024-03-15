@@ -1,17 +1,10 @@
-import {
-  getResourceLink,
-  getValidationErrors,
-  MandatoryIcon,
-  Patient,
-  QuestionValidationTexts,
-  resourceLinksAreEqual,
-  ResourceLinkType,
-  TextArea,
-} from '@frontend/common'
-import _ from 'lodash'
+import { debounce, isEqual } from 'lodash-es'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import TextArea from '../../../components/Inputs/TextArea'
+import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getIsEditable,
@@ -21,6 +14,8 @@ import {
   getResourceLinks,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
+import { Patient, ResourceLinkType } from '../../../types'
+import { getResourceLink, getValidationErrors, resourceLinksAreEqual } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
@@ -61,9 +56,9 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 
 const PatientAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getPatientValidationErrors(), _.isEqual)
-  const patient = useSelector(getPatient, _.isEqual)
-  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
+  const patient = useSelector(getPatient, isEqual)
+  const resourceLinks = useSelector(getResourceLinks, isEqual)
   const disabled = useSelector(getIsLocked)
   const editable =
     useSelector(getIsEditable) &&
@@ -79,7 +74,7 @@ const PatientAddress: React.FC = () => {
   const cityValidationErrors = getValidationErrors(validationErrors, PATIENT_CITY_FIELD)
 
   const dispatchEditDraft = useRef(
-    _.debounce((state: Patient) => {
+    debounce((state: Patient) => {
       dispatch(updateCertificatePatient(state))
     }, 1000)
   ).current

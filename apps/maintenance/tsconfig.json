@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "exclude": ["dist", "coverage", "node_modules", "**/*stories*"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  }
+}

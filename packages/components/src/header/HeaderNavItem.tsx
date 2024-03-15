@@ -2,10 +2,10 @@ import { IDSHeaderNavItem } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useActivePage } from './hooks/useActivePage'
 
-export function HeaderNavItem({ to, title }: { to: string; title: string }) {
+export function HeaderNavItem({ to, title, active = false }: { to: string; title: string; active?: boolean }) {
   const isActive = useActivePage(to)
   return (
-    <IDSHeaderNavItem link active={isActive}>
+    <IDSHeaderNavItem link active={active || isActive}>
       <Link to={to}>{title}</Link>
     </IDSHeaderNavItem>
   )

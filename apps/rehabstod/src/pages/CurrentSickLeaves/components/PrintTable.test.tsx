@@ -46,3 +46,20 @@ it('Should hide personal information', async () => {
   expect(screen.queryByText(/personnr/i)).not.toBeInTheDocument()
   expect(screen.queryByText(/namn/i)).not.toBeInTheDocument()
 })
+
+it('Should render ended sickleaves as italic', async () => {
+  store.dispatch(updateShowPersonalInformation(false))
+  renderWithRouter(
+    <Table
+      print={
+        <PrintTable
+          title=""
+          tableInfo=""
+          sickLeaves={Array.from({ length: 1 }, () => fakerFromSchema(sickLeaveInfoSchema)({ slut: '1496-05-12' }))}
+        />
+      }
+    />
+  )
+  expect(await screen.findByTestId('sickleave-row')).toBeInTheDocument()
+  expect(screen.getByTestId('sickleave-row')).toHaveClass('italic')
+})

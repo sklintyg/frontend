@@ -1,8 +1,8 @@
-import { CertificateMetadata, Patient, PersonId } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
 import CertificateInfo from './CertificateInfo'
+import { PersonId, Patient, CertificateMetadata } from '../../../types'
 
 const mockData = {
   name: 'Test cert name',

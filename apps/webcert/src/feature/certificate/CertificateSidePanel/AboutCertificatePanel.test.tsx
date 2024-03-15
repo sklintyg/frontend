@@ -1,4 +1,3 @@
-import { fakeCertificateMetaData } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
@@ -8,6 +7,7 @@ import { vi } from 'vitest'
 
 import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import AboutCertificatePanel from './AboutCertificatePanel'
+import { fakeCertificateMetaData } from '../../../faker'
 
 const history = createMemoryHistory()
 

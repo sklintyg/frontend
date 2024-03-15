@@ -1,27 +1,10 @@
-import {
-  Answer,
-  ButtonWithConfirmModal,
-  calendarImage,
-  CertificateStatus,
-  Checkbox,
-  CheckboxWithConfirmModal,
-  CheckIcon,
-  CustomButton,
-  ExpandableText,
-  getResourceLink,
-  Question,
-  QuestionType,
-  ResourceLinkType,
-  StatusWithIcon,
-  TextArea,
-  userImage,
-} from '@frontend/common'
 import { format } from 'date-fns'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+import { CheckIcon, calendarImage, userImage } from '../../images'
 import arrowLeft from '../../images/arrow-left.svg'
 import {
   createAnswer,
@@ -33,6 +16,15 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
+import { Answer, CertificateStatus, Question, QuestionType, ResourceLinkType } from '../../types'
+import { getResourceLink } from '../../utils'
+import Checkbox from '../Inputs/Checkbox'
+import { CustomButton } from '../Inputs/CustomButton'
+import TextArea from '../Inputs/TextArea'
+import { ExpandableText } from '../utils/ExpandableText'
+import ButtonWithConfirmModal from '../utils/Modal/ButtonWithConfirmModal'
+import CheckboxWithConfirmModal from '../utils/Modal/CheckboxWithConfirmModal'
+import StatusWithIcon from '../utils/StatusWithIcon'
 import fkImg from './fk.png'
 
 // TODO: Replace color with var(--color-grey-400)
@@ -136,7 +128,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   }, [incommingMessage])
 
   const dispatchEditAnswer = useRef(
-    _.debounce((question: Question, value: string) => {
+    debounce((question: Question, value: string) => {
       const updatedAnswer = { ...question.answer, message: value } as Answer
       dispatch(editAnswer({ questionId: question.id, answer: updatedAnswer }))
     }, 1000)

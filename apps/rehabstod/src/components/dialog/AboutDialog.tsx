@@ -25,7 +25,7 @@ export function AboutDialog() {
           Tjänsten kräver att JavaScript är aktiverat.{' '}
         </p>
 
-        <h4 className="ids-heading-3">Vad kan jag se i Rehabstöd?</h4>
+        <h2 className="ids-heading-3">Vad kan jag se i Rehabstöd?</h2>
         <p className="ids-body">
           Är du rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där
           du har skrivit det senaste intyget.{' '}
@@ -46,7 +46,7 @@ export function AboutDialog() {
       </div>
       {user && hasUserFeature(user, 'SRS') && (
         <div className="ids-content text-base">
-          <h4 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h4>
+          <h2 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h2>
           <p className="ids-body" />
           <p>
             Om du vill se mer information om SRS, t.ex. hur prediktionen räknas ut, fler åtgärder, mer nationell statistik så kan du gå till

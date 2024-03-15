@@ -1,9 +1,8 @@
-import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash-es'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { apiCallBegan } from '../../store/api/apiActions'
@@ -12,6 +11,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { Complement, Question, QuestionType, ResourceLinkType } from '../../types'
 import QuestionItem from './QuestionItem'
 
 let testStore: EnhancedStore
@@ -39,32 +39,32 @@ const addAnswerDraftToQuestion = (question: Question, message: string): Question
   ({
     ...question,
     answer: { author: '', id: '', message, sent: '' },
-  } as Question)
+  }) as Question
 
 const addAnswerToQuestion = (question: Question, message: string): Question =>
   ({
     ...question,
     answer: { author: 'answerAuthor', id: 'answerId', message, sent: '2021-07-16' },
-  } as Question)
+  }) as Question
 
 const addReminderToQuestion = (question: Question, message: string): Question =>
   ({
     ...question,
     reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
-  } as Question)
+  }) as Question
 
 const handleQuestion = (question: Question): Question =>
   ({
     ...question,
     handled: true,
-  } as Question)
+  }) as Question
 
 const addComplementsToQuestion = (question: Question, complements: Complement[]): Question =>
   ({
     ...question,
     type: QuestionType.COMPLEMENT,
     complements: [...complements],
-  } as Question)
+  }) as Question
 
 const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: string): Question => ({
   ...question,

@@ -1,18 +1,10 @@
-import {
-  CertificateEvent,
-  CertificateEventType,
-  CertificateMetadata,
-  CertificateRelationType,
-  CertificateStatus,
-  isHasParent,
-  isParentRevoked,
-  Spinner,
-  TextWithInfoModal,
-} from '@frontend/common'
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import styled from 'styled-components'
+import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
+import Spinner from '../../../components/utils/Spinner'
+import { CertificateEvent, CertificateEventType, CertificateMetadata, CertificateRelationType, CertificateStatus } from '../../../types'
+import { isHasParent, isParentRevoked } from '../../../utils'
 
 const LinkWithMargin = styled(Link)`
   margin-left: 3px;
@@ -69,7 +61,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
                 <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
-          case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED:
             return (
               <>
                 Intyget ersattes av ett utkast som nu är låst.{' '}
@@ -202,7 +195,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
                 <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
-          case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED:
             return (
               <>
                 Utkastet ersattes av ett utkast som nu är låst.{' '}

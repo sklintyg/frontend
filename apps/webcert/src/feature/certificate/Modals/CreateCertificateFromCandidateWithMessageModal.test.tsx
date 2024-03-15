@@ -1,4 +1,3 @@
-import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import axios from 'axios'
@@ -9,6 +8,8 @@ import { CreateCertificateFromCandidateWithMessageSuccess, updateCertificate } f
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
+import { Certificate, ResourceLink, ResourceLinkType } from '../../../types'
+import { getCertificate } from '../../../utils'
 import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 
 let fakeAxios: MockAdapter

@@ -1,9 +1,10 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeCheckboxGroup from './UeCheckboxGroup'
+import { fakeCertificateConfig } from '../../../../faker'
+import { CertificateDataElement, CertificateDataValueType } from '../../../../types'
 
 const CHECKBOXES = [
   { label: 'Checkbox1', id: 'Checkbox_1' },
@@ -21,12 +22,11 @@ const question: CertificateDataElement = {
   validation: [],
   validationErrors: [],
   value: { type: CertificateDataValueType.CODE_LIST, list: [] },
-  config: {
+  config: fakeCertificateConfig.checkboxMultipleCodes({
     text: '',
     description: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     list: CHECKBOXES,
-  },
+  }),
 }
 
 const renderDefaultComponent = () => {

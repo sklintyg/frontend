@@ -1,9 +1,11 @@
-import { ButtonWithConfirmModal, CertificateStatus, trashImage } from '@frontend/common'
-import _ from 'lodash'
+import { isEqual } from 'lodash-es'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { trashImage } from '../../../images'
+import { RevokeCertificateReason, revokeCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { CertificateStatus } from '../../../types'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
 import { RevokeDBAndDOIModalContent } from './RevokeDBAndDOIModalContent'
@@ -17,7 +19,7 @@ interface Props extends FunctionDisabled {
 const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
-  const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const metadata = useSelector(getCertificateMetaData, isEqual)
   const isDodsbevis = metadata?.type === 'db'
   const isDodsorsaksIntyg = metadata?.type === 'doi'
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(isDodsbevis || isDodsorsaksIntyg ? false : true)

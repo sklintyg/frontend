@@ -5,9 +5,15 @@ export function OpenInformation({ items, onGetInformation }: { items: SjfItem[];
   return (
     <>
       {items.map((item) => (
-        <div key={item.itemId} className="flex justify-between pb-3">
-          <p>{item.itemName}</p>
-          {item.includedInSjukfall ? <p className="italic">Hämtat</p> : <GetOpenInformationButton onClick={onGetInformation} item={item} />}
+        <div key={item.itemId} className="flex items-center pb-3">
+          <div className="w-full">{item.itemName}</div>
+          <div>
+            {item.includedInSjukfall ? (
+              <p className="italic">Hämtat</p>
+            ) : (
+              <GetOpenInformationButton onClick={onGetInformation} item={item} />
+            )}
+          </div>
         </div>
       ))}
     </>

@@ -1,11 +1,3 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  fakeCertificateConfig,
-  fakeCertificateValue,
-  fakeCheckboxMultipleDate,
-  getCertificateWithQuestion,
-} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
@@ -15,6 +7,9 @@ import { hideValidationErrors, showValidationErrors, updateCertificate } from '.
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import store from '../../../../store/store'
 import UeCheckboxDateGroup from './UeCheckboxDateGroup'
+import { fakeCheckboxMultipleDate, fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
+import { CertificateDataElement, CertificateDataValidationType } from '../../../../types'
+import { getCertificateWithQuestion } from '../../../../utils'
 
 const DATE_CHECKBOXES = [
   {

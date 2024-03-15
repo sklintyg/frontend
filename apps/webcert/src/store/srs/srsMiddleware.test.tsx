@@ -1,5 +1,7 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import {
-  CertificateStatus,
   fakeCertificate,
   fakeCertificateMetaData,
   fakeDiagnosesElement,
@@ -8,13 +10,8 @@ import {
   fakeSrsInfo,
   fakeSrsPrediction,
   fakeUser,
-  SrsEvent,
-  SrsUserClientContext,
-  User,
-} from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+} from '../../faker'
+import { CertificateStatus, SrsEvent, SrsUserClientContext, User } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
@@ -23,12 +20,12 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispat
 import { getUserSuccess } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
+  PredictionsRequest,
+  RiskOpinionRequest,
   getPredictions,
   getRecommendations,
   getSRSCodes,
   logSrsInteraction,
-  PredictionsRequest,
-  RiskOpinionRequest,
   setRiskOpinion,
   updateCertificateId,
   updateHasLoadedSRSContent,

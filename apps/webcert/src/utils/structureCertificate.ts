@@ -1,5 +1,6 @@
-import { CertificateData, CertificateDataElement, CertificateDataElementStyleEnum, ConfigTypes, sortByIndex } from '@frontend/common'
 import { CertificateStructure } from '../store/certificate/certificateSelectors'
+import { CertificateData, CertificateDataElement, CertificateDataElementStyleEnum, ConfigTypes } from '../types'
+import { sortByIndex } from './certificateUtils'
 
 const hasSubQuestionId =
   (id: string) =>

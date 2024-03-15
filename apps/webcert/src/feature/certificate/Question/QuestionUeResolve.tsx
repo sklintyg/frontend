@@ -1,5 +1,6 @@
-import { CertificateDataElement, ConfigTypes, InfoBox } from '@frontend/common'
 import React from 'react'
+import InfoBox from '../../../components/utils/InfoBox'
+import { CertificateDataElement, ConfigTypes } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'

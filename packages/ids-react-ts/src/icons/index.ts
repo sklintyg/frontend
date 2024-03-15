@@ -1,3 +1,6 @@
+import { IDSIconBase } from '@inera/ids-core/components/icons/icon-base-element'
+import { createComponent } from '@lit-labs/react'
+
 export * from './IDSIconAgent'
 export * from './IDSIconArrow'
 export * from './IDSIconAttention'
@@ -7,10 +10,14 @@ export * from './IDSIconChevronBold'
 export * from './IDSIconCog'
 export * from './IDSIconCopyFile'
 export * from './IDSIconExternal'
+export * from './IDSIconFilePdf'
 export * from './IDSIconInformation'
 export * from './IDSIconMinus'
 export * from './IDSIconPlus'
 export * from './IDSIconQuestion'
+export * from './IDSIconSuccess'
 export * from './IDSIconSwap'
 export * from './IDSIconUser'
 export * from './IDSIconWarning'
+
+export type IDSIcon = ReturnType<typeof createComponent<IDSIconBase>>

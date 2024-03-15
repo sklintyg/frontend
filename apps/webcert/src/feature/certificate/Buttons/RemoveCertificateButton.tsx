@@ -1,9 +1,11 @@
-import { ButtonWithConfirmModal, CertificateMetadata, trashImage } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
+import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
+import { trashImage } from '../../../images'
+import { CertificateMetadata } from '../../../types'
 
 interface Props extends FunctionDisabled {
   name: string
