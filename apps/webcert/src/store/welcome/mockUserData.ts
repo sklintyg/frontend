@@ -16,6 +16,13 @@ export const mockUserData: MockUser[] = [
     legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
+    hsaId: 'TSTNMT2321000156-SKAA',
+    forNamn: 'Anna',
+    efterNamn: 'Sjuksköterska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Sjuksköterska'],
+  },
+  {
     hsaId: 'TSTNMT2321000156-VAAA',
     forNamn: 'Alva',
     efterNamn: 'Vårdadministratör',
