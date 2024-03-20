@@ -19,7 +19,7 @@ export const mockUserData: MockUser[] = [
     hsaId: 'TSTNMT2321000156-SKAA',
     forNamn: 'Anna',
     efterNamn: 'Sjuksköterska',
-    enhetId: 'TSTNMT2321000156-ALVC',
+    enhetId: 'TSTNMT2321000156-ALMC',
     legitimeradeYrkesgrupper: ['Sjuksköterska'],
   },
   {
