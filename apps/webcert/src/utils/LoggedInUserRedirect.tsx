@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../constants'
+import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS_AND_NURSES } from '../constants'
 import {
   isCareAdministrator as selectIsCareAdministrator,
   isDoctor as selectIsDoctor,
@@ -21,7 +21,7 @@ export const LoggedInUserRedirect: React.FC = ({ children }) => {
   }
 
   if (isDoctor || isNurse) {
-    return <Redirect to={START_URL_FOR_DOCTORS} />
+    return <Redirect to={START_URL_FOR_DOCTORS_AND_NURSES} />
   }
 
   if (isCareAdministrator) {

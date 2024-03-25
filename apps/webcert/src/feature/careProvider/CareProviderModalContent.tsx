@@ -2,18 +2,18 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
+import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS_AND_NURSES } from '../../constants'
 import { clearPatient } from '../../store/patient/patientActions'
 import { setUnit } from '../../store/user/userActions'
 import {
   getLoggedInUnit,
+  getUnitStatistics as selectUnitStatistics,
   getUser,
   isCareAdministrator as selectIsCareAdministrator,
-  getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
 import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
 import SimpleTable from '../../components/Table/SimpleTable'
-import { CareUnit, Unit, CareProvider } from '../../types'
+import { CareProvider, CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;
@@ -37,7 +37,7 @@ export const CareProviderModalContent: React.FC = () => {
     dispatch(clearPatient())
     dispatch(setUnit(unitId))
 
-    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS)
+    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS_AND_NURSES)
   }
 
   const isLoggedInUnit = (unit: Unit) => {
