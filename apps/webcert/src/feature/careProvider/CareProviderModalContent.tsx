@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS_AND_NURSES } from '../../constants'
+import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../../constants'
 import { clearPatient } from '../../store/patient/patientActions'
 import { setUnit } from '../../store/user/userActions'
 import {
@@ -37,7 +37,7 @@ export const CareProviderModalContent: React.FC = () => {
     dispatch(clearPatient())
     dispatch(setUnit(unitId))
 
-    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS_AND_NURSES)
+    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL)
   }
 
   const isLoggedInUnit = (unit: Unit) => {
