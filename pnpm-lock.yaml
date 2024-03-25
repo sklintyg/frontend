@@ -640,6 +640,9 @@ importers:
       jsdom:
         specifier: ^21.1.1
         version: 21.1.1
+      msw:
+        specifier: ^1.2.0
+        version: 1.2.0(typescript@5.3.3)
       vite:
         specifier: ^5.0.12
         version: 5.0.12(@types/node@20.11.0)(terser@5.26.0)
