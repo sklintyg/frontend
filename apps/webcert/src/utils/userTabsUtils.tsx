@@ -1,14 +1,14 @@
-import { UserStatistics, ResourceLink, UserTab, ResourceLinkType } from '../types'
+import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '../types'
 
-export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
-  if (isDoctor) {
-    return getTabsForDoctor(userStatistics, links)
+export const getUserTabs = (isDoctorOrNurse: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
+  if (isDoctorOrNurse) {
+    return getTabsForDoctorAndNurse(userStatistics, links)
   } else {
     return getTabsForAdministrator(userStatistics, links)
   }
 }
 
-const getTabsForDoctor = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
+const getTabsForDoctorAndNurse = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
   const tabs: UserTab[] = []
 
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
