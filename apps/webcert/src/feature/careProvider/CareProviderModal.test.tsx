@@ -7,7 +7,7 @@ import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
-import { START_URL_FOR_DOCTORS } from '../../constants'
+import { START_URL } from '../../constants'
 import { fakePatient } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -83,7 +83,7 @@ describe('Care provider modal', () => {
       renderComponent()
 
       await userEvent.click(screen.getByText('Care unit 2'))
-      expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
+      expect(history.push).toHaveBeenCalledWith(START_URL)
     })
 
     it('should close modal when clicking outside the modal', async () => {

@@ -10,7 +10,7 @@ import {
   getUserResourceLink,
   getUserResourceLinks,
   getUserStatistics,
-  isDoctor,
+  isCareAdministrator,
 } from '../../store/user/userSelectors'
 import { Banner, ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
@@ -32,10 +32,10 @@ function WebcertHeader({ isEmpty = false }) {
   const userLinks = useSelector(getUserResourceLinks)
   const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
   const user = useSelector(getUser)
-  const isUserDoctor = useSelector(isDoctor)
+  const isCareAdmin = useSelector(isCareAdministrator)
   const links = useSelector(getUserResourceLinks)
   const userStatistics = useSelector(getUserStatistics)
-  const tabs = getUserTabs(!!isUserDoctor, userStatistics, links)
+  const tabs = getUserTabs(!!isCareAdmin, userStatistics, links)
   const dispatch = useDispatch()
   const loggedInCareProvider = useSelector(getLoggedInCareProvider)
   const careProviders = user && user?.careProviders

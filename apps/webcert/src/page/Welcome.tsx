@@ -106,10 +106,10 @@ const Welcome: React.FC = () => {
     }
 
     if (certificateId.length === 0) {
-      if (jsonUser.legitimeradeYrkesgrupper?.some((s) => s.toLowerCase() === 'läkare')) {
-        history.push('/search')
-      } else {
+      if (!jsonUser.legitimeradeYrkesgrupper) {
         history.push('/list/unhandledcertificates')
+      } else {
+        history.push('/search')
       }
     } else {
       if (isFreestanding) {
