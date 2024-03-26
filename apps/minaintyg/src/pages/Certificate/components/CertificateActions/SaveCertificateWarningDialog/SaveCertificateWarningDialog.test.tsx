@@ -3,7 +3,7 @@ import { SaveCertificateWarningDialog } from './SaveCertificateWarningDialog'
 
 it('Should render as expected', () => {
   const { container } = render(
-    <SaveCertificateWarningDialog open={true} onOpenChange={vi.fn()}>
+    <SaveCertificateWarningDialog open onOpenChange={vi.fn()}>
       Test
     </SaveCertificateWarningDialog>
   )
