@@ -1,5 +1,5 @@
 import { IDSDialog, IDSDialogElement } from '@frontend/ids-react-ts'
-import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react'
+import { ComponentProps, ReactNode, useEffect, useId, useRef, useState } from 'react'
 import { FocusOn } from 'react-focus-on'
 
 const tabbables = [
@@ -34,6 +34,7 @@ export function Dialog({
   headline?: string
   onOpenChange?: (open: boolean) => void
 }) {
+  const id = useId()
   const ref = useRef<IDSDialogElement>(null)
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
   const returnElRef = useRef<HTMLElement | null>(null)
@@ -80,9 +81,18 @@ export function Dialog({
         setTimeout(() => returnElRef?.current?.focus(), 0)
       }}
     >
-      <IDSDialog role="dialog" nofocustrap keepscrollbar={false} autofocus={false} ref={ref} show={open ? 'true' : 'false'} {...props}>
+      <IDSDialog
+        role="dialog"
+        aria-labelledby={id}
+        nofocustrap
+        keepscrollbar={false}
+        autofocus={false}
+        ref={ref}
+        show={open ? 'true' : 'false'}
+        {...props}
+      >
         {headline && (
-          <h1 className="ids-heading-1 ids-small" slot="headline">
+          <h1 id={id} className="ids-heading-1 ids-small" slot="headline">
             {headline}
           </h1>
         )}

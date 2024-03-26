@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected 1`] = `
+<div>
+  <div
+    aria-hidden="true"
+    data-focus-guard="true"
+    data-focus-on-hidden="true"
+    style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+    tabindex="0"
+  />
+  <div
+    data-focus-lock-disabled="false"
+  >
+    <ids-dialog
+      aria-labelledby=":r0:"
+      role="dialog"
+    >
+      <h1
+        class="ids-heading-1 ids-small"
+        id=":r0:"
+        slot="headline"
+      >
+        Spara intyg som PDF
+      </h1>
+      <p
+        class="mb-5"
+      >
+        Viktigt! Ditt intyg har information om dig, som ditt namn och andra personuppgifter. 
+      </p>
+      <p>
+        När du sparar intyget som en PDF-fil, sparas filen på den enhet du använder. Om du använder en dator som andra också kan använda, till exempel på ett bibliotek, måste du själv ta bort filen från datorn innan du går därifrån.
+      </p>
+      Test
+    </ids-dialog>
+  </div>
+  <div
+    aria-hidden="true"
+    data-focus-guard="true"
+    data-focus-on-hidden="true"
+    style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+    tabindex="0"
+  />
+</div>
+`;
