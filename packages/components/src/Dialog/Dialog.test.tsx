@@ -24,10 +24,10 @@ it('Should render children when open', () => {
 
 it('Should have correct headline', () => {
   render(<DialogWrapper intialOpen />)
-  expect(screen.getByRole('heading', { name: 'The Dialog Headline', level: 1 }))
+  expect(screen.getByRole('heading', { name: 'The Dialog Headline', level: 1 })).toBeInTheDocument()
 })
 
 it('Should have headline as label', () => {
   render(<DialogWrapper intialOpen />)
-  expect(screen.getByRole('dialog', { name: 'The Dialog Headline' }))
+  expect(screen.getByRole('dialog', { name: 'The Dialog Headline' })).toBeInTheDocument()
 })
