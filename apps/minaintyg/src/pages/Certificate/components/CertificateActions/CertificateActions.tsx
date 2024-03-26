@@ -13,7 +13,7 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
   return (
     <PrintCertificateContextProvider value={state}>
       <div className="flex flex-col justify-end gap-5 md:flex-row">
-        {(printFunction || customizePrintFunction) && !isMobileApp && (
+        {(printFunction || customizePrintFunction) && !isMobileApp() && (
           <>
             <SaveCertificateAction />
             <PrintCertificateAction />

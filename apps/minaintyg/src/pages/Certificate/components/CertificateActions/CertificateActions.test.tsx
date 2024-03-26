@@ -233,12 +233,12 @@ describe('Print certificate action', () => {
 })
 
 describe('Save certificate action', () => {
-  it('Should hide print button when there is no print availableFunction provided', async () => {
+  it('Should hide save button when there is no print availableFunction provided', async () => {
     await renderComponent({ id })
     expect(screen.queryByRole('button', { name: 'Spara PDF' })).not.toBeInTheDocument()
   })
 
-  it('Should show print button when there is print availableFunction provided', async () => {
+  it('Should show save button when there is print availableFunction provided', async () => {
     await renderComponent({ id }, [printFunction])
     expect(screen.getByRole('button', { name: 'Spara PDF' })).toBeInTheDocument()
   })
@@ -352,5 +352,27 @@ describe('Save certificate action', () => {
       )
       expect(within(customizeDialog).getByRole('link', { name: 'Spara' })).toHaveAttribute('download')
     })
+  })
+})
+
+describe('Inera Mobile App', () => {
+  beforeAll(() => {
+    vi.stubGlobal('navigator', {
+      userAgent: '1177-appen',
+    })
+  })
+
+  afterAll(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('Should hide print button when using Inera 1177 mobile app', async () => {
+    await renderComponent({ id }, [printFunction])
+    expect(screen.queryByRole('button', { name: 'Skriv ut' })).not.toBeInTheDocument()
+  })
+
+  it('Should hide save button when using Inera 1177 mobile app', async () => {
+    await renderComponent({ id }, [printFunction])
+    expect(screen.queryByRole('button', { name: 'Spara PDF' })).not.toBeInTheDocument()
   })
 })
