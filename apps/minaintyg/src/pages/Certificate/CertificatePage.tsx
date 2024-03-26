@@ -46,7 +46,7 @@ export function CertificatePage() {
             <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
             {isMobileApp() && (
               <IDSAlert className="mb-5">
-                Om du vill skriva ut eller spara ditt intyg behöver du logga in på 1177.se via din webbläsare.{' '}
+                Om du vill skriva ut eller spara ditt intyg behöver du logga in på 1177.se via din webbläsare.
               </IDSAlert>
             )}
             <CertificateActions recipient={certificate.metadata.recipient} id={certificate.metadata.id} />
