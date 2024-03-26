@@ -44,7 +44,7 @@ export function CertificatePage() {
         <>
           <div className="mb-5">
             <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
-            {isMobileApp && (
+            {isMobileApp() && (
               <IDSAlert className="mb-5">
                 Om du vill skriva ut eller spara ditt intyg behöver du logga in på 1177.se via din webbläsare.{' '}
               </IDSAlert>
