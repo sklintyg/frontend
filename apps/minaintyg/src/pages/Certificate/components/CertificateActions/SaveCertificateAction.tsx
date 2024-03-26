@@ -1,7 +1,7 @@
 import { LinkButton } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { SaveCertificateWarningDialog } from './SaveCertificateWarningDialog'
+import { SaveCertificateWarningDialog } from './SaveCertificateWarningDialog/SaveCertificateWarningDialog'
 import { usePrintCertificateContext } from './hooks/usePrintCertificate'
 
 export function SaveCertificateAction() {
