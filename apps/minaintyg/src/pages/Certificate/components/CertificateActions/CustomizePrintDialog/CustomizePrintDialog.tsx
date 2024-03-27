@@ -49,12 +49,12 @@ export function CustomizePrintDialog() {
           </IDSButton>
           {}
           {customizePrintType === 'print' && (
-            <LinkButton href={url} slot="action" target="_blank" rel="noreferrer" onClick={hideCustomizePrintDialog}>
+            <LinkButton href={url} slot="action" type="application/pdf" target="_blank" rel="noreferrer" onClick={hideCustomizePrintDialog}>
               Skriv ut
             </LinkButton>
           )}
           {customizePrintType === 'save' && (
-            <LinkButton href={url} slot="action" download onClick={hideCustomizePrintDialog}>
+            <LinkButton href={url} slot="action" type="application/pdf" download onClick={hideCustomizePrintDialog}>
               Spara
             </LinkButton>
           )}

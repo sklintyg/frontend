@@ -14,7 +14,6 @@ export const LinkButton = forwardRef<HTMLAnchorElement, React.HTMLProps<HTMLAnch
     <a
       ref={ref}
       {...props}
-      type="button"
       className={classNames('ids-button  no-underline', secondary === true && 'ids-button--secondary', className ?? false)}
     >
       {children}

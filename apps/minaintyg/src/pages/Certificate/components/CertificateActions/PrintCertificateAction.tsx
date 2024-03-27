@@ -12,7 +12,7 @@ export function PrintCertificateAction() {
           Skriv ut
         </IDSButton>
       ) : (
-        <LinkButton href={url} secondary target="_blank" rel="noreferrer">
+        <LinkButton href={url} secondary type="application/pdf" target="_blank" rel="noreferrer">
           Skriv ut
         </LinkButton>
       )}

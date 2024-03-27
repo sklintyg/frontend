@@ -31,7 +31,7 @@ export function SaveCertificateAction() {
             Fortsätt och spara
           </IDSButton>
         ) : (
-          <LinkButton href={url} slot="action" download onClick={hideSaveWarningDialog}>
+          <LinkButton href={url} slot="action" type="application/pdf" download onClick={hideSaveWarningDialog}>
             Spara
           </LinkButton>
         )}
