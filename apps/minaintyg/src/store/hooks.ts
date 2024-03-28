@@ -1,6 +1,7 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { TypedUseSelectorHook, shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { AvailableFunctionsType } from '../schema/certificate.schema'
 import { api } from './api'
 import { RootState } from './reducer'
 import { AppDispatch } from './store'
@@ -10,10 +11,17 @@ type DispatchFunc = () => AppDispatch
 export const useAppDispatch: DispatchFunc = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-export const useGetUserQuery = () => {
+export function useGetUserQuery() {
   const location = useLocation()
   const hasSessionEnded = useAppSelector((state) => state.sessionSlice.hasSessionEnded)
   const isErrorPage = location.pathname.startsWith('/error')
 
   return api.useGetUserQuery(hasSessionEnded || isErrorPage ? skipToken : undefined)
+}
+
+export function useAvailableFunction(id: string, type: AvailableFunctionsType) {
+  return useAppSelector((state) => {
+    const certificate = api.endpoints.getCertificate.select({ id })(state).data
+    return (certificate?.availableFunctions ?? []).find((fn) => fn.type === type)
+  }, shallowEqual)
 }

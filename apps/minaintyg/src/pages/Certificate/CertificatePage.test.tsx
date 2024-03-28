@@ -97,6 +97,22 @@ it('Should display alert message when certificate is replaced', async () => {
   `)
 })
 
+it('Should display print information when on mobile', async () => {
+  vi.stubGlobal('navigator', {
+    userAgent: '1177-appen',
+  })
+  renderComponent(fakerFromSchema(certificateMetadataSchema)())
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.getByText(/om du vill skriva ut eller spara ditt intyg behöver du/i)).toBeInTheDocument()
+  vi.unstubAllGlobals()
+})
+
+it('Should not display print information when not on mobile', async () => {
+  renderComponent(fakerFromSchema(certificateMetadataSchema)())
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.queryByText(/om du vill skriva ut eller spara ditt intyg behöver du/i)).not.toBeInTheDocument()
+})
+
 describe('Unable to load certificate', () => {
   function renderWithFault() {
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))

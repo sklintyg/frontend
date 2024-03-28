@@ -1,5 +1,6 @@
 export * from './Dialog'
 export * from './GlobalAlert'
+export * from './LinkButton'
 export * from './LinkIcon'
 export * from './TertiaryButton'
 export * from './Tooltip'

@@ -34,12 +34,14 @@ exports[`Should render as expected 1`] = `
         data-focus-lock-disabled="disabled"
       >
         <ids-dialog
+          aria-labelledby=":r0:"
           role="dialog"
           show="false"
           srclosetext="Stäng"
         >
           <h1
             class="ids-heading-1 ids-small"
+            id=":r0:"
             slot="headline"
           >
             Vad kan du göra i Intyg
