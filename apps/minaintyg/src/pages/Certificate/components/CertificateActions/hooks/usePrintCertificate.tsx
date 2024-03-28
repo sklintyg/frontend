@@ -9,6 +9,7 @@ export function usePrintCertificate(id: string) {
   const [customizeId, setCustomizeId] = useState('')
   const [customizePrintType, setCustomizePrintType] = useState<CustomizePrintType>(null)
   const [customizePrintDialogOpen, setShowCustomizePrintDialog] = useState(false)
+  const [saveWarningDialogOpen, setSaveWarningDialogOpen] = useState(false)
   const printFunction = useAvailableFunction(id, AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE)
   const customizePrintFunction = useAvailableFunction(id, AvailableFunctionsTypeEnum.enum.CUSTOMIZE_PRINT_CERTIFICATE)
 
@@ -39,6 +40,8 @@ export function usePrintCertificate(id: string) {
     hideCustomizePrintDialog,
     setShowCustomizePrintDialog,
     customizePrintType,
+    saveWarningDialogOpen,
+    setSaveWarningDialogOpen,
   }
 }
 

@@ -1,17 +1,11 @@
-import { Dialog } from '@frontend/components'
-import { ReactNode } from 'react'
+import { Dialog, LinkButton } from '@frontend/components'
+import { IDSButton } from '@frontend/ids-react-ts'
+import { usePrintCertificateContext } from '../hooks/usePrintCertificate'
 
-export function SaveCertificateWarningDialog({
-  open,
-  onOpenChange,
-  children,
-}: {
-  open: boolean
-  onOpenChange?: (open: boolean) => void
-  children: ReactNode
-}) {
+export function SaveCertificateWarningDialog() {
+  const { url, saveWarningDialogOpen, setSaveWarningDialogOpen } = usePrintCertificateContext()
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} headline="Spara intyg som PDF">
+    <Dialog open={saveWarningDialogOpen} onOpenChange={setSaveWarningDialogOpen} headline="Spara intyg som PDF">
       <div className="max-w-3xl">
         <p className="mb-5">Viktigt! Ditt intyg har information om dig, som ditt namn och andra personuppgifter.</p>
         <p>
@@ -19,7 +13,12 @@ export function SaveCertificateWarningDialog({
           till exempel på ett bibliotek, måste du själv ta bort filen från datorn innan du går därifrån.
         </p>
       </div>
-      {children}
+      <IDSButton slot="action" mblock secondary onClick={() => setSaveWarningDialogOpen(false)}>
+        Avbryt
+      </IDSButton>
+      <LinkButton href={url} slot="action" mblock type="application/pdf" download onClick={() => setSaveWarningDialogOpen(false)}>
+        Spara
+      </LinkButton>
     </Dialog>
   )
 }

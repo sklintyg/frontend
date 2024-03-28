@@ -12,6 +12,7 @@ export function CustomizePrintDialog() {
     customizeId,
     setCustomizeId,
     customizePrintType,
+    setSaveWarningDialogOpen,
   } = usePrintCertificateContext()
 
   if (!customizePrintFunction) {
@@ -49,14 +50,31 @@ export function CustomizePrintDialog() {
           </IDSButton>
           {}
           {customizePrintType === 'print' && (
-            <LinkButton href={url} slot="action" type="application/pdf" target="_blank" rel="noreferrer" onClick={hideCustomizePrintDialog}>
+            <LinkButton
+              slot="action"
+              mblock
+              href={url}
+              type="application/pdf"
+              target="_blank"
+              rel="noreferrer"
+              onClick={hideCustomizePrintDialog}
+            >
               Skriv ut
             </LinkButton>
           )}
           {customizePrintType === 'save' && (
-            <LinkButton href={url} slot="action" type="application/pdf" download onClick={hideCustomizePrintDialog}>
+            <IDSButton
+              secondary
+              mblock
+              slot="action"
+              role="button"
+              onClick={() => {
+                hideCustomizePrintDialog()
+                setSaveWarningDialogOpen(true)
+              }}
+            >
               Spara
-            </LinkButton>
+            </IDSButton>
           )}
         </>
       )}

@@ -3,6 +3,7 @@ import { isMobileApp } from '../../utils/isMobileApp'
 import { CustomizePrintDialog } from './CustomizePrintDialog/CustomizePrintDialog'
 import { PrintCertificateAction } from './PrintCertificateAction'
 import { SaveCertificateAction } from './SaveCertificateAction'
+import { SaveCertificateWarningDialog } from './SaveCertificateWarningDialog/SaveCertificateWarningDialog'
 import { SendCertificateAction } from './SendCertificateAction'
 import { PrintCertificateContextProvider, usePrintCertificate } from './hooks/usePrintCertificate'
 
@@ -21,6 +22,7 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
         )}
         {recipient && <SendCertificateAction recipient={recipient} id={id} />}
         <CustomizePrintDialog />
+        <SaveCertificateWarningDialog />
       </div>
     </PrintCertificateContextProvider>
   )

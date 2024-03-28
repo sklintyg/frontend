@@ -283,74 +283,26 @@ describe('Save certificate action', () => {
   })
 
   describe('customizable PDF', () => {
-    it('Should have save button when the print is customizable', async () => {
+    it('Should be able to open customize dialog', async () => {
       await renderComponent({ id }, [printFunction, customizeFunction])
-      const dialog = screen.getByRole('dialog', { name: 'Spara intyg som PDF' })
+      const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
       await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-      expect(within(dialog).getByRole('button', { name: 'Fortsätt och spara' })).toBeInTheDocument()
+      expect(customizeDialog).toHaveAttribute('show', 'true')
+      expect(within(customizeDialog).getByRole('button', { name: 'Spara' })).toBeInTheDocument()
     })
 
-    it('Should be able to open customize dialog', async () => {
+    it('Should be able to open save warning dialog from customize dialog', async () => {
       await renderComponent({ id }, [printFunction, customizeFunction])
       const saveWarningDialog = screen.getByRole('dialog', { name: 'Spara intyg som PDF' })
       const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
       await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-      expect(customizeDialog).not.toHaveAttribute('show', 'true')
+      expect(saveWarningDialog).not.toHaveAttribute('show', 'true')
 
-      await userEvent.click(within(saveWarningDialog).getByRole('button', { name: 'Fortsätt och spara' }))
+      await userEvent.click(within(customizeDialog).getByRole('button', { name: 'Spara' }))
 
-      expect(customizeDialog).toHaveAttribute('show', 'true')
-    })
-
-    it('Should have save link button', async () => {
-      await renderComponent({ id }, [printFunction, customizeFunction])
-      const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
-      await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
-      await userEvent.click(
-        within(screen.getByRole('dialog', { name: 'Spara intyg som PDF' })).getByRole('button', { name: 'Fortsätt och spara' })
-      )
-
-      expect(within(customizeDialog).getByRole('link', { name: 'Spara' })).toHaveAttribute(
-        'href',
-        expect.stringMatching(/\/api\/certificate\/id\/pdf\/lakarintyg_for_sjukpenning_\d{2}-\d{2}-\d{2}_\d{4}.pdf$/)
-      )
-      expect(within(customizeDialog).getByRole('link', { name: 'Spara' })).toHaveAttribute('download')
-    })
-
-    it('Should be able to cancel dialog with button', async () => {
-      await renderComponent({ id }, [printFunction, customizeFunction])
-      const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
-      await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
-      await userEvent.click(
-        within(screen.getByRole('dialog', { name: 'Spara intyg som PDF' })).getByRole('button', { name: 'Fortsätt och spara' })
-      )
-
-      expect(customizeDialog).toHaveAttribute('show', 'true')
-
-      await userEvent.click(within(customizeDialog).getByRole('button', { name: 'Avbryt' }))
-
-      expect(customizeDialog).toHaveAttribute('show', 'false')
-    })
-
-    it('Should change link when selecting second option', async () => {
-      await renderComponent({ id }, [printFunction, customizeFunction])
-      const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
-      await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
-      await userEvent.click(
-        within(screen.getByRole('dialog', { name: 'Spara intyg som PDF' })).getByRole('button', { name: 'Fortsätt och spara' })
-      )
-
-      await userEvent.click(within(customizeDialog).getByRole('radio', { name: 'Dölj Diagnos' }))
-      expect(within(customizeDialog).getByText(/Information om diagnos kan vara viktig/i)).toBeInTheDocument()
-      expect(within(customizeDialog).getByRole('link', { name: 'Spara' })).toHaveAttribute(
-        'href',
-        expect.stringMatching(
-          /\/api\/certificate\/id\/pdf\/lakarintyg_for_sjukpenning_\d{2}-\d{2}-\d{2}_\d{4}.pdf\?customizationId=!diagnoser$/
-        )
-      )
-      expect(within(customizeDialog).getByRole('link', { name: 'Spara' })).toHaveAttribute('download')
+      expect(saveWarningDialog).toHaveAttribute('show', 'true')
     })
   })
 })

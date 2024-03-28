@@ -3,6 +3,9 @@ import { classNames } from '../utils'
 
 interface LinkButtonProps {
   secondary?: boolean
+  block?: boolean
+  sblock?: boolean
+  mblock?: boolean
 }
 
 /**
@@ -10,11 +13,18 @@ interface LinkButtonProps {
  * Requires ids-design button css '@inera/ids-design/components/button/button.css'
  */
 export const LinkButton = forwardRef<HTMLAnchorElement, React.HTMLProps<HTMLAnchorElement> & LinkButtonProps>(
-  ({ secondary, children, className, ...props }, ref) => (
+  ({ secondary, block = false, sblock = false, mblock = false, children, className, ...props }, ref) => (
     <a
       ref={ref}
       {...props}
-      className={classNames('ids-button  no-underline', secondary === true && 'ids-button--secondary', className ?? false)}
+      className={classNames(
+        'ids-button  no-underline',
+        secondary === true && 'ids-button--secondary',
+        block && 'ids-button--block',
+        sblock && 'ids-button--s-block',
+        mblock && 'ids-button--m-block',
+        className ?? false
+      )}
     >
       {children}
     </a>

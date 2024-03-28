@@ -68,6 +68,5 @@ it('Should have print butto when customizePrintType is "print"', () => {
 it('Should have save butto when customizePrintType is "save"', () => {
   renderComponent({ customizePrintDialogOpen: true, url: 'test.pdf', customizePrintFunction, customizePrintType: 'save' })
   const dialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
-  expect(within(dialog).getByRole('link', { name: 'Spara' })).toHaveAttribute('href', 'test.pdf')
-  expect(within(dialog).getByRole('link', { name: 'Spara' })).toHaveAttribute('download')
+  expect(within(dialog).getByRole('button', { name: 'Spara' })).toBeInTheDocument()
 })
