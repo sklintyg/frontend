@@ -7,7 +7,11 @@ import { SaveCertificateWarningDialog } from './SaveCertificateWarningDialog'
 
 function ComponentWrapper({ value, children }: { value: Partial<ReturnType<typeof usePrintCertificate>>; children: ReactNode }) {
   const defaultValue = usePrintCertificate('id')
-  return <PrintCertificateContextProvider value={{ ...defaultValue, ...value }}>{children}</PrintCertificateContextProvider>
+  return (
+    <PrintCertificateContextProvider value={{ ...defaultValue, ...value, setSaveWarningDialogOpen: vi.fn() }}>
+      {children}
+    </PrintCertificateContextProvider>
+  )
 }
 
 function renderComponent(value: Partial<ReturnType<typeof usePrintCertificate>>) {
