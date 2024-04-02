@@ -14,7 +14,7 @@ export function PrintCertificateAction() {
           {label}
         </IDSButton>
       ) : (
-        <LinkButton href={url} secondary type="application/pdf" target="_blank" rel="noreferrer">
+        <LinkButton href={url} secondary sblock type="application/pdf" target="_blank" rel="noreferrer">
           {label}
         </LinkButton>
       )}
