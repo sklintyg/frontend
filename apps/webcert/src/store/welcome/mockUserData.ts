@@ -42,6 +42,13 @@ export const mockUserData: MockUser[] = [
     enhetId: 'TSTNMT2321000156-BEMC',
   },
   {
+    hsaId: 'TSTNMT2321000156-BMBL',
+    forNamn: 'Bertil',
+    efterNamn: 'Barnmorska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Barnmorska'],
+  },
+  {
     hsaId: 'TSTNMT2321000156-1079',
     forNamn: 'Arnold',
     efterNamn: 'Johansson',
