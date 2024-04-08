@@ -19,6 +19,7 @@ const InnerWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+
   h3 {
     color: white;
   }
@@ -37,10 +38,12 @@ const CareUnitAddress = styled.section`
 const UvCareUnitAddress: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData, isEqual)
   const signedCertificate = useSelector(getCertificateEvents, isEqual)
-  const signedCertificateDate = signedCertificate
-    .filter((obj) => obj && obj.type === 'SIGNED')
-    .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
-    .reduce((acc, obj) => (obj && obj.timestamp ? obj.timestamp : acc), '')
+  const signedCertificateDate =
+    metadata?.signed ??
+    signedCertificate
+      .filter((obj) => obj && obj.type === 'SIGNED')
+      .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+      .reduce((acc, obj) => (obj?.timestamp ? obj.timestamp : acc), '')
 
   if (!metadata) return null
 
