@@ -45,7 +45,7 @@ export function WorkingHours({
       {!disabled && (
         <>
           <DaysRangeWrapper>
-            <AccodrionWrapper id={'workHours'}>
+            <AccodrionWrapper>
               <Accordion>
                 <AccordionHeader>
                   <WorkingHoursInput

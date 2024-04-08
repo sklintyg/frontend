@@ -304,4 +304,30 @@ describe('UeSickLeavePeriod', () => {
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
+
+  describe('hideWorkingHours', () => {
+    it('Should display sick leave working hours', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          hideWorkingHours: false,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.getByText(/ange hur många timmar patienten/i)).toBeInTheDocument()
+    })
+
+    it('Should hide sick leave working hours', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          hideWorkingHours: true,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.queryByText(/ange hur många timmar patienten/i)).not.toBeInTheDocument()
+    })
+  })
 })

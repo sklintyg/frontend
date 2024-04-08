@@ -10,6 +10,7 @@ import {
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
+  ConfigUeCheckboxDateRangeList,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
@@ -147,6 +148,14 @@ export const fakeCheckboxMultipleDate = fakeDataElement<ConfigUeCheckboxMultiple
 
 export const fakeSickLeavePeriod = fakeDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>((config, value) => ({
   config: fakeCertificateConfig.sickLeavePeriod({
+    list: fakeList(6),
+    ...config,
+  }),
+  value: fakeCertificateValue.dateRangeList(value),
+}))
+
+export const fakeCheckboxDateRangeList = fakeDataElement<ConfigUeCheckboxDateRangeList, ValueDateRangeList>((config, value) => ({
+  config: fakeCertificateConfig.checkboxDateRangeList({
     list: fakeList(6),
     ...config,
   }),
