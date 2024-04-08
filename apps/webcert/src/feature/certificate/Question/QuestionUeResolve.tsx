@@ -1,10 +1,11 @@
 import React from 'react'
 import InfoBox from '../../../components/utils/InfoBox'
-import { CertificateDataElement, ConfigTypes } from '../../../types'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
 import UeCheckboxDateGroup from '../UnifiedEdit/UeCheckboxDateGroup/UeCheckboxDateGroup'
+import { UeCheckboxDateRangeList } from '../UnifiedEdit/UeCheckboxDateRangeList/UeCheckboxDateRangeList'
 import UeCheckboxGroup from '../UnifiedEdit/UeCheckboxGroup/UeCheckboxGroup'
 import UeDate from '../UnifiedEdit/UeDate/UeDate'
 import UeDateRange from '../UnifiedEdit/UeDateRange/UeDateRange'
@@ -34,7 +35,13 @@ interface Props {
 }
 
 const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
+  const value = question.value
+  const config = question.config
   const commonProps = { key: question.id, disabled, question }
+
+  if (config.type == ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST && value?.type === CertificateDataValueType.DATE_RANGE_LIST) {
+    return <UeCheckboxDateRangeList key={question.id} disabled={disabled} question={{ ...question, config, value }} />
+  }
 
   switch (question.config.type) {
     case ConfigTypes.UE_RADIO_BOOLEAN:

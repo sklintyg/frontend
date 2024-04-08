@@ -1,55 +1,23 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import Icon from '../../../../components/image/image/Icon'
-import Accordion from '../../../../components/utils/Accordion'
-import AccordionHeader from '../../../../components/utils/AccordionHeader'
-import { Text } from '../../../../components/utils/Text'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigUeSickLeavePeriod,
+  ConfigUeCheckboxDateRangeList,
   ValidationError,
   ValueDateRange,
   ValueDateRangeList,
 } from '../../../../types'
 import { formatDateToString, getLatestPeriodEndDate, getNumberOfSickLeavePeriodDays } from '../../../../utils'
 import DateRangePicker from './DateRangePicker'
-import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
-import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
-import { WorkingHoursInput } from './WorkingHoursInput'
-
-const AccodrionWrapper = styled.div`
-  flex: 0 0 100%;
-`
-
-const DaysRangeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  > * + * {
-    margin-left: 0.5rem;
-  }
-
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-`
-
-export interface Props {
-  question: CertificateDataElement
-  disabled: boolean
-}
+import { PreviousPeriod } from './PreviousPeriod'
+import { UeCheckboxDateRangeListWarning } from './UeCheckboxDateRangeListWarning'
+import { WorkingHours } from './WorkingHours'
 
 const createEmptyDateRangeValue = (id: string): ValueDateRange => ({
   type: CertificateDataValueType.DATE_RANGE,
@@ -58,14 +26,19 @@ const createEmptyDateRangeValue = (id: string): ValueDateRange => ({
   to: undefined,
 })
 
-/** @deprecated use UeCheckboxDateRangeList instead */
-export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
+export function UeCheckboxDateRangeList({
+  question,
+  disabled,
+}: {
+  question: CertificateDataElement & { config: ConfigUeCheckboxDateRangeList; value: ValueDateRangeList }
+  disabled: boolean
+}) {
   const [baseWorkHours, setBaseWorkHours] = useState<string>('')
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const config = question.config as ConfigUeSickLeavePeriod
+  const config = question.config
 
   const otherValiadtionErrors = useMemo(() => {
     const fieldNames: string[] = config.list
@@ -116,7 +89,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleGetPeriodStartingDate = () => {
-    const nextPeriodStart = getLatestPeriodEndDate((question.config as ConfigUeSickLeavePeriod).list, valueList)
+    const nextPeriodStart = getLatestPeriodEndDate(question.config.list, valueList)
 
     if (isValid(nextPeriodStart)) {
       return formatDateToString(addDays(nextPeriodStart as Date, 1))
@@ -141,33 +114,15 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <div>
-      <PreviousSickLeavePeriod previousSickLeavePeriod={config.previousSickLeavePeriod} />
-      <div>
-        {!disabled && (
-          <>
-            <DaysRangeWrapper>
-              <AccodrionWrapper id={'workHours'}>
-                <Accordion>
-                  <AccordionHeader>
-                    <WorkingHoursInput
-                      onChange={(event) => setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
-                      value={baseWorkHours}
-                      hasValidationError={workingHoursError != null}
-                    />
-                  </AccordionHeader>
-                  <Text className="iu-mb-400">
-                    Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka.
-                    Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna
-                    arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då
-                    Försäkringskassan inhämtar information från annat håll.
-                  </Text>
-                </Accordion>
-              </AccodrionWrapper>
-            </DaysRangeWrapper>
-            <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
-          </>
-        )}
-      </div>
+      <PreviousPeriod previousSickLeavePeriod={config.previousSickLeavePeriod} />
+      {!config.hideWorkingHours && (
+        <WorkingHours
+          workingHoursError={workingHoursError}
+          disabled={disabled}
+          baseWorkHours={baseWorkHours}
+          onBaseWorkHours={setBaseWorkHours}
+        />
+      )}
       <div>
         {config.list.map(({ id, label }, index) => {
           const fieldValidationErrors = validationErrors.filter(
@@ -199,7 +154,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         })}
       </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
-      {totalSickDays && !disabled && (
+      {totalSickDays && !config.hideWorkingHours && !disabled && (
         <div className="iu-mb-400">
           <p className="iu-color-main">
             <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
@@ -207,7 +162,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           </p>
         </div>
       )}
-      <SickLeavePeriodWarning />
+      <UeCheckboxDateRangeListWarning />
     </div>
   )
 }
