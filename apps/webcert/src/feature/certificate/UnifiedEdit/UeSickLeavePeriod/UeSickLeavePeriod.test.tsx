@@ -97,10 +97,10 @@ describe('UeSickLeavePeriod', () => {
     screen.getByLabelText(TRE_FJARDEDEL_LABEL).click()
     screen.getByLabelText(HELT_NEDSATT_LABEL).click()
 
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${TRE_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${TRE_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
   })
 
   it('Gets a correct starting date with one prior date period', async () => {
@@ -111,8 +111,8 @@ describe('UeSickLeavePeriod', () => {
     await userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-07')
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
+    await expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-07')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
   it('Gets a correct starting date with one later date period', async () => {
@@ -123,16 +123,16 @@ describe('UeSickLeavePeriod', () => {
     await userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    expect(screen.getByTestId(`tom${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-07')
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
+    await expect(screen.getByTestId(`tom${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-07')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
-  it('inputs are disabled correctly', () => {
+  it('inputs are disabled correctly', async () => {
     renderDefaultComponent(undefined, true)
 
-    expect(screen.getByLabelText(EN_FJARDEDEL_LABEL)).toBeDisabled()
-    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
-    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
+    await expect(screen.getByLabelText(EN_FJARDEDEL_LABEL)).toBeDisabled()
+    await expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
+    await expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
   })
 
   it('Renders total number of sick days', () => {
