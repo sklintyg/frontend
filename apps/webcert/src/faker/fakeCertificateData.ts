@@ -146,6 +146,7 @@ export const fakeCheckboxMultipleDate = fakeDataElement<ConfigUeCheckboxMultiple
   value: fakeCertificateValue.dateList(value),
 }))
 
+/** @deprecated use fakeCheckboxDateRangeList */
 export const fakeSickLeavePeriod = fakeDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>((config, value) => ({
   config: fakeCertificateConfig.sickLeavePeriod({
     list: fakeList(6),
