@@ -1,5 +1,5 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
@@ -85,14 +85,14 @@ export function UeCheckboxDateRangeListField({
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
 
-  const updateWorkingPeriod = useCallback(
-    (fromDateString: string | null, toDateString: string | null) => {
-      if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
-        setWorkHoursPerWeek(null)
-        setWorkDaysPerWeek(null)
-        return
-      }
+  useEffect(() => {
+    const fromDateString = value.from ?? ''
+    const toDateString = value.to ?? ''
 
+    if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
+      setWorkHoursPerWeek(null)
+      setWorkDaysPerWeek(null)
+    } else {
       if (!fromDateString || !toDateString || !parseInt(baseWorkHours)) return
 
       const fromDate = getValidDate(fromDateString)
@@ -105,13 +105,15 @@ export function UeCheckboxDateRangeListField({
         setWorkHoursPerWeek(workingHoursPerWeek)
         setWorkDaysPerWeek(periodWorkDays)
       }
-    },
-    [baseWorkHours, field]
-  )
+    }
+  }, [baseWorkHours, field, value.from, value.to])
 
-  useEffect(() => {
-    updateWorkingPeriod(value.from ?? '', value.to ?? '')
-  }, [value.from, value.to, updateWorkingPeriod])
+  const handleFromChanged = (from: string) => {
+    onChange({ ...value, from })
+  }
+  const handleToChanged = (to: string) => {
+    onChange({ ...value, to })
+  }
 
   const handleToTextInputOnBlur = () => {
     if (!value.to || !value.from || !getValidDate(value.from)) {
@@ -139,30 +141,14 @@ export function UeCheckboxDateRangeListField({
     }
   }
 
-  const handleFromChanged = (from: string) => {
-    onChange({ ...value, from })
-  }
-  const handleToChanged = (to: string) => {
-    onChange({ ...value, to })
-  }
-
-  const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      tomTextInputRef.current?.focus()
-      handleFromChanged(periodStartingDate)
-    } else {
-      onChange({ ...value, from: undefined, to: undefined })
-      setWorkHoursPerWeek(null)
-      setWorkDaysPerWeek(null)
-    }
-  }
-
-  const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    return Boolean(
-      hasValidationError ||
-        validationErrors.find((v: ValidationError) => [`${field}.${id}`, `row.${id}`, `period.${id}.${field}`].includes(v.field))
-    )
-  }
+  const shouldDisplayValidationErrorOutline = useCallback(
+    (id: string, field: string) =>
+      Boolean(
+        hasValidationError ||
+          validationErrors.find((v: ValidationError) => [`${field}.${id}`, `row.${id}`, `period.${id}.${field}`].includes(v.field))
+      ),
+    [hasValidationError, validationErrors]
+  )
 
   return (
     <>
@@ -171,7 +157,16 @@ export function UeCheckboxDateRangeListField({
           id={`${field}-checkbox`}
           hasValidationError={hasValidationError || validationErrors.length > 0}
           checked={!!value.from || !!value.to}
-          onChange={handleCheckboxClick}
+          onChange={(event) => {
+            if (event.target.checked) {
+              tomTextInputRef.current?.focus()
+              handleFromChanged(periodStartingDate)
+            } else {
+              onChange({ ...value, from: undefined, to: undefined })
+              setWorkHoursPerWeek(null)
+              setWorkDaysPerWeek(null)
+            }
+          }}
           label={label}
           disabled={disabled}
         />
@@ -193,7 +188,7 @@ export function UeCheckboxDateRangeListField({
               setDate={handleFromChanged}
               textInputOnChange={handleFromChanged}
               textInputDataTestId={`from${field}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'from')}
+              displayValidationErrorOutline={shouldDisplayValidationErrorOutline(field, 'from')}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -213,7 +208,7 @@ export function UeCheckboxDateRangeListField({
                 }
               }}
               textInputDataTestId={`tom${field}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')}
+              displayValidationErrorOutline={shouldDisplayValidationErrorOutline(field, 'tom')}
             />
           </DatesWrapper>
         </DateGrid>
