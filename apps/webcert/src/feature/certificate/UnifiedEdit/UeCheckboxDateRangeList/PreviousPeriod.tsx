@@ -1,11 +1,6 @@
-import React from 'react'
 import InfoBox from '../../../../components/utils/InfoBox'
 
-interface Props {
-  previousSickLeavePeriod: string
-}
-
-export const PreviousPeriod: React.FC<Props> = ({ previousSickLeavePeriod }) => {
+export function PreviousPeriod({ previousSickLeavePeriod }: { previousSickLeavePeriod: string }) {
   if (!previousSickLeavePeriod) {
     return null
   }

@@ -9,14 +9,14 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { ValueDateRange } from '../../../../types'
 import { formatDateToString } from '../../../../utils'
-import DateRangePicker from './DateRangePicker'
+import { UeCheckboxDateRangeListField } from './UeCheckboxDateRangeListField'
 
 let testStore: EnhancedStore
 
-const DateRangePickerWrapper: React.FC<Omit<ComponentProps<typeof DateRangePicker>, 'onChange'>> = ({ value, ...props }) => {
+const DateRangePickerWrapper: React.FC<Omit<ComponentProps<typeof UeCheckboxDateRangeListField>, 'onChange'>> = ({ value, ...props }) => {
   const [val, setValue] = useState<ValueDateRange>(value)
 
-  return <DateRangePicker onChange={setValue} value={val} {...props} />
+  return <UeCheckboxDateRangeListField onChange={setValue} value={val} {...props} />
 }
 
 const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWorkHours = '0') => {
@@ -26,7 +26,7 @@ const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWo
         baseWorkHours={baseWorkHours}
         disabled={false}
         field="EN_FJARDEDEL"
-        getPeriodStartingDate={() => formatDateToString(new Date())}
+        periodStartingDate={formatDateToString(new Date())}
         label="25 procent"
         value={fakeCertificateValue.dateRange({ from: fromDate, to: toDate })}
         validationErrors={[]}

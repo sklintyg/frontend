@@ -1,6 +1,8 @@
-import React from 'react'
+import { useCallback } from 'react'
 import InfoBox from '../../../components/utils/InfoBox'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '../../../types'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../store/store'
+import { CertificateDataConfigType, CertificateDataElement, CertificateDataValueType, ConfigTypes, ValueType } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
@@ -28,19 +30,37 @@ import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
 import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
 import UeYear from '../UnifiedEdit/UeYear/UeYear'
+import { UnifiedEdit } from '../UnifiedEdit/UnifiedEdit'
 
-interface Props {
+function isQuestionTypes<C extends ConfigTypes, V extends CertificateDataValueType | null>(
+  configType: C,
+  valueType: V,
   question: CertificateDataElement
-  disabled: boolean
+): question is CertificateDataElement & {
+  config: Extract<CertificateDataConfigType, { type: C }>
+  value: Extract<ValueType, { type: V }>
+} {
+  return question.config.type === configType && question.value?.type === valueType
 }
 
-const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
-  const value = question.value
-  const config = question.config
+export function QuestionUeResolve({ question, disabled }: { question: CertificateDataElement; disabled: boolean }) {
+  const dispatch = useAppDispatch()
   const commonProps = { key: question.id, disabled, question }
 
-  if (config.type == ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST && value?.type === CertificateDataValueType.DATE_RANGE_LIST) {
-    return <UeCheckboxDateRangeList key={question.id} disabled={disabled} question={{ ...question, config, value }} />
+  const questionToUeProps = useCallback(
+    <C extends CertificateDataConfigType, V extends ValueType>(config: C, value: V): UnifiedEdit<C, V> & { key: string } => ({
+      key: question.id,
+      question: { ...question, config, value },
+      disabled,
+      onUpdate: (value: ValueType) => {
+        dispatch(updateCertificateDataElement({ ...question, value }))
+      },
+    }),
+    [disabled, dispatch, question]
+  )
+
+  if (isQuestionTypes(ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, CertificateDataValueType.DATE_RANGE_LIST, question)) {
+    return <UeCheckboxDateRangeList {...questionToUeProps(question.config, question.value)} />
   }
 
   switch (question.config.type) {
@@ -98,9 +118,11 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
       return null
-    default:
-      return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
   }
-}
 
-export default QuestionUeResolve
+  return (
+    <InfoBox type="error">
+      Cannot find a component for config: {question.config.type} {question.value && <span>and value: {question.value.type}</span>}.
+    </InfoBox>
+  )
+}

@@ -59,29 +59,27 @@ const DateGrid = styled.div`
   }
 `
 
-interface Props {
-  label: string
-  field: string
-  value: ValueDateRange
-  onChange: (value: ValueDateRange) => void
-  getPeriodStartingDate: () => string
-  disabled: boolean
-  baseWorkHours: string
-  validationErrors: ValidationError[]
-  hasValidationError: boolean
-}
-
-const DateRangePicker: React.FC<Props> = ({
+export function UeCheckboxDateRangeListField({
   label,
   field,
   value,
   onChange,
-  getPeriodStartingDate,
+  periodStartingDate,
   disabled,
   baseWorkHours,
   validationErrors,
   hasValidationError,
-}) => {
+}: {
+  label: string
+  field: string
+  value: ValueDateRange
+  onChange: (value: ValueDateRange) => void
+  periodStartingDate: string
+  disabled: boolean
+  baseWorkHours: string
+  validationErrors: ValidationError[]
+  hasValidationError: boolean
+}) {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
@@ -114,19 +112,6 @@ const DateRangePicker: React.FC<Props> = ({
   useEffect(() => {
     updateWorkingPeriod(value.from ?? '', value.to ?? '')
   }, [value.from, value.to, updateWorkingPeriod])
-
-  const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key.toLowerCase() === 'enter') {
-      fromTextInputRef.current?.blur()
-      tomTextInputRef.current?.focus()
-    }
-  }
-
-  const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key.toLowerCase() === 'enter') {
-      tomTextInputRef.current?.blur()
-    }
-  }
 
   const handleToTextInputOnBlur = () => {
     if (!value.to || !value.from || !getValidDate(value.from)) {
@@ -164,7 +149,7 @@ const DateRangePicker: React.FC<Props> = ({
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       tomTextInputRef.current?.focus()
-      handleFromChanged(getPeriodStartingDate())
+      handleFromChanged(periodStartingDate)
     } else {
       onChange({ ...value, from: undefined, to: undefined })
       setWorkHoursPerWeek(null)
@@ -173,14 +158,10 @@ const DateRangePicker: React.FC<Props> = ({
   }
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    return hasValidationError === true
-      ? hasValidationError
-      : validationErrors.filter(
-          (v: ValidationError) =>
-            v.field.includes(field + '.' + id) ||
-            v.field.includes('row.' + id) ||
-            v.field.includes('sjukskrivningar.period.' + id + '.' + field)
-        ).length > 0
+    return Boolean(
+      hasValidationError ||
+        validationErrors.find((v: ValidationError) => [`${field}.${id}`, `row.${id}`, `period.${id}.${field}`].includes(v.field))
+    )
   }
 
   return (
@@ -201,7 +182,12 @@ const DateRangePicker: React.FC<Props> = ({
               label={'Fr.o.m'}
               id={`from${field}`}
               textInputRef={fromTextInputRef}
-              textInputOnKeyDown={handleFromTextInputOnKeyDown}
+              textInputOnKeyDown={(event) => {
+                if (event.key.toLowerCase() === 'enter') {
+                  fromTextInputRef.current?.blur()
+                  tomTextInputRef.current?.focus()
+                }
+              }}
               textInputName={`from${field}`}
               inputString={value.from ?? ''}
               setDate={handleFromChanged}
@@ -221,7 +207,11 @@ const DateRangePicker: React.FC<Props> = ({
               setDate={handleToChanged}
               textInputOnChange={handleToChanged}
               textInputOnBlur={handleToTextInputOnBlur}
-              textInputOnKeyDown={handleToTextInputOnKeyDown}
+              textInputOnKeyDown={(event) => {
+                if (event.key.toLowerCase() === 'enter') {
+                  tomTextInputRef.current?.blur()
+                }
+              }}
               textInputDataTestId={`tom${field}`}
               displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')}
             />
@@ -238,5 +228,3 @@ const DateRangePicker: React.FC<Props> = ({
     </>
   )
 }
-
-export default DateRangePicker

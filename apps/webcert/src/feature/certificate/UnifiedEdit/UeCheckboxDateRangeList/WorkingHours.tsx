@@ -30,16 +30,32 @@ const DaysRangeWrapper = styled.div`
 `
 
 export function WorkingHours({
+  id,
+  parent,
   disabled,
   baseWorkHours,
-  workingHoursError,
   onBaseWorkHours,
 }: {
+  id: string
+  parent: string
   disabled: boolean
   baseWorkHours: string
   onBaseWorkHours: (data: string) => void
-  workingHoursError?: ValidationError
 }) {
+  const workingHoursError: ValidationError[] | null =
+    parseInt(baseWorkHours) > 168
+      ? [
+          {
+            category: parent,
+            id,
+            text: 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.',
+            type: 'WORKING_HOURS_ERROR',
+            field: 'WORKING_HOURS',
+            showAlways: true,
+          },
+        ]
+      : null
+
   return (
     <div>
       {!disabled && (
@@ -63,7 +79,7 @@ export function WorkingHours({
               </Accordion>
             </AccodrionWrapper>
           </DaysRangeWrapper>
-          <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
+          <QuestionValidationTexts validationErrors={workingHoursError ?? []} />
         </>
       )}
     </div>

@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
-import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
+import { showValidationErrors, updateCertificate, updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import { CertificateDataElement, CertificateDataValidationType, ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../../types'
-import { getCertificateWithQuestion } from '../../../../utils'
 import { UeCheckboxDateRangeList } from './UeCheckboxDateRangeList'
 
 const QUESTION_ID = 'Test'
@@ -65,10 +64,14 @@ const defaultQuestion: QuestionDataElement = {
   validationErrors: [],
 }
 
-const renderDefaultComponent = (question?: QuestionDataElement, disabled?: boolean) => {
+const renderDefaultComponent = (question: QuestionDataElement = defaultQuestion, disabled: boolean = false) => {
   render(
     <Provider store={store}>
-      <UeCheckboxDateRangeList disabled={disabled ?? false} question={question ?? defaultQuestion} />
+      <UeCheckboxDateRangeList
+        disabled={disabled}
+        question={question}
+        onUpdate={(value) => store.dispatch(updateCertificateDataElement({ ...question, value }))}
+      />
     </Provider>
   )
 }
@@ -218,7 +221,7 @@ describe('UeSickLeavePeriod', () => {
       ],
     }
 
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { questionId: question } })))
     store.dispatch(showValidationErrors())
     renderDefaultComponent(question)
 
@@ -242,7 +245,8 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
@@ -251,6 +255,7 @@ describe('UeSickLeavePeriod', () => {
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
+
   it('does display validation error if missing tom date', async () => {
     const expectedValidationMessage = 'Ange ett datum'
     const question = {
@@ -268,12 +273,10 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
-
-    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
@@ -295,12 +298,10 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
-
-    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
