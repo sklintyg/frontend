@@ -25,7 +25,7 @@ const DaysRangeWrapper = styled.div`
   }
 
   input[type='number'] {
-    -moz-appearance: textfield;
+    appearance: textfield;
   }
 `
 
