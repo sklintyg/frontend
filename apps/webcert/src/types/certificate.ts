@@ -40,6 +40,7 @@ export interface CertificateMetadata {
   version: number
   latestMajorVersion: boolean
   responsibleHospName: string
+  signed?: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>

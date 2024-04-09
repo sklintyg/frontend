@@ -36,3 +36,30 @@ it('displays all care unit info', (): void => {
   expect(screen.getByText(/zipcode/i)).toBeInTheDocument()
   expect(screen.getByText(/2023-02-21/)).toBeInTheDocument()
 })
+
+it('displays signed date from metadata if present', (): void => {
+  const mockData = {
+    issuedBy: {
+      fullName: 'Test Testsson',
+    },
+    unit: {
+      address: 'test street 123',
+      city: 'Test city',
+      phoneNumber: 'phone',
+      zipCode: 'zipcode',
+    },
+    signed: '2023-02-20',
+  } as CertificateMetadata
+
+  const mockEventData = [
+    { timestamp: '2023-02-20' },
+    { timestamp: '2023-02-21', type: 'SIGNED' },
+    { timestamp: '2023-02-22', type: 'REVOKED' },
+  ]
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
+  useSelectorSpy.mockReturnValueOnce(mockData).mockReturnValueOnce(mockEventData)
+
+  render(<UvCareUnitAddress />)
+
+  expect(screen.getByText(/2023-02-20/)).toBeInTheDocument()
+})
