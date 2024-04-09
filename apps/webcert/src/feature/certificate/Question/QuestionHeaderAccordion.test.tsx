@@ -33,8 +33,12 @@ it('Should have accordion when there is a description', () => {
 })
 
 it('Should not have accordion when there is no description', () => {
-  renderComponent({ config: fakeCertificateConfig.textArea({ header: 'My header' }), displayMandatory: false, questionId: '1' })
+  renderComponent({
+    config: fakeCertificateConfig.textArea({ header: 'My header', description: undefined }),
+    displayMandatory: false,
+    questionId: '1',
+  })
 
   expect(screen.getByRole('heading', { name: 'My header', level: 4 })).toBeInTheDocument()
-  expect(screen.getByRole('group')).toBeInTheDocument()
+  expect(screen.queryByRole('group')).not.toBeInTheDocument()
 })
