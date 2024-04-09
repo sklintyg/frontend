@@ -1,5 +1,6 @@
 import {
   fakeCategoryElement,
+  fakeCertificate,
   fakeCertificateConfig,
   fakeCertificateMetaData,
   fakeCertificateValue,
@@ -9,6 +10,7 @@ import {
   fakeRadioBooleanElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
+  fakeShowValidation,
   fakeTextFieldElement,
 } from '../../faker'
 import {
@@ -117,6 +119,32 @@ describe('visibility', () => {
     textValue.text = 'A little text'
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
+  })
+
+  it('Should pre-validate visibility on elements to make sure depending elements gets updated', () => {
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({ id: '1', value: fakeCertificateValue.boolean({ selected: true, id: 'radio1' }) }),
+        ...fakeRadioBooleanElement({
+          id: '2',
+          visible: false,
+          value: fakeCertificateValue.boolean({ selected: true, id: 'radio2' }),
+          validation: [fakeShowValidation({ questionId: '1', expression: 'radio1' })],
+        }),
+        ...fakeRadioBooleanElement({
+          id: '3',
+          visible: false,
+          value: fakeCertificateValue.boolean(),
+          validation: [fakeShowValidation({ questionId: '2', expression: 'radio2' })],
+        }),
+      },
+    })
+
+    const result = getDecoratedCertificateData(data, metadata, links)
+
+    expect(result['1'].visible).toBe(true)
+    expect(result['2'].visible).toBe(true)
+    expect(result['3'].visible).toBe(true)
   })
 })
 
