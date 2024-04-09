@@ -43,7 +43,6 @@ export function OpenTabsDialog() {
         secondary
         onClick={() => {
           blocker.reset?.()
-          setOpen(false)
         }}
       >
         Avbryt

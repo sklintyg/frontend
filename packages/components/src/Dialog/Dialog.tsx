@@ -58,7 +58,10 @@ export function Dialog({
     }
 
     dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
-    return () => dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
+    return () => {
+      dialogEl?.removeEventListener('changedVisibility', handleVisibilityChanged)
+      dialogEl?.showBodyScrollbar()
+    }
   }, [open, setOpen])
 
   return (
