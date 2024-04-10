@@ -145,7 +145,9 @@ export function UeCheckboxDateRangeListField({
     (id: string, field: string) =>
       Boolean(
         hasValidationError ||
-          validationErrors.find((v: ValidationError) => [`${field}.${id}`, `row.${id}`, `period.${id}.${field}`].includes(v.field))
+          validationErrors.find((v: ValidationError) =>
+            [`${field}.${id}`, `${id}.${field}`, `row.${id}`, `period.${id}.${field}`].includes(v.field)
+          )
       ),
     [hasValidationError, validationErrors]
   )
@@ -208,7 +210,9 @@ export function UeCheckboxDateRangeListField({
                 }
               }}
               textInputDataTestId={`tom${field}`}
-              displayValidationErrorOutline={shouldDisplayValidationErrorOutline(field, 'tom')}
+              displayValidationErrorOutline={
+                shouldDisplayValidationErrorOutline(field, 'tom') || shouldDisplayValidationErrorOutline(field, 'to')
+              }
             />
           </DatesWrapper>
         </DateGrid>
