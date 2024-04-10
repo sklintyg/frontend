@@ -1,4 +1,4 @@
-import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../../faker'
+import { fakeCheckboxDateRangeList, fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../../faker'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { getClientValidationErrors } from './getClientValidationErrors'
 
@@ -186,9 +186,9 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
-  describe(`${ConfigTypes.UE_SICK_LEAVE_PERIOD}`, () => {
+  describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: {
           list: [
