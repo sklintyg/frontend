@@ -1,6 +1,6 @@
 import Icon from '../../../../components/image/image/Icon'
 
-export function TotalSickDays({ total }: { total: number }) {
+export function TotalDays({ total }: { total: number }) {
   return total > 0 ? (
     <div className="iu-mb-400">
       <p className="iu-color-main">

@@ -7,7 +7,7 @@ import { CertificateDataValueType, ConfigUeCheckboxDateRangeList, ValueDateRange
 import { formatDateToString, getLatestPeriodEndDate, getNumberOfSickLeavePeriodDays } from '../../../../utils'
 import { UnifiedEdit } from '../UnifiedEdit'
 import { PreviousPeriod } from './PreviousPeriod'
-import { TotalSickDays } from './TotalSickDays'
+import { TotalDays } from './TotalDays'
 import { UeCheckboxDateRangeListField } from './UeCheckboxDateRangeListField'
 import { UeCheckboxDateRangeListWarning } from './UeCheckboxDateRangeListWarning'
 import { WorkingHours } from './WorkingHours'
@@ -107,7 +107,7 @@ export function UeCheckboxDateRangeList({
         ))}
       </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
-      {(!config.hideWorkingHours || !disabled) && <TotalSickDays total={getNumberOfSickLeavePeriodDays(value.list)} />}
+      {(!config.hideWorkingHours || !disabled) && <TotalDays total={getNumberOfSickLeavePeriodDays(value.list)} />}
       <UeCheckboxDateRangeListWarning />
     </div>
   )
