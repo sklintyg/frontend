@@ -1,14 +1,10 @@
 import InfoBox from '../../../../components/utils/InfoBox'
 
-export function PreviousPeriod({ previousSickLeavePeriod }: { previousSickLeavePeriod: string }) {
-  if (!previousSickLeavePeriod) {
-    return null
-  }
-
+export function PreviousPeriod({ previousPeriod }: { previousPeriod: string }) {
   return (
     <div className="iu-mb-400">
       <InfoBox type={'observe'} activateIconWrap>
-        <p>{previousSickLeavePeriod}</p>
+        <p>{previousPeriod}</p>
       </InfoBox>
     </div>
   )

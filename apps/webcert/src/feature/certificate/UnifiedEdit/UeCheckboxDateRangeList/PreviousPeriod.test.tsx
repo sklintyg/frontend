@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { PreviousPeriod } from './PreviousPeriod'
 
-const renderComponent = (previousSickLeavePeriod: string) => {
-  render(<PreviousPeriod previousSickLeavePeriod={previousSickLeavePeriod} />)
+const renderComponent = (previousPeriod: string) => {
+  render(<PreviousPeriod previousPeriod={previousPeriod} />)
 }
 
 describe('Previous Sick leave period', () => {

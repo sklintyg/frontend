@@ -279,7 +279,7 @@ export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
 export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
   type: ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST
   list: ConfigUeCheckboxDateRange[]
-  previousSickLeavePeriod: string
+  previousSickLeavePeriod?: string
   hideWorkingHours: boolean
 }
 
