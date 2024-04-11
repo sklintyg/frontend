@@ -146,7 +146,9 @@ export function UeCheckboxDateRangeListField({
       Boolean(
         hasValidationError ||
           validationErrors.find((v: ValidationError) =>
-            [`${field}.${id}`, `${id}.${field}`, `row.${id}`, `period.${id}.${field}`].includes(v.field)
+            [`${field}.${id}`, `${id}.${field}`, `row.${id}`, `period.${id}.${field}`, `sjukskrivningar.period.${id}.${field}`].includes(
+              v.field
+            )
           )
       ),
     [hasValidationError, validationErrors]

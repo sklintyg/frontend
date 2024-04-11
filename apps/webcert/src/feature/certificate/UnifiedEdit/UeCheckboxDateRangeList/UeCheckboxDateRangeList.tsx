@@ -43,7 +43,17 @@ export function UeCheckboxDateRangeList({
 
   const otherValiadtionErrors = useMemo(() => {
     const fieldNames = config.list
-      .map(({ id }) => [`${id}.tom`, `${id}.to`, `from.${id}`, `${id}.from`, `tom.${id}`, `row.${id}`, id])
+      .map(({ id }) => [
+        `from.${id}`,
+        `${id}.from`,
+        `tom.${id}`,
+        `${id}.tom`,
+        `${id}.to`,
+        `row.${id}`,
+        `sjukskrivningar.period.${id}.tom`,
+        `sjukskrivningar.period.${id}.from`,
+        id,
+      ])
       .flat()
     return validationErrors.filter(({ field }) => !fieldNames.includes(field))
   }, [config.list, validationErrors])
@@ -74,7 +84,19 @@ export function UeCheckboxDateRangeList({
             value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
             hasValidationError={otherValiadtionErrors.length > 0}
             validationErrors={validationErrors.filter(
-              ({ field }) => field && [`from.${id}`, `${id}.from`, `tom.${id}`, `${id}.tom`, `${id}.to`, `row.${id}`, id].includes(field)
+              ({ field }) =>
+                field &&
+                [
+                  `from.${id}`,
+                  `${id}.from`,
+                  `tom.${id}`,
+                  `${id}.tom`,
+                  `${id}.to`,
+                  `row.${id}`,
+                  `sjukskrivningar.period.${id}.tom`,
+                  `sjukskrivningar.period.${id}.from`,
+                  id,
+                ].includes(field)
             )}
             onChange={(item: ValueDateRange) => {
               const updatedList = getUpdatedList(valueList, item)
