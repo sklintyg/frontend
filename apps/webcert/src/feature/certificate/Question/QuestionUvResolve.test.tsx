@@ -5,6 +5,7 @@ import {
   fakeCertificateConfig,
   fakeCertificateValue,
   fakeCheckboxBooleanElement,
+  fakeCheckboxDateRangeList,
   fakeCheckboxMultipleCodeElement,
   fakeCheckboxMultipleDate,
   fakeDateRangeElement,
@@ -14,7 +15,6 @@ import {
   fakeMessageElement,
   fakeRadioBooleanElement,
   fakeRadioMultipleCodesOptionalDropdown,
-  fakeSickLeavePeriod,
   fakeTextAreaElement,
   fakeYearElement,
 } from '../../../faker'
@@ -144,7 +144,7 @@ const createQuestionWithDateRange = (): CertificateDataElement =>
   }).id
 
 const createQuestionWithMultipleDateRanges = (): CertificateDataElement =>
-  fakeSickLeavePeriod({
+  fakeCheckboxDateRangeList({
     id: 'id',
     value: {
       list: [

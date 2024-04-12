@@ -2,10 +2,11 @@ import { addDays } from 'date-fns'
 
 import { CertificateDataValueType, ConfigUeCheckboxDateRange, ValueDateRange } from '../types/certificate'
 import {
+  SickLeavePeriods,
   filterDateRangeValueList,
   formatDate,
   getLatestPeriodEndDate,
-  getNumberOfSickLeavePeriodDays,
+  getNumberOfPeriodDays,
   getPeriodHasOverlap,
   getPeriodWorkDays,
   getPeriodWorkHours,
@@ -14,7 +15,6 @@ import {
   isDateRangeValid,
   isDateRangeValidOrIncomplete,
   isFutureDate,
-  SickLeavePeriods,
 } from './dateUtils'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
@@ -261,7 +261,7 @@ it('calculates multiple periods of sick leave days correctly', () => {
   ]
 
   const expected = 14
-  const actual = getNumberOfSickLeavePeriodDays(periods)
+  const actual = getNumberOfPeriodDays(periods)
 
   expect(actual).toBe(expected)
 })

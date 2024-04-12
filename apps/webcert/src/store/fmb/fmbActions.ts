@@ -34,7 +34,7 @@ export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel a
 
 export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB} Remove diagnosis code info`)
 
-export const setSickLeavePeriodWarning = createAction<string>(`${FMB} Set sick leave period warning`)
+export const setPeriodWarning = createAction<string>(`${FMB} Set sick leave period warning`)
 
 export const setPatientId = createAction<string>(`${FMB} Set patient id`)
 
