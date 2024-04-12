@@ -13,6 +13,7 @@ import {
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDate,
   ConfigUeCheckboxDateRange,
+  ConfigUeCheckboxDateRangeList,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeCodeItem,
@@ -231,9 +232,17 @@ const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementConfig<ConfigUeRad
   })),
 }))
 
+/** @depricated Reaplced by fakeCheckboxDateRangeList */
 const fakeSickLeavePeriod = fakeDataElementConfig<ConfigUeSickLeavePeriod>((override) => ({
   type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
   previousSickLeavePeriod: faker.lorem.sentence(3),
+  list: (override?.list ?? []).map(fakeCheckboxDateRange),
+}))
+
+const fakeCheckboxDateRangeList = fakeDataElementConfig<ConfigUeCheckboxDateRangeList>((override) => ({
+  type: ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST,
+  previousSickLeavePeriod: faker.lorem.sentence(3),
+  hideWorkingHours: true,
   list: (override?.list ?? []).map(fakeCheckboxDateRange),
 }))
 
@@ -336,7 +345,9 @@ export const fakeCertificateConfig = {
   radioCode: fakeRadioCode,
   radioMultipleCodes: fakeRadioMultipleCodes,
   radioMultipleCodesOptionalDropdown: fakeRadioMultipleCodesOptionalDropdown,
+  /** @depricated Reaplced by fakeCheckboxDateRangeList */
   sickLeavePeriod: fakeSickLeavePeriod,
+  checkboxDateRangeList: fakeCheckboxDateRangeList,
   textArea: fakeTextArea,
   textField: fakeTextField,
   typeahead: fakeTypeahead,

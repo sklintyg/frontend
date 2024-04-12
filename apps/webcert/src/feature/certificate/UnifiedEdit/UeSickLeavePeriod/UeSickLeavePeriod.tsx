@@ -58,6 +58,7 @@ const createEmptyDateRangeValue = (id: string): ValueDateRange => ({
   to: undefined,
 })
 
+/** @deprecated use UeCheckboxDateRangeList instead */
 export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [baseWorkHours, setBaseWorkHours] = useState<string>('')
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
