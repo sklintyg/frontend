@@ -20,7 +20,6 @@ import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
 import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
 import UeRadioGroup from '../UnifiedEdit/UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../UnifiedEdit/UeRadioGroupOptionalDropdown/UeRadioGroupOptionalDropdown'
-import { UeSickLeavePeriod } from '../UnifiedEdit/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../UnifiedEdit/UeTextArea/UeTextArea'
 import UeTextField from '../UnifiedEdit/UeTextField/UeTextField'
 import UeTypeahead from '../UnifiedEdit/UeTypeahead/UeTypeahead'
@@ -80,8 +79,6 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeRadioGroup {...commonProps} />
     case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
       return <UeCheckboxDateGroup {...commonProps} />
-    case ConfigTypes.UE_SICK_LEAVE_PERIOD:
-      return <UeSickLeavePeriod {...commonProps} />
     case ConfigTypes.UE_DIAGNOSES:
       return <UeDiagnoses {...commonProps} />
     case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
