@@ -171,23 +171,24 @@ describe('Same rule override', () => {
   })
 
   it('Same type validations should validate as OR expression', () => {
-    const showValidationThird: ValidationResult = {
-      element,
-      validation: fakeShowValidation({ id: '123123' }),
-      result: true,
-    }
-    const showValidationFourth: ValidationResult = {
-      element,
-      validation: fakeShowValidation({ id: '123123' }),
-      result: false,
-    }
-
-    const result = filterValidationResults([showValidationThird, showValidationFourth])
+    const result = filterValidationResults([
+      {
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
+        result: true,
+      },
+      {
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
+        result: false,
+      },
+    ])
 
     expect(result).toHaveLength(1)
     expect(result).toMatchObject([
       {
-        ...showValidationFourth,
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
         result: true,
       },
     ])
