@@ -1,5 +1,5 @@
 import { addDays, isValid } from 'date-fns'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
@@ -73,6 +73,7 @@ export function UeCheckboxDateRangeList({
         <WorkingHours id={id} parent={parent} disabled={disabled} baseWorkHours={baseWorkHours} onBaseWorkHours={setBaseWorkHours} />
       )}
       <div>
+        {config.label && <label>{config.label}</label>}
         {config.list.map(({ id, label }) => (
           <UeCheckboxDateRangeListField
             key={id}
