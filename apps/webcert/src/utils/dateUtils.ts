@@ -170,7 +170,7 @@ export const getPeriodWorkDays = (fromDate: Date, toDate: Date): number => {
   return differenceInCalendarDays(toDate, fromDate) + 1
 }
 
-export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]): number => {
+export const getNumberOfPeriodDays = (periods: ValueDateRange[]): number => {
   let total = 0
 
   for (let i = 0; i < periods.length; i++) {

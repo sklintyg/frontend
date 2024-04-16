@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux'
 import InfoBox from '../../../../components/utils/InfoBox'
-import { getSickLeavePeriodWarning } from '../../../../store/fmb/fmbSelectors'
+import { getPeriodWarning } from '../../../../store/fmb/fmbSelectors'
 
 export function UeCheckboxDateRangeListWarning() {
-  const warning = useSelector(getSickLeavePeriodWarning)
+  const warning = useSelector(getPeriodWarning)
 
   if (warning === '' || warning == null) return null
 

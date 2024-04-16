@@ -30,13 +30,13 @@ import {
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
+  ConfigUeCheckboxDateRangeList,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDateRange,
   ConfigUeIcf,
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioMultipleCodesOptionalDropdown,
-  ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
   ConfigUeVisualAcuity,
   ValueBoolean,
@@ -112,7 +112,7 @@ const QuestionUvResolve: React.FC<{
       return <UvDateRange value={question.value as ValueDateRange} config={question.config as ConfigUeDateRange} />
 
     case CertificateDataValueType.DATE_RANGE_LIST:
-      return <UvDateRangeList value={question.value as ValueDateRangeList} config={question.config as ConfigUeSickLeavePeriod} />
+      return <UvDateRangeList value={question.value as ValueDateRangeList} config={question.config as ConfigUeCheckboxDateRangeList} />
 
     case CertificateDataValueType.ICF:
       return <UvIcf value={question.value as ValueIcf} config={question.config as ConfigUeIcf} />

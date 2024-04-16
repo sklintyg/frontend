@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { CertificateDataValueType, ConfigUeCheckboxDateRangeList, ValueDateRange, ValueDateRangeList } from '../../../../types'
-import { formatDateToString, getLatestPeriodEndDate, getNumberOfSickLeavePeriodDays } from '../../../../utils'
+import { formatDateToString, getLatestPeriodEndDate, getNumberOfPeriodDays } from '../../../../utils'
 import { UnifiedEdit } from '../UnifiedEdit'
 import { PreviousPeriod } from './PreviousPeriod'
 import { TotalDays } from './TotalDays'
@@ -107,7 +107,7 @@ export function UeCheckboxDateRangeList({
         ))}
       </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
-      {(!config.hideWorkingHours || !disabled) && <TotalDays total={getNumberOfSickLeavePeriodDays(value.list)} />}
+      {(!config.hideWorkingHours || !disabled) && <TotalDays total={getNumberOfPeriodDays(value.list)} />}
       <UeCheckboxDateRangeListWarning />
     </div>
   )

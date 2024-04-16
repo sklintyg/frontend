@@ -83,8 +83,6 @@ export enum ConfigTypes {
   UE_RADIO_CODE = 'UE_RADIO_CODE',
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN = 'UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN',
-  /** @deprecated Replaced by UE_CHECKBOX_DATE_RANGE_LIST */
-  UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_CHECKBOX_DATE_RANGE_LIST = 'UE_CHECKBOX_DATE_RANGE_LIST',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
@@ -127,7 +125,6 @@ export type CertificateDataConfigType =
   | ConfigUeRadioCode
   | ConfigUeRadioMultipleCodes
   | ConfigUeRadioMultipleCodesOptionalDropdown
-  | ConfigUeSickLeavePeriod
   | ConfigUeTextArea
   | ConfigUeTextField
   | ConfigUeTypeahead
@@ -267,13 +264,6 @@ export interface ConfigUeCheckboxDateRange extends CertificateDataConfig {
 export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
   type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
   list: ConfigUeCheckboxDate[]
-}
-
-/** @deprecated Replaced by ConfigUeCheckboxDateRangeList */
-export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
-  type: ConfigTypes.UE_SICK_LEAVE_PERIOD
-  list: ConfigUeCheckboxDateRange[]
-  previousSickLeavePeriod: string
 }
 
 export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
