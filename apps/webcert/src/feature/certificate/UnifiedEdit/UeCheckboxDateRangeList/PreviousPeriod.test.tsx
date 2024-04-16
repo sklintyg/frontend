@@ -16,8 +16,8 @@ describe('Previous Sick leave period', () => {
   })
 
   it('does display previous sick leave period', () => {
-    const expectedPreviousSickLeavePeriod = 'This is the previous sick leave period'
-    renderComponent(expectedPreviousSickLeavePeriod)
-    expect(screen.getByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
+    const expectedPreviousPeriod = 'This is the previous sick leave period'
+    renderComponent(expectedPreviousPeriod)
+    expect(screen.getByText(expectedPreviousPeriod)).toBeInTheDocument()
   })
 })
