@@ -1,5 +1,5 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
