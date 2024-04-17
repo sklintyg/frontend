@@ -76,7 +76,7 @@ const renderDefaultComponent = (question: QuestionDataElement = defaultQuestion,
   )
 }
 
-describe('UeSickLeavePeriod', () => {
+describe('UeCheckboxDateRangeList', () => {
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -191,18 +191,18 @@ describe('UeSickLeavePeriod', () => {
   })
 
   it('should render previous sick leave period if it exists', () => {
-    const expectedPreviousSickLeavePeriod = 'This is the previous sick leave period'
+    const expectedPreviousPeriod = 'This is the previous sick leave period'
     const question = {
       ...defaultQuestion,
       config: fakeCertificateConfig.checkboxDateRangeList({
         ...defaultQuestion.config,
-        previousSickLeavePeriod: expectedPreviousSickLeavePeriod,
+        previousSickLeavePeriod: expectedPreviousPeriod,
       }),
     }
 
     renderDefaultComponent(question)
 
-    expect(screen.getByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
+    expect(screen.getByText(expectedPreviousPeriod)).toBeInTheDocument()
   })
 
   it('does display validation error if child has no client validation errors', () => {

@@ -42,3 +42,23 @@ it('Should not have accordion when there is no description', () => {
   expect(screen.getByRole('heading', { name: 'My header', level: 4 })).toBeInTheDocument()
   expect(screen.queryByRole('group')).not.toBeInTheDocument()
 })
+
+it('Should display mandatory icon', () => {
+  renderComponent({
+    config: fakeCertificateConfig.textArea({ header: 'My header', description: 'Some description' }),
+    displayMandatory: true,
+    questionId: '1',
+  })
+
+  expect(screen.getByTestId('mandatory-icon')).toBeInTheDocument()
+})
+
+it('Should display mandatory icon when description is missing', () => {
+  renderComponent({
+    config: fakeCertificateConfig.textArea({ header: 'My header', description: undefined }),
+    displayMandatory: true,
+    questionId: '1',
+  })
+
+  expect(screen.getByTestId('mandatory-icon')).toBeInTheDocument()
+})
