@@ -56,7 +56,10 @@ const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, qu
           <Text className="iu-mb-300" dangerouslySetInnerHTML={sanitizeText(config.description)}></Text>
         </AccordionControl>
       ) : (
-        heading
+        <div>
+          {displayMandatory && <MandatoryIcon />}
+          {heading}
+        </div>
       )}
     </>
   )

@@ -1,7 +1,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement, fakeSickLeavePeriod } from '../../faker'
+import { fakeCertificateConfig, fakeCertificateValue, fakeCheckboxDateRangeList, fakeDiagnosesElement } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
@@ -137,7 +137,7 @@ const getDiagnosisListValue = (): ValueDiagnosisList => ({
 })
 
 const getDateRangeListElement = (): CertificateDataElement =>
-  fakeSickLeavePeriod({
+  fakeCheckboxDateRangeList({
     id: '6.1',
     parent: '6',
     index: 6,
@@ -389,7 +389,7 @@ describe('Test FMB middleware', () => {
       testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
       testStore.dispatch(
         updateCertificateDataElement(
-          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } }).id
+          fakeCheckboxDateRangeList({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } }).id
         )
       )
 

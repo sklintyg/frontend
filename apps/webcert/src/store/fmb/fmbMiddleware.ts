@@ -21,8 +21,8 @@ import {
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,
   setPatientId,
+  setPeriodWarning,
   setSickLeavePeriodValue,
-  setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
   validateSickLeavePeriod,
@@ -152,7 +152,7 @@ const getValidationForSickLeavePeriod = (
       })
     )
   } else {
-    dispatch(setSickLeavePeriodWarning(''))
+    dispatch(setPeriodWarning(''))
   }
 }
 
@@ -251,7 +251,7 @@ export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
-    dispatch(setSickLeavePeriodWarning(action.payload.message))
+    dispatch(setPeriodWarning(action.payload.message))
   }
 
 const middlewareMethods = {

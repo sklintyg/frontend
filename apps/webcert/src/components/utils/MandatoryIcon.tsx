@@ -15,7 +15,9 @@ const Wrapper = styled.span`
 
 const MandatoryIcon: React.FC = () => (
   <Wrapper>
-    <Icon className="iu-color-error">*</Icon>
+    <Icon data-testid="mandatory-icon" className="iu-color-error">
+      *
+    </Icon>
   </Wrapper>
 )
 

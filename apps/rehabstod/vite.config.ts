@@ -39,7 +39,7 @@ export default ({ mode }: UserConfig) => {
       port: 5173,
       proxy,
       strictPort: true,
-      hmr: hmr ? { host, protocol: hmrProtocol } : false,
+      hmr: hmr ? { host: process.env.VITE_WS_HOST ?? 'rs2.rs.localtest.me', protocol: hmrProtocol } : false,
     },
     test: {
       globals: true,

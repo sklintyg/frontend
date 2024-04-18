@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../../types'
+import { ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
@@ -9,7 +9,7 @@ import { Badge } from '../Badge'
 
 export const UvDateRangeList: React.FC<{
   value: ValueDateRangeList
-  config: ConfigUeSickLeavePeriod
+  config: ConfigUeCheckboxDateRangeList
 }> = ({ value, config }) => {
   if (value.list.length > 0 && value.list.some((val) => val.from && val.to)) {
     return (
