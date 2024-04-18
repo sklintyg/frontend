@@ -11,11 +11,6 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.43.0-jammy
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v4
-        with:
-          path: ${GITHUB_BASE_REF}
-
       - name: Checkout code branch
         uses: actions/checkout@v4
 
