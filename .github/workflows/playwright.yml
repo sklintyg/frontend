@@ -13,20 +13,17 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.43.0-jammy
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          path: ${GITHUB_BASE_REF}
-
-      - name: Checkout code branch
-        uses: actions/checkout@v4
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v2
         with:
           version: 8.14.0
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'pnpm'
