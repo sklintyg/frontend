@@ -16,7 +16,7 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
-          path: main
+          path: ${GITHUB_BASE_REF}
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -34,6 +34,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." test:playwright
+        run: pnpm --filter="[${GITHUB_BASE_REF}]..." test:playwright
         env:
           HOME: /root
