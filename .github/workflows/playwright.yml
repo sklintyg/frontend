@@ -13,11 +13,12 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.43.0-jammy
     steps:
-      - name: Checkout main
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
           path: ${GITHUB_BASE_REF}
-      - name: Checkout code
+
+      - name: Checkout code branch
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2
@@ -34,6 +35,4 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm --filter="[${GITHUB_BASE_REF}]..." test:playwright
-        env:
-          HOME: /root
+        run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." test:playwright
