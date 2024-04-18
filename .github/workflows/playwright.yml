@@ -11,18 +11,25 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.43.0-jammy
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: pnpm/action-setup@v2
         with:
           version: 8.14.0
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
       - name: Run your tests
-        run: pnpm run -r test:playwright
+        run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." test:playwright
         env:
           HOME: /root
