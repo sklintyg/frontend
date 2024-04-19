@@ -19,47 +19,37 @@ test.beforeEach(async ({ page }) => {
       json: certificate,
     })
   })
+
+  await page.goto('/list/certificate')
 })
 
 test('have correct heading', async ({ page }) => {
-  await page.goto('/list/certificate')
-
   await expect(page.getByRole('heading', { name: 'Signerade intyg' })).toBeVisible()
   await expect(page.getByText('Nedan visas dina signerade')).toBeVisible()
 })
 
 test('empty page content', async ({ page }) => {
-  await page.goto('/list/certificate')
-
   await expect(page.getByRole('img', { name: 'Det finns inga resultat i' })).toBeVisible()
   await expect(page.getByText('Det finns inga signerade')).toBeVisible()
 })
 
 test.describe('Menu', () => {
   test('do not mark "Ej hanterade ärenden" menu item as selected', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('link', { name: 'Ej hanterade ärenden' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Ej hanterade ärenden' })).not.toHaveClass(/selected/)
   })
 
   test('do not mark "Ej signerade utkast" menu item as selected', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('link', { name: 'Ej signerade utkast' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Ej signerade utkast' })).not.toHaveClass(/selected/)
   })
 
   test('do not mark "Sök / skriv intyg" menu item as selected', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('link', { name: 'Sök / skriv intyg' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Sök / skriv intyg' })).not.toHaveClass(/selected/)
   })
 
   test('mark "Signerade intyg" menu item as selected', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('link', { name: 'Signerade intyg' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Signerade intyg' })).toHaveClass(/selected/)
   })
@@ -71,7 +61,6 @@ test.describe('Failed requests', () => {
       await page.route(`**/*/api/${endpoint}`, async (route) => {
         await route.abort()
       })
-
       await page.goto('/list/certificate')
 
       await expect(page.getByText('Sökningen kunde inte utföras.')).toBeVisible()
@@ -112,11 +101,10 @@ test.describe('Populated table', () => {
         },
       })
     })
+    await page.goto('/list/certificate')
   })
 
   test('show list filters', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('heading', { name: 'Intyg visas för Alfa-enheten' })).toBeVisible()
 
     // Needs proper label fixed.
@@ -129,20 +117,14 @@ test.describe('Populated table', () => {
   })
 
   test('should have table', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('table', { name: 'Signerade intyg' })).toBeVisible()
   })
 
   test('should have table column "Signerad"', async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('columnheader', { name: 'Signerad Byt till att' })).toBeVisible()
   })
 
   test(`should be possible to sort "Signerad"`, async ({ page }) => {
-    await page.goto('/list/certificate')
-
     await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` })).toBeVisible()
     await page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` }).click()
     await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera fallande` })).toBeVisible()
@@ -150,14 +132,10 @@ test.describe('Populated table', () => {
 
   for (const col of ['Typ av intyg', 'Status', 'Patient']) {
     test(`should have table column "${col}"`, async ({ page }) => {
-      await page.goto('/list/certificate')
-
       await expect(page.getByRole('columnheader', { name: `${col} Sortera på kolumn` })).toBeVisible()
     })
 
     test(`should be possible to sort "${col}"`, async ({ page }) => {
-      await page.goto('/list/certificate')
-
       await page.getByRole('columnheader', { name: `${col} Sortera på kolumn` }).click()
       await expect(page.getByRole('columnheader', { name: `${col} Byt till att sortera fallande` })).toBeVisible()
 
