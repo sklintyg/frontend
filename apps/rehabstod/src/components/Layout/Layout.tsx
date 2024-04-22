@@ -1,18 +1,20 @@
+import { GlobalAlert, PriorityEnum } from '@frontend/components'
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { Outlet } from 'react-router-dom'
-import { GlobalAlert, PriorityEnum } from '@frontend/components'
 import { useSession } from '../../hooks/useSession'
+import { BannerPriority } from '../../schemas'
 import { useGetConfigQuery } from '../../store/api'
+import { PageContainer } from '../PageContainer/PageContainer'
 import { PageHero } from '../PageHero/PageHero'
 import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 import { AboutDialog } from '../dialog/AboutDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
+import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
 import { LayoutFooter } from './LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
-import { BannerPriority } from '../../schemas'
 
 export function Layout() {
-  const { user, isLoading } = useSession()
+  const { user, error, isLoading, isError } = useSession()
   const { data: config } = useGetConfigQuery()
 
   const getAlertPriority = (priority: BannerPriority) => {
@@ -45,7 +47,18 @@ export function Layout() {
               <IDSSpinner className="inline-flex" />
             </PageHero>
           )}
-          {!isLoading && <Outlet />}
+          {!isError && !isLoading && <Outlet />}
+          {error && (
+            <PageContainer>
+              <ErrorAlert
+                heading="Ett fel har inträffat"
+                text="Tekniskt problem, försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+                errorType="error"
+                error={error}
+                dynamicLink
+              />
+            </PageContainer>
+          )}
         </StickyContainerProvider>
       </main>
       <LayoutFooter />
