@@ -1,5 +1,5 @@
 import { add, formatISO } from 'date-fns'
-import { calculateCheckDigit, isPersonIdValid } from '../personIdValidatorUtils'
+import { calculateCheckDigit, isPersonIdValid } from './personIdValidatorUtils'
 
 describe('patientIdValidatorUtils', () => {
   it('should validate as false if person id includes letters', () => {
