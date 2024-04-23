@@ -7,9 +7,9 @@ import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
-import DateRangeFilter from '../filter/DateRangeFilter'
-import { getDateRangeFilter } from './listTestUtils'
 import { ListFilterType } from '../../../types'
+import { getDateRangeFilter } from '../test/listTestUtils'
+import DateRangeFilter from './DateRangeFilter'
 
 let onChange = vi.fn()
 

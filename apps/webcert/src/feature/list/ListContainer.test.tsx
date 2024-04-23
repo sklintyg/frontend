@@ -1,20 +1,20 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { ErrorCode, ErrorData, ErrorType } from '../../store/error/errorReducer'
 import {
   setListError,
   updateActiveList,
   updateActiveListConfig,
   updateActiveListFilter,
   updateIsLoadingListConfig,
-} from '../../../store/list/listActions'
-import { listMiddleware } from '../../../store/list/listMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import ListContainer from '../ListContainer'
-import { getConfig, getDefaultList, getFilter } from './listTestUtils'
-import { ListType } from '../../../types'
+} from '../../store/list/listActions'
+import { listMiddleware } from '../../store/list/listMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { ListType } from '../../types'
+import ListContainer from './ListContainer'
+import { getConfig, getDefaultList, getFilter } from './test/listTestUtils'
 
 let testStore: EnhancedStore
 

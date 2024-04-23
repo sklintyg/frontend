@@ -6,7 +6,7 @@ import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
-import ListFilterComponent from '../filter/ListFilterComponent'
+import { ListFilterConfig, ListFilterType } from '../../../types'
 import {
   getBooleanFilter,
   getDateRangeFilter,
@@ -15,8 +15,8 @@ import {
   getRadioFilter,
   getSelectFilter,
   getTextFilter,
-} from './listTestUtils'
-import { ListFilterConfig, ListFilterType } from '../../../types'
+} from '../test/listTestUtils'
+import ListFilterComponent from './ListFilterComponent'
 
 let testStore: EnhancedStore
 let onChange = vi.fn()

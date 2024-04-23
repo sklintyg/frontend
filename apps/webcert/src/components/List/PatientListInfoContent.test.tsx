@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import PatientListInfoContent from '../../../components/List/PatientListInfoContent'
+import PatientListInfoContent from './PatientListInfoContent'
 
 const PATIENT_ID = '191212121212'
 const FORMATTED_PATIENT_ID = '19121212-1212'

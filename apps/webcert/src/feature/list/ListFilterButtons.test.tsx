@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import ListFilterButtons from '../ListFilterButtons'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
+import CustomTooltip from '../../components/utils/CustomTooltip'
+import ListFilterButtons from './ListFilterButtons'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
 const TOOLTIP_RESET = 'Återställ sökfilter.'
@@ -52,14 +52,14 @@ describe('ListFilterButtons', () => {
     expect(screen.getByText(TOOLTIP_RESET)).toBeInTheDocument()
   })
 
-  it('should have search enabled if filter validates', () => {
+  it('should have search enabled if filter validates', async () => {
     renderComponent(true)
-    expect(screen.getByText('Sök')).toBeEnabled()
+    await expect(screen.getByText('Sök')).toBeEnabled()
   })
 
-  it('should have search disabled if filter does not validate', () => {
+  it('should have search disabled if filter does not validate', async () => {
     renderComponent(false)
-    expect(screen.getByText('Sök')).toBeDisabled()
+    await expect(screen.getByText('Sök')).toBeDisabled()
   })
 
   it('should perform search when clicking on button', async () => {

@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
-import store from '../../../store/store'
-import ListPageSizeFilter from '../ListPageSizeFilter'
-import { ListFilterValueNumber, ListFilterType, ListFilterPageSizeConfig } from '../../../types'
+import store from '../../store/store'
+import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '../../types'
+import ListPageSizeFilter from './ListPageSizeFilter'
 
 const onFilterChange = vi.fn()
 const TITLE = 'title for filter pagesize'
@@ -58,9 +58,9 @@ describe('ListPageSizeFilter', () => {
     expect(screen.getByText(TITLE)).toBeInTheDocument()
   })
 
-  it('should have first page size as deault', () => {
+  it('should have first page size as deault', async () => {
     renderComponent(100)
-    expect(screen.getByLabelText(TITLE)).toHaveValue(pageSizes[0].toString())
+    await expect(screen.getByLabelText(TITLE)).toHaveValue(pageSizes[0].toString())
   })
 
   it('should render all page sizes and show all if total count is the same as highest', () => {
@@ -75,12 +75,12 @@ describe('ListPageSizeFilter', () => {
     expect(options).toHaveLength(pageSizes.length + 1)
   })
 
-  it('should not render page sizes larger than total count', () => {
+  it('should not render page sizes larger than total count', async () => {
     renderComponent(20)
     const options = screen.queryAllByRole('option')
     expect(options).toHaveLength(3)
-    expect(options[0]).toHaveValue(pageSizes[0].toString())
-    expect(options[1]).toHaveValue(pageSizes[1].toString())
+    await expect(options[0]).toHaveValue(pageSizes[0].toString())
+    await expect(options[1]).toHaveValue(pageSizes[1].toString())
   })
 
   it('should not render filter if pageSizes is empty', () => {
@@ -103,9 +103,9 @@ describe('ListPageSizeFilter', () => {
     expect(screen.queryByLabelText(TITLE)).not.toBeInTheDocument()
   })
 
-  it('should render all option', () => {
+  it('should render all option', async () => {
     renderComponent(20)
     const options = screen.queryAllByRole('option')
-    expect(options[1]).toHaveValue('20')
+    await expect(options[1]).toHaveValue('20')
   })
 })
