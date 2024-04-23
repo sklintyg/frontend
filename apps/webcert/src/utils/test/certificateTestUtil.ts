@@ -1,81 +1,13 @@
-import { fakeCertificateValue, fakePatient, fakeRadioBooleanElement, fakeTextAreaElement } from '../../faker'
 import {
-  Certificate,
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateStatus,
-  ConfigLayout,
-  ConfigTypes,
-} from '../../types/certificate'
+  fakeCategoryElement,
+  fakeCheckboxMultipleCodeElement,
+  fakePatient,
+  fakeRadioBooleanElement,
+  fakeTextAreaElement,
+} from '../../faker'
+import { Certificate, CertificateDataElement, CertificateStatus, ConfigTypes } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeCheckboxMultipleCodeElement()
- */
-export const getCheckBoxElement = (): CertificateDataElement => {
-  return {
-    id: '28',
-    parent: 'sysselsattning',
-    index: 7,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {
-      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
-      layout: ConfigLayout.COLUMN,
-      text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
-      description:
-        'Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.',
-      list: [
-        {
-          id: 'NUVARANDE_ARBETE',
-          label: 'Nuvarande arbete',
-        },
-        {
-          id: 'ARBETSSOKANDE',
-          label: 'Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden',
-        },
-        {
-          id: 'FORALDRALEDIG',
-          label: 'Föräldraledighet för vård av barn',
-        },
-        {
-          id: 'STUDIER',
-          label: 'Studier',
-        },
-      ],
-    },
-    value: fakeCertificateValue.codeList({
-      list: [
-        {
-          code: 'NUVARANDE_ARBETE',
-          id: 'NUVARANDE_ARBETE',
-        },
-      ],
-    }),
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '28',
-        expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-        questionId: '28',
-        expression: '$NUVARANDE_ARBETE',
-        id: ['ARBETSSOKANDE'],
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-        questionId: '28',
-        expression: '$ARBETSSOKANDE',
-        id: ['NUVARANDE_ARBETE'],
-      },
-    ],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeCategoryElement()
@@ -196,9 +128,9 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
       ...fakeRadioBooleanElement({ id: '1.1' }),
       ...fakeTextAreaElement({ id: '1.2' }),
       ...fakeTextAreaElement({ id: '1.3' }),
-      '28': getCheckBoxElement(),
-      funktionsnedsattning: getCategoryFunktionsnedsattning(),
-      sysselsattning: getCategorySysselsattning(),
+      ...fakeCheckboxMultipleCodeElement({ id: '28' }),
+      ...fakeCategoryElement({ id: 'funktionsnedsattning' }),
+      ...fakeCategoryElement({ id: 'sysselsattning' }),
     },
     links,
   }
