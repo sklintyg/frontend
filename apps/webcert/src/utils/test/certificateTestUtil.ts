@@ -7,36 +7,9 @@ import {
   CertificateStatus,
   ConfigLayout,
   ConfigTypes,
-  ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeDateElement()
- */
-export const getDateElement = (): CertificateDataElement => {
-  return {
-    id: '1.1',
-    parent: 'funktionsnedsattning',
-    index: 1,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.date({
-      text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
-      description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      id: 'dodsdatum',
-    }),
-    value: {
-      type: CertificateDataValueType.DATE,
-      id: 'dodsdatum',
-      date: '2022-10-01',
-    } as ValueDate,
-    validation: [],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeTextAreaElement()
