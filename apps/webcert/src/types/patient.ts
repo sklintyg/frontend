@@ -13,6 +13,7 @@ export interface Patient {
   previousPersonId?: PersonId
   firstName: string
   lastName: string
+  middleName: string
   fullName: string
   street: string
   zipCode: string
@@ -24,6 +25,7 @@ export interface Patient {
   differentNameFromEHR: boolean
   personIdChanged: boolean
   reserveId: boolean
+  addressFromPU: boolean
 }
 
 export interface PersonId {

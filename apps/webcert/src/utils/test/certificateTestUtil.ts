@@ -1,4 +1,4 @@
-import { fakeCertificateConfig, fakeCertificateValue, fakeDateRangeElement } from '../../faker'
+import { fakeCertificateConfig, fakeCertificateValue, fakeDateRangeElement, fakePatient, fakeRadioBooleanElement } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
@@ -11,45 +11,6 @@ import {
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeRadioBooleanElement()
- */
-export const getBooleanElement = (): CertificateDataElement => {
-  return {
-    id: '1.1',
-    parent: 'funktionsnedsattning',
-    index: 1,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.radioBoolean({
-      text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
-      description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      id: 'harFunktionsnedsattning',
-      selectedText: 'Ja',
-      unselectedText: 'Nej',
-    }),
-    value: {
-      type: CertificateDataValueType.BOOLEAN,
-      id: 'harFunktionsnedsattning',
-      selected: null,
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1.1',
-        expression: 'exists($harFunktionsnedsattning)',
-      },
-      {
-        type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-        questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
-      },
-    ],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeDateElement()
@@ -399,25 +360,18 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
         fullName: '',
         prescriptionCode: '',
       },
-      patient: {
+      patient: fakePatient({
         personId: {
           id: '',
           type: '',
         },
-        differentNameFromEHR: false,
-        personIdChanged: false,
-        coordinationNumber: false,
-        deceased: false,
         firstName: '',
         fullName: '',
         lastName: '',
         street: 'Street 1',
         zipCode: '12345',
         city: 'City',
-        protectedPerson: false,
-        testIndicated: false,
-        reserveId: false,
-      },
+      }),
       relations: {
         children: [],
         parent: null,
@@ -426,7 +380,7 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
       typeVersion: '1.0',
     },
     data: {
-      '1.1': getBooleanElement(),
+      ...fakeRadioBooleanElement({ id: '1.1' }),
       '1.2': getTextElement(),
       '1.3': getAnotherTextElement(),
       '28': getCheckBoxElement(),
@@ -489,25 +443,18 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         fullName: '',
         prescriptionCode: '',
       },
-      patient: {
+      patient: fakePatient({
         personId: {
           id: '',
           type: '',
         },
-        differentNameFromEHR: false,
-        personIdChanged: false,
-        coordinationNumber: false,
-        deceased: false,
         firstName: '',
         fullName: '',
         lastName: '',
         street: '',
         zipCode: '',
         city: '',
-        protectedPerson: false,
-        testIndicated: false,
-        reserveId: false,
-      },
+      }),
       relations: {
         children: [],
         parent: null,

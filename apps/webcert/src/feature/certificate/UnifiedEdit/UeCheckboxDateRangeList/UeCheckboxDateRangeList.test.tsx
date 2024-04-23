@@ -32,6 +32,7 @@ const defaultQuestion: QuestionDataElement = {
   mandatory: true,
   config: fakeCertificateConfig.checkboxDateRangeList({
     text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
+    label: 'Period av den ordinarie tiden:',
     description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
     hideWorkingHours: false,
     list: [
@@ -329,6 +330,28 @@ describe('UeCheckboxDateRangeList', () => {
 
       renderDefaultComponent(question)
       expect(screen.queryByText(/ange hur många timmar patienten/i)).not.toBeInTheDocument()
+    })
+  })
+  describe('Display label', () => {
+    it('Should display label', () => {
+      const question = {
+        ...defaultQuestion,
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.getByText(/Period av den ordinarie tiden:/i)).toBeInTheDocument()
+    })
+
+    it('Should not display label', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          label: undefined,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.queryByText(/Period av den ordinarie tiden:/i)).not.toBeInTheDocument()
     })
   })
 })
