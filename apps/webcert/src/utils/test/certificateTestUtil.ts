@@ -1,11 +1,4 @@
-import {
-  fakeCertificateConfig,
-  fakeCertificateValue,
-  fakeDateRangeElement,
-  fakePatient,
-  fakeRadioBooleanElement,
-  fakeTextAreaElement,
-} from '../../faker'
+import { fakeCertificateConfig, fakeCertificateValue, fakePatient, fakeRadioBooleanElement, fakeTextAreaElement } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
@@ -17,30 +10,6 @@ import {
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeDateRangeElement()
- */
-export const getDateRangeElement = (): CertificateDataElement =>
-  fakeDateRangeElement({
-    id: '1.4',
-    parent: '1.1',
-    index: 1,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {
-      type: ConfigTypes.UE_DATE_RANGE,
-      text: 'text',
-      description: 'description',
-    },
-    value: {
-      type: CertificateDataValueType.DATE_RANGE,
-      id: 'sjukskrivningsgradPeriod',
-    },
-    validation: [],
-    validationErrors: [],
-  })['1.4']
 
 /**
  * @deprecated use fakeTextAreaElement()
