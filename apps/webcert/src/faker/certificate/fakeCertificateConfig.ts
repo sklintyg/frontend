@@ -41,6 +41,7 @@ import {
   ConfigUeYear,
   MessageLevel,
 } from '../../types/certificate'
+import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
   openText: faker.lorem.words(),
@@ -67,8 +68,8 @@ const fakeCategory = fakeDataElementConfig<ConfigCategory>(() => ({
 }))
 
 const fakeCodeItem = (data?: Partial<ConfigUeCodeItem>): ConfigUeCodeItem => ({
-  id: faker.random.alpha({ count: 5 }),
-  code: faker.random.alpha({ count: 5 }).toUpperCase(),
+  id: fakeId(),
+  code: fakeId().toUpperCase(),
   label: faker.lorem.sentence(3),
   ...data,
 })
@@ -78,9 +79,9 @@ const fakeCauseOfDeath = fakeDataElementConfig<ConfigUeCauseOfDeath>((override) 
   label: 'A',
   title: faker.lorem.sentence(),
   causeOfDeath: {
-    id: faker.random.alpha({ count: 5 }),
-    debutId: faker.random.alpha({ count: 5 }),
-    descriptionId: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
+    debutId: fakeId(),
+    descriptionId: fakeId(),
     ...override?.causeOfDeath,
     specifications: (override?.causeOfDeath?.specifications ?? []).map(fakeCodeItem),
   },
@@ -94,7 +95,7 @@ const fakeCauseOfDeathList = fakeDataElementConfig<ConfigUeCauseOfDeathList>((ov
 
 const fakeCheckboxBoolean = fakeDataElementConfig<ConfigUeCheckboxBoolean>(() => ({
   type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
   selectedText: 'Ja',
   unselectedText: 'Nej',
@@ -102,20 +103,20 @@ const fakeCheckboxBoolean = fakeDataElementConfig<ConfigUeCheckboxBoolean>(() =>
 
 const fakeCheckboxDate = fakeDataElementConfig<ConfigUeCheckboxDate>(() => ({
   type: ConfigTypes.UE_CHECKBOX_DATE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
 }))
 
 const fakeCheckboxDateRange = fakeDataElementConfig<ConfigUeCheckboxDateRange>(() => ({
   type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
 }))
 
 const fakeCheckboxMultipleCodes = fakeDataElementConfig<ConfigUeCheckboxMultipleCodes>((override) => ({
   type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
   list: (override?.list ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     label: faker.lorem.sentence(3),
     disabled: undefined,
     ...data,
@@ -130,12 +131,12 @@ const fakeCheckboxMultipleDate = fakeDataElementConfig<ConfigUeCheckboxMultipleD
 
 const fakeDate = fakeDataElementConfig<ConfigUeDate>(() => ({
   type: ConfigTypes.UE_DATE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
 }))
 
 const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
   type: ConfigTypes.UE_DATE_RANGE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   fromLabel: 'Fr.o.m',
   toLabel: 't.o.m',
 }))
@@ -143,12 +144,12 @@ const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
 const fakeDiagnoses = fakeDataElementConfig<ConfigUeDiagnoses>((override) => ({
   type: ConfigTypes.UE_DIAGNOSES,
   terminology: (override?.terminology ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     label: faker.lorem.sentence(3),
     ...data,
   })),
   list: (override?.list ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     ...data,
   })),
 }))
@@ -157,7 +158,7 @@ const fakeDropdown = fakeDataElementConfig<ConfigUeDropdown>((override) => ({
   type: ConfigTypes.UE_DROPDOWN,
   label: faker.lorem.sentence(3),
   list: (override?.list ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     label: faker.lorem.sentence(3),
     ...data,
   })),
@@ -165,7 +166,7 @@ const fakeDropdown = fakeDataElementConfig<ConfigUeDropdown>((override) => ({
 
 const fakeHeader = fakeDataElementConfig<ConfigUeHeader>(() => ({
   type: ConfigTypes.UE_HEADER,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
 }))
 
@@ -174,7 +175,7 @@ const fakeIcf = fakeDataElementConfig<ConfigUeIcf>(() => ({
   modalLabel: faker.lorem.sentence(3),
   collectionsLabel: faker.lorem.sentence(3),
   placeholder: faker.lorem.sentence(3),
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
 }))
 
@@ -185,9 +186,9 @@ const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvest
   informationSourceText: faker.lorem.sentence(),
   informationSourceDescription: faker.lorem.sentence(),
   list: (override?.list ?? []).map((data) => ({
-    investigationTypeId: faker.random.alpha({ count: 5 }),
-    informationSourceId: faker.random.alpha({ count: 5 }),
-    dateId: faker.random.alpha({ count: 5 }),
+    investigationTypeId: fakeId(),
+    informationSourceId: fakeId(),
+    dateId: fakeId(),
     ...data,
     typeOptions: (data?.typeOptions ?? []).map(fakeCodeItem),
   })),
@@ -195,38 +196,38 @@ const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvest
 
 const fakeMessage = fakeDataElementConfig<ConfigUeMessage>(() => ({
   type: ConfigTypes.UE_MESSAGE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   level: MessageLevel.INFO,
   message: faker.lorem.sentence(),
 }))
 
 const fakeRadioBoolean = fakeDataElementConfig<ConfigUeRadioBoolean>(() => ({
   type: ConfigTypes.UE_RADIO_BOOLEAN,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   selectedText: 'Ja',
   unselectedText: 'Nej',
 }))
 
 const fakeRadioCode = fakeDataElementConfig<ConfigUeRadioCode>(() => ({
   type: ConfigTypes.UE_RADIO_CODE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
 }))
 
 const fakeRadioMultipleCodes = fakeDataElementConfig<ConfigUeRadioMultipleCodes>((override) => ({
   type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   list: (override?.list ?? []).map(fakeRadioCode),
   layout: ConfigLayout.ROWS,
 }))
 
 const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementConfig<ConfigUeRadioMultipleCodesOptionalDropdown>((override) => ({
   type: ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   list: (override?.list ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     label: faker.lorem.sentence(3),
-    dropdownQuestionId: faker.random.alpha({ count: 5 }),
+    dropdownQuestionId: fakeId(),
     ...data,
   })),
 }))
@@ -240,17 +241,17 @@ const fakeCheckboxDateRangeList = fakeDataElementConfig<ConfigUeCheckboxDateRang
 
 const fakeTextArea = fakeDataElementConfig<ConfigUeTextArea>(() => ({
   type: ConfigTypes.UE_TEXTAREA,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
 }))
 
 const fakeTextField = fakeDataElementConfig<ConfigUeTextField>(() => ({
   type: ConfigTypes.UE_TEXTFIELD,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
 }))
 
 const fakeTypeahead = fakeDataElementConfig<ConfigUeTypeahead>((override) => ({
   type: ConfigTypes.UE_TYPE_AHEAD,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   typeAhead: (override?.typeAhead ?? []).map((data) => data ?? ''),
   text: faker.lorem.sentence(),
   label: faker.lorem.sentence(3),
@@ -259,7 +260,7 @@ const fakeTypeahead = fakeDataElementConfig<ConfigUeTypeahead>((override) => ({
 
 const fakeUncertainDate = fakeDataElementConfig<ConfigUeUncertainDate>((override) => ({
   type: ConfigTypes.UE_UNCERTAIN_DATE,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   label: faker.lorem.sentence(3),
   allowedYears: (override?.allowedYears ?? []).map((data) => data ?? ''),
   unknownYear: false,
@@ -274,7 +275,7 @@ const fakeViewList = fakeDataElementConfig<ConfigUeViewList>(() => ({
 const fakeViewTable = fakeDataElementConfig<ConfigUeViewTable>((override) => ({
   type: ConfigTypes.UE_VIEW_TABLE,
   columns: (override?.columns ?? []).map((data) => ({
-    id: faker.random.alpha({ count: 5 }),
+    id: fakeId(),
     text: faker.lorem.sentence(),
     ...data,
   })),
@@ -287,8 +288,8 @@ const fakeViewText = fakeDataElementConfig<ConfigUeViewText>(() => ({
 
 const fakeEyeAcuity = (data?: PartialDeep<ConfigEyeAcuity>): ConfigEyeAcuity => ({
   label: faker.lorem.sentence(3),
-  withoutCorrectionId: faker.random.alpha({ count: 5 }),
-  withCorrectionId: faker.random.alpha({ count: 5 }),
+  withoutCorrectionId: fakeId(),
+  withCorrectionId: fakeId(),
   ...data,
 })
 
@@ -304,14 +305,14 @@ const fakeVisualAcuity = fakeDataElementConfig<ConfigUeVisualAcuity>((override) 
 
 const fakeYear = fakeDataElementConfig<ConfigUeYear>(() => ({
   type: ConfigTypes.UE_YEAR,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   minYear: undefined,
   maxYear: undefined,
 }))
 
 const fakeInteger = fakeDataElementConfig<ConfigUeInteger>(() => ({
   type: ConfigTypes.UE_INTEGER,
-  id: faker.random.alpha({ count: 5 }),
+  id: fakeId(),
   min: undefined,
   max: undefined,
 }))

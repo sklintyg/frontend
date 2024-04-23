@@ -1,20 +1,11 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
-import { CertificateMetadata, CertificateRelation, CertificateRelationType, CertificateRelations, CertificateStatus } from '../../types'
+import { CertificateMetadata, CertificateRelations, CertificateStatus } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../fakeUnit'
 import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
-
-export const fakeCertificateRelation = (data?: PartialDeep<CertificateRelation>): CertificateRelation => {
-  return {
-    certificateId: faker.random.alpha({ count: 5 }),
-    created: faker.date.recent().toString(),
-    status: CertificateStatus.UNSIGNED,
-    type: CertificateRelationType.RENEW,
-    ...data,
-  }
-}
+import { fakeCertificateRelation } from './fakeCertificateRelation'
 
 export const fakeCertificateRelations = (data?: PartialDeep<CertificateRelations>): CertificateRelations => {
   return {

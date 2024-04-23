@@ -6,7 +6,6 @@ import {
   fakeTextAreaElement,
 } from '../../faker'
 import { Certificate, CertificateStatus } from '../../types/certificate'
-import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
 
 /**
@@ -90,8 +89,4 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
     },
     links,
   }
-}
-
-export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
-  return [{ type: type, handled: handled } as Question]
 }

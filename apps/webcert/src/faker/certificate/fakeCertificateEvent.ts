@@ -1,9 +1,10 @@
 import faker from 'faker'
 import { CertificateEvent, CertificateEventType, CertificateStatus } from '../../types/certificate'
+import { fakeId } from '../fakeId'
 
 export function fakeCertificateEvent(data?: Partial<CertificateEvent>): CertificateEvent {
   return {
-    certificateId: faker.random.alpha({ count: 5 }),
+    certificateId: fakeId(),
     type: faker.helpers.randomize(Object.values(CertificateEventType)),
     timestamp: faker.date.recent().toISOString(),
     relatedCertificateId: null,

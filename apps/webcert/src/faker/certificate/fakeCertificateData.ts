@@ -58,12 +58,13 @@ import {
   ValueYear,
 } from '../../types/certificate'
 import { fakeCityList } from '../fakeCity'
+import { fakeId } from '../fakeId'
 import { fakeList } from '../fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
 
 export function fakeCertificateDataElement<T extends CertificateDataElement>(data?: Partial<T>): Record<string, CertificateDataElement> {
-  const id = data?.id ?? faker.random.alpha({ count: 5 })
+  const id = data?.id ?? fakeId()
   return {
     [id]: {
       parent: '',
@@ -71,7 +72,7 @@ export function fakeCertificateDataElement<T extends CertificateDataElement>(dat
       visible: true,
       readOnly: false,
       mandatory: false,
-      id: faker.random.alpha({ count: 5 }),
+      id: fakeId(),
       config: fakeCertificateConfig.category(),
       value: null,
       ...data,
@@ -221,15 +222,15 @@ export const fakeMedicalInvestigationListElement = fakeDataElementFactory<Config
     const valueList = Array.from({ length: 3 }, () =>
       fakeCertificateValue.medicalInvestigation({
         investigationType: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
         },
         date: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           date: faker.date.past().toISOString().split('T')[0],
         },
         informationSource: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           text: faker.lorem.words(),
         },
       })
@@ -286,8 +287,8 @@ export const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHea
 }))
 
 export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
-  const descriptionId = faker.random.alpha({ count: 5 })
-  const debutId = faker.random.alpha({ count: 5 })
+  const descriptionId = fakeId()
+  const debutId = fakeId()
 
   return {
     config: fakeCertificateConfig.causeOfDeath({
@@ -295,7 +296,7 @@ export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDea
       label: 'A',
       text: 'Den terminala dödsorsaken var',
       causeOfDeath: {
-        id: faker.random.alpha({ count: 5 }),
+        id: fakeId(),
         debutId: debutId,
         descriptionId: descriptionId,
         specifications: [
@@ -320,7 +321,7 @@ export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDea
       },
       specification: {
         type: CertificateDataValueType.CODE,
-        id: faker.random.alpha({ count: 5 }),
+        id: fakeId(),
         code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
       },
       ...value,
@@ -330,7 +331,7 @@ export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDea
 
 export const fakeCauseOfDeathListElement = fakeDataElementFactory<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>((config, value) => {
   const questions = new Array(8).fill(null).map(() => {
-    const id = faker.random.alpha({ count: 5 })
+    const id = fakeId()
     return fakeCauseOfDeathElement({ id })[id]
   })
 
@@ -358,7 +359,7 @@ export const fakeCauseOfDeathListElement = fakeDataElementFactory<ConfigUeCauseO
 })
 
 export const fakeVisualAcuityElement = fakeDataElementFactory<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
-  const id = faker.random.alpha({ count: 5 })
+  const id = fakeId()
   return {
     config: fakeCertificateConfig.visualAcuity({
       description: 'Synskärpan på respektive öga och binokulärt',

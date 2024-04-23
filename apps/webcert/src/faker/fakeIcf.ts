@@ -1,9 +1,10 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
 import { Icd10Code, IcfCode } from '../types/icf'
+import { fakeId } from './fakeId'
 
 const fakeCode = (value?: Partial<IcfCode>): IcfCode => ({
-  code: faker.random.alpha({ count: 5 }),
+  code: fakeId(),
   description: faker.lorem.sentence(2),
   includes: faker.lorem.sentence(),
   title: faker.lorem.word(),
@@ -11,7 +12,7 @@ const fakeCode = (value?: Partial<IcfCode>): IcfCode => ({
 })
 
 const fakeIcd10Code = (value?: Partial<Icd10Code>): Icd10Code => ({
-  code: faker.random.alpha({ count: 5 }),
+  code: fakeId(),
   title: faker.lorem.word(),
   ...value,
 })

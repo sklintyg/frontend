@@ -1,9 +1,10 @@
 import faker from 'faker'
 import { Unit } from '../types/certificate'
+import { fakeId } from './fakeId'
 
 export const fakeUnit = (data?: Partial<Unit>): Unit => {
   return {
-    unitId: faker.random.alpha({ count: 5 }),
+    unitId: fakeId(),
     unitName: faker.lorem.words(),
     address: faker.address.streetAddress(),
     zipCode: faker.random.alphaNumeric(5),
