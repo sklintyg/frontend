@@ -73,6 +73,7 @@ export function UeCheckboxDateRangeList({
         <WorkingHours id={id} parent={parent} disabled={disabled} baseWorkHours={baseWorkHours} onBaseWorkHours={setBaseWorkHours} />
       )}
       <div>
+        {config.label && <label>{config.label}</label>}
         {config.list.map(({ id, label }) => (
           <UeCheckboxDateRangeListField
             key={id}
