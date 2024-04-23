@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { beforeEach, expect } from 'vitest'
 import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { fakeCertificate } from '../../../faker'
 import { readyForSign, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { getCertificate } from '../../../utils'
 import ReadyForSignButton from './ReadyForSignButton'
 
 const NAME = 'ReadyForSign button name'
@@ -23,7 +23,7 @@ describe('ReadyForSign button', () => {
   })
 
   const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean, functionDisabled = false) => {
-    testStore.dispatch(updateCertificate(getCertificate()))
+    testStore.dispatch(updateCertificate(fakeCertificate()))
     render(
       <Provider store={testStore}>
         <CustomTooltip />

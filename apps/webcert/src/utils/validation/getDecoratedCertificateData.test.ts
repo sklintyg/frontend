@@ -24,11 +24,9 @@ import {
   CertificateStatus,
   ConfigUeCheckboxMultipleCodes,
   ResourceLinkType,
-  ValueBoolean,
   ValueCodeList,
   ValueText,
 } from '../../types'
-import { getCertificate } from '../test/certificateTestUtil'
 import { getDecoratedCertificateData } from './getDecoratedCertificateData'
 
 describe('mandatory', () => {
@@ -95,9 +93,20 @@ describe('mandatory', () => {
   })
 
   it('Should set mandatory to false on boolean element if it is false', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'foo', selected: false },
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '1.1',
+              expression: 'exists(foo)',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
   })
