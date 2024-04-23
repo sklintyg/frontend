@@ -105,15 +105,48 @@ describe('mandatory', () => {
 
 describe('visibility', () => {
   it('Should set visible to false on boolean element if empty', () => {
-    const { data, metadata, links } = getCertificate()
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: null },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
   })
 
   it('Should set visible to false on boolean element if undefined', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = undefined
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeCertificateDataElement({
+          id: '1.1',
+          config: fakeCertificateConfig.radioBoolean(),
+          value: { type: CertificateDataValueType.BOOLEAN, id: 'harFunktionsnedsattning', selected: undefined },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
   })
@@ -173,14 +206,32 @@ describe('visibility', () => {
   })
 
   it('Should set visible to true if show rule valid, even if hide rule is not valid', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
-
-    data['1.2'].visible = true // Set it visible as default
-    data['1.2'].validation = [] // Clear the validations so they don't affect this test.
-    const textValue: ValueText = data['1.2'].value as ValueText
-    textValue.text = 'A little text'
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: false },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          visible: true,
+          value: { id: 'funktionsnedsattning', text: 'Some text' },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeShowValidation({
+              questionId: '1.2',
+              expression: 'funktionsnedsattning',
+            }),
+            fakeHideValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(true)
   })

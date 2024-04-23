@@ -1,4 +1,11 @@
-import { fakeCertificateConfig, fakeCertificateValue, fakeDateRangeElement, fakePatient, fakeRadioBooleanElement } from '../../faker'
+import {
+  fakeCertificateConfig,
+  fakeCertificateValue,
+  fakeDateRangeElement,
+  fakePatient,
+  fakeRadioBooleanElement,
+  fakeTextAreaElement,
+} from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
@@ -10,55 +17,6 @@ import {
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeTextAreaElement()
- */
-export const getTextElement = (): CertificateDataElement => {
-  return {
-    id: '1.2',
-    parent: '1.1',
-    index: 1,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.textArea({
-      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
-      description:
-        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      id: 'funktionsnedsattning',
-    }),
-    value: {
-      type: CertificateDataValueType.TEXT,
-      id: 'funktionsnedsattning',
-      text: null,
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1.2',
-        expression: '$funktionsnedsattning',
-      },
-      {
-        type: CertificateDataValidationType.SHOW_VALIDATION,
-        questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
-      },
-      {
-        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
-        questionId: '1.1',
-        id: 'foobar',
-        expression: '$harFunktionsnedsattning',
-        fillValue: {
-          type: CertificateDataValueType.TEXT,
-          id: 'funktionsnedsattning',
-          text: 'Detta är autoifyllt!',
-        },
-      },
-    ],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeICFDataElement()
@@ -354,7 +312,7 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
     },
     data: {
       ...fakeRadioBooleanElement({ id: '1.1' }),
-      '1.2': getTextElement(),
+      ...fakeTextAreaElement({ id: '1.2' }),
       '1.3': getAnotherTextElement(),
       '28': getCheckBoxElement(),
       funktionsnedsattning: getCategoryFunktionsnedsattning(),
