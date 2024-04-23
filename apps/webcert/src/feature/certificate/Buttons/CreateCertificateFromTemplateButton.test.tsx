@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import CreateCertificateFromTemplateButton from './CreateCertificateFromTemplateButton'
 
 const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'
@@ -37,16 +37,16 @@ describe('Create certificate from template button', () => {
     expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
-  it('shall disable button', () => {
+  it('shall disable button', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
-  it('shall enable button', () => {
+  it('shall enable button', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
   it('shall set name for button', () => {

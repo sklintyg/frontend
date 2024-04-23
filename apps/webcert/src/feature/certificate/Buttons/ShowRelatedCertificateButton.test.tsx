@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
-import ShowRelatedCertificateButton from '../ShowRelatedCertificateButton'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
-import { CertificateMetadata } from '../../../../types'
+import { beforeEach, expect, vi } from 'vitest'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { CertificateMetadata } from '../../../types'
+import ShowRelatedCertificateButton from './ShowRelatedCertificateButton'
 
 const NAME = 'Show related certificate button name'
 const DESCRIPTION = 'Show related certificate button description'
@@ -38,16 +38,16 @@ describe('Show related certificate button', () => {
     expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
-  it('correctly disables button', () => {
+  it('correctly disables button', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
-  it('shall disable button if disableFunction is true', () => {
+  it('shall disable button if disableFunction is true', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('sets correct name for button', () => {

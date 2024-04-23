@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
-import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../../faker'
-import { CertificateRelationType, CertificateStatus } from '../../../../types'
-import ReplaceCertificateContinueButton from '../ReplaceCertificateContinueButton'
+import { expect, vi } from 'vitest'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../faker'
+import { CertificateRelationType, CertificateStatus } from '../../../types'
+import ReplaceCertificateContinueButton from './ReplaceCertificateContinueButton'
 
 const NAME = 'Replace continue button name'
 const DESCRIPTION = 'Replace continue button description'
@@ -43,16 +43,16 @@ const renderDefaultComponent = (enabled: boolean) => {
 }
 
 describe('Replace certificate continue button', () => {
-  it('shall enable button when enabled is true', () => {
+  it('shall enable button when enabled is true', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('shall disable button when enabled is false', () => {
+  it('shall disable button when enabled is false', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('shall set the name passed as prop', () => {

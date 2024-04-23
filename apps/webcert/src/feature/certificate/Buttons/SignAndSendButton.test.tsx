@@ -3,13 +3,14 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import SignAndSendButton from '../SignAndSendButton'
-import { fakeCertificate, fakeTextAreaElement } from '../../../../faker'
-import { ResourceLinkType } from '../../../../types'
+import { afterEach, beforeEach, expect } from 'vitest'
+import { fakeCertificate, fakeTextAreaElement } from '../../../faker'
+import { updateCertificate, updateValidationErrors } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { ResourceLinkType } from '../../../types'
+import SignAndSendButton from './SignAndSendButton'
 
 const commonProps = {
   body: 'Sign modal body',
@@ -36,16 +37,16 @@ describe('Sign certificate without confirmation modal', () => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
-  it('Enabled Sign button and no modal', () => {
+  it('Enabled Sign button and no modal', async () => {
     renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('Disabled Sign button', () => {
+  it('Disabled Sign button', async () => {
     renderDefaultComponent({ ...commonProps, enabled: false })
     const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('Click Sign button and no modal', async () => {
@@ -68,16 +69,16 @@ describe('Sign certificate with confirmation modal', () => {
     clearDispatchedActions()
   })
 
-  it('Enabled Sign button and no modal', () => {
+  it('Enabled Sign button and no modal', async () => {
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('Disabled Sign button', () => {
+  it('Disabled Sign button', async () => {
     renderDefaultComponent({ ...commonProps, enabled: false, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('Click Sign button and modal', async () => {

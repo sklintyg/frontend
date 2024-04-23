@@ -2,13 +2,14 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
-import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import { getCertificate } from '../../../../utils'
-import ReadyForSignButton from '../ReadyForSignButton'
+import { beforeEach, expect } from 'vitest'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { readyForSign, updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { getCertificate } from '../../../utils'
+import ReadyForSignButton from './ReadyForSignButton'
 
 const NAME = 'ReadyForSign button name'
 const DESCRIPTION = 'ReadyForSign button description'
@@ -37,19 +38,19 @@ describe('ReadyForSign button', () => {
     )
   }
 
-  it('shall enable button when enabled is true and isValidForSigning is true', () => {
+  it('shall enable button when enabled is true and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
     const button = screen.queryByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('shall disable button when enabled is false and isValidForSigning is true', () => {
+  it('shall disable button when enabled is false and isValidForSigning is true', async () => {
     renderDefaultComponent(false, true)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
-  it('shall set the name passed as prop and isValidForSigning is true', () => {
+  it('shall set the name passed as prop and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
     const name = screen.queryByText(NAME)
     expect(name).toBeInTheDocument()
@@ -69,22 +70,22 @@ describe('ReadyForSign button', () => {
     expect(dispatchedActions.find((action) => readyForSign.match(action))).toBeDefined()
   })
 
-  it('shall enable button when enabled is true and isValidForSigning is false', () => {
+  it('shall enable button when enabled is true and isValidForSigning is false', async () => {
     renderDefaultComponent(true, false)
     const button = screen.queryByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('shall disable button when enabled is false and isValidForSigning is false', () => {
+  it('shall disable button when enabled is false and isValidForSigning is false', async () => {
     renderDefaultComponent(false, false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
-  it('shall disable button when functionDisabled, enabled and isValidForSigning is true', () => {
+  it('shall disable button when functionDisabled, enabled and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true, true)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('shall set the name passed as prop and isValidForSigning is false', () => {

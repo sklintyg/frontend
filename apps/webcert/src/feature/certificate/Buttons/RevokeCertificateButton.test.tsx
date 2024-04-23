@@ -2,18 +2,18 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
-import { fakeCertificate, fakeCertificateMetaData } from '../../../../faker'
-import { apiMiddleware } from '../../../../store/api/apiMiddleware'
-import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import { updateQuestions } from '../../../../store/question/questionActions'
-import { questionMiddleware } from '../../../../store/question/questionMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import { Certificate, QuestionType } from '../../../../types'
-import RevokeCertificateButton from '../RevokeCertificateButton'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { fakeCertificate, fakeCertificateMetaData } from '../../../faker'
+import { apiMiddleware } from '../../../store/api/apiMiddleware'
+import { revokeCertificate, updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateQuestions } from '../../../store/question/questionActions'
+import { questionMiddleware } from '../../../store/question/questionMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { Certificate, QuestionType } from '../../../types'
+import RevokeCertificateButton from './RevokeCertificateButton'
 
 const NAME = 'Revoke button name'
 const DESCRIPTION = 'Revoke button description'
@@ -87,16 +87,16 @@ describe('Revoke certificate with unhandled questions', () => {
 })
 
 describe('Revoke continue button', () => {
-  it('shall enable button when enabled is true', () => {
+  it('shall enable button when enabled is true', async () => {
     renderDefaultComponent(true)
     const button = screen.getByRole('button')
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('shall disable button when enabled is false', () => {
+  it('shall disable button when enabled is false', async () => {
     renderDefaultComponent(false)
     const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('shall set the name of button', () => {
@@ -118,11 +118,11 @@ describe('Revoke continue button', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('shall have revoke button disabled if radio button is not chosen', () => {
+  it('shall have revoke button disabled if radio button is not chosen', async () => {
     renderDefaultComponent(true)
     openModal()
     const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
-    expect(revokeButton).toBeDisabled()
+    await expect(revokeButton).toBeDisabled()
   })
 
   it('shall have revoke button enabled by default if radio button wrong patient is chosen', async () => {
@@ -130,7 +130,7 @@ describe('Revoke continue button', () => {
     openModal()
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
     await userEvent.click(radioButton)
-    expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
+    await expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
   })
 
   it('shall have revoke button disabled if radio button other reason is chosen and message is empty', async () => {
@@ -138,7 +138,7 @@ describe('Revoke continue button', () => {
     openModal()
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
     await userEvent.click(radioButton)
-    expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeDisabled()
+    await expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeDisabled()
   })
 
   it('shall have revoke button enabled if radio button other reason is chosen and message is not empty', async () => {
@@ -147,7 +147,7 @@ describe('Revoke continue button', () => {
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
     await userEvent.click(radioButton)
     await userEvent.type(screen.getByRole('textbox'), 'test')
-    expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
+    await expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
   })
 
   it('shall dispatch revoke certificate when revoke is pressed', async () => {
@@ -206,12 +206,12 @@ describe('Revoke continue button', () => {
 
     afterEach(() => clearDispatchedActions())
 
-    it('shall enable confirm button if isDodsbevis', () => {
+    it('shall enable confirm button if isDodsbevis', async () => {
       renderComponentWithTestStore(true)
       openModal()
 
       const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
-      expect(revokeButton).toBeEnabled()
+      await expect(revokeButton).toBeEnabled()
     })
 
     it('shall dispatch revoke certificate when revoke is pressed', async () => {

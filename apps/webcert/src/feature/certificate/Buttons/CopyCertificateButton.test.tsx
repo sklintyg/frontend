@@ -1,36 +1,26 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { vi } from 'vitest'
-import RenewCertificateButton from '../RenewCertificateButton'
-import CustomTooltip from '../../../../components/utils/CustomTooltip'
-import { Unit, User, CertificateMetadata } from '../../../../types'
+import { beforeEach, expect, vi } from 'vitest'
+import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { CertificateMetadata } from '../../../types'
+import CopyCertificateButton from './CopyCertificateButton'
 
-const NAME = 'Renew button name'
-const DESCRIPTION = 'Renew button description'
-const BODY = 'Renew button body'
-const DONT_SHOW_FORNYA_DIALOG = 'wc.dontShowFornyaDialog'
-const PREFERENCES = { [DONT_SHOW_FORNYA_DIALOG]: 'false' }
-const user = {
-  hsaId: '1234abc',
-  name: 'Test Testtest',
-  loggedInUnit: { unitName: 'testUnit' } as Unit,
-  loggedInCareProvider: { unitName: 'testProvider' } as Unit,
-  role: 'doctor',
-  preferences: PREFERENCES,
-} as unknown as User
+const NAME = 'Copy button name'
+const DESCRIPTION = 'Copy button description'
+const BODY = 'Copy button body'
 
 const certificateMetadata = {} as CertificateMetadata
 
 const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(
     <>
-      <RenewCertificateButton
-        certificateId={certificateMetadata.id}
+      <CopyCertificateButton
         name={NAME}
         description={DESCRIPTION}
         body={BODY}
         enabled={enabled}
+        certificateMetadata={certificateMetadata}
         functionDisabled={functionDisabled}
       />
       <CustomTooltip />
@@ -39,27 +29,25 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
 }
 
 beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
   const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue(user)
   useDispatchSpy.mockReturnValue(vi.fn())
 })
 
-describe('Renew certificate button', () => {
+describe('Copy certificate button', () => {
   it('renders without crashing', () => {
     expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
-  it('correctly disables button', () => {
+  it('correctly disables button', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
-  it('shall disable button if disableFunction is true', () => {
+  it('shall disable button if disableFunction is true', async () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('sets correct name for button', () => {
@@ -83,7 +71,7 @@ describe('Renew certificate button', () => {
   it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
     const button = screen.queryByRole('button') as HTMLButtonElement
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
     expect(screen.queryByText(BODY)).not.toBeInTheDocument()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     await userEvent.click(button)
@@ -96,27 +84,11 @@ describe('Renew certificate button', () => {
     const button = screen.queryByRole('button') as HTMLButtonElement
     await userEvent.click(button)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    const checkbox = screen.queryByRole('checkbox') as HTMLInputElement
-    expect(checkbox).toBeInTheDocument()
-    expect(checkbox).not.toBeChecked()
-    await userEvent.click(checkbox)
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(checkbox).toBeChecked()
-    await userEvent.click(checkbox)
-    expect(checkbox).not.toBeChecked()
-    await userEvent.click(screen.getByText('Förnya'))
+    await userEvent.click(screen.getByText('Kopiera'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     await userEvent.click(button)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     await userEvent.click(screen.getByText('Avbryt'))
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  })
-
-  it('does not show dialog if preference to hide renewal dialog is set', async () => {
-    user.preferences = { [DONT_SHOW_FORNYA_DIALOG]: 'true' }
-    renderDefaultComponent(true)
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })
