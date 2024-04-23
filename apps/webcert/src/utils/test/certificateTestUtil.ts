@@ -5,31 +5,9 @@ import {
   fakeRadioBooleanElement,
   fakeTextAreaElement,
 } from '../../faker'
-import { Certificate, CertificateDataElement, CertificateStatus, ConfigTypes } from '../../types/certificate'
+import { Certificate, CertificateDataElement, CertificateStatus } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeCategoryElement()
- */
-export const getCategorySysselsattning = (): CertificateDataElement => {
-  return {
-    id: 'sysselsattning',
-    parent: '',
-    index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {
-      text: 'Sysselsättning',
-      description: 'En annan beskrivning',
-      type: ConfigTypes.CATEGORY,
-    },
-    value: null,
-    validation: [],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeCertificate()
