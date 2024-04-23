@@ -69,6 +69,8 @@ export function UeCheckboxDateRangeListField({
   baseWorkHours,
   validationErrors,
   hasValidationError,
+  min,
+  max,
 }: {
   label: string
   field: string
@@ -79,6 +81,8 @@ export function UeCheckboxDateRangeListField({
   baseWorkHours: string
   validationErrors: ValidationError[]
   hasValidationError: boolean
+  min?: string
+  max?: string
 }) {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
@@ -181,6 +185,8 @@ export function UeCheckboxDateRangeListField({
               label={'Fr.o.m'}
               id={`from${field}`}
               textInputRef={fromTextInputRef}
+              min={min}
+              max={max}
               textInputOnKeyDown={(event) => {
                 if (event.key.toLowerCase() === 'enter') {
                   fromTextInputRef.current?.blur()
