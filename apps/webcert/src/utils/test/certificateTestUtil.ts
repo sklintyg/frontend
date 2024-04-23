@@ -5,7 +5,7 @@ import {
   fakeRadioBooleanElement,
   fakeTextAreaElement,
 } from '../../faker'
-import { Certificate, CertificateDataElement, CertificateStatus } from '../../types/certificate'
+import { Certificate, CertificateStatus } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
 
@@ -89,84 +89,6 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
       ...fakeCategoryElement({ id: 'sysselsattning' }),
     },
     links,
-  }
-}
-
-/**
- * @deprecated use fakeCertificate()
- */
-export const getCertificateWithQuestion = (question: CertificateDataElement): Certificate => {
-  return {
-    metadata: {
-      id: '',
-      type: '',
-      created: '',
-      description: '',
-      testCertificate: false,
-      sent: false,
-      latestMajorVersion: true,
-      responsibleHospName: '',
-      careProvider: {
-        unitId: '',
-        address: '',
-        city: '',
-        email: '',
-        phoneNumber: '',
-        zipCode: '',
-        unitName: '',
-        isInactive: false,
-      },
-      careUnit: {
-        unitId: '',
-        address: '',
-        city: '',
-        email: '',
-        phoneNumber: '',
-        zipCode: '',
-        unitName: '',
-        isInactive: false,
-      },
-      unit: {
-        unitId: '',
-        address: '',
-        city: '',
-        email: '',
-        phoneNumber: '',
-        zipCode: '',
-        unitName: '',
-        isInactive: false,
-      },
-      forwarded: false,
-      name: '',
-      status: CertificateStatus.UNSIGNED,
-      issuedBy: {
-        personId: '',
-        fullName: '',
-        prescriptionCode: '',
-      },
-      patient: fakePatient({
-        personId: {
-          id: '',
-          type: '',
-        },
-        firstName: '',
-        fullName: '',
-        lastName: '',
-        street: '',
-        zipCode: '',
-        city: '',
-      }),
-      relations: {
-        children: [],
-        parent: null,
-      },
-      version: 1,
-      typeVersion: '1.0',
-    },
-    data: {
-      [question.id]: question,
-    },
-    links: [],
   }
 }
 
