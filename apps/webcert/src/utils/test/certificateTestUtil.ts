@@ -12,28 +12,6 @@ import { ResourceLink } from '../../types/resourceLink'
 /**
  * @deprecated use fakeCategoryElement()
  */
-export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
-  return {
-    id: 'funktionsnedsattning',
-    parent: '',
-    index: 11,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {
-      text: 'Sjukdomens konsekvenser',
-      description: 'En annan beskrivning',
-      type: ConfigTypes.CATEGORY,
-    },
-    value: null,
-    validation: [],
-    validationErrors: [],
-  }
-}
-
-/**
- * @deprecated use fakeCategoryElement()
- */
 export const getCategorySysselsattning = (): CertificateDataElement => {
   return {
     id: 'sysselsattning',
