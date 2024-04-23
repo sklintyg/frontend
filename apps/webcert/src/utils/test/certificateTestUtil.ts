@@ -1,63 +1,14 @@
-import { fakeCertificateConfig, fakeCertificateValue, fakePatient, fakeRadioBooleanElement, fakeTextAreaElement } from '../../faker'
+import { fakeCertificateValue, fakePatient, fakeRadioBooleanElement, fakeTextAreaElement } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
   CertificateDataValidationType,
-  CertificateDataValueType,
   CertificateStatus,
   ConfigLayout,
   ConfigTypes,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
-
-/**
- * @deprecated use fakeTextAreaElement()
- */
-export const getAnotherTextElement = (): CertificateDataElement => {
-  return {
-    id: '1.3',
-    parent: '1.1',
-    index: 2,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.textArea({
-      text: 'En annan text',
-      description: 'En annan beskrivning',
-      id: 'annanFunktionsnedsattning',
-    }),
-    value: {
-      type: CertificateDataValueType.TEXT,
-      id: 'annanFunktionsnedsattning',
-      text: null,
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.SHOW_VALIDATION,
-        questionId: '1.2',
-        expression: '$funktionsnedsattning',
-      },
-      {
-        type: CertificateDataValidationType.HIDE_VALIDATION,
-        questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
-      },
-      {
-        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
-        questionId: '1.1',
-        expression: '!$harFunktionsnedsattning',
-        id: 'foobar',
-        fillValue: {
-          type: CertificateDataValueType.TEXT,
-          id: 'annanFunktionsnedsattning',
-          text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
-        },
-      },
-    ],
-    validationErrors: [],
-  }
-}
 
 /**
  * @deprecated use fakeCheckboxMultipleCodeElement()
@@ -244,7 +195,7 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
     data: {
       ...fakeRadioBooleanElement({ id: '1.1' }),
       ...fakeTextAreaElement({ id: '1.2' }),
-      '1.3': getAnotherTextElement(),
+      ...fakeTextAreaElement({ id: '1.3' }),
       '28': getCheckBoxElement(),
       funktionsnedsattning: getCategoryFunktionsnedsattning(),
       sysselsattning: getCategorySysselsattning(),

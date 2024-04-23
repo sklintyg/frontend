@@ -198,9 +198,31 @@ describe('visibility', () => {
   })
 
   it('Should set visible to false if show rule not valid, even if hide rule is not valid', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: false },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning', text: null },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeShowValidation({
+              questionId: '1.2',
+              expression: 'funktionsnedsattning',
+            }),
+            fakeHideValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
   })
