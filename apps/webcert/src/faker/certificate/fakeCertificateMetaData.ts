@@ -1,10 +1,10 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
-import { CertificateMetadata, CertificateRelation, CertificateRelationType, CertificateRelations, CertificateStatus } from '../types'
+import { CertificateMetadata, CertificateRelation, CertificateRelationType, CertificateRelations, CertificateStatus } from '../../types'
+import { fakePatient } from '../fakePatient'
+import { fakeStaff } from '../fakeStaff'
+import { fakeUnit } from '../fakeUnit'
 import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
-import { fakePatient } from './fakePatient'
-import { fakeStaff } from './fakeStaff'
-import { fakeUnit } from './fakeUnit'
 
 export const fakeCertificateRelation = (data?: PartialDeep<CertificateRelation>): CertificateRelation => {
   return {

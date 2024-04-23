@@ -29,7 +29,7 @@ import {
   ValueViewText,
   ValueVisualAcuity,
   ValueYear,
-} from '../types/certificate'
+} from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
 

@@ -56,11 +56,11 @@ import {
   ValueViewText,
   ValueVisualAcuity,
   ValueYear,
-} from '../types/certificate'
+} from '../../types/certificate'
+import { fakeCityList } from '../fakeCity'
+import { fakeList } from '../fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
-import { fakeCityList } from './fakeCity'
-import { fakeList } from './fakeList'
 
 export function fakeCertificateDataElement<T extends CertificateDataElement>(data?: Partial<T>): Record<string, CertificateDataElement> {
   const id = data?.id ?? faker.random.alpha({ count: 5 })

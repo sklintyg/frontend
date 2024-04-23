@@ -40,7 +40,7 @@ import {
   ConfigUeVisualAcuity,
   ConfigUeYear,
   MessageLevel,
-} from '../types/certificate'
+} from '../../types/certificate'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
   openText: faker.lorem.words(),

@@ -12,7 +12,7 @@ import {
   ShowValidation,
   TextValidation,
   ValidationError,
-} from '../types/certificate'
+} from '../../types/certificate'
 import { fakeCertificateValue } from './fakeCertificateValue'
 
 export const fakeTextValidation = (data?: Partial<TextValidation>): TextValidation => ({
