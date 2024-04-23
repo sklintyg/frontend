@@ -1,4 +1,4 @@
-import { fakeCertificateConfig, fakeCertificateValue, fakeDateRangeElement } from '../../faker'
+import { fakeCertificateConfig, fakeCertificateValue, fakeDateRangeElement, fakePatient } from '../../faker'
 import {
   Certificate,
   CertificateDataElement,
@@ -399,25 +399,18 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
         fullName: '',
         prescriptionCode: '',
       },
-      patient: {
+      patient: fakePatient({
         personId: {
           id: '',
           type: '',
         },
-        differentNameFromEHR: false,
-        personIdChanged: false,
-        coordinationNumber: false,
-        deceased: false,
         firstName: '',
         fullName: '',
         lastName: '',
         street: 'Street 1',
         zipCode: '12345',
         city: 'City',
-        protectedPerson: false,
-        testIndicated: false,
-        reserveId: false,
-      },
+      }),
       relations: {
         children: [],
         parent: null,
@@ -489,25 +482,18 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         fullName: '',
         prescriptionCode: '',
       },
-      patient: {
+      patient: fakePatient({
         personId: {
           id: '',
           type: '',
         },
-        differentNameFromEHR: false,
-        personIdChanged: false,
-        coordinationNumber: false,
-        deceased: false,
         firstName: '',
         fullName: '',
         lastName: '',
         street: '',
         zipCode: '',
         city: '',
-        protectedPerson: false,
-        testIndicated: false,
-        reserveId: false,
-      },
+      }),
       relations: {
         children: [],
         parent: null,
