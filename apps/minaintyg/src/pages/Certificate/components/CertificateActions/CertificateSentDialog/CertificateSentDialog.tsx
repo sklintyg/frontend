@@ -1,7 +1,7 @@
 import { Dialog } from '@frontend/components'
 import { ComponentProps } from 'react'
-import { useFormat } from '../../../../hooks/useFormat'
-import { CertificateRecipient } from '../../../../schema/certificate.schema'
+import { useFormat } from '../../../../../hooks/useFormat'
+import { CertificateRecipient } from '../../../../../schema/certificate.schema'
 
 export function CertificateSentDialog({
   recipient,

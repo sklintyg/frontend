@@ -1,30 +1,26 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../constants'
-import {
-  isCareAdministrator as selectIsCareAdministrator,
-  isDoctor as selectIsDoctor,
-  selectIsLoadingUser,
-} from '../store/user/userSelectors'
+import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../constants'
+import { getUser, isCareAdministrator as selectIsCareAdministrator, selectIsLoadingUser } from '../store/user/userSelectors'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 
-export const LoggedInUserRedirect: React.FC = ({ children }) => {
+export const LoggedInUserRedirect: React.FC = ({ children: startPage }) => {
   const isLoadingUser = useSelector(selectIsLoadingUser)
-  const isDoctor = useSelector(selectIsDoctor)
   const isCareAdministrator = useSelector(selectIsCareAdministrator)
+  const user = useSelector(getUser)
 
   if (isLoadingUser) {
     return <SpinnerBackdrop open spinnerText="Laddar..." />
   }
 
-  if (isDoctor) {
-    return <Redirect to={START_URL_FOR_DOCTORS} />
+  if (!user) {
+    return <>{startPage}</>
   }
 
   if (isCareAdministrator) {
     return <Redirect to={START_URL_FOR_ADMINISTRATORS} />
   }
 
-  return <>{children}</>
+  return <Redirect to={START_URL} />
 }

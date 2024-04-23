@@ -1,4 +1,4 @@
-import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../../faker'
+import { fakeCheckboxDateRangeList, fakeDateElement, fakeYearElement } from '../../faker'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { getClientValidationErrors } from './getClientValidationErrors'
 
@@ -46,7 +46,7 @@ describe('Validation based on value', () => {
 
   describe(`${CertificateDataValueType.DATE_RANGE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } }).question
+      const dataElement = fakeCheckboxDateRangeList({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -66,7 +66,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the future', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '2099-12-13', to: '2099-12-13' }] },
       }).question
@@ -89,7 +89,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the past', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '1212-12-12', to: '1212-12-12' }] },
       }).question
@@ -112,7 +112,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } }).question
+      const dataElement = fakeCheckboxDateRangeList({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } }).question
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
@@ -126,7 +126,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return INVALID_DATE_PERIOD_ERROR for invalid periods', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] },
       }).question
@@ -186,9 +186,9 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
-  describe(`${ConfigTypes.UE_SICK_LEAVE_PERIOD}`, () => {
+  describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: {
           list: [

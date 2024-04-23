@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import QuestionAccordion from './QuestionAccordion'
-import QuestionUeResolve from './QuestionUeResolve'
 import { CertificateDataElement, ValueType } from '../../../types'
 import { validateExpression } from '../../../utils/validation/validateExpression'
+import QuestionAccordion from './QuestionAccordion'
+import { QuestionUeResolve } from './QuestionUeResolve'
 
 interface Props {
   question: CertificateDataElement

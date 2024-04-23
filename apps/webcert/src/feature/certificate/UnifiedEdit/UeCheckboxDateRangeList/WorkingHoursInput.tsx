@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import TextInput from '../../../../components/Inputs/TextInput'
 import Icon from '../../../../components/image/image/Icon'
@@ -10,19 +10,15 @@ const StyledTextInput = styled(TextInput)`
   text-align: center;
 `
 
-interface Props {
+export function WorkingHoursInput({
+  onChange,
+  value,
+  hasValidationError,
+}: {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   value: string
   hasValidationError: boolean
-}
-
-export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidationError }) => {
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === ' ') {
-      event.preventDefault()
-    }
-  }
-
+}) {
   return (
     <>
       <p className={'iu-fs-200 iu-fw-body'}>
@@ -36,7 +32,11 @@ export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidat
         hasValidationError={hasValidationError}
         className="iu-mx-200 iu-fs-200"
         data-testid="workingHours"
-        onKeyDown={onKeyDown}
+        onKeyDown={(event) => {
+          if (event.key === ' ') {
+            event.preventDefault()
+          }
+        }}
       />
       <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
     </>

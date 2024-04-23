@@ -32,19 +32,18 @@ const shouldValidationRuleBeMerged = (validationType: CertificateDataValidationT
 
 const getAffectedIds = (validation: CertificateDataValidation) => (typeof validation.id === 'string' ? [validation.id] : validation.id)
 
-const filterSameRule =
-  (needle: ValidationResult) =>
-  (result: ValidationResult): boolean => {
-    return !(
-      result.element.id === needle.element.id &&
-      result.validation.type === needle.validation.type &&
-      (result.validation.id === undefined || isEqual(getAffectedIds(result.validation), getAffectedIds(needle.validation)))
+const mergeSameValidation = (result: ValidationResult[], item: ValidationResult) => {
+  const existing =
+    shouldValidationRuleBeMerged(item.validation.type) &&
+    result.find(
+      (needle) =>
+        item.element.id === needle.element.id &&
+        item.validation.type === needle.validation.type &&
+        (needle.validation.id === undefined || isEqual(getAffectedIds(item.validation), getAffectedIds(needle.validation)))
     )
-  }
+
+  return [...result.filter((needle) => needle !== existing), { ...item, result: existing ? existing.result || item.result : item.result }]
+}
 
 export const filterValidationResults = (validationResults: ValidationResult[]): ValidationResult[] =>
-  validationResults.filter(resolvePriorityBetweenValidationTypes).reduce((result: ValidationResult[], current: ValidationResult) => {
-    return shouldValidationRuleBeMerged(current.validation.type)
-      ? [...result.filter(filterSameRule(current)), current]
-      : [...result, current]
-  }, [])
+  validationResults.filter(resolvePriorityBetweenValidationTypes).reduce(mergeSameValidation, [])

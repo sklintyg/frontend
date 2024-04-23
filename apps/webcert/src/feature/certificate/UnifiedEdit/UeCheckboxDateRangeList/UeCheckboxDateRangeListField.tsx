@@ -1,5 +1,5 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
@@ -59,42 +59,40 @@ const DateGrid = styled.div`
   }
 `
 
-interface Props {
-  label: string
-  field: string
-  value: ValueDateRange
-  onChange: (value: ValueDateRange) => void
-  getPeriodStartingDate: () => string
-  disabled: boolean
-  baseWorkHours: string
-  validationErrors: ValidationError[]
-  hasValidationError: boolean
-}
-
-const DateRangePicker: React.FC<Props> = ({
+export function UeCheckboxDateRangeListField({
   label,
   field,
   value,
   onChange,
-  getPeriodStartingDate,
+  periodStartingDate,
   disabled,
   baseWorkHours,
   validationErrors,
   hasValidationError,
-}) => {
+}: {
+  label: string
+  field: string
+  value: ValueDateRange
+  onChange: (value: ValueDateRange) => void
+  periodStartingDate: string
+  disabled: boolean
+  baseWorkHours: string
+  validationErrors: ValidationError[]
+  hasValidationError: boolean
+}) {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
 
-  const updateWorkingPeriod = useCallback(
-    (fromDateString: string | null, toDateString: string | null) => {
-      if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
-        setWorkHoursPerWeek(null)
-        setWorkDaysPerWeek(null)
-        return
-      }
+  useEffect(() => {
+    const fromDateString = value.from ?? ''
+    const toDateString = value.to ?? ''
 
+    if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
+      setWorkHoursPerWeek(null)
+      setWorkDaysPerWeek(null)
+    } else {
       if (!fromDateString || !toDateString || !parseInt(baseWorkHours)) return
 
       const fromDate = getValidDate(fromDateString)
@@ -107,25 +105,14 @@ const DateRangePicker: React.FC<Props> = ({
         setWorkHoursPerWeek(workingHoursPerWeek)
         setWorkDaysPerWeek(periodWorkDays)
       }
-    },
-    [baseWorkHours, field]
-  )
-
-  useEffect(() => {
-    updateWorkingPeriod(value.from ?? '', value.to ?? '')
-  }, [value.from, value.to, updateWorkingPeriod])
-
-  const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key.toLowerCase() === 'enter') {
-      fromTextInputRef.current?.blur()
-      tomTextInputRef.current?.focus()
     }
+  }, [baseWorkHours, field, value.from, value.to])
+
+  const handleFromChanged = (from: string) => {
+    onChange({ ...value, from })
   }
-
-  const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key.toLowerCase() === 'enter') {
-      tomTextInputRef.current?.blur()
-    }
+  const handleToChanged = (to: string) => {
+    onChange({ ...value, to })
   }
 
   const handleToTextInputOnBlur = () => {
@@ -154,34 +141,18 @@ const DateRangePicker: React.FC<Props> = ({
     }
   }
 
-  const handleFromChanged = (from: string) => {
-    onChange({ ...value, from })
-  }
-  const handleToChanged = (to: string) => {
-    onChange({ ...value, to })
-  }
-
-  const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      tomTextInputRef.current?.focus()
-      handleFromChanged(getPeriodStartingDate())
-    } else {
-      onChange({ ...value, from: undefined, to: undefined })
-      setWorkHoursPerWeek(null)
-      setWorkDaysPerWeek(null)
-    }
-  }
-
-  const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    return hasValidationError === true
-      ? hasValidationError
-      : validationErrors.filter(
-          (v: ValidationError) =>
-            v.field.includes(field + '.' + id) ||
-            v.field.includes('row.' + id) ||
-            v.field.includes('sjukskrivningar.period.' + id + '.' + field)
-        ).length > 0
-  }
+  const shouldDisplayValidationErrorOutline = useCallback(
+    (id: string, field: string) =>
+      Boolean(
+        hasValidationError ||
+          validationErrors.find((v: ValidationError) =>
+            [`${field}.${id}`, `${id}.${field}`, `row.${id}`, `period.${id}.${field}`, `sjukskrivningar.period.${id}.${field}`].includes(
+              v.field
+            )
+          )
+      ),
+    [hasValidationError, validationErrors]
+  )
 
   return (
     <>
@@ -190,7 +161,16 @@ const DateRangePicker: React.FC<Props> = ({
           id={`${field}-checkbox`}
           hasValidationError={hasValidationError || validationErrors.length > 0}
           checked={!!value.from || !!value.to}
-          onChange={handleCheckboxClick}
+          onChange={(event) => {
+            if (event.target.checked) {
+              tomTextInputRef.current?.focus()
+              handleFromChanged(periodStartingDate)
+            } else {
+              onChange({ ...value, from: undefined, to: undefined })
+              setWorkHoursPerWeek(null)
+              setWorkDaysPerWeek(null)
+            }
+          }}
           label={label}
           disabled={disabled}
         />
@@ -201,13 +181,18 @@ const DateRangePicker: React.FC<Props> = ({
               label={'Fr.o.m'}
               id={`from${field}`}
               textInputRef={fromTextInputRef}
-              textInputOnKeyDown={handleFromTextInputOnKeyDown}
+              textInputOnKeyDown={(event) => {
+                if (event.key.toLowerCase() === 'enter') {
+                  fromTextInputRef.current?.blur()
+                  tomTextInputRef.current?.focus()
+                }
+              }}
               textInputName={`from${field}`}
               inputString={value.from ?? ''}
               setDate={handleFromChanged}
               textInputOnChange={handleFromChanged}
               textInputDataTestId={`from${field}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'from')}
+              displayValidationErrorOutline={shouldDisplayValidationErrorOutline(field, 'from')}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -221,9 +206,15 @@ const DateRangePicker: React.FC<Props> = ({
               setDate={handleToChanged}
               textInputOnChange={handleToChanged}
               textInputOnBlur={handleToTextInputOnBlur}
-              textInputOnKeyDown={handleToTextInputOnKeyDown}
+              textInputOnKeyDown={(event) => {
+                if (event.key.toLowerCase() === 'enter') {
+                  tomTextInputRef.current?.blur()
+                }
+              }}
               textInputDataTestId={`tom${field}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')}
+              displayValidationErrorOutline={
+                shouldDisplayValidationErrorOutline(field, 'tom') || shouldDisplayValidationErrorOutline(field, 'to')
+              }
             />
           </DatesWrapper>
         </DateGrid>
@@ -238,5 +229,3 @@ const DateRangePicker: React.FC<Props> = ({
     </>
   )
 }
-
-export default DateRangePicker

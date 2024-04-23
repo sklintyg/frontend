@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { ScrollRestoration, useParams } from 'react-router-dom'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
@@ -16,6 +16,7 @@ import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
+import { isMobileApp } from './utils/isMobileApp'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
@@ -43,11 +44,12 @@ export function CertificatePage() {
         <>
           <div className="mb-5">
             <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
-            <CertificateActions
-              recipient={certificate.metadata.recipient}
-              availableFunctions={certificate.availableFunctions}
-              id={certificate.metadata.id}
-            />
+            {isMobileApp() && (
+              <IDSAlert className="mb-5">
+                Om du vill skriva ut eller spara ditt intyg behöver du logga in på 1177.se via din webbläsare.
+              </IDSAlert>
+            )}
+            <CertificateActions recipient={certificate.metadata.recipient} id={certificate.metadata.id} />
           </div>
 
           <div className="md:hidden">

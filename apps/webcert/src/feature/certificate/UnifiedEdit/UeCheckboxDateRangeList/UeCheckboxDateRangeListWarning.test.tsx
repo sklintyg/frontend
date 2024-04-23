@@ -2,9 +2,9 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
+import { setPeriodWarning } from '../../../../store/fmb/fmbActions'
 import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
-import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
+import { UeCheckboxDateRangeListWarning } from './UeCheckboxDateRangeListWarning'
 
 let testStore: EnhancedStore
 const WARNING = 'warning string'
@@ -16,7 +16,7 @@ beforeEach(() => {
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <SickLeavePeriodWarning />
+      <UeCheckboxDateRangeListWarning />
     </Provider>
   )
 }
@@ -33,7 +33,7 @@ describe('Sick leave period warning', () => {
 
   it('displays warning', () => {
     renderComponent()
-    testStore.dispatch(setSickLeavePeriodWarning(WARNING))
+    testStore.dispatch(setPeriodWarning(WARNING))
     expect(screen.getByText(WARNING)).toBeInTheDocument()
   })
 })

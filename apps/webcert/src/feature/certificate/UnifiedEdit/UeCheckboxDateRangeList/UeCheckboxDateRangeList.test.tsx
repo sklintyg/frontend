@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { fakeCertificateConfig } from '../../../../faker'
-import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
+import { showValidationErrors, updateCertificate, updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValidationType, CertificateDataValueType, ConfigUeSickLeavePeriod } from '../../../../types'
-import { getCertificateWithQuestion } from '../../../../utils'
-import { UeSickLeavePeriod } from './UeSickLeavePeriod'
+import { CertificateDataElement, CertificateDataValidationType, ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../../types'
+import { UeCheckboxDateRangeList } from './UeCheckboxDateRangeList'
 
 const QUESTION_ID = 'Test'
 
@@ -22,16 +21,20 @@ const TRE_FJARDEDEL_LABEL = '75 procent'
 const HELT_NEDSATT_ID = 'HELT_NEDSATT'
 const HELT_NEDSATT_LABEL = '100 procent'
 
-const defaultQuestion: CertificateDataElement = {
+type QuestionDataElement = CertificateDataElement & { config: ConfigUeCheckboxDateRangeList; value: ValueDateRangeList }
+
+const defaultQuestion: QuestionDataElement = {
   id: QUESTION_ID,
   parent: 'bedomning',
   index: 18,
   visible: true,
   readOnly: false,
   mandatory: true,
-  config: fakeCertificateConfig.sickLeavePeriod({
+  config: fakeCertificateConfig.checkboxDateRangeList({
     text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
+    label: 'Period av den ordinarie tiden:',
     description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
+    hideWorkingHours: false,
     list: [
       {
         id: EN_FJARDEDEL_ID,
@@ -51,10 +54,7 @@ const defaultQuestion: CertificateDataElement = {
       },
     ],
   }),
-  value: {
-    type: CertificateDataValueType.DATE_RANGE_LIST,
-    list: [],
-  },
+  value: fakeCertificateValue.dateRangeList(),
   validation: [
     {
       type: CertificateDataValidationType.MANDATORY_VALIDATION,
@@ -65,15 +65,19 @@ const defaultQuestion: CertificateDataElement = {
   validationErrors: [],
 }
 
-const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
+const renderDefaultComponent = (question: QuestionDataElement = defaultQuestion, disabled: boolean = false) => {
   render(
     <Provider store={store}>
-      <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
+      <UeCheckboxDateRangeList
+        disabled={disabled}
+        question={question}
+        onUpdate={(value) => store.dispatch(updateCertificateDataElement({ ...question, value }))}
+      />
     </Provider>
   )
 }
 
-describe('UeSickLeavePeriod', () => {
+describe('UeCheckboxDateRangeList', () => {
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -97,10 +101,10 @@ describe('UeSickLeavePeriod', () => {
     screen.getByLabelText(TRE_FJARDEDEL_LABEL).click()
     screen.getByLabelText(HELT_NEDSATT_LABEL).click()
 
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${TRE_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-01')
-    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${TRE_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-01')
+    await expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-01')
   })
 
   it('Gets a correct starting date with one prior date period', async () => {
@@ -111,8 +115,8 @@ describe('UeSickLeavePeriod', () => {
     await userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-07')
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
+    await expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toHaveValue('2000-02-07')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
   it('Gets a correct starting date with one later date period', async () => {
@@ -123,28 +127,27 @@ describe('UeSickLeavePeriod', () => {
     await userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
-    expect(screen.getByTestId(`tom${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-07')
-    expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
+    await expect(screen.getByTestId(`tom${HELT_NEDSATT_ID}`)).toHaveValue('2000-02-07')
+    await expect(screen.getByTestId(`from${HALFTEN_ID}`)).toHaveValue('2000-02-08')
   })
 
-  it('inputs are disabled correctly', () => {
+  it('inputs are disabled correctly', async () => {
     renderDefaultComponent(undefined, true)
 
-    expect(screen.getByLabelText(EN_FJARDEDEL_LABEL)).toBeDisabled()
-    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
-    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
+    await expect(screen.getByLabelText(EN_FJARDEDEL_LABEL)).toBeDisabled()
+    await expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
+    await expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
   })
 
   it('Renders total number of sick days', () => {
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
+      value: fakeCertificateValue.dateRangeList({
         list: [
-          { id: '1', from: '2021-06-01', to: '2021-06-07', type: CertificateDataValueType.DATE_RANGE },
-          { id: '2', from: '2021-06-08', to: '2021-06-14', type: CertificateDataValueType.DATE_RANGE },
+          { id: '1', from: '2021-06-01', to: '2021-06-07' },
+          { id: '2', from: '2021-06-08', to: '2021-06-14' },
         ],
-      },
+      }),
     }
 
     renderDefaultComponent(question)
@@ -153,15 +156,14 @@ describe('UeSickLeavePeriod', () => {
   })
 
   it('Renders no total number of sick days if missing valid date ranges', () => {
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
+      value: fakeCertificateValue.dateRangeList({
         list: [
-          { id: '1', from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE },
-          { id: '2', from: '', to: '2021-06-14', type: CertificateDataValueType.DATE_RANGE },
+          { id: '1', from: '2021-06-01', to: '' },
+          { id: '2', from: '', to: '2021-06-14' },
         ],
-      },
+      }),
     }
 
     renderDefaultComponent(question)
@@ -170,44 +172,43 @@ describe('UeSickLeavePeriod', () => {
   })
 
   it('should not render total number of sick days if question is disabled', () => {
-    const question: CertificateDataElement = {
+    renderDefaultComponent({
       ...defaultQuestion,
       disabled: true,
-    }
-
-    renderDefaultComponent(question)
+    })
 
     expect(screen.queryByText('Intyget motsvarar en period på 14 dagar.')).not.toBeInTheDocument()
   })
 
   it('should not render hourly calculation if component is disabled', () => {
-    const question: CertificateDataElement = {
-      ...defaultQuestion,
-    }
-
-    renderDefaultComponent(question, true)
+    renderDefaultComponent(
+      {
+        ...defaultQuestion,
+      },
+      true
+    )
 
     expect(screen.queryByText('Patienten arbetar i snitt', { exact: false })).not.toBeInTheDocument()
   })
 
   it('should render previous sick leave period if it exists', () => {
-    const expectedPreviousSickLeavePeriod = 'This is the previous sick leave period'
-    const question: CertificateDataElement = {
+    const expectedPreviousPeriod = 'This is the previous sick leave period'
+    const question = {
       ...defaultQuestion,
-      config: {
+      config: fakeCertificateConfig.checkboxDateRangeList({
         ...defaultQuestion.config,
-        previousSickLeavePeriod: expectedPreviousSickLeavePeriod,
-      } as ConfigUeSickLeavePeriod,
+        previousSickLeavePeriod: expectedPreviousPeriod,
+      }),
     }
 
     renderDefaultComponent(question)
 
-    expect(screen.getByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
+    expect(screen.getByText(expectedPreviousPeriod)).toBeInTheDocument()
   })
 
   it('does display validation error if child has no client validation errors', () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
       id: 'questionId',
       validationErrors: [
@@ -221,7 +222,7 @@ describe('UeSickLeavePeriod', () => {
       ],
     }
 
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { questionId: question } })))
     store.dispatch(showValidationErrors())
     renderDefaultComponent(question)
 
@@ -230,12 +231,11 @@ describe('UeSickLeavePeriod', () => {
 
   it('does not display validation error if child has client validation errors', async () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '12345', type: CertificateDataValueType.DATE_RANGE }],
-      },
+      value: fakeCertificateValue.dateRangeList({
+        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '12345' }],
+      }),
       validationErrors: [
         {
           category: defaultQuestion.parent,
@@ -246,7 +246,8 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
@@ -255,14 +256,14 @@ describe('UeSickLeavePeriod', () => {
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
+
   it('does display validation error if missing tom date', async () => {
     const expectedValidationMessage = 'Ange ett datum'
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE }],
-      },
+      value: fakeCertificateValue.dateRangeList({
+        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '' }],
+      }),
       validationErrors: [
         {
           category: defaultQuestion.parent,
@@ -273,24 +274,21 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
-
-    await userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })
 
   it('does display validation error if missing from date', async () => {
     const expectedValidationMessage = 'Ange ett datum'
-    const question: CertificateDataElement = {
+    const question = {
       ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [{ id: defaultQuestion.id, from: '', to: '2021-06-01', type: CertificateDataValueType.DATE_RANGE }],
-      },
+      value: fakeCertificateValue.dateRangeList({
+        list: [{ id: defaultQuestion.id, from: '', to: '2021-06-01' }],
+      }),
       validationErrors: [
         {
           category: defaultQuestion.parent,
@@ -301,13 +299,59 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question } })))
     store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
 
-    await userEvent.click(screen.getAllByRole('checkbox')[0])
-
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
+  })
+
+  describe('hideWorkingHours', () => {
+    it('Should display sick leave working hours', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          hideWorkingHours: false,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.getByText(/ange hur många timmar patienten/i)).toBeInTheDocument()
+    })
+
+    it('Should hide sick leave working hours', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          hideWorkingHours: true,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.queryByText(/ange hur många timmar patienten/i)).not.toBeInTheDocument()
+    })
+  })
+  describe('Display label', () => {
+    it('Should display label', () => {
+      const question = {
+        ...defaultQuestion,
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.getByText(/Period av den ordinarie tiden:/i)).toBeInTheDocument()
+    })
+
+    it('Should not display label', () => {
+      const question = {
+        ...defaultQuestion,
+        config: fakeCertificateConfig.checkboxDateRangeList({
+          label: undefined,
+        }),
+      }
+
+      renderDefaultComponent(question)
+      expect(screen.queryByText(/Period av den ordinarie tiden:/i)).not.toBeInTheDocument()
+    })
   })
 })

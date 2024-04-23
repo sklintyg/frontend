@@ -123,7 +123,7 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
   }
 
   switch (config.type) {
-    case ConfigTypes.UE_SICK_LEAVE_PERIOD:
+    case ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST:
       if (value.type === CertificateDataValueType.DATE_RANGE_LIST) {
         const hasAnyOverlap = value.list.some((val) => getPeriodHasOverlap(value.list, val.id))
         if (hasAnyOverlap) {

@@ -1,6 +1,6 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
-import { certificateRecipientSchema } from '../../../../schema/certificate.schema'
+import { certificateRecipientSchema } from '../../../../../schema/certificate.schema'
 import { CertificateSentDialog } from './CertificateSentDialog'
 
 it('Should render the expected message', () => {

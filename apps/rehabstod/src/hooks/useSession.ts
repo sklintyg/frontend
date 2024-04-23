@@ -7,11 +7,19 @@ export function useSession() {
   const { logout } = useLogout()
   const [giveConsent, { isUninitialized }] = useGiveConsentMutation()
   const [isPollingActive, setIsPollingActive] = useState(true)
-  const { data: user, isLoading: isLoadingUser } = api.endpoints.getUser.useQueryState()
-  const { data: session, isLoading: isLoadingSession } = useGetSessionPingQuery(undefined, {
+  const { data: user, error: userError, isLoading: isLoadingUser, isError: isUserError } = api.endpoints.getUser.useQueryState()
+  const {
+    data: session,
+    error: sessionError,
+    isLoading: isLoadingSession,
+    isError: isSessionError,
+  } = useGetSessionPingQuery(undefined, {
     pollingInterval: 30e3,
     skip: !isPollingActive,
   })
+
+  const isError = isSessionError || isUserError
+  const isLoading = !isError && (isLoadingSession || isLoadingUser)
 
   useEffect(() => {
     if (user && user.pdlConsentGiven === false && isUninitialized) {
@@ -27,5 +35,5 @@ export function useSession() {
     }
   }, [user, session, logout, giveConsent, isUninitialized, isPollingActive])
 
-  return { user, session, isLoading: isLoadingSession || isLoadingUser, isPollingActive }
+  return { user, session, error: userError || sessionError, isLoading, isError, isPollingActive }
 }

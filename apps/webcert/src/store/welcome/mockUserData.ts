@@ -16,6 +16,13 @@ export const mockUserData: MockUser[] = [
     legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
+    hsaId: 'TSTNMT2321000156-SKAA',
+    forNamn: 'Anna',
+    efterNamn: 'Sjuksköterska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Sjuksköterska'],
+  },
+  {
     hsaId: 'TSTNMT2321000156-VAAA',
     forNamn: 'Alva',
     efterNamn: 'Vårdadministratör',
@@ -33,6 +40,13 @@ export const mockUserData: MockUser[] = [
     forNamn: 'Bent',
     efterNamn: 'Vårdadministratör',
     enhetId: 'TSTNMT2321000156-BEMC',
+  },
+  {
+    hsaId: 'TSTNMT2321000156-BMBL',
+    forNamn: 'Bertil',
+    efterNamn: 'Barnmorska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Barnmorska'],
   },
   {
     hsaId: 'TSTNMT2321000156-1079',
