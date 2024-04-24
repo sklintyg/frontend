@@ -225,14 +225,14 @@ describe('Validation based on config', () => {
           id: 'question',
           field: 'first.from',
           type: 'INVALID_FORMAT',
-          text: 'Ange ett datum som är senast 2024-01-01.',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
           showAlways: true,
         },
         {
           id: 'question',
           field: 'first.to',
           type: 'INVALID_FORMAT',
-          text: 'Ange ett datum som är senast 2024-01-01.',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
           showAlways: true,
         },
       ])
