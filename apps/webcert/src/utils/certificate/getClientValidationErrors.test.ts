@@ -198,12 +198,37 @@ describe('Validation based on config', () => {
         },
       }).question
 
+      console.log(getClientValidationErrors(dataElement))
+
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
           field: 'question',
           type: 'DATE_VIOLATES_LIMIT',
           text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should return before max error if date is after max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2023-12-31',
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-02',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är senast 2024-01-01.',
           showAlways: true,
         },
       ])

@@ -1,4 +1,4 @@
-import { isBefore, isValid } from 'date-fns'
+import { isAfter, isBefore, isValid } from 'date-fns'
 import {
   CertificateDataConfigType,
   CertificateDataElement,
@@ -58,8 +58,18 @@ const getValidationErrorFactory =
     return { category: '', field, id, text, type, showAlways }
   }
 
-const getValidationMinLimitViolation = (id: string, field: string, min?: string): ValidationError => {
-  return { category: '', field, id, text: `Ange ett datum som är tidigast ${min ?? ''}.`, type: 'DATE_VIOLATES_LIMIT', showAlways: true }
+const getEarlyDateError = (id: string, field: string, min?: string) => {
+  return getValidationErrorFactory(
+    id,
+    field
+  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är tidigast ${min ?? ''}.`, showAlways: true })
+}
+
+const getLateDateError = (id: string, field: string, max?: string) => {
+  return getValidationErrorFactory(
+    id,
+    field
+  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är senast ${max ?? ''}.`, showAlways: true })
 }
 
 const isValueFormatIncorrect = (value?: string): boolean => {
@@ -77,6 +87,11 @@ const isDateEmpty = (date?: string): boolean => {
 const isDateBeforeLimit = (min?: string, date?: string): boolean => {
   const dateFormat = getValidDateFormat(date)
   return !!dateFormat && !!min && isBefore(dateFormat, new Date(min))
+}
+
+const isDateAfterLimit = (max?: string, date?: string): boolean => {
+  const dateFormat = getValidDateFormat(date)
+  return !!dateFormat && !!max && isAfter(dateFormat, new Date(max))
 }
 
 export const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
@@ -134,9 +149,15 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
   switch (config.type) {
     case ConfigTypes.UE_DATE:
       if (value.type === CertificateDataValueType.DATE) {
-        const hasDateBeforeMinLimit = isDateBeforeLimit(config.minDate, value.date)
+        if (isDateBeforeLimit(config.minDate, value.date)) {
+          return [getEarlyDateError(id, id, config.minDate)]
+        }
 
-        return hasDateBeforeMinLimit ? [getValidationMinLimitViolation(id, id, config.minDate)] : []
+        if (isDateAfterLimit(config.maxDate, value.date)) {
+          return [getLateDateError(id, id, config.maxDate)]
+        }
+
+        return []
       }
       break
     case ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST:
@@ -146,11 +167,11 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
 
         const fromViolationAgainstMinLimit = value.list
           .filter((val) => isDateBeforeLimit(config.min, val.from))
-          .map((val) => getValidationMinLimitViolation(id, `${val.id}.from`, config.min))
+          .map((val) => getEarlyDateError(id, `${val.id}.from`, config.min))
 
         const toViolationAgainstMinLimit = value.list
           .filter((val) => isDateBeforeLimit(config.min, val.to))
-          .map((val) => getValidationMinLimitViolation(id, `${val.id}.to`, config.min))
+          .map((val) => getEarlyDateError(id, `${val.id}.to`, config.min))
 
         return overlapErrors.concat(fromViolationAgainstMinLimit).concat(toViolationAgainstMinLimit)
       }
