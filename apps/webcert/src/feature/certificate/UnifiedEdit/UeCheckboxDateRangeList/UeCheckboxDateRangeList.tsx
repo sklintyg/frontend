@@ -84,7 +84,7 @@ export function UeCheckboxDateRangeList({
             periodStartingDate={periodStartingDate}
             value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
             max={config.max}
-            min={'2024-03-01'}
+            min={config.min}
             hasValidationError={otherValiadtionErrors.length > 0}
             validationErrors={validationErrors.filter(
               ({ field }) =>
