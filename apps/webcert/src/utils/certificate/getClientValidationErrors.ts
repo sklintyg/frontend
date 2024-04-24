@@ -58,6 +58,10 @@ const getValidationErrorFactory =
     return { category: '', field, id, text, type, showAlways }
   }
 
+const getValidationErrorWithCustomField = (id: string, text: string, type: string, showAlways: boolean, field: string): ValidationError => {
+  return { category: '', field, id, text, type, showAlways }
+}
+
 const isValueFormatIncorrect = (value?: string): boolean => {
   return Boolean(value && value.length > 0 && !isValid(getValidDateFormat(value)))
 }
@@ -68,6 +72,11 @@ const isValueUnreasonable = (value?: string): boolean => {
 
 const isDateEmpty = (date?: string): boolean => {
   return Boolean(date == null || date.length === 0)
+}
+
+const isDateBeforeLimit = (min?: string, date?: string): boolean => {
+  const dateFormat = getValidDateFormat(date)
+  return !!dateFormat && !!min && isBefore(dateFormat, new Date(min))
 }
 
 export const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
@@ -126,9 +135,33 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
     case ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST:
       if (value.type === CertificateDataValueType.DATE_RANGE_LIST) {
         const hasAnyOverlap = value.list.some((val) => getPeriodHasOverlap(value.list, val.id))
-        if (hasAnyOverlap) {
-          return [validationErrorFactory(OVERLAP_ERROR)]
-        }
+        const overlapErrors = hasAnyOverlap ? [validationErrorFactory(OVERLAP_ERROR)] : []
+
+        const fromViolationAgainstMinLimit = value.list
+          .filter((val) => isDateBeforeLimit(config.min, val.from))
+          .map((val) =>
+            getValidationErrorWithCustomField(
+              id,
+              `Ange ett datum som är tidigast ${config.min ?? ''}.`,
+              'INVALID_FORMAT',
+              true,
+              `${val.id}.from`
+            )
+          )
+
+        const toViolationAgainstMinLimit = value.list
+          .filter((val) => isDateBeforeLimit(config.min, val.to))
+          .map((val) =>
+            getValidationErrorWithCustomField(
+              id,
+              `Ange ett datum som är tidigast ${config.min ?? ''}.`,
+              'INVALID_FORMAT',
+              true,
+              `${val.id}.to`
+            )
+          )
+
+        return overlapErrors.concat(fromViolationAgainstMinLimit).concat(toViolationAgainstMinLimit)
       }
   }
   return []

@@ -208,5 +208,34 @@ describe('Validation based on config', () => {
         },
       ])
     })
+
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'first.from',
+          type: 'INVALID_FORMAT',
+          text: 'Ange ett datum som är senast 2024-01-01.',
+          showAlways: true,
+        },
+        {
+          id: 'question',
+          field: 'first.to',
+          type: 'INVALID_FORMAT',
+          text: 'Ange ett datum som är senast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
   })
 })

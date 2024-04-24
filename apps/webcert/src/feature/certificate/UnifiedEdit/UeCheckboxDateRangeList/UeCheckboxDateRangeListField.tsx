@@ -158,6 +158,8 @@ export function UeCheckboxDateRangeListField({
     [hasValidationError, validationErrors]
   )
 
+  console.log(min)
+
   return (
     <>
       <DateRangeWrapper>
@@ -208,6 +210,8 @@ export function UeCheckboxDateRangeListField({
               id={`tom${field}`}
               textInputName={`tom${field}`}
               textInputRef={tomTextInputRef}
+              min={min}
+              max={max}
               inputString={value.to ?? ''}
               setDate={handleToChanged}
               textInputOnChange={handleToChanged}
