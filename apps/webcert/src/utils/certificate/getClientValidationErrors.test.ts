@@ -209,6 +209,34 @@ describe('Validation based on config', () => {
       ])
     })
 
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
     it('Should return before max error if date is after max', () => {
       const dataElement = fakeDateElement({
         id: 'question',
@@ -254,6 +282,34 @@ describe('Validation based on config', () => {
           showAlways: true,
         },
       ])
+    })
+
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          max: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
     })
 
     it('Should return before min error if date is before min', () => {

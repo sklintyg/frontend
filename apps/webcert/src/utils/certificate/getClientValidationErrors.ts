@@ -86,12 +86,12 @@ const isDateEmpty = (date?: string): boolean => {
 
 const isDateBeforeLimit = (min?: string, date?: string): boolean => {
   const dateFormat = getValidDateFormat(date)
-  return !!dateFormat && !!min && isBefore(dateFormat, new Date(min))
+  return !!dateFormat && !!min && date != min && isBefore(dateFormat, new Date(min))
 }
 
 const isDateAfterLimit = (max?: string, date?: string): boolean => {
   const dateFormat = getValidDateFormat(date)
-  return !!dateFormat && !!max && isAfter(dateFormat, new Date(max))
+  return !!dateFormat && !!max && date != max && isAfter(dateFormat, new Date(max))
 }
 
 export const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
