@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { fakeCertificateMetaData } from '../../../../faker'
+import { fakeCertificateMetaData, fakeCertificateRelation } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadataWithChildRelation, createCertificateMetadataWithParentRelation } from './statusTestUtils'
+import { createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'
@@ -120,7 +120,11 @@ const renderComponentWithParentRelation = (
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadataWithParentRelation(status, parentStatus, relationType, isSent)}
+          certificateMetadata={fakeCertificateMetaData({
+            status,
+            relations: { parent: fakeCertificateRelation({ status: parentStatus, type: relationType }) },
+            sent: isSent,
+          })}
           questions={[]}
           isValidating={false}
         />
