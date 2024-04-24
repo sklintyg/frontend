@@ -5,7 +5,6 @@ import { fakeCertificateMetaData, fakeCertificateRelation } from '../../../../fa
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'
@@ -144,7 +143,20 @@ const renderComponentWithChildRelation = (
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadataWithChildRelation(status, childStatus, relationType, isSent)}
+          certificateMetadata={fakeCertificateMetaData({
+            status,
+            relations: {
+              parent: null,
+              children: [
+                {
+                  type: relationType,
+                  status: childStatus,
+                },
+              ],
+            },
+            sent: isSent,
+            sentTo: isSent ? 'Försäkringskassan' : undefined,
+          })}
           isValidating={false}
           questions={
             hasUnhandledComplementQuestions

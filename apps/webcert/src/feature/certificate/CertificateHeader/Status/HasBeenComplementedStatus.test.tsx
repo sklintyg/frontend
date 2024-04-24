@@ -5,21 +5,31 @@ import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const EXPECTED_SIGNED_TEXT = 'Intyget har kompletterats med ett annat intyg.'
 const EXPECTED_SIGNED_LINK = 'Öppna intyget.'
 const EXPECTED_UNSIGNED_TEXT = 'Det finns redan en påbörjad komplettering.'
 const EXPECTED_UNSIGNED_LINK = 'Öppna utkastet.'
 
-const renderComponent = (status: CertificateStatus, includeEvent: boolean) => {
+const renderComponent = (childStatus: CertificateStatus, includeEvent: boolean) => {
   render(
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
           certificateMetadata={
             includeEvent
-              ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, status, CertificateRelationType.COMPLEMENTED, true)
+              ? fakeCertificateMetaData({
+                  status: CertificateStatus.SIGNED,
+                  relations: {
+                    children: [
+                      {
+                        type: CertificateRelationType.COMPLEMENTED,
+                        status: childStatus,
+                      },
+                    ],
+                  },
+                  sent: true,
+                })
               : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
           }
           questions={[]}

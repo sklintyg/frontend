@@ -5,7 +5,6 @@ import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const renderComponent = (childStatus?: CertificateStatus) => {
   render(
@@ -14,7 +13,18 @@ const renderComponent = (childStatus?: CertificateStatus) => {
         <CertificateHeaderStatuses
           certificateMetadata={
             childStatus
-              ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, childStatus, CertificateRelationType.REPLACED, true)
+              ? fakeCertificateMetaData({
+                  status: CertificateStatus.SIGNED,
+                  relations: {
+                    children: [
+                      {
+                        status: childStatus,
+                        type: CertificateRelationType.REPLACED,
+                      },
+                    ],
+                  },
+                  sent: true,
+                })
               : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
           }
           questions={[]}
