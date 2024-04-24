@@ -41,7 +41,6 @@ const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string) =>
     links: [
       fakeResourceLink({
         type: ResourceLinkType.FMB,
-        enabled: true,
         name: 'FMB',
         description: 'FMB',
       }),

@@ -1,7 +1,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { createPatient } from '../../components/patient/patientTestUtils'
+import { fakePatient } from '../../faker'
 import { CertificateType, PatientStatus } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
@@ -47,7 +47,7 @@ describe('Test patient middleware', () => {
   })
 
   it('shall save patient if response includes status FOUND', async () => {
-    const expectedPatient = createPatient('patientId')
+    const expectedPatient = fakePatient()
     const getPatientSuccess = { patient: expectedPatient, status: PatientStatus.FOUND } as GetPatientResponse
     fakeAxios.onGet('/api/patient/patientId').reply(200, getPatientSuccess)
 
