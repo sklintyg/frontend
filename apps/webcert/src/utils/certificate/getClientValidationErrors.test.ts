@@ -198,8 +198,6 @@ describe('Validation based on config', () => {
         },
       }).question
 
-      console.log(getClientValidationErrors(dataElement))
-
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -286,5 +284,34 @@ describe('Validation based on config', () => {
         },
       ])
     })
+  })
+
+  it('Should return limit violation error if date is after max limit', () => {
+    const dataElement = fakeCheckboxDateRangeList({
+      id: 'question',
+      config: {
+        max: '2020-01-01',
+      },
+      value: {
+        list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+      },
+    }).question
+
+    expect(getClientValidationErrors(dataElement)).toMatchObject([
+      {
+        id: 'question',
+        field: 'first.from',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+      {
+        id: 'question',
+        field: 'first.to',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+    ])
   })
 })

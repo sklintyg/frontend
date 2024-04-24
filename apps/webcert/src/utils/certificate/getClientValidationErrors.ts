@@ -173,7 +173,19 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
           .filter((val) => isDateBeforeLimit(config.min, val.to))
           .map((val) => getEarlyDateError(id, `${val.id}.to`, config.min))
 
-        return overlapErrors.concat(fromViolationAgainstMinLimit).concat(toViolationAgainstMinLimit)
+        const fromViolationAgainstMaxLimit = value.list
+          .filter((val) => isDateAfterLimit(config.max, val.from))
+          .map((val) => getLateDateError(id, `${val.id}.from`, config.max))
+
+        const toViolationAgainstMaxLimit = value.list
+          .filter((val) => isDateAfterLimit(config.max, val.to))
+          .map((val) => getLateDateError(id, `${val.id}.to`, config.max))
+
+        return overlapErrors
+          .concat(fromViolationAgainstMinLimit)
+          .concat(toViolationAgainstMinLimit)
+          .concat(fromViolationAgainstMaxLimit)
+          .concat(toViolationAgainstMaxLimit)
       }
   }
   return []
