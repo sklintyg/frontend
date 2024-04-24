@@ -186,7 +186,7 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
-  describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
+  describe(`${ConfigTypes.UE_DATE}`, () => {
     it('Should return before min error if date is before min', () => {
       const dataElement = fakeDateElement({
         id: 'question',
@@ -201,15 +201,8 @@ describe('Validation based on config', () => {
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
-          field: 'first.from',
-          type: 'INVALID_FORMAT',
-          text: 'Ange ett datum som är tidigast 2024-01-01.',
-          showAlways: true,
-        },
-        {
-          id: 'question',
-          field: 'first.to',
-          type: 'INVALID_FORMAT',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
           text: 'Ange ett datum som är tidigast 2024-01-01.',
           showAlways: true,
         },
@@ -255,14 +248,14 @@ describe('Validation based on config', () => {
         {
           id: 'question',
           field: 'first.from',
-          type: 'INVALID_FORMAT',
+          type: 'DATE_VIOLATES_LIMIT',
           text: 'Ange ett datum som är tidigast 2024-01-01.',
           showAlways: true,
         },
         {
           id: 'question',
           field: 'first.to',
-          type: 'INVALID_FORMAT',
+          type: 'DATE_VIOLATES_LIMIT',
           text: 'Ange ett datum som är tidigast 2024-01-01.',
           showAlways: true,
         },

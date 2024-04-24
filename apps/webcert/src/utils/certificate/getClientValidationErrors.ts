@@ -140,7 +140,7 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
           ? [
               validationErrorFactory({
                 text: `Ange ett datum som är tidigast ${config.minDate ?? ''}.`,
-                type: 'INVALID_FORMAT',
+                type: 'DATE_VIOLATES_LIMIT',
                 showAlways: true,
               }),
             ]
@@ -158,7 +158,7 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
             getValidationErrorWithCustomField(
               id,
               `Ange ett datum som är tidigast ${config.min ?? ''}.`,
-              'INVALID_FORMAT',
+              'DATE_VIOLATES_LIMIT',
               true,
               `${val.id}.from`
             )
@@ -170,7 +170,7 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
             getValidationErrorWithCustomField(
               id,
               `Ange ett datum som är tidigast ${config.min ?? ''}.`,
-              'INVALID_FORMAT',
+              'DATE_VIOLATES_LIMIT',
               true,
               `${val.id}.to`
             )
