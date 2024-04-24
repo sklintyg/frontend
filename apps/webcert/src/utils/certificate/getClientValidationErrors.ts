@@ -58,8 +58,8 @@ const getValidationErrorFactory =
     return { category: '', field, id, text, type, showAlways }
   }
 
-const getValidationErrorWithCustomField = (id: string, text: string, type: string, showAlways: boolean, field: string): ValidationError => {
-  return { category: '', field, id, text, type, showAlways }
+const getValidationMinLimitViolation = (id: string, field: string, min?: string): ValidationError => {
+  return { category: '', field, id, text: `Ange ett datum som är tidigast ${min ?? ''}.`, type: 'DATE_VIOLATES_LIMIT', showAlways: true }
 }
 
 const isValueFormatIncorrect = (value?: string): boolean => {
@@ -136,15 +136,7 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
       if (value.type === CertificateDataValueType.DATE) {
         const hasDateBeforeMinLimit = isDateBeforeLimit(config.minDate, value.date)
 
-        return hasDateBeforeMinLimit
-          ? [
-              validationErrorFactory({
-                text: `Ange ett datum som är tidigast ${config.minDate ?? ''}.`,
-                type: 'DATE_VIOLATES_LIMIT',
-                showAlways: true,
-              }),
-            ]
-          : []
+        return hasDateBeforeMinLimit ? [getValidationMinLimitViolation(id, id, config.minDate)] : []
       }
       break
     case ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST:
@@ -154,27 +146,11 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
 
         const fromViolationAgainstMinLimit = value.list
           .filter((val) => isDateBeforeLimit(config.min, val.from))
-          .map((val) =>
-            getValidationErrorWithCustomField(
-              id,
-              `Ange ett datum som är tidigast ${config.min ?? ''}.`,
-              'DATE_VIOLATES_LIMIT',
-              true,
-              `${val.id}.from`
-            )
-          )
+          .map((val) => getValidationMinLimitViolation(id, `${val.id}.from`, config.min))
 
         const toViolationAgainstMinLimit = value.list
           .filter((val) => isDateBeforeLimit(config.min, val.to))
-          .map((val) =>
-            getValidationErrorWithCustomField(
-              id,
-              `Ange ett datum som är tidigast ${config.min ?? ''}.`,
-              'DATE_VIOLATES_LIMIT',
-              true,
-              `${val.id}.to`
-            )
-          )
+          .map((val) => getValidationMinLimitViolation(id, `${val.id}.to`, config.min))
 
         return overlapErrors.concat(fromViolationAgainstMinLimit).concat(toViolationAgainstMinLimit)
       }
