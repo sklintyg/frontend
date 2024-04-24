@@ -158,8 +158,6 @@ export function UeCheckboxDateRangeListField({
     [hasValidationError, validationErrors]
   )
 
-  console.log(min)
-
   return (
     <>
       <DateRangeWrapper>
