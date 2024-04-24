@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
+import { CertificateRelationType, CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
-import { CertificateStatus, CertificateRelationType } from '../../../../types'
+import { createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const EXPECTED_SIGNED_TEXT = 'Intyget har kompletterats med ett annat intyg.'
 const EXPECTED_SIGNED_LINK = 'Öppna intyget.'
@@ -19,7 +20,7 @@ const renderComponent = (status: CertificateStatus, includeEvent: boolean) => {
           certificateMetadata={
             includeEvent
               ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, status, CertificateRelationType.COMPLEMENTED, true)
-              : createCertificateMetadata(CertificateStatus.SIGNED, true)
+              : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
           }
           questions={[]}
         />

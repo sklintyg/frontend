@@ -1,18 +1,18 @@
 import { fakeCertificateMetaData } from '../../../../faker'
-import { CertificateStatus, CertificateMetadata, CertificateRelationType } from '../../../../types'
+import { CertificateMetadata, CertificateRelationType, CertificateStatus } from '../../../../types'
 
-export const createCertificateMetadata = (status: CertificateStatus, isSent: boolean, type?: string): CertificateMetadata => {
-  return fakeCertificateMetaData({
-    status: status,
-    sent: isSent,
-    sentTo: isSent ? 'Försäkringskassan' : undefined,
-    type: type ? type : 'lisjp',
-    relations: {
-      parent: null,
-      children: [],
-    },
-  })
-}
+// export const createCertificateMetadata = (status: CertificateStatus, isSent: boolean, type?: string): CertificateMetadata => {
+//   return fakeCertificateMetaData({
+//     status: status,
+//     sent: isSent,
+//     sentTo: isSent ? 'Försäkringskassan' : undefined,
+//     type: type ? type : 'lisjp',
+//     relations: {
+//       parent: null,
+//       children: [],
+//     },
+//   })
+// }
 
 export const createCertificateMetadataWithParentRelation = (
   status: CertificateStatus,

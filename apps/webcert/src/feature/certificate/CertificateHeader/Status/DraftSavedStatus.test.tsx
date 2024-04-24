@@ -1,17 +1,21 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata } from './statusTestUtils'
 import { CertificateStatus } from '../../../../types'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 
 const renderComponent = (isSigned: boolean, isValidating: boolean) => {
   render(
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, false, 'lisjp')}
+          certificateMetadata={fakeCertificateMetaData({
+            status: isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED,
+            sent: false,
+            type: 'lisjp',
+          })}
           questions={[]}
           isValidForSigning={false}
           isValidating={isValidating}
