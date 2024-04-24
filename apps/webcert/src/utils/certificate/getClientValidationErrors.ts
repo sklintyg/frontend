@@ -132,6 +132,21 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
   }
 
   switch (config.type) {
+    case ConfigTypes.UE_DATE:
+      if (value.type === CertificateDataValueType.DATE) {
+        const hasDateBeforeMinLimit = isDateBeforeLimit(config.minDate, value.date)
+
+        return hasDateBeforeMinLimit
+          ? [
+              validationErrorFactory({
+                text: `Ange ett datum som är tidigast ${config.minDate ?? ''}.`,
+                type: 'INVALID_FORMAT',
+                showAlways: true,
+              }),
+            ]
+          : []
+      }
+      break
     case ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST:
       if (value.type === CertificateDataValueType.DATE_RANGE_LIST) {
         const hasAnyOverlap = value.list.some((val) => getPeriodHasOverlap(value.list, val.id))

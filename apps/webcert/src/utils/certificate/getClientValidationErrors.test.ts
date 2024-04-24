@@ -187,6 +187,37 @@ describe('Validation based on value', () => {
 
 describe('Validation based on config', () => {
   describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2023-12-31',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'first.from',
+          type: 'INVALID_FORMAT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+        {
+          id: 'question',
+          field: 'first.to',
+          type: 'INVALID_FORMAT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
       const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
