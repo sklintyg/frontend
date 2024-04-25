@@ -1,9 +1,10 @@
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { fakeResourceLink } from '../../faker'
+import { fakeResourceLink, fakeUnitStatistic } from '../../faker'
+import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { ResourceLink, ResourceLinkType } from '../../types'
-import { getUser, getUserWithLaunchId, getUserStatistics as statistics } from '../../utils'
+import { getUser, getUserWithLaunchId } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -68,7 +69,12 @@ describe('Test user middleware', () => {
     })
 
     it('shall set number of drafts on selected unit if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 
@@ -77,7 +83,12 @@ describe('Test user middleware', () => {
     })
 
     it('should set number of drafts and unhandled questions on other units if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 
@@ -86,7 +97,12 @@ describe('Test user middleware', () => {
     })
 
     it('should set number of drafts on unit if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 

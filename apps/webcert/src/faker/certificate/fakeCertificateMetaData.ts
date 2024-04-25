@@ -3,7 +3,7 @@ import { PartialDeep } from 'type-fest'
 import { CertificateMetadata, CertificateRelations, CertificateStatus } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
-import { fakeUnit } from '../fakeUnit'
+import { fakeUnit } from '../user/fakeUnit'
 import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateRelation } from './fakeCertificateRelation'
 

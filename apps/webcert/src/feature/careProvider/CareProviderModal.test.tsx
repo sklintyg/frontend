@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { START_URL } from '../../constants'
-import { fakePatient, fakeResourceLink } from '../../faker'
+import { fakePatient, fakeResourceLink, fakeUnitStatistic, fakeUserStatistics } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient } from '../../store/patient/patientActions'
@@ -16,13 +16,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import {
-  getUser,
-  getUserStatistics,
-  getUserStatisticsForOneCareUnit,
-  getUserWithEmptyCareUnitWithoutUnits,
-  getUserWithEmptyUnit,
-} from '../../utils'
+import { getUser, getUserWithEmptyCareUnitWithoutUnits, getUserWithEmptyUnit } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import CareProviderModal from './CareProviderModal'
 
@@ -58,7 +52,7 @@ describe('Care provider modal', () => {
 
   it('should NOT show total amount of unhandled questions if user has no units under the care unit', () => {
     testStore.dispatch(updateUser(getUserWithEmptyCareUnitWithoutUnits()))
-    testStore.dispatch(updateUserStatistics(getUserStatisticsForOneCareUnit()))
+    testStore.dispatch(updateUserStatistics(fakeUserStatistics({ unitStatistics: { '1234a': fakeUnitStatistic() } })))
 
     renderComponent()
     const text = screen.queryByText('total', { exact: false })
@@ -68,7 +62,13 @@ describe('Care provider modal', () => {
   describe('Tests with user and open care provider modal', () => {
     beforeEach(() => {
       testStore.dispatch(updateUser(getUser()))
-      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      testStore.dispatch(
+        updateUserStatistics(
+          fakeUserStatistics({
+            unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+          })
+        )
+      )
       testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
       testStore.dispatch(updateIsCareProviderModalOpen(true))
     })
@@ -95,7 +95,13 @@ describe('Care provider modal', () => {
   describe('Tests with no logged in unit', () => {
     beforeEach(() => {
       testStore.dispatch(updateUser(getUserWithEmptyUnit()))
-      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      testStore.dispatch(
+        updateUserStatistics(
+          fakeUserStatistics({
+            unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+          })
+        )
+      )
     })
 
     it('should show care provider modal if choose unit resource link exists', () => {

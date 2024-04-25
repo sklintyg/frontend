@@ -2,14 +2,15 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { fakeResourceLink } from '../../faker'
+import { fakeResourceLink, fakeUnitStatistic } from '../../faker'
+import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser, getUserStatistics, getUserStatisticsWithNoDraftsOnOtherUnits, getUserWithInactiveUnit } from '../../utils'
+import { getUser, getUserWithInactiveUnit } from '../../utils'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
@@ -104,7 +105,13 @@ describe('Webcert header unit', () => {
   describe('Statistics', () => {
     it('should show statistics on other units if resource link exists', () => {
       testStore.dispatch(updateUser(getUser()))
-      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      testStore.dispatch(
+        updateUserStatistics(
+          fakeUserStatistics({
+            unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+          })
+        )
+      )
 
       renderComponent()
 
@@ -115,7 +122,17 @@ describe('Webcert header unit', () => {
 
     it('should not show statistics on other units if there are none', () => {
       testStore.dispatch(updateUser(getUser()))
-      testStore.dispatch(updateUserStatistics(getUserStatisticsWithNoDraftsOnOtherUnits()))
+      testStore.dispatch(
+        updateUserStatistics(
+          fakeUserStatistics({
+            totalDraftsAndUnhandledQuestionsOnOtherUnits: 0,
+            unitStatistics: {
+              '1234a': fakeUnitStatistic(),
+              '1234b': fakeUnitStatistic(),
+            },
+          })
+        )
+      )
       testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
       renderComponent()

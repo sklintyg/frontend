@@ -7,7 +7,7 @@ export interface User {
   loggedInUnit: Unit
   loggedInCareUnit: Unit
   loggedInCareProvider: Unit
-  preferences: { [key: string]: string } | null
+  preferences: Record<string, string> | null
   signingMethod: SigningMethod
   loginMethod: LoginMethod
   protectedPerson: boolean
@@ -45,9 +45,7 @@ export interface UserStatistics {
   unitStatistics: UnitStatistics
 }
 
-export interface UnitStatistics {
-  [key: string]: UnitStatistic
-}
+export type UnitStatistics = Record<string, UnitStatistic>
 
 export interface UnitStatistic {
   draftsOnUnit: number

@@ -1,5 +1,5 @@
 import { Unit } from '../../types/certificate'
-import { LoginMethod, SigningMethod, UnitStatistic, UnitStatistics, User, UserStatistics } from '../../types/user'
+import { LoginMethod, SigningMethod, User } from '../../types/user'
 
 export const getUser = (): User => {
   const unit: Unit = {
@@ -324,45 +324,4 @@ export const getUserWithMissingSubscription = (): User => {
       },
     ],
   }
-}
-
-const createUnitStatistic = (): UnitStatistic => ({
-  draftsOnUnit: 3,
-  questionsOnUnit: 0,
-  draftsOnSubUnits: 1,
-  questionsOnSubUnits: 5,
-})
-
-const createUserStatistics = (statistics: UnitStatistics, totalDraftsAndUnhandledQuestionsOnOtherUnits = 17): UserStatistics => ({
-  nbrOfDraftsOnSelectedUnit: 6,
-  nbrOfUnhandledQuestionsOnSelectedUnit: 10,
-  totalDraftsAndUnhandledQuestionsOnOtherUnits,
-  unitStatistics: statistics,
-})
-
-export const getUserStatistics = (): UserStatistics => {
-  const unitStatistics: UnitStatistics = {
-    '1234a': createUnitStatistic(),
-    '1234b': createUnitStatistic(),
-    '1234c': createUnitStatistic(),
-  }
-
-  return createUserStatistics(unitStatistics)
-}
-
-export const getUserStatisticsWithNoDraftsOnOtherUnits = (): UserStatistics => {
-  const unitStatistics: UnitStatistics = {
-    '1234a': createUnitStatistic(),
-    '1234b': createUnitStatistic(),
-  }
-
-  return createUserStatistics(unitStatistics, 0)
-}
-
-export const getUserStatisticsForOneCareUnit = (): UserStatistics => {
-  const unitStatistics: UnitStatistics = {
-    '1234a': createUnitStatistic(),
-  }
-
-  return createUserStatistics(unitStatistics)
 }

@@ -1,6 +1,6 @@
 import faker from 'faker'
-import { CareProvider } from '../types'
-import { fakeId } from './fakeId'
+import { CareProvider } from '../../types'
+import { fakeId } from '../fakeId'
 
 export const fakeCareProvider = (data?: Partial<CareProvider>): CareProvider => {
   return {
