@@ -2,7 +2,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { fakeResourceLink, fakeUnitStatistic } from '../../faker'
+import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -10,7 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser, getUserWithInactiveUnit } from '../../utils'
+import { getUser } from '../../utils'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
@@ -95,7 +95,7 @@ describe('Webcert header unit', () => {
     })
 
     it('should display inactive message for inactive unit', (): void => {
-      testStore.dispatch(updateUser(getUserWithInactiveUnit()))
+      testStore.dispatch(updateUser(fakeUser({ loggedInUnit: fakeUnit({ isInactive: true }) })))
       renderComponent()
 
       expect(screen.getByText(/Inaktiv enhet/i, { exact: false })).toBeInTheDocument()
