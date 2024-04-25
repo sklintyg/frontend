@@ -6,9 +6,9 @@ import {
   fakePersonIdFilter,
   fakeSelectFilter,
   fakeTextFilter,
-} from '../../../faker/list/fakeListFilterConfig'
-import { ListFilterType } from '../../../types'
-import { getListFilterDefaultValue, isFilterValueDefault } from '../listUtils'
+} from '../../faker/list/fakeListFilterConfig'
+import { ListFilterType } from '../../types'
+import { getListFilterDefaultValue, isFilterValueDefault } from './listUtils'
 
 describe('listUtils', () => {
   describe('getListFilterDefaultValue', () => {
