@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeResourceLink } from '../../faker'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
 import { ResourceLinkType } from '../../types'
-import { getResourceLinkWithType, getUserWithMissingSubscription } from '../../utils'
+import { getUserWithMissingSubscription } from '../../utils'
 import WebcertHeader from './WebcertHeader'
 
 const renderComponent = () => {
@@ -56,7 +57,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should display warning normal origin banner when user has resource link', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.WARNING_NORMAL_ORIGIN })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValue =
@@ -66,7 +67,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should not display warning normal origin banner when user has no resource link', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.ANSWER_QUESTION)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValue =
@@ -76,7 +77,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should display both warning normal origin banner & subscription warning banner', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.WARNING_NORMAL_ORIGIN })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValueOriginBanner =

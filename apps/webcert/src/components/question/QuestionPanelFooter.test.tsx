@@ -4,13 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink } from '../../faker'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { Certificate, CertificateRelations, Question, QuestionType, ResourceLink, ResourceLinkType } from '../../types'
-import { getForwardResourceLink, getUnit } from '../../utils'
+import { getUnit } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import QuestionPanelFooter from './QuestionPanelFooter'
 
@@ -126,7 +126,7 @@ describe('QuestionPanelFooter', () => {
     it('display forward button if resource link is available', () => {
       renderComponent([expectedQuestion])
       flushPromises()
-      const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
+      const resourceLinks: ResourceLink[] = [fakeResourceLink({ type: ResourceLinkType.FORWARD_QUESTION, name: 'Vidarebefordra' })]
       const unit = getUnit()
       const certificate = getTestCertificate('certificateId')
       certificate.links = resourceLinks

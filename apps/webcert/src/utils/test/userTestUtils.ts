@@ -440,21 +440,3 @@ export const getUnit = (): Unit => {
     isInactive: false,
   }
 }
-
-export const getForwardResourceLink = (): ResourceLink => {
-  return {
-    type: ResourceLinkType.FORWARD_QUESTION,
-    name: 'Vidarebefordra',
-    description: '',
-    enabled: true,
-  }
-}
-
-export const getResourceLinkWithType = (type: ResourceLinkType): ResourceLink => {
-  return {
-    type: type,
-    name: 'TITLE',
-    description: '',
-    enabled: true,
-  }
-}
