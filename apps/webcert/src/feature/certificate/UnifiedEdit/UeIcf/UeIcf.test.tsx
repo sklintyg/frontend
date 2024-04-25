@@ -7,7 +7,7 @@ import { ComponentProps, createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
-import { fakeCertificateValue, fakeICFDataElement, fakeIcf } from '../../../../faker'
+import { fakeCertificateValue, fakeICFDataElement, fakeIcfCode, fakeIcfCodeCollection, fakeIcfCollection } from '../../../../faker'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
@@ -56,11 +56,11 @@ const createQuestion = (icfCodes?: string[]): CertificateDataElement =>
   })[QUESTION_ID]
 
 const setDefaultIcfState = () => {
-  const group = fakeIcf.group({ icfCodes: Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `title ${index}` })) })
+  const group = fakeIcfCodeCollection({ icfCodes: Array.from({ length: 3 }, (_, index) => fakeIcfCode({ title: `title ${index}` })) })
   testStore.dispatch(
     updateIcfCodes({
-      activityLimitation: fakeIcf.collection({ commonCodes: group, uniqueCodes: [group] }),
-      disability: fakeIcf.collection({ commonCodes: group, uniqueCodes: [group] }),
+      activityLimitation: fakeIcfCollection({ commonCodes: group, uniqueCodes: [group] }),
+      disability: fakeIcfCollection({ commonCodes: group, uniqueCodes: [group] }),
     })
   )
   testStore.dispatch(setOriginalIcd10Codes(['A02', 'U071']))
@@ -137,7 +137,9 @@ describe.skip('UeIcf', () => {
 
   it.skip('Should dispatch updateCertificateDataElement and filter chosen values when fetching updated icf data', () => {
     setDefaultIcfState()
-    const newIcfGroup = fakeIcf.group({ icfCodes: Array.from({ length: 2 }, (_, index) => fakeIcf.code({ title: `title ${index}` })) })
+    const newIcfGroup = fakeIcfCodeCollection({
+      icfCodes: Array.from({ length: 2 }, (_, index) => fakeIcfCode({ title: `title ${index}` })),
+    })
     const initialValues = ['title 0', 'title 1', 'title 2']
     const expectedValues = ['title 0', 'title 1']
     const question = createQuestion(initialValues)

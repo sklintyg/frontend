@@ -1,8 +1,8 @@
-import { IcfResponse } from '../store/icf/icfActions'
-import { fakeIcf } from './fakeIcf'
+import { IcfResponse } from '../../store/icf/icfActions'
+import { fakeIcfCode } from './fakeIcfCode'
 
 export function fakeIcfResponse(data?: Partial<IcfResponse>): IcfResponse {
-  const icfCodes = Array.from({ length: 3 }, fakeIcf.code)
+  const icfCodes = Array.from({ length: 3 }, fakeIcfCode)
 
   const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
   const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
