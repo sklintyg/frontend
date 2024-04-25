@@ -76,13 +76,3 @@ export const getConfigWithTextFilter = (): ListConfig => {
     excludeFilterButtons: false,
   })
 }
-
-export const getDefaultList = () => {
-  return [
-    {
-      values: {
-        id: 'example',
-      },
-    },
-  ]
-}

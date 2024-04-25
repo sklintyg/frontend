@@ -1,8 +1,9 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
-import { getConfigWithTextFilter, getDefaultList } from '../../feature/list/test/listTestUtils'
+import { getConfigWithTextFilter } from '../../feature/list/test/listTestUtils'
 import { CertificateListItem, ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
@@ -53,7 +54,7 @@ describe('Test list middleware', () => {
 
       it('shall save list', async () => {
         const expectedTotalCount = 10
-        const expectedList: CertificateListItem[] = getDefaultList()
+        const expectedList: CertificateListItem[] = [fakeCertificateListItem()]
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
@@ -90,7 +91,7 @@ describe('Test list middleware', () => {
 
       it('shall save list', async () => {
         const expectedTotalCount = 10
-        const expectedList: CertificateListItem[] = getDefaultList()
+        const expectedList: CertificateListItem[] = [fakeCertificateListItem()]
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/certificate').reply(200, getListSuccess)
 
@@ -127,7 +128,7 @@ describe('Test list middleware', () => {
 
       it('shall save list', async () => {
         const expectedTotalCount = 10
-        const expectedList: CertificateListItem[] = getDefaultList()
+        const expectedList: CertificateListItem[] = [fakeCertificateListItem()]
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/previous').reply(200, getListSuccess)
 
@@ -164,7 +165,7 @@ describe('Test list middleware', () => {
 
       it('shall save list', async () => {
         const expectedTotalCount = 10
-        const expectedList: CertificateListItem[] = getDefaultList()
+        const expectedList: CertificateListItem[] = [fakeCertificateListItem()]
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/question').reply(200, getListSuccess)
 

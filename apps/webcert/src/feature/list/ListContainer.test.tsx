@@ -1,6 +1,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { ErrorCode, ErrorData, ErrorType } from '../../store/error/errorReducer'
@@ -15,7 +16,7 @@ import { listMiddleware } from '../../store/list/listMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
 import ListContainer from './ListContainer'
-import { getConfig, getDefaultList } from './test/listTestUtils'
+import { getConfig } from './test/listTestUtils'
 
 let testStore: EnhancedStore
 
@@ -36,7 +37,7 @@ const renderComponent = (showMessageForEmptyList: boolean) => {
 describe('List', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, listMiddleware])
-    testStore.dispatch(updateActiveList(getDefaultList()))
+    testStore.dispatch(updateActiveList([fakeCertificateListItem()]))
     testStore.dispatch(updateActiveListConfig(getConfig()))
     testStore.dispatch(updateActiveListFilter(fakeListFilter()))
     testStore.dispatch(updateIsLoadingListConfig(false))
