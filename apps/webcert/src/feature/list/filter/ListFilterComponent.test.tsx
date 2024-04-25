@@ -3,19 +3,20 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
+import {
+  fakeBooleanFilter,
+  fakeDateFilter,
+  fakeDateRangeFilter,
+  fakeOrderFilter,
+  fakePersonIdFilter,
+  fakeRadioFilter,
+  fakeSelectFilter,
+  fakeTextFilter,
+} from '../../../faker/list/fakeListFilterConfig'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import { ListFilterConfig, ListFilterType } from '../../../types'
-import {
-  getBooleanFilter,
-  getDateRangeFilter,
-  getOrderFilter,
-  getPersonIdFilter,
-  getRadioFilter,
-  getSelectFilter,
-  getTextFilter,
-} from '../test/listTestUtils'
 import ListFilterComponent from './ListFilterComponent'
 
 let testStore: EnhancedStore
@@ -36,68 +37,68 @@ describe('ListFilterComponent', () => {
 
   describe('Display filters', () => {
     it('should display text filter component', () => {
-      renderComponent(getTextFilter('Text title'))
+      renderComponent(fakeTextFilter())
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
 
     it('should display text filter title', () => {
-      renderComponent(getTextFilter('Text title'))
+      renderComponent(fakeTextFilter({ title: 'Text title' }))
       expect(screen.getByLabelText('Text title')).toBeInTheDocument()
     })
 
     it('should display select filter component', () => {
-      renderComponent(getSelectFilter('Select title'))
+      renderComponent(fakeSelectFilter())
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
     it('should display radio filter component', () => {
-      renderComponent(getRadioFilter('Radio title'))
+      renderComponent(fakeRadioFilter())
       expect(screen.getByRole('radiogroup')).toBeInTheDocument()
     })
 
     it('should display one radio button per value', () => {
-      const filter = getRadioFilter('Radio title')
+      const filter = fakeRadioFilter()
       renderComponent(filter)
       expect(screen.getAllByRole('radio')).toHaveLength(filter.values.length)
     })
 
     it('should display radio filter title', () => {
-      renderComponent(getTextFilter('Radio title'))
+      renderComponent(fakeTextFilter({ title: 'Radio title' }))
       expect(screen.getByLabelText('Radio title')).toBeInTheDocument()
     })
 
     it('should display person id filter component', () => {
-      renderComponent(getPersonIdFilter('Person id title'))
+      renderComponent(fakePersonIdFilter())
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
 
     it('should display date range filter title', () => {
-      renderComponent(getDateRangeFilter('Date range title'))
+      renderComponent(fakeDateRangeFilter({ title: 'Date range title' }))
       expect(screen.getByText('Date range title')).toBeInTheDocument()
     })
 
     it('should display date range filter to title', () => {
-      renderComponent(getDateRangeFilter('Date range title', 'To title'))
+      renderComponent(fakeDateRangeFilter({ to: fakeDateFilter({ title: 'To title' }) }))
       expect(screen.getByLabelText('To title')).toBeInTheDocument()
     })
 
     it('should display date range filter from title', () => {
-      renderComponent(getDateRangeFilter('Date range title', 'From title'))
+      renderComponent(fakeDateRangeFilter({ from: fakeDateFilter({ title: 'From title' }) }))
       expect(screen.getByLabelText('From title')).toBeInTheDocument()
     })
 
     it('should display person id filter title', () => {
-      renderComponent(getPersonIdFilter('Person id title'))
+      renderComponent(fakePersonIdFilter({ title: 'Person id title' }))
       expect(screen.getByLabelText('Person id title')).toBeInTheDocument()
     })
 
     it('should not display order filter', () => {
-      renderComponent(getOrderFilter('Order title'))
+      renderComponent(fakeOrderFilter({ title: 'Order title' }))
       expect(screen.queryByLabelText('Order title')).not.toBeInTheDocument()
     })
 
     it('should not display boolean filter title', () => {
-      renderComponent(getBooleanFilter('Boolean title'))
+      renderComponent(fakeBooleanFilter({ title: 'Boolean title' }))
       expect(screen.queryByLabelText('Boolean title')).not.toBeInTheDocument()
     })
   })
@@ -108,28 +109,28 @@ describe('ListFilterComponent', () => {
     })
 
     it('should update text filter value', async () => {
-      renderComponent(getTextFilter())
+      renderComponent(fakeTextFilter())
       const component = screen.getByRole('textbox')
       await userEvent.type(component, 't')
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.TEXT, value: 't' }, component.id)
     })
 
     it('should update person id filter value if person id is valid', async () => {
-      renderComponent(getPersonIdFilter())
+      renderComponent(fakePersonIdFilter())
       const component = screen.getByRole('textbox')
       await userEvent.type(component, '19121212-1212')
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.PERSON_ID, value: '19121212-1212' }, component.id)
     })
 
     it('should not update person id filter value if person id is invalid', async () => {
-      renderComponent(getPersonIdFilter())
+      renderComponent(fakePersonIdFilter())
       const component = screen.getByRole('textbox')
       await userEvent.type(component, '111')
       expect(onChange).not.toHaveBeenCalled()
     })
 
     it('should update select filter value', async () => {
-      renderComponent(getSelectFilter())
+      renderComponent(fakeSelectFilter())
       const select = screen.getByRole('combobox')
       const options = screen.getAllByRole('option')
       await userEvent.selectOptions(select, options[1])
@@ -140,7 +141,7 @@ describe('ListFilterComponent', () => {
       testStore.dispatch(
         updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
       )
-      const filter = getDateRangeFilter()
+      const filter = fakeDateRangeFilter({ id: 'DATE_RANGE_FILTER' })
       renderComponent(filter)
 
       const to = screen.getByLabelText('to')
@@ -153,7 +154,7 @@ describe('ListFilterComponent', () => {
       testStore.dispatch(
         updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
       )
-      const filter = getDateRangeFilter()
+      const filter = fakeDateRangeFilter({ id: 'DATE_RANGE_FILTER' })
 
       renderComponent(filter)
       const from = screen.getByLabelText('from')
@@ -163,7 +164,7 @@ describe('ListFilterComponent', () => {
     })
 
     it('should update radio filter value', async () => {
-      const filter = getRadioFilter()
+      const filter = fakeRadioFilter()
       renderComponent(filter)
       const radiobuttons = screen.getAllByRole('radio')
       await userEvent.click(radiobuttons[0])

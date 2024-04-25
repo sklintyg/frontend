@@ -4,16 +4,16 @@ import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
+import { fakeDateRangeFilter } from '../../../faker/list/fakeListFilterConfig'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import { ListFilterType } from '../../../types'
-import { getDateRangeFilter } from '../test/listTestUtils'
 import DateRangeFilter from './DateRangeFilter'
 
 let onChange = vi.fn()
 
-const config = getDateRangeFilter()
+const config = fakeDateRangeFilter({ id: 'DATE_RANGE_FILTER' })
 
 let testStore: EnhancedStore
 
