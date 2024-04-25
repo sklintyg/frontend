@@ -202,12 +202,8 @@ export enum ListType {
 }
 
 export interface ListFilter {
-  values?: ListFilterValues
+  values?: Record<string, ListFilterValue>
   type: ListType
-}
-
-export interface ListFilterValues {
-  [propName: string]: ListFilterValue
 }
 
 export interface ForwardedListInfo {

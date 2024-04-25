@@ -28,13 +28,6 @@ export const getConfig = (
   }
 }
 
-export const getFilter = (values = {}): ListFilter => {
-  return {
-    type: ListType.UNKOWN,
-    values: values,
-  }
-}
-
 export const getFilterWithValues = (): ListFilter => {
   return {
     type: ListType.UNKOWN,
