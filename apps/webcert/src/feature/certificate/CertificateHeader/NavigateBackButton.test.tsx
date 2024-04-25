@@ -3,12 +3,14 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { fakeResourceLink } from '../../../faker'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import { userMiddleware } from '../../../store/user/userMiddleware'
-import { getNavigateBackButtonLink, getUser } from '../../../utils'
+import { ResourceLinkType } from '../../../types'
+import { getUser } from '../../../utils'
 import NavigateBackButton from './NavigateBackButton'
 
 let testStore: EnhancedStore
@@ -30,7 +32,7 @@ describe('NavigateBackButton', () => {
 
   it('should show navigate back button if link is available', () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getNavigateBackButtonLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
     renderComponent()
     expect(screen.getByText('Tillbaka')).toBeInTheDocument()
   })
@@ -43,7 +45,7 @@ describe('NavigateBackButton', () => {
 
   it('should navigate back to start page if action is POP', () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getNavigateBackButtonLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
     history.push('/some-page')
     history.push('/some-page1')
     history.action = 'POP'
@@ -58,7 +60,7 @@ describe('NavigateBackButton', () => {
 
   it('should use history.getBack() if action is not POP', () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getNavigateBackButtonLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
     history.push('/some-page')
     history.push('/some-page1')
     history.action = 'PUSH'

@@ -2,12 +2,14 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeResourceLink } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import { getPrivatePractitionerPortalResourceLink, getUser } from '../../utils'
+import { ResourceLinkType } from '../../types'
+import { getUser } from '../../utils'
 import WebcertHeaderUser from './WebcertHeaderUser'
 
 let testStore: EnhancedStore
@@ -102,14 +104,14 @@ describe('WebcertHeaderUser', () => {
 
   it('should show private practitioner portal link dropdown', () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     expect(screen.getByTestId('arrowToggle')).toBeInTheDocument()
   })
 
   it('should show private practitioner portal link', async () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     await userEvent.click(screen.getByTestId('arrowToggle'))
     expect(screen.getByText('Min sida')).toBeInTheDocument()
@@ -117,7 +119,7 @@ describe('WebcertHeaderUser', () => {
 
   it('should expand/collapse when clicked on expandableBox', async () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
     await userEvent.click(expandableBox)

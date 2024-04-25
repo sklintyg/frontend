@@ -8,16 +8,15 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { START_URL } from '../../constants'
-import { fakePatient } from '../../faker'
+import { fakePatient, fakeResourceLink } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient } from '../../store/patient/patientActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
+import { ResourceLinkType } from '../../types'
 import {
-  getChangeUnitResourceLink,
-  getChooseUnitResourceLink,
   getUser,
   getUserStatistics,
   getUserStatisticsForOneCareUnit,
@@ -70,7 +69,7 @@ describe('Care provider modal', () => {
     beforeEach(() => {
       testStore.dispatch(updateUser(getUser()))
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
       testStore.dispatch(updateIsCareProviderModalOpen(true))
     })
 
@@ -100,7 +99,7 @@ describe('Care provider modal', () => {
     })
 
     it('should show care provider modal if choose unit resource link exists', () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
 
       renderComponent()
       expect(screen.getByRole('dialog')).toBeInTheDocument()
@@ -112,7 +111,7 @@ describe('Care provider modal', () => {
     })
 
     it('should clear patient and close modal when unit is chosen', async () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
       testStore.dispatch(setPatient(fakePatient()))
       fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
 
@@ -129,27 +128,27 @@ describe('Care provider modal', () => {
     })
 
     it('should show care units when care provider modal is open', () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
 
       renderComponent()
       expect(screen.getByText('Care unit')).toBeInTheDocument()
     })
 
     it('should show total amount of unhandled questions if user has units under the care unit', async () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
       renderComponent()
       expect(await screen.findByText('3 (totalt 4)')).toBeInTheDocument()
     })
 
     it('should show title for choosing unit', () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
 
       renderComponent()
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
 
     it('should not close the modal if choose unit resource link exists', async () => {
-      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
 
       renderComponent()
       await userEvent.click(screen.getByTestId('modal-backdrop'))

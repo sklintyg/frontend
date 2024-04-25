@@ -1,8 +1,9 @@
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { fakeResourceLink } from '../../faker'
 import { ResourceLink, ResourceLinkType } from '../../types'
-import { getSubscriptionWarningResourceLink, getUser, getUserWithLaunchId, getUserStatistics as statistics } from '../../utils'
+import { getUser, getUserWithLaunchId, getUserStatistics as statistics } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -121,7 +122,7 @@ describe('Test user middleware', () => {
     })
 
     it('should remove SUBSCRIPTION_WARNING resource link on success', async () => {
-      testStore.dispatch(updateUserResourceLinks(getSubscriptionWarningResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.SUBSCRIPTION_WARNING })]))
       fakeAxios.onGet('/api/subscription/acknowledgeSubscriptionModal').reply(200)
       testStore.dispatch(acknowledgeSubscription())
 

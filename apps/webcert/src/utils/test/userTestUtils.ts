@@ -1,5 +1,4 @@
 import { Unit } from '../../types/certificate'
-import { ResourceLink, ResourceLinkType } from '../../types/resourceLink'
 import { LoginMethod, SigningMethod, UnitStatistic, UnitStatistics, User, UserStatistics } from '../../types/user'
 
 export const getUser = (): User => {
@@ -366,64 +365,4 @@ export const getUserStatisticsForOneCareUnit = (): UserStatistics => {
   }
 
   return createUserStatistics(unitStatistics)
-}
-
-export const getChooseUnitResourceLink = (): ResourceLink[] => {
-  return [
-    {
-      type: ResourceLinkType.CHOOSE_UNIT,
-      name: 'Välj vårdenhet',
-      body: '',
-      description: '',
-      enabled: true,
-    },
-  ]
-}
-
-export const getChangeUnitResourceLink = (): ResourceLink[] => {
-  return [
-    {
-      type: ResourceLinkType.CHANGE_UNIT,
-      name: 'Byt vårdenhet',
-      body: '',
-      description: '',
-      enabled: true,
-    },
-  ]
-}
-
-export const getPrivatePractitionerPortalResourceLink = (): ResourceLink[] => {
-  return [
-    {
-      type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL,
-      name: 'Min sida',
-      body: '',
-      description: '',
-      enabled: true,
-    },
-  ]
-}
-
-export const getSubscriptionWarningResourceLink = (): ResourceLink[] => {
-  return [
-    {
-      type: ResourceLinkType.SUBSCRIPTION_WARNING,
-      name: 'Saknar avtal',
-      body: '',
-      description: '',
-      enabled: true,
-    },
-  ]
-}
-
-export const getNavigateBackButtonLink = (): ResourceLink[] => {
-  return [
-    {
-      type: ResourceLinkType.NAVIGATE_BACK_BUTTON,
-      name: 'Tillbaka',
-      body: '',
-      description: '',
-      enabled: true,
-    },
-  ]
 }

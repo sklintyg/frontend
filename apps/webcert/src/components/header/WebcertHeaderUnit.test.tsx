@@ -2,18 +2,14 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeResourceLink } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import {
-  getChangeUnitResourceLink,
-  getUser,
-  getUserStatistics,
-  getUserStatisticsWithNoDraftsOnOtherUnits,
-  getUserWithInactiveUnit,
-} from '../../utils'
+import { ResourceLinkType } from '../../types'
+import { getUser, getUserStatistics, getUserStatisticsWithNoDraftsOnOtherUnits, getUserWithInactiveUnit } from '../../utils'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
@@ -46,7 +42,7 @@ describe('Webcert header unit', () => {
     testStore.dispatch(updateUser(getUser()))
     renderComponent()
 
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
     await userEvent.click(screen.getAllByTestId('arrowToggle')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
@@ -54,7 +50,7 @@ describe('Webcert header unit', () => {
 
   it('should expand/collapse when clicked on expandableBox', async () => {
     testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
     await userEvent.click(expandableBox)
@@ -112,7 +108,7 @@ describe('Webcert header unit', () => {
 
       renderComponent()
 
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter')).toBeInTheDocument()
     })
@@ -120,7 +116,7 @@ describe('Webcert header unit', () => {
     it('should not show statistics on other units if there are none', () => {
       testStore.dispatch(updateUser(getUser()))
       testStore.dispatch(updateUserStatistics(getUserStatisticsWithNoDraftsOnOtherUnits()))
-      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
       renderComponent()
 

@@ -114,7 +114,7 @@ describe('QuestionPanelFooter', () => {
     it('display forward button if resource link is available', () => {
       renderComponent([expectedQuestion])
       flushPromises()
-      const resourceLinks: ResourceLink[] = [fakeResourceLink({ type: ResourceLinkType.FORWARD_QUESTION, name: 'Vidarebefordra' })]
+      const resourceLinks = [fakeResourceLink({ type: ResourceLinkType.FORWARD_QUESTION })]
       testStore.dispatch(
         updateCertificate(
           fakeCertificate({
