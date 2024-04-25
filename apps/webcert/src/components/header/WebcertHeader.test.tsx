@@ -1,12 +1,31 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { fakeResourceLink } from '../../faker'
+import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../../faker'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
-import { ResourceLinkType } from '../../types'
-import { getUserWithMissingSubscription } from '../../utils'
+import { ResourceLinkType, Unit, User } from '../../types'
 import WebcertHeader from './WebcertHeader'
+
+const getUserWithMissingSubscription = (): User => {
+  const unit: Unit = fakeUnit({
+    unitName: 'Care Provider',
+    isInactive: true,
+  })
+
+  return fakeUser({
+    loggedInUnit: unit,
+    loggedInCareUnit: unit,
+    loggedInCareProvider: unit,
+    careProviders: [
+      fakeCareProvider({
+        id: unit.unitId,
+        name: unit.unitName,
+        missingSubscription: true,
+      }),
+    ],
+  })
+}
 
 const renderComponent = () => {
   render(
