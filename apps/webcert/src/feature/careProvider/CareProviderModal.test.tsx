@@ -8,7 +8,16 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { START_URL } from '../../constants'
-import { fakePatient, fakeResourceLink, fakeUnitStatistic, fakeUserStatistics } from '../../faker'
+import {
+  fakeCareProvider,
+  fakeCareUnit,
+  fakePatient,
+  fakeResourceLink,
+  fakeUnit,
+  fakeUnitStatistic,
+  fakeUser,
+  fakeUserStatistics,
+} from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient } from '../../store/patient/patientActions'
@@ -16,7 +25,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser, getUserWithEmptyCareUnitWithoutUnits, getUserWithEmptyUnit } from '../../utils'
+import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import CareProviderModal from './CareProviderModal'
 
@@ -51,7 +60,7 @@ describe('Care provider modal', () => {
   })
 
   it('should NOT show total amount of unhandled questions if user has no units under the care unit', () => {
-    testStore.dispatch(updateUser(getUserWithEmptyCareUnitWithoutUnits()))
+    testStore.dispatch(updateUser(fakeUser({ loggedInUnit: {}, loggedInCareUnit: {}, loggedInCareProvider: {} })))
     testStore.dispatch(updateUserStatistics(fakeUserStatistics({ unitStatistics: { '1234a': fakeUnitStatistic() } })))
 
     renderComponent()
@@ -94,7 +103,26 @@ describe('Care provider modal', () => {
 
   describe('Tests with no logged in unit', () => {
     beforeEach(() => {
-      testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+      testStore.dispatch(
+        updateUser(
+          fakeUser({
+            loggedInUnit: {},
+            loggedInCareUnit: {},
+            loggedInCareProvider: {},
+            careProviders: [
+              fakeCareProvider({
+                careUnits: [
+                  fakeCareUnit({
+                    unitId: '1234a',
+                    unitName: 'Care unit',
+                    units: [fakeUnit({ unitId: '1234b' })],
+                  }),
+                ],
+              }),
+            ],
+          })
+        )
+      )
       testStore.dispatch(
         updateUserStatistics(
           fakeUserStatistics({

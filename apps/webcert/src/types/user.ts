@@ -4,9 +4,9 @@ export interface User {
   hsaId: string
   name: string
   role: string
-  loggedInUnit: Unit
-  loggedInCareUnit: Unit
-  loggedInCareProvider: Unit
+  loggedInUnit: Unit | Record<PropertyKey, never>
+  loggedInCareUnit: Unit | Record<PropertyKey, never>
+  loggedInCareProvider: Unit | Record<PropertyKey, never>
   preferences: Record<string, string> | null
   signingMethod: SigningMethod
   loginMethod: LoginMethod
