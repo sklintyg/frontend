@@ -1,12 +1,10 @@
 import { ResourceLink } from './resourceLink'
 
 export interface CertificateListItem {
-  values: { [key: string]: string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean }
+  values: Record<string, string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean>
 }
 
-export interface ListButtonTooltips {
-  [key: string]: string
-}
+export type ListButtonTooltips = Record<string, string>
 
 export interface PatientListInfo {
   id: string
