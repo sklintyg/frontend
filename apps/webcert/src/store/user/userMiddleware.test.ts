@@ -1,10 +1,10 @@
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { fakeResourceLink, fakeUnitStatistic } from '../../faker'
+import { fakeResourceLink, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { ResourceLink, ResourceLinkType } from '../../types'
-import { getUser, getUserWithLaunchId } from '../../utils'
+import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -156,7 +156,9 @@ describe('Test user middleware', () => {
     })
     it('should add launchId to sessionStorage if added on user', async () => {
       const data = {
-        user: getUserWithLaunchId(),
+        user: fakeUser({
+          launchId: '97f279ba-7d2b-4b0a-8665-7adde08f26f4',
+        }),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
