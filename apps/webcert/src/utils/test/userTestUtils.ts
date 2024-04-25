@@ -427,16 +427,3 @@ export const getNavigateBackButtonLink = (): ResourceLink[] => {
     },
   ]
 }
-
-export const getUnit = (): Unit => {
-  return {
-    unitName: 'unitName',
-    unitId: 'unitId',
-    zipCode: 'zipCode',
-    address: 'address',
-    phoneNumber: 'phoneNumber',
-    city: 'city',
-    email: 'email',
-    isInactive: false,
-  }
-}

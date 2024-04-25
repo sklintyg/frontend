@@ -4,26 +4,14 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink } from '../../faker'
+import { fakeCertificate, fakeResourceLink } from '../../faker'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { Certificate, CertificateRelations, Question, QuestionType, ResourceLink, ResourceLinkType } from '../../types'
-import { getUnit } from '../../utils'
+import { Question, QuestionType, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import QuestionPanelFooter from './QuestionPanelFooter'
-
-const getTestCertificate = (
-  id: string,
-  type?: string,
-  version?: number,
-  readyForSign?: string,
-  relations?: CertificateRelations
-): Certificate =>
-  fakeCertificate({
-    metadata: fakeCertificateMetaData({ id, type, version, readyForSign, relations }),
-  })
 
 let testStore: EnhancedStore
 
@@ -127,12 +115,14 @@ describe('QuestionPanelFooter', () => {
       renderComponent([expectedQuestion])
       flushPromises()
       const resourceLinks: ResourceLink[] = [fakeResourceLink({ type: ResourceLinkType.FORWARD_QUESTION, name: 'Vidarebefordra' })]
-      const unit = getUnit()
-      const certificate = getTestCertificate('certificateId')
-      certificate.links = resourceLinks
-      certificate.metadata.unit = unit
-      certificate.metadata.careProvider = unit
-      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            metadata: { id: 'certificateId' },
+            links: resourceLinks,
+          })
+        )
+      )
       const question = createQuestion()
       question.links.push(resourceLinks[0])
       renderComponent([question])
