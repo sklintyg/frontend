@@ -10,7 +10,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser } from '../../utils'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
@@ -33,14 +32,14 @@ describe('Webcert header unit', () => {
   })
 
   it('should display what care unit the user is logged in to', (): void => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser({ loggedInUnit: fakeUnit({ unitName: 'Care unit' }) })))
     renderComponent()
 
     expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
   it('should open the dropdown with the button for changing unit when clicking on expand button', async () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     renderComponent()
 
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
@@ -50,7 +49,7 @@ describe('Webcert header unit', () => {
   })
 
   it('should expand/collapse when clicked on expandableBox', async () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')
@@ -61,7 +60,7 @@ describe('Webcert header unit', () => {
   })
 
   it('should not display care provider name for private practitioner', (): void => {
-    const user = getUser()
+    const user = fakeUser()
     const careProvider = { ...user.loggedInCareProvider }
     user.role = 'Privatläkare'
     careProvider.unitName = 'Care provider unit'
@@ -74,7 +73,7 @@ describe('Webcert header unit', () => {
   })
 
   it('should display care provider name for normal doctor', (): void => {
-    const user = getUser()
+    const user = fakeUser()
     const careProvider = { ...user.loggedInCareProvider }
     user.role = 'Läkare'
     careProvider.unitName = 'Care provider unit'
@@ -88,7 +87,7 @@ describe('Webcert header unit', () => {
 
   describe('Inactive unit', () => {
     it('should not display inactive message for active unit', (): void => {
-      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUser(fakeUser()))
       renderComponent()
 
       expect(screen.queryByText(/Inaktiv enhet/i)).not.toBeInTheDocument()
@@ -104,7 +103,7 @@ describe('Webcert header unit', () => {
 
   describe('Statistics', () => {
     it('should show statistics on other units if resource link exists', () => {
-      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUser(fakeUser()))
       testStore.dispatch(
         updateUserStatistics(
           fakeUserStatistics({
@@ -121,7 +120,7 @@ describe('Webcert header unit', () => {
     })
 
     it('should not show statistics on other units if there are none', () => {
-      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUser(fakeUser()))
       testStore.dispatch(
         updateUserStatistics(
           fakeUserStatistics({

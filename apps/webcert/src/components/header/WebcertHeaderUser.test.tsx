@@ -2,14 +2,13 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { fakeResourceLink } from '../../faker'
+import { fakeResourceLink, fakeUser } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser } from '../../utils'
 import WebcertHeaderUser from './WebcertHeaderUser'
 
 let testStore: EnhancedStore
@@ -30,33 +29,33 @@ describe('WebcertHeaderUser', () => {
   })
 
   it('displays user role', () => {
-    testStore.dispatch(updateUser({ ...getUser(), role: 'Läkare' }))
+    testStore.dispatch(updateUser(fakeUser({ role: 'Läkare' })))
     renderComponent()
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
   it('displays users name and role', () => {
-    testStore.dispatch(updateUser({ ...getUser(), role: 'Läkare', name: 'Test Testsson' }))
+    testStore.dispatch(updateUser(fakeUser({ role: 'Läkare', name: 'Test Testsson' })))
     renderComponent()
     expect(screen.getByText(/Test Testsson/i)).toBeInTheDocument()
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
   it('should not show protected person link', () => {
-    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: false }))
+    testStore.dispatch(updateUser(fakeUser({ protectedPerson: false })))
     renderComponent()
     expect(screen.queryByText(/Skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
   it('should show protected person modal if approval is not saved in preferences', () => {
-    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
+    testStore.dispatch(updateUser(fakeUser({ protectedPerson: true })))
     renderComponent()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
   it('should show protected person link when approval modal gets closed', async () => {
-    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
+    testStore.dispatch(updateUser(fakeUser({ protectedPerson: true })))
     renderComponent()
     await userEvent.click(screen.getByRole('checkbox'))
     await userEvent.click(screen.getByText('Till Webcert'))
@@ -66,11 +65,12 @@ describe('WebcertHeaderUser', () => {
 
   it('should not show protected person modal if approval is saved in preferences', () => {
     testStore.dispatch(
-      updateUser({
-        ...getUser(),
-        protectedPerson: true,
-        preferences: getUserPreferences('true'),
-      })
+      updateUser(
+        fakeUser({
+          protectedPerson: true,
+          preferences: getUserPreferences('true'),
+        })
+      )
     )
     renderComponent()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -79,11 +79,12 @@ describe('WebcertHeaderUser', () => {
 
   it('should show protected person link when approval modal is closed', () => {
     testStore.dispatch(
-      updateUser({
-        ...getUser(),
-        protectedPerson: true,
-        preferences: getUserPreferences('true'),
-      })
+      updateUser(
+        fakeUser({
+          protectedPerson: true,
+          preferences: getUserPreferences('true'),
+        })
+      )
     )
     renderComponent()
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
@@ -91,11 +92,12 @@ describe('WebcertHeaderUser', () => {
 
   it('should open protected person modal when clicking on link', async () => {
     testStore.dispatch(
-      updateUser({
-        ...getUser(),
-        protectedPerson: true,
-        preferences: getUserPreferences('true'),
-      })
+      updateUser(
+        fakeUser({
+          protectedPerson: true,
+          preferences: getUserPreferences('true'),
+        })
+      )
     )
     renderComponent()
     await userEvent.click(screen.getByText(/Skyddade personuppgifter/i))
@@ -103,14 +105,14 @@ describe('WebcertHeaderUser', () => {
   })
 
   it('should show private practitioner portal link dropdown', () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     expect(screen.getByTestId('arrowToggle')).toBeInTheDocument()
   })
 
   it('should show private practitioner portal link', async () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     await userEvent.click(screen.getByTestId('arrowToggle'))
@@ -118,7 +120,7 @@ describe('WebcertHeaderUser', () => {
   })
 
   it('should expand/collapse when clicked on expandableBox', async () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL })]))
     renderComponent()
     const expandableBox = screen.getByTestId('expandableBox')

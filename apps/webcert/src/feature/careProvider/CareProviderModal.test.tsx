@@ -25,7 +25,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'
-import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import CareProviderModal from './CareProviderModal'
 
@@ -53,7 +52,7 @@ describe('Care provider modal', () => {
   afterEach(() => clearDispatchedActions())
 
   it('should NOT show modal if resource link for choose unit does not exist', () => {
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
 
     renderComponent()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -70,7 +69,22 @@ describe('Care provider modal', () => {
 
   describe('Tests with user and open care provider modal', () => {
     beforeEach(() => {
-      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(
+        updateUser(
+          fakeUser({
+            careProviders: [
+              fakeCareProvider({
+                careUnits: [
+                  fakeCareUnit({
+                    unitId: '1234c',
+                    unitName: 'Care unit 2',
+                  }),
+                ],
+              }),
+            ],
+          })
+        )
+      )
       testStore.dispatch(
         updateUserStatistics(
           fakeUserStatistics({
@@ -147,7 +161,7 @@ describe('Care provider modal', () => {
     it('should clear patient and close modal when unit is chosen', async () => {
       testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
       testStore.dispatch(setPatient(fakePatient()))
-      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
+      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: fakeUser() })
 
       renderComponent()
 

@@ -1,10 +1,9 @@
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { fakeResourceLink, fakeUnitStatistic, fakeUser } from '../../faker'
+import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { ResourceLink, ResourceLinkType } from '../../types'
-import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -121,7 +120,7 @@ describe('Test user middleware', () => {
     })
 
     it('should set care unit on success', async () => {
-      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
+      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: fakeUser({ loggedInUnit: fakeUnit({ unitId: '1234a' }) }) })
       testStore.dispatch(setUnit('1234a'))
 
       await flushPromises()
@@ -169,7 +168,7 @@ describe('Test user middleware', () => {
     })
     it('should not add launchId to sessionStorage if not added on user', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -180,7 +179,7 @@ describe('Test user middleware', () => {
     })
     it('should dispatch updateUser action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -193,7 +192,7 @@ describe('Test user middleware', () => {
     })
     it('should update the user with correct values', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -205,7 +204,7 @@ describe('Test user middleware', () => {
     })
     it('should dispatch updateUserResources action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -220,7 +219,7 @@ describe('Test user middleware', () => {
     })
     it('should update the user resourceLinks with correct values', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -233,7 +232,7 @@ describe('Test user middleware', () => {
     })
     it('should dispatch isLoadingUser action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -248,7 +247,7 @@ describe('Test user middleware', () => {
     })
     it('should update isLoadingUser to false', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
