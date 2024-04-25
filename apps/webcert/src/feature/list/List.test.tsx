@@ -2,11 +2,12 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
+import { fakeListConfig } from '../../faker/list/fakeListConfig'
+import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../store/list/listActions'
 import store from '../../store/store'
 import { CertificateListItem, ListFilter, ListType } from '../../types'
 import List from './List'
-import { getConfigWithTextFilter } from './test/listTestUtils'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {
   store.dispatch(updateTotalCount(totalCount))
@@ -14,7 +15,24 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
   store.dispatch(updateIsLoadingListConfig(false))
   render(
     <Provider store={store}>
-      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" icon="icon" type={ListType.DRAFTS} />
+      <List
+        config={fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })}
+        list={list}
+        filter={filter}
+        title="TITLE"
+        icon="icon"
+        type={ListType.DRAFTS}
+      />
     </Provider>
   )
 }

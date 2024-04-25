@@ -2,8 +2,9 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
+import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
-import { getConfigWithTextFilter } from '../../feature/list/test/listTestUtils'
+import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
 import { CertificateListItem, ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
@@ -34,7 +35,21 @@ describe('Test list middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, listMiddleware])
 
-    testStore.dispatch(updateActiveListConfig(getConfigWithTextFilter()))
+    testStore.dispatch(
+      updateActiveListConfig(
+        fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
+      )
+    )
   })
 
   afterEach(() => {
@@ -202,7 +217,16 @@ describe('Test list middleware', () => {
       })
 
       it('shall save config', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              description: 'description',
+            }),
+          ],
+        })
 
         fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
 
@@ -213,7 +237,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall set list type to filter', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
 
         fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
 
@@ -235,7 +269,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall save config', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
 
         fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
 
@@ -256,7 +300,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall save config', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
 
         fakeAxios.onGet('/api/list/config/previous').reply(200, expectedConfig)
 
@@ -277,7 +331,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall save config', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
 
         fakeAxios.onGet('/api/list/config/question').reply(200, expectedConfig)
 
@@ -288,7 +352,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall save updated config if type is unhandled certificates', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
         testStore.dispatch(resetListState())
         testStore.dispatch(updateActiveListType(ListType.UNHANDLED_CERTIFICATES))
         fakeAxios.onPost('/api/list/config/question/update').reply(200, expectedConfig)
@@ -300,7 +374,17 @@ describe('Test list middleware', () => {
       })
 
       it('shall not save updated config if type is not unhandled certificates', async () => {
-        const expectedConfig = getConfigWithTextFilter()
+        const expectedConfig = fakeListConfig({
+          title: 'title',
+          filters: [
+            fakeTextFilter({
+              id: 'TEXT_FILTER',
+              title: 'title',
+              placeholder: 'test',
+              description: 'description',
+            }),
+          ],
+        })
         testStore.dispatch(resetListState())
         testStore.dispatch(updateActiveListType(ListType.DRAFTS))
         fakeAxios.onPost('/api/list/config/question/update').reply(200, expectedConfig)
