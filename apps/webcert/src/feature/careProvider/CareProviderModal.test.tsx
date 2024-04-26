@@ -205,9 +205,10 @@ describe('Care provider modal', () => {
   })
 
   it('Should not crash on missing statistics', () => {
-    testStore.dispatch(updateUser(fakeUser()))
+    testStore.dispatch(updateUser(fakeUser({ careProviders: [fakeCareProvider({ careUnits: [fakeCareUnit()] })] })))
     testStore.dispatch(updateUserStatistics(fakeUserStatistics()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
+
     expect(() => renderComponent()).not.toThrow()
   })
 })
