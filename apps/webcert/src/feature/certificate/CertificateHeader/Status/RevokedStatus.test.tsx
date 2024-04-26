@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (isRevoked: boolean) => {
   render(
@@ -14,8 +14,8 @@ const renderComponent = (isRevoked: boolean) => {
         <CertificateHeaderStatuses
           certificateMetadata={
             isRevoked
-              ? createCertificateMetadata(CertificateStatus.REVOKED, true)
-              : createCertificateMetadata(CertificateStatus.SIGNED, true)
+              ? fakeCertificateMetaData({ status: CertificateStatus.REVOKED, sent: true })
+              : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
           }
           questions={[]}
         />

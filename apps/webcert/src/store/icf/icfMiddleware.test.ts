@@ -2,11 +2,14 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import {
-  getCertificateWithDiagnosisElementWithCodeSystem,
-  getCodeElement,
-  getDiagnosisElementWithCodeSystem,
-} from '../../components/icf/icfTestUtils'
-import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '../../types'
+  fakeCertificate,
+  fakeCertificateConfig,
+  fakeCertificateDataElement,
+  fakeCertificateValue,
+  fakeDiagnosesElement,
+  fakeResourceLink,
+} from '../../faker'
+import { CertificateDataElement, Icd10Code, IcfCode, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
@@ -14,18 +17,60 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import { IcfRequest, IcfResponse, getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
 
-const getCertificate = (icfTitles: IcfTitles): Certificate => ({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  metadata: { id: 'certificateId' },
-  status: CertificateStatus.SIGNED,
-  icfTitles,
-})
+const getDiagnosisElementWithCodeSystem = (codeSystem: string) =>
+  fakeDiagnosesElement({
+    id: '6.1',
+    config: {
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+    },
+    value: {
+      list: [
+        {
+          code: 'code',
+          terminology: codeSystem,
+          id: '1',
+        },
+      ],
+    },
+  })['6.1']
 
-const getIcfTitles = (): IcfTitles => ({
-  disability: { unique: ['Test 2', 'Test 3'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
-  activityLimitation: { unique: ['Test 0', 'Test 1'], common: ['Test 0', 'Test 1', 'Test 2', 'Test 3'] },
-})
+const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string) =>
+  fakeCertificate({
+    links: [
+      fakeResourceLink({
+        type: ResourceLinkType.FMB,
+        name: 'FMB',
+        description: 'FMB',
+      }),
+    ],
+    data: {
+      '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
+    },
+    metadata: {
+      patient: {
+        personId: {
+          type: 'type',
+          id: '1912121212',
+        },
+      },
+    },
+  })
+
+const getCodeElement = (): CertificateDataElement =>
+  fakeCertificateDataElement({
+    id: '6.1',
+    config: fakeCertificateConfig.diagnoses({
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+    }),
+    value: fakeCertificateValue.code({
+      code: 'code',
+      id: 'id',
+    }),
+  })['6.1']
 
 const getIcfData = (): IcfResponse => {
   const icfCodes: IcfCode[] = [
@@ -112,26 +157,6 @@ describe('Test ICF middleware', () => {
   })
 
   describe('Handle updateCertificate', () => {
-    it('shall update icf codes', () => {
-      const expectedIcfTitles = getIcfTitles()
-      const certificate = getCertificate(expectedIcfTitles)
-
-      testStore.dispatch(updateCertificate(certificate))
-
-      flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
-    })
-
-    it('shall fetch icf codes when', () => {
-      const expectedIcfTitles = getIcfTitles()
-      const certificate = getCertificate(expectedIcfTitles)
-
-      testStore.dispatch(updateCertificate(certificate))
-
-      flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
-    })
-
     it('shall save icd 10 codes to state', () => {
       const certificate = getCertificateWithDiagnosisElementWithCodeSystem('ICD_10_SE')
 

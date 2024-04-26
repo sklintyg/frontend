@@ -2,6 +2,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import {
+  fakeCertificate,
   fakeCertificateConfig,
   fakeCertificateValue,
   fakeCheckboxBooleanElement,
@@ -31,7 +32,6 @@ import {
   ValueText,
   ValueYear,
 } from '../../../types'
-import { getCertificateWithQuestion } from '../../../utils'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -375,7 +375,7 @@ describe('QuestionUvResolve', () => {
   it('should add text of optional dropdown to radio group text', () => {
     const question = createQuestionWithOptionalDropdown()
     const dropdownQuestion = createDropdownQuestion()
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question, [dropdownQuestion.id]: dropdownQuestion } })))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
   })

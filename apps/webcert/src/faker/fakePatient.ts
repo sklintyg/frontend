@@ -1,9 +1,18 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
-import { Patient } from '../types/patient'
+import { Patient, PersonId } from '../types/patient'
 
-export const fakePatient = (data?: PartialDeep<Patient>): Patient => {
+export function fakePatientId() {
+  return `${faker.date.past().toISOString().split('T')[0].replace(/-/g, '')}${faker.random.alphaNumeric(4)}`
+}
+
+export function fakePersonId(data?: Partial<PersonId>): PersonId {
+  return { type: faker.random.alpha(), id: fakePatientId(), ...data }
+}
+
+export function fakePatient(data?: PartialDeep<Patient>): Patient {
   const firstName = faker.name.firstName()
+  const middleName = faker.name.firstName()
   const lastName = faker.name.lastName()
   const street = faker.address.streetAddress()
   const zipCode = faker.address.zipCode()
@@ -11,7 +20,8 @@ export const fakePatient = (data?: PartialDeep<Patient>): Patient => {
   return {
     firstName,
     lastName,
-    fullName: data?.fullName ?? `${firstName} ${lastName}`,
+    middleName,
+    fullName: data?.fullName ?? `${firstName} ${middleName} ${lastName}`,
     street,
     zipCode,
     city,
@@ -22,8 +32,9 @@ export const fakePatient = (data?: PartialDeep<Patient>): Patient => {
     differentNameFromEHR: false,
     personIdChanged: false,
     reserveId: false,
+    addressFromPU: false,
     ...data,
-    personId: { type: faker.random.alpha(), id: faker.random.alpha(), ...data?.personId },
-    previousPersonId: { type: faker.random.alpha(), id: faker.random.alpha(), ...data?.previousPersonId },
+    personId: fakePersonId(data?.personId),
+    previousPersonId: fakePersonId(data?.previousPersonId),
   }
 }

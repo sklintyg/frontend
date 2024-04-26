@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
 import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListType, ResourceLink } from '../../types'
 import ListItemContent from './ListItemContent'
 import { ListTable } from './ListTable'
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListPagination from './pagination/ListPagination'
-import { ListConfig, CertificateListItem, ListFilter, ListType, ListFilterType, ResourceLink } from '../../types'
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -40,20 +40,28 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
   }
 
   const getOrderBy = () => {
-    return filter && filter.values && filter.values['ORDER_BY'] ? filter.values['ORDER_BY'].value : ''
+    const val = filter && filter.values && filter.values['ORDER_BY']
+    if (val && val.type === ListFilterType.TEXT) {
+      return val.value ?? ''
+    }
+    return ''
   }
 
   const getAscending = () => {
-    return filter && filter.values && filter.values['ASCENDING'] && filter.values['ASCENDING'].value
+    const val = filter && filter.values && filter.values['ASCENDING']
+    if (val && val.type === ListFilterType.BOOLEAN) {
+      return val.value
+    }
+    return false
   }
 
-  const getUpdatedAscendingValue = (updatedOrderBy: string) => {
+  const getUpdatedAscendingValue = (updatedOrderBy: string): boolean => {
     const isCurrentSorting = getOrderBy() === updatedOrderBy
     const defaultSortOrder = config.tableHeadings.find((heading) => heading.id === updatedOrderBy)?.defaultAscending
     if (isCurrentSorting) {
       return !getAscending()
     }
-    return defaultSortOrder
+    return Boolean(defaultSortOrder)
   }
 
   const updateSortingOfList = (event: React.MouseEvent<HTMLTableCellElement>) => {

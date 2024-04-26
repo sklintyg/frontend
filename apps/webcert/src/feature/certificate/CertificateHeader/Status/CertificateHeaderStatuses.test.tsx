@@ -1,14 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData, fakeCertificateRelation } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import {
-  createCertificateMetadata,
-  createCertificateMetadataWithChildRelation,
-  createCertificateMetadataWithParentRelation,
-} from './statusTestUtils'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'
@@ -85,7 +81,7 @@ const renderComponent = (status: CertificateStatus, isSent: boolean, hasUndhandl
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(status, isSent)}
+          certificateMetadata={fakeCertificateMetaData({ status, sent: isSent, sentTo: isSent ? 'Försäkringskassan' : undefined })}
           questions={
             hasUndhandledComplementQuestions
               ? ([{ type: QuestionType.COMPLEMENT, handled: false }] as Question[])
@@ -103,7 +99,7 @@ const renderComponentWithDraft = (status: CertificateStatus, isValidating: boole
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(status, false)}
+          certificateMetadata={fakeCertificateMetaData({ status, sent: false })}
           questions={[]}
           isValidating={isValidating}
           isValidForSigning={isValidForSigning}
@@ -123,7 +119,11 @@ const renderComponentWithParentRelation = (
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadataWithParentRelation(status, parentStatus, relationType, isSent)}
+          certificateMetadata={fakeCertificateMetaData({
+            status,
+            relations: { parent: fakeCertificateRelation({ status: parentStatus, type: relationType }) },
+            sent: isSent,
+          })}
           questions={[]}
           isValidating={false}
         />
@@ -143,7 +143,20 @@ const renderComponentWithChildRelation = (
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadataWithChildRelation(status, childStatus, relationType, isSent)}
+          certificateMetadata={fakeCertificateMetaData({
+            status,
+            relations: {
+              parent: null,
+              children: [
+                {
+                  type: relationType,
+                  status: childStatus,
+                },
+              ],
+            },
+            sent: isSent,
+            sentTo: isSent ? 'Försäkringskassan' : undefined,
+          })}
           isValidating={false}
           questions={
             hasUnhandledComplementQuestions

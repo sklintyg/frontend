@@ -2,7 +2,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { vi } from 'vitest'
-import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement, fakeUser } from '../../faker'
 import {
   Certificate,
   CertificateDataElementStyleEnum,
@@ -12,7 +12,6 @@ import {
   CertificateStatus,
   SigningMethod,
 } from '../../types'
-import { getUser } from '../../utils'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
@@ -199,7 +198,7 @@ describe('Test certificate middleware', () => {
       const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.FAKE }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.FAKE }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -216,7 +215,7 @@ describe('Test certificate middleware', () => {
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -231,7 +230,7 @@ describe('Test certificate middleware', () => {
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.BANK_ID }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.BANK_ID }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -370,7 +369,7 @@ describe('Test certificate middleware', () => {
     it('shall update signing data when successfully starting the signing process', async () => {
       const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
       const certificate = getTestCertificate('id', 'lisjp', 2)
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
       testStore.dispatch(updateCertificate(certificate))
 
       fakeAxios
@@ -387,7 +386,7 @@ describe('Test certificate middleware', () => {
 
     it('shall make a signing request to DSS when users signing method is DSS', async () => {
       const certificate = getTestCertificate('id', 'lisjp', 2)
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
       testStore.dispatch(startSignCertificate)

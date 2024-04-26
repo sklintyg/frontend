@@ -1,16 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (isSigned: boolean, type?: string) => {
   render(
     <Provider store={store}>
       <CertificateHeaderStatuses
-        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, false, type)}
+        certificateMetadata={fakeCertificateMetaData({
+          status: isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED,
+          sent: false,
+          type,
+        })}
         questions={[]}
       />
     </Provider>

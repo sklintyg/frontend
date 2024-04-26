@@ -14,3 +14,8 @@ export interface IcfCodeCollection {
   icfCodes: IcfCode[]
   icd10Codes: Icd10Code[]
 }
+
+export interface IcfCollection {
+  commonCodes: IcfCodeCollection
+  uniqueCodes: IcfCodeCollection[]
+}

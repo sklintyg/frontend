@@ -2,11 +2,12 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { fakeUser } from '../faker'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
-import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '../types'
+import { ResourceLinkType } from '../types'
 import { ResourceAccess } from './ResourceAccess'
 
 let testStore: EnhancedStore
@@ -23,31 +24,6 @@ const renderComponent = () => {
       </MemoryRouter>
     </Provider>
   )
-}
-
-const getUser = (): User => {
-  const unit: Unit = {
-    unitId: '',
-    unitName: '',
-    address: '',
-    zipCode: '',
-    city: '',
-    phoneNumber: '',
-    email: '',
-    isInactive: false,
-  }
-  return {
-    hsaId: '',
-    name: '',
-    role: 'doctor',
-    loggedInUnit: unit,
-    loggedInCareUnit: unit,
-    loggedInCareProvider: unit,
-    preferences: null,
-    loginMethod: LoginMethod.BANK_ID,
-    signingMethod: SigningMethod.FAKE,
-    protectedPerson: false,
-  } as User
 }
 
 describe('withAccessResource', () => {
@@ -68,7 +44,7 @@ describe('withAccessResource', () => {
 
   it('should throw a not authorized error', () => {
     testStore.dispatch(updateIsLoadingUser(false))
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     renderComponent()
 
     expect(dispatchedActions).toHaveLength(3)
@@ -77,7 +53,7 @@ describe('withAccessResource', () => {
 
   it('should render wrapped component if resource link exists', () => {
     testStore.dispatch(updateIsLoadingUser(false))
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(
       updateUserResourceLinks([{ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, description: '', name: '', body: '', enabled: true }])
     )
