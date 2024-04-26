@@ -1,6 +1,5 @@
 import faker from 'faker'
-import { fakeCategoryElement, fakeCertificate, fakeResourceLink } from '../../src/faker'
-import { fakeCertificateEvent } from '../../src/faker/fakeCertificateEvent'
+import { fakeCategoryElement, fakeCertificate, fakeCertificateEvent, fakeResourceLink } from '../../src/faker'
 import { CertificateEventType, CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
