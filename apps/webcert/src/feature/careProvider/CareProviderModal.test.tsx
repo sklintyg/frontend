@@ -203,4 +203,11 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })
+
+  it('Should not crash on missing statistics', () => {
+    testStore.dispatch(updateUser(fakeUser()))
+    testStore.dispatch(updateUserStatistics(fakeUserStatistics()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT })]))
+    expect(() => renderComponent()).not.toThrow()
+  })
 })

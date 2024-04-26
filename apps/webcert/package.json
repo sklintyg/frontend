@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "start": "pnpm dev",
     "test": "vitest",
-    "test:e2e": "playwright test",
+    "test:playwright": "playwright test",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
