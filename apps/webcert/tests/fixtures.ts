@@ -42,7 +42,7 @@ export const test = base.extend({
     await page.route('**/*/api/configuration', async (route) => {
       await route.fulfill({
         json: {
-          ppHost: 'https://wc2.wc.localtest.me/',
+          ppHost: '/',
           version: '7.2.0.33',
           banners: [],
           sakerhetstjanstIdpUrl: 'https://idp.ineratest.org:443/saml',
