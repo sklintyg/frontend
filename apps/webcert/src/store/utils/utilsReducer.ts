@@ -9,9 +9,7 @@ import {
   updateIsLoadingDynamicLinks,
 } from './utilsActions'
 
-export interface DynamicLinkMap {
-  [key: string]: DynamicLinkData
-}
+export type DynamicLinkMap = Record<string, DynamicLinkData>
 
 export interface Configuration {
   version: string

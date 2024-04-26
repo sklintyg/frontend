@@ -1,4 +1,4 @@
-import { ResourceLink, ResourceLinkType, Unit, UnitStatistics, User, UserStatistics } from '../../types'
+import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
 import { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
@@ -44,6 +44,7 @@ export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState
 
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
 
-export const getLoggedInCareProvider = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInCareProvider
+export const getLoggedInCareProvider = (state: RootState): User['loggedInCareProvider'] | undefined =>
+  state.ui.uiUser.user?.loggedInCareProvider
 
-export const getLoggedInUnit = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInUnit
+export const getLoggedInUnit = (state: RootState): User['loggedInUnit'] | undefined => state.ui.uiUser.user?.loggedInUnit

@@ -11,7 +11,6 @@ const pageSizes = [10, 20, 50, 100]
 
 const getFilterValue = (): ListFilterValueNumber => ({
   type: ListFilterType.NUMBER,
-  id: 'PAGESIZE',
   value: 10,
 })
 

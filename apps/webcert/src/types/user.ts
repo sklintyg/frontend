@@ -4,10 +4,10 @@ export interface User {
   hsaId: string
   name: string
   role: string
-  loggedInUnit: Unit
-  loggedInCareUnit: Unit
-  loggedInCareProvider: Unit
-  preferences: { [key: string]: string } | null
+  loggedInUnit: Unit | Record<PropertyKey, never>
+  loggedInCareUnit: Unit | Record<PropertyKey, never>
+  loggedInCareProvider: Unit | Record<PropertyKey, never>
+  preferences: Record<string, string> | null
   signingMethod: SigningMethod
   loginMethod: LoginMethod
   protectedPerson: boolean
@@ -45,9 +45,7 @@ export interface UserStatistics {
   unitStatistics: UnitStatistics
 }
 
-export interface UnitStatistics {
-  [key: string]: UnitStatistic
-}
+export type UnitStatistics = Record<string, UnitStatistic | undefined>
 
 export interface UnitStatistic {
   draftsOnUnit: number

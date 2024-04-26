@@ -1,9 +1,10 @@
 import faker from 'faker'
 import { DynamicLinkData } from '../types/utils'
+import { fakeId } from './fakeId'
 
 export const fakeDynamicLink = (data?: Partial<DynamicLinkData>): DynamicLinkData => {
   return {
-    key: faker.random.alpha({ count: 5 }),
+    key: fakeId(),
     url: faker.internet.url(),
     text: faker.lorem.sentence(3),
     target: '_self',

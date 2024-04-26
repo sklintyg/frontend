@@ -56,13 +56,33 @@ import {
   ValueViewText,
   ValueVisualAcuity,
   ValueYear,
-} from '../types/certificate'
+} from '../../types/certificate'
+import { fakeCityList } from '../fakeCity'
+import { fakeId } from '../fakeId'
+import { fakeList } from '../fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
-import { fakeCityList } from './fakeCity'
-import { fakeList } from './fakeList'
 
-const fakeDataElement =
+export function fakeCertificateDataElement<T extends CertificateDataElement>(data?: Partial<T>): Record<string, CertificateDataElement> {
+  const id = data?.id ?? fakeId()
+  return {
+    [id]: {
+      parent: '',
+      index: 0,
+      visible: true,
+      readOnly: false,
+      mandatory: false,
+      id: fakeId(),
+      config: fakeCertificateConfig.category(),
+      value: null,
+      ...data,
+      validation: data?.validation ?? [],
+      validationErrors: data?.validationErrors ?? [],
+    },
+  }
+}
+
+const fakeDataElementFactory =
   <T extends CertificateDataConfigType, P extends ValueType | null>(
     callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
   ) =>
@@ -70,45 +90,33 @@ const fakeDataElement =
     config,
     value,
     ...data
-  }: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData => {
-    const id = data?.id ?? faker.random.alpha({ count: 5 })
-    return {
-      [id]: {
-        parent: '',
-        index: 0,
-        visible: true,
-        readOnly: false,
-        mandatory: false,
-        id: faker.random.alpha({ count: 5 }),
-        validation: [],
-        validationErrors: [],
-        ...data,
-        ...callback(config, value),
-      },
-    }
-  }
+  }: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData =>
+    fakeCertificateDataElement({
+      ...data,
+      ...callback(config, value),
+    })
 
-export const fakeCategoryElement = fakeDataElement<ConfigCategory, null>((config) => ({
+export const fakeCategoryElement = fakeDataElementFactory<ConfigCategory, null>((config) => ({
   config: fakeCertificateConfig.category(config),
   value: null,
 }))
 
-export const fakeCheckboxBooleanElement = fakeDataElement<ConfigUeCheckboxBoolean, ValueBoolean>((config, value) => ({
+export const fakeCheckboxBooleanElement = fakeDataElementFactory<ConfigUeCheckboxBoolean, ValueBoolean>((config, value) => ({
   config: fakeCertificateConfig.checkboxBoolean(config),
   value: fakeCertificateValue.boolean(value),
 }))
 
-export const fakeCheckboxCodeElement = fakeDataElement<ConfigUeCheckboxBoolean, ValueCode>((config, value) => ({
+export const fakeCheckboxCodeElement = fakeDataElementFactory<ConfigUeCheckboxBoolean, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.checkboxBoolean(config),
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeCheckboxMultipleCodeElement = fakeDataElement<ConfigUeCheckboxMultipleCodes, ValueCodeList>((config, value) => ({
+export const fakeCheckboxMultipleCodeElement = fakeDataElementFactory<ConfigUeCheckboxMultipleCodes, ValueCodeList>((config, value) => ({
   config: fakeCertificateConfig.checkboxMultipleCodes(config),
   value: fakeCertificateValue.codeList(value),
 }))
 
-export const fakeDiagnosesElement = fakeDataElement<ConfigUeDiagnoses, ValueDiagnosisList>((config, value) => ({
+export const fakeDiagnosesElement = fakeDataElementFactory<ConfigUeDiagnoses, ValueDiagnosisList>((config, value) => ({
   config: fakeCertificateConfig.diagnoses({
     terminology: [
       {
@@ -126,7 +134,7 @@ export const fakeDiagnosesElement = fakeDataElement<ConfigUeDiagnoses, ValueDiag
   value: fakeCertificateValue.diagnosisList(value),
 }))
 
-export const fakeICFDataElement = fakeDataElement<ConfigUeIcf, ValueIcf>((config, value) => ({
+export const fakeICFDataElement = fakeDataElementFactory<ConfigUeIcf, ValueIcf>((config, value) => ({
   config: fakeCertificateConfig.icf({
     header: `header: ${faker.lorem.sentence()}`,
     modalLabel: `modalLabel: ${faker.lorem.sentence()}`,
@@ -137,7 +145,7 @@ export const fakeICFDataElement = fakeDataElement<ConfigUeIcf, ValueIcf>((config
   value: fakeCertificateValue.icf(value),
 }))
 
-export const fakeCheckboxMultipleDate = fakeDataElement<ConfigUeCheckboxMultipleDate, ValueDateList>((config, value) => ({
+export const fakeCheckboxMultipleDate = fakeDataElementFactory<ConfigUeCheckboxMultipleDate, ValueDateList>((config, value) => ({
   config: fakeCertificateConfig.checkboxMultipleDate({
     list: fakeList(6),
     ...config,
@@ -145,7 +153,7 @@ export const fakeCheckboxMultipleDate = fakeDataElement<ConfigUeCheckboxMultiple
   value: fakeCertificateValue.dateList(value),
 }))
 
-export const fakeCheckboxDateRangeList = fakeDataElement<ConfigUeCheckboxDateRangeList, ValueDateRangeList>((config, value) => ({
+export const fakeCheckboxDateRangeList = fakeDataElementFactory<ConfigUeCheckboxDateRangeList, ValueDateRangeList>((config, value) => ({
   config: fakeCertificateConfig.checkboxDateRangeList({
     list: fakeList(6),
     ...config,
@@ -153,7 +161,7 @@ export const fakeCheckboxDateRangeList = fakeDataElement<ConfigUeCheckboxDateRan
   value: fakeCertificateValue.dateRangeList(value),
 }))
 
-export const fakeRadioMultipleCodeElement = fakeDataElement<ConfigUeRadioMultipleCodes, ValueCode>((config, value) => ({
+export const fakeRadioMultipleCodeElement = fakeDataElementFactory<ConfigUeRadioMultipleCodes, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.radioMultipleCodes({
     list: fakeList(7),
     layout: ConfigLayout.ROWS,
@@ -162,22 +170,22 @@ export const fakeRadioMultipleCodeElement = fakeDataElement<ConfigUeRadioMultipl
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeRadioBooleanElement = fakeDataElement<ConfigUeRadioBoolean, ValueBoolean>((config, value) => ({
+export const fakeRadioBooleanElement = fakeDataElementFactory<ConfigUeRadioBoolean, ValueBoolean>((config, value) => ({
   config: fakeCertificateConfig.radioBoolean(config),
   value: fakeCertificateValue.boolean(value),
 }))
 
-export const fakeTextAreaElement = fakeDataElement<ConfigUeTextArea, ValueText>((config, value) => ({
+export const fakeTextAreaElement = fakeDataElementFactory<ConfigUeTextArea, ValueText>((config, value) => ({
   config: fakeCertificateConfig.textArea(config),
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeTextFieldElement = fakeDataElement<ConfigUeTextField, ValueText>((config, value) => ({
+export const fakeTextFieldElement = fakeDataElementFactory<ConfigUeTextField, ValueText>((config, value) => ({
   config: fakeCertificateConfig.textField(config),
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeDropdownElement = fakeDataElement<ConfigUeDropdown, ValueCode>((config, value) => ({
+export const fakeDropdownElement = fakeDataElementFactory<ConfigUeDropdown, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.dropdown({
     list: fakeList(5),
     ...config,
@@ -185,7 +193,7 @@ export const fakeDropdownElement = fakeDataElement<ConfigUeDropdown, ValueCode>(
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeTypeaheadElement = fakeDataElement<ConfigUeTypeahead, ValueText>((config, value) => ({
+export const fakeTypeaheadElement = fakeDataElementFactory<ConfigUeTypeahead, ValueText>((config, value) => ({
   config: fakeCertificateConfig.typeahead({
     typeAhead: fakeCityList(),
     ...config,
@@ -194,7 +202,7 @@ export const fakeTypeaheadElement = fakeDataElement<ConfigUeTypeahead, ValueText
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeUncertainDateElement = fakeDataElement<ConfigUeUncertainDate, ValueUncertainDate>((config, value) => ({
+export const fakeUncertainDateElement = fakeDataElementFactory<ConfigUeUncertainDate, ValueUncertainDate>((config, value) => ({
   config: fakeCertificateConfig.uncertainDate({
     allowedYears: [`${new Date().getFullYear() - 1}`, `${new Date().getFullYear()}`],
     unknownYear: true,
@@ -204,7 +212,7 @@ export const fakeUncertainDateElement = fakeDataElement<ConfigUeUncertainDate, V
   value: fakeCertificateValue.uncertainDate(value),
 }))
 
-export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>(
+export const fakeMedicalInvestigationListElement = fakeDataElementFactory<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>(
   (config, value) => {
     const typeOptions = [
       { id: '1', label: 'Neuropsykiatriskt utlåtande', code: 'CODE_2' },
@@ -214,15 +222,15 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
     const valueList = Array.from({ length: 3 }, () =>
       fakeCertificateValue.medicalInvestigation({
         investigationType: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
         },
         date: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           date: faker.date.past().toISOString().split('T')[0],
         },
         informationSource: {
-          id: faker.random.alpha({ count: 5 }),
+          id: fakeId(),
           text: faker.lorem.words(),
         },
       })
@@ -253,34 +261,34 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
   }
 )
 
-export const fakeDateElement = fakeDataElement<ConfigUeDate, ValueDate>((config, value) => ({
+export const fakeDateElement = fakeDataElementFactory<ConfigUeDate, ValueDate>((config, value) => ({
   config: fakeCertificateConfig.date(config),
   value: fakeCertificateValue.date(value),
 }))
 
-export const fakeDateRangeElement = fakeDataElement<ConfigUeDateRange, ValueDateRange>((config, value) => ({
+export const fakeDateRangeElement = fakeDataElementFactory<ConfigUeDateRange, ValueDateRange>((config, value) => ({
   config: fakeCertificateConfig.dateRange(config),
   value: fakeCertificateValue.dateRange(value),
 }))
 
-export const fakeYearElement = fakeDataElement<ConfigUeYear, ValueYear>((config, value) => ({
+export const fakeYearElement = fakeDataElementFactory<ConfigUeYear, ValueYear>((config, value) => ({
   config: fakeCertificateConfig.year(config),
   value: fakeCertificateValue.year(value),
 }))
 
-export const fakeIntegerElement = fakeDataElement<ConfigUeInteger, ValueInteger>((config, value) => ({
+export const fakeIntegerElement = fakeDataElementFactory<ConfigUeInteger, ValueInteger>((config, value) => ({
   config: fakeCertificateConfig.integer(config),
   value: fakeCertificateValue.integer(value),
 }))
 
-export const fakeHeaderElement = fakeDataElement<ConfigUeHeader, ValueHeader>((config, value) => ({
+export const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHeader>((config, value) => ({
   config: fakeCertificateConfig.header(config),
   value: fakeCertificateValue.header(value),
 }))
 
-export const fakeCauseOfDeathElement = fakeDataElement<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
-  const descriptionId = faker.random.alpha({ count: 5 })
-  const debutId = faker.random.alpha({ count: 5 })
+export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
+  const descriptionId = fakeId()
+  const debutId = fakeId()
 
   return {
     config: fakeCertificateConfig.causeOfDeath({
@@ -288,7 +296,7 @@ export const fakeCauseOfDeathElement = fakeDataElement<ConfigUeCauseOfDeath, Val
       label: 'A',
       text: 'Den terminala dödsorsaken var',
       causeOfDeath: {
-        id: faker.random.alpha({ count: 5 }),
+        id: fakeId(),
         debutId: debutId,
         descriptionId: descriptionId,
         specifications: [
@@ -313,7 +321,7 @@ export const fakeCauseOfDeathElement = fakeDataElement<ConfigUeCauseOfDeath, Val
       },
       specification: {
         type: CertificateDataValueType.CODE,
-        id: faker.random.alpha({ count: 5 }),
+        id: fakeId(),
         code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
       },
       ...value,
@@ -321,9 +329,9 @@ export const fakeCauseOfDeathElement = fakeDataElement<ConfigUeCauseOfDeath, Val
   }
 })
 
-export const fakeCauseOfDeathListElement = fakeDataElement<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>((config, value) => {
+export const fakeCauseOfDeathListElement = fakeDataElementFactory<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>((config, value) => {
   const questions = new Array(8).fill(null).map(() => {
-    const id = faker.random.alpha({ count: 5 })
+    const id = fakeId()
     return fakeCauseOfDeathElement({ id })[id]
   })
 
@@ -350,8 +358,8 @@ export const fakeCauseOfDeathListElement = fakeDataElement<ConfigUeCauseOfDeathL
   }
 })
 
-export const fakeVisualAcuityElement = fakeDataElement<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
-  const id = faker.random.alpha({ count: 5 })
+export const fakeVisualAcuityElement = fakeDataElementFactory<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
+  const id = fakeId()
   return {
     config: fakeCertificateConfig.visualAcuity({
       description: 'Synskärpan på respektive öga och binokulärt',
@@ -414,29 +422,29 @@ export const fakeVisualAcuityElement = fakeDataElement<ConfigUeVisualAcuity, Val
   }
 })
 
-export const fakeViewTextElement = fakeDataElement<ConfigUeViewText, ValueViewText>((config, value) => ({
+export const fakeViewTextElement = fakeDataElementFactory<ConfigUeViewText, ValueViewText>((config, value) => ({
   config: fakeCertificateConfig.viewText(config),
   value: fakeCertificateValue.viewText(value),
 }))
 
-export const fakeViewListElement = fakeDataElement<ConfigUeViewList, ValueViewList>((config, value) => ({
+export const fakeViewListElement = fakeDataElementFactory<ConfigUeViewList, ValueViewList>((config, value) => ({
   config: fakeCertificateConfig.viewList(config),
   value: fakeCertificateValue.viewList(value),
 }))
 
-export const fakeViewTableElement = fakeDataElement<ConfigUeViewTable, ValueViewTable>((config, value) => ({
+export const fakeViewTableElement = fakeDataElementFactory<ConfigUeViewTable, ValueViewTable>((config, value) => ({
   config: fakeCertificateConfig.viewTable(config),
   value: fakeCertificateValue.viewTable(value),
 }))
 
-export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElement<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>(
+export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementFactory<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>(
   (config, value) => ({
     config: fakeCertificateConfig.radioMultipleCodesOptionalDropdown(config),
     value: fakeCertificateValue.code(value),
   })
 )
 
-export const fakeMessageElement = fakeDataElement<ConfigUeMessage, ValueText>((config, value) => ({
+export const fakeMessageElement = fakeDataElementFactory<ConfigUeMessage, ValueText>((config, value) => ({
   config: fakeCertificateConfig.message(config),
   value: fakeCertificateValue.text(value),
 }))

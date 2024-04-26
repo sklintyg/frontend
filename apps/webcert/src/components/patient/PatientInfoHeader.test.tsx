@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { fakePatient } from '../../faker'
 import store from '../../store/store'
 import PatientInfoHeader from './PatientInfoHeader'
-import { createPatient } from './patientTestUtils'
 
-const EXPECTED_PATIENT = createPatient('patientId')
+const EXPECTED_PATIENT = fakePatient()
 
 const renderComponent = () => {
   render(

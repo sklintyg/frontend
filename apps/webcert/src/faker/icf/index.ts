@@ -1,0 +1,5 @@
+export * from './fakeIcd10Code'
+export * from './fakeIcfCode'
+export * from './fakeIcfCodeCollection'
+export * from './fakeIcfCollection'
+export * from './fakeIcfResponse'

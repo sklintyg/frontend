@@ -1,4 +1,4 @@
-import { LoginMethod, SigningMethod, User } from '../types'
+import { LoginMethod, SigningMethod, User } from '../../types'
 import { fakeCareProvider } from './fakeCareProvider'
 import { fakeUnit } from './fakeUnit'
 
