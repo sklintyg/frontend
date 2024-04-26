@@ -45,9 +45,7 @@ export interface UserStatistics {
   unitStatistics: UnitStatistics
 }
 
-export interface UnitStatistics {
-  [key: string]: UnitStatistic
-}
+export type UnitStatistics = Record<string, UnitStatistic | undefined>
 
 export interface UnitStatistic {
   draftsOnUnit: number
