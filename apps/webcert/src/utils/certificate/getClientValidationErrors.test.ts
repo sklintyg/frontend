@@ -186,6 +186,81 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
+  describe(`${ConfigTypes.UE_DATE}`, () => {
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2023-12-31',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should return before max error if date is after max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2023-12-31',
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-02',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är senast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
   describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
       const dataElement = fakeCheckboxDateRangeList({
@@ -208,5 +283,91 @@ describe('Validation based on config', () => {
         },
       ])
     })
+
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          max: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'first.from',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+        {
+          id: 'question',
+          field: 'first.to',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  it('Should return limit violation error if date is after max limit', () => {
+    const dataElement = fakeCheckboxDateRangeList({
+      id: 'question',
+      config: {
+        max: '2020-01-01',
+      },
+      value: {
+        list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+      },
+    }).question
+
+    expect(getClientValidationErrors(dataElement)).toMatchObject([
+      {
+        id: 'question',
+        field: 'first.from',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+      {
+        id: 'question',
+        field: 'first.to',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+    ])
   })
 })

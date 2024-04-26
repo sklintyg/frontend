@@ -2,17 +2,17 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
+import SimpleTable from '../../components/Table/SimpleTable'
 import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../../constants'
 import { clearPatient } from '../../store/patient/patientActions'
 import { setUnit } from '../../store/user/userActions'
 import {
   getLoggedInUnit,
-  getUnitStatistics as selectUnitStatistics,
   getUser,
   isCareAdministrator as selectIsCareAdministrator,
+  getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
-import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
-import SimpleTable from '../../components/Table/SimpleTable'
 import { CareProvider, CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
@@ -46,35 +46,38 @@ export const CareProviderModalContent: React.FC = () => {
 
   const getExpandedRows = (units: Unit[]) => {
     return units.map((unit) => {
-      const questionsOnUnit = unitStatistics[unit.unitId].questionsOnUnit
-      const draftsOnUnit = unitStatistics[unit.unitId].draftsOnUnit
+      const questionsOnUnit = unitStatistics[unit.unitId]?.questionsOnUnit
+      const draftsOnUnit = unitStatistics[unit.unitId]?.draftsOnUnit
 
       return (
-        <tr key={unit.unitId}>
-          <td>
-            <button
-              className={`ic-link iu-ml-700 iu-text-left iu-border-white ${isLoggedInUnit(unit) && 'iu-color-muted ic-button--disabled'}`}
-              type="button"
-              id={unit.unitId}
-              onClick={handleChooseUnit}
-              disabled={isLoggedInUnit(unit)}
-            >
-              {getUnitName(unit)}
-            </button>
-          </td>
-          <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
-          <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
-        </tr>
+        questionsOnUnit &&
+        draftsOnUnit && (
+          <tr key={unit.unitId}>
+            <td>
+              <button
+                className={`ic-link iu-ml-700 iu-text-left iu-border-white ${isLoggedInUnit(unit) && 'iu-color-muted ic-button--disabled'}`}
+                type="button"
+                id={unit.unitId}
+                onClick={handleChooseUnit}
+                disabled={isLoggedInUnit(unit)}
+              >
+                {getUnitName(unit)}
+              </button>
+            </td>
+            <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
+            <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
+          </tr>
+        )
       )
     })
   }
 
   const getStatistics = (id: string) => {
     return {
-      questionsOnUnit: unitStatistics[id].questionsOnUnit,
-      questionsOnSubUnits: unitStatistics[id].questionsOnSubUnits,
-      draftsOnUnit: unitStatistics[id].draftsOnUnit,
-      draftsOnSubUnits: unitStatistics[id].draftsOnSubUnits,
+      questionsOnUnit: unitStatistics[id]?.questionsOnUnit ?? 0,
+      questionsOnSubUnits: unitStatistics[id]?.questionsOnSubUnits ?? 0,
+      draftsOnUnit: unitStatistics[id]?.draftsOnUnit ?? 0,
+      draftsOnSubUnits: unitStatistics[id]?.draftsOnSubUnits ?? 0,
     }
   }
 

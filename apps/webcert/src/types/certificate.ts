@@ -272,6 +272,8 @@ export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
   label?: string
   previousSickLeavePeriod?: string
   hideWorkingHours: boolean
+  min?: string
+  max?: string
 }
 
 export interface ConfigUeDiagnosisTerminology {
