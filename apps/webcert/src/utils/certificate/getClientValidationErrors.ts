@@ -47,7 +47,7 @@ const INVALID_DATE_PERIOD_ERROR = {
 }
 
 const OVERLAP_ERROR = {
-  text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+  text: 'Ange perioder som inte överlappar varandra.',
   type: 'OVERLAP_ERROR',
   showAlways: true,
 }
