@@ -51,10 +51,11 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Administrativ questions', () => {
-  test('mark questions as handled', async ({ page }) => {
-    await page.route('**/*/api/question/*', async (route) => {
-      await route.fulfill({ json: { questions: [fakeQuestion()] } })
-    })
+  test('mark questions as handled', async ({ page, routeJson }) => {
+    await routeJson('**/*/api/question/*', { questions: [fakeQuestion()] })
+    // await page.route('**/*/api/question/*', async (route) => {
+    //   await route.fulfill({ json: { questions: [fakeQuestion()] } })
+    // })
 
     await page.goto(`/certificate/${id}`)
     await expect(page.getByText('Laddar...')).toBeHidden()

@@ -1,12 +1,22 @@
 import { test as base } from '@playwright/test'
-import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../src/faker'
+import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser, fakeUserStatistics } from '../src/faker'
 import { ResourceLinkType } from '../src/types'
 import { links } from './mocks/links'
 
-export const test = base.extend({
+export const test = base.extend<{
+  routeJson: (path: string, data: unknown) => Promise<void>
+}>({
+  routeJson: async ({ page }, use) => {
+    await use((path: string, data: unknown) =>
+      page.route(path, async (route) => {
+        await route.fulfill({ json: data })
+      })
+    )
+  },
   page: async ({ page }, use) => {
+    const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })
+
     await page.route('**/*/api/user', async (route) => {
-      const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })
       await route.fulfill({
         json: {
           user: fakeUser({
@@ -53,19 +63,19 @@ export const test = base.extend({
 
     await page.route('**/*/api/user/statistics', async (route) => {
       await route.fulfill({
-        json: {
+        json: fakeUserStatistics({
           nbrOfDraftsOnSelectedUnit: 0,
           nbrOfUnhandledQuestionsOnSelectedUnit: 0,
           totalDraftsAndUnhandledQuestionsOnOtherUnits: 0,
           unitStatistics: {
-            'FAKE_UNIT-1234': {
+            [unit.unitId]: fakeUnitStatistic({
               draftsOnUnit: 0,
               questionsOnUnit: 0,
               draftsOnSubUnits: 0,
               questionsOnSubUnits: 0,
-            },
+            }),
           },
-        },
+        }),
       })
     })
 
