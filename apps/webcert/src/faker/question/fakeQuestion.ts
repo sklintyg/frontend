@@ -14,7 +14,7 @@ export function fakeQuestion(data?: Partial<Question>): Question {
     sent: faker.date.past().toISOString(),
     handled: false,
     forwarded: false,
-    answer: fakeAnswer(),
+    answer: undefined,
     answeredByCertificate: fakeCertificateRelation(),
     lastUpdate: faker.date.recent().toISOString(),
     lastDateToReply: faker.date.future().toISOString(),

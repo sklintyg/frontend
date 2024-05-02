@@ -1,5 +1,5 @@
-import { fakeCertificate, fakeQuestion, fakeResourceLink } from '../../src/faker'
-import { CertificateStatus, ResourceLinkType } from '../../src/types'
+import { fakeCategoryElement, fakeCertificate, fakeQuestion, fakeResourceLink, fakeTextAreaElement } from '../../src/faker'
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
 const id = 'foo'
@@ -15,6 +15,10 @@ const certificate = fakeCertificate({
       personId: { id: '191212121212' },
     },
     status: CertificateStatus.UNSIGNED,
+  },
+  data: {
+    ...fakeTextAreaElement({ parent: 'category', config: { label: 'text' } }),
+    ...fakeCategoryElement({ id: 'category' }),
   },
   links: [
     fakeResourceLink({
@@ -38,27 +42,60 @@ const certificate = fakeCertificate({
   ],
 })
 
-test.beforeEach(async ({ page }) => {
-  await page.route('**/*/api/certificate/*/validate', async (route) => {
-    await route.fulfill({ json: { validationErrors: [] } })
-  })
-  await page.route('**/*/api/certificate/*/events', async (route) => {
-    await route.fulfill({ json: { certificateEvents: [] } })
-  })
-  await page.route('**/*/api/certificate/*', async (route) => {
-    await route.fulfill({ json: { certificate } })
-  })
+test.beforeEach(async ({ routeJson }) => {
+  await routeJson('**/*/api/certificate/*/validate', { validationErrors: [] })
+  await routeJson('**/*/api/certificate/*/events', { certificateEvents: [] })
+  await routeJson('**/*/api/certificate/*', { certificate })
+  await routeJson(`**/*/api/question/${id}`, { questions: [] })
+  await routeJson(`**/*/api/question/${id}/complements`, { questions: [] })
+})
+
+test('should have question panel buttons', async ({ page }) => {
+  await page.goto(`/certificate/${id}`)
+  await expect(page.getByLabel('Kompletteringsbegäran')).toBeVisible()
+  await expect(page.getByLabel('Administrativa frågor')).toBeVisible()
+})
+
+test('display information on missing complement questions', async ({ page }) => {
+  await page.goto(`/certificate/${id}`)
+  await expect(page.getByText('Det finns ingen kompletteringsbegäran på detta intyg.')).toBeVisible()
+})
+
+test('display information on missing administrative questions', async ({ page }) => {
+  await page.goto(`/certificate/${id}`)
+
+  await page.getByLabel('Administrativa frågor').click()
+  await expect(page.getByRole('heading', { name: 'Här kan du ställa en ny fråga' })).toBeVisible()
+  await expect(page.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeVisible()
 })
 
 test.describe('Administrativ questions', () => {
-  test('mark questions as handled', async ({ page, routeJson }) => {
-    await routeJson('**/*/api/question/*', { questions: [fakeQuestion()] })
-    // await page.route('**/*/api/question/*', async (route) => {
-    //   await route.fulfill({ json: { questions: [fakeQuestion()] } })
-    // })
+  test('send a question', async ({ page, routeJson }) => {
+    const question = fakeQuestion({ message: '', type: QuestionType.COORDINATION, subject: 'Övrigt', author: 'Vince läkare' })
+    await routeJson(`**/*/api/question`, { question: { ...question, certificateId: id } })
 
     await page.goto(`/certificate/${id}`)
-    await expect(page.getByText('Laddar...')).toBeHidden()
+    await page.getByLabel('Administrativa frågor').click()
+
+    // Select question type
+    // await routeJson(`**/*/api/question/${question.id}`, { question: fakeQuestion({ ...question, type: QuestionType.OTHER }) })
+    // await page.getByLabel('Välj typ av fråga').selectOption({ label: 'Övrigt' })
+    // // await page.getByLabel('Välj typ av fråga').selectOption(QuestionType.OTHER)
+    // await expect(page.getByText('Utkast sparat')).toBeVisible()
+
+    // Add text
+    await routeJson(`**/*/api/question/${question.id}`, {
+      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message: 'Test' }),
+    })
+    await page.getByTestId('question-textarea').fill('Test')
+    await expect(page.getByText('Utkast sparat')).toBeVisible()
+
+    // Send
+    await routeJson(`**/*/api/question/${question.id}/send`, {
+      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message: 'Test' }),
+    })
+    await page.getByTestId('question-send-btn').click()
     await page.waitForTimeout(2000)
+    // await expect(page.getByText('Test', { exact: true })).toBeVisible()
   })
 })

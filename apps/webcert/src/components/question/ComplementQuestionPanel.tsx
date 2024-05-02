@@ -32,16 +32,6 @@ interface Props {
 const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
-  const getNoQuestionsMessage = () => {
-    return (
-      <div>
-        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
-          <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
-        </ImageCentered>
-      </div>
-    )
-  }
-
   const getContinueOnDraft = () => {
     const question = complementQuestions.find(
       (complementQuestion) =>
@@ -74,7 +64,13 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
           {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
             <QuestionItem key={complementQuestion.id} question={complementQuestion} />
           ))}
-          {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+          {complementQuestions && complementQuestions.length === 0 && (
+            <div>
+              <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
+                <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
+              </ImageCentered>
+            </div>
+          )}
         </>
       )}
     </Wrapper>
