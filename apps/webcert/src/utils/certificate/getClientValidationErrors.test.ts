@@ -278,7 +278,7 @@ describe('Validation based on config', () => {
           id: 'question',
           field: 'question',
           type: 'OVERLAP_ERROR',
-          text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+          text: 'Ange perioder som inte överlappar varandra.',
           showAlways: true,
         },
       ])

@@ -25,7 +25,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --dev --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Run tests
         run: pnpm run -r test:playwright
+        env:
+          HOME: /root
