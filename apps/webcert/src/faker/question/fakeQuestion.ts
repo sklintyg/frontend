@@ -1,6 +1,5 @@
 import faker from 'faker'
 import { Question, QuestionType } from '../../types'
-import { fakeCertificateRelation } from '../certificate/fakeCertificateRelation'
 import { fakeId } from '../fakeId'
 
 export function fakeQuestion(data?: Partial<Question>): Question {
@@ -14,7 +13,7 @@ export function fakeQuestion(data?: Partial<Question>): Question {
     handled: false,
     forwarded: false,
     answer: undefined,
-    answeredByCertificate: fakeCertificateRelation(),
+    answeredByCertificate: undefined,
     lastUpdate: faker.date.recent().toISOString(),
     lastDateToReply: undefined,
     ...data,

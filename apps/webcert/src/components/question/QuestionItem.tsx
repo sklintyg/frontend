@@ -282,7 +282,11 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       </QuestionHeader>
       {isRemindersVisible() &&
         question.reminders.map((reminder) => (
-          <div key={reminder.id} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
+          <div
+            key={reminder.id}
+            className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}
+            data-testid="question-item-reminder"
+          >
             <Reminder className={'iu-fullwidth '}>
               <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
               <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
@@ -291,7 +295,9 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
                 </Wrapper>
                 <Wrapper>
-                  <FormattedText className={'iu-fullwidth'}>{reminder.message}</FormattedText>
+                  <FormattedText className={'iu-fullwidth'} data-testid="question-item-reminder-message">
+                    {reminder.message}
+                  </FormattedText>
                 </Wrapper>
               </div>
             </Reminder>
