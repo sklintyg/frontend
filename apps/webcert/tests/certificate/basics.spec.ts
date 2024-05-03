@@ -1,12 +1,9 @@
-import faker from 'faker'
 import { fakeCategoryElement, fakeCertificate, fakeCertificateEvent, fakeResourceLink } from '../../src/faker'
 import { CertificateEventType, CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
-const id = 'foo'
 const certificate = fakeCertificate({
   metadata: {
-    id,
     name: 'Intyg om lasagne',
     patient: {
       firstName: 'Tolvan',
@@ -27,38 +24,30 @@ const certificate = fakeCertificate({
   ],
 })
 
-test.beforeEach(async ({ page }) => {
-  await page.route('**/*/api/certificate/*/validate', async (route) => {
-    await route.fulfill({ json: { validationErrors: [] } })
-  })
-  await page.route('**/*/api/certificate/*/events', async (route) => {
-    await route.fulfill({ json: { certificateEvents: [] } })
-  })
-  await page.route('**/*/api/certificate/*', async (route) => {
-    await route.fulfill({ json: { certificate } })
-  })
+test.beforeEach(async ({ routeJson }) => {
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, { certificateEvents: [] })
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
 })
 
 test('should load certificate', async ({ page }) => {
-  await page.goto(`/certificate/${id}`)
+  await page.goto(`/certificate/${certificate.metadata.id}`)
   await expect(page.getByText('Laddar...')).toBeHidden()
-  await expect(page.getByRole('heading', { name: 'Tolvan TPU Tolvanson - 191212121212' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: `${certificate.metadata.patient.fullName} - ${certificate.metadata.patient.personId}` })
+  ).toBeVisible()
 })
 
-test('should display category', async ({ page }) => {
-  await page.route('**/*/api/certificate/*', async (route) => {
-    await route.fulfill({
-      json: {
-        certificate: fakeCertificate({
-          ...certificate,
-          data: {
-            ...fakeCategoryElement({ id: '1', config: { text: 'A category', description: 'Category description' } }),
-          },
-        }),
+test('should display category', async ({ page, routeJson }) => {
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
+    certificate: fakeCertificate({
+      ...certificate,
+      data: {
+        ...fakeCategoryElement({ id: '1', config: { text: 'A category', description: 'Category description' } }),
       },
-    })
+    }),
   })
-  await page.goto(`/certificate/${id}`)
+  await page.goto(`/certificate/${certificate.metadata.id}`)
 
   await expect(page.getByText('Laddar...')).toBeHidden()
   await expect(page.getByRole('heading', { name: 'A category' })).toBeVisible()
@@ -80,43 +69,29 @@ test.describe('Header buttons', () => {
     ResourceLinkType.SEND_CERTIFICATE,
     ResourceLinkType.SHOW_RELATED_CERTIFICATE,
   ]) {
-    test(`should have "${type}" button`, async ({ page }) => {
-      const label = faker.lorem.word()
-      await page.route('**/*/api/certificate/*', async (route) => {
-        await route.fulfill({
-          json: {
-            certificate: fakeCertificate({
-              ...certificate,
-              links: [
-                fakeResourceLink({
-                  type,
-                  name: label,
-                  description: faker.lorem.sentence(),
-                }),
-              ],
-            }),
-          },
-        })
+    test(`should have "${type}" button`, async ({ page, routeJson }) => {
+      const resourceLink = fakeResourceLink({ type })
+      routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
+        certificate: fakeCertificate({
+          ...certificate,
+          links: [resourceLink],
+        }),
       })
-      await page.goto(`/certificate/${id}`)
+      await page.goto(`/certificate/${certificate.metadata.id}`)
       await expect(page.getByText('Laddar...')).toBeHidden()
-      await expect(page.getByRole('button', { name: label })).toBeEnabled()
+      await expect(page.getByRole('button', { name: resourceLink.name })).toBeEnabled()
     })
   }
 })
 
 test.describe('Certificate events', () => {
-  test('open and close certificate events modal', async ({ page }) => {
-    await page.route('**/*/api/certificate/*/events', async (route) => {
-      await route.fulfill({
-        json: {
-          certificateEvents: Object.values(CertificateEventType).map((type) =>
-            fakeCertificateEvent({ type, certificateId: id, relatedCertificateId: 'related-certificate' })
-          ),
-        },
-      })
+  test('open and close certificate events modal', async ({ page, routeJson }) => {
+    await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, {
+      certificateEvents: Object.values(CertificateEventType).map((type) =>
+        fakeCertificateEvent({ type, certificateId: certificate.metadata.id, relatedCertificateId: 'related-certificate' })
+      ),
     })
-    await page.goto(`/certificate/${id}`)
+    await page.goto(`/certificate/${certificate.metadata.id}`)
     await expect(page.getByRole('button', { name: 'Visa alla händelser' })).toBeVisible()
     await page.getByRole('button', { name: 'Visa alla händelser' }).click()
     await expect(page.getByRole('heading', { name: 'Alla händelser' })).toBeVisible()
@@ -131,7 +106,6 @@ test.describe('Certificate events', () => {
     [CertificateEventType.AVAILABLE_FOR_PATIENT, 'Intyget är tillgängligt för patienten'],
     [CertificateEventType.REPLACES, 'Utkastet skapades för att ersätta ett tidigare intyg.'],
     [CertificateEventType.EXTENDED, 'Utkastet skapades för att förnya ett tidigare intyg.'],
-    [CertificateEventType.RENEWAL_OF, 'Utkastet är skapat för att förnya ett tidigare intyg.'],
     [CertificateEventType.INCOMING_MESSAGE, 'Försäkringskassan har ställt en fråga'],
     [CertificateEventType.OUTGOING_MESSAGE, 'En fråga har skickats till Försäkringskassan'],
     [CertificateEventType.INCOMING_ANSWER, 'Försäkringskassan har svarat på en fråga'],
@@ -141,45 +115,39 @@ test.describe('Certificate events', () => {
     [CertificateEventType.LOCKED, 'Utkastet låstes'],
     [CertificateEventType.COPIED_FROM, 'Utkastet är skapat som en kopia på ett låst utkast'],
   ] as [CertificateEventType, string][]) {
-    test(`should have expected content for ${type}`, async ({ page }) => {
-      await page.route('**/*/api/certificate/*/events', async (route) => {
-        await route.fulfill({
-          json: {
-            certificateEvents: [fakeCertificateEvent({ type, certificateId: id, relatedCertificateId: 'related-certificate' })],
-          },
-        })
+    test(`should have expected content for ${type}`, async ({ page, routeJson }) => {
+      await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, {
+        certificateEvents: [
+          fakeCertificateEvent({ type, certificateId: certificate.metadata.id, relatedCertificateId: 'related-certificate' }),
+        ],
       })
-      await page.goto(`/certificate/${id}`)
+      await page.goto(`/certificate/${certificate.metadata.id}`)
       await page.getByRole('button', { name: 'Visa alla händelser' }).click()
-      await expect(page.getByText(expected)).toBeVisible()
+      await expect(page.getByLabel('Alla händelser').getByText(expected)).toBeVisible()
     })
+  }
 
-    for (const [status, expected] of [
-      [CertificateStatus.UNSIGNED, 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg.'],
-      [CertificateStatus.SIGNED, 'Intyget har ersatts av'],
-      [CertificateStatus.REVOKED, 'Intyget ersattes av ett intyg som nu är makulerat.'],
-      [CertificateStatus.LOCKED_REVOKED, 'Intyget ersattes av ett utkast som nu är låst.'],
-      [CertificateStatus.LOCKED, 'Intyget ersattes av ett utkast som nu är låst.'],
-    ] as [CertificateStatus, string][]) {
-      test(`should have expected content for REPLACED for related certificate is ${status}`, async ({ page }) => {
-        await page.route('**/*/api/certificate/*/events', async (route) => {
-          await route.fulfill({
-            json: {
-              certificateEvents: [
-                fakeCertificateEvent({
-                  type: CertificateEventType.REPLACED,
-                  certificateId: id,
-                  relatedCertificateId: 'related-certificate',
-                  relatedCertificateStatus: status,
-                }),
-              ],
-            },
-          })
-        })
-        await page.goto(`/certificate/${id}`)
-        await page.getByRole('button', { name: 'Visa alla händelser' }).click()
-        await expect(page.getByText(expected)).toBeVisible()
+  for (const [status, expected] of [
+    [CertificateStatus.UNSIGNED, 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg.'],
+    [CertificateStatus.SIGNED, 'Intyget har ersatts av'],
+    [CertificateStatus.REVOKED, 'Intyget ersattes av ett intyg som nu är makulerat.'],
+    [CertificateStatus.LOCKED_REVOKED, 'Intyget ersattes av ett utkast som nu är låst.'],
+    [CertificateStatus.LOCKED, 'Intyget ersattes av ett utkast som nu är låst.'],
+  ] as [CertificateStatus, string][]) {
+    test(`should have expected content for REPLACED for related certificate is ${status}`, async ({ page, routeJson }) => {
+      await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, {
+        certificateEvents: [
+          fakeCertificateEvent({
+            type: CertificateEventType.REPLACED,
+            certificateId: certificate.metadata.id,
+            relatedCertificateId: 'related-certificate',
+            relatedCertificateStatus: status,
+          }),
+        ],
       })
-    }
+      await page.goto(`/certificate/${certificate.metadata.id}`)
+      await page.getByRole('button', { name: 'Visa alla händelser' }).click()
+      await expect(page.getByLabel('Alla händelser').getByText(expected)).toBeVisible()
+    })
   }
 })

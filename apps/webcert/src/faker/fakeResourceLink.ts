@@ -22,7 +22,7 @@ export const fakeResourceLink = (data?: Partial<ResourceLink>): ResourceLink => 
   const type = data?.type ?? ResourceLinkType.EDIT_CERTIFICATE
   return {
     type,
-    name: fakeResourceLinkName(type) ?? faker.lorem.word(),
+    name: fakeResourceLinkName(type) ?? faker.lorem.word(10),
     description: `${type} - ${faker.lorem.sentence()}`,
     enabled: true,
     ...data,
