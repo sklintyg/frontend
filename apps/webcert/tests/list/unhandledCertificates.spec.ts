@@ -1,24 +1,11 @@
+import { fakeUnitStatistic, fakeUserStatistics } from '../../src/faker'
 import { expect, test } from '../fixtures'
 import { question } from '../mocks/config/question'
 
-test.beforeEach(async ({ page }) => {
-  await page.route('**/*/api/list/question', async (route) => {
-    await route.fulfill({
-      json: { list: [], totalCount: 0 },
-    })
-  })
-
-  await page.route('**/*/api/list/config/question', async (route) => {
-    await route.fulfill({
-      json: question,
-    })
-  })
-
-  await page.route('**/*/api/list/config/question/update', async (route) => {
-    await route.fulfill({
-      json: question,
-    })
-  })
+test.beforeEach(async ({ page, routeJson }) => {
+  routeJson('**/*/api/list/question', { list: [], totalCount: 0 })
+  routeJson('**/*/api/list/config/question', question)
+  routeJson('**/*/api/list/config/question/update', question)
   await page.goto('/list/unhandledcertificates')
 })
 
@@ -70,24 +57,16 @@ test.describe('Failed requests', () => {
 })
 
 test.describe('Empty table', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.route('**/*/api/user/statistics', async (route) => {
-      await route.fulfill({
-        json: {
-          nbrOfDraftsOnSelectedUnit: 11,
-          nbrOfUnhandledQuestionsOnSelectedUnit: 22,
-          totalDraftsAndUnhandledQuestionsOnOtherUnits: 33,
-          unitStatistics: {
-            'FAKE_UNIT-1234': {
-              draftsOnUnit: 1,
-              questionsOnUnit: 2,
-              draftsOnSubUnits: 3,
-              questionsOnSubUnits: 4,
-            },
-          },
+  test.beforeEach(async ({ page, routeJson }) => {
+    await routeJson(
+      '**/*/api/user/statistics',
+      fakeUserStatistics({
+        nbrOfUnhandledQuestionsOnSelectedUnit: 11,
+        unitStatistics: {
+          'FAKE_UNIT-1234': fakeUnitStatistic(),
         },
       })
-    })
+    )
     await page.goto('/list/unhandledcertificates')
   })
 

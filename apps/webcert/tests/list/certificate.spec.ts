@@ -1,25 +1,10 @@
 import { expect, test } from '../fixtures'
 import { certificate } from '../mocks/config/certificate'
 
-test.beforeEach(async ({ page }) => {
-  await page.route('**/*/api/list/certificate', async (route) => {
-    await route.fulfill({
-      json: { list: [], totalCount: 0 },
-    })
-  })
-
-  await page.route('**/*/api/list/config/certificate', async (route) => {
-    await route.fulfill({
-      json: certificate,
-    })
-  })
-
-  await page.route('**/*/api/list/config/certificate/update', async (route) => {
-    await route.fulfill({
-      json: certificate,
-    })
-  })
-
+test.beforeEach(async ({ page, routeJson }) => {
+  routeJson('**/*/api/list/certificate', { list: [], totalCount: 0 })
+  routeJson('**/*/api/list/config/certificate', certificate)
+  routeJson('**/*/api/list/config/certificate/update', certificate)
   await page.goto('/list/certificate')
 })
 
@@ -120,17 +105,7 @@ test.describe('Populated table', () => {
     await expect(page.getByRole('table', { name: 'Signerade intyg' })).toBeVisible()
   })
 
-  test('should have table column "Signerad"', async ({ page }) => {
-    await expect(page.getByRole('columnheader', { name: 'Signerad Byt till att' })).toBeVisible()
-  })
-
-  test(`should be possible to sort "Signerad"`, async ({ page }) => {
-    await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` })).toBeVisible()
-    await page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` }).click()
-    await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera fallande` })).toBeVisible()
-  })
-
-  for (const col of ['Typ av intyg', 'Status', 'Patient']) {
+  for (const col of ['Typ av intyg', 'Status', 'Signerad', 'Patient']) {
     test(`should have table column "${col}"`, async ({ page }) => {
       await expect(page.getByRole('columnheader', { name: `${col} Sortera på kolumn` })).toBeVisible()
     })
