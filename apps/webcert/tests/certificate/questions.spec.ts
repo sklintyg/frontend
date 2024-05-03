@@ -1,4 +1,4 @@
-import { fakeCategoryElement, fakeCertificate, fakeQuestion, fakeResourceLink, fakeTextAreaElement } from '../../src/faker'
+import { fakeAnswer, fakeCategoryElement, fakeCertificate, fakeQuestion, fakeResourceLink, fakeTextAreaElement } from '../../src/faker'
 import { CertificateStatus, QuestionType, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
@@ -14,19 +14,19 @@ const certificate = fakeCertificate({
       fullName: 'Tolvan TPU Tolvanson',
       personId: { id: '191212121212' },
     },
-    status: CertificateStatus.UNSIGNED,
+    status: CertificateStatus.SIGNED,
   },
   data: {
     ...fakeTextAreaElement({ parent: 'category', config: { label: 'text' } }),
     ...fakeCategoryElement({ id: 'category' }),
   },
   links: [
-    fakeResourceLink({
-      type: ResourceLinkType.READ_CERTIFICATE,
-    }),
-    fakeResourceLink({
-      type: ResourceLinkType.EDIT_CERTIFICATE,
-    }),
+    // fakeResourceLink({
+    //   type: ResourceLinkType.READ_CERTIFICATE,
+    // }),
+    // fakeResourceLink({
+    //   type: ResourceLinkType.EDIT_CERTIFICATE,
+    // }),
     fakeResourceLink({
       type: ResourceLinkType.QUESTIONS,
       name: 'Ärendekommunikation',
@@ -71,31 +71,71 @@ test('display information on missing administrative questions', async ({ page })
 
 test.describe('Administrativ questions', () => {
   test('send a question', async ({ page, routeJson }) => {
-    const question = fakeQuestion({ message: '', type: QuestionType.COORDINATION, subject: 'Övrigt', author: 'Vince läkare' })
+    const question = fakeQuestion({ message: 'some message', type: QuestionType.OTHER, subject: 'Övrigt', author: 'Vince läkare' })
+    const message = fakeQuestion().message
     await routeJson(`**/*/api/question`, { question: { ...question, certificateId: id } })
 
     await page.goto(`/certificate/${id}`)
     await page.getByLabel('Administrativa frågor').click()
 
     // Select question type
-    // await routeJson(`**/*/api/question/${question.id}`, { question: fakeQuestion({ ...question, type: QuestionType.OTHER }) })
-    // await page.getByLabel('Välj typ av fråga').selectOption({ label: 'Övrigt' })
-    // // await page.getByLabel('Välj typ av fråga').selectOption(QuestionType.OTHER)
-    // await expect(page.getByText('Utkast sparat')).toBeVisible()
+    await routeJson(`**/*/api/question/${question.id}`, { question: fakeQuestion({ ...question, type: QuestionType.OTHER }) })
+    await page.getByLabel('Välj typ av fråga').selectOption(QuestionType.OTHER)
+    await expect(page.getByText('Utkast sparat')).toBeVisible()
 
     // Add text
     await routeJson(`**/*/api/question/${question.id}`, {
-      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message: 'Test' }),
+      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message }),
     })
-    await page.getByTestId('question-textarea').fill('Test')
+    await page.getByTestId('question-textarea').fill(message)
     await expect(page.getByText('Utkast sparat')).toBeVisible()
 
     // Send
     await routeJson(`**/*/api/question/${question.id}/send`, {
-      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message: 'Test' }),
+      question: fakeQuestion({ ...question, type: QuestionType.OTHER, message }),
     })
     await page.getByTestId('question-send-btn').click()
-    await page.waitForTimeout(2000)
-    // await expect(page.getByText('Test', { exact: true })).toBeVisible()
+
+    const card = page.getByTestId('question-item-card')
+    await expect(card).toBeVisible()
+    await expect(card.getByTestId('question-item-author')).toContainText(question.author)
+    await expect(card.getByTestId('question-item-subject')).toContainText(question.subject)
+    await expect(card.getByTestId('question-item-message')).toContainText(message)
+  })
+
+  test('reply to question', async ({ page, routeJson }) => {
+    const question = fakeQuestion({
+      type: QuestionType.OTHER,
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+    })
+    await routeJson(`**/*/api/question/${id}`, { questions: [question] })
+
+    await page.goto(`/certificate/${id}`)
+    await page.getByLabel('Administrativa frågor').click()
+
+    const card = page.getByTestId('question-item-card')
+    await expect(card).toBeVisible()
+    await expect(card.getByTestId('question-item-author')).toContainText(question.author)
+    await expect(card.getByTestId('question-item-subject')).toContainText(question.subject)
+    await expect(card.getByTestId('question-item-message')).toContainText(question.message)
+
+    await card.getByLabel('Svara').click()
+    await expect(card.getByRole('textbox')).toBeEnabled()
+    await expect(card.getByLabel('Skicka')).toBeDisabled()
+    await expect(card.getByLabel('Avbryt')).toBeDisabled()
+
+    const answer = fakeAnswer()
+    await routeJson(`**/*/api/question/${question.id}/saveanswer`, {
+      question: { ...question, answer: answer },
+    })
+    await routeJson(`**/*/api/question/${question.id}/sendanswer`, {
+      question: { ...question, answer: answer },
+    })
+    await card.getByRole('textbox').fill(answer.message)
+    await expect(card.getByLabel('Skicka')).toBeEnabled()
+    await card.getByLabel('Skicka').click()
+    await expect(card.getByTestId('question-item-answer-author')).toContainText(answer.author)
+    await expect(card.getByTestId('question-item-answer-subject')).toContainText(`Re: ${question.subject}`)
+    await expect(card.getByTestId('question-item-answer-message')).toContainText(answer.message)
   })
 })

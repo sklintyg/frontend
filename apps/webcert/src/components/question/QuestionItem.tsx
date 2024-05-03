@@ -88,7 +88,7 @@ const QuestionFormFooter = styled.div`
   justify-content: space-between;
 `
 
-const FormattedText = styled.p`
+const FormattedText = styled.p.attrs(() => ({ 'data-testid': 'question-item-message' }))`
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -229,12 +229,14 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const isComplementAnsweredByMessage = (question: Question) => question.type === QuestionType.COMPLEMENT && question.answer
 
   return (
-    <Card key={question.id} className={'ic-card'}>
+    <Card key={question.id} className={'ic-card'} data-testid="question-item-card">
       <QuestionHeader>
         <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
-            <p className="iu-fw-heading">{question.author}</p>
+            <p className="iu-fw-heading" data-testid="question-item-author">
+              {question.author}
+            </p>
             {isHandleCheckboxVisible() &&
               (isComplementQuestion() ? (
                 <CheckboxWithConfirmModal
@@ -270,7 +272,9 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           <Wrapper>
             <div>
               {question.contactInfo && question.contactInfo.length > 0 && <p>{question.contactInfo.join(', ')}</p>}
-              <p className={'iu-fw-heading iu-m-none'}>{question.subject}</p>
+              <p className={'iu-fw-heading iu-m-none'} data-testid="question-item-subject">
+                {question.subject}
+              </p>
             </div>
             <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.sent), 'yyyy-MM-dd HH:mm')}</p>
           </Wrapper>
@@ -375,18 +379,24 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
             <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
               <Wrapper>
-                <p className={'iu-fw-heading'}>{question.answer.author}</p>
+                <p className={'iu-fw-heading'} data-testid="question-item-answer-author">
+                  {question.answer.author}
+                </p>
               </Wrapper>
               <Wrapper>
                 <div>
                   {question.answer.contactInfo && question.answer.contactInfo.length > 0 && <p>{question.answer.contactInfo.join(', ')}</p>}
-                  <p className={'iu-fw-heading iu-m-none'}>{'Re: ' + question.subject}</p>
+                  <p className={'iu-fw-heading iu-m-none'} data-testid="question-item-answer-subject">
+                    {'Re: ' + question.subject}
+                  </p>
                 </div>
                 <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.answer.sent), 'yyyy-MM-dd HH:mm')}</p>
               </Wrapper>
             </div>
           </QuestionHeader>
-          <p className={'iu-mb-400'}>{question.answer.message}</p>
+          <p className={'iu-mb-400'} data-testid="question-item-answer-message">
+            {question.answer.message}
+          </p>
         </>
       )}
       {isAnsweredByCertificate(question) && getAnsweredByCertificate(question)}

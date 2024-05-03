@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test'
-import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser, fakeUserStatistics } from '../src/faker'
-import { ResourceLinkType } from '../src/types'
-import { links } from './mocks/links'
+import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser, fakeUserStatistics } from '../../src/faker'
+import { ResourceLinkType } from '../../src/types'
+import { links } from '../mocks/links'
 
 export const test = base.extend<{
   routeJson: (path: string, data: unknown) => Promise<void>
@@ -34,7 +34,7 @@ export const test = base.extend<{
             fakeResourceLink({ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, name: 'Sök / skriv intyg' }),
             fakeResourceLink({ type: ResourceLinkType.ACCESS_DRAFT_LIST, name: 'Ej signerade utkast' }),
             fakeResourceLink({ type: ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, name: 'Signerade intyg' }),
-            fakeResourceLink({ type: ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, name: 'Ej hanterade ärenden' }),
+            fakeResourceLink({ type: ResourceLinkType.ACCESS_QUESTION_LIST, name: 'Ej hanterade ärenden' }),
             fakeResourceLink({ type: ResourceLinkType.LOG_OUT, name: 'Logga ut' }),
             fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT, name: 'Byt vårdenhet' }),
             fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON, name: 'Tillbaka' }),

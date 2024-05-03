@@ -24,7 +24,7 @@ export async function setupUser(page: Page, user?: Partial<User>) {
           fakeResourceLink({ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, name: 'Sök / skriv intyg' }),
           fakeResourceLink({ type: ResourceLinkType.ACCESS_DRAFT_LIST, name: 'Ej signerade utkast' }),
           fakeResourceLink({ type: ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, name: 'Signerade intyg' }),
-          fakeResourceLink({ type: ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, name: 'Ej hanterade ärenden' }),
+          fakeResourceLink({ type: ResourceLinkType.ACCESS_QUESTION_LIST, name: 'Ej hanterade ärenden' }),
         ],
       },
     })
