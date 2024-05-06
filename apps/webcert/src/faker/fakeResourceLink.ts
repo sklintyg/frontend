@@ -15,7 +15,7 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Välj vårdenhet'
     case ResourceLinkType.FORWARD_QUESTION:
       return 'Vidarebefordra'
-    case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
+    case ResourceLinkType.QUESTIONS:
       return 'Ärendekommunikation'
     case ResourceLinkType.CREATE_QUESTIONS:
       return 'Ny fråga'
