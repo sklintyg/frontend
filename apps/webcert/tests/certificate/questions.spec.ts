@@ -2,7 +2,6 @@ import { fakeAnswer, fakeCertificate, fakeCertificateRelation, fakeQuestion, fak
 import { CertificateStatus, QuestionType, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
-// const id = 'foo'
 const certificate = fakeCertificate({
   metadata: { status: CertificateStatus.SIGNED },
   links: [
@@ -10,13 +9,11 @@ const certificate = fakeCertificate({
       type: ResourceLinkType.QUESTIONS,
       name: 'Ärendekommunikation',
       description: 'Hantera kompletteringsbegäran, frågor och svar',
-      enabled: true,
     }),
     fakeResourceLink({
       type: ResourceLinkType.CREATE_QUESTIONS,
       name: 'Ny fråga',
       description: 'Här kan du ställa en ny fråga till Försäkringskassan.',
-      enabled: true,
     }),
   ],
 })
@@ -46,6 +43,25 @@ test('display information on missing administrative questions', async ({ page })
   await page.getByLabel('Administrativa frågor').click()
   await expect(page.getByRole('heading', { name: 'Här kan du ställa en ny fråga' })).toBeVisible()
   await expect(page.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeVisible()
+})
+
+test('no questions available panel', async ({ page, routeJson }) => {
+  const certificate = fakeCertificate({
+    metadata: { status: CertificateStatus.SIGNED },
+    links: [
+      fakeResourceLink({
+        type: ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
+      }),
+    ],
+  })
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
+
+  await page.goto(`/certificate/${certificate.metadata.id}`)
+  await expect(page.getByRole('tab', { name: 'Ärendekommunikation' })).toBeVisible()
+  await expect(page.getByText('Kompletteringsbegäran och')).toBeVisible()
+  await expect(page.getByRole('img', { name: 'Kompletteringsbegäran och' })).toBeVisible()
+  await expect(page.getByText('Intyget är inte skickat till')).toBeVisible()
+  await expect(page.getByText('Det går därför inte att stä')).toBeVisible()
 })
 
 test.describe('Complement question', () => {
