@@ -99,7 +99,7 @@ test.describe('Certificate events', () => {
     await expect(page.getByRole('heading', { name: 'Alla händelser' })).toBeHidden()
   })
 
-  for (const [type, expected] of [
+  const STATUSES: [CertificateEventType, string][] = [
     [CertificateEventType.CREATED, 'Utkastet är skapat'],
     [CertificateEventType.CREATED_FROM, 'Utkastet är skapat'],
     [CertificateEventType.SIGNED, 'Intyget är signerat'],
@@ -114,7 +114,9 @@ test.describe('Certificate events', () => {
     [CertificateEventType.OUTGOING_MESSAGE_HANDLED, 'En fråga till Försäkringskassan är markerad som hanterad'],
     [CertificateEventType.LOCKED, 'Utkastet låstes'],
     [CertificateEventType.COPIED_FROM, 'Utkastet är skapat som en kopia på ett låst utkast'],
-  ] as [CertificateEventType, string][]) {
+  ]
+
+  for (const [type, expected] of STATUSES) {
     test(`should have expected content for ${type}`, async ({ page, routeJson }) => {
       await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, {
         certificateEvents: [
@@ -127,13 +129,15 @@ test.describe('Certificate events', () => {
     })
   }
 
-  for (const [status, expected] of [
+  const REPLACED_STATUSES: [CertificateStatus, string][] = [
     [CertificateStatus.UNSIGNED, 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg.'],
     [CertificateStatus.SIGNED, 'Intyget har ersatts av'],
     [CertificateStatus.REVOKED, 'Intyget ersattes av ett intyg som nu är makulerat.'],
     [CertificateStatus.LOCKED_REVOKED, 'Intyget ersattes av ett utkast som nu är låst.'],
     [CertificateStatus.LOCKED, 'Intyget ersattes av ett utkast som nu är låst.'],
-  ] as [CertificateStatus, string][]) {
+  ]
+
+  for (const [status, expected] of REPLACED_STATUSES) {
     test(`should have expected content for REPLACED for related certificate is ${status}`, async ({ page, routeJson }) => {
       await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, {
         certificateEvents: [
