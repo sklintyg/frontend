@@ -49,25 +49,26 @@ export const CareProviderModalContent: React.FC = () => {
       const questionsOnUnit = unitStatistics[unit.unitId]?.questionsOnUnit
       const draftsOnUnit = unitStatistics[unit.unitId]?.draftsOnUnit
 
+      if (questionsOnUnit == null || draftsOnUnit == null) {
+        return null
+      }
+
       return (
-        questionsOnUnit &&
-        draftsOnUnit && (
-          <tr key={unit.unitId}>
-            <td>
-              <button
-                className={`ic-link iu-ml-700 iu-text-left iu-border-white ${isLoggedInUnit(unit) && 'iu-color-muted ic-button--disabled'}`}
-                type="button"
-                id={unit.unitId}
-                onClick={handleChooseUnit}
-                disabled={isLoggedInUnit(unit)}
-              >
-                {getUnitName(unit)}
-              </button>
-            </td>
-            <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
-            <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
-          </tr>
-        )
+        <tr key={unit.unitId}>
+          <td>
+            <button
+              className={`ic-link iu-ml-700 iu-text-left iu-border-white ${isLoggedInUnit(unit) && 'iu-color-muted ic-button--disabled'}`}
+              type="button"
+              id={unit.unitId}
+              onClick={handleChooseUnit}
+              disabled={isLoggedInUnit(unit)}
+            >
+              {getUnitName(unit)}
+            </button>
+          </td>
+          <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
+          <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
+        </tr>
       )
     })
   }
