@@ -1,14 +1,6 @@
 import { test as base } from '@playwright/test'
-import {
-  fakeCareProvider,
-  fakeCertificate,
-  fakeResourceLink,
-  fakeUnit,
-  fakeUnitStatistic,
-  fakeUser,
-  fakeUserStatistics,
-} from '../../src/faker'
-import { CertificateStatus, ResourceLinkType } from '../../src/types'
+import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser, fakeUserStatistics } from '../../src/faker'
+import { ResourceLinkType } from '../../src/types'
 import { links } from '../mocks/links'
 
 export const test = base.extend<{
@@ -21,7 +13,7 @@ export const test = base.extend<{
       })
     )
   },
-  page: async ({ page, routeJson }, use) => {
+  page: async ({ page }, use) => {
     const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })
 
     await page.route('**/*/api/user', async (route) => {
@@ -96,27 +88,6 @@ export const test = base.extend<{
     await page.route('**/*/api/anvandare/logout/cancel', async (route) => {
       route.fulfill()
     })
-
-    const certificate = fakeCertificate({
-      metadata: { status: CertificateStatus.SIGNED },
-      links: [
-        fakeResourceLink({
-          type: ResourceLinkType.QUESTIONS,
-          name: 'Ärendekommunikation',
-          description: 'Hantera kompletteringsbegäran, frågor och svar',
-        }),
-        fakeResourceLink({
-          type: ResourceLinkType.CREATE_QUESTIONS,
-          name: 'Ny fråga',
-          description: 'Här kan du ställa en ny fråga till Försäkringskassan.',
-        }),
-      ],
-    })
-    await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })
-    await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, { certificateEvents: [] })
-    await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
-    await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [] })
-    await routeJson(`**/*/api/question/${certificate.metadata.id}/complements`, { questions: [] })
 
     use(page)
   },

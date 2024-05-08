@@ -27,6 +27,8 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Ärendekommunikation'
     case ResourceLinkType.CREATE_QUESTIONS:
       return 'Ny fråga'
+    case ResourceLinkType.FMB:
+      return 'FMB'
     default:
       return faker.lorem.word(10)
   }
@@ -44,6 +46,8 @@ function fakeResourceLinkDescription(type: ResourceLinkType) {
       return 'Öppnar ett fönster där du kan välja att skriva ut eller spara intyget som PDF.'
     case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
       return 'Hantera kompletteringsbegäran, frågor och svar'
+    case ResourceLinkType.FMB:
+      return 'Läs FMB - ett stöd för ifyllnad och bedömning.'
     default:
       return `${type} - ${faker.lorem.sentence()}`
   }
