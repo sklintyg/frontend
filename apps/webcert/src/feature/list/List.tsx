@@ -41,7 +41,7 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
 
   const getOrderBy = () => {
     const val = filter && filter.values && filter.values['ORDER_BY']
-    if (val && val.type === ListFilterType.TEXT) {
+    if (val && val.type === ListFilterType.ORDER) {
       return val.value ?? ''
     }
     return ''
@@ -90,8 +90,8 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
       <ListTable
         caption={config.title}
         headings={config.tableHeadings}
-        orderBy={getOrderBy() as string}
-        ascending={getAscending() as boolean}
+        orderBy={getOrderBy()}
+        ascending={getAscending()}
         onTableHeadClick={updateSortingOfList}
         isLoadingContent={isLoadingList && !isSortingList}
         isEmptyList={list.length === 0}
