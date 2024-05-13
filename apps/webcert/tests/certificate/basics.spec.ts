@@ -34,7 +34,7 @@ test('should load certificate', async ({ page }) => {
   await page.goto(`/certificate/${certificate.metadata.id}`)
   await expect(page.getByText('Laddar...')).toBeHidden()
   await expect(
-    page.getByRole('heading', { name: `${certificate.metadata.patient.fullName} - ${certificate.metadata.patient.personId}` })
+    page.getByRole('heading', { name: `${certificate.metadata.patient.fullName} - ${certificate.metadata.patient.personId.id}` })
   ).toBeVisible()
 })
 
@@ -42,6 +42,7 @@ test('should display category', async ({ page, routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
     certificate: fakeCertificate({
       ...certificate,
+      metadata: { status: CertificateStatus.UNSIGNED },
       data: {
         ...fakeCategoryElement({ id: '1', config: { text: 'A category', description: 'Category description' } }),
       },
