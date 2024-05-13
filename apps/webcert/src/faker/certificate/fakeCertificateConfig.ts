@@ -234,7 +234,7 @@ const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementConfig<ConfigUeRad
 
 const fakeCheckboxDateRangeList = fakeDataElementConfig<ConfigUeCheckboxDateRangeList>((override) => ({
   type: ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST,
-  previousSickLeavePeriod: faker.lorem.sentence(3),
+  previousDateRangeText: faker.lorem.sentence(3),
   hideWorkingHours: true,
   list: (override?.list ?? []).map(fakeCheckboxDateRange),
 }))

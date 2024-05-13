@@ -68,7 +68,7 @@ export function UeCheckboxDateRangeList({
 
   return (
     <div>
-      {config.previousSickLeavePeriod && <PreviousPeriod previousPeriod={config.previousSickLeavePeriod} />}
+      {config.previousDateRangeText && <PreviousPeriod previousPeriod={config.previousDateRangeText} />}
       {!config.hideWorkingHours && (
         <WorkingHours id={id} parent={parent} disabled={disabled} baseWorkHours={baseWorkHours} onBaseWorkHours={setBaseWorkHours} />
       )}
