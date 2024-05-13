@@ -30,7 +30,7 @@ test.beforeEach(async ({ routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
 })
 
-test('should load certificate', async ({ page }) => {
+test('load certificate', async ({ page }) => {
   await page.goto(`/certificate/${certificate.metadata.id}`)
   await expect(page.getByText('Laddar...')).toBeHidden()
   await expect(
@@ -38,7 +38,7 @@ test('should load certificate', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('should display category', async ({ page, routeJson }) => {
+test('display category', async ({ page, routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
     certificate: fakeCertificate({
       ...certificate,
