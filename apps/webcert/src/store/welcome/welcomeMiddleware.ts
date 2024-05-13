@@ -101,11 +101,6 @@ const handleLoginUser: Middleware<Dispatch> =
       apiCallBegan({
         url: '/fake',
         method: 'POST',
-        // TODO: Remove once https://github.com/vitejs/vite/issues/9520 is resolved.
-        headers: {
-          Accept:
-            'application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        },
         data: action.payload,
         onStart: loginUserStarted.type,
         onSuccess: loginUserSuccess.type,
