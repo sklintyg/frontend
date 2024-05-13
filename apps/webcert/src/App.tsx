@@ -22,8 +22,8 @@ import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import { useAppDispatch } from './store/store'
-import { cancelLogout, getUser, getUserStatistics, triggerLogout } from './store/user/userActions'
-import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
+import { cancelLogout, triggerLogout } from './store/user/userActions'
+import { initateApplication } from './store/welcome/welcomeActions'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
 
 function App(): JSX.Element {
@@ -34,10 +34,7 @@ function App(): JSX.Element {
 
     window.addEventListener('beforeunload', handleWindowBeforeUnload)
     dispatch(cancelLogout())
-    dispatch(getUser())
-    dispatch(getUserStatistics())
-    dispatch(getAllDynamicLinks())
-    dispatch(getConfig())
+    dispatch(initateApplication())
     return () => {
       window.removeEventListener('beforeunload', handleWindowBeforeUnload)
     }

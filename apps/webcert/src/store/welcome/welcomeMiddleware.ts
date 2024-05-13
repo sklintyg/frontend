@@ -1,7 +1,8 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
-import { getUser } from '../user/userActions'
+import { getUser, getUserStatistics } from '../user/userActions'
+import { getAllDynamicLinks, getConfig } from '../utils/utilsActions'
 import {
   createNewCertificate,
   createNewCertificateStarted,
@@ -12,6 +13,7 @@ import {
   getPatients,
   getPatientsStarted,
   getPatientsSuccess,
+  initateApplication,
   loginUser,
   loginUserStarted,
   loginUserSuccess,
@@ -111,7 +113,7 @@ const handleLoginUserSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
-    dispatch(getUser())
+    dispatch(initateApplication())
 
     dispatch(updateNavigateToCertificate(true))
   }
@@ -131,6 +133,16 @@ const handlePopulateFmb: Middleware<Dispatch> =
     )
   }
 
+const handleinitateApplication: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(getUser())
+    dispatch(getUserStatistics())
+    dispatch(getAllDynamicLinks())
+    dispatch(getConfig())
+  }
+
 const middlewareMethods = {
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
@@ -141,6 +153,7 @@ const middlewareMethods = {
   [loginUser.type]: handleLoginUser,
   [loginUserSuccess.type]: handleLoginUserSuccess,
   [populateFmb.type]: handlePopulateFmb,
+  [initateApplication.type]: handleinitateApplication,
 }
 
 export const welcomeMiddleware: Middleware<Dispatch> =
