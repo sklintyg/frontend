@@ -1,5 +1,6 @@
 name: Playwright Tests
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
 env:
@@ -9,7 +10,7 @@ jobs:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.0-jammy
+      image: mcr.microsoft.com/playwright:v1.44.0-jammy
     steps:
       - name: Checkout code branch
         uses: actions/checkout@v4
