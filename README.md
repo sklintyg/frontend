@@ -1,3 +1,5 @@
+[![E2E Tests](https://github.com/sklintyg/frontend/actions/workflows/playwright.yml/badge.svg)](https://github.com/sklintyg/frontend/actions/workflows/playwright.yml)
+
 # `Frontend`
 
 ## Setup
