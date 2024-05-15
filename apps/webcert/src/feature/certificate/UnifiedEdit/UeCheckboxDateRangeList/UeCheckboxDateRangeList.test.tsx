@@ -197,7 +197,7 @@ describe('UeCheckboxDateRangeList', () => {
       ...defaultQuestion,
       config: fakeCertificateConfig.checkboxDateRangeList({
         ...defaultQuestion.config,
-        previousSickLeavePeriod: expectedPreviousPeriod,
+        previousDateRangeText: expectedPreviousPeriod,
       }),
     }
 

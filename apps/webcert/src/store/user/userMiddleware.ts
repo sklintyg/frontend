@@ -204,6 +204,13 @@ const handleGetUserStatisticsSuccess: Middleware<Dispatch> =
     dispatch(updateIsLoadingUserStatistics(false))
   }
 
+const handleGetUserStatisticsError: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (): void => {
+    dispatch(updateIsLoadingUserStatistics(false))
+  }
+
 const handleSetUnit: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
@@ -285,6 +292,7 @@ const middlewareMethods = {
   [getUserStatistics.type]: handleGetUserStatistics,
   [getUserStatisticsStarted.type]: handleGetUserStatisticsStarted,
   [getUserStatisticsSuccess.type]: handleGetUserStatisticsSuccess,
+  [getUserStatisticsError.type]: handleGetUserStatisticsError,
   [setUnit.type]: handleSetUnit,
   [setUnitSuccess.type]: handleSetUnitSuccess,
   [stopPoll.type]: handleStopPoll,

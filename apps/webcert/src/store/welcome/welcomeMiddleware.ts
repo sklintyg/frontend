@@ -1,7 +1,8 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
-import { getUser } from '../user/userActions'
+import { getUser, getUserStatistics } from '../user/userActions'
+import { getAllDynamicLinks, getConfig } from '../utils/utilsActions'
 import {
   createNewCertificate,
   createNewCertificateStarted,
@@ -12,6 +13,7 @@ import {
   getPatients,
   getPatientsStarted,
   getPatientsSuccess,
+  initateApplication,
   loginUser,
   loginUserStarted,
   loginUserSuccess,
@@ -99,11 +101,6 @@ const handleLoginUser: Middleware<Dispatch> =
       apiCallBegan({
         url: '/fake',
         method: 'POST',
-        // TODO: Remove once https://github.com/vitejs/vite/issues/9520 is resolved.
-        headers: {
-          Accept:
-            'application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        },
         data: action.payload,
         onStart: loginUserStarted.type,
         onSuccess: loginUserSuccess.type,
@@ -116,7 +113,7 @@ const handleLoginUserSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
-    dispatch(getUser())
+    dispatch(initateApplication())
 
     dispatch(updateNavigateToCertificate(true))
   }
@@ -136,6 +133,16 @@ const handlePopulateFmb: Middleware<Dispatch> =
     )
   }
 
+const handleinitateApplication: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(getUser())
+    dispatch(getUserStatistics())
+    dispatch(getAllDynamicLinks())
+    dispatch(getConfig())
+  }
+
 const middlewareMethods = {
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
@@ -146,6 +153,7 @@ const middlewareMethods = {
   [loginUser.type]: handleLoginUser,
   [loginUserSuccess.type]: handleLoginUserSuccess,
   [populateFmb.type]: handlePopulateFmb,
+  [initateApplication.type]: handleinitateApplication,
 }
 
 export const welcomeMiddleware: Middleware<Dispatch> =

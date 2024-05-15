@@ -1,5 +1,6 @@
 name: Playwright Tests
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
 env:
@@ -9,12 +10,12 @@ jobs:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.0-jammy
+      image: mcr.microsoft.com/playwright:v1.44.0-jammy
     steps:
       - name: Checkout code branch
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
           version: 8.14.0
 
@@ -28,6 +29,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm run -r test:playwright
+        run: pnpm run -r test:playwright --project=chromium --workers $(node -r os -e 'process.stdout.write(os.cpus().length.toString())')
         env:
           HOME: /root
