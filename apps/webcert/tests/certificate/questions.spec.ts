@@ -32,11 +32,7 @@ const certificate = fakeCertificate({
 })
 
 test.beforeEach(async ({ routeJson }) => {
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, { certificateEvents: [] })
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
-  await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [] })
-  await routeJson(`**/*/api/question/${certificate.metadata.id}/complements`, { questions: [] })
 })
 
 test('should have question panel buttons', async ({ page }) => {
@@ -120,8 +116,6 @@ test.describe('Complement question', () => {
       answeredByCertificate: relation,
     })
     await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
-    await routeJson(`**/*/api/certificate/${relation.certificateId}/validate`, { validationErrors: [] })
-    await routeJson(`**/*/api/certificate/${relation.certificateId}/events`, { certificateEvents: [] })
     await routeJson(`**/*/api/certificate/${relation.certificateId}`, { certificate: relationCertificate })
     await page.goto(`/certificate/${certificate.metadata.id}`)
 

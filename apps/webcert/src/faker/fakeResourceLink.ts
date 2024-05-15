@@ -30,6 +30,14 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Ny fråga'
     case ResourceLinkType.FMB:
       return 'FMB'
+    case ResourceLinkType.HANDLE_QUESTION:
+      return 'Hantera'
+    case ResourceLinkType.COMPLEMENT_CERTIFICATE:
+      return 'Komplettera'
+    case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE:
+      return 'Kan ej komplettera'
+    case ResourceLinkType.REMOVE_CERTIFICATE:
+      return 'Radera'
     default:
       return faker.lorem.word(10)
   }
@@ -49,6 +57,16 @@ function fakeResourceLinkDescription(type: ResourceLinkType) {
       return 'Hantera kompletteringsbegäran, frågor och svar'
     case ResourceLinkType.FMB:
       return 'Läs FMB - ett stöd för ifyllnad och bedömning.'
+    case ResourceLinkType.HANDLE_QUESTION:
+      return 'Hantera fråga'
+    case ResourceLinkType.COMPLEMENT_CERTIFICATE:
+      return 'Öppnar ett nytt intygsutkast.'
+    case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE:
+      return 'Öppnar en dialogruta med mer information.'
+    case ResourceLinkType.FORWARD_QUESTION:
+      return 'Skapar ett e-postmeddelande med länk till intyget.'
+    case ResourceLinkType.REMOVE_CERTIFICATE:
+      return 'Raderar intygsutkastet.'
     default:
       return `${type} - ${faker.lorem.sentence()}`
   }

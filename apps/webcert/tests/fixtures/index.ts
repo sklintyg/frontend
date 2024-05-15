@@ -89,6 +89,23 @@ export const test = base.extend<{
       route.fulfill()
     })
 
+    // await page.route(`**/*/api/certificate/*/*`, async (route) => {
+    //   route.fulfill()
+    // })
+    await page.route(`**/*/api/certificate/*/validate`, async (route) => {
+      route.fulfill({ json: { validationErrors: [] } })
+    })
+    await page.route(`**/*/api/certificate/*/events`, async (route) => {
+      route.fulfill({ json: { certificateEvents: [] } })
+    })
+
+    await page.route(`**/*/api/question/*`, async (route) => {
+      route.fulfill({ json: { questions: [] } })
+    })
+    await page.route(`**/*/api/question/*/complements`, async (route) => {
+      route.fulfill({ json: { questions: [] } })
+    })
+
     use(page)
   },
 })

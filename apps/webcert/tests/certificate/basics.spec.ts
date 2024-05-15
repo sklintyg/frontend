@@ -14,19 +14,10 @@ const certificate = fakeCertificate({
     },
     status: CertificateStatus.SIGNED,
   },
-  links: [
-    fakeResourceLink({
-      type: ResourceLinkType.READ_CERTIFICATE,
-    }),
-    fakeResourceLink({
-      type: ResourceLinkType.EDIT_CERTIFICATE,
-    }),
-  ],
+  links: [fakeResourceLink({ type: ResourceLinkType.READ_CERTIFICATE }), fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
 })
 
 test.beforeEach(async ({ routeJson }) => {
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, { certificateEvents: [] })
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
 })
 

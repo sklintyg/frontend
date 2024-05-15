@@ -44,8 +44,6 @@ const certificate = fakeCertificate({
 })
 
 test.beforeEach(async ({ routeJson }) => {
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/events`, { certificateEvents: [] })
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
   await routeJson(`**/*/api/fmb/J20`, J20)
   await routeJson(`**/*/api/fmb/A021`, A021)
