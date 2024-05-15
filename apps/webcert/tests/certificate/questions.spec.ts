@@ -81,7 +81,7 @@ test.describe('Complement question', () => {
   test('reply to question', async ({ page, routeJson }) => {
     const question = fakeQuestion({
       type: QuestionType.COMPLEMENT,
-      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })],
     })
     await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
     await page.goto(`/certificate/${certificate.metadata.id}`)
@@ -116,7 +116,7 @@ test.describe('Complement question', () => {
     const relationCertificate = fakeCertificate({ metadata: { id: relation.certificateId, status: CertificateStatus.UNSIGNED } })
     const question = fakeQuestion({
       type: QuestionType.COMPLEMENT,
-      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })],
       answeredByCertificate: relation,
     })
     await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
@@ -135,7 +135,7 @@ test.describe('Complement question', () => {
       type: QuestionType.COMPLEMENT,
       complements: [complement],
       contactInfo: ['kontakt info'],
-      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })],
     })
     await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
 
@@ -150,6 +150,44 @@ test.describe('Complement question', () => {
     await expect(highlightedQuestion).toBeVisible()
     await expect(highlightedQuestion.getByTestId('question-complement')).toBeVisible()
     await expect(highlightedQuestion.getByTestId('question-complement').getByText(complement.message)).toBeVisible()
+  })
+
+  test('display answered complement information', async ({ page, routeJson }) => {
+    const question = fakeQuestion({
+      type: QuestionType.COMPLEMENT,
+      links: [fakeResourceLink({ type: ResourceLinkType.HANDLE_QUESTION })],
+      answer: fakeAnswer(),
+    })
+    await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
+    await page.goto(`/certificate/${certificate.metadata.id}`)
+
+    await expect(page.getByText('Kompletteringsbegäran har besvarats med ett meddelande.')).toBeVisible()
+  })
+
+  test('mark complement as handled', async ({ page, routeJson }) => {
+    const question = fakeQuestion({
+      type: QuestionType.COMPLEMENT,
+      links: [fakeResourceLink({ type: ResourceLinkType.HANDLE_QUESTION })],
+      handled: false,
+    })
+    await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
+
+    await page.goto(`/certificate/${certificate.metadata.id}`)
+
+    const checkbox = page.getByTestId('question-item-card').getByText('Hanterad')
+    await expect(checkbox).not.toBeChecked()
+    await checkbox.click()
+
+    const dialog = page.getByRole('dialog', { name: 'Markera som hanterad' })
+    await expect(dialog).toBeVisible()
+    await expect(dialog.getByLabel('Markera som hanterad')).toBeEnabled()
+    await expect(dialog.getByLabel('Avbryt')).toBeEnabled()
+
+    await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [{ ...question, handled: true }] })
+    await routeJson(`**/*/api/question/${question.id}/handle`, { question: { ...question, handled: true } })
+    await dialog.getByLabel('Markera som hanterad').click()
+
+    await expect(checkbox).toBeChecked()
   })
 })
 
@@ -190,7 +228,7 @@ test.describe('Administrativ question', () => {
   test('reply to question', async ({ page, routeJson }) => {
     const question = fakeQuestion({
       type: QuestionType.OTHER,
-      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })],
     })
     await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
 
