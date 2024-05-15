@@ -1,8 +1,21 @@
-import { fakeAnswer, fakeCertificate, fakeCertificateRelation, fakeQuestion, fakeResourceLink } from '../../src/faker'
+import {
+  fakeAnswer,
+  fakeCategoryElement,
+  fakeCertificate,
+  fakeCertificateRelation,
+  fakeComplement,
+  fakeQuestion,
+  fakeResourceLink,
+  fakeTextFieldElement,
+} from '../../src/faker'
 import { CertificateStatus, QuestionType, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
 const certificate = fakeCertificate({
+  data: {
+    ...fakeTextFieldElement({ id: 'textfield', index: 2 }),
+    ...fakeCategoryElement({ id: 'category', index: 1 }),
+  },
   metadata: { status: CertificateStatus.SIGNED },
   links: [
     fakeResourceLink({
@@ -114,6 +127,29 @@ test.describe('Complement question', () => {
 
     await page.getByRole('link', { name: 'Öppna utkastet' }).click()
     await expect(page.getByRole('heading', { name: relationCertificate.metadata.name })).toBeVisible()
+  })
+
+  test('highlight certificate question field', async ({ page, routeJson }) => {
+    const complement = fakeComplement({ questionId: 'textfield' })
+    const question = fakeQuestion({
+      type: QuestionType.COMPLEMENT,
+      complements: [complement],
+      contactInfo: ['kontakt info'],
+      links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION, enabled: true })],
+    })
+    await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
+
+    await page.goto(`/certificate/${certificate.metadata.id}`)
+    await expect(page.getByText('kontakt info')).toBeVisible()
+
+    const highlightButton = page.getByRole('button', { name: 'Pil Visa kompletteringsbegä' })
+    await expect(highlightButton).toBeVisible()
+    await expect(highlightButton.getByText(complement.questionText)).toBeVisible()
+
+    const highlightedQuestion = page.getByTestId('textfield-highlighted')
+    await expect(highlightedQuestion).toBeVisible()
+    await expect(highlightedQuestion.getByTestId('question-complement')).toBeVisible()
+    await expect(highlightedQuestion.getByTestId('question-complement').getByText(complement.message)).toBeVisible()
   })
 })
 
