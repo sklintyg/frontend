@@ -38,6 +38,16 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Kan ej komplettera'
     case ResourceLinkType.REMOVE_CERTIFICATE:
       return 'Radera'
+    case ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE:
+      return 'Sök / skriv intyg'
+    case ResourceLinkType.ACCESS_DRAFT_LIST:
+      return 'Ej signerade utkast'
+    case ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST:
+      return 'Signerade intyg'
+    case ResourceLinkType.ACCESS_QUESTION_LIST:
+      return 'Ej hanterade ärenden'
+    case ResourceLinkType.LOG_OUT:
+      return 'Logga ut'
     default:
       return faker.lorem.word(10)
   }

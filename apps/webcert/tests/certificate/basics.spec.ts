@@ -29,6 +29,13 @@ test('load certificate', async ({ page }) => {
   ).toBeVisible()
 })
 
+test('navigate back from certificate', async ({ page }) => {
+  await page.goto(`/certificate/${certificate.metadata.id}`)
+  await expect(page.getByText('Laddar...')).toBeHidden()
+  await page.getByRole('button', { name: 'Tillbaka' }).click()
+  await expect(page.getByRole('heading', { name: 'Patientens personnummer eller' })).toBeVisible()
+})
+
 test('display category', async ({ page, routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
     certificate: fakeCertificate({
