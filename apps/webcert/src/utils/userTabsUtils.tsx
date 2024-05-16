@@ -11,7 +11,7 @@ const getTabs = (statistics: UserStatistics | undefined, links: ResourceLink[]) 
   const tabs: UserTab[] = []
 
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
-  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, getUnhandledCertificatesListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_QUESTION_LIST, getUnhandledCertificatesListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
 
@@ -34,7 +34,7 @@ const addTabIfAccessToPage = (
 const getTabsForAdministrator = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
   const tabs: UserTab[] = []
 
-  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, getUnhandledCertificatesListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_QUESTION_LIST, getUnhandledCertificatesListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)

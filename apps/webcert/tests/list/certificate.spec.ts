@@ -1,25 +1,10 @@
 import { expect, test } from '../fixtures'
 import { certificate } from '../mocks/config/certificate'
 
-test.beforeEach(async ({ page }) => {
-  await page.route('**/*/api/list/certificate', async (route) => {
-    await route.fulfill({
-      json: { list: [], totalCount: 0 },
-    })
-  })
-
-  await page.route('**/*/api/list/config/certificate', async (route) => {
-    await route.fulfill({
-      json: certificate,
-    })
-  })
-
-  await page.route('**/*/api/list/config/certificate/update', async (route) => {
-    await route.fulfill({
-      json: certificate,
-    })
-  })
-
+test.beforeEach(async ({ page, routeJson }) => {
+  routeJson('**/*/api/list/certificate', { list: [], totalCount: 0 })
+  routeJson('**/*/api/list/config/certificate', certificate)
+  routeJson('**/*/api/list/config/certificate/update', certificate)
   await page.goto('/list/certificate')
 })
 
