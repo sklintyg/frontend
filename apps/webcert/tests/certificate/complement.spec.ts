@@ -1,3 +1,4 @@
+import faker from 'faker'
 import {
   fakeCategoryElement,
   fakeCertificate,
@@ -49,7 +50,7 @@ const question = fakeQuestion({
 
 test.beforeEach(async ({ routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
-  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/complement`, { certificate })
+  await routeJson(`**/*/api/certificate/${certificate.metadata.id}/complement`, { certificate: draft })
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}/answercomplement`, { certificate })
   await routeJson(`**/*/api/question/${certificate.metadata.id}`, { questions: [question] })
   await routeJson(`**/*/api/certificate/${draft.metadata.id}`, { certificate: draft })
@@ -101,7 +102,9 @@ test('navigate back to previous certificate when complement draft is deleted', a
 })
 
 test.describe('cannot complement certificate', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, routeJson }) => {
+    await routeJson(`**/*/api/certificate/${certificate.metadata.id}/complement`, { certificate })
+
     await page.goto(`/certificate/${certificate.metadata.id}`)
     await page.getByLabel('Kan ej komplettera', { exact: true }).click()
     const dialog = page.getByRole('dialog', { name: 'Kan ej komplettera' })
@@ -116,7 +119,7 @@ test.describe('cannot complement certificate', () => {
     const dialog = page.getByRole('dialog', { name: 'Kan ej komplettera' })
     await dialog.getByText('Ingen ytterligare medicinsk').click()
     await expect(dialog.getByText('*Kommentera varför det inte ä')).toBeVisible()
-    await dialog.getByTestId('question-answer-textarea').fill('Some reason')
+    await dialog.getByTestId('question-answer-textarea').fill(faker.lorem.sentence())
     await expect(dialog.getByLabel('Skicka svar')).toBeEnabled()
     await dialog.getByLabel('Skicka svar').click()
     await expect(dialog).toBeHidden()
@@ -128,7 +131,7 @@ test.describe('cannot complement certificate', () => {
     await dialog.getByText('Ingen på vårdenheten kan').click()
     await expect(dialog.getByText('Ingen medicinsk information')).toBeVisible()
     await expect(dialog.getByText('*Om intygsutfärdaren inte lä')).toBeVisible()
-    await dialog.getByTestId('question-answer-textarea').fill('Some reason')
+    await dialog.getByTestId('question-answer-textarea').fill(faker.lorem.sentence())
     await expect(dialog.getByLabel('Skicka svar')).toBeEnabled()
     await dialog.getByLabel('Skicka svar').click()
     await expect(dialog).toBeHidden()
