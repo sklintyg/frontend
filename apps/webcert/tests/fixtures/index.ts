@@ -89,9 +89,6 @@ export const test = base.extend<{
       route.fulfill()
     })
 
-    // await page.route(`**/*/api/certificate/*/*`, async (route) => {
-    //   route.fulfill()
-    // })
     await page.route(`**/*/api/certificate/*/validate`, async (route) => {
       route.fulfill({ json: { validationErrors: [] } })
     })
