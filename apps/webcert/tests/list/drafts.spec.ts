@@ -89,7 +89,17 @@ test.describe('Empty table', () => {
     await expect(page.getByRole('table', { name: 'Ej signerade utkast' })).toBeVisible()
   })
 
-  for (const col of ['Typ av intyg', 'Status', 'Senast sparat', 'Patient', 'Sparat av', 'Vidarebefordrad']) {
+  test('should have table column "Senast sparat"', async ({ page }) => {
+    await expect(page.getByRole('columnheader', { name: 'Senast sparat Byt till att' })).toBeVisible()
+  })
+
+  test(`should be possible to sort "Senast sparat"`, async ({ page }) => {
+    await expect(page.getByRole('columnheader', { name: `Senast sparat Byt till att sortera stigande` })).toBeVisible()
+    await page.getByRole('columnheader', { name: `Senast sparat Byt till att sortera stigande` }).click()
+    await expect(page.getByRole('columnheader', { name: `Senast sparat Byt till att sortera fallande` })).toBeVisible()
+  })
+
+  for (const col of ['Typ av intyg', 'Status', 'Patient', 'Sparat av', 'Vidarebefordrad']) {
     test(`should have table column "${col}"`, async ({ page }) => {
       await expect(page.getByRole('columnheader', { name: `${col} Sortera på kolumn` })).toBeVisible()
     })

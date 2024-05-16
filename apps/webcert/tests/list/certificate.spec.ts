@@ -105,7 +105,17 @@ test.describe('Populated table', () => {
     await expect(page.getByRole('table', { name: 'Signerade intyg' })).toBeVisible()
   })
 
-  for (const col of ['Typ av intyg', 'Status', 'Signerad', 'Patient']) {
+  test('should have table column "Signerad"', async ({ page }) => {
+    await expect(page.getByRole('columnheader', { name: 'Signerad Byt till att' })).toBeVisible()
+  })
+
+  test(`should be possible to sort "Signerad"`, async ({ page }) => {
+    await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` })).toBeVisible()
+    await page.getByRole('columnheader', { name: `Signerad Byt till att sortera stigande` }).click()
+    await expect(page.getByRole('columnheader', { name: `Signerad Byt till att sortera fallande` })).toBeVisible()
+  })
+
+  for (const col of ['Typ av intyg', 'Status', 'Patient']) {
     test(`should have table column "${col}"`, async ({ page }) => {
       await expect(page.getByRole('columnheader', { name: `${col} Sortera på kolumn` })).toBeVisible()
     })
