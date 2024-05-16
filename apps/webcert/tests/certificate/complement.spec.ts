@@ -90,7 +90,7 @@ test('navigate to new draft from complemented certificate', async ({ page, route
 })
 
 test('navigate back to previous certificate when complement draft is deleted', async ({ page }) => {
-  await page.route(`**/*/api/certificate/*/${draft.metadata.version}`, (route) => route.fulfill())
+  await page.route(`**/*/api/certificate/${draft.metadata.id}/${draft.metadata.version}`, (route) => route.fulfill())
   await page.goto(`/certificate/${draft.metadata.id}`)
   await page.getByLabel('Radera').click()
   const dialog = page.getByRole('dialog', { name: 'Radera utkast' })
