@@ -8,7 +8,6 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:deprecation/recommended',
     'plugin:compat/recommended',
     'prettier',
   ],
