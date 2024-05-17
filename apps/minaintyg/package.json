@@ -63,6 +63,7 @@
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
+    "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-jest": "^27.6.1",
     "eslint-plugin-tailwindcss": "^3.13.1",
     "jsdom": "^21.1.1",

@@ -5,7 +5,7 @@ const path = require('path')
 
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:tailwindcss/recommended'],
+  extends: ['react', 'plugin:tailwindcss/recommended', 'plugin:deprecation/recommended'],
   overrides: [
     {
       files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],

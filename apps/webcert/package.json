@@ -69,6 +69,7 @@
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
+    "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-playwright": "^0.21.0",
     "faker": "5.5.3",
     "jsdom": "^21.1.1",
