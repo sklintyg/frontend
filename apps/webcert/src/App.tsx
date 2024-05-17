@@ -26,7 +26,7 @@ import { cancelLogout, triggerLogout } from './store/user/userActions'
 import { initateApplication } from './store/welcome/welcomeActions'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
 
-function App(): React.JSX.Element {
+function App(): JSX.Element {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
