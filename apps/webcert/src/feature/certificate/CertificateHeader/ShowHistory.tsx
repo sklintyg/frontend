@@ -61,7 +61,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
                 <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
-          case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED:
             return (
               <>
                 Intyget ersattes av ett utkast som nu är låst.{' '}
@@ -194,7 +195,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
                 <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
-          case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED_REVOKED:
+          case CertificateStatus.LOCKED:
             return (
               <>
                 Utkastet ersattes av ett utkast som nu är låst.{' '}

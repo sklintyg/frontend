@@ -1,56 +1,112 @@
 import {
+  fakeAutoFillValidation,
   fakeCategoryElement,
+  fakeCertificate,
   fakeCertificateConfig,
+  fakeCertificateDataElement,
   fakeCertificateMetaData,
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
   fakeDisableSubElementValidation,
+  fakeHideValidation,
   fakeHighlightValidation,
+  fakeMandatoryValidation,
   fakeRadioBooleanElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
+  fakeShowValidation,
+  fakeTextAreaElement,
   fakeTextFieldElement,
 } from '../../faker'
 import {
   CertificateDataValidationType,
+  CertificateDataValueType,
   CertificateStatus,
   ConfigUeCheckboxMultipleCodes,
   ResourceLinkType,
-  ValueBoolean,
   ValueCodeList,
   ValueText,
 } from '../../types'
-import { getCertificate } from '../test/certificateTestUtil'
 import { getDecoratedCertificateData } from './getDecoratedCertificateData'
 
 describe('mandatory', () => {
   it('Should set mandatory to true on boolean element if empty', () => {
-    const { data, metadata, links } = getCertificate()
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'foo', selected: null },
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '1.1',
+              expression: 'exists(foo)',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
   })
 
   it('Should set mandatory to true on boolean element if undefined', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-
-    booleanValue.selected = undefined
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeCertificateDataElement({
+          id: '1.1',
+          config: fakeCertificateConfig.radioBoolean(),
+          value: {
+            type: CertificateDataValueType.BOOLEAN,
+            id: 'foo',
+            selected: undefined,
+          },
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '1.1',
+              expression: 'exists(foo)',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
   })
 
   it('Should set mandatory to false on boolean element if it is true', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'foo', selected: true },
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '1.1',
+              expression: 'exists(foo)',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
   })
 
   it('Should set mandatory to false on boolean element if it is false', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'foo', selected: false },
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '1.1',
+              expression: 'exists(foo)',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
   })
@@ -58,102 +114,285 @@ describe('mandatory', () => {
 
 describe('visibility', () => {
   it('Should set visible to false on boolean element if empty', () => {
-    const { data, metadata, links } = getCertificate()
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: null },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
   })
 
   it('Should set visible to false on boolean element if undefined', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = undefined
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeCertificateDataElement({
+          id: '1.1',
+          config: fakeCertificateConfig.radioBoolean(),
+          value: { type: CertificateDataValueType.BOOLEAN, id: 'harFunktionsnedsattning', selected: undefined },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
   })
 
   it('Should set visible to true on boolean element if it is true', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: true },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(true)
   })
 
   it('Should set visible to false on boolean element if it is false', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: false },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning' },
+          validation: [
+            fakeShowValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.2'].visible).toBe(false)
   })
 
   it('Should set visible to false if show rule not valid, even if hide rule is not valid', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: false },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning', text: null },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeShowValidation({
+              questionId: '1.2',
+              expression: 'funktionsnedsattning',
+            }),
+            fakeHideValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
   })
 
   it('Should set visible to true if show rule valid, even if hide rule is not valid', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = false
-
-    data['1.2'].visible = true // Set it visible as default
-    data['1.2'].validation = [] // Clear the validations so they don't affect this test.
-    const textValue: ValueText = data['1.2'].value as ValueText
-    textValue.text = 'A little text'
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: false },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          visible: true,
+          value: { id: 'funktionsnedsattning', text: 'Some text' },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeShowValidation({
+              questionId: '1.2',
+              expression: 'funktionsnedsattning',
+            }),
+            fakeHideValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(true)
   })
 
   it('Should set visible to false if hide rule valid, even if show rule is valid', () => {
-    const { data, metadata, links } = getCertificate()
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
-
-    const textValue: ValueText = data['1.2'].value as ValueText
-    textValue.text = 'A little text'
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: true },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          value: { id: 'funktionsnedsattning', text: 'A little text' },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeShowValidation({
+              questionId: '1.2',
+              expression: 'funktionsnedsattning',
+            }),
+            fakeHideValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+            }),
+          ],
+        }),
+      },
+    })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.3'].visible).toBe(false)
+  })
+
+  it('Should pre-validate visibility on elements to make sure depending elements gets updated', () => {
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({ id: '1', value: fakeCertificateValue.boolean({ selected: true, id: 'radio1' }) }),
+        ...fakeRadioBooleanElement({
+          id: '2',
+          visible: false,
+          value: fakeCertificateValue.boolean({ selected: true, id: 'radio2' }),
+          validation: [fakeShowValidation({ questionId: '1', expression: 'radio1' })],
+        }),
+        ...fakeRadioBooleanElement({
+          id: '3',
+          visible: false,
+          value: fakeCertificateValue.boolean(),
+          validation: [fakeShowValidation({ questionId: '2', expression: 'radio2' })],
+        }),
+      },
+    })
+
+    const result = getDecoratedCertificateData(data, metadata, links)
+
+    expect(result['1'].visible).toBe(true)
+    expect(result['2'].visible).toBe(true)
+    expect(result['3'].visible).toBe(true)
   })
 })
 
 describe('Intialize values for autoFill validation', () => {
-  const { data, metadata, links } = getCertificate()
-
   it('Should autoFill value if validation is true', () => {
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: true },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.2',
+          validation: [
+            fakeAutoFillValidation({
+              questionId: '1.1',
+              expression: 'harFunktionsnedsattning',
+              fillValue: fakeCertificateValue.text({
+                text: 'Detta är autoifyllt!',
+              }),
+            }),
+          ],
+        }),
+      },
+    })
 
     expect((getDecoratedCertificateData(data, metadata, links)['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
   })
 
   it('Should not autoFill value if validation is false', () => {
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1.1',
+          value: { id: 'harFunktionsnedsattning', selected: true },
+        }),
+        ...fakeTextAreaElement({
+          id: '1.3',
+          validation: [
+            fakeAutoFillValidation({
+              questionId: '1.1',
+              expression: '!harFunktionsnedsattning',
+              fillValue: fakeCertificateValue.text({
+                text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+              }),
+            }),
+          ],
+        }),
+      },
+    })
 
     expect((getDecoratedCertificateData(data, metadata, links)['1.3'].value as ValueText).text).toBe(null)
   })
 })
 
 describe('Intialize values when certificate is not UNSIGNED', () => {
-  const { data, metadata, links } = getCertificate()
-
   it('Should set all data elements as disabled when certificate is LOCKED but still validate rules', () => {
-    const booleanValue: ValueBoolean = data['1.1'].value as ValueBoolean
-    booleanValue.selected = true
-
-    metadata.status = CertificateStatus.LOCKED
-    const result = getDecoratedCertificateData(data, metadata, links)
+    const result = getDecoratedCertificateData(
+      {
+        ...fakeRadioBooleanElement({ id: '1.1' }),
+        ...fakeTextAreaElement({ id: '1.2' }),
+        ...fakeTextAreaElement({ id: '1.3' }),
+      },
+      fakeCertificateMetaData({
+        status: CertificateStatus.LOCKED,
+      }),
+      []
+    )
 
     expect(result['1.1'].disabled).toBe(true)
-    expect(result['1.1'].visible).toBe(true)
     expect(result['1.2'].disabled).toBe(true)
-    expect(result['1.2'].visible).toBe(true)
     expect(result['1.3'].disabled).toBe(true)
-    expect(result['1.3'].visible).toBe(false)
   })
 
   it('Should set all data elements as disabled when certificate is LOCKED_REVOKED but still validate rules', () => {

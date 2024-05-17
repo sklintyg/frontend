@@ -1,4 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
+import {
+  Certificate,
+  CertificateDataElementStyleEnum,
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  CertificateEvent,
+  CertificateSignStatus,
+  Complement,
+  ConfigTypes,
+  ModalData,
+  ValueBoolean,
+  ValueText,
+} from '../../types'
+import { isShowAlways } from '../../utils'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { ErrorData } from '../error/errorReducer'
 import {
@@ -43,20 +57,6 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import {
-  Certificate,
-  CertificateEvent,
-  Complement,
-  CertificateSignStatus,
-  ModalData,
-  ConfigTypes,
-  CertificateDataValueType,
-  ValueText,
-  ValueBoolean,
-  CertificateDataValidationType,
-  CertificateDataElementStyleEnum,
-} from '../../types'
-import { isShowAlways } from '../../utils'
 
 export interface CertificateState {
   certificate?: Certificate
@@ -104,7 +104,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
       state.isDeleted = false
-      state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
         if (question.visible === undefined) {
@@ -135,8 +134,7 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
     })
     .addCase(updateCertificateEvents, (state, action) => {
-      state.certificateEvents.splice(0, state.certificateEvents.length)
-      state.certificateEvents.push(...action.payload)
+      state.certificateEvents = action.payload
     })
     .addCase(updateCertificateStatus, (state, action) => {
       if (!state.certificate) {

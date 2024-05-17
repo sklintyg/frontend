@@ -49,14 +49,14 @@ for (const role of ['Läkare', 'Privatläkare', 'Vårdadministratör']) {
 
     if (role.includes('Vårdadministratör')) {
       test(`redirect to "Ej hanterade ärenden" for ${role}`, async ({ page }) => {
-        await page.goto('https://wc2.wc.localtest.me/')
+        await page.goto('/')
 
         await page.waitForURL('**/*/list/unhandledcertificates')
         await expect(page.getByRole('heading', { name: 'Ej hanterade ärenden' })).toBeVisible()
       })
     } else {
       test(`redirect to "Sök / skriv intyg" for ${role}`, async ({ page }) => {
-        await page.goto('https://wc2.wc.localtest.me/')
+        await page.goto('/')
 
         await page.waitForURL('**/*/search')
         await expect(page.getByRole('heading', { name: 'Patientens personnummer eller samordningsnummer' })).toBeVisible()
@@ -65,13 +65,13 @@ for (const role of ['Läkare', 'Privatläkare', 'Vårdadministratör']) {
 
     if (role === 'Privatläkare') {
       test('do not display care provider name', async ({ page }) => {
-        await page.goto('https://wc2.wc.localtest.me/')
+        await page.goto('/')
         await expect(page.getByText('Hälsa - Medicincentrum')).toBeHidden()
         await expect(page.getByText('Medicincentrum')).toBeVisible()
       })
     } else {
       test('display care provider name', async ({ page }) => {
-        await page.goto('https://wc2.wc.localtest.me/')
+        await page.goto('/')
         await expect(page.getByText('Hälsa - Medicincentrum')).toBeVisible()
       })
     }
@@ -85,7 +85,7 @@ test('session expired', async ({ page }) => {
     })
   })
 
-  await page.goto('https://wc2.wc.localtest.me/')
+  await page.goto('/')
 
   await expect(page.getByText('Du är utloggad')).toBeVisible()
   await expect(page.getByText('Du har blivit utloggad från')).toBeVisible()

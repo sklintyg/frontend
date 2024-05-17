@@ -48,7 +48,7 @@ export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
   if (!hasParentQuestion) return null
 
   return (
-    <Highlighted highlight={hasComplements}>
+    <Highlighted highlight={hasComplements} data-testid={hasComplements ? `${questionIds.toString()}-highlighted` : ''}>
       <QuestionWrapper highlighted={isParentHighlighted}>
         {questionIds.map((id) => (
           <QuestionWithMargin key={id} id={id} />

@@ -1,4 +1,4 @@
-import { fakeTextAreaElement } from '../../faker'
+import { fakeShowValidation, fakeTextAreaElement } from '../../faker'
 import { CertificateDataValidation, CertificateDataValidationType } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import { ValidationResult } from './getValidationResults'
@@ -168,5 +168,29 @@ describe('Same rule override', () => {
 
     expect(result).toHaveLength(1)
     expect(result).toMatchObject([showValidationFourth])
+  })
+
+  it('Same type validations should validate as OR expression', () => {
+    const result = filterValidationResults([
+      {
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
+        result: true,
+      },
+      {
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
+        result: false,
+      },
+    ])
+
+    expect(result).toHaveLength(1)
+    expect(result).toMatchObject([
+      {
+        element,
+        validation: fakeShowValidation({ id: '123123', questionId: '1' }),
+        result: true,
+      },
+    ])
   })
 })

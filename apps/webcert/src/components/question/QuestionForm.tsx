@@ -105,6 +105,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               id={'question_form_dropdown'}
               value={questionDraft.type}
               error={showTypeValidationError()}
+              aria-label="Välj typ av fråga"
             >
               {subjects
                 .filter((subject) => subject !== QuestionType.COMPLEMENT)
@@ -124,6 +125,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               value={message}
               onChange={onTextAreaChange}
               hasValidationError={showMessageValidationError()}
+              aria-label="Fråga"
             />
             {showMessageValidationError() && (
               <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />

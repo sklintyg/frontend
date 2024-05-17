@@ -19,7 +19,7 @@ export function QuestionComplements({ questionIds }: { questionIds: string[] }) 
   return (
     <>
       {complements.map((complement, index) => (
-        <div key={index} className="ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400">
+        <div key={index} className="ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400" data-testid="question-complement">
           <Complement>
             <i className="ic-alert__icon ic-info-icon iu-m-none" />
             <div className="iu-fullwidth iu-pl-300 iu-fs-200">

@@ -6,8 +6,7 @@ import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
-import { createPatient } from '../../../components/patient/patientTestUtils'
-import { fakeCertificate } from '../../../faker'
+import { fakeCertificate, fakePatient } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -18,7 +17,7 @@ import { DeathCertificateConfirmModalIntegrated } from './DeathCertificateConfir
 const mockDispatchFn = vi.fn()
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-const PERSON_ID = '191212121212'
+const patient = fakePatient()
 const setOpen = () => true
 
 const renderComponent = (isOpen: boolean) => {
@@ -34,7 +33,7 @@ const renderComponent = (isOpen: boolean) => {
 describe('DeathCertificateConfirmModalIntegrated', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(fakeCertificate({ metadata: { patient: createPatient(PERSON_ID) } })))
+    testStore.dispatch(updateCertificate(fakeCertificate({ metadata: { patient } })))
   })
 
   afterEach(() => {
@@ -53,12 +52,12 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
 
   it('should display patients person id', () => {
     renderComponent(true)
-    expect(screen.getByText(PERSON_ID, { exact: false })).toBeInTheDocument()
+    expect(screen.getByText(patient.personId.id, { exact: false })).toBeInTheDocument()
   })
 
   it('should display patients full name', () => {
     renderComponent(true)
-    expect(screen.getByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText(patient.fullName, { exact: false })).toBeInTheDocument()
   })
 
   it('should show button for delete', () => {

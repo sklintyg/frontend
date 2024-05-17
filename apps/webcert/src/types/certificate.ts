@@ -40,6 +40,7 @@ export interface CertificateMetadata {
   version: number
   latestMajorVersion: boolean
   responsibleHospName: string
+  signed?: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>
@@ -82,7 +83,7 @@ export enum ConfigTypes {
   UE_RADIO_CODE = 'UE_RADIO_CODE',
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN = 'UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN',
-  UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
+  UE_CHECKBOX_DATE_RANGE_LIST = 'UE_CHECKBOX_DATE_RANGE_LIST',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
@@ -108,6 +109,7 @@ export type CertificateDataConfigType =
   | ConfigUeCheckboxBoolean
   | ConfigUeCheckboxDate
   | ConfigUeCheckboxDateRange
+  | ConfigUeCheckboxDateRangeList
   | ConfigUeCheckboxMultipleCodes
   | ConfigUeCheckboxMultipleDate
   | ConfigUeDate
@@ -116,13 +118,13 @@ export type CertificateDataConfigType =
   | ConfigUeDropdown
   | ConfigUeHeader
   | ConfigUeIcf
+  | ConfigUeInteger
   | ConfigUeMedicalInvestigationList
   | ConfigUeMessage
   | ConfigUeRadioBoolean
   | ConfigUeRadioCode
   | ConfigUeRadioMultipleCodes
   | ConfigUeRadioMultipleCodesOptionalDropdown
-  | ConfigUeSickLeavePeriod
   | ConfigUeTextArea
   | ConfigUeTextField
   | ConfigUeTypeahead
@@ -132,7 +134,6 @@ export type CertificateDataConfigType =
   | ConfigUeViewText
   | ConfigUeVisualAcuity
   | ConfigUeYear
-  | ConfigUeInteger
 
 export enum MessageLevel {
   INFO = 'INFO',
@@ -265,10 +266,14 @@ export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
   list: ConfigUeCheckboxDate[]
 }
 
-export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
-  type: ConfigTypes.UE_SICK_LEAVE_PERIOD
+export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST
   list: ConfigUeCheckboxDateRange[]
-  previousSickLeavePeriod: string
+  label?: string
+  previousDateRangeText?: string
+  hideWorkingHours: boolean
+  min?: string
+  max?: string
 }
 
 export interface ConfigUeDiagnosisTerminology {

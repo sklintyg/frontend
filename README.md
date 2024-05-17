@@ -1,3 +1,5 @@
+[![E2E Tests](https://github.com/sklintyg/frontend/actions/workflows/playwright.yml/badge.svg)](https://github.com/sklintyg/frontend/actions/workflows/playwright.yml)
+
 # `Frontend`
 
 ## Setup
@@ -29,7 +31,6 @@ This is the invisioned structure for the future.
 ├── apps ─ End products
 │   ├── rehabstod
 │   └── webcert
-├── e2e ─ Integration tests for all applications
 └── packages ─ Shared between applications and libraries
     ├── eslint-config-custom ─ Linting configuration
     ├── eslint-config-react ─ Linting configuration for react applications
@@ -103,10 +104,6 @@ Read more about [filtering](https://pnpm.io/filtering)
 - [Avoid testing implementation details](https://kentcdodds.com/blog/testing-implementation-details).
 - [Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)
 - [Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
-
-## Integration tests
-
-Read about [integration tests](./e2e/README.md).
 
 ## Build pipelines
 

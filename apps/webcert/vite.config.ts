@@ -18,7 +18,7 @@ export default ({ mode }: UserConfig) => {
         secure: false,
         target: process.env.VITE_API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: 'http',
+        protocolRewrite: 'https',
         changeOrigin: true,
         autoRewrite: true,
       },

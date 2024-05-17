@@ -1,7 +1,18 @@
-export const question = {
+import {
+  fakeBooleanFilter,
+  fakeDateFilter,
+  fakeDateRangeFilter,
+  fakeListConfig,
+  fakeOrderFilter,
+  fakePageSizeFilter,
+  fakePersonIdFilter,
+  fakeSelectFilter,
+} from '../../../src/faker'
+import { CertificateListItemValueType } from '../../../src/types'
+
+export const question = fakeListConfig({
   filters: [
-    {
-      type: 'SELECT',
+    fakeSelectFilter({
       id: 'UNIT',
       title: 'Enhet',
       alwaysHighlighted: false,
@@ -33,9 +44,8 @@ export const question = {
           defaultValue: false,
         },
       ],
-    },
-    {
-      type: 'SELECT',
+    }),
+    fakeSelectFilter({
       id: 'FORWARDED',
       title: 'Vidarebefordrat',
       alwaysHighlighted: false,
@@ -57,9 +67,8 @@ export const question = {
           defaultValue: false,
         },
       ],
-    },
-    {
-      type: 'SELECT',
+    }),
+    fakeSelectFilter({
       id: 'STATUS',
       title: 'Åtgärd',
       alwaysHighlighted: false,
@@ -101,9 +110,8 @@ export const question = {
           defaultValue: false,
         },
       ],
-    },
-    {
-      type: 'SELECT',
+    }),
+    fakeSelectFilter({
       id: 'SENDER',
       title: 'Avsändare',
       alwaysHighlighted: false,
@@ -125,9 +133,8 @@ export const question = {
           defaultValue: false,
         },
       ],
-    },
-    {
-      type: 'SELECT',
+    }),
+    fakeSelectFilter({
       id: 'SIGNED_BY',
       title: 'Signerat av',
       alwaysHighlighted: true,
@@ -139,61 +146,54 @@ export const question = {
           defaultValue: true,
         },
       ],
-    },
-    {
-      type: 'PERSON_ID',
+    }),
+    fakePersonIdFilter({
       id: 'PATIENT_ID',
       title: 'Patient',
       alwaysHighlighted: false,
       description: '',
       placeholder: 'åååå-mm-dd',
-    },
-    {
-      type: 'DATE_RANGE',
+    }),
+    fakeDateRangeFilter({
       id: 'SENT',
       title: 'Skickat datum',
       alwaysHighlighted: false,
       description: '',
-      to: {
-        type: 'DATE',
+      to: fakeDateFilter({
         id: 'TO',
         title: 'till',
         alwaysHighlighted: false,
         description: '',
-      },
-      from: {
-        type: 'DATE',
+      }),
+      from: fakeDateFilter({
         id: 'FROM',
         title: 'Från',
         alwaysHighlighted: false,
         description: '',
-      },
+      }),
       forbidFutureDates: true,
-    },
-    {
-      type: 'ORDER',
+    }),
+    fakeOrderFilter({
       id: 'ORDER_BY',
       title: '',
       alwaysHighlighted: false,
       description: '',
       defaultValue: 'SENT_RECEIVED',
-    },
-    {
-      type: 'BOOLEAN',
+    }),
+    fakeBooleanFilter({
       id: 'ASCENDING',
       title: '',
       alwaysHighlighted: false,
       description: '',
       defaultValue: false,
-    },
-    {
-      type: 'PAGESIZE',
+    }),
+    fakePageSizeFilter({
       id: 'PAGESIZE',
       title: 'Visa antal träffar',
       alwaysHighlighted: false,
       description: '',
       pageSizes: [10, 25, 50, 100],
-    },
+    }),
   ],
   title: 'Ej hanterade ärenden',
   description: 'Nedan visas ej hanterade ärenden, kompletteringsbegäran och administrativa frågor, för den eller de enheter du väljer.',
@@ -209,59 +209,59 @@ export const question = {
     {
       id: 'QUESTION_ACTION',
       title: 'Åtgärd',
-      type: 'TEXT',
+      type: CertificateListItemValueType.TEXT,
       description: 'Åtgärd som krävs för att frågan/ärendet ska anses hanterad.',
       defaultAscending: true,
     },
     {
       id: 'SENDER',
       title: 'Avsändare',
-      type: 'TEXT',
+      type: CertificateListItemValueType.TEXT,
       description: 'Vem som initierade frågan.',
       defaultAscending: true,
     },
     {
       id: 'PATIENT_ID',
       title: 'Patient',
-      type: 'PATIENT_INFO',
+      type: CertificateListItemValueType.PATIENT_INFO,
       description: 'Patientens personnummer.',
       defaultAscending: true,
     },
     {
       id: 'SIGNED_BY',
       title: 'Signerat av',
-      type: 'TEXT',
+      type: CertificateListItemValueType.TEXT,
       description: 'Läkare som signerat intyget.',
       defaultAscending: true,
     },
     {
       id: 'SENT_RECEIVED',
       title: 'Skickat/mottaget',
-      type: 'DATE',
+      type: CertificateListItemValueType.DATE,
       description: 'Datum och klockslag för senaste händelse.',
       defaultAscending: false,
     },
     {
       id: 'FORWARDED',
       title: 'Vidarebefordrad',
-      type: 'FORWARD',
+      type: CertificateListItemValueType.FORWARD,
       description: 'Visar om ärendet är vidarebefordrat.',
       defaultAscending: true,
     },
     {
       id: 'FORWARD_CERTIFICATE',
       title: '',
-      type: 'FORWARD_BUTTON',
+      type: CertificateListItemValueType.FORWARD_BUTTON,
       description: '',
       defaultAscending: true,
     },
     {
       id: 'OPEN_CERTIFICATE',
       title: '',
-      type: 'OPEN_BUTTON',
+      type: CertificateListItemValueType.OPEN_BUTTON,
       description: '',
       defaultAscending: true,
     },
   ],
   shouldUpdateConfigAfterListSearch: true,
-}
+})

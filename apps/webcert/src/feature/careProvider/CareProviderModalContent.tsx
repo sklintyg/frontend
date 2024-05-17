@@ -2,7 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
+import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
+import SimpleTable from '../../components/Table/SimpleTable'
+import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../../constants'
 import { clearPatient } from '../../store/patient/patientActions'
 import { setUnit } from '../../store/user/userActions'
 import {
@@ -11,9 +13,7 @@ import {
   isCareAdministrator as selectIsCareAdministrator,
   getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
-import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
-import SimpleTable from '../../components/Table/SimpleTable'
-import { CareUnit, Unit, CareProvider } from '../../types'
+import { CareProvider, CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;
@@ -37,7 +37,7 @@ export const CareProviderModalContent: React.FC = () => {
     dispatch(clearPatient())
     dispatch(setUnit(unitId))
 
-    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS)
+    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL)
   }
 
   const isLoggedInUnit = (unit: Unit) => {
@@ -46,8 +46,12 @@ export const CareProviderModalContent: React.FC = () => {
 
   const getExpandedRows = (units: Unit[]) => {
     return units.map((unit) => {
-      const questionsOnUnit = unitStatistics[unit.unitId].questionsOnUnit
-      const draftsOnUnit = unitStatistics[unit.unitId].draftsOnUnit
+      const questionsOnUnit = unitStatistics[unit.unitId]?.questionsOnUnit
+      const draftsOnUnit = unitStatistics[unit.unitId]?.draftsOnUnit
+
+      if (questionsOnUnit == null || draftsOnUnit == null) {
+        return null
+      }
 
       return (
         <tr key={unit.unitId}>
@@ -71,10 +75,10 @@ export const CareProviderModalContent: React.FC = () => {
 
   const getStatistics = (id: string) => {
     return {
-      questionsOnUnit: unitStatistics[id].questionsOnUnit,
-      questionsOnSubUnits: unitStatistics[id].questionsOnSubUnits,
-      draftsOnUnit: unitStatistics[id].draftsOnUnit,
-      draftsOnSubUnits: unitStatistics[id].draftsOnSubUnits,
+      questionsOnUnit: unitStatistics[id]?.questionsOnUnit ?? 0,
+      questionsOnSubUnits: unitStatistics[id]?.questionsOnSubUnits ?? 0,
+      draftsOnUnit: unitStatistics[id]?.draftsOnUnit ?? 0,
+      draftsOnSubUnits: unitStatistics[id]?.draftsOnSubUnits ?? 0,
     }
   }
 

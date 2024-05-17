@@ -55,3 +55,5 @@ export const updateIntegrationParametersDisablers = createAction<IntegrationPara
 export const populateFmb = createAction('[Welcome] Populate FMB')
 export const populateFmbStarted = createAction('[Welcome] Populate FMB started')
 export const populateFmbSuccess = createAction('[Welcome] Populate FMB success')
+
+export const initateApplication = createAction('[Welcome] Initiate application')

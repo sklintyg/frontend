@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata } from './statusTestUtils'
 import { CertificateStatus } from '../../../../types'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 
 const renderComponent = (isRevoked: boolean) => {
   render(
@@ -14,8 +14,8 @@ const renderComponent = (isRevoked: boolean) => {
         <CertificateHeaderStatuses
           certificateMetadata={
             isRevoked
-              ? createCertificateMetadata(CertificateStatus.REVOKED, true)
-              : createCertificateMetadata(CertificateStatus.SIGNED, true)
+              ? fakeCertificateMetaData({ status: CertificateStatus.REVOKED, sent: true })
+              : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
           }
           questions={[]}
         />
@@ -39,9 +39,7 @@ describe('Revoked status', () => {
   it('should display body of modal if clicking on link', async () => {
     renderComponent(true)
     await userEvent.click(screen.getByText('Intyget är makulerat'))
-    expect(
-      screen.getByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
-    ).toBeInTheDocument()
+    expect(screen.getByText('Intyget är inte längre tillgängligt för patienten i intyg, som nås via', { exact: false })).toBeInTheDocument()
   })
 
   it('should close modal correctly', async () => {
@@ -50,7 +48,7 @@ describe('Revoked status', () => {
     expect(screen.getByRole('button', { name: 'Stäng' })).toBeInTheDocument()
     await userEvent.click(screen.getByText('Stäng'))
     expect(
-      screen.queryByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
+      screen.queryByText('Intyget är inte längre tillgängligt för patienten i intyg, som nås via', { exact: false })
     ).not.toBeInTheDocument()
   })
 

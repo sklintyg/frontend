@@ -46,6 +46,7 @@ module.exports = {
     'jsdoc/require-jsdoc': 'off',
     'jsdoc/require-param': 'off',
     'jsdoc/require-returns': 'off',
+    'jsdoc/check-tag-names': ['warn', { definedTags: ['depricated'] }],
     'no-use-before-define': 'off',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',

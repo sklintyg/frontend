@@ -10,7 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
 import { LoggedInUserRedirect } from './LoggedInUserRedirect'
-import { User, Unit, SigningMethod } from '../types'
+import { SigningMethod, Unit, User } from '../types'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()
@@ -67,9 +67,21 @@ describe('LoggedInUserRedirect', () => {
     expect(screen.getByText('Laddar...')).toBeInTheDocument()
   })
 
-  it('should redirect to /create if logged in as doctor', () => {
+  it('should redirect to /search if logged in as doctor', () => {
     renderComponent()
     const doctor = getDummyUser('Läkare')
+    testStore.dispatch(updateUser(doctor))
+
+    expect(testHistory.replace).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pathname: '/search',
+      })
+    )
+  })
+
+  it('should redirect to /search if logged in as nurse', () => {
+    renderComponent()
+    const doctor = getDummyUser('Sjuksköterska')
     testStore.dispatch(updateUser(doctor))
 
     expect(testHistory.replace).toHaveBeenCalledWith(

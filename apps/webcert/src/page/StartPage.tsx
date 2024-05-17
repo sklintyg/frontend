@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
+import { UserHeaderMenu, UserHeaderMenuItem } from '../components/AppHeader/UserHeaderMenu'
 import { WebcertFooter } from '../components/footer/WebcertFooter'
 import logo from '../components/header/webcert_logo.png'
 import SystemBanners from '../components/notification/SystemBanners'
@@ -43,7 +44,13 @@ export const StartPage: React.FC = () => {
       <AppHeader
         logo={logo}
         alt="Webcert"
-        secondaryItems={[<CreateAccount key="create-account" />]}
+        secondaryUserMenu={
+          <UserHeaderMenu>
+            <UserHeaderMenuItem>
+              <CreateAccount key="create-account" />
+            </UserHeaderMenuItem>
+          </UserHeaderMenu>
+        }
         banners={[<SystemBanners key="system-banners" />]}
       />
       <Content className="ic-container iu-mt-gutter iu-mb-gutter">
