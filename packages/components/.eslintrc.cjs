@@ -1,4 +1,5 @@
-const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
+const REACT_FC_MESSAGE =
+  'Please use React.JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
 const path = require('path')
 
 module.exports = {

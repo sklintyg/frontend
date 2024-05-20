@@ -55,6 +55,14 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        'deprecation/deprecation': 'off',
+      },
+    },
+  ],
   ignorePatterns: ['dist/**', '**/dist/**', 'public/**', '**/public/**'],
   settings: {
     jest: {

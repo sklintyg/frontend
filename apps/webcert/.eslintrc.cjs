@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:playwright/recommended'],
+  extends: ['react', 'plugin:playwright/recommended', 'plugin:deprecation/recommended'],
   overrides: [
     {
       files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(test).[jt]s?(x)'],

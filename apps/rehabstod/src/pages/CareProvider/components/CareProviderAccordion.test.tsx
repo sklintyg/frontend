@@ -6,7 +6,7 @@ import { CareProviderAccordion } from './CareProviderAccordion'
 
 let selectedRadio: string | null
 let handleChooseUnit: Mock<unknown[], unknown>
-let children: string | number | boolean | JSX.Element | null | undefined
+let children: string | number | boolean | React.JSX.Element | null | undefined
 const vardenhet = fakeVardenhet({ namn: 'Alfa regionen' })
 
 beforeEach(() => {

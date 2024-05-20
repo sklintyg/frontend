@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
+const REACT_FC_MESSAGE =
+  'Please use React.JSX.Element instead. [React.FC](https://github.com/typescript-cheatsheets/react#function-components)'
 const path = require('path')
 
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:tailwindcss/recommended'],
+  extends: ['react', 'plugin:tailwindcss/recommended', 'plugin:deprecation/recommended'],
   overrides: [
     {
       files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
