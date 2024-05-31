@@ -35,18 +35,10 @@ export function CannotComplementTextarea({
       {option === CannotComplementOption.NO_RESP_MEDICAL_CONTENT && (
         <>
           {message.length < 1 && <MandatoryIcon />}
-          {link.type === ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE && (
-            <p className="iu-fs-200 iu-my-300">
-              Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
-              så ska du delge Försäkringskassan det genom att svara med ett meddelande.
-            </p>
-          )}
-          {link.type === ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE && (
-            <p className="iu-fs-200 iu-my-300">
-              Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
-              så ska du delge Försäkringskassan det genom att svara med ett meddelande.
-            </p>
-          )}
+          <p className="iu-fs-200 iu-my-300">
+            Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget, så
+            ska du delge Försäkringskassan det genom att svara med ett meddelande.
+          </p>
         </>
       )}
       {option && (
