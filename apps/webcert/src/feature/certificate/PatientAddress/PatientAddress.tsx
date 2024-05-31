@@ -60,10 +60,12 @@ const PatientAddress: React.FC = () => {
   const patient = useSelector(getPatient, isEqual)
   const resourceLinks = useSelector(getResourceLinks, isEqual)
   const disabled = useSelector(getIsLocked)
+  const displayPatientAddressInCertificate =
+    getResourceLink(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)?.enabled ?? false
   const editable =
     useSelector(getIsEditable) &&
     resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)) &&
-    getResourceLink(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE).enabled
+    displayPatientAddressInCertificate
 
   const [patientInfo, setPatientInfo] = useState<Patient>(patient as Patient)
 

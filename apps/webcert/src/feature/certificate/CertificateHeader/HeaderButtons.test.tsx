@@ -3,11 +3,11 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
+import { fakeCertificateMetaData } from '../../../faker'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 import store from '../../../store/store'
-import HeaderButtons from './HeaderButtons'
-import { fakeCertificateMetaData } from '../../../faker'
-import { ResourceLink, CertificateStatus, CertificateRelationType, ResourceLinkType } from '../../../types'
+import { CertificateRelationType, CertificateStatus, ResourceLink, ResourceLinkType } from '../../../types'
+import { HeaderButtons } from './HeaderButtons'
 
 describe('Verify header buttons', () => {
   const description = 'description'
@@ -93,14 +93,14 @@ describe('Verify header buttons', () => {
   it('Should enable remove certificate button when not validating certificate', () => {
     const expectedButton = 'Radera'
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
   })
 
   it('Should disable remove certificate button when validating certificate', () => {
     const expectedButton = 'Radera'
     store.dispatch(validateCertificateStarted())
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
   })
 
   it('Should include revoke certificate button when its resource link type is available', () => {

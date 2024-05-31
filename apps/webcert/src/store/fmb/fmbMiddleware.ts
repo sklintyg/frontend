@@ -72,7 +72,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled
+    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {

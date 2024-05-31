@@ -177,7 +177,7 @@ export const handleUpdateCertificate: Middleware<Dispatch> =
 
     if (isQuestionsActive) {
       dispatch(updateIsLoadingQuestions(true))
-      const isCreateQuestionsAvailable = getResourceLink(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled
+      const isCreateQuestionsAvailable = getResourceLink(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
       dispatch(updateCreateQuestionsAvailable(isCreateQuestionsAvailable))
       dispatch(updateCertificateId(action.payload.metadata.id))
       if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {

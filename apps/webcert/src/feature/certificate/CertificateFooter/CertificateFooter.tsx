@@ -1,8 +1,8 @@
 import { isEqual } from 'lodash-es'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import InfoBox from '../../../components/utils/InfoBox'
 import StatusWithIcon from '../../../components/utils/StatusWithIcon'
+import { WithResourceLink } from '../../../components/utils/WithResourceLink'
 import {
   getCertificateMetaData,
   getIsValidForSigning,
@@ -10,8 +10,9 @@ import {
   getSigningStatus,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
-import { getResourceLink, resourceLinksAreEqual } from '../../../utils'
+import { resourceLinksAreEqual } from '../../../utils'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
@@ -32,67 +33,71 @@ const RightWrapper = styled.div`
   align-items: flex-end;
 `
 
-export const CertificateFooter: React.FC = () => {
-  const certificateMetadata = useSelector(getCertificateMetaData, isEqual)
-  const resourceLinks = useSelector(getResourceLinks, isEqual)
-  const isValidForSigning = useSelector(getIsValidForSigning)
-  const functionDisabled = useSelector(isCertificateFunctionDisabled)
-  const isSigned = useSelector(getSigningStatus) === CertificateSignStatus.SIGNED
+export function CertificateFooter() {
+  const certificateMetadata = useAppSelector(getCertificateMetaData, isEqual)
+  const resourceLinks = useAppSelector(getResourceLinks, isEqual)
+  const isValidForSigning = useAppSelector(getIsValidForSigning)
+  const functionDisabled = useAppSelector(isCertificateFunctionDisabled)
+  const isSigned = useAppSelector(getSigningStatus) === CertificateSignStatus.SIGNED
   if (!certificateMetadata || !resourceLinks) return null
 
   const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
-  const canSignConfirm = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION))
   const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
   const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
-      {!isSigned && (canSign || canSignConfirm) && (
-        <div className={'iu-flex'}>
-          <SignAndSendButton
-            functionDisabled={functionDisabled}
-            canSign={canSign}
-            {...(canSignConfirm
-              ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
-              : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE))}
-          />
-        </div>
-      )}
+      {!isSigned &&
+        [ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, ResourceLinkType.SIGN_CERTIFICATE].map((type) => (
+          <WithResourceLink type={type} key={type}>
+            {(link) => (
+              <div className={'iu-flex'}>
+                <SignAndSendButton functionDisabled={functionDisabled} canSign={canSign} {...link} />
+              </div>
+            )}
+          </WithResourceLink>
+        ))}
 
-      {canForward && (
-        <div className={'iu-flex'}>
-          <ForwardCertificateButton
-            certificateId={certificateMetadata.id}
-            certificateType={certificateMetadata.type}
-            unitName={certificateMetadata.unit.unitName}
-            careProviderName={certificateMetadata.careProvider.unitName}
-            forwarded={certificateMetadata.forwarded}
-            functionDisabled={functionDisabled}
-            {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
-          />
-          {certificateMetadata.forwarded && (
-            <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
-              Vidarebefordrat
-            </StatusWithIcon>
+      <WithResourceLink type={ResourceLinkType.FORWARD_CERTIFICATE}>
+        {(link) => (
+          <div className={'iu-flex'}>
+            <ForwardCertificateButton
+              certificateId={certificateMetadata.id}
+              certificateType={certificateMetadata.type}
+              unitName={certificateMetadata.unit.unitName}
+              careProviderName={certificateMetadata.careProvider.unitName}
+              forwarded={certificateMetadata.forwarded}
+              functionDisabled={functionDisabled}
+              {...link}
+            />
+            {certificateMetadata.forwarded && (
+              <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
+                Vidarebefordrat
+              </StatusWithIcon>
+            )}
+          </div>
+        )}
+      </WithResourceLink>
+
+      {!isSigned && !isReadyForSign && (
+        <WithResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
+          {(link) => (
+            <div className={'iu-flex'}>
+              <ReadyForSignButton functionDisabled={functionDisabled} isValidForSigning={isValidForSigning} {...link} />
+            </div>
           )}
-        </div>
+        </WithResourceLink>
       )}
 
-      {!isSigned && canReadyForSign && !isReadyForSign && (
-        <div className={'iu-flex'}>
-          <ReadyForSignButton
-            functionDisabled={functionDisabled}
-            isValidForSigning={isValidForSigning}
-            {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)}
-          />
-        </div>
-      )}
-
-      {!isSigned && canReadyForSign && isReadyForSign && (
-        <InfoBox type={'success'}>
-          <p>Utkastet är sparat och markerat klart för signering.</p>
-        </InfoBox>
+      {!isSigned && isReadyForSign && (
+        <WithResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
+          {() => (
+            <InfoBox type="success">
+              <p>Utkastet är sparat och markerat klart för signering.</p>
+            </InfoBox>
+          )}
+        </WithResourceLink>
       )}
 
       <RightWrapper>
