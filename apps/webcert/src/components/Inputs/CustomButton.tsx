@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { MouseEventHandler, useEffect } from 'react'
 import ReactTooltip, { Place } from 'react-tooltip'
 import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'
@@ -23,7 +23,7 @@ interface Props {
   disabled?: boolean
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
   onSubmit?: (event: React.FormEvent) => void
   startIcon?: React.ReactNode
   text?: string
@@ -75,9 +75,9 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
     return getFilter('primary')
   }
 
-  const onClick = () => {
+  const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     ReactTooltip.hide()
-    props.onClick && props.onClick()
+    props.onClick && props.onClick(e)
   }
 
   return (

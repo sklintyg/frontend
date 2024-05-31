@@ -17,7 +17,7 @@ import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
-import QuestionPanelFooter from './QuestionPanelFooter'
+import { QuestionPanelFooter } from './QuestionPanelFooter/QuestionPanelFooter'
 import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive } from './questionUtils'
 
 const HeaderButtons = styled.div`

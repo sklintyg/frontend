@@ -83,8 +83,8 @@ export const isHasParent = (certificateMetadata: CertificateMetadata) => {
 
 export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: ResourceLinkType) => actual === wanted
 
-export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink =>
-  resourceLinks.find((link) => link.type === wanted)!
+export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink | undefined =>
+  resourceLinks.find((link) => link.type === wanted)
 
 export const isDisabled = (certificateMetadata: CertificateMetadata) => {
   return certificateMetadata.status === CertificateStatus.LOCKED
