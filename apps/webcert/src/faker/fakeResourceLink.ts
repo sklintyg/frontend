@@ -35,6 +35,7 @@ function fakeResourceLinkName(type: ResourceLinkType) {
     case ResourceLinkType.COMPLEMENT_CERTIFICATE:
       return 'Komplettera'
     case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE:
+    case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE:
       return 'Kan ej komplettera'
     case ResourceLinkType.REMOVE_CERTIFICATE:
       return 'Radera'
@@ -72,6 +73,7 @@ function fakeResourceLinkDescription(type: ResourceLinkType) {
     case ResourceLinkType.COMPLEMENT_CERTIFICATE:
       return 'Öppnar ett nytt intygsutkast.'
     case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE:
+    case ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE:
       return 'Öppnar en dialogruta med mer information.'
     case ResourceLinkType.FORWARD_QUESTION:
       return 'Skapar ett e-postmeddelande med länk till intyget.'

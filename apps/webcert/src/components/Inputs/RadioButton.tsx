@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEventHandler } from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   name?: string
   value?: string | number | readonly string[]
   checked?: boolean
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange?: ChangeEventHandler<HTMLInputElement>
   hasValidationError?: boolean
   additionalStyles?: string
   disabled?: boolean
@@ -51,7 +51,7 @@ const RadioButton: React.FC<Props> = (props) => {
         name={name}
         className={`${additionalStyles} ic-forms__radio ${hasValidationError ? 'ic-forms__radio-error' : ''}`}
         value={value}
-        onChange={(e) => onChange(e)}
+        onChange={onChange}
         checked={checked}
       />
       <Label hasValidationError={hasValidationError} htmlFor={id}>

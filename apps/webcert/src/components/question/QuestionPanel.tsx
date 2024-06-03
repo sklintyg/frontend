@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { getIsSigned } from '../../store/certificate/certificateSelectors'
+import { getIsSigned, getResourceLink } from '../../store/certificate/certificateSelectors'
 import {
   getErrorId,
   getIsLoadingQuestions,
@@ -12,12 +12,13 @@ import {
   isCreateQuestionsAvailable,
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
-import { Question, QuestionType } from '../../types'
+import { useAppSelector } from '../../store/store'
+import { Question, QuestionType, ResourceLinkType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
-import QuestionPanelFooter from './QuestionPanelFooter'
+import { QuestionPanelFooter } from './QuestionPanelFooter/QuestionPanelFooter'
 import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive } from './questionUtils'
 
 const HeaderButtons = styled.div`
@@ -43,15 +44,17 @@ const QuestionPanel: React.FC = () => {
 }
 
 const QuestionPanelInner: React.FC = () => {
-  const questions = useSelector(getQuestions, isEqual)
-  const questionDraft = useSelector(getQuestionDraft, isEqual)
-  const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
-  const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
-  const isSigned = useSelector(getIsSigned())
+  const isCertificateDraft = useAppSelector(isDisplayingCertificateDraft)
+  const isQuestionFormVisible = useAppSelector(isCreateQuestionsAvailable)
+  const isSigned = useAppSelector(getIsSigned())
+  const questionAdministrative = useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS_ADMINISTRATIVE))
+  const questionDraft = useAppSelector(getQuestionDraft, isEqual)
+  const questions = useAppSelector(getQuestions, isEqual)
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
   const [isComplementSelected, setIsComplementSelected] = useState(
-    getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
+    getShouldComplementedBeActive(administrativeQuestions, complementQuestions) ||
+      (questionAdministrative && questionAdministrative.enabled === false)
   )
   const errorId = useSelector(getErrorId)
 
@@ -83,6 +86,8 @@ const QuestionPanelInner: React.FC = () => {
                   text="Administrativa frågor"
                   number={getButtonNumber(administrativeQuestions)}
                   buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
+                  disabled={questionAdministrative && questionAdministrative.enabled === false}
+                  tooltip={questionAdministrative?.description}
                   rounded={true}
                   onClick={() => setIsComplementSelected(false)}
                   buttonClasses="iu-height-800 iu-ml-300"

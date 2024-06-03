@@ -4,14 +4,14 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { fakeCertificate, fakeResourceLink } from '../../faker'
-import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
-import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { questionMiddleware } from '../../store/question/questionMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { Question, QuestionType, ResourceLinkType } from '../../types'
-import { flushPromises } from '../../utils/flushPromises'
-import QuestionPanelFooter from './QuestionPanelFooter'
+import { fakeCertificate, fakeQuestion, fakeResourceLink } from '../../../faker'
+import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { questionMiddleware } from '../../../store/question/questionMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { Question, QuestionType, ResourceLinkType } from '../../../types'
+import { flushPromises } from '../../../utils/flushPromises'
+import { QuestionPanelFooter } from './QuestionPanelFooter'
 
 let testStore: EnhancedStore
 
@@ -28,7 +28,7 @@ const renderComponent = (questions: Question[]) => {
 }
 
 function createQuestion(): Question {
-  return {
+  return fakeQuestion({
     author: 'author',
     id: String(Math.random()),
     forwarded: true,
@@ -49,7 +49,7 @@ function createQuestion(): Question {
       },
       { type: ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Kan inte komplettera' },
     ],
-  }
+  })
 }
 
 describe('QuestionPanelFooter', () => {
@@ -133,6 +133,22 @@ describe('QuestionPanelFooter', () => {
     it('does not display forward button if resource link is not available', () => {
       renderComponent([expectedQuestion])
       expect(screen.queryByText('Vidarebefordra')).not.toBeInTheDocument()
+    })
+
+    it('Should answer complement when resource link is CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE', async () => {
+      const link = fakeResourceLink({ type: ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE })
+      const question = fakeQuestion({ links: [link] })
+      renderComponent([question])
+      await userEvent.click(screen.getByText('Kan ej komplettera'))
+      await userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
+      const newMessage = 'Det här är ett meddelande'
+      const messageField = screen.getByRole('textbox')
+      await userEvent.type(messageField, newMessage)
+      await userEvent.click(screen.getByText('Skicka svar'))
+
+      flushPromises()
+      const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))
+      expect(answerComplementCertificateAction?.payload).toEqual(newMessage)
     })
   })
 })
