@@ -26,12 +26,6 @@ const renderDefaultComponent = () => {
   )
 }
 
-// const fakeCertificate = (metadata: CertificateMetadata): Certificate =>
-//   ({
-//     metadata,
-//     links: [],
-//   }) as unknown as Certificate
-
 function createQuestion(handled = true): Question {
   return {
     author: 'author',
