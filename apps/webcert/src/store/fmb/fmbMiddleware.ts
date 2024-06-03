@@ -1,3 +1,4 @@
+import { getByType } from '@frontend/utils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import {
@@ -8,7 +9,7 @@ import {
   ValueDiagnosisList,
   ValueType,
 } from '../../types'
-import { getResourceLink, isDateRangeValid } from '../../utils'
+import { isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { getCertificate } from '../certificate/certificateSelectors'
@@ -72,7 +73,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
+    const fmbPanelActive = getByType(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {

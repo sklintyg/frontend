@@ -2,17 +2,17 @@ import { isEqual } from 'lodash-es'
 import styled from 'styled-components'
 import InfoBox from '../../../components/utils/InfoBox'
 import StatusWithIcon from '../../../components/utils/StatusWithIcon'
-import { WithResourceLink } from '../../../components/utils/WithResourceLink'
+import { WithCertificateResourceLink } from '../../../components/utils/WithResourceLink'
 import {
   getCertificateMetaData,
+  getCertificateResourceLink,
+  getCertificateResourceLinks,
   getIsValidForSigning,
-  getResourceLinks,
   getSigningStatus,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../store/store'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
-import { resourceLinksAreEqual } from '../../../utils'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
@@ -35,31 +35,31 @@ const RightWrapper = styled.div`
 
 export function CertificateFooter() {
   const certificateMetadata = useAppSelector(getCertificateMetaData, isEqual)
-  const resourceLinks = useAppSelector(getResourceLinks, isEqual)
+  const resourceLinks = useAppSelector(getCertificateResourceLinks, isEqual)
   const isValidForSigning = useAppSelector(getIsValidForSigning)
   const functionDisabled = useAppSelector(isCertificateFunctionDisabled)
-  const isSigned = useAppSelector(getSigningStatus) === CertificateSignStatus.SIGNED
-  if (!certificateMetadata || !resourceLinks) return null
+  const isSigned = useAppSelector((state) => getSigningStatus(state) === CertificateSignStatus.SIGNED)
+  const signLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))
+  const forwardLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.FORWARD_CERTIFICATE))
+  const readyForSignLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.READY_FOR_SIGN))
 
-  const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
-  const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
-  const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
+  if (!certificateMetadata || !resourceLinks) return null
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
       {!isSigned &&
         [ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, ResourceLinkType.SIGN_CERTIFICATE].map((type) => (
-          <WithResourceLink type={type} key={type}>
+          <WithCertificateResourceLink type={type} key={type}>
             {(link) => (
               <div className={'iu-flex'}>
-                <SignAndSendButton functionDisabled={functionDisabled} canSign={canSign} {...link} />
+                <SignAndSendButton functionDisabled={functionDisabled} canSign={Boolean(signLink)} {...link} />
               </div>
             )}
-          </WithResourceLink>
+          </WithCertificateResourceLink>
         ))}
 
-      <WithResourceLink type={ResourceLinkType.FORWARD_CERTIFICATE}>
+      <WithCertificateResourceLink type={ResourceLinkType.FORWARD_CERTIFICATE}>
         {(link) => (
           <div className={'iu-flex'}>
             <ForwardCertificateButton
@@ -78,30 +78,30 @@ export function CertificateFooter() {
             )}
           </div>
         )}
-      </WithResourceLink>
+      </WithCertificateResourceLink>
 
       {!isSigned && !isReadyForSign && (
-        <WithResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
+        <WithCertificateResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
           {(link) => (
             <div className={'iu-flex'}>
               <ReadyForSignButton functionDisabled={functionDisabled} isValidForSigning={isValidForSigning} {...link} />
             </div>
           )}
-        </WithResourceLink>
+        </WithCertificateResourceLink>
       )}
 
       {!isSigned && isReadyForSign && (
-        <WithResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
+        <WithCertificateResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
           {() => (
             <InfoBox type="success">
               <p>Utkastet är sparat och markerat klart för signering.</p>
             </InfoBox>
           )}
-        </WithResourceLink>
+        </WithCertificateResourceLink>
       )}
 
       <RightWrapper>
-        {(canForward || (canReadyForSign && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
+        {(forwardLink || (readyForSignLink && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
         <p className={'iu-fs-200'}>Intygs-ID: {certificateMetadata.id}</p>
       </RightWrapper>
     </Wrapper>

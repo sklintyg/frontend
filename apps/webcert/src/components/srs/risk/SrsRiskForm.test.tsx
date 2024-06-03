@@ -1,3 +1,4 @@
+import { getByType } from '@frontend/utils'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -72,7 +73,7 @@ describe('SrsRiskForm', () => {
   })
 
   describe('checked options', () => {
-    it('should check previous answers if available in predictions', () => {
+    it('should check previous answers if available in predictions', async () => {
       const notDefault = fakeSrsAnswerOption(false)
       const defaultOption = fakeSrsAnswerOption(true)
       const answerOptions = [defaultOption, notDefault]
@@ -80,8 +81,8 @@ describe('SrsRiskForm', () => {
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
       testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
-      expect(radioButtons[0]).not.toBeChecked()
-      expect(radioButtons[1]).toBeChecked()
+      await expect(radioButtons[0]).not.toBeChecked()
+      await expect(radioButtons[1]).toBeChecked()
     })
 
     it('should check pressed radio button', async () => {
@@ -91,22 +92,22 @@ describe('SrsRiskForm', () => {
       testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
       await userEvent.click(radioButtons[1])
-      expect(radioButtons[0]).not.toBeChecked()
-      expect(radioButtons[1]).toBeChecked()
+      await expect(radioButtons[0]).not.toBeChecked()
+      await expect(radioButtons[1]).toBeChecked()
     })
 
     // TODO: Fix flaky tests
-    it.skip('should check default option if previous answers are missing', () => {
+    it.skip('should check default option if previous answers are missing', async () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
-      expect(radioButtons[0]).toBeChecked()
-      expect(radioButtons[1]).not.toBeChecked()
+      await expect(radioButtons[0]).toBeChecked()
+      await expect(radioButtons[1]).not.toBeChecked()
     })
 
-    it.skip('should check default option if old prediction model is being used', () => {
+    it.skip('should check default option if old prediction model is being used', async () => {
       const notDefault = fakeSrsAnswerOption(false)
       const defaultOption = fakeSrsAnswerOption(true)
       const answerOptions = [defaultOption, notDefault]
@@ -117,8 +118,8 @@ describe('SrsRiskForm', () => {
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
       testStore.dispatch(updateSrsQuestions([question]))
       const radioButtons = screen.getAllByRole('radio')
-      expect(radioButtons[0]).toBeChecked()
-      expect(radioButtons[1]).not.toBeChecked()
+      await expect(radioButtons[0]).toBeChecked()
+      await expect(radioButtons[1]).not.toBeChecked()
     })
 
     it('shall log when answering question', async () => {
@@ -129,7 +130,7 @@ describe('SrsRiskForm', () => {
       const radioButtons = screen.getAllByRole('radio')
 
       await userEvent.click(radioButtons[1])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

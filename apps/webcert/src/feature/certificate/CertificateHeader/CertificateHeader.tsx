@@ -4,11 +4,11 @@ import { Divider } from '../../../components/utils/Divider'
 import {
   getCertificateEvents,
   getCertificateMetaData,
+  getCertificateResourceLink,
+  getCertificateResourceLinks,
   getIsShowSpinner,
-  getIsValidating,
   getIsValidForSigning,
-  getResourceLink,
-  getResourceLinks,
+  getIsValidating,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import { getQuestions } from '../../../store/question/questionSelectors'
@@ -47,9 +47,11 @@ export function CertificateHeader() {
   const certificateMetadata = useAppSelector(getCertificateMetaData, isEqual)
   const historyEntries = useAppSelector(getCertificateEvents, isEqual)
   const isShowSpinner = useAppSelector(getIsShowSpinner)
-  const resourceLinks = useAppSelector(getResourceLinks, isEqual)
-  const candidateResourceLink = useAppSelector(getResourceLink(ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE))
-  const candidateWithMessageResourceLink = useAppSelector(getResourceLink(ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE))
+  const resourceLinks = useAppSelector(getCertificateResourceLinks, isEqual)
+  const candidateResourceLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE))
+  const candidateWithMessageResourceLink = useAppSelector(
+    getCertificateResourceLink(ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
+  )
   const questions = useAppSelector(getQuestions, isEqual)
   const isValidForSigning = useAppSelector(getIsValidForSigning)
   const isValidating = useAppSelector(getIsValidating)

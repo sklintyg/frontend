@@ -13,7 +13,7 @@ import MajorVersionNotification from '../feature/certificate/NotificationBanners
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
-import { getIsCertificateDeleted, getIsShowSpinner, getResourceLink } from '../store/certificate/certificateSelectors'
+import { getCertificateResourceLink, getIsCertificateDeleted, getIsShowSpinner } from '../store/certificate/certificateSelectors'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { RootState } from '../store/store'
@@ -44,8 +44,8 @@ const CertificatePage: React.FC = () => {
   const hasPatient = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
   const currentCertificateId = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
   const isLoadingCertificate = useSelector(getIsShowSpinner)
-  const isDBIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
-  const isLuaenaIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
+  const isDBIntegrated = useSelector(getCertificateResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
+  const isLuaenaIntegrated = useSelector(getCertificateResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const [showLuaenaModal, setShowLuaenaModal] = useState(true)
 

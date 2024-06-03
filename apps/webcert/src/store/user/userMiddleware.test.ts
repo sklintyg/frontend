@@ -1,3 +1,4 @@
+import { getByType } from '@frontend/utils'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -186,9 +187,7 @@ describe('Test user middleware', () => {
 
       await flushPromises()
 
-      const didUpdateUser: AnyAction | undefined = dispatchedActions.find((action) => action.type === '[User] Update user')
-
-      expect(didUpdateUser).toBeTruthy()
+      expect(getByType(dispatchedActions, '[User] Update user')).toBeTruthy()
     })
     it('should update the user with correct values', async () => {
       const data = {

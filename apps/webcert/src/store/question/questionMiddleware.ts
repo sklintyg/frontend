@@ -1,7 +1,7 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
-import { getResourceLink } from '../../utils'
+import { Answer, Certificate, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { throwError } from '../error/errorActions'
@@ -170,14 +170,14 @@ export const handleGetQuestionsError: Middleware<Dispatch> =
 export const handleUpdateCertificate: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
-  (action: AnyAction): void => {
+  (action: PayloadAction<Certificate>): void => {
     dispatch(resetState())
 
-    const isQuestionsActive = getResourceLink(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
+    const isQuestionsActive = getByType(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
 
     if (isQuestionsActive) {
       dispatch(updateIsLoadingQuestions(true))
-      const isCreateQuestionsAvailable = getResourceLink(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
+      const isCreateQuestionsAvailable = getByType(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
       dispatch(updateCreateQuestionsAvailable(isCreateQuestionsAvailable))
       dispatch(updateCertificateId(action.payload.metadata.id))
       if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {

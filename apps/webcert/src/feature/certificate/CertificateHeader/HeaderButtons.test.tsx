@@ -90,13 +90,13 @@ describe('Verify header buttons', () => {
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('Should enable remove certificate button when not validating certificate', () => {
+  it('Should enable remove certificate button when not validating certificate', async () => {
     const expectedButton = 'Radera'
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
     await expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
   })
 
-  it('Should disable remove certificate button when validating certificate', () => {
+  it('Should disable remove certificate button when validating certificate', async () => {
     const expectedButton = 'Radera'
     store.dispatch(validateCertificateStarted())
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])

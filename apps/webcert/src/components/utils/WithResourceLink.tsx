@@ -1,9 +1,21 @@
-import { getResourceLink } from '../../store/certificate/certificateSelectors'
+import { getByType } from '@frontend/utils'
+import { getCertificateResourceLink } from '../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../store/store'
+import { getUserResourceLink } from '../../store/user/userSelectors'
 import { ResourceLink, ResourceLinkType } from '../../types'
 
-function WithStoreResourceLink({ type, children }: { type: ResourceLinkType; children: (link: ResourceLink) => JSX.Element }) {
-  const link = useAppSelector(getResourceLink(type))
+interface Props {
+  type: ResourceLinkType
+  children: (link: ResourceLink) => JSX.Element
+}
+
+export function WithCertificateResourceLink({ type, children }: Props) {
+  const link = useAppSelector(getCertificateResourceLink(type))
+  return link ? children(link) : null
+}
+
+export function WithUserResourceLink({ type, children }: Props) {
+  const link = useAppSelector(getUserResourceLink(type))
   return link ? children(link) : null
 }
 
@@ -11,14 +23,9 @@ export function WithResourceLink({
   type,
   links,
   children,
-}: {
-  type: ResourceLinkType
-  links?: ResourceLink[]
-  children: (link: ResourceLink) => JSX.Element
+}: Props & {
+  links: ResourceLink[]
 }) {
-  if (!links) {
-    return <WithStoreResourceLink type={type}>{(link) => children(link)}</WithStoreResourceLink>
-  }
-  const link = links.find((link) => link.type === type)
+  const link = getByType(links, type)
   return link ? children(link) : null
 }
