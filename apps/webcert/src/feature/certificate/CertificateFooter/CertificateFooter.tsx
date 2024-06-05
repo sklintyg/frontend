@@ -42,26 +42,23 @@ export function CertificateFooter() {
   const signLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))
   const forwardLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.FORWARD_CERTIFICATE))
   const readyForSignLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.READY_FOR_SIGN))
+  const signConfirmationLink = useAppSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION))
+  const signAndSendLink = [signConfirmationLink, signLink].filter(Boolean)[0]
 
   if (!certificateMetadata || !resourceLinks) return null
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
-      {!isSigned &&
-        [ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, ResourceLinkType.SIGN_CERTIFICATE].map((type) => (
-          <WithCertificateResourceLink type={type} key={type}>
-            {(link) => (
-              <div className={'iu-flex'}>
-                <SignAndSendButton functionDisabled={functionDisabled} canSign={Boolean(signLink)} {...link} />
-              </div>
-            )}
-          </WithCertificateResourceLink>
-        ))}
+      {!isSigned && signAndSendLink && (
+        <div className="iu-flex">
+          <SignAndSendButton functionDisabled={functionDisabled} canSign={Boolean(signLink)} {...signAndSendLink} />
+        </div>
+      )}
 
       <WithCertificateResourceLink type={ResourceLinkType.FORWARD_CERTIFICATE}>
         {(link) => (
-          <div className={'iu-flex'}>
+          <div className="iu-flex">
             <ForwardCertificateButton
               certificateId={certificateMetadata.id}
               certificateType={certificateMetadata.type}
@@ -72,7 +69,7 @@ export function CertificateFooter() {
               {...link}
             />
             {certificateMetadata.forwarded && (
-              <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
+              <StatusWithIcon icon="CheckIcon" additionalWrapperStyles="iu-ml-400">
                 Vidarebefordrat
               </StatusWithIcon>
             )}
@@ -83,7 +80,7 @@ export function CertificateFooter() {
       {!isSigned && !isReadyForSign && (
         <WithCertificateResourceLink type={ResourceLinkType.READY_FOR_SIGN}>
           {(link) => (
-            <div className={'iu-flex'}>
+            <div className="iu-flex">
               <ReadyForSignButton functionDisabled={functionDisabled} isValidForSigning={isValidForSigning} {...link} />
             </div>
           )}
@@ -102,7 +99,7 @@ export function CertificateFooter() {
 
       <RightWrapper>
         {(forwardLink || (readyForSignLink && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
-        <p className={'iu-fs-200'}>Intygs-ID: {certificateMetadata.id}</p>
+        <p className="iu-fs-200">Intygs-ID: {certificateMetadata.id}</p>
       </RightWrapper>
     </Wrapper>
   )
