@@ -173,6 +173,61 @@ exports[`Should render unavailable type error 1`] = `
 </div>
 `;
 
+exports[`Should render underage type error 1`] = `
+<div>
+  <div
+    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  >
+    <ids-icon-attention
+      class="mx-auto ids-icon"
+    />
+    <div>
+      <h1
+        class="ids-heading-1 text-center"
+      >
+        Du som är under 16 har inte tillgång till 1177 intyg
+      </h1>
+      <p
+        class="ids-preamble"
+      >
+        Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.
+      </p>
+      <div
+        class="mb-5 text-left md:text-center"
+      >
+        <div
+          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+        />
+        <div
+          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
+        >
+          <ids-link>
+            <ids-icon-chevron
+              class="ids-icon"
+            />
+            <a
+              href="https://e-tjanster.1177.se/mvk/"
+            >
+              Till startsidan
+            </a>
+          </ids-link>
+          <ids-link>
+            <ids-icon-chevron
+              class="ids-icon"
+            />
+            <a
+              href="/"
+            >
+              Till inloggning
+            </a>
+          </ids-link>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Should render unknown type error 1`] = `
 <div>
   <div
