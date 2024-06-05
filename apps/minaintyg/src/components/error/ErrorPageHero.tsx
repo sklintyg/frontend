@@ -26,7 +26,7 @@ const errorInfo = {
     description: 'Sidan du söker har fått en ny adress eller är borttagen.',
     actions: [ErrorPageActionType.enum.start],
   },
-  [ErrorType.enum.underaged]: {
+  [ErrorType.enum.underage]: {
     heading: 'Du som är under 16 har inte tillgång till 1177 intyg',
     description: 'Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.',
     actions: [ErrorPageActionType.enum.start, ErrorPageActionType.enum.login],

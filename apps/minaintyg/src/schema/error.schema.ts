@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const ErrorType = z.enum(['unknown', 'login-failed', 'unavailable', 'logged-out', 'not-found', 'underaged'])
+export const ErrorType = z.enum(['unknown', 'login-failed', 'unavailable', 'logged-out', 'not-found', 'underage'])
 export type ErrorTypeEnum = z.infer<typeof ErrorType>
 
 export const ErrorPageActionType = z.enum(['start', 'login', '1177'])
