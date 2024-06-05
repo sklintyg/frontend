@@ -47,7 +47,6 @@ export function OpenInformationWithConsent({
           setCheckedConsent(event.currentTarget.checked)
           setShowError(false)
         }}
-        compact
         valid={`${!showError}`}
         light
       />

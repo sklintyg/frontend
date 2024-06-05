@@ -22,7 +22,7 @@ export function PatientOverviewCard({
 }) {
   return (
     <div className="bg-secondary-95">
-      <IDSCard fill>
+      <IDSCard fill={1}>
         <h5 className="ids-heading-4">{title}</h5>
         <hr />
         {!isEmpty ? (

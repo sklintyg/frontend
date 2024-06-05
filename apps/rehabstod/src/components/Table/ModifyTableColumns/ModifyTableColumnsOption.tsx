@@ -30,7 +30,6 @@ export function ModifyTableColumnsOption({
           checked={visible}
           disabled={disabled || disableCheckbox}
           label={name}
-          compact
           onChange={(event) => {
             onVisibilityChange(name, event.currentTarget.checked)
           }}

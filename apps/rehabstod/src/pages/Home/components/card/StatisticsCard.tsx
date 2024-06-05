@@ -21,7 +21,7 @@ export function StatisticsCard({
   const [open, setOpen] = useState(false)
 
   return (
-    <IDSCard fill>
+    <IDSCard fill={1}>
       <h3 className="ids-heading-4">{title}</h3>
       <p className="mb-4 max-w-xl">{subTitle}</p>
       <div className="flex flex-col gap-5 xl:flex-row">
