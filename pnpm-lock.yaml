@@ -16,6 +16,9 @@ overrides:
   follow-redirects@<1.15.4: '>=1.15.4'
 
 patchedDependencies:
+  '@inera/ids-core@4.10.0':
+    hash: unxiey4v72xzqvn7lfzde7uio4
+    path: patches/@inera__ids-core@4.10.0.patch
   focus-lock@1.0.0:
     hash: bzzitpzsf5jp5eenoafyrhwjam
     path: patches/focus-lock@1.0.0.patch
@@ -71,7 +74,7 @@ importers:
         version: link:../../packages/ids-react-ts
       '@inera/ids-core':
         specifier: ^4.10.0
-        version: 4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@inera/ids-design':
         specifier: ^4.10.0
         version: 4.10.0
@@ -141,7 +144,7 @@ importers:
         version: link:../../packages/utils
       '@inera/ids-core':
         specifier: ^4.10.0
-        version: 4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@inera/ids-design':
         specifier: ^4.10.0
         version: 4.10.0
@@ -322,7 +325,7 @@ importers:
         version: link:../../packages/utils
       '@inera/ids-core':
         specifier: ^4.10.0
-        version: 4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@inera/ids-design':
         specifier: ^4.10.0
         version: 4.10.0
@@ -570,7 +573,7 @@ importers:
         version: 11.2.7(react-dom@17.0.2)(react@17.0.2)
       '@testing-library/user-event':
         specifier: '13'
-        version: 13.5.0(@testing-library/dom@10.1.0)
+        version: 13.5.0(@testing-library/dom@9.3.4)
       '@types/dompurify':
         specifier: 2.3.3
         version: 2.3.3
@@ -666,7 +669,7 @@ importers:
         version: link:../ids-react-ts
       '@inera/ids-core':
         specifier: ^4.10.0
-        version: 4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -694,7 +697,7 @@ importers:
         version: 14.1.2(react-dom@18.3.1)(react@18.2.0)
       '@testing-library/user-event':
         specifier: ^14.5.2
-        version: 14.5.2(@testing-library/dom@10.1.0)
+        version: 14.5.2(@testing-library/dom@9.3.4)
       '@types/react':
         specifier: ^18.2.47
         version: 18.2.47
@@ -878,7 +881,7 @@ importers:
     dependencies:
       '@inera/ids-core':
         specifier: ^4.10.0
-        version: 4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@lit-labs/react':
         specifier: ^1.1.1
         version: 1.1.1
@@ -2159,13 +2162,6 @@ packages:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  /@babel/runtime@7.24.6:
-    resolution: {integrity: sha512-Ja18XcETdEl5mzzACGd+DKgaGJzPTCow7EglgwTmHdwokzDFYh/MHua6lU6DV/hjF2IaOJ4oX2nqnjG7RElKOw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.14.1
-    dev: true
-
   /@babel/template@7.22.15:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==}
     engines: {node: '>=6.9.0'}
@@ -2995,13 +2991,14 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
 
-  /@inera/ids-core@4.10.0:
+  /@inera/ids-core@4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4):
     resolution: {integrity: sha512-wO33wdOpMUZ61LkL+MLRp4bQmS0+6fEue0GwsV9P04nKqwak7/7TK7TIrBGzST3+r9rYAbbwFfa2HZYnUdow2g==}
     dependencies:
       '@inera/ids-design': 4.10.0
       lit: 2.8.0
       tslib: 2.3.1
     dev: false
+    patched: true
 
   /@inera/ids-design@4.10.0:
     resolution: {integrity: sha512-chZeUymCzIOQ031g175fSlUlK9jvxv6P8roGBBduNKUrj2CPvFPcZlGNJY5DS/7r68JraKUs3dxl6h8/bUqFmg==}
@@ -4688,20 +4685,6 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@testing-library/dom@10.1.0:
-    resolution: {integrity: sha512-wdsYKy5zupPyLCW2Je5DLHSxSfbIp6h80WoHOQc+RPtmPGA52O9x5MJEkv92Sjonpq+poOAtUKhh1kBGAXBrNA==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@babel/code-frame': 7.24.6
-      '@babel/runtime': 7.24.6
-      '@types/aria-query': 5.0.4
-      aria-query: 5.3.0
-      chalk: 4.1.2
-      dom-accessibility-api: 0.5.16
-      lz-string: 1.5.0
-      pretty-format: 27.5.1
-    dev: true
-
   /@testing-library/dom@7.31.2:
     resolution: {integrity: sha512-3UqjCpey6HiTZT92vODYLPxTBWlM8ZOOjr3LX5F37/VRipW2M1kX6I/Cm4VXzteZqfGfagg8yXywpcOgQBlNsQ==}
     engines: {node: '>=10'}
@@ -4815,23 +4798,14 @@ packages:
       react-dom: 18.3.1(react@18.2.0)
     dev: true
 
-  /@testing-library/user-event@13.5.0(@testing-library/dom@10.1.0):
+  /@testing-library/user-event@13.5.0(@testing-library/dom@9.3.4):
     resolution: {integrity: sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==}
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     dependencies:
       '@babel/runtime': 7.23.8
-      '@testing-library/dom': 10.1.0
-    dev: true
-
-  /@testing-library/user-event@14.5.2(@testing-library/dom@10.1.0):
-    resolution: {integrity: sha512-YAh82Wh4TIrxYLmfGcixwD18oIjyC1pFQC2Y01F2lzV2HTMiYrI0nze0FD0ocB//CKS/7jIUgae+adPqxK5yCQ==}
-    engines: {node: '>=12', npm: '>=6'}
-    peerDependencies:
-      '@testing-library/dom': '>=7.21.4'
-    dependencies:
-      '@testing-library/dom': 10.1.0
+      '@testing-library/dom': 9.3.4
     dev: true
 
   /@testing-library/user-event@14.5.2(@testing-library/dom@9.3.4):
