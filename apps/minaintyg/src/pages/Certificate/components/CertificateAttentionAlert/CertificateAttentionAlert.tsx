@@ -10,7 +10,7 @@ export function CertificateAttentionAlert({ availableFunctions }: { availableFun
 
   return (
     <div className="mb-5">
-      <IDSAlert key={infoFunction.name} type="attention" headline={infoFunction.title || ''}>
+      <IDSAlert key={infoFunction.name} role="alert" type="attention" headline={infoFunction.title || ''}>
         {infoFunction.body}
       </IDSAlert>
     </div>
