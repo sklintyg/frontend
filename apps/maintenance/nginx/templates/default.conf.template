@@ -9,7 +9,7 @@ server {
 
   location /intyg {
       root /usr/share/nginx/html;
-      intyg intyg.html intyg.htm;
+      intyg/intyg intyg/intyg.html intyg/intyg.htm;
       try_files $uri $uri/ /intyg.html =404;
     }
 

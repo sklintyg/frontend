@@ -4,7 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './intyg.css'
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('rootIntyg') as HTMLElement).render(
   <React.StrictMode>
     <div className="flex min-h-screen flex-col">
       <LayoutHeader mode={import.meta.env.MODE} />
