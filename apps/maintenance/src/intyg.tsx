@@ -1,44 +1,42 @@
-import { IDSFooter, IDSHeader, IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from '@frontend/components/1177'
+import { IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+import './intyg.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
-      <a className="ids-heading-2 no-underline" slot="brand-text" href="/">
-        Intygstjänster
-      </a>
-    </IDSHeader>
-    <div className="px-5 md:p-0">
-      <div className="ids-content mx-auto max-w-screen-md py-24 text-center">
-        <div className="mb-10 inline-block">
-          <IDSIconAttention height="4.375rem" width="4.375rem" />
+    <div className="flex min-h-screen flex-col">
+      <LayoutHeader mode={import.meta.env.MODE} />
+      <main className="relative flex-1">
+        <div className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
+          <PageHero heading="Planerat underhållsarbete" type="error">
+            <p className="ids-preamble">
+              Intyg är stängd för tekniskt underhåll. <br />
+              <br />
+              Torsdagen den 13 juni mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intyg. Tjänsten kommer inte vara tillgänglig under
+              tiden.
+              <br />
+              <br /> Välkommen åter!
+            </p>
+            <PageHeroActions>
+              <IDSLink>
+                <IDSIconChevron />
+                <a href="https://www.1177.se">Till 1177.se</a>
+                <IDSIconExternal slot="append-icon" />
+              </IDSLink>
+              <IDSLink>
+                <IDSIconChevron />
+                <a href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/">
+                  Om Intyg på 1177.se
+                </a>
+                <IDSIconExternal slot="append-icon" />
+              </IDSLink>
+            </PageHeroActions>
+          </PageHero>
         </div>
-        <div className="mb-5">
-          <h1 className="ids-heading-1">Planerat underhåll</h1>
-          <p className="ids-preamble">
-            Intygstjänster är stängd för tekniskt underhåll. <br />
-            <br />
-            Torsdagen den 13 juni mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intygstjänster. Tjänsterna kommer inte vara
-            tillgängliga under tiden.
-            <br />
-            <br /> Välkommen åter!
-          </p>
-          <IDSLink>
-            <IDSIconChevron />
-            <a href="https://www.inera.se">Till Inera.se</a> <IDSIconExternal slot="append-icon" />
-          </IDSLink>
-          <IDSLink className="pl-3">
-            <IDSIconChevron />
-            <a href="https://www.inera.se/driftstatus/kommande-atgarder/">Se driftstatus på Inera.se</a>{' '}
-            <IDSIconExternal slot="append-icon" />
-          </IDSLink>
-        </div>
-      </div>
+      </main>
+      <LayoutFooter hasSession={false} />
     </div>
-    <IDSFooter type="inera-admin" headline="Intygstjänster">
-      <p>Intygsjänster är en grupp tjänster som drivs av Inera AB.</p>
-    </IDSFooter>
   </React.StrictMode>
 )
