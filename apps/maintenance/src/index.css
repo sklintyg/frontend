@@ -8,8 +8,6 @@
 :root {
   --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-  --footer-sub_background-color: #F0EDEA;
-  --footer-sub-mobile_background-color: #F0EDEA;
 }
 
 a {
