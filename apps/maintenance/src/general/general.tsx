@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <main className="relative flex-1">
         <div className="ids-content mx-auto max-w-screen-md py-24 text-center">
           <div className="mb-10 inline-block">
-            <IDSIconAttention height="4.375rem" width="4.375rem" />
+            <IDSIconAttention height="4.375rem" width="4.375rem" color="var(--IDS-COLOR-ERROR-40)" color2="var(--IDS-COLOR-ERROR-40)" />
           </div>
           <div className="mb-5">
             <h1 className="ids-heading-1">Planerat underhåll</h1>
