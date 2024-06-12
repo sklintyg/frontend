@@ -1,6 +1,6 @@
 server {
   listen 8080;
-  server_name *.1177.se *.intyg.nordicmedtest.se;
+  server_name *.1177.se ~minaintyg.*\.intyg\.nordicmedtest\.se;
   root /usr/share/nginx/html;
   include /etc/nginx/extra-conf.d/*.conf;
 
