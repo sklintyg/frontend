@@ -1,11 +1,11 @@
 server {
-  listen 8080 default_server;
-  server_name  _;
+  listen 8080;
+  server_name *.1177.se ~minaintyg.*\.intyg\.nordicmedtest\.se;
   root /usr/share/nginx/html;
   include /etc/nginx/extra-conf.d/*.conf;
 
   location ~ index\.html$ {
-    alias /usr/share/nginx/html/general/index.html;
+    alias /usr/share/nginx/html/intyg/index.html;
   }
 
   location / {
