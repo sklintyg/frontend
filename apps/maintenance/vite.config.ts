@@ -22,7 +22,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         general: resolve(root, 'index.html'),
-        intyg: resolve(root, 'intyg.html'),
+        intyg: resolve(root, 'intyg', 'index.html'),
       },
     },
   },

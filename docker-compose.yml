@@ -1,0 +1,7 @@
+services:
+  maintenace:
+    build: ./apps/maintenance
+    volumes:
+      - ./apps/maintenance/dist:/usr/share/nginx/html
+    ports:
+      - '8080:8080'
