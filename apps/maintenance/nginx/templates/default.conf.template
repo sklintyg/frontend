@@ -2,4 +2,8 @@ server {
   listen 8080;
   root /usr/share/nginx/html;
   include /etc/nginx/extra-conf.d/*.conf;
+
+  location /index.html {
+    root /usr/share/nginx/html/general;
+  }
 }

@@ -1,7 +1,7 @@
 import { IDSFooter, IDSHeader, IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+import '../styling/inera-admin.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

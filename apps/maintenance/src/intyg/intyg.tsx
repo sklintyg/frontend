@@ -2,7 +2,7 @@ import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from '@frontend
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './intyg.css'
+import '../styling/1177.css'
 
 ReactDOM.createRoot(document.getElementById('rootIntyg') as HTMLElement).render(
   <React.StrictMode>

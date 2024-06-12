@@ -1,5 +1,5 @@
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
-@import '../../node_modules/@inera/ids-design/themes/1177/1177.css';
+@import '@inera/ids-design/themes/inera-admin/inera-admin.css';
 
 @tailwind base;
 @tailwind components;
@@ -8,13 +8,4 @@
 :root {
   --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-}
-
-a {
-  color: var(--color-sky-base);
-  text-decoration: underline;
-}
-
-a:hover {
-  color: var(--color-sky-dark);
 }
