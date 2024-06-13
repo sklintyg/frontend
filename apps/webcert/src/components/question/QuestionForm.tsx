@@ -42,7 +42,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const isMissingMessage = useAppSelector(isQuestionMissingMessage)
   const showValidationMessages = useAppSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
-  const subjects = useAppSelector(getCertificateMessageTypes, shallowEqual)
+  const messageTypes = useAppSelector(getCertificateMessageTypes, shallowEqual)
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               error={showTypeValidationError()}
               aria-label="Välj typ av fråga"
             >
-              {subjects.map(({ type, subject }) => (
+              {messageTypes.map(({ type, subject }) => (
                 <option key={type} value={type}>
                   {subject}
                 </option>
