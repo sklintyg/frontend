@@ -1,4 +1,5 @@
 import { Patient } from './patient'
+import { QuestionType } from './question'
 import { ResourceLink } from './resourceLink'
 
 export interface Certificate {
@@ -41,6 +42,12 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
   signed?: string
+  messageTypes?: MessageType[]
+}
+
+export type MessageType = {
+  type: QuestionType
+  subject: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>
