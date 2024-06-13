@@ -92,7 +92,9 @@ describe('QuestionForm', () => {
 
     it('should display options available in metadata', async () => {
       testStore.dispatch(
-        updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ messageTypes: [QuestionType.CONTACT] }) }))
+        updateCertificate(
+          fakeCertificate({ metadata: fakeCertificateMetaData({ messageTypes: [{ type: QuestionType.CONTACT, subject: 'Kontakt' }] }) })
+        )
       )
       renderComponent()
       expect(screen.queryByRole('option', { name: 'Välj typ av fråga' })).not.toBeInTheDocument()

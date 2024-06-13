@@ -42,7 +42,12 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
   signed?: string
-  messageTypes?: QuestionType[]
+  messageTypes?: MessageType[]
+}
+
+export type MessageType = {
+  type: QuestionType
+  subject: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>

@@ -2,7 +2,7 @@ import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
-import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
+import { getCertificateMessageTypes } from '../../store/certificate/certificateSelectors'
 import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import {
   isDisplayValidationMessages,
@@ -42,7 +42,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const isMissingMessage = useAppSelector(isQuestionMissingMessage)
   const showValidationMessages = useAppSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
-  const subjects = useAppSelector((state) => getCertificateMetaData(state)?.messageTypes || Object.values(QuestionType), shallowEqual)
+  const subjects = useAppSelector(getCertificateMessageTypes, shallowEqual)
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
@@ -76,21 +76,6 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
     dispatch(deleteQuestion(questionDraft))
   }
 
-  const getQuestionTypeName = (type: QuestionType): string => {
-    switch (type) {
-      case QuestionType.MISSING:
-        return 'Välj typ av fråga'
-      case QuestionType.COORDINATION:
-        return 'Avstämningsmöte'
-      case QuestionType.CONTACT:
-        return 'Kontakt'
-      case QuestionType.OTHER:
-        return 'Övrigt'
-      default:
-        return type
-    }
-  }
-
   const showTypeValidationError = () => showValidationMessages && isMissingType
 
   const showMessageValidationError = () => showValidationMessages && isMissingMessage
@@ -108,13 +93,11 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               error={showTypeValidationError()}
               aria-label="Välj typ av fråga"
             >
-              {subjects
-                .filter((subject) => subject !== QuestionType.COMPLEMENT)
-                .map((subject) => (
-                  <option key={subject} value={subject}>
-                    {getQuestionTypeName(subject)}
-                  </option>
-                ))}
+              {subjects.map(({ type, subject }) => (
+                <option key={type} value={type}>
+                  {subject}
+                </option>
+              ))}
             </Dropdown>
             {showTypeValidationError() && (
               <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />
