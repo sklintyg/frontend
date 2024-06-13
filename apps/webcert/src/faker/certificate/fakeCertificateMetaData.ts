@@ -1,6 +1,6 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
-import { CertificateMetadata, CertificateRelations, CertificateStatus } from '../../types'
+import { CertificateMetadata, CertificateRelations, CertificateStatus, MessageType, QuestionType } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../user/fakeUnit'
@@ -11,6 +11,14 @@ export const fakeCertificateRelations = (data?: PartialDeep<CertificateRelations
   return {
     parent: data?.parent ? fakeCertificateRelation(data.parent) : null,
     children: data?.children ? data?.children.map(fakeCertificateRelation) : [],
+  }
+}
+
+export function fakeCertifiaMessageType(data?: Partial<MessageType>): MessageType {
+  return {
+    type: QuestionType.CONTACT,
+    subject: 'Kontakt',
+    ...data,
   }
 }
 
@@ -38,5 +46,6 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
     issuedBy: fakeStaff(data?.issuedBy),
     careUnit: fakeUnit(data?.careUnit),
     careProvider: fakeUnit(data?.careProvider),
+    messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? [],
   }
 }
