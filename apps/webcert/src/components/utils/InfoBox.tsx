@@ -1,7 +1,7 @@
-import protectedPersonIcon from '../../images/lock-closed.svg'
-import deceasedIcon from '../../images/warning.svg'
 import React from 'react'
 import styled from 'styled-components'
+import protectedPersonIcon from '../../images/lock-closed.svg'
+import deceasedIcon from '../../images/warning.svg'
 import { getFilter } from '../../utils/getFilters'
 
 interface StyledIcon {
@@ -13,12 +13,11 @@ const Img = styled.img<{ filter: string }>`
 `
 
 const Icon = styled.i<StyledIcon>`
-  margin-top: ${(props) => (props.activateIconWrap ? '3px' : '')};
+  margin-top: ${(props) => (props.activateIconWrap ? '3px' : '2px')};
 `
 
 const Wrapper = styled.div`
   width: 100%;
-  align-items: center;
 `
 
 interface StyledWrapperProps {
