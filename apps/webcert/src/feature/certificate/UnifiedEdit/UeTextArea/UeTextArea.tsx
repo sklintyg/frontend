@@ -47,6 +47,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
+      <>{questionConfig.label}</>
       <TextArea
         data-testid={`textarea-${question.id}`}
         disabled={disabled}
