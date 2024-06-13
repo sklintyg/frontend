@@ -1,7 +1,8 @@
 import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
+import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
 import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import {
   isDisplayValidationMessages,
@@ -10,7 +11,7 @@ import {
   isQuestionMissingMessage,
   isQuestionMissingType,
 } from '../../store/question/questionSelectors'
-import { useAppDispatch } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Question, QuestionType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import Dropdown from '../Inputs/Dropdown'
@@ -36,13 +37,13 @@ const Wrapper = styled.div`
 const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const dispatch = useAppDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
-  const isSaved = useSelector(isQuestionDraftSaved)
-  const isMissingType = useSelector(isQuestionMissingType)
-  const isMissingMessage = useSelector(isQuestionMissingMessage)
-  const showValidationMessages = useSelector(isDisplayValidationMessages)
+  const isSaved = useAppSelector(isQuestionDraftSaved)
+  const isMissingType = useAppSelector(isQuestionMissingType)
+  const isMissingMessage = useAppSelector(isQuestionMissingMessage)
+  const showValidationMessages = useAppSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
-  const subjects: QuestionType[] = Object.values(QuestionType)
-  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
+  const subjects = useAppSelector((state) => getCertificateMetaData(state)?.messageTypes || Object.values(QuestionType), shallowEqual)
+  const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(questionDraft.message)
