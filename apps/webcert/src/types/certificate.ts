@@ -172,6 +172,7 @@ export interface ConfigCategory extends CertificateDataConfig {
 export interface ConfigUeTextArea extends CertificateDataConfig {
   type: ConfigTypes.UE_TEXTAREA
   id: string
+  label?: string
 }
 
 export interface ConfigUeTextField extends CertificateDataConfig {

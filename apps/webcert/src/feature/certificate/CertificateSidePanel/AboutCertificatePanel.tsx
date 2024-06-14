@@ -24,6 +24,9 @@ const Wrapper = styled.div`
 
 const Description = styled.p`
   white-space: pre-line;
+  & li {
+    margin-top: -1em !important;
+  }
 `
 
 const CertificateVersion = styled.span`
