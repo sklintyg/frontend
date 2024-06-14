@@ -35,4 +35,16 @@ export function ErrorPageAction({ type }: { type: ErrorPageActionTypeEnum }) {
       </IDSLink>
     )
   }
+
+  if (type === ErrorPageActionType.enum.about) {
+    return (
+      <IDSLink key="inera">
+        <IDSIconChevron />
+        <Link to="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/">
+          Om 1177 intyg
+        </Link>
+        <IDSIconExternal slot="append-icon" />
+      </IDSLink>
+    )
+  }
 }
