@@ -216,10 +216,14 @@ exports[`Should render underage type error 1`] = `
               class="ids-icon"
             />
             <a
-              href="/"
+              href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
             >
-              Till inloggning
+              Om 1177 intyg
             </a>
+            <ids-icon-external
+              class="ids-icon"
+              slot="append-icon"
+            />
           </ids-link>
         </div>
       </div>

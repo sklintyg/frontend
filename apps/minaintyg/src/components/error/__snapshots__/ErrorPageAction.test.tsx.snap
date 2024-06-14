@@ -19,6 +19,25 @@ exports[`Should render 1177 type action 1`] = `
 </div>
 `;
 
+exports[`Should render about type action 1`] = `
+<div>
+  <ids-link>
+    <ids-icon-chevron
+      class="ids-icon"
+    />
+    <a
+      href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
+    >
+      Om 1177 intyg
+    </a>
+    <ids-icon-external
+      class="ids-icon"
+      slot="append-icon"
+    />
+  </ids-link>
+</div>
+`;
+
 exports[`Should render login type action 1`] = `
 <div>
   <ids-link>

@@ -29,7 +29,7 @@ const errorInfo = {
   [ErrorType.enum.underage]: {
     heading: 'Du som är under 16 har inte tillgång till 1177 intyg',
     description: 'Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.',
-    actions: [ErrorPageActionType.enum.start, ErrorPageActionType.enum.login],
+    actions: [ErrorPageActionType.enum.start, ErrorPageActionType.enum.about],
   },
   [ErrorType.enum.unknown]: {
     heading: 'Någonting gick fel',
