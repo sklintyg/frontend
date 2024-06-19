@@ -11,7 +11,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, id, limit, className, hasValidationError, css, autoComplete, tooltip, tooltipPlacement, ...props }, ref) => (
+  ({ label, id, limit, className, hasValidationError, css, autoComplete, tooltip, ...props }, ref) => (
     <div>
       {label && (
         <>
