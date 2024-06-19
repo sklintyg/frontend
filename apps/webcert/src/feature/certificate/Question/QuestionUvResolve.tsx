@@ -57,7 +57,6 @@ import {
   ValueViewTable,
   ValueVisualAcuity,
 } from '../../../types'
-import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
 
 const QuestionUvResolve: React.FC<{
   question: CertificateDataElement
@@ -71,10 +70,6 @@ const QuestionUvResolve: React.FC<{
   }
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
-
-  if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
-    return <UeMessage key={question.id} disabled={false} question={question} />
-  }
 
   if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
     return null

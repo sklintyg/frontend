@@ -194,11 +194,14 @@ const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvest
   })),
 }))
 
-const fakeMessage = fakeDataElementConfig<ConfigUeMessage>(() => ({
+const fakeMessage = fakeDataElementConfig<ConfigUeMessage>((override) => ({
   type: ConfigTypes.UE_MESSAGE,
   id: fakeId(),
-  level: MessageLevel.INFO,
-  message: faker.lorem.sentence(),
+  message: {
+    level: MessageLevel.INFO,
+    content: faker.lorem.sentence(),
+    ...override?.message,
+  },
 }))
 
 const fakeRadioBoolean = fakeDataElementConfig<ConfigUeRadioBoolean>(() => ({
