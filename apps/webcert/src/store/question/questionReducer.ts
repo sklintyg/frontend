@@ -13,8 +13,8 @@ import {
   updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
-  updateDisplayValidationMessages,
   updateDisplayingCertificateDraft,
+  updateDisplayValidationMessages,
   updateHandledQuestion,
   updateIsLoadingQuestions,
   updateQuestion,
@@ -165,6 +165,7 @@ function defaultQuestionDraft(): Question {
     lastUpdate: '',
     links: [],
     reminders: [],
+    certificateId: '',
   }
 }
 

@@ -19,8 +19,6 @@ import { certificateMiddleware } from '../certificate/certificateMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
-  QuestionResponse,
-  QuestionsResponse,
   createAnswer,
   deleteAnswer,
   deleteQuestion,
@@ -28,6 +26,8 @@ import {
   editQuestion,
   getQuestions,
   handleQuestion,
+  QuestionResponse,
+  QuestionsResponse,
   sendAnswer,
   sendQuestion,
   sendQuestionError,
@@ -93,6 +93,7 @@ const createQuestion = (): Question => ({
   subject: 'subject',
   reminders: [],
   links: [],
+  certificateId: 'certificateId',
 })
 
 const createComplement = (): Question => ({
@@ -108,6 +109,7 @@ const createComplement = (): Question => ({
   subject: 'subject',
   reminders: [],
   links: [],
+  certificateId: 'certificateId',
 })
 
 const createQuestionDraft = (): Question =>

@@ -102,6 +102,7 @@ const createComplementWithLongText = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const createQuestionWithLongText = (): Question => ({
@@ -135,6 +136,7 @@ const createQuestionWithLongText = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const createQuestion = (): Question => ({
@@ -165,6 +167,7 @@ const createQuestion = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const renderComponent = (question: Question) => {
