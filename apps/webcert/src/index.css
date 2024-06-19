@@ -86,6 +86,17 @@ input:disabled::placeholder {
   min-height: unset !important;
 }
 
+.ic-forms__select {
+  border-left: 0.0625rem solid #8d8d8d;
+  border-right: 0.0625rem solid #8d8d8d;
+  border-top: 0.0625rem solid #8d8d8d;
+}
+
+.ic-forms__select.iu-border-error {
+  background-color: #fbf2f4;
+  border-bottom-width: 0.125rem !important;
+}
+
 .ic-alert__icon {
   width: 1.2rem !important;
   height: 1.2rem !important;
