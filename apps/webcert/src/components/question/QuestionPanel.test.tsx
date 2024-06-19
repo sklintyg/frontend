@@ -40,6 +40,7 @@ function createQuestion(handled = true): Question {
     reminders: [],
     type: QuestionType.COORDINATION,
     links: [],
+    certificateId: '',
   }
 }
 
