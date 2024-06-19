@@ -24,7 +24,7 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
 const Dropdown = forwardRef<HTMLSelectElement, Props>(
   ({ children, id, error, disabled, title, label, value, fullWidth, ...props }, ref) => (
     <>
-      {label !== null ? <label htmlFor={id}>{label}</label> : null}
+      {label && <label htmlFor={id}>{label}</label>}
       <DropdownDiv
         title={title}
         className={classNames('ic-forms__select', {
