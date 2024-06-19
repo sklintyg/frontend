@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../store/store'
 import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import { QuestionHeading } from './QuestionHeading'
+import { QuestionMessage } from './QuestionMessage'
 import QuestionUvResolve from './QuestionUvResolve'
 
 export interface QuestionProps {
@@ -42,6 +43,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
           {<QuestionHeading question={question} />}
         </>
       )}
+      {question.config.message && <QuestionMessage message={question.config.message} />}
       <div>
         {isReadOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
       </div>

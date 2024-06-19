@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
 import UeDiagnosis from './UeDiagnosis'
 
@@ -31,43 +30,41 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
     questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
   )
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
   const dispatch = useAppDispatch()
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    resetDiagnosisList()
+    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, list: [] } }))
     setSelectedCodeSystem(event.currentTarget.name)
-  }
-
-  const resetDiagnosisList = () => {
-    const updatedQuestion: CertificateDataElement = { ...question }
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-    updatedQuestionValue.list = []
-    updatedQuestion.value = updatedQuestionValue
-    dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
   return (
     <>
-      <p>Välj kodverk:</p>
-      <RadioWrapper>
-        {questionConfig.terminology.map((terminology) => {
-          return (
-            <RadioButton
-              key={terminology.id}
-              disabled={disabled}
-              label={terminology.label}
-              name={terminology.id}
-              id={terminology.id}
-              value={terminology.id}
-              checked={selectedCodeSystem === terminology.id}
-              onChange={handleCodeSystemChange}
-            />
-          )
-        })}
-      </RadioWrapper>
-      <p className={'iu-mb-200'}>Diagnoskod enligt ICD-10 SE</p>
+      {questionConfig.terminology.length > 1 && (
+        <>
+          <p>Välj kodverk:</p>
+          <RadioWrapper>
+            {questionConfig.terminology.map((terminology) => {
+              return (
+                <RadioButton
+                  key={terminology.id}
+                  disabled={disabled}
+                  label={terminology.label}
+                  name={terminology.id}
+                  id={terminology.id}
+                  value={terminology.id}
+                  checked={selectedCodeSystem === terminology.id}
+                  onChange={handleCodeSystemChange}
+                />
+              )
+            })}
+          </RadioWrapper>
+        </>
+      )}
+      <p className={'iu-mb-200'}>
+        Diagnoskod enligt {questionConfig.terminology.find((terminilogy) => terminilogy.id === selectedCodeSystem)?.label}
+      </p>
       <div>
         {questionConfig.list.map((diagnosis, index) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
