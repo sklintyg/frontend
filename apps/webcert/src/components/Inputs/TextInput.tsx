@@ -1,6 +1,11 @@
 import React from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components'
-import { InfoCircle } from '../../images'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import { questionImage } from '../../images'
+
+const Icon = styled.img`
+  width: 14px;
+  display: inline-block;
+`
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -15,7 +20,7 @@ const TextInput = React.forwardRef<HTMLInputElement, Props>(
     <div>
       {label && (
         <>
-          <label htmlFor={id}>{label}</label> {tooltip && <InfoCircle tooltip={tooltip} />}
+          <label htmlFor={id}>{label}</label> {tooltip && <Icon src={questionImage} data-tip={tooltip} alt={tooltip} />}
         </>
       )}
       <input
