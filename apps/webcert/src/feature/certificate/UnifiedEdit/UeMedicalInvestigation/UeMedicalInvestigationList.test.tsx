@@ -9,7 +9,7 @@ import { showValidationErrors, updateCertificate, updateValidationErrors } from 
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { ConfigUeMedicalInvestigationList } from '../../../../types'
-import UeMedicalInvestigationList from './UeMedicalInvestigationList'
+import { UeMedicalInvestigationList } from './UeMedicalInvestigationList'
 
 faker.seed(10)
 

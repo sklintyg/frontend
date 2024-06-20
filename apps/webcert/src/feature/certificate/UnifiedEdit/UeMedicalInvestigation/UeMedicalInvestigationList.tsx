@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -12,12 +12,7 @@ import {
 } from '../../../../types'
 import { UeMedicalInvestigation } from './UeMedicalInvestigation'
 
-export interface Props {
-  disabled?: boolean
-  question: CertificateDataElement
-}
-
-const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
+export function UeMedicalInvestigationList({ question, disabled }: { disabled?: boolean; question: CertificateDataElement }) {
   const dispatch = useAppDispatch()
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
@@ -74,5 +69,3 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
     </>
   )
 }
-
-export default UeMedicalInvestigationList
