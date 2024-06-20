@@ -148,6 +148,11 @@ export enum MessageLevel {
   ERROR = 'ERROR',
 }
 
+export interface ConfigMessage {
+  level: MessageLevel
+  content: string
+}
+
 export interface CertificateDataConfig {
   header?: string
   icon?: string
@@ -157,6 +162,7 @@ export interface CertificateDataConfig {
   type: ConfigTypes
   accordion?: ConfigAccordion
   list?: unknown
+  message?: ConfigMessage
 }
 
 export interface ConfigAccordion {
@@ -198,8 +204,7 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
 export interface ConfigUeMessage extends CertificateDataConfig {
   type: ConfigTypes.UE_MESSAGE
   id: string
-  level: MessageLevel
-  message: string
+  message: ConfigMessage
 }
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
