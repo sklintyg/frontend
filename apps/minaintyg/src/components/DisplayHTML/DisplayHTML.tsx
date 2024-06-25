@@ -13,7 +13,8 @@ const options = {
       const match = name.match(/^h(\d)$/)
 
       if (match) {
-        return createElement(match[0], { className: `ids-heading-${match[1]}` }, domToReact(children, options))
+        const [tag, level] = match
+        return createElement(tag, { className: `ids-heading-${parseInt(level, 10) < 4 ? level : 4}` }, domToReact(children, options))
       }
 
       if (name === 'table') {
