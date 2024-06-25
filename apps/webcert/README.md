@@ -50,6 +50,20 @@ VITE_WS_PROTOCOL=wss
 
 Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc2.wc.localtest.me/welcome>
 
+### Mocked e2e tests
+
+Install browsers:
+
+```bash
+pnpm --filter @frontend/webcert exec playwright install
+```
+
+Run playwright tests with a UI:
+
+```bash
+pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
+```
+
 ## Resources
 
 - [React](https://react.dev/) ─ Components
