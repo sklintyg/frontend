@@ -46,6 +46,6 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
     issuedBy: fakeStaff(data?.issuedBy),
     careUnit: fakeUnit(data?.careUnit),
     careProvider: fakeUnit(data?.careProvider),
-    messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? [],
+    messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? undefined,
   }
 }
