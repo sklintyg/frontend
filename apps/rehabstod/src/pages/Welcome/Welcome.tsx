@@ -110,7 +110,7 @@ export function Welcome() {
       <div className="ids-content py-4">
         <h1 className="ids-heading-2">Testinloggningar Rehabstöd</h1>
         <div className="mb-7">
-          <IDSCard fill>
+          <IDSCard fill={1}>
             Templatelista till vänster - Manuella ändringar kan göras i jsonstrukturen - detta omvandlas till inloggad userContext
           </IDSCard>
         </div>
@@ -183,7 +183,7 @@ export function Welcome() {
         <div className="mt-12">
           <h1 className="ids-heading-2">Testability Rehabstöd</h1>
           <div className="mb-7">
-            <IDSCard className="mb-5" fill>
+            <IDSCard className="mb-5" fill={1}>
               Tryck på knappen *Skapa testdata* för att skjuta in test-data. Beskrivning om datat hittas här:{' '}
             </IDSCard>
             <IDSLink>
@@ -200,7 +200,7 @@ export function Welcome() {
             {response && <div className="mt-4">{response}</div>}
           </div>
           <div className="mb-7">
-            <IDSCard fill>Fyll i uppgifter nedan och tryck på knappen *Skapa* för att skapa ett sjukfall på vald patient.</IDSCard>
+            <IDSCard fill={1}>Fyll i uppgifter nedan och tryck på knappen *Skapa* för att skapa ett sjukfall på vald patient.</IDSCard>
           </div>
           {testDataOptions && (
             <form id="createSickLeaveForm" onSubmit={createSickleave}>

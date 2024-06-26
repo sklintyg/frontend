@@ -22,7 +22,7 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
       <IDSInput
         isDisabled={disabled}
         light={light}
-        valid={!error}
+        invalid={error}
         hasIcon={Boolean(icon)}
         className={classNames('my-0', inline && 'flex items-baseline gap-3')}
       >
