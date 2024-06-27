@@ -2,9 +2,9 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import faker from 'faker'
 import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '../../faker'
 import { configureApplicationStore } from '../configureApplicationStore'
-import { showValidationErrors, updateCertificate } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
+import { showValidationErrors, updateCertificate } from './certificateSlice'
 
 let testStore: EnhancedStore
 

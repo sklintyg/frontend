@@ -38,6 +38,9 @@ import {
   createCertificateFromTemplate,
   createCertificateFromTemplateStarted,
   createCertificateFromTemplateSuccess,
+  createNewCertificate,
+  createNewCertificateStarted,
+  createNewCertificateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateStarted,
@@ -106,6 +109,7 @@ import {
   updateCertificateSignStatus,
   updateCertificateSigningData,
   updateCertificateVersion,
+  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
   updateValidationErrors,
@@ -795,6 +799,14 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> =
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
+const handleGenericCertificateApiError: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(hideSpinner())
+    dispatch(throwError(createErrorRequestFromApiError(action.payload.error, action.payload.certificateId)))
+  }
+
 const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
@@ -960,6 +972,28 @@ const handlePrintCertificate: Middleware<Dispatch> =
     }
   }
 
+const handleCreateNewCertificate: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(
+      apiCallBegan({
+        url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
+        method: 'POST',
+        onStart: createNewCertificateStarted.type,
+        onSuccess: createNewCertificateSuccess.type,
+        onError: certificateApiGenericError.type,
+      })
+    )
+  }
+
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+  () =>
+  (action: AnyAction): void => {
+    dispatch(updateCreatedCertificateId(action.payload.certificateId))
+  }
+
 const handleGetSessionStatusError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
@@ -968,6 +1002,8 @@ const handleGetSessionStatusError: Middleware<Dispatch> =
   }
 
 const middlewareMethods = {
+  [createNewCertificate.type]: handleCreateNewCertificate,
+  [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
   [getCertificateEvents.type]: handleGetCertificateEvents,
   [getCertificateEventsSuccess.type]: handleGetCertificateEventsSuccess,
   [startSignCertificate.type]: handleStartSignCertificate,
@@ -1011,6 +1047,7 @@ const middlewareMethods = {
   [answerComplementCertificateSuccess.type]: handleAnswerComplementCertificateSuccess,
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
+  [certificateApiGenericError.type]: handleGenericCertificateApiError,
   [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
   [signCertificateStatusError.type]: handleSignCertificateStatusError,
   [getSessionStatusError.type]: handleGetSessionStatusError,

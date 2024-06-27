@@ -10,14 +10,15 @@ import {
   ValidationError,
 } from '../../types'
 import { ApiError } from '../api/apiActions'
-import { CertificateApiGenericError } from './thunks/handleGenericCertificateApiError'
+import { CertificateApiGenericError } from './listeners/handleGenericCertificateApiError'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
-const GET_CERTIFICATE = `${CERTIFICATE} Get certificate`
-const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
-const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
-const GET_CERTIFICATE_ERROR = `${CERTIFICATE} Get certificate error`
+const CREATE_NEW_CERTIFICATE = `${CERTIFICATE} Create certificate`
+const CREATE_NEW_CERTIFICATE_STARTED = `${CERTIFICATE} Create certificate started`
+const CREATE_NEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Create certificate success`
+const CREATE_NEW_CERTIFICATE_ERROR = `${CERTIFICATE} Create certificate started`
+
 const GET_CERTIFICATE_COMPLETED = `${CERTIFICATE} Get certificate completed`
 
 const GET_CERTIFICATE_EVENTS = `${CERTIFICATE} Get certificate events`
@@ -133,17 +134,23 @@ const SHOW_RELATED_CERTIFICATE_SUCCESS = `${CERTIFICATE} Show related certificat
 const SHOW_RELATED_CERTIFICATE_ERROR = `${CERTIFICATE} Show related certificate error`
 const SHOW_RELATED_CERTIFICATE_COMPLETED = `${CERTIFICATE} Show related certificate completed`
 
-export const getCertificate = createAction<string>(GET_CERTIFICATE)
+export interface CreateCertificateResponse {
+  certificateId: string
+}
 
-export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
+export interface CreateCertificate {
+  certificateType: string
+  patientId: string
+}
+
+export const createNewCertificate = createAction<CreateCertificate>(CREATE_NEW_CERTIFICATE)
+export const createNewCertificateStarted = createAction(CREATE_NEW_CERTIFICATE_STARTED)
+export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(CREATE_NEW_CERTIFICATE_SUCCESS)
+export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
 
 export interface GetCertificateSuccess {
   certificate: Certificate
 }
-
-export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
-
-export const getCertificateError = createAction<CertificateApiGenericError>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 
