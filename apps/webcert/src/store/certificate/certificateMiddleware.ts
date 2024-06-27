@@ -22,7 +22,6 @@ import {
   autoSaveCertificateError,
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
-  certificateApiGenericError,
   complementCertificate,
   complementCertificateStarted,
   complementCertificateSuccess,
@@ -39,9 +38,6 @@ import {
   createCertificateFromTemplate,
   createCertificateFromTemplateStarted,
   createCertificateFromTemplateSuccess,
-  createNewCertificate,
-  createNewCertificateStarted,
-  createNewCertificateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateStarted,
@@ -52,17 +48,10 @@ import {
   forwardCertificateCompleted,
   forwardCertificateStarted,
   forwardCertificateSuccess,
-  getCertificate,
-  getCertificateCompleted,
-  getCertificateError,
   getCertificateEvents,
   getCertificateEventsCompleted,
   getCertificateEventsStarted,
   getCertificateEventsSuccess,
-  getCertificateStarted,
-  getCertificateSuccess,
-  hideSpinner,
-  hideValidationErrors,
   printCertificate,
   readyForSign,
   readyForSignCompleted,
@@ -76,111 +65,55 @@ import {
   replaceCertificateCompleted,
   replaceCertificateStarted,
   replaceCertificateSuccess,
-  resetCertificateState,
   revokeCertificate,
   revokeCertificateCompleted,
   revokeCertificateStarted,
   revokeCertificateSuccess,
   sendCertificate,
   sendCertificateSuccess,
-  setCertificatePatientData,
-  setCertificateUnitData,
-  setReadyForSign,
-  setValidationErrorsForQuestion,
   showRelatedCertificate,
   showRelatedCertificateCompleted,
   showRelatedCertificateStarted,
   showRelatedCertificateSuccess,
-  showSpinner,
-  showValidationErrors,
   signCertificateCompleted,
   signCertificateStatusError,
   signCertificateStatusSuccess,
   startSignCertificate,
   startSignCertificateSuccess,
+  updateCertificateDataElement,
+  updateCertificatePatient,
+  updateCertificateUnit,
+  updateRoutedFromDeletedCertificate,
+  validateCertificate,
+  validateCertificateError,
+  validateCertificateSuccess,
+} from './certificateActions'
+import {
+  hideSpinner,
+  hideValidationErrors,
+  resetCertificateState,
+  setCertificatePatientData,
+  setCertificateUnitData,
+  setReadyForSign,
+  setValidationErrorsForQuestion,
+  showSpinner,
+  showValidationErrors,
   toggleCertificateFunctionDisabler,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateComplements,
-  updateCertificateDataElement,
   updateCertificateEvents,
-  updateCertificatePatient,
   updateCertificateSignStatus,
   updateCertificateSigningData,
-  updateCertificateUnit,
   updateCertificateVersion,
-  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
-  updateRoutedFromDeletedCertificate,
   updateValidationErrors,
-  validateCertificate,
   validateCertificateCompleted,
-  validateCertificateError,
   validateCertificateStarted,
-  validateCertificateSuccess,
-} from './certificateActions'
-
-const handleGetCertificate: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
-  () =>
-  (action: AnyAction): void => {
-    dispatch(showSpinner('Laddar...'))
-
-    dispatch(
-      apiCallBegan({
-        url: '/api/certificate/' + action.payload,
-        method: 'GET',
-        onStart: getCertificateStarted.type,
-        onSuccess: getCertificateSuccess.type,
-        onError: getCertificateError.type,
-        onArgs: { certificateId: action.payload },
-        functionDisablerType: toggleCertificateFunctionDisabler.type,
-      })
-    )
-  }
-
-const handleGetCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }) =>
-  () =>
-  (action: PayloadAction<{ certificate: Certificate }>): void => {
-    const { data, metadata, links } = action.payload.certificate
-    const certificate = { ...action.payload.certificate, data: getDecoratedCertificateData(data, metadata, links) }
-    dispatch(updateCertificate(certificate))
-    dispatch(getCertificateCompleted())
-    dispatch(hideSpinner())
-    if (certificate.metadata.status === CertificateStatus.UNSIGNED) {
-      dispatch(validateCertificate(certificate))
-    }
-    dispatch(getCertificateEvents(certificate.metadata.id))
-    dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
-  }
-
-const handleGetCertificateError: Middleware<Dispatch> =
-  ({ dispatch }) =>
-  () =>
-  (action: AnyAction): void => {
-    let errorCode
-    const errorCodesToMapToOriginal = [
-      ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
-      ErrorCode.AUTHORIZATION_PROBLEM,
-      ErrorCode.DATA_NOT_FOUND,
-    ]
-    if (errorCodesToMapToOriginal.some((code) => code.toString() === action.payload.error.errorCode)) {
-      errorCode = action.payload.error.errorCode
-    } else {
-      errorCode = ErrorCode.GET_CERTIFICATE_PROBLEM
-    }
-
-    dispatch(
-      throwError({
-        type: ErrorType.ROUTE,
-        errorCode: errorCode,
-        message: action.payload.error.message,
-        certificateId: action.payload.certificateId,
-      })
-    )
-  }
+} from './certificateSlice'
+import { certificateApiGenericError } from './listeners/handleGenericCertificateApiError'
+import { getCertificate } from './thunks/getCertificate'
 
 const handleGetCertificateEvents: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
@@ -1035,28 +968,6 @@ const handlePrintCertificate: Middleware<Dispatch> =
     }
   }
 
-const handleCreateNewCertificate: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
-  () =>
-  (action: AnyAction): void => {
-    dispatch(
-      apiCallBegan({
-        url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
-        method: 'POST',
-        onStart: createNewCertificateStarted.type,
-        onSuccess: createNewCertificateSuccess.type,
-        onError: certificateApiGenericError.type,
-      })
-    )
-  }
-
-const handleCreateNewCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
-  () =>
-  (action: AnyAction): void => {
-    dispatch(updateCreatedCertificateId(action.payload.certificateId))
-  }
-
 const handleGetSessionStatusError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
@@ -1065,8 +976,6 @@ const handleGetSessionStatusError: Middleware<Dispatch> =
   }
 
 const middlewareMethods = {
-  [createNewCertificate.type]: handleCreateNewCertificate,
-  [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
   [getCertificate.type]: handleGetCertificate,
   [getCertificateSuccess.type]: handleGetCertificateSuccess,
   [getCertificateEvents.type]: handleGetCertificateEvents,
@@ -1112,7 +1021,7 @@ const middlewareMethods = {
   [answerComplementCertificateSuccess.type]: handleAnswerComplementCertificateSuccess,
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
-  [certificateApiGenericError.type]: handleGenericCertificateApiError,
+  // [certificateApiGenericError.type]: handleGenericCertificateApiError,
   [getCertificateError.type]: handleGetCertificateError,
   [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
   [signCertificateStatusError.type]: handleSignCertificateStatusError,

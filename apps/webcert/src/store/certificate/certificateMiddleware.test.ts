@@ -26,33 +26,25 @@ import {
   ComplementCertificateSuccess,
   CreateCertificate,
   CreateCertificateFromCandidateSuccess,
-  CreateCertificateFromCandidateWithMessageSuccess,
   CreateCertificateResponse,
   SigningData,
   answerComplementCertificate,
-  autoSaveCertificate,
   autoSaveCertificateError,
   certificateApiGenericError,
-  complementCertificate,
   complementCertificateSuccess,
   createCertificateFromCandidate,
-  createCertificateFromCandidateWithMessage,
   createNewCertificate,
   deleteCertificate,
   getCertificate,
   getCertificateError,
-  hideSpinner,
   readyForSign,
   readyForSignSuccess,
-  showRelatedCertificate,
   signCertificateStatusError,
   startSignCertificate,
-  updateCertificate,
   updateCertificateDataElement,
-  updateValidationErrors,
-  validateCertificate,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
+import { hideSpinner, updateCertificate, updateValidationErrors } from './certificateSlice'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {
@@ -173,24 +165,6 @@ describe('Test certificate middleware', () => {
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
-
-    it.skip('shall not perform api call if not draft', async () => {
-      const certificate = getTestCertificate('id')
-      certificate.metadata.status = CertificateStatus.SIGNED
-
-      testStore.dispatch(autoSaveCertificate(certificate))
-      await flushPromises()
-      expect(fakeAxios.history.put.length).toBe(0)
-    })
-
-    it.skip('shall perform api call if draft', async () => {
-      const certificate = getTestCertificate('id')
-      certificate.metadata.status = CertificateStatus.UNSIGNED
-
-      testStore.dispatch(autoSaveCertificate(certificate))
-      await flushPromises()
-      expect(fakeAxios.history.put.length).toBe(1)
-    })
   })
 
   describe('Handle StartSignCertificate', () => {
@@ -279,44 +253,10 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle ComplementCertificate', () => {
-    it.skip('shall update certificate when complemented', async () => {
-      const certificateToComplement = getTestCertificate('originalCertificateId')
-      const expectedCertificate = getTestCertificate('newCertificateId')
-      fakeAxios
-        .onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`)
-        .reply(200, { certificate: expectedCertificate } as ComplementCertificateSuccess)
-      testStore.dispatch(updateCertificate(certificateToComplement))
-      testStore.dispatch(complementCertificate({ message: '' }))
-      await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
-    })
-  })
-
   describe('Handle ComplementCertificateSuccess', () => {
     beforeEach(() => {
       fakeAxios = new MockAdapter(axios)
       testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
-    })
-
-    it.skip('shall update certificate on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-      const updateCertificateDispatchFound = dispatchedActions.some((action) => updateCertificate.match(action))
-
-      expect(updateCertificateDispatchFound).toBeTruthy()
-    })
-
-    it.skip('shall validate certificate on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-
-      const validateAction = dispatchedActions.find((action) => validateCertificate.match(action))
-      expect(validateAction).toBeTruthy()
     })
 
     it('shall hide spinner on success', async () => {
@@ -337,15 +277,6 @@ describe('Test certificate middleware', () => {
       await flushPromises()
 
       expect(pushSpy).toHaveBeenCalledWith(`/certificate/id`)
-    })
-
-    it.skip('shall get certificate events on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-
-      expect(fakeAxios.history.get.some((req) => req.url?.includes('events'))).toBeTruthy()
     })
   })
 
@@ -410,39 +341,6 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
       expect(fakeAxios.history.post.length).toBe(1)
-    })
-  })
-
-  describe.skip('Handle CreateCertificateFromCandidateWithMessage', () => {
-    it('shall return message', async () => {
-      const expectedCertificate = getTestCertificate('newCertificateId', 'ag7804')
-      const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
-        modal: { title: 'Test title', message: 'test message' },
-      }
-      fakeAxios
-        .onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`)
-        .reply(200, createCertificateFromCandidateWithMessageSuccess)
-      testStore.dispatch(updateCertificate(expectedCertificate))
-
-      testStore.dispatch(createCertificateFromCandidateWithMessage())
-
-      await flushPromises()
-      setTimeout(() => {
-        expect(testStore.getState().ui.certificate.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
-        expect(fakeAxios.history.post.length).toBe(1)
-      }, 200)
-    })
-  })
-
-  describe('Handle Show Related Certificate', () => {
-    it.skip('shall call api to show related certificate', async () => {
-      const certificate = getTestCertificate('certificateId')
-      // @ts-expect-error mocking history
-      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id }))
-
-      await flushPromises()
-      expect(fakeAxios.history.get.length).toBe(1)
-      expect(fakeAxios.history.get[0].url).toEqual('/api/certificate/certificateId/related')
     })
   })
 

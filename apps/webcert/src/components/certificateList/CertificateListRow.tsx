@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
 import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
-import { createNewCertificate } from '../../store/certificate/certificateActions'
-import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
-import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
-import { CreateCertificateButton } from './CreateCertificateButton'
 import { StarFilledIcon, StarIcon } from '../../images'
+import { createNewCertificate } from '../../store/certificate/thunks/handleCreateNewCertificate'
+import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
 import { Patient, ResourceLink, ResourceLinkType } from '../../types'
+import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
 import InfoBox from '../utils/InfoBox'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
+import { CreateCertificateButton } from './CreateCertificateButton'
 
 interface Props {
   certificateName: string

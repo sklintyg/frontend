@@ -1,27 +1,18 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError } from '../api/apiActions'
 import {
   Certificate,
-  CertificateEvent,
-  CertificateSignStatus,
-  ModalData,
-  ValidationError,
-  CertificateStatus,
   CertificateDataElement,
-  Unit,
-  Patient,
+  CertificateEvent,
   CertificateMetadata,
-  Complement,
+  ModalData,
+  Patient,
+  Unit,
+  ValidationError,
 } from '../../types'
+import { ApiError } from '../api/apiActions'
+import { CertificateApiGenericError } from './thunks/handleGenericCertificateApiError'
 
 const CERTIFICATE = '[CERTIFICATE]'
-
-const CREATE_NEW_CERTIFICATE = `${CERTIFICATE} Create certificate`
-const CREATE_NEW_CERTIFICATE_STARTED = `${CERTIFICATE} Create certificate started`
-const CREATE_NEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Create certificate success`
-const CREATE_NEW_CERTIFICATE_ERROR = `${CERTIFICATE} Create certificate started`
-const UPDATE_CERTIFICATE_ID = `${CERTIFICATE} Update certificate id`
 
 const GET_CERTIFICATE = `${CERTIFICATE} Get certificate`
 const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
@@ -54,7 +45,6 @@ const READY_FOR_SIGN_STARTED = `${CERTIFICATE} Ready for sign started`
 const READY_FOR_SIGN_SUCCESS = `${CERTIFICATE} Ready for sign success`
 const READY_FOR_SIGN_ERROR = `${CERTIFICATE} Ready for sign error`
 const READY_FOR_SIGN_COMPLETED = `${CERTIFICATE} Ready for sign completed`
-const SET_READY_FOR_SIGN = `${CERTIFICATE} Set ready for sign`
 
 const SEND_CERTIFICATE = `${CERTIFICATE} Send certificate`
 const SEND_CERTIFICATE_SUCCESS = `${CERTIFICATE} Send certificate success`
@@ -67,7 +57,6 @@ const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
 const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
 const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
-const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
 const SIGN_CERTIFICATE_STATUS_SUCCESS = `${CERTIFICATE} Get certificate sign status success`
 const SIGN_CERTIFICATE_STATUS_ERROR = `${CERTIFICATE} Get certificate sign status error`
 
@@ -122,12 +111,9 @@ const COPY_CERTIFICATE_ERROR = `${CERTIFICATE} Copy certificate error`
 const COPY_CERTIFICATE_COMPLETED = `${CERTIFICATE} Copy certificate completed`
 
 const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate certificate`
-const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validate certificate started`
-const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validate certificate completed`
 const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validate certificate success`
 const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validate certificate error`
 
-const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
 const UPDATE_CERTIFICATE_UNIT = `${CERTIFICATE} Update certificate unit`
 const UPDATE_CERTIFICATE_PATIENT = `${CERTIFICATE} Update certificate patient`
 
@@ -137,66 +123,15 @@ const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save certificate completed`
 const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save certificate success`
 const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save certificate error`
 
-const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
-const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
-const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
-const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
-const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
-const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
-const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
-const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
-const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
-
-const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
-const SET_CERTIFICATE_PATIENT_DATA = `${CERTIFICATE} Set certificate patient data`
-
-const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
-const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
-const UNHIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unhide data element`
-
-const SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Show mandatory on data element`
-const HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Hide mandatory on data element`
-
-const SHOW_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Show spinner`
-const HIDE_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Hide spinner`
-
-const SHOW_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Show validation errors`
-const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation errors`
 
 const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
-
-const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
-const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
-
-const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
-
-const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
-const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
-const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
-
-const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 
 const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
 const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`
 const SHOW_RELATED_CERTIFICATE_SUCCESS = `${CERTIFICATE} Show related certificate success`
 const SHOW_RELATED_CERTIFICATE_ERROR = `${CERTIFICATE} Show related certificate error`
 const SHOW_RELATED_CERTIFICATE_COMPLETED = `${CERTIFICATE} Show related certificate completed`
-
-export interface CreateCertificateResponse {
-  certificateId: string
-}
-
-export interface CreateCertificate {
-  certificateType: string
-  patientId: string
-}
-
-export const createNewCertificate = createAction<CreateCertificate>(CREATE_NEW_CERTIFICATE)
-export const createNewCertificateStarted = createAction(CREATE_NEW_CERTIFICATE_STARTED)
-export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(CREATE_NEW_CERTIFICATE_SUCCESS)
-export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
-export const updateCreatedCertificateId = createAction<string>(UPDATE_CERTIFICATE_ID)
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
@@ -279,8 +214,6 @@ export const readyForSignError = createAction<string>(READY_FOR_SIGN_ERROR)
 
 export const readyForSignCompleted = createAction(READY_FOR_SIGN_COMPLETED)
 
-export const setReadyForSign = createAction<string>(SET_READY_FOR_SIGN)
-
 export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
 export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_CERTIFICATE_SUCCESS)
 export const sendCertificateError = createAction<string>(SEND_CERTIFICATE_ERROR)
@@ -307,8 +240,6 @@ export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
 export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
-
-export const updateCertificateSignStatus = createAction<CertificateSignStatus>(UPDATE_SIGN_CERTIFICATE_STATUS)
 
 export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
 
@@ -460,8 +391,6 @@ export const copyCertificateCompleted = createAction(COPY_CERTIFICATE_COMPLETED)
 
 export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
 
-export const validateCertificateStarted = createAction(VALIDATE_CERTIFICATE_STARTED)
-
 interface ValidateCertificateSuccess {
   validationErrors: ValidationError[]
 }
@@ -469,8 +398,6 @@ interface ValidateCertificateSuccess {
 export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
-
-export const validateCertificateCompleted = createAction(VALIDATE_CERTIFICATE_COMPLETED)
 
 export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)
 
@@ -489,65 +416,10 @@ interface AutoSaveCertificateError {
 }
 
 export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
-
-export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
-
-export const updateCertificateEvents = createAction<CertificateEvent[]>(UPDATE_CERTIFICATE_EVENTS)
-
-export const updateCertificateAsDeleted = createAction(UPDATE_CERTIFICATE_AS_DELETED)
-
-export const updateCertificateAsReadOnly = createAction(UPDATE_CERTIFICATE_AS_READONLY)
-
-export const updateCertificateStatus = createAction<CertificateStatus>(UPDATE_CERTIFICATE_STATUS)
-
 export const updateCertificateDataElement = createAction<CertificateDataElement>(UPDATE_CERTIFICATE_DATA_ELEMENT)
-
-export const updateCertificateVersion = createAction<number>(UPDATE_CERTIFICATE_VERSION)
-
-export const showCertificateDataElement = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT)
-
-export const hideCertificateDataElement = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT)
-
-export const unhideCertificateDataElement = createAction<string>(UNHIDE_CERTIFICATE_DATA_ELEMENT)
-
-export const showCertificateDataElementMandatory = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY)
-
-export const hideCertificateDataElementMandatory = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY)
-
-export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
-
-export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
-
-export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER)
-
-export const hideSpinner = createAction(HIDE_CERTIFICATE_LOADING_SPINNER)
-
-export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VALIDATION_ERRORS)
-
-export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
-
-export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
-
 export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
-
-export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
-
 export const updateCertificatePatient = createAction<Patient>(UPDATE_CERTIFICATE_PATIENT)
-
-export const setCertificatePatientData = createAction<Patient>(SET_CERTIFICATE_PATIENT_DATA)
-
 export const printCertificate = createAction<CertificateMetadata & { iframe: HTMLIFrameElement }>(PRINT_CERTIFICATE)
-
-export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
-
-export interface GotoCertificateDataElement {
-  questionId: string
-  valueId: string
-}
-
-export const updateGotoCertificateDataElement = createAction<GotoCertificateDataElement>(UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT)
-
-export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
 
 export interface SigningData {
   actionUrl: string
@@ -555,36 +427,7 @@ export interface SigningData {
   signRequest: string
 }
 
-export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)
-export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
-
-export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
-
-export interface CertificateApiGenericError {
-  error: ApiError
-  certificateId: string
-}
-
-export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
-
-export interface ModifyValidationErrors {
-  questionId: string
-  validationErrors: ValidationError[]
-}
-
 export interface UpdateValidationError {
   shouldBeRemoved: boolean
   validationError: ValidationError
 }
-
-export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
-
-export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
-
-export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
-
-export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
-
-export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
-
-export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
