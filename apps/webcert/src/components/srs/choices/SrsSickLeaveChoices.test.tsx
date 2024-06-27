@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { fakeCertificate } from '../../../faker'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { updateCertificate } from '../../../store/certificate/certificateSlice'
 import { updateUserClientContext } from '../../../store/srs/srsActions'
 import store from '../../../store/store'
 import { CertificateRelationType, CertificateStatus, SrsSickLeaveChoice, SrsUserClientContext } from '../../../types'
@@ -52,25 +52,25 @@ describe('SRS Sick Leave Choices', () => {
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeInTheDocument()
   })
 
-  it('should have new chosen as default', () => {
+  it('should have new chosen as default', async () => {
     renderComponent()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeChecked()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).not.toBeChecked()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).not.toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
-  it('should have extension chosen as default if certificate is an extension of another certificate', () => {
+  it('should have extension chosen as default if certificate is an extension of another certificate', async () => {
     renderComponent()
     setRenewedCertificateToState()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeChecked()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).toBeChecked()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
   it('should switch checked radio button when user clicks', async () => {
     renderComponent()
     await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
   })
 
   it('should update state when clicking radio button', async () => {
@@ -79,10 +79,10 @@ describe('SRS Sick Leave Choices', () => {
     expect(store.getState().ui.uiSRS.sickLeaveChoice).toEqual(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS)
   })
 
-  it('should disable new radio button if sick leave is extension', () => {
+  it('should disable new radio button if sick leave is extension', async () => {
     renderComponent()
     setRenewedCertificateToState()
-    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()
+    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()
   })
 
   it('should not update user client context if choosing extension after 60 days', async () => {

@@ -2,11 +2,11 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { updateCertificate } from '../../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeRadioBooleanElement } from '../../../../faker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { updateCertificate } from '../../../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadio from './UeRadio'
-import { fakeRadioBooleanElement, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 
@@ -36,6 +36,6 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
   const radioButton = screen.getByLabelText('ja')
   await userEvent.click(radioButton)
 
-  expect(radioButton).toBeChecked()
-  expect(screen.getByRole('radio', { name: 'nej' })).not.toBeChecked()
+  await expect(radioButton).toBeChecked()
+  await expect(screen.getByRole('radio', { name: 'nej' })).not.toBeChecked()
 })

@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import DisplayError from '../../components/error/DisplayError'
-import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
+import ImageCentered from '../../components/image/image/ImageCentered'
+import InfoBox from '../../components/utils/InfoBox'
+import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateSlice'
 import { getListConfig, updateActiveListType, updateListConfig } from '../../store/list/listActions'
 import {
   getActiveList,
@@ -13,10 +15,8 @@ import {
   getListError,
 } from '../../store/list/listSelectors'
 import { getLoggedInUnit } from '../../store/user/userSelectors'
-import List from './List'
-import ImageCentered from '../../components/image/image/ImageCentered'
-import InfoBox from '../../components/utils/InfoBox'
 import { ListType } from '../../types'
+import List from './List'
 
 interface Props {
   type: ListType

@@ -2,7 +2,7 @@ import { randomUUID } from '@frontend/utils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
-import { updateCertificate } from '../certificate/certificateActions'
+import { updateCertificate } from '../certificate/certificateSlice'
 import { setActiveCertificateId, setError, throwError } from './errorActions'
 import { ErrorData, ErrorLogRequest, ErrorType } from './errorReducer'
 

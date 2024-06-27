@@ -1,12 +1,12 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { updateCertificate } from '../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateMetaData, fakeUser } from '../../faker'
+import { updateCertificate } from '../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateUser } from '../../store/user/userActions'
-import ResponsibleHospName from './ResponsibleHospName'
-import { fakeCertificate, fakeCertificateMetaData, fakeUser } from '../../faker'
 import { CertificateStatus } from '../../types'
+import ResponsibleHospName from './ResponsibleHospName'
 
 let testStore: EnhancedStore
 

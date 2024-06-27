@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../../types'
+import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
   disabled?: boolean

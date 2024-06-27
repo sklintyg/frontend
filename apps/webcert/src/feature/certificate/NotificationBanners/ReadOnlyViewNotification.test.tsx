@@ -1,11 +1,11 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateMetaData, fakeUnit, fakeUser } from '../../../faker'
+import { updateCertificate } from '../../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateUser } from '../../../store/user/userActions'
 import ReadOnlyViewNotification from './ReadOnlyViewNotification'
-import { fakeUser, fakeUnit, fakeCertificate, fakeCertificateMetaData } from '../../../faker'
 
 let testStore: EnhancedStore
 

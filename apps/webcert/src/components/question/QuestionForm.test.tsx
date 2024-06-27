@@ -9,8 +9,8 @@ import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
-import { updateCertificate } from '../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
+import { updateCertificate } from '../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
   createQuestion,

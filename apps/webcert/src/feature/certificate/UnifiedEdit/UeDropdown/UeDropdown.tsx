@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import Dropdown from '../../../../components/Inputs/Dropdown'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import Dropdown from '../../../../components/Inputs/Dropdown'
-import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { CertificateDataElement, ConfigUeDropdown, ValueCode } from '../../../../types'
 
 export interface Props {

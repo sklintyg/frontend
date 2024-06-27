@@ -1,12 +1,8 @@
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import {
-  deleteCertificate,
-  updateIsDeleted,
-  updateRoutedFromDeletedCertificate,
-  updateShouldRouteAfterDelete,
-} from '../../../store/certificate/certificateActions'
+import { deleteCertificate, updateRoutedFromDeletedCertificate } from '../../../store/certificate/certificateActions'
 import { getShouldRouteAfterDelete } from '../../../store/certificate/certificateSelectors'
+import { updateIsDeleted, updateShouldRouteAfterDelete } from '../../../store/certificate/certificateSlice'
 import { useAppDispatch } from '../../../store/store'
 
 export function useDeleteCertificate(certificateId: string) {

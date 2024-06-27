@@ -1,12 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import { AnyAction, ThunkMiddleware } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
 import { getResourceLink } from '../../utils'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
-import { getCertificate, updateCertificate } from '../certificate/certificateActions'
+import { updateCertificate } from '../certificate/certificateSlice'
+import { getCertificate } from '../certificate/thunks/getCertificate'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestWithErrorId } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { RootState } from '../store'
 import {
   addAnswer,
   addQuestion,
@@ -462,7 +464,7 @@ export const handleHandleQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleHandleQuestionSuccess: Middleware<Dispatch> =
+export const handleHandleQuestionSuccess: ThunkMiddleware<RootState> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {

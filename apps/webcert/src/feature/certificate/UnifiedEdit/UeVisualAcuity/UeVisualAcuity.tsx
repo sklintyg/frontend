@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
+import MandatoryIcon from '../../../../components/utils/MandatoryIcon'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { CertificateDataElement, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '../../../../types'
 import UeEyeAcuity from './UeEyeAcuity'
-import MandatoryIcon from '../../../../components/utils/MandatoryIcon'
-import { CertificateDataElement, ValueVisualAcuity, ConfigUeVisualAcuity, ValueEyeAcuity } from '../../../../types'
 
 export interface Props {
   disabled?: boolean

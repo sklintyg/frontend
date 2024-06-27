@@ -12,7 +12,8 @@ import {
 } from '../../types'
 import { isRenewedChild } from '../../utils'
 import { apiCallBegan } from '../api/apiActions'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificate } from '../certificate/certificateSlice'
 import { getUserSuccess } from '../user/userActions'
 import {
   PredictionsRequest,

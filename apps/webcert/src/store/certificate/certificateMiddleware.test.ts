@@ -21,9 +21,9 @@ import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
-import { CreateCertificate } from '../welcome/welcomeReducer'
 import {
   ComplementCertificateSuccess,
+  CreateCertificate,
   CreateCertificateFromCandidateSuccess,
   CreateCertificateResponse,
   SigningData,
@@ -42,7 +42,6 @@ import {
 import { certificateMiddleware } from './certificateMiddleware'
 import { hideSpinner, updateCertificate, updateValidationErrors } from './certificateSlice'
 import { CertificateApiGenericError, certificateApiGenericError } from './listeners/handleGenericCertificateApiError'
-import { getCertificate } from './thunks/getCertificate'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {
@@ -536,128 +535,6 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.certificateId).toEqual(thrownError.certificateId)
-    })
-  })
-
-  describe.skip('Should handle GetCertificateError', () => {
-    it('shall throw error if get certificate replies with error', async () => {
-      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
-
-      testStore.dispatch(getCertificate('certificateId'))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction).toBeTruthy()
-    })
-
-    it('shall throw route error if get certificate replies with error', async () => {
-      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
-
-      testStore.dispatch(getCertificate('certificateId'))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
-    })
-
-    it('shall throw GET_CERTIFICATE_PROBLEM error if get certificate replies with error', async () => {
-      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
-
-      testStore.dispatch(getCertificate('certificateId'))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
-    })
-
-    it('shall throw DATA_NOT_FOUND error', async () => {
-      const expectedError = getExpectedError(ErrorCode.DATA_NOT_FOUND.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.DATA_NOT_FOUND)
-    })
-
-    it('shall throw DATA_NOT_FOUND error with type Route', async () => {
-      const expectedError = getExpectedError(ErrorCode.DATA_NOT_FOUND.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
-    })
-
-    it('shall throw AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET error', async () => {
-      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET)
-    })
-
-    it('shall throw AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET error with type Route', async () => {
-      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
-    })
-
-    it('shall throw AUTHORIZATION_PROBLEM error', async () => {
-      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
-    })
-
-    it('shall throw AUTHORIZATION_PROBLEM error with type Route', async () => {
-      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
-    })
-
-    it('shall throw GET_CERTIFICATE_PROBLEM error', async () => {
-      const expectedError = getExpectedError(ErrorCode.GET_CERTIFICATE_PROBLEM.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
-    })
-
-    it('shall throw GET_CERTIFICATE_PROBLEM error with type Route', async () => {
-      const expectedError = getExpectedError(ErrorCode.GET_CERTIFICATE_PROBLEM.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
-    })
-
-    it('shall throw GET_CERTIFICATE_PROBLEM error if id does not match any specific error code', async () => {
-      const expectedError = getExpectedError(ErrorCode.INTERNAL_PROBLEM.toString())
-
-      testStore.dispatch(getCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
     })
   })
 })

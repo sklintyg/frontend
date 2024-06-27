@@ -2,20 +2,20 @@ import { addDays, isValid } from 'date-fns'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { CertificateDataElement, ConfigUeDateRange, ValueDateRange, ValidationError } from '../../../../types'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
 import {
-  dayCodeReg,
-  weekCodeReg,
-  monthCodeReg,
-  getValidDate,
-  parseDayCodes,
-  formatDateToString,
   _dateReg,
   _dateRegDashesOptional,
+  dayCodeReg,
+  formatDateToString,
+  getValidDate,
+  monthCodeReg,
+  parseDayCodes,
+  weekCodeReg,
 } from '../../../../utils'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]

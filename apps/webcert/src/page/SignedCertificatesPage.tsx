@@ -10,14 +10,14 @@ import {
 } from '../store/list/listSelectors'
 
 import ReactTooltip from 'react-tooltip'
+import ListHeader from '../components/List/ListHeader'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { isFilterDefault } from '../feature/list/listUtils'
-import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { ResourceAccess } from '../utils/ResourceAccess'
-import ListHeader from '../components/List/ListHeader'
 import { epostImage, noDraftsImage } from '../images'
-import { ResourceLinkType, ListType } from '../types'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateSlice'
+import { ListType, ResourceLinkType } from '../types'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 const SignedCertificatesPage: React.FC = () => {
   const dispatch = useDispatch()

@@ -14,11 +14,13 @@ import {
 } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
-import { updateCertificate } from '../certificate/certificateActions'
 import { certificateMiddleware } from '../certificate/certificateMiddleware'
+import { updateCertificate } from '../certificate/certificateSlice'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
+  QuestionResponse,
+  QuestionsResponse,
   createAnswer,
   deleteAnswer,
   deleteQuestion,
@@ -26,8 +28,6 @@ import {
   editQuestion,
   getQuestions,
   handleQuestion,
-  QuestionResponse,
-  QuestionsResponse,
   sendAnswer,
   sendQuestion,
   sendQuestionError,

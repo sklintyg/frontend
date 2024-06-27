@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { hideValidationErrors, showValidationErrors } from '../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { hideValidationErrors, showValidationErrors } from '../../../store/certificate/certificateSlice'
 
 const ShowValidationErrorsSwitch: React.FC = () => {
   const showErrors = useSelector(getShowValidationErrors)

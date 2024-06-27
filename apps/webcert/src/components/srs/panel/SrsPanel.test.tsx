@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo, fakeSrsPrediction, fakeSrsQuestion } from '../../../faker'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { updateCertificate } from '../../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import {
   logSrsInteraction,
@@ -231,9 +231,9 @@ describe('SrsPanel', () => {
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       await userEvent.click(screen.getByText('Beräkna'))
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      expect(screen.getByText('Beräkna')).toBeDisabled()
+      await expect(screen.getByText('Beräkna')).toBeDisabled()
       await userEvent.click(screen.getByLabelText('Förlängning'))
-      expect(screen.getByText('Beräkna')).toBeEnabled()
+      await expect(screen.getByText('Beräkna')).toBeEnabled()
     })
   })
 
@@ -258,14 +258,14 @@ describe('SrsPanel', () => {
       renderComponent()
       const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
       await userEvent.click(button)
-      expect(button).toHaveClass('ic-button--primary')
+      await expect(button).toHaveClass('ic-button--primary')
     })
 
-    it('should set statistics button to secondary button as default', () => {
+    it('should set statistics button to secondary button as default', async () => {
       renderComponent()
       const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
-      expect(button).not.toHaveClass('ic-button--primary')
-      expect(button).toHaveClass('ic-button--secondary')
+      await expect(button).not.toHaveClass('ic-button--primary')
+      await expect(button).toHaveClass('ic-button--secondary')
     })
 
     it('should render recommendations if that choice is chosen', async () => {

@@ -15,7 +15,8 @@ import {
 } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificate } from '../certificate/certificateSlice'
 import { configureApplicationStore } from '../configureApplicationStore'
 import {
   FMBDiagnoseRequest,

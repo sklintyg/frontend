@@ -5,7 +5,6 @@ import { scroller } from 'react-scroll'
 import styled from 'styled-components'
 import InfoBox from '../../components/utils/InfoBox'
 import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
-import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
   getCertificateDataElements,
@@ -16,6 +15,7 @@ import {
   getResourceLinks,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
+import { clearGotoCertificateDataElement } from '../../store/certificate/certificateSlice'
 import { CertificateDataElementStyleEnum, ConfigTypes, ResourceLinkType } from '../../types'
 import CareUnit from './CareUnit/CareUnit'
 import Category from './Category/Category'

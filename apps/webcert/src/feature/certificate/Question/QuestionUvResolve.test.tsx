@@ -18,8 +18,8 @@ import {
   fakeTextAreaElement,
   fakeYearElement,
 } from '../../../faker'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { updateCertificate } from '../../../store/certificate/certificateSlice'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { CertificateDataElement, CertificateDataValueType, ConfigTypes, ConfigUeIcf, ValueIcf, ValueText, ValueYear } from '../../../types'
 import QuestionUvResolve from './QuestionUvResolve'

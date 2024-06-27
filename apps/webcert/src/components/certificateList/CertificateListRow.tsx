@@ -5,7 +5,7 @@ import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/D
 import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
 import { StarFilledIcon, StarIcon } from '../../images'
-import { createNewCertificate } from '../../store/certificate/thunks/handleCreateNewCertificate'
+import { createNewCertificate } from '../../store/certificate/certificateActions'
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
 import { Patient, ResourceLink, ResourceLinkType } from '../../types'
 import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'

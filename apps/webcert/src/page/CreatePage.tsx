@@ -8,15 +8,15 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import ListContainer from '../feature/list/ListContainer'
 import { isFilterDefault } from '../feature/list/listUtils'
-import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import { listImage, noDraftsImage } from '../images'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateSlice'
 import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
 import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
 import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
-import { ResourceAccess } from '../utils/ResourceAccess'
-import { listImage, noDraftsImage } from '../images'
 import { ListFilterType, ListType, ResourceLinkType } from '../types'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 interface Params {
   patientId: string
