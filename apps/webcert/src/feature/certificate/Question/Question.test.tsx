@@ -37,3 +37,21 @@ it('Should display message', () => {
   renderComponent()
   expect(screen.getByText('Some message content')).toBeInTheDocument()
 })
+
+it('Should hide message when question is readOnly', () => {
+  testStore.dispatch(
+    updateCertificate(
+      fakeCertificate({
+        data: {
+          ...fakeTextAreaElement({
+            id: QUESTION_ID,
+            config: { message: { level: MessageLevel.INFO, content: 'Some message content' } },
+            readOnly: true,
+          }),
+        },
+      })
+    )
+  )
+  renderComponent()
+  expect(screen.queryByText('Some message content')).not.toBeInTheDocument()
+})
