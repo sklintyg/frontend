@@ -1,49 +1,73 @@
-import { AnyAction, ThunkMiddleware, createAsyncThunk } from '@reduxjs/toolkit'
-import { AxiosResponse } from 'axios'
+import { AnyAction } from '@reduxjs/toolkit'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode } from '../error/errorReducer'
-import { ApiError, apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
-import { createApiThunk } from './createApiThunk'
+import { ApiError, apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
 
-export const handleApiCallBegan: ThunkMiddleware<unknown> =
-  ({ dispatch }) =>
-  (next) =>
-  (action) => {
-    if (apiCallBegan.match(action)) {
-      const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-
-      const onStartThunk = createAsyncThunk(onStart ?? 'api start', (_: typeof onArgs) => {})
-      const onSuccessThunk = createAsyncThunk(onSuccess ?? 'api success', (_: typeof onArgs) => {})
-      const onErrorThunk = createAsyncThunk(onError ?? 'api error', (_: { error: ApiError } & typeof onArgs) => {})
-
-      dispatch(
-        createApiThunk<any>(`${method} ${url}`, () => ({
-          url,
-          method,
-          data,
-          headers,
-          functionDisablerType,
-          onStart: () => {
-            dispatch(onStartThunk(onArgs))
-          },
-          onSuccess: (data) => {
-            dispatch(onSuccessThunk({ ...data, ...onArgs }))
-          },
-          onError: (error) => {
-            dispatch(
-              onErrorThunk({
-                error,
-                ...onArgs,
-              })
-            )
-          },
-        }))
-      )
+const handleApiCallBegan: Middleware =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  async (action: AnyAction) => {
+    if (!apiCallBegan.match(action)) {
+      return
     }
-    return next(action)
+
+    const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
+    const functionDisabler: FunctionDisabler = generateFunctionDisabler()
+
+    if (onStart) {
+      dispatch({ type: onStart, payload: { ...onArgs } })
+    }
+
+    try {
+      if (functionDisablerType) {
+        dispatch({ type: functionDisablerType, payload: functionDisabler })
+      }
+
+      const response = await axios.request({
+        url,
+        method,
+        data,
+        withCredentials: true,
+        headers: { ...getHeaders(), ...headers },
+      })
+
+      dispatch(apiCallSuccess(response.data))
+
+      if (onSuccess) {
+        dispatch({ type: onSuccess, payload: { ...response.data, ...onArgs } })
+      }
+    } catch (error) {
+      const message = (error as Error)?.message ?? ''
+      const response = (error as AxiosError)?.response ?? undefined
+
+      dispatch(apiCallFailed(message))
+
+      if (onError) {
+        dispatch({
+          type: onError,
+          payload: {
+            error: createApiError(method + ' ' + url, response, message),
+            ...onArgs,
+          },
+        })
+      }
+    } finally {
+      if (functionDisablerType) {
+        dispatch({ type: functionDisablerType, payload: functionDisabler })
+      }
+    }
   }
+
+function getHeaders() {
+  if (sessionStorage.getItem('launchId')) {
+    return { launchId: sessionStorage.getItem('launchId') }
+  }
+  return {}
+}
 
 const handleApiGenericError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>

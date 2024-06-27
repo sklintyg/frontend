@@ -1,4 +1,4 @@
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import { AnyAction, PayloadAction, ThunkMiddleware } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
 import { debounce } from 'lodash-es'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
@@ -268,8 +268,8 @@ const handleSendCertificate: Middleware<Dispatch> =
     )
   }
 
-const handleSendCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+const handleSendCertificateSuccess: ThunkMiddleware<RootState> =
+  ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     if (action.payload.result === 'OK') {
@@ -339,8 +339,8 @@ const handleStartSignCertificate: Middleware<Dispatch> =
     }
   }
 
-const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
-  ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
+const handleSignCertificateStatusSuccess: ThunkMiddleware<RootState> =
+  ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
@@ -717,8 +717,8 @@ const handleCreateCertificateFromCandidate: Middleware<Dispatch> =
     )
   }
 
-const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+const handleCreateCertificateFromCandidateSuccess: ThunkMiddleware<RootState> =
+  ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(hideSpinner())
@@ -793,14 +793,6 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> =
     dispatch(hideSpinner())
     dispatch(copyCertificateCompleted())
     dispatch(push(`/certificate/${action.payload.certificateId}`))
-  }
-
-const handleGenericCertificateApiError: Middleware<Dispatch> =
-  ({ dispatch }) =>
-  () =>
-  (action: AnyAction): void => {
-    dispatch(hideSpinner())
-    dispatch(throwError(createErrorRequestFromApiError(action.payload.error, action.payload.certificateId)))
   }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> =
@@ -976,8 +968,6 @@ const handleGetSessionStatusError: Middleware<Dispatch> =
   }
 
 const middlewareMethods = {
-  [getCertificate.type]: handleGetCertificate,
-  [getCertificateSuccess.type]: handleGetCertificateSuccess,
   [getCertificateEvents.type]: handleGetCertificateEvents,
   [getCertificateEventsSuccess.type]: handleGetCertificateEventsSuccess,
   [startSignCertificate.type]: handleStartSignCertificate,
@@ -1021,8 +1011,6 @@ const middlewareMethods = {
   [answerComplementCertificateSuccess.type]: handleAnswerComplementCertificateSuccess,
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
-  // [certificateApiGenericError.type]: handleGenericCertificateApiError,
-  [getCertificateError.type]: handleGetCertificateError,
   [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
   [signCertificateStatusError.type]: handleSignCertificateStatusError,
   [getSessionStatusError.type]: handleGetSessionStatusError,

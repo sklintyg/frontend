@@ -1,5 +1,5 @@
-import { GetThunkAPI, createAsyncThunk } from '@reduxjs/toolkit'
-import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { GetThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { ErrorCode } from '../error/errorReducer'
@@ -16,9 +16,9 @@ export interface ApiCall<Response> {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   data?: unknown
   headers?: Record<string, string>
-  onStart?: (api: GetThunkAPI<AsyncThunkConfig>) => void
-  onSuccess?: (data: Response, api: GetThunkAPI<AsyncThunkConfig>) => void
-  onError?: (error: ApiError, api: GetThunkAPI<AsyncThunkConfig>) => void
+  onStart?: (api: GetThunkAPI<unknown>) => void
+  onSuccess?: (data: Response, api: GetThunkAPI<unknown>) => void
+  onError?: (error: ApiError, api: GetThunkAPI<unknown>) => void
   functionDisablerType?: string
 }
 
