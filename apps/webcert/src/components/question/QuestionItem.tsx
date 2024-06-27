@@ -4,7 +4,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { CheckIcon, calendarImage, userImage } from '../../images'
+import { calendarImage, CheckIcon, userImage } from '../../images'
 import arrowLeft from '../../images/arrow-left.svg'
 import {
   createAnswer,
@@ -349,7 +349,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </p>
       )}
       {isAnswerButtonVisible() && <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} />}
-      {question.answer && !question.answer.id && (
+      {question.answer && !question.answer.sent && (
         <>
           <div className="ic-forms__group">
             <TextArea value={message} onChange={onTextAreaChange} />
@@ -379,7 +379,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </>
       )}
       {isComplementAnsweredByMessage(question) && getAnsweredByMessage()}
-      {question.answer && question.answer.id && (
+      {question.answer && question.answer.sent && (
         <>
           <QuestionHeader>
             <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />

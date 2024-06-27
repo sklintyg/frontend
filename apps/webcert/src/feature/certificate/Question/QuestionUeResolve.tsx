@@ -112,6 +112,8 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
       return null
+    case ConfigTypes.UE_MESSAGE:
+      return null
   }
 
   return (
