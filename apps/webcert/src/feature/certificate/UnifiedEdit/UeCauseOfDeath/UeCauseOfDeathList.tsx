@@ -50,7 +50,7 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathL
       specification: {
         id: configItem.id,
         type: CertificateDataValueType.CODE,
-        code: value?.specification?.code ?? null,
+        code: value?.specification?.code ?? undefined,
       },
       type: CertificateDataValueType.CAUSE_OF_DEATH,
     }

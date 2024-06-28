@@ -523,7 +523,7 @@ export interface ValueBoolean {
 export interface ValueCode {
   type: CertificateDataValueType.CODE
   id: string
-  code: string
+  code?: string
 }
 
 export interface ValueDate {
@@ -569,7 +569,7 @@ export interface ValueCodeList {
 
 export interface ValueText {
   type: CertificateDataValueType.TEXT
-  text: string | null
+  text?: string | null
   id: string
 }
 
