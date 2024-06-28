@@ -523,7 +523,7 @@ export interface ValueBoolean {
 export interface ValueCode {
   type: CertificateDataValueType.CODE
   id: string
-  code: string
+  code?: string
 }
 
 export interface ValueDate {

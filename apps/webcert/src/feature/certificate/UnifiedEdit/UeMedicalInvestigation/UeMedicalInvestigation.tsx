@@ -6,6 +6,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
+  CertificateDataValueType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
@@ -34,7 +35,7 @@ export function UeMedicalInvestigation({
   disabled,
   config,
   questionConfig,
-  value,
+  value: incommingValue,
   validation,
   validationErrors,
   error,
@@ -43,12 +44,28 @@ export function UeMedicalInvestigation({
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
   questionConfig: ConfigUeMedicalInvestigationList
-  value: ValueMedicalInvestigation
+  value?: ValueMedicalInvestigation
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   error: boolean
   onChange: (value: ValueMedicalInvestigation) => void
 }) {
+  const value: ValueMedicalInvestigation = incommingValue ?? {
+    type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+    date: {
+      type: CertificateDataValueType.DATE,
+      id: config.dateId,
+    },
+    informationSource: {
+      type: CertificateDataValueType.TEXT,
+      id: config.informationSourceId,
+      text: null,
+    },
+    investigationType: {
+      type: CertificateDataValueType.CODE,
+      id: config.investigationTypeId,
+    },
+  }
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
