@@ -5,9 +5,9 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { throwError } from '../../store/error/errorActions'
-import { errorMiddleware } from '../../store/error/errorMiddleware'
-import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import { throwError } from '../../store/error/errorSlice'
+import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/types'
+import { listenerMiddleware } from '../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import ErrorComponent, { ErrorRoute } from './ErrorComponent'
 import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
@@ -56,7 +56,7 @@ const renderComponent = () => {
 
 describe('ErrorComponent', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
   })
 
   afterEach(() => {

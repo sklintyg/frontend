@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
 import { Mock, vi } from 'vitest'
-import { ErrorCode } from '../../../store/error/errorReducer'
-import { SignCertificateModal } from './SignCertificateModal'
+import { ErrorCode } from '../../../store/error/types'
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '../../../types'
+import { SignCertificateModal } from './SignCertificateModal'
 
 vi.mock('react-redux', () => ({
   useSelector: vi.fn(),

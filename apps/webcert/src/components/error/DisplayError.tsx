@@ -1,5 +1,5 @@
 import React from 'react'
-import { ErrorCode } from '../../store/error/errorReducer'
+import { ErrorCode } from '../../store/error/types'
 import AuthorizationProblem from './errorPageContent/AuthorizationProblem'
 import AuthorizationProblemConfidentialityMarking from './errorPageContent/AuthorizationProblemConfidentialityMarking'
 import AuthorizationProblemConfidentialityMarkingUnit from './errorPageContent/AuthorizationProblemConfidentialityMarkingUnit'
@@ -9,12 +9,12 @@ import DataNotFound from './errorPageContent/DataNotFound'
 import GetCertificateProblem from './errorPageContent/GetCertificateProblem'
 import HSAError from './errorPageContent/HSAError'
 import InternalProblem from './errorPageContent/InternalProblem'
+import InvalidLaunchIdError from './errorPageContent/InvalidLaunchIdError'
 import LoginFailed from './errorPageContent/LoginFailed'
 import MedarbetaruppdragSaknas from './errorPageContent/MedarbetaruppdragSaknas'
 import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgreementError'
 import Timeout from './errorPageContent/Timeout'
 import UnknownInternalProblem from './errorPageContent/UnknownInternalProblem'
-import InvalidLaunchIdError from './errorPageContent/InvalidLaunchIdError'
 
 interface Props {
   errorCode?: string

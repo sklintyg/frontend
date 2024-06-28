@@ -4,16 +4,16 @@ import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { listenerMiddleware } from '../listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { setActiveCertificateId, throwError } from './errorActions'
-import { errorMiddleware } from './errorMiddleware'
-import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
+import { setActiveCertificateId, throwError } from './errorSlice'
+import { ErrorCode, ErrorRequest, ErrorType } from './types'
 
 describe('Test error middleware', () => {
   let testStore: EnhancedStore
 
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
   })
 
   afterEach(() => {

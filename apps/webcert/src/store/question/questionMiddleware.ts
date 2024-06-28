@@ -4,9 +4,9 @@ import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType }
 import { getResourceLink } from '../../utils'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
-import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestWithErrorId } from '../error/errorCreator'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { throwError } from '../error/errorSlice'
+import { ErrorCode, ErrorType } from '../error/types'
 import {
   addAnswer,
   addQuestion,

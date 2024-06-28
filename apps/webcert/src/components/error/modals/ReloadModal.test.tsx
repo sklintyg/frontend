@@ -6,9 +6,9 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { clearError } from '../../../store/error/errorActions'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import { clearError } from '../../../store/error/errorSlice'
+import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/types'
+import { listenerMiddleware } from '../../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 
@@ -38,7 +38,7 @@ describe('ReloadModal', () => {
   beforeEach(() => {
     location = window.location
     vi.spyOn(window, 'location', 'get').mockRestore()
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
   })
 
   afterEach(() => {

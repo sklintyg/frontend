@@ -7,9 +7,9 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { clearError } from '../../../store/error/errorActions'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import { clearError } from '../../../store/error/errorSlice'
+import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/types'
+import { listenerMiddleware } from '../../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ErrorModalBase from './ErrorModalBase'
 
@@ -44,7 +44,7 @@ const renderComponent = ({ children, ...props }: ComponentProps<typeof ErrorModa
 
 describe('ErrorModalBase', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
   })
 
   afterEach(() => {

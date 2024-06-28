@@ -1,5 +1,5 @@
 import { CertificateType, Patient } from '../../types'
-import { ErrorRequest } from '../error/errorReducer'
+import { ErrorRequest } from '../error/types'
 import { RootState } from '../store'
 
 export const getActivePatient = (state: RootState): Patient | undefined => state.ui.uiPatient.patient

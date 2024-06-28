@@ -14,7 +14,7 @@ import {
 } from '../../types'
 import { isShowAlways } from '../../utils'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { ErrorData } from '../error/errorReducer'
+import { ErrorData } from '../error/types'
 import {
   GotoCertificateDataElement,
   SigningData,

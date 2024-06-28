@@ -7,7 +7,7 @@ import { Router } from 'react-router-dom'
 import { fakePatient, fakeResourceLink } from '../../../faker'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
+import { listenerMiddleware } from '../../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
@@ -42,7 +42,7 @@ const renderComponent = (isOpen: boolean) => {
 
 describe('MissingRelatedCertificateModal', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
   })
 
   afterEach(() => {

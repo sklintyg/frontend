@@ -2,8 +2,8 @@ import FocusTrap from 'focus-trap-react'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { clearError } from '../../../store/error/errorActions'
-import { ErrorData } from '../../../store/error/errorReducer'
+import { clearError } from '../../../store/error/errorSlice'
+import { ErrorData } from '../../../store/error/types'
 import { CustomButton } from '../../Inputs/CustomButton'
 import ErrorCopyText from '../ErrorCopyText'
 
@@ -36,7 +36,7 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
   }
 
   const handleClose = () => {
-    dispatch(clearError({ errorId: errorData.errorId }))
+    dispatch(clearError())
     setOpen(false)
   }
 

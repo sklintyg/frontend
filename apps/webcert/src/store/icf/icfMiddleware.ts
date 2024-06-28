@@ -4,8 +4,8 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { CertificateDataValueType, ValueDiagnosisList, ValueType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { throwError } from '../error/errorActions'
 import { createSilentErrorRequestFromApiError } from '../error/errorCreator'
+import { throwError } from '../error/errorSlice'
 import {
   getIcfCodes,
   getIcfCodesError,

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/types'
 import { setPatientError } from '../../store/patient/patientActions'
 import store from '../../store/store'
 import PatientSearchError from './PatientSearchError'
