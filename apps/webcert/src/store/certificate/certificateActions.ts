@@ -1,19 +1,19 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError } from '../api/apiActions'
 import {
   Certificate,
-  CertificateEvent,
-  CertificateSignStatus,
-  ModalData,
-  ValidationError,
-  CertificateStatus,
   CertificateDataElement,
-  Unit,
-  Patient,
+  CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
+  CertificateStatus,
   Complement,
+  ModalData,
+  Patient,
+  Unit,
+  ValidationError,
 } from '../../types'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -197,18 +197,6 @@ export const createNewCertificateStarted = createAction(CREATE_NEW_CERTIFICATE_S
 export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(CREATE_NEW_CERTIFICATE_SUCCESS)
 export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
 export const updateCreatedCertificateId = createAction<string>(UPDATE_CERTIFICATE_ID)
-
-export const getCertificate = createAction<string>(GET_CERTIFICATE)
-
-export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
-
-export interface GetCertificateSuccess {
-  certificate: Certificate
-}
-
-export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
-
-export const getCertificateError = createAction<CertificateApiGenericError>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 
