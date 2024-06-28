@@ -569,7 +569,7 @@ export interface ValueCodeList {
 
 export interface ValueText {
   type: CertificateDataValueType.TEXT
-  text: string | null
+  text?: string | null
   id: string
 }
 

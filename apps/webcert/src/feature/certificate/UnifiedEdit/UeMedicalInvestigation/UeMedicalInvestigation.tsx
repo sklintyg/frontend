@@ -59,7 +59,6 @@ export function UeMedicalInvestigation({
     informationSource: {
       type: CertificateDataValueType.TEXT,
       id: config.informationSourceId,
-      text: null,
     },
     investigationType: {
       type: CertificateDataValueType.CODE,
