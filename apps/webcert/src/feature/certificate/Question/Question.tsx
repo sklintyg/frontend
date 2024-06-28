@@ -43,7 +43,11 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
           {<QuestionHeading question={question} />}
         </>
       )}
-      {question.config.message && !question.readOnly && <QuestionMessage message={question.config.message} />}
+      {question.config.message && !question.readOnly && (
+        <div className="iu-mb-200">
+          <QuestionMessage message={question.config.message} />
+        </div>
+      )}
       <div>
         {isReadOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
       </div>
