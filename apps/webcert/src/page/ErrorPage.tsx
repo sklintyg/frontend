@@ -10,8 +10,8 @@ import logo from '../components/header/webcert_logo.png'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import SystemBanners from '../components/notification/SystemBanners'
 import errorImage from '../images/fel-1.svg'
-import { throwError } from '../store/error/errorActions'
-import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { throwError } from '../store/error/errorSlice'
+import { ErrorCode, ErrorType } from '../store/error/types'
 
 const Root = styled.div`
   height: 100vh;

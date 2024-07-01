@@ -10,7 +10,7 @@ import { fakeCertificate, fakePatient } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
+import { listenerMiddleware } from '../../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { LuaenaConfirmModalIntegrated } from './LuaenaConfirmModalIntegrated'
 
@@ -32,7 +32,7 @@ const renderComponent = (isOpen: boolean) => {
 
 describe('LuaenaConfirmModalIntegrated', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware, certificateMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware, certificateMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ metadata: { patient } })))
   })
 

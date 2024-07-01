@@ -2,10 +2,10 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { apiMiddleware } from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { configureApplicationStore } from './configureApplicationStore'
-import { errorMiddleware } from './error/errorMiddleware'
 import { fmbMiddleware } from './fmb/fmbMiddleware'
 import { icfMiddleware } from './icf/icfMiddleware'
 import { listMiddleware } from './list/listMiddleware'
+import { listenerMiddleware } from './listenerMiddleware'
 import { patientMiddleware } from './patient/patientMiddleware'
 import { questionMiddleware } from './question/questionMiddleware'
 import { sessionMiddleware } from './session/sessionMiddleware'
@@ -15,6 +15,7 @@ import { utilsMiddleware } from './utils/utilsMiddleware'
 import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 
 const store = configureApplicationStore([
+  listenerMiddleware,
   apiMiddleware,
   certificateMiddleware,
   userMiddleware,
@@ -24,7 +25,6 @@ const store = configureApplicationStore([
   questionMiddleware,
   icfMiddleware,
   sessionMiddleware,
-  errorMiddleware,
   patientMiddleware,
   listMiddleware,
   srsMiddleware,

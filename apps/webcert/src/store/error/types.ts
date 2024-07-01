@@ -1,6 +1,3 @@
-import { createReducer } from '@reduxjs/toolkit'
-import { clearError, setActiveCertificateId, setError } from './errorActions'
-
 export enum ErrorType {
   ROUTE = 'ROUTE',
   MODAL = 'MODAL',
@@ -72,22 +69,3 @@ export interface ErrorState {
   error?: ErrorData
   activeCertificateId?: string
 }
-
-const getInitialState = (): ErrorState => {
-  return {}
-}
-
-const errorReducer = createReducer(getInitialState(), (builder) =>
-  builder
-    .addCase(setError, (state, action) => {
-      state.error = action.payload
-    })
-    .addCase(setActiveCertificateId, (state, action) => {
-      state.activeCertificateId = action.payload
-    })
-    .addCase(clearError, (state) => {
-      state.error = undefined
-    })
-)
-
-export default errorReducer

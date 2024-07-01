@@ -1,14 +1,14 @@
-import { Dispatch } from 'react'
-import { clearError } from '../../../store/error/errorActions'
-import { ErrorData } from '../../../store/error/errorReducer'
+import { clearError } from '../../../store/error/errorSlice'
+import { ErrorData } from '../../../store/error/types'
+import { AppDispatch } from '../../../store/store'
 
 export interface ModalProps {
   errorData: ErrorData
 }
 
-export const reloadPage = (activeError: ErrorData, dispatch: Dispatch<any>) => {
+export const reloadPage = (activeError: ErrorData, dispatch: AppDispatch) => {
   return (): void => {
-    dispatch(clearError({ errorId: activeError.errorId }))
+    dispatch(clearError())
     window.location.reload()
   }
 }

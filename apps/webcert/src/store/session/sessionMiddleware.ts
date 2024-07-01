@@ -1,8 +1,8 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
-import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
+import { throwError } from '../error/errorSlice'
 import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import {
   clearPollHandle,

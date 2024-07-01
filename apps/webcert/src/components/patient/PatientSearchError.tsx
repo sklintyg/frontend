@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ErrorCode } from '../../store/error/errorReducer'
+import { ErrorCode } from '../../store/error/types'
 import { getPatientError } from '../../store/patient/patientSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import ErrorCopyText from '../error/ErrorCopyText'

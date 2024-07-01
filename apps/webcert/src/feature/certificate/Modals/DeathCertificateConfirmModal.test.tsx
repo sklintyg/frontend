@@ -8,7 +8,7 @@ import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakePatient } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
+import { listenerMiddleware } from '../../../store/listenerMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { DeathCertificateConfirmModal } from './DeathCertificateConfirmModal'
 
@@ -30,7 +30,7 @@ const renderComponent = (isOpen: boolean) => {
 
 describe('DeathCertificateConfirmModal', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
+    testStore = configureApplicationStore([listenerMiddleware, dispatchHelperMiddleware])
     mockDispatchFn = vi.fn()
   })
 

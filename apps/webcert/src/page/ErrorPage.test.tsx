@@ -7,7 +7,7 @@ import { vi } from 'vitest'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 import { configureApplicationStore } from '../store/configureApplicationStore'
-import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../store/error/types'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import ErrorPage from './ErrorPage'
 

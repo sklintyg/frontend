@@ -23,7 +23,7 @@ import {
 } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
 import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
-import { ErrorData } from '../error/errorReducer'
+import { ErrorData } from '../error/types'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
 

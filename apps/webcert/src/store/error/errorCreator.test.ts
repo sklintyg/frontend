@@ -4,7 +4,7 @@ import {
   createErrorRequestTimeout,
   createSilentErrorRequestFromApiError,
 } from './errorCreator'
-import { ErrorCode, ErrorType } from './errorReducer'
+import { ErrorCode, ErrorType } from './types'
 
 describe('Test errorCreator', () => {
   describe('createConcurrencyErrorRequestFromApiError', () => {

@@ -2,9 +2,9 @@ import { AnyAction } from '@reduxjs/toolkit'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { ErrorCode } from '../error/errorReducer'
+import { throwError } from '../error/errorSlice'
+import { ErrorCode } from '../error/types'
 import { ApiError, apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
 
 const handleApiCallBegan: Middleware =
