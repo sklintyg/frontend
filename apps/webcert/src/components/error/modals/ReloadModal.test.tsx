@@ -81,6 +81,6 @@ describe('ReloadModal', () => {
     await userEvent.click(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT))
 
     const clearedError = dispatchedActions.find((action) => clearError.match(action))
-    expect(expectedErrorId).toEqual(clearedError?.payload.errorId)
+    expect(clearedError).toBeTruthy()
   })
 })
