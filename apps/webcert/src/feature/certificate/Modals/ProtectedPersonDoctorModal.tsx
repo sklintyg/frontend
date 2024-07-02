@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import { isDoctor } from '../../../store/user/userSelectors'
 import InfoBox from '../../../components/utils/InfoBox'

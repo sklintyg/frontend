@@ -1,6 +1,6 @@
-import { Dispatch } from 'react'
+import type { Dispatch } from 'react'
 import { clearError } from '../../../store/error/errorActions'
-import { ErrorData } from '../../../store/error/errorReducer'
+import type { ErrorData } from '../../../store/error/errorReducer'
 
 export interface ModalProps {
   errorData: ErrorData

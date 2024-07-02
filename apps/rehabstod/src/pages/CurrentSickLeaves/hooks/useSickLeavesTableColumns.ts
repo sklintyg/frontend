@@ -1,4 +1,4 @@
-import { Column } from '../../../components/Table/types/Column'
+import type { Column } from '../../../components/Table/types/Column'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'

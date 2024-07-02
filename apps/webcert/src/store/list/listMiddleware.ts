@@ -1,5 +1,5 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
 import { apiCallBegan } from '../api/apiActions'
 import { forwardCertificateSuccess } from '../certificate/certificateActions'
@@ -56,7 +56,8 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
-import { ListType, ListFilterConfig } from '../../types'
+import type { ListFilterConfig } from '../../types'
+import { ListType } from '../../types'
 
 const handlePerformListSearch: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>

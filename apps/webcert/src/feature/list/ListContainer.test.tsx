@@ -1,11 +1,12 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
 import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { ErrorCode, ErrorData, ErrorType } from '../../store/error/errorReducer'
+import type { ErrorData } from '../../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import {
   setListError,
   updateActiveList,

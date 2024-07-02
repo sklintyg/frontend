@@ -1,7 +1,7 @@
 import { editImage } from '../../../images'
 import { complementCertificate } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import { ResourceLink } from '../../../types'
+import type { ResourceLink } from '../../../types'
 import { CustomButton } from '../../Inputs/CustomButton'
 
 export function ComplementButton({ link }: { link: ResourceLink }) {

@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import UeCheckbox from './UeCheckbox'
 import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '../../../../faker'
-import { CertificateDataElement } from '../../../../types'
+import type { CertificateDataElement } from '../../../../types'
+import UeCheckbox from './UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
 const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'
@@ -58,59 +58,59 @@ describe('Checkbox component', () => {
     renderBooleanComponent()
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).toBeInTheDocument()
-    expect(checkbox).toBeEnabled()
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).toBeEnabled()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
   })
 
   it('allows user to check and uncheck by clicking boolean checkbox label', async () => {
     renderBooleanComponent()
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).toBeInTheDocument()
-    expect(checkbox).toBeEnabled()
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).toBeEnabled()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_BOOLEAN))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
   })
 
   it('allows user to check and uncheck by clicking on code checkbox', async () => {
     renderCodeComponent()
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).toBeInTheDocument()
-    expect(checkbox).toBeEnabled()
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).toBeEnabled()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByRole('checkbox'))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
   })
 
   it('allows user to check and uncheck by clicking on code label', async () => {
     renderCodeComponent()
     const checkbox = screen.queryByRole('checkbox')
     expect(checkbox).toBeInTheDocument()
-    expect(checkbox).toBeEnabled()
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).toBeEnabled()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
-    expect(checkbox).not.toBeChecked()
+    await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByText(CHECKBOX_LABEL_CODE))
-    expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeChecked()
   })
 
-  it('gets disabled when value is given', () => {
+  it('gets disabled when value is given', async () => {
     render(
       <>
         <UeCheckbox question={questionCode} disabled id="checkbox" />
@@ -121,9 +121,9 @@ describe('Checkbox component', () => {
     )
     const checkboxes = screen.queryAllByRole('checkbox')
     expect(checkboxes).toHaveLength(4)
-    expect(checkboxes[0]).toBeDisabled()
-    expect(checkboxes[1]).toBeDisabled()
-    expect(checkboxes[2]).toBeEnabled()
-    expect(checkboxes[3]).toBeEnabled()
+    await expect(checkboxes[0]).toBeDisabled()
+    await expect(checkboxes[1]).toBeDisabled()
+    await expect(checkboxes[2]).toBeEnabled()
+    await expect(checkboxes[3]).toBeEnabled()
   })
 })

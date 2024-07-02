@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'

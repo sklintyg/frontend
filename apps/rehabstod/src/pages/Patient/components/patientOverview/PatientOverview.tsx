@@ -1,7 +1,7 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
-import { SjfMetaData } from '../../../../schemas/patientSchema'
+import type { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/sickLeaveApi'
 import { BlockedInformationCard } from './blocked/BlockedInformationCard'
 import { OpenInformationCard } from './open/OpenInformationCard'

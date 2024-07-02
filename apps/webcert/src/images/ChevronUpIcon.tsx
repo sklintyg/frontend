@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { ChevronDownIcon } from './ChevronDownIcon'
 
 export const ChevronUpIcon = ({ style, ...props }: ComponentProps<typeof ChevronDownIcon>): React.ReactElement => (

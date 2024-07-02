@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { SummaryDataPoint } from '../../../schemas/sickLeaveSchema'
+import type { SummaryDataPoint } from '../../../schemas/sickLeaveSchema'
 
 export function TextList({ data, parentData }: { parentData: SummaryDataPoint[]; data: SummaryDataPoint[] }) {
   return (

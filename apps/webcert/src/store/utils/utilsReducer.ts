@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
+import type { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
 import {
   resetDiagnosisTypeahead,
   updateConfig,

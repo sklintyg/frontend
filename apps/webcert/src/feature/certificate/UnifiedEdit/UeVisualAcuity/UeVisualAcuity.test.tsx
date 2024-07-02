@@ -1,14 +1,14 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeVisualAcuity from './UeVisualAcuity'
 import { fakeVisualAcuityElement, fakeCertificate } from '../../../../faker'
-import { CertificateDataElement, ConfigUeVisualAcuity } from '../../../../types'
+import type { CertificateDataElement, ConfigUeVisualAcuity } from '../../../../types'
 
 const QUESTION_ID = 'visualAcuity'
 
@@ -73,16 +73,16 @@ describe('Visual Acuity component', () => {
     renderComponent({ disabled: false, question })
     const input = screen.getAllByRole('textbox')[0]
     await userEvent.type(input, 'abc')
-    expect(input).toHaveValue('')
+    await expect(input).toHaveValue('')
     await userEvent.clear(input)
     await userEvent.type(input, '1.5')
-    expect(input).toHaveValue('1,5')
+    await expect(input).toHaveValue('1,5')
     await userEvent.clear(input)
     await userEvent.type(input, '0,3')
-    expect(input).toHaveValue('0,3')
+    await expect(input).toHaveValue('0,3')
     await userEvent.clear(input)
     await userEvent.type(input, '0,35')
-    expect(input).toHaveValue('0,3')
+    await expect(input).toHaveValue('0,3')
   })
 
   const config = question.config as ConfigUeVisualAcuity

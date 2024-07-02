@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { IcfCode } from '../../types/icf'
+import type { IcfCode } from '../../types/icf'
 import { fakeId } from '../fakeId'
 
 export function fakeIcfCode(value?: Partial<IcfCode>): IcfCode {

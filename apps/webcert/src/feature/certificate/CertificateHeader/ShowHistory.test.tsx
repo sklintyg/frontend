@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { fakeCertificateMetaData } from '../../../faker'
-import { CertificateEvent, CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
+import type { CertificateEvent } from '../../../types'
+import { CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
 import ShowHistory from './ShowHistory'
 
 describe('Verify history events', () => {
@@ -120,7 +121,7 @@ describe('Renewal event', () => {
 
     await userEvent.click(screen.getByText('Visa alla händelser'))
 
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 })
 
@@ -150,7 +151,7 @@ describe('Complements event', () => {
     )
     await userEvent.click(screen.getByText('Visa alla händelser'))
     expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 
   it('Display event if signed', async () => {
@@ -172,7 +173,7 @@ describe('Complements event', () => {
     )
     await userEvent.click(screen.getByText('Visa alla händelser'))
     expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 
   it('Display event if revoked', async () => {
@@ -194,7 +195,7 @@ describe('Complements event', () => {
     )
     await userEvent.click(screen.getByText('Visa alla händelser'))
     expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 })
 
@@ -255,7 +256,7 @@ describe('Revoke events', () => {
     expect(
       screen.getByText(/Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras./i)
     ).toBeInTheDocument()
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 
   it('Display revoke event when parent was replaced but isnt revoked', async () => {
@@ -285,7 +286,7 @@ describe('Revoke events', () => {
     expect(
       screen.getByText(/Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras./i)
     ).toBeInTheDocument()
-    expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
   })
 
   it('should display correct revoked event for locked revoked draft', async () => {

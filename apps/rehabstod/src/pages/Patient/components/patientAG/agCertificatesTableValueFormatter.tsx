@@ -1,4 +1,4 @@
-import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
+import type { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 
 export const getAGCertificatesTableValue = (column: string, data: AGCertificate, list?: AGCertificate[]) => {

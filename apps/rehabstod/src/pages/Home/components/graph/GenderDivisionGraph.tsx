@@ -1,5 +1,5 @@
 import { Gender } from '../../../../schemas/patientSchema'
-import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
+import type { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
 import { ChartLegend } from './ChartLegend'
 import { GenderGraph } from './GenderGraph'

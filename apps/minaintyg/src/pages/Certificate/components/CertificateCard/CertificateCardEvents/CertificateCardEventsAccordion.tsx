@@ -1,5 +1,5 @@
 import { IDSIconMinus, IDSIconPlus } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export function CertificateCardEventsAccordion({ children }: { children: ReactNode }) {
   return (

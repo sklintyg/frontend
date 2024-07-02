@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { ValidationError, ValueDateRange } from '../../../../types'
+import type { ValidationError, ValueDateRange } from '../../../../types'
 import {
   _dateReg,
   _dateRegDashesOptional,

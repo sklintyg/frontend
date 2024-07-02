@@ -1,5 +1,5 @@
 import { TableFilter } from '../../../components/Table/TableFilter'
-import { LUCertificatesFilter } from '../../../schemas/luCertificatesSchema'
+import type { LUCertificatesFilter } from '../../../schemas/luCertificatesSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useGetLUFiltersQuery } from '../../../store/luApi'

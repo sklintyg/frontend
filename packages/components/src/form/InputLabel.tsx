@@ -1,5 +1,5 @@
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { TooltipIcon } from '../Tooltip'
 
 export function InputLabel({ htmlFor, description, children }: { htmlFor: string; description?: string; children: ReactNode }) {

@@ -1,6 +1,7 @@
 import { createCalendar } from '@internationalized/date'
 import { useRef } from 'react'
-import { AriaRangeCalendarProps, DateValue, useLocale, useRangeCalendar } from 'react-aria'
+import type { AriaRangeCalendarProps, DateValue } from 'react-aria'
+import { useLocale, useRangeCalendar } from 'react-aria'
 import { useRangeCalendarState } from 'react-stately'
 import { CalendarGrid } from './CalendarGrid'
 import { CalendarHeader } from './CalendarHeader'

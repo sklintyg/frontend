@@ -1,5 +1,5 @@
 import { classNames } from '@frontend/components'
-import { ReactEventHandler } from 'react'
+import type { ReactEventHandler } from 'react'
 
 export function CertificateListOrderButton({ active, label, onClick }: { active: boolean; label: string; onClick: ReactEventHandler }) {
   return (

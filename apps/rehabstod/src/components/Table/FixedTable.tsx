@@ -1,5 +1,6 @@
 import { classNames } from '@frontend/components'
-import { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
+import type { ReactNode, RefObject } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { StickyPortal } from '../StickyContainer/StickyPortal'
 
 export function FixedTable({ children, scrollRef }: { children: ReactNode; scrollRef: RefObject<HTMLDivElement> }) {

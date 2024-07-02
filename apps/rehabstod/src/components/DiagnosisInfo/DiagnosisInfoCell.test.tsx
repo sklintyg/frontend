@@ -1,6 +1,6 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { diagnosisSchema } from '../../schemas/diagnosisSchema'
 import { DiagnosisInfoCell } from './DiagnosisInfoCell'
 

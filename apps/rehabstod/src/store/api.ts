@@ -1,9 +1,9 @@
 import { getCookie } from '@frontend/utils'
 import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
-import { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
-import { Config } from '../schemas/configSchema'
-import { ErrorData } from '../schemas/errorSchema'
+import type { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'
+import type { Config } from '../schemas/configSchema'
+import type { ErrorData } from '../schemas/errorSchema'
 import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
 import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 

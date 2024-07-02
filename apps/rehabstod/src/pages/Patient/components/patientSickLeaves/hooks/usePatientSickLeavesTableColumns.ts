@@ -1,4 +1,4 @@
-import { Column } from '../../../../../components/Table/types/Column'
+import type { Column } from '../../../../../components/Table/types/Column'
 import { filterTableColumns } from '../../../../../components/Table/utils/filterTableColumns'
 import { UserUrval } from '../../../../../schemas'
 import { useGetUserQuery } from '../../../../../store/api'

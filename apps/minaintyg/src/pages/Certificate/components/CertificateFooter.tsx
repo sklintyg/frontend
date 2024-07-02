@@ -1,6 +1,6 @@
 import { isTruthy } from '@frontend/utils/src'
 import { PageDivider } from '../../../components/PageDivider/PageDivider'
-import { CertificateMetadata } from '../../../schema/certificate.schema'
+import type { CertificateMetadata } from '../../../schema/certificate.schema'
 
 export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMetadata) {
   const unitName = unit.name === careUnit.name ? unit.name : [unit.name, careUnit.name].join(', ')

@@ -1,17 +1,10 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement, fakeUser } from '../../faker'
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateRelation,
-  CertificateRelationType,
-  CertificateRelations,
-  CertificateStatus,
-  SigningMethod,
-} from '../../types'
+import type { Certificate, CertificateRelation, CertificateRelations } from '../../types'
+import { CertificateDataElementStyleEnum, CertificateRelationType, CertificateStatus, SigningMethod } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
@@ -21,7 +14,7 @@ import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
-import {
+import type {
   CertificateApiGenericError,
   ComplementCertificateSuccess,
   CreateCertificate,
@@ -29,6 +22,8 @@ import {
   CreateCertificateFromCandidateWithMessageSuccess,
   CreateCertificateResponse,
   SigningData,
+} from './certificateActions'
+import {
   answerComplementCertificate,
   autoSaveCertificate,
   autoSaveCertificateError,

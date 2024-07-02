@@ -1,5 +1,5 @@
 import { Dialog } from '@frontend/components'
-import { ComponentProps, ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 
 export function ReadMoreAboutDialog({
   open,

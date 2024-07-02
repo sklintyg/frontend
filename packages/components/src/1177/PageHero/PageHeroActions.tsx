@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { hasNoChildren } from '../../utils/hasNoChildren'
 
 export function PageHeroActions({ children }: { children: ReactNode }) {

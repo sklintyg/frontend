@@ -18,15 +18,8 @@ import {
   fakeTextAreaElement,
   fakeTextFieldElement,
 } from '../../faker'
-import {
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  CertificateStatus,
-  ConfigUeCheckboxMultipleCodes,
-  ResourceLinkType,
-  ValueCodeList,
-  ValueText,
-} from '../../types'
+import type { ConfigUeCheckboxMultipleCodes, ValueCodeList, ValueText } from '../../types'
+import { CertificateDataValidationType, CertificateDataValueType, CertificateStatus, ResourceLinkType } from '../../types'
 import { getDecoratedCertificateData } from './getDecoratedCertificateData'
 
 describe('mandatory', () => {

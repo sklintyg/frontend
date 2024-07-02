@@ -4,10 +4,10 @@ import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
+import { fakePatient } from '../../faker'
 import { setPatient } from '../../store/patient/patientActions'
 import store from '../../store/store'
 import PatientSearch from './PatientSearch'
-import { fakePatient } from '../../faker'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
@@ -52,35 +52,35 @@ describe('PatientSearch', () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212')
-      expect(input).toHaveValue('191212')
+      await expect(input).toHaveValue('191212')
     })
 
     it('should add dash when user types patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212121212')
-      expect(input).toHaveValue('19121212-1212')
+      await expect(input).toHaveValue('19121212-1212')
     })
   })
 
   describe('Submit', () => {
-    it('should have submit disabled if no input', () => {
+    it('should have submit disabled if no input', async () => {
       renderComponent()
-      expect(screen.getByText('Fortsätt')).toBeDisabled()
+      await expect(screen.getByText('Fortsätt')).toBeDisabled()
     })
 
     it('should have submit disabled if input is not correct patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212')
-      expect(screen.getByText('Fortsätt')).toBeDisabled()
+      await expect(screen.getByText('Fortsätt')).toBeDisabled()
     })
 
     it('should have submit enabled if input is correct patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212121212')
-      expect(screen.getByText('Fortsätt')).toBeEnabled()
+      await expect(screen.getByText('Fortsätt')).toBeEnabled()
     })
   })
 

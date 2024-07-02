@@ -1,6 +1,7 @@
-import React from 'react'
+import type React from 'react'
 import { InfoCircle } from '../../images'
-import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormType } from '../../types'
+import type { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm } from '../../types'
+import { FMBDiagnosisCodeInfoFormType } from '../../types'
 import { Italic } from './FMBPanel'
 import FMBPanelGuidanceInfo from './FMBPanelGuidanceInfo'
 

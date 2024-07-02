@@ -1,5 +1,5 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Middleware } from 'redux'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Middleware } from 'redux'
 
 export const dispatchedActions: AnyAction[] = []
 

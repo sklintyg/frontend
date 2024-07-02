@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useGetSessionPingQuery } from '../../store/api'
 import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { SessionDialog } from '../SessionDialog/SessionDialog'

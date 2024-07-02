@@ -1,5 +1,5 @@
-import { IDSIconBase } from '@inera/ids-core/components/icons/icon-base-element'
-import { createComponent } from '@lit-labs/react'
+import type { IDSIconBase } from '@inera/ids-core/components/icons/icon-base-element'
+import type { createComponent } from '@lit-labs/react'
 
 export * from './IDSIconAgent'
 export * from './IDSIconArrow'

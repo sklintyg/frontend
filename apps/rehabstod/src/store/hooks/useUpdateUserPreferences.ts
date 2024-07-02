@@ -1,7 +1,7 @@
 import isEqual from 'lodash/isEqual'
 import { useRef } from 'react'
 import { useAppDispatch } from '.'
-import { UserPreferences } from '../../schemas'
+import type { UserPreferences } from '../../schemas'
 import { api, useGetUserQuery } from '../api'
 
 /**

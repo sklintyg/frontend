@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { PrintButton } from '../../PrintButton/PrintButton'
 
 export function TableInfoLeft({ modifyTable, printable = false }: { modifyTable: ReactNode; printable?: boolean }) {

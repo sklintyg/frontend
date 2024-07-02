@@ -1,5 +1,5 @@
 import { areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
-import { ConfigUeCheckboxDateRange, ValueDateRange } from './../types/certificate'
+import type { ConfigUeCheckboxDateRange, ValueDateRange } from './../types/certificate'
 import { replaceDecimalSeparator } from './textUtils'
 
 export const _dateReg = /[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/

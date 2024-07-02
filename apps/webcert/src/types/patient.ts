@@ -1,4 +1,4 @@
-import { ResourceLink } from './resourceLink'
+import type { ResourceLink } from './resourceLink'
 
 export enum PatientStatus {
   FOUND = 'FOUND',

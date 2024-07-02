@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export function MaxColspanRow({ children, colspan }: { children: ReactNode; colspan: number }) {
   return (

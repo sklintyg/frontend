@@ -1,4 +1,4 @@
-import { CertificateRecipient } from '../../../../schema/certificate.schema'
+import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { isMobileApp } from '../../utils/isMobileApp'
 import { CustomizePrintDialog } from './CustomizePrintDialog/CustomizePrintDialog'
 import { PrintCertificateAction } from './PrintCertificateAction'

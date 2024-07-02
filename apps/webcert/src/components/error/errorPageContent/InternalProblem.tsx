@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 export const INTERNAL_PROBLEM_TITLE = 'Intyget kunde inte visas'

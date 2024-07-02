@@ -1,4 +1,4 @@
-import { Column } from '../types/Column'
+import type { Column } from '../types/Column'
 import { TableHeaderCell } from './TableHeaderCell'
 
 export function TableHeader({ columns }: { columns: Column[] }) {

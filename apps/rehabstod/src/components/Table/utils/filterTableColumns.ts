@@ -1,4 +1,4 @@
-import { TableColumn } from '../../../schemas/tableSchema'
+import type { TableColumn } from '../../../schemas/tableSchema'
 
 export const isPatientViewColumn = (name: string) => name === 'Namn' || name === 'Personnummer' || name === 'Kön' || name === 'Ålder'
 

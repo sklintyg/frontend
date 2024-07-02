@@ -1,7 +1,7 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
@@ -30,7 +30,7 @@ describe('UeTextArea', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Hello, World!')
-    expect(input).toHaveValue('Hello, World!')
+    await expect(input).toHaveValue('Hello, World!')
     // TODO: Perhaps this will work if we update our testing packages. Can't break to new lines currently
     //   userEvent.type(input, 'Hello,{enter}World!')
     //   expect(input).toHaveValue('Hello,\nWorld!')

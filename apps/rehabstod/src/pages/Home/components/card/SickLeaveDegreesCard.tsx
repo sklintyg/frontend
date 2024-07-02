@@ -1,4 +1,4 @@
-import { SickLeaveDegreeSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import type { SickLeaveDegreeSummary, SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
 import { StatisticsCard } from './StatisticsCard'
 import { getGenderText } from '../../statisticsUtils'

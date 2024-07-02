@@ -1,6 +1,7 @@
-import { CertificateData, CertificateDataElement, CertificateDataValidation } from '../../types'
+import type { CertificateData, CertificateDataElement, CertificateDataValidation } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
-import { ValidationResult, getValidationResults } from './getValidationResults'
+import type { ValidationResult } from './getValidationResults'
+import { getValidationResults } from './getValidationResults'
 
 const isAffected = (element: CertificateDataElement) => (validation: CertificateDataValidation) =>
   validation.questionId === element.id || validation.questions?.some(isAffected(element))

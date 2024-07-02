@@ -1,5 +1,5 @@
 import { IDSAlertGlobal, IDSIconAttention, IDSIconInformation, IDSIconWarning } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export enum PriorityEnum {
   'INFO',

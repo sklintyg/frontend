@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { beforeEach, expect, vi } from 'vitest'
 import CustomTooltip from '../../../components/utils/CustomTooltip'
-import { CertificateMetadata } from '../../../types'
+import type { CertificateMetadata } from '../../../types'
 import ShowRelatedCertificateButton from './ShowRelatedCertificateButton'
 
 const NAME = 'Show related certificate button name'

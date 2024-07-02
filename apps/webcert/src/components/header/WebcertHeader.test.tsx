@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../../faker'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
-import { ResourceLinkType, Unit, User } from '../../types'
+import type { Unit, User } from '../../types'
+import { ResourceLinkType } from '../../types'
 import WebcertHeader from './WebcertHeader'
 
 const getUserWithMissingSubscription = (): User => {

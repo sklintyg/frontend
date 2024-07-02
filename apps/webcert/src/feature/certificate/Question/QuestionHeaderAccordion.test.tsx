@@ -1,6 +1,6 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateConfig } from '../../../faker'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'

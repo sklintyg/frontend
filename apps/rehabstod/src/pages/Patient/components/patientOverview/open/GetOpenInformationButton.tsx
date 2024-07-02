@@ -1,7 +1,7 @@
 import { Dialog } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { SjfItem } from '../../../../../schemas/patientSchema'
+import type { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onClick: (id: string) => void }) {
   const [open, setOpen] = useState(false)

@@ -1,7 +1,7 @@
 import { DiagnosisInfo } from '../../../components/DiagnosisInfo/DiagnosisInfo'
 import { EndDateInfo } from '../../../components/SickLeave/EndDateInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
-import { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import type { RiskSignal, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'

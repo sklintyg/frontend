@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { ModifyTableColumns } from '../../../components/Table/ModifyTableColumns/ModifyTableColumns'
-import { TableColumn } from '../../../schemas/tableSchema'
+import type { TableColumn } from '../../../schemas/tableSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useUpdateUserPreferences } from '../../../store/hooks/useUpdateUserPreferences'

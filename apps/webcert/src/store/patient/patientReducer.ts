@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { CertificateType, Patient, PatientStatus } from '../../types'
-import { ErrorRequest } from '../error/errorReducer'
+import type { CertificateType, Patient, PatientStatus } from '../../types'
+import type { ErrorRequest } from '../error/errorReducer'
 import {
   clearPatient,
   clearPatientError,

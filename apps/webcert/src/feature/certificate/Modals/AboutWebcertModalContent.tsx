@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getConfig } from '../../../store/utils/utilsSelectors'

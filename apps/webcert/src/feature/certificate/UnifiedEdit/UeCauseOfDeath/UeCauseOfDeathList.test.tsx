@@ -1,17 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCauseOfDeathListElement } from '../../../../faker'
 import store from '../../../../store/store'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ValueCode,
-  ValueDate,
-  ValueText,
-} from '../../../../types'
+import type { CertificateDataElement, ValueCode, ValueDate, ValueText } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 const DESCRIPTION_LABEL = 'Beskrivning'
@@ -69,7 +63,7 @@ describe('Cause of death component', () => {
     })
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     const description: ValueText = { type: CertificateDataValueType.TEXT, id: '1', text: 'Description text' }
     const debut: ValueDate = { type: CertificateDataValueType.DATE, id: '1', date: '2020-02-20' }
     const specification: ValueCode = { type: CertificateDataValueType.CODE, id: '1', code: '' }
@@ -89,9 +83,9 @@ describe('Cause of death component', () => {
       })[QUESTION_ID],
     })
 
-    expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')
-    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)[0]).toHaveValue('Description text')
-    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)[0]).toHaveValue('')
+    await expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')
+    await expect(screen.getAllByLabelText(DESCRIPTION_LABEL)[0]).toHaveValue('Description text')
+    await expect(screen.getAllByLabelText(SPECIFICATION_LABEL)[0]).toHaveValue('')
   })
 
   it('does not disable component if disabled is not set', () => {
@@ -100,17 +94,17 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach((description) => {
-      expect(description).toBeEnabled()
+    descriptions.forEach(async (description) => {
+      await expect(description).toBeEnabled()
     })
-    specifications.forEach((specification) => {
-      expect(specification).toBeEnabled()
+    specifications.forEach(async (specification) => {
+      await expect(specification).toBeEnabled()
     })
-    dates.forEach((date) => {
-      expect(date).toBeEnabled()
+    dates.forEach(async (date) => {
+      await expect(date).toBeEnabled()
     })
-    buttons.forEach((button) => {
-      expect(button).toBeEnabled()
+    buttons.forEach(async (button) => {
+      await expect(button).toBeEnabled()
     })
   })
 
@@ -120,17 +114,17 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach((description) => {
-      expect(description).toBeDisabled()
+    descriptions.forEach(async (description) => {
+      await expect(description).toBeDisabled()
     })
-    specifications.forEach((specification) => {
-      expect(specification).toBeDisabled()
+    specifications.forEach(async (specification) => {
+      await expect(specification).toBeDisabled()
     })
-    dates.forEach((date) => {
-      expect(date).toBeDisabled()
+    dates.forEach(async (date) => {
+      await expect(date).toBeDisabled()
     })
-    buttons.forEach((button) => {
-      expect(button).toBeDisabled()
+    buttons.forEach(async (button) => {
+      await expect(button).toBeDisabled()
     })
   })
 
@@ -142,7 +136,7 @@ describe('Cause of death component', () => {
     dates.forEach(async (date) => {
       await userEvent.clear(date)
       await userEvent.type(date, inputDate)
-      expect(date).toHaveValue(expected)
+      await expect(date).toHaveValue(expected)
     })
   })
 
@@ -167,11 +161,11 @@ describe('Cause of death component', () => {
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(7)
-    expect(button).toBeEnabled()
+    await expect(button).toBeEnabled()
     await userEvent.click(button)
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(8)
-    expect(button).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 })

@@ -1,6 +1,7 @@
 import { useRef } from 'react'
-import { DropIndicatorProps, useDropIndicator } from 'react-aria'
-import { DroppableCollectionState } from 'react-stately'
+import type { DropIndicatorProps } from 'react-aria'
+import { useDropIndicator } from 'react-aria'
+import type { DroppableCollectionState } from 'react-stately'
 
 export function DropIndicator({ dropState, ...props }: DropIndicatorProps & { dropState: DroppableCollectionState }) {
   const ref = useRef(null)

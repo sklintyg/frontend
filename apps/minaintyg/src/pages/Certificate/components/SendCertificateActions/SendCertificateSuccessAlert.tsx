@@ -1,6 +1,6 @@
 import { IDSAlert } from '@frontend/ids-react-ts'
 import { useFormat } from '../../../../hooks/useFormat'
-import { CertificateRecipient } from '../../../../schema/certificate.schema'
+import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 
 export function SendCertificateSuccessAlert({ recipient }: { recipient: CertificateRecipient }) {
   const { datetime } = useFormat()

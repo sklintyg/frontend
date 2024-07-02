@@ -1,13 +1,6 @@
-import React from 'react'
-import {
-  CertificateDataConfig,
-  CheckboxCode,
-  ConfigLayout,
-  ConfigTypes,
-  ConfigUeCheckboxMultipleCodes,
-  ValueCode,
-  ValueCodeList,
-} from '../../../types'
+import type React from 'react'
+import type { CertificateDataConfig, CheckboxCode, ConfigUeCheckboxMultipleCodes, ValueCode, ValueCodeList } from '../../../types'
+import { ConfigLayout, ConfigTypes } from '../../../types'
 import { Badge } from '../Badge'
 
 const getCodeListText = (id: string, config: CertificateDataConfig) => {

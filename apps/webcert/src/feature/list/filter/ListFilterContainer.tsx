@@ -2,15 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
-import {
-  CertificateListItemValueType,
-  ListConfig,
-  ListFilter,
-  ListFilterPageSizeConfig,
-  ListFilterType,
-  ListFilterValue,
-  ListFilterValueNumber,
-} from '../../../types'
+import type { ListConfig, ListFilter, ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber } from '../../../types'
+import { CertificateListItemValueType, ListFilterType } from '../../../types'
 import ListFilterButtons from '../ListFilterButtons'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { getTooltip } from '../listUtils'

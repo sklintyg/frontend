@@ -1,7 +1,8 @@
 import { fakeShowValidation, fakeTextAreaElement } from '../../faker'
-import { CertificateDataValidation, CertificateDataValidationType } from '../../types'
+import type { CertificateDataValidation } from '../../types'
+import { CertificateDataValidationType } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
-import { ValidationResult } from './getValidationResults'
+import type { ValidationResult } from './getValidationResults'
 
 const element = fakeTextAreaElement({
   id: 'id',

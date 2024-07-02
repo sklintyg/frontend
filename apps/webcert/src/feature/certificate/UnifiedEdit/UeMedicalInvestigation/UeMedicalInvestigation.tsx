@@ -3,9 +3,8 @@ import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/Dat
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import {
+import type {
   CertificateDataValidation,
-  CertificateDataValidationType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
@@ -13,6 +12,7 @@ import {
   ValidationError,
   ValueMedicalInvestigation,
 } from '../../../../types'
+import { CertificateDataValidationType } from '../../../../types'
 
 const Row = styled.div`
   display: flex;

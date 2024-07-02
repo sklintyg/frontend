@@ -1,5 +1,5 @@
-import { ModalProps } from './errorUtils'
-import React from 'react'
+import type { ModalProps } from './errorUtils'
+import type React from 'react'
 import ErrorModalBase from './ErrorModalBase'
 
 export const INVALID_STATE_TITLE = 'Funktionen är inte giltig'

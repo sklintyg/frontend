@@ -1,5 +1,6 @@
-import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
-import { TimePeriodMetric, TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
+import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
+import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
+import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'

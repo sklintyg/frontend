@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import { Element, HTMLReactParserOptions, domToReact } from 'html-react-parser'
+import type { Element, HTMLReactParserOptions } from 'html-react-parser'
+import { domToReact } from 'html-react-parser'
 import { isElement } from './utils/isElement'
 
 export function MobileTable({ header, body, options }: { header?: Element; body?: Element; options: HTMLReactParserOptions }) {

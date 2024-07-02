@@ -1,5 +1,5 @@
 import { DiagnosisFilter } from '../../../../components/Table/filter/DiagnosisFilter'
-import { DiagnosKapitel } from '../../../../schemas/diagnosisSchema'
+import type { DiagnosKapitel } from '../../../../schemas/diagnosisSchema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slices/luCertificatesFilter.slice'
 

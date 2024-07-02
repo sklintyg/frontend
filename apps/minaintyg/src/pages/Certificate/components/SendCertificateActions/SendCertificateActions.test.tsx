@@ -5,12 +5,8 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../../../mocks/server'
-import {
-  AvailableFunction,
-  CertificateRecipient,
-  availableFunctionSchema,
-  certificateRecipientSchema,
-} from '../../../../schema/certificate.schema'
+import type { AvailableFunction, CertificateRecipient } from '../../../../schema/certificate.schema'
+import { availableFunctionSchema, certificateRecipientSchema } from '../../../../schema/certificate.schema'
 import { store } from '../../../../store/store'
 import { SendCertificateActions } from './SendCertificateActions'
 

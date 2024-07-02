@@ -1,5 +1,7 @@
-import { Placement, autoUpdate, flip, offset, size, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
-import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
+import type { Placement } from '@floating-ui/react'
+import { autoUpdate, flip, offset, size, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
+import type { ReactNode } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 
 interface PopoverProps {
   open?: boolean

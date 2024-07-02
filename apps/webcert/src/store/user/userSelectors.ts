@@ -1,5 +1,5 @@
-import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
-import { RootState } from '../store'
+import type { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
+import type { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 

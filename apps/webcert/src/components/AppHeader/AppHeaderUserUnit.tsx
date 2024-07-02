@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
 import { houseImage } from '../../images'
 

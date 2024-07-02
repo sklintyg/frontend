@@ -1,4 +1,5 @@
-import { RefObject, useEffect } from 'react'
+import type { RefObject } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 function updateDocumentTitle(el?: HTMLElement | null) {

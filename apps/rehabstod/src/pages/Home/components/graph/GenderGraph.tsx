@@ -1,4 +1,4 @@
-import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
+import type { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { FemaleIcon } from '../../assets/FemaleIcon'
 import { MaleIcon } from '../../assets/MaleIcon'
 import { Gender } from '../../../../schemas/patientSchema'

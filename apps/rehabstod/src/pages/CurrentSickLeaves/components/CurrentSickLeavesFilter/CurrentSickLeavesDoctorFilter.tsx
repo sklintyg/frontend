@@ -1,5 +1,5 @@
 import { DoctorFilter } from '../../../../components/Table/filter/DoctorFilter'
-import { Lakare } from '../../../../schemas/lakareSchema'
+import type { Lakare } from '../../../../schemas/lakareSchema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slices/sickLeaveFilter.slice'
 

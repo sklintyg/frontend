@@ -5,14 +5,8 @@ import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeTextField,
-  TextValidation,
-  ValueText,
-} from '../../../../types'
+import type { CertificateDataElement, ConfigUeTextField, TextValidation, ValueText } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

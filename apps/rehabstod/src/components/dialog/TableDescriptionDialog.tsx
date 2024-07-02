@@ -1,7 +1,7 @@
 import { Dialog } from '@frontend/components'
 import { IDSButton, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { Column } from '../Table/types/Column'
+import type { Column } from '../Table/types/Column'
 
 export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   const [open, setOpen] = useState(false)

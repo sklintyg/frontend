@@ -2,7 +2,7 @@ import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/Diagnosi
 import { MinimizedSickLeaveDegreeInfo } from '../../../../components/SickLeave/MinimizedSickLeaveDegreeInfo'
 import { RiskSignalInfo } from '../../../../components/SickLeave/RiskSignalInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
-import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
+import type { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from '../../utils/getCertificateColumnData'
 import { CertificateButton } from '../CertificateButton'

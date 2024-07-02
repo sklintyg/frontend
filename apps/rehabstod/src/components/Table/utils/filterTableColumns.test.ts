@@ -1,5 +1,5 @@
 import { filterTableColumns } from './filterTableColumns'
-import { TableColumn } from '../../../schemas/tableSchema'
+import type { TableColumn } from '../../../schemas/tableSchema'
 
 const columns: TableColumn[] = [
   { name: 'Personnummer', visible: true, disabled: false, index: 0 },

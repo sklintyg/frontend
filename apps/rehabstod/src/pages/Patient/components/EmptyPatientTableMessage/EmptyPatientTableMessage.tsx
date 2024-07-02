@@ -1,5 +1,5 @@
 import { MaxColspanRow } from '../../../../components/Table/tableBody/MaxColspanRow'
-import { User } from '../../../../schemas'
+import type { User } from '../../../../schemas'
 
 export function EmptyPatientTableMessage({ tableName, tableLength, user }: { tableName: string; tableLength: number; user?: User }) {
   return (

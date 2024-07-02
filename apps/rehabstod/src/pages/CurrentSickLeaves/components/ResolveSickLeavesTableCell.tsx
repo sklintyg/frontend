@@ -4,7 +4,7 @@ import { RekoStatusDropdown } from '../../../components/SickLeave/RekoStatusDrop
 import { RiskSignalInfo } from '../../../components/SickLeave/RiskSignalInfo'
 import { SickLeaveDegreeInfo } from '../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../components/Table/tableBody/TableCell'
-import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'

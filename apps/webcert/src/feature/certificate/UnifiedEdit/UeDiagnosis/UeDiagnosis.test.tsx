@@ -1,7 +1,7 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import * as redux from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
@@ -61,8 +61,8 @@ describe('Diagnosis component', () => {
     expect(screen.queryAllByRole('option')).toHaveLength(0)
     await userEvent.type(screen.getByTestId('id-diagnos'), 'ä')
     expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
-    expect(screen.getByTestId('id-diagnos')).toHaveValue('ä')
-    expect(screen.getByTestId('id-code')).toHaveValue('')
+    await expect(screen.getByTestId('id-diagnos')).toHaveValue('ä')
+    await expect(screen.getByTestId('id-code')).toHaveValue('')
     expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
   })
 
@@ -85,8 +85,8 @@ describe('Diagnosis component', () => {
     expect(items).toHaveLength(DIAGNOSES.length)
     await userEvent.click(items[3])
     expect(screen.queryAllByRole('option')).toHaveLength(0)
-    expect(screen.getByTestId('id-code')).toHaveValue(DIAGNOSES[3].kod)
-    expect(screen.getByTestId('id-diagnos')).toHaveValue(DIAGNOSES[3].beskrivning)
+    await expect(screen.getByTestId('id-code')).toHaveValue(DIAGNOSES[3].kod)
+    await expect(screen.getByTestId('id-diagnos')).toHaveValue(DIAGNOSES[3].beskrivning)
   })
 
   it('Should not allow user to choose short psychological diagnosis', async () => {
@@ -98,8 +98,8 @@ describe('Diagnosis component', () => {
     expect(items).toHaveLength(DIAGNOSES.length)
     await userEvent.click(items[0])
     expect(screen.queryAllByRole('option')).toHaveLength(0)
-    expect(screen.getByTestId('id-code')).toHaveValue('')
-    expect(screen.getByTestId('id-diagnos')).toHaveValue('a')
+    await expect(screen.getByTestId('id-code')).toHaveValue('')
+    await expect(screen.getByTestId('id-diagnos')).toHaveValue('a')
   })
 
   it('Should close list when component does not have focus', async () => {

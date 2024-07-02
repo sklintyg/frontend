@@ -1,4 +1,4 @@
-import { LUCertificate } from '../../../schemas/luCertificatesSchema'
+import type { LUCertificate } from '../../../schemas/luCertificatesSchema'
 import { LUCertificatesColumn } from '../../../store/slices/luUnitTableColumns.slice'
 
 export const getLUCertificatesTableValue = (column: string, data: LUCertificate, list?: LUCertificate[]) => {

@@ -1,6 +1,6 @@
-import { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
-import { RootState } from '../store'
-import { Configuration } from './utilsReducer'
+import type { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
+import type { RootState } from '../store'
+import type { Configuration } from './utilsReducer'
 
 export const getDynamicLink =
   (key: string) =>

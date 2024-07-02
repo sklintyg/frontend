@@ -1,8 +1,7 @@
-import { Key, useRef } from 'react'
+import type { Key } from 'react'
+import { useRef } from 'react'
+import type { AriaListBoxProps, DragItem, DroppableCollectionOptions } from 'react-aria'
 import {
-  AriaListBoxProps,
-  DragItem,
-  DroppableCollectionOptions,
   ListDropTargetDelegate,
   ListKeyboardDelegate,
   mergeProps,

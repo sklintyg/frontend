@@ -1,4 +1,4 @@
-import { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
+import type { PatientSjukfallIntyg } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 

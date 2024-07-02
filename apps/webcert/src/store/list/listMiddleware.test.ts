@@ -1,17 +1,18 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
 import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
 import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
-import { CertificateListItem, ListType } from '../../types'
+import type { CertificateListItem } from '../../types'
+import { ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import type { ListResponse } from './listActions'
 import {
-  ListResponse,
   getCertificateList,
   getCertificateListConfig,
   getDraftListConfig,

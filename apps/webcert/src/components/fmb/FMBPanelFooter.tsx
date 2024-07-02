@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 

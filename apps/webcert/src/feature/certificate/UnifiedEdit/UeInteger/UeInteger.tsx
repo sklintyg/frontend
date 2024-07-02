@@ -6,7 +6,7 @@ import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { CertificateDataElement, ConfigUeInteger, ValueInteger } from '../../../../types'
+import type { CertificateDataElement, ConfigUeInteger, ValueInteger } from '../../../../types'
 
 const Wrapper = styled.div`
   display: flex;

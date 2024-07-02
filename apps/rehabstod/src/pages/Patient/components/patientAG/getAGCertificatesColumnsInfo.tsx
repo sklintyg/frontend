@@ -1,4 +1,4 @@
-import { Column } from '../../../../components/Table/types/Column'
+import type { Column } from '../../../../components/Table/types/Column'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 
 export const getAGCertificatesColumnInfo = (column: string): Column => {

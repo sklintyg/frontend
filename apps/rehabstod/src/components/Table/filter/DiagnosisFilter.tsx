@@ -1,4 +1,4 @@
-import { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'

@@ -1,4 +1,4 @@
-import { SortDirection } from 'react-stately'
+import type { SortDirection } from 'react-stately'
 import { CertificateListOrderButton } from './CertificateListOrderButton'
 
 export function CertificateListOrder({ order, setOrder }: { order: SortDirection; setOrder: (order: SortDirection) => void }) {

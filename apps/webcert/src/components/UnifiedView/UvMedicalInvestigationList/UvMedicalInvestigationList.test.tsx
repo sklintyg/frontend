@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { fakeMedicalInvestigationListElement } from '../../../faker'
-import { CertificateDataElement, ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
+import type { CertificateDataElement, ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
 import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'
 
 const QUESTION_ID = 'questionId'

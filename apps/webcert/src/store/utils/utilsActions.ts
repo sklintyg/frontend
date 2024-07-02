@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { Configuration, DynamicLinkMap } from './utilsReducer'
-import { DiagnosisTypeahead } from '../../types'
+import type { Configuration, DynamicLinkMap } from './utilsReducer'
+import type { DiagnosisTypeahead } from '../../types'
 
 export interface GetDiagnosisTypeahead {
   codeSystem: string

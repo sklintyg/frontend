@@ -1,4 +1,4 @@
-import { CertificateIssuer, CertificateUnit } from '../../../../schema/certificate.schema'
+import type { CertificateIssuer, CertificateUnit } from '../../../../schema/certificate.schema'
 
 export function CertificateCardInfo({ issuer, unit }: { issuer: CertificateIssuer; unit: CertificateUnit }) {
   return (

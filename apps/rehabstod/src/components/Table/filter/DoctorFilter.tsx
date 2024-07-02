@@ -1,4 +1,4 @@
-import { Lakare } from '../../../schemas/lakareSchema'
+import type { Lakare } from '../../../schemas/lakareSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'

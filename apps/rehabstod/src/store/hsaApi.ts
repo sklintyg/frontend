@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { MedarbetarUppdrag, Person } from '../schemas/hsa'
+import type { MedarbetarUppdrag, Person } from '../schemas/hsa'
 
 export const hsaApi = createApi({
   reducerPath: 'hsa-api',
