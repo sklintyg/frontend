@@ -682,6 +682,8 @@ export enum CertificateDataValidationType {
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
+  MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
+  MIN_DATE_VALIDATION = 'MIN_DATE_VALIDATION',
 }
 
 export type CertificateDataValidation =
@@ -695,9 +697,10 @@ export type CertificateDataValidation =
   | MandatoryValidation
   | CategoryMandatoryValidation
   | HighlightValidation
+  | MaxDateValidation
+  | MinDateValidation
 
-interface CertificateDataValidationBase<T extends CertificateDataValidationType> {
-  type: T
+type CertificateDataValidationBase = {
   questionId: string
   id?: string | string[]
   expression?: string
@@ -705,36 +708,57 @@ interface CertificateDataValidationBase<T extends CertificateDataValidationType>
   questions?: CertificateDataValidation[]
 }
 
-export interface AutoFillValidation extends CertificateDataValidationBase<CertificateDataValidationType.AUTO_FILL_VALIDATION> {
+export type MaxDateValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.MAX_DATE_VALIDATION
+  questionId: string
+  id: string
+  expression: string
+}
+
+export type MinDateValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.MIN_DATE_VALIDATION
+  questionId: string
+  id: string
+  expression: string
+}
+
+export type AutoFillValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.AUTO_FILL_VALIDATION
   id: string
   fillValue: ValueType
 }
 
-export interface TextValidation extends CertificateDataValidationBase<CertificateDataValidationType.TEXT_VALIDATION> {
+export type TextValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.TEXT_VALIDATION
   id: string
   limit: number
 }
 
-export type ShowValidation = CertificateDataValidationBase<CertificateDataValidationType.SHOW_VALIDATION>
+export type ShowValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.SHOW_VALIDATION
+}
 
-export type HideValidation = CertificateDataValidationBase<CertificateDataValidationType.HIDE_VALIDATION>
+export type HideValidation = CertificateDataValidationBase & { type: CertificateDataValidationType.HIDE_VALIDATION }
 
-export interface DisableValidation extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_VALIDATION> {
+export type DisableValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.DISABLE_VALIDATION
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
-export interface DisableSubElementValidation
-  extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION> {
+export type DisableSubElementValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
   id: string[]
 }
 
-export type EnableValidation = CertificateDataValidationBase<CertificateDataValidationType.ENABLE_VALIDATION>
+export type EnableValidation = CertificateDataValidationBase & { type: CertificateDataValidationType.ENABLE_VALIDATION }
 
-export type MandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.MANDATORY_VALIDATION>
+export type MandatoryValidation = CertificateDataValidationBase & { type: CertificateDataValidationType.MANDATORY_VALIDATION }
 
-export type CategoryMandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION>
+export type CategoryMandatoryValidation = CertificateDataValidationBase & {
+  type: CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION
+}
 
-export type HighlightValidation = CertificateDataValidationBase<CertificateDataValidationType.HIGHLIGHT_VALIDATION>
+export type HighlightValidation = CertificateDataValidationBase & { type: CertificateDataValidationType.HIGHLIGHT_VALIDATION }
 
 // --------------------------------------------
 export interface ValidationError {

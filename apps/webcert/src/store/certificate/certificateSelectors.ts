@@ -23,6 +23,7 @@ import {
 } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
 import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { getExpressionResult } from '../../utils/validation/validateExpression'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
@@ -277,3 +278,8 @@ export const getModalData =
   () =>
   (state: RootState): ModalData | null =>
     state.ui.uiCertificate.modalData
+
+export const getQuestionExpressionResult = (id: string, expression: string) => (state: RootState) => {
+  const value = getQuestion(id)(state)?.value
+  return value ? getExpressionResult(expression, value) : undefined
+}

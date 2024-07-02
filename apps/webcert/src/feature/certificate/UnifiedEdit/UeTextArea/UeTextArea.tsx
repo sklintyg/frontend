@@ -1,3 +1,4 @@
+import { getByType } from '@frontend/utils'
 import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +11,6 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigUeTextArea,
-  TextValidation,
   ValueText,
 } from '../../../../types'
 
@@ -25,10 +25,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const textValidation = question.validation
-    ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
-    : undefined
-
+  const textValidation = getByType(question.validation ?? [], CertificateDataValidationType.TEXT_VALIDATION)
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
       const updatedValue = getUpdatedValue(question, value)
