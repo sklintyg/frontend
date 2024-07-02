@@ -46,16 +46,16 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
         <>
           <p>Välj kodverk:</p>
           <RadioWrapper>
-            {questionConfig.terminology.map((terminology) => {
+            {questionConfig.terminology.map(({ id, label }) => {
               return (
                 <RadioButton
-                  key={terminology.id}
+                  key={id}
                   disabled={disabled}
-                  label={terminology.label}
-                  name={terminology.id}
-                  id={terminology.id}
-                  value={terminology.id}
-                  checked={selectedCodeSystem === terminology.id}
+                  label={label}
+                  name={id}
+                  id={id}
+                  value={id}
+                  checked={selectedCodeSystem === id}
                   onChange={handleCodeSystemChange}
                 />
               )
@@ -63,19 +63,17 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           </RadioWrapper>
         </>
       )}
-      <p className={'iu-mb-200'}>
-        Diagnoskod enligt {questionConfig.terminology.find((terminilogy) => terminilogy.id === selectedCodeSystem)?.label}
-      </p>
+      <p className={'iu-mb-200'}>Diagnoskod enligt {questionConfig.terminology.find(({ id }) => id === selectedCodeSystem)?.label}</p>
       <div>
-        {questionConfig.list.map((diagnosis, index) => {
-          const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
+        {questionConfig.list.map(({ id }, index) => {
+          const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
           return (
             <UeDiagnosis
               hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
-              key={`${diagnosis.id}-diagnosis`}
+              key={`${id}-diagnosis`}
               question={question}
               disabled={disabled}
-              id={diagnosis.id}
+              id={id}
               selectedCodeSystem={selectedCodeSystem}
               validationErrors={diagnosisValidationErrors}
             />
