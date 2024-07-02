@@ -1,4 +1,4 @@
-import type { ValueType } from './certificateDataValue'
+import { ValueType } from './certificateDataValue'
 
 export enum CertificateDataValidationType {
   TEXT_VALIDATION = 'TEXT_VALIDATION',
