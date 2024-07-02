@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
 import { lockClosedImage, userImage } from '../../images'
-import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { useAppSelector } from '../../store/store'
+import { getUser, getUserResourceLink } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
 import { ResourceLinkType, User } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
@@ -43,12 +44,11 @@ interface Props {
 }
 
 const WebcertHeaderUser: React.FC<Props> = () => {
-  const user = useSelector(getUser, shallowEqual)
-  const userLinks = useSelector(getUserResourceLinks)
-  const { ppHost } = useSelector(getConfig)
+  const user = useAppSelector(getUser, shallowEqual)
+  const privatePractitionerPortal = useAppSelector(getUserResourceLink(ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL))
+  const ppHost = useAppSelector((state) => getConfig(state).ppHost)
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
-  const privatePractitionerPortal = userLinks?.find((link) => link.type === ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL)
   const [isExpanded, setIsExpanded] = useState(false)
 
   const handleClick = () => {
