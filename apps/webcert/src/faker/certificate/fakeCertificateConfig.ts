@@ -1,13 +1,11 @@
 import faker from 'faker'
 import { merge } from 'lodash-es'
-import { PartialDeep } from 'type-fest'
-import {
+import type { PartialDeep } from 'type-fest'
+import type {
   CertificateDataConfigType,
   ConfigAccordion,
   ConfigCategory,
   ConfigEyeAcuity,
-  ConfigLayout,
-  ConfigTypes,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
@@ -38,7 +36,10 @@ import {
   ConfigUeViewTable,
   ConfigUeViewText,
   ConfigUeVisualAcuity,
-  ConfigUeYear,
+  ConfigUeYear} from '../../types/certificate';
+import {
+  ConfigLayout,
+  ConfigTypes,
   MessageLevel,
 } from '../../types/certificate'
 import { fakeId } from '../fakeId'

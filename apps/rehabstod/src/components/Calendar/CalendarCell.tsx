@@ -1,8 +1,9 @@
 import { classNames } from '@frontend/components'
-import { CalendarDate, getDayOfWeek, isSameDay } from '@internationalized/date'
+import type { CalendarDate} from '@internationalized/date';
+import { getDayOfWeek, isSameDay } from '@internationalized/date'
 import { useRef } from 'react'
 import { mergeProps, useCalendarCell, useFocusRing, useLocale } from 'react-aria'
-import { CalendarState, RangeCalendarState } from 'react-stately'
+import type { CalendarState, RangeCalendarState } from 'react-stately'
 
 export function CalendarCell({ state, date }: { state: CalendarState | RangeCalendarState; date: CalendarDate }) {
   const ref = useRef(null)

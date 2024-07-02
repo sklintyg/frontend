@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import type React from 'react';
+import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import { InfoCircle } from '../../images'
-import { FMBDiagnosisCodeInfo } from '../../types'
+import type { FMBDiagnosisCodeInfo } from '../../types'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo

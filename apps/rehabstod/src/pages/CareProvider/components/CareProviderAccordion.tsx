@@ -1,6 +1,7 @@
 import { IDSIconChevron, IDSRadio } from '@frontend/ids-react-ts'
-import { ReactNode, useEffect } from 'react'
-import { Vardenhet } from '../../../schemas'
+import type { ReactNode} from 'react';
+import { useEffect } from 'react'
+import type { Vardenhet } from '../../../schemas'
 
 export function CareProviderAccordion({
   unit,

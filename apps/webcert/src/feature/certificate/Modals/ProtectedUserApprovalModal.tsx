@@ -1,4 +1,6 @@
-import React, { ChangeEvent, useState } from 'react'
+import type { ChangeEvent} from 'react';
+import type React from 'react';
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { throwError } from '../../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'

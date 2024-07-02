@@ -1,4 +1,5 @@
-import { HTMLProps, forwardRef } from 'react'
+import type { HTMLProps} from 'react';
+import { forwardRef } from 'react'
 
 export const SelectMultipleActions = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(({ children }, ref) => (
   <div ref={ref} className="pt-2">

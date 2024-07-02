@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,7 +18,7 @@ import {
   updateCreateCertificate,
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import { MockUser } from '../store/welcome/welcomeReducer'
+import type { MockUser } from '../store/welcome/welcomeReducer'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
 import { CustomButton } from '../components/Inputs/CustomButton'
 import RadioButton from '../components/Inputs/RadioButton'

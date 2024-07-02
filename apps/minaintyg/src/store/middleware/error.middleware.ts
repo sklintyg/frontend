@@ -1,7 +1,8 @@
 import { randomUUID } from '@frontend/utils'
-import { ThunkMiddleware, UnknownAction, isPlainObject } from '@reduxjs/toolkit'
+import type { ThunkMiddleware, UnknownAction} from '@reduxjs/toolkit';
+import { isPlainObject } from '@reduxjs/toolkit'
 import { api, hasRequest, isRejectedEndpoint } from '../api'
-import { RootState } from '../reducer'
+import type { RootState } from '../reducer'
 
 const hasMessage = (o: unknown): o is { message: string } => isPlainObject(o) && 'message' in o && typeof o.message === 'string'
 

@@ -1,6 +1,7 @@
 import { IDSInput } from '@frontend/ids-react-ts'
-import { ChangeEventHandler, useId } from 'react'
-import { TestabilityPerson } from '../../../schema/testability/person.schema'
+import type { ChangeEventHandler} from 'react';
+import { useId } from 'react'
+import type { TestabilityPerson } from '../../../schema/testability/person.schema'
 
 export function SelectProfile({
   value,

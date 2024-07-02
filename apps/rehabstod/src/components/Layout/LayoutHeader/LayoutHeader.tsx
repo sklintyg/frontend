@@ -1,8 +1,9 @@
 import { HeaderNavItem } from '@frontend/components'
+import type {
+  IDSHeaderAvatarElement} from '@frontend/ids-react-ts';
 import {
   IDSHeader,
   IDSHeaderAvatar,
-  IDSHeaderAvatarElement,
   IDSHeaderItem,
   IDSHeaderNav,
   IDSIconCog,

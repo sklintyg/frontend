@@ -1,24 +1,26 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificateConfig, fakeCertificateValue, fakeCheckboxDateRangeList, fakeDiagnosesElement } from '../../faker'
-import {
+import type {
   Certificate,
   CertificateDataElement,
-  CertificateDataValueType,
   CertificateMetadata,
   Patient,
   PersonId,
-  ResourceLinkType,
   ValueDateRangeList,
-  ValueDiagnosisList,
+  ValueDiagnosisList} from '../../types';
+import {
+  CertificateDataValueType,
+  ResourceLinkType
 } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import type {
+  FMBDiagnoseRequest} from './fmbActions';
 import {
-  FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   initializeFMBPanel,
   setDiagnosisListValue,

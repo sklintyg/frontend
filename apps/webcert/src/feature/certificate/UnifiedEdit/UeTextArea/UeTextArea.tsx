@@ -5,13 +5,14 @@ import TextArea from '../../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import {
+import type {
   CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
   ConfigUeTextArea,
   TextValidation,
-  ValueText,
+  ValueText} from '../../../../types';
+import {
+  CertificateDataValidationType,
+  CertificateDataValueType
 } from '../../../../types'
 
 export interface Props {

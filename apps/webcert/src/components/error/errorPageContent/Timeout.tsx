@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 export const TIMEOUT_TITLE = 'Du är utloggad'
 export const TIMEOUT_MESSAGE =

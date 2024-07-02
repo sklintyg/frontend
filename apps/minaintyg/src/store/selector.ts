@@ -1,6 +1,6 @@
-import { AvailableFunctionsType } from '../schema/certificate.schema'
+import type { AvailableFunctionsType } from '../schema/certificate.schema'
 import { api } from './api'
-import { RootState } from './reducer'
+import type { RootState } from './reducer'
 
 export function getAvailableFunctions(id: string) {
   return (state: RootState) => api.endpoints.getCertificate.select({ id })(state).data?.availableFunctions

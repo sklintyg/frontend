@@ -1,5 +1,6 @@
 import handyScroll from 'handy-scroll'
-import { HTMLProps, forwardRef } from 'react'
+import type { HTMLProps} from 'react';
+import { forwardRef } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
 import './FloatingTableScroll.css'

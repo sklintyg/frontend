@@ -1,5 +1,6 @@
 import { IDSButton, IDSIconChevron } from '@frontend/ids-react-ts'
-import { ReactNode, useState } from 'react'
+import type { ReactNode} from 'react';
+import { useState } from 'react'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
   const [expanded, setExpanded] = useState(true)

@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -6,7 +6,7 @@ import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
-import { Configuration } from '../store/utils/utilsReducer'
+import type { Configuration } from '../store/utils/utilsReducer'
 import { StartPage } from './StartPage'
 
 let testStore: EnhancedStore
@@ -50,7 +50,7 @@ describe('StartPage', () => {
     }
     testStore.dispatch(updateConfig(config))
 
-    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
-    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
+    await expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
+    await expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
   })
 })

@@ -1,6 +1,7 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Answer, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { Answer, Complement} from '../../types';
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import { getResourceLink } from '../../utils'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'

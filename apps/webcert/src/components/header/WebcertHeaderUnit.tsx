@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { AlertCircle } from '../../images'
@@ -9,7 +10,8 @@ import {
   getUserResourceLinks,
   isPrivatePractitioner,
 } from '../../store/user/userSelectors'
-import { ResourceLinkType, User } from '../../types'
+import type { User } from '../../types';
+import { ResourceLinkType } from '../../types'
 import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
 import ExpandableBox from '../utils/ExpandableBox'
 

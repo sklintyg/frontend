@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateCertificate, updateCertificateSignStatus, updateValidationErrors } from '../../../store/certificate/certificateActions'
@@ -70,7 +70,7 @@ describe('CertificateFooter', () => {
         renderComponent()
         testStore.dispatch(updateValidationErrors([]))
         const button = screen.queryByText('Ready For sign')
-        expect(button).toBeEnabled()
+        await expect(button).toBeEnabled()
       })
 
       it('shall not show readyForSign button when certificate is already signed', () => {
@@ -85,7 +85,7 @@ describe('CertificateFooter', () => {
         renderComponent()
         testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
         const button = screen.queryByText('Ready For sign')
-        expect(button).toBeEnabled()
+        await expect(button).toBeEnabled()
       })
 
       it('shall show draft is marked as ready to sign when resourcelink exists', () => {

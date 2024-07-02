@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
+import type { FMBDiagnosisCodeInfo} from '../../types';
+import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 
 const history = createMemoryHistory()
@@ -152,7 +153,7 @@ describe('FMBPanelDiagnosisInfo', () => {
   it('shall display link where to get more information about the FMB recommendations', async () => {
     renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
-    expect(screen.getByRole('link', { name: 'Information om Anorexia nervosa hos Socialstyrelsen' })).toHaveAttribute(
+    await expect(screen.getByRole('link', { name: 'Information om Anorexia nervosa hos Socialstyrelsen' })).toHaveAttribute(
       'href',
       fmbDiagnosisCodeInfo.referenceLink
     )

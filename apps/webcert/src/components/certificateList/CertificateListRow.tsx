@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
@@ -9,7 +10,8 @@ import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
 import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
 import { CreateCertificateButton } from './CreateCertificateButton'
 import { StarFilledIcon, StarIcon } from '../../images'
-import { Patient, ResourceLink, ResourceLinkType } from '../../types'
+import type { Patient, ResourceLink} from '../../types';
+import { ResourceLinkType } from '../../types'
 import InfoBox from '../utils/InfoBox'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 

@@ -1,4 +1,4 @@
-import { Question } from '../../types'
+import type { Question } from '../../types'
 import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled, getShouldComplementedBeActive } from './questionUtils'
 
 describe('questionUtils', () => {

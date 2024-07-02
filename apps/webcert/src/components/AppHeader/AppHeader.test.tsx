@@ -1,6 +1,6 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
+import type React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'

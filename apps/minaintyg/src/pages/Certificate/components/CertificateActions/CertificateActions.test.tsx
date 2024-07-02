@@ -2,12 +2,13 @@ import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../../../mocks/server'
+import type {
+  AvailableFunction} from '../../../../schema/certificate.schema';
 import {
-  AvailableFunction,
   AvailableFunctionsTypeEnum,
   availableFunctionSchema,
   certificateMetadataSchema,

@@ -1,5 +1,6 @@
 import { useMergeRefs } from '@floating-ui/react'
-import { HTMLProps, cloneElement, forwardRef, isValidElement } from 'react'
+import type { HTMLProps} from 'react';
+import { cloneElement, forwardRef, isValidElement } from 'react'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
 export const TooltipTrigger = forwardRef<HTMLElement, HTMLProps<HTMLElement> & { asChild?: boolean; alignMiddle?: boolean }>(

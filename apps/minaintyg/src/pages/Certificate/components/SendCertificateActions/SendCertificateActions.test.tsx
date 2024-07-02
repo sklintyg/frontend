@@ -5,9 +5,10 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../../../mocks/server'
-import {
+import type {
   AvailableFunction,
-  CertificateRecipient,
+  CertificateRecipient} from '../../../../schema/certificate.schema';
+import {
   availableFunctionSchema,
   certificateRecipientSchema,
 } from '../../../../schema/certificate.schema'

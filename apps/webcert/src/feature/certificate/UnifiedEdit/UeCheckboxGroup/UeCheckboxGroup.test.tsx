@@ -4,7 +4,8 @@ import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeCheckboxGroup from './UeCheckboxGroup'
 import { fakeCertificateConfig } from '../../../../faker'
-import { CertificateDataElement, CertificateDataValueType } from '../../../../types'
+import type { CertificateDataElement} from '../../../../types';
+import { CertificateDataValueType } from '../../../../types'
 
 const CHECKBOXES = [
   { label: 'Checkbox1', id: 'Checkbox_1' },
@@ -47,23 +48,23 @@ describe('Checkbox group component', () => {
 
   it.each(CHECKBOXES.map(({ label }) => label))('Disable checbox for option %s', (label) => {
     render(<UeCheckboxGroup question={question} disabled />)
-    expect(screen.getByRole('checkbox', { name: label })).toBeDisabled()
+    await expect(screen.getByRole('checkbox', { name: label })).toBeDisabled()
   })
 
   it.each(CHECKBOXES.map(({ label }) => label))('allows user to check and uncheck checkbox for option %s', async (label) => {
     renderDefaultComponent()
     expect(screen.queryAllByRole('checkbox')).toHaveLength(CHECKBOXES.length)
-    expect(screen.getByRole('checkbox', { name: label })).toBeEnabled()
-    expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
+    await expect(screen.getByRole('checkbox', { name: label })).toBeEnabled()
+    await expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     await userEvent.click(screen.getByRole('checkbox', { name: label }))
-    expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
+    await expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
   })
 
   it.each(CHECKBOXES.map(({ label }) => label))('allows user to check and uncheck checkboxes by clicking on label %s', async (label) => {
     renderDefaultComponent()
-    expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
+    await expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     expect(screen.getByText(label)).toBeInTheDocument()
     await userEvent.click(screen.getByText(label))
-    expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
+    await expect(screen.getByRole('checkbox', { name: label })).toBeChecked()
   })
 })

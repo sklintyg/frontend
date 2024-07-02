@@ -1,4 +1,5 @@
-import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '../types'
+import type { ResourceLink, UserStatistics, UserTab } from '../types';
+import { ResourceLinkType } from '../types'
 
 export const getUserTabs = (isCareAdmin: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
   if (isCareAdmin) {

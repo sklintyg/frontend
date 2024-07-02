@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createBrowserHistory } from 'history'
@@ -13,7 +13,8 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import { CertificateType, ResourceLink, ResourceLinkType, User } from '../../types'
+import type { CertificateType, ResourceLink, User } from '../../types';
+import { ResourceLinkType } from '../../types'
 import CertificateList from './CertificateList'
 
 const createType = ({

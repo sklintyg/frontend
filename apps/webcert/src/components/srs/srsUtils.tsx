@@ -1,8 +1,9 @@
-import {
-  SrsSickLeaveChoice,
+import type {
   SrsPrediction,
   ValueDiagnosisList,
-  CertificateMetadata,
+  CertificateMetadata} from '../../types';
+import {
+  SrsSickLeaveChoice,
   SrsUserClientContext,
   CertificateStatus,
 } from '../../types'

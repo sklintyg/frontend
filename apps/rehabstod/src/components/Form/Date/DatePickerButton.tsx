@@ -1,7 +1,8 @@
 import { classNames } from '@frontend/components'
 import { IDSIconCalendar } from '@frontend/ids-react-ts'
 import { useRef } from 'react'
-import { AriaButtonProps, useButton } from 'react-aria'
+import type { AriaButtonProps} from 'react-aria';
+import { useButton } from 'react-aria'
 import { PopoverTrigger } from '../../Popover/PopoverTrigger'
 
 export function DatePickerButton({ error, ...props }: AriaButtonProps & { error?: boolean }) {

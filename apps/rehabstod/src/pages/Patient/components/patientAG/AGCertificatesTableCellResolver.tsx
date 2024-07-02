@@ -1,7 +1,7 @@
 import { DiagnosisInfoCell } from '../../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { SickLeaveDegreeInfo } from '../../../../components/SickLeave/SickLeaveDegreeInfo'
 import { TableCell } from '../../../../components/Table/tableBody/TableCell'
-import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
+import type { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../../utils/getUnansweredCommunicationFormat'
 import { CertificateButton } from '../CertificateButton'

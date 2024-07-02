@@ -1,8 +1,10 @@
 import { randomUUID } from '@frontend/utils'
-import { isPlainObject, SerializedError, ThunkMiddleware } from '@reduxjs/toolkit'
-import { ErrorCodeEnum, ErrorData } from '../schemas/errorSchema'
+import type { SerializedError, ThunkMiddleware } from '@reduxjs/toolkit';
+import { isPlainObject } from '@reduxjs/toolkit'
+import type { ErrorData } from '../schemas/errorSchema';
+import { ErrorCodeEnum } from '../schemas/errorSchema'
 import { api, hasRequest, isRejectedEndpoint } from './api'
-import { RootState } from './reducer'
+import type { RootState } from './reducer'
 
 function getActionMessage(data: unknown, error?: SerializedError) {
   if (isPlainObject(data) && 'message' in data && typeof data.message === 'string') {

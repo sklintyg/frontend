@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import Logo from '../AppHeader/Logo'
 import webcertLogo from './webcert_logo.png'
 

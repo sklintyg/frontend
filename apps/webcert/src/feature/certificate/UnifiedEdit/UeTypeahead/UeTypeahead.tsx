@@ -1,17 +1,19 @@
 import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Typeahead, { Suggestion } from '../../../../components/Inputs/Typeahead'
+import type { Suggestion } from '../../../../components/Inputs/Typeahead';
+import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import {
+import type {
   CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
   ConfigUeTypeahead,
   TextValidation,
-  ValueText,
+  ValueText} from '../../../../types';
+import {
+  CertificateDataValidationType,
+  CertificateDataValueType
 } from '../../../../types'
 import { GetFilteredSuggestions } from '../../../../utils'
 

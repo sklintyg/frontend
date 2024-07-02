@@ -1,6 +1,7 @@
 import { createCalendar } from '@internationalized/date'
 import { useEffect, useRef } from 'react'
-import { AriaDateFieldProps, DateValue, useDateField, useLocale } from 'react-aria'
+import type { AriaDateFieldProps, DateValue} from 'react-aria';
+import { useDateField, useLocale } from 'react-aria'
 import { useDateFieldState } from 'react-stately'
 import { DateFieldSegment } from './DateFieldSegment'
 

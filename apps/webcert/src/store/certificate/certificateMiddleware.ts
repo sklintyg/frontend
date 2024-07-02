@@ -1,8 +1,9 @@
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
 import { debounce } from 'lodash-es'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Certificate, CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { Certificate} from '../../types';
+import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
 import { getCertificateToSave, isLocked } from '../../utils'
 import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
 import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
@@ -12,7 +13,7 @@ import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiErr
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
-import { AppDispatch, RootState } from '../store'
+import type { AppDispatch, RootState } from '../store'
 import {
   answerComplementCertificate,
   answerComplementCertificateStarted,

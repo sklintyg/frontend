@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'

@@ -1,9 +1,10 @@
-import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
-import { ResourceLink, ResourceLinkType } from '../../types'
+import type { ResourceLink} from '../../types';
+import { ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'

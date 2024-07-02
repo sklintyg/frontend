@@ -1,4 +1,5 @@
-import { cloneElement, ReactElement } from 'react'
+import type { ReactElement } from 'react';
+import { cloneElement } from 'react'
 import { Tooltip } from './Tooltip'
 import { TooltipContent } from './TooltipContent'
 import { TooltipTrigger } from './TooltipTrigger'

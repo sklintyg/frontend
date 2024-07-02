@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
-import { CertificateStatus, CertificateStatusEnum } from '../../../schema/certificate.schema'
+import type { CertificateStatus} from '../../../schema/certificate.schema';
+import { CertificateStatusEnum } from '../../../schema/certificate.schema'
 import { CertificateStatusBadge, getBadgeType } from './CertificateStatusBadge'
 
 it('Should render component', () => {

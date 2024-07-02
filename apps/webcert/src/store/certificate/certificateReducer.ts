@@ -1,23 +1,26 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
+import type {
   Certificate,
+  CertificateEvent,
+  Complement,
+  ModalData,
+  ValueBoolean,
+  ValueText} from '../../types';
+import {
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateEvent,
   CertificateSignStatus,
-  Complement,
-  ConfigTypes,
-  ModalData,
-  ValueBoolean,
-  ValueText,
+  ConfigTypes
 } from '../../types'
 import { isShowAlways } from '../../utils'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { ErrorData } from '../error/errorReducer'
-import {
+import type { FunctionDisabler} from '../../utils/functionDisablerUtils';
+import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import type { ErrorData } from '../error/errorReducer'
+import type {
   GotoCertificateDataElement,
-  SigningData,
+  SigningData} from './certificateActions';
+import {
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,

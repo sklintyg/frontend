@@ -1,5 +1,5 @@
-import React from 'react'
-import { FMBDiagnosisCodeInfoFormContent } from '../../types'
+import type React from 'react'
+import type { FMBDiagnosisCodeInfoFormContent } from '../../types'
 
 interface Props {
   info: FMBDiagnosisCodeInfoFormContent

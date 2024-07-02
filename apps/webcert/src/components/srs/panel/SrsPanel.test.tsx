@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -231,9 +231,9 @@ describe('SrsPanel', () => {
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       await userEvent.click(screen.getByText('Beräkna'))
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      expect(screen.getByText('Beräkna')).toBeDisabled()
+      await expect(screen.getByText('Beräkna')).toBeDisabled()
       await userEvent.click(screen.getByLabelText('Förlängning'))
-      expect(screen.getByText('Beräkna')).toBeEnabled()
+      await expect(screen.getByText('Beräkna')).toBeEnabled()
     })
   })
 
@@ -258,14 +258,14 @@ describe('SrsPanel', () => {
       renderComponent()
       const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
       await userEvent.click(button)
-      expect(button).toHaveClass('ic-button--primary')
+      await expect(button).toHaveClass('ic-button--primary')
     })
 
     it('should set statistics button to secondary button as default', () => {
       renderComponent()
       const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
-      expect(button).not.toHaveClass('ic-button--primary')
-      expect(button).toHaveClass('ic-button--secondary')
+      await expect(button).not.toHaveClass('ic-button--primary')
+      await expect(button).toHaveClass('ic-button--secondary')
     })
 
     it('should render recommendations if that choice is chosen', async () => {

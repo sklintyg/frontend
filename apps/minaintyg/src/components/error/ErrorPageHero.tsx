@@ -1,6 +1,7 @@
 import { ErrorIdentifier } from '@frontend/components'
 import { PageHero, PageHeroActions } from '@frontend/components/1177'
-import { ErrorPageActionType, ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
+import type { ErrorTypeEnum } from '../../schema/error.schema';
+import { ErrorPageActionType, ErrorType } from '../../schema/error.schema'
 import { ErrorPageAction } from './ErrorPageAction'
 import { SupportLink } from './SupportLink/SupportLink'
 

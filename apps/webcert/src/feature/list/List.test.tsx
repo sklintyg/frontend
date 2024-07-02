@@ -6,7 +6,8 @@ import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../store/list/listActions'
 import store from '../../store/store'
-import { CertificateListItem, ListFilter, ListType } from '../../types'
+import type { CertificateListItem, ListFilter} from '../../types';
+import { ListType } from '../../types'
 import List from './List'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {

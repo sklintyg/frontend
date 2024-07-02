@@ -1,5 +1,6 @@
 import { IDSIconChevron } from '@frontend/ids-react-ts'
-import { ReactNode, useRef, useState } from 'react'
+import type { ReactNode} from 'react';
+import { useRef, useState } from 'react'
 
 export function Accordion({ children, title, open = false }: { children: ReactNode; title: string; open?: boolean }) {
   const ref = useRef<HTMLDetailsElement>(null)

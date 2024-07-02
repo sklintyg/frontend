@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Merge } from 'type-fest'
+import type { Merge } from 'type-fest'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
 import { editImage } from '../../../images'
-import { ResourceLink, CertificateSignStatus, ResourceLinkType } from '../../../types'
+import type { ResourceLink} from '../../../types';
+import { CertificateSignStatus, ResourceLinkType } from '../../../types'
 
 interface Props extends Merge<FunctionDisabled, ResourceLink> {
   canSign: boolean

@@ -1,5 +1,6 @@
 import { useMergeRefs } from '@floating-ui/react'
-import { cloneElement, forwardRef, HTMLProps, isValidElement } from 'react'
+import type { HTMLProps} from 'react';
+import { cloneElement, forwardRef, isValidElement } from 'react'
 import { usePopoverContext } from './Popover'
 
 export const PopoverTrigger = forwardRef<HTMLElement, HTMLProps<HTMLElement> & { asChild?: boolean }>(

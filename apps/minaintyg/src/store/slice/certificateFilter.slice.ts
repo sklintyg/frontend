@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { CertificateFilterOptions } from '../../schema/certificateListFilter.schema'
+import type { PayloadAction} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
+import type { CertificateFilterOptions } from '../../schema/certificateListFilter.schema'
 
 export type CertificateFilterState = { [K in keyof CertificateFilterOptions]?: string }
 

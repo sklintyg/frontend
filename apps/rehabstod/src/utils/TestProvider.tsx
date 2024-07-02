@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { I18nProvider } from 'react-aria'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'

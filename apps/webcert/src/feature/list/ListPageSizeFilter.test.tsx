@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import store from '../../store/store'
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '../../types'
+import type { ListFilterPageSizeConfig, ListFilterValueNumber } from '../../types';
+import { ListFilterType } from '../../types'
 import ListPageSizeFilter from './ListPageSizeFilter'
 
 const onFilterChange = vi.fn()

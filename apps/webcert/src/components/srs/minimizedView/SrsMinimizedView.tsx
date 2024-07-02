@@ -1,4 +1,5 @@
-import { forwardRef, Ref } from 'react'
+import type { Ref } from 'react';
+import { forwardRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getIsCertificateRenewed, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { SrsInformationChoice } from '../../../types'

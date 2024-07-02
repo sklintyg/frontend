@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -123,7 +123,7 @@ describe('SrsRisk', () => {
     it('should disabled button when choosing extension after 60 days sickleave option', () => {
       renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
-      expect(screen.getByText(SRS_RISK_BUTTON_TEXT)).toBeDisabled()
+      await expect(screen.getByText(SRS_RISK_BUTTON_TEXT)).toBeDisabled()
     })
   })
 

@@ -7,7 +7,8 @@ import { validateCertificateStarted } from '../../../store/certificate/certifica
 import store from '../../../store/store'
 import HeaderButtons from './HeaderButtons'
 import { fakeCertificateMetaData } from '../../../faker'
-import { ResourceLink, CertificateStatus, CertificateRelationType, ResourceLinkType } from '../../../types'
+import type { ResourceLink} from '../../../types';
+import { CertificateStatus, CertificateRelationType, ResourceLinkType } from '../../../types'
 
 describe('Verify header buttons', () => {
   const description = 'description'
@@ -93,14 +94,14 @@ describe('Verify header buttons', () => {
   it('Should enable remove certificate button when not validating certificate', () => {
     const expectedButton = 'Radera'
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
   })
 
   it('Should disable remove certificate button when validating certificate', () => {
     const expectedButton = 'Radera'
     store.dispatch(validateCertificateStarted())
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
   })
 
   it('Should include revoke certificate button when its resource link type is available', () => {

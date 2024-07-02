@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 import { z } from 'zod'
-import { ErrorTypeEnum } from '../../schema/error.schema'
+import type { ErrorTypeEnum } from '../../schema/error.schema'
 import { isQueryError } from '../../utils/isQueryError'
 import { api, hasResponse, isRejectedEndpoint } from '../api'
 

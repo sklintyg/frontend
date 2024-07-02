@@ -4,7 +4,8 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean, ValueBoolean } from '../../../../types'
+import type { CertificateDataElement, ConfigUeRadioBoolean, ValueBoolean } from '../../../../types';
+import { CertificateDataValueType } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

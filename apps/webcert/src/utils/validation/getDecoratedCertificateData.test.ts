@@ -18,14 +18,15 @@ import {
   fakeTextAreaElement,
   fakeTextFieldElement,
 } from '../../faker'
+import type {
+  ConfigUeCheckboxMultipleCodes,
+  ValueCodeList,
+  ValueText} from '../../types';
 import {
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateStatus,
-  ConfigUeCheckboxMultipleCodes,
-  ResourceLinkType,
-  ValueCodeList,
-  ValueText,
+  ResourceLinkType
 } from '../../types'
 import { getDecoratedCertificateData } from './getDecoratedCertificateData'
 

@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
+import type { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
 import { isValidDate } from '../../utils/isValidDate'
 
 export interface SickLeaveState {

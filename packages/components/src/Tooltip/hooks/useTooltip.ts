@@ -1,8 +1,9 @@
+import type {
+  Placement} from '@floating-ui/react';
 import {
   autoUpdate,
   flip,
   offset,
-  Placement,
   shift,
   useDismiss,
   useFloating,

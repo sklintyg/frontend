@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValueType, ConfigUeCheckboxMultipleDate, ValueDate, ValueDateList } from '../../../../types'
+import type { CertificateDataElement, ConfigUeCheckboxMultipleDate, ValueDate, ValueDateList } from '../../../../types';
+import { CertificateDataValueType } from '../../../../types'
 import { UeCheckboxDateItem } from './UeCheckboxDateItem'
 
 export interface Props {

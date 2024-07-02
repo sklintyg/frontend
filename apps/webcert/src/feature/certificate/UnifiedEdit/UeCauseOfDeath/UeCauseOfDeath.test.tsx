@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { merge } from 'lodash-es'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCauseOfDeathElement } from '../../../../faker'
 import store from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValidationType } from '../../../../types'
+import type { CertificateDataElement} from '../../../../types';
+import { CertificateDataValidationType } from '../../../../types'
 import UeCauseOfDeath from './UeCauseOfDeath'
 
 const VALIDATION_ERROR = 'Ange ett svar'
@@ -56,25 +57,25 @@ describe('Cause of death component', () => {
       }),
     })
     const dropdown = screen.getByRole('combobox')
-    expect(screen.getByLabelText('Beskrivning')).toHaveValue('description')
-    expect(screen.getByLabelText('Ungefärlig debut')).toHaveValue('2020-02-02')
-    expect(dropdown).toHaveValue('KRONISK')
+    await expect(screen.getByLabelText('Beskrivning')).toHaveValue('description')
+    await expect(screen.getByLabelText('Ungefärlig debut')).toHaveValue('2020-02-02')
+    await expect(dropdown).toHaveValue('KRONISK')
   })
 
   it('does not disable component if disabled is not set', () => {
     renderComponent({ disabled: false, question })
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).toBeEnabled()
-    expect(screen.getByLabelText('Beskrivning')).toBeEnabled()
-    expect(screen.getByLabelText('Ungefärlig debut')).toBeEnabled()
+    await expect(dropdown).toBeEnabled()
+    await expect(screen.getByLabelText('Beskrivning')).toBeEnabled()
+    await expect(screen.getByLabelText('Ungefärlig debut')).toBeEnabled()
   })
 
   it('disables component if disabled is set', () => {
     renderComponent({ disabled: true, question })
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).toBeDisabled()
-    expect(screen.getByLabelText('Beskrivning')).toBeDisabled()
-    expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
+    await expect(dropdown).toBeDisabled()
+    await expect(screen.getByLabelText('Beskrivning')).toBeDisabled()
+    await expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
   })
 
   it('formats input into yyyy-mm-dd', async () => {
@@ -84,6 +85,6 @@ describe('Cause of death component', () => {
     const expected = '2020-02-02'
     const input = screen.getByLabelText('Ungefärlig debut')
     await userEvent.type(input, inputDate)
-    expect(input).toHaveValue(expected)
+    await expect(input).toHaveValue(expected)
   })
 })

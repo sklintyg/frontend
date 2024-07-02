@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import type React from 'react';
+import { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { getSigningData } from '../../../store/certificate/certificateSelectors'
 

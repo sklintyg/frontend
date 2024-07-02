@@ -1,8 +1,10 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
-import { loadEnv, ProxyOptions } from 'vite'
-import { defineConfig, UserConfig } from 'vitest/config'
+import type { ProxyOptions } from 'vite';
+import { loadEnv } from 'vite'
+import type { UserConfig } from 'vitest/config';
+import { defineConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }

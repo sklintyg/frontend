@@ -1,5 +1,5 @@
 import faker from 'faker'
-import {
+import type {
   ListFilterBooleanConfig,
   ListFilterConfigBase,
   ListFilterDateConfig,
@@ -9,7 +9,8 @@ import {
   ListFilterPersonIdConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterTextConfig,
+  ListFilterTextConfig} from '../../types';
+import {
   ListFilterType,
 } from '../../types'
 import { fakeId } from '../fakeId'

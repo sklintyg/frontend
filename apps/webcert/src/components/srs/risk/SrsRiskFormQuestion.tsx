@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
-import { SrsEvent, SrsQuestion } from '../../../types'
+import type { SrsQuestion } from '../../../types';
+import { SrsEvent } from '../../../types'
 import RadioButton from '../../Inputs/RadioButton'
 
 interface Props {

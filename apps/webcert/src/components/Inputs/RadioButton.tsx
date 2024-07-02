@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler } from 'react';
+import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {

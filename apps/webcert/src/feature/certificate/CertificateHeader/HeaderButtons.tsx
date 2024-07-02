@@ -1,6 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
@@ -12,7 +12,8 @@ import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateConti
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import SendCertificateButton from '../Buttons/SendCertificateButton'
 import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButton'
-import { ResourceLink, CertificateMetadata, ResourceLinkType } from '../../../types'
+import type { ResourceLink, CertificateMetadata} from '../../../types';
+import { ResourceLinkType } from '../../../types'
 import { resourceLinksAreEqual, getResourceLink } from '../../../utils'
 
 const Wrapper = styled.div`

@@ -1,13 +1,15 @@
 /* eslint-disable react/function-component-definition */
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps, useState } from 'react'
+import type { ComponentProps} from 'react';
+import type React from 'react';
+import { useState } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateValue } from '../../../../faker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import { ValueDateRange } from '../../../../types'
+import type { ValueDateRange } from '../../../../types'
 import { formatDateToString } from '../../../../utils'
 import { UeCheckboxDateRangeListField } from './UeCheckboxDateRangeListField'
 

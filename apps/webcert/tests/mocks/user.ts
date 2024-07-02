@@ -1,6 +1,7 @@
-import { Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../../src/faker'
-import { ResourceLinkType, User } from '../../src/types'
+import type { User } from '../../src/types';
+import { ResourceLinkType } from '../../src/types'
 
 export async function setupUser(page: Page, user?: Partial<User>) {
   const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })

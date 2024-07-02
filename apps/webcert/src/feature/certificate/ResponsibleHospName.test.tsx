@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../store/certificate/certificateActions'

@@ -1,6 +1,6 @@
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
+import type { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'

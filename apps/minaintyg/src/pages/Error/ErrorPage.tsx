@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorPageHero } from '../../components/error/ErrorPageHero'
-import { ErrorCode, ErrorTypeEnum } from '../../schema/error.schema'
+import type { ErrorTypeEnum } from '../../schema/error.schema';
+import { ErrorCode } from '../../schema/error.schema'
 import { useLogErrorMutation } from '../../store/api'
 import { useAppSelector } from '../../store/hooks'
 

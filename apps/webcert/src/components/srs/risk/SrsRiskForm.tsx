@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
 import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
-import { SrsAnswer, SrsQuestion } from '../../../types'
+import type { SrsAnswer, SrsQuestion } from '../../../types'
 import { CustomButton } from '../../Inputs/CustomButton'
 import InfoBox from '../../utils/InfoBox'
 import { hasCurrentRiskDataPoint } from '../srsUtils'

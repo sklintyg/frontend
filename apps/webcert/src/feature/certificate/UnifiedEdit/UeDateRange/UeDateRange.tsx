@@ -1,12 +1,13 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useRef, useState } from 'react'
+import type React from 'react';
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { CertificateDataElement, ConfigUeDateRange, ValueDateRange, ValidationError } from '../../../../types'
+import type { CertificateDataElement, ConfigUeDateRange, ValueDateRange, ValidationError } from '../../../../types'
 import {
   dayCodeReg,
   weekCodeReg,

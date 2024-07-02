@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import PatientListInfoContent from '../../components/List/PatientListInfoContent'
 import { checkImage, readImage } from '../../images'
-import {
-  CertificateListItemValueType,
+import type {
   ForwardedListInfo,
   ListButtonTooltips,
   PatientListInfo,
-  ResourceLink,
+  ResourceLink} from '../../types';
+import {
+  CertificateListItemValueType,
   ResourceLinkType,
 } from '../../types'
 import { formatDate } from '../../utils'

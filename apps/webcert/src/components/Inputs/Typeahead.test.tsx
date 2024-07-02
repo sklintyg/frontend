@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { vi } from 'vitest'
-import Typeahead, { Suggestion } from './Typeahead'
+import type { Suggestion } from './Typeahead';
+import Typeahead from './Typeahead'
 
 const suggestions: Suggestion[] = [
   { label: 'Hello, World!', disabled: false, title: null },
@@ -43,17 +44,17 @@ describe('Typeahead component', () => {
   it('Should select first suggestion when opened', async () => {
     renderComponent({ moreResults: false, suggestions })
     await userEvent.click(screen.getByRole('textbox'))
-    expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
+    await expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
   })
 
   it('Should select first suggestion when re-opened', async () => {
     renderComponent({ moreResults: false, suggestions })
     await userEvent.click(screen.getByRole('textbox'))
     await userEvent.keyboard('{arrowDown}')
-    expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
+    await expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
     await userEvent.keyboard('{esc}')
     await userEvent.click(screen.getByRole('textbox'))
-    expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
+    await expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
   })
 
   it("Should close list if input doesn't have focus", async () => {
@@ -105,9 +106,9 @@ describe('Typeahead component', () => {
   it('Should allow user to tab when there are no suggestions', async () => {
     renderComponent({ moreResults: false, suggestions: [] })
     await userEvent.click(screen.getByRole('textbox'))
-    expect(screen.getByRole('textbox')).toHaveFocus()
+    await expect(screen.getByRole('textbox')).toHaveFocus()
     await userEvent.tab()
-    expect(screen.getByRole('textbox')).not.toHaveFocus()
+    await expect(screen.getByRole('textbox')).not.toHaveFocus()
   })
 
   it('Should allow user to navigate list through hover or arrow keys', async () => {

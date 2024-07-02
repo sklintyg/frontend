@@ -12,7 +12,8 @@ import {
 } from '@floating-ui/react'
 import { classNames, hasNoChildren, Input } from '@frontend/components'
 import { IDSIconChevronBold } from '@frontend/ids-react-ts'
-import { ReactNode, useId, useState } from 'react'
+import type { ReactNode} from 'react';
+import { useId, useState } from 'react'
 
 export function SelectMultiple({
   children,

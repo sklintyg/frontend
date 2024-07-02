@@ -1,6 +1,7 @@
 import { addDays } from 'date-fns'
 
-import { CertificateDataValueType, ConfigUeCheckboxDateRange, ValueDateRange } from '../types/certificate'
+import type { ConfigUeCheckboxDateRange, ValueDateRange } from '../types/certificate';
+import { CertificateDataValueType } from '../types/certificate'
 import {
   SickLeavePeriods,
   filterDateRangeValueList,

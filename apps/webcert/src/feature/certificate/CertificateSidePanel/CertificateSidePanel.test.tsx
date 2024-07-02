@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -11,7 +11,8 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '../../../types'
+import type { Certificate, CertificateMetadata, ResourceLink} from '../../../types';
+import { CertificateStatus, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore
@@ -66,7 +67,7 @@ describe('CertificateSidePanel', () => {
     it('shall render if showSpinner is false', () => {
       testStore.dispatch(hideSpinner)
       renderComponent()
-      expect(screen.getAllByText('Om intyget')[0]).toBeVisible()
+      await expect(screen.getAllByText('Om intyget')[0]).toBeVisible()
     })
   })
 
@@ -74,7 +75,7 @@ describe('CertificateSidePanel', () => {
     it('shall render FMB panel if FMB resource link exists', () => {
       const tabText = 'FMB'
       renderTab(tabText, ResourceLinkType.FMB)
-      expect(screen.getByText(tabText)).toBeVisible()
+      await expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall not render FMB panel if FMB resource link is missing', () => {
@@ -86,7 +87,7 @@ describe('CertificateSidePanel', () => {
     it('shall render Question panel if Question resource link exists', () => {
       const tabText = 'Questions'
       renderTab(tabText, ResourceLinkType.QUESTIONS)
-      expect(screen.getByText(tabText)).toBeVisible()
+      await expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall not render Question panel if Question resource link is missing', () => {
@@ -98,7 +99,7 @@ describe('CertificateSidePanel', () => {
     it('shall render questions not available panel if questions not available resource link exists', () => {
       const tabText = 'Questions not available'
       renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
-      expect(screen.getByText(tabText)).toBeVisible()
+      await expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall not render questions not available panel if questions not available resource link is missing', () => {
@@ -110,13 +111,13 @@ describe('CertificateSidePanel', () => {
     it('shall render SRS panel if SRS_FULL_VIEW resource link exists', () => {
       const tabText = 'SRS'
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
-      expect(screen.getByText(tabText)).toBeVisible()
+      await expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall render SRS panel if SRS_MINIMIZED_VIEW resource link exists', () => {
       const tabText = 'SRS'
       renderTab(tabText, ResourceLinkType.SRS_MINIMIZED_VIEW)
-      expect(screen.getByText(tabText)).toBeVisible()
+      await expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall not render SRS panel if SRS resource link is missing', () => {
@@ -132,7 +133,7 @@ describe('CertificateSidePanel', () => {
       const expectedContent = 'Ange minst en diagnos för att få FMB-stöd.'
       renderTab(tabText, ResourceLinkType.FMB)
       await userEvent.click(screen.getByText(tabText))
-      expect(screen.getByText(expectedContent)).toBeVisible()
+      await expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
     it('shall show Question content when clicking Question tab', async () => {
@@ -141,8 +142,8 @@ describe('CertificateSidePanel', () => {
       const expectedAdministrativeText = 'Administrativa frågor'
       renderTab(tabText, ResourceLinkType.QUESTIONS)
       await userEvent.click(screen.getByText(tabText))
-      expect(screen.getByText(expectedComplementText)).toBeVisible()
-      expect(screen.getByText(expectedAdministrativeText)).toBeVisible()
+      await expect(screen.getByText(expectedComplementText)).toBeVisible()
+      await expect(screen.getByText(expectedAdministrativeText)).toBeVisible()
     })
 
     it('shall show Question not available content when clicking Question not available tab', async () => {
@@ -150,7 +151,7 @@ describe('CertificateSidePanel', () => {
       const expectedContent = 'Intyget är inte skickat till Försäkringskassan.'
       renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
       await userEvent.click(screen.getByText(tabText))
-      expect(screen.getByText(expectedContent)).toBeVisible()
+      await expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
     it('shall show SRS content when clicking SRS tab', async () => {
@@ -158,7 +159,7 @@ describe('CertificateSidePanel', () => {
       const expectedContent = SRS_TITLE
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await userEvent.click(screen.getByText(tabText))
-      expect(screen.getByText(expectedContent)).toBeVisible()
+      await expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
     it('shall log SRS interaction when switching tab', async () => {

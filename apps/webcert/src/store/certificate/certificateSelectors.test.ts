@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import faker from 'faker'
 import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '../../faker'
 import { configureApplicationStore } from '../configureApplicationStore'

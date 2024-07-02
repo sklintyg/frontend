@@ -4,7 +4,8 @@ import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UeDropdown from './UeDropdown'
 import { fakeCertificateValue, fakeCertificateConfig } from '../../../../faker'
-import { CertificateDataElement, ConfigTypes } from '../../../../types'
+import type { CertificateDataElement} from '../../../../types';
+import { ConfigTypes } from '../../../../types'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },
@@ -49,7 +50,7 @@ describe('Dropdown component', () => {
     renderComponent()
     expect(screen.getByText(LABEL)).toBeInTheDocument()
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).toBeEnabled()
+    await expect(dropdown).toBeEnabled()
     expect(dropdown).toBeInTheDocument()
     const options = screen.queryAllByRole('option')
     expect(options).toHaveLength(OPTIONS.length)
@@ -69,12 +70,12 @@ describe('Dropdown component', () => {
     renderComponent()
     const dropdown = screen.getByRole('combobox')
     const options = screen.queryAllByRole('option') as HTMLOptionElement[]
-    expect(dropdown).toHaveValue(OPTIONS[0].id)
+    await expect(dropdown).toHaveValue(OPTIONS[0].id)
     expect(options[0].selected).toBeTruthy()
     expect(options[1].selected).toBeFalsy()
     await userEvent.click(dropdown)
     await userEvent.selectOptions(dropdown, OPTIONS[1].id)
-    expect(dropdown).toHaveValue(OPTIONS[1].id)
+    await expect(dropdown).toHaveValue(OPTIONS[1].id)
     expect(options[1].selected).toBeTruthy()
     expect(options[0].selected).toBeFalsy()
   })
@@ -82,6 +83,6 @@ describe('Dropdown component', () => {
   it('gets disabled correctly', () => {
     render(<UeDropdown question={question} disabled />)
     const dropdown = screen.getByRole('combobox')
-    expect(dropdown).toBeDisabled()
+    await expect(dropdown).toBeDisabled()
   })
 })

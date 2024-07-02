@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import styled from 'styled-components'
-import { IcfCode } from '../../types'
+import type { IcfCode } from '../../types'
 import Checkbox from '../Inputs/Checkbox'
 
 const TitleWrapper = styled.div`

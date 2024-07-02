@@ -52,35 +52,35 @@ describe('PatientSearch', () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212')
-      expect(input).toHaveValue('191212')
+      await expect(input).toHaveValue('191212')
     })
 
     it('should add dash when user types patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212121212')
-      expect(input).toHaveValue('19121212-1212')
+      await expect(input).toHaveValue('19121212-1212')
     })
   })
 
   describe('Submit', () => {
     it('should have submit disabled if no input', () => {
       renderComponent()
-      expect(screen.getByText('Fortsätt')).toBeDisabled()
+      await expect(screen.getByText('Fortsätt')).toBeDisabled()
     })
 
     it('should have submit disabled if input is not correct patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212')
-      expect(screen.getByText('Fortsätt')).toBeDisabled()
+      await expect(screen.getByText('Fortsätt')).toBeDisabled()
     })
 
     it('should have submit enabled if input is correct patient id', async () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212121212')
-      expect(screen.getByText('Fortsätt')).toBeEnabled()
+      await expect(screen.getByText('Fortsätt')).toBeEnabled()
     })
   })
 
