@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import CharacterCounter from './CharacterCounter'

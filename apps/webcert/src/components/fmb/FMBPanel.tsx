@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'

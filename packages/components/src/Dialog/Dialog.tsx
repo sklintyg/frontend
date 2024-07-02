@@ -1,6 +1,6 @@
-import type { IDSDialogElement } from '@frontend/ids-react-ts';
+import type { IDSDialogElement } from '@frontend/ids-react-ts'
 import { IDSDialog } from '@frontend/ids-react-ts'
-import type { ComponentProps, ReactNode} from 'react';
+import type { ComponentProps, ReactNode } from 'react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { FocusOn } from 'react-focus-on'
 

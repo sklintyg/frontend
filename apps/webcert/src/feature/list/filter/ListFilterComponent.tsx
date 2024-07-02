@@ -6,10 +6,9 @@ import type {
   ListFilterDateRangeConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterValue} from '../../../types';
-import {
-  ListFilterType
+  ListFilterValue,
 } from '../../../types'
+import { ListFilterType } from '../../../types'
 import { getListFilterDefaultValue } from '../listUtils'
 import DateRangeFilter from './DateRangeFilter'
 import PersonIdFilter from './PersonIdFilter'

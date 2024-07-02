@@ -1,6 +1,6 @@
-import type { MouseEventHandler} from 'react';
+import type { MouseEventHandler } from 'react'
 import React, { useEffect } from 'react'
-import type { Place } from 'react-tooltip';
+import type { Place } from 'react-tooltip'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'

@@ -1,10 +1,10 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { trashImage } from '../../../images'
-import type { RevokeCertificateReason} from '../../../store/certificate/certificateActions';
+import type { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { revokeCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { CertificateStatus } from '../../../types'

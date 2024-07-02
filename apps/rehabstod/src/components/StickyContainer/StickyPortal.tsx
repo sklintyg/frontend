@@ -1,4 +1,4 @@
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { useContext } from 'react'
 import { createPortal } from 'react-dom'
 import { StickyContext } from './StickyContainerProvider'

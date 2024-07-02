@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { speechBubbleImage } from '../../../images'
 import { answerComplementCertificate, complementCertificate } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import type { ResourceLink} from '../../../types';
+import type { ResourceLink } from '../../../types'
 import { CannotComplementOption, ResourceLinkType } from '../../../types'
 import RadioButton from '../../Inputs/RadioButton'
 import InfoBox from '../../utils/InfoBox'

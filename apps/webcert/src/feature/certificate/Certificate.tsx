@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
@@ -7,8 +7,7 @@ import styled from 'styled-components'
 import InfoBox from '../../components/utils/InfoBox'
 import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
-import type {
-  CertificateStructure} from '../../store/certificate/certificateSelectors';
+import type { CertificateStructure } from '../../store/certificate/certificateSelectors'
 import {
   getCertificateDataElements,
   getGotoId,

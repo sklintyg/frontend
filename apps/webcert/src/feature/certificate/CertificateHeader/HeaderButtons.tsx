@@ -12,7 +12,7 @@ import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateConti
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import SendCertificateButton from '../Buttons/SendCertificateButton'
 import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButton'
-import type { ResourceLink, CertificateMetadata} from '../../../types';
+import type { ResourceLink, CertificateMetadata } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import { resourceLinksAreEqual, getResourceLink } from '../../../utils'
 

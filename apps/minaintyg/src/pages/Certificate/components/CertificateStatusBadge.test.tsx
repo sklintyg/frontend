@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import type { CertificateStatus} from '../../../schema/certificate.schema';
+import type { CertificateStatus } from '../../../schema/certificate.schema'
 import { CertificateStatusEnum } from '../../../schema/certificate.schema'
 import { CertificateStatusBadge, getBadgeType } from './CertificateStatusBadge'
 

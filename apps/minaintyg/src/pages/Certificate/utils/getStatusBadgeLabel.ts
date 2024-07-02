@@ -1,4 +1,4 @@
-import type { CertificateStatus} from '../../../schema/certificate.schema';
+import type { CertificateStatus } from '../../../schema/certificate.schema'
 import { CertificateStatusEnum } from '../../../schema/certificate.schema'
 
 export function getStatusBadgeLabel(status: CertificateStatus) {

@@ -1,6 +1,6 @@
-import type { IDSCheckboxGroupElement } from '@frontend/ids-react-ts';
+import type { IDSCheckboxGroupElement } from '@frontend/ids-react-ts'
 import { IDSCheckboxGroup } from '@frontend/ids-react-ts'
-import type { HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
 
 export const SelectMultipleList = forwardRef<IDSCheckboxGroupElement, HTMLProps<IDSCheckboxGroupElement>>(({ children }, ref) => (

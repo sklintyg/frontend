@@ -2,7 +2,7 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { z } from 'zod'
-import type { Link} from '../schemas';
+import type { Link } from '../schemas'
 import { configSchema, linkSchema, userPreferencesSchema } from '../schemas'
 import { agCertificatesInfoSchema } from '../schemas/agCertificatesSchema'
 import { luCertificateFilterOptions, luCertificatesInfoSchema } from '../schemas/luCertificatesSchema'

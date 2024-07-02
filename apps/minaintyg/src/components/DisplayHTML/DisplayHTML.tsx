@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import type { DOMNode} from 'html-react-parser';
+import type { DOMNode } from 'html-react-parser'
 import parse, { attributesToProps, domToReact } from 'html-react-parser'
 import { createElement } from 'react'
 import { MobileTable } from './MobileTable'

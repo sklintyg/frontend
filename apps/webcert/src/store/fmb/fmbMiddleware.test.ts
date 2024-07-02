@@ -9,17 +9,14 @@ import type {
   Patient,
   PersonId,
   ValueDateRangeList,
-  ValueDiagnosisList} from '../../types';
-import {
-  CertificateDataValueType,
-  ResourceLinkType
+  ValueDiagnosisList,
 } from '../../types'
+import { CertificateDataValueType, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
-import type {
-  FMBDiagnoseRequest} from './fmbActions';
+import type { FMBDiagnoseRequest } from './fmbActions'
 import {
   getFMBDiagnosisCodeInfo,
   initializeFMBPanel,

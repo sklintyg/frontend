@@ -2,7 +2,7 @@ import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
 import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
-import type { AriaDateRangePickerProps, DateValue} from 'react-aria';
+import type { AriaDateRangePickerProps, DateValue } from 'react-aria'
 import { useDateRangePicker } from 'react-aria'
 import { useDateRangePickerState } from 'react-stately'
 import { isValidDate } from '../../../../utils/isValidDate'

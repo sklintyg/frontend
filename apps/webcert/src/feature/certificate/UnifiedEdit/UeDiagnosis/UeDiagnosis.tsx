@@ -14,11 +14,9 @@ import type {
   TextValidation,
   ValidationError,
   ValueDiagnosis,
-  ValueDiagnosisList} from '../../../../types';
-import {
-  CertificateDataValidationType,
-  CertificateDataValueType
+  ValueDiagnosisList,
 } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

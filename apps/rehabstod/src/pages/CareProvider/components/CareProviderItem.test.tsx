@@ -1,9 +1,9 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Mock} from 'vitest';
+import type { Mock } from 'vitest'
 import { vi } from 'vitest'
-import type { Mottagning, Vardenhet} from '../../../schemas';
+import type { Mottagning, Vardenhet } from '../../../schemas'
 import { vardenhetSchema } from '../../../schemas'
 import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderItem } from './CareProviderItem'

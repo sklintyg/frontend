@@ -1,7 +1,7 @@
 import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
-import type { ErrorPageActionTypeEnum } from '../../schema/error.schema';
+import type { ErrorPageActionTypeEnum } from '../../schema/error.schema'
 import { ErrorPageActionType } from '../../schema/error.schema'
 
 export function ErrorPageAction({ type }: { type: ErrorPageActionTypeEnum }) {

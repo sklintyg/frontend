@@ -26,10 +26,9 @@ import type {
   ValueViewTable,
   ValueViewText,
   ValueVisualAcuity,
-  ValueYear} from '../../types/certificate';
-import {
-  CertificateDataValueType
+  ValueYear,
 } from '../../types/certificate'
+import { CertificateDataValueType } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T

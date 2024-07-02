@@ -1,7 +1,7 @@
 import type React from 'react'
 import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
-import type { RootState} from '../../../store/store';
+import type { RootState } from '../../../store/store'
 import { useAppSelector } from '../../../store/store'
 import { CertificateDataElementStyleEnum } from '../../../types'
 import Question from './Question'

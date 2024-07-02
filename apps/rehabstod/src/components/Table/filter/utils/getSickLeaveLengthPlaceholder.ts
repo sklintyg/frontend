@@ -1,4 +1,4 @@
-import type { TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema';
+import type { TimePeriodOption } from '../../../../schemas/timePeriodOptionSchema'
 import { TimePeriodMetric } from '../../../../schemas/timePeriodOptionSchema'
 
 export const getSickLeaveLengthLabel = ({ from, to, metric }: TimePeriodOption) => {

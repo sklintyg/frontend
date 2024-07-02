@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Checkbox } from '../../../../../components/Form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
 import { RadioButton } from '../../../../../components/Form/RadioButton'
-import type { SjfItem } from '../../../../../schemas/patientSchema';
+import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
 import { BlockedInformation } from '../blocked/BlockedInformation'

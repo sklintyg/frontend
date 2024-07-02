@@ -1,5 +1,5 @@
 import { IDSIconChevron } from '@frontend/ids-react-ts'
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { useRef, useState } from 'react'
 
 export function PatientAccordion({ title, children, open = true }: { title: string; children: ReactNode; open: boolean }) {

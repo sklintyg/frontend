@@ -2,7 +2,7 @@ import { useInputStyle } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
-import type { AriaDatePickerProps, DateValue} from 'react-aria';
+import type { AriaDatePickerProps, DateValue } from 'react-aria'
 import { useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
 import { isValidDate } from '../../../../utils/isValidDate'

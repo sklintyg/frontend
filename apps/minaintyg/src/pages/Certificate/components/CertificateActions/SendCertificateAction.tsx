@@ -1,7 +1,7 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { CertificateRecipient } from '../../../../schema/certificate.schema';
+import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
 import { useAvailableFunction } from '../../../../store/hooks'
 import { CertificateSentDialog } from './CertificateSentDialog/CertificateSentDialog'

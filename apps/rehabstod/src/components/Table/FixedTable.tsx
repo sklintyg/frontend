@@ -1,5 +1,5 @@
 import { classNames } from '@frontend/components'
-import type { ReactNode, RefObject} from 'react';
+import type { ReactNode, RefObject } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { StickyPortal } from '../StickyContainer/StickyPortal'
 

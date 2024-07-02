@@ -1,5 +1,5 @@
 import type { CertificateStructure } from '../store/certificate/certificateSelectors'
-import type { CertificateData, CertificateDataElement} from '../types';
+import type { CertificateData, CertificateDataElement } from '../types'
 import { CertificateDataElementStyleEnum, ConfigTypes } from '../types'
 import { sortByIndex } from './certificateUtils'
 

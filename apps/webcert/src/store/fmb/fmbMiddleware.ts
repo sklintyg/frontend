@@ -1,20 +1,12 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type {
-  FMBDiagnosisCodeInfo,
-  ValueDateRangeList,
-  ValueDiagnosisList,
-  ValueType} from '../../types';
-import {
-  CertificateDataValueType,
-  ResourceLinkType
-} from '../../types'
+import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList, ValueType } from '../../types'
+import { CertificateDataValueType, ResourceLinkType } from '../../types'
 import { getResourceLink, isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { getCertificate } from '../certificate/certificateSelectors'
-import type {
-  FMBDiagnoseRequest} from './fmbActions';
+import type { FMBDiagnoseRequest } from './fmbActions'
 import {
   getFMBDiagnosisCodeInfo,
   getFMBDiagnosisCodeInfoStarted,

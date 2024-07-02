@@ -1,4 +1,4 @@
-import type { ThunkMiddleware } from '@reduxjs/toolkit';
+import type { ThunkMiddleware } from '@reduxjs/toolkit'
 import { createAction } from '@reduxjs/toolkit'
 import { api } from '../api'
 import type { RootState } from '../reducer'

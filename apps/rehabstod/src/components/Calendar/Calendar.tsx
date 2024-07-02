@@ -1,5 +1,5 @@
 import { GregorianCalendar } from '@internationalized/date'
-import type { AriaCalendarProps, DateValue} from 'react-aria';
+import type { AriaCalendarProps, DateValue } from 'react-aria'
 import { useCalendar, useLocale } from 'react-aria'
 import { useCalendarState } from 'react-stately'
 import { CalendarGrid } from './CalendarGrid'

@@ -1,5 +1,5 @@
 import { randomUUID } from '@frontend/utils'
-import type { ThunkMiddleware, UnknownAction} from '@reduxjs/toolkit';
+import type { ThunkMiddleware, UnknownAction } from '@reduxjs/toolkit'
 import { isPlainObject } from '@reduxjs/toolkit'
 import { api, hasRequest, isRejectedEndpoint } from '../api'
 import type { RootState } from '../reducer'

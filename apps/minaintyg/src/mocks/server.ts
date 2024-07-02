@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-import type { MockedRequest } from 'msw';
+import type { MockedRequest } from 'msw'
 import { matchRequestUrl } from 'msw'
 import { setupServer } from 'msw/node'
 import { handlers } from './handlers'

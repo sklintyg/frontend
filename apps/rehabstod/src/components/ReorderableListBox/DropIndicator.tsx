@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import type { DropIndicatorProps} from 'react-aria';
+import type { DropIndicatorProps } from 'react-aria'
 import { useDropIndicator } from 'react-aria'
 import type { DroppableCollectionState } from 'react-stately'
 

@@ -1,5 +1,5 @@
 import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
-import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema';
+import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
 import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'

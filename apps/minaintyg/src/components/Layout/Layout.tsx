@@ -1,6 +1,6 @@
 import { GlobalAlert, PriorityEnum } from '@frontend/components'
 import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { BannerPriority } from '../../schema/informationSchema'

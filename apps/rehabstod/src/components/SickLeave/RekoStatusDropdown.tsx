@@ -1,4 +1,4 @@
-import type { MouseEvent} from 'react';
+import type { MouseEvent } from 'react'
 import { useState } from 'react'
 import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'

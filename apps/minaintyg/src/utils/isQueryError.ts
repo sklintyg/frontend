@@ -1,4 +1,4 @@
-import type { PayloadAction, SerializedError} from '@reduxjs/toolkit';
+import type { PayloadAction, SerializedError } from '@reduxjs/toolkit'
 import { isPlainObject } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 

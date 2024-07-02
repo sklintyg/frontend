@@ -1,13 +1,13 @@
 import type { AnyAction } from '@reduxjs/toolkit'
-import type { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios'
 import axios from 'axios'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { FunctionDisabler} from '../../utils/functionDisablerUtils';
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode } from '../error/errorReducer'
-import type { ApiError} from './apiActions';
+import type { ApiError } from './apiActions'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
 
 const handleApiCallBegan: Middleware =

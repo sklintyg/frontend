@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
-import type { Question } from '../../types';
+import type { Question } from '../../types'
 import { CertificateStatus } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import InfoBox from '../utils/InfoBox'

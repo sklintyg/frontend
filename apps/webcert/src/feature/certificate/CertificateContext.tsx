@@ -1,4 +1,4 @@
-import type { RefObject} from 'react';
+import type { RefObject } from 'react'
 import { createContext, useContext } from 'react'
 
 interface ICertificateContext {

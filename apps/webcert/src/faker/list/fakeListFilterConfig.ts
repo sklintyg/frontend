@@ -9,10 +9,9 @@ import type {
   ListFilterPersonIdConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterTextConfig} from '../../types';
-import {
-  ListFilterType,
+  ListFilterTextConfig,
 } from '../../types'
+import { ListFilterType } from '../../types'
 import { fakeId } from '../fakeId'
 
 export function fakeListFilterConfigBase(data?: Partial<ListFilterConfigBase>): ListFilterConfigBase {

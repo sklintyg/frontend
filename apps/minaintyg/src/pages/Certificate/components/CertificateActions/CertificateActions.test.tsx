@@ -6,8 +6,7 @@ import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../../../mocks/server'
-import type {
-  AvailableFunction} from '../../../../schema/certificate.schema';
+import type { AvailableFunction } from '../../../../schema/certificate.schema'
 import {
   AvailableFunctionsTypeEnum,
   availableFunctionSchema,

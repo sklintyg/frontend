@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { TableHeadingForUnit } from './TableHeadingForUnit'
-import type { User} from '../../../schemas';
+import type { User } from '../../../schemas'
 import { UserUrval } from '../../../schemas'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 

@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Mock} from 'vitest';
+import type { Mock } from 'vitest'
 import { vi } from 'vitest'
 import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
 import { CareProviderAccordion } from './CareProviderAccordion'

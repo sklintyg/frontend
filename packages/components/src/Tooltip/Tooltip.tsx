@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { TooltipOptions} from './hooks/useTooltip';
+import type { TooltipOptions } from './hooks/useTooltip'
 import { useTooltip } from './hooks/useTooltip'
 import { TooltipContext } from './hooks/useTooltipContext'
 

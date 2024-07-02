@@ -1,5 +1,4 @@
-import type {
-  FunctionDisabler} from './functionDisablerUtils';
+import type { FunctionDisabler } from './functionDisablerUtils'
 import {
   addFunctionDisabler,
   generateFunctionDisabler,

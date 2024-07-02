@@ -1,4 +1,4 @@
-import type { ResourceLink} from '../../../types';
+import type { ResourceLink } from '../../../types'
 import { CannotComplementOption, ResourceLinkType } from '../../../types'
 import TextArea from '../../Inputs/TextArea'
 import MandatoryIcon from '../../utils/MandatoryIcon'

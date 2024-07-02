@@ -1,6 +1,6 @@
 import type React from 'react'
 import styled from 'styled-components'
-import type { ResourceLink, User} from '../types';
+import type { ResourceLink, User } from '../types'
 import { LoginMethod } from '../types'
 
 const StyledLink = styled.button`

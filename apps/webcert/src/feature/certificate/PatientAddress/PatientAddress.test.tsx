@@ -6,7 +6,7 @@ import { updateCertificate } from '../../../store/certificate/certificateActions
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate} from '../../../types';
+import type { Certificate } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import PatientAddress from './PatientAddress'
 

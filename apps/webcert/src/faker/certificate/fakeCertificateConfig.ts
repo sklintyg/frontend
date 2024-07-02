@@ -36,12 +36,9 @@ import type {
   ConfigUeViewTable,
   ConfigUeViewText,
   ConfigUeVisualAcuity,
-  ConfigUeYear} from '../../types/certificate';
-import {
-  ConfigLayout,
-  ConfigTypes,
-  MessageLevel,
+  ConfigUeYear,
 } from '../../types/certificate'
+import { ConfigLayout, ConfigTypes, MessageLevel } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({

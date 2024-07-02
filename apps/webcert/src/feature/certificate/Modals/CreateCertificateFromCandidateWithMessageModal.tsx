@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'

@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -7,7 +7,7 @@ import ProtectedUserApprovalModal from '../../feature/certificate/Modals/Protect
 import { lockClosedImage, userImage } from '../../images'
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
-import type { User } from '../../types';
+import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 import ExpandableBox from '../utils/ExpandableBox'

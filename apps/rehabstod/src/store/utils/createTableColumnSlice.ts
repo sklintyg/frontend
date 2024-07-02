@@ -1,4 +1,4 @@
-import type { EntityState, PayloadAction } from '@reduxjs/toolkit';
+import type { EntityState, PayloadAction } from '@reduxjs/toolkit'
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import type { UserPreferences } from '../../schemas'
 import type { TableColumn } from '../../schemas/tableSchema'

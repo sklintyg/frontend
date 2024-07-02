@@ -1,5 +1,5 @@
 import React from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components';
+import type { FlattenSimpleInterpolation } from 'styled-components'
 import styled from 'styled-components'
 import { questionImage } from '../../images'
 

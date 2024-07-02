@@ -14,16 +14,11 @@ import type {
   PersonId,
   ResourceLink,
   Unit,
-  ValidationError} from '../../types';
-import {
-  CertificateRelationType,
-  CertificateStatus,
-  ConfigTypes,
-  QuestionType,
-  ResourceLinkType
+  ValidationError,
 } from '../../types'
+import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
-import type { ValidationErrorSummary} from '../../utils/validation/sortedValidationErrorSummary';
+import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import type { ErrorData } from '../error/errorReducer'
 import type { RootState } from '../store'

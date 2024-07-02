@@ -1,5 +1,5 @@
 import ErrorModalBase from './ErrorModalBase'
-import type { ModalProps} from './errorUtils';
+import type { ModalProps } from './errorUtils'
 import { reloadPage } from './errorUtils'
 import type React from 'react'
 import { useDispatch } from 'react-redux'

@@ -1,5 +1,5 @@
 import { classNames } from '@frontend/components'
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'

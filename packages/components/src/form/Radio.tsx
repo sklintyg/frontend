@@ -1,5 +1,5 @@
 import { IDSRadio } from '@frontend/ids-react-ts'
-import type { InputHTMLAttributes} from 'react';
+import type { InputHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 
 interface RadioProps {

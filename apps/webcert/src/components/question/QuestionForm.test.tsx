@@ -23,7 +23,7 @@ import {
   validateQuestion,
 } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'

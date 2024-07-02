@@ -1,7 +1,7 @@
 import { TooltipIcon } from '@frontend/components'
 import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { format } from 'date-fns'
-import type { LabelProps} from 'recharts';
+import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'
 
 function renderCustomizedLabel(props: LabelProps) {

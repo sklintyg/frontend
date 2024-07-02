@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import type { AriaButtonProps} from 'react-aria';
+import type { AriaButtonProps } from 'react-aria'
 import { useButton } from 'react-aria'
 
 export function CalendarButton(props: AriaButtonProps) {

@@ -4,8 +4,7 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server, waitForRequest } from '../../mocks/server'
-import type {
-  CertificateMetadata} from '../../schema/certificate.schema';
+import type { CertificateMetadata } from '../../schema/certificate.schema'
 import {
   AvailableFunctionsTypeEnum,
   certificateMetadataSchema,

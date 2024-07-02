@@ -4,7 +4,7 @@ import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { setActiveCertificateId, setError, throwError } from './errorActions'
-import type { ErrorData, ErrorLogRequest} from './errorReducer';
+import type { ErrorData, ErrorLogRequest } from './errorReducer'
 import { ErrorType } from './errorReducer'
 
 const handleThrowError: Middleware<Dispatch> =

@@ -1,9 +1,9 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
-import type { ProxyOptions } from 'vite';
+import type { ProxyOptions } from 'vite'
 import { loadEnv } from 'vite'
-import type { UserConfig } from 'vitest/config';
+import type { UserConfig } from 'vitest/config'
 import { defineConfig } from 'vitest/config'
 
 export default ({ mode }: UserConfig) => {

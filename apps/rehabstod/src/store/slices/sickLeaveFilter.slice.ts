@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'

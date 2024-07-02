@@ -21,7 +21,7 @@ import {
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import type { CertificateDataElement, ConfigUeIcf, ValueIcf, ValueText, ValueYear } from '../../../types';
+import type { CertificateDataElement, ConfigUeIcf, ValueIcf, ValueText, ValueYear } from '../../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../../types'
 import QuestionUvResolve from './QuestionUvResolve'
 

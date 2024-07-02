@@ -10,10 +10,9 @@ import type {
   ConfigUeMedicalInvestigationList,
   TextValidation,
   ValidationError,
-  ValueMedicalInvestigation} from '../../../../types';
-import {
-  CertificateDataValidationType
+  ValueMedicalInvestigation,
 } from '../../../../types'
+import { CertificateDataValidationType } from '../../../../types'
 
 const Row = styled.div`
   display: flex;

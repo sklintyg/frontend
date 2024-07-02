@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
-import type { ChangeEvent} from 'react';
-import type React from 'react';
+import type { ChangeEvent } from 'react'
+import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -18,7 +18,7 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
-import type { Answer, Question} from '../../types';
+import type { Answer, Question } from '../../types'
 import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import { getResourceLink } from '../../utils'
 import Checkbox from '../Inputs/Checkbox'

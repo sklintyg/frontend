@@ -1,5 +1,5 @@
 import { IDSInput } from '@frontend/ids-react-ts'
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { forwardRef, useId } from 'react'
 import { classNames } from '../utils'
 import { InputLabel } from './InputLabel'

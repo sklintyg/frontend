@@ -1,5 +1,5 @@
 import { debounce, isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -15,7 +15,7 @@ import {
   getResourceLinks,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
-import type { Patient} from '../../../types';
+import type { Patient } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import { getResourceLink, getValidationErrors, resourceLinksAreEqual } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'

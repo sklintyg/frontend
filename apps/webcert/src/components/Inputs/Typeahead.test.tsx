@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { vi } from 'vitest'
-import type { Suggestion } from './Typeahead';
+import type { Suggestion } from './Typeahead'
 import Typeahead from './Typeahead'
 
 const suggestions: Suggestion[] = [

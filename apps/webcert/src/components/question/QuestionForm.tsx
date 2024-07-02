@@ -1,6 +1,6 @@
 import { debounce } from 'lodash-es'
-import type { ChangeEvent} from 'react';
-import type React from 'react';
+import type { ChangeEvent } from 'react'
+import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ import {
   isQuestionMissingType,
 } from '../../store/question/questionSelectors'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import Dropdown from '../Inputs/Dropdown'

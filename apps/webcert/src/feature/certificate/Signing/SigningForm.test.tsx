@@ -2,7 +2,7 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
-import type { SigningData} from '../../../store/certificate/certificateActions';
+import type { SigningData } from '../../../store/certificate/certificateActions'
 import { updateCertificateSigningData } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'

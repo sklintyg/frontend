@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import type { ComponentProps } from 'react'
 import type React from 'react'
 import { SVGIcon } from './SVGIcon'
 

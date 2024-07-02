@@ -1,5 +1,5 @@
 import { classNames } from '@frontend/components'
-import type { CalendarDate} from '@internationalized/date';
+import type { CalendarDate } from '@internationalized/date'
 import { getDayOfWeek, isSameDay } from '@internationalized/date'
 import { useRef } from 'react'
 import { mergeProps, useCalendarCell, useFocusRing, useLocale } from 'react-aria'

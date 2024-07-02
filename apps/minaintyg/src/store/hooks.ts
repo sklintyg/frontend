@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import type { TypedUseSelectorHook} from 'react-redux';
+import type { TypedUseSelectorHook } from 'react-redux'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import type { AvailableFunctionsType } from '../schema/certificate.schema'

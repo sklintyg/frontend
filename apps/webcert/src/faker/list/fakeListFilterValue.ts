@@ -6,10 +6,9 @@ import type {
   ListFilterValuePersonId,
   ListFilterValueRadio,
   ListFilterValueSelect,
-  ListFilterValueText} from '../../types';
-import {
-  ListFilterType
+  ListFilterValueText,
 } from '../../types'
+import { ListFilterType } from '../../types'
 import { fakePersonId } from '../fakePatient'
 
 export function fakeListFilterValueText(data?: Partial<ListFilterValueText>): ListFilterValueText {

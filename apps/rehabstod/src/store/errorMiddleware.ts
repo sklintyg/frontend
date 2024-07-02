@@ -1,7 +1,7 @@
 import { randomUUID } from '@frontend/utils'
-import type { SerializedError, ThunkMiddleware } from '@reduxjs/toolkit';
+import type { SerializedError, ThunkMiddleware } from '@reduxjs/toolkit'
 import { isPlainObject } from '@reduxjs/toolkit'
-import type { ErrorData } from '../schemas/errorSchema';
+import type { ErrorData } from '../schemas/errorSchema'
 import { ErrorCodeEnum } from '../schemas/errorSchema'
 import { api, hasRequest, isRejectedEndpoint } from './api'
 import type { RootState } from './reducer'

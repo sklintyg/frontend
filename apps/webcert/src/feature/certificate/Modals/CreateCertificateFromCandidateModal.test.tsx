@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
-import type { ResourceLink} from '../../../types';
+import type { ResourceLink } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 
 const NAME = 'Name'

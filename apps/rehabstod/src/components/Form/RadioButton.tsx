@@ -1,6 +1,6 @@
 import { TooltipIcon } from '@frontend/components'
 import { IDSIconQuestion, IDSRadio } from '@frontend/ids-react-ts'
-import type { ChangeEvent} from 'react';
+import type { ChangeEvent } from 'react'
 import { useId } from 'react'
 
 export function RadioButton({

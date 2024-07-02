@@ -1,9 +1,4 @@
-import type {
-  CertificateData,
-  CertificateDataElement,
-  CertificateMetadata,
-  DisableSubElementValidation,
-  ResourceLink} from '../../types';
+import type { CertificateData, CertificateDataElement, CertificateMetadata, DisableSubElementValidation, ResourceLink } from '../../types'
 import {
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,

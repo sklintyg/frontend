@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ import {
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
 import { useAppSelector } from '../../store/store'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { QuestionType, ResourceLinkType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'

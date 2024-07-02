@@ -10,10 +10,9 @@ import type {
   MandatoryValidation,
   ShowValidation,
   TextValidation,
-  ValidationError} from '../../types/certificate';
-import {
-  CertificateDataValidationType
+  ValidationError,
 } from '../../types/certificate'
+import { CertificateDataValidationType } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 import { fakeCertificateValue } from './fakeCertificateValue'
 

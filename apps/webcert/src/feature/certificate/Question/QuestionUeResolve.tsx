@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import InfoBox from '../../../components/utils/InfoBox'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import type { CertificateDataConfigType, CertificateDataElement, ValueType } from '../../../types';
+import type { CertificateDataConfigType, CertificateDataElement, ValueType } from '../../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'

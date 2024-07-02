@@ -1,4 +1,4 @@
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'

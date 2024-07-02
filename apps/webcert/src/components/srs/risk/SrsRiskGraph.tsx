@@ -1,20 +1,8 @@
-import type { Ref } from 'react';
+import type { Ref } from 'react'
 import { forwardRef } from 'react'
 import { useSelector } from 'react-redux'
-import type {
-  LabelProps,
-  TooltipProps} from 'recharts';
-import {
-  Bar,
-  BarChart,
-  Cell,
-  LabelList,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import type { LabelProps, TooltipProps } from 'recharts'
+import { Bar, BarChart, Cell, LabelList, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { Payload } from 'recharts/types/component/DefaultTooltipContent'
 import {
   getIsCertificateRenewed,

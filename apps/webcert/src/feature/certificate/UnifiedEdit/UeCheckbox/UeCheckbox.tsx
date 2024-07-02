@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Checkbox from '../../../../components/Inputs/Checkbox'
@@ -6,7 +6,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import type { CertificateDataElement, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types';
+import type { CertificateDataElement, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../../../types'
 
 export interface Props {

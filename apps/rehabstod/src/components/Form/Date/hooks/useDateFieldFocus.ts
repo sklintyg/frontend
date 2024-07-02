@@ -1,4 +1,4 @@
-import type { RefObject} from 'react';
+import type { RefObject } from 'react'
 import { useEffect } from 'react'
 
 export function useDateFieldFocus(ref: RefObject<HTMLElement>) {

@@ -1,12 +1,5 @@
-import type {
-  SrsPrediction,
-  ValueDiagnosisList,
-  CertificateMetadata} from '../../types';
-import {
-  SrsSickLeaveChoice,
-  SrsUserClientContext,
-  CertificateStatus,
-} from '../../types'
+import type { SrsPrediction, ValueDiagnosisList, CertificateMetadata } from '../../types'
+import { SrsSickLeaveChoice, SrsUserClientContext, CertificateStatus } from '../../types'
 import { isRenewedChild } from '../../utils'
 
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']

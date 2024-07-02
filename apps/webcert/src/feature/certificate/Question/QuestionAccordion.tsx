@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import Icon from '../../../components/image/image/Icon'

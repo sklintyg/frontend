@@ -1,5 +1,5 @@
 import { IDSButton } from '@frontend/ids-react-ts'
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 
 export function ExpandableCard({

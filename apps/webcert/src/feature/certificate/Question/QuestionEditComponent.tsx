@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useCallback } from 'react'
 import type { CertificateDataElement, ValueType } from '../../../types'
 import { validateExpression } from '../../../utils/validation/validateExpression'

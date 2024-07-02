@@ -21,7 +21,7 @@ import {
   updateTotalCount,
   updateValidationError,
 } from './listActions'
-import type { CertificateListItem, ListConfig, ListFilter} from '../../types';
+import type { CertificateListItem, ListConfig, ListFilter } from '../../types'
 import { ListType } from '../../types'
 
 export interface ListState {

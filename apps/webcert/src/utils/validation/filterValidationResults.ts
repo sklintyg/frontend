@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type { CertificateDataValidation} from '../../types';
+import type { CertificateDataValidation } from '../../types'
 import { CertificateDataValidationType } from '../../types'
 import type { ValidationResult } from './getValidationResults'
 

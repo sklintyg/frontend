@@ -5,7 +5,7 @@ import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificate
 import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import type { ErrorData} from '../../store/error/errorReducer';
+import type { ErrorData } from '../../store/error/errorReducer'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import {
   setListError,

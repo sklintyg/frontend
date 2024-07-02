@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { QuestionType } from '../../types'
-import type { FunctionDisabler} from '../../utils/functionDisablerUtils';
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,

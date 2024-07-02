@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { MedarbetarUppdrag, Person } from '../../schemas/hsa';
+import type { MedarbetarUppdrag, Person } from '../../schemas/hsa'
 import { AllowedInApplication } from '../../schemas/hsa'
 import { useAppSelector } from '../../store/hooks'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'

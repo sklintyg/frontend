@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import type { Question} from '../../../../types';
+import type { Question } from '../../../../types'
 import { CertificateRelationType, CertificateStatus, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 

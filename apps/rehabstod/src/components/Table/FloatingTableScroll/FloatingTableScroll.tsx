@@ -1,5 +1,5 @@
 import handyScroll from 'handy-scroll'
-import type { HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'

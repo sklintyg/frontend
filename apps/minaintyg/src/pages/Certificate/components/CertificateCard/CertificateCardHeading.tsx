@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { CertificateStatus} from '../../../../schema/certificate.schema';
+import type { CertificateStatus } from '../../../../schema/certificate.schema'
 import { CertificateStatusEnum } from '../../../../schema/certificate.schema'
 import { CertificateStatusBadge } from '../CertificateStatusBadge'
 

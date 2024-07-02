@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { last } from 'lodash-es'
-import type { ComponentProps} from 'react';
+import type { ComponentProps } from 'react'
 import { createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'

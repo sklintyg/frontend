@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
