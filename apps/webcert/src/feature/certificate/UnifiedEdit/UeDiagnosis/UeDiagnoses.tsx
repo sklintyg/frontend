@@ -32,6 +32,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   )
   const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
+  const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
   const dispatch = useAppDispatch()
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -70,7 +71,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
             <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrors.length === 1) || diagnosisValidationErrors.length > 0}
+              hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
               key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
@@ -81,9 +82,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </div>
-      {validationErrors.length === 1 && (
-        <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
-      )}
+      <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />
     </>
   )
 }
