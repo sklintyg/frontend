@@ -40,7 +40,7 @@ import {
   ConfigUeVisualAcuity,
   ConfigUeYear,
   MessageLevel,
-} from '../../types/certificate'
+} from '../../types/certificateDataConfig'
 import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({

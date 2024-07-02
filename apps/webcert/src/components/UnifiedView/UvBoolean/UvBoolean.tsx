@@ -1,5 +1,6 @@
 import React from 'react'
-import { ConfigUeCheckboxBoolean, ValueBoolean } from '../../../types/certificate'
+import { ConfigUeCheckboxBoolean } from '../../../types/certificateDataConfig'
+import { ValueBoolean } from '../../../types/certificateDataValue'
 import { Badge } from '../Badge'
 
 export const UvBoolean: React.FC<{

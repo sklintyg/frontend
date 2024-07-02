@@ -28,7 +28,7 @@ import {
   ValueViewText,
   ValueVisualAcuity,
   ValueYear,
-} from '../../types/certificate'
+} from '../../types/certificateDataValue'
 import { fakeId } from '../fakeId'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T

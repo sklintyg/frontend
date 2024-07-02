@@ -2,7 +2,7 @@ import { compileExpression } from '@frontend/filtrex'
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
 import { vi } from 'vitest'
 import { fakeCertificateValue } from '../../faker'
-import { CertificateDataValueType } from '../../types/certificate'
+import { CertificateDataValueType } from '../../types/certificateDataValue'
 import { convertExpression, differenceInDays, getKeyValuePair, parseDateValue, validateExpression } from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')

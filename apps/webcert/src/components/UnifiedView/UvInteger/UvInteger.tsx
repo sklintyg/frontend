@@ -1,5 +1,6 @@
 import React from 'react'
-import { ConfigUeInteger, ValueInteger } from '../../../types/certificate'
+import { ConfigUeInteger } from '../../../types/certificateDataConfig'
+import { ValueInteger } from '../../../types/certificateDataValue'
 import { Badge } from '../Badge'
 
 export const UvInteger: React.FC<{

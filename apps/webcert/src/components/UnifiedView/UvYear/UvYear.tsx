@@ -1,5 +1,5 @@
 import React from 'react'
-import { ValueYear } from '../../../types/certificate'
+import { ValueYear } from '../../../types/certificateDataValue'
 import { Badge } from '../Badge'
 
 export const UvYear: React.FC<{ value: ValueYear }> = ({ value }) => (

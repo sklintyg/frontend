@@ -1,6 +1,6 @@
 import { format, startOfToday } from 'date-fns'
 import { fakeCertificateValue } from '../../faker'
-import { CertificateDataValueType } from '../../types/certificate'
+import { CertificateDataValueType } from '../../types/certificateDataValue'
 import { getFieldValuePair } from './getFieldValuePair'
 
 it('Should convert list of MEDICAL_INVESTIGATION to key-value pair', () => {
