@@ -82,7 +82,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </div>
-      <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />
+      {validationErrorsWithMissingField.length > 0 && <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />}
     </>
   )
 }
