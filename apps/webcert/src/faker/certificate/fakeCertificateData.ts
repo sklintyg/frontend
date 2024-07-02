@@ -1,10 +1,8 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
+import { CertificateData, CertificateDataElement } from '../../types/certificate'
 import {
-  CertificateData,
   CertificateDataConfigType,
-  CertificateDataElement,
-  CertificateDataValueType,
   ConfigCategory,
   ConfigLayout,
   ConfigUeCauseOfDeath,
@@ -34,6 +32,9 @@ import {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
+} from '../../types/certificateDataConfig'
+import {
+  CertificateDataValueType,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -56,7 +57,7 @@ import {
   ValueViewText,
   ValueVisualAcuity,
   ValueYear,
-} from '../../types/certificate'
+} from '../../types/certificateDataValue'
 import { fakeCityList } from '../fakeCity'
 import { fakeId } from '../fakeId'
 import { fakeList } from '../fakeList'

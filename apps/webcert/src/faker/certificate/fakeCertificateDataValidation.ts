@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { ValidationError } from '../../types/certificate'
 import {
   AutoFillValidation,
   CategoryMandatoryValidation,
@@ -11,8 +12,7 @@ import {
   MandatoryValidation,
   ShowValidation,
   TextValidation,
-  ValidationError,
-} from '../../types/certificate'
+} from '../../types/certificateValidation'
 import { fakeId } from '../fakeId'
 import { fakeCertificateValue } from './fakeCertificateValue'
 

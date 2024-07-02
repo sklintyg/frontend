@@ -1,5 +1,6 @@
 import { fakeCheckboxDateRangeList, fakeDateElement, fakeYearElement } from '../../faker'
-import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
+import { ConfigTypes } from '../../types/certificateDataConfig'
+import { CertificateDataValueType } from '../../types/certificateDataValue'
 import { getClientValidationErrors } from './getClientValidationErrors'
 
 describe('Validation based on value', () => {

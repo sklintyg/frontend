@@ -1,6 +1,6 @@
 import { compileExpression } from '@frontend/filtrex'
 import { differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
-import { CertificateDataValueType, ValueType } from '../../types/certificate'
+import { CertificateDataValueType, ValueType } from '../../types/certificateDataValue'
 import { getFieldValuePair } from '../certificate/getFieldValuePair'
 import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from '../dateUtils'
 
