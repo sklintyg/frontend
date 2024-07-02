@@ -11,7 +11,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import type { Complement, Question} from '../../types';
+import type { Complement, Question } from '../../types'
 import { QuestionType, ResourceLinkType } from '../../types'
 import QuestionItem from './QuestionItem'
 
@@ -303,7 +303,7 @@ describe('QuestionItem', () => {
   })
 
   describe('answering a question with default values', () => {
-    it('display default value for message', () => {
+    it('display default value for message', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       const message = screen.getByRole('textbox')
@@ -311,13 +311,13 @@ describe('QuestionItem', () => {
       await expect(message).toHaveValue('')
     })
 
-    it('send question disabled', () => {
+    it('send question disabled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       await expect(screen.getByText(/Skicka/i)).toBeDisabled()
     })
 
-    it('cancel question disabled', () => {
+    it('cancel question disabled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       await expect(screen.getByText(/Avbryt/i)).toBeDisabled()
@@ -339,7 +339,7 @@ describe('QuestionItem', () => {
       clearDispatchedActions()
     })
 
-    it('enable send and cancel when answer has value', () => {
+    it('enable send and cancel when answer has value', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       await expect(screen.getByText(/Skicka/i)).toBeEnabled()
@@ -430,7 +430,7 @@ describe('QuestionItem', () => {
       expect(screen.getByRole('checkbox')).toBeInTheDocument()
     })
 
-    it('display checkbox as checked if handled', () => {
+    it('display checkbox as checked if handled', async () => {
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
@@ -438,7 +438,7 @@ describe('QuestionItem', () => {
       await expect(screen.queryByRole('checkbox')).toBeChecked()
     })
 
-    it('display checkbox as unchecked if unhandled', () => {
+    it('display checkbox as unchecked if unhandled', async () => {
       renderComponent(createQuestion())
 
       await expect(screen.queryByRole('checkbox')).not.toBeChecked()

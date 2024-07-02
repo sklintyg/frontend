@@ -39,7 +39,7 @@ describe('StartPage', () => {
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
-  it('should render idp links', () => {
+  it('should render idp links', async () => {
     renderComponent()
     const config: Configuration = {
       version: '',

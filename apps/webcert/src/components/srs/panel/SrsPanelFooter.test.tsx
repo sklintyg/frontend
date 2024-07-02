@@ -7,7 +7,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { SrsInfoForDiagnosis} from '../../../types';
+import type { SrsInfoForDiagnosis } from '../../../types'
 import { SrsInformationChoice } from '../../../types'
 import SrsPanelFooter from './SrsPanelFooter'
 
@@ -32,7 +32,7 @@ describe('SrsPanelFooter', () => {
     clearDispatchedActions()
   })
 
-  it('should set correct link in footer for recommendations', () => {
+  it('should set correct link in footer for recommendations', async () => {
     renderComponent(SrsInformationChoice.RECOMMENDATIONS)
     await expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.atgarderDiagnosisCode}`)
   })
@@ -42,7 +42,7 @@ describe('SrsPanelFooter', () => {
     expect(screen.getByText(`Information om ${srsInfo.atgarderDiagnosisDescription} hos Rätt Sjukskrivning`)).toBeInTheDocument()
   })
 
-  it('should set correct link in footer for statistics', () => {
+  it('should set correct link in footer for statistics', async () => {
     renderComponent(SrsInformationChoice.STATISTICS)
     await expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.statistikDiagnosisCode}`)
   })

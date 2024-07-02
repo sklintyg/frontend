@@ -120,7 +120,7 @@ describe('SrsRisk', () => {
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
 
-    it('should disabled button when choosing extension after 60 days sickleave option', () => {
+    it('should disabled button when choosing extension after 60 days sickleave option', async () => {
       renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
       await expect(screen.getByText(SRS_RISK_BUTTON_TEXT)).toBeDisabled()

@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeDiagnosesElement } from '../../../../faker'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import UeDiagnoses from './UeDiagnoses'
-import { fakeDiagnosesElement } from '../../../../faker'
 
 let testStore: EnhancedStore
 
@@ -36,7 +36,7 @@ const renderComponent = ({ ...args }: ComponentProps<typeof UeDiagnoses>) => {
 }
 
 const checkThatInputsAreEmpty = (indexToSkip: number, input: HTMLElement[]) => {
-  input.forEach((_, i) => {
+  input.forEach(async (_, i) => {
     if (i > indexToSkip) {
       await expect(i).toHaveValue('')
     }
@@ -57,7 +57,7 @@ describe('Diagnoses component', () => {
     expect(getDiagnosisTypeaheadResult()(testStore.getState())).toEqual({ diagnoser: DIAGNOSES, resultat: 'OK', moreResults: false })
   })
 
-  it('Should have correct default behaviour', () => {
+  it('Should have correct default behaviour', async () => {
     renderComponent({ question, disabled: false })
     const input = screen.queryAllByRole('textbox')
     const radioButtons = screen.queryAllByRole('radio')
@@ -65,7 +65,7 @@ describe('Diagnoses component', () => {
     await expect(radioButtons[1]).not.toBeChecked()
     await expect(radioButtons[0]).toBeEnabled()
     await expect(radioButtons[1]).toBeEnabled()
-    input.forEach((i: HTMLElement) => {
+    input.forEach(async (i: HTMLElement) => {
       await expect(i).toHaveValue('')
       await expect(i).toBeEnabled()
     })

@@ -72,7 +72,7 @@ describe('SrsRiskForm', () => {
   })
 
   describe('checked options', () => {
-    it('should check previous answers if available in predictions', () => {
+    it('should check previous answers if available in predictions', async () => {
       const notDefault = fakeSrsAnswerOption(false)
       const defaultOption = fakeSrsAnswerOption(true)
       const answerOptions = [defaultOption, notDefault]
@@ -96,7 +96,7 @@ describe('SrsRiskForm', () => {
     })
 
     // TODO: Fix flaky tests
-    it.skip('should check default option if previous answers are missing', () => {
+    it.skip('should check default option if previous answers are missing', async () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
@@ -106,7 +106,7 @@ describe('SrsRiskForm', () => {
       await expect(radioButtons[1]).not.toBeChecked()
     })
 
-    it.skip('should check default option if old prediction model is being used', () => {
+    it.skip('should check default option if old prediction model is being used', async () => {
       const notDefault = fakeSrsAnswerOption(false)
       const defaultOption = fakeSrsAnswerOption(true)
       const answerOptions = [defaultOption, notDefault]

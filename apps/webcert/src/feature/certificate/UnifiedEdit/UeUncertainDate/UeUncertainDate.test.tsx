@@ -3,11 +3,11 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeUncertainDateElement } from '../../../../faker'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
-import { fakeUncertainDateElement, fakeCertificate } from '../../../../faker'
 
 const YEARS = ['2020', '2021', '2022']
 const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
@@ -52,7 +52,7 @@ describe('UeUncertainDate', () => {
     expect(() => renderComponent({ question })).not.toThrow()
   })
 
-  it('renders control and all options', () => {
+  it('renders control and all options', async () => {
     renderComponent({ question })
     const yearDropdown = screen.getByLabelText('År')
     expect(yearDropdown).toBeInTheDocument()
@@ -105,7 +105,7 @@ describe('UeUncertainDate', () => {
     expect(monthOptions[0].selected).toBeFalsy()
   })
 
-  it('gets disabled correctly', () => {
+  it('gets disabled correctly', async () => {
     renderComponent({ question, disabled: true })
     const yearDropdown = screen.getByLabelText('År')
     await expect(yearDropdown).toBeDisabled()

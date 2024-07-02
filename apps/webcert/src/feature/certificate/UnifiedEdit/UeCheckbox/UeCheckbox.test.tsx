@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import UeCheckbox from './UeCheckbox'
 import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '../../../../faker'
 import type { CertificateDataElement } from '../../../../types'
+import UeCheckbox from './UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
 const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'
@@ -110,7 +110,7 @@ describe('Checkbox component', () => {
     await expect(checkbox).toBeChecked()
   })
 
-  it('gets disabled when value is given', () => {
+  it('gets disabled when value is given', async () => {
     render(
       <>
         <UeCheckbox question={questionCode} disabled id="checkbox" />

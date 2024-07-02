@@ -261,7 +261,7 @@ describe('SrsPanel', () => {
       await expect(button).toHaveClass('ic-button--primary')
     })
 
-    it('should set statistics button to secondary button as default', () => {
+    it('should set statistics button to secondary button as default', async () => {
       renderComponent()
       const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
       await expect(button).not.toHaveClass('ic-button--primary')

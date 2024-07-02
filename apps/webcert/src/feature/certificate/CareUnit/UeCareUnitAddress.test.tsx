@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useSelector } from 'react-redux'
-import type { Mock} from 'vitest';
+import type { Mock } from 'vitest'
 import { vi } from 'vitest'
+import type { ValidationError } from '../../../types'
 import UeCareUnitAddress, {
   CARE_UNIT_ADDRESS_FIELD,
   CARE_UNIT_CITY_FIELD,
   CARE_UNIT_PHONE_NUMBER_FIELD,
   CARE_UNIT_ZIP_CODE_FIELD,
 } from './UeCareUnitAddress'
-import type { ValidationError } from '../../../types'
 
 const getValidationErrors = (): ValidationError[] => {
   const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: 'Valideringstext' }
@@ -51,7 +51,7 @@ describe('CareUnitAddress component', () => {
     expect(screen.queryAllByText(/\*/i)).toHaveLength(4)
   })
 
-  it('display all validation errors', (): void => {
+  it('display all validation errors', async (): Promise<Promise<Promise<Promise<void>>>> => {
     mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {

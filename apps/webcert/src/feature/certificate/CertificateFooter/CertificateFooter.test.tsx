@@ -1,13 +1,13 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '../../../faker'
 import { updateCertificate, updateCertificateSignStatus, updateValidationErrors } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { CertificateFooter } from './CertificateFooter'
-import { fakeCertificate, fakeTextFieldElement, fakeCertificateMetaData } from '../../../faker'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
+import { CertificateFooter } from './CertificateFooter'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
@@ -66,7 +66,7 @@ describe('CertificateFooter', () => {
         )
       })
 
-      it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is true', () => {
+      it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is true', async () => {
         renderComponent()
         testStore.dispatch(updateValidationErrors([]))
         const button = screen.queryByText('Ready For sign')
@@ -81,7 +81,7 @@ describe('CertificateFooter', () => {
         expect(button).not.toBeInTheDocument()
       })
 
-      it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is false', () => {
+      it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is false', async () => {
         renderComponent()
         testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
         const button = screen.queryByText('Ready For sign')

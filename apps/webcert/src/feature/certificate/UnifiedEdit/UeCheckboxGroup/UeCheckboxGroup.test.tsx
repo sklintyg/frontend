@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import UeCheckboxGroup from './UeCheckboxGroup'
 import { fakeCertificateConfig } from '../../../../faker'
-import type { CertificateDataElement} from '../../../../types';
+import type { CertificateDataElement } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
+import UeCheckboxGroup from './UeCheckboxGroup'
 
 const CHECKBOXES = [
   { label: 'Checkbox1', id: 'Checkbox_1' },
@@ -46,7 +46,7 @@ describe('Checkbox group component', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
 
-  it.each(CHECKBOXES.map(({ label }) => label))('Disable checbox for option %s', (label) => {
+  it.each(CHECKBOXES.map(({ label }) => label))('Disable checbox for option %s', async (label) => {
     render(<UeCheckboxGroup question={question} disabled />)
     await expect(screen.getByRole('checkbox', { name: label })).toBeDisabled()
   })

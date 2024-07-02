@@ -11,7 +11,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate, CertificateMetadata, ResourceLink} from '../../../types';
+import type { Certificate, CertificateMetadata, ResourceLink } from '../../../types'
 import { CertificateStatus, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 
@@ -64,7 +64,7 @@ describe('CertificateSidePanel', () => {
       expect(screen.queryByText('Om intyget')).not.toBeInTheDocument()
     })
 
-    it('shall render if showSpinner is false', () => {
+    it('shall render if showSpinner is false', async () => {
       testStore.dispatch(hideSpinner)
       renderComponent()
       await expect(screen.getAllByText('Om intyget')[0]).toBeVisible()
@@ -72,7 +72,7 @@ describe('CertificateSidePanel', () => {
   })
 
   describe('resource links', () => {
-    it('shall render FMB panel if FMB resource link exists', () => {
+    it('shall render FMB panel if FMB resource link exists', async () => {
       const tabText = 'FMB'
       renderTab(tabText, ResourceLinkType.FMB)
       await expect(screen.getByText(tabText)).toBeVisible()
@@ -84,7 +84,7 @@ describe('CertificateSidePanel', () => {
       expect(screen.queryByText(tabText)).not.toBeInTheDocument()
     })
 
-    it('shall render Question panel if Question resource link exists', () => {
+    it('shall render Question panel if Question resource link exists', async () => {
       const tabText = 'Questions'
       renderTab(tabText, ResourceLinkType.QUESTIONS)
       await expect(screen.getByText(tabText)).toBeVisible()
@@ -96,7 +96,7 @@ describe('CertificateSidePanel', () => {
       expect(screen.queryByText(tabText)).not.toBeInTheDocument()
     })
 
-    it('shall render questions not available panel if questions not available resource link exists', () => {
+    it('shall render questions not available panel if questions not available resource link exists', async () => {
       const tabText = 'Questions not available'
       renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
       await expect(screen.getByText(tabText)).toBeVisible()
@@ -108,13 +108,13 @@ describe('CertificateSidePanel', () => {
       expect(screen.queryByText(tabText)).not.toBeInTheDocument()
     })
 
-    it('shall render SRS panel if SRS_FULL_VIEW resource link exists', () => {
+    it('shall render SRS panel if SRS_FULL_VIEW resource link exists', async () => {
       const tabText = 'SRS'
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await expect(screen.getByText(tabText)).toBeVisible()
     })
 
-    it('shall render SRS panel if SRS_MINIMIZED_VIEW resource link exists', () => {
+    it('shall render SRS panel if SRS_MINIMIZED_VIEW resource link exists', async () => {
       const tabText = 'SRS'
       renderTab(tabText, ResourceLinkType.SRS_MINIMIZED_VIEW)
       await expect(screen.getByText(tabText)).toBeVisible()
