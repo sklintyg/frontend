@@ -1,5 +1,6 @@
 export * from './cookies'
 export * from './getByType'
+export * from './isDateString'
 export * from './isString'
 export * from './isTruthy'
 export * from './omit'

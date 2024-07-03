@@ -1,10 +1,10 @@
 import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
 import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { isDateString } from '@frontend/utils'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDateRangePickerProps, DateValue, useDateRangePicker } from 'react-aria'
 import { useDateRangePickerState } from 'react-stately'
-import { isValidDate } from '../../../../utils/isValidDate'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
@@ -43,7 +43,7 @@ export function DateRangePicker({
     }
   }
   const style = useInputStyle({ error, disabled })
-  const value = isValidDate(startDate) && isValidDate(endDate) ? { start: parseDate(startDate), end: parseDate(endDate) } : null
+  const value = isDateString(startDate) && isDateString(endDate) ? { start: parseDate(startDate), end: parseDate(endDate) } : null
   const state = useDateRangePickerState({ value, ...props, onChange })
   const ref = useRef(null)
   const fieldRef = useRef<HTMLDivElement>(null)

@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
+import { isDateString } from '@frontend/utils'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
-import { isValidDate } from '../../utils/isValidDate'
 
 export interface SickLeaveState {
   filter: SickLeaveFilter
@@ -43,7 +43,7 @@ const sickLeaveFilterSlice = createSlice({
       const { fromSickLeaveEndDate, toSickLeaveEndDate } = state.filter
       state.isValidDateRange =
         (isEmpty(fromSickLeaveEndDate) && isEmpty(toSickLeaveEndDate)) ||
-        (isValidDate(fromSickLeaveEndDate) && isValidDate(toSickLeaveEndDate))
+        (isDateString(fromSickLeaveEndDate) && isDateString(toSickLeaveEndDate))
       state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
     displayErrors(state, { payload }: PayloadAction<boolean>) {

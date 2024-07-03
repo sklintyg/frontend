@@ -1,4 +1,5 @@
-import { getByType, isString } from '@frontend/utils'
+import { getByType } from '@frontend/utils'
+import { fromUnixTime } from 'date-fns'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import Dropdown from '../../../../components/Inputs/Dropdown'
@@ -15,6 +16,7 @@ import {
   ValidationError,
   ValueMedicalInvestigation,
 } from '../../../../types'
+import { formatDateToString } from '../../../../utils'
 
 const Row = styled.div`
   display: flex;
@@ -118,8 +120,8 @@ export function UeMedicalInvestigation({
             <label htmlFor={config.dateId}>{questionConfig.dateText}</label>
             <DatePickerCustom
               id={config.dateId}
-              max={isString(maxDate) ? maxDate : undefined}
-              min={isString(minDate) ? minDate : undefined}
+              max={typeof maxDate === 'number' ? formatDateToString(fromUnixTime(maxDate)) : config.maxDate}
+              min={typeof minDate === 'number' ? formatDateToString(fromUnixTime(minDate)) : config.minDate}
               inputString={value.date.date ?? ''}
               textInputOnChange={handleDateChange}
               disabled={disabled}
