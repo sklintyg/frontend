@@ -1,10 +1,10 @@
 import { useInputStyle } from '@frontend/components'
 import { IDSButton } from '@frontend/ids-react-ts'
+import { isDateString } from '@frontend/utils'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { AriaDatePickerProps, DateValue, useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
-import { isValidDate } from '../../../../utils/isValidDate'
 import { Calendar } from '../../../Calendar/Calendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
@@ -28,7 +28,7 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
       props.onChange(val)
     }
   }
-  const value = isValidDate(date) ? parseDate(date) : null
+  const value = isDateString(date) ? parseDate(date) : null
   const style = useInputStyle({ error, disabled })
   const state = useDatePickerState({ ...props, value, onChange })
   const ref = useRef(null)
