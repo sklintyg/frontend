@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom'
-import { useGotoCertificate } from './hooks/useGotoCertificate'
+import { useNavigateEffect } from './hooks/useNavigateEffect'
 import CertificateDraftsPage from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
@@ -12,7 +12,7 @@ import Welcome from './page/Welcome'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
 
 export function Routes() {
-  useGotoCertificate()
+  useNavigateEffect()
 
   return (
     <Switch>

@@ -9,6 +9,7 @@ import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { push, replace } from '../navigateSlice'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
 import { AppDispatch, RootState } from '../store'
@@ -60,7 +61,6 @@ import {
   getCertificateEventsSuccess,
   getCertificateStarted,
   getCertificateSuccess,
-  gotoCertificate,
   hideSpinner,
   hideValidationErrors,
   printCertificate,
@@ -237,7 +237,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     if (action.payload.metadata.relations?.parent?.certificateId) {
       dispatch(updateRoutedFromDeletedCertificate(true))
-      dispatch(gotoCertificate({ id: action.payload.metadata.relations.parent.certificateId, replace: true }))
+      dispatch(replace(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
     } else {
       dispatch(updateCertificateAsDeleted())
     }
@@ -594,7 +594,7 @@ const handleComplementCertificateSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     dispatch(hideSpinner())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificate.metadata.id}`))
   }
 
 const handleAnswerComplementCertificate: Middleware<Dispatch> =
@@ -670,7 +670,7 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(hideSpinner())
     dispatch(replaceCertificateCompleted())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
 const handleRenewCertificate: Middleware<Dispatch> =
@@ -697,7 +697,7 @@ const handleRenewCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(hideSpinner())
     dispatch(renewCertificateCompleted())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
 const handleShowRelatedCertificate: Middleware<Dispatch> =
@@ -724,7 +724,7 @@ const handleShowRelatedCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(hideSpinner())
     dispatch(showRelatedCertificateCompleted())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
 const handleCreateCertificateFromTemplate: Middleware<Dispatch> =
@@ -757,7 +757,7 @@ const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     dispatch(hideSpinner())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
 const handleCreateCertificateFromCandidate: Middleware<Dispatch> =
@@ -859,7 +859,7 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(hideSpinner())
     dispatch(copyCertificateCompleted())
-    dispatch(gotoCertificate({ id: action.payload.certificateId }))
+    dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
 const handleGenericCertificateApiError: Middleware<Dispatch> =

@@ -4,6 +4,7 @@ import errorReducer from './error/errorReducer'
 import fmbReducer from './fmb/fmbReducer'
 import icfReducer from './icf/icfReducer'
 import listReducer from './list/listReducer'
+import { navigateReducer } from './navigateSlice'
 import patientReducer from './patient/patientReducer'
 import questionReducer from './question/questionReducer'
 import sessionReducer from './session/sessionReducer'
@@ -26,5 +27,6 @@ export const reducer = {
     uiPatient: patientReducer,
     uiList: listReducer,
     uiSRS: srsReducer,
+    uiNavigation: navigateReducer,
   }),
 }
