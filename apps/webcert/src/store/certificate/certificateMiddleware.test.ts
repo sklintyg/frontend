@@ -422,7 +422,6 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route user after successful deletion if parent certificate exists', async () => {
-      // const pushSpy = vi.spyOn(history, 'push')
       const parentCertificate: CertificateRelation = {
         certificateId: 'parent',
         type: CertificateRelationType.RENEW,
