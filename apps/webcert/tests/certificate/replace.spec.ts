@@ -88,18 +88,12 @@ test('navigate back from deleted certificate', async ({ page }) => {
   await page.getByRole('button', { name: 'Ersätt' }).click()
 
   await page.getByLabel('Ersätt intyg').getByRole('button', { name: 'Ersätt' }).click()
-  // await page.waitForURL(`**/certificate/${thirdCert.metadata.id}`)
   await expect(page.getByRole('heading', { name: thirdCert.metadata.name })).toBeVisible()
   await page.getByRole('button', { name: 'Radera' }).click()
 
   await page.getByLabel('Radera utkast').getByRole('button', { name: 'Radera' }).click()
-  // await page.waitForURL(`**/certificate/${secondCert.metadata.id}`)
   await expect(page.getByRole('heading', { name: secondCert.metadata.name })).toBeVisible()
 
-  await page.waitForTimeout(2000)
-
   await page.getByRole('button', { name: 'Tillbaka' }).click()
-  // await page.waitForURL(`**/certificate/${firstCert.metadata.id}`)
-  // await page.getByRole('button', { name: 'Tillbaka' }).click()
   await expect(page.getByRole('heading', { name: firstCert.metadata.name })).toBeVisible()
 })
