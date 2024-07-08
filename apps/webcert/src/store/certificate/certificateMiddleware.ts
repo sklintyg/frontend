@@ -860,7 +860,6 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> =
     dispatch(hideSpinner())
     dispatch(copyCertificateCompleted())
     dispatch(gotoCertificate({ id: action.payload.certificateId }))
-    // dispatch(gotoCertificate({id: action.payload.certificateId}))
   }
 
 const handleGenericCertificateApiError: Middleware<Dispatch> =
