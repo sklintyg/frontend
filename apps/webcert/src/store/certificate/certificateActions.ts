@@ -1,19 +1,19 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError } from '../api/apiActions'
 import {
   Certificate,
-  CertificateEvent,
-  CertificateSignStatus,
-  ModalData,
-  ValidationError,
-  CertificateStatus,
   CertificateDataElement,
-  Unit,
-  Patient,
+  CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
+  CertificateStatus,
   Complement,
+  ModalData,
+  Patient,
+  Unit,
+  ValidationError,
 } from '../../types'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -588,3 +588,11 @@ export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
 
 export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
+
+export interface Go2Certificate {
+  id: string
+  replace?: boolean
+}
+
+export const gotoCertificate = createAction<Go2Certificate>(`${CERTIFICATE} go to certificate`)
+export const gotoCertificateDone = createAction(`${CERTIFICATE} go to certificate done`)

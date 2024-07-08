@@ -1,9 +1,8 @@
-import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/dist/inera-master.css'
 import { useEffect } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import ErrorComponent from './components/error/ErrorComponent'
 import CareProviderModal from './feature/careProvider/CareProviderModal'
@@ -17,7 +16,6 @@ import SignedCertificatesPage from './page/SignedCertificatesPage'
 import { StartPage } from './page/StartPage'
 import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
 import Welcome from './page/Welcome'
-import { history } from './store/configureApplicationStore'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
@@ -49,7 +47,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <ConnectedRouter history={history}>
+    <BrowserRouter>
       <ErrorBoundary fallbackRender={ErrorMessage} onError={onError}>
         <ErrorComponent />
         <CareProviderModal />
@@ -75,7 +73,7 @@ function App(): JSX.Element {
           <Route path="/list/unhandledcertificates" render={() => <UnhandledCertificatesPage />} />
         </Switch>
       </ErrorBoundary>
-    </ConnectedRouter>
+    </BrowserRouter>
   )
 }
 

@@ -12,6 +12,7 @@ import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/Luae
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
+import { useGotoCertificate } from '../hooks/useGotoCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
 import { getIsCertificateDeleted, getIsShowSpinner, getResourceLink } from '../store/certificate/certificateSelectors'
 import { throwError } from '../store/error/errorActions'
@@ -38,6 +39,7 @@ interface Params {
 }
 
 const CertificatePage: React.FC = () => {
+  useGotoCertificate()
   const dispatch = useDispatch()
   const { certificateId, error } = useParams<Params>()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())

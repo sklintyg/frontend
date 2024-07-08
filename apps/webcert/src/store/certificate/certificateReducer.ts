@@ -16,11 +16,14 @@ import { isShowAlways } from '../../utils'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { ErrorData } from '../error/errorReducer'
 import {
+  Go2Certificate,
   GotoCertificateDataElement,
   SigningData,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
+  gotoCertificate,
+  gotoCertificateDone,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -76,6 +79,7 @@ export interface CertificateState {
   signingStatus: CertificateSignStatus
   signingError?: ErrorData
   modalData: ModalData | null
+  goto?: Go2Certificate
 }
 
 const getInitialState = (): CertificateState => {
@@ -334,6 +338,12 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetCertificateState, () => getInitialState())
     .addCase(updateModalData, (state, action) => {
       state.modalData = action.payload
+    })
+    .addCase(gotoCertificate, (state, action) => {
+      state.goto = action.payload
+    })
+    .addCase(gotoCertificateDone, (state) => {
+      state.goto = undefined
     })
 )
 
