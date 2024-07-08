@@ -34,10 +34,12 @@ const UserWrapper = styled.div`
 
 const StyledSpan = styled.span`
   white-space: nowrap;
+
   button {
     font-style: italic;
   }
 `
+
 interface Props {
   changeLinkPointer?: boolean
 }
@@ -61,7 +63,7 @@ const WebcertHeaderUser: React.FC<Props> = () => {
   }
 
   const goToPrivatePractitionerPortal = () => {
-    window.open(`${ppHost}?from=${window.location.href}`, '_blank')
+    window.open(`${ppHost}?from=${window.location.pathname}`, '_blank')
   }
 
   const toString = (user: User): React.ReactNode => {
