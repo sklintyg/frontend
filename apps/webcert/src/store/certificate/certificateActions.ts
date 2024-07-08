@@ -588,11 +588,3 @@ export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
 
 export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
-
-export interface Go2Certificate {
-  id: string
-  replace?: boolean
-}
-
-export const gotoCertificate = createAction<Go2Certificate>(`${CERTIFICATE} go to certificate`)
-export const gotoCertificateDone = createAction(`${CERTIFICATE} go to certificate done`)
