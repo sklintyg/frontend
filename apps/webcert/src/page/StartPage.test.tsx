@@ -23,6 +23,15 @@ const renderComponent = () => {
   )
 }
 
+const config: Configuration = {
+  version: '',
+  banners: [],
+  cgiFunktionstjansterIdpUrl: '#elegIdp',
+  sakerhetstjanstIdpUrl: '#sithsIdp',
+  ppHost: '',
+  forwardDraftOrQuestionUrl: '',
+}
+
 describe('StartPage', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, utilsMiddleware])
@@ -39,18 +48,17 @@ describe('StartPage', () => {
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
-  it('should render idp links', () => {
+  it('should render elegIdp link', () => {
     renderComponent()
-    const config: Configuration = {
-      version: '',
-      banners: [],
-      cgiFunktionstjansterIdpUrl: '#elegIdp',
-      sakerhetstjanstIdpUrl: '#sithsIdp',
-      ppHost: '',
-    }
     testStore.dispatch(updateConfig(config))
 
-    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
-    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
+    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
+  })
+
+  it('should render sithsIdp link', () => {
+    renderComponent()
+    testStore.dispatch(updateConfig(config))
+
+    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
   })
 })
