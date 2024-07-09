@@ -6,6 +6,8 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import ForwardCertificateButton from './ForwardCertificateButton'
+import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
+import { updateConfig } from '../../../store/utils/utilsActions'
 
 const NAME = 'Forward button name'
 const DESCRIPTION = 'Forward button description'
@@ -40,7 +42,7 @@ Object.defineProperty(global.window, 'open', { value: vi.fn() })
 
 describe('Forward certificate button', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([dispatchHelperMiddleware])
+    testStore = configureApplicationStore([dispatchHelperMiddleware, utilsMiddleware])
   })
 
   it('opens email with text about draft', () => {
@@ -57,27 +59,22 @@ describe('Forward certificate button', () => {
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
   })
 
-  it('opens email with link based on current host', () => {
-    const openSpy = vi.spyOn(window, 'open')
-    vi.spyOn(window, 'location', 'get').mockReturnValue({
-      ...location,
-      protocol: 'http:',
-      host: 'host',
-    })
-
-    renderDefaultComponent()
-    screen.getByText(NAME).click()
-
-    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining(encodeURIComponent('http://host')), '_blank')
-  })
-
   it('opens email with correct link', () => {
     const openSpy = vi.spyOn(window, 'open')
+    const forwardDraftOrQuestionUrl = 'https://wc2.wc.localtest.me/webcert/web/user/launch/'
+
+    testStore.dispatch(
+      updateConfig({
+        version: '',
+        banners: [],
+        cgiFunktionstjansterIdpUrl: '',
+        sakerhetstjanstIdpUrl: '',
+        ppHost: '',
+        forwardDraftOrQuestionUrl,
+      })
+    )
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
-    expect(openSpy).toHaveBeenCalledWith(
-      expect.stringContaining('%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftype%2Fxxx%2Fquestions'),
-      '_blank'
-    )
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining(encodeURIComponent(`${forwardDraftOrQuestionUrl}xxx/question`)), '_blank')
   })
 })

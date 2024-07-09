@@ -15,8 +15,10 @@ const messageLevelToInfoBoxLevel = (level: MessageLevel): 'info' | 'error' | 'ob
 
 export function QuestionMessage({ message }: { message: ConfigMessage }) {
   return (
-    <InfoBox type={messageLevelToInfoBoxLevel(message.level)}>
-      <Text>{message.content}</Text>
-    </InfoBox>
+    <div className="iu-mb-200">
+      <InfoBox type={messageLevelToInfoBoxLevel(message.level)}>
+        <Text>{message.content}</Text>
+      </InfoBox>
+    </div>
   )
 }
