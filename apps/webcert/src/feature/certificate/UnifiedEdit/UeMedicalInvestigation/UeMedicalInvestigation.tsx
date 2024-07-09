@@ -35,7 +35,7 @@ export function UeMedicalInvestigation({
   disabled,
   config,
   questionConfig,
-  value: incommingValue,
+  value: incomingValue,
   validation,
   validationErrors,
   error,
@@ -50,7 +50,7 @@ export function UeMedicalInvestigation({
   error: boolean
   onChange: (value: ValueMedicalInvestigation) => void
 }) {
-  const value: ValueMedicalInvestigation = incommingValue ?? {
+  const value: ValueMedicalInvestigation = incomingValue ?? {
     type: CertificateDataValueType.MEDICAL_INVESTIGATION,
     date: {
       type: CertificateDataValueType.DATE,
