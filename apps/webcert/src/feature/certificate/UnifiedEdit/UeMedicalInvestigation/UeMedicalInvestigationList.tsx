@@ -49,19 +49,17 @@ export function UeMedicalInvestigationList({ question, disabled }: { disabled?: 
           )
           const emptyField = validationErrors.some((v) => v.field === 'underlag')
           return (
-            value && (
-              <UeMedicalInvestigation
-                questionConfig={questionConfig}
-                config={config}
-                disabled={disabled}
-                error={index === 0 && validationErrors.length === 1 && emptyField}
-                key={index}
-                onChange={handleChange(index)}
-                validation={question.validation}
-                validationErrors={itemValidationErrors}
-                value={value}
-              />
-            )
+            <UeMedicalInvestigation
+              questionConfig={questionConfig}
+              config={config}
+              disabled={disabled}
+              error={index === 0 && validationErrors.length === 1 && emptyField}
+              key={index}
+              onChange={handleChange(index)}
+              validation={question.validation}
+              validationErrors={itemValidationErrors}
+              value={value}
+            />
           )
         })}
       </div>
