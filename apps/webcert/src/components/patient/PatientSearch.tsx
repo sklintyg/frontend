@@ -33,7 +33,7 @@ const PatientSearch: React.FC = () => {
 
   useEffect(() => {
     if (patient) {
-      history.push(`/create/${encodeURIComponent(btoa(patientId))}`)
+      history.push(`/create/${patientId}`)
     }
   }, [patient, history, patientId])
 
