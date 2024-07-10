@@ -30,6 +30,7 @@ test('load certificate', async ({ page }) => {
 })
 
 test('navigate back from certificate', async ({ page }) => {
+  await page.goto('/search')
   await page.goto(`/certificate/${certificate.metadata.id}`)
   await expect(page.getByText('Laddar...')).toBeHidden()
   await page.getByRole('button', { name: 'Tillbaka' }).click()
