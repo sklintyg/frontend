@@ -17,11 +17,16 @@ module.exports = {
     'react/require-default-props': 'off',
     'no-restricted-imports': 'off',
     '@typescript-eslint/no-restricted-imports': [
-      'warn',
+      'error',
       {
         name: 'react-redux',
-        importNames: ['useSelector', 'useDispatch'],
-        message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
+        importNames: ['useDispatch'],
+        message: 'Use typed hook `useAppDispatch` instead.',
+      },
+      {
+        name: 'react-redux',
+        importNames: ['useSelector'],
+        message: 'Use typed hook `useAppSelector` instead.',
       },
     ],
   },
