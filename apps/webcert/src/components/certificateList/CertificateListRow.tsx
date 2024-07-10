@@ -1,17 +1,18 @@
+import { getByType } from '@frontend/utils'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
 import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
+import { StarFilledIcon, StarIcon } from '../../images'
 import { createNewCertificate } from '../../store/certificate/certificateActions'
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
-import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
-import { CreateCertificateButton } from './CreateCertificateButton'
-import { StarFilledIcon, StarIcon } from '../../images'
 import { Patient, ResourceLink, ResourceLinkType } from '../../types'
+import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
 import InfoBox from '../utils/InfoBox'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
+import { CreateCertificateButton } from './CreateCertificateButton'
 
 interface Props {
   certificateName: string
@@ -61,8 +62,8 @@ const CertificateListRow: React.FC<Props> = ({
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
   const [showLuaenaModal, setShowLuaenaModal] = useState(false)
 
-  const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
-  const missingRelatedCertificateLink = links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+  const createCertificateLink = getByType(links, ResourceLinkType.CREATE_CERTIFICATE)
+  const missingRelatedCertificateLink = getByType(links, ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {

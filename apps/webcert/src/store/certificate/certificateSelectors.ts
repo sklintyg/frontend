@@ -1,3 +1,4 @@
+import { getByType } from '@frontend/utils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash-es'
 import {
@@ -210,11 +211,11 @@ export const getVisibleValidationErrors =
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
-export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
-export const getResourceLink =
+export const getCertificateResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
+export const getCertificateResourceLink =
   (type: ResourceLinkType) =>
   (state: RootState): ResourceLink | undefined =>
-    state.ui.uiCertificate.certificate?.links.find((link) => link.type === type)
+    getByType(getCertificateResourceLinks(state), type)
 
 export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||
