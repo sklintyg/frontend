@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getIsUnsigned, getResourceLinks, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
 import { userImage } from '../../images'
+import { getCertificateResourceLink, getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
 import { ResourceLinkType } from '../../types'
 
 const UserIcon = styled.img`
@@ -11,9 +11,9 @@ const UserIcon = styled.img`
 const ResponsibleHospName: React.FC = () => {
   const isUnsigned = useSelector(getIsUnsigned())
   const responsibleHospName = useSelector(getResponsibleHospName)
-  const links = useSelector(getResourceLinks)
+  const signCertificateLink = useSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))
 
-  if (!isUnsigned || links.find((link) => link.type === ResourceLinkType.SIGN_CERTIFICATE)) {
+  if (!isUnsigned || signCertificateLink) {
     return null
   }
 
