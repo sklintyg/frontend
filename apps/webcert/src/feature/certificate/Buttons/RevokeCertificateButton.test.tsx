@@ -75,6 +75,7 @@ describe('Revoke certificate with unhandled questions', () => {
           lastUpdate: '',
           links: [],
           reminders: [],
+          certificateId: '',
         },
       ])
     )

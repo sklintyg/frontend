@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import { getActivePatient } from '../../store/patient/patientSelectors'
 import PatientSearchError from './PatientSearchError'
-import { useKeyPress, isPersonIdValid } from '../../utils'
+import { isPersonIdValid, useKeyPress } from '../../utils'
 import { CustomButton } from '../Inputs/CustomButton'
 import PersonIdInput from '../Inputs/PersonIdInput'
 

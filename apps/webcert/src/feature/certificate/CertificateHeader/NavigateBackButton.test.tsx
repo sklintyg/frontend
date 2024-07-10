@@ -42,22 +42,7 @@ describe('NavigateBackButton', () => {
     expect(screen.queryByText('Tillbaka')).not.toBeInTheDocument()
   })
 
-  it('should navigate back to start page if action is POP', () => {
-    testStore.dispatch(updateUser(fakeUser()))
-    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
-    history.push('/some-page')
-    history.push('/some-page1')
-    history.action = 'POP'
-
-    renderComponent()
-
-    const backButton = screen.getByRole('button')
-    fireEvent.click(backButton)
-
-    expect(history.location.pathname).toBe('/')
-  })
-
-  it('should use history.getBack() if action is not POP', () => {
+  it('should use history.getBack()', () => {
     testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
     history.push('/some-page')

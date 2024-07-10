@@ -1,10 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import Accordion from '../../../../components/utils/Accordion'
-import AccordionHeader from '../../../../components/utils/AccordionHeader'
-import { Text } from '../../../../components/utils/Text'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
@@ -14,27 +10,9 @@ import {
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
 } from '../../../../types'
-import { sanitizeText } from '../../../../utils'
-import UeMedicalInvestigation from './UeMedicalInvestigation'
-import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
+import { UeMedicalInvestigation } from './UeMedicalInvestigation'
 
-export interface Props {
-  disabled?: boolean
-  question: CertificateDataElement
-}
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  padding: 0 !important;
-  margin: 0 !important;
-  padding-right: 1.625rem !important;
-  margin-bottom: 0.625rem !important;
-  &:after {
-    right: 0 !important;
-    top: 4px !important;
-  }
-`
-
-const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
+export function UeMedicalInvestigationList({ question, disabled }: { disabled?: boolean; question: CertificateDataElement }) {
   const dispatch = useAppDispatch()
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
@@ -63,16 +41,6 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
 
   return (
     <>
-      <UeMedicalInvestigationGrid>
-        <h4>{questionConfig.typeText}</h4>
-        <h4>{questionConfig.dateText}</h4>
-        <Accordion>
-          <StyledAccordionHeader>
-            <h4 className={'iu-fs-300'}>{questionConfig.informationSourceText}</h4>
-          </StyledAccordionHeader>
-          <Text dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
-        </Accordion>
-      </UeMedicalInvestigationGrid>
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config, index) => {
           const value = questionValueList[index]
@@ -81,18 +49,17 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
           )
           const emptyField = validationErrors.some((v) => v.field === 'underlag')
           return (
-            value && (
-              <UeMedicalInvestigation
-                config={config}
-                disabled={disabled}
-                error={index === 0 && validationErrors.length === 1 && emptyField}
-                key={index}
-                onChange={handleChange(index)}
-                validation={question.validation}
-                validationErrors={itemValidationErrors}
-                value={value}
-              />
-            )
+            <UeMedicalInvestigation
+              questionConfig={questionConfig}
+              config={config}
+              disabled={disabled}
+              error={index === 0 && validationErrors.length === 1 && emptyField}
+              key={index}
+              onChange={handleChange(index)}
+              validation={question.validation}
+              validationErrors={itemValidationErrors}
+              value={value}
+            />
           )
         })}
       </div>
@@ -100,5 +67,3 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
     </>
   )
 }
-
-export default UeMedicalInvestigationList

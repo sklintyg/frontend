@@ -41,6 +41,7 @@ function createQuestion(): Question {
     reminders: [],
     type: QuestionType.COORDINATION,
     links: [],
+    certificateId: 'certificateId',
   }
 }
 

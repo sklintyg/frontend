@@ -4,26 +4,14 @@ import { WithUserResourceLink } from '../../../components/utils/WithResourceLink
 import { LinkButton } from '../../../styles'
 import { ResourceLinkType } from '../../../types'
 
-const NavigateBackButton: React.FC = () => {
+function NavigateBackButton() {
   const history = useHistory()
-
-  const handleGoBack = () => {
-    if (history.action === 'POP') {
-      history.push('/')
-    } else {
-      history.goBack()
-    }
-  }
-
-  if (history.length === 0) {
-    return null
-  }
 
   return (
     <WithUserResourceLink type={ResourceLinkType.NAVIGATE_BACK_BUTTON}>
       {(link) => (
         <StatusWithIcon icon="ArrowLeft">
-          <LinkButton className="ic-link" onClick={handleGoBack}>
+          <LinkButton className="ic-link" onClick={history.goBack}>
             {link.name}
           </LinkButton>
         </StatusWithIcon>

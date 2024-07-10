@@ -1,14 +1,18 @@
 import { randomUUID } from '@frontend/utils'
-import { AnyAction, ThunkMiddleware } from '@reduxjs/toolkit'
+import { ThunkMiddleware, UnknownAction, isPlainObject } from '@reduxjs/toolkit'
 import { api, hasRequest, isRejectedEndpoint } from '../api'
 import { RootState } from '../reducer'
 
-function getMessage(action: AnyAction): string {
-  if (action.payload && action.payload.data && action.payload.data.message) {
-    return action.payload.data.message
-  }
-  if (action.error && action.error.message) {
-    return action.error.message
+const hasMessage = (o: unknown): o is { message: string } => isPlainObject(o) && 'message' in o && typeof o.message === 'string'
+
+function getMessage(action: UnknownAction): string {
+  if (isRejectedEndpoint(action)) {
+    if (action.payload && hasMessage(action.payload.data)) {
+      return action.payload.data.message
+    }
+    if (action.error && action.error.message) {
+      return action.error.message
+    }
   }
   return 'NO_MESSAGE'
 }
@@ -21,6 +25,10 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
   ({ dispatch, getState }) =>
   (next) =>
   (action) => {
+    if (api.endpoints.getSessionPing.matchRejected(action) && !getState().sessionSlice.errorId) {
+      return next(action)
+    }
+
     if (isRejectedEndpoint(action) && action.payload) {
       const id = randomUUID()
       const request = hasRequest(action.meta.baseQueryMeta) ? action.meta.baseQueryMeta.request : null

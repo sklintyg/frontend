@@ -1,0 +1,69 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render 1177 type action 1`] = `
+<div>
+  <ids-link>
+    <ids-icon-chevron
+      class="ids-icon"
+    />
+    <a
+      href="https://www.1177.se"
+    >
+      Till 1177
+    </a>
+    <ids-icon-external
+      class="ids-icon"
+      slot="append-icon"
+    />
+  </ids-link>
+</div>
+`;
+
+exports[`Should render about type action 1`] = `
+<div>
+  <ids-link>
+    <ids-icon-chevron
+      class="ids-icon"
+    />
+    <a
+      href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
+    >
+      Om 1177 intyg
+    </a>
+    <ids-icon-external
+      class="ids-icon"
+      slot="append-icon"
+    />
+  </ids-link>
+</div>
+`;
+
+exports[`Should render login type action 1`] = `
+<div>
+  <ids-link>
+    <ids-icon-chevron
+      class="ids-icon"
+    />
+    <a
+      href="/"
+    >
+      Till inloggning
+    </a>
+  </ids-link>
+</div>
+`;
+
+exports[`Should render start type action 1`] = `
+<div>
+  <ids-link>
+    <ids-icon-chevron
+      class="ids-icon"
+    />
+    <a
+      href="https://e-tjanster.1177.se/mvk/"
+    >
+      Till startsidan
+    </a>
+  </ids-link>
+</div>
+`;

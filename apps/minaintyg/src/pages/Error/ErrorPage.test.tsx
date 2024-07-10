@@ -2,13 +2,13 @@ import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { waitForRequest } from '../../mocks/server'
-import { startSession } from '../../store/slice/session.slice'
+import { api } from '../../store/api'
 import { store } from '../../store/store'
 import { ErrorPage } from './ErrorPage'
 
 it('Should log error', async () => {
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')
-  store.dispatch(startSession())
+  store.dispatch(api.endpoints.getUser.initiate())
   render(
     <Provider store={store}>
       <RouterProvider
@@ -29,7 +29,7 @@ it('Should log error', async () => {
 
 it('Should log login-failed error', async () => {
   const pendingLogRequest = waitForRequest('POST', '/api/log/error')
-  store.dispatch(startSession())
+  store.dispatch(api.endpoints.getUser.initiate())
   render(
     <Provider store={store}>
       <RouterProvider

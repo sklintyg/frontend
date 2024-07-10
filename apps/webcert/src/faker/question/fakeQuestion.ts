@@ -21,5 +21,6 @@ export function fakeQuestion(data?: Partial<Question>): Question {
     reminders: data?.reminders ?? [],
     links: data?.links ?? [],
     contactInfo: data?.contactInfo ?? [],
+    certificateId: fakeId(),
   }
 }

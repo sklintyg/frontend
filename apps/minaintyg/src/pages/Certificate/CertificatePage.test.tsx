@@ -11,7 +11,7 @@ import {
   certificateRecipientSchema,
   certificateSchema,
 } from '../../schema/certificate.schema'
-import { startSession } from '../../store/slice/session.slice'
+import { api } from '../../store/api'
 import { store } from '../../store/store'
 import { CertificatePage } from './CertificatePage'
 
@@ -142,7 +142,7 @@ describe('Unable to load certificate', () => {
   })
 
   it('Should log error and display id', async () => {
-    store.dispatch(startSession())
+    store.dispatch(api.endpoints.getUser.initiate())
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
     const pendingLogRequest = waitForRequest('POST', '/api/log/error')
 

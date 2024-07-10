@@ -15,8 +15,7 @@ import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
 import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
-import UeMedicalInvestigationList from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
-import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
+import { UeMedicalInvestigationList } from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
 import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
 import UeRadioGroup from '../UnifiedEdit/UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../UnifiedEdit/UeRadioGroupOptionalDropdown/UeRadioGroupOptionalDropdown'
@@ -85,8 +84,6 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeRadioGroupOptionalDropdown {...commonProps} />
     case ConfigTypes.UE_UNCERTAIN_DATE:
       return <UeUncertainDate {...commonProps} />
-    case ConfigTypes.UE_MESSAGE:
-      return <UeMessage {...commonProps} />
     case ConfigTypes.UE_TYPE_AHEAD:
       return <UeTypeahead {...commonProps} />
     case ConfigTypes.UE_TEXTFIELD:
@@ -114,6 +111,8 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
     case ConfigTypes.UE_VIEW_TABLE:
       return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
+      return null
+    case ConfigTypes.UE_MESSAGE:
       return null
   }
 

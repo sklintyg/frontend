@@ -13,7 +13,6 @@ import {
   fakeDropdownElement,
   fakeICFDataElement,
   fakeIntegerElement,
-  fakeMessageElement,
   fakeRadioBooleanElement,
   fakeRadioMultipleCodesOptionalDropdown,
   fakeTextAreaElement,
@@ -22,16 +21,7 @@ import {
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import {
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigTypes,
-  ConfigUeIcf,
-  MessageLevel,
-  ValueIcf,
-  ValueText,
-  ValueYear,
-} from '../../../types'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes, ConfigUeIcf, ValueIcf, ValueText, ValueYear } from '../../../types'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -215,17 +205,6 @@ const createDropdownQuestion = () =>
     },
   }).questionId
 
-function createQuestionWithUeMessageConfig(): CertificateDataElement {
-  return fakeMessageElement({
-    id: 'id',
-    config: {
-      level: MessageLevel.OBSERVE,
-      message: 'Hello from UE_MESSAGE',
-      id: '1.1',
-    },
-  }).id
-}
-
 function createQuestionWithIntegerValue(): CertificateDataElement {
   return fakeIntegerElement({
     id: 'id',
@@ -378,17 +357,6 @@ describe('QuestionUvResolve', () => {
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question, [dropdownQuestion.id]: dropdownQuestion } })))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
-  })
-  it('should render ue_message if visible is true', () => {
-    const question = createQuestionWithUeMessageConfig()
-    renderDefaultComponent(question)
-    expect(screen.getByText(/Hello from UE_MESSAGE/i)).toBeInTheDocument()
-  })
-  it('should not render ue_message if visible is false', () => {
-    const question = createQuestionWithUeMessageConfig()
-    question.visible = false
-    renderDefaultComponent(question)
-    expect(screen.queryByText(/Hello from UE_MESSAGE/i)).not.toBeInTheDocument()
   })
 
   it('displaying year value', () => {

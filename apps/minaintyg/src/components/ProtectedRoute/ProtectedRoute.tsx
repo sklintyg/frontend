@@ -1,11 +1,13 @@
+import { skipToken } from '@reduxjs/toolkit/query'
 import { ReactNode } from 'react'
 import { useGetSessionPingQuery } from '../../store/api'
-import { useGetUserQuery } from '../../store/hooks'
+import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { SessionDialog } from '../SessionDialog/SessionDialog'
 
 export function ProtectedRoute({ children }: { children: ReactNode }): React.JSX.Element | null {
   const { isError, isLoading, data: user } = useGetUserQuery()
-  const { data: session } = useGetSessionPingQuery(undefined, {
+  const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)
+  const { data: session } = useGetSessionPingQuery(hasSession ? undefined : skipToken, {
     pollingInterval: 30e3,
     skip: !user,
   })

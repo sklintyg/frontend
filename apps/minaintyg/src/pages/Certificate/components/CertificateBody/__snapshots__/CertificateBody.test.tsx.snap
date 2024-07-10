@@ -52,7 +52,7 @@ exports[`Should render h5 heading as expected 1`] = `
 <div>
   <ids-expandable>
     <h5
-      class="ids-heading-5"
+      class="ids-heading-4"
     >
       heading
     </h5>
@@ -64,7 +64,7 @@ exports[`Should render h6 heading as expected 1`] = `
 <div>
   <ids-expandable>
     <h6
-      class="ids-heading-6"
+      class="ids-heading-4"
     >
       heading
     </h6>

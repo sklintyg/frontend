@@ -38,6 +38,7 @@ function createQuestion(): Question {
     reminders: [],
     type: QuestionType.COMPLEMENT,
     links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
+    certificateId: 'certificateId',
   }
 }
 

@@ -12,9 +12,11 @@ import {
   CertificateStatus,
   Complement,
   ConfigTypes,
+  MessageType,
   ModalData,
   Patient,
   PersonId,
+  QuestionType,
   ResourceLink,
   ResourceLinkType,
   Unit,
@@ -129,6 +131,16 @@ export const getCertificateMetaData = (state: RootState): CertificateMetadata | 
   }
 
   return certificate.metadata
+}
+
+export const getCertificateMessageTypes = (state: RootState): MessageType[] => {
+  const fallback = [
+    { type: QuestionType.MISSING, subject: 'Välj typ av fråga' },
+    { type: QuestionType.COORDINATION, subject: 'Avstämningsmöte' },
+    { type: QuestionType.CONTACT, subject: 'Kontakt' },
+    { type: QuestionType.OTHER, subject: 'Övrigt' },
+  ]
+  return getCertificateMetaData(state)?.messageTypes || fallback
 }
 
 export interface CertificateStructure {
