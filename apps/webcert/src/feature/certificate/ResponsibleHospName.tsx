@@ -11,9 +11,9 @@ const UserIcon = styled.img`
 const ResponsibleHospName: React.FC = () => {
   const isUnsigned = useSelector(getIsUnsigned())
   const responsibleHospName = useSelector(getResponsibleHospName)
-  const signCertificateLink = useSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))
+  const link = useSelector(getCertificateResourceLink(ResourceLinkType.RESPONSIBLE_ISSUER))
 
-  if (!isUnsigned || signCertificateLink) {
+  if (!link) {
     return null
   }
 
