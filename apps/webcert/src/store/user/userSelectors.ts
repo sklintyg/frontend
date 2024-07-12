@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
+import { LoginMethod, ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
 import { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
@@ -17,6 +17,9 @@ export const isPrivatePractitioner = (state: RootState): boolean | null =>
 
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
+
+export const hasOriginDeepIntegration = (state: RootState): boolean | null =>
+  state.ui.uiUser.user && state.ui.uiUser.user.origin.toLowerCase().includes('djupintegration')
 
 export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
 
