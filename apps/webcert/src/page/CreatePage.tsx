@@ -73,12 +73,13 @@ const CreatePage: React.FC = () => {
 
   useEffect(() => {
     if (patientId) {
-      dispatch(getPatient(patientId))
+      const decodedPatientId = atob(decodeURIComponent(patientId))
+      dispatch(getPatient(decodedPatientId))
     }
   }, [dispatch, patientId])
 
   if (patient && !patientId) {
-    history.push(`/create/${patient.personId.id}`)
+    history.push(`/create/${encodeURIComponent(btoa(patient.personId.id))}`)
   }
 
   return (
