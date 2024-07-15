@@ -36,31 +36,23 @@ describe('ResponsibleHospName', () => {
     testStore = configureApplicationStore([])
   })
 
-  it('shall not render responsible certificate issuer when user has resource link sign', () => {
-    setState(CertificateStatus.UNSIGNED, RESPONSIBLE_HOSP_NAME, ResourceLinkType.SIGN_CERTIFICATE)
-    renderDefaultComponent()
-    expect(screen.queryByText(RESPONSIBLE_CERTIFICATE_ISSUER)).not.toBeInTheDocument()
-    expect(screen.queryByText(RESPONSIBLE_HOSP_NAME)).not.toBeInTheDocument()
-    expect(screen.queryByText(NOT_SPECIFIED)).not.toBeInTheDocument()
-  })
-
-  it('shall not render responsible certificate issuer when certificate status not unsigned', () => {
-    setState(CertificateStatus.SIGNED, RESPONSIBLE_HOSP_NAME)
-    renderDefaultComponent()
-    expect(screen.queryByText(RESPONSIBLE_CERTIFICATE_ISSUER)).not.toBeInTheDocument()
-    expect(screen.queryByText(RESPONSIBLE_HOSP_NAME)).not.toBeInTheDocument()
-    expect(screen.queryByText(NOT_SPECIFIED)).not.toBeInTheDocument()
-  })
-
-  it('shall render responsible certificate issuer with name when user does not have resource link sign and responsible hosp name has value', () => {
+  it('shall not render responsible certificate issuer when link is not available', () => {
     setState(CertificateStatus.UNSIGNED, RESPONSIBLE_HOSP_NAME)
+    renderDefaultComponent()
+    expect(screen.queryByText(RESPONSIBLE_CERTIFICATE_ISSUER)).not.toBeInTheDocument()
+    expect(screen.queryByText(RESPONSIBLE_HOSP_NAME)).not.toBeInTheDocument()
+    expect(screen.queryByText(NOT_SPECIFIED)).not.toBeInTheDocument()
+  })
+
+  it('shall render responsible certificate issuer when link is available and hosp name has value', () => {
+    setState(CertificateStatus.UNSIGNED, RESPONSIBLE_HOSP_NAME, ResourceLinkType.RESPONSIBLE_ISSUER)
     renderDefaultComponent()
     expect(screen.getByText(RESPONSIBLE_CERTIFICATE_ISSUER)).toBeInTheDocument()
     expect(screen.getByText(RESPONSIBLE_HOSP_NAME)).toBeInTheDocument()
   })
 
-  it('shall render responsible certificate issuer not specified when user does not have resource link sign and responsible hosp name is empty string', () => {
-    setState(CertificateStatus.UNSIGNED, '')
+  it('shall render responsible certificate issuer not specified when user does has resource link sign and responsible hosp name is empty string', () => {
+    setState(CertificateStatus.UNSIGNED, '', ResourceLinkType.RESPONSIBLE_ISSUER)
     renderDefaultComponent()
     expect(screen.getByText(RESPONSIBLE_CERTIFICATE_ISSUER)).toBeInTheDocument()
     expect(screen.getByText(NOT_SPECIFIED)).toBeInTheDocument()
