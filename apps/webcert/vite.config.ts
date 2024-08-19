@@ -16,7 +16,7 @@ export default ({ mode }: UserConfig) => {
       ...result,
       [route]: {
         secure: false,
-        target: process.env.VITE_API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
+        target: process.env.VITE_API_TARGET ?? 'https://webcert-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
         protocolRewrite: 'https',
         changeOrigin: true,
@@ -41,7 +41,7 @@ export default ({ mode }: UserConfig) => {
       strictPort: true,
       hmr: hmr
         ? {
-            host: process.env.VITE_WS_HOST ?? 'wc2.wc.localtest.me',
+            host: process.env.VITE_WS_HOST ?? 'wc.localtest.me',
             protocol: process.env.VITE_WS_PROTOCOL ?? 'ws',
           }
         : false,
