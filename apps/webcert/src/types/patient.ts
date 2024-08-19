@@ -1,3 +1,4 @@
+import { CertificateConfirmationModal } from './confirmModal'
 import { ResourceLink } from './resourceLink'
 
 export enum PatientStatus {
@@ -41,4 +42,5 @@ export interface CertificateType {
   label: string
   links: ResourceLink[]
   message: string
+  confirmationModal: CertificateConfirmationModal | null
 }

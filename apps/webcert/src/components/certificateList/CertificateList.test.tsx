@@ -13,8 +13,8 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import { CertificateType, ResourceLink, ResourceLinkType, User } from '../../types'
-import CertificateList from './CertificateList'
+import { CertificateType, ResourceLinkType, User } from '../../types'
+import { CertificateList } from './CertificateList'
 
 const createType = ({
   description = '',
@@ -24,15 +24,7 @@ const createType = ({
   label = '',
   links = [],
   message = '',
-}: {
-  description?: string
-  detailedDescription?: string
-  id?: string
-  issuerTypeId?: string
-  label?: string
-  links?: ResourceLink[]
-  message?: string
-}): CertificateType => ({
+}: Partial<CertificateType>): CertificateType => ({
   description,
   detailedDescription,
   id,
@@ -40,6 +32,7 @@ const createType = ({
   label,
   links,
   message,
+  confirmationModal: null,
 })
 
 let testStore: EnhancedStore
