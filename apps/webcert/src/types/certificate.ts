@@ -1,3 +1,4 @@
+import { CertificateConfirmationModal } from './confirmModal'
 import { Patient } from './patient'
 import { QuestionType } from './question'
 import { ResourceLink } from './resourceLink'
@@ -43,6 +44,7 @@ export interface CertificateMetadata {
   responsibleHospName: string
   signed?: string
   messageTypes?: MessageType[]
+  confirmationModal: CertificateConfirmationModal | null
 }
 
 export type MessageType = {
