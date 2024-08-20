@@ -20,7 +20,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
     }
   }, [])
 
-  const url = window.location.origin.replace('wc2.', '') + '/visa/intyg/' + certificateId
+  const url = window.location.origin + '/visa/intyg/' + certificateId
 
   return (
     <>
