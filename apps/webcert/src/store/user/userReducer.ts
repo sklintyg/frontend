@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { ResourceLink, User, UserStatistics } from '../../types'
+import { ResourceLink, User, UserStatistics } from '../../types'
 import {
   removeResourceLink,
   updateInactivateAutomaticLogout,

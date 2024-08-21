@@ -1,5 +1,5 @@
-import type React from 'react'
-import type { ConfigUeCheckboxBoolean, ValueBoolean } from '../../../types/certificate'
+import React from 'react'
+import { ConfigUeCheckboxBoolean, ValueBoolean } from '../../../types/certificate'
 import { Badge } from '../Badge'
 
 export const UvBoolean: React.FC<{

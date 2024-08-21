@@ -3,8 +3,10 @@ import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/Dat
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type {
+import {
   CertificateDataValidation,
+  CertificateDataValidationType,
+  CertificateDataValueType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
@@ -12,7 +14,6 @@ import type {
   ValidationError,
   ValueMedicalInvestigation,
 } from '../../../../types'
-import { CertificateDataValidationType } from '../../../../types'
 
 const Row = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ export function UeMedicalInvestigation({
   disabled,
   config,
   questionConfig,
-  value,
+  value: incomingValue,
   validation,
   validationErrors,
   error,
@@ -43,12 +44,27 @@ export function UeMedicalInvestigation({
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
   questionConfig: ConfigUeMedicalInvestigationList
-  value: ValueMedicalInvestigation
+  value?: ValueMedicalInvestigation
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   error: boolean
   onChange: (value: ValueMedicalInvestigation) => void
 }) {
+  const value: ValueMedicalInvestigation = incomingValue ?? {
+    type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+    date: {
+      type: CertificateDataValueType.DATE,
+      id: config.dateId,
+    },
+    informationSource: {
+      type: CertificateDataValueType.TEXT,
+      id: config.informationSourceId,
+    },
+    investigationType: {
+      type: CertificateDataValueType.CODE,
+      id: config.investigationTypeId,
+    },
+  }
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined

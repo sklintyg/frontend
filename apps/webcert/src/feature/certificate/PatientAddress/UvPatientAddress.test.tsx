@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import UvPatientAddress from './UvPatientAddress'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 
 it('displays patient address info', (): void => {
   const useSelectorSpy = vi.spyOn(redux, 'useSelector')

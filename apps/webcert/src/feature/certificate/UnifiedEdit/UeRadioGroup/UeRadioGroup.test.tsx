@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -56,17 +56,17 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).not.toBeChecked())
     await userEvent.click(radioButtons[0])
-    await expect(radioButtons[0]).toBeChecked()
-    await expect(radioButtons[1]).not.toBeChecked()
-    await expect(radioButtons[2]).not.toBeChecked()
+    expect(radioButtons[0]).toBeChecked()
+    expect(radioButtons[1]).not.toBeChecked()
+    expect(radioButtons[2]).not.toBeChecked()
     await userEvent.click(radioButtons[2])
-    await expect(radioButtons[2]).toBeChecked()
-    await expect(radioButtons[0]).not.toBeChecked()
-    await expect(radioButtons[1]).not.toBeChecked()
+    expect(radioButtons[2]).toBeChecked()
+    expect(radioButtons[0]).not.toBeChecked()
+    expect(radioButtons[1]).not.toBeChecked()
     await userEvent.click(radioButtons[1])
-    await expect(radioButtons[1]).toBeChecked()
-    await expect(radioButtons[0]).not.toBeChecked()
-    await expect(radioButtons[2]).not.toBeChecked()
+    expect(radioButtons[1]).toBeChecked()
+    expect(radioButtons[0]).not.toBeChecked()
+    expect(radioButtons[2]).not.toBeChecked()
   })
 
   it('allows user to check and uncheck radiobuttons by clicking on label', async () => {
@@ -77,9 +77,9 @@ describe('Radio group component', () => {
 
   it.each(CODES)('allows user to check and uncheck %label', async ({ label }) => {
     renderDefaultComponent()
-    await expect(screen.getByRole('radio', { name: label })).not.toBeChecked()
+    expect(screen.getByRole('radio', { name: label })).not.toBeChecked()
     await userEvent.click(screen.getByRole('radio', { name: label }))
-    await expect(screen.getByRole('radio', { name: label })).toBeChecked()
+    expect(screen.getByRole('radio', { name: label })).toBeChecked()
   })
 
   it('disables radio buttons when disabled is set', () => {

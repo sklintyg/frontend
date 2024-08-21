@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
-import type { ErrorCode } from '../../../store/error/errorReducer'
+import { Mock, vi } from 'vitest'
+import { ErrorCode } from '../../../store/error/errorReducer'
 import { SignCertificateModal } from './SignCertificateModal'
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '../../../types'
 

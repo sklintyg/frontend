@@ -1,8 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { Answer, Complement, Question } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import type { ApiGenericError } from '../api/apiActions'
+import { Answer, Complement, Question } from '../../types'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ApiGenericError } from '../api/apiActions'
 
 const QUESTION = '[Question]'
 

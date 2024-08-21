@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'

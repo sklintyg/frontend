@@ -1,7 +1,8 @@
 import faker from 'faker'
-import type {
+import {
   AutoFillValidation,
   CategoryMandatoryValidation,
+  CertificateDataValidationType,
   DisableSubElementValidation,
   DisableValidation,
   EnableValidation,
@@ -12,7 +13,6 @@ import type {
   TextValidation,
   ValidationError,
 } from '../../types/certificate'
-import { CertificateDataValidationType } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 import { fakeCertificateValue } from './fakeCertificateValue'
 

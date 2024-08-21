@@ -1,7 +1,6 @@
 import InfoBox from '../../../components/utils/InfoBox'
 import { Text } from '../../../components/utils/Text'
-import type { ConfigMessage } from '../../../types'
-import { MessageLevel } from '../../../types'
+import { ConfigMessage, MessageLevel } from '../../../types'
 
 const messageLevelToInfoBoxLevel = (level: MessageLevel): 'info' | 'error' | 'observe' => {
   switch (level) {

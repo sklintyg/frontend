@@ -1,5 +1,5 @@
-import type React from 'react'
-import type { Banner } from '../../types/utils'
+import React from 'react'
+import { Banner } from '../../types/utils'
 import styled from 'styled-components'
 import externalLinkIcon from '../../images/external_link.svg'
 import { sanitizeText } from '../../utils/sanitizeText'

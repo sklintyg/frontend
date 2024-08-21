@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -7,8 +8,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { SrsInfoForDiagnosis } from '../../../types'
-import { SrsInformationChoice } from '../../../types'
+import { SrsInfoForDiagnosis, SrsInformationChoice } from '../../../types'
 import SrsPanelFooter from './SrsPanelFooter'
 
 let store: EnhancedStore
@@ -55,6 +55,6 @@ describe('SrsPanelFooter', () => {
   it('should log when clicking link', async () => {
     renderComponent(SrsInformationChoice.STATISTICS)
     await userEvent.click(screen.getByRole('link'))
-    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+    expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
   })
 })

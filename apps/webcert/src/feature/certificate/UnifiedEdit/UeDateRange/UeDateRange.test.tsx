@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import type { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import UeDateRange from './UeDateRange'
 import { fakeDateRangeElement, fakeCertificate } from '../../../../faker'
-import type { ValidationError } from '../../../../types'
+import { ValidationError } from '../../../../types'
 
 const QUESTION_ID = 'QUESTION_ID'
 const ERROR_TEXT = 'ErrorText'

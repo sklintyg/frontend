@@ -1,11 +1,10 @@
-import type React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import InfoBox from '../../../components/utils/InfoBox'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import type { RootState } from '../../../store/store'
+import { RootState } from '../../../store/store'
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props {

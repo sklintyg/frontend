@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { CertificateType, Patient, PatientStatus } from '../../types'
-import type { ErrorRequest } from '../error/errorReducer'
+import { CertificateType, Patient, PatientStatus } from '../../types'
+import { ErrorRequest } from '../error/errorReducer'
 
 const PATIENT = '[Patient]'
 

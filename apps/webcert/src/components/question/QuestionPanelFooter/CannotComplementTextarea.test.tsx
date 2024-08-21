@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import type { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { fakeResourceLink } from '../../../faker'
 import { CannotComplementOption, ResourceLinkType } from '../../../types'
 import { CannotComplementTextarea } from './CannotComplementTextarea'

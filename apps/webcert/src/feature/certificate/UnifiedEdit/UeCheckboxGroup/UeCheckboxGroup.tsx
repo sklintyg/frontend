@@ -1,11 +1,11 @@
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
+import { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
 
 export interface Props {
   disabled: boolean

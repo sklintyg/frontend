@@ -1,4 +1,4 @@
-import type { UnitStatistic } from '../../types'
+import { UnitStatistic } from '../../types'
 
 export function fakeUnitStatistic(data?: Partial<UnitStatistic>): UnitStatistic {
   return {

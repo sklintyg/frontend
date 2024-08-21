@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
 import CertificateValidation from './CertificateValidation'
-import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 
 const GRUND_FOR_MEDICINSKT_UNDERLAG = 'Grund för medicinskt underlag'
 const SYSSELSATTNING = 'Sysselsättning'

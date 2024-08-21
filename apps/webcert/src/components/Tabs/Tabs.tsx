@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`

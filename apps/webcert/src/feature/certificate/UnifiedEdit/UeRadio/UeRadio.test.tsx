@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -36,6 +36,6 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
   const radioButton = screen.getByLabelText('ja')
   await userEvent.click(radioButton)
 
-  await expect(radioButton).toBeChecked()
-  await expect(screen.getByRole('radio', { name: 'nej' })).not.toBeChecked()
+  expect(radioButton).toBeChecked()
+  expect(screen.getByRole('radio', { name: 'nej' })).not.toBeChecked()
 })

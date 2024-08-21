@@ -1,9 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
-import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, ValueDiagnosisList } from '../../types'
-import { SrsSickLeaveChoice, SrsUserClientContext } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import {
+  SrsAnswer,
+  SrsInfoForDiagnosis,
+  SrsPrediction,
+  SrsQuestion,
+  SrsSickLeaveChoice,
+  SrsUserClientContext,
+  ValueDiagnosisList,
+} from '../../types'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   resetState,
   setDiagnosisCodes,

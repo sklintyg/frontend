@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import type { MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 
 const StyledPaginationButton = styled.button<{ active: boolean }>`

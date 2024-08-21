@@ -1,6 +1,7 @@
 import { merge } from 'lodash-es'
-import type { PartialDeep } from 'type-fest'
-import type {
+import { PartialDeep } from 'type-fest'
+import {
+  CertificateDataValueType,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -28,7 +29,6 @@ import type {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
-import { CertificateDataValueType } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T

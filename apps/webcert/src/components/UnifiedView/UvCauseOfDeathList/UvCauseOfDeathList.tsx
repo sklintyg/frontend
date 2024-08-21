@@ -1,6 +1,5 @@
-import type React from 'react'
-import { useMemo } from 'react'
-import type { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
+import React, { useMemo } from 'react'
+import { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'

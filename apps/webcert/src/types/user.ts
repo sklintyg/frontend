@@ -1,4 +1,4 @@
-import type { Unit } from './certificate'
+import { Unit } from './certificate'
 
 export interface User {
   hsaId: string

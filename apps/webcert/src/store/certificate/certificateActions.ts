@@ -1,20 +1,19 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import type { ApiError } from '../api/apiActions'
-import type {
+import {
   Certificate,
-  CertificateEvent,
-  CertificateSignStatus,
-  ModalData,
-  ValidationError,
-  CertificateStatus,
   CertificateDataElement,
-  Unit,
-  Patient,
+  CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
+  CertificateStatus,
   Complement,
+  ModalData,
+  Patient,
+  Unit,
+  ValidationError,
 } from '../../types'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 

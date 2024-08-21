@@ -1,4 +1,4 @@
-import type { CertificateListItem } from '../../types'
+import { CertificateListItem } from '../../types'
 
 export function fakeCertificateListItem(data?: Partial<CertificateListItem>): CertificateListItem {
   return {

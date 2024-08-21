@@ -1,5 +1,5 @@
-import type { RootState } from '../store'
-import type { AvailableIcfCodes } from './icfReducer'
+import { RootState } from '../store'
+import { AvailableIcfCodes } from './icfReducer'
 
 export const getIcfData =
   (id: string) =>

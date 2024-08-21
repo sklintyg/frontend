@@ -1,5 +1,5 @@
 import { UvTable } from '../../../../components/UnifiedView/UvTable/UvTable'
-import type { CertificateDataElement, ValueViewTable, ConfigUeViewTable } from '../../../../types'
+import { CertificateDataElement, ValueViewTable, ConfigUeViewTable } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

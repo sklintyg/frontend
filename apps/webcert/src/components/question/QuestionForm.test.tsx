@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
@@ -23,8 +23,7 @@ import {
   validateQuestion,
 } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import type { Question } from '../../types'
-import { QuestionType } from '../../types'
+import { Question, QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import QuestionForm from './QuestionForm'

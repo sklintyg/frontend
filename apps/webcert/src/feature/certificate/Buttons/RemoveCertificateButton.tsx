@@ -1,11 +1,11 @@
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { trashImage } from '../../../images'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 
 interface Props extends FunctionDisabled {
   name: string

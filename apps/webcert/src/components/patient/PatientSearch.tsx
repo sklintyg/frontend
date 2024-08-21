@@ -1,12 +1,11 @@
-import type React from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import { getActivePatient } from '../../store/patient/patientSelectors'
 import PatientSearchError from './PatientSearchError'
-import { useKeyPress, isPersonIdValid } from '../../utils'
+import { isPersonIdValid, useKeyPress } from '../../utils'
 import { CustomButton } from '../Inputs/CustomButton'
 import PersonIdInput from '../Inputs/PersonIdInput'
 
@@ -34,7 +33,7 @@ const PatientSearch: React.FC = () => {
 
   useEffect(() => {
     if (patient) {
-      history.push(`/create/${patientId}`)
+      history.push(`/create/${encodeURIComponent(btoa(patientId))}`)
     }
   }, [patient, history, patientId])
 

@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 
 export const INVALID_LAUNCHID_TITLE = 'Intyget kan inte visas'
 export const INVALID_LAUNCHID_MESSAGE = 'Detta intyg kan inte visas eftersom du har öppnat ett annat intyg.'

@@ -16,7 +16,7 @@ import { getLoggedInUnit } from '../../store/user/userSelectors'
 import List from './List'
 import ImageCentered from '../../components/image/image/ImageCentered'
 import InfoBox from '../../components/utils/InfoBox'
-import type { ListType } from '../../types'
+import { ListType } from '../../types'
 
 interface Props {
   type: ListType

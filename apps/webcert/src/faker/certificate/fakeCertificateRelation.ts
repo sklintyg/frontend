@@ -1,7 +1,6 @@
 import faker from 'faker'
-import type { PartialDeep } from 'type-fest'
-import type { CertificateRelation } from '../../types'
-import { CertificateRelationType, CertificateStatus } from '../../types'
+import { PartialDeep } from 'type-fest'
+import { CertificateRelation, CertificateRelationType, CertificateStatus } from '../../types'
 import { fakeId } from '../fakeId'
 
 export const fakeCertificateRelation = (data?: PartialDeep<CertificateRelation>): CertificateRelation => {

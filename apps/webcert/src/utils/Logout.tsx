@@ -1,7 +1,6 @@
-import type React from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import type { ResourceLink, User } from '../types'
-import { LoginMethod } from '../types'
+import { ResourceLink, User, LoginMethod } from '../types'
 
 const StyledLink = styled.button`
   text-align: center;

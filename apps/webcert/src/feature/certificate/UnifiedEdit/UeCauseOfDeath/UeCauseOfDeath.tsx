@@ -1,11 +1,10 @@
-import type React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
-import type { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../../types'
+import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../../types'
 
 interface Props {
   disabled?: boolean

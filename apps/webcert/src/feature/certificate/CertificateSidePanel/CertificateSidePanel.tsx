@@ -1,7 +1,5 @@
 import { isTruthy } from '@frontend/utils'
-import type { ReactNode } from 'react'
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Tabs } from '../../../components/Tabs/Tabs'
 import FMBPanel from '../../../components/fmb/FMBPanel'
@@ -9,7 +7,7 @@ import QuestionNotAvailablePanel from '../../../components/question/QuestionNotA
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
 import { LightbulpIcon } from '../../../images'
-import { getCertificate, getIsShowSpinner, getResourceLink } from '../../../store/certificate/certificateSelectors'
+import { getCertificate, getCertificateResourceLink, getIsShowSpinner } from '../../../store/certificate/certificateSelectors'
 import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
 import { useAppSelector } from '../../../store/store'
@@ -22,11 +20,11 @@ const CertificateSidePanel: React.FC = () => {
   const hasUnhandledQuestions = useAppSelector((state) => getQuestions(state).filter((question) => !question.handled).length > 0)
   const hasCertificate = useAppSelector((state) => Boolean(getCertificate(state)))
   const availableTabs = [
-    useAppSelector(getResourceLink(ResourceLinkType.SRS_FULL_VIEW)),
-    useAppSelector(getResourceLink(ResourceLinkType.SRS_MINIMIZED_VIEW)),
-    useAppSelector(getResourceLink(ResourceLinkType.FMB)),
-    useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS)),
-    useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS_NOT_AVAILABLE)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.SRS_FULL_VIEW)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.SRS_MINIMIZED_VIEW)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.FMB)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS_NOT_AVAILABLE)),
   ].filter(isTruthy)
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)

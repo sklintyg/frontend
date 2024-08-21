@@ -1,5 +1,5 @@
-import type { ModalProps } from './errorUtils'
-import type React from 'react'
+import { ModalProps } from './errorUtils'
+import React from 'react'
 import ErrorModalBase from './ErrorModalBase'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 

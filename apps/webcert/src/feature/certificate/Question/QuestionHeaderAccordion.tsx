@@ -6,8 +6,7 @@ import AccordionHeader from '../../../components/utils/AccordionHeader'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { Text } from '../../../components/utils/Text'
 import { getQuestion, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
-import type { CertificateDataConfig } from '../../../types'
-import { ConfigTypes } from '../../../types'
+import { CertificateDataConfig, ConfigTypes } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
 export interface Props {

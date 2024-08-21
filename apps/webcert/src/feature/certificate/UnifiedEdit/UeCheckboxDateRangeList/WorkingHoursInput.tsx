@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react'
+import { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import TextInput from '../../../../components/Inputs/TextInput'
 import Icon from '../../../../components/image/image/Icon'

@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { Reminder } from '../../types'
+import { Reminder } from '../../types'
 import { fakeId } from '../fakeId'
 
 export function fakeReminder(data?: Partial<Reminder>): Reminder {

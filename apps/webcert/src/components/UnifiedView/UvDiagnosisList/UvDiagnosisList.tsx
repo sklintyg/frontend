@@ -1,5 +1,5 @@
-import type React from 'react'
-import type { ValueDiagnosisList } from '../../../types'
+import React from 'react'
+import { ValueDiagnosisList } from '../../../types'
 import { Badge } from '../Badge'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'

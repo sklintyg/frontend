@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import errorImage from '../../../images/fel-1.svg'
 import WCDynamicLink from '../../../utils/WCDynamicLink'

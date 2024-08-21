@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 
 export const LOGIN_FAILED_TITLE = 'Inloggningen misslyckades'
 export const LOGIN_FAILED_MESSAGE =

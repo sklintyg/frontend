@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { fileImage } from '../../../images'
 

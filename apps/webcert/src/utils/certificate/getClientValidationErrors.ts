@@ -1,6 +1,12 @@
 import { isAfter, isBefore, isValid } from 'date-fns'
-import type { CertificateDataConfigType, CertificateDataElement, ValidationError, ValueType } from '../../types'
-import { CertificateDataValueType, ConfigTypes } from '../../types'
+import {
+  CertificateDataConfigType,
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigTypes,
+  ValidationError,
+  ValueType,
+} from '../../types'
 import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUtils'
 import { getFieldValuePair } from './getFieldValuePair'
 

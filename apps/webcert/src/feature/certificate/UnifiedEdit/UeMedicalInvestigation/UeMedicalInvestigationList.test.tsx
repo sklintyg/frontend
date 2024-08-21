@@ -1,14 +1,14 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import type { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificate, fakeMedicalInvestigationListElement } from '../../../../faker'
 import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import type { ConfigUeMedicalInvestigationList } from '../../../../types'
+import { ConfigUeMedicalInvestigationList } from '../../../../types'
 import { UeMedicalInvestigationList } from './UeMedicalInvestigationList'
 
 faker.seed(10)

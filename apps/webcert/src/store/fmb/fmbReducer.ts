@@ -1,8 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
+import { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
 import { sortByIndex } from '../../utils'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,

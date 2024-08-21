@@ -1,5 +1,5 @@
-import type { AnyAction } from '@reduxjs/toolkit'
-import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   getAllDynamicLinks,

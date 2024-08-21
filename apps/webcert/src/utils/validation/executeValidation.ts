@@ -1,4 +1,4 @@
-import type { CertificateData, CertificateDataValidation } from '../../types'
+import { CertificateData, CertificateDataValidation } from '../../types'
 import { validateExpression } from './validateExpression'
 
 export const executeValidation = (validation: CertificateDataValidation, data: CertificateData): boolean => {

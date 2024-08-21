@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { acknowledgeSubscription } from '../../store/user/userActions'
 import { getUserResourceLinks } from '../../store/user/userSelectors'

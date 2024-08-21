@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -7,7 +8,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsPredictions, updateSrsQuestions } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { SrsAnswer } from '../../../types'
+import { SrsAnswer } from '../../../types'
 import SrsRiskForm from './SrsRiskForm'
 
 let testStore: EnhancedStore
@@ -129,7 +130,7 @@ describe('SrsRiskForm', () => {
       const radioButtons = screen.getAllByRole('radio')
 
       await userEvent.click(radioButtons[1])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

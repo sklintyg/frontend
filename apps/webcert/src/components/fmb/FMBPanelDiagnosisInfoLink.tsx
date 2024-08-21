@@ -1,6 +1,6 @@
-import type React from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import type { FMBDiagnosisCodeInfo } from '../../types'
+import { FMBDiagnosisCodeInfo } from '../../types'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 
 interface Props {

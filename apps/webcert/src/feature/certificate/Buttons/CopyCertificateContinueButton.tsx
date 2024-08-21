@@ -1,9 +1,9 @@
-import type React from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 
 interface Props extends FunctionDisabled {
   name: string

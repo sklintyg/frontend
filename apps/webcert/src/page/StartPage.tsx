@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
@@ -36,8 +36,8 @@ const CreateAccount: React.FC = () => (
 export const StartPage: React.FC = () => {
   const config = useSelector(getConfig)
   const isLoadingConfig = useSelector(selectIsLoadingConfig)
-  const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
-  const elegUrl = '/saml/login/alias/eleg-wc2?idp=' + config.cgiFunktionstjansterIdpUrl
+  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
+  const elegUrl = '/saml/login/alias/eleg?idp=' + config.cgiFunktionstjansterIdpUrl
 
   return (
     <Root>

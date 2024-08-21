@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import trashImg from '../../../images/trash.svg'
 import CenteredImageWithContent from '../../../components/image/CenteredImageWithContent'
 

@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 
 export const AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_UNIT_TITLE = 'Behörighet saknas'
 export const AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_UNIT_MESSAGE =

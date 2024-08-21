@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images'
@@ -11,8 +10,7 @@ import {
   getPreviousAnswers,
   getSickLeaveChoice,
 } from '../../../store/srs/srsSelectors'
-import type { SrsAnswer } from '../../../types'
-import { SrsEvent, SrsSickLeaveChoice } from '../../../types'
+import { SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '../../../types'
 import { getMainDiagnosisCode } from '../srsUtils'
 import SrsRiskForm from './SrsRiskForm'
 import SrsRiskGraph from './SrsRiskGraph'

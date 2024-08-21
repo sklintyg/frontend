@@ -1,17 +1,15 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakePatient } from '../../faker'
-import type { CertificateType } from '../../types'
-import { PatientStatus } from '../../types'
+import { CertificateType, PatientStatus } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { ErrorCode } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import type { GetPatientResponse } from './patientActions'
-import { getCertificateTypes, getPatient, updateCertificateTypes } from './patientActions'
+import { GetPatientResponse, getCertificateTypes, getPatient, updateCertificateTypes } from './patientActions'
 import { patientMiddleware } from './patientMiddleware'
 
 const certificateTypes: CertificateType[] = [
@@ -23,6 +21,7 @@ const certificateTypes: CertificateType[] = [
     label: 'label',
     links: [],
     message: 'message',
+    confirmationModal: null,
   },
 ]
 

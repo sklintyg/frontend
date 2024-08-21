@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Spinner from '../utils/Spinner'
 import { Table } from './Table'

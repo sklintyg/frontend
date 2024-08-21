@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -6,7 +6,7 @@ import { MemoryRouter, Route } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import type { UserTab } from '../../types'
+import { UserTab } from '../../types'
 import AppHeaderTabs from './AppHeaderTabs'
 
 let testStore: EnhancedStore
@@ -52,19 +52,19 @@ describe('AppHeaderTabs', () => {
     expect(screen.getByText(10)).toBeInTheDocument()
   })
 
-  it('should set tab as selected if url is matched', async () => {
+  it('should set tab as selected if url is matched', () => {
     renderComponent(PAGE_URL, '')
-    await expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
-  it('should set tab as selected if matched url is matched', async () => {
+  it('should set tab as selected if matched url is matched', () => {
     renderComponent('', PAGE_URL)
-    await expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
-  it('should not set tab as selected if url is not matched', async () => {
+  it('should not set tab as selected if url is not matched', () => {
     renderComponent('notMatched', 'notMatched')
-    await expect(within(screen.getByRole('listitem')).getByRole('link')).not.toHaveClass('selected')
+    expect(within(screen.getByRole('listitem')).getByRole('link')).not.toHaveClass('selected')
   })
 
   it('should call onSwitchTab when switching tab', async () => {

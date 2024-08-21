@@ -1,6 +1,6 @@
-import type { ListFilter, CertificateListItem, ListConfig, ListType } from '../../types'
-import type { ErrorData } from '../error/errorReducer'
-import type { RootState } from '../store'
+import { ListFilter, CertificateListItem, ListConfig, ListType } from '../../types'
+import { ErrorData } from '../error/errorReducer'
+import { RootState } from '../store'
 
 export const getActiveListFilter = (state: RootState): ListFilter | undefined => state.ui.uiList.activeListFilter
 

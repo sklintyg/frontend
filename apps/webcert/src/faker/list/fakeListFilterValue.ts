@@ -1,5 +1,6 @@
 import faker from 'faker'
-import type {
+import {
+  ListFilterType,
   ListFilterValueBoolean,
   ListFilterValueDateRange,
   ListFilterValueNumber,
@@ -8,7 +9,6 @@ import type {
   ListFilterValueSelect,
   ListFilterValueText,
 } from '../../types'
-import { ListFilterType } from '../../types'
 import { fakePersonId } from '../fakePatient'
 
 export function fakeListFilterValueText(data?: Partial<ListFilterValueText>): ListFilterValueText {

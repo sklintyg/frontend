@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { getBanners } from '../../store/utils/utilsSelectors'
-import type { Banner } from '../../types'
+import { Banner } from '../../types'
 import SystemBanner from '../utils/SystemBanner'
 
 const SystemBanners: React.FC = () => {

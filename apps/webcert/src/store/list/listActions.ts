@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { ErrorData } from '../error/errorReducer'
-import type { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '../../types'
+import { ErrorData } from '../error/errorReducer'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '../../types'
 
 const LIST = '[List]'
 

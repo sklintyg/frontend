@@ -1,7 +1,7 @@
-import type React from 'react'
+import React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import ReloadModal from './ReloadModal'
-import type { ModalProps } from './errorUtils'
+import { ModalProps } from './errorUtils'
 
 export const GENERAL_ERROR_TITLE = 'Tekniskt fel'
 export const GENERAL_ERROR_MESSAGE =

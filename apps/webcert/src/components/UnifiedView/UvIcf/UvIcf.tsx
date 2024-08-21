@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import type { ConfigUeIcf, ValueIcf } from '../../../types'
+import { ConfigUeIcf, ValueIcf } from '../../../types'
 import { Badge } from '../Badge'
 
 const IcfCode = styled.p`

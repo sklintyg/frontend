@@ -4,7 +4,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import type {
+import {
   CertificateDataElement,
   ConfigUeMedicalInvestigationList,
   ValueMedicalInvestigation,
@@ -49,19 +49,17 @@ export function UeMedicalInvestigationList({ question, disabled }: { disabled?: 
           )
           const emptyField = validationErrors.some((v) => v.field === 'underlag')
           return (
-            value && (
-              <UeMedicalInvestigation
-                questionConfig={questionConfig}
-                config={config}
-                disabled={disabled}
-                error={index === 0 && validationErrors.length === 1 && emptyField}
-                key={index}
-                onChange={handleChange(index)}
-                validation={question.validation}
-                validationErrors={itemValidationErrors}
-                value={value}
-              />
-            )
+            <UeMedicalInvestigation
+              questionConfig={questionConfig}
+              config={config}
+              disabled={disabled}
+              error={index === 0 && validationErrors.length === 1 && emptyField}
+              key={index}
+              onChange={handleChange(index)}
+              validation={question.validation}
+              validationErrors={itemValidationErrors}
+              value={value}
+            />
           )
         })}
       </div>

@@ -1,5 +1,4 @@
-import type { ComponentProps } from 'react'
-import type React from 'react'
+import React, { ComponentProps } from 'react'
 import { useSelector } from 'react-redux'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'

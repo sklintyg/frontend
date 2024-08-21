@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -48,7 +49,7 @@ describe('withAccessResource', () => {
     renderComponent()
 
     expect(dispatchedActions).toHaveLength(3)
-    expect(dispatchedActions.find((a) => a.type === throwError.type)).toBeDefined()
+    expect(getByType(dispatchedActions, throwError.type)).toBeDefined()
   })
 
   it('should render wrapped component if resource link exists', () => {

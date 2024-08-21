@@ -5,7 +5,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch, useAppSelector } from '../../../../store/store'
-import type { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
+import { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
 import UeDiagnosis from './UeDiagnosis'
 
 const RadioWrapper = styled.div`
@@ -32,6 +32,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   )
   const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
+  const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
   const dispatch = useAppDispatch()
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -45,16 +46,16 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
         <>
           <p>Välj kodverk:</p>
           <RadioWrapper>
-            {questionConfig.terminology.map((terminology) => {
+            {questionConfig.terminology.map(({ id, label }) => {
               return (
                 <RadioButton
-                  key={terminology.id}
+                  key={id}
                   disabled={disabled}
-                  label={terminology.label}
-                  name={terminology.id}
-                  id={terminology.id}
-                  value={terminology.id}
-                  checked={selectedCodeSystem === terminology.id}
+                  label={label}
+                  name={id}
+                  id={id}
+                  value={id}
+                  checked={selectedCodeSystem === id}
                   onChange={handleCodeSystemChange}
                 />
               )
@@ -62,28 +63,24 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           </RadioWrapper>
         </>
       )}
-      <p className={'iu-mb-200'}>
-        Diagnoskod enligt {questionConfig.terminology.find((terminilogy) => terminilogy.id === selectedCodeSystem)?.label}
-      </p>
+      <p className={'iu-mb-200'}>Diagnoskod enligt {questionConfig.terminology.find(({ id }) => id === selectedCodeSystem)?.label}</p>
       <div>
-        {questionConfig.list.map((diagnosis, index) => {
-          const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
+        {questionConfig.list.map(({ id }, index) => {
+          const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
           return (
             <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrors.length === 1) || diagnosisValidationErrors.length > 0}
-              key={`${diagnosis.id}-diagnosis`}
+              hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
+              key={`${id}-diagnosis`}
               question={question}
               disabled={disabled}
-              id={diagnosis.id}
+              id={id}
               selectedCodeSystem={selectedCodeSystem}
               validationErrors={diagnosisValidationErrors}
             />
           )
         })}
       </div>
-      {validationErrors.length === 1 && (
-        <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
-      )}
+      {validationErrorsWithMissingField.length > 0 && <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />}
     </>
   )
 }

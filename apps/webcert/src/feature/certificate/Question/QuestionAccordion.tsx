@@ -1,10 +1,9 @@
-import type React from 'react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import Icon from '../../../components/image/image/Icon'
 import Accordion from '../../../components/utils/Accordion'
 import AccordionHeader from '../../../components/utils/AccordionHeader'
-import type { ConfigAccordion } from '../../../types'
+import { ConfigAccordion } from '../../../types'
 
 export interface Props {
   accordion: ConfigAccordion

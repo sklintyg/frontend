@@ -9,7 +9,7 @@ import { renewCertificate } from '../../../store/certificate/certificateActions'
 import { setUserPreference } from '../../../store/user/userActions'
 import { getUser } from '../../../store/user/userSelectors'
 import { sanitizeText } from '../../../utils'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

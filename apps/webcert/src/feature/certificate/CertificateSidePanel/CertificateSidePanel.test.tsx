@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -11,8 +12,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate, CertificateMetadata, ResourceLink } from '../../../types'
-import { CertificateStatus, ResourceLinkType } from '../../../types'
+import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore
@@ -170,7 +170,7 @@ describe('CertificateSidePanel', () => {
       testStore.dispatch(updateLoggedCertificateId(loggedCertificateId))
       renderTab(tabText, ResourceLinkType.SRS_FULL_VIEW)
       await userEvent.click(screen.getByText(tabText))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

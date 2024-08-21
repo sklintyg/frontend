@@ -1,11 +1,12 @@
-import type React from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { ShareIcon } from '../../../images'
 import { ResourceLinkType } from '../../../types'
+import { getConfig } from '../../../store/utils/utilsSelectors'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -19,7 +20,7 @@ interface Props extends FunctionDisabled {
   certificateType: string
 }
 
-const ForwardCertificateButton: React.FC<Props> = ({
+function ForwardCertificateButton({
   name,
   description,
   enabled,
@@ -28,34 +29,26 @@ const ForwardCertificateButton: React.FC<Props> = ({
   careProviderName,
   forwarded,
   certificateId,
-  certificateType,
   type,
-}) => {
+}: Props) {
   const dispatch = useDispatch()
+  const config = useSelector(getConfig)
 
-  const getSubject = (unitName: string, careProviderName: string) =>
-    encodeURIComponent(
-      type === ResourceLinkType.FORWARD_CERTIFICATE
-        ? `Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
-        : `Ett ärende ska hanteras i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
-    )
+  const subject = encodeURIComponent(
+    type === ResourceLinkType.FORWARD_CERTIFICATE
+      ? `Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
+      : `Ett ärende ska hanteras i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
+  )
+  const url = `${config.forwardDraftOrQuestionUrl}${certificateId}${type !== ResourceLinkType.FORWARD_CERTIFICATE ? '/questions' : ''}`
 
-  const getBody = (certificateUrl: string) =>
-    encodeURIComponent(
-      `Klicka på länken för att ${
-        type === ResourceLinkType.FORWARD_CERTIFICATE ? 'gå till utkastet' : 'hantera ärendet'
-      }: ${certificateUrl}\r\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.`
-    )
+  const body = encodeURIComponent(
+    `Klicka på länken för att ${
+      type === ResourceLinkType.FORWARD_CERTIFICATE ? 'gå till utkastet' : 'hantera ärendet'
+    }: ${url}\r\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.`
+  )
 
   const handleEmailSend = () => {
-    const certificateUrl = `${window.location.protocol}//${window.location.host.replace(
-      'wc2.',
-      ''
-    )}/webcert/web/user/basic-certificate/${certificateType}/${certificateId}/questions`
-    const subject = getSubject(unitName, careProviderName)
-    const body = getBody(certificateUrl)
-    const href = `mailto:?subject=${subject}&body=${body}`
-    window.open(href, '_blank')
+    window.open(`mailto:?subject=${subject}&body=${body}`, '_blank')
   }
 
   if (forwarded) {

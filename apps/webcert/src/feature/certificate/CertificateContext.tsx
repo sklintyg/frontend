@@ -1,5 +1,4 @@
-import type { RefObject } from 'react'
-import { createContext, useContext } from 'react'
+import { createContext, RefObject, useContext } from 'react'
 
 interface ICertificateContext {
   certificateContainerId: string

@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { ComponentProps } from 'react'
-import { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import { WorkingHours } from './WorkingHours'
 
 type WorkingHoursProps = Omit<ComponentProps<typeof WorkingHours>, 'onBaseWorkHours'>

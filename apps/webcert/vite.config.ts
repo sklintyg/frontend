@@ -10,14 +10,14 @@ export default ({ mode }: UserConfig) => {
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
 
-  const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
+  const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout', '/web/eleglogin'].reduce<
     Record<string, string | ProxyOptions>
   >(
     (result, route) => ({
       ...result,
       [route]: {
         secure: false,
-        target: process.env.VITE_API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
+        target: process.env.VITE_API_TARGET ?? 'https://webcert-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
         protocolRewrite: 'https',
         changeOrigin: true,
@@ -42,7 +42,7 @@ export default ({ mode }: UserConfig) => {
       strictPort: true,
       hmr: hmr
         ? {
-            host: process.env.VITE_WS_HOST ?? 'wc2.wc.localtest.me',
+            host: process.env.VITE_WS_HOST ?? 'wc.localtest.me',
             protocol: process.env.VITE_WS_PROTOCOL ?? 'ws',
           }
         : false,

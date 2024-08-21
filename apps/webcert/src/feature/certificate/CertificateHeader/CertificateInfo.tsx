@@ -1,7 +1,7 @@
-import type React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 
 const Wrapper = styled.section`
   flex-grow: 1;

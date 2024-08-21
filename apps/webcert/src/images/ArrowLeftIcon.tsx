@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { ArrowIcon } from './ArrowIcon'
 
 export const ArrowLeftIcon = ({ style, ...props }: ComponentProps<typeof ArrowIcon>): React.ReactElement => (

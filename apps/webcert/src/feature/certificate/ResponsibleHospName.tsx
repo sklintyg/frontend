@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
-import { isCareAdministrator } from '../../store/user/userSelectors'
 import { userImage } from '../../images'
+import { getCertificateResourceLink, getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
+import { ResourceLinkType } from '../../types'
 
 const UserIcon = styled.img`
   max-height: 2rem;
@@ -10,10 +10,10 @@ const UserIcon = styled.img`
 
 const ResponsibleHospName: React.FC = () => {
   const isUnsigned = useSelector(getIsUnsigned())
-  const isUserCareAdministrator = useSelector(isCareAdministrator)
   const responsibleHospName = useSelector(getResponsibleHospName)
+  const link = useSelector(getCertificateResourceLink(ResourceLinkType.RESPONSIBLE_ISSUER))
 
-  if (!isUnsigned || !isUserCareAdministrator) {
+  if (!link) {
     return null
   }
 

@@ -1,6 +1,6 @@
-import type React from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components'
-import type { ValidationError } from '../../types'
+import React from 'react'
+import { FlattenSimpleInterpolation } from 'styled-components'
+import { ValidationError } from '../../types'
 import ValidationText from './ValidationText'
 
 interface QuestionValidationTextsProps {

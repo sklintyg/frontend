@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { SrsAnswer, SrsAnswerOption, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsRecommendation } from '../types'
+import { SrsAnswer, SrsAnswerOption, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsRecommendation } from '../types'
 
 export const fakeSrsInfo = (value?: Partial<SrsInfoForDiagnosis>): SrsInfoForDiagnosis => ({
   atgarderObs: fakeSrsRecommendationList(),

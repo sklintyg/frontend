@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
@@ -12,8 +12,7 @@ import {
   getUserStatistics,
   isCareAdministrator,
 } from '../../store/user/userSelectors'
-import type { Banner } from '../../types'
-import { ResourceLinkType } from '../../types'
+import { Banner, ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import AppHeader from '../AppHeader/AppHeader'
@@ -21,6 +20,7 @@ import { UserHeaderMenu, UserHeaderMenuItem } from '../AppHeader/UserHeaderMenu'
 import SystemBanners from '../notification/SystemBanners'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 import SystemBanner from '../utils/SystemBanner'
+import { WithResourceLink } from '../utils/WithResourceLink'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import logo from './webcert_logo.png'
@@ -31,7 +31,6 @@ const InfoModal = styled(TextWithInfoModal)`
 
 function WebcertHeader({ isEmpty = false }) {
   const userLinks = useSelector(getUserResourceLinks)
-  const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
   const user = useSelector(getUser)
   const isCareAdmin = useSelector(isCareAdministrator)
   const links = useSelector(getUserResourceLinks)
@@ -96,11 +95,13 @@ function WebcertHeader({ isEmpty = false }) {
                   <AboutWebcertModalContent />
                 </InfoModal>
               </UserHeaderMenuItem>
-              {logoutLink && (
-                <UserHeaderMenuItem>
-                  <Logout user={user} link={logoutLink} />
-                </UserHeaderMenuItem>
-              )}
+              <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
+                {(link) => (
+                  <UserHeaderMenuItem>
+                    <Logout user={user} link={link} />
+                  </UserHeaderMenuItem>
+                )}
+              </WithResourceLink>
             </>
           )}
         </UserHeaderMenu>

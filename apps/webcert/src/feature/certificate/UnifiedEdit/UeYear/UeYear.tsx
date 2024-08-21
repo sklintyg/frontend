@@ -1,11 +1,10 @@
-import type React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import DatePickerCustom, { ValidationWrapper } from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import type { CertificateDataElement, ConfigUeYear, ValueYear } from '../../../../types'
+import { CertificateDataElement, ConfigUeYear, ValueYear } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

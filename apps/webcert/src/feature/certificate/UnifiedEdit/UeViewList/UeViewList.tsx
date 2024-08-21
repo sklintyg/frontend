@@ -1,5 +1,5 @@
 import { Badge } from '../../../../components/UnifiedView/Badge'
-import type { CertificateDataElement, ValueViewList, ConfigUeViewList, ValueViewText } from '../../../../types'
+import { CertificateDataElement, ValueViewList, ConfigUeViewList, ValueViewText } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement

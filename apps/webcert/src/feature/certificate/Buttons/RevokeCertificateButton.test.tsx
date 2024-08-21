@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -12,8 +12,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { updateQuestions } from '../../../store/question/questionActions'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate } from '../../../types'
-import { QuestionType } from '../../../types'
+import { Certificate, QuestionType } from '../../../types'
 import RevokeCertificateButton from './RevokeCertificateButton'
 
 const NAME = 'Revoke button name'

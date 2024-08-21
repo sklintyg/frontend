@@ -1,11 +1,13 @@
 import faker from 'faker'
 import { merge } from 'lodash-es'
-import type { PartialDeep } from 'type-fest'
-import type {
+import { PartialDeep } from 'type-fest'
+import {
   CertificateDataConfigType,
   ConfigAccordion,
   ConfigCategory,
   ConfigEyeAcuity,
+  ConfigLayout,
+  ConfigTypes,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
@@ -37,8 +39,8 @@ import type {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
+  MessageLevel,
 } from '../../types/certificate'
-import { ConfigLayout, ConfigTypes, MessageLevel } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({

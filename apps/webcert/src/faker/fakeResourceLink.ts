@@ -1,6 +1,5 @@
 import faker from 'faker'
-import type { ResourceLink } from '../types/resourceLink'
-import { ResourceLinkType } from '../types/resourceLink'
+import { ResourceLink, ResourceLinkType } from '../types/resourceLink'
 
 function fakeResourceLinkName(type: ResourceLinkType) {
   switch (type) {

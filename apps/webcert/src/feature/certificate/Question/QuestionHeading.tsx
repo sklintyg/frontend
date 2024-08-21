@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../store/store'
-import type { CertificateDataElement } from '../../../types'
-import { ConfigTypes } from '../../../types'
+import { CertificateDataElement, ConfigTypes } from '../../../types'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;

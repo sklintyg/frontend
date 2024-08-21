@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { DynamicLinkData } from '../types/utils'
+import { DynamicLinkData } from '../types/utils'
 import { fakeId } from './fakeId'
 
 export const fakeDynamicLink = (data?: Partial<DynamicLinkData>): DynamicLinkData => {

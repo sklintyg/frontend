@@ -1,4 +1,4 @@
-import type { CertificateData, CertificateDataElement, CertificateDataValidation } from '../../types'
+import { CertificateData, CertificateDataElement, CertificateDataValidation } from '../../types'
 import { executeValidation } from './executeValidation'
 
 export interface ValidationResult {

@@ -1,4 +1,4 @@
-import type { UserStatistics } from '../../types'
+import { UserStatistics } from '../../types'
 
 export function fakeUserStatistics(data?: Partial<UserStatistics>): UserStatistics {
   return {

@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -7,7 +7,7 @@ import { updateCertificate, updateCertificateComplements } from '../../../store/
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Complement } from '../../../types'
+import { Complement } from '../../../types'
 import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 
 let testStore: EnhancedStore

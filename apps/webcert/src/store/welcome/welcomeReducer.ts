@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { Patient } from '../../types'
+import { Patient } from '../../types'
 import { mockUserData } from './mockUserData'
 import {
   clearWelcome,

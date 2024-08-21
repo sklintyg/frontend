@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -18,7 +17,7 @@ import {
   updateCreateCertificate,
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import type { MockUser } from '../store/welcome/welcomeReducer'
+import { MockUser } from '../store/welcome/welcomeReducer'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
 import { CustomButton } from '../components/Inputs/CustomButton'
 import RadioButton from '../components/Inputs/RadioButton'
@@ -69,7 +68,7 @@ const Welcome: React.FC = () => {
   const [isFakeLogin, setFakeLogin] = useState(true)
   const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
 
-  const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
+  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
 
   const dispatch = useDispatch()
   const history = useHistory()

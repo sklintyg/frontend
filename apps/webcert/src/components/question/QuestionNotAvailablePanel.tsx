@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import questionsAndAnswersImg from './fragor_svar_flik.svg'
 import ImageCentered from '../image/image/ImageCentered'

@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { CertificateDataConfig } from '../types/certificate'
+import { CertificateDataConfig } from '../types/certificate'
 
 interface ListItem extends Omit<CertificateDataConfig, 'type'> {
   id: string

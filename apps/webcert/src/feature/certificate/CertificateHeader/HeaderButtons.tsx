@@ -1,6 +1,7 @@
-import type React from 'react'
 import styled from 'styled-components'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { WithResourceLink } from '../../../components/utils/WithResourceLink'
+import { CertificateMetadata, ResourceLink, ResourceLinkType } from '../../../types'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
@@ -12,9 +13,6 @@ import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateConti
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import SendCertificateButton from '../Buttons/SendCertificateButton'
 import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButton'
-import type { ResourceLink, CertificateMetadata } from '../../../types'
-import { ResourceLinkType } from '../../../types'
-import { resourceLinksAreEqual, getResourceLink } from '../../../utils'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
@@ -31,84 +29,46 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, functionDisabled }) => {
+export function HeaderButtons({ resourceLinks, certificateMetadata, functionDisabled }: Props) {
   return (
     <Wrapper>
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SHOW_RELATED_CERTIFICATE)) && (
-        <ShowRelatedCertificateButton
-          certificateId={certificateMetadata.id}
-          functionDisabled={false}
-          {...getResourceLink(resourceLinks, ResourceLinkType.SHOW_RELATED_CERTIFICATE)}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)) && (
-        <CreateCertificateFromTemplateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)}
-          certificateMetadata={certificateMetadata}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SEND_CERTIFICATE)) && (
-        <SendCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.SEND_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE)) && (
-        <CopyCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE_CONTINUE)) && (
-        <CopyCertificateContinueButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE_CONTINUE)}
-          certificateMetadata={certificateMetadata}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.PRINT_CERTIFICATE)) && (
-        <PrintCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.PRINT_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.RENEW_CERTIFICATE)) && (
-        <RenewCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.RENEW_CERTIFICATE)}
-          certificateId={certificateMetadata.id}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REPLACE_CERTIFICATE)) && (
-        <ReplaceCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.REPLACE_CERTIFICATE)}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REPLACE_CERTIFICATE_CONTINUE)) && (
-        <ReplaceCertificateContinueButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.REPLACE_CERTIFICATE_CONTINUE)}
-          certificateMetadata={certificateMetadata}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REMOVE_CERTIFICATE)) && (
-        <RemoveCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.REMOVE_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
-          functionDisabled={functionDisabled}
-        />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REVOKE_CERTIFICATE)) && (
-        <RevokeCertificateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.REVOKE_CERTIFICATE)}
-          functionDisabled={functionDisabled}
-        />
-      )}
+      <WithResourceLink type={ResourceLinkType.SHOW_RELATED_CERTIFICATE} links={resourceLinks}>
+        {(link) => <ShowRelatedCertificateButton certificateId={certificateMetadata.id} functionDisabled={false} {...link} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE} links={resourceLinks}>
+        {(link) => <CreateCertificateFromTemplateButton {...link} certificateMetadata={certificateMetadata} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.SEND_CERTIFICATE} links={resourceLinks}>
+        {(link) => <SendCertificateButton {...link} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.COPY_CERTIFICATE} links={resourceLinks}>
+        {(link) => <CopyCertificateButton {...link} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.COPY_CERTIFICATE_CONTINUE} links={resourceLinks}>
+        {(link) => (
+          <CopyCertificateContinueButton {...link} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />
+        )}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.PRINT_CERTIFICATE} links={resourceLinks}>
+        {(link) => <PrintCertificateButton {...link} certificateMetadata={certificateMetadata} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.RENEW_CERTIFICATE} links={resourceLinks}>
+        {(link) => <RenewCertificateButton {...link} certificateId={certificateMetadata.id} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.REPLACE_CERTIFICATE} links={resourceLinks}>
+        {(link) => <ReplaceCertificateButton {...link} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.REPLACE_CERTIFICATE_CONTINUE} links={resourceLinks}>
+        {(link) => (
+          <ReplaceCertificateContinueButton {...link} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />
+        )}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.REMOVE_CERTIFICATE} links={resourceLinks}>
+        {(link) => <RemoveCertificateButton {...link} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
+      <WithResourceLink type={ResourceLinkType.REVOKE_CERTIFICATE} links={resourceLinks}>
+        {(link) => <RevokeCertificateButton {...link} functionDisabled={functionDisabled} />}
+      </WithResourceLink>
     </Wrapper>
   )
 }
-
-export default HeaderButtons

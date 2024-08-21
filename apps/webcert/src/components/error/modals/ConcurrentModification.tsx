@@ -1,6 +1,5 @@
-import type React from 'react'
-import type { ModalProps } from './errorUtils'
-import { messageSubstring } from './errorUtils'
+import React from 'react'
+import { ModalProps, messageSubstring } from './errorUtils'
 import ReloadModal from './ReloadModal'
 
 export const CONCURRENT_MODIFICATION_ERROR_TITLE = 'Utkastet har ändrats av en annan användare'

@@ -1,10 +1,10 @@
-import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
-import type { ResourceLink } from '../../types'
-import { ResourceLinkType } from '../../types'
+import { ResourceLink, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -187,9 +187,7 @@ describe('Test user middleware', () => {
 
       await flushPromises()
 
-      const didUpdateUser: AnyAction | undefined = dispatchedActions.find((action) => action.type === '[User] Update user')
-
-      expect(didUpdateUser).toBeTruthy()
+      expect(getByType(dispatchedActions, '[User] Update user')).toBeTruthy()
     })
     it('should update the user with correct values', async () => {
       const data = {

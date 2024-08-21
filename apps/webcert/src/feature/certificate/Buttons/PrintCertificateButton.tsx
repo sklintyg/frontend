@@ -6,7 +6,7 @@ import { isDraft } from '@reduxjs/toolkit'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { printImage } from '../../../images'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 import { isLocked, sanitizeText } from '../../../utils'
 
 interface Props {

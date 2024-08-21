@@ -1,5 +1,5 @@
-import type { ResourceLink, UserStatistics, UserTab } from '../types'
-import { ResourceLinkType } from '../types'
+import { getByType } from '@frontend/utils'
+import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '../types'
 
 export const getUserTabs = (isCareAdmin: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
   if (isCareAdmin) {
@@ -26,7 +26,7 @@ const addTabIfAccessToPage = (
   type: ResourceLinkType,
   getTab: (link: ResourceLink, statistics?: UserStatistics) => UserTab
 ) => {
-  const link = getLink(links, type)
+  const link = getByType(links, type)
   if (link) {
     tabs.push(getTab(link, statistics))
   }
@@ -41,10 +41,6 @@ const getTabsForAdministrator = (statistics: UserStatistics | undefined, links: 
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
 
   return tabs
-}
-
-const getLink = (links: ResourceLink[], linkType: ResourceLinkType) => {
-  return links.find((link) => link.type === linkType)
 }
 
 const getSearchCreateTab = (link: ResourceLink): UserTab => {

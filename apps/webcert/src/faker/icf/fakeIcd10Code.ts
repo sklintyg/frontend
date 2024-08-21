@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { Icd10Code } from '../../types/icf'
+import { Icd10Code } from '../../types/icf'
 import { fakeId } from '../fakeId'
 
 export function fakeIcd10Code(value?: Partial<Icd10Code>): Icd10Code {

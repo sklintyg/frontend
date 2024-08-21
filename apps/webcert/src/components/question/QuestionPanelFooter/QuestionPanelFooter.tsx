@@ -1,11 +1,10 @@
+import { getByType } from '@frontend/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../../../feature/certificate/Buttons/ForwardCertificateButton'
 import SidePanelFooter from '../../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import type { Question, ResourceLink } from '../../../types'
-import { ResourceLinkType } from '../../../types'
-import { getResourceLink } from '../../../utils'
+import { Question, ResourceLinkType } from '../../../types'
 import { CannotComplementButton } from './CannotComplementButton'
 import { ComplementButton } from './ComplementButton'
 
@@ -20,14 +19,10 @@ export function QuestionPanelFooter({ questions }: { questions: Question[] }) {
 
   const links = questions.map(({ links }) => links).flat()
 
-  const getResourceLinkIfExists = (type: ResourceLinkType): ResourceLink | undefined => {
-    return getResourceLink(links, type)
-  }
-
-  const complementLink = getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE)
-  const cannotComplementLink = getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE)
-  const cannotComplementOnlyMessageLink = getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE)
-  const forwardQuestionLink = getResourceLinkIfExists(ResourceLinkType.FORWARD_QUESTION)
+  const complementLink = getByType(links, ResourceLinkType.COMPLEMENT_CERTIFICATE)
+  const cannotComplementLink = getByType(links, ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE)
+  const cannotComplementOnlyMessageLink = getByType(links, ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE_ONLY_MESSAGE)
+  const forwardQuestionLink = getByType(links, ResourceLinkType.FORWARD_QUESTION)
 
   const showQuestionPanelFooter = [complementLink, cannotComplementLink, cannotComplementOnlyMessageLink, forwardQuestionLink].some(Boolean)
 

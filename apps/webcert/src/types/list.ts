@@ -1,4 +1,4 @@
-import type { ResourceLink } from './resourceLink'
+import { ResourceLink } from './resourceLink'
 
 export interface CertificateListItem {
   values: Record<string, string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean>

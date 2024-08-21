@@ -1,5 +1,5 @@
-import type { PartialDeep } from 'type-fest'
-import type { Certificate, CertificateData } from '../../types'
+import { PartialDeep } from 'type-fest'
+import { Certificate, CertificateData } from '../../types'
 import { fakeResourceLink } from '../fakeResourceLink'
 import { fakeCertificateMetaData } from './fakeCertificateMetaData'
 

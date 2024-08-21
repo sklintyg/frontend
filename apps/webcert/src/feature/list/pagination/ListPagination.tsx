@@ -2,8 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Pagination } from '../../../components/Pagination/Pagination'
 import { performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
-import type { ListFilterValueNumber } from '../../../types'
-import { ListFilterType } from '../../../types'
+import { ListFilterType, ListFilterValueNumber } from '../../../types'
 
 const ListPagination: React.FC = () => {
   const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber

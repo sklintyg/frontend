@@ -1,8 +1,7 @@
-import type React from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import type { CertificateMetadata } from '../../../../types'
-import { CertificateStatus } from '../../../../types'
+import { CertificateMetadata, CertificateStatus } from '../../../../types'
 import { getReplacedCertificateStatus } from '../../../../utils'
 
 interface Props {

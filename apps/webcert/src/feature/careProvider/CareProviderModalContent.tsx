@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -13,7 +13,7 @@ import {
   isCareAdministrator as selectIsCareAdministrator,
   getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
-import type { CareProvider, CareUnit, Unit } from '../../types'
+import { CareProvider, CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;

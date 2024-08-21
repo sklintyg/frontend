@@ -1,5 +1,5 @@
-import type React from 'react'
-import type { ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow, ValueViewTable } from '../../../types'
+import React from 'react'
+import { ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow, ValueViewTable } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'

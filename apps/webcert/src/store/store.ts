@@ -1,5 +1,4 @@
-import type { TypedUseSelectorHook } from 'react-redux'
-import { useDispatch, useSelector } from 'react-redux'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { apiMiddleware } from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { configureApplicationStore } from './configureApplicationStore'

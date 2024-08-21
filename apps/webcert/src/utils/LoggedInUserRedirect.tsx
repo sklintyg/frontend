@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../constants'

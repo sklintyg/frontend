@@ -2,8 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import { fakeTypeaheadElement } from '../../../../faker'
 import UeTypeahead from './UeTypeahead'
+import { fakeTypeaheadElement } from '../../../../faker'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
@@ -44,10 +44,10 @@ describe('Typeahead component', () => {
     expect(list).not.toBeInTheDocument()
   })
 
-  it('disables component if disabled is set', async () => {
+  it('disables component if disabled is set', () => {
     renderWithSuggestions()
     const input = screen.getByRole('textbox')
-    await expect(input).toBeDisabled()
+    expect(input).toBeDisabled()
   })
 
   it('shows results when users types text', async () => {
@@ -58,7 +58,7 @@ describe('Typeahead component', () => {
     checkListVisibility(false)
     await userEvent.type(input, testinput)
     checkListVisibility(true)
-    await expect(input).toHaveValue(testinput)
+    expect(input).toHaveValue(testinput)
     checkListVisibility(true)
   })
 

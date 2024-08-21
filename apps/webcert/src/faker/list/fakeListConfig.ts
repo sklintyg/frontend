@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type { ListConfig } from '../../types'
+import { ListConfig } from '../../types'
 
 export function fakeListConfig(data?: Partial<ListConfig>): ListConfig {
   return {

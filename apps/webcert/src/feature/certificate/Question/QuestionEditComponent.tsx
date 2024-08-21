@@ -1,6 +1,5 @@
-import type React from 'react'
-import { useCallback } from 'react'
-import type { CertificateDataElement, ValueType } from '../../../types'
+import React, { useCallback } from 'react'
+import { CertificateDataElement, ValueType } from '../../../types'
 import { validateExpression } from '../../../utils/validation/validateExpression'
 import QuestionAccordion from './QuestionAccordion'
 import { QuestionUeResolve } from './QuestionUeResolve'

@@ -1,5 +1,5 @@
-import type React from 'react'
-import type { ConfigUeInteger, ValueInteger } from '../../../types/certificate'
+import React from 'react'
+import { ConfigUeInteger, ValueInteger } from '../../../types/certificate'
 import { Badge } from '../Badge'
 
 export const UvInteger: React.FC<{

@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -61,7 +62,8 @@ describe('SrsPanel', () => {
     store.dispatch(updateCertificateId(certiticateId))
     store.dispatch(updateLoggedCertificateId(loggedCertificateId))
     renderComponent()
-    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
+
+    expect(getByType(dispatchedActions, logSrsInteraction.type)).toBeUndefined()
   })
 
   it('should not log if panel is inactive', () => {
@@ -70,7 +72,7 @@ describe('SrsPanel', () => {
         <SrsPanel minimizedView isPanelActive={false} />
       </Provider>
     )
-    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).toBeUndefined()
+    expect(getByType(dispatchedActions, logSrsInteraction.type)).toBeUndefined()
   })
 
   it('should show title', () => {
@@ -288,7 +290,7 @@ describe('SrsPanel', () => {
     it('should log when pressing statistics button', async () => {
       renderComponent()
       await userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

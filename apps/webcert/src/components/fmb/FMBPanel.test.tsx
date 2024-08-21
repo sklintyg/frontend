@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -8,8 +8,7 @@ import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/f
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
 import FMBPanel from './FMBPanel'
-import type { ValueDiagnosisList } from '../../types'
-import { CertificateDataValueType } from '../../types'
+import { ValueDiagnosisList, CertificateDataValueType } from '../../types'
 
 let testStore: EnhancedStore
 
@@ -115,7 +114,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
 
-    await expect(screen.getByLabelText(/Description for A01/i)).toBeEnabled()
+    expect(screen.getByLabelText(/Description for A01/i)).toBeEnabled()
   })
 
   it('shall display disabled diagnosis description when a diagnosis is selected and is missing FMB recommendation', async () => {
@@ -123,7 +122,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
 
-    await expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
+    expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
   })
 
   it('shall select first diagnoses when two diagnoses are selected with FMB recommendation', async () => {
@@ -133,8 +132,8 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultTwo))
     renderDefaultComponent()
 
-    await expect(screen.getByLabelText(/Description for A01/i)).toBeChecked()
-    await expect(screen.getByLabelText(/Description for B01/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/Description for A01/i)).toBeChecked()
+    expect(screen.getByLabelText(/Description for B01/i)).not.toBeChecked()
   })
 
   it('shall select first diagnoses with FMB recommendations when two diagnoses are selected', async () => {
@@ -144,8 +143,8 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultTwo))
     renderDefaultComponent()
 
-    await expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
-    await expect(screen.getByLabelText(/Description for B01/i)).toBeChecked()
+    expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/Description for B01/i)).toBeChecked()
   })
 
   it('shall display FMB details of the second diagnoses after the user selects it', async () => {
@@ -166,7 +165,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateDynamicLinks({ fmbSoc: { text: expectedText, target: '', key: 'fmbSoc', url: expectedLink, tooltip: '' } }))
     renderDefaultComponent()
 
-    await expect(screen.getByRole('link', { name: expectedText })).toHaveAttribute('href', expectedLink)
+    expect(screen.getByRole('link', { name: expectedText })).toHaveAttribute('href', expectedLink)
   })
 
   it('shall show symbol that fmb info is shown for other diagnosis code if fmb result doesnt exist for code', async () => {
@@ -211,6 +210,6 @@ describe('FMBPanel', () => {
     const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
-    await expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
+    expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
   })
 })

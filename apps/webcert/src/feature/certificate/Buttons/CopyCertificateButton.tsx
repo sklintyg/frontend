@@ -1,10 +1,10 @@
-import type React from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'
-import type { CertificateMetadata } from '../../../types'
+import { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
 interface Props extends FunctionDisabled {

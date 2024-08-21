@@ -1,5 +1,6 @@
-import type { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
-import type { RootState } from '../store'
+import { getByType } from '@frontend/utils'
+import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
+import { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -24,7 +25,7 @@ export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.
 export const getUserResourceLink =
   (type: ResourceLinkType) =>
   (state: RootState): ResourceLink | undefined =>
-    state.ui.uiUser.links.find((link) => link.type === type)
+    getByType(getUserResourceLinks(state), type)
 
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
 

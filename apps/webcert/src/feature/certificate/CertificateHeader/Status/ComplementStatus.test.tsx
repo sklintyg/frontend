@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import type { CertificateMetadata, Question } from '../../../../types'
-import { CertificateStatus, QuestionType } from '../../../../types'
+import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {

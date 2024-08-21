@@ -1,6 +1,6 @@
-import type React from 'react'
+import React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import type { CertificateMetadata, Question } from '../../../../types'
+import { CertificateMetadata, Question } from '../../../../types'
 import {
   getComplementedByCertificateRelation,
   hasUnhandledComplementQuestions,

@@ -1,5 +1,5 @@
-import type { ModalProps } from './errorUtils'
-import type React from 'react'
+import { ModalProps } from './errorUtils'
+import React from 'react'
 import ReloadModal from './ReloadModal'
 
 export const CERTIFICATE_REVOKED_TITLE = 'Operation är inte möjlig'

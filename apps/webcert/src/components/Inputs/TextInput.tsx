@@ -1,6 +1,5 @@
 import React from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 import { questionImage } from '../../images'
 
 const Icon = styled.img`

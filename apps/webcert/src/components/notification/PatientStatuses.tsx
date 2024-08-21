@@ -1,4 +1,4 @@
-import type { Patient } from '../../types'
+import { Patient } from '../../types'
 import PatientDeceasedStatus from './PatientDeceasedStatus'
 import PatientTestIndicatedStatus from './PatientTestIndicatedStatus'
 import ProtectedPatientStatus from './ProtectedPatientStatus'

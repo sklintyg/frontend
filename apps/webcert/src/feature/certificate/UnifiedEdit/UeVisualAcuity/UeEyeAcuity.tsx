@@ -1,10 +1,9 @@
-import type React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
+import { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
 import { formatAcuity } from '../../../../utils/format/formatAcuity'
 
 const AcuityInput = styled(TextInput)`

@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { Badge } from '../Badge'
 
 export const UvText: React.FC<{ value: { text?: string | null } }> = ({ value }) => (

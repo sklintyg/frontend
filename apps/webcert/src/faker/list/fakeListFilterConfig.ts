@@ -1,5 +1,5 @@
 import faker from 'faker'
-import type {
+import {
   ListFilterBooleanConfig,
   ListFilterConfigBase,
   ListFilterDateConfig,
@@ -10,8 +10,8 @@ import type {
   ListFilterRadioConfig,
   ListFilterSelectConfig,
   ListFilterTextConfig,
+  ListFilterType,
 } from '../../types'
-import { ListFilterType } from '../../types'
 import { fakeId } from '../fakeId'
 
 export function fakeListFilterConfigBase(data?: Partial<ListFilterConfigBase>): ListFilterConfigBase {

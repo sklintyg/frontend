@@ -1,22 +1,22 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
-import { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import { scroller } from 'react-scroll'
 import styled from 'styled-components'
 import InfoBox from '../../components/utils/InfoBox'
 import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
-import type { CertificateStructure } from '../../store/certificate/certificateSelectors'
 import {
+  CertificateStructure,
   getCertificateDataElements,
+  getCertificateResourceLink,
   getGotoId,
   getIsComplementingCertificate,
   getIsShowSpinner,
   getIsSigned,
-  getResourceLinks,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../store/store'
 import { CertificateDataElementStyleEnum, ConfigTypes, ResourceLinkType } from '../../types'
 import CareUnit from './CareUnit/CareUnit'
 import Category from './Category/Category'
@@ -55,16 +55,15 @@ const CategoryWrapper = styled.div`
 
 const Certificate: React.FC = () => {
   const dispatch = useDispatch()
-  const certificateStructure = useSelector(getCertificateDataElements, isEqual)
-  const showSpinner = useSelector(getIsShowSpinner)
-  const spinnerText = useSelector(getSpinnerText)
-  const gotoId = useSelector(getGotoId)
-  const isComplementingCertificate = useSelector(getIsComplementingCertificate)
-  const isSigned = useSelector(getIsSigned())
+  const certificateStructure = useAppSelector(getCertificateDataElements, isEqual)
+  const showSpinner = useAppSelector(getIsShowSpinner)
+  const spinnerText = useAppSelector(getSpinnerText)
+  const gotoId = useAppSelector(getGotoId)
+  const isComplementingCertificate = useAppSelector(getIsComplementingCertificate)
+  const isSigned = useAppSelector(getIsSigned())
   const certificateContainerRef = useRef<HTMLDivElement>(null)
   const certificateContainerId = 'questions-container'
-  const links = useSelector(getResourceLinks)
-  const showPatientAddress = links.find((link) => link.type === ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)
+  const showPatientAddress = useAppSelector(getCertificateResourceLink(ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE))
 
   useEffect(() => {
     if (gotoId) {

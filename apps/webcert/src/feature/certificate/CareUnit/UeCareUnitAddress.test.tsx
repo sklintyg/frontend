@@ -1,15 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useSelector } from 'react-redux'
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
-import type { ValidationError } from '../../../types'
+import { Mock, vi } from 'vitest'
 import UeCareUnitAddress, {
   CARE_UNIT_ADDRESS_FIELD,
   CARE_UNIT_CITY_FIELD,
   CARE_UNIT_PHONE_NUMBER_FIELD,
   CARE_UNIT_ZIP_CODE_FIELD,
 } from './UeCareUnitAddress'
+import { ValidationError } from '../../../types'
 
 const getValidationErrors = (): ValidationError[] => {
   const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: 'Valideringstext' }
@@ -51,7 +50,7 @@ describe('CareUnitAddress component', () => {
     expect(screen.queryAllByText(/\*/i)).toHaveLength(4)
   })
 
-  it('display all validation errors', async (): Promise<Promise<Promise<Promise<void>>>> => {
+  it('display all validation errors', (): void => {
     mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {
@@ -71,10 +70,10 @@ describe('CareUnitAddress component', () => {
     render(<UeCareUnitAddress />)
 
     expect(screen.queryAllByText('Valideringstext')).toHaveLength(4)
-    await expect(screen.getByRole('textbox', { name: /postadress/i })).toHaveClass('ic-textarea--error')
-    await expect(screen.getByRole('textbox', { name: /postnummer/i })).toHaveClass('ic-textfield--error')
-    await expect(screen.getByRole('textbox', { name: /postort/i })).toHaveClass('ic-textfield--error')
-    await expect(screen.getByRole('textbox', { name: /telefonnummer/i })).toHaveClass('ic-textfield--error')
+    expect(screen.getByRole('textbox', { name: /postadress/i })).toHaveClass('ic-textarea--error')
+    expect(screen.getByRole('textbox', { name: /postnummer/i })).toHaveClass('ic-textfield--error')
+    expect(screen.getByRole('textbox', { name: /postort/i })).toHaveClass('ic-textfield--error')
+    expect(screen.getByRole('textbox', { name: /telefonnummer/i })).toHaveClass('ic-textfield--error')
   })
 
   it('display no validation errors', (): void => {
@@ -132,9 +131,9 @@ describe('CareUnitAddress component', () => {
     const phoneNumberInput = screen.getByRole('textbox', { name: /telefonnummer/i })
 
     await userEvent.type(zipcodeInput, '1a2b3c4d5e6f')
-    await expect(zipcodeInput).toHaveValue('123 45')
+    expect(zipcodeInput).toHaveValue('123 45')
 
     await userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
-    await expect(phoneNumberInput).toHaveValue('262662286')
+    expect(phoneNumberInput).toHaveValue('262662286')
   })
 })

@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { ErrorData, ErrorRequest } from './errorReducer'
+import { ErrorData, ErrorRequest } from './errorReducer'
 
 const ERROR = '[Error]'
 

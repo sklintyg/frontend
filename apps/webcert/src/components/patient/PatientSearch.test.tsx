@@ -4,10 +4,10 @@ import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
-import { fakePatient } from '../../faker'
 import { setPatient } from '../../store/patient/patientActions'
 import store from '../../store/store'
 import PatientSearch from './PatientSearch'
+import { fakePatient } from '../../faker'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 

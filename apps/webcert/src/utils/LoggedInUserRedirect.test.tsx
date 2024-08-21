@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -10,8 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
 import { LoggedInUserRedirect } from './LoggedInUserRedirect'
-import type { Unit, User } from '../types'
-import { SigningMethod } from '../types'
+import { SigningMethod, Unit, User } from '../types'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()

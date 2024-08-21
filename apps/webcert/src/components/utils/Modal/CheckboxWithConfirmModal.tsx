@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components'
+import { FlattenSimpleInterpolation } from 'styled-components'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import Checkbox from '../../Inputs/Checkbox'
 import { CustomButton } from '../../Inputs/CustomButton'

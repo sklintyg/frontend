@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import { InfoCircle } from '../../images'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
-import type { Icd10Code, IcfCode } from '../../types'
+import { Icd10Code, IcfCode } from '../../types'
 import IcfRow from './IcfRow'
 
 const IcdWrapper = styled.div`

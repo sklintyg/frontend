@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import InfoBox from '../../../components/utils/InfoBox'
 import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'

@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-disabled-tests */
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -13,7 +13,7 @@ import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
-import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import IcfDropdown from './IcfDropdown'
 

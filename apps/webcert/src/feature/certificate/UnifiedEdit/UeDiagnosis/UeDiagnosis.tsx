@@ -8,15 +8,16 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { useAppDispatch } from '../../../../store/store'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
-import type {
+import {
   CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateDataValueType,
   Diagnosis,
   TextValidation,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '../../../../types'
-import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

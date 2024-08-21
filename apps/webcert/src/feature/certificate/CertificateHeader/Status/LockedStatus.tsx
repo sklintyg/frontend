@@ -1,7 +1,7 @@
-import type React from 'react'
+import React from 'react'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import type { CertificateMetadata } from '../../../../types'
+import { CertificateMetadata } from '../../../../types'
 import { isLockedRevoked } from '../../../../utils'
 
 interface Props {

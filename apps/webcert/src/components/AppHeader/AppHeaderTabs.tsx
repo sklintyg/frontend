@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import type React from 'react'
+import React from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
-import type { UserTab } from '../../types'
+import { UserTab } from '../../types'
 import { NumberCircle } from '../utils/NumberCircle'
 
 const Wrapper = styled.nav`

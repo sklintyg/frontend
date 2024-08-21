@@ -1,4 +1,4 @@
-import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { fakeCertificate } from '../../faker'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
@@ -7,8 +7,7 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { setActiveCertificateId, throwError } from './errorActions'
 import { errorMiddleware } from './errorMiddleware'
-import type { ErrorRequest } from './errorReducer'
-import { ErrorCode, ErrorType } from './errorReducer'
+import { ErrorCode, ErrorRequest, ErrorType } from './errorReducer'
 
 describe('Test error middleware', () => {
   let testStore: EnhancedStore

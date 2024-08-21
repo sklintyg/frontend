@@ -1,6 +1,6 @@
-import type React from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import type { ConfigUeDateRange, ValueDateRange } from '../../../types'
+import { ConfigUeDateRange, ValueDateRange } from '../../../types'
 import { Badge } from '../Badge'
 
 const DateRangeWrapper = styled.div`

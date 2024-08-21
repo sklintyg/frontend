@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -6,7 +6,7 @@ import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
-import type { Configuration } from '../store/utils/utilsReducer'
+import { Configuration } from '../store/utils/utilsReducer'
 import { StartPage } from './StartPage'
 
 let testStore: EnhancedStore
@@ -21,6 +21,15 @@ const renderComponent = () => {
       </MemoryRouter>
     </Provider>
   )
+}
+
+const config: Configuration = {
+  version: '',
+  banners: [],
+  cgiFunktionstjansterIdpUrl: '#elegIdp',
+  sakerhetstjanstIdpUrl: '#sithsIdp',
+  ppHost: '',
+  forwardDraftOrQuestionUrl: '',
 }
 
 describe('StartPage', () => {
@@ -39,18 +48,20 @@ describe('StartPage', () => {
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
-  it('should render idp links', async () => {
+  it('should render elegIdp link', () => {
     renderComponent()
-    const config: Configuration = {
-      version: '',
-      banners: [],
-      cgiFunktionstjansterIdpUrl: '#elegIdp',
-      sakerhetstjanstIdpUrl: '#sithsIdp',
-      ppHost: '',
-    }
     testStore.dispatch(updateConfig(config))
 
-    await expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
-    await expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
+    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute(
+      'href',
+      '/saml/login/alias/defaultAliasNormal?idp=#sithsIdp'
+    )
+  })
+
+  it('should render sithsIdp link', () => {
+    renderComponent()
+    testStore.dispatch(updateConfig(config))
+
+    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg?idp=#elegIdp')
   })
 })

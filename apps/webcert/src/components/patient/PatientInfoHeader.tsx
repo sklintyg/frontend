@@ -1,11 +1,11 @@
-import type React from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { swapImage, userImage } from '../../images'
 import { clearPatient } from '../../store/patient/patientActions'
 import { BoxShadowContainer } from '../../styles'
-import type { Patient } from '../../types'
+import { Patient } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import PatientStatuses from '../notification/PatientStatuses'
 

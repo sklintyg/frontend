@@ -1,6 +1,6 @@
-import type { Patient } from '../../types'
-import type { RootState } from '../store'
-import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
+import { Patient } from '../../types'
+import { RootState } from '../store'
+import { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
 
 export const getAvailableCertificateTypes =
   () =>

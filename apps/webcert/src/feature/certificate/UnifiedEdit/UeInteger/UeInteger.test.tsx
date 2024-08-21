@@ -1,7 +1,7 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
@@ -39,7 +39,7 @@ describe('Integer component', () => {
 
     await userEvent.type(screen.getByTestId('testNumber'), '199')
 
-    await expect(screen.getByTestId('testNumber')).not.toHaveValue('')
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('')
   })
 
   it('should not allow letters', async () => {
@@ -47,7 +47,7 @@ describe('Integer component', () => {
 
     await userEvent.type(screen.getByTestId('testNumber'), 'ABC')
 
-    await expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
   })
 
   it('should not allow strings starting with numbers and containing other characters', async () => {
@@ -55,6 +55,6 @@ describe('Integer component', () => {
 
     await userEvent.type(screen.getByTestId('testNumber'), '012')
 
-    await expect(screen.getByTestId('testNumber')).not.toHaveValue('012')
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('012')
   })
 })

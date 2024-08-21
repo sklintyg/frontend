@@ -2,8 +2,7 @@ import { useCallback } from 'react'
 import InfoBox from '../../../components/utils/InfoBox'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import type { CertificateDataConfigType, CertificateDataElement, ValueType } from '../../../types'
-import { CertificateDataValueType, ConfigTypes } from '../../../types'
+import { CertificateDataConfigType, CertificateDataElement, CertificateDataValueType, ConfigTypes, ValueType } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
@@ -29,7 +28,7 @@ import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
 import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
 import UeYear from '../UnifiedEdit/UeYear/UeYear'
-import type { UnifiedEdit } from '../UnifiedEdit/UnifiedEdit'
+import { UnifiedEdit } from '../UnifiedEdit/UnifiedEdit'
 
 function isQuestionTypes<C extends ConfigTypes, V extends CertificateDataValueType | null>(
   configType: C,

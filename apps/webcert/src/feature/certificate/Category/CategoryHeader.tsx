@@ -1,6 +1,5 @@
-import type React from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components'
-import styled from 'styled-components'
+import React from 'react'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 const Wrapper = styled.div`
   border-bottom-left-radius: 0;

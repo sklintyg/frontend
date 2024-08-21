@@ -1,5 +1,5 @@
-import type { PartialDeep } from 'type-fest'
-import type { IcfCodeCollection } from '../../types/icf'
+import { PartialDeep } from 'type-fest'
+import { IcfCodeCollection } from '../../types/icf'
 import { fakeIcd10Code } from './fakeIcd10Code'
 import { fakeIcfCode } from './fakeIcfCode'
 

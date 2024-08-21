@@ -1,7 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import type {
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import {
   ValueDiagnosisList,
   SrsInfoForDiagnosis,
   SrsQuestion,

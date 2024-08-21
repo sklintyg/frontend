@@ -1,4 +1,4 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -6,8 +6,7 @@ import { Router } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import type { Question } from '../../types'
-import { QuestionType } from '../../types'
+import { Question, QuestionType } from '../../types'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 
 let testStore: EnhancedStore

@@ -1,4 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -117,7 +118,7 @@ describe('SrsRisk', () => {
     it('should log when clicking button', async () => {
       renderComponent()
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
     it('should disabled button when choosing extension after 60 days sickleave option', async () => {
@@ -138,7 +139,7 @@ describe('SrsRisk', () => {
       renderComponent()
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       await userEvent.click(screen.getByText('Beräkna'))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
     it('should close risk form if open risk form button gets disabled', async () => {
