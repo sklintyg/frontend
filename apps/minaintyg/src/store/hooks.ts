@@ -1,5 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import type { TypedUseSelectorHook } from 'react-redux'
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import type { AvailableFunctionsType } from '../schema/certificate.schema'
