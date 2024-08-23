@@ -10,6 +10,7 @@ import { StartPage } from './page/StartPage'
 import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
 import Welcome from './page/Welcome'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
+import { SelectUnitPage } from './page/SelectUnitPage'
 
 export function Routes() {
   useNavigateEffect()
@@ -26,6 +27,7 @@ export function Routes() {
         )}
       />
       <Route path="/certificate/:certificateId/sign/:error" render={() => <CertificatePage />} />
+      <Route path="/certificate/:certificateId/launch-unit-selection" render={() => <SelectUnitPage/>} />
       <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
       <Route path="/welcome(.html)?" render={() => <Welcome />} />
       <Route path="/error(.jsp)?" render={() => <ErrorPage />} />

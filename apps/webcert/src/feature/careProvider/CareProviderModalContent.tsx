@@ -1,31 +1,31 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
 import SimpleTable from '../../components/Table/SimpleTable'
 import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../../constants'
 import { clearPatient } from '../../store/patient/patientActions'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setUnit } from '../../store/user/userActions'
 import {
+  getCareProviders,
   getLoggedInUnit,
-  getUser,
   isCareAdministrator as selectIsCareAdministrator,
   getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
-import { CareProvider, CareUnit, Unit } from '../../types'
+import { CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;
 `
 
 export const CareProviderModalContent: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const history = useHistory()
-  const user = useSelector(getUser)
-  const isCareAdministrator = useSelector(selectIsCareAdministrator)
-  const unitStatistics = useSelector(selectUnitStatistics)
-  const loggedInUnit = useSelector(getLoggedInUnit)
+  const careProviders = useAppSelector(getCareProviders)
+  const isCareAdministrator = useAppSelector(selectIsCareAdministrator)
+  const unitStatistics = useAppSelector(selectUnitStatistics)
+  const loggedInUnit = useAppSelector(getLoggedInUnit)
 
   const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit = 0, careUnit?: CareUnit) => {
     const showTotal = careUnit && careUnit?.units.length > 0 && amountOnOtherUnit > 0
@@ -127,18 +127,17 @@ export const CareProviderModalContent: React.FC = () => {
     )
   }
 
-  const checkSubscription = (careProvider: CareProvider) => {
-    return careProvider.missingSubscription ? `${careProvider.name} (Abonnemang saknas)` : careProvider.name
-  }
-
   return (
     <>
-      {user?.careProviders.map((careProvider, index) => {
+      {careProviders.map((careProvider, index) => {
         return (
           <div key={index} className="iu-mb-800">
             <SimpleTable
               headings={[
-                { title: checkSubscription(careProvider), adjustCellToText: false },
+                {
+                  title: careProvider.missingSubscription ? `${careProvider.name} (Abonnemang saknas)` : careProvider.name,
+                  adjustCellToText: false,
+                },
                 { title: 'Ej hanterade ärenden', adjustCellToText: true },
                 { title: 'Ej signerade utkast', adjustCellToText: true },
               ]}
