@@ -1,9 +1,11 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import CareProviderModal from '../../feature/careProvider/CareProviderModal'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
+import logo from '../../images/webcert_logo.png'
 import { resetListState } from '../../store/list/listActions'
 import { resetPatientState } from '../../store/patient/patientActions'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import {
   getLoggedInCareProvider,
   getUser,
@@ -23,24 +25,23 @@ import SystemBanner from '../utils/SystemBanner'
 import { WithResourceLink } from '../utils/WithResourceLink'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
-import logo from './webcert_logo.png'
 
 const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;
 `
 
 function WebcertHeader({ isEmpty = false }) {
-  const userLinks = useSelector(getUserResourceLinks)
-  const user = useSelector(getUser)
-  const isCareAdmin = useSelector(isCareAdministrator)
-  const links = useSelector(getUserResourceLinks)
-  const userStatistics = useSelector(getUserStatistics)
+  const userLinks = useAppSelector(getUserResourceLinks)
+  const user = useAppSelector(getUser)
+  const isCareAdmin = useAppSelector(isCareAdministrator)
+  const links = useAppSelector(getUserResourceLinks)
+  const userStatistics = useAppSelector(getUserStatistics)
   const tabs = getUserTabs(!!isCareAdmin, userStatistics, links)
-  const dispatch = useDispatch()
-  const loggedInCareProvider = useSelector(getLoggedInCareProvider)
+  const dispatch = useAppDispatch()
+  const loggedInCareProvider = useAppSelector(getLoggedInCareProvider)
   const careProviders = user && user?.careProviders
   const unitName = user && user.loggedInUnit.unitName
-  const displayWarningNormalOriginBanner = useSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
+  const displayWarningNormalOriginBanner = useAppSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
 
   const onSwitchTab = () => {
     dispatch(resetPatientState())
@@ -73,44 +74,47 @@ function WebcertHeader({ isEmpty = false }) {
   ].filter(Boolean)
 
   return (
-    <AppHeader
-      logo={logo}
-      alt={'Logo Webcert'}
-      primaryUserMenu={
-        isEmpty ? (
-          []
-        ) : (
-          <>
-            <WebcertHeaderUser />
-            <WebcertHeaderUnit />
-          </>
-        )
-      }
-      secondaryUserMenu={
-        <UserHeaderMenu>
-          {!isEmpty && (
+    <>
+      <CareProviderModal />
+      <AppHeader
+        logo={logo}
+        alt={'Logo Webcert'}
+        primaryUserMenu={
+          isEmpty ? (
+            []
+          ) : (
             <>
-              <UserHeaderMenuItem>
-                <InfoModal text="Om Webcert" modalTitle="Om Webcert">
-                  <AboutWebcertModalContent />
-                </InfoModal>
-              </UserHeaderMenuItem>
-              <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
-                {(link) => (
-                  <UserHeaderMenuItem>
-                    <Logout user={user} link={link} />
-                  </UserHeaderMenuItem>
-                )}
-              </WithResourceLink>
+              <WebcertHeaderUser />
+              <WebcertHeaderUnit />
             </>
-          )}
-        </UserHeaderMenu>
-      }
-      banners={[<SystemBanners key="system-banners" />]}
-      tabs={tabs}
-      onSwitchTab={onSwitchTab}
-      subMenuBanners={banners}
-    />
+          )
+        }
+        secondaryUserMenu={
+          <UserHeaderMenu>
+            {!isEmpty && (
+              <>
+                <UserHeaderMenuItem>
+                  <InfoModal text="Om Webcert" modalTitle="Om Webcert">
+                    <AboutWebcertModalContent />
+                  </InfoModal>
+                </UserHeaderMenuItem>
+                <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
+                  {(link) => (
+                    <UserHeaderMenuItem>
+                      <Logout user={user} link={link} />
+                    </UserHeaderMenuItem>
+                  )}
+                </WithResourceLink>
+              </>
+            )}
+          </UserHeaderMenu>
+        }
+        banners={[<SystemBanners key="system-banners" />]}
+        tabs={tabs}
+        onSwitchTab={onSwitchTab}
+        subMenuBanners={banners}
+      />
+    </>
   )
 }
 

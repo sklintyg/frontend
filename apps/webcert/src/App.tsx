@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { Routes } from './Routes'
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import ErrorComponent from './components/error/ErrorComponent'
-import CareProviderModal from './feature/careProvider/CareProviderModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
@@ -41,7 +40,6 @@ function App(): JSX.Element {
     <BrowserRouter>
       <ErrorBoundary fallbackRender={ErrorMessage} onError={onError}>
         <ErrorComponent />
-        <CareProviderModal />
         <SubscriptionWarningModal />
         <Routes />
       </ErrorBoundary>

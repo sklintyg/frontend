@@ -1,12 +1,16 @@
 import { isEqual } from 'lodash-es'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import ModalBase from '../../components/utils/Modal/ModalBase'
-import { useAppSelector } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
-import { getIsCareProviderModalOpen, getUserResourceLink, selectIsLoadingUserStatistics } from '../../store/user/userSelectors'
+import {
+  getIsCareProviderModalOpen,
+  getSelectUnitHeading,
+  getUserResourceLink,
+  selectIsLoadingUserStatistics,
+} from '../../store/user/userSelectors'
 import { ResourceLinkType } from '../../types'
 import { CareProviderModalContent } from './CareProviderModalContent'
 
@@ -15,30 +19,20 @@ const ModalBaseLarge = styled(ModalBase)`
 `
 
 const CareProviderModal: React.FC = () => {
-  const dispatch = useDispatch()
-  const isLoadingUserStatistics = useSelector(selectIsLoadingUserStatistics, isEqual)
-  const isCareProviderModalOpen = useSelector(getIsCareProviderModalOpen)
-  const chooseUnitLink = useAppSelector(getUserResourceLink(ResourceLinkType.CHOOSE_UNIT))
-  const changeUnitLink = useAppSelector(getUserResourceLink(ResourceLinkType.CHANGE_UNIT))
-
-  const getModalTitle = () => {
-    if (chooseUnitLink) {
-      return chooseUnitLink.name
-    } else if (changeUnitLink) {
-      return changeUnitLink.name
-    } else {
-      return ''
-    }
-  }
+  const dispatch = useAppDispatch()
+  const isLoadingUserStatistics = useAppSelector(selectIsLoadingUserStatistics, isEqual)
+  const isCareProviderModalOpen = useAppSelector(getIsCareProviderModalOpen)
+  const hasChooseUnitLink = useAppSelector((state) => Boolean(getUserResourceLink(ResourceLinkType.CHOOSE_UNIT)(state)))
+  const modalTitle = useAppSelector(getSelectUnitHeading)
 
   useEffect(() => {
-    if (chooseUnitLink) {
+    if (hasChooseUnitLink) {
       dispatch(updateIsCareProviderModalOpen(true))
     }
   })
 
   const handleClose = () => {
-    !chooseUnitLink && dispatch(updateIsCareProviderModalOpen(false))
+    !hasChooseUnitLink && dispatch(updateIsCareProviderModalOpen(false))
   }
 
   if (isLoadingUserStatistics) {
@@ -49,10 +43,10 @@ const CareProviderModal: React.FC = () => {
     <ModalBaseLarge
       open={isCareProviderModalOpen}
       handleClose={handleClose}
-      title={getModalTitle()}
+      title={modalTitle}
       content={<CareProviderModalContent />}
-      buttons={!chooseUnitLink && <CustomButton onClick={handleClose} buttonStyle="secondary" text="Avbryt" />}
-      enableCross={!chooseUnitLink}
+      buttons={!hasChooseUnitLink && <CustomButton onClick={handleClose} buttonStyle="secondary" text="Avbryt" />}
+      enableCross={!hasChooseUnitLink}
     />
   )
 }
