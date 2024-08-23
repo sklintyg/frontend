@@ -18,19 +18,27 @@ const certificate = fakeCertificate({
   links: [fakeResourceLink({ type: ResourceLinkType.READ_CERTIFICATE }), fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
 })
 
-test.beforeEach(async ({ routeJson }) => {
+const unit = fakeUnit()
+const careProvider = fakeUnit()
+const careProviders = [
+  fakeCareProvider({
+    id: careProvider.unitId,
+    name: careProvider.unitName,
+    careUnits: [
+      { ...unit, units: [] },
+      { ...fakeUnit(), units: [fakeUnit()] },
+    ],
+  }),
+  fakeCareProvider({
+    careUnits: [
+      { ...fakeUnit(), units: [fakeUnit()] },
+      { ...fakeUnit(), units: [] },
+    ],
+  }),
+]
+
+test.beforeEach(async ({ page, routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
-})
-
-test('when coming from integrated without specified unit', async ({ page }) => {
-  // On login the user is redirected to /visa/intyg/%id% (backend)
-  // that redirects to /certificate/%id%/launch-unit-selection (frontend)
-  // Each unit should link back to the backend with /visa/intyg/%id%/resume?enhet=%hsaid%
-  // that redirects to /certificate/%id%
-  const unit = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Medicincentrum' })
-  const careProvider = fakeUnit({ unitId: 'FAKE_UNIT-1234', unitName: 'Hälsa' })
-  const careProviders = [fakeCareProvider({ id: careProvider.unitId, name: careProvider.unitName, careUnits: [{ ...unit, units: [] }] })]
-
   await setupUser(
     page,
     {
@@ -42,7 +50,13 @@ test('when coming from integrated without specified unit', async ({ page }) => {
     },
     [fakeResourceLink({ type: ResourceLinkType.CHOOSE_UNIT }), fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]
   )
+})
 
+test('when coming from integrated without specified unit', async ({ page }) => {
+  // On login the user is redirected to /visa/intyg/%id% (backend)
+  // that redirects to /certificate/%id%/launch-unit-selection (frontend)
+  // Each unit should link back to the backend with /visa/intyg/%id%/resume?enhet=%hsaid%
+  // that redirects to /certificate/%id%
   await page.route(`**/*/visa/intyg/${certificate.metadata.id}/resume?enhet=${unit.unitId}`, async (route) => {
     const url = new URL(route.request().url())
     await route.fulfill({
@@ -64,7 +78,7 @@ test('when coming from integrated without specified unit', async ({ page }) => {
     careProviders,
   })
 
-  await page.getByRole('link', { name: 'Medicincentrum' }).click()
+  await page.getByRole('link', { name: unit.unitName }).click()
   await page.waitForURL(`**/certificate/${certificate.metadata.id}`)
   await expect(page.getByRole('heading', { name: certificate.metadata.name })).toBeVisible()
 })
