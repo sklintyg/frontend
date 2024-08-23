@@ -50,7 +50,7 @@ export const getLoggedInCareProvider = (state: RootState): User['loggedInCarePro
 
 export const getLoggedInUnit = (state: RootState): User['loggedInUnit'] | undefined => state.ui.uiUser.user?.loggedInUnit
 
-export function getUnitTitle(state: RootState): string {
+export function getSelectUnitHeading(state: RootState): string {
   const chooseUnitLink = getUserResourceLink(ResourceLinkType.CHOOSE_UNIT)(state)
   const changeUnitLink = getUserResourceLink(ResourceLinkType.CHANGE_UNIT)(state)
 
@@ -59,7 +59,7 @@ export function getUnitTitle(state: RootState): string {
   } else if (changeUnitLink) {
     return changeUnitLink.name
   } else {
-    return ''
+    return 'Välj vårdenhet'
   }
 }
 

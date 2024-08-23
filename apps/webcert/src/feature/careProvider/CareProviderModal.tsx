@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import {
   getIsCareProviderModalOpen,
-  getUnitTitle,
+  getSelectUnitHeading,
   getUserResourceLink,
   selectIsLoadingUserStatistics,
 } from '../../store/user/userSelectors'
@@ -23,7 +23,7 @@ const CareProviderModal: React.FC = () => {
   const isLoadingUserStatistics = useAppSelector(selectIsLoadingUserStatistics, isEqual)
   const isCareProviderModalOpen = useAppSelector(getIsCareProviderModalOpen)
   const hasChooseUnitLink = useAppSelector((state) => Boolean(getUserResourceLink(ResourceLinkType.CHOOSE_UNIT)(state)))
-  const modalTitle = useAppSelector(getUnitTitle)
+  const modalTitle = useAppSelector(getSelectUnitHeading)
 
   useEffect(() => {
     if (hasChooseUnitLink) {
