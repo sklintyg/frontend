@@ -19,30 +19,11 @@ function getUnitResumeUrl(certificateId: string, unit: CareUnit | Unit) {
   return `/visa/intyg/${certificateId}/resume?enhet=${unit.unitId}`
 }
 
-function SelectUnitRow({ careUnit, certificateId }: { careUnit: CareUnit; certificateId: string }) {
-  return careUnit.units.length > 0 ? (
-    <ExpandableTableRow
-      rowContent={[careUnit.unitName]}
-      id={careUnit.unitId}
-      handleClick={() => {
-        window.location.replace(getUnitResumeUrl(certificateId, careUnit))
-      }}
-      disabled={false}
-    >
-      {careUnit.units.map((unit) => {
-        return (
-          <tr key={unit.unitId}>
-            <td>
-              <a href={getUnitResumeUrl(certificateId, careUnit)}>{unit.unitName}</a>
-            </td>
-          </tr>
-        )
-      })}
-    </ExpandableTableRow>
-  ) : (
-    <tr key={careUnit.unitId}>
+function SelectUnitRow({ unit, certificateId }: { unit: CareUnit | Unit; certificateId: string }) {
+  return (
+    <tr key={unit.unitId}>
       <td>
-        <a href={getUnitResumeUrl(certificateId, careUnit)}>{careUnit.unitName}</a>
+        <a href={getUnitResumeUrl(certificateId, unit)}>{unit.unitName}</a>
       </td>
     </tr>
   )
@@ -76,9 +57,25 @@ export function SelectUnitPage() {
                   },
                 ]}
               >
-                {careProvider.careUnits.map((careUnit) => (
-                  <SelectUnitRow key={careUnit.unitId} certificateId={certificateId} careUnit={careUnit} />
-                ))}
+                {careProvider.careUnits.map((careUnit) =>
+                  careUnit.units.length > 0 ? (
+                    <ExpandableTableRow
+                      key={careUnit.unitId}
+                      rowContent={[careUnit.unitName]}
+                      id={careUnit.unitId}
+                      handleClick={() => {
+                        window.location.replace(getUnitResumeUrl(certificateId, careUnit))
+                      }}
+                      disabled={false}
+                    >
+                      {careUnit.units.map((unit) => (
+                        <SelectUnitRow key={unit.unitId} certificateId={certificateId} unit={unit} />
+                      ))}
+                    </ExpandableTableRow>
+                  ) : (
+                    <SelectUnitRow key={careUnit.unitId} certificateId={certificateId} unit={careUnit} />
+                  )
+                )}
               </SimpleTable>
             ))}
           </>
