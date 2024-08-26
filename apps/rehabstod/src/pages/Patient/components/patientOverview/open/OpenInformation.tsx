@@ -1,4 +1,4 @@
-import { SjfItem } from '../../../../../schemas/patientSchema'
+import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { GetOpenInformationButton } from './GetOpenInformationButton'
 
 export function OpenInformation({ items, onGetInformation }: { items: SjfItem[]; onGetInformation: (id: string) => void }) {

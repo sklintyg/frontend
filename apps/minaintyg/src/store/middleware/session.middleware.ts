@@ -1,6 +1,7 @@
-import { createAction, ThunkMiddleware } from '@reduxjs/toolkit'
+import type { ThunkMiddleware } from '@reduxjs/toolkit'
+import { createAction } from '@reduxjs/toolkit'
 import { api } from '../api'
-import { RootState } from '../reducer'
+import type { RootState } from '../reducer'
 import { endSession } from '../slice/session.slice'
 
 export const invalidateSession = createAction('INVALIDATE_SESSION')

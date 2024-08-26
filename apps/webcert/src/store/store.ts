@@ -1,4 +1,6 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import type { TypedUseSelectorHook } from 'react-redux'
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { useDispatch, useSelector } from 'react-redux'
 import { apiMiddleware } from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { configureApplicationStore } from './configureApplicationStore'

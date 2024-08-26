@@ -5,7 +5,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch, useAppSelector } from '../../../../store/store'
-import { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
+import type { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
 import UeDiagnosis from './UeDiagnosis'
 
 const RadioWrapper = styled.div`

@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { DAYS_FINISHED_SICK_LEAVE } from '../../../schemas/userSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'

@@ -1,14 +1,10 @@
+import type { CertificateData, CertificateDataElement, CertificateMetadata, DisableSubElementValidation, ResourceLink } from '../../types'
 import {
-  CertificateData,
-  CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateMetadata,
   CertificateStatus,
   ConfigTypes,
-  DisableSubElementValidation,
-  ResourceLink,
   ResourceLinkType,
 } from '../../types'
 import { filterValidationResults } from './filterValidationResults'

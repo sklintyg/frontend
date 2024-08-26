@@ -1,7 +1,7 @@
 import { classNames } from '@frontend/components'
 import { useRef } from 'react'
 import { mergeProps, useDraggableItem, useFocusRing, useOption } from 'react-aria'
-import { DraggableCollectionState, DroppableCollectionState, ListState, Node } from 'react-stately'
+import type { DraggableCollectionState, DroppableCollectionState, ListState, Node } from 'react-stately'
 import { DropIndicator } from './DropIndicator'
 
 export function ReorderableListBoxOption<T extends object>({

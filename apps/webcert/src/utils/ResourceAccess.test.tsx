@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'

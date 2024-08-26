@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useState } from 'react'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
 import { AlertCircle } from '../../images'
-import { useAppSelector } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import {
   getTotalDraftsAndUnhandledQuestionsOnOtherUnits,
@@ -10,7 +11,8 @@ import {
   getUserResourceLink,
   isPrivatePractitioner,
 } from '../../store/user/userSelectors'
-import { ResourceLinkType, User } from '../../types'
+import type { User } from '../../types'
+import { ResourceLinkType } from '../../types'
 import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
 import ExpandableBox from '../utils/ExpandableBox'
 
@@ -47,12 +49,12 @@ interface Props {
 }
 
 const WebcertHeaderUnit: React.FC<Props> = () => {
-  const dispatch = useDispatch()
-  const user = useSelector(getUser, shallowEqual)
-  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(getUser, shallowEqual)
+  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useAppSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
   const changeUnitLink = useAppSelector(getUserResourceLink(ResourceLinkType.CHANGE_UNIT))
   const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
-  const privatePractitioner = useSelector(isPrivatePractitioner)
+  const privatePractitioner = useAppSelector(isPrivatePractitioner)
 
   const [isExpanded, setIsExpanded] = useState(false)
 

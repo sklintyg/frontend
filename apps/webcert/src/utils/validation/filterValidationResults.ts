@@ -1,6 +1,7 @@
 import { isEqual } from 'lodash-es'
-import { CertificateDataValidation, CertificateDataValidationType } from '../../types'
-import { ValidationResult } from './getValidationResults'
+import type { CertificateDataValidation } from '../../types'
+import { CertificateDataValidationType } from '../../types'
+import type { ValidationResult } from './getValidationResults'
 
 function resolvePriorityBetweenValidationTypes(result: ValidationResult, _: number, list: ValidationResult[]) {
   if (result.validation.type === CertificateDataValidationType.SHOW_VALIDATION) {

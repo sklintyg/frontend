@@ -1,5 +1,5 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { deleteCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'

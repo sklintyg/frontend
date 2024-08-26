@@ -1,5 +1,5 @@
 import { fakeCertificate, fakeQuestion, fakeRadioBooleanElement, fakeTextAreaElement } from '../faker'
-import { ValueBoolean, ValueText } from '../types/certificate'
+import type { ValueBoolean, ValueText } from '../types/certificate'
 import { QuestionType } from '../types/question'
 import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
 

@@ -1,13 +1,13 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeTextFieldElement } from '../../../../faker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeTextArea from '../UeTextArea/UeTextArea'
-import UeTextField from './UeTextField'
-import { fakeTextFieldElement } from '../../../../faker'
+import type UeTextField from './UeTextField'
 
 const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 
@@ -26,10 +26,10 @@ describe('UeTextArea', () => {
     testStore = configureApplicationStore([certificateMiddleware])
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     renderDefaultComponent({ question: mockQuestion, disabled: false })
     const input = screen.getByRole('textbox')
-    expect(input).toHaveValue('Text')
+    await expect(input).toHaveValue('Text')
   })
 
   it('renders a text which has correct value after typing in it', async () => {
@@ -38,12 +38,12 @@ describe('UeTextArea', () => {
     const input = screen.getByRole('textbox')
     await userEvent.clear(input)
     await userEvent.type(input, inputString)
-    expect(input).toHaveValue(inputString)
+    await expect(input).toHaveValue(inputString)
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderDefaultComponent({ question: mockQuestion, disabled: true })
     const input = screen.getByRole('textbox')
-    expect(input).toBeDisabled()
+    await expect(input).toBeDisabled()
   })
 })

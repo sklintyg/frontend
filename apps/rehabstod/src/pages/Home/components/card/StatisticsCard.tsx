@@ -1,7 +1,7 @@
 import { classNames } from '@frontend/components'
 import { IDSCard } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
+import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
 import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 

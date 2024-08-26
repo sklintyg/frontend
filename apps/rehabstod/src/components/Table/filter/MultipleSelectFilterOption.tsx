@@ -1,4 +1,4 @@
-import { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
+import type { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
 import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'

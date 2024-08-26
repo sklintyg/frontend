@@ -1,4 +1,4 @@
-import { Question } from '../../types'
+import type { Question } from '../../types'
 
 export const getNumberOfUnhandledQuestions = (questions: Question[]): number | undefined => {
   const unhandledQuestions = questions.filter((question) => !question.handled)

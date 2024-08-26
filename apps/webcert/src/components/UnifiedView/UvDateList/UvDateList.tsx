@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../../../types'
+import type { ConfigUeCheckboxMultipleDate, ValueDateList } from '../../../types'
 import { Badge } from '../Badge'
 
 export const UvDateList: React.FC<{

@@ -1,4 +1,4 @@
-import { MockUser } from './welcomeReducer'
+import type { MockUser } from './welcomeReducer'
 
 export const mockUserData: MockUser[] = [
   {

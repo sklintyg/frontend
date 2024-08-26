@@ -1,6 +1,6 @@
 import { SupportLink } from '../../../components/error/SupportLink/SupportLink'
 import { TechnicalIssueAlert } from '../../../components/error/TechnicalIssueAlert'
-import { QueryError } from '../../../utils/isQueryError'
+import type { QueryError } from '../../../utils/isQueryError'
 
 export function ReadCertificateError({ error }: { error: QueryError }) {
   return (

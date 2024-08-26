@@ -5,7 +5,7 @@ import InfoBox from '../../../components/utils/InfoBox'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { createNewCertificate, deleteCertificate } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import { CertificateConfirmationModal, CertificateModalActionType } from '../../../types/confirmModal'
+import type { CertificateConfirmationModal, CertificateModalActionType } from '../../../types/confirmModal'
 
 export function ConfirmationModal({
   certificateId,

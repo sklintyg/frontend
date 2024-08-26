@@ -5,7 +5,7 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import { useAppDispatch } from '../../../../store/store'
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { CertificateDataElement, ConfigUeDropdown, ValueCode } from '../../../../types'
+import type { CertificateDataElement, ConfigUeDropdown, ValueCode } from '../../../../types'
 
 export interface Props {
   disabled?: boolean

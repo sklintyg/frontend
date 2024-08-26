@@ -1,5 +1,5 @@
 import { fakeIcfCode, fakeIcfCodeCollection, fakeIcfCollection } from '../../faker'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
 
 function getIcfData(): AvailableIcfCodes {

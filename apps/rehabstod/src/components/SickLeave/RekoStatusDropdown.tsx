@@ -1,5 +1,6 @@
-import { MouseEvent, useState } from 'react'
-import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
+import type { MouseEvent } from 'react'
+import { useState } from 'react'
+import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'

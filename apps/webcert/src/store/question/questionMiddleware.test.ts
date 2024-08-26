@@ -1,23 +1,16 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink } from '../../faker'
-import {
-  Answer,
-  Certificate,
-  CertificateRelationType,
-  CertificateStatus,
-  Complement,
-  Question,
-  QuestionType,
-  ResourceLinkType,
-} from '../../types'
+import type { Answer, Certificate, Complement, Question } from '../../types'
+import { CertificateRelationType, CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
 import { certificateMiddleware } from '../certificate/certificateMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import type { QuestionResponse, QuestionsResponse } from './questionActions'
 import {
   createAnswer,
   deleteAnswer,
@@ -26,8 +19,6 @@ import {
   editQuestion,
   getQuestions,
   handleQuestion,
-  QuestionResponse,
-  QuestionsResponse,
   sendAnswer,
   sendQuestion,
   sendQuestionError,

@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { ErrorCode } from '../../store/error/errorReducer'
 import AuthorizationProblem from './errorPageContent/AuthorizationProblem'
 import AuthorizationProblemConfidentialityMarking from './errorPageContent/AuthorizationProblemConfidentialityMarking'

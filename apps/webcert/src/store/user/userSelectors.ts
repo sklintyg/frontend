@@ -1,6 +1,7 @@
 import { getByType } from '@frontend/utils'
-import { CareProvider, ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
-import { RootState } from '../store'
+import type { CareProvider, ResourceLink, UnitStatistics, User, UserStatistics } from '../../types'
+import { ResourceLinkType } from '../../types'
+import type { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 

@@ -1,6 +1,7 @@
 import { getByType } from '@frontend/utils'
 import { debounce, isEqual } from 'lodash-es'
-import React, { useRef, useState } from 'react'
+import type React from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
@@ -15,7 +16,8 @@ import {
   getPatientValidationErrors,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
-import { Patient, ResourceLinkType } from '../../../types'
+import type { Patient } from '../../../types'
+import { ResourceLinkType } from '../../../types'
 import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'

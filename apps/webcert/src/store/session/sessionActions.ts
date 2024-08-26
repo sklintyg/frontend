@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { SessionStatus } from './sessionReducer'
-import { ApiError } from '../api/apiActions'
+import type { SessionStatus } from './sessionReducer'
+import type { ApiError } from '../api/apiActions'
 
 const SESSION = '[Session]'
 

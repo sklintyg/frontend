@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { flushPromises } from '../../utils/flushPromises'
@@ -7,7 +7,7 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
 import { getConfig } from './utilsActions'
 import { utilsMiddleware } from './utilsMiddleware'
-import { Configuration } from './utilsReducer'
+import type { Configuration } from './utilsReducer'
 
 describe('Test utils middleware', () => {
   let fakeAxios: MockAdapter

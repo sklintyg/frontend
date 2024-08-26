@@ -1,5 +1,5 @@
 import { IDSIconExternal } from '@frontend/ids-react-ts'
-import { Link } from '../../schemas'
+import type { Link } from '../../schemas'
 
 export type DynamicLinkType = 'regular' | 'footer' | 'sub-footer'
 

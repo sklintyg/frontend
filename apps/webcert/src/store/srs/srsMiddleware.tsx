@@ -1,23 +1,14 @@
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getFilteredPredictions, getMainDiagnosisCode, getUserClientContextForCertificate } from '../../components/srs/srsUtils'
-import {
-  Certificate,
-  CertificateDataValueType,
-  SrsEvent,
-  SrsInfoForDiagnosis,
-  SrsQuestion,
-  SrsUserClientContext,
-  ValueDiagnosisList,
-} from '../../types'
+import type { Certificate, SrsInfoForDiagnosis, SrsQuestion, ValueDiagnosisList } from '../../types'
+import { CertificateDataValueType, SrsEvent, SrsUserClientContext } from '../../types'
 import { isRenewedChild } from '../../utils'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { getUserSuccess } from '../user/userActions'
+import type { PredictionsRequest, RecommendationsRequest, RiskOpinionRequest } from './srsActions'
 import {
-  PredictionsRequest,
-  RecommendationsRequest,
-  RiskOpinionRequest,
   getPredictions,
   getPredictionsError,
   getPredictionsStarted,

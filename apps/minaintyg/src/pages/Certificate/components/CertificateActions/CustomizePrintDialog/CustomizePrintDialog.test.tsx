@@ -1,6 +1,6 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, within } from '@testing-library/react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { AvailableFunctionsTypeEnum, availableFunctionSchema } from '../../../../../schema/certificate.schema'
 import { store } from '../../../../../store/store'

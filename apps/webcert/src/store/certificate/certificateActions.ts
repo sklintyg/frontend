@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import {
+import type {
   Certificate,
   CertificateDataElement,
   CertificateEvent,
@@ -12,8 +12,9 @@ import {
   Unit,
   ValidationError,
 } from '../../types'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError } from '../api/apiActions'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import type { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 

@@ -1,10 +1,11 @@
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
-import { CertificateMetadata, CertificateRelationType } from '../../../../types'
+import type { CertificateMetadata } from '../../../../types'
+import { CertificateRelationType } from '../../../../types'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {

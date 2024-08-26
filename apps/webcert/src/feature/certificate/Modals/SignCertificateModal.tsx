@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getSigningStatus } from '../../../store/certificate/certificateSelectors'

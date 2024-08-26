@@ -2,7 +2,7 @@ import { getByType } from '@frontend/utils'
 import { getCertificateResourceLink } from '../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../store/store'
 import { getUserResourceLink } from '../../store/user/userSelectors'
-import { ResourceLink, ResourceLinkType } from '../../types'
+import type { ResourceLink, ResourceLinkType } from '../../types'
 
 interface Props {
   type: ResourceLinkType

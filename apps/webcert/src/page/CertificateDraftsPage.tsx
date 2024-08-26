@@ -1,23 +1,24 @@
 import { useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
+import ListHeader from '../components/List/ListHeader'
 import ListContainer from '../feature/list/ListContainer'
+import { epostImage, noDraftsImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
+import { useAppDispatch, useAppSelector } from '../store/store'
 import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
+import { ListType, ResourceLinkType } from '../types'
 import { ResourceAccess } from '../utils/ResourceAccess'
-import ListHeader from '../components/List/ListHeader'
-import { epostImage, noDraftsImage } from '../images'
-import { ResourceLinkType, ListType } from '../types'
 
 const CertificateDraftPage: React.FC = () => {
-  const dispatch = useDispatch()
-  const config = useSelector(getActiveListConfig, shallowEqual)
-  const isLoadingListConfig = useSelector(getIsLoadingListConfig)
-  const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
-  const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
+  const dispatch = useAppDispatch()
+  const config = useAppSelector(getActiveListConfig, shallowEqual)
+  const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
+  const nbrOfDraftsOnUnit = useAppSelector(getNumberOfDraftsOnUnit)
+  const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
   useEffect(() => {
     ReactTooltip.rebuild()

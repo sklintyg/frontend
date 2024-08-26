@@ -1,7 +1,7 @@
 import { faker, fakerFromSchema } from '@frontend/fake'
 import { act, screen, waitFor, within } from '@testing-library/react'
 import { rest } from 'msw'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Table } from '../../../../components/Table/Table'
 import { server } from '../../../../mocks/server'
 import { patientSjukfallIntygSchema } from '../../../../schemas/patientSchema'

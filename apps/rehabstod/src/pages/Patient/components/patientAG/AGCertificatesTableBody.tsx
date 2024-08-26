@@ -1,6 +1,6 @@
-import { AGCertificate } from '../../../../schemas/agCertificatesSchema'
+import type { AGCertificate } from '../../../../schemas/agCertificatesSchema'
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
-import { TableColumn } from '../../../../schemas/tableSchema'
+import type { TableColumn } from '../../../../schemas/tableSchema'
 import { TableRow } from '../../../../components/Table/tableBody/TableRow'
 import { getAGCertificatesTableValue } from './agCertificatesTableValueFormatter'
 import { AGCertificatesTableCellResolver } from './AGCertificatesTableCellResolver'
