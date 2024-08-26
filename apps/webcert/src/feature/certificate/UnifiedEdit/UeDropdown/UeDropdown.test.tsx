@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import UeDropdown from './UeDropdown'
-import { fakeCertificateValue, fakeCertificateConfig } from '../../../../faker'
-import type { CertificateDataElement} from '../../../../types';
+import { fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
+import type { CertificateDataElement } from '../../../../types'
 import { ConfigTypes } from '../../../../types'
+import UeDropdown from './UeDropdown'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },
@@ -46,7 +47,7 @@ beforeEach(() => {
 })
 
 describe('Dropdown component', () => {
-  it('renders label and all options', () => {
+  it('renders label and all options', async () => {
     renderComponent()
     expect(screen.getByText(LABEL)).toBeInTheDocument()
     const dropdown = screen.getByRole('combobox')
@@ -80,7 +81,7 @@ describe('Dropdown component', () => {
     expect(options[0].selected).toBeFalsy()
   })
 
-  it('gets disabled correctly', () => {
+  it('gets disabled correctly', async () => {
     render(<UeDropdown question={question} disabled />)
     const dropdown = screen.getByRole('combobox')
     await expect(dropdown).toBeDisabled()

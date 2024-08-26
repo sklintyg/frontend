@@ -5,7 +5,7 @@ import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCauseOfDeathElement } from '../../../../faker'
 import store from '../../../../store/store'
-import type { CertificateDataElement} from '../../../../types';
+import type { CertificateDataElement } from '../../../../types'
 import { CertificateDataValidationType } from '../../../../types'
 import UeCauseOfDeath from './UeCauseOfDeath'
 
@@ -44,7 +44,7 @@ describe('Cause of death component', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument()
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     renderComponent({
       disabled: false,
 
@@ -62,7 +62,7 @@ describe('Cause of death component', () => {
     await expect(dropdown).toHaveValue('KRONISK')
   })
 
-  it('does not disable component if disabled is not set', () => {
+  it('does not disable component if disabled is not set', async () => {
     renderComponent({ disabled: false, question })
     const dropdown = screen.getByRole('combobox')
     await expect(dropdown).toBeEnabled()
@@ -70,7 +70,7 @@ describe('Cause of death component', () => {
     await expect(screen.getByLabelText('Ungefärlig debut')).toBeEnabled()
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderComponent({ disabled: true, question })
     const dropdown = screen.getByRole('combobox')
     await expect(dropdown).toBeDisabled()

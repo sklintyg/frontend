@@ -52,17 +52,17 @@ describe('AppHeaderTabs', () => {
     expect(screen.getByText(10)).toBeInTheDocument()
   })
 
-  it('should set tab as selected if url is matched', () => {
+  it('should set tab as selected if url is matched', async () => {
     renderComponent(PAGE_URL, '')
     await expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
-  it('should set tab as selected if matched url is matched', () => {
+  it('should set tab as selected if matched url is matched', async () => {
     renderComponent('', PAGE_URL)
     await expect(within(screen.getByRole('listitem')).getByRole('link')).toHaveClass('selected')
   })
 
-  it('should not set tab as selected if url is not matched', () => {
+  it('should not set tab as selected if url is not matched', async () => {
     renderComponent('notMatched', 'notMatched')
     await expect(within(screen.getByRole('listitem')).getByRole('link')).not.toHaveClass('selected')
   })

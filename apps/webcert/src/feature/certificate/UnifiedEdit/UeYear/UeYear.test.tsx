@@ -3,12 +3,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeCertificateValidationError, fakeYearElement } from '../../../../faker'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeYear from './UeYear'
-import { fakeYearElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett år mellan patientens födelseår och aktuellt år.'
@@ -39,7 +39,7 @@ describe('YearPicker component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('does not disable component if disabled is not set', () => {
+  it('does not disable component if disabled is not set', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
@@ -47,7 +47,7 @@ describe('YearPicker component', () => {
     await expect(button).toBeEnabled()
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderComponent({ disabled: true, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
@@ -55,7 +55,7 @@ describe('YearPicker component', () => {
     await expect(button).toBeDisabled()
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')

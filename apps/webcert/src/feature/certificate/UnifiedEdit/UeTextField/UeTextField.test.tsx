@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeTextFieldElement } from '../../../../faker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeTextArea from '../UeTextArea/UeTextArea'
 import type UeTextField from './UeTextField'
-import { fakeTextFieldElement } from '../../../../faker'
 
 const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 
@@ -26,7 +26,7 @@ describe('UeTextArea', () => {
     testStore = configureApplicationStore([certificateMiddleware])
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     renderDefaultComponent({ question: mockQuestion, disabled: false })
     const input = screen.getByRole('textbox')
     await expect(input).toHaveValue('Text')
@@ -41,7 +41,7 @@ describe('UeTextArea', () => {
     await expect(input).toHaveValue(inputString)
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderDefaultComponent({ question: mockQuestion, disabled: true })
     const input = screen.getByRole('textbox')
     await expect(input).toBeDisabled()

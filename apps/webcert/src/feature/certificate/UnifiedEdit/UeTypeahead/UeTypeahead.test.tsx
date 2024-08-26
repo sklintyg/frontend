@@ -1,9 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import * as redux from 'react-redux'
 import { vi } from 'vitest'
-import UeTypeahead from './UeTypeahead'
 import { fakeTypeaheadElement } from '../../../../faker'
+import UeTypeahead from './UeTypeahead'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
@@ -44,7 +45,7 @@ describe('Typeahead component', () => {
     expect(list).not.toBeInTheDocument()
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderWithSuggestions()
     const input = screen.getByRole('textbox')
     await expect(input).toBeDisabled()
@@ -60,26 +61,6 @@ describe('Typeahead component', () => {
     checkListVisibility(true)
     await expect(input).toHaveValue(testinput)
     checkListVisibility(true)
-  })
-
-  it.skip('dispatches results when users types text', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'Ö')
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
-  })
-
-  it.skip('dispatches results when users types new text only after a wait', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'Ö')
-    await userEvent.type(input, 's')
-    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
-    await waitFor(() => {
-      expect(mockDispatchFn).toHaveBeenCalledTimes(1)
-    })
   })
 
   it('does not dispatch results when users text is not changed, even after wait', async () => {

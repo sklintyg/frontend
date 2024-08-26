@@ -52,7 +52,7 @@ describe('Create certificate from candidate modal', () => {
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 
-  it('shall disable confirm button if checkbox is unchecked', () => {
+  it('shall disable confirm button if checkbox is unchecked', async () => {
     renderDefaultComponent(true)
     await expect(screen.getByText('Till Webcert')).toBeDisabled()
   })
