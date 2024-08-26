@@ -12,7 +12,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import type { Complement, Question} from '../../types';
+import type { Complement, Question } from '../../types'
 import { QuestionType, ResourceLinkType } from '../../types'
 import QuestionItem from './QuestionItem'
 

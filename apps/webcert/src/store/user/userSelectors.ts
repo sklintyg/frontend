@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import type { CareProvider, ResourceLink, UnitStatistics, User, UserStatistics } from '../../types';
+import type { CareProvider, ResourceLink, UnitStatistics, User, UserStatistics } from '../../types'
 import { ResourceLinkType } from '../../types'
 import type { RootState } from '../store'
 

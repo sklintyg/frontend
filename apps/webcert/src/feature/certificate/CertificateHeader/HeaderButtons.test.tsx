@@ -6,7 +6,7 @@ import { vi } from 'vitest'
 import { fakeCertificateMetaData } from '../../../faker'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 import store from '../../../store/store'
-import type { ResourceLink} from '../../../types';
+import type { ResourceLink } from '../../../types'
 import { CertificateRelationType, CertificateStatus, ResourceLinkType } from '../../../types'
 import { HeaderButtons } from './HeaderButtons'
 

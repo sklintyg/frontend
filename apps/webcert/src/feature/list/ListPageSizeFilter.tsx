@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { updateActiveListFilterValue } from '../../store/list/listActions'
 import Dropdown from '../../components/Inputs/Dropdown'
-import type { ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber} from '../../types';
+import type { ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber } from '../../types'
 import { ListFilterType } from '../../types'
 
 interface Props {

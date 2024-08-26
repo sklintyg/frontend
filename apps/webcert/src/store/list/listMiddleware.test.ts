@@ -5,14 +5,13 @@ import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificate
 import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
 import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
-import type { CertificateListItem} from '../../types';
+import type { CertificateListItem } from '../../types'
 import { ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import type {
-  ListResponse} from './listActions';
+import type { ListResponse } from './listActions'
 import {
   getCertificateList,
   getCertificateListConfig,

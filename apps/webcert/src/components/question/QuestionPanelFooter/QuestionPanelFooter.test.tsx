@@ -9,7 +9,7 @@ import { answerComplementCertificate, complementCertificate, updateCertificate }
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Question} from '../../../types';
+import type { Question } from '../../../types'
 import { QuestionType, ResourceLinkType } from '../../../types'
 import { flushPromises } from '../../../utils/flushPromises'
 import { QuestionPanelFooter } from './QuestionPanelFooter'

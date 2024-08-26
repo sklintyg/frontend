@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'
 import Dropdown from '../../../components/Inputs/Dropdown'
-import type { ListFilterSelectConfig, ListFilterValue, ListFilterValueSelect} from '../../../types';
+import type { ListFilterSelectConfig, ListFilterValue, ListFilterValueSelect } from '../../../types'
 import { ListFilterType } from '../../../types'
 import { sanitizeText } from '../../../utils'
 

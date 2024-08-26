@@ -9,13 +9,13 @@ import {
   fakeDiagnosesElement,
   fakeResourceLink,
 } from '../../faker'
-import type { CertificateDataElement, Icd10Code, IcfCode} from '../../types';
+import type { CertificateDataElement, Icd10Code, IcfCode } from '../../types'
 import { ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
-import type { IcfRequest, IcfResponse} from './icfActions';
+import type { IcfRequest, IcfResponse } from './icfActions'
 import { getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
 

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
 import { showValidationErrors, updateCertificate, updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
-import type { CertificateDataElement, ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../../types';
+import type { CertificateDataElement, ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../../types'
 import { CertificateDataValidationType } from '../../../../types'
 import { UeCheckboxDateRangeList } from './UeCheckboxDateRangeList'
 

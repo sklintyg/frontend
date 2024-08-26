@@ -12,7 +12,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate, CertificateMetadata, ResourceLink} from '../../../types';
+import type { Certificate, CertificateMetadata, ResourceLink } from '../../../types'
 import { CertificateStatus, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 

@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Merge } from 'type-fest'
@@ -9,7 +9,7 @@ import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
 import { editImage } from '../../../images'
-import type { ResourceLink} from '../../../types';
+import type { ResourceLink } from '../../../types'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
 
 interface Props extends Merge<FunctionDisabled, ResourceLink> {

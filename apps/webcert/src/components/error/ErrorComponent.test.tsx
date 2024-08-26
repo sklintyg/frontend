@@ -7,10 +7,10 @@ import { vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
-import type { ErrorRequest} from '../../store/error/errorReducer';
+import type { ErrorRequest } from '../../store/error/errorReducer'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import type { ErrorRoute } from './ErrorComponent';
+import type { ErrorRoute } from './ErrorComponent'
 import ErrorComponent from './ErrorComponent'
 import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE } from './modals/ComplementaryCertificateExists'

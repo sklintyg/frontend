@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { WithResourceLink } from '../../../components/utils/WithResourceLink'
-import type { CertificateMetadata, ResourceLink} from '../../../types';
+import type { CertificateMetadata, ResourceLink } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'

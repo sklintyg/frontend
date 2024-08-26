@@ -12,7 +12,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { updateQuestions } from '../../../store/question/questionActions'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate} from '../../../types';
+import type { Certificate } from '../../../types'
 import { QuestionType } from '../../../types'
 import RevokeCertificateButton from './RevokeCertificateButton'
 

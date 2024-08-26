@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { fakeCertificateMetaData } from '../../../faker'
-import type { CertificateEvent} from '../../../types';
+import type { CertificateEvent } from '../../../types'
 import { CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
 import ShowHistory from './ShowHistory'
 

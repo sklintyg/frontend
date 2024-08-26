@@ -2,7 +2,7 @@ import type { ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import RadioButton from '../../../components/Inputs/RadioButton'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import type { ListFilterRadioConfig, ListFilterValue, ListFilterValueRadio } from '../../../types';
+import type { ListFilterRadioConfig, ListFilterValue, ListFilterValueRadio } from '../../../types'
 import { ListFilterType } from '../../../types'
 import { FilterWrapper } from './filterStyles'
 

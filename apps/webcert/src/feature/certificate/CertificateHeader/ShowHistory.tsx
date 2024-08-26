@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
 import Spinner from '../../../components/utils/Spinner'
-import type { CertificateEvent, CertificateMetadata} from '../../../types';
+import type { CertificateEvent, CertificateMetadata } from '../../../types'
 import { CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
 import { isHasParent, isParentRevoked } from '../../../utils'
 

@@ -1,5 +1,5 @@
 import { merge } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -14,10 +14,9 @@ import type {
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
   ValueDate,
-  ValueText} from '../../../../types';
-import {
-  CertificateDataValueType
+  ValueText,
 } from '../../../../types'
+import { CertificateDataValueType } from '../../../../types'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../store/store'
-import type { CertificateDataElement} from '../../../types';
+import type { CertificateDataElement } from '../../../types'
 import { ConfigTypes } from '../../../types'
 
 const HeadlineStyles = css`

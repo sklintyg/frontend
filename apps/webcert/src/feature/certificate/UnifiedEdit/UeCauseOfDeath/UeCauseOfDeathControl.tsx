@@ -10,10 +10,9 @@ import type {
   ConfigUeCodeItem,
   TextValidation,
   ValidationError,
-  ValueCauseOfDeath} from '../../../../types';
-import {
-  CertificateDataValidationType
+  ValueCauseOfDeath,
 } from '../../../../types'
+import { CertificateDataValidationType } from '../../../../types'
 
 export interface Props {
   config: ConfigUeCauseOfDeathControl

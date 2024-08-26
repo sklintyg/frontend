@@ -8,7 +8,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import type { SrsInfoForDiagnosis} from '../../../types';
+import type { SrsInfoForDiagnosis } from '../../../types'
 import { SrsInformationChoice } from '../../../types'
 import SrsPanelFooter from './SrsPanelFooter'
 

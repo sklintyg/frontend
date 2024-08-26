@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -7,7 +7,13 @@ import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
 import { questionImage } from '../../../images'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import type { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange, ValidationError } from '../../../types'
+import type {
+  ListFilterDateConfig,
+  ListFilterDateRangeConfig,
+  ListFilterValue,
+  ListFilterValueDateRange,
+  ValidationError,
+} from '../../../types'
 import { isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate } from '../../../utils'
 import { getDateValidationError } from '../../../utils/certificate/getClientValidationErrors'
 import { FilterWrapper } from './filterStyles'

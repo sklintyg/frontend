@@ -1,7 +1,7 @@
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { debounce } from 'lodash-es'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { Certificate} from '../../types';
+import type { Certificate } from '../../types'
 import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
 import { getCertificateToSave, isLocked } from '../../utils'
 import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'

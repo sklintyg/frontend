@@ -6,7 +6,7 @@ import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeTextFilter } from '../../faker/list/fakeListFilterConfig'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../store/list/listActions'
 import store from '../../store/store'
-import type { CertificateListItem, ListFilter} from '../../types';
+import type { CertificateListItem, ListFilter } from '../../types'
 import { ListType } from '../../types'
 import List from './List'
 

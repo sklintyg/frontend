@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react'
 import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers, updateSickLeaveChoice } from '../../../store/srs/srsActions'

@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import type { ConfigUeCheckboxDateRangeList, ValueDateRange, ValueDateRangeList } from '../../../../types';
+import type { ConfigUeCheckboxDateRangeList, ValueDateRange, ValueDateRangeList } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 import { formatDateToString, getLatestPeriodEndDate, getNumberOfPeriodDays } from '../../../../utils'
 import type { UnifiedEdit } from '../UnifiedEdit'

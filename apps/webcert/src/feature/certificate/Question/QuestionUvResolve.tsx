@@ -52,12 +52,9 @@ import type {
   ValueUncertainDate,
   ValueViewList,
   ValueViewTable,
-  ValueVisualAcuity} from '../../../types';
-import {
-  CertificateDataElementStyleEnum,
-  CertificateDataValueType,
-  ConfigTypes
+  ValueVisualAcuity,
 } from '../../../types'
+import { CertificateDataElementStyleEnum, CertificateDataValueType, ConfigTypes } from '../../../types'
 
 const QuestionUvResolve: React.FC<{
   question: CertificateDataElement

@@ -7,7 +7,7 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { setActiveCertificateId, throwError } from './errorActions'
 import { errorMiddleware } from './errorMiddleware'
-import type { ErrorRequest} from './errorReducer';
+import type { ErrorRequest } from './errorReducer'
 import { ErrorCode, ErrorType } from './errorReducer'
 
 describe('Test error middleware', () => {

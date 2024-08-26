@@ -1,14 +1,5 @@
-import type {
-  Certificate,
-  CertificateEvent,
-  CertificateMetadata,
-  CertificateRelation,
-  Question} from '../types';
-import {
-  CertificateRelationType,
-  CertificateStatus,
-  QuestionType,
-} from '../types'
+import type { Certificate, CertificateEvent, CertificateMetadata, CertificateRelation, Question } from '../types'
+import { CertificateRelationType, CertificateStatus, QuestionType } from '../types'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 

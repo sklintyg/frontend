@@ -10,7 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
 import { LoggedInUserRedirect } from './LoggedInUserRedirect'
-import type { Unit, User } from '../types';
+import type { Unit, User } from '../types'
 import { SigningMethod } from '../types'
 
 let testStore: EnhancedStore

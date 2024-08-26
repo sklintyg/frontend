@@ -1,5 +1,5 @@
-import type { ComponentProps} from 'react';
-import type React from 'react';
+import type { ComponentProps } from 'react'
+import type React from 'react'
 import { useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'

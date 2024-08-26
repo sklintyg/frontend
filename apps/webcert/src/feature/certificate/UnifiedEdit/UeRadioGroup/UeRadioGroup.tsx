@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import RadioButton from '../../../../components/Inputs/RadioButton'
@@ -6,7 +6,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import type { CertificateDataElement, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types';
+import type { CertificateDataElement, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types'
 import { ConfigLayout } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'

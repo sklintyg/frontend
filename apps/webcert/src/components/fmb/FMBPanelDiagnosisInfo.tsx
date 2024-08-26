@@ -1,6 +1,6 @@
 import type React from 'react'
 import styled from 'styled-components'
-import type { FMBDiagnosisCodeInfo} from '../../types';
+import type { FMBDiagnosisCodeInfo } from '../../types'
 import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
 import InfoBox from '../utils/InfoBox'
 import FMBPanelDiagnosisHeader from './FMBPanelDiagnosisHeader'

@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RevokeCertificateReason } from '../../../store/certificate/certificateActions'

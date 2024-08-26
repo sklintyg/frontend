@@ -14,7 +14,7 @@ import {
   getUserStatistics,
   isCareAdministrator,
 } from '../../store/user/userSelectors'
-import type { Banner} from '../../types';
+import type { Banner } from '../../types'
 import { ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
 import { getUserTabs } from '../../utils/userTabsUtils'

@@ -6,7 +6,7 @@ import { Router } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 

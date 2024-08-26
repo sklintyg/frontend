@@ -14,7 +14,7 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import type { CertificateType, User } from '../../types';
+import type { CertificateType, User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import { CertificateList } from './CertificateList'
 

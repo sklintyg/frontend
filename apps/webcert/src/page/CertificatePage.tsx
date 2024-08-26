@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -23,7 +23,7 @@ import {
 } from '../store/certificate/certificateSelectors'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
-import type { RootState} from '../store/store';
+import type { RootState } from '../store/store'
 import { useAppSelector } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'

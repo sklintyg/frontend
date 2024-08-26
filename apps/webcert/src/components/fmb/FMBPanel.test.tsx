@@ -8,7 +8,7 @@ import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/f
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
 import FMBPanel from './FMBPanel'
-import type { ValueDiagnosisList} from '../../types';
+import type { ValueDiagnosisList } from '../../types'
 import { CertificateDataValueType } from '../../types'
 
 let testStore: EnhancedStore

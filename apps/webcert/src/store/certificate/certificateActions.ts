@@ -12,7 +12,7 @@ import type {
   Unit,
   ValidationError,
 } from '../../types'
-import type { FunctionDisabler} from '../../utils/functionDisablerUtils';
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import type { ApiError } from '../api/apiActions'
 

@@ -16,7 +16,7 @@ import {
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
-import type { ListFilterConfig} from '../../../types';
+import type { ListFilterConfig } from '../../../types'
 import { ListFilterType } from '../../../types'
 import ListFilterComponent from './ListFilterComponent'
 

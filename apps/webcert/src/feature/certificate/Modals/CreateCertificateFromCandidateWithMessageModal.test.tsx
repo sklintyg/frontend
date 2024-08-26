@@ -5,12 +5,12 @@ import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
 import { fakeCertificate } from '../../../faker'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
-import type { CreateCertificateFromCandidateWithMessageSuccess} from '../../../store/certificate/certificateActions';
+import type { CreateCertificateFromCandidateWithMessageSuccess } from '../../../store/certificate/certificateActions'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
-import type { Certificate, ResourceLink} from '../../../types';
+import type { Certificate, ResourceLink } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 

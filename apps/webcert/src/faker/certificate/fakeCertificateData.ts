@@ -53,11 +53,9 @@ import type {
   ValueViewTable,
   ValueViewText,
   ValueVisualAcuity,
-  ValueYear} from '../../types/certificate';
-import {
-  CertificateDataValueType,
-  ConfigLayout
+  ValueYear,
 } from '../../types/certificate'
+import { CertificateDataValueType, ConfigLayout } from '../../types/certificate'
 import { fakeCityList } from '../fakeCity'
 import { fakeId } from '../fakeId'
 import { fakeList } from '../fakeList'

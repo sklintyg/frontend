@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import type { FMBDiagnosisCodeInfo} from '../../types';
+import type { FMBDiagnosisCodeInfo } from '../../types'
 import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 

@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { FlattenSimpleInterpolation } from 'styled-components';
+import type { FlattenSimpleInterpolation } from 'styled-components'
 import styled, { css } from 'styled-components'
 
 interface WrapperProps {

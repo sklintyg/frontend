@@ -1,6 +1,6 @@
-import type React from 'react';
+import type React from 'react'
 import { useState } from 'react'
-import type { ResourceLink} from '../../types';
+import type { ResourceLink } from '../../types'
 import { ResourceLinkType } from '../../types'
 import RadioButton from '../Inputs/RadioButton'
 import TextArea from '../Inputs/TextArea'

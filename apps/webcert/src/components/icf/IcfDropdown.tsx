@@ -1,6 +1,6 @@
 import FocusTrap from 'focus-trap-react'
 import { isEqual } from 'lodash-es'
-import type React from 'react';
+import type React from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'

@@ -10,10 +10,9 @@ import type {
   ListFilterRadioConfig,
   ListFilterSelectConfig,
   ListFilterValue,
-  ListFilterValueDateRange} from '../../types';
-import {
-  ListFilterType
+  ListFilterValueDateRange,
 } from '../../types'
+import { ListFilterType } from '../../types'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
   switch (filter.type) {

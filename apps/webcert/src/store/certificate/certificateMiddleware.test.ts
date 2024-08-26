@@ -2,16 +2,8 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement, fakeUser } from '../../faker'
-import type {
-  Certificate,
-  CertificateRelation,
-  CertificateRelations} from '../../types';
-import {
-  CertificateDataElementStyleEnum,
-  CertificateRelationType,
-  CertificateStatus,
-  SigningMethod,
-} from '../../types'
+import type { Certificate, CertificateRelation, CertificateRelations } from '../../types'
+import { CertificateDataElementStyleEnum, CertificateRelationType, CertificateStatus, SigningMethod } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -28,7 +20,8 @@ import type {
   CreateCertificate,
   CreateCertificateFromCandidateSuccess,
   CreateCertificateResponse,
-  SigningData} from './certificateActions';
+  SigningData,
+} from './certificateActions'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,

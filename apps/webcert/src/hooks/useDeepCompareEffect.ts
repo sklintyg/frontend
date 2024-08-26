@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { isEqual } from 'lodash-es'
-import type { DependencyList, EffectCallback} from 'react';
+import type { DependencyList, EffectCallback } from 'react'
 import { useEffect, useRef } from 'react'
 
 const isPrimitive = (val: unknown) => val !== Object(val)

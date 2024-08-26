@@ -1,6 +1,6 @@
 import { randomUUID } from '@frontend/utils'
 import type { ApiError } from '../api/apiActions'
-import type { ErrorRequest} from './errorReducer';
+import type { ErrorRequest } from './errorReducer'
 import { ErrorCode, ErrorType } from './errorReducer'
 
 export const createConcurrencyErrorRequestFromApiError = (apiError: ApiError, certificateId?: string): ErrorRequest => {

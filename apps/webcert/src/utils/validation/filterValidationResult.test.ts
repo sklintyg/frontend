@@ -1,5 +1,5 @@
 import { fakeShowValidation, fakeTextAreaElement } from '../../faker'
-import type { CertificateDataValidation} from '../../types';
+import type { CertificateDataValidation } from '../../types'
 import { CertificateDataValidationType } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import type { ValidationResult } from './getValidationResults'

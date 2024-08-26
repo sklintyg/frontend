@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
-import type { FunctionDisabler} from '../../utils/functionDisablerUtils';
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 export interface FMBDiagnoseRequest {

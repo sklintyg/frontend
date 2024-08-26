@@ -9,7 +9,7 @@ import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import type { Question} from '../../types';
+import type { Question } from '../../types'
 import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import QuestionPanel from './QuestionPanel'
 

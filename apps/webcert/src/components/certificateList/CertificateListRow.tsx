@@ -9,7 +9,7 @@ import { StarFilledIcon, StarIcon } from '../../images'
 import { createNewCertificate } from '../../store/certificate/certificateActions'
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import type { Patient, ResourceLink} from '../../types';
+import type { Patient, ResourceLink } from '../../types'
 import { ResourceLinkType } from '../../types'
 import type { CertificateConfirmationModal } from '../../types/confirmModal'
 import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'

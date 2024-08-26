@@ -56,7 +56,7 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
-import type { ListFilterConfig } from '../../types';
+import type { ListFilterConfig } from '../../types'
 import { ListType } from '../../types'
 
 const handlePerformListSearch: Middleware<Dispatch> =
