@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
+import { CareProvider, ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '../../types'
 import { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
@@ -49,3 +49,20 @@ export const getLoggedInCareProvider = (state: RootState): User['loggedInCarePro
   state.ui.uiUser.user?.loggedInCareProvider
 
 export const getLoggedInUnit = (state: RootState): User['loggedInUnit'] | undefined => state.ui.uiUser.user?.loggedInUnit
+
+export function getSelectUnitHeading(state: RootState): string {
+  const chooseUnitLink = getUserResourceLink(ResourceLinkType.CHOOSE_UNIT)(state)
+  const changeUnitLink = getUserResourceLink(ResourceLinkType.CHANGE_UNIT)(state)
+
+  if (chooseUnitLink) {
+    return chooseUnitLink.name
+  } else if (changeUnitLink) {
+    return changeUnitLink.name
+  } else {
+    return 'Välj vårdenhet'
+  }
+}
+
+export function getCareProviders(state: RootState): CareProvider[] {
+  return getUser(state)?.careProviders ?? []
+}
