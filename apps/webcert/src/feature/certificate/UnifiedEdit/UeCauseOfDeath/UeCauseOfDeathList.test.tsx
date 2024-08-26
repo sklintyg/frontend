@@ -4,15 +4,8 @@ import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCauseOfDeathListElement } from '../../../../faker'
 import store from '../../../../store/store'
-import type {
-  CertificateDataElement,
-  ValueCode,
-  ValueDate,
-  ValueText} from '../../../../types';
-import {
-  CertificateDataValidationType,
-  CertificateDataValueType
-} from '../../../../types'
+import type { CertificateDataElement, ValueCode, ValueDate, ValueText } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 const DESCRIPTION_LABEL = 'Beskrivning'
@@ -70,7 +63,7 @@ describe('Cause of death component', () => {
     })
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     const description: ValueText = { type: CertificateDataValueType.TEXT, id: '1', text: 'Description text' }
     const debut: ValueDate = { type: CertificateDataValueType.DATE, id: '1', date: '2020-02-20' }
     const specification: ValueCode = { type: CertificateDataValueType.CODE, id: '1', code: '' }
@@ -101,16 +94,16 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach((description) => {
+    descriptions.forEach(async (description) => {
       await expect(description).toBeEnabled()
     })
-    specifications.forEach((specification) => {
+    specifications.forEach(async (specification) => {
       await expect(specification).toBeEnabled()
     })
-    dates.forEach((date) => {
+    dates.forEach(async (date) => {
       await expect(date).toBeEnabled()
     })
-    buttons.forEach((button) => {
+    buttons.forEach(async (button) => {
       await expect(button).toBeEnabled()
     })
   })
@@ -121,16 +114,16 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach((description) => {
+    descriptions.forEach(async (description) => {
       await expect(description).toBeDisabled()
     })
-    specifications.forEach((specification) => {
+    specifications.forEach(async (specification) => {
       await expect(specification).toBeDisabled()
     })
-    dates.forEach((date) => {
+    dates.forEach(async (date) => {
       await expect(date).toBeDisabled()
     })
-    buttons.forEach((button) => {
+    buttons.forEach(async (button) => {
       await expect(button).toBeDisabled()
     })
   })
