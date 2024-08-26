@@ -15,6 +15,7 @@ import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgr
 import Timeout from './errorPageContent/Timeout'
 import UnknownInternalProblem from './errorPageContent/UnknownInternalProblem'
 import InvalidLaunchIdError from './errorPageContent/InvalidLaunchIdError'
+import IntegrationNoContentError from './errorPageContent/IntegrationNoContentError'
 
 interface Props {
   errorCode?: string
@@ -51,6 +52,8 @@ const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
       return <GetCertificateProblem />
     case ErrorCode.INVALID_LAUNCHID:
       return <InvalidLaunchIdError />
+    case ErrorCode.INTEGRATION_NOCONTENT:
+      return <IntegrationNoContentError />
     case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
     default:
       return fallback != null ? <p>{fallback}</p> : <UnknownInternalProblem />
