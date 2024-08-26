@@ -1,5 +1,5 @@
-import { CertificateRelation } from './certificate'
-import { ResourceLink } from './resourceLink'
+import type { CertificateRelation } from './certificate'
+import type { ResourceLink } from './resourceLink'
 
 export interface Question {
   id: string
@@ -18,6 +18,7 @@ export interface Question {
   links: ResourceLink[]
   lastDateToReply?: string
   contactInfo?: string[]
+  certificateId: string
 }
 
 export interface Answer {

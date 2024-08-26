@@ -1,7 +1,7 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { TestProvider } from './TestProvider'
 
 export const renderWithRouter = (ui: ReactElement, { route = '/' } = {}) => {

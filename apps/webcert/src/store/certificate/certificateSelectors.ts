@@ -1,29 +1,29 @@
+import { getByType } from '@frontend/utils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash-es'
-import {
+import type {
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateEvent,
   CertificateMetadata,
-  CertificateRelationType,
   CertificateSignStatus,
-  CertificateStatus,
   Complement,
-  ConfigTypes,
+  MessageType,
   ModalData,
   Patient,
   PersonId,
   ResourceLink,
-  ResourceLinkType,
   Unit,
   ValidationError,
 } from '../../types'
+import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
-import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
-import { ErrorData } from '../error/errorReducer'
-import { RootState } from '../store'
-import { SigningData } from './certificateActions'
+import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import type { ErrorData } from '../error/errorReducer'
+import type { RootState } from '../store'
+import type { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -130,6 +130,16 @@ export const getCertificateMetaData = (state: RootState): CertificateMetadata | 
   return certificate.metadata
 }
 
+export const getCertificateMessageTypes = (state: RootState): MessageType[] => {
+  const fallback = [
+    { type: QuestionType.MISSING, subject: 'Välj typ av fråga' },
+    { type: QuestionType.COORDINATION, subject: 'Avstämningsmöte' },
+    { type: QuestionType.CONTACT, subject: 'Kontakt' },
+    { type: QuestionType.OTHER, subject: 'Övrigt' },
+  ]
+  return getCertificateMetaData(state)?.messageTypes || fallback
+}
+
 export interface CertificateStructure {
   id: string
   subQuestionIds: string[]
@@ -198,11 +208,11 @@ export const getVisibleValidationErrors =
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
-export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
-export const getResourceLink =
+export const getCertificateResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
+export const getCertificateResourceLink =
   (type: ResourceLinkType) =>
   (state: RootState): ResourceLink | undefined =>
-    state.ui.uiCertificate.certificate?.links.find((link) => link.type === type)
+    getByType(getCertificateResourceLinks(state), type)
 
 export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||

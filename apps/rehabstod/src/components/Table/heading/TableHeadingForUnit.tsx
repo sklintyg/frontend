@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { User } from '../../../schemas'
+import type { ReactNode } from 'react'
+import type { User } from '../../../schemas'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { TableHeading } from './TableHeading'
 

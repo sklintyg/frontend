@@ -1,10 +1,13 @@
+import { getByType } from '@frontend/utils'
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { CheckIcon, calendarImage, userImage } from '../../images'
+import { calendarImage, CheckIcon, userImage } from '../../images'
 import arrowLeft from '../../images/arrow-left.svg'
 import {
   createAnswer,
@@ -16,8 +19,8 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
-import { Answer, CertificateStatus, Question, QuestionType, ResourceLinkType } from '../../types'
-import { getResourceLink } from '../../utils'
+import type { Answer, Question } from '../../types'
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import Checkbox from '../Inputs/Checkbox'
 import { CustomButton } from '../Inputs/CustomButton'
 import TextArea from '../Inputs/TextArea'
@@ -166,11 +169,11 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       })
     )
 
-  const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+  const isAnswerButtonVisible = () => !question.answer && getByType(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
   const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
 
-  const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
+  const isHandleCheckboxVisible = () => getByType(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
   const isRemindersVisible = () => question.reminders.length > 0 && !question.handled
 
@@ -349,7 +352,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </p>
       )}
       {isAnswerButtonVisible() && <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} />}
-      {question.answer && !question.answer.id && (
+      {question.answer && !question.answer.sent && (
         <>
           <div className="ic-forms__group">
             <TextArea value={message} onChange={onTextAreaChange} />
@@ -379,7 +382,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </>
       )}
       {isComplementAnsweredByMessage(question) && getAnsweredByMessage()}
-      {question.answer && question.answer.id && (
+      {question.answer && question.answer.sent && (
         <>
           <QuestionHeader>
             <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />

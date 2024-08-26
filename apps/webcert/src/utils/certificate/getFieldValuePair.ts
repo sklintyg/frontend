@@ -1,4 +1,4 @@
-import { ValueType } from '../../types/certificate'
+import type { ValueType } from '../../types/certificate'
 
 const getFieldValuePairFromList = (list: ValueType[]): Record<string, ValueType> =>
   list.reduce((result, value: ValueType) => Object.assign(result, getFieldValuePair(value)), {})

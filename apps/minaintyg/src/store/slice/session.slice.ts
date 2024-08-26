@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { z } from 'zod'
-import { ErrorTypeEnum } from '../../schema/error.schema'
+import type { ErrorTypeEnum } from '../../schema/error.schema'
 import { isQueryError } from '../../utils/isQueryError'
 import { api, hasResponse, isRejectedEndpoint } from '../api'
 
@@ -27,9 +28,6 @@ const sessionSlice = createSlice({
     reset() {
       return initialState
     },
-    startSession(state) {
-      state.hasSession = true
-    },
     endSession(state, { payload }: PayloadAction<{ reason: ErrorTypeEnum; errorId?: string }>) {
       state.hasSession = false
       state.hasSessionEnded = true
@@ -39,9 +37,7 @@ const sessionSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Start session after successful user fetch
-    builder.addMatcher(api.endpoints.getUser.matchFulfilled, (state) => {
-      state.hasSession = true
-    })
+    builder.addMatcher(api.endpoints.getUser.matchFulfilled, () => ({ ...initialState, hasSession: true }))
 
     builder.addMatcher(isRejectedEndpoint, (state, action) => {
       const error = isQueryError(action) ? action.payload : null
@@ -69,5 +65,5 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { startSession, endSession, reset } = sessionSlice.actions
+export const { endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice

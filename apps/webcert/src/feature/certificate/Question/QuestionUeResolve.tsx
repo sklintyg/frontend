@@ -2,7 +2,8 @@ import { useCallback } from 'react'
 import InfoBox from '../../../components/utils/InfoBox'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import { CertificateDataConfigType, CertificateDataElement, CertificateDataValueType, ConfigTypes, ValueType } from '../../../types'
+import type { CertificateDataConfigType, CertificateDataElement, ValueType } from '../../../types'
+import { CertificateDataValueType, ConfigTypes } from '../../../types'
 import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
@@ -15,8 +16,7 @@ import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
 import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
-import UeMedicalInvestigationList from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
-import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
+import { UeMedicalInvestigationList } from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
 import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
 import UeRadioGroup from '../UnifiedEdit/UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../UnifiedEdit/UeRadioGroupOptionalDropdown/UeRadioGroupOptionalDropdown'
@@ -29,7 +29,7 @@ import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
 import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
 import UeYear from '../UnifiedEdit/UeYear/UeYear'
-import { UnifiedEdit } from '../UnifiedEdit/UnifiedEdit'
+import type { UnifiedEdit } from '../UnifiedEdit/UnifiedEdit'
 
 function isQuestionTypes<C extends ConfigTypes, V extends CertificateDataValueType | null>(
   configType: C,
@@ -85,8 +85,6 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeRadioGroupOptionalDropdown {...commonProps} />
     case ConfigTypes.UE_UNCERTAIN_DATE:
       return <UeUncertainDate {...commonProps} />
-    case ConfigTypes.UE_MESSAGE:
-      return <UeMessage {...commonProps} />
     case ConfigTypes.UE_TYPE_AHEAD:
       return <UeTypeahead {...commonProps} />
     case ConfigTypes.UE_TEXTFIELD:
@@ -114,6 +112,8 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
     case ConfigTypes.UE_VIEW_TABLE:
       return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
+      return null
+    case ConfigTypes.UE_MESSAGE:
       return null
   }
 

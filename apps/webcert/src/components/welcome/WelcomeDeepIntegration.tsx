@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import type React from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import SpinnerBackdrop from '../utils/SpinnerBackdrop'
@@ -20,7 +21,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
     }
   }, [])
 
-  const url = window.location.origin.replace('wc2.', '') + '/visa/intyg/' + certificateId
+  const url = window.location.origin + '/visa/intyg/' + certificateId
 
   return (
     <>

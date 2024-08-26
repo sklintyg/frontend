@@ -1,4 +1,5 @@
-import { Certificate, CertificateData, CertificateDataElement, ConfigTypes, ValidationError } from '../../types/certificate'
+import type { Certificate, CertificateData, CertificateDataElement, ValidationError } from '../../types/certificate'
+import { ConfigTypes } from '../../types/certificate'
 import { sortByIndex } from '../certificateUtils'
 
 export interface ValidationErrorSummary {

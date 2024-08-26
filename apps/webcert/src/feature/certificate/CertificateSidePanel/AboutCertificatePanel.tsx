@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
@@ -24,6 +24,9 @@ const Wrapper = styled.div`
 
 const Description = styled.p`
   white-space: pre-line;
+  & li {
+    margin-top: -1em !important;
+  }
 `
 
 const CertificateVersion = styled.span`

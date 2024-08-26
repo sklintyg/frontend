@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { PatientOverviewCard } from '../PatientOverviewCard'
-import { SjfItem } from '../../../../../schemas/patientSchema'
+import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { OpenInformationWithConsent } from './OpenInformationWithConsent'
 
 export function OpenInformationWithConsentCard({

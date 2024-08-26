@@ -1,5 +1,5 @@
 import { IDSHeader } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { getNavigationItem, getNavigationItemUrl } from '../navigation'
 
 export function LayoutHeader({ children, mode }: { mode: string; children?: ReactNode }) {

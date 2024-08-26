@@ -77,10 +77,16 @@ describe('link', () => {
 })
 
 describe('headings', () => {
-  it.each(Array.from({ length: 6 }, (_, index) => index + 1))('Should render %s heading as expected', (level) => {
+  it.each(Array.from({ length: 4 }, (_, index) => index + 1))('Should render %s heading as expected', (level) => {
     const tag = `h${level}`
     render(<DisplayHTML html={`<${tag}>text</${tag}>`} />)
     expect(screen.getByRole('heading')).toHaveClass(`ids-heading-${level}`, { exact: true })
+  })
+
+  it.each(Array.from({ length: 2 }, (_, index) => index + 5))('Should render %s heading as expected', (level) => {
+    const tag = `h${level}`
+    render(<DisplayHTML html={`<${tag}>text</${tag}>`} />)
+    expect(screen.getByRole('heading')).toHaveClass(`ids-heading-4`, { exact: true })
   })
 })
 

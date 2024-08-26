@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { Tooltip, TooltipContent, TooltipTrigger, classNames } from '@frontend/components'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export function TableCell({
   description,

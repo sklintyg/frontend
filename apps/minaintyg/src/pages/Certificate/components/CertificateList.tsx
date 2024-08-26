@@ -1,5 +1,5 @@
-import { SortDirection } from 'react-stately'
-import { CertificateMetadata } from '../../../schema/certificate.schema'
+import type { SortDirection } from 'react-stately'
+import type { CertificateMetadata } from '../../../schema/certificate.schema'
 import { useGroupCertificateByYear } from '../hooks/useGroupCertificateByYear'
 import { CertificateCard } from './CertificateCard/CertificateCard'
 

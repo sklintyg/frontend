@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Question, QuestionType } from '../../types'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import type { Question } from '../../types'
+import { QuestionType } from '../../types'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,
   addQuestion,
@@ -13,8 +15,8 @@ import {
   updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
-  updateDisplayValidationMessages,
   updateDisplayingCertificateDraft,
+  updateDisplayValidationMessages,
   updateHandledQuestion,
   updateIsLoadingQuestions,
   updateQuestion,
@@ -165,6 +167,7 @@ function defaultQuestionDraft(): Question {
     lastUpdate: '',
     links: [],
     reminders: [],
+    certificateId: '',
   }
 }
 

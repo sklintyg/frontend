@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import parse, { DOMNode, attributesToProps, domToReact } from 'html-react-parser'
+import type { DOMNode } from 'html-react-parser'
+import parse, { attributesToProps, domToReact } from 'html-react-parser'
 import { createElement } from 'react'
 import { MobileTable } from './MobileTable'
 import { isElement } from './utils/isElement'
@@ -13,7 +14,8 @@ const options = {
       const match = name.match(/^h(\d)$/)
 
       if (match) {
-        return createElement(match[0], { className: `ids-heading-${match[1]}` }, domToReact(children, options))
+        const [tag, level] = match
+        return createElement(tag, { className: `ids-heading-${parseInt(level, 10) < 4 ? level : 4}` }, domToReact(children, options))
       }
 
       if (name === 'table') {

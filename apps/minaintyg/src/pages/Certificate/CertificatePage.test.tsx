@@ -4,14 +4,14 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server, waitForRequest } from '../../mocks/server'
+import type { CertificateMetadata } from '../../schema/certificate.schema'
 import {
   AvailableFunctionsTypeEnum,
-  CertificateMetadata,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
 } from '../../schema/certificate.schema'
-import { startSession } from '../../store/slice/session.slice'
+import { api } from '../../store/api'
 import { store } from '../../store/store'
 import { CertificatePage } from './CertificatePage'
 
@@ -142,7 +142,7 @@ describe('Unable to load certificate', () => {
   })
 
   it('Should log error and display id', async () => {
-    store.dispatch(startSession())
+    store.dispatch(api.endpoints.getUser.initiate())
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
     const pendingLogRequest = waitForRequest('POST', '/api/log/error')
 

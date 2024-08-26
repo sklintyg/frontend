@@ -1,0 +1,8 @@
+services:
+  maintenace:
+    image: nginx
+    volumes:
+      - ./apps/maintenance/nginx/templates:/etc/nginx/templates
+      - ./apps/maintenance/dist:/usr/share/nginx/html
+    ports:
+      - '8080:8080'

@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
@@ -22,11 +22,8 @@ import { UvViewList } from '../../../components/UnifiedView/UvViewList/UvViewLis
 import { UvVisualAcuity } from '../../../components/UnifiedView/UvVisualAcuity/UvVisualAcuity'
 import { UvYear } from '../../../components/UnifiedView/UvYear/UvYear'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
-import {
+import type {
   CertificateDataElement,
-  CertificateDataElementStyleEnum,
-  CertificateDataValueType,
-  ConfigTypes,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
@@ -57,7 +54,7 @@ import {
   ValueViewTable,
   ValueVisualAcuity,
 } from '../../../types'
-import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
+import { CertificateDataElementStyleEnum, CertificateDataValueType, ConfigTypes } from '../../../types'
 
 const QuestionUvResolve: React.FC<{
   question: CertificateDataElement
@@ -71,10 +68,6 @@ const QuestionUvResolve: React.FC<{
   }
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
-
-  if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
-    return <UeMessage key={question.id} disabled={false} question={question} />
-  }
 
   if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
     return null

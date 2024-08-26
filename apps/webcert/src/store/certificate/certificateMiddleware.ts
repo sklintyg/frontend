@@ -1,8 +1,8 @@
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { push } from 'connected-react-router'
+import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { debounce } from 'lodash-es'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Certificate, CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { Certificate } from '../../types'
+import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
 import { getCertificateToSave, isLocked } from '../../utils'
 import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
 import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
@@ -10,9 +10,10 @@ import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { push, replace } from '../navigateSlice'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
-import { AppDispatch, RootState } from '../store'
+import type { AppDispatch, RootState } from '../store'
 import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
@@ -225,7 +226,7 @@ const handleDeleteCertificate: Middleware<Dispatch> =
         onStart: deleteCertificateStarted.type,
         onSuccess: deleteCertificateSuccess.type,
         onError: certificateApiGenericError.type,
-        onArgs: { history: action.payload.history, metadata: certificate.metadata },
+        onArgs: { metadata: certificate.metadata },
         functionDisablerType: toggleCertificateFunctionDisabler.type,
       })
     )
@@ -237,7 +238,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     if (action.payload.metadata.relations?.parent?.certificateId) {
       dispatch(updateRoutedFromDeletedCertificate(true))
-      dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
+      dispatch(replace(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
     } else {
       dispatch(updateCertificateAsDeleted())
     }

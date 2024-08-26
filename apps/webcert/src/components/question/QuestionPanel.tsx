@@ -1,9 +1,10 @@
 import { isEqual } from 'lodash-es'
-import React, { useState } from 'react'
+import type React from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { getIsSigned, getResourceLink } from '../../store/certificate/certificateSelectors'
+import { getCertificateResourceLink, getIsSigned } from '../../store/certificate/certificateSelectors'
 import {
   getErrorId,
   getIsLoadingQuestions,
@@ -13,7 +14,8 @@ import {
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
 import { useAppSelector } from '../../store/store'
-import { Question, QuestionType, ResourceLinkType } from '../../types'
+import type { Question } from '../../types'
+import { QuestionType, ResourceLinkType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
@@ -47,7 +49,7 @@ const QuestionPanelInner: React.FC = () => {
   const isCertificateDraft = useAppSelector(isDisplayingCertificateDraft)
   const isQuestionFormVisible = useAppSelector(isCreateQuestionsAvailable)
   const isSigned = useAppSelector(getIsSigned())
-  const questionAdministrative = useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS_ADMINISTRATIVE))
+  const questionAdministrative = useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS_ADMINISTRATIVE))
   const questionDraft = useAppSelector(getQuestionDraft, isEqual)
   const questions = useAppSelector(getQuestions, isEqual)
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)

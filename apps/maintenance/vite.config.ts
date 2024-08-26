@@ -7,6 +7,7 @@ const outDir = resolve(__dirname, 'dist')
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
+  appType: 'mpa',
   plugins:
     process.env.LEGACY_SUPPORT !== 'false'
       ? [
@@ -21,7 +22,9 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        intyg: resolve(root, 'index.html'),
+        root: resolve(root, 'index.html'),
+        general: resolve(root, 'general/index.html'),
+        intyg: resolve(root, 'intyg/index.html'),
       },
     },
   },

@@ -1,5 +1,7 @@
-import { Patient } from './patient'
-import { ResourceLink } from './resourceLink'
+import type { CertificateConfirmationModal } from './confirmModal'
+import type { Patient } from './patient'
+import type { QuestionType } from './question'
+import type { ResourceLink } from './resourceLink'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -41,6 +43,13 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
   signed?: string
+  messageTypes?: MessageType[]
+  confirmationModal: CertificateConfirmationModal | null
+}
+
+export type MessageType = {
+  type: QuestionType
+  subject: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>
@@ -141,6 +150,11 @@ export enum MessageLevel {
   ERROR = 'ERROR',
 }
 
+export interface ConfigMessage {
+  level: MessageLevel
+  content: string
+}
+
 export interface CertificateDataConfig {
   header?: string
   icon?: string
@@ -150,6 +164,7 @@ export interface CertificateDataConfig {
   type: ConfigTypes
   accordion?: ConfigAccordion
   list?: unknown
+  message?: ConfigMessage
 }
 
 export interface ConfigAccordion {
@@ -165,6 +180,7 @@ export interface ConfigCategory extends CertificateDataConfig {
 export interface ConfigUeTextArea extends CertificateDataConfig {
   type: ConfigTypes.UE_TEXTAREA
   id: string
+  label?: string
 }
 
 export interface ConfigUeTextField extends CertificateDataConfig {
@@ -190,8 +206,7 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
 export interface ConfigUeMessage extends CertificateDataConfig {
   type: ConfigTypes.UE_MESSAGE
   id: string
-  level: MessageLevel
-  message: string
+  message: ConfigMessage
 }
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
@@ -510,7 +525,7 @@ export interface ValueBoolean {
 export interface ValueCode {
   type: CertificateDataValueType.CODE
   id: string
-  code: string
+  code?: string
 }
 
 export interface ValueDate {
@@ -556,7 +571,7 @@ export interface ValueCodeList {
 
 export interface ValueText {
   type: CertificateDataValueType.TEXT
-  text: string | null
+  text?: string | null
   id: string
 }
 

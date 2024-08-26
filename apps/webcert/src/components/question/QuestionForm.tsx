@@ -1,7 +1,10 @@
 import { debounce } from 'lodash-es'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import type { ChangeEvent } from 'react'
+import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
+import { getCertificateMessageTypes } from '../../store/certificate/certificateSelectors'
 import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import {
   isDisplayValidationMessages,
@@ -10,8 +13,9 @@ import {
   isQuestionMissingMessage,
   isQuestionMissingType,
 } from '../../store/question/questionSelectors'
-import { useAppDispatch } from '../../store/store'
-import { Question, QuestionType } from '../../types'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import type { Question } from '../../types'
+import { QuestionType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import Dropdown from '../Inputs/Dropdown'
 import TextArea from '../Inputs/TextArea'
@@ -36,13 +40,13 @@ const Wrapper = styled.div`
 const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const dispatch = useAppDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
-  const isSaved = useSelector(isQuestionDraftSaved)
-  const isMissingType = useSelector(isQuestionMissingType)
-  const isMissingMessage = useSelector(isQuestionMissingMessage)
-  const showValidationMessages = useSelector(isDisplayValidationMessages)
+  const isSaved = useAppSelector(isQuestionDraftSaved)
+  const isMissingType = useAppSelector(isQuestionMissingType)
+  const isMissingMessage = useAppSelector(isQuestionMissingMessage)
+  const showValidationMessages = useAppSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
-  const subjects: QuestionType[] = Object.values(QuestionType)
-  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
+  const messageTypes = useAppSelector(getCertificateMessageTypes, shallowEqual)
+  const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(questionDraft.message)
@@ -75,21 +79,6 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
     dispatch(deleteQuestion(questionDraft))
   }
 
-  const getQuestionTypeName = (type: QuestionType): string => {
-    switch (type) {
-      case QuestionType.MISSING:
-        return 'Välj typ av fråga'
-      case QuestionType.COORDINATION:
-        return 'Avstämningsmöte'
-      case QuestionType.CONTACT:
-        return 'Kontakt'
-      case QuestionType.OTHER:
-        return 'Övrigt'
-      default:
-        return type
-    }
-  }
-
   const showTypeValidationError = () => showValidationMessages && isMissingType
 
   const showMessageValidationError = () => showValidationMessages && isMissingMessage
@@ -107,13 +96,11 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               error={showTypeValidationError()}
               aria-label="Välj typ av fråga"
             >
-              {subjects
-                .filter((subject) => subject !== QuestionType.COMPLEMENT)
-                .map((subject) => (
-                  <option key={subject} value={subject}>
-                    {getQuestionTypeName(subject)}
-                  </option>
-                ))}
+              {messageTypes.map(({ type, subject }) => (
+                <option key={type} value={type}>
+                  {subject}
+                </option>
+              ))}
             </Dropdown>
             {showTypeValidationError() && (
               <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />

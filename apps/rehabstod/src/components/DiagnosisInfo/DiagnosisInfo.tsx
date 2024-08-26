@@ -1,4 +1,4 @@
-import { Diagnosis } from '../../schemas/diagnosisSchema'
+import type { Diagnosis } from '../../schemas/diagnosisSchema'
 
 export function DiagnosisInfo({ diagnosis, biDiagnoses }: { diagnosis?: Diagnosis; biDiagnoses?: Diagnosis[] }) {
   return diagnosis ? (

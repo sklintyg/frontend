@@ -1,9 +1,9 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { Certificate, CertificateMetadata, Patient, PersonId } from '../../../types'
+import type { Certificate, CertificateMetadata, Patient, PersonId } from '../../../types'
 import PatientStatusNotifications from './PatientStatusNotifications'
 
 let testStore: EnhancedStore

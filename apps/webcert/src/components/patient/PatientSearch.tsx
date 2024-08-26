@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import { getActivePatient } from '../../store/patient/patientSelectors'
-import PatientSearchError from './PatientSearchError'
-import { useKeyPress, isPersonIdValid } from '../../utils'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { isPersonIdValid, useKeyPress } from '../../utils'
 import { CustomButton } from '../Inputs/CustomButton'
 import PersonIdInput from '../Inputs/PersonIdInput'
+import PatientSearchError from './PatientSearchError'
 
 const FormWrapper = styled.div`
   display: flex;
@@ -16,8 +17,8 @@ const FormWrapper = styled.div`
 
 const PatientSearch: React.FC = () => {
   const [patientId, setPatientId] = useState('')
-  const patient = useSelector(getActivePatient)
-  const dispatch = useDispatch()
+  const patient = useAppSelector(getActivePatient)
+  const dispatch = useAppDispatch()
   const enterPress = useKeyPress('Enter')
   const history = useHistory()
 
@@ -33,7 +34,7 @@ const PatientSearch: React.FC = () => {
 
   useEffect(() => {
     if (patient) {
-      history.push(`/create/${patientId}`)
+      history.push(`/create/${encodeURIComponent(btoa(patientId))}`)
     }
   }, [patient, history, patientId])
 

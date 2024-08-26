@@ -1,15 +1,5 @@
-import {
-  Certificate,
-  CertificateEvent,
-  CertificateMetadata,
-  CertificateRelation,
-  CertificateRelationType,
-  CertificateStatus,
-  Question,
-  QuestionType,
-  ResourceLink,
-  ResourceLinkType,
-} from '../types'
+import type { Certificate, CertificateEvent, CertificateMetadata, CertificateRelation, Question } from '../types'
+import { CertificateRelationType, CertificateStatus, QuestionType } from '../types'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 
@@ -80,11 +70,6 @@ export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
 export const isHasParent = (certificateMetadata: CertificateMetadata) => {
   return !!certificateMetadata.relations.parent
 }
-
-export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: ResourceLinkType) => actual === wanted
-
-export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink =>
-  resourceLinks.find((link) => link.type === wanted)!
 
 export const isDisabled = (certificateMetadata: CertificateMetadata) => {
   return certificateMetadata.status === CertificateStatus.LOCKED

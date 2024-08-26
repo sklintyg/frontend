@@ -1,6 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import { CertificateMetadata } from '../../../../types'
+import type { CertificateMetadata } from '../../../../types'
 
 interface Props {
   certificateMetadata: CertificateMetadata

@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
@@ -7,7 +7,10 @@ import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
+import { updateCertificate } from '../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
   createQuestion,
@@ -20,7 +23,8 @@ import {
   validateQuestion,
 } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { Question, QuestionType } from '../../types'
+import type { Question } from '../../types'
+import { QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import QuestionForm from './QuestionForm'
@@ -43,7 +47,7 @@ const renderComponent = (questionDraft?: Question) => {
 describe('QuestionForm', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureApplicationStore([apiMiddleware, questionMiddleware])
+    testStore = configureApplicationStore([apiMiddleware, questionMiddleware, certificateMiddleware])
   })
 
   afterEach(() => {
@@ -62,31 +66,42 @@ describe('QuestionForm', () => {
 
     it('display default value for question type', () => {
       renderComponent()
-      const options = screen.getAllByRole('option')
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      expect(options[0].selected).toBeTruthy()
+      const option = screen.getByRole('option', { name: 'Välj typ av fråga' }) as HTMLOptionElement
+      expect(option.selected).toBe(true)
     })
 
-    it('display default value for message', () => {
+    it('display default value for message', async () => {
       renderComponent()
       const message = screen.getByRole('textbox')
-      expect(message).toHaveValue('')
+      await expect(message).toHaveValue('')
     })
 
-    it('send question disabled', () => {
+    it('send question disabled', async () => {
       renderComponent()
-      expect(screen.getByText(/Skicka/i)).toBeDisabled()
+      await expect(screen.getByText(/Skicka/i)).toBeDisabled()
     })
 
-    it('cancel question disabled', () => {
+    it('cancel question disabled', async () => {
       renderComponent()
-      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
+      await expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
     it('does not show message that question draft has been saved', () => {
       renderComponent()
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
+    })
+
+    it('should display options available in metadata', async () => {
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({ metadata: fakeCertificateMetaData({ messageTypes: [{ type: QuestionType.CONTACT, subject: 'Kontakt' }] }) })
+        )
+      )
+      renderComponent()
+      expect(screen.queryByRole('option', { name: 'Välj typ av fråga' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Avstämningsmöte' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Övrigt' })).not.toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Kontakt' })).toBeInTheDocument()
     })
   })
 
@@ -129,11 +144,11 @@ describe('QuestionForm', () => {
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(true))
       renderComponent()
-      expect(screen.getByText(/Skicka/i)).toBeEnabled()
-      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
+      await expect(screen.getByText(/Skicka/i)).toBeEnabled()
+      await expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
-    it('disable send and cancel when question functionDisabler exists', () => {
+    it('disable send and cancel when question functionDisabler exists', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(true))
@@ -141,39 +156,39 @@ describe('QuestionForm', () => {
       testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
       renderComponent()
 
-      expect(screen.getByText(/Skicka/i)).toBeDisabled()
-      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
+      await expect(screen.getByText(/Skicka/i)).toBeDisabled()
+      await expect(screen.getByText(/Avbryt/i)).toBeDisabled()
       testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
     })
 
     it('disable send and cancel when question draft has no values', async () => {
       renderComponent()
-      expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
     })
 
     it('disable send and cancel when question draft is being saved', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(saveQuestion(questionDraft))
       renderComponent()
-      expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
     })
 
     it('disable send and cancel when question draft is being created', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(createQuestion(questionDraft))
       renderComponent()
-      expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
     })
 
     it('disable send and cancel when question draft is being deleted', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(deleteQuestion(questionDraft))
       renderComponent()
-      expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Skicka' })).toBeDisabled()
+      await expect(screen.getByRole('button', { name: 'Avbryt' })).toBeDisabled()
     })
 
     it('enable send and cancel when question draft is NOT being sent', async () => {
@@ -182,8 +197,8 @@ describe('QuestionForm', () => {
       testStore.dispatch(updateQuestionDraftSaved(true))
       testStore.dispatch(updateSendingQuestion(false))
       renderComponent()
-      expect(screen.getByRole('button', { name: 'Skicka' })).toBeEnabled()
-      expect(screen.getByRole('button', { name: 'Avbryt' })).toBeEnabled()
+      await expect(screen.getByRole('button', { name: 'Skicka' })).toBeEnabled()
+      await expect(screen.getByRole('button', { name: 'Avbryt' })).toBeEnabled()
     })
 
     it('does show message that question draft has been saved', () => {

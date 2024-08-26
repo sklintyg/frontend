@@ -1,6 +1,6 @@
 import { IDSExpandable } from '@frontend/ids-react-ts'
 import { DisplayHTML } from '../../../../components/DisplayHTML/DisplayHTML'
-import { CertificateContent } from '../../../../schema/certificate.schema'
+import type { CertificateContent } from '../../../../schema/certificate.schema'
 
 export function CertificateBody({ content }: { content: CertificateContent[] }) {
   return (

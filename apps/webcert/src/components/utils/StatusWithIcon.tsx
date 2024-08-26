@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
 import { ArrowLeftIcon, AttentionIcon } from '../../images'
 import CheckIcon from '../../images/CheckIcon'

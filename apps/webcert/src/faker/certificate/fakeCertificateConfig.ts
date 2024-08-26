@@ -1,13 +1,11 @@
 import faker from 'faker'
 import { merge } from 'lodash-es'
-import { PartialDeep } from 'type-fest'
-import {
+import type { PartialDeep } from 'type-fest'
+import type {
   CertificateDataConfigType,
   ConfigAccordion,
   ConfigCategory,
   ConfigEyeAcuity,
-  ConfigLayout,
-  ConfigTypes,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
@@ -39,8 +37,8 @@ import {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
-  MessageLevel,
 } from '../../types/certificate'
+import { ConfigLayout, ConfigTypes, MessageLevel } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
@@ -194,11 +192,14 @@ const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvest
   })),
 }))
 
-const fakeMessage = fakeDataElementConfig<ConfigUeMessage>(() => ({
+const fakeMessage = fakeDataElementConfig<ConfigUeMessage>((override) => ({
   type: ConfigTypes.UE_MESSAGE,
   id: fakeId(),
-  level: MessageLevel.INFO,
-  message: faker.lorem.sentence(),
+  message: {
+    level: MessageLevel.INFO,
+    content: faker.lorem.sentence(),
+    ...override?.message,
+  },
 }))
 
 const fakeRadioBoolean = fakeDataElementConfig<ConfigUeRadioBoolean>(() => ({

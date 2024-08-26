@@ -1,11 +1,14 @@
 server {
-  listen 8080;
+  listen 8080 default_server;
+  server_name  _;
+  root /usr/share/nginx/html;
+  include /etc/nginx/extra-conf.d/*.conf;
 
-  location / {
-    root /usr/share/nginx/html;
-    index index.html index.htm;
-    try_files $uri $uri/ /index.html =404;
+  location ~ index\.html$ {
+    alias /usr/share/nginx/html/general/index.html;
   }
 
-  include /etc/nginx/extra-conf.d/*.conf;
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
 }

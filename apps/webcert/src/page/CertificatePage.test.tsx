@@ -1,16 +1,17 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateMetaData } from '../faker'
+import { fakeCertificateConfirmationModal } from '../faker/certificate/fakeCertificateConfirmationModal'
 import { updateCertificate } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import CertificatePage from './CertificatePage'
-import { fakeCertificate } from '../faker'
 import { ResourceLinkType } from '../types'
+import CertificatePage from './CertificatePage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -107,5 +108,28 @@ describe('CertificatePage', () => {
     )
 
     expect(screen.getByText('Kontrollera att du använder dig av rätt läkarutlåtande', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should show general confirm modal', async () => {
+    const confirmationModal = fakeCertificateConfirmationModal()
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({ confirmationModal }),
+        })
+      )
+    )
+
+    render(
+      <Provider store={testStore}>
+        <MemoryRouter initialEntries={['/certificate/error}']}>
+          <Route path="/certificate/">
+            <CertificatePage />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    )
+
+    expect(screen.getByText(confirmationModal.title)).toBeInTheDocument()
   })
 })

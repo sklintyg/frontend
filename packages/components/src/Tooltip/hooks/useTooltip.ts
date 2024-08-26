@@ -1,16 +1,5 @@
-import {
-  autoUpdate,
-  flip,
-  offset,
-  Placement,
-  shift,
-  useDismiss,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-  useRole,
-} from '@floating-ui/react'
+import type { Placement } from '@floating-ui/react'
+import { autoUpdate, flip, offset, shift, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react'
 import { useMemo, useState } from 'react'
 
 export interface TooltipOptions {

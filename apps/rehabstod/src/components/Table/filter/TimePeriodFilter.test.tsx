@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
 import { TimePeriodFilter } from './TimePeriodFilter'
 

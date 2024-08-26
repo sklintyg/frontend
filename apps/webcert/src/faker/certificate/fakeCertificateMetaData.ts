@@ -1,9 +1,11 @@
 import faker from 'faker'
-import { PartialDeep } from 'type-fest'
-import { CertificateMetadata, CertificateRelations, CertificateStatus } from '../../types'
+import type { PartialDeep } from 'type-fest'
+import type { CertificateMetadata, CertificateRelations, MessageType } from '../../types'
+import { CertificateStatus, QuestionType } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../user/fakeUnit'
+import { fakeCertificateConfirmationModal } from './fakeCertificateConfirmationModal'
 import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateRelation } from './fakeCertificateRelation'
 
@@ -11,6 +13,14 @@ export const fakeCertificateRelations = (data?: PartialDeep<CertificateRelations
   return {
     parent: data?.parent ? fakeCertificateRelation(data.parent) : null,
     children: data?.children ? data?.children.map(fakeCertificateRelation) : [],
+  }
+}
+
+export function fakeCertifiaMessageType(data?: Partial<MessageType>): MessageType {
+  return {
+    type: QuestionType.CONTACT,
+    subject: 'Kontakt',
+    ...data,
   }
 }
 
@@ -38,5 +48,7 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
     issuedBy: fakeStaff(data?.issuedBy),
     careUnit: fakeUnit(data?.careUnit),
     careProvider: fakeUnit(data?.careProvider),
+    messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? undefined,
+    confirmationModal: data?.confirmationModal ? fakeCertificateConfirmationModal({ ...data.confirmationModal }) : null,
   }
 }

@@ -1,5 +1,5 @@
 import { IDSCard } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { EmptyInformation } from './EmptyInformation'
 import { ExpandableCard } from './ExpandableCard'
 

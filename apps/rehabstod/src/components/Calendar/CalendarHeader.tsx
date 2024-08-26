@@ -1,5 +1,5 @@
 import { IDSIconChevron } from '@frontend/ids-react-ts'
-import { AriaButtonProps } from 'react-aria'
+import type { AriaButtonProps } from 'react-aria'
 import { CalendarButton } from './CalendarButton'
 
 export function CalendarHeader({

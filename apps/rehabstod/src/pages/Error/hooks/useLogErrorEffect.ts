@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react'
-import { ErrorData } from '../../../schemas/errorSchema'
+import type { ErrorData } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
 import { ErrorContext } from '../Error'
 

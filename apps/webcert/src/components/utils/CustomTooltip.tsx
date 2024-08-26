@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactTooltip, { Place } from 'react-tooltip'
+import type React from 'react'
+import type { Place } from 'react-tooltip'
+import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 interface Props {

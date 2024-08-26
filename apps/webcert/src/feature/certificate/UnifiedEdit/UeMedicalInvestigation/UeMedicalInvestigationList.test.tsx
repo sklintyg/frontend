@@ -1,15 +1,15 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeMedicalInvestigationListElement } from '../../../../faker'
 import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeMedicalInvestigationList from './UeMedicalInvestigationList'
-import { fakeMedicalInvestigationListElement, fakeCertificate } from '../../../../faker'
-import { ConfigUeMedicalInvestigationList } from '../../../../types'
+import type { ConfigUeMedicalInvestigationList } from '../../../../types'
+import { UeMedicalInvestigationList } from './UeMedicalInvestigationList'
 
 faker.seed(10)
 
@@ -47,9 +47,11 @@ describe('Medical investigation component', () => {
 
   it('renders all components', () => {
     renderComponent({ disabled: false, question })
-    expect(screen.getAllByText('Ange utredning eller underlag')).toHaveLength(1)
-    expect(screen.getAllByText('Datum')).toHaveLength(1)
-    expect(screen.getAllByText('Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?')).toHaveLength(1)
+    expect(screen.getAllByLabelText('Ange utredning eller underlag')).toHaveLength(3)
+    expect(screen.getAllByLabelText('Datum')).toHaveLength(3)
+    expect(
+      screen.getAllByLabelText('Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?')
+    ).toHaveLength(3)
   })
 
   it('Renders textinput, calendar button and drop down', () => {
@@ -66,16 +68,16 @@ describe('Medical investigation component', () => {
     expect(screen.getAllByRole('button')).toHaveLength(3)
     expect(screen.getAllByRole('textbox')).toHaveLength(6)
 
-    screen.getAllByRole('combobox').forEach((investigationType) => {
-      expect(investigationType).toBeEnabled()
+    screen.getAllByRole('combobox').forEach(async (investigationType) => {
+      await expect(investigationType).toBeEnabled()
     })
 
-    screen.getAllByRole('button').forEach((button) => {
-      expect(button).toBeEnabled()
+    screen.getAllByRole('button').forEach(async (button) => {
+      await expect(button).toBeEnabled()
     })
 
-    screen.getAllByRole('textbox').forEach((textinput) => {
-      expect(textinput).toBeEnabled()
+    screen.getAllByRole('textbox').forEach(async (textinput) => {
+      await expect(textinput).toBeEnabled()
     })
   })
 
@@ -86,16 +88,16 @@ describe('Medical investigation component', () => {
     expect(screen.getAllByRole('button')).toHaveLength(3)
     expect(screen.getAllByRole('textbox')).toHaveLength(6)
 
-    screen.getAllByRole('combobox').forEach((investigationType) => {
-      expect(investigationType).toBeDisabled()
+    screen.getAllByRole('combobox').forEach(async (investigationType) => {
+      await expect(investigationType).toBeDisabled()
     })
 
-    screen.getAllByRole('button').forEach((button) => {
-      expect(button).toBeDisabled()
+    screen.getAllByRole('button').forEach(async (button) => {
+      await expect(button).toBeDisabled()
     })
 
-    screen.getAllByRole('textbox').forEach((textinput) => {
-      expect(textinput).toBeDisabled()
+    screen.getAllByRole('textbox').forEach(async (textinput) => {
+      await expect(textinput).toBeDisabled()
     })
   })
 
@@ -204,7 +206,7 @@ describe('Medical investigation component', () => {
     renderComponent({ question, disabled: false })
     const input = screen.queryAllByRole('textbox')
     await userEvent.clear(input[1])
-    expect(input[1]).toHaveValue('')
+    await expect(input[1]).toHaveValue('')
   })
 
   it('Sets the value not to null if the text is not empty', async () => {
@@ -213,6 +215,6 @@ describe('Medical investigation component', () => {
     const newValue = 'text'
     await userEvent.clear(inputs[1])
     await userEvent.type(inputs[1], newValue)
-    expect(inputs[1]).toHaveValue(newValue)
+    await expect(inputs[1]).toHaveValue(newValue)
   })
 })

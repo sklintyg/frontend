@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { CertificateEvent } from '../../../../../schema/certificate.schema'
+import type { ReactNode } from 'react'
+import type { CertificateEvent } from '../../../../../schema/certificate.schema'
 import { CertificateEventsInfo } from '../../CertificateEventsInfo/CertificateEventsInfo'
 import { CertificateCardEventsAccordion } from './CertificateCardEventsAccordion'
 
