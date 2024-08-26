@@ -1,9 +1,10 @@
-import { ChangeEvent } from 'react'
+import type { ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'
 import Dropdown from '../../../components/Inputs/Dropdown'
-import { ListFilterSelectConfig, ListFilterValue, ListFilterValueSelect, ListFilterType } from '../../../types'
+import type { ListFilterSelectConfig, ListFilterValue, ListFilterValueSelect} from '../../../types';
+import { ListFilterType } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
 interface Props {

@@ -1,6 +1,7 @@
 import ErrorModalBase from './ErrorModalBase'
-import { ModalProps, reloadPage } from './errorUtils'
-import React from 'react'
+import type { ModalProps} from './errorUtils';
+import { reloadPage } from './errorUtils'
+import type React from 'react'
 import { useDispatch } from 'react-redux'
 
 export const RELOAD_CONFIRM_BUTTON_TEXT = 'Ladda om'

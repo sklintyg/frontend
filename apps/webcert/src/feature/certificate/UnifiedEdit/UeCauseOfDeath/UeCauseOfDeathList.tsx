@@ -1,5 +1,6 @@
 import { merge } from 'lodash-es'
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { CustomButton } from '../../../../components/Inputs/CustomButton'
@@ -7,14 +8,15 @@ import { addCircleImage, removeCircleImage } from '../../../../images'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import {
+import type {
   CertificateDataElement,
-  CertificateDataValueType,
   ConfigUeCauseOfDeathList,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
   ValueDate,
-  ValueText,
+  ValueText} from '../../../../types';
+import {
+  CertificateDataValueType
 } from '../../../../types'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 

@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { css, FlattenSimpleInterpolation } from 'styled-components'
+import type { FlattenSimpleInterpolation } from 'styled-components';
+import { css } from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, ConfigLayout, ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode } from '../../../../types'
+import type { CertificateDataElement, ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode } from '../../../../types';
+import { ConfigLayout } from '../../../../types'
 import Question from '../../Question/Question'
 import QuestionWrapper from '../../Question/QuestionWrapper'
 import { ItemWrapper } from '../ItemWrapper'

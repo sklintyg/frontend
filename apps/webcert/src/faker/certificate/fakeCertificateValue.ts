@@ -1,7 +1,6 @@
 import { merge } from 'lodash-es'
-import { PartialDeep } from 'type-fest'
-import {
-  CertificateDataValueType,
+import type { PartialDeep } from 'type-fest'
+import type {
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -27,7 +26,9 @@ import {
   ValueViewTable,
   ValueViewText,
   ValueVisualAcuity,
-  ValueYear,
+  ValueYear} from '../../types/certificate';
+import {
+  CertificateDataValueType
 } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 

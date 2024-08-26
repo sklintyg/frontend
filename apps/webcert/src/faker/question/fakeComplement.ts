@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { Complement } from '../../types'
+import type { Complement } from '../../types'
 import { fakeId } from '../fakeId'
 
 export function fakeComplement(data?: Partial<Complement>): Complement {

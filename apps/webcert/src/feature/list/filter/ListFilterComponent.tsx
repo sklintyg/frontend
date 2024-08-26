@@ -1,13 +1,14 @@
 import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import {
+import type {
   ListFilterConfig,
   ListFilterDateRangeConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterType,
-  ListFilterValue,
+  ListFilterValue} from '../../../types';
+import {
+  ListFilterType
 } from '../../../types'
 import { getListFilterDefaultValue } from '../listUtils'
 import DateRangeFilter from './DateRangeFilter'

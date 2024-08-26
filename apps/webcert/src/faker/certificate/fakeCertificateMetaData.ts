@@ -1,6 +1,7 @@
 import faker from 'faker'
-import { PartialDeep } from 'type-fest'
-import { CertificateMetadata, CertificateRelations, CertificateStatus, MessageType, QuestionType } from '../../types'
+import type { PartialDeep } from 'type-fest'
+import type { CertificateMetadata, CertificateRelations, MessageType} from '../../types';
+import { CertificateStatus, QuestionType } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../user/fakeUnit'

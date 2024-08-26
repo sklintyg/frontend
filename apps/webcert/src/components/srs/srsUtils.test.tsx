@@ -1,10 +1,11 @@
 import { fakeSrsPrediction, fakeCertificateMetaData } from '../../faker'
+import type {
+  CertificateRelation,
+  CertificateMetadata} from '../../types';
 import {
   SrsSickLeaveChoice,
-  CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
-  CertificateMetadata,
   SrsUserClientContext,
 } from '../../types'
 import {

@@ -1,7 +1,8 @@
 import { getByType } from '@frontend/utils'
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Answer, Certificate, CertificateStatus, Complement, QuestionType, ResourceLinkType } from '../../types'
+import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { Answer, Certificate, Complement} from '../../types';
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { throwError } from '../error/errorActions'

@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { ResourceLink, ResourceLinkType } from '../../types'
+import type React from 'react';
+import { useState } from 'react'
+import type { ResourceLink} from '../../types';
+import { ResourceLinkType } from '../../types'
 import RadioButton from '../Inputs/RadioButton'
 import TextArea from '../Inputs/TextArea'
 import InfoBox from '../utils/InfoBox'

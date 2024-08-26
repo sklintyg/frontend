@@ -1,4 +1,5 @@
-import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
+import type { KeyboardEventHandler} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { sanitizeText } from '../../utils/sanitizeText'
 import TextInput from './TextInput'

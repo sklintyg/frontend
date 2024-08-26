@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
 import CareProviderModal from '../../feature/careProvider/CareProviderModal'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
@@ -14,7 +14,8 @@ import {
   getUserStatistics,
   isCareAdministrator,
 } from '../../store/user/userSelectors'
-import { Banner, ResourceLinkType } from '../../types'
+import type { Banner} from '../../types';
+import { ResourceLinkType } from '../../types'
 import Logout from '../../utils/Logout'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import AppHeader from '../AppHeader/AppHeader'

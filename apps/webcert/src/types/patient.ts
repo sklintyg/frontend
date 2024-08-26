@@ -1,5 +1,5 @@
-import { CertificateConfirmationModal } from './confirmModal'
-import { ResourceLink } from './resourceLink'
+import type { CertificateConfirmationModal } from './confirmModal'
+import type { ResourceLink } from './resourceLink'
 
 export enum PatientStatus {
   FOUND = 'FOUND',

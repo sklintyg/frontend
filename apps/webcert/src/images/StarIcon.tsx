@@ -1,4 +1,5 @@
-import React, { ComponentProps } from 'react'
+import type { ComponentProps } from 'react';
+import type React from 'react'
 import { SVGIcon } from './SVGIcon'
 
 export const StarIcon = ({ ...props }: ComponentProps<typeof SVGIcon>): React.ReactElement => (

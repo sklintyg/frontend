@@ -1,7 +1,8 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import type { AnyAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash-es'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { CertificateDataValueType, ValueDiagnosisList, ValueType } from '../../types'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { ValueDiagnosisList, ValueType } from '../../types';
+import { CertificateDataValueType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { throwError } from '../error/errorActions'

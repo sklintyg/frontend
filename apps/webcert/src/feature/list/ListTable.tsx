@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import type React from 'react';
+import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import Spinner from '../../components/utils/Spinner'
-import { TableHeading } from '../../types'
+import type { TableHeading } from '../../types'
 import { SortingArrow } from './SortingArrow'
 
 interface Props {

@@ -1,13 +1,14 @@
 import faker from 'faker'
-import {
-  ListFilterType,
+import type {
   ListFilterValueBoolean,
   ListFilterValueDateRange,
   ListFilterValueNumber,
   ListFilterValuePersonId,
   ListFilterValueRadio,
   ListFilterValueSelect,
-  ListFilterValueText,
+  ListFilterValueText} from '../../types';
+import {
+  ListFilterType
 } from '../../types'
 import { fakePersonId } from '../fakePatient'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
@@ -13,7 +13,7 @@ import {
   isCareAdministrator as selectIsCareAdministrator,
   getUnitStatistics as selectUnitStatistics,
 } from '../../store/user/userSelectors'
-import { CareUnit, Unit } from '../../types'
+import type { CareUnit, Unit } from '../../types'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;

@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 
 interface Props {

@@ -1,5 +1,5 @@
-import { PartialDeep } from 'type-fest'
-import { IcfCollection } from '../../types/icf'
+import type { PartialDeep } from 'type-fest'
+import type { IcfCollection } from '../../types/icf'
 import { fakeIcfCodeCollection } from './fakeIcfCodeCollection'
 
 export function fakeIcfCollection(value?: PartialDeep<IcfCollection>): IcfCollection {

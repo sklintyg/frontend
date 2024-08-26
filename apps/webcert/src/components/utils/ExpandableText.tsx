@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react';
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import type { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 import { sanitizeText } from '../../utils'
 

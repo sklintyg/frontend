@@ -1,5 +1,6 @@
 import { isEqual } from 'lodash-es'
-import React, { useEffect } from 'react'
+import type React from 'react';
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import ModalBase from '../../components/utils/Modal/ModalBase'

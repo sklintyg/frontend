@@ -1,7 +1,8 @@
-import React from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
-import { getDynamicLink } from '../store/utils/utilsSelectors'
+import type React from 'react'
+import { shallowEqual } from 'react-redux'
 import DynamicLink from '../components/utils/DynamicLink'
+import { useAppSelector } from '../store/store'
+import { getDynamicLink } from '../store/utils/utilsSelectors'
 
 interface Props {
   linkKey: string
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const WCDynamicLink: React.FC<Props> = ({ linkKey, light }) => {
-  const link = useSelector(getDynamicLink(linkKey), shallowEqual)
+  const link = useAppSelector(getDynamicLink(linkKey), shallowEqual)
 
   return <DynamicLink link={link} light={light} />
 }

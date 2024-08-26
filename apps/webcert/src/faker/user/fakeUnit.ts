@@ -1,6 +1,6 @@
 import faker from 'faker'
-import { CareUnit } from '../../types'
-import { Unit } from '../../types/certificate'
+import type { CareUnit } from '../../types'
+import type { Unit } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export const fakeUnit = (data?: Partial<Unit>): Unit => {

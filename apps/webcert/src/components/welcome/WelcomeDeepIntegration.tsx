@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import type React from 'react';
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import SpinnerBackdrop from '../utils/SpinnerBackdrop'

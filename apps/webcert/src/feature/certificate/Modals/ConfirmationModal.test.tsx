@@ -1,12 +1,12 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { expect, it } from 'vitest'
 import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { CertificateModalActionType } from '../../../types/confirmModal'
+import type { CertificateModalActionType } from '../../../types/confirmModal'
 import { ConfirmationModal } from './ConfirmationModal'
 
 let testStore: EnhancedStore

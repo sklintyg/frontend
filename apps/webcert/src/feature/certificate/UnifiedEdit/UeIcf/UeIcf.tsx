@@ -10,7 +10,8 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { getIcfData } from '../../../../store/icf/icfSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValidationType, ConfigUeIcf, TextValidation, ValueIcf } from '../../../../types'
+import type { CertificateDataElement, ConfigUeIcf, TextValidation, ValueIcf } from '../../../../types';
+import { CertificateDataValidationType } from '../../../../types'
 
 interface Props {
   question: CertificateDataElement

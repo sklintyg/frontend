@@ -9,7 +9,7 @@ import logo from '../images/webcert_logo.png'
 import { useAppSelector } from '../store/store'
 import { getUser } from '../store/user/userActions'
 import { getCareProviders, getSelectUnitHeading } from '../store/user/userSelectors'
-import { CareUnit, Unit } from '../types'
+import type { CareUnit, Unit } from '../types'
 
 const ModalBaseLarge = styled(ModalBase)`
   max-width: 55rem;

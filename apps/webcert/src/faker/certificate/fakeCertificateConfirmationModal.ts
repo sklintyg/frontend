@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { CertificateConfirmationModal } from '../../types/confirmModal'
+import type { CertificateConfirmationModal } from '../../types/confirmModal'
 
 export function fakeCertificateConfirmationModal(value?: Partial<CertificateConfirmationModal>): CertificateConfirmationModal {
   return {

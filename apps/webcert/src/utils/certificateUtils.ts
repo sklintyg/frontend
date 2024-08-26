@@ -1,11 +1,12 @@
-import {
+import type {
   Certificate,
   CertificateEvent,
   CertificateMetadata,
   CertificateRelation,
+  Question} from '../types';
+import {
   CertificateRelationType,
   CertificateStatus,
-  Question,
   QuestionType,
 } from '../types'
 

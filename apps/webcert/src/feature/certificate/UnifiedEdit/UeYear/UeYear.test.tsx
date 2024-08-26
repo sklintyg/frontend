@@ -1,7 +1,7 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
@@ -43,24 +43,24 @@ describe('YearPicker component', () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toBeEnabled()
-    expect(button).toBeEnabled()
+    await expect(input).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
   it('disables component if disabled is set', () => {
     renderComponent({ disabled: true, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toBeDisabled()
-    expect(button).toBeDisabled()
+    await expect(input).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('renders component with correct default values', () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toHaveValue(testYear.toString())
-    expect(button).toHaveValue(testYear.toString())
+    await expect(input).toHaveValue(testYear.toString())
+    await expect(button).toHaveValue(testYear.toString())
   })
 
   it('should display picker with correct value selected and correct limits', async () => {
@@ -86,11 +86,11 @@ describe('YearPicker component', () => {
     const maxYear = screen.getByText((testYear + 2).toString())
     const beforeMinYear = screen.getByText((testYear - 4).toString())
     const afterMaxYear = screen.getByText((testYear + 3).toString())
-    expect(selected).toHaveClass('react-datepicker__year-text--selected')
-    expect(minYear).not.toHaveClass('react-datepicker__year-text--disabled')
-    expect(maxYear).not.toHaveClass('react-datepicker__year-text--disabled')
-    expect(beforeMinYear).toHaveClass('react-datepicker__year-text--disabled')
-    expect(afterMaxYear).toHaveClass('react-datepicker__year-text--disabled')
+    await expect(selected).toHaveClass('react-datepicker__year-text--selected')
+    await expect(minYear).not.toHaveClass('react-datepicker__year-text--disabled')
+    await expect(maxYear).not.toHaveClass('react-datepicker__year-text--disabled')
+    await expect(beforeMinYear).toHaveClass('react-datepicker__year-text--disabled')
+    await expect(afterMaxYear).toHaveClass('react-datepicker__year-text--disabled')
   })
 
   it('should display server validation errors on question.config.id (field)', () => {

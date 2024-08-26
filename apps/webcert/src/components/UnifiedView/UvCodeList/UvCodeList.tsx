@@ -1,12 +1,13 @@
-import React from 'react'
-import {
+import type React from 'react'
+import type {
   CertificateDataConfig,
   CheckboxCode,
-  ConfigLayout,
-  ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
   ValueCode,
-  ValueCodeList,
+  ValueCodeList} from '../../../types';
+import {
+  ConfigLayout,
+  ConfigTypes
 } from '../../../types'
 import { Badge } from '../Badge'
 

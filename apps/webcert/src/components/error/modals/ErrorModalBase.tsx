@@ -1,9 +1,10 @@
 import FocusTrap from 'focus-trap-react'
-import React, { useState } from 'react'
+import type React from 'react';
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { clearError } from '../../../store/error/errorActions'
-import { ErrorData } from '../../../store/error/errorReducer'
+import type { ErrorData } from '../../../store/error/errorReducer'
 import { CustomButton } from '../../Inputs/CustomButton'
 import ErrorCopyText from '../ErrorCopyText'
 

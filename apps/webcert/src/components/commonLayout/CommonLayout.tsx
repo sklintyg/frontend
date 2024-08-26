@@ -1,5 +1,6 @@
 import classnames from 'classnames'
-import React, { useEffect, useRef, useState } from 'react'
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { DatePickerBoundryContext } from '../Inputs/DatePickerCustom/DatePickerBoundryContext'

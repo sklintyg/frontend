@@ -1,6 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import ErrorModalBase from './ErrorModalBase'
-import { ModalProps } from './errorUtils'
+import type { ModalProps } from './errorUtils'
 
 export const INDETERMINATE_IDENTITY_TITLE = 'Intyget kunde inte signeras'
 export const INDETERMINATE_IDENTITY_MESSAGE =

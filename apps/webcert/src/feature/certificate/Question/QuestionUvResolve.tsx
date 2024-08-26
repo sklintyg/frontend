@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
@@ -22,11 +22,8 @@ import { UvViewList } from '../../../components/UnifiedView/UvViewList/UvViewLis
 import { UvVisualAcuity } from '../../../components/UnifiedView/UvVisualAcuity/UvVisualAcuity'
 import { UvYear } from '../../../components/UnifiedView/UvYear/UvYear'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
-import {
+import type {
   CertificateDataElement,
-  CertificateDataElementStyleEnum,
-  CertificateDataValueType,
-  ConfigTypes,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
@@ -55,7 +52,11 @@ import {
   ValueUncertainDate,
   ValueViewList,
   ValueViewTable,
-  ValueVisualAcuity,
+  ValueVisualAcuity} from '../../../types';
+import {
+  CertificateDataElementStyleEnum,
+  CertificateDataValueType,
+  ConfigTypes
 } from '../../../types'
 
 const QuestionUvResolve: React.FC<{

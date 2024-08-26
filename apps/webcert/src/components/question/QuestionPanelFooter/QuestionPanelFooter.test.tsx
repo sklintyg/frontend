@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -9,7 +9,8 @@ import { answerComplementCertificate, complementCertificate, updateCertificate }
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { Question, QuestionType, ResourceLinkType } from '../../../types'
+import type { Question} from '../../../types';
+import { QuestionType, ResourceLinkType } from '../../../types'
 import { flushPromises } from '../../../utils/flushPromises'
 import { QuestionPanelFooter } from './QuestionPanelFooter'
 

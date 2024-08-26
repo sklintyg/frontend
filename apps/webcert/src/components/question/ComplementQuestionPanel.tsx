@@ -1,10 +1,11 @@
-import React from 'react'
+import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
-import { CertificateStatus, Question } from '../../types'
+import type { Question } from '../../types';
+import { CertificateStatus } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import InfoBox from '../utils/InfoBox'
 import Spinner from '../utils/Spinner'

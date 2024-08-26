@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateRoutedFromDeletedCertificate } from '../../../store/certificate/certificateActions'
 import { getIsRoutedFromDeletedCertificate } from '../../../store/certificate/certificateSelectors'
