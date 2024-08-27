@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 export const INVALID_LAUNCHID_TITLE = 'Intyget kan inte visas'

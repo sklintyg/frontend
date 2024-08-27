@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 export const AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_TITLE = 'Intyget kunde inte visas'

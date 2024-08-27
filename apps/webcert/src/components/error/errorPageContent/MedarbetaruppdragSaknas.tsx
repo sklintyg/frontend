@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 export const MEDARBETARUPPDRAG_SAKNAS_TITLE = 'Medarbetaruppdrag saknas'

@@ -1,5 +1,5 @@
 import WCDynamicLink from '../../../utils/WCDynamicLink'
-import React from 'react'
+import type React from 'react'
 import { Link } from 'react-router-dom'
 
 export const TITLE = 'Tekniskt fel'
