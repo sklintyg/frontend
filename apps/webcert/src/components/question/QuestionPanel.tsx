@@ -1,7 +1,6 @@
 import { isEqual } from 'lodash-es'
 import type React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { getCertificateResourceLink, getIsSigned } from '../../store/certificate/certificateSelectors'
@@ -17,7 +16,7 @@ import { useAppSelector } from '../../store/store'
 import type { Question } from '../../types'
 import { QuestionType, ResourceLinkType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
-import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
+import { FetchQuestionsProblem } from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { QuestionPanelFooter } from './QuestionPanelFooter/QuestionPanelFooter'
@@ -41,7 +40,7 @@ const Content = styled.div`
 `
 
 const QuestionPanel: React.FC = () => {
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
+  const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   return isLoadingQuestions ? null : <QuestionPanelInner />
 }
 
@@ -58,7 +57,7 @@ const QuestionPanelInner: React.FC = () => {
     getShouldComplementedBeActive(administrativeQuestions, complementQuestions) ||
       (questionAdministrative && questionAdministrative.enabled === false)
   )
-  const errorId = useSelector(getErrorId)
+  const errorId = useAppSelector(getErrorId)
 
   const getButtonNumber = (questions: Question[]) => {
     if (!isSigned) return undefined

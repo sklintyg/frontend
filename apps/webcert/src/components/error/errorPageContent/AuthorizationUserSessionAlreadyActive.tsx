@@ -1,17 +1,15 @@
-import type React from 'react'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_TITLE = 'This user session is already active and using Webcert'
-export const AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_MESSAGE = 'Please use a new user session for each deep integration link'
-
-const AuthorizationUserSessionAlreadyActive: React.FC = () => {
+export function AuthorizationUserSessionAlreadyActive() {
   return (
     <>
       <p>
-        <strong>{AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_TITLE}</strong>
+        <strong>Intyget kunde inte visas</strong>
       </p>
-      <p>{AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_MESSAGE}</p>
+      <p>
+        Ett problem med sessionen för Webcert har uppstått. Stäng de fönster eller flikar som är öppnade sedan tidigare och försök igen.{' '}
+        <ContactSupportMessage />
+      </p>
     </>
   )
 }
-
-export default AuthorizationUserSessionAlreadyActive

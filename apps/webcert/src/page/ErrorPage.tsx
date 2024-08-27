@@ -28,6 +28,13 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['login.failed', ErrorCode.LOGIN_FAILED],
   ['login.hsaerror', ErrorCode.LOGIN_HSA_ERROR],
   ['login.medarbetaruppdrag', ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
+  ['auth-exception', ErrorCode.AUTHORIZATION_PROBLEM],
+  ['auth-exception-sekretessmarkering', ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING],
+  ['auth-exception-user-already-active', ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE],
+  ['integration.nocontent', ErrorCode.INTEGRATION_NOCONTENT],
+  ['unknown', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
+  ['pu-problem', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
+  ['missing-parameter', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
 ])
 
 const ErrorPage: React.FC = () => {

@@ -166,6 +166,7 @@ const handleGetCertificateError: Middleware<Dispatch> =
       ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
       ErrorCode.AUTHORIZATION_PROBLEM,
       ErrorCode.DATA_NOT_FOUND,
+      ErrorCode.INVALID_LAUNCHID,
     ]
     if (errorCodesToMapToOriginal.some((code) => code.toString() === action.payload.error.errorCode)) {
       errorCode = action.payload.error.errorCode

@@ -1,16 +1,15 @@
-import type React from 'react'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const LOGIN_FAILED_TITLE = 'Inloggningen misslyckades'
-export const LOGIN_FAILED_MESSAGE =
-  'Detta kan bero på att du saknar behörighet till Webcert eller att du saknar giltigt medarbetaruppdrag med ändamål "Vård och behandling"'
-
-const LoginFailed: React.FC = () => {
+function LoginFailed() {
   return (
     <>
       <p>
-        <strong>{LOGIN_FAILED_TITLE}</strong>
+        <strong>Inloggningen misslyckades</strong>
       </p>
-      <p>{LOGIN_FAILED_MESSAGE}</p>
+      <p>
+        Detta kan bero på att du saknar behörighet till Webcert eller att du saknar giltigt medarbetaruppdrag med ändamål "Vård och
+        behandling" <ContactSupportMessage />
+      </p>
     </>
   )
 }

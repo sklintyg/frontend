@@ -91,4 +91,180 @@ describe('ErrorPage', () => {
       expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
     })
   })
+
+  describe('LOGIN_HSAERROR', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=login.hsaerror' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'LOGIN_HSA_ERROR' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.LOGIN_HSA_ERROR, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('LOGIN_MEDARBETARUPPDRAG_SAKNAS', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=login.medarbetaruppdrag' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'LOGIN_MEDARBETARUPPDRAG_SAKNAS' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('AUTHORIZATION_PROBLEM_SEKRETESSMARKERING', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=auth-exception-sekretessmarkering' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=auth-exception-user-already-active' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('INTEGRATION_NOCONTENT', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=integration.nocontent' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'INTEGRATION_NOCONTENT' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.INTEGRATION_NOCONTENT, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('UNKNOWN_INTERNAL_PROBLEM', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=unknown' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'UNKNOWN_INTERNAL_PROBLEM' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('PU_PROBLEM', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=pu-problem' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'UNKNOWN_INTERNAL_PROBLEM' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('MISSING_PARAMETER', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
+      history.push({ pathname: '/error', search: '?reason=missing-parameter' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'UNKNOWN_INTERNAL_PROBLEM' },
+          }),
+        ])
+      )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
+    })
+  })
 })
