@@ -7,7 +7,7 @@ import AuthorizationProblemResource from './errorPageContent/AuthorizationProble
 import { AuthorizationUserSessionAlreadyActive } from './errorPageContent/AuthorizationUserSessionAlreadyActive'
 import DataNotFound from './errorPageContent/DataNotFound'
 import GetCertificateProblem from './errorPageContent/GetCertificateProblem'
-import HSAError from './errorPageContent/HSAError'
+import { HSAError } from './errorPageContent/HSAError'
 import { IntegrationNoContentError } from './errorPageContent/IntegrationNoContentError'
 import InternalProblem from './errorPageContent/InternalProblem'
 import { InvalidLaunchIdError } from './errorPageContent/InvalidLaunchIdError'
