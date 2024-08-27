@@ -1,7 +1,7 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import {
   fakeCertificate,
@@ -13,7 +13,7 @@ import {
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../../types'
+import type { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../../types'
 import { UeMedicalInvestigation } from './UeMedicalInvestigation'
 
 const QUESTION_ID = 'list'
