@@ -1,9 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import type { DefaultBodyType, PathParams, RestRequest } from 'msw'
+import { rest } from 'msw'
+import type { CertificateStatus } from '../schema/certificate.schema'
 import {
-  CertificateStatus,
   CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,

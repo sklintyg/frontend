@@ -1,4 +1,4 @@
-import { PatientSjukfall } from '../../../schemas/patientSchema'
+import type { PatientSjukfall } from '../../../schemas/patientSchema'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
 import { SelectRekoStatus } from './SelectRekoStatus/SelectRekoStatus'
 

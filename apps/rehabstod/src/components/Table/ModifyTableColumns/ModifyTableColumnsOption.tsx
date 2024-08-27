@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { ReactEventHandler } from 'react'
-import { DropPosition } from 'react-aria'
-import { TableColumn } from '../../../schemas/tableSchema'
+import type { ReactEventHandler } from 'react'
+import type { DropPosition } from 'react-aria'
+import type { TableColumn } from '../../../schemas/tableSchema'
 import { Checkbox } from '../../Form/Checkbox'
 import { MoveColumnButton } from './MoveColumnButton'
 

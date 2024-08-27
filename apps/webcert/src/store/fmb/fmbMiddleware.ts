@@ -1,19 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import {
-  CertificateDataValueType,
-  FMBDiagnosisCodeInfo,
-  ResourceLinkType,
-  ValueDateRangeList,
-  ValueDiagnosisList,
-  ValueType,
-} from '../../types'
-import { getResourceLink, isDateRangeValid } from '../../utils'
+import { getBySimpleType } from '@frontend/utils'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList, ValueType } from '../../types'
+import { CertificateDataValueType, ResourceLinkType } from '../../types'
+import { isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { getCertificate } from '../certificate/certificateSelectors'
+import type { FMBDiagnoseRequest } from './fmbActions'
 import {
-  FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
@@ -72,7 +67,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled
+    const fmbPanelActive = getBySimpleType(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {

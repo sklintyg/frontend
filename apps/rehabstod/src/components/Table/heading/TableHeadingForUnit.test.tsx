@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { TableHeadingForUnit } from './TableHeadingForUnit'
-import { User, UserUrval } from '../../../schemas'
+import type { User } from '../../../schemas'
+import { UserUrval } from '../../../schemas'
 import { fakeUser } from '../../../utils/fake/fakeUser'
 
 const TABLE_NAME = 'pågående sjukfall'

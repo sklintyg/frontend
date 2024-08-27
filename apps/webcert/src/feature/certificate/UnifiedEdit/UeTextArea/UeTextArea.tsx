@@ -1,18 +1,13 @@
 import { getByType } from '@frontend/utils'
 import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import TextArea from '../../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeTextArea,
-  ValueText,
-} from '../../../../types'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
+import type { CertificateDataElement, ConfigUeTextArea, ValueText } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement
@@ -23,8 +18,8 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextArea
   const [text, setText] = useState(textValue != null ? textValue.text : '')
-  const dispatch = useDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const dispatch = useAppDispatch()
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const textValidation = getByType(question.validation ?? [], CertificateDataValidationType.TEXT_VALIDATION)
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {

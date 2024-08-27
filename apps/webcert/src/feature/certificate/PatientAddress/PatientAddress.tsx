@@ -1,21 +1,25 @@
+import { getBySimpleType } from '@frontend/utils'
 import { debounce, isEqual } from 'lodash-es'
-import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
+  getCertificateResourceLinks,
   getIsEditable,
   getIsLocked,
   getPatient,
   getPatientValidationErrors,
-  getResourceLinks,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
-import { Patient, ResourceLinkType } from '../../../types'
-import { getResourceLink, getValidationErrors, resourceLinksAreEqual } from '../../../utils'
+import { useAppSelector } from '../../../store/store'
+import type { Patient } from '../../../types'
+import { ResourceLinkType } from '../../../types'
+import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
@@ -55,15 +59,17 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 `
 
 const PatientAddress: React.FC = () => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
-  const patient = useSelector(getPatient, isEqual)
-  const resourceLinks = useSelector(getResourceLinks, isEqual)
-  const disabled = useSelector(getIsLocked)
+  const isShowValidationError = useAppSelector(getShowValidationErrors)
+  const validationErrors = useAppSelector(getPatientValidationErrors(), isEqual)
+  const patient = useAppSelector(getPatient, isEqual)
+  const resourceLinks = useAppSelector(getCertificateResourceLinks, isEqual)
+  const disabled = useAppSelector(getIsLocked)
+  const displayPatientAddressInCertificate =
+    getBySimpleType(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)?.enabled ?? false
   const editable =
-    useSelector(getIsEditable) &&
-    resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)) &&
-    getResourceLink(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE).enabled
+    useAppSelector(getIsEditable) &&
+    resourceLinks.some((link) => link.type === ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE) &&
+    displayPatientAddressInCertificate
 
   const [patientInfo, setPatientInfo] = useState<Patient>(patient as Patient)
 

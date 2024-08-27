@@ -1,4 +1,5 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -101,7 +102,7 @@ describe('SRS Recommendations', () => {
     it('should log when pressing show more', async () => {
       renderComponent()
       await userEvent.click(screen.getAllByText('Visa mer')[0])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
     it('should show measure description if show more is pressed', async () => {
@@ -119,7 +120,7 @@ describe('SRS Recommendations', () => {
     it('should log when pressing show more recommendations', async () => {
       renderComponent()
       await userEvent.click(screen.getAllByText('Se fler')[0])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

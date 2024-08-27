@@ -1,5 +1,5 @@
 import { ValuesWrapper } from './Styles'
-import React from 'react'
+import type React from 'react'
 
 interface IcfChosenValuesProps {
   collectionsLabel: string

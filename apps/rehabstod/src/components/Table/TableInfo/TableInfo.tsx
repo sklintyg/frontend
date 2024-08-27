@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { updateShowPersonalInformation } from '../../../store/slices/settings.slice'
 import { UnansweredCommunicationAlert } from '../../error/ErrorAlert/UnansweredCommunicationAlert'

@@ -1,5 +1,6 @@
 import faker from 'faker'
-import { Question, QuestionType } from '../../types'
+import type { Question } from '../../types'
+import { QuestionType } from '../../types'
 import { fakeId } from '../fakeId'
 
 export function fakeQuestion(data?: Partial<Question>): Question {

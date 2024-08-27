@@ -1,10 +1,12 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { TypedUseSelectorHook, shallowEqual, useDispatch, useSelector } from 'react-redux'
+import type { TypedUseSelectorHook } from 'react-redux'
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { AvailableFunctionsType } from '../schema/certificate.schema'
+import type { AvailableFunctionsType } from '../schema/certificate.schema'
 import { api } from './api'
-import { RootState } from './reducer'
-import { AppDispatch } from './store'
+import type { RootState } from './reducer'
+import type { AppDispatch } from './store'
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 type DispatchFunc = () => AppDispatch

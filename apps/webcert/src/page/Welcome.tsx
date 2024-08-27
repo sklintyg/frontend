@@ -1,11 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { CustomButton } from '../components/Inputs/CustomButton'
+import RadioButton from '../components/Inputs/RadioButton'
+import TextArea from '../components/Inputs/TextArea'
 import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
 import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
 import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
 import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
+import { useAppSelector } from '../store/store'
 import { triggerLogoutNow } from '../store/user/userActions'
 import { getConfig } from '../store/utils/utilsSelectors'
 import {
@@ -17,11 +22,8 @@ import {
   updateCreateCertificate,
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import { MockUser } from '../store/welcome/welcomeReducer'
+import type { MockUser } from '../store/welcome/welcomeReducer'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
-import { CustomButton } from '../components/Inputs/CustomButton'
-import RadioButton from '../components/Inputs/RadioButton'
-import TextArea from '../components/Inputs/TextArea'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -54,11 +56,11 @@ const ExpandableDetails = styled.details`
 `
 
 const Welcome: React.FC = () => {
-  const certificateId = useSelector(getCertificateId())
-  const createCertificate = useSelector(getCreateCertificate())
-  const availableUsers = useSelector(getAvailableUsers())
-  const navigateToCertificate = useSelector(getNavigateToCertificate())
-  const config = useSelector(getConfig)
+  const certificateId = useAppSelector(getCertificateId())
+  const createCertificate = useAppSelector(getCreateCertificate())
+  const availableUsers = useAppSelector(getAvailableUsers())
+  const navigateToCertificate = useAppSelector(getNavigateToCertificate())
+  const config = useAppSelector(getConfig)
 
   const [selectedUser, setSelectedUser] = useState(availableUsers[0])
   const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' } as JsonUser)
@@ -68,7 +70,7 @@ const Welcome: React.FC = () => {
   const [isFakeLogin, setFakeLogin] = useState(true)
   const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
 
-  const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
+  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
 
   const dispatch = useDispatch()
   const history = useHistory()

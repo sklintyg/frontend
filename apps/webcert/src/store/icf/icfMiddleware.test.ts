@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import {
@@ -9,12 +9,14 @@ import {
   fakeDiagnosesElement,
   fakeResourceLink,
 } from '../../faker'
-import { CertificateDataElement, Icd10Code, IcfCode, ResourceLinkType } from '../../types'
+import type { CertificateDataElement, Icd10Code, IcfCode } from '../../types'
+import { ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
-import { IcfRequest, IcfResponse, getIcfCodes, updateIcfCodes } from './icfActions'
+import type { IcfRequest, IcfResponse } from './icfActions'
+import { getIcfCodes, updateIcfCodes } from './icfActions'
 import { icfMiddleware } from './icfMiddleware'
 
 const getDiagnosisElementWithCodeSystem = (codeSystem: string) =>

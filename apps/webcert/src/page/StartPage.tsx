@@ -1,12 +1,12 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import type React from 'react'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import { UserHeaderMenu, UserHeaderMenuItem } from '../components/AppHeader/UserHeaderMenu'
 import { WebcertFooter } from '../components/footer/WebcertFooter'
-import logo from '../components/header/webcert_logo.png'
 import SystemBanners from '../components/notification/SystemBanners'
 import image from '../images/webcert_bild_react.png'
+import logo from '../images/webcert_logo.png'
+import { useAppSelector } from '../store/store'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
 
 const Root = styled.div`
@@ -34,10 +34,10 @@ const CreateAccount: React.FC = () => (
 )
 
 export const StartPage: React.FC = () => {
-  const config = useSelector(getConfig)
-  const isLoadingConfig = useSelector(selectIsLoadingConfig)
-  const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
-  const elegUrl = '/saml/login/alias/eleg-wc2?idp=' + config.cgiFunktionstjansterIdpUrl
+  const config = useAppSelector(getConfig)
+  const isLoadingConfig = useAppSelector(selectIsLoadingConfig)
+  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
+  const elegUrl = '/saml/login/alias/eleg?idp=' + config.cgiFunktionstjansterIdpUrl
 
   return (
     <Root>

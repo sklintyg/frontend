@@ -12,7 +12,7 @@ import {
 } from '@floating-ui/react'
 import { hasNoChildren } from '@frontend/components'
 import { IDSIconChevron } from '@frontend/ids-react-ts'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export function SelectButton({
   title,

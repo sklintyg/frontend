@@ -1,5 +1,5 @@
-import React from 'react'
-import { CertificateDataConfig, ValueCode, CertificateDataElement } from '../../../types/certificate'
+import type React from 'react'
+import type { CertificateDataConfig, ValueCode, CertificateDataElement } from '../../../types/certificate'
 import { Badge } from '../Badge'
 
 type CodeConfigListItem = { id: string; label: string }

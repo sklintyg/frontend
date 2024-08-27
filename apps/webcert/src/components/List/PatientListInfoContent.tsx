@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import alertImage from '../../images/alert.svg'
 import lockClosed from '../../images/lock-closed.svg'
 import warningImage from '../../images/warning.svg'
-import { PatientListInfo } from '../../types/list'
+import type { PatientListInfo } from '../../types/list'
 import { formatPersonId } from '../../utils/personIdValidatorUtils'
 
 const Wrapper = styled.div`

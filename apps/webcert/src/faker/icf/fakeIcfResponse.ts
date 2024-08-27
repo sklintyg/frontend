@@ -1,4 +1,4 @@
-import { IcfResponse } from '../../store/icf/icfActions'
+import type { IcfResponse } from '../../store/icf/icfActions'
 import { fakeIcfCode } from './fakeIcfCode'
 
 export function fakeIcfResponse(data?: Partial<IcfResponse>): IcfResponse {

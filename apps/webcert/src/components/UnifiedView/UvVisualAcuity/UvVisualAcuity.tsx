@@ -1,5 +1,5 @@
-import React from 'react'
-import { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
+import type React from 'react'
+import type { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
 import { formatAcuity } from '../../../utils/format/formatAcuity'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'

@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 interface Props {
   imgSrc: string
@@ -7,7 +7,7 @@ interface Props {
   additionalWrapperStyles?: string
 }
 
-const Logo: React.FC<Props> = ({ imgSrc, imgAlt, additionalImgStyles, additionalWrapperStyles }) => {
+const Logo: React.FC<Props> = ({ imgSrc, imgAlt, additionalImgStyles }) => {
   return (
     <figure className="iu-bg-main">
       <img src={imgSrc} alt={imgAlt} className={`${additionalImgStyles}`} />

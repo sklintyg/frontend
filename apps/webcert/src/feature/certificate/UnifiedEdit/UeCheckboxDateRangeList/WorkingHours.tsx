@@ -3,7 +3,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import Accordion from '../../../../components/utils/Accordion'
 import AccordionHeader from '../../../../components/utils/AccordionHeader'
 import { Text } from '../../../../components/utils/Text'
-import { ValidationError } from '../../../../types'
+import type { ValidationError } from '../../../../types'
 import { WorkingHoursInput } from './WorkingHoursInput'
 
 const AccodrionWrapper = styled.div`

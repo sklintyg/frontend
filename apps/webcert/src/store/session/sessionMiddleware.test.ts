@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { SigningMethod, Unit, User } from '../../types'
+import type { Unit, User } from '../../types'
+import { SigningMethod } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'

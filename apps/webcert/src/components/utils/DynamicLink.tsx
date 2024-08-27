@@ -1,6 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
-import { DynamicLinkData } from '../../types/utils'
+import type { DynamicLinkData } from '../../types/utils'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 
 interface Props {

@@ -1,4 +1,5 @@
 export * from './cookies'
+export * from './getBySimpleType'
 export * from './getByType'
 export * from './isDateString'
 export * from './isString'

@@ -1,4 +1,4 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import type { IDSIcon } from '@frontend/ids-react-ts'
 import { forwardRef } from 'react'
 import { LinkIcon } from '../LinkIcon'
 import { classNames } from '../utils'

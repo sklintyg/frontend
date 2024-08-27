@@ -1,6 +1,9 @@
+import { getBySimpleType } from '@frontend/utils'
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import type React from 'react'
+import type { ChangeEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
@@ -16,8 +19,8 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
-import { Answer, CertificateStatus, Question, QuestionType, ResourceLinkType } from '../../types'
-import { getResourceLink } from '../../utils'
+import type { Answer, Question } from '../../types'
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import Checkbox from '../Inputs/Checkbox'
 import { CustomButton } from '../Inputs/CustomButton'
 import TextArea from '../Inputs/TextArea'
@@ -166,11 +169,11 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       })
     )
 
-  const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+  const isAnswerButtonVisible = () => !question.answer && getBySimpleType(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
   const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
 
-  const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
+  const isHandleCheckboxVisible = () => getBySimpleType(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
   const isRemindersVisible = () => question.reminders.length > 0 && !question.handled
 

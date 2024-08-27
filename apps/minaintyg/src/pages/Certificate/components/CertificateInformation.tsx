@@ -1,5 +1,5 @@
 import { useFormat } from '../../../hooks/useFormat'
-import { CertificateMetadata } from '../../../schema/certificate.schema'
+import type { CertificateMetadata } from '../../../schema/certificate.schema'
 
 export function CertificateInformation({ issued, issuer, summary, unit }: CertificateMetadata) {
   const { date } = useFormat()

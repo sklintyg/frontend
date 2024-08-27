@@ -1,4 +1,5 @@
-import React, { forwardRef, useContext } from 'react'
+import type React from 'react'
+import { forwardRef, useContext } from 'react'
 import { TableHeaderContext } from './TableHeader'
 
 interface Props extends React.HTMLAttributes<HTMLTableCellElement> {

@@ -1,22 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import Certificate from '../feature/certificate/Certificate'
-import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
+import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
+import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
 import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
-import { getIsCertificateDeleted, getIsShowSpinner, getResourceLink } from '../store/certificate/certificateSelectors'
+import {
+  getCertificateMetaData,
+  getCertificateResourceLink,
+  getIsCertificateDeleted,
+  getIsShowSpinner,
+} from '../store/certificate/certificateSelectors'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
-import { RootState } from '../store/store'
+import type { RootState } from '../store/store'
+import { useAppSelector } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'
 
@@ -40,14 +48,16 @@ interface Params {
 const CertificatePage: React.FC = () => {
   const dispatch = useDispatch()
   const { certificateId, error } = useParams<Params>()
-  const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const hasPatient = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
-  const currentCertificateId = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
-  const isLoadingCertificate = useSelector(getIsShowSpinner)
-  const isDBIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
-  const isLuaenaIntegrated = useSelector(getResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
+  const isCertificateDeleted = useAppSelector(getIsCertificateDeleted())
+  const hasPatient = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
+  const currentCertificateId = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
+  const isLoadingCertificate = useAppSelector(getIsShowSpinner)
+  const isDBIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
+  const isLuaenaIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
+  const confirmationModal = useAppSelector((state) => getCertificateMetaData(state)?.confirmationModal)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const [showLuaenaModal, setShowLuaenaModal] = useState(true)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(true)
 
   useEffect(() => {
     if (certificateId && !isLoadingCertificate && certificateId !== currentCertificateId) {
@@ -87,6 +97,14 @@ const CertificatePage: React.FC = () => {
         <RemovedCertificate />
       ) : (
         <>
+          {confirmationModal && hasPatient && (
+            <ConfirmationModal
+              open={showConfirmationModal}
+              setOpen={setShowConfirmationModal}
+              certificateId={certificateId}
+              {...confirmationModal}
+            />
+          )}
           {isDBIntegrated && hasPatient && (
             <DeathCertificateConfirmModalIntegrated
               certificateId={certificateId}

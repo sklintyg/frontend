@@ -1,6 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
-import { ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../types'
+import type { ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../types'
 import { Badge } from '../Badge'
 
 const CauseOfDeathWrapper = styled.div`

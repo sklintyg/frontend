@@ -1,4 +1,5 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -7,7 +8,8 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsInfo } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { SrsInfoForDiagnosis, SrsInformationChoice } from '../../../types'
+import type { SrsInfoForDiagnosis } from '../../../types'
+import { SrsInformationChoice } from '../../../types'
 import SrsPanelFooter from './SrsPanelFooter'
 
 let store: EnhancedStore
@@ -31,9 +33,9 @@ describe('SrsPanelFooter', () => {
     clearDispatchedActions()
   })
 
-  it('should set correct link in footer for recommendations', () => {
+  it('should set correct link in footer for recommendations', async () => {
     renderComponent(SrsInformationChoice.RECOMMENDATIONS)
-    expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.atgarderDiagnosisCode}`)
+    await expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.atgarderDiagnosisCode}`)
   })
 
   it('should set correct text in footer for recommendations', () => {
@@ -41,9 +43,9 @@ describe('SrsPanelFooter', () => {
     expect(screen.getByText(`Information om ${srsInfo.atgarderDiagnosisDescription} hos Rätt Sjukskrivning`)).toBeInTheDocument()
   })
 
-  it('should set correct link in footer for statistics', () => {
+  it('should set correct link in footer for statistics', async () => {
     renderComponent(SrsInformationChoice.STATISTICS)
-    expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.statistikDiagnosisCode}`)
+    await expect(screen.getByRole('link')).toHaveAttribute('href', `https://skr.se/${srsInfo.statistikDiagnosisCode}`)
   })
 
   it('should set correct text in footer for statistics', () => {
@@ -54,6 +56,6 @@ describe('SrsPanelFooter', () => {
   it('should log when clicking link', async () => {
     renderComponent(SrsInformationChoice.STATISTICS)
     await userEvent.click(screen.getByRole('link'))
-    expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+    expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
   })
 })

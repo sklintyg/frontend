@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { fakeCheckboxMultipleCodeElement } from '../../../faker'
-import { CertificateDataValueType, ConfigLayout, ConfigUeCheckboxMultipleCodes, ValueCodeList } from '../../../types'
+import type { ConfigUeCheckboxMultipleCodes, ValueCodeList } from '../../../types'
+import { CertificateDataValueType, ConfigLayout } from '../../../types'
 import { UvCodeList } from './UvCodeList'
 
 const QUESTION_ID = 'questionId'

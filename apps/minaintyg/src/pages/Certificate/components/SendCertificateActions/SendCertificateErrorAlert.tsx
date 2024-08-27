@@ -1,6 +1,6 @@
 import { TechnicalIssueAlert } from '../../../../components/error/TechnicalIssueAlert'
-import { CertificateRecipient } from '../../../../schema/certificate.schema'
-import { QueryError } from '../../../../utils/isQueryError'
+import type { CertificateRecipient } from '../../../../schema/certificate.schema'
+import type { QueryError } from '../../../../utils/isQueryError'
 import { SupportLink } from '../../../../components/error/SupportLink/SupportLink'
 
 export function SendCertificateErrorAlert({ recipient: { name }, error }: { recipient: CertificateRecipient; error: QueryError }) {

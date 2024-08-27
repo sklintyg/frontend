@@ -48,7 +48,7 @@ VITE_WS_PROTOCOL=wss
 - `VITE_API_TARGET` tells the application that our backend is on localhost:8020.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl.
 
-Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc2.wc.localtest.me/welcome>
+Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc.localtest.me/welcome>
 
 ### Mocked e2e tests
 

@@ -1,4 +1,4 @@
-import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 export function getSickLeavesColumnData(column: string, sickLeave: SickLeaveInfo, list?: SickLeaveInfo[]) {

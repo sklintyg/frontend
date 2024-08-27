@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import ListContainer from '../feature/list/ListContainer'
 import {
   getActiveListConfig,
@@ -12,20 +12,21 @@ import {
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
-import { isFilterDefault } from '../feature/list/listUtils'
-import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { ResourceAccess } from '../utils/ResourceAccess'
 import ListHeader from '../components/List/ListHeader'
+import { isFilterDefault } from '../feature/list/listUtils'
 import { epostImage, noDraftsImage } from '../images'
-import { ResourceLinkType, ListType } from '../types'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import { useAppDispatch, useAppSelector } from '../store/store'
+import { ListType, ResourceLinkType } from '../types'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 const SignedCertificatesPage: React.FC = () => {
-  const dispatch = useDispatch()
-  const config = useSelector(getActiveListConfig, shallowEqual)
-  const filter = useSelector(getActiveListFilter, shallowEqual)
-  const isLoadingListConfig = useSelector(getIsLoadingListConfig)
-  const totalCount = useSelector(getListTotalCount)
-  const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
+  const dispatch = useAppDispatch()
+  const config = useAppSelector(getActiveListConfig, shallowEqual)
+  const filter = useAppSelector(getActiveListFilter, shallowEqual)
+  const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
+  const totalCount = useAppSelector(getListTotalCount)
+  const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
   useEffect(() => {
     ReactTooltip.rebuild()

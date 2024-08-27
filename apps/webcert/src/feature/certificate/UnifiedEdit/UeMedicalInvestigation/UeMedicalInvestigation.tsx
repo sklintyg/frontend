@@ -7,15 +7,15 @@ import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getQuestionExpressionResult } from '../../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../../store/store'
-import {
+import type {
   CertificateDataValidation,
-  CertificateDataValidationType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
   ValidationError,
   ValueMedicalInvestigation,
 } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import { formatDateToString } from '../../../../utils'
 
 const Row = styled.div`
@@ -38,7 +38,7 @@ export function UeMedicalInvestigation({
   disabled,
   config,
   questionConfig,
-  value,
+  value: incomingValue,
   validation,
   validationErrors,
   error,
@@ -47,7 +47,7 @@ export function UeMedicalInvestigation({
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
   questionConfig: ConfigUeMedicalInvestigationList
-  value: ValueMedicalInvestigation
+  value?: ValueMedicalInvestigation
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   error: boolean
@@ -66,6 +66,22 @@ export function UeMedicalInvestigation({
       ? getQuestionExpressionResult(minDateValidation.questionId, minDateValidation.expression)
       : () => config.minDate
   )
+
+  const value: ValueMedicalInvestigation = incomingValue ?? {
+    type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+    date: {
+      type: CertificateDataValueType.DATE,
+      id: config.dateId,
+    },
+    informationSource: {
+      type: CertificateDataValueType.TEXT,
+      id: config.informationSourceId,
+    },
+    investigationType: {
+      type: CertificateDataValueType.CODE,
+      id: config.investigationTypeId,
+    },
+  }
 
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
