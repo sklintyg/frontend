@@ -19,7 +19,6 @@ export default ({ mode }: UserConfig) => {
     '/v2',
     '/webcert',
     '/saml',
-    '/services',
     '/error.jsp',
     '/logout',
     '/web/eleglogin',
