@@ -36,6 +36,7 @@ export function ConfirmationModal({
     if (action === 'READ' && certificateType && patientId) {
       dispatch(createNewCertificate({ certificateType, patientId }))
     }
+    setDisabled(true)
     setOpen(false)
   }
 
