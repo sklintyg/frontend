@@ -629,6 +629,26 @@ describe('Test certificate middleware', () => {
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
     })
 
+    it('shall throw INVALID_LAUNCHID error', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.INVALID_LAUNCHID)
+    })
+
+    it('shall throw INVALID_LAUNCHID error with type Route', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
     it('shall throw GET_CERTIFICATE_PROBLEM error', async () => {
       const expectedError = getExpectedError(ErrorCode.GET_CERTIFICATE_PROBLEM.toString())
 

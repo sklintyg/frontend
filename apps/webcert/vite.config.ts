@@ -10,9 +10,19 @@ export default ({ mode }: UserConfig) => {
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
 
-  const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout', '/web/eleglogin'].reduce<
-    Record<string, string | ProxyOptions>
-  >(
+  const proxy = [
+    '/fake',
+    '/api',
+    '/moduleapi',
+    '/testability',
+    '/visa',
+    '/v2',
+    '/webcert',
+    '/saml',
+    '/error.jsp',
+    '/logout',
+    '/web/eleglogin',
+  ].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
       [route]: {
