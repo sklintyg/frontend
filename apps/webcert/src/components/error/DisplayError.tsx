@@ -16,6 +16,7 @@ import { MedarbetaruppdragSaknas } from './errorPageContent/MedarbetaruppdragSak
 import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgreementError'
 import Timeout from './errorPageContent/Timeout'
 import { UnknownInternalProblem } from './errorPageContent/UnknownInternalProblem'
+import { AuthorizationProblemSubscription } from './errorPageContent/AuthorizationProblemSubscription'
 
 interface Props {
   errorCode?: string
@@ -36,6 +37,8 @@ const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
       return <AuthorizationProblemConfidentialityMarking />
     case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET:
       return <AuthorizationProblemConfidentialityMarkingUnit />
+    case ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION:
+      return <AuthorizationProblemSubscription />
     case ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE:
       return <AuthorizationUserSessionAlreadyActive />
     case ErrorCode.INTERNAL_PROBLEM:
