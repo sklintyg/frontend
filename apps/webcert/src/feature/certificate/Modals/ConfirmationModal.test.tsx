@@ -43,6 +43,16 @@ it('Should close modal on CANCEL action', async () => {
   expect(setOpen).toHaveBeenCalledWith(false)
 })
 
+it('Should reset primary action to disabled if action is used', async () => {
+  const data = fakeCertificateConfirmationModal()
+  renderComponent({ ...data, open: true, setOpen: vi.fn() })
+
+  await expect(screen.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
+  await userEvent.click(screen.getByRole('checkbox', { name: data.checkboxText }))
+  await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }))
+  await expect(screen.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
+})
+
 it('Should enable primary action when checkbox is pressed', async () => {
   const data = fakeCertificateConfirmationModal()
   renderComponent({ ...data, open: true, setOpen: vi.fn() })
