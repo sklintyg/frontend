@@ -43,7 +43,7 @@ it('Should close modal on CANCEL action', async () => {
   expect(setOpen).toHaveBeenCalledWith(false)
 })
 
-it('Should reset checkbox to disabled if action is used', async () => {
+it('Should reset primary action to disabled if action is used', async () => {
   const data = fakeCertificateConfirmationModal()
   renderComponent({ ...data, open: true, setOpen: vi.fn() })
 
