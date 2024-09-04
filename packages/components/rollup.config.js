@@ -5,6 +5,7 @@ import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
+import styles from 'rollup-plugin-styles'
 import svg from 'rollup-plugin-svg'
 
 const require = createRequire(import.meta.url)
@@ -24,6 +25,7 @@ const external = [
 ]
 
 const plugins = [
+  styles(),
   svg({ base64: true }),
   esbuild({
     target: 'esnext',

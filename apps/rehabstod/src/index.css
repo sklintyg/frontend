@@ -1,7 +1,6 @@
 @import 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&family=Poppins:wght@600&display=swap';
 @import '@inera/ids-design/themes/inera-admin/inera-admin.css';
 @import '@inera/ids-design/components/table/table.css';
-@import '@inera/ids-design/components/link/link.css';
 
 @tailwind base;
 @tailwind components;
