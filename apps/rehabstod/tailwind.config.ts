@@ -1,5 +1,4 @@
 /* eslint-disable import/no-default-export */
-import { themes } from '@frontend/components/themes'
 import type { Config } from 'tailwindcss'
 
 export default {
@@ -15,6 +14,8 @@ export default {
       xxl: '1920px',
     },
     colors: {
+      black: '#000',
+      white: '#FFF',
       primary: {
         30: 'var(--IDS-COLOR-PRIMARY-30)',
         40: 'var(--IDS-COLOR-PRIMARY-40)',
@@ -52,7 +53,6 @@ export default {
         99: 'var(--IDS-COLOR-ERROR-99)',
         10: '#FF9517',
       },
-      ...themes.ineraAdminTheme,
     },
     extend: {
       gridTemplateColumns: {

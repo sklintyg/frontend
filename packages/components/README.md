@@ -4,22 +4,24 @@ Components shared between applications using Inera Design System.
 
 ## Theming
 
-Color variables are different in the different inera themes so they need to be mapped correctly with component specific mapping. Here is an example using tooltip component:
+Color variables are different in the different inera themes so they need to be mapped to IDS defined colors. Here is an example from the tooltip component:
 
-Add variable in `src/themes/base.ts`
+```tsx
+function TooltipContent() {
+  const theme = useContext(ThemeContext)
 
-```typescript
-export const baseTheme = {
-  ...
-  'tooltip-color': '#000',
-  'tooltip-border-color': 'var(--color-stone-clear)',
+  return (
+    <div
+      style={{
+        color: theme === 'inera-admin' ? 'var(--IDS-COLOR-NEUTRAL-20)' : '#000',
+        borderColor:
+          theme === 'inera-admin'
+            ? 'var(--IDS-COLOR-NEUTRAL-40)'
+            : 'var(--color-stone-clear)',
+      }}
+    />
+  )
 }
 ```
 
-Suffixes defines what part of the component is styled:
-
-- `-color` referes to component text color
-- `-border-color`
-- `-background-color`
-
-Other themes should inherit from "base"
+Using the ThemeContext we can get the correct theme.

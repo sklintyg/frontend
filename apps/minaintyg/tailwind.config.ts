@@ -1,5 +1,4 @@
 /* eslint-disable import/no-default-export */
-import { themes } from '@frontend/components/themes'
 import type { Config } from 'tailwindcss'
 
 export default {
@@ -15,6 +14,8 @@ export default {
     },
     colors: {
       main: 'var(--color-main)',
+      black: '#000',
+      white: '#FFF',
       sky: {
         dark: 'var(--color-sky-dark)',
         base: 'var(--color-sky-base)',
@@ -32,7 +33,6 @@ export default {
         40: 'var(--IDS-COLOR-ACCENT-40)',
         90: 'var(--IDS-COLOR-ACCENT-90)',
       },
-      ...themes.baseTheme,
     },
     extend: {},
   },

@@ -1,7 +1,6 @@
 import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link, useInRouterContext } from 'react-router-dom'
-import { HeaderNavItem } from '../../header/HeaderNavItem'
-import { MobileMenuItem } from '../../header/MobileMenuItem'
+import { HeaderNavItem, MobileMenuItem } from '../../../header'
 import { getNavigation, getNavigationItemUrl, getSettingsUrl } from '../navigation'
 
 export function LayoutHeaderNavigation({ mode, activeLink }: { mode: string; activeLink?: string }) {

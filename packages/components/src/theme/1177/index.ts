@@ -1,4 +1,5 @@
+export * from './IDS1177ThemeProvider'
 export * from './LayoutFooter'
 export * from './LayoutHeader'
-export * from './PageHero'
 export * from './navigation'
+export * from './PageHero'

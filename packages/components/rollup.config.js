@@ -3,7 +3,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
-import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import styles from 'rollup-plugin-styles'
 import svg from 'rollup-plugin-svg'
@@ -13,8 +12,8 @@ const pkg = require('./package.json')
 
 const entries = {
   index: 'src/index.ts',
-  themes: 'src/themes/index.ts',
-  1177: 'src/1177/index.ts',
+  1177: 'src/theme/1177/index.ts',
+  'inera-admin': 'src/theme/inera-admin/index.ts',
 }
 
 const external = [
@@ -61,21 +60,6 @@ export default defineConfig([
     ],
     external,
     plugins,
-    onwarn,
-  },
-  {
-    input: {
-      themes: 'src/themes/index.ts',
-    },
-    output: [
-      {
-        dir: 'dist',
-        format: 'esm',
-        entryFileNames: '[name].d.ts',
-      },
-    ],
-    external,
-    plugins: [dts({ respectExternal: true })],
     onwarn,
   },
 ])
