@@ -2,9 +2,8 @@ import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
-import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
-import { lockClosedImage, userImage } from '../../images'
+import { userImage } from '../../images'
 import { useAppSelector } from '../../store/store'
 import { getUser, getUserResourceLink } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
@@ -80,11 +79,6 @@ const WebcertHeaderUser: React.FC<Props> = () => {
         >
           <UserWrapper>
             <span>{`${user.name} - ${user.role}`}</span>
-            {user.protectedPerson && (
-              <StyledSpan>
-                <ProtectedPersonDoctorModal />
-              </StyledSpan>
-            )}
           </UserWrapper>
           {privatePractitionerPortal && (
             <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />
@@ -99,7 +93,7 @@ const WebcertHeaderUser: React.FC<Props> = () => {
   return (
     <>
       <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal as boolean} preferenceKey={protectedUserApprovalKey} />
-      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lockClosedImage : userImage} />
+      <AppHeaderUser items={toString(user)} image={userImage} />
     </>
   )
 }
