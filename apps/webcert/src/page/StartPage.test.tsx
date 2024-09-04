@@ -28,7 +28,7 @@ const config: Configuration = {
   banners: [],
   cgiFunktionstjansterIdpUrl: '#elegIdp',
   sakerhetstjanstIdpUrl: '#sithsIdp',
-  ppHost: '',
+  ppHost: '#ppHostUrl',
   forwardDraftOrQuestionUrl: '',
 }
 
@@ -63,5 +63,12 @@ describe('StartPage', () => {
     testStore.dispatch(updateConfig(config))
 
     return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg?idp=#elegIdp')
+  })
+
+  it('should render ppHost link', () => {
+    renderComponent()
+    testStore.dispatch(updateConfig(config))
+
+    return expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
   })
 })

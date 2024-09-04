@@ -25,11 +25,15 @@ const LoginButton = styled.a`
   justify-content: space-between;
 `
 
-const CreateAccount: React.FC = () => (
+interface CreateAccountProps {
+  url: string
+}
+
+const CreateAccount: React.FC<CreateAccountProps> = ({ url }) => (
   <div className="iu-text-right iu-mr-500">
     Är du privatläkare och vill använda Webcert?
     <br />
-    <a href="#">Skapa konto</a>
+    <a href={url}>Skapa konto</a>
   </div>
 )
 
@@ -47,7 +51,7 @@ export const StartPage: React.FC = () => {
         secondaryUserMenu={
           <UserHeaderMenu>
             <UserHeaderMenuItem>
-              <CreateAccount key="create-account" />
+              <CreateAccount key="create-account" url={config.ppHost} />
             </UserHeaderMenuItem>
           </UserHeaderMenu>
         }
@@ -63,7 +67,7 @@ export const StartPage: React.FC = () => {
             <p className="iu-mb-600">
               Webcert används för att utfärda digitala intyg. Här får du också överblick över dina patienters intyg. Du kan se aktuell
               status, historik och händelser i intygen. Dessutom kan du hantera all ärendekommunikation med mottagaren, till exempel
-              Försäkringskassan.
+              Försäkringskassan.{' '}
             </p>
             <h2 className="iu-mb-1em">Välj inloggning</h2>
             {isLoadingConfig ? (
