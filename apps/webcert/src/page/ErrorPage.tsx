@@ -30,6 +30,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['login.medarbetaruppdrag', ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
   ['auth-exception', ErrorCode.AUTHORIZATION_PROBLEM],
   ['auth-exception-sekretessmarkering', ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING],
+  ['auth-exception-subscription', ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION],
   ['auth-exception-user-already-active', ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE],
   ['integration.nocontent', ErrorCode.INTEGRATION_NOCONTENT],
   ['unknown', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
@@ -43,7 +44,11 @@ const ErrorPage: React.FC = () => {
   let errorCode: string | undefined
   let errorId: string | undefined
 
-  const excludeErrorId = [ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET, ErrorCode.TIMEOUT]
+  const excludeErrorId = [
+    ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
+    ErrorCode.TIMEOUT,
+    ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION,
+  ]
 
   const shouldExcludeErrorId = () => {
     return excludeErrorId.some((code) => code.toString() === errorCode)

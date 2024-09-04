@@ -9,6 +9,7 @@ const StyledIcon = styled.img`
   vertical-align: middle;
 
   &:hover {
+    cursor: pointer;
     opacity: 0.8;
   }
 `

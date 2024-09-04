@@ -53,6 +53,28 @@ describe('ErrorPage', () => {
     })
   })
 
+  describe('AUTHORIZATION_PROBLEM_SUBSCRIPTION', () => {
+    it('shall display that the user has been logged out due to inactivity', () => {
+      history.push({ pathname: '/error', search: '?reason=auth-exception-subscription' })
+      renderComponent()
+
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'AUTHORIZATION_PROBLEM_SUBSCRIPTION' },
+          }),
+        ])
+      )
+    })
+
+    it('shall not show error id for timeout', () => {
+      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.queryByText(ERROR_ID, { exact: false })).not.toBeInTheDocument()
+    })
+  })
+
   describe('AUTHORIZATION_PROBLEM', () => {
     it('shall display that the user is missing authorization', () => {
       history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM, errorId: ERROR_ID })
