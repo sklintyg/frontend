@@ -1,4 +1,5 @@
 /* eslint-disable import/order */
+import { ThemeProvider } from '@frontend/components/1177'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
 import React from 'react'
@@ -19,10 +20,12 @@ setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <I18nProvider locale="sv-SE">
-      <Provider store={store}>
-        <RouterProvider router={createBrowserRouter(routes)} />
-      </Provider>
-    </I18nProvider>
+    <ThemeProvider>
+      <I18nProvider locale="sv-SE">
+        <Provider store={store}>
+          <RouterProvider router={createBrowserRouter(routes)} />
+        </Provider>
+      </I18nProvider>
+    </ThemeProvider>
   </React.StrictMode>
 )
