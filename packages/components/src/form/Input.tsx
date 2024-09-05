@@ -39,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
           disabled={disabled}
           className={classNames(
             'text-left whitespace-nowrap text-ellipsis overflow-hidden',
-            !error && 'bg-[--input_background]',
+            !error && 'bg-[--IDS-INPUT_BACKGROUND]',
             Boolean(icon) && 'pr-[50px]',
             props.className ?? ''
           )}
