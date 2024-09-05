@@ -17,7 +17,7 @@ import { getUser } from './store/user/userSelectors'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  const origin = useAppSelector(getUser)?.origin
+  const origin = useAppSelector((state) => getUser(state)?.origin)
 
   useEffect(() => {
     if (origin == 'DJUPINTEGRATION') {
