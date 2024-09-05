@@ -1,5 +1,6 @@
 import '@inera/ids-design/components/card/card.css'
-import type { ReactNode } from 'react'
+import { useContext, type ReactNode } from 'react'
+import { ThemeContext } from '../theme/ThemeContext'
 import { classNames } from '../utils'
 
 export function Card({
@@ -19,6 +20,8 @@ export function Card({
   interactive?: boolean
   children: ReactNode
 }) {
+  const theme = useContext(ThemeContext)
+
   return (
     <div
       className={classNames(
@@ -27,7 +30,8 @@ export function Card({
         lean && 'ids-card--lean',
         interactive && 'ids-card--interactive',
         hideons && 'ids-card--hide-on-s',
-        hideonm && 'ids-card--hide-on-m'
+        hideonm && 'ids-card--hide-on-m',
+        theme === 'inera-admin' ? 'border-none' : ''
       )}
     >
       {border > 0 && fill === 0 && <div className={`ids-card__border--${border}`} />}
