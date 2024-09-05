@@ -14,6 +14,7 @@ export interface User {
   careProviders: CareProvider[]
   launchId?: string
   launchFromOrigin?: string
+  origin: string
 }
 
 export enum SigningMethod {

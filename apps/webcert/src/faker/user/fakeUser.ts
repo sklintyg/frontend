@@ -17,5 +17,6 @@ export const fakeUser = (value?: Partial<User>): User => ({
   loginMethod: LoginMethod.FAKE,
   protectedPerson: false,
   careProviders: [fakeCareProvider({ id: unit.unitId, name: unit.unitName })],
+  origin: 'DJUPINTEGRATION',
   ...value,
 })
