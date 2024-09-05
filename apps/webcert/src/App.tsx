@@ -6,28 +6,31 @@ import { BrowserRouter } from 'react-router-dom'
 import { Routes } from './Routes'
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import ErrorComponent from './components/error/ErrorComponent'
-import CareProviderModal from './feature/careProvider/CareProviderModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import { useAppDispatch } from './store/store'
+import { useAppDispatch, useAppSelector } from './store/store'
 import { cancelLogout, triggerLogout } from './store/user/userActions'
 import { initateApplication } from './store/welcome/welcomeActions'
+import { getUser } from './store/user/userSelectors'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
+  const origin = useAppSelector((state) => getUser(state)?.origin)
 
   useEffect(() => {
-    const handleWindowBeforeUnload = () => dispatch(triggerLogout())
-
-    window.addEventListener('beforeunload', handleWindowBeforeUnload)
-    dispatch(cancelLogout())
-    dispatch(initateApplication())
-    return () => {
-      window.removeEventListener('beforeunload', handleWindowBeforeUnload)
+    if (origin == 'DJUPINTEGRATION') {
+      const handleWindowBeforeUnload = () => dispatch(triggerLogout())
+      window.addEventListener('beforeunload', handleWindowBeforeUnload)
+      dispatch(cancelLogout())
+      dispatch(initateApplication())
+      return () => {
+        window.removeEventListener('beforeunload', handleWindowBeforeUnload)
+      }
     }
-  }, [dispatch])
+    dispatch(initateApplication())
+  }, [dispatch, origin])
 
   const onError = (error: Error) => {
     dispatch(
@@ -41,7 +44,6 @@ function App(): JSX.Element {
     <BrowserRouter>
       <ErrorBoundary fallbackRender={ErrorMessage} onError={onError}>
         <ErrorComponent />
-        <CareProviderModal />
         <SubscriptionWarningModal />
         <Routes />
       </ErrorBoundary>

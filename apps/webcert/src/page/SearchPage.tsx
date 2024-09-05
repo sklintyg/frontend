@@ -1,14 +1,15 @@
-import React, { ComponentProps } from 'react'
-import { useSelector } from 'react-redux'
+import type React from 'react'
+import type { ComponentProps } from 'react'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import PatientSearch from '../components/patient/PatientSearch'
+import { useAppSelector } from '../store/store'
 import { getUser } from '../store/user/userSelectors'
-import { ResourceAccess } from '../utils/ResourceAccess'
 import { ResourceLinkType } from '../types'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 const SearchPage: React.FC = () => {
-  const user = useSelector(getUser)
+  const user = useAppSelector(getUser)
 
   return (
     <>

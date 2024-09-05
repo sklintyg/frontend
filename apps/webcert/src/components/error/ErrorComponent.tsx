@@ -1,8 +1,8 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import type React from 'react'
 import { Redirect } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import { getActiveError } from '../../store/error/errorSelectors'
+import { useAppSelector } from '../../store/store'
 import CertificateRevoked from './modals/CertificateRevoked'
 import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
 import ConcurrentModification from './modals/ConcurrentModification'
@@ -21,7 +21,7 @@ export interface ErrorRoute {
 }
 
 const ErrorComponent: React.FC = () => {
-  const activeError = useSelector(getActiveError)
+  const activeError = useAppSelector(getActiveError)
 
   if (!activeError) return null
 

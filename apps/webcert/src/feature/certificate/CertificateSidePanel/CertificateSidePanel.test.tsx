@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -12,7 +12,8 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '../../../types'
+import type { Certificate, CertificateMetadata, ResourceLink } from '../../../types'
+import { CertificateStatus, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore

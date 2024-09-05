@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import styled from 'styled-components'
 import protectedPersonIcon from '../../images/lock-closed.svg'
 import deceasedIcon from '../../images/warning.svg'

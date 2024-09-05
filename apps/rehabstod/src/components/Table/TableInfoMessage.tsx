@@ -1,6 +1,6 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { MaxColspanRow } from './tableBody/MaxColspanRow'
-import { User } from '../../schemas'
+import type { User } from '../../schemas'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
 import { isUserDoctor } from '../../utils/isUserDoctor'
 

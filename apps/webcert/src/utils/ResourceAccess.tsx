@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import type React from 'react'
+import { useEffect } from 'react'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { useAppDispatch, useAppSelector } from '../store/store'
 import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
-import { ResourceLinkType } from '../types'
+import type { ResourceLinkType } from '../types'
 
 interface Props {
   linkType: ResourceLinkType
 }
 
 export const ResourceAccess: React.FC<Props> = ({ children, linkType }) => {
-  const isLoadingUser = useSelector(selectIsLoadingUser)
-  const user = useSelector(getUser)
-  const userLinks = useSelector(getUserResourceLinks)
-  const dispatch = useDispatch()
+  const isLoadingUser = useAppSelector(selectIsLoadingUser)
+  const user = useAppSelector(getUser)
+  const userLinks = useAppSelector(getUserResourceLinks)
+  const dispatch = useAppDispatch()
 
   const showSpinner = isLoadingUser
 

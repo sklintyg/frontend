@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -61,7 +61,7 @@ describe('Forward certificate button', () => {
 
   it('opens email with correct link', () => {
     const openSpy = vi.spyOn(window, 'open')
-    const forwardDraftOrQuestionUrl = 'https://wc2.wc.localtest.me/webcert/web/user/launch/'
+    const forwardDraftOrQuestionUrl = 'https://wc.localtest.me/webcert/web/user/launch/'
 
     testStore.dispatch(
       updateConfig({

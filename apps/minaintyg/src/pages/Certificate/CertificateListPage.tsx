@@ -1,6 +1,6 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { useSessionStorage } from '@react-hooks-library/core'
-import { SortDirection } from 'react-stately'
+import type { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import { PageHeadingDescription } from '../../components/PageHeading/PageHeadingDescription'
 import { SupportLink } from '../../components/error/SupportLink/SupportLink'

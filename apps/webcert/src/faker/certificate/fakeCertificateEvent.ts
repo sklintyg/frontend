@@ -1,5 +1,6 @@
 import faker from 'faker'
-import { CertificateEvent, CertificateEventType, CertificateStatus } from '../../types/certificate'
+import type { CertificateEvent } from '../../types/certificate'
+import { CertificateEventType, CertificateStatus } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export function fakeCertificateEvent(data?: Partial<CertificateEvent>): CertificateEvent {

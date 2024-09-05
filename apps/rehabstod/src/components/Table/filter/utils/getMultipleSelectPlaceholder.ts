@@ -1,4 +1,4 @@
-import { OccupationType, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
+import type { OccupationType, RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 
 export const getMultipleSelectPlaceholder = (selected: string[], options: OccupationType[] | RekoStatusType[]) => {
   if (selected.length === 0 || !selected) {

@@ -1,17 +1,14 @@
-import React from 'react'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const INVALID_LAUNCHID_TITLE = 'Intyget kan inte visas'
-export const INVALID_LAUNCHID_MESSAGE = 'Detta intyg kan inte visas eftersom du har öppnat ett annat intyg.'
-
-const InvalidLaunchIdError: React.FC = () => {
+export function InvalidLaunchIdError() {
   return (
     <>
       <p>
-        <strong>{INVALID_LAUNCHID_TITLE}</strong>
+        <strong>Intyget kan inte visas</strong>
       </p>
-      <p>{INVALID_LAUNCHID_MESSAGE}</p>
+      <p>
+        Detta intyg kan inte visas eftersom du har öppnat ett annat intyg. <ContactSupportMessage />
+      </p>
     </>
   )
 }
-
-export default InvalidLaunchIdError

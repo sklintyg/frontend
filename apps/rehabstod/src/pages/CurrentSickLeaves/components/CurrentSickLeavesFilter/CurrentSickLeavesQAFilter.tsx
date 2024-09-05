@@ -1,5 +1,5 @@
 import { SelectFilter } from '../../../../components/Table/filter/SelectFilter'
-import { UnansweredCommunicationFilterType } from '../../../../schemas/sickLeaveSchema'
+import type { UnansweredCommunicationFilterType } from '../../../../schemas/sickLeaveSchema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slices/sickLeaveFilter.slice'
 

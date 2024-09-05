@@ -1,4 +1,4 @@
-import { Unit } from './certificate'
+import type { Unit } from './certificate'
 
 export interface User {
   hsaId: string
@@ -14,6 +14,7 @@ export interface User {
   careProviders: CareProvider[]
   launchId?: string
   launchFromOrigin?: string
+  origin: string
 }
 
 export enum SigningMethod {

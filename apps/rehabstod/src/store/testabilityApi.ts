@@ -1,4 +1,4 @@
-import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
+import type { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
 import { api } from './api'
 
 const testabilityApi = api.injectEndpoints({

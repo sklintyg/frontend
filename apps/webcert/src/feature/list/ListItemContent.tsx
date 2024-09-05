@@ -4,14 +4,8 @@ import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import PatientListInfoContent from '../../components/List/PatientListInfoContent'
 import { checkImage, readImage } from '../../images'
-import {
-  CertificateListItemValueType,
-  ForwardedListInfo,
-  ListButtonTooltips,
-  PatientListInfo,
-  ResourceLink,
-  ResourceLinkType,
-} from '../../types'
+import type { ForwardedListInfo, ListButtonTooltips, PatientListInfo, ResourceLink } from '../../types'
+import { CertificateListItemValueType, ResourceLinkType } from '../../types'
 import { formatDate } from '../../utils'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'

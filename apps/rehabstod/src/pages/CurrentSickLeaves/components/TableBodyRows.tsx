@@ -4,7 +4,7 @@ import { useTableContext } from '../../../components/Table/hooks/useTableContext
 import { MaxColspanRow } from '../../../components/Table/tableBody/MaxColspanRow'
 import { TableRow } from '../../../components/Table/tableBody/TableRow'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from '../../../components/Table/utils/tableTextGeneratorUtils'
-import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'

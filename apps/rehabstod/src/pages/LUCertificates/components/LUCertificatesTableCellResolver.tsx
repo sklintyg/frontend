@@ -1,6 +1,6 @@
 import { DiagnosisInfoCell } from '../../../components/DiagnosisInfo/DiagnosisInfoCell'
 import { TableCell } from '../../../components/Table/tableBody/TableCell'
-import { LUCertificate } from '../../../schemas/luCertificatesSchema'
+import type { LUCertificate } from '../../../schemas/luCertificatesSchema'
 import { LUCertificatesColumn } from '../../../store/slices/luUnitTableColumns.slice'
 import { getUnansweredCommunicationFormat } from '../../../utils/getUnansweredCommunicationFormat'
 import { CertificateButton } from '../../Patient/components/CertificateButton'

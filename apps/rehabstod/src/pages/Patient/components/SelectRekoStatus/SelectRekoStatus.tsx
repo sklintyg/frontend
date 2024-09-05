@@ -1,5 +1,5 @@
 import { Select } from '@frontend/components'
-import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
+import type { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetRekoStatusForPatientQuery, useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../../../utils/getRekoStatusSickLeaveTimestamp'

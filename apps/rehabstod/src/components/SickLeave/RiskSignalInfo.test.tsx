@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RiskSignal } from '../../schemas/sickLeaveSchema'
+import type { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { RiskSignalInfo } from './RiskSignalInfo'
 

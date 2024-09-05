@@ -1,6 +1,7 @@
-import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit'
-import { UserPreferences } from '../../schemas'
-import { TableColumn } from '../../schemas/tableSchema'
+import type { EntityState, PayloadAction } from '@reduxjs/toolkit'
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import type { UserPreferences } from '../../schemas'
+import type { TableColumn } from '../../schemas/tableSchema'
 import { api } from '../api'
 
 export function createTableColumnSlice<T extends keyof UserPreferences>(sliceName: T, columns: string[]) {

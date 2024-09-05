@@ -1,6 +1,6 @@
-import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
-import { Patient } from '../schemas/patientSchema'
-import {
+import type { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
+import type { Patient } from '../schemas/patientSchema'
+import type {
   RekoStatus,
   RekoStatusType,
   SickLeaveFilter,

@@ -1,20 +1,14 @@
-import React from 'react'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const GET_CERTIFICATE_PROBLEM_TITLE = 'Intyget kunde inte visas'
-export const GET_CERTIFICATE_PROBLEM_TEXT = 'Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand '
-
-const InternalProblem: React.FC = () => {
+export function GetCertificateProblem() {
   return (
     <>
       <p>
-        <strong>{GET_CERTIFICATE_PROBLEM_TITLE}</strong>
+        <strong>Intyget kunde inte visas</strong>
       </p>
       <p>
-        {GET_CERTIFICATE_PROBLEM_TEXT} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+        <ContactSupportMessage />
       </p>
     </>
   )
 }
-
-export default InternalProblem

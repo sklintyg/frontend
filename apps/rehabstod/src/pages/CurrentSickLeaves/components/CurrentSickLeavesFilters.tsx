@@ -1,6 +1,6 @@
 import { TableFilter } from '../../../components/Table/TableFilter'
 import { PrintTitle } from '../../../components/Table/print/PrintTitle'
-import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'

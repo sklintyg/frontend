@@ -1,16 +1,9 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement, fakeUser } from '../../faker'
-import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateRelation,
-  CertificateRelationType,
-  CertificateRelations,
-  CertificateStatus,
-  SigningMethod,
-} from '../../types'
+import type { Certificate, CertificateRelation, CertificateRelations } from '../../types'
+import { CertificateDataElementStyleEnum, CertificateRelationType, CertificateStatus, SigningMethod } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -21,13 +14,15 @@ import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
-import {
+import type {
   CertificateApiGenericError,
   ComplementCertificateSuccess,
   CreateCertificate,
   CreateCertificateFromCandidateSuccess,
   CreateCertificateResponse,
   SigningData,
+} from './certificateActions'
+import {
   answerComplementCertificate,
   autoSaveCertificateError,
   certificateApiGenericError,
@@ -626,6 +621,26 @@ describe('Test certificate middleware', () => {
 
     it('shall throw AUTHORIZATION_PROBLEM error with type Route', async () => {
       const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw INVALID_LAUNCHID error', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.INVALID_LAUNCHID)
+    })
+
+    it('shall throw INVALID_LAUNCHID error with type Route', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 

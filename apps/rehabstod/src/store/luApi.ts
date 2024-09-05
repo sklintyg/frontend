@@ -1,5 +1,5 @@
-import { Lakare } from '../schemas/lakareSchema'
-import { LUCertificatesFilter, LUCertificatesFilterOptions, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
+import type { Lakare } from '../schemas/lakareSchema'
+import type { LUCertificatesFilter, LUCertificatesFilterOptions, LUCertificatesInfo } from '../schemas/luCertificatesSchema'
 import { api } from './api'
 
 const luApi = api.injectEndpoints({

@@ -1,6 +1,7 @@
-import { Patient } from './patient'
-import { QuestionType } from './question'
-import { ResourceLink } from './resourceLink'
+import type { CertificateConfirmationModal } from './confirmModal'
+import type { Patient } from './patient'
+import type { QuestionType } from './question'
+import type { ResourceLink } from './resourceLink'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -43,6 +44,7 @@ export interface CertificateMetadata {
   responsibleHospName: string
   signed?: string
   messageTypes?: MessageType[]
+  confirmationModal: CertificateConfirmationModal | null
 }
 
 export type MessageType = {

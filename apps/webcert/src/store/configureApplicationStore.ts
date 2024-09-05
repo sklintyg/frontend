@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createBrowserHistory } from 'history'
-import { Middleware } from 'redux'
+import type { Middleware } from 'redux'
 import { reducer } from './reducer'
 
 export const history = createBrowserHistory()

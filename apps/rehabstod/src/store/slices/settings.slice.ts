@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserPreferences } from '../../schemas'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import type { UserPreferences } from '../../schemas'
 
 export interface Settings {
   showSettingsDialog: boolean

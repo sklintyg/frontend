@@ -1,21 +1,14 @@
-import React from 'react'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const INTERNAL_PROBLEM_TITLE = 'Intyget kunde inte visas'
-export const INTERNAL_PROBLEM_MESSAGE =
-  'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand '
-
-const InternalProblem: React.FC = () => {
+export function InternalProblem() {
   return (
     <>
       <p>
-        <strong>{INTERNAL_PROBLEM_TITLE}</strong>
+        <strong>Intyget kunde inte visas</strong>
       </p>
       <p>
-        {INTERNAL_PROBLEM_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+        Prova att ladda om sidan. <ContactSupportMessage />
       </p>
     </>
   )
 }
-
-export default InternalProblem

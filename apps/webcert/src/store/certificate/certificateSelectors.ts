@@ -1,32 +1,29 @@
 import { getByType } from '@frontend/utils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash-es'
-import {
+import type {
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateEvent,
   CertificateMetadata,
-  CertificateRelationType,
   CertificateSignStatus,
-  CertificateStatus,
   Complement,
-  ConfigTypes,
   MessageType,
   ModalData,
   Patient,
   PersonId,
-  QuestionType,
   ResourceLink,
-  ResourceLinkType,
   Unit,
   ValidationError,
 } from '../../types'
+import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
-import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
-import { ErrorData } from '../error/errorReducer'
-import { RootState } from '../store'
-import { SigningData } from './certificateActions'
+import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import type { ErrorData } from '../error/errorReducer'
+import type { RootState } from '../store'
+import type { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 

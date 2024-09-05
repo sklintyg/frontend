@@ -1,22 +1,25 @@
-import React, { ComponentProps, useCallback, useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import type { ComponentProps } from 'react'
+import type React from 'react'
+import { useCallback, useEffect } from 'react'
+import { shallowEqual, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
-import CertificateList from '../components/certificateList/CertificateList'
+import { CertificateList } from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import ListContainer from '../feature/list/ListContainer'
 import { isFilterDefault } from '../feature/list/listUtils'
+import { listImage, noDraftsImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
 import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
 import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
+import { useAppSelector } from '../store/store'
 import { getUser } from '../store/user/userSelectors'
-import { ResourceAccess } from '../utils/ResourceAccess'
-import { listImage, noDraftsImage } from '../images'
 import { ListFilterType, ListType, ResourceLinkType } from '../types'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 interface Params {
   patientId: string
@@ -28,12 +31,12 @@ interface Params {
 const CreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()
   const dispatch = useDispatch()
-  const config = useSelector(getActiveListConfig, shallowEqual)
-  const totalCount = useSelector(getListTotalCount)
-  const filter = useSelector(getActiveListFilter, shallowEqual)
-  const patient = useSelector(getActivePatient)
-  const user = useSelector(getUser)
-  const patientFilter = useSelector(getActiveListFilterValue('PATIENT_ID'))
+  const config = useAppSelector(getActiveListConfig, shallowEqual)
+  const totalCount = useAppSelector(getListTotalCount)
+  const filter = useAppSelector(getActiveListFilter, shallowEqual)
+  const patient = useAppSelector(getActivePatient)
+  const user = useAppSelector(getUser)
+  const patientFilter = useAppSelector(getActiveListFilterValue('PATIENT_ID'))
   const history = useHistory()
 
   useEffect(() => {

@@ -1,4 +1,5 @@
-import React, { forwardRef, createContext } from 'react'
+import type React from 'react'
+import { forwardRef, createContext } from 'react'
 
 export const TableHeaderContext = createContext(false)
 

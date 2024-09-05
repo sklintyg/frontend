@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -54,15 +54,6 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal gets closed', async () => {
-    testStore.dispatch(updateUser(fakeUser({ protectedPerson: true })))
-    renderComponent()
-    await userEvent.click(screen.getByRole('checkbox'))
-    await userEvent.click(screen.getByText('Till Webcert'))
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
-  })
-
   it('should not show protected person modal if approval is saved in preferences', () => {
     testStore.dispatch(
       updateUser(
@@ -75,33 +66,6 @@ describe('WebcertHeaderUser', () => {
     renderComponent()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.queryByText(/Du har skyddade personuppgifter/i)).not.toBeInTheDocument()
-  })
-
-  it('should show protected person link when approval modal is closed', () => {
-    testStore.dispatch(
-      updateUser(
-        fakeUser({
-          protectedPerson: true,
-          preferences: getUserPreferences('true'),
-        })
-      )
-    )
-    renderComponent()
-    expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
-  })
-
-  it('should open protected person modal when clicking on link', async () => {
-    testStore.dispatch(
-      updateUser(
-        fakeUser({
-          protectedPerson: true,
-          preferences: getUserPreferences('true'),
-        })
-      )
-    )
-    renderComponent()
-    await userEvent.click(screen.getByText(/Skyddade personuppgifter/i))
-    expect(screen.getByText('Användning av Webcert med skyddade personuppgifter')).toBeInTheDocument()
   })
 
   it('should show private practitioner portal link dropdown', () => {

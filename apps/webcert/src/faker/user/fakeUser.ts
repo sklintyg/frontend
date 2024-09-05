@@ -1,4 +1,5 @@
-import { LoginMethod, SigningMethod, User } from '../../types'
+import type { User } from '../../types'
+import { LoginMethod, SigningMethod } from '../../types'
 import { fakeCareProvider } from './fakeCareProvider'
 import { fakeUnit } from './fakeUnit'
 
@@ -16,5 +17,6 @@ export const fakeUser = (value?: Partial<User>): User => ({
   loginMethod: LoginMethod.FAKE,
   protectedPerson: false,
   careProviders: [fakeCareProvider({ id: unit.unitId, name: unit.unitName })],
+  origin: 'DJUPINTEGRATION',
   ...value,
 })

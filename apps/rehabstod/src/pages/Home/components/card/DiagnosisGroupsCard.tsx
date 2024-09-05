@@ -1,6 +1,6 @@
-import { DiagnosGruppStat } from '../../../../schemas/diagnosisSchema'
+import type { DiagnosGruppStat } from '../../../../schemas/diagnosisSchema'
 import { Gender } from '../../../../schemas/patientSchema'
-import { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
+import type { SickLeaveSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
 import { getGenderText } from '../../statisticsUtils'
 import { StatisticsCard } from './StatisticsCard'

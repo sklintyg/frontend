@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -8,7 +8,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import { logSrsInteraction, updateSrsPredictions, updateSrsQuestions } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 import dispatchHelperMiddleware, { dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { SrsAnswer } from '../../../types'
+import type { SrsAnswer } from '../../../types'
 import SrsRiskForm from './SrsRiskForm'
 
 let testStore: EnhancedStore

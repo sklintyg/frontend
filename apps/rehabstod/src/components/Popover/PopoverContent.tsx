@@ -1,5 +1,5 @@
 import { FloatingFocusManager, FloatingPortal } from '@floating-ui/react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { usePopoverContext } from './Popover'
 
 export function PopoverContent({ children }: { children: ReactNode }) {
