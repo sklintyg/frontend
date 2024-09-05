@@ -40,6 +40,7 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
           className={classNames(
             'text-left whitespace-nowrap text-ellipsis overflow-hidden',
             !error && 'bg-[--IDS-INPUT_BACKGROUND]',
+            'placeholder-[--IDS-FORM__PLACEHOLDER__COLOR]',
             Boolean(icon) && 'pr-[50px]',
             props.className ?? ''
           )}
