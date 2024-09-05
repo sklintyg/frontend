@@ -13,6 +13,8 @@ const pkg = require('./package.json')
 const entries = {
   index: 'src/index.ts',
   1177: 'src/theme/1177/index.ts',
+  '1177-pro': 'src/theme/1177-pro/index.ts',
+  inera: 'src/theme/inera/index.ts',
   'inera-admin': 'src/theme/inera-admin/index.ts',
 }
 
