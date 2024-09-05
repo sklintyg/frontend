@@ -67,7 +67,7 @@ export const StartPage: React.FC = () => {
             <p className="iu-mb-600">
               Webcert används för att utfärda digitala intyg. Här får du också överblick över dina patienters intyg. Du kan se aktuell
               status, historik och händelser i intygen. Dessutom kan du hantera all ärendekommunikation med mottagaren, till exempel
-              Försäkringskassan.{' '}
+              Försäkringskassan.
             </p>
             <h2 className="iu-mb-1em">Välj inloggning</h2>
             {isLoadingConfig ? (
