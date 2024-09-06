@@ -1,5 +1,6 @@
 /* eslint-disable import/no-default-export */
 import type { Config } from 'tailwindcss'
+import { elevenSeventySevenColors, elevenSeventySevenProColors, ineraAdminColors, ineraColors } from './src/theme/colors'
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -10,6 +11,12 @@ export default {
       md: '800px',
       lg: '1024px',
       xl: '1280px',
+    },
+    colors: {
+      ...elevenSeventySevenColors,
+      ...elevenSeventySevenProColors,
+      ...ineraAdminColors,
+      ...ineraColors,
     },
     extend: {
       backgroundImage: {

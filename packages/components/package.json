@@ -14,20 +14,30 @@
         "default": "./dist/index.js"
       }
     },
-    "./themes": {
-      "types": "./dist/themes.d.ts",
-      "import": "./dist/themes.js",
-      "require": "./dist/themes.js"
-    },
     "./1177": {
       "types": "./dist/1177.d.ts",
       "import": "./dist/1177.js",
       "require": "./dist/1177.js"
     },
+    "./1177-pro": {
+      "types": "./dist/1177-pro.d.ts",
+      "import": "./dist/1177-pro.js",
+      "require": "./dist/1177-pro.js"
+    },
+    "./inera": {
+      "types": "./dist/inera.d.ts",
+      "import": "./dist/inera.js",
+      "require": "./dist/inera.js"
+    },
     "./inera-admin": {
       "types": "./dist/inera-admin.d.ts",
       "import": "./dist/inera-admin.js",
       "require": "./dist/inera-admin.js"
+    },
+    "./colors": {
+      "types": "./dist/colors.d.ts",
+      "import": "./dist/colors.js",
+      "require": "./dist/colors.js"
     }
   },
   "files": [

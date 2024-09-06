@@ -31,7 +31,7 @@ export function Card({
         interactive && 'ids-card--interactive',
         hideons && 'ids-card--hide-on-s',
         hideonm && 'ids-card--hide-on-m',
-        theme === 'inera-admin' ? 'border-none' : ''
+        theme === 'inera-admin' && 'border-none'
       )}
     >
       {border > 0 && fill === 0 && <div className={`ids-card__border--${border}`} />}
