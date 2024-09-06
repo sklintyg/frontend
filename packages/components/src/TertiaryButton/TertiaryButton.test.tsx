@@ -8,7 +8,7 @@ it('Should render as expected', () => {
   expect(container).toMatchInlineSnapshot(`
     <div>
       <button
-        class="ids-link inline-flex text-base font-normal"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
         <span
@@ -26,7 +26,7 @@ it('Should be possible to add icon before text', () => {
   expect(container).toMatchInlineSnapshot(`
     <div>
       <button
-        class="ids-link inline-flex text-base font-normal"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
         <span
@@ -51,7 +51,7 @@ it('Should be possible to add icon after text', () => {
   expect(container).toMatchInlineSnapshot(`
     <div>
       <button
-        class="ids-link inline-flex text-base font-normal"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
         <span

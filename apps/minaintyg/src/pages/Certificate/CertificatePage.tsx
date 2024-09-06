@@ -1,4 +1,4 @@
-import { IDSAlert, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { ScrollRestoration, useParams } from 'react-router-dom'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
@@ -56,7 +56,7 @@ export function CertificatePage() {
             <PageDivider />
           </div>
 
-          <div className="rounded-[10px] border-neutral-90 md:border md:p-7 md:shadow-[0_0_2px_0px_rgba(0,0,0,0.3)]">
+          <IDSCard>
             <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
               <h2 className="ids-heading-2">{certificate.metadata.type.name}</h2>
               <div className="flex gap-1">
@@ -75,7 +75,7 @@ export function CertificatePage() {
               <CertificateBody content={certificate.content} />
               <CertificateFooter {...certificate.metadata} />
             </article>
-          </div>
+          </IDSCard>
         </>
       )}
     </>

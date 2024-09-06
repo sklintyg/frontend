@@ -13,7 +13,7 @@ interface TertiaryButtonProps {
 }
 
 export const TertiaryButton = forwardRef<HTMLButtonElement, React.HTMLProps<HTMLButtonElement> & TertiaryButtonProps>(
-  ({ startIcon, endIcon, underlined = false, children, className, ...props }, ref) => {
+  ({ startIcon, endIcon, underlined = true, children, className, ...props }, ref) => {
     const theme = useContext(ThemeContext)
     return (
       <button
