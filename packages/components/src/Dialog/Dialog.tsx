@@ -67,6 +67,18 @@ export function Dialog({
     }
   }, [open, setOpen])
 
+  // Fix issue where dialog is not closed when pressing escape while nothing has focus
+  useEffect(() => {
+    function listener(event: KeyboardEvent) {
+      if (open && event.key === 'Escape') {
+        setOpen(false)
+      }
+    }
+    window.addEventListener('keydown', listener)
+
+    return () => window.removeEventListener('keydown', listener)
+  }, [open, setOpen])
+
   return (
     <FocusOn
       enabled={open}
