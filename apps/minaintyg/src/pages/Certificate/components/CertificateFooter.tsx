@@ -7,8 +7,7 @@ export function CertificateFooter({ issuer, unit, careUnit, id }: CertificateMet
   const unitAddress = [[unit.address, unit.zipCode].filter(isTruthy).join(', '), unit.city].filter(isTruthy).join(' ')
 
   return (
-    <footer>
-      <PageDivider />
+    <footer className="pt-7">
       <h2 className="ids-heading-3">Intyget är skrivet av</h2>
       <address className="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]">
         <div>

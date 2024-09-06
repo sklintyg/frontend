@@ -22,7 +22,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       </TertiaryButton>
       {expanded && (
         <div className="mb-5 print:mb-2">
-          <div className="grid-cols-table-filter sm:grid-cols-table-filter-sm mb-7 grid gap-x-10 gap-y-7 print:mb-4 print:gap-2 print:sm:grid-cols-4">
+          <div className="mb-7 grid grid-cols-table-filter gap-x-10 gap-y-7 print:mb-4 print:gap-2 sm:grid-cols-table-filter-sm print:sm:grid-cols-4">
             {children}
           </div>
           <div className="flex flex-col gap-5 print:hidden md:flex-row md:justify-end">
