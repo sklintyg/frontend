@@ -30,10 +30,12 @@ export function SendCertificatePage() {
         <>
           <div>
             <h2 className="ids-heading-2 mb-5">Intyg som ska skickas</h2>
-            <IDSCard className="mb-5">
-              <h2 className="ids-heading-3">{certificate.metadata.type.name}</h2>
-              <CertificateInformation {...certificate.metadata} />
-            </IDSCard>
+            <div className="mb-5">
+              <IDSCard>
+                <h2 className="ids-heading-3">{certificate.metadata.type.name}</h2>
+                <CertificateInformation {...certificate.metadata} />
+              </IDSCard>
+            </div>
           </div>
           <div className="mb-5">
             <h2 className="ids-heading-2 mb-5">Mottagare</h2>
