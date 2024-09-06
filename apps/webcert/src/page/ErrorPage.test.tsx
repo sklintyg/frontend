@@ -5,11 +5,18 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
-import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
+import {
+  GO_TO_START_TEXT,
+  TIMEOUT_MESSAGE_ORIGIN_INTEGRATED,
+  TIMEOUT_MESSAGE_ORIGIN_NORMAL,
+  TIMEOUT_TITLE,
+} from '../components/error/errorPageContent/Timeout'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import ErrorPage from './ErrorPage'
+import { updateUser } from '../store/user/userActions'
+import { fakeUser } from '../faker'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -37,12 +44,25 @@ describe('ErrorPage', () => {
   })
 
   describe('TIMEOUT', () => {
-    it('shall display that the user has been logged out due to inactivity', () => {
+    it('shall display that the user with origin djupintegration has been logged out due to inactivity', () => {
+      testStore.dispatch(updateUser(fakeUser({ origin: 'DJUPINTEGRATION' })))
+
       history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
       renderComponent()
 
       expect(screen.getByText(TIMEOUT_TITLE)).toBeInTheDocument()
-      expect(screen.getByText(TIMEOUT_MESSAGE, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(TIMEOUT_MESSAGE_ORIGIN_INTEGRATED, { exact: false })).toBeInTheDocument()
+    })
+
+    it('shall display that the user with origin normal has been logged out due to inactivity', () => {
+      testStore.dispatch(updateUser(fakeUser({ origin: 'NORMAL' })))
+
+      history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(TIMEOUT_TITLE)).toBeInTheDocument()
+      expect(screen.getByText(TIMEOUT_MESSAGE_ORIGIN_NORMAL, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(GO_TO_START_TEXT)).toBeInTheDocument()
     })
 
     it('shall not show error id for timeout', () => {
