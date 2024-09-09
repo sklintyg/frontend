@@ -25,11 +25,15 @@ const LoginButton = styled.a`
   justify-content: space-between;
 `
 
-const CreateAccount: React.FC = () => (
+interface CreateAccountProps {
+  url: string
+}
+
+const CreateAccount: React.FC<CreateAccountProps> = ({ url }) => (
   <div className="iu-text-right iu-mr-500">
     Är du privatläkare och vill använda Webcert?
     <br />
-    <a href="#">Skapa konto</a>
+    <a href={url}>Skapa konto</a>
   </div>
 )
 
@@ -47,7 +51,7 @@ export const StartPage: React.FC = () => {
         secondaryUserMenu={
           <UserHeaderMenu>
             <UserHeaderMenuItem>
-              <CreateAccount key="create-account" />
+              <CreateAccount key="create-account" url={config.ppHost} />
             </UserHeaderMenuItem>
           </UserHeaderMenu>
         }
