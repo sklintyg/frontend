@@ -1,5 +1,6 @@
 export * from './Card'
 export * from './Dialog'
+export * from './Divider'
 export * from './error'
 export * from './form'
 export * from './GlobalAlert'

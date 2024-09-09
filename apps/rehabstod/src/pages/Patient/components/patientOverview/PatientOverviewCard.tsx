@@ -1,4 +1,4 @@
-import { Card } from '@frontend/components'
+import { Card, Divider } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { EmptyInformation } from './EmptyInformation'
 import { ExpandableCard } from './ExpandableCard'
@@ -23,7 +23,7 @@ export function PatientOverviewCard({
   return (
     <Card fill={1}>
       <h5 className="ids-heading-4">{title}</h5>
-      <hr />
+      <Divider />
       {!isEmpty ? (
         <ExpandableCard description={description} subTitle={subTitle} expanded={expanded} onExpand={onExpand}>
           {children}
