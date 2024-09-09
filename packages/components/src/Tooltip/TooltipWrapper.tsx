@@ -1,9 +1,9 @@
-import { useContext, type ReactNode } from 'react'
-import { ThemeContext } from '../theme/ThemeContext'
+import { type ReactNode } from 'react'
+import { useTheme } from '../theme/useTheme'
 import { classNames } from '../utils'
 
 export function TooltipWrapper({ children }: { children: ReactNode }) {
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
 
   return (
     <div

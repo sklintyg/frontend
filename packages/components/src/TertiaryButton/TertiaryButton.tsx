@@ -1,8 +1,8 @@
 import type { IDSIcon } from '@frontend/ids-react-ts'
 import '@inera/ids-design/components/link/link.css'
 import type { ComponentProps, ReactNode } from 'react'
-import { forwardRef, useContext } from 'react'
-import { ThemeContext } from '../theme/ThemeContext'
+import { forwardRef } from 'react'
+import { useTheme } from '../theme/useTheme'
 import { classNames } from '../utils'
 
 interface TertiaryButtonProps {
@@ -14,7 +14,7 @@ interface TertiaryButtonProps {
 
 export const TertiaryButton = forwardRef<HTMLButtonElement, React.HTMLProps<HTMLButtonElement> & TertiaryButtonProps>(
   ({ startIcon, endIcon, underlined = true, children, className, ...props }, ref) => {
-    const theme = useContext(ThemeContext)
+    const theme = useTheme()
     return (
       <button
         ref={ref}

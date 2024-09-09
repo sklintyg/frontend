@@ -1,14 +1,14 @@
 import { FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import type { HTMLProps } from 'react'
-import { forwardRef, useContext } from 'react'
-import { ThemeContext } from '../theme/ThemeContext'
+import { forwardRef } from 'react'
+import { useTheme } from '../theme/useTheme'
 import { classNames } from '../utils'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
 export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>((props, propRef) => {
   const context = useTooltipContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
 
   if (!context.open) return null
 
