@@ -1,4 +1,4 @@
-import { IDSFooter, IDSIconChevronBold, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { LayoutFooterLink } from './LayoutFooterLink'
 import { LayoutFooterMobile } from './LayoutFooterMobile'
 import { footerLinks } from './footerLinks'
@@ -13,7 +13,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           .filter(({ requireSession }) => (requireSession ? hasSession : true))
           .map(({ title, url, target }) => (
             <IDSLink key={`${col}-${title}`} slot={`link-col-${col}`}>
-              <IDSIconChevronBold />
+              <IDSIconArrow height="0.625rem" width="0.625rem" />
               <a href={url} target={target}>
                 {title}
               </a>

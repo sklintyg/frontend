@@ -13,6 +13,8 @@ export default {
       xl: '1280px',
     },
     colors: {
+      black: '#000',
+      white: '#FFF',
       ...elevenSeventySevenColors,
       ...elevenSeventySevenProColors,
       ...ineraAdminColors,
