@@ -8,7 +8,18 @@ exports[`Should render as expected 1`] = `
   >
     <ids-header
       class="z-40 bg-white print:hidden"
-    />
+    >
+      <ids-link
+        class="z-40"
+        slot="skip-to-content"
+      >
+        <a
+          href="#content"
+        >
+          Till sidans huvudinnehåll
+        </a>
+      </ids-link>
+    </ids-header>
     <main
       class="relative flex-1"
       id="content"
