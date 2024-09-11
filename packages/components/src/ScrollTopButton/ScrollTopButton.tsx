@@ -1,6 +1,6 @@
-import { classNames } from '@frontend/components'
 import { IDSButton, IDSIconArrow } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
+import { classNames } from '../utils'
 
 export function ScrollTopButton() {
   const [show, setShow] = useState(false)
@@ -48,7 +48,7 @@ export function ScrollTopButton() {
           })
         }}
       >
-        <IDSIconArrow color="var(--color-main)" width="24" height="24" rotate="-90" />
+        <IDSIconArrow color="var(--btn-fab-icon_color)" width="24" height="24" rotate="-90" />
       </IDSButton>
     </div>
   )

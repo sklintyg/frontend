@@ -5,7 +5,6 @@ export function ShowPersonalInformationCheckbox({ checked, onChange }: { checked
     <div className="h-7">
       <Checkbox
         checked={checked}
-        compact
         description="Visar eller döljer patienternas namn och personnummer i tabellen."
         label="Visa personuppgifter"
         onChange={(event) => onChange(event.currentTarget.checked)}

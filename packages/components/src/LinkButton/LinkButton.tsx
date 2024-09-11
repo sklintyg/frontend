@@ -1,3 +1,4 @@
+import '@inera/ids-design/components/button/button.css'
 import { forwardRef } from 'react'
 import { classNames } from '../utils'
 
@@ -8,10 +9,6 @@ interface LinkButtonProps {
   mblock?: boolean
 }
 
-/**
- * Component for creating a link that looks like a button.
- * Requires ids-design button css '@inera/ids-design/components/button/button.css'
- */
 export const LinkButton = forwardRef<HTMLAnchorElement, React.HTMLProps<HTMLAnchorElement> & LinkButtonProps>(
   ({ secondary, block = false, sblock = false, mblock = false, children, className, ...props }, ref) => (
     <a

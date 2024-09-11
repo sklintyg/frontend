@@ -1,5 +1,4 @@
-import { classNames } from '@frontend/components'
-import { IDSCard } from '@frontend/ids-react-ts'
+import { Card, classNames } from '@frontend/components'
 import { useState } from 'react'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'
@@ -21,7 +20,7 @@ export function StatisticsCard({
   const [open, setOpen] = useState(false)
 
   return (
-    <IDSCard fill>
+    <Card fill={1}>
       <h3 className="ids-heading-4">{title}</h3>
       <p className="mb-4 max-w-xl">{subTitle}</p>
       <div className="flex flex-col gap-5 xl:flex-row">
@@ -34,6 +33,6 @@ export function StatisticsCard({
           </div>
         </div>
       </div>
-    </IDSCard>
+    </Card>
   )
 }

@@ -27,7 +27,7 @@ export function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
       <LayoutHeader />
-      <main className="flex-1">
+      <main id="content" className="flex-1">
         <StickyContainerProvider>
           {config &&
             config.banners.length > 0 &&

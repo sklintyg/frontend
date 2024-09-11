@@ -1,4 +1,4 @@
-import { GlobalAlert, PriorityEnum } from '@frontend/components'
+import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
 import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
@@ -8,7 +8,6 @@ import { useGetInfoQuery } from '../../store/api'
 import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
-import { ScrollTopButton } from './ScrollTopButton'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { hasSessionEnded, reason, errorId } = useAppSelector((state) => state.sessionSlice)
@@ -25,7 +24,7 @@ export function Layout({ children }: { children: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      <LayoutHeader mode={import.meta.env.MODE}>
+      <LayoutHeader mode={import.meta.env.MODE} skipToContent="#content">
         {user && (
           <>
             <LayoutHeaderAvatar />

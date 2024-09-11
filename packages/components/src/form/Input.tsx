@@ -23,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
       <IDSInput
         isDisabled={disabled}
         light={light}
-        valid={!error}
+        invalid={error}
         hasIcon={Boolean(icon)}
         className={classNames('my-0', inline && 'flex items-baseline gap-3')}
       >
@@ -39,7 +39,8 @@ export const Input = forwardRef<HTMLInputElement, React.HTMLProps<HTMLInputEleme
           disabled={disabled}
           className={classNames(
             'text-left whitespace-nowrap text-ellipsis overflow-hidden',
-            !error && 'bg-[--input_background]',
+            !error && !light && 'bg-[--IDS-INPUT_BACKGROUND]',
+            'placeholder-[--IDS-FORM__PLACEHOLDER__COLOR]',
             Boolean(icon) && 'pr-[50px]',
             props.className ?? ''
           )}

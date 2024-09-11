@@ -16,14 +16,22 @@ exports[`Should render as expected 1`] = `
     <div>
       <button
         aria-label="Läs mer om vad du kan göra i Intyg"
-        class="mt-4 flex text-sky-base hover:text-sky-dark"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
-        <ids-icon-information
-          class="mr-2 mt-0.5 inline ids-icon"
-          size="s"
-        />
-        Läs mer om vad du kan göra i Intyg
+        <span
+          class="ids-link__icon"
+        >
+          <ids-icon-information
+            class="ids-icon"
+            size="m"
+          />
+        </span>
+        <span
+          class="ids-link__text"
+        >
+          Läs mer om vad du kan göra i Intyg
+        </span>
       </button>
       <div
         data-focus-guard="true"

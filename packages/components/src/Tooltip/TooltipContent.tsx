@@ -1,18 +1,25 @@
 import { FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
+import { useTheme } from '../theme/useTheme'
+import { classNames } from '../utils'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
 export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>((props, propRef) => {
   const context = useTooltipContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
+  const theme = useTheme()
 
   if (!context.open) return null
 
   return (
     <FloatingPortal>
       <div
-        className="pointer-events-none z-50 max-w-xs whitespace-normal rounded border border-tooltip-border-color bg-white px-5 py-2.5 text-base font-normal text-tooltip-color md:max-w-sm"
+        className={classNames(
+          'pointer-events-none z-50 max-w-xs whitespace-normal rounded border bg-white px-5 py-2.5 text-base font-normal md:max-w-sm',
+          theme === 'inera-admin' && 'text-neutral-20 border-neutral-40',
+          theme === '1177' && 'text-black border-neutral-50'
+        )}
         ref={ref}
         style={{
           position: context.strategy,

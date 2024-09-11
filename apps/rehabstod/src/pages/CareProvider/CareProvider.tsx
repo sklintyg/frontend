@@ -80,12 +80,14 @@ export function CareProvider() {
           ))}
         </div>
         {selectedRadio ? (
-          <p>
+          <p className="mb-2">
             Du har valt <span className="font-bold">{selectedRadio}</span>
           </p>
         ) : null}
-        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
-        <div className="flex flex-col gap-5 md:flex-row ">
+        <div className="mb-2">
+          <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
           <IDSButton mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
           </IDSButton>

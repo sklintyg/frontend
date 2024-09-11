@@ -9,10 +9,9 @@ exports[`Should have article content 1`] = `
       Test
     </p>
   </ids-expandable>
-  <footer>
-    <hr
-      class="my-7 border-stone-line"
-    />
+  <footer
+    class="pt-7"
+  >
     <h2
       class="ids-heading-3"
     >
@@ -39,7 +38,7 @@ exports[`Should have article content 1`] = `
       </div>
     </address>
     <hr
-      class="my-7 border-stone-line"
+      class="my-7 border-neutral-90"
     />
     <strong>
       Intygs-ID:

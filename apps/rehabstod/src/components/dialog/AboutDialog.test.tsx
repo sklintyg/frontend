@@ -14,12 +14,6 @@ beforeEach(() => {
   store.dispatch(updateShowAboutDialog(true))
 })
 
-it.skip('Should display SRS information if the user has access to the feature', async () => {
-  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ features: { SRS: { global: true } } })))))
-  renderWithRouter(<AboutDialog />)
-  expect(await screen.findByText('Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?')).toBeInTheDocument()
-})
-
 it('Should hide SRS information if the user doesnt have access to the feature', () => {
   server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ features: { SRS: { global: false } } })))))
   renderWithRouter(<AboutDialog />)

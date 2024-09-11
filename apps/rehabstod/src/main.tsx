@@ -1,4 +1,5 @@
 /* eslint-disable import/no-duplicates */
+import { ThemeProvider } from '@frontend/components/inera-admin'
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
@@ -21,12 +22,14 @@ setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <I18nProvider locale="sv-SE">
-      <Provider store={store}>
-        <PersistGate loading={<IDSSpinner />} persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </I18nProvider>
+    <ThemeProvider>
+      <I18nProvider locale="sv-SE">
+        <Provider store={store}>
+          <PersistGate loading={<IDSSpinner />} persistor={persistor}>
+            <RouterProvider router={router} />
+          </PersistGate>
+        </Provider>
+      </I18nProvider>
+    </ThemeProvider>
   </React.StrictMode>
 )

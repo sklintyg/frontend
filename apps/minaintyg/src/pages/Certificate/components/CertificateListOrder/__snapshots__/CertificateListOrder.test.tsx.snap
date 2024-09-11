@@ -3,7 +3,7 @@
 exports[`Should render with order set to "ascending" 1`] = `
 <div>
   <div
-    class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+    class="mb-5 flex flex-col md:flex-row md:gap-1"
   >
     Sortera efter:
      
@@ -12,10 +12,14 @@ exports[`Should render with order set to "ascending" 1`] = `
     >
       <button
         aria-label="Nyast först"
-        class="text-sky-base underline hover:text-sky-dark"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
-        Nyast först
+        <span
+          class="ids-link__text"
+        >
+          Nyast först
+        </span>
       </button>
       <div
         role="separator"
@@ -24,10 +28,14 @@ exports[`Should render with order set to "ascending" 1`] = `
       </div>
       <button
         aria-label="Äldst först"
-        class="font-semibold pointer-events-none"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
         type="button"
       >
-        Äldst först
+        <span
+          class="ids-link__text"
+        >
+          Äldst först
+        </span>
       </button>
     </div>
   </div>
@@ -37,7 +45,7 @@ exports[`Should render with order set to "ascending" 1`] = `
 exports[`Should render with order set to "descending" 1`] = `
 <div>
   <div
-    class="mb-5 flex flex-col text-stone-dark md:flex-row md:gap-1"
+    class="mb-5 flex flex-col md:flex-row md:gap-1"
   >
     Sortera efter:
      
@@ -46,10 +54,14 @@ exports[`Should render with order set to "descending" 1`] = `
     >
       <button
         aria-label="Nyast först"
-        class="font-semibold pointer-events-none"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
         type="button"
       >
-        Nyast först
+        <span
+          class="ids-link__text"
+        >
+          Nyast först
+        </span>
       </button>
       <div
         role="separator"
@@ -58,10 +70,14 @@ exports[`Should render with order set to "descending" 1`] = `
       </div>
       <button
         aria-label="Äldst först"
-        class="text-sky-base underline hover:text-sky-dark"
+        class="ids-link inline-flex text-base font-normal ids-link--underlined"
         type="button"
       >
-        Äldst först
+        <span
+          class="ids-link__text"
+        >
+          Äldst först
+        </span>
       </button>
     </div>
   </div>

@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected 1`] = `
+<div>
+  <div
+    class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out pointer-events-none"
+  >
+    <ids-button
+      aria-label="Till toppen av sidan"
+      class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
+      role="button"
+    >
+      <ids-icon-arrow
+        class="ids-icon"
+      />
+    </ids-button>
+  </div>
+</div>
+`;

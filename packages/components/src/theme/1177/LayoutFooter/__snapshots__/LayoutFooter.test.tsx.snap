@@ -11,7 +11,7 @@ exports[`Should render correctly 1`] = `
     <ids-link
       slot="link-col-1"
     >
-      <ids-icon-chevron-bold
+      <ids-icon-arrow
         class="ids-icon"
       />
       <a
@@ -28,7 +28,7 @@ exports[`Should render correctly 1`] = `
     <ids-link
       slot="link-col-1"
     >
-      <ids-icon-chevron-bold
+      <ids-icon-arrow
         class="ids-icon"
       />
       <a
@@ -45,7 +45,7 @@ exports[`Should render correctly 1`] = `
     <ids-link
       slot="link-col-2"
     >
-      <ids-icon-chevron-bold
+      <ids-icon-arrow
         class="ids-icon"
       />
       <a

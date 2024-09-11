@@ -23,7 +23,7 @@ exports[`Should render logged-out type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
@@ -82,7 +82,7 @@ exports[`Should render login-failed type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
@@ -127,7 +127,7 @@ exports[`Should render not-found type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
@@ -196,7 +196,7 @@ exports[`Should render underage type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
@@ -255,7 +255,7 @@ exports[`Should render unknown type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-page-hero-border-color md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"

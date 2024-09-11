@@ -48,12 +48,11 @@ export function OpenInformationWithConsent({
           setCheckedConsent(event.currentTarget.checked)
           setShowError(false)
         }}
-        compact
         valid={`${!showError}`}
         light
       />
       {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
-      <div className="-mt-5 ml-10 flex w-44 items-center gap-3">
+      <div className="ml-10 flex w-44 items-center gap-3">
         <FormattedNumberInput
           label=""
           onChange={(value) => setDaysOfConsent(value)}
@@ -66,20 +65,22 @@ export function OpenInformationWithConsent({
         <p>dagar</p>
       </div>
       <h6 className="ids-heading-4 pt-3">Vem har samtycke?</h6>
-      <RadioButton
-        label="Bara jag"
-        onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-        value={PatientOverviewConsentChoices.ONLYCURRENT}
-        checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
-        light
-      />
-      <RadioButton
-        label="All behörig personal på vårdenheten"
-        onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-        value={PatientOverviewConsentChoices.ALL}
-        checked={consentId === PatientOverviewConsentChoices.ALL}
-        light
-      />
+      <div className="flex gap-3">
+        <RadioButton
+          label="Bara jag"
+          onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+          value={PatientOverviewConsentChoices.ONLYCURRENT}
+          checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
+          light
+        />
+        <RadioButton
+          label="All behörig personal på vårdenheten"
+          onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+          value={PatientOverviewConsentChoices.ALL}
+          checked={consentId === PatientOverviewConsentChoices.ALL}
+          light
+        />
+      </div>
       <div className="pb-5 pt-3">
         <AboutPatientOverview />
       </div>

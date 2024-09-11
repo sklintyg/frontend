@@ -1,7 +1,6 @@
-import { classNames } from '@frontend/components'
-import { IDSRadio } from '@frontend/ids-react-ts'
 import type { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
+import { CareProviderRadioButton } from './CareProviderRadio'
 
 export function CareProviderItem({
   provider,
@@ -21,40 +20,25 @@ export function CareProviderItem({
             <CareProviderAccordion unit={unit} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
                 <div key={reception.id} className="ml-5 flex items-center">
-                  <IDSRadio>
-                    <input
-                      type="radio"
-                      name="selectedUnit"
-                      value={reception.namn}
-                      id={reception.namn}
-                      checked={selectedRadio === reception.namn}
-                      onChange={(event) => handleChooseUnit(event, reception)}
-                    />
-                    <label
-                      htmlFor={reception.namn}
-                      className={classNames('cursor-pointer', 'items-center', 'mb-0', selectedRadio === reception.namn && 'font-bold')}
-                    >
-                      <span className="">{reception.namn}</span>
-                    </label>
-                  </IDSRadio>
+                  <CareProviderRadioButton
+                    id={reception.namn}
+                    value={reception.namn}
+                    label={reception.namn}
+                    checked={selectedRadio === reception.namn}
+                    onChange={(event) => handleChooseUnit(event, reception)}
+                  />
                 </div>
               ))}
             </CareProviderAccordion>
           ) : (
             <div className="my-2 flex items-center border-b border-neutral-90">
-              <IDSRadio>
-                <input
-                  type="radio"
-                  name="selectedUnit"
-                  value={unit.namn}
-                  id={unit.namn}
-                  checked={selectedRadio === unit.namn}
-                  onChange={(event) => handleChooseUnit(event, unit)}
-                />
-                <label htmlFor={unit.namn} className={` cursor-pointer ${selectedRadio === unit.namn ? 'font-bold' : ''}`}>
-                  {unit.namn}
-                </label>
-              </IDSRadio>
+              <CareProviderRadioButton
+                id={unit.namn}
+                value={unit.namn}
+                label={unit.namn}
+                checked={selectedRadio === unit.namn}
+                onChange={(event) => handleChooseUnit(event, unit)}
+              />
             </div>
           )}
         </div>

@@ -30,6 +30,10 @@ export function LayoutHeader() {
 
   return (
     <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
+      <IDSLink slot="skip-to-content" className="z-40">
+        <a href="#content">Till sidans huvudinnehåll</a>
+      </IDSLink>
+
       <Link className="text-primary-40" slot="brand-text" to="/">
         Rehabstöd
       </Link>

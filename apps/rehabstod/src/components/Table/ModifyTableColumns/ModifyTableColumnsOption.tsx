@@ -25,16 +25,17 @@ export function ModifyTableColumnsOption({
 }) {
   return (
     <div className="flex cursor-move" onKeyDown={preventEventPropagation} onClick={preventEventPropagation}>
-      <div className="h-12 w-full">
-        <Checkbox
-          checked={visible}
-          disabled={disabled || disableCheckbox}
-          label={name}
-          compact
-          onChange={(event) => {
-            onVisibilityChange(name, event.currentTarget.checked)
-          }}
-        />
+      <div className="w-full py-0.5">
+        <div className="pt-1">
+          <Checkbox
+            checked={visible}
+            disabled={disabled || disableCheckbox}
+            label={name}
+            onChange={(event) => {
+              onVisibilityChange(name, event.currentTarget.checked)
+            }}
+          />
+        </div>
       </div>
       <MoveColumnButton
         disabled={!before}
