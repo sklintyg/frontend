@@ -21,9 +21,9 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
           </>
         )}
         {recipient && <SendCertificateAction recipient={recipient} id={id} />}
-        <CustomizePrintDialog />
-        <SaveCertificateWarningDialog />
       </div>
+      <CustomizePrintDialog />
+      <SaveCertificateWarningDialog />
     </PrintCertificateContextProvider>
   )
 }
