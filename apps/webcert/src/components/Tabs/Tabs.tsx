@@ -47,11 +47,7 @@ export function Tabs({
   selectedTabIndex: number
 }) {
   const [tabFocus, setTabFocus] = useState(0)
-  const getIcon = (type: ResourceLinkType) => {
-    if ([ResourceLinkType.FMB, ResourceLinkType.SRS_FULL_VIEW, ResourceLinkType.SRS_MINIMIZED_VIEW].includes(type)) {
-      return <LightbulpIcon className="iu-mr-200" />
-    }
-  }
+  const iconLinkType = [ResourceLinkType.FMB, ResourceLinkType.SRS_FULL_VIEW, ResourceLinkType.SRS_MINIMIZED_VIEW]
 
   return (
     <Root className="ic-tabbed tabbed">
@@ -95,7 +91,7 @@ export function Tabs({
                 data-tip={description}
                 onFocus={() => setTabFocus(i)}
               >
-                {icon && getIcon(icon)}
+                {icon && iconLinkType.includes(icon) && <LightbulpIcon className="iu-mr-200" />}
                 {name}
               </TabButton>
             </li>
