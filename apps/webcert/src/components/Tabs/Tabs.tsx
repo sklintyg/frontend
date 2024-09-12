@@ -11,14 +11,14 @@ const Root = styled.div`
   height: 100%;
 `
 
-const Section = styled.section`
+const TabContent = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   overflow: auto;
 `
 
-const List = styled.ul`
+const TabList = styled.ul`
   border-bottom: 0 !important;
 `
 
@@ -51,7 +51,7 @@ export function Tabs({
 
   return (
     <Root className="ic-tabbed tabbed">
-      <List
+      <TabList
         role="tablist"
         className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-pt-200"
         onKeyDown={(e) => {
@@ -97,12 +97,12 @@ export function Tabs({
             </li>
           )
         })}
-      </List>
+      </TabList>
 
       <div role="tabpanel">
         {tabsContent.map((tabContent, i) => {
           return (
-            <Section
+            <TabContent
               id={`panel-${i}`}
               key={i}
               role="tabpanel"
@@ -112,7 +112,7 @@ export function Tabs({
               className="ic-tabbed__section ic-text"
             >
               {tabContent}
-            </Section>
+            </TabContent>
           )
         })}
       </div>
