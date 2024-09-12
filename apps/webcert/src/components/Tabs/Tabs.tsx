@@ -29,7 +29,7 @@ const TabButton = styled.button.attrs({
   color: #00706e;
 `
 
-export interface Tab {
+type Tab = {
   name: string
   description: string
   icon?: ResourceLinkType
