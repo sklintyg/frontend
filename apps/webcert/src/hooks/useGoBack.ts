@@ -1,6 +1,4 @@
 import { useHistory } from 'react-router'
-import { useAppSelector } from '../store/store'
-import { getPatientId } from '../store/srs/srsSelectors'
 
 export const useGoBack = () => {
   const history = useHistory()
