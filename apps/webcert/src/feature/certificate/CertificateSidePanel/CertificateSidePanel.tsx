@@ -1,5 +1,4 @@
 import { isTruthy } from '@frontend/utils'
-import type { ReactNode } from 'react'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -8,7 +7,6 @@ import FMBPanel from '../../../components/fmb/FMBPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
-import { LightbulpIcon } from '../../../images'
 import { getCertificate, getCertificateResourceLink, getIsShowSpinner } from '../../../store/certificate/certificateSelectors'
 import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
@@ -65,23 +63,6 @@ const CertificateSidePanel: React.FC = () => {
     }
   }
 
-  const getTab = (name: string, description: string, icon?: ReactNode) => {
-    return (
-      <div data-tip={description}>
-        <p>
-          {icon}
-          {name}
-        </p>
-      </div>
-    )
-  }
-
-  const getIcon = (type: ResourceLinkType) => {
-    if (type === ResourceLinkType.FMB || type === ResourceLinkType.SRS_FULL_VIEW || type === ResourceLinkType.SRS_MINIMIZED_VIEW) {
-      return <LightbulpIcon className="iu-mr-200" />
-    }
-  }
-
   const getPanel = (type: ResourceLinkType) => {
     switch (type) {
       case ResourceLinkType.FMB:
@@ -101,10 +82,7 @@ const CertificateSidePanel: React.FC = () => {
     <Tabs
       selectedTabIndex={selectedTabIndex}
       setSelectedTabIndex={handleTabChange}
-      tabs={[
-        ...availableTabs.map(({ type, name, description }) => getTab(name, description, getIcon(type))),
-        getTab('Om intyget', 'Läs om intyget'),
-      ]}
+      tabs={[...availableTabs, { name: 'Om intyget', description: 'Läs om intyget' }]}
       tabsContent={[...availableTabs.map(({ type }) => getPanel(type)), <AboutCertificatePanel key={'about'} />]}
     />
   )
