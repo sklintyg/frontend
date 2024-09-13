@@ -2,7 +2,7 @@ import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
-import { deleteCertificateSuccess, startSignCertificate } from '../certificate/certificateActions'
+import { deleteCertificateSuccess, resetCertificateState, startSignCertificate } from '../certificate/certificateActions'
 import { handleQuestionSuccess } from '../question/questionActions'
 import { stopPoll } from '../session/sessionActions'
 import {
@@ -234,6 +234,7 @@ const handleSetUnitSuccess: Middleware<Dispatch> =
     dispatch(updateUserResourceLinks(action.payload.links))
     dispatch(getUserStatistics())
     dispatch(updateIsCareProviderModalOpen(false))
+    dispatch(resetCertificateState())
   }
 
 const handleStopPoll: Middleware<Dispatch> =
