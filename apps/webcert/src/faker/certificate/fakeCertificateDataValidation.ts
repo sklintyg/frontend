@@ -8,6 +8,8 @@ import type {
   HideValidation,
   HighlightValidation,
   MandatoryValidation,
+  MaxDateValidation,
+  MinDateValidation,
   ShowValidation,
   TextValidation,
   ValidationError,
@@ -79,6 +81,22 @@ export const fakeCategoryMandatoryValidation = (data?: Partial<CategoryMandatory
 export const fakeHighlightValidation = (data?: Partial<HighlightValidation>): HighlightValidation => ({
   type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
   questionId: fakeId(),
+  ...data,
+})
+
+export const fakeMaxDateValidation = (data?: Partial<MaxDateValidation>): MaxDateValidation => ({
+  type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+  questionId: fakeId(),
+  expression: fakeId(),
+  id: fakeId(),
+  ...data,
+})
+
+export const fakeMinDateValidation = (data?: Partial<MinDateValidation>): MinDateValidation => ({
+  type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+  questionId: fakeId(),
+  expression: fakeId(),
+  id: fakeId(),
   ...data,
 })
 

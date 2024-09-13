@@ -1,8 +1,8 @@
-import { getByType } from '@frontend/utils'
+import { getBySimpleType } from '@frontend/utils'
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
-import type { ChangeEvent } from 'react'
 import type React from 'react'
+import type { ChangeEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -169,11 +169,11 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       })
     )
 
-  const isAnswerButtonVisible = () => !question.answer && getByType(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+  const isAnswerButtonVisible = () => !question.answer && getBySimpleType(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
   const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
 
-  const isHandleCheckboxVisible = () => getByType(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
+  const isHandleCheckboxVisible = () => getBySimpleType(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
   const isRemindersVisible = () => question.reminders.length > 0 && !question.handled
 

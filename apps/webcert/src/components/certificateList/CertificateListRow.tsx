@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getBySimpleType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { ConfirmationModal } from '../../feature/certificate/Modals/ConfirmationModal'
@@ -66,8 +66,8 @@ export function CertificateListRow({
   const [showLuaenaModal, setShowLuaenaModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-  const createCertificateLink = getByType(links, ResourceLinkType.CREATE_CERTIFICATE)
-  const missingRelatedCertificateLink = getByType(links, ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+  const createCertificateLink = getBySimpleType(links, ResourceLinkType.CREATE_CERTIFICATE)
+  const missingRelatedCertificateLink = getBySimpleType(links, ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {

@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type {
   CertificateDataElement,
   ConfigUeMedicalInvestigationList,
@@ -20,7 +19,7 @@ export function UeMedicalInvestigationList({ question, disabled }: { disabled?: 
     .map(({ investigationTypeId, dateId, informationSourceId }) => [investigationTypeId, dateId, informationSourceId])
     .flat()
 
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list)
 
   const handleChange = (index: number) => (value: ValueMedicalInvestigation) =>
