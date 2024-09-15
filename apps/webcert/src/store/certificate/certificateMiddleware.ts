@@ -482,7 +482,7 @@ const handleStartSignCertificateSuccess: Middleware<Dispatch> =
     if (action.payload?.autoStartToken && signingMethod == SigningMethod.BANK_ID) {
       window.open(`bankid:///?autostarttoken=${action.payload.autoStartToken}&redirect=null`, '_self')
     }
-    if (signingMethod == SigningMethod.MOBILT_BANK_ID) {
+    if (action.payload?.qrCode && signingMethod == SigningMethod.MOBILT_BANK_ID) {
       dispatch(setQrCodeForElegSignature(action.payload.qrCode))
     }
 
