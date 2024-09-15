@@ -11,7 +11,7 @@ import { isShowAlways } from '../../utils'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
-import type { GotoCertificateDataElement, SigningData } from './certificateActions'
+import { GotoCertificateDataElement, setQrCodeForElegSignature, SigningData } from './certificateActions'
 import {
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
@@ -71,6 +71,8 @@ export interface CertificateState {
   signingStatus: CertificateSignStatus
   signingError?: ErrorData
   modalData: ModalData | null
+  qrCode: string
+  autoStartToken: string
 }
 
 const getInitialState = (): CertificateState => {
@@ -88,6 +90,8 @@ const getInitialState = (): CertificateState => {
     shouldRouteAfterDelete: false,
     signingStatus: CertificateSignStatus.INITIAL,
     modalData: null,
+    qrCode: '',
+    autoStartToken: '',
   }
 }
 
@@ -329,6 +333,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetCertificateState, () => getInitialState())
     .addCase(updateModalData, (state, action) => {
       state.modalData = action.payload
+    })
+    .addCase(setQrCodeForElegSignature, (state, action) => {
+      state.qrCode = action.payload
     })
 )
 

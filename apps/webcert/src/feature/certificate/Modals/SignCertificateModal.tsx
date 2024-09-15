@@ -1,12 +1,14 @@
 import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getSigningStatus } from '../../../store/certificate/certificateSelectors'
+import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import Spinner from '../../../components/utils/Spinner'
 import { bankIdLogoImage } from '../../../images'
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '../../../types'
+import QRCode from '../../../components/qrcode/QRCode'
+import { useAppSelector } from '../../../store/store'
 
 const NO_CLIENT_MOBILE = 'Mobilt BankID-servern får ej kontakt med din enhet. Kontrollera att du har startat Mobilt BankID på din enhet.'
 const NO_CLIENT_DESKTOP =
@@ -28,6 +30,7 @@ export const SignCertificateModal: React.FC = () => {
   const open = signStatus !== CertificateSignStatus.INITIAL
   const signingMethod = user?.signingMethod
   const isMobile = user?.loginMethod === LoginMethod.BANK_ID_MOBILE
+  const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
 
   const handleClose = () => {
     return
@@ -47,9 +50,11 @@ export const SignCertificateModal: React.FC = () => {
               <BankIDLogo src={bankIdLogoImage} alt="BankID Logo" />
             </div>
           )}
-          <div className="iu-flex-center">
-            <Spinner className="iu-mb-300" />
-          </div>
+          {signingMethod === SigningMethod.MOBILT_BANK_ID && (
+            <div className="iu-flex-center">
+              <QRCode qrCode={qrCode} />
+            </div>
+          )}
           <>
             {signStatus !== CertificateSignStatus.PROCESSING && signStatus !== CertificateSignStatus.NO_CLIENT && (
               <p>Detta kan ta några sekunder.</p>

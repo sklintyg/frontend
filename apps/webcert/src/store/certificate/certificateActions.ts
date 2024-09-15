@@ -71,6 +71,7 @@ const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate succ
 const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
 const SIGN_CERTIFICATE_STATUS_SUCCESS = `${CERTIFICATE} Get certificate sign status success`
 const SIGN_CERTIFICATE_STATUS_ERROR = `${CERTIFICATE} Get certificate sign status error`
+const SET_QR_CODE_FOR_ELEG_SIGNATURE = `${CERTIFICATE} Set QR code for eleg signature`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -314,6 +315,8 @@ export const updateCertificateSignStatus = createAction<CertificateSignStatus>(U
 export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
 
 export const signCertificateStatusError = createAction<CertificateApiGenericError>(SIGN_CERTIFICATE_STATUS_ERROR)
+
+export const setQrCodeForElegSignature = createAction<string>(SET_QR_CODE_FOR_ELEG_SIGNATURE)
 
 export interface RevokeCertificateReason {
   reason: string

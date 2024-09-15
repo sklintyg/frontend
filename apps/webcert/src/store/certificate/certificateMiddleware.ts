@@ -86,6 +86,7 @@ import {
   sendCertificateSuccess,
   setCertificatePatientData,
   setCertificateUnitData,
+  setQrCodeForElegSignature,
   setReadyForSign,
   setValidationErrorsForQuestion,
   showRelatedCertificate,
@@ -106,8 +107,8 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSignStatus,
   updateCertificateSigningData,
+  updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -395,6 +396,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
         )
         break
       case SigningMethod.BANK_ID:
+      case SigningMethod.MOBILT_BANK_ID:
         dispatch(
           apiCallBegan({
             url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/GRP`,
@@ -414,9 +416,13 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
     const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+    const signingMethod = getState().ui.uiUser.user?.signingMethod
 
     if (action.payload?.status) {
       dispatch(updateCertificateSignStatus(action.payload.status))
+    }
+    if (action.payload?.qrCode && signingMethod == SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
+      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
     }
 
     if (!certificate) {
@@ -468,9 +474,16 @@ const handleStartSignCertificateSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
+    const signingMethod = getState().ui.uiUser.user?.signingMethod
 
     if (!certificate) {
       return
+    }
+    if (action.payload?.autoStartToken && signingMethod == SigningMethod.BANK_ID) {
+      window.open(`bankid:///?autostarttoken=${action.payload.autoStartToken}&redirect=null`, '_self')
+    }
+    if (signingMethod == SigningMethod.MOBILT_BANK_ID) {
+      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
     }
 
     if (action.payload?.status === CertificateSignStatus.PROCESSING) {
