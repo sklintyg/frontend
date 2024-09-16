@@ -50,5 +50,6 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
     careProvider: fakeUnit(data?.careProvider),
     messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? undefined,
     confirmationModal: data?.confirmationModal ? fakeCertificateConfirmationModal({ ...data.confirmationModal }) : null,
+    availableForCitizen: data?.availableForCitizen ?? true,
   }
 }
