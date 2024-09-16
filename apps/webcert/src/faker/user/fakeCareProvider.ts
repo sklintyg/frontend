@@ -5,7 +5,7 @@ import { fakeId } from '../fakeId'
 export const fakeCareProvider = (data?: Partial<CareProvider>): CareProvider => {
   return {
     id: fakeId(),
-    name: `Vårdenhet ${faker.company.companyName()}`,
+    name: `Vårdgivare ${faker.address.county()} ${faker.address.direction()}`,
     missingSubscription: false,
     careUnits: [],
     ...data,
