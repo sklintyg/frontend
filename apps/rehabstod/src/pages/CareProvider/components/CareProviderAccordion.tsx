@@ -52,7 +52,7 @@ export function CareProviderAccordion({
           </span>
         </div>
       </summary>
-      <div className='pt-2'>{children}</div>
+      <div className="pt-2">{children}</div>
     </details>
   )
 }
