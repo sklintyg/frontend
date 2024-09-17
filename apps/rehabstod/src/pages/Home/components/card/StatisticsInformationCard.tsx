@@ -13,7 +13,7 @@ export function StatisticsInformationCard() {
           När du klickar på länken nedan öppnas Intygsstatistik i en ny flik. Om du har behörighet till Intygsstatistik blir du automatiskt
           inloggad på samma enhet.
         </p>
-        <div className="flex pb-20 pt-5">
+        <div className="flex pt-5">
           {links && links.statistiktjanstenTooltip && (
             <Tooltip>
               <TooltipTrigger>
