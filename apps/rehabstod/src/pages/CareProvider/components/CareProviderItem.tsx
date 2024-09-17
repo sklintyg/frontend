@@ -19,7 +19,7 @@ export function CareProviderItem({
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.id} className="ml-5 flex items-center">
+                <div key={reception.id} className="ml-5 flex items-center [&:not(:last-child)]:mb-2">
                   <CareProviderRadioButton
                     id={reception.namn}
                     value={reception.namn}
