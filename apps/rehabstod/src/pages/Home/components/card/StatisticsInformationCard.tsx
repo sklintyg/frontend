@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../../../store/api'
 
 export function StatisticsInformationCard() {
@@ -18,7 +18,6 @@ export function StatisticsInformationCard() {
             <Tooltip>
               <TooltipTrigger>
                 <IDSLink>
-                  <IDSIconArrow />
                   <a target="_blank" href={links.statistiktjanstenTooltip.url} rel="noreferrer">
                     {links.statistiktjanstenTooltip.text}
                   </a>
