@@ -15,7 +15,10 @@ export const useGoBackEffect = () => {
   }, [history, foreignCheck])
 
   useEffect(() => {
-    const unlisten = history.listen(() => setForeignCheck(false))
+    const unlisten = history.listen(() => {
+      setForeignCheck(false)
+      unlisten()
+    })
     return unlisten
   }, [history])
 
