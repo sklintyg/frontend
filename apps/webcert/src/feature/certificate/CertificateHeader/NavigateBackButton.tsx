@@ -1,25 +1,11 @@
 import StatusWithIcon from '../../../components/utils/StatusWithIcon'
 import { WithUserResourceLink } from '../../../components/utils/WithResourceLink'
+import { useGoBackEffect } from '../../../hooks/useGoBackEffect'
 import { LinkButton } from '../../../styles'
 import { ResourceLinkType } from '../../../types'
-import { useHistory } from 'react-router-dom'
-import { useGoBack } from '../../../hooks/useGoBack'
-import { useEffect } from 'react'
 
 function NavigateBackButton() {
-  const history = useHistory()
-  const goBack = useGoBack()
-
-  useEffect(() => {
-    const unlisten = history.listen(() => {
-      const isForreignReferrer = document.referrer != '' && !document.referrer.includes(window.location.host)
-      if (isForreignReferrer) {
-        unlisten()
-        window.location.replace(window.location.pathname)
-      }
-      return unlisten
-    })
-  }, [history])
+  const goBack = useGoBackEffect()
 
   return (
     <WithUserResourceLink type={ResourceLinkType.NAVIGATE_BACK_BUTTON}>
