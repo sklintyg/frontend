@@ -1,22 +1,21 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useHistory } from 'react-router'
 
 export const useGoBackEffect = () => {
   const history = useHistory()
-  const [foreignCheck, setForeignCheck] = useState(true)
   const isForeignReferrer = () => document.referrer && !document.referrer.includes(window.location.host)
 
   const handleGoBack = useCallback(() => {
-    if (foreignCheck && isForeignReferrer()) {
+    if (isForeignReferrer()) {
       window.location.replace('/search')
     } else {
       history.goBack()
     }
-  }, [history, foreignCheck])
+  }, [history])
 
   useEffect(() => {
     const unlisten = history.listen(() => {
-      setForeignCheck(false)
+      window.location.replace(window.location.pathname)
       unlisten()
     })
     return unlisten
