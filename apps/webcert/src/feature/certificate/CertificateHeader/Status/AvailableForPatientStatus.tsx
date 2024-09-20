@@ -10,7 +10,7 @@ interface Props {
 }
 
 const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isSigned(certificateMetadata) || certificateMetadata.type === 'db' || certificateMetadata.type === 'doi') return null
+  if (!isSigned(certificateMetadata) || !certificateMetadata.availableForCitizen) return null
   const isLisjp = certificateMetadata.type === 'lisjp'
 
   return (

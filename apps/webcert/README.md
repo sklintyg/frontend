@@ -64,6 +64,12 @@ Run playwright tests with a UI:
 pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
 ```
 
+Run playwright on different host for example on WSL
+
+```bash
+BASE_URL="http://localhost:3000/" pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
+```
+
 ## Resources
 
 - [React](https://react.dev/) ─ Components
