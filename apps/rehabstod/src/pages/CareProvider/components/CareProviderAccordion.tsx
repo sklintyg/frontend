@@ -33,7 +33,7 @@ export function CareProviderAccordion({
   return (
     <details id={unit.id} className="group my-2 border-b border-neutral-90 pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
-        <div className="flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between [&:not(:last-child)]:mb-2">
           <CareProviderRadioButton
             id={unit.namn}
             value={unit.namn}
@@ -52,7 +52,7 @@ export function CareProviderAccordion({
           </span>
         </div>
       </summary>
-      <div>{children}</div>
+      <div className="pt-2">{children}</div>
     </details>
   )
 }

@@ -90,6 +90,7 @@ it('Should display alert message when certificate is replaced', async () => {
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
     <ids-alert
+      class="mb-2"
       role="alert"
     >
       Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.

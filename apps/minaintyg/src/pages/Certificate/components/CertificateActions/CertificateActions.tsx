@@ -1,3 +1,4 @@
+import { IDSButtonGroup } from '@frontend/ids-react-ts'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { isMobileApp } from '../../utils/isMobileApp'
 import { CustomizePrintDialog } from './CustomizePrintDialog/CustomizePrintDialog'
@@ -13,7 +14,7 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
 
   return (
     <PrintCertificateContextProvider value={state}>
-      <div className="flex flex-col justify-end gap-5 md:flex-row">
+      <IDSButtonGroup justify="end">
         {(printFunction || customizePrintFunction) && !isMobileApp() && (
           <>
             <SaveCertificateAction />
@@ -21,9 +22,9 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
           </>
         )}
         {recipient && <SendCertificateAction recipient={recipient} id={id} />}
-        <CustomizePrintDialog />
-        <SaveCertificateWarningDialog />
-      </div>
+      </IDSButtonGroup>
+      <CustomizePrintDialog />
+      <SaveCertificateWarningDialog />
     </PrintCertificateContextProvider>
   )
 }
