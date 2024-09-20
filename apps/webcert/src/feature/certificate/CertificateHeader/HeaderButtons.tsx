@@ -16,13 +16,13 @@ import SendCertificateButton from '../Buttons/SendCertificateButton'
 import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButton'
 
 const Wrapper = styled.div`
-  margin-bottom: 4px;
   display: flex;
-  align-items: flex-end;
-
-  > .custom-button:not(:first-child) {
-    margin-left: 8px;
-  }
+  align-items: end;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 4px 1em;
 `
 
 interface Props extends FunctionDisabled {
