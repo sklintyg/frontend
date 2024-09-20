@@ -31,6 +31,7 @@ export async function setupUser(page: Page, user?: Partial<User>, links?: Resour
           fakeResourceLink({ type: ResourceLinkType.ACCESS_QUESTION_LIST }),
           fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT }),
           fakeResourceLink({ type: ResourceLinkType.LOG_OUT }),
+          fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON }),
         ],
       },
     })
