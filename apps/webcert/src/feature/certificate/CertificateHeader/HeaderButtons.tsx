@@ -18,8 +18,7 @@ import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButto
 const Wrapper = styled.div`
   display: flex;
   align-items: end;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding: 4px 0;
   flex-wrap: wrap;
   justify-content: end;
   gap: 4px 1em;
