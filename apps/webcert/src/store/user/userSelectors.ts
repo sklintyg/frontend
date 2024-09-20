@@ -19,6 +19,9 @@ export const isPrivatePractitioner = (state: RootState): boolean | null =>
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
 
+export const hasOriginDeepIntegration = (state: RootState): boolean | null =>
+  state.ui.uiUser.user && state.ui.uiUser.user.origin.toLowerCase().includes('djupintegration')
+
 export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
