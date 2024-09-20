@@ -9,7 +9,7 @@ exports[`Should render correctly 1`] = `
       class="group py-2.5"
     >
       <summary
-        class="flex items-center justify-between gap-2 font-semibold text-sky-base group-open:mb-2.5 md:hidden"
+        class="flex items-center justify-between gap-2 font-semibold text-accent-40 group-open:mb-2.5 md:hidden"
       >
         <h4
           class="inline-block group-open:hidden"
@@ -22,10 +22,10 @@ exports[`Should render correctly 1`] = `
           Dölj händelser
         </h4>
         <ids-icon-plus
-          class="h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:hidden ids-icon"
+          class="h-5 w-5 rounded-full bg-accent-40 p-1 text-white group-open:hidden ids-icon"
         />
         <ids-icon-minus
-          class="hidden h-5 w-5 rounded-full bg-sky-base p-1 text-white group-open:flex ids-icon"
+          class="hidden h-5 w-5 rounded-full bg-accent-40 p-1 text-white group-open:flex ids-icon"
         />
       </summary>
       <h5

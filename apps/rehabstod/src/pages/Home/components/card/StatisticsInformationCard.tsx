@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../../../store/api'
 
 export function StatisticsInformationCard() {
@@ -13,12 +13,11 @@ export function StatisticsInformationCard() {
           När du klickar på länken nedan öppnas Intygsstatistik i en ny flik. Om du har behörighet till Intygsstatistik blir du automatiskt
           inloggad på samma enhet.
         </p>
-        <div className="flex pb-20 pt-5">
+        <div className="flex pt-5">
           {links && links.statistiktjanstenTooltip && (
             <Tooltip>
               <TooltipTrigger>
                 <IDSLink>
-                  <IDSIconArrow />
                   <a target="_blank" href={links.statistiktjanstenTooltip.url} rel="noreferrer">
                     {links.statistiktjanstenTooltip.text}
                   </a>

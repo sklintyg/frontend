@@ -61,7 +61,7 @@ export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum 
         ))}
       </PageHeroActions>
       {id && type !== ErrorType.enum['logged-out'] && (
-        <div className="border-y border-stone-clear py-5">
+        <div className="border-y border-neutral-90 py-5">
           Om problemet kvarstår, spara nedan id och kontakta <SupportLink />
           <br />
           <ErrorIdentifier id={id} showTitle={false} />

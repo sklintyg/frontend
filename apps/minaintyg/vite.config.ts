@@ -19,7 +19,7 @@ export default ({ mode }: UserConfig) => {
         secure: false,
         target: process.env.VITE_API_TARGET ?? 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: 'http',
+        protocolRewrite: 'https',
         changeOrigin: true,
         autoRewrite: true,
       },
@@ -40,7 +40,7 @@ export default ({ mode }: UserConfig) => {
       port: 5174,
       proxy,
       strictPort: true,
-      hmr: hmr ? { host, protocol: hmrProtocol } : false,
+      hmr: hmr ? { host: process.env.VITE_WS_HOST, protocol: hmrProtocol } : false,
     },
   })
 }
