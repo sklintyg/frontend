@@ -80,7 +80,7 @@
     "eslint-plugin-tailwindcss": "^3.13.1",
     "jsdom-testing-mocks": "^1.10.0",
     "postcss": "^8.4.31",
-    "rollup": "^4.9.4",
+    "rollup": "^4.22.4",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "rollup-plugin-styles": "^4.0.0",
