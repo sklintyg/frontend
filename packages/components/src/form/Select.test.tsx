@@ -10,12 +10,12 @@ it('Should render label', () => {
 })
 
 it('Should render first option', () => {
-  render(<Select label="" options={[{ value: '', label: 'Visa alla' }]} />)
+  render(<Select label="label" options={[{ value: '', label: 'Visa alla' }]} />)
   expect(screen.getByRole('option', { name: 'Visa alla' })).toBeInTheDocument()
 })
 
 it('Should render options', () => {
-  render(<Select label="" options={options} />)
+  render(<Select label="label" options={options} />)
   expect(screen.getAllByRole('option')).toHaveLength(5)
 })
 
@@ -37,6 +37,7 @@ it('Should select initial value', () => {
         { label: 'third', value: 'third' },
       ]}
       value="second"
+      onChange={vi.fn()}
     />
   )
   expect(screen.getByLabelText('Select Label')).toHaveValue('second')

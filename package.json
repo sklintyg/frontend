@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@vitest/coverage-v8": "^1.1.3",
-    "@vitest/ui": "^1.1.3",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "caniuse-lite": "^1.0.30001651",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
@@ -33,7 +33,7 @@
     "prettier": "^3.1.1",
     "rimraf": "^5.0.1",
     "typescript": "^5.4.5",
-    "vitest": "^1.1.3"
+    "vitest": "^1.6.0"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
