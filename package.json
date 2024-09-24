@@ -47,6 +47,7 @@
     "not op_mini all",
     "not kaios > 0"
   ],
+  "packageManager": "pnpm@9.11.0",
   "pnpm": {
     "overrides": {
       "intl-messageformat": "10.3.5",
