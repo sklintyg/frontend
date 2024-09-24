@@ -69,3 +69,53 @@ export const mockUserData: MockUser[] = [
     legitimeradeYrkesgrupper: ['Läkare'],
   },
 ]
+
+export const mockUserDataSit1: MockUser[] = [
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10LT',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10MS',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10LZ',
+    forNamn: 'Per',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10LT',
+    forNamn: 'Per',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M0',
+    forNamn: 'Johanna',
+    efterNamn: 'Nilsson',
+    enhetId: 'TSTNMT2321000156-10LR',
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M0',
+    forNamn: 'Johanna',
+    efterNamn: 'Nilsson',
+    enhetId: 'TSTNMT2321000156-10LT',
+  },
+]
