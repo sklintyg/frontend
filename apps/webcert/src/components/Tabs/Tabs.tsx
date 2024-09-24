@@ -15,11 +15,14 @@ const TabContent = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: auto;
 `
 
 const TabList = styled.ul`
   border-bottom: 0 !important;
+`
+
+const TabPanel = styled.div`
+  overflow-y: auto;
 `
 
 const TabButton = styled.button.attrs({
@@ -99,7 +102,7 @@ export function Tabs({
         })}
       </TabList>
 
-      <div role="tabpanel">
+      <TabPanel role="tabpanel">
         {tabsContent.map((tabContent, i) => {
           return (
             <TabContent
@@ -115,7 +118,7 @@ export function Tabs({
             </TabContent>
           )
         })}
-      </div>
+      </TabPanel>
     </Root>
   )
 }
