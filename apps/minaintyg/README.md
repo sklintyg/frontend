@@ -1,4 +1,4 @@
-# `@frontend/mina-intyg`
+# `@frontend/minaintyg`
 
 [Mina intyg](https://www.inera.se/tjanster/alla-tjanster-a-o/intygstjanster/mina-intyg/) application.
 
