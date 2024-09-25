@@ -1,52 +1,42 @@
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import type { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 import { sanitizeText } from '../../utils'
 
-const StyledLink = styled.a`
+const StyledLink = styled.button`
   display: flex;
-  align-items: bottom;
+  align-items: center;
 `
 
-interface Props {
-  text: string
+export function ExpandableText({
+  text,
+  maxLength,
+  additionalStyles,
+}: {
+  text?: string
   maxLength: number
   additionalStyles?: FlattenSimpleInterpolation
-}
+}) {
+  const isExpandable = text && text.length > maxLength
+  const [expand, setExpand] = useState(!isExpandable)
+  const buttonLabel = expand ? 'Visa mindre' : 'Visa mer'
 
-export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalStyles }) => {
-  const [expand, setExpand] = useState(false)
-
-  useEffect(() => {
-    setExpand(false)
-  }, [text])
-
-  const trimToLastCompleteWord = (text: string, maxLength: number) => {
-    return text.substr(0, text.lastIndexOf(' ', maxLength))
+  if (!text || text.length === 0) {
+    return null
   }
 
   return (
     <>
-      {!expand && text && text.length > maxLength ? (
-        <div>
-          <p dangerouslySetInnerHTML={sanitizeText(trimToLastCompleteWord(text, maxLength))} css={additionalStyles} />
-          <StyledLink href="#" onClick={() => setExpand(!expand)}>
-            Visa mer
-            <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
-          </StyledLink>
-        </div>
-      ) : (
-        <div>
-          <p dangerouslySetInnerHTML={sanitizeText(text)} css={additionalStyles} />
-          {text && text.length > maxLength && (
-            <StyledLink href="#" onClick={() => setExpand(!expand)}>
-              Visa mindre
-              <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
-            </StyledLink>
-          )}
-        </div>
+      <p
+        dangerouslySetInnerHTML={sanitizeText(expand ? text : text.substring(0, text.lastIndexOf(' ', maxLength)))}
+        css={additionalStyles}
+      />
+      {isExpandable && (
+        <StyledLink type="button" aria-label={buttonLabel} className="ic-link" onClick={() => setExpand(!expand)}>
+          {buttonLabel}
+          {expand ? <ChevronUpIcon size="sm" className="iu-ml-200" /> : <ChevronDownIcon size="sm" className="iu-ml-200" />}
+        </StyledLink>
       )}
     </>
   )
