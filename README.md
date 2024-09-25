@@ -6,7 +6,7 @@
 
 - Install [Node v18](https://nodejs.org/en/download/releases/)
   - Alternatively via [nvm](https://github.com/nvm-sh/nvm)
-- Install [pnpm](https://pnpm.io/installation).
+- Install [pnpm 9.x](https://pnpm.io/installation).
 
 1. Install dependencies with `pnpm install`
 2. Execute a build with `pnpm build`
