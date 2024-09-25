@@ -15,6 +15,7 @@ const TabContent = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100%;
 `
 
 const TabList = styled.ul`
@@ -23,6 +24,7 @@ const TabList = styled.ul`
 
 const TabPanel = styled.div`
   overflow-y: auto;
+  height: 100%;
 `
 
 const TabButton = styled.button.attrs({
