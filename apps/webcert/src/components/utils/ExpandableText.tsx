@@ -20,6 +20,7 @@ export function ExpandableText({
 }) {
   const isExpandable = text && text.length > maxLength
   const [expand, setExpand] = useState(isExpandable ? false : true)
+  const buttonLabel = expand ? 'Visa mindre' : 'Visa mer'
 
   if (!text || text.length === 0) {
     return null
@@ -32,8 +33,8 @@ export function ExpandableText({
         css={additionalStyles}
       />
       {isExpandable && (
-        <StyledLink type="button" className="ic-link" onClick={() => setExpand(!expand)}>
-          {expand ? 'Visa mindre' : 'Visa mer'}
+        <StyledLink type="button" aria-label={buttonLabel} className="ic-link" onClick={() => setExpand(!expand)}>
+          {buttonLabel}
           {expand ? <ChevronUpIcon size="sm" className="iu-ml-200" /> : <ChevronDownIcon size="sm" className="iu-ml-200" />}
         </StyledLink>
       )}
