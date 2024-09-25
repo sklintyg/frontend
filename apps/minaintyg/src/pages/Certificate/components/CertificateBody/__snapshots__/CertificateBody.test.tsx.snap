@@ -2,107 +2,139 @@
 
 exports[`Should render h1 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h1
-      class="ids-heading-1"
-    >
-      heading
-    </h1>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h1
+        class="ids-heading-1"
+      >
+        heading
+      </h1>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render h2 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h2
-      class="ids-heading-2"
-    >
-      heading
-    </h2>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h2
+        class="ids-heading-2"
+      >
+        heading
+      </h2>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render h3 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h3
-      class="ids-heading-3"
-    >
-      heading
-    </h3>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h3
+        class="ids-heading-3"
+      >
+        heading
+      </h3>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render h4 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h4
-      class="ids-heading-4"
-    >
-      heading
-    </h4>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h4
+        class="ids-heading-4"
+      >
+        heading
+      </h4>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render h5 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h5
-      class="ids-heading-4"
-    >
-      heading
-    </h5>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h5
+        class="ids-heading-4"
+      >
+        heading
+      </h5>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render h6 heading as expected 1`] = `
 <div>
-  <ids-expandable>
-    <h6
-      class="ids-heading-4"
-    >
-      heading
-    </h6>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <h6
+        class="ids-heading-4"
+      >
+        heading
+      </h6>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render html as expected 1`] = `
 <div>
-  <ids-expandable>
-    <p>
-      Test
-    </p>
-  </ids-expandable>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <p>
+        Test
+      </p>
+    </ids-expandable>
+  </div>
 </div>
 `;
 
 exports[`Should render table as expected 1`] = `
 <div>
-  <ids-expandable>
-    <div
-      class="md:hidden"
-    />
-    <div
-      class="hidden md:block"
-    >
-      <table
-        class="ids-table"
+  <div
+    class="border-b border-neutral-90"
+  >
+    <ids-expandable>
+      <div
+        class="md:hidden"
+      />
+      <div
+        class="hidden md:block"
       >
-        <tbody>
-          <tr>
-            <td>
-              Test
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </ids-expandable>
+        <table
+          class="ids-table"
+        >
+          <tbody>
+            <tr>
+              <td>
+                Test
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ids-expandable>
+  </div>
 </div>
 `;

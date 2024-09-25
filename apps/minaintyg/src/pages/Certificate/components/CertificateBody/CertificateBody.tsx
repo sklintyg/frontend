@@ -6,9 +6,11 @@ export function CertificateBody({ content }: { content: CertificateContent[] }) 
   return (
     <>
       {content.map(({ heading, body }) => (
-        <IDSExpandable key={heading} headline={heading}>
-          <DisplayHTML html={body} />
-        </IDSExpandable>
+        <div key={heading} className="border-b border-neutral-90">
+          <IDSExpandable headline={heading}>
+            <DisplayHTML html={body} />
+          </IDSExpandable>
+        </div>
       ))}
     </>
   )
