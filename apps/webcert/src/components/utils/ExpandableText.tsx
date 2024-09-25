@@ -19,7 +19,7 @@ export function ExpandableText({
   additionalStyles?: FlattenSimpleInterpolation
 }) {
   const isExpandable = text && text.length > maxLength
-  const [expand, setExpand] = useState(isExpandable ? false : true)
+  const [expand, setExpand] = useState(!isExpandable)
   const buttonLabel = expand ? 'Visa mindre' : 'Visa mer'
 
   if (!text || text.length === 0) {
