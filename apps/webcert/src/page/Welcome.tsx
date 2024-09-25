@@ -23,7 +23,8 @@ import {
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
 import type { MockUser } from '../store/welcome/welcomeReducer'
-import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -58,9 +59,10 @@ const ExpandableDetails = styled.details`
 const Welcome: React.FC = () => {
   const certificateId = useAppSelector(getCertificateId())
   const createCertificate = useAppSelector(getCreateCertificate())
-  const availableUsers = useAppSelector(getAvailableUsers())
-  const navigateToCertificate = useAppSelector(getNavigateToCertificate())
   const config = useAppSelector(getConfig)
+  const isSit1 = config.ppHost.includes('sit1')
+  const availableUsers = isSit1 ? [...mockUserData, ...mockUserDataSit1] : mockUserData
+  const navigateToCertificate = useAppSelector(getNavigateToCertificate())
 
   const [selectedUser, setSelectedUser] = useState(availableUsers[0])
   const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' } as JsonUser)
