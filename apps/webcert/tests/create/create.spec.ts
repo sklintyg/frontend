@@ -1,14 +1,18 @@
-import { fakePatient, fakeResourceLink } from '../../src/faker'
+import { fakeCertificate, fakeListConfig, fakePatient, fakeResourceLink } from '../../src/faker'
 import { fakeCertificateConfirmationModal } from '../../src/faker/certificate/fakeCertificateConfirmationModal'
 import { fakeCertificateType } from '../../src/faker/fakeCertificateType'
 import { ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
 const patient = fakePatient()
+const certificate = fakeCertificate()
 
 test.beforeEach(async ({ routeJson }) => {
   routeJson(`**/*/api/patient/${patient.personId.id}`, { patient, status: 'FOUND' })
   routeJson(`**/*/api/certificate/type/${patient.personId.id}`, [])
+  routeJson(`**/*/api/list/config/previous`, fakeListConfig())
+  routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
+  routeJson('**/*/api/certificate/*/*', { certificateId: certificate.metadata.id })
 })
 
 test('have correct heading', async ({ page }) => {
@@ -38,6 +42,7 @@ test.describe('Confirmation modals', () => {
 
     await expect(page.getByRole('heading', { name: 'Kontrollera namn och' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
+    await expect(page).toHaveURL(`/create/${btoa(patient.personId.id)}`)
   })
 
   test('Show missing related certificate modal', async ({ page, routeJson }) => {
@@ -62,6 +67,7 @@ test.describe('Confirmation modals', () => {
     const dialog = page.getByRole('dialog', { name: 'Dödsbevis saknas' })
     await expect(dialog.getByRole('heading', { name: 'Dödsbevis saknas' })).toBeVisible()
     await expect(dialog.getByRole('button', { name: 'Skapa intyg' })).toBeEnabled()
+    await expect(page).toHaveURL(`/create/${btoa(patient.personId.id)}`)
   })
 
   test('Show luaena modal', async ({ page, routeJson }) => {
@@ -84,6 +90,7 @@ test.describe('Confirmation modals', () => {
 
     await expect(page.getByRole('heading', { name: 'Kontrollera att du använder' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
+    await expect(page).toHaveURL(`/create/${btoa(patient.personId.id)}`)
   })
 
   test('Show general confirmation modal', async ({ page, routeJson }) => {
@@ -104,5 +111,6 @@ test.describe('Confirmation modals', () => {
 
     await expect(page.getByRole('heading', { name: confirmationModal.title })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
+    await expect(page).toHaveURL(`/create/${btoa(patient.personId.id)}`)
   })
 })
