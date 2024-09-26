@@ -83,7 +83,7 @@ export function CertificateListRow({
       return setShowConfirmModal(true)
     }
     if (createDodsbevis) {
-      setShowDeathCertificateModal(true)
+      return setShowDeathCertificateModal(true)
     }
     if (createLuaena) {
       return setShowLuaenaModal(true)
