@@ -7,14 +7,15 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "scripts": {
-    "build": "rimraf dist && rollup -c",
+    "build": "rollup -c",
     "dev": "rollup -c --watch",
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
     "@inera/ids-core": "^4.10.0",
-    "@lit-labs/react": "^1.1.1"
+    "@lit-labs/react": "^1.1.1",
+    "rollup-plugin-delete": "^2.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

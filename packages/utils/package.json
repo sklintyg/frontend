@@ -7,7 +7,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && rollup -c",
+    "build": "rollup -c",
     "dev": "rollup -c --watch",
     "test": "vitest",
     "lint": "eslint .",
@@ -17,6 +17,7 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
+    "rollup-plugin-delete": "^2.1.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

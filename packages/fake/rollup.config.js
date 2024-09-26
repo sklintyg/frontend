@@ -3,9 +3,9 @@ import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
+import del from 'rollup-plugin-delete'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
 
@@ -16,6 +16,7 @@ const entries = {
 const external = [...builtinModules, ...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})]
 
 const plugins = [
+  del({ targets: 'dist/*' }),
   resolve({
     preferBuiltins: true,
   }),
