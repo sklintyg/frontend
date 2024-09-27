@@ -13,7 +13,7 @@
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "start": "pnpm -r --parallel run -r dev",
+    "start": "pnpm --filter './packages/**' run build && pnpm -r --parallel run -r dev",
     "test": "pnpm cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
     "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:ui": "pnpm test -- --ui --coverage",
@@ -31,7 +31,6 @@
     "husky": "^7.0.4",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
-    "rimraf": "^5.0.1",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   },

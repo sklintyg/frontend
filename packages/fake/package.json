@@ -10,7 +10,7 @@
     "./dist"
   ],
   "scripts": {
-    "build": "rimraf dist && rollup -c",
+    "build": "rollup -c",
     "dev": "rollup -c --watch",
     "test": "vitest",
     "lint": "eslint .",
@@ -33,6 +33,7 @@
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
     "rollup": "^4.9.4",
+    "rollup-plugin-delete": "^2.1.0",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "vitest": "^1.6.0"
