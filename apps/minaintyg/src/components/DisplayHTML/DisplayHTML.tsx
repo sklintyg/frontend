@@ -13,7 +13,7 @@ const options = {
       const props = attributesToProps(attribs)
       const match = name.match(/^h(\d)$/)
 
-      if (match) {
+      if (match && match[1]) {
         const [tag, level] = match
         return createElement(tag, { className: `ids-heading-${parseInt(level, 10) < 4 ? level : 4}` }, domToReact(children, options))
       }

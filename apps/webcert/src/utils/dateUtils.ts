@@ -90,8 +90,8 @@ export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], 
   let maxDate: Date | undefined
 
   for (let i = 0; i < configList.length; i++) {
-    const currPeriodId = configList[i].id
-    const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId.toLowerCase())
+    const currPeriodId = configList[i]?.id
+    const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId?.toLowerCase())
 
     if (currPeriodValue?.to && getValidDate(currPeriodValue.to)) {
       const currentDate = getValidDate(currPeriodValue.to)

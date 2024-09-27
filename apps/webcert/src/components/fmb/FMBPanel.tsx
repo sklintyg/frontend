@@ -1,12 +1,11 @@
 import { isEqual } from 'lodash-es'
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { initializeFMBPanel } from '../../store/fmb/fmbActions'
 import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
-import { useAppDispatch } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
@@ -20,11 +19,11 @@ export const Italic = styled.p`
 
 const FMBPanel: React.FC = () => {
   const dispatch = useAppDispatch()
-  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, isEqual)
+  const fmbDiagnosisCodes = useAppSelector(getFMBDiagnosisCodes, isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
-  const diagnosisValue = useSelector(getDiagnosisListValue, isEqual)
+  const diagnosisValue = useAppSelector(getDiagnosisListValue, isEqual)
   const isIcd10Chosen =
-    !diagnosisValue || diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd')
+    !diagnosisValue || diagnosisValue.list.length === 0 || diagnosisValue.list[0]?.terminology.toLowerCase().includes('icd')
 
   const onDiagnosisSelect = (icd10Code: string) => {
     const fmbDiagnoseCode = fmbDiagnosisCodes.find((value) => value.originalIcd10Code === icd10Code)

@@ -12,7 +12,7 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "declaration": true,
+    "declaration": false,
     "inlineSourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
