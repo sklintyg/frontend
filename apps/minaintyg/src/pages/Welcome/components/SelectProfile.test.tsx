@@ -1,6 +1,6 @@
-import { fakerFromSchema } from '@fronte
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { fakerFromSchema } from 'fake'
 import { vi } from 'vitest'
 import { testabilityPersonSchema } from '../../../schema/testability/person.schema'
 import { SelectProfile } from './SelectProfile'
