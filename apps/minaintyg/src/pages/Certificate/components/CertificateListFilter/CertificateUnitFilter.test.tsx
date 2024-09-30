@@ -1,6 +1,6 @@
-import { fakeHSA, faker } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { fakeHSA, faker } from 'fake'
 import { Provider } from 'react-redux'
 import { store } from '../../../../store/store'
 import { CertificateUnitFilter } from './CertificateUnitFilter'

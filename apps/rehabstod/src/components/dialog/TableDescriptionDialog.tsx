@@ -1,5 +1,5 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { Dialog } from 'components'
+import { IDSButton, IDSIconQuestion } from 'ids-react-ts'
 import { useState } from 'react'
 import type { Column } from '../Table/types/Column'
 

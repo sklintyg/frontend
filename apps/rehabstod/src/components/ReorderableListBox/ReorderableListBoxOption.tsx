@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from 'components'
 import { useRef } from 'react'
 import { mergeProps, useDraggableItem, useFocusRing, useOption } from 'react-aria'
 import type { DraggableCollectionState, DroppableCollectionState, ListState, Node } from 'react-stately'

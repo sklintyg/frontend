@@ -1,4 +1,4 @@
-import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSIconExternal, IDSLink } from 'ids-react-ts'
 
 export function SupportLink() {
   return (

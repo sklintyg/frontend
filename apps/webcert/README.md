@@ -1,4 +1,4 @@
-# `@frontend/webcert`
+# `webcert`
 
 [Webcert](https://www.inera.se/tjanster/alla-tjanster-a-o/intygstjanster/webcert/) application.
 
@@ -6,7 +6,7 @@
 
 By default webcert will communicate with a shared and deployed test backend. This will work in most cases but there are instances where a local backend installation is needed.
 
-`pnpm --filter @frontend/webcert dev`
+`pnpm --filter webcert dev`
 
 ## Run Webcert backend and frontend client
 
@@ -48,26 +48,26 @@ VITE_WS_PROTOCOL=wss
 - `VITE_API_TARGET` tells the application that our backend is on localhost:8020.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl.
 
-Start the application with `pnpm --filter @frontend/webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc.localtest.me/welcome>
+Start the application with `pnpm --filter webcert dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://wc.localtest.me/welcome>
 
 ### Mocked e2e tests
 
 Install browsers:
 
 ```bash
-pnpm --filter @frontend/webcert exec playwright install
+pnpm --filter webcert exec playwright install
 ```
 
 Run playwright tests with a UI:
 
 ```bash
-pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
+pnpm --filter webcert test:playwright --ui-host 127.0.0.1
 ```
 
 Run playwright on different host for example on WSL
 
 ```bash
-BASE_URL="http://localhost:3000/" pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
+BASE_URL="http://localhost:3000/" pnpm --filter webcert test:playwright --ui-host 127.0.0.1
 ```
 
 ## Resources

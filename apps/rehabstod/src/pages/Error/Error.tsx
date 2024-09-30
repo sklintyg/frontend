@@ -1,8 +1,8 @@
-import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
-import { randomUUID } from '@frontend/utils'
+import { IDSContainer, IDSIconChevron, IDSLink } from 'ids-react-ts'
+import { randomUUID } from 'utils'
 import { createContext, useRef } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { ErrorIdentifier } from '@frontend/components'
+import { ErrorIdentifier } from 'components'
 import { PageHero } from '../../components/PageHero/PageHero'
 
 export const ErrorContext = createContext<string | null>(null)

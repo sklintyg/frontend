@@ -1,4 +1,4 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from 'ids-react-ts'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
 import type { SjfMetaData } from '../../../../schemas/patientSchema'

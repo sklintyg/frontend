@@ -1,4 +1,4 @@
-import { randomUUID } from '@frontend/utils'
+import { randomUUID } from 'utils'
 import { useEffect, useMemo, useRef } from 'react'
 import { useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../schema/error.schema'

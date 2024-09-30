@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'

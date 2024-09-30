@@ -1,5 +1,5 @@
-import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
-import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
+import { GlobalAlert, PriorityEnum, ScrollTopButton } from 'components'
+import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from 'components/1177'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'

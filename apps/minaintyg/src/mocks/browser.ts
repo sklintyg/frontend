@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { faker } from '@frontend/fake'
+import { faker } from 'fake'
 import { setupWorker } from 'msw'
 import { handlers } from './handlers'
 

@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { occupationType } from '../../../../schemas/sickLeaveSchema'
 import { getMultipleSelectPlaceholder } from './getMultipleSelectPlaceholder'
 

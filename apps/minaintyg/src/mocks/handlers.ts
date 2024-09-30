@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from 'fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
 import type { DefaultBodyType, PathParams, RestRequest } from 'msw'
 import { rest } from 'msw'

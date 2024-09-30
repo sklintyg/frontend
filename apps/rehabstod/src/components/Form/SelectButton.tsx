@@ -10,8 +10,8 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { hasNoChildren } from '@frontend/components'
-import { IDSIconChevron } from '@frontend/ids-react-ts'
+import { hasNoChildren } from 'components'
+import { IDSIconChevron } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 
 export function SelectButton({

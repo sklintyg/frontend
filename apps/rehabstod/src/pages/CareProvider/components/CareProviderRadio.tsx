@@ -1,5 +1,5 @@
-import { classNames } from '@frontend/components'
-import { IDSRadio } from '@frontend/ids-react-ts'
+import { classNames } from 'components'
+import { IDSRadio } from 'ids-react-ts'
 import type { ChangeEventHandler, MouseEventHandler } from 'react'
 
 export function CareProviderRadioButton({

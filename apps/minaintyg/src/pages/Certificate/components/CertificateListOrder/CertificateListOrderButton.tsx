@@ -1,4 +1,4 @@
-import { classNames, TertiaryButton } from '@frontend/components'
+import { classNames, TertiaryButton } from 'components'
 import type { ReactEventHandler } from 'react'
 
 export function CertificateListOrderButton({ active, label, onClick }: { active: boolean; label: string; onClick: ReactEventHandler }) {

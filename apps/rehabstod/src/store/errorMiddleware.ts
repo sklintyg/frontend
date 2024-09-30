@@ -1,4 +1,4 @@
-import { randomUUID } from '@frontend/utils'
+import { randomUUID } from 'utils'
 import type { SerializedError, ThunkMiddleware } from '@reduxjs/toolkit'
 import { isPlainObject } from '@reduxjs/toolkit'
 import type { ErrorData } from '../schemas/errorSchema'

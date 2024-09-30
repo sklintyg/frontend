@@ -62,10 +62,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm --filter=@frontend/* build
+        run: pnpm --filter=* build
 
       - name: Typescript
-        run: pnpm --filter=@frontend/* typescript
+        run: pnpm --filter=* typescript
 
       - name: Format
         run: pnpm prettier . --check --ignore-unknown

@@ -1,4 +1,4 @@
-import { IDSIconCog } from '@frontend/ids-react-ts'
+import { IDSIconCog } from 'ids-react-ts'
 import type { MouseEventHandler } from 'react'
 
 export function SettingsButton({ onClick }: { onClick?: MouseEventHandler<HTMLButtonElement> }) {

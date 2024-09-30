@@ -1,4 +1,4 @@
-import { IDSIconCalendar } from '@frontend/ids-react-ts'
+import { IDSIconCalendar } from 'ids-react-ts'
 import { render } from '@testing-library/react'
 import { LinkIcon } from './LinkIcon'
 

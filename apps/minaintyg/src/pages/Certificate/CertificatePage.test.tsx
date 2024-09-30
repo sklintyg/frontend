@@ -1,4 +1,4 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from 'fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'

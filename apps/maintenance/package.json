@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/maintenance",
+  "name": "maintenance",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,8 +15,8 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@frontend/components": "workspace:*",
-    "@frontend/ids-react-ts": "workspace:*",
+    "components": "workspace:*",
+    "ids-react-ts": "workspace:*",
     "@inera/ids-core": "^4.10.0",
     "@inera/ids-design": "^4.10.0",
     "react": "^18.3.1",

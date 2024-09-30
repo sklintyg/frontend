@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSSpinner } from 'ids-react-ts'
 import { useSessionStorage } from '@react-hooks-library/core'
 import type { SortDirection } from 'react-stately'
 import { PageHeading } from '../../components/PageHeading/PageHeading'

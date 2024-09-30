@@ -1,4 +1,4 @@
-import { IDSTab, IDSTabPanel, IDSTabs } from '@frontend/ids-react-ts'
+import { IDSTab, IDSTabPanel, IDSTabs } from 'ids-react-ts'
 import { useState } from 'react'
 import { PatientLUCertificatesTable } from './patientLU/PatientLUCertificatesTable'
 import { PatientSickLeaves } from './patientSickLeaves/PatientSickLeaves'

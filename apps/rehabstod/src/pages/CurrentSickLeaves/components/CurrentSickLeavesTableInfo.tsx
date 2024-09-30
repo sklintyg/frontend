@@ -1,4 +1,4 @@
-import { TertiaryButton } from '@frontend/components'
+import { TertiaryButton } from 'components'
 import { TableInfoItem } from '../../../components/Table/TableInfo/TableInfoItem'
 import { TableRowsInfoItem } from '../../../components/Table/TableInfo/TableRowsInfoItem'
 import { useAppDispatch } from '../../../store/hooks'

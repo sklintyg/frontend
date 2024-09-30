@@ -1,4 +1,4 @@
-import { sortBy } from '@frontend/utils'
+import { sortBy } from 'utils'
 import { getYear, parseISO } from 'date-fns'
 import { useMemo } from 'react'
 import type { SortDirection } from 'react-stately'

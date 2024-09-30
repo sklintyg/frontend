@@ -1,5 +1,5 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { Dialog } from 'components'
+import { IDSButton } from 'ids-react-ts'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import { usePatient } from '../../hooks/usePatient'

@@ -1,4 +1,4 @@
-import { isTruthy } from '@frontend/utils'
+import { isTruthy } from 'utils'
 import type { Diagnosis } from '../../schemas/diagnosisSchema'
 import { TableCell } from '../Table/tableBody/TableCell'
 

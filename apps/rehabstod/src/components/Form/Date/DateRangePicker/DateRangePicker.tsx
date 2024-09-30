@@ -1,5 +1,5 @@
-import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
-import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { TooltipIcon, classNames, useInputStyle } from 'components'
+import { IDSButton, IDSErrorMessage, IDSIconQuestion } from 'ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import type { AriaDateRangePickerProps, DateValue } from 'react-aria'

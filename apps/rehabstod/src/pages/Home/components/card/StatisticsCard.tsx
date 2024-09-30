@@ -1,4 +1,4 @@
-import { Card, classNames } from '@frontend/components'
+import { Card, classNames } from 'components'
 import { useState } from 'react'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { PieChartGraph } from '../graph/PieChartGraph'

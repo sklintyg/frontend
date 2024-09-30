@@ -1,4 +1,4 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from 'ids-react-ts'
 
 export function EmptyCertificateListInfo({ total }: { total: number }) {
   if (total > 0) {

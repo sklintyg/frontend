@@ -1,4 +1,4 @@
-import { IDSButtonGroup } from '@frontend/ids-react-ts'
+import { IDSButtonGroup } from 'ids-react-ts'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { isMobileApp } from '../../utils/isMobileApp'
 import { CustomizePrintDialog } from './CustomizePrintDialog/CustomizePrintDialog'

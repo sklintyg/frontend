@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'components'
 import type { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { RiskSignalCircle } from './RiskSignalCircle'
 

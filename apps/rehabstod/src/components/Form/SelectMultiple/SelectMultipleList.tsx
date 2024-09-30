@@ -1,5 +1,5 @@
-import type { IDSCheckboxGroupElement } from '@frontend/ids-react-ts'
-import { IDSCheckboxGroup } from '@frontend/ids-react-ts'
+import type { IDSCheckboxGroupElement } from 'ids-react-ts'
+import { IDSCheckboxGroup } from 'ids-react-ts'
 import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
 

@@ -1,4 +1,4 @@
-import { randomUUID } from '@frontend/utils'
+import { randomUUID } from 'utils'
 import type { ApiError } from '../api/apiActions'
 import type { ErrorRequest } from './errorReducer'
 import { ErrorCode, ErrorType } from './errorReducer'

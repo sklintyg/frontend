@@ -1,4 +1,4 @@
-import { IDSIconExternal } from '@frontend/ids-react-ts'
+import { IDSIconExternal } from 'ids-react-ts'
 import { render } from '@testing-library/react'
 import { LinkIcon } from '../LinkIcon'
 import { TertiaryButton } from './TertiaryButton'

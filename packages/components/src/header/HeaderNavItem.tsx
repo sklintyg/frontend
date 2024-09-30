@@ -1,4 +1,4 @@
-import { IDSHeaderNavItem } from '@frontend/ids-react-ts'
+import { IDSHeaderNavItem } from 'ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useActivePage } from './hooks/useActivePage'
 

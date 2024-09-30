@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { render, screen } from '@testing-library/react'
 import { certificateMetadataSchema } from '../../../schema/certificate.schema'
 import { CertificateFooter } from './CertificateFooter'

@@ -11,7 +11,7 @@
     // Tell compiler to use React 17 dependencies.
     "paths": {
       "react": ["./node_modules/@types/react"],
-      "@frontend/utils": ["../../packages/utils/src/index.ts"]
+      "utils": ["../../packages/utils/src/index.ts"]
     }
   }
 }

@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { patientSjukfallIntygSchema } from '../../../schemas/patientSchema'
 import { PatientColumn } from '../../../store/slices/patientTableColumns.slice'
 import { getCertificateColumnData } from './getCertificateColumnData'

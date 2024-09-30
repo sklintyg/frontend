@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/filtrex",
+  "name": "filtrex",
   "description": "Repackage of filtrex to include types",
   "version": "2.2.0",
   "private": true,

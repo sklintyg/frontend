@@ -1,4 +1,4 @@
-import { fakeCertificate, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
+import { fakeCertificate, fakeHSA, faker, fakerFromSchema } from 'fake'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'

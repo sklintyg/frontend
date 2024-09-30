@@ -1,5 +1,5 @@
-import { useInputStyle } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { useInputStyle } from 'components'
+import { IDSButton } from 'ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import type { AriaDatePickerProps, DateValue } from 'react-aria'

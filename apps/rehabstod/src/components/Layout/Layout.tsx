@@ -1,5 +1,5 @@
-import { GlobalAlert, PriorityEnum } from '@frontend/components'
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { GlobalAlert, PriorityEnum } from 'components'
+import { IDSSpinner } from 'ids-react-ts'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { BannerPriority } from '../../schemas'

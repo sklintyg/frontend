@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/rehabstod",
+  "name": "rehabstod",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
-    "@frontend/components": "workspace:*",
-    "@frontend/fake": "workspace:*",
-    "@frontend/ids-react-ts": "workspace:*",
-    "@frontend/utils": "workspace:*",
+    "components": "workspace:*",
+    "fake": "workspace:*",
+    "ids-react-ts": "workspace:*",
+    "utils": "workspace:*",
     "@inera/ids-core": "^4.10.0",
     "@inera/ids-design": "^4.10.0",
     "@internationalized/date": "^3.2.0",

@@ -1,5 +1,5 @@
-import { LinkIcon, TertiaryButton } from '@frontend/components'
-import { IDSIconExternal } from '@frontend/ids-react-ts'
+import { LinkIcon, TertiaryButton } from 'components'
+import { IDSIconExternal } from 'ids-react-ts'
 import { usePatient } from '../hooks/usePatient'
 
 export function CertificateButton({ certificateId }: { certificateId: string }) {

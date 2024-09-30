@@ -1,5 +1,5 @@
-import { IDSButton } from '@frontend/ids-react-ts'
-import { omit } from '@frontend/utils'
+import { IDSButton } from 'ids-react-ts'
+import { omit } from 'utils'
 import { FilterAccordion } from '../../../../components/FilterAccordion/FilterAccordion'
 import { useGetCertificatesFilterQuery } from '../../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'

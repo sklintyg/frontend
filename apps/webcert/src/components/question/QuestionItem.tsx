@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
 import type { ChangeEvent } from 'react'

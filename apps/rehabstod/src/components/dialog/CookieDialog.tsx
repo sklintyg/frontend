@@ -1,4 +1,4 @@
-import { Dialog } from '@frontend/components'
+import { Dialog } from 'components'
 import { useState } from 'react'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'

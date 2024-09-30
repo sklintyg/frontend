@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from 'components'
 import type { CalendarDate } from '@internationalized/date'
 import { getDayOfWeek, isSameDay } from '@internationalized/date'
 import { useRef } from 'react'

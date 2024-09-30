@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { CertificatePreambleText } from './CertificatePreambleText'
 import { certificateTextSchema } from '../../../../schema/certificate.schema'
 

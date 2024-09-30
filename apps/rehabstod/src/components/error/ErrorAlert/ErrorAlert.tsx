@@ -1,5 +1,5 @@
-import { ErrorIdentifier } from '@frontend/components'
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { ErrorIdentifier } from 'components'
+import { IDSAlert } from 'ids-react-ts'
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { useGetLinksQuery } from '../../../store/api'

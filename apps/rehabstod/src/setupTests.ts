@@ -1,4 +1,4 @@
-import { faker } from '@frontend/fake'
+import { faker } from 'fake'
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'

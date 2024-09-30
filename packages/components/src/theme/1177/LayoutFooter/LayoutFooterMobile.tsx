@@ -1,4 +1,4 @@
-import { IDSIconExternal, IDSMobileMenu, IDSMobileMenuItem } from '@frontend/ids-react-ts'
+import { IDSIconExternal, IDSMobileMenu, IDSMobileMenuItem } from 'ids-react-ts'
 import { LayoutFooterLink } from './LayoutFooterLink'
 import { footerLinks } from './footerLinks'
 

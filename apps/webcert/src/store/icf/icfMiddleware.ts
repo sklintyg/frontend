@@ -1,7 +1,7 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash-es'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { ValueDiagnosisList, ValueType } from '../../types'
+import type { ValueType } from '../../types'
 import { CertificateDataValueType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
@@ -83,7 +83,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
 
 function getIcdCodesFromQuestionValue(value: ValueType | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map(({ code }) => code)
+    return value.list.filter((code) => code.terminology.toLowerCase().includes('icd')).map(({ code }) => code)
   } else {
     return undefined
   }

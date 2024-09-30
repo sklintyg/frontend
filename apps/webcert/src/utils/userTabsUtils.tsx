@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import type { ResourceLink, UserStatistics, UserTab } from '../types'
 import { ResourceLinkType } from '../types'
 

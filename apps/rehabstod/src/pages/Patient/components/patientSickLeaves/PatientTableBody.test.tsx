@@ -1,4 +1,4 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from 'fake'
 import { act, screen, waitFor, within } from '@testing-library/react'
 import { rest } from 'msw'
 import type { ReactNode } from 'react'

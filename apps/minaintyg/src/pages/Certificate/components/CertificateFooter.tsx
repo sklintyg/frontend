@@ -1,4 +1,4 @@
-import { isTruthy } from '@frontend/utils/src'
+import { isTruthy } from 'utils/src'
 import { PageDivider } from '../../../components/PageDivider/PageDivider'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'
 
