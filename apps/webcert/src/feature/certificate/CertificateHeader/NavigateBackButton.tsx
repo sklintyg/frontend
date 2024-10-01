@@ -1,17 +1,17 @@
+import { useHistory } from 'react-router-dom'
 import StatusWithIcon from '../../../components/utils/StatusWithIcon'
 import { WithUserResourceLink } from '../../../components/utils/WithResourceLink'
-import { useGoBackEffect } from '../../../hooks/useGoBackEffect'
 import { LinkButton } from '../../../styles'
 import { ResourceLinkType } from '../../../types'
 
 function NavigateBackButton() {
-  const goBack = useGoBackEffect()
+  const history = useHistory()
 
   return (
     <WithUserResourceLink type={ResourceLinkType.NAVIGATE_BACK_BUTTON}>
       {(link) => (
         <StatusWithIcon icon="ArrowLeft">
-          <LinkButton className="ic-link" onClick={goBack}>
+          <LinkButton className="ic-link" onClick={history.goBack}>
             {link.name}
           </LinkButton>
         </StatusWithIcon>

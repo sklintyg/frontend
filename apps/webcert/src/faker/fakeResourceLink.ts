@@ -50,8 +50,6 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Ej hanterade ärenden'
     case ResourceLinkType.LOG_OUT:
       return 'Logga ut'
-    case ResourceLinkType.SIGN_CERTIFICATE:
-      return 'Signera intyget'
     default:
       return faker.lorem.word(10)
   }
@@ -82,8 +80,6 @@ function fakeResourceLinkDescription(type: ResourceLinkType) {
       return 'Skapar ett e-postmeddelande med länk till intyget.'
     case ResourceLinkType.REMOVE_CERTIFICATE:
       return 'Raderar intygsutkastet.'
-    case ResourceLinkType.SIGN_CERTIFICATE:
-      return 'Intyget signeras.'
     default:
       return `${type} - ${faker.lorem.sentence()}`
   }
