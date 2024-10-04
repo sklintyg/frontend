@@ -44,9 +44,9 @@ exports[`Should render correctly 1`] = `
           </span>
           <ids-link>
             <a
-              href="/excepturi"
+              href="/itaque"
             >
-              excepturi
+              perferendis
             </a>
           </ids-link>
         </div>
@@ -72,9 +72,9 @@ exports[`Should render correctly 1`] = `
         </span>
         <ids-link>
           <a
-            href="/excepturi"
+            href="/itaque"
           >
-            excepturi
+            perferendis
           </a>
         </ids-link>
       </div>
