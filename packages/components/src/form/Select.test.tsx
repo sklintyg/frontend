@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import { Select } from './Select'
 
 const options = Array.from({ length: 5 }, (_, i) => ({ label: `Option ${i}`, value: `${i}` }))
@@ -22,9 +22,9 @@ it('Should render options', () => {
 it('Should call on change if choosing option', async () => {
   const onChangeSpy = vi.fn()
   render(<Select label="Select Label" options={options} onChange={onChangeSpy} />)
-  await userEvent.selectOptions(screen.getByLabelText('Select Label'), options[3].value)
+  await userEvent.selectOptions(screen.getByLabelText('Select Label'), '3')
   expect(onChangeSpy).toHaveBeenCalled()
-  expect(onChangeSpy).toHaveBeenCalledWith(expect.objectContaining({ target: expect.objectContaining({ value: options[3].value }) }))
+  expect(onChangeSpy).toHaveBeenCalledWith(expect.objectContaining({ target: expect.objectContaining({ value: '3' }) }))
 })
 
 it('Should select initial value', () => {

@@ -4,6 +4,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // Would require some refactoring to enable noUncheckedIndexedAccess
+    "noUncheckedIndexedAccess": false
   }
 }

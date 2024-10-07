@@ -1,11 +1,10 @@
-import { fakeHSA, faker } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { store } from '../../../../store/store'
 import { CertificateUnitFilter } from './CertificateUnitFilter'
 
-const options = faker.helpers.uniqueArray(() => ({ id: fakeHSA(), name: faker.company.name() }), 4)
+const options = Array.from({ length: 4 }, (_, i) => ({ id: `${i}`, name: `name ${i}` }))
 
 function renderComponent() {
   return render(
@@ -37,7 +36,7 @@ it('Should have correct options', () => {
 
 it('Should update on selection', async () => {
   renderComponent()
-  await userEvent.selectOptions(screen.getByRole('combobox'), screen.getByRole('option', { name: options[3].name }))
-  expect((screen.getByRole('option', { name: options[3].name }) as HTMLOptionElement).selected).toBe(true)
-  expect(store.getState().certificateFilter.units).toBe(options[3].id)
+  await userEvent.selectOptions(screen.getByRole('combobox'), screen.getByRole('option', { name: 'name 3' }))
+  expect((screen.getByRole('option', { name: 'name 3' }) as HTMLOptionElement).selected).toBe(true)
+  expect(store.getState().certificateFilter.units).toBe('3')
 })

@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import { testabilityPersonSchema } from '../../../schema/testability/person.schema'
 import { SelectProfile } from './SelectProfile'
 
-const persons = Array.from({ length: 5 }, fakerFromSchema(testabilityPersonSchema))
+const persons = Array.from({ length: 5 }, fakerFromSchema(testabilityPersonSchema, { seed: 1 }))
 
 it('Should render persons as options', () => {
   render(<SelectProfile persons={persons} onChange={vi.fn()} />)
@@ -15,6 +15,7 @@ it('Should render persons as options', () => {
 it('Should call onChange when clicking on option', async () => {
   const onChange = vi.fn()
   render(<SelectProfile persons={persons} onChange={onChange} />)
-  await userEvent.selectOptions(screen.getByRole('listbox'), screen.getAllByRole('option')[3])
+
+  await userEvent.selectOptions(screen.getByRole('listbox'), screen.getByRole('option', { name: 'Alberto Stamm (198312213968)' }))
   expect(onChange).toHaveBeenCalledTimes(1)
 })
