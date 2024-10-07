@@ -56,7 +56,7 @@ const isIcdCodeSystemChosen = (value: ValueType) => {
   if (!value || value.type !== CertificateDataValueType.DIAGNOSIS_LIST) {
     return true
   }
-  return (value as ValueDiagnosisList).list.length === 0 || (value as ValueDiagnosisList).list[0].terminology.toLowerCase().includes('icd')
+  return value.list.length === 0 || value.list[0]?.terminology.toLowerCase().includes('icd')
 }
 
 const handleInitializeFMBPanel: Middleware<Dispatch> =
@@ -81,7 +81,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     }
 
     for (const questionId in certificate.data) {
-      if (Object.prototype.hasOwnProperty.call(certificate.data, questionId)) {
+      if (certificate.data[questionId]) {
         const question = certificate.data[questionId]
         if (isValueDateRangeList(question.value)) {
           dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
