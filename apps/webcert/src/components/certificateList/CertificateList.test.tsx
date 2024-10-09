@@ -174,10 +174,9 @@ describe('CertificateList', () => {
     testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
-    const button = screen.getAllByRole('button', {
-      name: /Skapa intyg/,
-    }) as HTMLElement[]
-    await userEvent.click(button[1])
+    expect(screen.queryByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).not.toBeInTheDocument()
+
+    await userEvent.click(within(screen.getByTestId('certificate-list-row-typ2')).getByRole('button', { name: /Skapa intyg/ }))
 
     expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
   })
