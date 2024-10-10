@@ -165,21 +165,13 @@ export const getValidationErrorSummary =
 export const getCareUnitValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.careUnitValidationErrors || []
   }
 
 export const getPatientValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.patientValidationErrors || []
   }
 
 const doesFieldsMatch = (payloadField: string, validationField: string) => {

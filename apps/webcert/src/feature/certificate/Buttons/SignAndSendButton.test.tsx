@@ -5,7 +5,7 @@ import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { fakeCertificate, fakeTextAreaElement } from '../../../faker'
-import { updateCertificate, updateValidationErrors } from '../../../store/certificate/certificateActions'
+import { updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
@@ -61,7 +61,7 @@ describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
-    testStore.dispatch(updateValidationErrors([]))
+    testStore.dispatch(validateCertificateSuccess({ validationErrors: [] }))
     clearDispatchedActions()
   })
 
@@ -117,15 +117,17 @@ describe('Sign certificate with confirmation modal', () => {
 
   it('Should not display confirmation modal when there are unresolved validation errors', async () => {
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          category: 'category',
-          field: 'field',
-          id: 'id',
-          text: 'text',
-          type: 'type',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            category: 'category',
+            field: 'field',
+            id: 'id',
+            text: 'text',
+            type: 'type',
+          },
+        ],
+      })
     )
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')

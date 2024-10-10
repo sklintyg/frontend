@@ -5,7 +5,7 @@ import faker from 'faker'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificate, fakeMedicalInvestigationListElement } from '../../../../faker'
-import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate, validateCertificateSuccess } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import type { ConfigUeMedicalInvestigationList } from '../../../../types'
@@ -106,15 +106,17 @@ describe('Medical investigation component', () => {
   it.each(config.list)('Should display validation error for field information source field %#', ({ informationSourceId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: informationSourceId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: informationSourceId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
@@ -123,15 +125,17 @@ describe('Medical investigation component', () => {
   it.each(config.list)('Should display validation error for investation field %#', ({ investigationTypeId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: investigationTypeId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: investigationTypeId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
@@ -140,15 +144,17 @@ describe('Medical investigation component', () => {
   it.each(config.list)('Should display validation error for date field %#', ({ dateId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: dateId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: dateId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
@@ -156,15 +162,17 @@ describe('Medical investigation component', () => {
 
   it.each(config.list)('Should not display empty validationErrors for information source field %#', ({ informationSourceId }) => {
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: informationSourceId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: informationSourceId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
@@ -172,15 +180,17 @@ describe('Medical investigation component', () => {
 
   it.each(config.list)('Should not display empty validationErrors for investigation field %#', ({ investigationTypeId }) => {
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: investigationTypeId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: investigationTypeId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
@@ -188,15 +198,17 @@ describe('Medical investigation component', () => {
 
   it.each(config.list)('Should not display empty validationErrors for date field %#', ({ dateId }) => {
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: dateId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          {
+            id: QUESTION_ID,
+            category: 'category',
+            field: dateId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          },
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()

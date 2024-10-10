@@ -186,5 +186,5 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
 }
 
 export const getClientValidationErrors = ({ id, value, config }: CertificateDataElement): ValidationError[] => {
-  return [...getErrorsFromValue(id, value), ...getErrorsFromConfig(id, config as CertificateDataConfigType, value)]
+  return [...getErrorsFromValue(id, value), ...getErrorsFromConfig(id, config, value)]
 }

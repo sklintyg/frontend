@@ -7,7 +7,6 @@ import {
   CertificateSignStatus,
   ConfigTypes,
 } from '../../types'
-import { isShowAlways } from '../../utils'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
@@ -25,7 +24,6 @@ import {
   setCertificatePatientData,
   setCertificateUnitData,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -48,7 +46,6 @@ import {
   updateModalData,
   updateRoutedFromDeletedCertificate,
   updateShouldRouteAfterDelete,
-  updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
@@ -90,9 +87,6 @@ const getInitialState = (): CertificateState => {
     modalData: null,
   }
 }
-
-const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
-const PATIENT_CATEGORY_NAME = 'patient'
 
 const certificateReducer = createReducer(getInitialState(), (builder) =>
   builder
@@ -181,33 +175,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(validateCertificateCompleted, (state) => {
       state.validationInProgress = false
-    })
-    .addCase(updateValidationErrors, (state, action) => {
-      action.payload = action.payload.map((validationError) => ({ ...validationError, showAlways: isShowAlways(validationError) }))
-
-      if (state.certificate) {
-        for (const questionId in state.certificate.data) {
-          const question = state.certificate.data[questionId]
-          if (!question) {
-            continue
-          }
-
-          question.validationErrors = action.payload.filter(({ id }) => id === questionId)
-        }
-
-        state.certificate.metadata.careUnitValidationErrors = action.payload.filter(({ category }) => category === CARE_UNIT_CATEGORY_NAME)
-        state.certificate.metadata.patientValidationErrors = action.payload.filter(({ category }) => category === PATIENT_CATEGORY_NAME)
-      }
-    })
-    .addCase(setValidationErrorsForQuestion, (state, action) => {
-      if (state.certificate) {
-        const question = state.certificate.data[action.payload.questionId]
-        if (!question) {
-          return
-        }
-
-        question.validationErrors = action.payload.validationErrors
-      }
     })
     .addCase(showValidationErrors, (state) => {
       state.showValidationErrors = true
