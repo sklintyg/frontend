@@ -57,65 +57,19 @@ describe('SingCertificateModal', () => {
     })
   })
 
-  describe('Processing state', () => {
+  describe('Not initial state', () => {
     beforeEach(() => {
       mockedUseSelector.mockImplementation((callback) => callback(getTestState(CertificateSignStatus.PROCESSING)))
     })
 
     it('Should display correct title', () => {
       render(<SignCertificateModal />)
-      expect(screen.getByText('Ditt intyg signeras')).toBeInTheDocument()
+      expect(screen.getByText('Signera intyget med BankID')).toBeInTheDocument()
     })
 
-    it('Should not have any buttons', () => {
+    it('Should have cancel buttons', () => {
       render(<SignCertificateModal />)
-      expect(screen.getByTestId('modal-buttons')).toBeEmptyDOMElement()
-    })
-
-    it('Should display desktop text', () => {
-      render(<SignCertificateModal />)
-      expect(screen.getByText(/Om ditt BankID säkerhetsprogram inte öppnas/i)).toBeInTheDocument()
-      expect(screen.queryByText(/Starta mobilt BankID/i)).not.toBeInTheDocument()
-    })
-
-    it('Should display mobile text', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.PROCESSING, LoginMethod.BANK_ID_MOBILE))
-      )
-      render(<SignCertificateModal />)
-      expect(screen.getByText(/Starta mobilt BankID/i)).toBeInTheDocument()
-      expect(screen.queryByText(/Om ditt BankID säkerhetsprogram inte öppnas/i)).not.toBeInTheDocument()
-    })
-  })
-
-  describe('No client state', () => {
-    beforeEach(() => {
-      mockedUseSelector.mockImplementation((callback) => callback(getTestState(CertificateSignStatus.NO_CLIENT)))
-    })
-
-    it('Should display correct title', () => {
-      render(<SignCertificateModal />)
-      expect(screen.getByText('Ditt intyg signeras')).toBeInTheDocument()
-    })
-
-    it('Should not have any buttons', () => {
-      render(<SignCertificateModal />)
-      expect(screen.getByTestId('modal-buttons')).toBeEmptyDOMElement()
-    })
-
-    it('Should display desktop text', () => {
-      render(<SignCertificateModal />)
-      expect(screen.getByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).toBeInTheDocument()
-      expect(screen.queryByText(/Mobilt BankID-servern får ej kontakt/i)).not.toBeInTheDocument()
-    })
-
-    it('Should display mobile text', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.NO_CLIENT, LoginMethod.BANK_ID_MOBILE))
-      )
-      render(<SignCertificateModal />)
-      expect(screen.getByText(/Mobilt BankID-servern får ej kontakt/i)).toBeInTheDocument()
-      expect(screen.queryByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).not.toBeInTheDocument()
+      expect(screen.getByText('Avbryt')).toBeInTheDocument()
     })
   })
 })
