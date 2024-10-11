@@ -421,7 +421,7 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
     if (action.payload?.status) {
       dispatch(updateCertificateSignStatus(action.payload.status))
     }
-    if (action.payload?.qrCode && signingMethod == SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
+    if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
       dispatch(setQrCodeForElegSignature(action.payload.qrCode))
     }
 
@@ -435,6 +435,8 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
         dispatch(signCertificateCompleted())
         dispatch(getCertificate(certificate.metadata.id))
         break
+      case CertificateSignStatus.ABORT:
+        return
       default:
         setTimeout(
           () =>

@@ -9,7 +9,7 @@ import { CustomButton } from '../../../components/Inputs/CustomButton'
 import InfoBox from '../../../components/utils/InfoBox'
 import { Link } from 'react-router-dom'
 import ExternalLinkIcon from '../../../components/image/image/ExternalLinkIcon'
-import { startSignCertificate } from '../../../store/certificate/certificateActions'
+import { startSignCertificate, updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
 
 export const SignCertificateErrorModal: React.FC = () => {
   const signStatus = useSelector(getSigningStatus)
@@ -18,6 +18,11 @@ export const SignCertificateErrorModal: React.FC = () => {
 
   const handleClose = () => {
     setOpenErrorModal(false)
+  }
+
+  const onCancel = () => {
+    setOpenErrorModal(false)
+    dispatch(updateCertificateSignStatus(CertificateSignStatus.ABORT))
   }
 
   const onTryAgain = () => {
@@ -40,7 +45,7 @@ export const SignCertificateErrorModal: React.FC = () => {
       buttons={
         <>
           <CustomButton buttonStyle="primary" text="Försök igen" onClick={onTryAgain} />
-          <CustomButton text="Avbryt" onClick={() => setOpenErrorModal(false)} />
+          <CustomButton text="Avbryt" onClick={onCancel} />
         </>
       }
       content={

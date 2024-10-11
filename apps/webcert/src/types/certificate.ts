@@ -840,4 +840,5 @@ export enum CertificateSignStatus {
   NO_CLIENT = 'NO_CLIENT',
   SIGNED = 'SIGNERAD',
   FAILED = 'FAILED',
+  ABORT = 'ABORT',
 }
