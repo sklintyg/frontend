@@ -16,10 +16,6 @@ export const SignCertificateErrorModal: React.FC = () => {
   const dispatch = useAppDispatch()
   const [openErrorModal, setOpenErrorModal] = useState(false)
 
-  const handleClose = () => {
-    setOpenErrorModal(false)
-  }
-
   const onCancel = () => {
     setOpenErrorModal(false)
     dispatch(updateCertificateSignStatus(CertificateSignStatus.ABORT))
@@ -40,7 +36,7 @@ export const SignCertificateErrorModal: React.FC = () => {
     <ModalBase
       open={openErrorModal}
       focusTrap={false}
-      handleClose={handleClose}
+      handleClose={onCancel}
       title={'Någonting gick fel'}
       buttons={
         <>

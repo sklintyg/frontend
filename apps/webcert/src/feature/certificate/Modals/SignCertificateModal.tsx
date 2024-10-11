@@ -8,8 +8,9 @@ import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { bankIdLogoImage } from '../../../images'
 import { CertificateSignStatus, SigningMethod } from '../../../types'
 import QRCode from '../../../components/qrcode/QRCode'
-import { useAppSelector } from '../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
+import { updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
 
 const BankIDLogo = styled.img`
   width: 60%;
@@ -19,12 +20,14 @@ export const SignCertificateModal: React.FC = () => {
   const signStatus = useSelector(getSigningStatus)
   const user = useSelector(getUser)
   const signingMethod = user?.signingMethod
+  const dispatch = useAppDispatch()
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const [open, setOpen] = useState(true)
   const [correctSigningStatus, setCorrectSigningStatus] = useState(false)
 
-  const handleClose = () => {
+  const onCancel = () => {
     setOpen(false)
+    dispatch(updateCertificateSignStatus(CertificateSignStatus.ABORT))
   }
 
   useEffect(() => {
@@ -39,9 +42,9 @@ export const SignCertificateModal: React.FC = () => {
     <ModalBase
       open={open && correctSigningStatus}
       focusTrap={false}
-      handleClose={handleClose}
+      handleClose={onCancel}
       title="Signera intyget med BankID"
-      buttons={<CustomButton text={'Avbryt'} onClick={() => setOpen(false)} />}
+      buttons={<CustomButton text={'Avbryt'} onClick={onCancel} />}
       content={
         <>
           {signingMethod === SigningMethod.BANK_ID && (
