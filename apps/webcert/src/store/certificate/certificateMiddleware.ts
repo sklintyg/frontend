@@ -431,8 +431,9 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
 
     switch (signStatus) {
       case CertificateSignStatus.UNKNOWN:
-      case CertificateSignStatus.SIGNED:
       case CertificateSignStatus.ABORT:
+        return
+      case CertificateSignStatus.SIGNED:
         dispatch(signCertificateCompleted())
         dispatch(getCertificate(certificate.metadata.id))
         break

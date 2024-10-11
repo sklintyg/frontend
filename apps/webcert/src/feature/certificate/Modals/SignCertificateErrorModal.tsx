@@ -27,7 +27,11 @@ export const SignCertificateErrorModal: React.FC = () => {
   }
 
   useEffect(() => {
-    if (signStatus == CertificateSignStatus.FAILED || signStatus == CertificateSignStatus.UNKNOWN) {
+    if (
+      signStatus == CertificateSignStatus.FAILED ||
+      signStatus == CertificateSignStatus.UNKNOWN ||
+      signStatus === CertificateSignStatus.NO_CLIENT
+    ) {
       setOpenErrorModal(true)
     }
   }, [signStatus])
