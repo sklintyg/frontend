@@ -77,7 +77,7 @@ export const SignCertificateModal: React.FC = () => {
               <BankIDLogo src={bankIdLogoImage} alt="BankID Logo" />
             </div>
           )}
-          {signingMethod != SigningMethod.MOBILT_BANK_ID && (
+          {signingMethod == SigningMethod.MOBILT_BANK_ID && (
             <>
               <div className="iu-flex-center">
                 <QRCode qrCode={qrCode} />
