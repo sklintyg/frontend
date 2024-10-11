@@ -22,11 +22,9 @@ export const SignCertificateModal: React.FC = () => {
   const signingMethod = user?.signingMethod
   const dispatch = useAppDispatch()
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
-  const [open, setOpen] = useState(true)
   const [correctSigningStatus, setCorrectSigningStatus] = useState(false)
 
   const onCancel = () => {
-    setOpen(false)
     dispatch(updateCertificateSignStatus(CertificateSignStatus.ABORT))
   }
 
@@ -36,7 +34,7 @@ export const SignCertificateModal: React.FC = () => {
 
   return (
     <ModalBase
-      open={open || correctSigningStatus}
+      open={correctSigningStatus}
       focusTrap={false}
       handleClose={onCancel}
       title="Signera intyget med BankID"
