@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
@@ -15,10 +15,6 @@ import { Link } from 'react-router-dom'
 import ExternalLinkIcon from '../../../components/image/image/ExternalLinkIcon'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 
-const WideModalBase = styled(ModalBase)`
-  max-width: 50rem !important;
-`
-
 const BankIDLogo = styled.img`
   width: 60%;
 `
@@ -30,22 +26,29 @@ export const SignCertificateModal: React.FC = () => {
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const dispatch = useAppDispatch()
   const [open, setOpen] = useState(true)
+  const [openErrorModal, setOpenErrorModal] = useState(false)
 
   const handleClose = () => {
     return
   }
 
-  if (signStatus == CertificateSignStatus.FAILED || signStatus == CertificateSignStatus.UNKNOWN) {
+  useEffect(() => {
+    if (signStatus == CertificateSignStatus.FAILED || signStatus == CertificateSignStatus.UNKNOWN) {
+      setOpenErrorModal(true)
+    }
+  }, [signStatus])
+
+  if (openErrorModal) {
     return (
       <ModalBase
-        open={open}
+        open={openErrorModal}
         focusTrap={false}
         handleClose={handleClose}
         title={'Någonting gick fel'}
         buttons={
           <>
             <CustomButton buttonStyle="primary" text="Försök igen" onClick={() => dispatch(startSignCertificate())} />
-            <CustomButton text="Avbryt" onClick={() => setOpen(false)} />
+            <CustomButton text="Avbryt" onClick={() => setOpenErrorModal(false)} />
           </>
         }
         content={
