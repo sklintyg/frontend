@@ -31,17 +31,12 @@ export const SignCertificateModal: React.FC = () => {
   }
 
   useEffect(() => {
-    setCorrectSigningStatus(
-      signStatus !== CertificateSignStatus.INITIAL &&
-        signStatus !== CertificateSignStatus.FAILED &&
-        signStatus !== CertificateSignStatus.UNKNOWN &&
-        signStatus !== CertificateSignStatus.ABORT
-    )
+    setCorrectSigningStatus(signStatus === CertificateSignStatus.PROCESSING)
   }, [signStatus])
 
   return (
     <ModalBase
-      open={open && correctSigningStatus}
+      open={open || correctSigningStatus}
       focusTrap={false}
       handleClose={onCancel}
       title="Signera intyget med BankID"
