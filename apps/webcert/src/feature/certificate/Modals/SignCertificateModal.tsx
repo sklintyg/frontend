@@ -28,7 +28,12 @@ export const SignCertificateModal: React.FC = () => {
 
   return (
     <ModalBase
-      open={open && signStatus !== CertificateSignStatus.INITIAL}
+      open={
+        open &&
+        signStatus !== CertificateSignStatus.INITIAL &&
+        signStatus !== CertificateSignStatus.FAILED &&
+        signStatus !== CertificateSignStatus.UNKNOWN
+      }
       focusTrap={false}
       handleClose={handleClose}
       title="Signera intyget med BankID"
