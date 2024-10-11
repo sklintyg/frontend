@@ -1,4 +1,4 @@
-import type React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
@@ -25,7 +25,7 @@ const BankIDLogo = styled.img`
 export const SignCertificateModal: React.FC = () => {
   const signStatus = useSelector(getSigningStatus)
   const user = useSelector(getUser)
-  const open = signStatus !== CertificateSignStatus.INITIAL
+  const [open, setOpen] = useState(signStatus !== CertificateSignStatus.INITIAL)
   const signingMethod = user?.signingMethod
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const dispatch = useAppDispatch()
@@ -44,7 +44,7 @@ export const SignCertificateModal: React.FC = () => {
         buttons={
           <>
             <CustomButton buttonStyle="primary" text="Försök igen" onClick={() => dispatch(startSignCertificate())} />
-            <CustomButton text="Avbryt" onClick={handleClose} />
+            <CustomButton text="Avbryt" onClick={() => setOpen(false)} />
           </>
         }
         content={
@@ -69,7 +69,7 @@ export const SignCertificateModal: React.FC = () => {
       focusTrap={false}
       handleClose={handleClose}
       title="Signera intyget med BankID"
-      buttons={<CustomButton text={'Avbryt'} onClick={handleClose} />}
+      buttons={<CustomButton text={'Avbryt'} onClick={() => setOpen(false)} />}
       content={
         <>
           {signingMethod === SigningMethod.BANK_ID && (
