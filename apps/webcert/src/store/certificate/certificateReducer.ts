@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { Certificate, CertificateEvent, Complement, ModalData, ValueBoolean, ValueText } from '../../types'
+import type { Certificate, CertificateEvent, Complement, ModalData, ValidationError, ValueBoolean, ValueText } from '../../types'
 import {
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -40,6 +40,7 @@ import {
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
+  updateClientValidationErrors,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateIsDeleted,
@@ -53,38 +54,40 @@ import {
 export interface CertificateState {
   certificate?: Certificate
   certificateEvents: CertificateEvent[]
+  clientValidationErrors: Record<string, ValidationError[]>
+  complements: Complement[]
+  createdCertificateId: string
+  functionDisablers: FunctionDisabler[]
+  gotoCertificateDataElement?: GotoCertificateDataElement
+  isDeleted: boolean
+  modalData: ModalData | null
+  routedFromDeletedCertificate: boolean
+  shouldRouteAfterDelete: boolean
+  showValidationErrors: boolean
+  signingData?: SigningData
+  signingError?: ErrorData
+  signingStatus: CertificateSignStatus
   spinner: boolean
   spinnerText: string
   validationInProgress: boolean
-  showValidationErrors: boolean
-  isDeleted: boolean
-  complements: Complement[]
-  gotoCertificateDataElement?: GotoCertificateDataElement
-  signingData?: SigningData
-  routedFromDeletedCertificate: boolean
-  functionDisablers: FunctionDisabler[]
-  createdCertificateId: string
-  shouldRouteAfterDelete: boolean
-  signingStatus: CertificateSignStatus
-  signingError?: ErrorData
-  modalData: ModalData | null
 }
 
 const getInitialState = (): CertificateState => {
   return {
     certificateEvents: [],
+    clientValidationErrors: {},
+    complements: [],
+    createdCertificateId: '',
+    functionDisablers: [],
+    isDeleted: false,
+    modalData: null,
+    routedFromDeletedCertificate: false,
+    shouldRouteAfterDelete: false,
+    showValidationErrors: false,
+    signingStatus: CertificateSignStatus.INITIAL,
     spinner: false,
     spinnerText: '',
     validationInProgress: false,
-    showValidationErrors: false,
-    isDeleted: false,
-    complements: [],
-    routedFromDeletedCertificate: false,
-    functionDisablers: [],
-    createdCertificateId: '',
-    shouldRouteAfterDelete: false,
-    signingStatus: CertificateSignStatus.INITIAL,
-    modalData: null,
   }
 }
 
@@ -296,6 +299,16 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetCertificateState, () => getInitialState())
     .addCase(updateModalData, (state, action) => {
       state.modalData = action.payload
+    })
+    .addCase(updateClientValidationErrors, (state, action) => {
+      state.clientValidationErrors = { ...state.clientValidationErrors, ...action.payload }
+      if (state.certificate != null) {
+        Object.keys(action.payload).forEach((id) => {
+          if (state.certificate?.data[id]) {
+            state.certificate.data[id].validationErrors = []
+          }
+        })
+      }
     })
 )
 

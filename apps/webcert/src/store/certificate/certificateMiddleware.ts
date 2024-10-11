@@ -110,6 +110,7 @@ import {
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
+  updateClientValidationErrors,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
@@ -877,16 +878,16 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   (action: ReturnType<typeof updateCertificateDataElement>): void => {
     const certificate = getState().ui.uiCertificate.certificate
     if (certificate) {
-      const validationErrors = getClientValidationErrors(action.payload)
+      const clientValidationErrors = getClientValidationErrors(action.payload)
 
-      dispatch(updateCertificate({ ...certificate, data: mapValidationErrorsToCertificateData(certificate.data, validationErrors) }))
+      dispatch(updateClientValidationErrors({ [action.payload.id]: getClientValidationErrors(action.payload) }))
 
-      if (validationErrors.length === 0 && !isLocked(certificate.metadata)) {
+      if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
         dispatch(
           updateCertificate({
             ...certificate,
             data: getDecoratedCertificateData(
-              { ...certificate.data, [action.payload.id]: { ...action.payload, validationErrors } },
+              { ...certificate.data, [action.payload.id]: action.payload },
               certificate.metadata,
               certificate.links
             ),
@@ -1004,12 +1005,13 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> =
   () =>
   (action: PayloadAction<{ validationErrors: ValidationError[] }>): void => {
     const certificate = getState().ui.uiCertificate.certificate
-    const validationErrors = action.payload.validationErrors.map((validationError) => ({
-      ...validationError,
-      showAlways: isShowAlways(validationError),
-    }))
 
     if (certificate) {
+      const validationErrors = action.payload.validationErrors.map((validationError) => ({
+        ...validationError,
+        showAlways: isShowAlways(validationError),
+      }))
+
       dispatch(
         updateCertificate({
           ...certificate,

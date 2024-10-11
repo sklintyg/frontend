@@ -468,6 +468,9 @@ interface ValidateCertificateSuccess {
 }
 
 export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
+export const updateClientValidationErrors = createAction<Record<string, ValidationError[]>>(
+  `${CERTIFICATE} update client validation errors`
+)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
 

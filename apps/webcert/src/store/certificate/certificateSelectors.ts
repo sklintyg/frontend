@@ -181,8 +181,9 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
 const getQuestionServerValidationErrors =
   (questionId: string) =>
   (state: RootState): ValidationError[] => {
+    const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors
     const question = getQuestion(questionId)(state)
-    return question?.validationErrors ?? []
+    return [clientValidationErrors[questionId] ?? [], question?.validationErrors ?? []].flat()
   }
 
 export const getVisibleValidationErrors =

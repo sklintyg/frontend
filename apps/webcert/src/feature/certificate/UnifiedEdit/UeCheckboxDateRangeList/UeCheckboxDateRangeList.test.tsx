@@ -244,6 +244,7 @@ describe('UeCheckboxDateRangeList', () => {
           id: defaultQuestion.id,
           field: defaultQuestion.id,
           text: expectedValidationMessage,
+          isShowAlways: true,
         },
       ],
     }

@@ -5,6 +5,8 @@ import {
   fakeCertificate,
   fakeCertificateMetaData,
   fakeCertificateValidationError,
+  fakeCertificateValue,
+  fakeDateElement,
   fakeHighlightValidation,
   fakeRadioBooleanElement,
   fakeUser,
@@ -43,6 +45,7 @@ import {
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
+  showValidationErrors,
   signCertificateStatusError,
   startSignCertificate,
   updateCertificate,
@@ -50,7 +53,13 @@ import {
   validateCertificateSuccess,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
-import { getCareUnitValidationErrors, getPatientValidationErrors, getShowValidationErrors } from './certificateSelectors'
+import {
+  getCareUnitValidationErrors,
+  getPatientValidationErrors,
+  getQuestion,
+  getShowValidationErrors,
+  getVisibleValidationErrors,
+} from './certificateSelectors'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {
@@ -446,7 +455,38 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle validate certificate', () => {
-    it('should halt and display careUnitValidationErrors', () => {
+    it('Should add client validationErrors when element changes', () => {
+      const certificateData = fakeDateElement({ id: '1', value: fakeCertificateValue.date({ date: 'abc' }) })
+      const certificate = fakeCertificate({ data: certificateData })
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(getQuestion('1')(testStore.getState())?.validationErrors).toHaveLength(0)
+
+      testStore.dispatch(updateCertificateDataElement(certificateData['1']))
+      testStore.dispatch(showValidationErrors())
+
+      expect(getVisibleValidationErrors('1')(testStore.getState())).toMatchObject([
+        {
+          text: 'Ange giltigt datum i formatet åååå-mm-dd.',
+          type: 'INVALID_DATE_FORMAT',
+        },
+      ])
+    })
+
+    it('Should update validationErrors on validateCertificateSuccess', () => {
+      const certificate = fakeCertificate({
+        data: fakeDateElement({ id: '1', validationErrors: [fakeCertificateValidationError({ id: '1' })] }),
+      })
+      const validationError = fakeCertificateValidationError({ id: '1' })
+
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(validateCertificateSuccess({ validationErrors: [validationError] }))
+      testStore.dispatch(showValidationErrors())
+
+      expect(getVisibleValidationErrors('1')(testStore.getState())).toMatchObject([validationError])
+    })
+
+    it('Should halt and display careUnitValidationErrors', () => {
       const certificate = getCertificateWithHiglightValidation(false)
       const validationError = fakeCertificateValidationError({ category: 'vardenhet' })
 
@@ -460,7 +500,7 @@ describe('Test certificate middleware', () => {
       expect(getShowValidationErrors(testStore.getState())).toBe(true)
     })
 
-    it('should halt and display patientValidationErrors', () => {
+    it('Should halt and display patientValidationErrors', () => {
       const certificate = getCertificateWithHiglightValidation(false)
       const validationError = fakeCertificateValidationError({ category: 'patient' })
 
