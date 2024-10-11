@@ -25,10 +25,10 @@ const BankIDLogo = styled.img`
 export const SignCertificateModal: React.FC = () => {
   const signStatus = useSelector(getSigningStatus)
   const user = useSelector(getUser)
-  const [open, setOpen] = useState(signStatus !== CertificateSignStatus.INITIAL)
   const signingMethod = user?.signingMethod
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const dispatch = useAppDispatch()
+  const [open, setOpen] = useState(true)
 
   const handleClose = () => {
     return
@@ -65,7 +65,7 @@ export const SignCertificateModal: React.FC = () => {
 
   return (
     <ModalBase
-      open={open}
+      open={open && signStatus !== CertificateSignStatus.INITIAL}
       focusTrap={false}
       handleClose={handleClose}
       title="Signera intyget med BankID"
