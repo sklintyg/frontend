@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
@@ -8,12 +8,8 @@ import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { bankIdLogoImage } from '../../../images'
 import { CertificateSignStatus, SigningMethod } from '../../../types'
 import QRCode from '../../../components/qrcode/QRCode'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
+import { useAppSelector } from '../../../store/store'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
-import InfoBox from '../../../components/utils/InfoBox'
-import { Link } from 'react-router-dom'
-import ExternalLinkIcon from '../../../components/image/image/ExternalLinkIcon'
-import { startSignCertificate } from '../../../store/certificate/certificateActions'
 
 const BankIDLogo = styled.img`
   width: 60%;
@@ -24,47 +20,10 @@ export const SignCertificateModal: React.FC = () => {
   const user = useSelector(getUser)
   const signingMethod = user?.signingMethod
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
-  const dispatch = useAppDispatch()
   const [open, setOpen] = useState(true)
-  const [openErrorModal, setOpenErrorModal] = useState(false)
 
   const handleClose = () => {
     return
-  }
-
-  useEffect(() => {
-    if (signStatus == CertificateSignStatus.FAILED || signStatus == CertificateSignStatus.UNKNOWN) {
-      setOpenErrorModal(true)
-    }
-  }, [signStatus])
-
-  if (openErrorModal) {
-    return (
-      <ModalBase
-        open={openErrorModal}
-        focusTrap={false}
-        handleClose={handleClose}
-        title={'Någonting gick fel'}
-        buttons={
-          <>
-            <CustomButton buttonStyle="primary" text="Försök igen" onClick={() => dispatch(startSignCertificate())} />
-            <CustomButton text="Avbryt" onClick={() => setOpenErrorModal(false)} />
-          </>
-        }
-        content={
-          <>
-            <InfoBox type="error">
-              Signeringen avbröts, eller tog för lång tid. Av säkerhetsskäl finns det en tidsbegränsning. <br /> Vänligen försök igen.
-            </InfoBox>
-            <h5 className="ids-heading-h5 iu-pt-500 iu-pb-200">Problem att signera?</h5>
-            <Link target="_blank" to="https://test.bankid.com/">
-              Här kan du testa att ditt BankID fungerar om du har problem med att signera.
-              <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
-            </Link>
-          </>
-        }
-      />
-    )
   }
 
   return (
