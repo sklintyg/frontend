@@ -34,7 +34,8 @@ export const SignCertificateModal: React.FC = () => {
     setCorrectSigningStatus(
       signStatus !== CertificateSignStatus.INITIAL &&
         signStatus !== CertificateSignStatus.FAILED &&
-        signStatus !== CertificateSignStatus.UNKNOWN
+        signStatus !== CertificateSignStatus.UNKNOWN &&
+        signStatus !== CertificateSignStatus.ABORT
     )
   }, [signStatus])
 
