@@ -17,7 +17,7 @@ export const SignCertificateErrorModal: React.FC = () => {
   const [openErrorModal, setOpenErrorModal] = useState(false)
 
   const handleClose = () => {
-    return
+    setOpenErrorModal(false)
   }
 
   const onTryAgain = () => {

@@ -23,7 +23,7 @@ export const SignCertificateModal: React.FC = () => {
   const [open, setOpen] = useState(true)
 
   const handleClose = () => {
-    return
+    setOpen(false)
   }
 
   return (
