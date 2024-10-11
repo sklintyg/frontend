@@ -432,6 +432,7 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
     switch (signStatus) {
       case CertificateSignStatus.UNKNOWN:
       case CertificateSignStatus.ABORT:
+        setTimeout(() => dispatch(updateCertificateSignStatus(signStatus)), 1000)
         return
       case CertificateSignStatus.SIGNED:
         dispatch(signCertificateCompleted())
