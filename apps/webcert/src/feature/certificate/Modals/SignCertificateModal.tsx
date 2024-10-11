@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import type React from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
@@ -34,7 +35,7 @@ export const SignCertificateModal: React.FC = () => {
     return
   }
 
-  if (signStatus == CertificateSignStatus.FAILED) {
+  if (signStatus == CertificateSignStatus.FAILED || signStatus == CertificateSignStatus.UNKNOWN) {
     return (
       <ModalBase
         open={open}
