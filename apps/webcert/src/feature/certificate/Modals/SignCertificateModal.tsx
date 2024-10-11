@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
@@ -21,19 +21,23 @@ export const SignCertificateModal: React.FC = () => {
   const signingMethod = user?.signingMethod
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const [open, setOpen] = useState(true)
+  const [correctSigningStatus, setCorrectSigningStatus] = useState(false)
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  return (
-    <ModalBase
-      open={
-        open &&
-        signStatus !== CertificateSignStatus.INITIAL &&
+  useEffect(() => {
+    setCorrectSigningStatus(
+      signStatus !== CertificateSignStatus.INITIAL &&
         signStatus !== CertificateSignStatus.FAILED &&
         signStatus !== CertificateSignStatus.UNKNOWN
-      }
+    )
+  }, [signStatus])
+
+  return (
+    <ModalBase
+      open={open && correctSigningStatus}
       focusTrap={false}
       handleClose={handleClose}
       title="Signera intyget med BankID"
