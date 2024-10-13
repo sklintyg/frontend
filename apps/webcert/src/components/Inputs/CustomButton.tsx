@@ -41,6 +41,7 @@ interface Props {
 
 const Button = styled.button<Props>`
   height: ${(props) => props.inline && '3rem'};
+  white-space: nowrap;
 `
 
 export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {

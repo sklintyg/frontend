@@ -1,10 +1,8 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
-import type { ProxyOptions } from 'vite'
-import { loadEnv } from 'vite'
-import type { UserConfig } from 'vitest/config'
-import { defineConfig } from 'vitest/config'
+import type { ProxyOptions, UserConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 
 export default ({ mode }: UserConfig) => {
   Object.assign(process.env, loadEnv(mode ?? 'development', process.cwd()))
@@ -19,7 +17,7 @@ export default ({ mode }: UserConfig) => {
         secure: false,
         target: process.env.VITE_API_TARGET ?? 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
         cookieDomainRewrite: { '*': '' },
-        protocolRewrite: 'http',
+        protocolRewrite: 'https',
         changeOrigin: true,
         autoRewrite: true,
       },
@@ -40,7 +38,7 @@ export default ({ mode }: UserConfig) => {
       port: 5174,
       proxy,
       strictPort: true,
-      hmr: hmr ? { host, protocol: hmrProtocol } : false,
+      hmr: hmr ? { host: process.env.VITE_WS_HOST, protocol: hmrProtocol } : false,
     },
   })
 }

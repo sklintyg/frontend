@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import { Select } from './Select'
 
 const options = Array.from({ length: 5 }, (_, i) => ({ label: `Option ${i}`, value: `${i}` }))
@@ -10,21 +10,21 @@ it('Should render label', () => {
 })
 
 it('Should render first option', () => {
-  render(<Select label="" options={[{ value: '', label: 'Visa alla' }]} />)
+  render(<Select label="label" options={[{ value: '', label: 'Visa alla' }]} />)
   expect(screen.getByRole('option', { name: 'Visa alla' })).toBeInTheDocument()
 })
 
 it('Should render options', () => {
-  render(<Select label="" options={options} />)
+  render(<Select label="label" options={options} />)
   expect(screen.getAllByRole('option')).toHaveLength(5)
 })
 
 it('Should call on change if choosing option', async () => {
   const onChangeSpy = vi.fn()
   render(<Select label="Select Label" options={options} onChange={onChangeSpy} />)
-  await userEvent.selectOptions(screen.getByLabelText('Select Label'), options[3].value)
+  await userEvent.selectOptions(screen.getByLabelText('Select Label'), '3')
   expect(onChangeSpy).toHaveBeenCalled()
-  expect(onChangeSpy).toHaveBeenCalledWith(expect.objectContaining({ target: expect.objectContaining({ value: options[3].value }) }))
+  expect(onChangeSpy).toHaveBeenCalledWith(expect.objectContaining({ target: expect.objectContaining({ value: '3' }) }))
 })
 
 it('Should select initial value', () => {
@@ -37,6 +37,7 @@ it('Should select initial value', () => {
         { label: 'third', value: 'third' },
       ]}
       value="second"
+      onChange={vi.fn()}
     />
   )
   expect(screen.getByLabelText('Select Label')).toHaveValue('second')

@@ -7,17 +7,13 @@ const label = 'Skriv ut'
 export function PrintCertificateAction() {
   const { url, customizePrintFunction, showCustomizePrintDialog } = usePrintCertificateContext()
 
-  return (
-    <div>
-      {customizePrintFunction ? (
-        <IDSButton secondary sblock role="button" onClick={() => showCustomizePrintDialog('print')}>
-          {label}
-        </IDSButton>
-      ) : (
-        <LinkButton href={url} secondary sblock type="application/pdf" target="_blank" rel="noreferrer">
-          {label}
-        </LinkButton>
-      )}
-    </div>
+  return customizePrintFunction ? (
+    <IDSButton secondary sblock role="button" onClick={() => showCustomizePrintDialog('print')}>
+      {label}
+    </IDSButton>
+  ) : (
+    <LinkButton href={url} secondary sblock type="application/pdf" target="_blank" rel="noreferrer">
+      {label}
+    </LinkButton>
   )
 }

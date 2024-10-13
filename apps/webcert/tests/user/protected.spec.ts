@@ -53,21 +53,3 @@ test('hide protected person approval when approved', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Användning av Webcert med skyddade personuppgifter' })).toBeHidden()
 })
-
-// test('show protected person modal', async ({ page }) => {
-//   await setupUser(page, { preferences: { 'wc.vardperson.sekretess.approved': 'true' } })
-//   await page.goto('/')
-
-//   await expect(page.getByRole('button', { name: 'Skyddade personuppgifter' })).toBeVisible()
-//   await page.getByRole('button', { name: 'Skyddade personuppgifter' }).click()
-
-//   await expect(page.getByTestId('modal-backdrop')).toBeVisible()
-//   await expect(page.getByRole('heading', { name: 'Användning av Webcert med skyddade personuppgifter' })).toBeVisible()
-//   await expect(page.getByText('Du har skyddade')).toBeVisible()
-//   await expect(page.getByText('Att använda Webcert med')).toBeVisible()
-//   await expect(page.getByText('Stäng')).toBeVisible()
-
-//   page.getByText('Stäng').click()
-
-//   await expect(page.getByTestId('modal-backdrop')).toBeHidden()
-// })
