@@ -21,7 +21,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, canSign, title, description,
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const signingStatus = useSelector(getSigningStatus)
-  const isSigning = signingStatus === CertificateSignStatus.PROCESSING
+  const isSigning = signingStatus === CertificateSignStatus.PROCESSING || signingStatus === CertificateSignStatus.WAIT_FOR_SIGN
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const disabled = isValidating || isSigning || !enabled || functionDisabled
 

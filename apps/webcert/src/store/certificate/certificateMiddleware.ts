@@ -415,45 +415,44 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
-    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
-    const signingMethod = getState().ui.uiUser.user?.signingMethod
-
-    if (action.payload?.status) {
-      dispatch(updateCertificateSignStatus(action.payload.status))
-    }
-    if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
-      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
-    }
-
     if (!certificate) {
       return
     }
 
-    switch (signStatus) {
-      case CertificateSignStatus.UNKNOWN:
-      case CertificateSignStatus.ABORT:
-        setTimeout(() => dispatch(updateCertificateSignStatus(signStatus)), 1000)
-        return
-      case CertificateSignStatus.SIGNED:
-        dispatch(signCertificateCompleted())
-        dispatch(getCertificate(certificate.metadata.id))
-        break
-      default:
-        setTimeout(
-          () =>
-            dispatch(
-              apiCallBegan({
-                url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
-                method: 'GET',
-                onSuccess: signCertificateStatusSuccess.type,
-                onError: signCertificateStatusError.type,
-                functionDisablerType: toggleCertificateFunctionDisabler.type,
-              })
-            ),
-          1000
-        )
-        break
+    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+    if (action.payload?.status && action.payload?.status != signStatus) {
+      dispatch(updateCertificateSignStatus(action.payload.status))
     }
+
+    setTimeout(() => {
+      const signingMethod = getState().ui.uiUser.user?.signingMethod
+      const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+
+      if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
+        dispatch(setQrCodeForElegSignature(action.payload.qrCode))
+      }
+
+      switch (signStatus) {
+        case CertificateSignStatus.UNKNOWN:
+        case CertificateSignStatus.ABORT:
+          dispatch(updateCertificateSignStatus(signStatus))
+          return
+        case CertificateSignStatus.SIGNED:
+          dispatch(signCertificateCompleted())
+          dispatch(getCertificate(certificate.metadata.id))
+          return
+        default:
+          dispatch(
+            apiCallBegan({
+              url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
+              method: 'GET',
+              onSuccess: signCertificateStatusSuccess.type,
+              onError: signCertificateStatusError.type,
+              functionDisablerType: toggleCertificateFunctionDisabler.type,
+            })
+          )
+      }
+    }, 1000)
   }
 
 const handleSignCertificateStatusError: Middleware<Dispatch> =

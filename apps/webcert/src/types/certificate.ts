@@ -842,4 +842,5 @@ export enum CertificateSignStatus {
   SIGNED = 'SIGNERAD',
   FAILED = 'FAILED',
   ABORT = 'ABORT',
+  WAIT_FOR_SIGN = 'VANTA_SIGN',
 }
