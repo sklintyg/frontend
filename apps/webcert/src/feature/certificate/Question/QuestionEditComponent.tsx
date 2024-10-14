@@ -1,5 +1,7 @@
 import type React from 'react'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { updateClientValidationErrors } from '../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../store/store'
 import type { CertificateDataElement, ValueType } from '../../../types'
 import { validateExpression } from '../../../utils/validation/validateExpression'
 import QuestionAccordion from './QuestionAccordion'
@@ -11,9 +13,18 @@ interface Props {
 }
 
 const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
+  const dispatch = useAppDispatch()
   const isAccordionOpen = useCallback(
     (value: { id?: string } & ValueType) => (value.id != null ? validateExpression(`'${value.id}'`, value) : false),
     []
+  )
+
+  useEffect(
+    () => () => {
+      // Clear client validation errors on removal
+      dispatch(updateClientValidationErrors({ [question.id]: [] }))
+    },
+    [dispatch, question.id]
   )
 
   if (question.config.accordion) {
