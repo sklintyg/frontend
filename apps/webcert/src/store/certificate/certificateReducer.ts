@@ -12,7 +12,6 @@ import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
 import type { GotoCertificateDataElement, SigningData } from './certificateActions'
-import { setQrCodeForElegSignature } from './certificateActions'
 import {
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
@@ -27,6 +26,7 @@ import {
   setCertificateUnitData,
   setReadyForSign,
   setValidationErrorsForQuestion,
+  setQrCodeForElegSignature,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
