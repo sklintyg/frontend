@@ -1,10 +1,9 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { CertificateSignStatus } from '../../../types'
-import { useAppDispatch } from '../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import InfoBox from '../../../components/utils/InfoBox'
 import { Link } from 'react-router-dom'
@@ -12,7 +11,7 @@ import ExternalLinkIcon from '../../../components/image/image/ExternalLinkIcon'
 import { startSignCertificate, updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
 
 export const SignCertificateErrorModal: React.FC = () => {
-  const signStatus = useSelector(getSigningStatus)
+  const signStatus = useAppSelector(getSigningStatus)
   const dispatch = useAppDispatch()
   const [openErrorModal, setOpenErrorModal] = useState(false)
 

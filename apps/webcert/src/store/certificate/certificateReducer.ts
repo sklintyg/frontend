@@ -11,7 +11,8 @@ import { isShowAlways } from '../../utils'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
-import { GotoCertificateDataElement, setQrCodeForElegSignature, SigningData } from './certificateActions'
+import type { GotoCertificateDataElement, SigningData } from './certificateActions'
+import { setQrCodeForElegSignature } from './certificateActions'
 import {
   clearGotoCertificateDataElement,
   disableCertificateDataElement,

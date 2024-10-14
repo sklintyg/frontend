@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import QRCode, { QRCodeRenderersOptions } from 'qrcode'
+import type React from 'react'
+import { useEffect, useState } from 'react'
+import type { QRCodeRenderersOptions } from 'qrcode'
+import QRCode from 'qrcode'
 
 const qrCodeOptions: QRCodeRenderersOptions = {
   width: 200,
@@ -30,7 +32,7 @@ const QrCode: React.FC<Props> = ({ qrCode }) => {
     return () => {
       setState = false
     }
-  }, [qrCode, qrCodeOptions])
+  }, [qrCode])
 
   if (!qrImage) {
     return null
