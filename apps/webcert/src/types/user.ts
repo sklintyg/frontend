@@ -18,6 +18,7 @@ export interface User {
 }
 
 export enum SigningMethod {
+  MOBILT_BANK_ID = 'MOBILT_BANK_ID',
   BANK_ID = 'BANK_ID',
   DSS = 'DSS',
   FAKE = 'FAKE',

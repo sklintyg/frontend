@@ -47,6 +47,10 @@ export const getQuestion =
   (state: RootState): CertificateDataElement | undefined =>
     state.ui.uiCertificate.certificate?.data[id]
 
+export const getQrCodeForElegSignature = (state: RootState) => {
+  return state.ui.uiCertificate.qrCode
+}
+
 export const displayAsMandatory =
   (questionId: string) =>
   (state: RootState): boolean => {

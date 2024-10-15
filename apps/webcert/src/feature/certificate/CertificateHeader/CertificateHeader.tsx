@@ -7,8 +7,8 @@ import {
   getCertificateResourceLink,
   getCertificateResourceLinks,
   getIsShowSpinner,
-  getIsValidForSigning,
   getIsValidating,
+  getIsValidForSigning,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import { getQuestions } from '../../../store/question/questionSelectors'
@@ -22,6 +22,7 @@ import { HeaderButtons } from './HeaderButtons'
 import NavigateBackButton from './NavigateBackButton'
 import ShowHistory from './ShowHistory'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import { SignCertificateErrorModal } from '../Modals/SignCertificateErrorModal'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -67,6 +68,7 @@ export function CertificateHeader() {
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <CandidateWithMessageModal resourceLink={candidateWithMessageResourceLink} />
         <SignCertificateModal />
+        <SignCertificateErrorModal />
         <StatusWrapper>
           <StatusLeftSide>
             <NavigateBackButton />

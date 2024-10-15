@@ -24,6 +24,7 @@ import {
   setCertificatePatientData,
   setCertificateUnitData,
   setReadyForSign,
+  setQrCodeForElegSignature,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -52,6 +53,7 @@ import {
 } from './certificateActions'
 
 export interface CertificateState {
+  autoStartToken: string
   certificate?: Certificate
   certificateEvents: CertificateEvent[]
   clientValidationErrors: Record<string, ValidationError[]>
@@ -61,6 +63,7 @@ export interface CertificateState {
   gotoCertificateDataElement?: GotoCertificateDataElement
   isDeleted: boolean
   modalData: ModalData | null
+  qrCode: string
   routedFromDeletedCertificate: boolean
   shouldRouteAfterDelete: boolean
   showValidationErrors: boolean
@@ -74,6 +77,7 @@ export interface CertificateState {
 
 const getInitialState = (): CertificateState => {
   return {
+    autoStartToken: '',
     certificateEvents: [],
     clientValidationErrors: {},
     complements: [],
@@ -81,6 +85,7 @@ const getInitialState = (): CertificateState => {
     functionDisablers: [],
     isDeleted: false,
     modalData: null,
+    qrCode: '',
     routedFromDeletedCertificate: false,
     shouldRouteAfterDelete: false,
     showValidationErrors: false,
@@ -309,6 +314,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
           }
         })
       }
+    })
+    .addCase(setQrCodeForElegSignature, (state, action) => {
+      state.qrCode = action.payload
     })
 )
 
