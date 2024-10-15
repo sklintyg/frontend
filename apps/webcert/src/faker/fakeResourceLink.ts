@@ -52,6 +52,14 @@ function fakeResourceLinkName(type: ResourceLinkType) {
       return 'Logga ut'
     case ResourceLinkType.SIGN_CERTIFICATE:
       return 'Signera intyget'
+    case ResourceLinkType.CREATE_CERTIFICATE:
+      return 'Skapa intyg'
+    case ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION:
+      return 'Visa bekräftelsemodal för dödsbevis'
+    case ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION:
+      return 'Dödsbevis saknas'
+    case ResourceLinkType.CREATE_LUAENA_CONFIRMATION:
+      return 'Visa bekräftelsemodal för Läkarutlåtande för aktivitetsersättning vid nedsatt arbetsförmåga'
     default:
       return faker.lorem.word(10)
   }
@@ -84,6 +92,12 @@ function fakeResourceLinkDescription(type: ResourceLinkType) {
       return 'Raderar intygsutkastet.'
     case ResourceLinkType.SIGN_CERTIFICATE:
       return 'Intyget signeras.'
+    case ResourceLinkType.CREATE_CERTIFICATE:
+      return 'Skapa ett intygsutkast.'
+    case ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION:
+      return 'Visa modal med ett bekräftelsemeddelande.'
+    case ResourceLinkType.CREATE_LUAENA_CONFIRMATION:
+      return 'Visa modal med ett bekräftelsemeddelande.'
     default:
       return `${type} - ${faker.lorem.sentence()}`
   }
