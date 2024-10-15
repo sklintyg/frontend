@@ -471,6 +471,9 @@ interface ValidateCertificateSuccess {
 }
 
 export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
+export const updateClientValidationErrors = createAction<Record<string, ValidationError[]>>(
+  `${CERTIFICATE} update client validation errors`
+)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
 
@@ -526,8 +529,6 @@ export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER
 
 export const hideSpinner = createAction(HIDE_CERTIFICATE_LOADING_SPINNER)
 
-export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VALIDATION_ERRORS)
-
 export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
 
 export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
@@ -571,19 +572,7 @@ export interface CertificateApiGenericError {
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
 
-export interface ModifyValidationErrors {
-  questionId: string
-  validationErrors: ValidationError[]
-}
-
-export interface UpdateValidationError {
-  shouldBeRemoved: boolean
-  validationError: ValidationError
-}
-
 export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
-
-export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
 
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
 

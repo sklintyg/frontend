@@ -1,10 +1,11 @@
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { debounce } from 'lodash-es'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { Certificate } from '../../types'
+import type { Certificate, ValidationError } from '../../types'
 import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
-import { getCertificateToSave, isLocked } from '../../utils'
+import { getCertificateToSave, isLocked, isShowAlways } from '../../utils'
 import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
+import { mapValidationErrorsToCertificateData } from '../../utils/certificate/mapValidationErrorsToCertificateData'
 import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
@@ -88,7 +89,6 @@ import {
   setCertificateUnitData,
   setQrCodeForElegSignature,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showRelatedCertificate,
   showRelatedCertificateCompleted,
   showRelatedCertificateStarted,
@@ -111,11 +111,11 @@ import {
   updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
+  updateClientValidationErrors,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
   updateRoutedFromDeletedCertificate,
-  updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
   validateCertificateError,
@@ -893,7 +893,8 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
     const certificate = getState().ui.uiCertificate.certificate
     if (certificate) {
       const clientValidationErrors = getClientValidationErrors(action.payload)
-      dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
+
+      dispatch(updateClientValidationErrors({ [action.payload.id]: getClientValidationErrors(action.payload) }))
 
       if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
         dispatch(
@@ -1014,10 +1015,29 @@ const handleValidateCertificate: Middleware<Dispatch> = (middlewareAPI: Middlewa
 }
 
 const handleValidateCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+  ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
-  (action: AnyAction): void => {
-    dispatch(updateValidationErrors(action.payload.validationErrors))
+  (action: PayloadAction<{ validationErrors: ValidationError[] }>): void => {
+    const certificate = getState().ui.uiCertificate.certificate
+
+    if (certificate) {
+      const validationErrors = action.payload.validationErrors.map((validationError) => ({
+        ...validationError,
+        showAlways: isShowAlways(validationError),
+      }))
+
+      dispatch(
+        updateCertificate({
+          ...certificate,
+          metadata: {
+            ...certificate.metadata,
+            careUnitValidationErrors: validationErrors.filter(({ category }) => category === 'vardenhet'),
+            patientValidationErrors: validationErrors.filter(({ category }) => category === 'patient'),
+          },
+          data: mapValidationErrorsToCertificateData(certificate.data, validationErrors),
+        })
+      )
+    }
     dispatch(validateCertificateCompleted())
   }
 

@@ -1,23 +1,18 @@
-import type React from 'react'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useDispatch } from 'react-redux'
 import DatePickerCustom, { ValidationWrapper } from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type { CertificateDataElement, ValueDate, ConfigUeDate } from '../../../../types'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../../store/store'
+import type { CertificateDataElement, ConfigUeDate, ValueDate } from '../../../../types'
 
-export interface Props {
-  question: CertificateDataElement
-  disabled: boolean
-}
-
-const UeDate: React.FC<Props> = ({ question, disabled }) => {
+function UeDate({ question, disabled }: Readonly<{ question: CertificateDataElement; disabled: boolean }>) {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
   const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
 
   const handleChange = (date: string) => {
     setDateString(date)

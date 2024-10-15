@@ -169,21 +169,13 @@ export const getValidationErrorSummary =
 export const getCareUnitValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.careUnitValidationErrors || []
   }
 
 export const getPatientValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.patientValidationErrors || []
   }
 
 const doesFieldsMatch = (payloadField: string, validationField: string) => {
@@ -193,8 +185,9 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
 const getQuestionServerValidationErrors =
   (questionId: string) =>
   (state: RootState): ValidationError[] => {
+    const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors
     const question = getQuestion(questionId)(state)
-    return question?.validationErrors ?? []
+    return [clientValidationErrors[questionId] ?? [], question?.validationErrors ?? []].flat()
   }
 
 export const getVisibleValidationErrors =
