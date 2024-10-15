@@ -315,9 +315,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
         })
       }
     })
-  .addCase(setQrCodeForElegSignature, (state, action) => {
-    state.qrCode = action.payload
-  })
+    .addCase(setQrCodeForElegSignature, (state, action) => {
+      state.qrCode = action.payload
+    })
 )
 
 export default certificateReducer
