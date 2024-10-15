@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateValidationError, fakeVisualAcuityElement } from '../../../../faker'
+import { showValidationErrors, updateCertificate, validateCertificateSuccess } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeVisualAcuity from './UeVisualAcuity'
-import { fakeVisualAcuityElement, fakeCertificate } from '../../../../faker'
 import type { CertificateDataElement, ConfigUeVisualAcuity } from '../../../../types'
+import UeVisualAcuity from './UeVisualAcuity'
 
 const QUESTION_ID = 'visualAcuity'
 
@@ -89,16 +89,19 @@ describe('Visual Acuity component', () => {
 
   it('should display validation error', () => {
     testStore.dispatch(showValidationErrors())
+
     testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: config.rightEye.withoutCorrectionId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
+      validateCertificateSuccess({
+        validationErrors: [
+          fakeCertificateValidationError({
+            id: QUESTION_ID,
+            category: 'category',
+            field: config.rightEye.withoutCorrectionId,
+            type: 'EMPTY',
+            text: 'Ange ett svar.',
+          }),
+        ],
+      })
     )
     renderComponent({ question })
     expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
