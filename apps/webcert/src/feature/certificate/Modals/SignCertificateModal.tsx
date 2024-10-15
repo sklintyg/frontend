@@ -16,10 +16,10 @@ const BankIDLogo = styled.img`
   width: 60%;
 `
 
-export const SignCertificateModal: React.FC = () => {
-  const signStatus = useSelector(getSigningStatus)
-  const user = useSelector(getUser)
-  const signingMethod = user?.signingMethod
+export function SignCertificateModal() {
+  const signStatus = useAppSelector(getSigningStatus)
+  const user = useAppSelector(getUser)
+  const signingMethod = useAppSelector((state) => getUser(state)?.signingMethod)
   const dispatch = useAppDispatch()
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))
   const [correctSigningStatus, setCorrectSigningStatus] = useState(false)
@@ -60,7 +60,6 @@ export const SignCertificateModal: React.FC = () => {
               </div>
             </>
           )}
-          <></>
         </>
       }
     />

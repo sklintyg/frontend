@@ -419,29 +419,28 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
       return
     }
 
-    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
-    if (action.payload?.status && action.payload?.status != signStatus) {
+    if (action.payload?.status) {
       dispatch(updateCertificateSignStatus(action.payload.status))
     }
 
-    setTimeout(() => {
-      const signingMethod = getState().ui.uiUser.user?.signingMethod
-      const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+    const signingMethod = getState().ui.uiUser.user?.signingMethod
+    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
 
-      if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
-        dispatch(setQrCodeForElegSignature(action.payload.qrCode))
-      }
+    if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
+      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
+    }
 
-      switch (signStatus) {
-        case CertificateSignStatus.UNKNOWN:
-        case CertificateSignStatus.ABORT:
-          dispatch(updateCertificateSignStatus(signStatus))
-          return
-        case CertificateSignStatus.SIGNED:
-          dispatch(signCertificateCompleted())
-          dispatch(getCertificate(certificate.metadata.id))
-          return
-        default:
+    switch (signStatus) {
+      case CertificateSignStatus.UNKNOWN:
+      case CertificateSignStatus.ABORT:
+        dispatch(updateCertificateSignStatus(signStatus))
+        return
+      case CertificateSignStatus.SIGNED:
+        dispatch(signCertificateCompleted())
+        dispatch(getCertificate(certificate.metadata.id))
+        return
+      default:
+        setTimeout(() => {
           dispatch(
             apiCallBegan({
               url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
@@ -451,8 +450,8 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
               functionDisablerType: toggleCertificateFunctionDisabler.type,
             })
           )
-      }
-    }, 1000)
+        }, 1000)
+    }
   }
 
 const handleSignCertificateStatusError: Middleware<Dispatch> =

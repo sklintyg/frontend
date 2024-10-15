@@ -9,28 +9,28 @@ const qrCodeOptions: QRCodeRenderersOptions = {
   errorCorrectionLevel: 'L',
 }
 
-interface Props {
-  qrCode: string
-}
-
-const QrCode: React.FC<Props> = ({ qrCode }) => {
+export function QrCode({ qrCode }: { qrCode: string }) {
   const [qrImage, setQrImage] = useState<string>()
 
   useEffect(() => {
-    let setState = true
-    QRCode.toDataURL(qrCode, qrCodeOptions)
-      .then((url) => {
-        if (setState) {
+    let isMounted = true
+
+    const getQRCode = async () => {
+      try {
+        const url = await QRCode.toDataURL(qrCode, qrCodeOptions)
+        if (isMounted) {
           setQrImage(url)
         }
-      })
-      .catch(() => {
-        if (setState) {
+      } catch (error) {
+        if (isMounted) {
           setQrImage(undefined)
         }
-      })
+      }
+    }
+    getQRCode()
+
     return () => {
-      setState = false
+      isMounted = false
     }
   }, [qrCode])
 
@@ -38,11 +38,7 @@ const QrCode: React.FC<Props> = ({ qrCode }) => {
     return null
   }
 
-  return (
-    <>
-      <img src={qrImage} alt={'QR-kod'} />
-    </>
-  )
+  return <img src={qrImage} alt={'QR-kod'} />
 }
 
 export default QrCode

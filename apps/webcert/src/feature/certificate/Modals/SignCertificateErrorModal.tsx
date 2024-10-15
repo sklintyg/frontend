@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import ExternalLinkIcon from '../../../components/image/image/ExternalLinkIcon'
 import { startSignCertificate, updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
 
-export const SignCertificateErrorModal: React.FC = () => {
+export function SignCertificateErrorModal() {
   const signStatus = useAppSelector(getSigningStatus)
   const dispatch = useAppDispatch()
   const [openErrorModal, setOpenErrorModal] = useState(false)
@@ -27,8 +27,8 @@ export const SignCertificateErrorModal: React.FC = () => {
 
   useEffect(() => {
     if (
-      signStatus == CertificateSignStatus.FAILED ||
-      signStatus == CertificateSignStatus.UNKNOWN ||
+      signStatus === CertificateSignStatus.FAILED ||
+      signStatus === CertificateSignStatus.UNKNOWN ||
       signStatus === CertificateSignStatus.NO_CLIENT
     ) {
       setOpenErrorModal(true)
