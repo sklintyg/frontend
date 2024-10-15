@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import type { QRCodeRenderersOptions } from 'qrcode'
 import QRCode from 'qrcode'

@@ -1,6 +1,5 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
@@ -18,7 +17,6 @@ const BankIDLogo = styled.img`
 
 export function SignCertificateModal() {
   const signStatus = useAppSelector(getSigningStatus)
-  const user = useAppSelector(getUser)
   const signingMethod = useAppSelector((state) => getUser(state)?.signingMethod)
   const dispatch = useAppDispatch()
   const qrCode = useAppSelector((state) => getQrCodeForElegSignature(state))

@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
