@@ -12,7 +12,6 @@ test.beforeEach(async ({ routeJson }) => {
   routeJson(`**/*/api/certificate/type/${patient.personId.id}`, [])
   routeJson(`**/*/api/list/config/previous`, fakeListConfig())
   routeJson(`**/*/api/certificate/${certificate.metadata.id}`, { certificate })
-  routeJson('**/*/api/certificate/*/*', { certificateId: certificate.metadata.id })
 })
 
 test('have correct heading', async ({ page }) => {
