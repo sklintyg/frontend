@@ -5,7 +5,7 @@ import type { ComponentProps } from 'react'
 import { useState } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '../../../faker'
-import { showValidationErrors, updateCertificate, updateClientValidationErrors } from '../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -31,9 +31,9 @@ function ComponentWrapper(props: ComponentProps<typeof QuestionEditComponent>) {
 }
 
 it('Should clear client validation errors once removed', async () => {
-  const question = fakeTextFieldElement({ id: '1' })['1']
+  const validationError = fakeCertificateValidationError({ id: '1', type: 'INVALID_DATE_FORMAT' })
+  const question = fakeTextFieldElement({ id: '1', validationErrors: [validationError] })['1']
   const certificate = fakeCertificate({ data: { [question.id]: question } })
-  const validationError = fakeCertificateValidationError({ id: question.id })
   render(
     <Provider store={testStore}>
       <ComponentWrapper question={question} disabled={false} />
@@ -41,7 +41,6 @@ it('Should clear client validation errors once removed', async () => {
   )
   testStore.dispatch(updateCertificate(certificate))
   testStore.dispatch(showValidationErrors())
-  testStore.dispatch(updateClientValidationErrors({ [question.id]: [validationError] }))
 
   expect(getVisibleValidationErrors(question.id)(testStore.getState())).toStrictEqual([validationError])
 

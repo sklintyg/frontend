@@ -111,7 +111,6 @@ import {
   updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
-  updateClientValidationErrors,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
@@ -892,24 +891,28 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   (action: ReturnType<typeof updateCertificateDataElement>): void => {
     const certificate = getState().ui.uiCertificate.certificate
     if (certificate) {
-      const clientValidationErrors = getClientValidationErrors(action.payload)
+      const element = certificate.data[action.payload.id]
 
-      dispatch(updateClientValidationErrors({ [action.payload.id]: getClientValidationErrors(action.payload) }))
+      if (element && !isLocked(certificate.metadata)) {
+        const validationErrors = getClientValidationErrors(action.payload)
+        const updatedCertificate = {
+          ...certificate,
+          data: getDecoratedCertificateData(
+            {
+              ...certificate.data,
+              [action.payload.id]:
+                validationErrors.length > 0 ? { ...element, validationErrors } : { ...action.payload, validationErrors: [] },
+            },
+            certificate.metadata,
+            certificate.links
+          ),
+        }
 
-      if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
-        dispatch(
-          updateCertificate({
-            ...certificate,
-            data: getDecoratedCertificateData(
-              { ...certificate.data, [action.payload.id]: action.payload },
-              certificate.metadata,
-              certificate.links
-            ),
-          })
-        )
-
-        dispatch(validateCertificate(certificate))
-        dispatch(autoSaveCertificate(certificate))
+        dispatch(updateCertificate(updatedCertificate))
+        if (validationErrors.length === 0) {
+          dispatch(validateCertificate(updatedCertificate))
+          dispatch(autoSaveCertificate(updatedCertificate))
+        }
       }
     }
   }

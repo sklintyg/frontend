@@ -144,7 +144,6 @@ const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as dele
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
 const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
-const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
 const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
 const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
@@ -176,8 +175,6 @@ const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
-
-const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 
 const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
 const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`
@@ -471,9 +468,7 @@ interface ValidateCertificateSuccess {
 }
 
 export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
-export const updateClientValidationErrors = createAction<Record<string, ValidationError[]>>(
-  `${CERTIFICATE} update client validation errors`
-)
+export const clearClientValidationErrors = createAction<string>(`${CERTIFICATE} clear client validation errors`)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
 

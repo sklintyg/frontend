@@ -83,3 +83,23 @@ it('should work correctly with empty certificate data', () => {
 
   expect(result).toEqual({})
 })
+
+it('should include existing client validation errors', () => {
+  const clientValidationError = fakeCertificateValidationError({ id: '1', type: 'INVALID_DATE_FORMAT', text: 'Client error in field 1' })
+  const certificateData: CertificateData = {
+    ...fakeTextFieldElement({
+      id: '1',
+      validationErrors: [clientValidationError],
+    }),
+    ...fakeTextFieldElement({ id: '2' }),
+  }
+
+  const validationErrors: ValidationError[] = [fakeCertificateValidationError({ id: '2', text: 'Error in field 2' })]
+
+  const result = mapValidationErrorsToCertificateData(certificateData, validationErrors)
+
+  expect(result).toMatchObject({
+    '1': { id: '1', validationErrors: [clientValidationError] },
+    '2': { id: '2', validationErrors: [{ text: 'Error in field 2' }] },
+  })
+})

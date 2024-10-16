@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useCallback, useEffect } from 'react'
-import { updateClientValidationErrors } from '../../../store/certificate/certificateActions'
+import { clearClientValidationErrors } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import type { CertificateDataElement, ValueType } from '../../../types'
 import { validateExpression } from '../../../utils/validation/validateExpression'
@@ -22,7 +22,7 @@ const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
   useEffect(
     () => () => {
       // Clear client validation errors on removal
-      dispatch(updateClientValidationErrors({ [question.id]: [] }))
+      dispatch(clearClientValidationErrors(question.id))
     },
     [dispatch, question.id]
   )
