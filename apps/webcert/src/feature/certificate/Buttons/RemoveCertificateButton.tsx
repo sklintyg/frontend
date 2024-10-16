@@ -3,20 +3,17 @@ import { trashImage } from '../../../images'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../store/store'
 import type { CertificateMetadata } from '../../../types'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
-function RemoveCertificateButton({
-  name,
-  description,
-  enabled,
-  certificateMetadata,
-  functionDisabled,
-}: {
+interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
-}) {
+}
+
+function RemoveCertificateButton({ name, description, enabled, certificateMetadata, functionDisabled }: Readonly<Props>) {
   const isValidating = useAppSelector(getIsValidating)
   const deleteCertificate = useDeleteCertificate(certificateMetadata.id)
 
