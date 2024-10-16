@@ -9,8 +9,8 @@ import {
 } from '../../faker'
 import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 
-const getCertificate = () =>
-  fakeCertificate({
+it('Should return empty validation error summary', () => {
+  const certificate = fakeCertificate({
     data: {
       ...fakeRadioBooleanElement({ id: '1.1', parent: 'funktionsnedsattning' }),
       ...fakeTextFieldElement({ id: '1.2', parent: '1.1' }),
@@ -22,20 +22,28 @@ const getCertificate = () =>
       ...fakeCategoryElement({ id: 'foo', index: 8, config: { text: 'En till kategori' } }),
     },
   })
-
-it('Should return empty validation error summary', () => {
-  const certificate = getCertificate()
   const result = sortedValidationErrorSummary(certificate)
 
   expect(result.length).toBe(0)
 })
 
 describe('Sorted validation error', () => {
-  const certificate = getCertificate()
-  certificate.data['1.2'].validationErrors.push(fakeCertificateValidationError())
-  certificate.data['28'].validationErrors.push(fakeCertificateValidationError())
-  certificate.metadata.careUnitValidationErrors = [fakeCertificateValidationError()]
-  certificate.metadata.patientValidationErrors = [fakeCertificateValidationError()]
+  const certificate = fakeCertificate({
+    metadata: {
+      careUnitValidationErrors: [fakeCertificateValidationError()],
+      patientValidationErrors: [fakeCertificateValidationError()],
+    },
+    data: {
+      ...fakeRadioBooleanElement({ id: '1.1', parent: 'funktionsnedsattning' }),
+      ...fakeTextFieldElement({ id: '1.2', parent: '1.1', validationErrors: [fakeCertificateValidationError()] }),
+      ...fakeTextAreaElement({ id: '1.3', parent: 'client' }),
+      ...fakeCheckboxBooleanElement({ id: '28', parent: 'sysselsattning', validationErrors: [fakeCertificateValidationError()] }),
+      ...fakeCategoryElement({ id: 'funktionsnedsattning', index: 11, config: { text: 'Sjukdomens konsekvenser' } }),
+      ...fakeCategoryElement({ id: 'sysselsattning', index: 6, config: { text: 'Sysselsättning' } }),
+      ...fakeCategoryElement({ id: 'client', index: 7, config: { text: 'Client Error' } }),
+      ...fakeCategoryElement({ id: 'foo', index: 8, config: { text: 'En till kategori' } }),
+    },
+  })
   const result = sortedValidationErrorSummary(certificate)
 
   it('Should contain correct number of errors', () => {

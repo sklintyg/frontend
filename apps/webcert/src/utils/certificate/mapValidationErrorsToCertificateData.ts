@@ -3,7 +3,7 @@ import { isClientValidationError } from './getClientValidationErrors'
 
 function extractClientValidationErrors(data: CertificateData): ValidationError[] {
   return Object.values(data).reduce<ValidationError[]>(
-    (result, { validationErrors }) => [...result, ...validationErrors.filter((e) => isClientValidationError(e.type))],
+    (result, { validationErrors }) => [...result, ...(validationErrors || []).filter((e) => isClientValidationError(e.type))],
     []
   )
 }

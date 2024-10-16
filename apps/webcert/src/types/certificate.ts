@@ -66,7 +66,7 @@ export interface CertificateDataElement {
   config: CertificateDataConfigType
   value: ValueType | null
   validation: CertificateDataValidation[]
-  validationErrors: ValidationError[]
+  validationErrors?: ValidationError[]
   style?: CertificateDataElementStyleEnum
 }
 
