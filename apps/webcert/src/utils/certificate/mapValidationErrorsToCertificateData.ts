@@ -1,8 +1,6 @@
 import type { CertificateData, ValidationError } from '../../types'
 
 export function mapValidationErrorsToCertificateData(data: CertificateData, validationErrors: ValidationError[]) {
-  if (!data || validationErrors.length === 0) return data
-
   // TODO: Replace with Object.groupBy once fully supported
   // example: const errorMap = Object.groupBy(validationErrors, (error) => error.id);
   const errorMap = validationErrors.reduce<Record<string, ValidationError[]>>((acc, error) => {
