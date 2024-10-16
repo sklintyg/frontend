@@ -357,11 +357,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
     }
 
     for (const questionId in certificate?.data) {
-      if (
-        certificate.data[questionId].visible &&
-        certificate.data[questionId].validationErrors &&
-        certificate.data[questionId].validationErrors.length > 0
-      ) {
+      if (certificate.data[questionId].visible && (certificate.data[questionId].validationErrors?.length || 0) > 0) {
         dispatch(showValidationErrors())
         return
       }
