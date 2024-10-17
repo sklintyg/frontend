@@ -1,5 +1,5 @@
-import { IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
-import { tryCatch } from '@frontend/utils'
+import { IDSButton, IDSButtonGroup } from 'ids-react-ts'
+import { tryCatch } from 'utils'
 import { useEffect, useState } from 'react'
 import type { TestabilityPerson } from '../../../schema/testability/person.schema'
 import { useFakeLoginMutation } from '../../../store/testabilityApi'

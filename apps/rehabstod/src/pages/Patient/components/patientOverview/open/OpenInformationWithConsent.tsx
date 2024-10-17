@@ -1,4 +1,4 @@
-import { IDSButton, IDSErrorMessage } from '@frontend/ids-react-ts'
+import { IDSButton, IDSErrorMessage } from 'ids-react-ts'
 import { useState } from 'react'
 import { Checkbox } from '../../../../../components/Form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'

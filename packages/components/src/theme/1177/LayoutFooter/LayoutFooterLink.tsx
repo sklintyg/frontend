@@ -1,4 +1,4 @@
-import { IDSIconExternal } from '@frontend/ids-react-ts'
+import { IDSIconExternal } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 
 export function LayoutFooterLink({ href, target, children }: { href: string; target?: string; children: ReactNode }) {

@@ -1,5 +1,5 @@
-import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from '@frontend/components/1177'
-import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from 'components/1177'
+import { IDSIconChevron, IDSIconExternal, IDSLink } from 'ids-react-ts'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '../styling/1177.css'

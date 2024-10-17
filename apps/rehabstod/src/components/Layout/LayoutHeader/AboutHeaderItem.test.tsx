@@ -1,4 +1,4 @@
-import { IDSHeader } from '@frontend/ids-react-ts'
+import { IDSHeader } from 'ids-react-ts'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { updateShowAboutDialog } from '../../../store/slices/settings.slice'

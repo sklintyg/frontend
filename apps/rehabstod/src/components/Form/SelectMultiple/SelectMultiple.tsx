@@ -10,8 +10,8 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import { classNames, hasNoChildren, Input } from '@frontend/components'
-import { IDSIconChevronBold } from '@frontend/ids-react-ts'
+import { classNames, hasNoChildren, Input } from 'components'
+import { IDSIconChevronBold } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 import { useId, useState } from 'react'
 

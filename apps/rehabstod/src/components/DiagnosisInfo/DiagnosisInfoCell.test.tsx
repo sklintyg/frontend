@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { diagnosisSchema } from '../../schemas/diagnosisSchema'

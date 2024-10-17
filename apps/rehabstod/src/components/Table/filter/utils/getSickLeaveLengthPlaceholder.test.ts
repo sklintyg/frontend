@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { TimePeriodMetric, timePeriodOptionSchema } from '../../../../schemas/timePeriodOptionSchema'
 import { getSickLeaveLengthPlaceholder } from './getSickLeaveLengthPlaceholder'
 

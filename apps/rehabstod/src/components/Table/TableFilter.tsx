@@ -1,4 +1,4 @@
-import { IDSButton, IDSIconChevron } from '@frontend/ids-react-ts'
+import { IDSButton, IDSIconChevron } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 

@@ -1,4 +1,4 @@
-import { IDSInput } from '@frontend/ids-react-ts'
+import { IDSInput } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 import { forwardRef, useId } from 'react'
 import { classNames } from '../utils'

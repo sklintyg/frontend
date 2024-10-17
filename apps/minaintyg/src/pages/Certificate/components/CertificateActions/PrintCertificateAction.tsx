@@ -1,5 +1,5 @@
-import { LinkButton } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { LinkButton } from 'components'
+import { IDSButton } from 'ids-react-ts'
 import { usePrintCertificateContext } from './hooks/usePrintCertificate'
 
 const label = 'Skriv ut'

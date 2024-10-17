@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

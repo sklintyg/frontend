@@ -1,5 +1,5 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { Dialog } from 'components'
+import { IDSButton } from 'ids-react-ts'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'

@@ -1,4 +1,4 @@
-import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton } from 'ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'

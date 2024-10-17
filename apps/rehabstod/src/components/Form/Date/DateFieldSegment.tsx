@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from 'components'
 import { useRef } from 'react'
 import { useDateSegment } from 'react-aria'
 import type { DateFieldState, DateSegment } from 'react-stately'

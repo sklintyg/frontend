@@ -1,5 +1,5 @@
-import { LinkIcon, TertiaryButton } from '@frontend/components'
-import { IDSButton, IDSIconInformation } from '@frontend/ids-react-ts'
+import { LinkIcon, TertiaryButton } from 'components'
+import { IDSButton, IDSIconInformation } from 'ids-react-ts'
 import { useState } from 'react'
 import { ReadMoreAboutDialog } from './ReadMoreAboutDialog'
 

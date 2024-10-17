@@ -1,15 +1,6 @@
-import { HeaderNavItem } from '@frontend/components'
-import type { IDSHeaderAvatarElement } from '@frontend/ids-react-ts'
-import {
-  IDSHeader,
-  IDSHeaderAvatar,
-  IDSHeaderItem,
-  IDSHeaderNav,
-  IDSIconCog,
-  IDSIconSwap,
-  IDSIconUser,
-  IDSLink,
-} from '@frontend/ids-react-ts'
+import { HeaderNavItem } from 'components'
+import type { IDSHeaderAvatarElement } from 'ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink } from 'ids-react-ts'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'

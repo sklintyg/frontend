@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from 'ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'

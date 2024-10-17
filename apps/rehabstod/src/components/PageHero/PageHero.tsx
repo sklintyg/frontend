@@ -1,4 +1,4 @@
-import { IDSIconAttention, IDSIconUser } from '@frontend/ids-react-ts'
+import { IDSIconAttention, IDSIconUser } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 
 export function PageHero({ type, children }: { type?: 'error' | 'user'; children?: ReactNode }) {

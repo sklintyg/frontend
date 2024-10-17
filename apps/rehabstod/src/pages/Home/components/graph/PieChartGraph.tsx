@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from 'components'
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
 import { ChartLegend } from './ChartLegend'

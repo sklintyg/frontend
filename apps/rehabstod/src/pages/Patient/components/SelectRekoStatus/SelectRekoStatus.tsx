@@ -1,4 +1,4 @@
-import { Select } from '@frontend/components'
+import { Select } from 'components'
 import type { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetRekoStatusForPatientQuery, useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'

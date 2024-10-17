@@ -1,4 +1,4 @@
-# `@frontend/fake`
+# `fake`
 
 Generate fake mock data using zod schemas and fakerjs functions
 

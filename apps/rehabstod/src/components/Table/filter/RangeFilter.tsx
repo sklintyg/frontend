@@ -1,5 +1,5 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion } from '@frontend/ids-react-ts'
+import { TooltipIcon } from 'components'
+import { IDSIconQuestion } from 'ids-react-ts'
 import { useId } from 'react'
 import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
 import { PrintTitle } from '../print/PrintTitle'

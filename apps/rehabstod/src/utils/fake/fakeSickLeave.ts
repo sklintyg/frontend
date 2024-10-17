@@ -1,4 +1,4 @@
-import { fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
+import { fakerFromSchema, fakerFromSchemaFactory } from 'fake'
 import { diagnosKapitelSchema, diagnosKategoriSchema } from '../../schemas/diagnosisSchema'
 import { genderSummarySchema, sickLeaveSummary } from '../../schemas/sickLeaveSchema'
 

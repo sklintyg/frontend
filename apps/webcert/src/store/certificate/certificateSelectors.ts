@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash-es'
 import type {

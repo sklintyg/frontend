@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { ConfirmationModal } from '../../feature/certificate/Modals/ConfirmationModal'

@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { screen, waitFor, within } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'

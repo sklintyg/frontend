@@ -1,4 +1,4 @@
-import { Select } from '@frontend/components'
+import { Select } from 'components'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slice/certificateFilter.slice'
 

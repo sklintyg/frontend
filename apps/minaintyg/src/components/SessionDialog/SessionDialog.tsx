@@ -1,5 +1,5 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { Dialog } from 'components'
+import { IDSButton } from 'ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'

@@ -1,4 +1,4 @@
-import { IDSIconAttention, IDSIconSuccess } from '@frontend/ids-react-ts'
+import { IDSIconAttention, IDSIconSuccess } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 
 export function PageHero({ heading, type, children }: { heading: ReactNode; type: 'success' | 'error' | 'none'; children: ReactNode }) {

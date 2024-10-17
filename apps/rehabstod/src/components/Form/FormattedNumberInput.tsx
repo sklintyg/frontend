@@ -1,4 +1,4 @@
-import { Input } from '@frontend/components'
+import { Input } from 'components'
 import type { ComponentProps } from 'react'
 
 export function FormattedNumberInput({

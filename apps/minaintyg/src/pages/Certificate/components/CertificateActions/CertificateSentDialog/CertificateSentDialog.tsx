@@ -1,4 +1,4 @@
-import { Dialog } from '@frontend/components'
+import { Dialog } from 'components'
 import type { ComponentProps } from 'react'
 import { useFormat } from '../../../../../hooks/useFormat'
 import type { CertificateRecipient } from '../../../../../schema/certificate.schema'

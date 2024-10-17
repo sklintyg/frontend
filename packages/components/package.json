@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/components",
+  "name": "components",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
-    "@frontend/ids-react-ts": "workspace:*",
+    "ids-react-ts": "workspace:*",
     "@inera/ids-core": "^4.10.0",
     "@inera/ids-design": "^4.10.0",
     "react": "^18.3.1",
@@ -90,7 +90,7 @@
   },
   "peerDependencies": {
     "@floating-ui/react": "^0.25.1",
-    "@frontend/ids-react-ts": "workspace:*",
+    "ids-react-ts": "workspace:*",
     "@inera/ids-core": "^4",
     "react": "^18",
     "react-focus-on": "^3",

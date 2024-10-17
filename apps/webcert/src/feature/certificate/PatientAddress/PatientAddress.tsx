@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { debounce, isEqual } from 'lodash-es'
 import type React from 'react'
 import { useRef, useState } from 'react'

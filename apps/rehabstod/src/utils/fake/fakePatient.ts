@@ -1,4 +1,4 @@
-import { faker, fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
+import { faker, fakerFromSchema, fakerFromSchemaFactory } from 'fake'
 import { patientSchema, patientSjukfallIntygSchema, patientSjukfallSchema } from '../../schemas/patientSchema'
 
 const fakePatientSjukfallFactory = fakerFromSchemaFactory(patientSjukfallSchema, () => ({

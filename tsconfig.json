@@ -17,15 +17,15 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "paths": {
-      "@frontend/components": ["./packages/components/src/index.ts"],
-      "@frontend/components/1177": ["./packages/components/src/theme/1177/index.ts"],
-      "@frontend/components/1177-pro": ["./packages/components/src/theme/1177-pro/index.ts"],
-      "@frontend/components/inera": ["./packages/components/src/theme/inera/index.ts"],
-      "@frontend/components/inera-admin": ["./packages/components/src/theme/inera-admin/index.ts"],
-      "@frontend/components/colors": ["./packages/components/src/theme/colors.ts"],
-      "@frontend/fake": ["./packages/fake/src/index.ts"],
-      "@frontend/utils": ["./packages/utils/src/index.ts"],
-      "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"]
+      "components": ["./packages/components/src/index.ts"],
+      "components/1177": ["./packages/components/src/theme/1177/index.ts"],
+      "components/1177-pro": ["./packages/components/src/theme/1177-pro/index.ts"],
+      "components/inera": ["./packages/components/src/theme/inera/index.ts"],
+      "components/inera-admin": ["./packages/components/src/theme/inera-admin/index.ts"],
+      "components/colors": ["./packages/components/src/theme/colors.ts"],
+      "fake": ["./packages/fake/src/index.ts"],
+      "utils": ["./packages/utils/src/index.ts"],
+      "ids-react-ts": ["./packages/ids-react-ts/src/index.ts"]
     },
     "types": ["vitest/globals"]
   },

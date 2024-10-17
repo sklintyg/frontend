@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { render } from '@testing-library/react'
 import { certificateIssuerSchema, certificateUnitSchema } from '../../../../schema/certificate.schema'
 import { CertificateCardInfo } from './CertificateCardInfo'

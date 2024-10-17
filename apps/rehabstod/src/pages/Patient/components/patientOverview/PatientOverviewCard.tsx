@@ -1,4 +1,4 @@
-import { Card, Divider } from '@frontend/components'
+import { Card, Divider } from 'components'
 import type { ReactNode } from 'react'
 import { EmptyInformation } from './EmptyInformation'
 import { ExpandableCard } from './ExpandableCard'

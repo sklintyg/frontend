@@ -1,4 +1,4 @@
-import { IDSSelect } from '@frontend/ids-react-ts'
+import { IDSSelect } from 'ids-react-ts'
 import { forwardRef, useId } from 'react'
 import { InputLabel } from './InputLabel'
 

@@ -1,4 +1,4 @@
-import { getCookie } from '@frontend/utils'
+import { getCookie } from 'utils'
 import { loginMethodEnum } from '../schema/user.schema'
 import { useAppDispatch, useGetUserQuery } from '../store/hooks'
 import { invalidateSession } from '../store/middleware/session.middleware'

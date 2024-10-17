@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSSpinner } from 'ids-react-ts'
 import { MaxColspanRow } from './tableBody/MaxColspanRow'
 import type { User } from '../../schemas'
 import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'

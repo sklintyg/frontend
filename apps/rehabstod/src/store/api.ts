@@ -1,4 +1,4 @@
-import { getCookie } from '@frontend/utils'
+import { getCookie } from 'utils'
 import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
 import type { Link, Mottagning, Ping, User, UserPreferences, Vardenhet } from '../schemas'

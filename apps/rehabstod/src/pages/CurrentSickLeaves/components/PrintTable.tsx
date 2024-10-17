@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from 'components'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'

@@ -1,5 +1,5 @@
-import { Card } from '@frontend/components'
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { Card } from 'components'
+import { IDSSpinner } from 'ids-react-ts'
 import { PageHeading } from '../../../components/PageHeading/PageHeading'
 import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'

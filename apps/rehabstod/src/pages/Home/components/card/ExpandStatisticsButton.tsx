@@ -1,4 +1,4 @@
-import { IDSIconMinus, IDSIconPlus } from '@frontend/ids-react-ts'
+import { IDSIconMinus, IDSIconPlus } from 'ids-react-ts'
 import type { MouseEventHandler } from 'react'
 
 export function ExpandStatisticsButton({ onClick, open }: { onClick: MouseEventHandler; open: boolean }) {

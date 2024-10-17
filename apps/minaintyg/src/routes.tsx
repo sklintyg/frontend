@@ -1,4 +1,4 @@
-import { randomUUID } from '@frontend/utils'
+import { randomUUID } from 'utils'
 import { Navigate, Outlet, Route, createRoutesFromChildren } from 'react-router-dom'
 import { Breadcrumbs } from './components/Layout/Breadcrumbs'
 import { Layout } from './components/Layout/Layout'

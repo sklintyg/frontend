@@ -1,5 +1,5 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion, IDSRadio } from '@frontend/ids-react-ts'
+import { TooltipIcon } from 'components'
+import { IDSIconQuestion, IDSRadio } from 'ids-react-ts'
 import type { ChangeEvent } from 'react'
 import { useId } from 'react'
 

@@ -1,4 +1,4 @@
-import { IDSButton, IDSCard } from '@frontend/ids-react-ts'
+import { IDSButton, IDSCard } from 'ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import type { CertificateMetadata } from '../../../../schema/certificate.schema'
 import { CertificateCardEvents } from './CertificateCardEvents/CertificateCardEvents'

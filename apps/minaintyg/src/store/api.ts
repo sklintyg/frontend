@@ -1,4 +1,4 @@
-import { getCookie } from '@frontend/utils'
+import { getCookie } from 'utils'
 import { isAnyOf, isPlainObject } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { AvailableFunction, Certificate, CertificateMetadata, CertificateText } from '../schema/certificate.schema'

@@ -1,4 +1,4 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSSpinner } from 'ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import { MaxColspanRow } from '../../../components/Table/tableBody/MaxColspanRow'

@@ -1,6 +1,6 @@
-import { TooltipIcon } from '@frontend/components'
-import type { IDSCheckboxElement } from '@frontend/ids-react-ts'
-import { IDSCheckbox, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { TooltipIcon } from 'components'
+import type { IDSCheckboxElement } from 'ids-react-ts'
+import { IDSCheckbox, IDSIconQuestion } from 'ids-react-ts'
 import type { ChangeEvent } from 'react'
 import { useId, useRef } from 'react'
 

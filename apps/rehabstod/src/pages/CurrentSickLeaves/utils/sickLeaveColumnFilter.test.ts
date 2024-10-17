@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { tableColumnSchema } from '../../../schemas/tableSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 import { sickLeaveColumnFilter } from './sickLeaveColumnFilter'

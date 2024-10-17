@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { screen } from '@testing-library/react'
 import { sjfMetaDataSchema } from '../../../../schemas/patientSchema'
 import { renderWithRouter } from '../../../../utils/renderWithRouter'

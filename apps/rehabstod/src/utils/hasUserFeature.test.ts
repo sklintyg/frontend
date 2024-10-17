@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { srsFeatureSchema } from '../schemas'
 import { fakeUser } from './fake/fakeUser'
 import { hasUserFeature } from './hasUserFeature'

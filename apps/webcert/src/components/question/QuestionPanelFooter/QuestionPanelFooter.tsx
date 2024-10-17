@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../../../feature/certificate/Buttons/ForwardCertificateButton'

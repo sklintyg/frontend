@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from 'ids-react-ts'
 import type { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import type { TableColumn } from '../../../schemas/tableSchema'

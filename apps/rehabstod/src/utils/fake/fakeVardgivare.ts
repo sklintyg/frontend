@@ -1,4 +1,4 @@
-import { faker, fakerFromSchemaFactory } from '@frontend/fake'
+import { faker, fakerFromSchemaFactory } from 'fake'
 import { vardgivareSchema } from '../../schemas'
 import { fakeVardenhet } from './fakeVardenhet'
 

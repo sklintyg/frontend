@@ -1,4 +1,4 @@
-import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSCard, IDSSpinner } from 'ids-react-ts'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
 import { PageHeading } from '../../components/PageHeading/PageHeading'

@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from 'ids-react-ts'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'

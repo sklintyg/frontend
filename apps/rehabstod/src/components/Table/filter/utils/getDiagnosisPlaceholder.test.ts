@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { getDiagnosisPlaceholder } from './getDiagnosisPlaceholder'
 import { diagnosKapitelSchema } from '../../../../schemas/diagnosisSchema'
 

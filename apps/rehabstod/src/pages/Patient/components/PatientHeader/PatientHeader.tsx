@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSButton, IDSContainer } from 'ids-react-ts'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import type { Patient } from '../../../../schemas/patientSchema'

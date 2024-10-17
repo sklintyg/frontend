@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/ids-react-ts",
+  "name": "ids-react-ts",
   "description": "Create react components from ids-core",
   "version": "1.0.0",
   "private": true,

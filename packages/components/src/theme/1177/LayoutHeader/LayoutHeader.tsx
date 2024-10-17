@@ -1,4 +1,4 @@
-import { IDSHeader, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSLink } from 'ids-react-ts'
 import type { ReactNode } from 'react'
 import { getNavigationItem, getNavigationItemUrl } from '../navigation'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/webcert",
+  "name": "webcert",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -17,8 +17,8 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@frontend/filtrex": "workspace:*",
-    "@frontend/utils": "workspace:*",
+    "filtrex": "workspace:*",
+    "utils": "workspace:*",
     "@reduxjs/toolkit": "1.7.2",
     "axios": "^1.7.5",
     "classnames": "^2.3.2",

@@ -1,5 +1,5 @@
-import { ErrorIdentifier } from '@frontend/components'
-import { PageHero, PageHeroActions } from '@frontend/components/1177'
+import { ErrorIdentifier } from 'components'
+import { PageHero, PageHeroActions } from 'components/1177'
 import type { ErrorTypeEnum } from '../../schema/error.schema'
 import { ErrorPageActionType, ErrorType } from '../../schema/error.schema'
 import { ErrorPageAction } from './ErrorPageAction'

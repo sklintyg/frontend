@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getByType } from 'utils'
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import type { Answer, Certificate, Complement } from '../../types'

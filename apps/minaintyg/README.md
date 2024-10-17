@@ -1,4 +1,4 @@
-# `@frontend/minaintyg`
+# `minaintyg`
 
 [Mina intyg](https://www.inera.se/tjanster/alla-tjanster-a-o/intygstjanster/mina-intyg/) application.
 
@@ -44,7 +44,7 @@ VITE_WS_PROTOCOL=wss
 - `VITE_API_TARGET` tells the application that our backend is on localhost:8020.
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl when behind reverse proxy.
 
-Start the application with `pnpm --filter @frontend/minaintyg dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://rs2.rs.localtest.me/welcome>
+Start the application with `pnpm --filter minaintyg dev` for only webcert or `pnpm start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: <https://rs2.rs.localtest.me/welcome>
 
 Read more about environment files over at [Vite](https://vitejs.dev/guide/env-and-mode.html#env-files).
 
@@ -65,7 +65,7 @@ Links are resolved differently depending on build mode. `production` is the defa
 Use `--mode` to force a different mode when building
 
 ```bash
-pnpm --filter @frontend/minaintyg build --mode staging
+pnpm --filter minaintyg build --mode staging
 ```
 
 ## Resources

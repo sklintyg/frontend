@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from 'fake'
 import { render, screen } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import type { CertificateEvent } from '../../../../../schema/certificate.schema'

@@ -1,5 +1,5 @@
 /* eslint-disable deprecation/deprecation */
-import { compileExpression } from '@frontend/filtrex'
+import { compileExpression } from 'filtrex'
 import { differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
 import type { ValueType } from '../../types/certificate'
 import { CertificateDataValueType } from '../../types/certificate'

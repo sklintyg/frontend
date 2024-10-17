@@ -1,4 +1,4 @@
-import { IDSAlert, IDSButton, IDSCard, IDSContainer, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSButton, IDSCard, IDSContainer, IDSIconExternal, IDSLink } from 'ids-react-ts'
 import { useEffect } from 'react'
 import { ErrorAlert } from '../../components/error/ErrorAlert/ErrorAlert'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'

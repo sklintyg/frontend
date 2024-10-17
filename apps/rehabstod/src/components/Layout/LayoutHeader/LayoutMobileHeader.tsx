@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { MobileMenuItem } from '@frontend/components'
-import { IDSHeaderMobileMenu, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink, IDSMobileMenuAvatar } from '@frontend/ids-react-ts'
+import { MobileMenuItem } from 'components'
+import { IDSHeaderMobileMenu, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink, IDSMobileMenuAvatar } from 'ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'

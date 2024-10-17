@@ -1,4 +1,4 @@
-import type { IDSIcon } from '@frontend/ids-react-ts'
+import type { IDSIcon } from 'ids-react-ts'
 import '@inera/ids-design/components/link/link.css'
 import type { ComponentProps } from 'react'
 import { createElement } from 'react'

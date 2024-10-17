@@ -1,4 +1,4 @@
-import { IDSFooter, IDSMobileMenu } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSMobileMenu } from 'ids-react-ts'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { CookieDialog } from '../dialog/CookieDialog'

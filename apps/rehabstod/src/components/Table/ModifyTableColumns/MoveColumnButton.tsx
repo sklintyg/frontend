@@ -1,5 +1,5 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { IDSIconArrow } from '@frontend/ids-react-ts'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'components'
+import { IDSIconArrow } from 'ids-react-ts'
 
 export function MoveColumnButton({
   direction,

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
-import { ThemeProvider } from '@frontend/components/inera-admin'
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { ThemeProvider } from 'components/inera-admin'
+import { IDSSpinner } from 'ids-react-ts'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
 import React from 'react'

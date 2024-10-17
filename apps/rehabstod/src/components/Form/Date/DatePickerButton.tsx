@@ -1,5 +1,5 @@
-import { classNames } from '@frontend/components'
-import { IDSIconCalendar } from '@frontend/ids-react-ts'
+import { classNames } from 'components'
+import { IDSIconCalendar } from 'ids-react-ts'
 import { useRef } from 'react'
 import type { AriaButtonProps } from 'react-aria'
 import { useButton } from 'react-aria'

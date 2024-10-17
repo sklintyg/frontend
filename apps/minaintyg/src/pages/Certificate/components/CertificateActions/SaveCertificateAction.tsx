@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from 'ids-react-ts'
 import { usePrintCertificateContext } from './hooks/usePrintCertificate'
 
 export function SaveCertificateAction() {
