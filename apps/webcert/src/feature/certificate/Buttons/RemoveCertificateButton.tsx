@@ -1,11 +1,10 @@
-import type React from 'react'
-import { useSelector } from 'react-redux'
-import { getIsValidating } from '../../../store/certificate/certificateSelectors'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { trashImage } from '../../../images'
+import { getIsValidating } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { CertificateMetadata } from '../../../types'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -14,8 +13,8 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
-  const isValidating = useSelector(getIsValidating)
+function RemoveCertificateButton({ name, description, enabled, certificateMetadata, functionDisabled }: Readonly<Props>) {
+  const isValidating = useAppSelector(getIsValidating)
   const deleteCertificate = useDeleteCertificate(certificateMetadata.id)
 
   return (

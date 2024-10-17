@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import type { Certificate, CertificateEvent, Complement, ModalData, ValidationError, ValueBoolean, ValueText } from '../../types'
+import type { Certificate, CertificateEvent, Complement, ModalData, ValueBoolean, ValueText } from '../../types'
 import {
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -7,11 +7,13 @@ import {
   CertificateSignStatus,
   ConfigTypes,
 } from '../../types'
+import { isClientValidationError } from '../../utils/certificate/getClientValidationErrors'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
 import type { GotoCertificateDataElement, SigningData } from './certificateActions'
 import {
+  clearClientValidationErrors,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -23,8 +25,8 @@ import {
   resetCertificateState,
   setCertificatePatientData,
   setCertificateUnitData,
-  setReadyForSign,
   setQrCodeForElegSignature,
+  setReadyForSign,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -41,7 +43,6 @@ import {
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
-  updateClientValidationErrors,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateIsDeleted,
@@ -56,7 +57,6 @@ export interface CertificateState {
   autoStartToken: string
   certificate?: Certificate
   certificateEvents: CertificateEvent[]
-  clientValidationErrors: Record<string, ValidationError[]>
   complements: Complement[]
   createdCertificateId: string
   functionDisablers: FunctionDisabler[]
@@ -79,7 +79,6 @@ const getInitialState = (): CertificateState => {
   return {
     autoStartToken: '',
     certificateEvents: [],
-    clientValidationErrors: {},
     complements: [],
     createdCertificateId: '',
     functionDisablers: [],
@@ -305,14 +304,10 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateModalData, (state, action) => {
       state.modalData = action.payload
     })
-    .addCase(updateClientValidationErrors, (state, action) => {
-      state.clientValidationErrors = { ...state.clientValidationErrors, ...action.payload }
-      if (state.certificate != null) {
-        Object.keys(action.payload).forEach((id) => {
-          if (state.certificate?.data[id]) {
-            state.certificate.data[id].validationErrors = []
-          }
-        })
+    .addCase(clearClientValidationErrors, (state, action) => {
+      if (state.certificate?.data[action.payload]) {
+        const element = state.certificate.data[action.payload]
+        element.validationErrors = (element.validationErrors || []).filter((error) => !isClientValidationError(error.type))
       }
     })
     .addCase(setQrCodeForElegSignature, (state, action) => {

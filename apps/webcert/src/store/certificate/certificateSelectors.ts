@@ -31,12 +31,21 @@ export const getSpinnerText = (state: RootState): string => state.ui.uiCertifica
 
 export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
 
-export const getIsValidForSigning = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate != null
-    ? Object.values(state.ui.uiCertificate.certificate.data)
-        .map(({ validationErrors }) => validationErrors)
-        .flat().length === 0
-    : false
+export const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.status === CertificateStatus.UNSIGNED
+
+export const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
+
+export const getIsValidForSigning = (state: RootState): boolean => {
+  const certificate = getCertificate(state)
+
+  if (certificate == null) {
+    return false
+  }
+
+  const hasCertificateValidationErrors = Object.values(certificate.data).flatMap(({ validationErrors }) => validationErrors).length > 0
+
+  return !hasCertificateValidationErrors
+}
 
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
 
@@ -184,11 +193,8 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
 
 const getQuestionServerValidationErrors =
   (questionId: string) =>
-  (state: RootState): ValidationError[] => {
-    const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors
-    const question = getQuestion(questionId)(state)
-    return [clientValidationErrors[questionId] ?? [], question?.validationErrors ?? []].flat()
-  }
+  (state: RootState): ValidationError[] =>
+    getQuestion(questionId)(state)?.validationErrors ?? []
 
 export const getVisibleValidationErrors =
   (questionId: string, field?: string) =>

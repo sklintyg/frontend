@@ -63,7 +63,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
         wrapperAdditionalStyles={props.wrapperAdditionalStyles}
       />
       {isShowValidationError && isSingleCheckbox && (
-        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+        <QuestionValidationTexts validationErrors={question.validationErrors || []}></QuestionValidationTexts>
       )}
     </div>
   )

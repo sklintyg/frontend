@@ -4,45 +4,61 @@ import { CertificateDataValueType, ConfigTypes } from '../../types'
 import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUtils'
 import { getFieldValuePair } from './getFieldValuePair'
 
+const ClientValidationError = {
+  INVALID_DATE_FORMAT: 'INVALID_DATE_FORMAT',
+  UNREASONABLE_DATE: 'UNREASONABLE_DATE',
+  INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
+  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR',
+  EMPTY_PERIOD: 'EMPTY_PERIOD',
+  INVALID_DATE_PERIOD: 'INVALID_DATE_PERIOD',
+  OVERLAP_ERROR: 'OVERLAP_ERROR',
+} as const
+
+type ClientValidationErrorType = (typeof ClientValidationError)[keyof typeof ClientValidationError]
+
+export function isClientValidationError(value: string): value is ClientValidationErrorType {
+  return Object.values(ClientValidationError).includes(value as ClientValidationErrorType)
+}
+
 const INVALID_DATE_FORMAT = {
-  type: 'INVALID_DATE_FORMAT',
+  type: ClientValidationError.INVALID_DATE_FORMAT,
   text: 'Ange giltigt datum i formatet åååå-mm-dd.',
   showAlways: true,
 }
 
 const UNREASONABLE_DATE = {
-  type: 'UNREASONABLE_DATE',
+  type: ClientValidationError.UNREASONABLE_DATE,
   text: 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.',
   showAlways: true,
 }
 
 const INVALID_YEAR_FORMAT = {
-  type: 'INVALID_YEAR_FORMAT',
+  type: ClientValidationError.INVALID_YEAR_FORMAT,
   text: 'Ange år i formatet åååå.',
   showAlways: true,
 }
 
 const UNREASONABLE_YEAR = {
-  type: 'UNREASONABLE_YEAR',
+  type: ClientValidationError.UNREASONABLE_YEAR,
   text: 'Ange ett år som inte ligger för långt fram eller tillbaka i tiden.',
   showAlways: true,
 }
 
 const EMPTY_PERIOD = {
-  type: 'EMPTY_PERIOD',
+  type: ClientValidationError.EMPTY_PERIOD,
   text: 'Ange period.',
   showAlways: false,
 }
 
 const INVALID_DATE_PERIOD_ERROR = {
-  type: 'INVALID_DATE_PERIOD',
+  type: ClientValidationError.INVALID_DATE_PERIOD,
   text: 'Ange ett slutdatum som infaller efter startdatumet.',
   showAlways: true,
 }
 
 const OVERLAP_ERROR = {
+  type: ClientValidationError.OVERLAP_ERROR,
   text: 'Ange perioder som inte överlappar varandra.',
-  type: 'OVERLAP_ERROR',
   showAlways: true,
 }
 
