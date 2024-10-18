@@ -24,8 +24,15 @@ const testabilityApi = api.injectEndpoints({
       }),
       transformResponse: (response: { content: string }) => response.content,
     }),
+    fakeLogin: builder.mutation<void, { hsaId: string; enhetId: string }>({
+      query: ({hsaId, enhetId}) => ({
+        url: '/testability/fake',
+        method: 'POST',
+        body: { hsaId, enhetId },
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } = testabilityApi
+export const { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery, useFakeLoginMutation } = testabilityApi

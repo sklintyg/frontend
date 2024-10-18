@@ -23,7 +23,12 @@ import {
   setWorkCapacities,
   updateFreetext,
 } from '../../store/slices/welcome.slice'
-import { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../store/testabilityApi'
+import {
+  useCreateDefaultTestDataMutation,
+  useCreateSickLeaveMutation,
+  useGetTestDataOptionsQuery,
+  useFakeLoginMutation
+} from '../../store/testabilityApi'
 import { useWelcome } from './useWelcome'
 
 export function Welcome() {
@@ -53,6 +58,7 @@ export function Welcome() {
     useCreateDefaultTestDataMutation()
   const [triggerCreateSickLeave, { isLoading: createSickLeaveLoading, data: certificateId }] = useCreateSickLeaveMutation()
   const { data: testDataOptions, isLoading: testDataOptionsLoading, error: testDataOptionsError } = useGetTestDataOptionsQuery()
+  const [ fakeLogin ] = useFakeLoginMutation()
   const { isLoading, fakeLogins } = useWelcome()
 
   useEffect(() => {
@@ -161,7 +167,7 @@ export function Welcome() {
             </label>
           </div>
           <div className="md:w-1/2">
-            <form id="loginForm" action="/fake" method="POST" acceptCharset="UTF-8">
+            <form id="loginForm" action="/api/testability/fake" method="POST" acceptCharset="UTF-8">
               <label htmlFor="userJsonDisplay">
                 Result
                 <textarea
@@ -174,7 +180,7 @@ export function Welcome() {
                 />
               </label>
 
-              <IDSButton sblock type="submit">
+              <IDSButton sblock onClick={() => fakeLogin({ hsaId: "TSTNMT2321000156-VAAA", enhetId: "TSTNMT2321000156-ALMC" })}>
                 Logga in
               </IDSButton>
             </form>
