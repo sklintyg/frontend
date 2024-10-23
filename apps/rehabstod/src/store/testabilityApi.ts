@@ -5,7 +5,7 @@ const testabilityApi = api.injectEndpoints({
   endpoints: (builder) => ({
     fakeLogin: builder.mutation<void, { hsaId: string; enhetId: string }>({
       query: (body) => ({
-        url: '/testability/login',
+        url: '/testability/fake',
         method: 'POST',
         body,
       }),
