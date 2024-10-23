@@ -3,10 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface WelcomeState {
-  selectedLogin: string | null
-  selectedUnit: string | null
   selectedFilter: string
-  freeText: string | null
   careProviderId: string
   careUnitId: string
   patientId: string
@@ -45,17 +42,8 @@ const welcomeSlice = createSlice({
   name: 'welcome',
   initialState,
   reducers: {
-    selectLogin(state, { payload }: PayloadAction<string>) {
-      state.selectedLogin = payload
-    },
-    selectUnit(state, { payload }: PayloadAction<string>) {
-      state.selectedUnit = payload
-    },
     selectFilter(state, { payload }: PayloadAction<string>) {
       state.selectedFilter = payload
-    },
-    updateFreetext(state, { payload }: PayloadAction<string | null>) {
-      state.freeText = payload
     },
     setCareProviderId(state, { payload }: PayloadAction<string>) {
       state.careProviderId = payload
@@ -106,10 +94,7 @@ const welcomeSlice = createSlice({
 })
 
 export const {
-  selectLogin,
-  selectUnit,
   selectFilter,
-  updateFreetext,
   setCareProviderId,
   setCareUnitId,
   setPatientId,

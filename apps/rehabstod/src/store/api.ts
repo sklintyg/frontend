@@ -7,6 +7,14 @@ import type { ErrorData } from '../schemas/errorSchema'
 import { reset as resetLUFilters } from './slices/luCertificatesFilter.slice'
 import { reset as resetSickLeaveFilters } from './slices/sickLeaveFilter.slice'
 
+export const tagType = {
+  USER: 'User',
+  PATIENT: 'Patient',
+  SICKLEAVES: 'SickLeaves',
+  REKOSTATUS: 'RekoStatus'
+} as const
+
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -18,11 +26,11 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Patient', 'SickLeaves', 'RekoStatus'],
+  tagTypes: Object.values<string>(tagType),
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
-      providesTags: ['User'],
+      providesTags: [tagType.USER],
     }),
     getConfig: builder.query<Config, void>({
       query: () => 'config',
@@ -33,7 +41,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: [tagType.USER],
       async onQueryStarted({ vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -47,7 +55,7 @@ export const api = createApi({
         try {
           await queryFulfilled
         } catch {
-          dispatch(api.util.invalidateTags(['User']))
+          dispatch(api.util.invalidateTags([tagType.USER]))
         }
       },
     }),
@@ -57,7 +65,7 @@ export const api = createApi({
         method: 'POST',
         body: { consentGiven: pdlConsentGiven },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: [tagType.USER],
     }),
     updateUserPreferences: builder.mutation<UserPreferences, UserPreferences>({
       query: (preferences) => ({
@@ -66,7 +74,7 @@ export const api = createApi({
         body: preferences,
       }),
       transformResponse: (response: { content: UserPreferences }) => response.content,
-      invalidatesTags: ['User'],
+      invalidatesTags: [tagType.USER],
     }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
@@ -76,7 +84,7 @@ export const api = createApi({
           'content-type': 'application/x-www-form-urlencoded',
         },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: [tagType.USER],
     }),
     getSessionPing: builder.query<Ping, void>({
       query: () => 'session-auth-check/ping',
