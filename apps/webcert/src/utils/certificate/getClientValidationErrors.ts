@@ -73,14 +73,14 @@ const getEarlyDateError = (id: string, field: string, min?: string) => {
   return getValidationErrorFactory(
     id,
     field
-  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är tidigast ${min ?? ''}.`, showAlways: true })
+  )({ type: ClientValidationError.DATE_VIOLATES_LIMIT, text: `Ange ett datum som är tidigast ${min ?? ''}.`, showAlways: true })
 }
 
 const getLateDateError = (id: string, field: string, max?: string) => {
   return getValidationErrorFactory(
     id,
     field
-  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är senast ${max ?? ''}.`, showAlways: true })
+  )({ type: ClientValidationError.DATE_VIOLATES_LIMIT, text: `Ange ett datum som är senast ${max ?? ''}.`, showAlways: true })
 }
 
 const isValueFormatIncorrect = (value?: string): boolean => {
