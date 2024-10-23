@@ -11,9 +11,8 @@ export const tagType = {
   USER: 'User',
   PATIENT: 'Patient',
   SICKLEAVES: 'SickLeaves',
-  REKOSTATUS: 'RekoStatus'
+  REKOSTATUS: 'RekoStatus',
 } as const
-
 
 export const api = createApi({
   reducerPath: 'api',
