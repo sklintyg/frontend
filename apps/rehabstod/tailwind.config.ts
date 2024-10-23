@@ -17,6 +17,7 @@ export default {
     colors: {
       black: '#000',
       white: '#FFF',
+      orange: '#D17200',
       ...ineraAdminColors,
     },
     extend: {
