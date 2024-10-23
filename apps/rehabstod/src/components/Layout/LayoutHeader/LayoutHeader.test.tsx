@@ -18,7 +18,7 @@ describe('With user session', () => {
 
     expect(await screen.findByTestId('logout-button')).toBeInTheDocument()
 
-    const pendingRequest = waitForRequest('POST', '/logout')
+    const pendingRequest = waitForRequest('POST', '/api/testability/logout')
     user.click(screen.getByTestId('logout-button'))
 
     expect(await pendingRequest).toBeTruthy()
