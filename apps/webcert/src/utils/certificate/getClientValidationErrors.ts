@@ -12,7 +12,7 @@ const ClientValidationError = {
   INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
   OVERLAP_ERROR: 'OVERLAP_ERROR',
   UNREASONABLE_DATE: 'UNREASONABLE_DATE',
-  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR'
+  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR',
 } as const
 
 type ClientValidationErrorType = (typeof ClientValidationError)[keyof typeof ClientValidationError]
