@@ -5,13 +5,14 @@ import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUt
 import { getFieldValuePair } from './getFieldValuePair'
 
 const ClientValidationError = {
-  INVALID_DATE_FORMAT: 'INVALID_DATE_FORMAT',
-  UNREASONABLE_DATE: 'UNREASONABLE_DATE',
-  INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
-  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR',
+  DATE_VIOLATES_LIMIT: 'DATE_VIOLATES_LIMIT',
   EMPTY_PERIOD: 'EMPTY_PERIOD',
+  INVALID_DATE_FORMAT: 'INVALID_DATE_FORMAT',
   INVALID_DATE_PERIOD: 'INVALID_DATE_PERIOD',
+  INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
   OVERLAP_ERROR: 'OVERLAP_ERROR',
+  UNREASONABLE_DATE: 'UNREASONABLE_DATE',
+  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR'
 } as const
 
 type ClientValidationErrorType = (typeof ClientValidationError)[keyof typeof ClientValidationError]
