@@ -75,16 +75,6 @@ export const api = createApi({
       transformResponse: (response: { content: UserPreferences }) => response.content,
       invalidatesTags: [tagType.USER],
     }),
-    fakeLogout: builder.mutation<void, void>({
-      query: () => ({
-        url: '../logout',
-        method: 'POST',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-      }),
-      invalidatesTags: [tagType.USER],
-    }),
     getSessionPing: builder.query<Ping, void>({
       query: () => 'session-auth-check/ping',
     }),
@@ -115,7 +105,6 @@ export function useGetUserQuery() {
 
 export const {
   useChangeUnitMutation,
-  useFakeLogoutMutation,
   useGetConfigQuery,
   useGetLinksQuery,
   useGetSessionPingQuery,

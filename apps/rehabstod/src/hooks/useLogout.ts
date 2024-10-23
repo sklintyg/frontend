@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
+import { api } from '../store/api'
+import { useFakeLogoutMutation } from '../store/testabilityApi'
 import { useResetFilters } from './useResetFilters'
-import { api, useFakeLogoutMutation } from '../store/api'
 
 export function useLogout() {
   const { data: user } = api.endpoints.getUser.useQueryState()
