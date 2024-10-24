@@ -30,12 +30,12 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
         )}
         <select ref={ref} id={id} disabled={disabled} {...props}>
           {defaultOption && (
-            <option key={defaultOption.value} value={defaultOption.value}>
+            <option key={defaultOption.label} value={defaultOption.value}>
               {defaultOption.label}
             </option>
           )}
           {options?.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.label} value={option.value}>
               {option.label}
             </option>
           ))}
