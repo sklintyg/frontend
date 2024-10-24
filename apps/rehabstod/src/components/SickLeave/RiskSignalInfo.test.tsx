@@ -35,8 +35,8 @@ describe('RiskSignalInfo', () => {
   it('should render two colored rings and one white for category 2', () => {
     renderComponent(getRiskSignal(2))
     const riskSignals = screen.getAllByTestId('riskSignalRing')
-    expect(riskSignals[0]).toHaveClass('bg-orange')
-    expect(riskSignals[1]).toHaveClass('bg-orange')
+    expect(riskSignals[0]).toHaveClass('bg-graphic')
+    expect(riskSignals[1]).toHaveClass('bg-graphic')
     expect(riskSignals[2]).toHaveClass('bg-white')
   })
 
