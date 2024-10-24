@@ -159,15 +159,7 @@ export function PatientData() {
       <IDSButton
         sblock
         disabled={createSickLeaveLoading}
-        onclick={() => {
-          const diagnosisCode = [primaryDiagnosisCode]
-          if (secondDiagnosisCode) {
-            diagnosisCode.push(secondDiagnosisCode)
-          }
-          if (thirdDiagnosisCode) {
-            diagnosisCode.push(thirdDiagnosisCode)
-          }
-          const workCapacity = [workCapacities]
+        onclick={() =>
           triggerCreateSickLeave({
             careProviderId,
             careUnitId,
@@ -177,13 +169,13 @@ export function PatientData() {
             doctorId,
             relationsId,
             relationKod,
-            diagnosisCode,
+            diagnosisCode: [primaryDiagnosisCode, secondDiagnosisCode, thirdDiagnosisCode].filter(Boolean),
             occupation,
-            workCapacity,
+            workCapacity: [workCapacities],
             isSend,
             isRevoked,
           })
-        }}
+        }
       >
         Skapa
       </IDSButton>
