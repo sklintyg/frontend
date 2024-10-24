@@ -11,7 +11,7 @@ export default ({ mode }: UserConfig) => {
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? 'ws'
 
-  const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html', 'saml'].reduce<Record<string, string | ProxyOptions>>(
+  const proxy = ['api', 'services', 'fake', 'error.jsp', 'login', 'logout', 'welcome.html', 'saml'].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
       [`/${route}`]: {
