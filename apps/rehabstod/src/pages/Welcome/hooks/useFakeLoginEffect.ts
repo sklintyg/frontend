@@ -3,7 +3,14 @@ import type { MedarbetarUppdrag, Person } from '../../../schemas/hsa'
 import { AllowedInApplication } from '../../../schemas/hsa'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../../store/hsaApi'
 
+interface FakeLoginData {
+  hsaId: string
+  forvaldEnhet: string
+  beskrivning: string
+}
+
 export function useFakeLoginEffect() {
+  const defaultHsaId = 'TSTNMT2321000156-VAAA'
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [selectedLogin, setSelectedLogin] = useState('')
   const [selectedUnit, setSelectedUnit] = useState('')
@@ -26,7 +33,7 @@ export function useFakeLoginEffect() {
     [medarbetarUppdrag, people]
   )
 
-  const fakeLogins = useMemo(
+  const serverLogins: FakeLoginData[] = useMemo(
     () =>
       missions
         .map(({ hsaId, fakeProperties }) => ({ hsaId, ...fakeProperties, logins: fakeProperties?.logins ?? [] }))
@@ -40,9 +47,20 @@ export function useFakeLoginEffect() {
     [missions, selectedFilter]
   )
 
+  const fakeLogins = useMemo(() => {
+    const fallBackLogins: FakeLoginData[] = [
+      {
+        hsaId: defaultHsaId,
+        forvaldEnhet: 'TSTNMT2321000156-ALMC',
+        beskrivning: 'Ajla Doktor (Läkare)',
+      },
+    ]
+    return serverLogins.length > 0 ? serverLogins : fallBackLogins
+  }, [serverLogins])
+
   useEffect(() => {
     if (fakeLogins.length > 0) {
-      const preferedDefault = fakeLogins.find(({ hsaId }) => hsaId === 'TSTNMT2321000156-VAAA')
+      const preferedDefault = fakeLogins.find(({ hsaId }) => hsaId === defaultHsaId)
       setSelectedLogin(preferedDefault?.hsaId ?? fakeLogins[0].hsaId)
       setSelectedUnit(preferedDefault?.forvaldEnhet ?? fakeLogins[0].forvaldEnhet)
     }

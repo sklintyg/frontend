@@ -35,3 +35,17 @@ it('Should selected vardgivare and vardenhet once fully loaded', async () => {
   expect(screen.getByRole('option', { selected: true })).toBeInTheDocument()
   expect(screen.getByRole('option', { selected: true })).toHaveValue('deleniti')
 })
+
+it('Should have a fallback login option in case of failure', async () => {
+  server.use(rest.get('/api/testability/persons', (_, res, ctx) => res(ctx.status(404))))
+  server.use(rest.get('/api/testability/commissions', (_, res, ctx) => res(ctx.status(404))))
+  renderWithRouter(<FakeLogin />)
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+  })
+
+  expect(screen.getByRole('option', { selected: true })).toHaveValue('Ajla Doktor (Läkare)')
+  expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('TSTNMT2321000156-VAAA')
+  expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('TSTNMT2321000156-ALMC')
+})

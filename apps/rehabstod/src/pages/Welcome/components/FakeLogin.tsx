@@ -7,8 +7,6 @@ export function FakeLogin() {
     useFakeLoginEffect()
   const [login] = useFakeLoginMutation()
 
-  const selectedLoginData = fakeLogins.find(({ hsaId }) => hsaId === selectedLogin)
-
   if (isLoading) {
     return <IDSSpinner data-testid="spinner" />
   }
@@ -62,7 +60,6 @@ export function FakeLogin() {
           </select>
         </IDSSelect>
       </div>
-      {selectedLoginData?.beskrivning && <div>{selectedLoginData.beskrivning}</div>}
       <div className="mb-2.5">
         <IDSInput light>
           <label htmlFor="hsaId">hsaId</label>
