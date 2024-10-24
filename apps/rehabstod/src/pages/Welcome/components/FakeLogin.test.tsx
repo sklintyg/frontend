@@ -13,8 +13,8 @@ beforeEach(() => {
   const persons = missions.map(({ hsaId }) => fakerFromSchema(personSchema)({ hsaId }))
   const testData = fakerFromSchema(testDataOptionsDTOSchema)
 
-  server.use(rest.get('/services/api/hsa-api/person', (_, res, ctx) => res(ctx.json(persons))))
-  server.use(rest.get('/services/api/hsa-api/medarbetaruppdrag', (_, res, ctx) => res(ctx.json(missions))))
+  server.use(rest.get('/api/testability/persons', (_, res, ctx) => res(ctx.json(persons))))
+  server.use(rest.get('/api/testability/commissions', (_, res, ctx) => res(ctx.json(missions))))
   server.use(rest.get('/api/testability/testDataOptions', (_, res, ctx) => res(ctx.json(testData))))
 })
 
