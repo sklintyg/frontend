@@ -10,7 +10,6 @@ import { patientTableColumnsReducerPath, patientTableColumnsSlice } from './slic
 import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeaveFilter.slice'
 import { sickLeaveTableColumnsReducerPath, sickLeaveTableColumnsSlice } from './slices/sickLeaveTableColumns.slice'
-import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 
 const persistSickLeaveConfig = {
   key: sickLeaveReducerPath,
@@ -29,7 +28,6 @@ export const reducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [hsaApi.reducerPath]: hsaApi.reducer,
   [sickLeaveReducerPath]: persistedSickLeaveReducer,
-  [welcomeReducerPath]: welcomeReducer,
   [luCertificatesReducerPath]: persistedLUReducer,
   [luTableColumnsReducerPath]: luTableColumnsSlice.reducer,
   [luUnitTableColumnsReducerPath]: luUnitTableColumnsSlice.reducer,

@@ -1,27 +1,16 @@
 import { IDSButton, IDSCard, IDSInput, IDSRadio, IDSSelect, IDSSpinner } from '@frontend/ids-react-ts'
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { selectFilter } from '../../../store/slices/welcome.slice'
 import { useFakeLoginMutation } from '../../../store/testabilityApi'
-import { useWelcome } from '../useWelcome'
+import { useFakeLoginEffect } from '../hooks/useFakeLoginEffect'
 
 export function FakeLogin() {
-  const { selectedFilter } = useAppSelector((state) => state.welcome)
-  const [selectedLogin, setSelectedLogin] = useState('')
-  const [selectedUnit, setSelectedUnit] = useState('')
-  const dispatch = useAppDispatch()
-  const { isLoading, fakeLogins } = useWelcome()
+  const { isLoading, fakeLogins, selectedFilter, setSelectedFilter, selectedLogin, setSelectedLogin, selectedUnit, setSelectedUnit } =
+    useFakeLoginEffect()
   const [login] = useFakeLoginMutation()
 
-  useEffect(() => {
-    if (fakeLogins.length > 0) {
-      setSelectedLogin(fakeLogins[0].hsaId)
-      setSelectedUnit(fakeLogins[0].forvaldEnhet)
-    }
-  }, [dispatch, fakeLogins])
+  const selectedLoginData = fakeLogins.find(({ hsaId }) => hsaId === selectedLogin)
 
   if (isLoading) {
-    return <IDSSpinner />
+    return <IDSSpinner data-testid="spinner" />
   }
 
   return (
@@ -40,7 +29,7 @@ export function FakeLogin() {
               value={id}
               id={id}
               onChange={(event) => {
-                dispatch(selectFilter(event.target.value))
+                setSelectedFilter(event.target.value)
               }}
               name="filter"
               checked={selectedFilter === id}
@@ -62,6 +51,7 @@ export function FakeLogin() {
               setSelectedLogin(hsaId)
               setSelectedUnit(unitId)
             }}
+            value={fakeLogins.find(({ hsaId }) => hsaId === selectedLogin)?.hsaId}
             className="w-full rounded border border-accent-40 p-2"
           >
             {fakeLogins.map(({ hsaId, forvaldEnhet, beskrivning }) => (
@@ -72,6 +62,7 @@ export function FakeLogin() {
           </select>
         </IDSSelect>
       </div>
+      {selectedLoginData?.beskrivning && <div>{selectedLoginData.beskrivning}</div>}
       <div className="mb-2.5">
         <IDSInput light>
           <label htmlFor="hsaId">hsaId</label>

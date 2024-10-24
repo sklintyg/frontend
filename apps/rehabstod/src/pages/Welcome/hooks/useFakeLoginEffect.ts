@@ -1,11 +1,13 @@
-import { useMemo } from 'react'
-import type { MedarbetarUppdrag, Person } from '../../schemas/hsa'
-import { AllowedInApplication } from '../../schemas/hsa'
-import { useAppSelector } from '../../store/hooks'
-import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
+import { useEffect, useMemo, useState } from 'react'
+import type { MedarbetarUppdrag, Person } from '../../../schemas/hsa'
+import { AllowedInApplication } from '../../../schemas/hsa'
+import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../../store/hsaApi'
 
-export function useWelcome() {
-  const { selectedFilter } = useAppSelector((state) => state.welcome)
+export function useFakeLoginEffect() {
+  const [selectedFilter, setSelectedFilter] = useState('all')
+  const [selectedLogin, setSelectedLogin] = useState('')
+  const [selectedUnit, setSelectedUnit] = useState('')
+
   const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()
   const { isLoading: isLoadingPerson, data: people } = useGetPersonQuery()
   const isLoading = isLoadingMedarbetarUppdrag || isLoadingPerson
@@ -38,5 +40,23 @@ export function useWelcome() {
     [missions, selectedFilter]
   )
 
-  return { isLoading, fakeLogins, missions }
+  useEffect(() => {
+    if (fakeLogins.length > 0) {
+      const preferedDefault = fakeLogins.find(({ hsaId }) => hsaId === 'TSTNMT2321000156-VAAA')
+      setSelectedLogin(preferedDefault?.hsaId ?? fakeLogins[0].hsaId)
+      setSelectedUnit(preferedDefault?.forvaldEnhet ?? fakeLogins[0].forvaldEnhet)
+    }
+  }, [fakeLogins])
+
+  return {
+    isLoading,
+    fakeLogins,
+    missions,
+    selectedFilter,
+    selectedLogin,
+    selectedUnit,
+    setSelectedFilter,
+    setSelectedLogin,
+    setSelectedUnit,
+  }
 }
