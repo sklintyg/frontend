@@ -13,7 +13,7 @@ import { fakeUser } from '../utils/fake/fakeUser'
 const fakeLink = fakerFromSchema(linkSchema)
 
 export const handlers = [
-  rest.post('/logout', (_, res, ctx) => res(ctx.status(302))),
+  rest.post('/api/testability/logout', (_, res, ctx) => res(ctx.status(302))),
 
   rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser()))),
 
