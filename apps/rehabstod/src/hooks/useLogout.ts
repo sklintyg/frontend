@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { getCookie } from "@frontend/utils";
+import { getCookie } from '@frontend/utils'
 import { api } from '../store/api'
 import { useFakeLogoutMutation } from '../store/testabilityApi'
 import { useResetFilters } from './useResetFilters'
