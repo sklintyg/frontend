@@ -1,21 +1,19 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from '@frontend/fake'
 import { screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../../mocks/server'
 import { medarbetarUppdragSchema, personSchema } from '../../../schemas/hsa'
-import { testDataOptionsDTOSchema } from '../../../schemas/testabilitySchema'
 import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { FakeLogin } from './FakeLogin'
 
 beforeEach(() => {
-  faker.seed(1234)
-  const missions = Array.from({ length: 3 }, fakerFromSchema(medarbetarUppdragSchema))
-  const persons = missions.map(({ hsaId }) => fakerFromSchema(personSchema)({ hsaId }))
-  const testData = fakerFromSchema(testDataOptionsDTOSchema)
+  const fakeMission = fakerFromSchema(medarbetarUppdragSchema, { seed: 1234 })
+  const fakePerson = fakerFromSchema(personSchema, { seed: 4321 })
+  const missions = Array.from({ length: 3 }, fakeMission)
+  const persons = missions.map(({ hsaId }) => fakePerson({ hsaId }))
 
   server.use(rest.get('/api/testability/persons', (_, res, ctx) => res(ctx.json(persons))))
   server.use(rest.get('/api/testability/commissions', (_, res, ctx) => res(ctx.json(missions))))
-  server.use(rest.get('/api/testability/testDataOptions', (_, res, ctx) => res(ctx.json(testData))))
 })
 
 it('Should selected vardgivare and vardenhet once fully loaded', async () => {
@@ -27,13 +25,13 @@ it('Should selected vardgivare and vardenhet once fully loaded', async () => {
   })
 
   await waitFor(() => {
-    expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('EMQVLP1000078535-78135')
+    expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('ZBQGHL1000042809-8793')
   })
 
-  expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('DNKYAM1000056356-51255')
+  expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('CVSMTR1000040485-97631')
 
   expect(screen.getByRole('option', { selected: true })).toBeInTheDocument()
-  expect(screen.getByRole('option', { selected: true })).toHaveValue('deleniti')
+  expect(screen.getByRole('option', { selected: true })).toHaveValue('ZBQGHL1000042809-8793_CVSMTR1000040485-97631')
 })
 
 it('Should have a fallback login option in case of failure', async () => {
@@ -45,7 +43,7 @@ it('Should have a fallback login option in case of failure', async () => {
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 
-  expect(screen.getByRole('option', { selected: true })).toHaveValue('Ajla Doktor (Läkare)')
+  expect(screen.getByRole('option', { selected: true })).toHaveValue('TSTNMT2321000156-VAAA_TSTNMT2321000156-ALMC')
   expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('TSTNMT2321000156-VAAA')
   expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('TSTNMT2321000156-ALMC')
 })
