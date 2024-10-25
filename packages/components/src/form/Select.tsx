@@ -1,16 +1,23 @@
 import { IDSSelect } from '@frontend/ids-react-ts'
+import type { OptionHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import { InputLabel } from './InputLabel'
 
+interface SelectOption {
+  value: OptionHTMLAttributes<HTMLOptionElement>['value']
+  label: string
+}
+
 interface SelectProps {
   label: string
-  options?: { value: string; label: string }[]
+  options?: SelectOption[]
   description?: string
   disabled?: boolean
+  defaultOption?: SelectOption
 }
 
 export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & SelectProps>(
-  ({ children, id: controlledId, label, description, disabled, options, ...props }, ref) => {
+  ({ children, id: controlledId, label, description, disabled, options, defaultOption, ...props }, ref) => {
     const uncontrolledId = useId()
     const id = controlledId ?? uncontrolledId
 
@@ -22,8 +29,13 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
           </InputLabel>
         )}
         <select ref={ref} id={id} disabled={disabled} {...props}>
+          {defaultOption && (
+            <option key={defaultOption.label} value={defaultOption.value}>
+              {defaultOption.label}
+            </option>
+          )}
           {options?.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.label} value={option.value}>
               {option.label}
             </option>
           ))}
