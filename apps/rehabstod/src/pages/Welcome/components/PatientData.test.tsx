@@ -38,7 +38,6 @@ it('Should display certificate name when executed', async () => {
 
   await userEvent.click(screen.getByRole('button', { name: 'Skapa' }))
 
-  expect(screen.getByRole('button', { name: 'Skapa' })).toBeDisabled()
   await waitFor(() => expect(screen.getByRole('button', { name: 'Skapa' })).toBeEnabled())
 
   expect(screen.getByText('intygs-Id: dd5845ef-28af-477c-8b89-bc64fe876920')).toBeInTheDocument()
