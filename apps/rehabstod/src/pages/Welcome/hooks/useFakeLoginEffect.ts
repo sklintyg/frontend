@@ -15,8 +15,8 @@ export function useFakeLoginEffect() {
   const [selectedLogin, setSelectedLogin] = useState('')
   const [selectedUnit, setSelectedUnit] = useState('')
 
-  const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()
-  const { isLoading: isLoadingPerson, data: people } = useGetPersonQuery()
+  const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag, error: medarbetarUppdragError } = useGetMedarbetarUppdragQuery()
+  const { isLoading: isLoadingPerson, data: people, error: peopleError } = useGetPersonQuery()
   const isLoading = isLoadingMedarbetarUppdrag || isLoadingPerson
 
   const missions = useMemo(
@@ -76,5 +76,6 @@ export function useFakeLoginEffect() {
     setSelectedFilter,
     setSelectedLogin,
     setSelectedUnit,
+    error: medarbetarUppdragError || peopleError,
   }
 }

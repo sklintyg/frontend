@@ -17,7 +17,7 @@ export function TestData() {
 
   return (
     <>
-      <div className="mb-2">
+      <div className="mb-7">
         <IDSAlert ribbon>
           Tryck på knappen *Skapa testdata* för att skjuta in test-data.
           <br />
@@ -30,7 +30,7 @@ export function TestData() {
           </IDSLink>
         </IDSAlert>
       </div>
-      <IDSButton role="button" onClick={() => triggerDefaultTestDataQuery()}>
+      <IDSButton sblock role="button" onClick={() => triggerDefaultTestDataQuery()}>
         Skapa testdata
       </IDSButton>
       {data && <div className="mt-4">{data}</div>}

@@ -39,8 +39,7 @@ export const getNumberOfDraftsOnUnit = (state: RootState): number =>
 export const getNumberOfQuestionsOnUnit = (state: RootState): number =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfUnhandledQuestionsOnSelectedUnit : 0
 
-export const getUnitStatistics = (state: RootState): UnitStatistics =>
-  state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.unitStatistics : {}
+export const getUnitStatistics = (state: RootState): UnitStatistics => state.ui.uiUser.userStatistics?.unitStatistics ?? {}
 
 export const selectIsLoadingUserStatistics = (state: RootState): boolean => state.ui.uiUser.isLoadingUserStatistics
 
