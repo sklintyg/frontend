@@ -61,7 +61,6 @@ export function CertificateListRow({
 
   const isLoadingCertificateTypes = useAppSelector(loadingCertificateTypes)
   const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
   const [showLuaenaModal, setShowLuaenaModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
@@ -74,15 +73,11 @@ export function CertificateListRow({
   }
 
   const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
-    const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
     const createLuaena = links.some((link) => link.type === ResourceLinkType.CREATE_LUAENA_CONFIRMATION)
     const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
     if (confirmationModal) {
       return setShowConfirmModal(true)
-    }
-    if (createDodsbevis) {
-      return setShowDeathCertificateModal(true)
     }
     if (createLuaena) {
       return setShowLuaenaModal(true)

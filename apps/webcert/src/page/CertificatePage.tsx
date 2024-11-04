@@ -51,10 +51,8 @@ const CertificatePage: React.FC = () => {
   const hasPatient = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
   const currentCertificateId = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
   const isLoadingCertificate = useAppSelector(getIsShowSpinner)
-  const isDBIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
   const isLuaenaIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
   const confirmationModal = useAppSelector((state) => getCertificateMetaData(state)?.confirmationModal)
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const [showLuaenaModal, setShowLuaenaModal] = useState(true)
   const [showConfirmationModal, setShowConfirmationModal] = useState(true)
 

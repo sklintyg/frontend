@@ -69,10 +69,7 @@ describe('CertificateList', () => {
       createType({
         id: 'typ2',
         label: 'Typ 2',
-        links: [
-          fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' }),
-          fakeResourceLink({ type: ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION, name: 'Dödsbevis saknas' }),
-        ],
+        links: [fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' })],
       }),
       createType({ id: 'typ3', label: 'Typ 3' }),
       createType({ id: 'typ4', label: 'Typ 4' }),
@@ -168,17 +165,6 @@ describe('CertificateList', () => {
     renderComponent()
 
     expect(screen.getByText('Meddelande')).toBeInTheDocument()
-  })
-
-  it('should show confirm modal when CREATE_DODSBEVIS_CONFIRMATION resource link exists', async () => {
-    testStore.dispatch(setPatient(fakePatient()))
-    renderComponent()
-
-    expect(screen.queryByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).not.toBeInTheDocument()
-
-    await userEvent.click(within(screen.getByTestId('certificate-list-row-typ2')).getByRole('button', { name: /Skapa intyg/ }))
-
-    expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
   })
 
   it('should show confirm modal when CREATE_LUAENA_CONFIRMATION resource link exists', async () => {
