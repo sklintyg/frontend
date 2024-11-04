@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { expect, it } from 'vitest'
 import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import type { CertificateModalActionType } from '../../../types/confirmModal'
+import type { Alert, CertificateModalActionType } from '../../../types/confirmModal'
 import { ConfirmationModal } from './ConfirmationModal'
 
 let testStore: EnhancedStore
@@ -25,12 +25,12 @@ beforeEach(() => {
 
 it('Should render dynamic texts', () => {
   const text = 'text'
-  const alert = 'alert'
+  const alert: Alert = { text: 'alert', type: 'INFO' }
   const data = fakeCertificateConfirmationModal({ text, alert })
   renderComponent({ ...data, open: true, setOpen: vi.fn() })
   expect(screen.getByText(data.title)).toBeInTheDocument()
   expect(screen.getByText(text)).toBeInTheDocument()
-  expect(screen.getByText(alert)).toBeInTheDocument()
+  expect(screen.getByText(alert.text)).toBeInTheDocument()
   expect(screen.getByText(data.checkboxText)).toBeInTheDocument()
 })
 
@@ -71,7 +71,7 @@ it.each(['DELETE', 'READ'] as CertificateModalActionType[])('Should fire on %s a
   testStore.subscribe(dispatchListener)
 
   await userEvent.click(screen.getByRole('checkbox', { name: data.checkboxText }))
-  await userEvent.click(screen.getByRole('button', { name: 'Gå vidare' }))
+  await userEvent.click(screen.getByRole('button', { name: primaryAction === 'READ' ? 'Gå vidare' : 'Radera' }))
 
   expect(dispatchListener).toHaveBeenCalledTimes(1)
   expect(setOpen).toHaveBeenCalledWith(false)

@@ -9,7 +9,6 @@ import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
-import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
@@ -103,13 +102,6 @@ const CertificatePage: React.FC = () => {
               setOpen={setShowConfirmationModal}
               certificateId={certificateId}
               {...confirmationModal}
-            />
-          )}
-          {isDBIntegrated && hasPatient && (
-            <DeathCertificateConfirmModalIntegrated
-              certificateId={certificateId}
-              setOpen={setShowDeathCertificateModal}
-              open={showDeathCertificateModal}
             />
           )}
           {isLuaenaIntegrated && hasPatient && (

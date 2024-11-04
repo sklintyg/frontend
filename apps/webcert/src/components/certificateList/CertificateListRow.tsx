@@ -2,7 +2,6 @@ import { getByType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { ConfirmationModal } from '../../feature/certificate/Modals/ConfirmationModal'
-import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
 import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
 import { StarFilledIcon, StarIcon } from '../../images'
@@ -107,7 +106,6 @@ export function CertificateListRow({
               {...confirmationModal}
             />
           )}
-          <DeathCertificateConfirmModal patient={patient} setOpen={setShowDeathCertificateModal} open={showDeathCertificateModal} />
           <LuaenaConfirmModal patient={patient} setOpen={setShowLuaenaModal} open={showLuaenaModal} />
           {missingRelatedCertificateLink?.type !== undefined && (
             <MissingRelatedCertificateModal

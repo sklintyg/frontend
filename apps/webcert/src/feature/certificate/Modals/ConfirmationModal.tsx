@@ -5,7 +5,7 @@ import InfoBox from '../../../components/utils/InfoBox'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { createNewCertificate, deleteCertificate } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import type { CertificateConfirmationModal, CertificateModalActionType } from '../../../types/confirmModal'
+import type { AlertType, CertificateConfirmationModal, CertificateModalActionType } from '../../../types/confirmModal'
 
 export function ConfirmationModal({
   certificateId,
@@ -40,6 +40,30 @@ export function ConfirmationModal({
     setOpen(false)
   }
 
+  const getActionButtonText = (action: CertificateModalActionType) => {
+    if (action === 'DELETE') {
+      return 'Radera'
+    }
+
+    if (action === 'READ') {
+      return 'Gå vidare'
+    }
+
+    return 'Avbryt'
+  }
+
+  const convertAlertType = (type: AlertType) => {
+    if (type == 'ERROR') {
+      return 'error'
+    }
+
+    if (type == 'OBSERVE') {
+      return 'observe'
+    }
+
+    return 'info'
+  }
+
   return (
     <ModalBase
       open={open}
@@ -47,8 +71,13 @@ export function ConfirmationModal({
       title={title}
       buttons={
         <>
-          <CustomButton buttonStyle="default" onClick={() => handleAction(secondaryAction)} text="Avbryt" />
-          <CustomButton buttonStyle="primary" disabled={disabled} onClick={() => handleAction(primaryAction)} text="Gå vidare" />
+          <CustomButton buttonStyle="default" onClick={() => handleAction(secondaryAction)} text={getActionButtonText(secondaryAction)} />
+          <CustomButton
+            buttonStyle="primary"
+            disabled={disabled}
+            onClick={() => handleAction(primaryAction)}
+            text={getActionButtonText(primaryAction)}
+          />
         </>
       }
       closeOnBackdropClick={false}
@@ -56,7 +85,7 @@ export function ConfirmationModal({
         <>
           {alert && (
             <div className="iu-mb-200">
-              <InfoBox type="info">{alert}</InfoBox>
+              <InfoBox type={convertAlertType(alert.type)}>{alert.text}</InfoBox>
             </div>
           )}
           <p className="iu-mb-300">{text}</p>
