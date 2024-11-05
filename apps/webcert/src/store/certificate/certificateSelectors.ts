@@ -21,6 +21,7 @@ import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, 
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { getExpressionResult } from '../../utils/validation/validateExpression'
 import type { ErrorData } from '../error/errorReducer'
 import type { RootState } from '../store'
 import type { SigningData } from './certificateActions'
@@ -278,3 +279,8 @@ export const getModalData =
   () =>
   (state: RootState): ModalData | null =>
     state.ui.uiCertificate.modalData
+
+export const getQuestionExpressionResult = (id: string, expression: string) => (state: RootState) => {
+  const value = getQuestion(id)(state)?.value
+  return value ? getExpressionResult(expression, value) : undefined
+}

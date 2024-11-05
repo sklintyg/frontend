@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
+import { isDateString } from '@frontend/utils'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import type { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
-import { isValidDate } from '../../utils/isValidDate'
 
 export interface LuCertificatesState {
   filter: LUCertificatesFilter
@@ -40,7 +40,7 @@ const luCertificatesSlice = createSlice({
     update(state, { payload }: PayloadAction<Partial<LUCertificatesFilter>>) {
       Object.assign(state.filter, payload)
       const { fromDate, toDate } = state.filter
-      state.isValidDateRange = (isEmpty(fromDate) && isEmpty(toDate)) || (isValidDate(fromDate) && isValidDate(toDate))
+      state.isValidDateRange = (isEmpty(fromDate) && isEmpty(toDate)) || (isDateString(fromDate) && isDateString(toDate))
       state.hasAppliedFilters = !isEqual(initialState.filter, state.filter)
     },
     displayErrors(state, { payload }: PayloadAction<boolean>) {

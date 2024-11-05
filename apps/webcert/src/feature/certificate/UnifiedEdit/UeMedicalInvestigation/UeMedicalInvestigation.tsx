@@ -1,18 +1,22 @@
+import { getByType } from '@frontend/utils'
+import { fromUnixTime } from 'date-fns'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { getQuestionExpressionResult } from '../../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../../store/store'
 import type {
   CertificateDataValidation,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
-  TextValidation,
   ValidationError,
   ValueMedicalInvestigation,
 } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
+import { formatDateToString } from '../../../../utils'
 
 const Row = styled.div`
   display: flex;
@@ -49,6 +53,20 @@ export function UeMedicalInvestigation({
   error: boolean
   onChange: (value: ValueMedicalInvestigation) => void
 }) {
+  const maxDateValidation = getByType(validation, CertificateDataValidationType.MAX_DATE_VALIDATION)
+  const minDateValidation = getByType(validation, CertificateDataValidationType.MIN_DATE_VALIDATION)
+  const textValidation = getByType(validation, CertificateDataValidationType.TEXT_VALIDATION)
+  const maxDate = useAppSelector(
+    maxDateValidation && maxDateValidation.id === config.dateId
+      ? getQuestionExpressionResult(maxDateValidation.questionId, maxDateValidation.expression)
+      : () => config.maxDate
+  )
+  const minDate = useAppSelector(
+    minDateValidation && minDateValidation.id === config.dateId
+      ? getQuestionExpressionResult(minDateValidation.questionId, minDateValidation.expression)
+      : () => config.minDate
+  )
+
   const value: ValueMedicalInvestigation = incomingValue ?? {
     type: CertificateDataValueType.MEDICAL_INVESTIGATION,
     date: {
@@ -64,9 +82,6 @@ export function UeMedicalInvestigation({
       id: config.investigationTypeId,
     },
   }
-  const textValidation = validation
-    ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
-    : undefined
 
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
@@ -121,8 +136,8 @@ export function UeMedicalInvestigation({
             <label htmlFor={config.dateId}>{questionConfig.dateText}</label>
             <DatePickerCustom
               id={config.dateId}
-              max={config.maxDate}
-              min={config.minDate}
+              max={typeof maxDate === 'number' ? formatDateToString(fromUnixTime(maxDate)) : config.maxDate}
+              min={typeof minDate === 'number' ? formatDateToString(fromUnixTime(minDate)) : config.minDate}
               inputString={value.date.date ?? ''}
               textInputOnChange={handleDateChange}
               disabled={disabled}

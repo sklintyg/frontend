@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getBySimpleType } from '@frontend/utils'
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import type { Answer, Certificate, Complement } from '../../types'
@@ -174,11 +174,11 @@ export const handleUpdateCertificate: Middleware<Dispatch> =
   (action: PayloadAction<Certificate>): void => {
     dispatch(resetState())
 
-    const isQuestionsActive = getByType(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
+    const isQuestionsActive = getBySimpleType(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
 
     if (isQuestionsActive) {
       dispatch(updateIsLoadingQuestions(true))
-      const isCreateQuestionsAvailable = getByType(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
+      const isCreateQuestionsAvailable = getBySimpleType(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
       dispatch(updateCreateQuestionsAvailable(isCreateQuestionsAvailable))
       dispatch(updateCertificateId(action.payload.metadata.id))
       if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {

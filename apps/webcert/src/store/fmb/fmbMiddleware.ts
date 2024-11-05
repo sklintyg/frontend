@@ -1,4 +1,4 @@
-import { getByType } from '@frontend/utils'
+import { getBySimpleType } from '@frontend/utils'
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList, ValueType } from '../../types'
@@ -67,7 +67,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    const fmbPanelActive = getByType(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
+    const fmbPanelActive = getBySimpleType(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {
