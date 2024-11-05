@@ -56,7 +56,7 @@ export function PatientData() {
         <IDSAlert ribbon>Fyll i uppgifter nedan och tryck på knappen *Skapa* för att skapa ett sjukfall på vald patient.</IDSAlert>
       </div>
 
-      <div className="mb-7 grid grid-cols-2 gap-7">
+      <div className="mb-7 grid gap-7 md:grid-cols-2">
         <Select
           label="Vårdgivare"
           value={careProviderId}
@@ -131,20 +131,23 @@ export function PatientData() {
         />
 
         <Input
-          label="Intygs-Id (Relaterat till vilket intyg som du vill lägga till vald relationskod)"
+          label="Intygs-Id"
+          description="Relaterat till vilket intyg som du vill lägga till vald relationskod"
           value={relationsId ?? ''}
           onChange={(e) => updatePatientData({ relationsId: e.currentTarget.value })}
         />
 
         <Input
-          label="Startdatum - Ange antalet dagar bakåt i tiden från idag."
+          label="Startdatum"
+          description="Ange antalet dagar bakåt i tiden från idag"
           value={fromDays}
           type="number"
           onChange={(e) => updatePatientData({ fromDays: e.currentTarget.value })}
         />
 
         <Input
-          label="Slutdatum - Ange antalet dagar framåt i tiden från idag."
+          label="Slutdatum"
+          description="Ange antalet dagar framåt i tiden från idag"
           value={toDays}
           type="number"
           onChange={(e) => updatePatientData({ toDays: e.currentTarget.value })}
