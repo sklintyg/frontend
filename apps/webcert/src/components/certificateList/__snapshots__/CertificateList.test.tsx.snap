@@ -3,7 +3,7 @@
 exports[`CertificateList > should add favorites 1`] = `
 <button
   aria-label="Ta bort som favoritmarkerat intyg."
-  class="sc-gFqAkR jNHQyX iu-mr-1rem"
+  class="sc-fPXMVe cjvUqj iu-mr-1rem"
   data-tip="Ta bort som favoritmarkerat intyg."
 >
   <svg
@@ -26,7 +26,7 @@ exports[`CertificateList > should add favorites 1`] = `
 exports[`CertificateList > should remove favorites 1`] = `
 <button
   aria-label="Markera intyget som favorit och fäst högst upp i listan."
-  class="sc-gFqAkR jNHQyX iu-mr-1rem"
+  class="sc-fPXMVe cjvUqj iu-mr-1rem"
   data-tip="Markera intyget som favorit och fäst högst upp i listan."
 >
   <svg
