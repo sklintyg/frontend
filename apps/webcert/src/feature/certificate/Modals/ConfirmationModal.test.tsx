@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { expect, it } from 'vitest'
-import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
+import { fakeAlert, fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import type { Alert, CertificateModalActionType } from '../../../types/confirmModal'
 import { ConfirmationModal } from './ConfirmationModal'
@@ -25,7 +25,7 @@ beforeEach(() => {
 
 it('Should render dynamic texts', () => {
   const text = 'text'
-  const alert: Alert = { text: 'alert', type: 'INFO' }
+  const alert: Alert = fakeAlert()
   const data = fakeCertificateConfirmationModal({ text, alert })
   renderComponent({ ...data, open: true, setOpen: vi.fn() })
   expect(screen.getByText(data.title)).toBeInTheDocument()

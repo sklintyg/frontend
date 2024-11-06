@@ -5,7 +5,7 @@ export function fakeCertificateConfirmationModal(value?: Partial<CertificateConf
   return {
     title: faker.lorem.sentence(),
     text: faker.lorem.paragraphs(),
-    alert: fakeAlert(),
+    alert: fakeAlert(value?.alert),
     checkboxText: faker.lorem.paragraph(),
     primaryAction: 'READ',
     secondaryAction: 'CANCEL',
