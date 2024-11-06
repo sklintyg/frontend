@@ -2,7 +2,6 @@ import { getByType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { ConfirmationModal } from '../../feature/certificate/Modals/ConfirmationModal'
-import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
 import { LuaenaConfirmModal } from '../../feature/certificate/Modals/LuaenaConfirmModal'
 import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
 import { StarFilledIcon, StarIcon } from '../../images'
@@ -62,7 +61,6 @@ export function CertificateListRow({
 
   const isLoadingCertificateTypes = useAppSelector(loadingCertificateTypes)
   const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
   const [showLuaenaModal, setShowLuaenaModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
@@ -75,15 +73,11 @@ export function CertificateListRow({
   }
 
   const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
-    const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
     const createLuaena = links.some((link) => link.type === ResourceLinkType.CREATE_LUAENA_CONFIRMATION)
     const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
     if (confirmationModal) {
       return setShowConfirmModal(true)
-    }
-    if (createDodsbevis) {
-      return setShowDeathCertificateModal(true)
     }
     if (createLuaena) {
       return setShowLuaenaModal(true)
@@ -107,7 +101,6 @@ export function CertificateListRow({
               {...confirmationModal}
             />
           )}
-          <DeathCertificateConfirmModal patient={patient} setOpen={setShowDeathCertificateModal} open={showDeathCertificateModal} />
           <LuaenaConfirmModal patient={patient} setOpen={setShowLuaenaModal} open={showLuaenaModal} />
           {missingRelatedCertificateLink?.type !== undefined && (
             <MissingRelatedCertificateModal
