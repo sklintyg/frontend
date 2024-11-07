@@ -31,6 +31,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['auth-exception', ErrorCode.AUTHORIZATION_PROBLEM],
   ['auth-exception-sekretessmarkering', ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING],
   ['auth-exception-subscription', ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION],
+  ['auth-exception-resource', ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE],
   ['auth-exception-user-already-active', ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE],
   ['integration.nocontent', ErrorCode.INTEGRATION_NOCONTENT],
   ['unknown', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
