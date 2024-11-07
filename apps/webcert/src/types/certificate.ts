@@ -45,6 +45,7 @@ export interface CertificateMetadata {
   signed?: string
   messageTypes?: MessageType[]
   confirmationModal: CertificateConfirmationModal | null
+  signConfirmationModal: CertificateConfirmationModal | null
   availableForCitizen: boolean
 }
 
