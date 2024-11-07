@@ -40,8 +40,8 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ url }) => (
 export const StartPage: React.FC = () => {
   const config = useAppSelector(getConfig)
   const isLoadingConfig = useAppSelector(selectIsLoadingConfig)
-  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
-  const elegUrl = '/saml/login/alias/eleg?idp=' + config.cgiFunktionstjansterIdpUrl
+  const sithsUrl = '/saml2/authenticate/sithsNormal?idp=' + config.sakerhetstjanstIdpUrl
+  const elegUrl = '/saml2/authenticate/eleg?idp=' + config.cgiFunktionstjansterIdpUrl
 
   return (
     <Root>

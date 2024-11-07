@@ -18,8 +18,10 @@ export default ({ mode }: UserConfig) => {
     '/v2',
     '/webcert',
     '/saml',
+    '/saml2',
     '/error.jsp',
     '/logout',
+    '/login',
     '/web/eleglogin',
   ].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
