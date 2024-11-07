@@ -15,6 +15,8 @@ overrides:
   semver@>=7.0.0 <7.5.2: '>=7.5.2'
   follow-redirects@<1.15.4: '>=1.15.4'
 
+  pnpmfileChecksum: 4ir4efxdofvuaugkc5dzzlk6cu
+
 patchedDependencies:
   '@inera/ids-core@4.10.0':
     hash: unxiey4v72xzqvn7lfzde7uio4
