@@ -654,6 +654,9 @@ importers:
       faker:
         specifier: 5.5.3
         version: 5.5.3
+      html-react-parser:
+          specifier: ^4.2.2
+          version: 4.2.2(react@17.0.2)
       jsdom:
         specifier: ^21.1.1
         version: 21.1.1
@@ -11382,6 +11385,14 @@ snapshots:
       whatwg-encoding: 2.0.0
 
   html-escaper@2.0.2: {}
+
+  html-react-parser@4.2.2(react@17.0.2):
+    dependencies:
+      domhandler: 5.0.3
+      html-dom-parser: 4.0.0
+      react: 17.0.2
+      react-property: 2.0.0
+      style-to-js: 1.1.4
 
   html-react-parser@4.2.2(react@18.3.1):
     dependencies:
