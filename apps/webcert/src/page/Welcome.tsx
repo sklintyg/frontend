@@ -11,7 +11,7 @@ import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration
 import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
 import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
 import { useAppSelector } from '../store/store'
-import { triggerLogoutNow } from '../store/user/userActions'
+import { triggerFakeLogout } from '../store/user/userActions'
 import { getConfig } from '../store/utils/utilsSelectors'
 import {
   clearWelcome,
@@ -81,7 +81,7 @@ const Welcome: React.FC = () => {
       unitId: jsonUser.enhetId,
     }
     dispatch(updateCreateCertificate(updatedCreateCertificate))
-    dispatch(triggerLogoutNow())
+    dispatch(triggerFakeLogout())
   }, [createCertificate, dispatch, jsonUser.enhetId, jsonUser.hsaId])
 
   useEffect(() => {
