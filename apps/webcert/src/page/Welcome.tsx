@@ -22,14 +22,9 @@ import {
   updateCreateCertificate,
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import type { MockUser } from '../store/welcome/welcomeReducer'
+import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
 import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
 import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
-
-interface JsonUser extends MockUser {
-  origin: string
-  authenticationMethod: string
-}
 
 const StyledForm = styled.form`
   display: flex;
@@ -72,14 +67,11 @@ const Welcome: React.FC = () => {
   const [isFakeLogin, setFakeLogin] = useState(true)
   const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
 
-  const sithsUrl = '/saml2/authenticate/sithsNormal?idp=' + config.sakerhetstjanstIdpUrl
-
   const dispatch = useDispatch()
   const history = useHistory()
 
   const performLogin = useCallback(() => {
-    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-    dispatch(loginUser(jsonString))
+    dispatch(loginUser(jsonUser))
   }, [dispatch, jsonUser])
 
   useDeepCompareEffect(() => {
@@ -98,7 +90,7 @@ const Welcome: React.FC = () => {
     }
 
     if (!isFakeLogin) {
-      dispatch(updateNavigateToCertificate(true))
+      window.open('/visa/intyg/' + certificateId, '_self')
     } else {
       performLogin()
     }
@@ -147,7 +139,7 @@ const Welcome: React.FC = () => {
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault()
     if (isCreateNewCertificate && !isFakeLogin) {
-      window.open(sithsUrl, '_self')
+      dispatch(createNewCertificate(createCertificate))
     } else if (isCreateNewCertificate) {
       dispatch(createNewCertificate(createCertificate))
     } else if (existingCertificateId.length > 1) {

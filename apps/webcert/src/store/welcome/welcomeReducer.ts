@@ -66,6 +66,11 @@ export interface MockUser {
   legitimeradeYrkesgrupper?: string[]
 }
 
+export interface JsonUser extends MockUser {
+  origin: string
+  authenticationMethod: string
+}
+
 export interface WelcomeState {
   types: CertificateType[] | null
   patients: Patient[]
