@@ -17,12 +17,10 @@ export default ({ mode }: UserConfig) => {
     '/visa',
     '/v2',
     '/webcert',
-    '/saml',
     '/saml2',
     '/error.jsp',
     '/logout',
     '/login',
-    '/web/eleglogin',
   ].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
