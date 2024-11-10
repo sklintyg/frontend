@@ -52,35 +52,6 @@ describe('CertificatePage', () => {
     expect(dispatchedActions.find((action) => throwError.match(action))).not.toBeDefined()
   })
 
-  it('should show modal when WARNING_DODSBEVIS_INTEGRATED resource link exists', async () => {
-    testStore.dispatch(
-      updateCertificate(
-        fakeCertificate({
-          links: [
-            {
-              type: ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED,
-              name: 'Name',
-              description: '',
-              enabled: true,
-            },
-          ],
-        })
-      )
-    )
-
-    render(
-      <Provider store={testStore}>
-        <MemoryRouter initialEntries={['/certificate/error}']}>
-          <Route path="/certificate/">
-            <CertificatePage />
-          </Route>
-        </MemoryRouter>
-      </Provider>
-    )
-
-    expect(screen.getByText('Kontrollera namn och personnummer', { exact: false })).toBeInTheDocument()
-  })
-
   it('should show confirm modal when WARNING_LUAENA_INTEGRATED resource link exists', async () => {
     testStore.dispatch(
       updateCertificate(

@@ -5,7 +5,7 @@ import { CertificateStatus, QuestionType } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../user/fakeUnit'
-import { fakeCertificateConfirmationModal } from './fakeCertificateConfirmationModal'
+import { fakeAlert, fakeCertificateConfirmationModal } from './fakeCertificateConfirmationModal'
 import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateRelation } from './fakeCertificateRelation'
 
@@ -49,7 +49,7 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
     careUnit: fakeUnit(data?.careUnit),
     careProvider: fakeUnit(data?.careProvider),
     messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? undefined,
-    confirmationModal: data?.confirmationModal ? fakeCertificateConfirmationModal({ ...data.confirmationModal }) : null,
+    confirmationModal: data?.confirmationModal ? fakeCertificateConfirmationModal({ ...data.confirmationModal, alert: fakeAlert() }) : null,
     availableForCitizen: data?.availableForCitizen ?? true,
   }
 }

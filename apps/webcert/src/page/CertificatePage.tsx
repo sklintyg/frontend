@@ -9,7 +9,6 @@ import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
-import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
@@ -52,10 +51,8 @@ const CertificatePage: React.FC = () => {
   const hasPatient = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
   const currentCertificateId = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
   const isLoadingCertificate = useAppSelector(getIsShowSpinner)
-  const isDBIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED))
   const isLuaenaIntegrated = useAppSelector(getCertificateResourceLink(ResourceLinkType.WARNING_LUAENA_INTEGRATED))
   const confirmationModal = useAppSelector((state) => getCertificateMetaData(state)?.confirmationModal)
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
   const [showLuaenaModal, setShowLuaenaModal] = useState(true)
   const [showConfirmationModal, setShowConfirmationModal] = useState(true)
 
@@ -103,13 +100,6 @@ const CertificatePage: React.FC = () => {
               setOpen={setShowConfirmationModal}
               certificateId={certificateId}
               {...confirmationModal}
-            />
-          )}
-          {isDBIntegrated && hasPatient && (
-            <DeathCertificateConfirmModalIntegrated
-              certificateId={certificateId}
-              setOpen={setShowDeathCertificateModal}
-              open={showDeathCertificateModal}
             />
           )}
           {isLuaenaIntegrated && hasPatient && (
