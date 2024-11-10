@@ -20,7 +20,6 @@ import {
   populateFmb,
   updateCertificateId,
   updateCreateCertificate,
-  updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
 import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
 import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
