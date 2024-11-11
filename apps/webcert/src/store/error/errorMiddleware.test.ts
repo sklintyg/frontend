@@ -1,5 +1,5 @@
 import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import { fakeCertificate } from '../../faker'
+import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
@@ -188,7 +188,7 @@ describe('Test error middleware', () => {
   describe('Handle update certificate', () => {
     it('shall store currently active certificate id', async () => {
       const expectedCertificateId = 'expectedCertificateId'
-      const certificate = fakeCertificate({ metadata: { id: expectedCertificateId } })
+      const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ id: expectedCertificateId }) })
       testStore.dispatch(updateCertificate(certificate))
 
       await flushPromises()

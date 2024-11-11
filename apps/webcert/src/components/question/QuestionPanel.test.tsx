@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { fakeCertificate, fakeResourceLink } from '../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink } from '../../faker'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
@@ -73,7 +73,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the complement questions header if signed certificate', () => {
-    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.SIGNED } })
+    const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }) })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -85,7 +85,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the complement questions header if unsigned certificate', () => {
-    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.UNSIGNED } })
+    const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ status: CertificateStatus.UNSIGNED }) })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -119,7 +119,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the administrative questions header if signed certificate', () => {
-    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.SIGNED } })
+    const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }) })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
@@ -130,7 +130,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the administrative questions header if unsigned certificate', () => {
-    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.UNSIGNED } })
+    const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ status: CertificateStatus.UNSIGNED }) })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()

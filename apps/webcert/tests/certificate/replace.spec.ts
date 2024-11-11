@@ -1,31 +1,37 @@
-import { fakeCertificate, fakeResourceLink } from '../../src/faker'
+import {
+  fakeCertificate,
+  fakeCertificateMetaData,
+  fakeCertificateRelation,
+  fakeCertificateRelations,
+  fakeResourceLink,
+} from '../../src/faker'
 import { CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
 const firstCert = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     id: '1',
     name: 'first certificate',
     status: CertificateStatus.SIGNED,
-  },
+  }),
   links: [fakeResourceLink({ type: ResourceLinkType.REPLACE_CERTIFICATE })],
 })
 
 const secondCert = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     id: '2',
     name: 'second certificate',
-    relations: { parent: { certificateId: firstCert.metadata.id } },
-  },
+    relations: fakeCertificateRelations({ parent: fakeCertificateRelation({ certificateId: firstCert.metadata.id }) }),
+  }),
   links: [fakeResourceLink({ type: ResourceLinkType.REPLACE_CERTIFICATE })],
 })
 
 const thirdCert = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     id: '3',
     name: 'third certificate',
-    relations: { parent: { certificateId: secondCert.metadata.id } },
-  },
+    relations: fakeCertificateRelations({ parent: fakeCertificateRelation({ certificateId: secondCert.metadata.id }) }),
+  }),
   links: [fakeResourceLink({ type: ResourceLinkType.REMOVE_CERTIFICATE })],
 })
 

@@ -6,7 +6,7 @@ import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
-import { fakeCertificate, fakePatient } from '../../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakePatient } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -33,7 +33,7 @@ const renderComponent = (isOpen: boolean) => {
 describe('LuaenaConfirmModalIntegrated', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(fakeCertificate({ metadata: { patient } })))
+    testStore.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ patient }) })))
   })
 
   afterEach(() => {

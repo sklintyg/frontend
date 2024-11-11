@@ -2,6 +2,7 @@ import faker from 'faker'
 import {
   fakeCategoryElement,
   fakeCertificate,
+  fakeCertificateMetaData,
   fakeCertificateRelation,
   fakeCertificateRelations,
   fakeComplement,
@@ -18,12 +19,12 @@ const certificate = fakeCertificate({
     ...fakeTextFieldElement({ id: 'textfield', index: 2 }),
     ...fakeCategoryElement({ id: 'category', index: 1 }),
   },
-  metadata: { id: fakeId(), status: CertificateStatus.SIGNED },
+  metadata: fakeCertificateMetaData({ id: fakeId(), status: CertificateStatus.SIGNED }),
   links: [fakeResourceLink({ type: ResourceLinkType.QUESTIONS }), fakeResourceLink({ type: ResourceLinkType.CREATE_QUESTIONS })],
 })
 
 const draft = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     id: fakeId(),
     status: CertificateStatus.UNSIGNED,
     relations: fakeCertificateRelations({
@@ -32,7 +33,7 @@ const draft = fakeCertificate({
         certificateId: certificate.metadata.id,
       }),
     }),
-  },
+  }),
   data: { ...certificate.data },
   links: [fakeResourceLink({ type: ResourceLinkType.REMOVE_CERTIFICATE })],
 })

@@ -1,11 +1,18 @@
-import { fakeCategoryElement, fakeCertificate, fakeCertificateValue, fakeDiagnosesElement, fakeResourceLink } from '../../src/faker'
+import {
+  fakeCategoryElement,
+  fakeCertificate,
+  fakeCertificateMetaData,
+  fakeCertificateValue,
+  fakeDiagnosesElement,
+  fakeResourceLink,
+} from '../../src/faker'
 import { CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 import { A021 } from '../mocks/fmb/A021'
 import { J20 } from '../mocks/fmb/J20'
 
 const certificate = fakeCertificate({
-  metadata: { status: CertificateStatus.UNSIGNED },
+  metadata: fakeCertificateMetaData({ status: CertificateStatus.UNSIGNED }),
   data: {
     ...fakeDiagnosesElement({
       id: '6',
@@ -51,7 +58,7 @@ test.beforeEach(async ({ routeJson }) => {
 
 test('certificate with no diagnoses', async ({ page, routeJson }) => {
   const certificate = fakeCertificate({
-    metadata: { status: CertificateStatus.SIGNED },
+    metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }),
     links: [fakeResourceLink({ type: ResourceLinkType.FMB })],
   })
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}/validate`, { validationErrors: [] })

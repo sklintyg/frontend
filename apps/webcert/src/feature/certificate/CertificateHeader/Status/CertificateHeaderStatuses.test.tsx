@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { fakeCertificateMetaData, fakeCertificateRelation } from '../../../../faker'
+import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../../faker'
 import store from '../../../../store/store'
 import type { Question } from '../../../../types'
 import { CertificateRelationType, CertificateStatus, QuestionType } from '../../../../types'
@@ -122,7 +122,7 @@ const renderComponentWithParentRelation = (
         <CertificateHeaderStatuses
           certificateMetadata={fakeCertificateMetaData({
             status,
-            relations: { parent: fakeCertificateRelation({ status: parentStatus, type: relationType }) },
+            relations: fakeCertificateRelations({ parent: fakeCertificateRelation({ status: parentStatus, type: relationType }) }),
             sent: isSent,
           })}
           questions={[]}
@@ -149,10 +149,10 @@ const renderComponentWithChildRelation = (
             relations: {
               parent: null,
               children: [
-                {
+                fakeCertificateRelation({
                   type: relationType,
                   status: childStatus,
-                },
+                }),
               ],
             },
             sent: isSent,

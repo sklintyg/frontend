@@ -1,20 +1,20 @@
-import { fakeCareProvider, fakeCertificate, fakeResourceLink, fakeUnit } from '../../src/faker'
+import { fakeCareProvider, fakeCertificate, fakeCertificateMetaData, fakePatient, fakeResourceLink, fakeUnit } from '../../src/faker'
 import { CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 import { setupUser } from '../mocks/user'
 
 const certificate = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     name: 'Intyg om lasagne',
-    patient: {
+    patient: fakePatient({
       firstName: 'Tolvan',
       middleName: 'TPU',
       lastName: 'Tolvanson',
       fullName: 'Tolvan TPU Tolvanson',
       personId: { id: '191212121212' },
-    },
+    }),
     status: CertificateStatus.SIGNED,
-  },
+  }),
   links: [fakeResourceLink({ type: ResourceLinkType.READ_CERTIFICATE }), fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
 })
 
