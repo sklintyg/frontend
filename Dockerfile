@@ -34,7 +34,7 @@ COPY /$application_path/nginx/conf/nginx.conf /etc/nginx/nginx.conf
 # Allow Nginx user access to specifed paths (101:101)
 
 RUN  touch /var/run/nginx.pid && \
-     chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid
+     chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid /etc/nginx/ /var/log/nginx
 USER nginx
 
 
