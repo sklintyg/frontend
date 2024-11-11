@@ -32,7 +32,10 @@ COPY /$application_path/nginx/templates /etc/nginx/templates/
 COPY /$application_path/nginx/conf/nginx.conf /etc/nginx/nginx.conf
 
 # Allow Nginx user access to specifed paths (101:101)
-RUN chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx /etc/nginx/conf.d
+
+RUN  touch /var/run/nginx.pid && \
+     chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid
+USER nginx
 
 
 EXPOSE 8080
