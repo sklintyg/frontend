@@ -1,12 +1,15 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
+import path from 'path'
 import type { ProxyOptions, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 
 export default ({ mode }: UserConfig) => {
   Object.assign(process.env, loadEnv(mode ?? 'development', process.cwd()))
-  const hmr = !(process.env.VITE_HMR === 'false')
+  const hmr = process.env.VITE_HMR !== 'false'
+  const https = process.env.VITE_HTTPS !== 'false'
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? 'ws'
 
@@ -38,6 +41,13 @@ export default ({ mode }: UserConfig) => {
       port: 5174,
       proxy,
       strictPort: true,
+      https: https
+        ? {
+            cert: fs.readFileSync(path.resolve(__dirname, '../../cert/localhost.crt')),
+            key: fs.readFileSync(path.resolve(__dirname, '../../cert/localhost.key')),
+            passphrase: fs.readFileSync(path.resolve(__dirname, '../../cert/global.pass'), 'utf8').trim(),
+          }
+        : undefined,
       hmr: hmr ? { host: process.env.VITE_WS_HOST, protocol: hmrProtocol } : false,
     },
   })
