@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { fakeCertificateMetaData } from '../../../../faker'
+import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../../faker'
 import store from '../../../../store/store'
 import { CertificateRelationType, CertificateStatus } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
@@ -15,14 +15,14 @@ const renderComponent = (childStatus?: CertificateStatus) => {
             childStatus
               ? fakeCertificateMetaData({
                   status: CertificateStatus.SIGNED,
-                  relations: {
+                  relations: fakeCertificateRelations({
                     children: [
-                      {
+                      fakeCertificateRelation({
                         status: childStatus,
                         type: CertificateRelationType.REPLACED,
-                      },
+                      }),
                     ],
-                  },
+                  }),
                   sent: true,
                 })
               : fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })

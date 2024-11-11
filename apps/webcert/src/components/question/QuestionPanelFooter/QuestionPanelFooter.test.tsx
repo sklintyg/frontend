@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { fakeCertificate, fakeQuestion, fakeResourceLink } from '../../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakeQuestion, fakeResourceLink } from '../../../faker'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
@@ -119,7 +119,7 @@ describe('QuestionPanelFooter', () => {
       testStore.dispatch(
         updateCertificate(
           fakeCertificate({
-            metadata: { id: 'certificateId' },
+            metadata: fakeCertificateMetaData({ id: 'certificateId' }),
             links: resourceLinks,
           })
         )

@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { fakeCertificate, fakePatient } from '../../../faker'
+import { fakeCertificate, fakeCertificateMetaData, fakePatient } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -30,7 +30,7 @@ describe('CertificateFooter', () => {
   describe('Patient address component', () => {
     beforeEach(() => {
       certificate = fakeCertificate({
-        metadata: {
+        metadata: fakeCertificateMetaData({
           patient: fakePatient({
             personId: {
               id: '',
@@ -43,7 +43,7 @@ describe('CertificateFooter', () => {
             zipCode: '12345',
             city: 'City',
           }),
-        },
+        }),
         links: [
           {
             type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE,

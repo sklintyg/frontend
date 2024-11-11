@@ -5,8 +5,10 @@ import {
   fakeCertificate,
   fakeCertificateConfig,
   fakeCertificateDataElement,
+  fakeCertificateMetaData,
   fakeCertificateValue,
   fakeDiagnosesElement,
+  fakePatient,
   fakeResourceLink,
 } from '../../faker'
 import type { CertificateDataElement, Icd10Code, IcfCode } from '../../types'
@@ -50,14 +52,14 @@ const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string) =>
     data: {
       '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
     },
-    metadata: {
-      patient: {
+    metadata: fakeCertificateMetaData({
+      patient: fakePatient({
         personId: {
           type: 'type',
           id: '1912121212',
         },
-      },
-    },
+      }),
+    }),
   })
 
 const getCodeElement = (): CertificateDataElement =>

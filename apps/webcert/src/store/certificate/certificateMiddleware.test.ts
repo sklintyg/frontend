@@ -4,6 +4,8 @@ import MockAdapter from 'axios-mock-adapter'
 import {
   fakeCertificate,
   fakeCertificateMetaData,
+  fakeCertificateRelation,
+  fakeCertificateRelations,
   fakeCertificateValidationError,
   fakeCertificateValue,
   fakeDateElement,
@@ -405,7 +407,11 @@ describe('Test certificate middleware', () => {
     })
 
     it('should hide spinner on successful deletion when parent certificate exist', async () => {
-      const certificate = fakeCertificate({ metadata: { relations: { parent: { certificateId: '2' } } } })
+      const certificate = fakeCertificate({
+        metadata: fakeCertificateMetaData({
+          relations: fakeCertificateRelations({ parent: fakeCertificateRelation({ certificateId: '2' }) }),
+        }),
+      })
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 

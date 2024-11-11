@@ -1,6 +1,7 @@
 import {
   fakeCategoryElement,
   fakeCertificate,
+  fakeCertificateMetaData,
   fakeCertificateValidationError,
   fakeCheckboxBooleanElement,
   fakeRadioBooleanElement,
@@ -29,10 +30,10 @@ it('Should return empty validation error summary', () => {
 
 describe('Sorted validation error', () => {
   const certificate = fakeCertificate({
-    metadata: {
+    metadata: fakeCertificateMetaData({
       careUnitValidationErrors: [fakeCertificateValidationError()],
       patientValidationErrors: [fakeCertificateValidationError()],
-    },
+    }),
     data: {
       ...fakeRadioBooleanElement({ id: '1.1', parent: 'funktionsnedsattning' }),
       ...fakeTextFieldElement({ id: '1.2', parent: '1.1', validationErrors: [fakeCertificateValidationError()] }),

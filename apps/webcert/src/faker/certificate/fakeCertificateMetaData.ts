@@ -1,18 +1,14 @@
 import faker from 'faker'
-import type { PartialDeep } from 'type-fest'
 import type { CertificateMetadata, CertificateRelations, MessageType } from '../../types'
 import { CertificateStatus, QuestionType } from '../../types'
 import { fakePatient } from '../fakePatient'
 import { fakeStaff } from '../fakeStaff'
 import { fakeUnit } from '../user/fakeUnit'
-import { fakeAlert, fakeCertificateConfirmationModal } from './fakeCertificateConfirmationModal'
-import { fakeCertificateValidationError } from './fakeCertificateDataValidation'
-import { fakeCertificateRelation } from './fakeCertificateRelation'
 
-export const fakeCertificateRelations = (data?: PartialDeep<CertificateRelations>): CertificateRelations => {
+export const fakeCertificateRelations = (data?: Partial<CertificateRelations>): CertificateRelations => {
   return {
-    parent: data?.parent ? fakeCertificateRelation(data.parent) : null,
-    children: data?.children ? data?.children.map(fakeCertificateRelation) : [],
+    parent: data?.parent ?? null,
+    children: data?.children ?? [],
   }
 }
 
@@ -24,32 +20,32 @@ export function fakeCertifiaMessageType(data?: Partial<MessageType>): MessageTyp
   }
 }
 
-export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>): CertificateMetadata => {
+export const fakeCertificateMetaData = (data?: Partial<CertificateMetadata>): CertificateMetadata => {
   return {
+    id: '1',
+    availableForCitizen: data?.availableForCitizen ?? true,
+    careProvider: fakeUnit(data?.careProvider),
+    careUnit: fakeUnit(data?.careUnit),
+    // careUnitValidationErrors: data?.careUnitValidationErrors ?? [],
+    confirmationModal: data?.confirmationModal ?? null,
     created: faker.date.recent().toString(),
     description: faker.lorem.sentence(),
     forwarded: false,
-    id: '1',
+    issuedBy: fakeStaff(data?.issuedBy),
     latestMajorVersion: true,
+    messageTypes: data?.messageTypes ?? undefined,
     name: faker.lorem.words(),
+    patient: fakePatient(data?.patient),
+    // patientValidationErrors: data?.patientValidationErrors ?? [],
+    relations: fakeCertificateRelations(data?.relations),
     responsibleHospName: faker.random.alpha({ count: 6 }),
     sent: false,
     status: CertificateStatus.UNSIGNED,
     testCertificate: true,
     type: faker.random.alpha({ count: 6 }),
     typeVersion: faker.random.alphaNumeric(),
+    unit: fakeUnit(data?.unit),
     version: Math.random() * 9 + 1,
     ...data,
-    careUnitValidationErrors: data?.careUnitValidationErrors?.map(fakeCertificateValidationError) ?? [],
-    patientValidationErrors: data?.patientValidationErrors?.map(fakeCertificateValidationError) ?? [],
-    relations: fakeCertificateRelations(data?.relations),
-    unit: fakeUnit(data?.unit),
-    patient: fakePatient(data?.patient),
-    issuedBy: fakeStaff(data?.issuedBy),
-    careUnit: fakeUnit(data?.careUnit),
-    careProvider: fakeUnit(data?.careProvider),
-    messageTypes: data?.messageTypes?.map(fakeCertifiaMessageType) ?? undefined,
-    confirmationModal: data?.confirmationModal ? fakeCertificateConfirmationModal({ ...data.confirmationModal, alert: fakeAlert() }) : null,
-    availableForCitizen: data?.availableForCitizen ?? true,
   }
 }

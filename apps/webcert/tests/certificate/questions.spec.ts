@@ -2,6 +2,7 @@ import {
   fakeAnswer,
   fakeCategoryElement,
   fakeCertificate,
+  fakeCertificateMetaData,
   fakeCertificateRelation,
   fakeComplement,
   fakeQuestion,
@@ -16,7 +17,7 @@ const certificate = fakeCertificate({
     ...fakeTextFieldElement({ id: 'textfield', index: 2 }),
     ...fakeCategoryElement({ id: 'category', index: 1 }),
   },
-  metadata: { status: CertificateStatus.SIGNED },
+  metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }),
   links: [
     fakeResourceLink({
       type: ResourceLinkType.QUESTIONS,
@@ -56,7 +57,7 @@ test('display information on missing administrative questions', async ({ page })
 
 test('no questions available panel', async ({ page, routeJson }) => {
   const certificate = fakeCertificate({
-    metadata: { status: CertificateStatus.SIGNED },
+    metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }),
     links: [
       fakeResourceLink({
         type: ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
@@ -109,7 +110,9 @@ test.describe('Complement question', () => {
 
   test('open related certificate draft', async ({ page, routeJson }) => {
     const relation = fakeCertificateRelation()
-    const relationCertificate = fakeCertificate({ metadata: { id: relation.certificateId, status: CertificateStatus.UNSIGNED } })
+    const relationCertificate = fakeCertificate({
+      metadata: fakeCertificateMetaData({ id: relation.certificateId, status: CertificateStatus.UNSIGNED }),
+    })
     const question = fakeQuestion({
       type: QuestionType.COMPLEMENT,
       links: [fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })],

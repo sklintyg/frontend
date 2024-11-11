@@ -1,19 +1,26 @@
-import { fakeCategoryElement, fakeCertificate, fakeCertificateEvent, fakeResourceLink } from '../../src/faker'
+import {
+  fakeCategoryElement,
+  fakeCertificate,
+  fakeCertificateEvent,
+  fakeCertificateMetaData,
+  fakePatient,
+  fakeResourceLink,
+} from '../../src/faker'
 import { CertificateEventType, CertificateStatus, ResourceLinkType } from '../../src/types'
 import { expect, test } from '../fixtures'
 
 const certificate = fakeCertificate({
-  metadata: {
+  metadata: fakeCertificateMetaData({
     name: 'Intyg om lasagne',
-    patient: {
+    patient: fakePatient({
       firstName: 'Tolvan',
       middleName: 'TPU',
       lastName: 'Tolvanson',
       fullName: 'Tolvan TPU Tolvanson',
       personId: { id: '191212121212' },
-    },
+    }),
     status: CertificateStatus.SIGNED,
-  },
+  }),
   links: [fakeResourceLink({ type: ResourceLinkType.READ_CERTIFICATE }), fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
 })
 
@@ -41,7 +48,7 @@ test('display category', async ({ page, routeJson }) => {
   await routeJson(`**/*/api/certificate/${certificate.metadata.id}`, {
     certificate: fakeCertificate({
       ...certificate,
-      metadata: { status: CertificateStatus.UNSIGNED },
+      metadata: fakeCertificateMetaData({ status: CertificateStatus.UNSIGNED }),
       data: {
         ...fakeCategoryElement({ id: '1', config: { text: 'A category', description: 'Category description' } }),
       },
