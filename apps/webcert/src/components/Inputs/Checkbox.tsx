@@ -3,7 +3,7 @@ import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  label?: string
+  label?: string | JSX.Element | JSX.Element[]
   name?: string
   id?: string
   value?: string
@@ -25,6 +25,8 @@ const Label = styled.label<LabelProps>`
   &:before {
     border: ${(props) => (props.hasValidationError ? '1px solid #c12143 !important' : '')};
   }
+
+  white-space: pre-wrap;
 `
 
 const Checkbox: React.FC<Props> = (props) => {

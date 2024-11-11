@@ -518,6 +518,9 @@ importers:
       history:
         specifier: ^4.9.0
         version: 4.9.0
+      html-react-parser:
+        specifier: ^4.2.2
+        version: 4.2.2(react@17.0.2)
       inera-core-css:
         specifier: https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz
         version: https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz
@@ -11382,6 +11385,14 @@ snapshots:
       whatwg-encoding: 2.0.0
 
   html-escaper@2.0.2: {}
+
+  html-react-parser@4.2.2(react@17.0.2):
+    dependencies:
+      domhandler: 5.0.3
+      html-dom-parser: 4.0.0
+      react: 17.0.2
+      react-property: 2.0.0
+      style-to-js: 1.1.4
 
   html-react-parser@4.2.2(react@18.3.1):
     dependencies:

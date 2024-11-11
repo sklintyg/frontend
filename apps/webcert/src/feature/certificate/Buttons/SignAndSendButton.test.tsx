@@ -11,6 +11,7 @@ import { configureApplicationStore } from '../../../store/configureApplicationSt
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import SignAndSendButton from './SignAndSendButton'
+import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 
 const commonProps = {
   body: 'Sign modal body',
@@ -91,6 +92,17 @@ describe('Sign certificate with confirmation modal', () => {
     const modalBody = screen.getByRole('dialog')
     expect(within(modalBody).getByRole('button', { name: commonProps.name })).toBeInTheDocument()
     expect(within(modalBody).getByText('Avbryt')).toBeInTheDocument()
+  })
+
+  it('Click Sign button and modal from metadata', async () => {
+    const modal = fakeCertificateConfirmationModal()
+    renderDefaultComponent({ ...commonProps, signConfirmationModal: modal })
+    const button = screen.getByRole('button')
+    await userEvent.click(button)
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(modal.checkboxText)).toBeInTheDocument()
+    expect(screen.getByText(modal.title)).toBeInTheDocument()
   })
 
   it('Click Sign button and modal cancel', async () => {

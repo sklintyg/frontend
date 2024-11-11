@@ -52,7 +52,12 @@ export function CertificateFooter() {
     <Wrapper>
       {!isSigned && signAndSendLink && (
         <div className="iu-flex">
-          <SignAndSendButton functionDisabled={functionDisabled} canSign={Boolean(signLink)} {...signAndSendLink} />
+          <SignAndSendButton
+            functionDisabled={functionDisabled}
+            canSign={Boolean(signLink)}
+            {...signAndSendLink}
+            signConfirmationModal={certificateMetadata.signConfirmationModal}
+          />
         </div>
       )}
 

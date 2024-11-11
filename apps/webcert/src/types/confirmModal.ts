@@ -1,4 +1,4 @@
-export type CertificateModalActionType = 'DELETE' | 'READ' | 'CANCEL'
+export type CertificateModalActionType = 'DELETE' | 'READ' | 'CANCEL' | 'SIGN'
 export type AlertType = 'INFO' | 'ERROR' | 'OBSERVE'
 
 export interface CertificateConfirmationModal {

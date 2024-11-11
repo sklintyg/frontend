@@ -3,9 +3,10 @@ import Checkbox from '../../../components/Inputs/Checkbox'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import InfoBox from '../../../components/utils/InfoBox'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
-import { createNewCertificate, deleteCertificate } from '../../../store/certificate/certificateActions'
+import { createNewCertificate, deleteCertificate, startSignCertificate } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import type { AlertType, CertificateConfirmationModal, CertificateModalActionType } from '../../../types/confirmModal'
+import parse from 'html-react-parser'
 
 export function ConfirmationModal({
   certificateId,
@@ -36,6 +37,10 @@ export function ConfirmationModal({
     if (action === 'READ' && certificateType && patientId) {
       dispatch(createNewCertificate({ certificateType, patientId }))
     }
+    if (action === 'SIGN') {
+      dispatch(startSignCertificate())
+    }
+
     setDisabled(true)
     setOpen(false)
   }
@@ -44,11 +49,12 @@ export function ConfirmationModal({
     if (action === 'DELETE') {
       return 'Radera'
     }
-
     if (action === 'READ') {
       return 'Gå vidare'
     }
-
+    if (action === 'SIGN') {
+      return 'Signera'
+    }
     return 'Avbryt'
   }
 
@@ -56,11 +62,9 @@ export function ConfirmationModal({
     if (type == 'ERROR') {
       return 'error'
     }
-
     if (type == 'OBSERVE') {
       return 'observe'
     }
-
     return 'info'
   }
 
@@ -84,14 +88,16 @@ export function ConfirmationModal({
       content={
         <>
           {alert && (
-            <div className="iu-mb-200">
-              <InfoBox type={convertAlertType(alert.type)}>{alert.text}</InfoBox>
+            <div className="iu-mb-400">
+              <InfoBox type={convertAlertType(alert.type)} additionalWrapperStyles="iu-mx-200 iu-my-200">
+                {parse(alert.text)}
+              </InfoBox>
             </div>
           )}
-          <p className="iu-mb-300">{text}</p>
+          <p className="iu-mb-300">{parse(text)}</p>
           {checkboxText && (
             <Checkbox
-              label={checkboxText}
+              label={parse(checkboxText)}
               onChange={(event) => {
                 setDisabled(!event.currentTarget.checked)
               }}
