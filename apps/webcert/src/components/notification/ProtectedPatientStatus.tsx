@@ -4,6 +4,7 @@ import PatientStatusNotificationWithModal from '../../feature/certificate/Notifi
 const BulletList = styled.ul`
   margin-top: 0.625rem;
 `
+
 interface Props {
   isProtectedPatient: boolean
 }
@@ -28,8 +29,8 @@ const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
             Du som användare av Webcert ska behandla personuppgifterna med försiktighet. Samtliga personuppgifter rörande patienten är
             skyddsvärda.
           </li>
-          <li>Endast läkare och tandläkare kan skapa intyg för dessa patienter.</li>
-          <li>Endast läkare och tandläkare, inloggade på den vårdenhet intyget utfärdades på, kan se och hantera intyget.</li>
+          <li>Endast användare med signeringsrätt kan skapa intyg för dessa patienter.</li>
+          <li>Endast användare med signeringsrätt, inloggade på den vårdenhet intyget utfärdades på, kan se och hantera intyget.</li>
           <li>En symbol visas i alla vyer i gränssnittet som indikerar att patienten har skyddade personuppgifter.</li>
           <li>
             Endast ett urval av intygstyper kan utfärdas för patienten med skyddade personuppgifter. Det beror på att det krävs särskild
