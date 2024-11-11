@@ -26,6 +26,7 @@
     "dompurify": "^3.0.8",
     "focus-trap-react": "^10.1.0",
     "history": "^4.9.0",
+    "html-react-parser": "^4.2.2",
     "inera-core-css": "https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz",
     "lodash-es": "^4.17.21",
     "qrcode": "^1.5.4",
