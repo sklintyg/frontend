@@ -31,10 +31,8 @@ COPY /$application_path/dist/ .
 COPY /$application_path/nginx/templates /etc/nginx/templates/
 COPY /$application_path/nginx/conf/nginx.conf /etc/nginx/nginx.conf
 
-# Support running as arbitrary user which belogs to the root group
-RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /etc/nginx/conf.d /etc/nginx/conf.d/default.conf
+# Allow Nginx user access to specifed paths (101:101)
+RUN chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx /etc/nginx/conf.d
 
-# Comment user directive as master process is run as user in OpenShift anyhow
-RUN sed -i.bak 's/^user/#user/' /etc/nginx/nginx.conf
 
 EXPOSE 8080
