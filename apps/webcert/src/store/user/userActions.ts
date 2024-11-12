@@ -35,6 +35,11 @@ export const triggerLogoutStarted = createAction(`${USER} Trigger logout started
 export const triggerLogoutSuccess = createAction(`${USER} Trigger logout success`)
 export const triggerLogoutError = createAction<string>(`${USER} Trigger logout error`)
 
+export const triggerFakeLogout = createAction(`${USER} Trigger fake logout`)
+export const triggerFakeLogoutStarted = createAction(`${USER} Trigger fake logout started`)
+export const triggerFakeLogoutSuccess = createAction(`${USER} Trigger fake logout success`)
+export const triggerFakeLogoutError = createAction<string>(`${USER} Trigger fake logout error`)
+
 export const triggerLogoutNow = createAction(`${USER} Trigger logout now`)
 export const triggerLogoutNowStarted = createAction(`${USER} Trigger logout now started`)
 export const triggerLogoutNowSuccess = createAction(`${USER} Trigger logout now success`)

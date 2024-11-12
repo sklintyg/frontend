@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import type { Patient } from '../../types'
-import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers } from './welcomeReducer'
+import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, JsonUser } from './welcomeReducer'
 
 export const getCertificateTypes = createAction('[Welcome] Get certificate types')
 export const getCertificateTypesStarted = createAction('[Welcome] Get certificate types started')
@@ -39,7 +39,7 @@ export const createNewCertificateSuccess = createAction<CreateCertificateRespons
 export const createNewCertificateError = createAction<string>('[Welcome] Create certificate error')
 export const updateCertificateId = createAction<string>('[Welcome] Update certificate id')
 
-export const loginUser = createAction<string>('[Welcome] Login user')
+export const loginUser = createAction<JsonUser>('[Welcome] Login user')
 export const loginUserStarted = createAction('[Welcome] Login user started')
 export const loginUserSuccess = createAction('[Welcome] Login user success')
 export const loginUserError = createAction('[Welcome] Login user error')

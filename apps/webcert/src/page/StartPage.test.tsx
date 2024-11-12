@@ -52,17 +52,14 @@ describe('StartPage', () => {
     renderComponent()
     testStore.dispatch(updateConfig(config))
 
-    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute(
-      'href',
-      '/saml/login/alias/defaultAliasNormal?idp=#sithsIdp'
-    )
+    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
   })
 
   it('should render sithsIdp link', () => {
     renderComponent()
     testStore.dispatch(updateConfig(config))
 
-    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg?idp=#elegIdp')
+    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
   })
 
   it('should render ppHost link', () => {

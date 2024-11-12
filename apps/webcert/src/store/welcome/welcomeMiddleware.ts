@@ -99,7 +99,7 @@ const handleLoginUser: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(
       apiCallBegan({
-        url: '/fake',
+        url: '/testability/fake',
         method: 'POST',
         data: action.payload,
         onStart: loginUserStarted.type,
