@@ -52,6 +52,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
+    '@typescript-eslint/prefer-optional-chain': 'error',
     semi: ['error', 'never'],
     'semi-spacing': ['error', { before: false, after: true }],
     'quote-props': ['error', 'as-needed'],
