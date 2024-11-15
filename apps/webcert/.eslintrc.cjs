@@ -70,7 +70,6 @@ module.exports = {
     'react/jsx-boolean-value': 'off',
     'react/jsx-curly-brace-presence': 'off',
     'react/jsx-no-constructed-context-values': 'off',
-    'react/jsx-no-useless-fragment': 'off',
     'react/no-array-index-key': 'off',
     'react/no-danger': 'off',
     'react/no-multi-comp': 'off',
