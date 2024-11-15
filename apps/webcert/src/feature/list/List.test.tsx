@@ -8,7 +8,7 @@ import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from
 import store from '../../store/store'
 import type { CertificateListItem, ListFilter } from '../../types'
 import { ListType } from '../../types'
-import List from './List'
+import { List } from './List'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {
   store.dispatch(updateTotalCount(totalCount))

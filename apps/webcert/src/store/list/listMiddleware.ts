@@ -1,13 +1,12 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
+import type { ListFilterConfig } from '../../types'
+import { ListType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { forwardCertificateSuccess } from '../certificate/certificateActions'
 import {
   clearActiveList,
-  clearActiveListConfig,
-  clearActiveListFilter,
-  clearActiveListType,
   clearListError,
   getCertificateList,
   getCertificateListConfig,
@@ -56,8 +55,6 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
-import type { ListFilterConfig } from '../../types'
-import { ListType } from '../../types'
 
 const handlePerformListSearch: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
@@ -65,6 +62,7 @@ const handlePerformListSearch: Middleware<Dispatch> =
   (): void => {
     const listType = getState().ui.uiList.activeListType
     const listFilter = getState().ui.uiList.activeListFilter
+    dispatch(setListError(undefined))
     if (listType === listFilter.type) {
       if (listType === ListType.DRAFTS) {
         dispatch(getDrafts(listFilter))
@@ -310,21 +308,14 @@ const handleGetListConfigSuccess =
     }
   }
 
-const clearListState = (dispatch: Dispatch<AnyAction>) => {
-  dispatch(clearActiveListType())
-  dispatch(clearActiveListConfig())
-  dispatch(clearActiveListFilter())
-  dispatch(clearActiveList())
-  dispatch(updateTotalCount(undefined))
-}
-
 const handleGetListError =
   (listType: ListType): Middleware<Dispatch> =>
   ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
     if (getState().ui.uiList.activeListType === listType) {
-      clearListState(dispatch)
+      dispatch(clearActiveList())
+      dispatch(updateTotalCount(undefined))
       dispatch(setListError(action.payload.error))
     }
   }

@@ -17,7 +17,7 @@ import {
 import { listMiddleware } from '../../store/list/listMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
-import ListContainer from './ListContainer'
+import { ListContainer } from './ListContainer'
 
 let testStore: EnhancedStore
 
