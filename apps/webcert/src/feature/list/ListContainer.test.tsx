@@ -55,7 +55,7 @@ describe('List', () => {
   it('Should have list filters when list request failed', () => {
     testStore.dispatch(setListError(error))
     renderComponent(false)
-    expect(screen.getByRole('button', { name: 'Sök' }))
+    expect(screen.getByRole('button', { name: 'Sök' })).toBeInTheDocument()
   })
 
   it('Should show empty list when empty list flag is set', () => {
