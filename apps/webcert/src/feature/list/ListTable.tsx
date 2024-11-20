@@ -2,20 +2,15 @@ import type React from 'react'
 import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import DisplayError from '../../components/error/DisplayError'
+import InfoBox from '../../components/utils/InfoBox'
 import Spinner from '../../components/utils/Spinner'
-import type { TableHeading } from '../../types'
+import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
+import { getListError } from '../../store/list/listSelectors'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import type { ListConfig, ListFilter, TableHeading } from '../../types'
+import { ListFilterType } from '../../types'
 import { SortingArrow } from './SortingArrow'
-
-interface Props {
-  caption?: string
-  children: React.ReactNode
-  headings: TableHeading[]
-  onTableHeadClick: (event: React.MouseEvent<HTMLTableHeaderCellElement>) => void
-  orderBy: string
-  ascending: boolean
-  isLoadingContent: boolean
-  isEmptyList: boolean
-}
 
 const Caption = styled.caption`
   border-top: 0px !important;
@@ -42,21 +37,81 @@ const StyledTable = styled.table<TableProps>`
   }
 `
 
-export const ListTable: React.FC<Props> = ({
-  orderBy,
-  ascending,
+const getOrderBy = (filter: ListFilter | undefined) => {
+  const val = filter?.values?.['ORDER_BY']
+  if (val?.type === ListFilterType.ORDER) {
+    return val.value ?? ''
+  }
+  return ''
+}
+
+const getAscending = (filter: ListFilter | undefined) => {
+  const val = filter?.values?.['ASCENDING']
+  if (val?.type === ListFilterType.BOOLEAN) {
+    return val.value
+  }
+  return false
+}
+
+export function ListTable({
   caption,
   isLoadingContent,
   isEmptyList,
   children,
   headings,
-  onTableHeadClick,
-}) => {
+  filter,
+  config,
+}: Readonly<{
+  caption?: string
+  children: React.ReactNode
+  headings: TableHeading[]
+  isLoadingContent: boolean
+  isEmptyList: boolean
+  filter: ListFilter | undefined
+  config: ListConfig
+}>) {
+  const dispatch = useAppDispatch()
+  const listError = useAppSelector(getListError)
+
   useEffect(() => {
     ReactTooltip.rebuild()
   })
 
-  const highlighted = 1 + headings.findIndex((heading) => orderBy === heading.id)
+  if (listError) {
+    return (
+      <InfoBox type="error">
+        <DisplayError errorCode={listError?.errorCode} fallback="Sökningen kunde inte utföras." />
+      </InfoBox>
+    )
+  }
+
+  const updateSortingOfList = (event: React.MouseEvent<HTMLTableCellElement>) => {
+    if (event.currentTarget.innerHTML) {
+      const updatedOrderBy = event.currentTarget.id
+      const isCurrentSorting = getOrderBy(filter) === updatedOrderBy
+      const defaultSortOrder = config.tableHeadings.find((heading) => heading.id === updatedOrderBy)?.defaultAscending
+      const ascendingValue = isCurrentSorting ? !getAscending(filter) : Boolean(defaultSortOrder)
+
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: { type: ListFilterType.ORDER, value: updatedOrderBy },
+          id: 'ORDER_BY',
+        })
+      )
+
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: { type: ListFilterType.BOOLEAN, value: ascendingValue },
+          id: 'ASCENDING',
+        })
+      )
+
+      dispatch(updateIsSortingList(true))
+      dispatch(performListSearch)
+    }
+  }
+
+  const highlighted = 1 + headings.findIndex((heading) => getOrderBy(filter) === heading.id)
 
   return (
     <StyledTable className="ic-table ic-table--full" highlighted={highlighted}>
@@ -67,12 +122,12 @@ export const ListTable: React.FC<Props> = ({
               key={heading.id + '-heading'}
               id={heading.id}
               scope="col"
-              onClick={onTableHeadClick}
+              onClick={updateSortingOfList}
               data-html
               data-tip={heading.description}
             >
               <span className="iu-mr-500">{heading.title}</span>
-              {heading.title && <SortingArrow id={heading.id} orderBy={orderBy} ascending={ascending} />}
+              {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}
             </th>
           ))}
         </tr>
