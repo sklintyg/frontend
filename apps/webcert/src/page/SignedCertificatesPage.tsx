@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
-import ListContainer from '../feature/list/ListContainer'
+import { ListContainer } from '../feature/list/ListContainer'
 import {
   getActiveListConfig,
   getActiveListFilter,
@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from '../store/store'
 import { ListType, ResourceLinkType } from '../types'
 import { ResourceAccess } from '../utils/ResourceAccess'
 
-const SignedCertificatesPage: React.FC = () => {
+export function SignedCertificatesPage() {
   const dispatch = useAppDispatch()
   const config = useAppSelector(getActiveListConfig, shallowEqual)
   const filter = useAppSelector(getActiveListFilter, shallowEqual)
@@ -63,5 +63,3 @@ const SignedCertificatesPage: React.FC = () => {
     </ResourceAccess>
   )
 }
-
-export default SignedCertificatesPage

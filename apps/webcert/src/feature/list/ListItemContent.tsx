@@ -15,15 +15,19 @@ export const StyledIcon = styled.img`
   margin: auto;
 `
 
-interface Props {
+export function ListItemContent({
+  value,
+  valueType,
+  tooltips,
+  links,
+  certificateId,
+}: Readonly<{
   value: string | boolean | PatientListInfo | ForwardedListInfo | ResourceLink[]
   valueType: CertificateListItemValueType
   tooltips: ListButtonTooltips
   links: ResourceLink[]
   certificateId: string
-}
-
-const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId }) => {
+}>) {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
@@ -77,7 +81,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   const getForwardedButton = (info: ForwardedListInfo) => {
     const forwardDraft = getByType(links, ResourceLinkType.FORWARD_CERTIFICATE)
     const forwardQuestion = getByType(links, ResourceLinkType.FORWARD_QUESTION)
-    const link = forwardDraft ? forwardDraft : forwardQuestion
+    const link = forwardDraft ?? forwardQuestion
     if (link && info) {
       return (
         <td>
@@ -138,5 +142,3 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
 
   return getListItemContent()
 }
-
-export default ListItemContent

@@ -17,7 +17,7 @@ import {
 import { listMiddleware } from '../../store/list/listMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
-import ListContainer from './ListContainer'
+import { ListContainer } from './ListContainer'
 
 let testStore: EnhancedStore
 
@@ -46,13 +46,19 @@ describe('List', () => {
 
   afterEach(() => clearDispatchedActions())
 
-  it('should show error message when error', () => {
+  it('Should show error message when error', () => {
     testStore.dispatch(setListError(error))
     renderComponent(false)
     expect(screen.getByText('Sökningen kunde inte utföras.')).toBeInTheDocument()
   })
 
-  it('should show empty list when empty list flag is set', () => {
+  it('Should have list filters when list request failed', () => {
+    testStore.dispatch(setListError(error))
+    renderComponent(false)
+    expect(screen.getByRole('button', { name: 'Sök' })).toBeInTheDocument()
+  })
+
+  it('Should show empty list when empty list flag is set', () => {
     renderComponent(true)
     expect(screen.getByAltText('Det finns inga resultat i listan.')).toBeInTheDocument()
   })

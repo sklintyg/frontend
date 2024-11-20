@@ -1,10 +1,14 @@
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:playwright/recommended', 'plugin:deprecation/recommended'],
+  extends: ['react', 'plugin:deprecation/recommended'],
   overrides: [
     {
       files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(test).[jt]s?(x)'],
       extends: ['react', 'react-test'],
+    },
+    {
+      files: ['**/test/**/*.[jt]s'],
+      extends: ['custom', 'plugin:playwright/recommended'],
     },
   ],
   parser: '@typescript-eslint/parser',
