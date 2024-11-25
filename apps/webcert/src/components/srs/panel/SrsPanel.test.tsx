@@ -178,7 +178,7 @@ describe('SrsPanel', () => {
     it('should show recommendations for reko', () => {
       renderComponent(true)
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
-      expect(screen.getByText('Som rehabkoordinator, tänk på att')).toBeInTheDocument()
+      expect(screen.getByText('Vid koordinering, tänk på att')).toBeInTheDocument()
     })
 
     it('should recommendations for doctor', () => {
