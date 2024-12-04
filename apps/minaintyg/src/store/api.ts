@@ -82,7 +82,6 @@ export const api = createApi({
 })
 
 export const {
-  useLazyGetUserQuery,
   useGetCertificatesQuery,
   useGetCertificateQuery,
   useGetCertificatesFilterQuery,
