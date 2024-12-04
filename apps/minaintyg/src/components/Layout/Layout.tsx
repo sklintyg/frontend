@@ -1,5 +1,6 @@
 import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
 import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
+import { skipToken } from '@reduxjs/toolkit/query'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
@@ -9,13 +10,15 @@ import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
 
-export function Layout({ children }: { children: ReactNode }) {
-  const { hasSessionEnded, reason, errorId } = useAppSelector((state) => state.sessionSlice)
+export function Layout({ children }: { children?: ReactNode }) {
+  const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)
+  const hasSessionEnded = useAppSelector((state) => state.sessionSlice.hasSessionEnded)
+  const sessionEndedErrorId = useAppSelector((state) => state.sessionSlice.errorId)
+  const sessionEndedReason = useAppSelector((state) => state.sessionSlice.reason)
   const ref = useRef<HTMLDivElement>(null)
   useDocumentTitle(ref)
   const { data: user } = useGetUserQuery()
-  const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)
-  const { data: info } = useGetInfoQuery()
+  const { data: info } = useGetInfoQuery(hasSession ? undefined : skipToken)
   const getAlertPriority = (priority: BannerPriority) => {
     if (priority === BannerPriority.ERROR) {
       return PriorityEnum.ERROR
@@ -41,7 +44,7 @@ export function Layout({ children }: { children: ReactNode }) {
             </GlobalAlert>
           ))}
         <div ref={ref} className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
-          {hasSessionEnded ? <ErrorPageHero type={reason} id={errorId} /> : children}
+          {hasSessionEnded ? <ErrorPageHero type={sessionEndedReason} id={sessionEndedErrorId} /> : children}
         </div>
         <ScrollTopButton />
       </main>
