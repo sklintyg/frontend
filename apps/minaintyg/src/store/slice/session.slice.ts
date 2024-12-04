@@ -37,11 +37,7 @@ const sessionSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Start session after successful user fetch
-    builder.addMatcher(api.endpoints.getUser.matchFulfilled, (state) => {
-      if (!state.hasSessionEnded) {
-        state.hasSession = true
-      }
-    })
+    builder.addMatcher(api.endpoints.getUser.matchFulfilled, () => ({ ...initialState, hasSession: true }))
 
     builder.addMatcher(isRejectedEndpoint, (state, action) => {
       const error = isQueryError(action) ? action.payload : null
