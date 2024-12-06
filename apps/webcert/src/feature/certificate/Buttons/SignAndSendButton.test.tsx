@@ -105,6 +105,20 @@ describe('Sign certificate with confirmation modal', () => {
     expect(screen.getByText(modal.title)).toBeInTheDocument()
   })
 
+  it('Should not show signConfirmationModal when the certificate can not be signed', async () => {
+    const modal = fakeCertificateConfirmationModal()
+
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION ,signConfirmationModal: modal,canSign:false})
+    const button = screen.getByRole('button')
+    await userEvent.click(button)
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(commonProps.body)).toBeInTheDocument()
+    const modalBody = screen.getByRole('dialog')
+    expect(within(modalBody).getByText('Avbryt')).toBeInTheDocument()
+  })
+
+
   it('Click Sign button and modal cancel', async () => {
     renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')

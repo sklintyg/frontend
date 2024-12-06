@@ -48,7 +48,7 @@ const SignAndSendButton: React.FC<Props> = ({
 
   return (
     <>
-      {signConfirmationModal ? (
+      {signConfirmationModal && canSign ? (
         <ConfirmationModal open={confirmModalOpen} setOpen={setConfirmModalOpen} {...signConfirmationModal} />
       ) : (
         <ConfirmModal
