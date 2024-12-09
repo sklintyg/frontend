@@ -2,17 +2,17 @@ import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Merge } from 'type-fest'
-import { startSignCertificate } from '../../../store/certificate/certificateActions'
-import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
 import { editImage } from '../../../images'
+import { startSignCertificate } from '../../../store/certificate/certificateActions'
+import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 import type { ResourceLink } from '../../../types'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
-import { ConfirmationModal } from '../Modals/ConfirmationModal'
 import type { CertificateConfirmationModal } from '../../../types/confirmModal'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { ConfirmationModal } from '../Modals/ConfirmationModal'
 
 interface Props extends Merge<FunctionDisabled, ResourceLink> {
   canSign: boolean
@@ -38,35 +38,19 @@ const SignAndSendButton: React.FC<Props> = ({
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false)
   const disabled = isValidating || isSigning || !enabled || functionDisabled
-
-  const handleConfirm = (showConfirmation: boolean) => () => {
-    if (showConfirmation) {
-      if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION) {
-        setConfirmModalOpen(true)
-      }
-      if (canSign && signConfirmationModal) {
-        setConfirmationModalOpen(true)
-      }
-    } else if (isValidForSigning) {
-      dispatch(startSignCertificate())
-    }
-  }
+  const showMetaConfirmationModal = canSign && signConfirmationModal
 
   return (
     <>
-      {signConfirmationModal ? (
-        <>
-          <ConfirmationModal open={confirmationModalOpen} setOpen={setConfirmationModalOpen} {...signConfirmationModal} />
-        </>
-      ) : (
-        <></>
+      {signConfirmationModal && (
+        <ConfirmationModal open={confirmationModalOpen} setOpen={setConfirmationModalOpen} {...signConfirmationModal} />
       )}
       <ConfirmModal
         modalTitle={title ?? name}
         startIcon={<img src={editImage} alt={name} />}
-        onConfirm={handleConfirm(false)}
+        onConfirm={() => (showMetaConfirmationModal ? setConfirmationModalOpen(true) : dispatch(startSignCertificate()))}
         disabled={disabled}
-        confirmButtonText={name}
+        confirmButtonText={showMetaConfirmationModal ? 'Fortsätt signering' : name}
         open={confirmModalOpen}
         hideConfirmButton={!canSign}
         setOpen={setConfirmModalOpen}
@@ -81,7 +65,17 @@ const SignAndSendButton: React.FC<Props> = ({
         disabled={confirmModalOpen || disabled}
         startIcon={<img src={editImage} alt={name} />}
         data-testid="sign-certificate-button"
-        onClick={handleConfirm(isValidForSigning && (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION || !!signConfirmationModal))}
+        onClick={() => {
+          if (isValidForSigning && (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION || Boolean(signConfirmationModal))) {
+            if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION) {
+              setConfirmModalOpen(true)
+            } else if (showMetaConfirmationModal) {
+              setConfirmationModalOpen(true)
+            }
+          } else {
+            dispatch(startSignCertificate())
+          }
+        }}
         text={name}
       />
     </>
