@@ -36,36 +36,45 @@ const SignAndSendButton: React.FC<Props> = ({
   const signingStatus = useSelector(getSigningStatus)
   const isSigning = signingStatus === CertificateSignStatus.PROCESSING || signingStatus === CertificateSignStatus.WAIT_FOR_SIGN
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false)
   const disabled = isValidating || isSigning || !enabled || functionDisabled
 
   const handleConfirm = (showConfirmation: boolean) => () => {
     if (showConfirmation) {
-      setConfirmModalOpen(true)
-    } else {
+      if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION) {
+        setConfirmModalOpen(true)
+      }
+      if (canSign && signConfirmationModal) {
+        setConfirmationModalOpen(true)
+      }
+    } else if (isValidForSigning) {
       dispatch(startSignCertificate())
     }
   }
 
   return (
     <>
-      {signConfirmationModal && canSign ? (
-        <ConfirmationModal open={confirmModalOpen} setOpen={setConfirmModalOpen} {...signConfirmationModal} />
+      {signConfirmationModal ? (
+        <>
+          <ConfirmationModal open={confirmationModalOpen} setOpen={setConfirmationModalOpen} {...signConfirmationModal} />
+        </>
       ) : (
-        <ConfirmModal
-          modalTitle={title ?? name}
-          startIcon={<img src={editImage} alt={name} />}
-          onConfirm={handleConfirm(false)}
-          disabled={disabled}
-          confirmButtonText={name}
-          open={confirmModalOpen}
-          hideConfirmButton={!canSign}
-          setOpen={setConfirmModalOpen}
-        >
-          <div>
-            <p>{body}</p>
-          </div>
-        </ConfirmModal>
+        <></>
       )}
+      <ConfirmModal
+        modalTitle={title ?? name}
+        startIcon={<img src={editImage} alt={name} />}
+        onConfirm={handleConfirm(false)}
+        disabled={disabled}
+        confirmButtonText={name}
+        open={confirmModalOpen}
+        hideConfirmButton={!canSign}
+        setOpen={setConfirmModalOpen}
+      >
+        <div>
+          <p>{body}</p>
+        </div>
+      </ConfirmModal>
       <CustomButton
         tooltip={description}
         buttonStyle={'primary'}
