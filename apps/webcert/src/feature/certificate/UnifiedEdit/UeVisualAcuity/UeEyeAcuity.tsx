@@ -32,8 +32,8 @@ export interface Props {
 }
 
 const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, validationErrors }) => {
-  const [noCorrection, setNoCorrection] = useState(formatAcuity(value.withoutCorrection.value?.toString() ?? ''))
-  const [correction, setCorrection] = useState(formatAcuity(value.withCorrection.value?.toString() ?? ''))
+  const [noCorrection, setNoCorrection] = useState(formatFixed(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(formatFixed(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
