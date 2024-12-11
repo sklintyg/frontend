@@ -9,3 +9,7 @@ export const formatAcuity = (value: string): string => {
 
   return num.toString() === formatted ? value.replace('.', ',') : formatted
 }
+
+export const formatFixed = (value: string) => {
+  return value ? parseFloat(value.replace(',', '.')).toFixed(1).replace('.', ',') : ''
+}

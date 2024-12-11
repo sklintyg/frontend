@@ -5,7 +5,7 @@ import Checkbox from '../../../../components/Inputs/Checkbox'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
-import { formatAcuity } from '../../../../utils/format/formatAcuity'
+import { formatAcuity, formatFixed } from '../../../../utils/format/formatAcuity'
 
 const AcuityInput = styled(TextInput)`
   width: 40px;
@@ -17,10 +17,6 @@ const AcuityInput = styled(TextInput)`
 const parseValue = (val: string): number | null => {
   const num = parseFloat(val.replace(/,/gm, '.'))
   return isNaN(num) ? null : num
-}
-
-const formatFixed = (value: string) => {
-  return value ? parseFloat(value.replace(',', '.')).toFixed(1).replace('.', ',') : ''
 }
 
 export interface Props {
