@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import type { CertificateDataValidation } from '../../types'
+import type { CertificateDataValidation, DisableSubElementValidation } from '../../types'
 import { CertificateDataValidationType } from '../../types'
 import type { ValidationResult } from './getValidationResults'
 
@@ -28,13 +28,35 @@ const shouldValidationRuleBeMerged = (validationType: CertificateDataValidationT
     CertificateDataValidationType.SHOW_VALIDATION,
     CertificateDataValidationType.HIDE_VALIDATION,
     CertificateDataValidationType.DISABLE_VALIDATION,
-    CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
   ].includes(validationType)
 
 const getAffectedIds = (validation: CertificateDataValidation) => (typeof validation.id === 'string' ? [validation.id] : validation.id)
 
-const mergeSameValidation = (result: ValidationResult[], item: ValidationResult) => {
-  const existing =
+const mergeDisableSubElementValidation = (result: ValidationResult[], item: ValidationResult): ValidationResult[] => {
+  const existing = result.find(
+    (needle) => needle.validation.type === CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION && needle.result === item.result
+  )
+  const existingReverseResult = result.find(
+    (needle) => needle.validation.type === CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION && needle.result !== item.result
+  )
+  const uniqueIds = [...new Set((getAffectedIds(item.validation) || []).concat(existing?.validation.id ?? []))]
+  const filteredResult = result.filter((needle) => {
+    if (item.result && existingReverseResult) {
+      return needle !== existingReverseResult
+    }
+    return needle !== existing
+  })
+
+  if (item.result || (!item.result && !existingReverseResult)) {
+    const itemResult = { ...item, validation: { ...(item.validation as DisableSubElementValidation), id: uniqueIds } }
+    return [...filteredResult, itemResult]
+  }
+
+  return filteredResult
+}
+
+const mergeGenericValidation = (result: ValidationResult[], item: ValidationResult) => {
+  const existingMatch =
     shouldValidationRuleBeMerged(item.validation.type) &&
     result.find(
       (needle) =>
@@ -43,7 +65,18 @@ const mergeSameValidation = (result: ValidationResult[], item: ValidationResult)
         (needle.validation.id === undefined || isEqual(getAffectedIds(item.validation), getAffectedIds(needle.validation)))
     )
 
-  return [...result.filter((needle) => needle !== existing), { ...item, result: existing ? existing.result || item.result : item.result }]
+  const filteredResults = result.filter((entry) => entry !== existingMatch)
+  const updatedResult = existingMatch ? existingMatch.result || item.result : item.result
+
+  return [...filteredResults, { ...item, result: updatedResult }]
+}
+
+const mergeSameValidation = (result: ValidationResult[], item: ValidationResult) => {
+  if (item.validation.type === CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION) {
+    return mergeDisableSubElementValidation(result, item)
+  }
+
+  return mergeGenericValidation(result, item)
 }
 
 export const filterValidationResults = (validationResults: ValidationResult[]): ValidationResult[] =>

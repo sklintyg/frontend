@@ -1,4 +1,4 @@
-import type { CertificateData, CertificateDataElement, CertificateMetadata, DisableSubElementValidation, ResourceLink } from '../../types'
+import type { CertificateData, CertificateDataElement, CertificateMetadata, ResourceLink } from '../../types'
 import {
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -22,18 +22,14 @@ function shouldBeDisabled(metadata: CertificateMetadata, links: ResourceLink[]) 
   )
 }
 
-function getDisabledSubElements(
-  element: CertificateDataElement,
-  validation: DisableSubElementValidation,
-  result: boolean
-): CertificateDataElement {
+function getDisabledSubElements(element: CertificateDataElement, ids: string[], result: boolean): CertificateDataElement {
   const config =
     element.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
       ? {
           ...element.config,
           list: element.config.list.map((item) => ({
             ...item,
-            disabled: validation.id.includes(item.id) ? result : item.disabled,
+            disabled: ids.includes(item.id) ? result : item.disabled,
           })),
         }
       : element.config
@@ -69,8 +65,9 @@ function validateElement(data: CertificateData, element: CertificateDataElement)
           return { ...el, disabled: result }
         case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
           return { ...el, style: result ? CertificateDataElementStyleEnum.HIGHLIGHTED : CertificateDataElementStyleEnum.NORMAL }
-        case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
-          return getDisabledSubElements(el, validation, result)
+        case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION: {
+          return getDisabledSubElements(el, validation.id, result)
+        }
         case CertificateDataValidationType.AUTO_FILL_VALIDATION:
           return result ? { ...el, value: validation.fillValue } : el
         default:
