@@ -1,5 +1,5 @@
-import type { ChangeEventHandler } from 'react'
 import type React from 'react'
+import type { ChangeEventHandler } from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -27,26 +27,25 @@ const Label = styled.label<LabelProps>`
   }
 `
 
-const RadioButton: React.FC<Props> = (props) => {
-  const {
-    label,
-    name,
-    id,
-    onChange,
-    value,
-    checked,
-    additionalStyles,
-    hasValidationError,
-    wrapperAdditionalStyles,
-    children,
-    tooltip,
-    tooltipPlacement,
-  } = props
-
+const RadioButton: React.FC<Props> = ({
+  label,
+  name,
+  id,
+  onChange,
+  value,
+  checked,
+  additionalStyles,
+  hasValidationError,
+  wrapperAdditionalStyles,
+  children,
+  tooltip,
+  tooltipPlacement,
+  disabled,
+}) => {
   return (
     <div className={wrapperAdditionalStyles} data-tip={tooltip} data-place={tooltipPlacement}>
       <input
-        disabled={props.disabled}
+        disabled={disabled}
         type="radio"
         id={id}
         name={name}
