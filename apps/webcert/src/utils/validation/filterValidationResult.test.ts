@@ -4,11 +4,11 @@ import { CertificateDataValidationType } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import type { ValidationResult } from './getValidationResults'
 
-const element = fakeTextAreaElement({
-  id: 'id',
-}).id
-
 describe('Priority', () => {
+  const element = fakeTextAreaElement({
+    id: 'id',
+  }).id
+
   it('HIDE has priority over show when HIDE is true', () => {
     const hideValidation: ValidationResult = {
       element,
@@ -58,41 +58,45 @@ describe('Priority', () => {
     expect(result).toHaveLength(1)
     expect(result).toMatchObject([showValidation])
   })
-})
 
-it.each<CertificateDataValidation>([
-  {
-    type: CertificateDataValidationType.SHOW_VALIDATION,
-    questionId: 'id',
-  },
-  {
-    type: CertificateDataValidationType.HIDE_VALIDATION,
-    questionId: 'id',
-  },
-  {
-    type: CertificateDataValidationType.DISABLE_VALIDATION,
-    questionId: 'id',
-    id: ['123'],
-  },
-  {
-    type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-    questionId: 'id',
-    id: ['123'],
-  },
-])('Should merge same $type validation rules', (validation) => {
-  const validationResult: ValidationResult = {
-    element,
-    validation,
-    result: true,
-  }
+  it.each<CertificateDataValidation>([
+    {
+      type: CertificateDataValidationType.SHOW_VALIDATION,
+      questionId: 'id',
+    },
+    {
+      type: CertificateDataValidationType.HIDE_VALIDATION,
+      questionId: 'id',
+    },
+    {
+      type: CertificateDataValidationType.DISABLE_VALIDATION,
+      questionId: 'id',
+      id: ['123'],
+    },
+    {
+      type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+      questionId: 'id',
+      id: ['123'],
+    },
+  ])('Should merge same $type validation rules', (validation) => {
+    const validationResult: ValidationResult = {
+      element,
+      validation,
+      result: true,
+    }
 
-  const result = filterValidationResults([validationResult, validationResult, validationResult])
+    const result = filterValidationResults([validationResult, validationResult, validationResult])
 
-  expect(result).toHaveLength(1)
-  expect(result).toMatchObject([validationResult])
+    expect(result).toHaveLength(1)
+    expect(result).toMatchObject([validationResult])
+  })
 })
 
 describe('Same rule override', () => {
+  const element = fakeTextAreaElement({
+    id: 'id',
+  }).id
+
   it('Should override rule where validation id was equal', () => {
     const showValidationFirst: ValidationResult = {
       element,
