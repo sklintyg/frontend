@@ -17,11 +17,12 @@ import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButto
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: end;
-  padding: 4px 0;
+  padding: 0.3125rem 0 0;
   flex-wrap: wrap;
   justify-content: end;
   gap: 4px 1em;
+  flex: 0 0 auto;
+  align-items: flex-start;
 `
 
 interface Props extends FunctionDisabled {
