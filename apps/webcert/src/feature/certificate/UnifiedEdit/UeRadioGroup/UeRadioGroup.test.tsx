@@ -2,11 +2,11 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeRadioBooleanElement } from '../../../../faker'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadioGroup from './UeRadioGroup'
-import { fakeRadioBooleanElement, fakeCertificate } from '../../../../faker'
 
 const CODES = [
   { label: 'Option1', id: 'Option_1' },
@@ -91,5 +91,12 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).toBeDisabled())
+  })
+
+  it('Should have unique id for each radio button and question', () => {
+    renderDefaultComponent()
+    expect(screen.getByRole('radio', { name: 'Option1' })).toHaveAttribute('id', 'id-Option_1')
+    expect(screen.getByRole('radio', { name: 'Option-2' })).toHaveAttribute('id', 'id-Option_2')
+    expect(screen.getByRole('radio', { name: 'Option 3' })).toHaveAttribute('id', 'id-Option_3')
   })
 })
