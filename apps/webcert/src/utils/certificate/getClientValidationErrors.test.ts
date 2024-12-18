@@ -1,4 +1,4 @@
-import { fakeCheckboxDateRangeList, fakeDateElement, fakeYearElement } from '../../faker'
+import { fakeCheckboxDateRangeList, fakeDateElement, fakeVisualAcuityElement, fakeYearElement } from '../../faker'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { getClientValidationErrors } from './getClientValidationErrors'
 
@@ -336,6 +336,76 @@ describe('Validation based on config', () => {
           field: 'first.to',
           type: 'DATE_VIOLATES_LIMIT',
           text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  describe(`${ConfigTypes.UE_VISUAL_ACUITY}`, () => {
+    it('Should return OUT_OF_RANGE error when a value is above max', () => {
+      const { element } = fakeVisualAcuityElement({
+        id: 'element',
+        config: {
+          max: 2,
+          min: 0,
+        },
+        value: {
+          rightEye: {
+            withoutCorrection: { id: 'rightEye_withoutCorrection', value: 8 },
+            withCorrection: { value: 0 },
+          },
+          leftEye: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+          binocular: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+        },
+      })
+
+      expect(getClientValidationErrors(element)).toMatchObject([
+        {
+          id: 'element',
+          field: 'rightEye_withoutCorrection',
+          type: 'OUT_OF_RANGE',
+          text: 'Ange synskärpa i intervallet 0,0 - 2,0.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should return OUT_OF_RANGE error when a value is below min', () => {
+      const { element } = fakeVisualAcuityElement({
+        id: 'element',
+        config: {
+          max: 2,
+          min: 0,
+        },
+        value: {
+          rightEye: {
+            withoutCorrection: { id: 'rightEye_withoutCorrection', value: -1 },
+            withCorrection: { value: 0 },
+          },
+          leftEye: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+          binocular: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+        },
+      })
+
+      expect(getClientValidationErrors(element)).toMatchObject([
+        {
+          id: 'element',
+          field: 'rightEye_withoutCorrection',
+          type: 'OUT_OF_RANGE',
+          text: 'Ange synskärpa i intervallet 0,0 - 2,0.',
           showAlways: true,
         },
       ])

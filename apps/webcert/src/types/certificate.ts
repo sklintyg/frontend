@@ -418,6 +418,8 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   rightEye: ConfigEyeAcuity
   leftEye: ConfigEyeAcuity
   binocular: ConfigEyeAcuity
+  min?: number
+  max?: number
 }
 
 export interface ConfigUeViewText extends CertificateDataConfig {
