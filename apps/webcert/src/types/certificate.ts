@@ -416,8 +416,6 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   withoutCorrectionLabel: string
   withCorrectionLabel: string
   contactLensesLabel: string
-  min: number | null
-  max: number | null
   rightEye: ConfigEyeAcuity
   leftEye: ConfigEyeAcuity
   binocular: ConfigEyeAcuity
