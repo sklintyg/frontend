@@ -16,7 +16,7 @@ const renderDefaultComponent = () => {
   )
 }
 
-const INFO_TEXT = 'Intyget är av en äldre version. Funktionaliteten för detta intyg är begränsad. '
+const INFO_TEXT = 'Intyget är av en äldre version. Funktionaliteten för detta intyg är begränsad.'
 
 const setState = (inactiveCertificateType: boolean) => {
   testStore.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ inactiveCertificateType }) })))
@@ -27,13 +27,13 @@ describe('InactiveCertificateTypeNotificationNotification', () => {
     testStore = configureApplicationStore([])
   })
 
-  it('shall render a banner if certificate type is not active', () => {
+  it('shall render a banner if certificate type is inactive', () => {
     setState(true)
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
   })
 
-  it('shall not render a banner if certificate type is active', () => {
+  it('shall not render a banner if certificate type is not inactive', () => {
     setState(false)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
