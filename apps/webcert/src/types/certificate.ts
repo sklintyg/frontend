@@ -47,6 +47,7 @@ export interface CertificateMetadata {
   confirmationModal: CertificateConfirmationModal | null
   signConfirmationModal: CertificateConfirmationModal | null
   availableForCitizen: boolean
+  inactiveCertificateType?: boolean
 }
 
 export type MessageType = {
@@ -415,6 +416,8 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   withoutCorrectionLabel: string
   withCorrectionLabel: string
   contactLensesLabel: string
+  min: number | null
+  max: number | null
   rightEye: ConfigEyeAcuity
   leftEye: ConfigEyeAcuity
   binocular: ConfigEyeAcuity
