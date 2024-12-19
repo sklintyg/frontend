@@ -57,5 +57,6 @@ export const fakeCertificateMetaData = (data?: PartialDeep<CertificateMetadata>)
         })
       : null,
     availableForCitizen: data?.availableForCitizen ?? true,
+    inactiveCertificateType: data?.inactiveCertificateType ?? false,
   }
 }

@@ -47,6 +47,7 @@ export interface CertificateMetadata {
   confirmationModal: CertificateConfirmationModal | null
   signConfirmationModal: CertificateConfirmationModal | null
   availableForCitizen: boolean
+  inactiveCertificateType?: boolean
 }
 
 export type MessageType = {
