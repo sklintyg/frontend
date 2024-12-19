@@ -38,7 +38,7 @@ describe('MajorVersionNotification', () => {
   it('shall not render a banner if certificate type is inactive', () => {
     setState(false, true)
     renderDefaultComponent()
-    expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
+    expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 
   it('shall not render a banner if latest major version', () => {
