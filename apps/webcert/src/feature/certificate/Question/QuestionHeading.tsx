@@ -6,6 +6,7 @@ import { ConfigTypes } from '../../../types'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;
+
   :empty {
     display: none;
   }
@@ -34,9 +35,11 @@ export function QuestionHeading({ question: { id, parent, config, readOnly } }: 
     </>
   ) : questionTypeIsCategory ? (
     <>
-      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-        {config.text}
-      </QuestionHeadline>
+      {config.text && (
+        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+          {config.text}
+        </QuestionHeadline>
+      )}
       {readOnly && !hideLabel && (
         <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
           {config.label}
