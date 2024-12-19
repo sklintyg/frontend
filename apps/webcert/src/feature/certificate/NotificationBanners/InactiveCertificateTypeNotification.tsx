@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux'
 import { getIsInactiveCertificateType } from '../../../store/certificate/certificateSelectors'
 import NotificationBannerBase from './NotificationBannerBase'
+import { useAppSelector } from '../../../store/store'
 
 const InactiveCertificateTypeNotification: React.FC = () => {
-  const isInactiveCertificateType = useSelector(getIsInactiveCertificateType)
+  const isInactiveCertificateType = useAppSelector(getIsInactiveCertificateType)
 
   if (!isInactiveCertificateType) return null
 
