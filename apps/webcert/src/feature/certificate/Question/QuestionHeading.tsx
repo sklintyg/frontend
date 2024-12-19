@@ -48,7 +48,7 @@ export function QuestionHeading({ question: { id, parent, config, readOnly } }: 
     </>
   ) : (
     <>
-      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>
+      {config.text && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>}
       {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.label}</QuestionSubHeadline>}
     </>
   )
