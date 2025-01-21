@@ -85,5 +85,6 @@ describe('Dropdown component', () => {
     render(<UeDropdown question={question} disabled />)
     const dropdown = screen.getByRole('combobox')
     await expect(dropdown).toBeDisabled()
+    await expect(dropdown).toHaveValue(undefined)
   })
 })
