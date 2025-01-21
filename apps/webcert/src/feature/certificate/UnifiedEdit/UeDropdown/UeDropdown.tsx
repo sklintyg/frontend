@@ -27,9 +27,7 @@ const UeDropdown: React.FC<Props> = ({ question, disabled }) => {
     if (!disabled && selectRef.current && selectRef.current.value !== '') {
       const event = new Event('change', { bubbles: true })
       selectRef.current.dispatchEvent(event)
-    }
-
-    if (disabled) {
+    } else if (disabled) {
       dispatch(updateCertificateDataElement({ ...question, value: { ...currentValue, code: undefined } }))
     }
   }, [disabled])
