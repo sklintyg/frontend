@@ -894,11 +894,15 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
         const updatedCertificate = {
           ...certificate,
           data: getDecoratedCertificateData(
-            {
-              ...certificate.data,
-              [action.payload.id]:
-                validationErrors.length > 0 ? { ...element, validationErrors } : { ...action.payload, validationErrors: [] },
-            },
+            getDecoratedCertificateData(
+              {
+                ...certificate.data,
+                [action.payload.id]:
+                  validationErrors.length > 0 ? { ...element, validationErrors } : { ...action.payload, validationErrors: [] },
+              },
+              certificate.metadata,
+              certificate.links
+            ),
             certificate.metadata,
             certificate.links
           ),
