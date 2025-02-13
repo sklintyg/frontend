@@ -28,8 +28,8 @@ export const UvVisualAcuity: React.FC<{
       ].map(({ label, withoutCorrection, withCorrection, contactLenses }, index) => (
         <TableRow key={index}>
           <TableCell>{label}</TableCell>
-          <TableCell>{withoutCorrection.value ? formatFixed(`${withoutCorrection.value}`) : ''}</TableCell>
-          <TableCell>{withCorrection.value ? formatFixed(`${withCorrection.value}`) : ''}</TableCell>
+          <TableCell>{withoutCorrection.value != null ? formatFixed(`${withoutCorrection.value}`) : ''}</TableCell>
+          <TableCell>{withCorrection.value != null ? formatFixed(`${withCorrection.value}`) : ''}</TableCell>
           {contactLenses && <TableCell>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</TableCell>}
         </TableRow>
       ))}
