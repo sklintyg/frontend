@@ -84,19 +84,23 @@ function isVisible(data: CertificateData, element: CertificateDataElement) {
 }
 
 function validateData(data: CertificateData, metadata: CertificateMetadata): CertificateData {
-  let previousData: CertificateData
-  let currentData = data
-
   if (shouldBeReadOnly(metadata)) {
     return data
   }
 
+  let previousData: CertificateData
+  let currentData = data
+
   do {
     previousData = currentData
-    currentData = Object.fromEntries(Object.entries(previousData).map(([id, element]) => [id, validateElement(previousData, element)]))
+    currentData = validateAllElements(previousData)
   } while (!isEqual(previousData, currentData))
 
   return currentData
+}
+
+function validateAllElements(data: CertificateData): CertificateData {
+  return Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
 }
 
 export function getDecoratedCertificateData(data: CertificateData, metadata: CertificateMetadata, links: ResourceLink[]): CertificateData {
