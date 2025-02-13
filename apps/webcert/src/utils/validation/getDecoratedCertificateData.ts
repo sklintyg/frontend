@@ -9,6 +9,7 @@ import {
 } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import { getValidationResults } from './getValidationResults'
+import { isEqual } from 'lodash-es'
 
 function shouldBeReadOnly(metadata: CertificateMetadata) {
   return metadata.status === CertificateStatus.SIGNED || metadata.status === CertificateStatus.REVOKED
@@ -83,9 +84,23 @@ function isVisible(data: CertificateData, element: CertificateDataElement) {
 }
 
 function validateData(data: CertificateData, metadata: CertificateMetadata): CertificateData {
-  return shouldBeReadOnly(metadata)
-    ? data
-    : Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
+  if (shouldBeReadOnly(metadata)) {
+    return data
+  }
+
+  let previousData: CertificateData
+  let currentData = data
+
+  do {
+    previousData = currentData
+    currentData = validateAllElements(previousData)
+  } while (!isEqual(previousData, currentData))
+
+  return currentData
+}
+
+function validateAllElements(data: CertificateData): CertificateData {
+  return Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
 }
 
 export function getDecoratedCertificateData(data: CertificateData, metadata: CertificateMetadata, links: ResourceLink[]): CertificateData {
