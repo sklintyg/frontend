@@ -48,12 +48,12 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
       <>
         <GroupWrapper layout={config.layout} role="radiogroup" className={`${validationErrors.length > 0 ? 'iu-mb-300' : ''}`}>
           {radiobuttons.map((radio, index) => (
-            <ItemWrapper key={index} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
+            <ItemWrapper key={radio.id} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
               <RadioButton
-                id={radio.id as string}
+                id={`${question.id}-${radio.id}`}
                 value={radio.id}
                 name={question.id}
-                key={index}
+                key={radio.id}
                 label={radio.label}
                 disabled={disabled}
                 checked={radio.id === code}

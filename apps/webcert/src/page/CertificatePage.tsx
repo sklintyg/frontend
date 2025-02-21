@@ -26,6 +26,7 @@ import type { RootState } from '../store/store'
 import { useAppSelector } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'
+import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -82,6 +83,7 @@ const CertificatePage: React.FC = () => {
         !isCertificateDeleted && (
           <>
             <MajorVersionNotification />
+            <InactiveCertificateTypeNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
           </>

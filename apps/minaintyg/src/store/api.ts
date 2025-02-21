@@ -4,10 +4,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { AvailableFunction, Certificate, CertificateMetadata, CertificateText } from '../schema/certificate.schema'
 import type { CertificateFilterOptions } from '../schema/certificateListFilter.schema'
 import type { ErrorData } from '../schema/error.schema'
+import type { InformationResponse } from '../schema/informationSchema'
 import type { Session } from '../schema/session.schema'
 import type { User } from '../schema/user.schema'
 import type { CertificateFilterState } from './slice/certificateFilter.slice'
-import type { InformationResponse } from '../schema/informationSchema'
 
 export const api = createApi({
   reducerPath: 'api',

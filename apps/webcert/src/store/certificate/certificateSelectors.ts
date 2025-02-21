@@ -230,6 +230,9 @@ export const getSigningError = (state: RootState): ErrorData | undefined => stat
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
 
+export const getIsInactiveCertificateType = (state: RootState): boolean | undefined =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.inactiveCertificateType : false
+
 export const getIsPatientDeceased = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false
 

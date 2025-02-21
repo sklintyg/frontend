@@ -44,9 +44,9 @@ export const routes = createRoutesFromChildren([
     key="logout"
     path="/logga-ut"
     element={
-      <Layout>
-        <LogoutPage />
-      </Layout>
+      <LogoutPage>
+        <Layout />
+      </LogoutPage>
     }
   />,
   <Route
