@@ -10,7 +10,6 @@ const Wrapper = styled.div`
 `
 
 const AboutWebcertModalContent: React.FC = () => {
-
   return (
     <Wrapper>
       <p className={'iu-pt-400'}>Webcert är en tjänst som drivs av Inera AB.</p>
