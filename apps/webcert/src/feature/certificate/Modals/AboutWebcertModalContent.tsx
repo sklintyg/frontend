@@ -1,6 +1,5 @@
 import type React from 'react'
 import styled from 'styled-components'
-import { getConfig } from '../../../store/utils/utilsSelectors'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 const Wrapper = styled.div`
