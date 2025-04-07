@@ -1,6 +1,7 @@
 import type { TypedUseSelectorHook } from 'react-redux'
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { useDispatch, useSelector } from 'react-redux'
+import { api } from './api'
 import { apiMiddleware } from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { configureApplicationStore } from './configureApplicationStore'
@@ -17,6 +18,7 @@ import { utilsMiddleware } from './utils/utilsMiddleware'
 import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 
 const store = configureApplicationStore([
+  api.middleware,
   apiMiddleware,
   certificateMiddleware,
   userMiddleware,

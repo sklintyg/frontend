@@ -1,3 +1,4 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { isEqual } from 'lodash-es'
 import type React from 'react'
 import { useEffect, useRef } from 'react'
@@ -6,9 +7,11 @@ import { scroller } from 'react-scroll'
 import styled from 'styled-components'
 import InfoBox from '../../components/utils/InfoBox'
 import SpinnerBackdrop from '../../components/utils/SpinnerBackdrop'
+import { useGetPrefillQuery } from '../../store/api'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import type { CertificateStructure } from '../../store/certificate/certificateSelectors'
 import {
+  getCertificate,
   getCertificateDataElements,
   getCertificateResourceLink,
   getGotoId,
@@ -65,6 +68,9 @@ const Certificate: React.FC = () => {
   const certificateContainerRef = useRef<HTMLDivElement>(null)
   const certificateContainerId = 'questions-container'
   const showPatientAddress = useAppSelector(getCertificateResourceLink(ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE))
+  const certificateId = useAppSelector((state) => getCertificate(state)?.metadata.id)
+  const { data: prefillData, isLoading: isPrefillLoading } = useGetPrefillQuery(certificateId ?? skipToken)
+  const isLoading = showSpinner || isPrefillLoading
 
   useEffect(() => {
     if (gotoId) {
