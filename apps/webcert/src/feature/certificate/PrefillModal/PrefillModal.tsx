@@ -1,9 +1,11 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { useEffect } from 'react'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import Spinner from '../../../components/utils/Spinner'
 import { useGetPrefillQuery } from '../../../store/api'
+import { getCertificate as getCertificateAction } from '../../../store/certificate/certificateActions'
 import { getCertificate } from '../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 
 export function PrefillModal() {
   const certificateId = useAppSelector((state) => getCertificate(state)?.metadata.id)
@@ -12,6 +14,13 @@ export function PrefillModal() {
     skip: certificateId == null,
   })
   const isLoading = isPrefillLoading || prefillData?.status === 'loading'
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (prefillData?.status === 'complete' && certificateId) {
+      dispatch(getCertificateAction(certificateId))
+    }
+  }, [certificateId, dispatch, prefillData?.status])
 
   return (
     <ModalBase
