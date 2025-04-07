@@ -5,6 +5,8 @@ export enum TAG {
   CERTIFICATE_PREFILL = 'CertificatePrefill',
 }
 
+export type PrefillResponse = { status: 'loading' | 'complete' | 'failed' }
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -17,7 +19,7 @@ export const api = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getPrefill: builder.query({
+    getPrefill: builder.query<PrefillResponse, string>({
       query: (id) => `prefill/${id}`,
       providesTags: [TAG.CERTIFICATE_PREFILL],
     }),

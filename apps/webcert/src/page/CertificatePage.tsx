@@ -10,8 +10,10 @@ import { CertificateHeader } from '../feature/certificate/CertificateHeader/Cert
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
+import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
+import { PrefillModal } from '../feature/certificate/PrefillModal/PrefillModal'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificate } from '../store/certificate/certificateActions'
 import {
@@ -26,7 +28,6 @@ import type { RootState } from '../store/store'
 import { useAppSelector } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'
-import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -96,6 +97,7 @@ const CertificatePage: React.FC = () => {
         <RemovedCertificate />
       ) : (
         <>
+          <PrefillModal />
           {confirmationModal && hasPatient && (
             <ConfirmationModal
               open={showConfirmationModal}

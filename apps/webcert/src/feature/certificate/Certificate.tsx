@@ -70,7 +70,7 @@ const Certificate: React.FC = () => {
   const showPatientAddress = useAppSelector(getCertificateResourceLink(ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE))
   const certificateId = useAppSelector((state) => getCertificate(state)?.metadata.id)
   const { data: prefillData, isLoading: isPrefillLoading } = useGetPrefillQuery(certificateId ?? skipToken)
-  const isLoading = showSpinner || isPrefillLoading
+  const isLoading = showSpinner || isPrefillLoading || prefillData?.status === 'loading'
 
   useEffect(() => {
     if (gotoId) {
@@ -90,7 +90,7 @@ const Certificate: React.FC = () => {
   }
 
   return (
-    <SpinnerBackdrop open={showSpinner} spinnerText={spinnerText}>
+    <SpinnerBackdrop open={isLoading} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
           <InfoBox type="info" additionalStyles="iu-mt-400">
