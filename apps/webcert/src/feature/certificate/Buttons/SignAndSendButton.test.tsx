@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { afterEach, beforeEach, expect } from 'vitest'
-import { fakeCertificate, fakeTextAreaElement } from '../../../faker'
+import { fakeCategoryElement, fakeCertificate, fakeTextAreaElement } from '../../../faker'
 import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 import { updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
@@ -61,7 +61,16 @@ describe('Sign certificate without confirmation modal', () => {
 describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: {
+            ...fakeTextAreaElement({ id: 'id', parent: 'category' }),
+            ...fakeCategoryElement({ id: 'category' }),
+          },
+        })
+      )
+    )
     testStore.dispatch(validateCertificateSuccess({ validationErrors: [] }))
     clearDispatchedActions()
   })

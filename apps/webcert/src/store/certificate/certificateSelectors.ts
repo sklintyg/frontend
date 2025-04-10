@@ -36,15 +36,8 @@ export const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.
 export const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
 
 export const getIsValidForSigning = (state: RootState): boolean => {
-  const certificate = getCertificate(state)
-
-  if (certificate == null) {
-    return false
-  }
-
-  const hasCertificateValidationErrors = Object.values(certificate.data).flatMap(({ validationErrors }) => validationErrors).length > 0
-
-  return !hasCertificateValidationErrors
+  const validationErrors = getValidationErrorSummary()(state)
+  return validationErrors.length === 0
 }
 
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
