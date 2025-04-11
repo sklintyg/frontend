@@ -36,7 +36,10 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           </Accordion>
         </div>
       ) : (
-        <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
+        <>
+          {displayMandatory && <MandatoryIcon />}
+          <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
+        </>
       )}
     </CategoryHeader>
   ) : null
