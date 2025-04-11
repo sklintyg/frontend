@@ -75,7 +75,7 @@
     "eslint-plugin-playwright": "^0.21.0",
     "faker": "5.5.3",
     "jsdom": "^21.1.1",
-    "vite": "^5.1.8",
+    "vite": "^5.4.18",
     "vitest": "^1.6.0",
     "whatwg-fetch": "^3.6.2"
   }
