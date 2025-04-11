@@ -41,9 +41,13 @@ const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, qu
   const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
   const h5text = Boolean(config.header) || !questionTypeIsCategory
   const heading = h5text ? (
-    <h5 className="iu-fs-200 iu-mb-200 iu-lh-h4">{config.text}</h5>
+    <h5 className="iu-fs-200 iu-mb-200 iu-lh-h4" style={{ color: validationErrors.length > 0 ? '#c12143' : '#5f5f5f' }}>
+      {config.text}
+    </h5>
   ) : (
-    <h4 className="iu-fs-300 iu-mb-200">{config.text}</h4>
+    <h4 className="iu-fs-300 iu-mb-200" style={{ color: validationErrors.length > 0 ? '#c12143' : '#5f5f5f' }}>
+      {config.text}
+    </h4>
   )
 
   return (
