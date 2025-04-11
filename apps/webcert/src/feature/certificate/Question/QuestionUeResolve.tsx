@@ -17,6 +17,7 @@ import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
 import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
 import { UeMedicalInvestigationList } from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
+import { UePeriod } from '../UnifiedEdit/UePeriod/UePeriod'
 import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
 import UeRadioGroup from '../UnifiedEdit/UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../UnifiedEdit/UeRadioGroupOptionalDropdown/UeRadioGroupOptionalDropdown'
@@ -62,6 +63,14 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
     return <UeCheckboxDateRangeList {...questionToUeProps(question.config, question.value)} />
   }
 
+  if (isQuestionTypes(ConfigTypes.UE_PERIOD, CertificateDataValueType.PERIOD, question)) {
+    return <UePeriod {...questionToUeProps(question.config, question.value)} />
+  }
+
+  if (isQuestionTypes(ConfigTypes.UE_DATE, CertificateDataValueType.DATE, question)) {
+    return <UeDate {...questionToUeProps(question.config, question.value)} />
+  }
+
   switch (question.config.type) {
     case ConfigTypes.UE_RADIO_BOOLEAN:
       return <UeRadio {...commonProps} />
@@ -89,8 +98,6 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeTypeahead {...commonProps} />
     case ConfigTypes.UE_TEXTFIELD:
       return <UeTextField {...commonProps} />
-    case ConfigTypes.UE_DATE:
-      return <UeDate {...commonProps} />
     case ConfigTypes.UE_DATE_RANGE:
       return <UeDateRange {...commonProps} />
     case ConfigTypes.UE_YEAR:

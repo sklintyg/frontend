@@ -16,6 +16,8 @@ const QUESTION_ID = 'datepicker'
 
 const question = fakeDateElement({ id: QUESTION_ID, value: { date: '2022-09-29' } })[QUESTION_ID]
 
+const onUpdate = vi.fn()
+
 const renderComponent = (props: ComponentProps<typeof UeDate>) => {
   render(
     <Provider store={testStore}>
@@ -30,17 +32,17 @@ describe('DatePicker component', () => {
   })
 
   it('renders without crashing', () => {
-    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
+    expect(() => renderComponent({ disabled: false, question, onUpdate })).not.toThrow()
   })
 
   it('renders textinput and calendar button', () => {
-    renderComponent({ disabled: false, question })
+    renderComponent({ disabled: false, question, onUpdate })
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
   it('does not disable component if disabled is not set', async () => {
-    renderComponent({ disabled: false, question })
+    renderComponent({ disabled: false, question, onUpdate })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
     await expect(input).toBeEnabled()
@@ -48,7 +50,7 @@ describe('DatePicker component', () => {
   })
 
   it('disables component if disabled is set', async () => {
-    renderComponent({ disabled: true, question })
+    renderComponent({ disabled: true, question, onUpdate })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
     await expect(input).toBeDisabled()
@@ -56,7 +58,7 @@ describe('DatePicker component', () => {
   })
 
   it('formats input into yyyy-mm-dd', async () => {
-    renderComponent({ disabled: false, question })
+    renderComponent({ disabled: false, question, onUpdate })
 
     const inputDate = '20220929'
     const expected = '2022-09-29'
@@ -67,7 +69,7 @@ describe('DatePicker component', () => {
   })
 
   it('renders component with correct default values', async () => {
-    renderComponent({ disabled: false, question })
+    renderComponent({ disabled: false, question, onUpdate })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
     await expect(input).toHaveValue('2022-09-29')
@@ -87,7 +89,7 @@ describe('DatePicker component', () => {
       ],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
-    renderComponent({ disabled: false, question: element })
+    renderComponent({ disabled: false, question: element, onUpdate })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
@@ -102,7 +104,7 @@ describe('DatePicker component', () => {
       validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
     })[QUESTION_ID]
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: element } })))
-    renderComponent({ disabled: false, question: element })
+    renderComponent({ disabled: false, question: element, onUpdate })
 
     expect(getShowValidationErrors(testStore.getState())).toEqual(false)
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
@@ -119,6 +121,7 @@ describe('DatePicker component', () => {
         config: { maxDate: '2023-02-17' },
         value: { date: '2023-02-17' },
       }).id,
+      onUpdate,
     })
 
     await userEvent.click(screen.getByLabelText('Öppna kalendern'))

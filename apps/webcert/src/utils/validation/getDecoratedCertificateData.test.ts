@@ -3,7 +3,7 @@ import {
   fakeCategoryElement,
   fakeCertificate,
   fakeCertificateConfig,
-  fakeCertificateDataElement,
+  fakeCertificateDataElementRecord,
   fakeCertificateMetaData,
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
@@ -45,7 +45,7 @@ describe('mandatory', () => {
   it('Should set mandatory to true on boolean element if undefined', () => {
     const { data, metadata, links } = fakeCertificate({
       data: {
-        ...fakeCertificateDataElement({
+        ...fakeCertificateDataElementRecord({
           id: '1.1',
           config: fakeCertificateConfig.radioBoolean(),
           value: {
@@ -132,7 +132,7 @@ describe('visibility', () => {
   it('Should set visible to false on boolean element if undefined', () => {
     const { data, metadata, links } = fakeCertificate({
       data: {
-        ...fakeCertificateDataElement({
+        ...fakeCertificateDataElementRecord({
           id: '1.1',
           config: fakeCertificateConfig.radioBoolean(),
           value: { type: CertificateDataValueType.BOOLEAN, id: 'harFunktionsnedsattning', selected: undefined },

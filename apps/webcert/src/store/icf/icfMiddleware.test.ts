@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter'
 import {
   fakeCertificate,
   fakeCertificateConfig,
-  fakeCertificateDataElement,
+  fakeCertificateDataElementRecord,
   fakeCertificateValue,
   fakeDiagnosesElement,
   fakeResourceLink,
@@ -61,7 +61,7 @@ const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string) =>
   })
 
 const getCodeElement = (): CertificateDataElement =>
-  fakeCertificateDataElement({
+  fakeCertificateDataElementRecord({
     id: '6.1',
     config: fakeCertificateConfig.diagnoses({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
