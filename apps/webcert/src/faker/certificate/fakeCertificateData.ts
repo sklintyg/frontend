@@ -1,7 +1,6 @@
 import faker from 'faker'
 import type { PartialDeep } from 'type-fest'
 import type {
-  CertificateData,
   CertificateDataConfigType,
   CertificateDataElement,
   ConfigCategory,
@@ -20,6 +19,7 @@ import type {
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
+  ConfigUePeriod,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeRadioMultipleCodesOptionalDropdown,
@@ -46,6 +46,7 @@ import type {
   ValueIcf,
   ValueInteger,
   ValueMedicalInvestigationList,
+  ValuePeriod,
   ValueText,
   ValueType,
   ValueUncertainDate,
@@ -62,60 +63,65 @@ import { fakeList } from '../fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
 
-export function fakeCertificateDataElement<T extends CertificateDataElement>(data?: Partial<T>): Record<string, CertificateDataElement> {
-  const id = data?.id ?? fakeId()
+function fakeCertificateDataElement<C extends CertificateDataConfigType, V extends ValueType | null>(
+  data: Partial<CertificateDataElement> & {
+    config: C
+    value: V
+  }
+): CertificateDataElement & {
+  config: C
+  value: V
+} {
   return {
-    [id]: {
-      parent: '',
-      index: 0,
-      visible: true,
-      readOnly: false,
-      mandatory: false,
-      id: fakeId(),
-      config: fakeCertificateConfig.category(),
-      value: null,
-      ...data,
-      validation: data?.validation ?? [],
-      validationErrors: data?.validationErrors ?? [],
-    },
+    id: fakeId(),
+    parent: '',
+    index: 0,
+    visible: true,
+    readOnly: false,
+    mandatory: false,
+    ...data,
+    config: data.config,
+    value: data.value,
+    validation: data?.validation ?? [],
+    validationErrors: data?.validationErrors ?? [],
   }
 }
 
-const fakeDataElementFactory =
-  <T extends CertificateDataConfigType, P extends ValueType | null>(
-    callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
-  ) =>
-  ({
-    config,
-    value,
-    ...data
-  }: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData =>
-    fakeCertificateDataElement({
-      ...data,
-      ...callback(config, value),
-    })
+function factory<C extends CertificateDataConfigType, V extends ValueType | null>(
+  cb: (config?: PartialDeep<C>, value?: PartialDeep<V>) => { config: C; value: V }
+) {
+  return (
+    data: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & {
+      config?: PartialDeep<C>
+      value?: PartialDeep<V>
+    }
+  ) => {
+    const el = fakeCertificateDataElement({ ...data, ...cb(data.config, data.value) })
+    return { [el.id]: el }
+  }
+}
 
-export const fakeCategoryElement = fakeDataElementFactory<ConfigCategory, null>((config) => ({
+export const fakeCategoryElement = factory<ConfigCategory, null>((config) => ({
   config: fakeCertificateConfig.category(config),
   value: null,
 }))
 
-export const fakeCheckboxBooleanElement = fakeDataElementFactory<ConfigUeCheckboxBoolean, ValueBoolean>((config, value) => ({
+export const fakeCheckboxBooleanElement = factory<ConfigUeCheckboxBoolean, ValueBoolean>((config, value) => ({
   config: fakeCertificateConfig.checkboxBoolean(config),
   value: fakeCertificateValue.boolean(value),
 }))
 
-export const fakeCheckboxCodeElement = fakeDataElementFactory<ConfigUeCheckboxBoolean, ValueCode>((config, value) => ({
+export const fakeCheckboxCodeElement = factory<ConfigUeCheckboxBoolean, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.checkboxBoolean(config),
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeCheckboxMultipleCodeElement = fakeDataElementFactory<ConfigUeCheckboxMultipleCodes, ValueCodeList>((config, value) => ({
+export const fakeCheckboxMultipleCodeElement = factory<ConfigUeCheckboxMultipleCodes, ValueCodeList>((config, value) => ({
   config: fakeCertificateConfig.checkboxMultipleCodes(config),
   value: fakeCertificateValue.codeList(value),
 }))
 
-export const fakeDiagnosesElement = fakeDataElementFactory<ConfigUeDiagnoses, ValueDiagnosisList>((config, value) => ({
+export const fakeDiagnosesElement = factory<ConfigUeDiagnoses, ValueDiagnosisList>((config, value) => ({
   config: fakeCertificateConfig.diagnoses({
     terminology: [
       {
@@ -133,7 +139,7 @@ export const fakeDiagnosesElement = fakeDataElementFactory<ConfigUeDiagnoses, Va
   value: fakeCertificateValue.diagnosisList(value),
 }))
 
-export const fakeICFDataElement = fakeDataElementFactory<ConfigUeIcf, ValueIcf>((config, value) => ({
+export const fakeICFDataElement = factory<ConfigUeIcf, ValueIcf>((config, value) => ({
   config: fakeCertificateConfig.icf({
     header: `header: ${faker.lorem.sentence()}`,
     modalLabel: `modalLabel: ${faker.lorem.sentence()}`,
@@ -144,7 +150,7 @@ export const fakeICFDataElement = fakeDataElementFactory<ConfigUeIcf, ValueIcf>(
   value: fakeCertificateValue.icf(value),
 }))
 
-export const fakeCheckboxMultipleDate = fakeDataElementFactory<ConfigUeCheckboxMultipleDate, ValueDateList>((config, value) => ({
+export const fakeCheckboxMultipleDate = factory<ConfigUeCheckboxMultipleDate, ValueDateList>((config, value) => ({
   config: fakeCertificateConfig.checkboxMultipleDate({
     list: fakeList(6),
     ...config,
@@ -152,7 +158,7 @@ export const fakeCheckboxMultipleDate = fakeDataElementFactory<ConfigUeCheckboxM
   value: fakeCertificateValue.dateList(value),
 }))
 
-export const fakeCheckboxDateRangeList = fakeDataElementFactory<ConfigUeCheckboxDateRangeList, ValueDateRangeList>((config, value) => ({
+export const fakeCheckboxDateRangeList = factory<ConfigUeCheckboxDateRangeList, ValueDateRangeList>((config, value) => ({
   config: fakeCertificateConfig.checkboxDateRangeList({
     list: fakeList(6),
     ...config,
@@ -160,7 +166,7 @@ export const fakeCheckboxDateRangeList = fakeDataElementFactory<ConfigUeCheckbox
   value: fakeCertificateValue.dateRangeList(value),
 }))
 
-export const fakeRadioMultipleCodeElement = fakeDataElementFactory<ConfigUeRadioMultipleCodes, ValueCode>((config, value) => ({
+export const fakeRadioMultipleCodeElement = factory<ConfigUeRadioMultipleCodes, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.radioMultipleCodes({
     list: fakeList(7),
     layout: ConfigLayout.ROWS,
@@ -169,22 +175,22 @@ export const fakeRadioMultipleCodeElement = fakeDataElementFactory<ConfigUeRadio
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeRadioBooleanElement = fakeDataElementFactory<ConfigUeRadioBoolean, ValueBoolean>((config, value) => ({
+export const fakeRadioBooleanElement = factory<ConfigUeRadioBoolean, ValueBoolean>((config, value) => ({
   config: fakeCertificateConfig.radioBoolean(config),
   value: fakeCertificateValue.boolean(value),
 }))
 
-export const fakeTextAreaElement = fakeDataElementFactory<ConfigUeTextArea, ValueText>((config, value) => ({
+export const fakeTextAreaElement = factory<ConfigUeTextArea, ValueText>((config, value) => ({
   config: fakeCertificateConfig.textArea(config),
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeTextFieldElement = fakeDataElementFactory<ConfigUeTextField, ValueText>((config, value) => ({
+export const fakeTextFieldElement = factory<ConfigUeTextField, ValueText>((config, value) => ({
   config: fakeCertificateConfig.textField(config),
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeDropdownElement = fakeDataElementFactory<ConfigUeDropdown, ValueCode>((config, value) => ({
+export const fakeDropdownElement = factory<ConfigUeDropdown, ValueCode>((config, value) => ({
   config: fakeCertificateConfig.dropdown({
     list: fakeList(5),
     ...config,
@@ -192,7 +198,7 @@ export const fakeDropdownElement = fakeDataElementFactory<ConfigUeDropdown, Valu
   value: fakeCertificateValue.code(value),
 }))
 
-export const fakeTypeaheadElement = fakeDataElementFactory<ConfigUeTypeahead, ValueText>((config, value) => ({
+export const fakeTypeaheadElement = factory<ConfigUeTypeahead, ValueText>((config, value) => ({
   config: fakeCertificateConfig.typeahead({
     typeAhead: fakeCityList(),
     ...config,
@@ -201,7 +207,7 @@ export const fakeTypeaheadElement = fakeDataElementFactory<ConfigUeTypeahead, Va
   value: fakeCertificateValue.text(value),
 }))
 
-export const fakeUncertainDateElement = fakeDataElementFactory<ConfigUeUncertainDate, ValueUncertainDate>((config, value) => ({
+export const fakeUncertainDateElement = factory<ConfigUeUncertainDate, ValueUncertainDate>((config, value) => ({
   config: fakeCertificateConfig.uncertainDate({
     allowedYears: [`${new Date().getFullYear() - 1}`, `${new Date().getFullYear()}`],
     unknownYear: true,
@@ -211,7 +217,7 @@ export const fakeUncertainDateElement = fakeDataElementFactory<ConfigUeUncertain
   value: fakeCertificateValue.uncertainDate(value),
 }))
 
-export const fakeMedicalInvestigationListElement = fakeDataElementFactory<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>(
+export const fakeMedicalInvestigationListElement = factory<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>(
   (config, value) => {
     const typeOptions = [
       { id: '1', label: 'Neuropsykiatriskt utlåtande', code: 'CODE_2' },
@@ -260,32 +266,32 @@ export const fakeMedicalInvestigationListElement = fakeDataElementFactory<Config
   }
 )
 
-export const fakeDateElement = fakeDataElementFactory<ConfigUeDate, ValueDate>((config, value) => ({
+export const fakeDateElement = factory<ConfigUeDate, ValueDate>((config, value) => ({
   config: fakeCertificateConfig.date(config),
   value: fakeCertificateValue.date(value),
 }))
 
-export const fakeDateRangeElement = fakeDataElementFactory<ConfigUeDateRange, ValueDateRange>((config, value) => ({
+export const fakeDateRangeElement = factory<ConfigUeDateRange, ValueDateRange>((config, value) => ({
   config: fakeCertificateConfig.dateRange(config),
   value: fakeCertificateValue.dateRange(value),
 }))
 
-export const fakeYearElement = fakeDataElementFactory<ConfigUeYear, ValueYear>((config, value) => ({
+export const fakeYearElement = factory<ConfigUeYear, ValueYear>((config, value) => ({
   config: fakeCertificateConfig.year(config),
   value: fakeCertificateValue.year(value),
 }))
 
-export const fakeIntegerElement = fakeDataElementFactory<ConfigUeInteger, ValueInteger>((config, value) => ({
+export const fakeIntegerElement = factory<ConfigUeInteger, ValueInteger>((config, value) => ({
   config: fakeCertificateConfig.integer(config),
   value: fakeCertificateValue.integer(value),
 }))
 
-export const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHeader>((config, value) => ({
+export const fakeHeaderElement = factory<ConfigUeHeader, ValueHeader>((config, value) => ({
   config: fakeCertificateConfig.header(config),
   value: fakeCertificateValue.header(value),
 }))
 
-export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
+export const fakeCauseOfDeathElement = factory<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
   const descriptionId = fakeId()
   const debutId = fakeId()
 
@@ -328,7 +334,7 @@ export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDea
   }
 })
 
-export const fakeCauseOfDeathListElement = fakeDataElementFactory<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>((config, value) => {
+export const fakeCauseOfDeathListElement = factory<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>((config, value) => {
   const questions = new Array(8).fill(null).map(() => {
     const id = fakeId()
     return fakeCauseOfDeathElement({ id })[id]
@@ -357,7 +363,7 @@ export const fakeCauseOfDeathListElement = fakeDataElementFactory<ConfigUeCauseO
   }
 })
 
-export const fakeVisualAcuityElement = fakeDataElementFactory<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
+export const fakeVisualAcuityElement = factory<ConfigUeVisualAcuity, ValueVisualAcuity>((config, value) => {
   const id = fakeId()
   return {
     config: fakeCertificateConfig.visualAcuity({
@@ -421,29 +427,32 @@ export const fakeVisualAcuityElement = fakeDataElementFactory<ConfigUeVisualAcui
   }
 })
 
-export const fakeViewTextElement = fakeDataElementFactory<ConfigUeViewText, ValueViewText>((config, value) => ({
+export const fakeViewTextElement = factory<ConfigUeViewText, ValueViewText>((config, value) => ({
   config: fakeCertificateConfig.viewText(config),
   value: fakeCertificateValue.viewText(value),
 }))
 
-export const fakeViewListElement = fakeDataElementFactory<ConfigUeViewList, ValueViewList>((config, value) => ({
+export const fakeViewListElement = factory<ConfigUeViewList, ValueViewList>((config, value) => ({
   config: fakeCertificateConfig.viewList(config),
   value: fakeCertificateValue.viewList(value),
 }))
 
-export const fakeViewTableElement = fakeDataElementFactory<ConfigUeViewTable, ValueViewTable>((config, value) => ({
+export const fakeViewTableElement = factory<ConfigUeViewTable, ValueViewTable>((config, value) => ({
   config: fakeCertificateConfig.viewTable(config),
   value: fakeCertificateValue.viewTable(value),
 }))
 
-export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementFactory<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>(
-  (config, value) => ({
-    config: fakeCertificateConfig.radioMultipleCodesOptionalDropdown(config),
-    value: fakeCertificateValue.code(value),
-  })
-)
+export const fakeRadioMultipleCodesOptionalDropdown = factory<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>((config, value) => ({
+  config: fakeCertificateConfig.radioMultipleCodesOptionalDropdown(config),
+  value: fakeCertificateValue.code(value),
+}))
 
-export const fakeMessageElement = fakeDataElementFactory<ConfigUeMessage, ValueText>((config, value) => ({
+export const fakeMessageElement = factory<ConfigUeMessage, ValueText>((config, value) => ({
   config: fakeCertificateConfig.message(config),
   value: fakeCertificateValue.text(value),
+}))
+
+export const fakePeriodElement = factory<ConfigUePeriod, ValuePeriod>((config, value) => ({
+  config: fakeCertificateConfig.period(config),
+  value: fakeCertificateValue.period(value),
 }))

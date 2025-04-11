@@ -112,6 +112,7 @@ export enum ConfigTypes {
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
   UE_YEAR = 'UE_YEAR',
   UE_INTEGER = 'UE_INTEGER',
+  UE_PERIOD = 'UE_PERIOD',
 }
 
 export type CertificateDataConfigType =
@@ -146,6 +147,7 @@ export type CertificateDataConfigType =
   | ConfigUeViewText
   | ConfigUeVisualAcuity
   | ConfigUeYear
+  | ConfigUePeriod
 
 export enum MessageLevel {
   INFO = 'INFO',
@@ -292,6 +294,12 @@ export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
   hideWorkingHours: boolean
   min?: string
   max?: string
+}
+
+export interface ConfigUePeriod extends CertificateDataConfig {
+  type: ConfigTypes.UE_PERIOD
+  fromDate: ConfigUeDate
+  toDate: ConfigUeDate
 }
 
 export interface ConfigUeDiagnosisTerminology {
@@ -487,6 +495,7 @@ export enum CertificateDataValueType {
   VIEW_TABLE = 'VIEW_TABLE',
   YEAR = 'YEAR',
   INTEGER = 'INTEGER',
+  PERIOD = 'PERIOD',
 }
 
 export type ValueType =
@@ -516,6 +525,7 @@ export type ValueType =
   | ValueYear
   | ValueInteger
   | ValueUnknown
+  | ValuePeriod
 
 export interface ValueUnknown {
   type: CertificateDataValueType.UNKNOWN
@@ -537,6 +547,12 @@ export interface ValueDate {
   type: CertificateDataValueType.DATE
   id: string
   date?: string
+}
+
+export interface ValuePeriod {
+  type: CertificateDataValueType.PERIOD
+  fromDate: ValueDate
+  toDate: ValueDate
 }
 
 export interface ValueDateList {
