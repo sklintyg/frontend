@@ -15,6 +15,7 @@ export interface Props {
   displayMandatory: boolean
   questionId: string
 }
+
 const Wrapper = styled.div`
   display: inline-flex;
   align-items: center;
@@ -28,6 +29,7 @@ const HeaderErrorHighlight = styled.span<{ error?: boolean }>`
 interface AccordionProps {
   h5Text: boolean
 }
+
 const AccordionControl = styled(Accordion)<AccordionProps>`
   ${AccordionHeader}.ic-expandable-button {
     line-height: 0;
@@ -62,8 +64,10 @@ const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, qu
         </AccordionControl>
       ) : (
         <div>
-          {displayMandatory && <MandatoryIcon />}
-          {heading}
+          <HeaderErrorHighlight error={validationErrors.length > 0}>
+            {displayMandatory && <MandatoryIcon />}
+            <Wrapper>{heading}</Wrapper>
+          </HeaderErrorHighlight>
         </div>
       )}
     </>
