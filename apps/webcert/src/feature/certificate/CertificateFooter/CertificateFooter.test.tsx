@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '../../../faker'
+import { fakeCategoryElement, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '../../../faker'
 import { updateCertificate, updateCertificateSignStatus, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -59,7 +59,10 @@ describe('CertificateFooter', () => {
         testStore.dispatch(
           updateCertificate(
             fakeCertificate({
-              data: fakeTextFieldElement({ id: 'id' }),
+              data: {
+                ...fakeTextFieldElement({ id: 'id', parent: 'category' }),
+                ...fakeCategoryElement({ id: 'category' }),
+              },
               links: [{ type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true }],
             })
           )
