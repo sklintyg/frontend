@@ -186,6 +186,6 @@ describe('Sign certificate with confirmation modal', () => {
 
     const modalBody = screen.getByRole('dialog')
     expect(within(modalBody).queryByRole('button', { name: commonProps.name })).not.toBeInTheDocument()
-    expect(within(modalBody).getByText('Avbryt')).toBeInTheDocument()
+    expect(within(modalBody).getByText('Stäng')).toBeInTheDocument()
   })
 })
