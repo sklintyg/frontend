@@ -19,6 +19,7 @@ import type {
   ValueInteger,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
+  ValuePeriod,
   ValueText,
   ValueType,
   ValueUncertainDate,
@@ -198,6 +199,12 @@ const fakeViewTable = fakeDataElementValue<ValueViewTable>((override) => ({
   })),
 }))
 
+const fakePeriod = fakeDataElementValue<ValuePeriod>((override) => ({
+  type: CertificateDataValueType.PERIOD,
+  fromDate: fakeDate(override?.fromDate),
+  toDate: fakeDate(override?.toDate),
+}))
+
 export const fakeCertificateValue = {
   boolean: fakeBoolean,
   causeOfDeath: fakeCauseOfDeath,
@@ -224,4 +231,5 @@ export const fakeCertificateValue = {
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
   integer: fakeInteger,
+  period: fakePeriod,
 }

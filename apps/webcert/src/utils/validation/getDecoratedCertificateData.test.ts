@@ -3,7 +3,6 @@ import {
   fakeCategoryElement,
   fakeCertificate,
   fakeCertificateConfig,
-  fakeCertificateDataElement,
   fakeCertificateMetaData,
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
@@ -29,30 +28,6 @@ describe('mandatory', () => {
         ...fakeRadioBooleanElement({
           id: '1.1',
           value: { id: 'foo', selected: null },
-          validation: [
-            fakeMandatoryValidation({
-              questionId: '1.1',
-              expression: 'exists(foo)',
-            }),
-          ],
-        }),
-      },
-    })
-
-    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
-  })
-
-  it('Should set mandatory to true on boolean element if undefined', () => {
-    const { data, metadata, links } = fakeCertificate({
-      data: {
-        ...fakeCertificateDataElement({
-          id: '1.1',
-          config: fakeCertificateConfig.radioBoolean(),
-          value: {
-            type: CertificateDataValueType.BOOLEAN,
-            id: 'foo',
-            selected: undefined,
-          },
           validation: [
             fakeMandatoryValidation({
               questionId: '1.1',
@@ -132,7 +107,7 @@ describe('visibility', () => {
   it('Should set visible to false on boolean element if undefined', () => {
     const { data, metadata, links } = fakeCertificate({
       data: {
-        ...fakeCertificateDataElement({
+        ...fakeRadioBooleanElement({
           id: '1.1',
           config: fakeCertificateConfig.radioBoolean(),
           value: { type: CertificateDataValueType.BOOLEAN, id: 'harFunktionsnedsattning', selected: undefined },

@@ -24,6 +24,7 @@ import type {
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
+  ConfigUePeriod,
   ConfigUeRadioBoolean,
   ConfigUeRadioCode,
   ConfigUeRadioMultipleCodes,
@@ -318,6 +319,12 @@ const fakeInteger = fakeDataElementConfig<ConfigUeInteger>(() => ({
   max: undefined,
 }))
 
+const fakePeriod = fakeDataElementConfig<ConfigUePeriod>((override) => ({
+  type: ConfigTypes.UE_PERIOD,
+  fromDate: fakeDate(override?.fromDate),
+  toDate: fakeDate(override?.toDate),
+}))
+
 export const fakeCertificateConfig = {
   category: fakeCategory,
   causeOfDeath: fakeCauseOfDeath,
@@ -350,4 +357,5 @@ export const fakeCertificateConfig = {
   visualAcuity: fakeVisualAcuity,
   year: fakeYear,
   integer: fakeInteger,
+  period: fakePeriod,
 }
