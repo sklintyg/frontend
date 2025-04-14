@@ -1,14 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import {
-  fakeCertificate,
-  fakeCertificateConfig,
-  fakeCertificateDataElementRecord,
-  fakeCertificateValue,
-  fakeDiagnosesElement,
-  fakeResourceLink,
-} from '../../faker'
+import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement, fakeResourceLink } from '../../faker'
 import type { CertificateDataElement, Icd10Code, IcfCode } from '../../types'
 import { ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
@@ -61,16 +54,21 @@ const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string) =>
   })
 
 const getCodeElement = (): CertificateDataElement =>
-  fakeCertificateDataElementRecord({
+  fakeDiagnosesElement({
     id: '6.1',
     config: fakeCertificateConfig.diagnoses({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
     }),
-    value: fakeCertificateValue.code({
-      code: 'code',
-      id: 'id',
+    value: fakeCertificateValue.diagnosisList({
+      list: [
+        {
+          code: 'code',
+          terminology: 'ICD_10_SE',
+          id: 'id',
+        },
+      ],
     }),
   })['6.1']
 
