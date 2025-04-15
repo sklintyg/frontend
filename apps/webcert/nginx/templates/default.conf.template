@@ -19,6 +19,7 @@ server {
       proxy_set_header X-Forwarded-Host $host:$server_port;
       proxy_set_header X-Forwarded-Port $server_port;
       proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Trace-Id $trace_id;
   }
 
   include /etc/nginx/extra-conf.d/*.conf;
