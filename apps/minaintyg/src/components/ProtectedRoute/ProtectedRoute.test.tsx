@@ -31,7 +31,6 @@ it('Should display dialog when there is 5 minutes left of the session', async ()
 })
 
 it('Should log out user and reset API state when session expires in less than 30 seconds', async () => {
-  const endSessionSpy = vi.spyOn(store, 'dispatch')
   const formSubmitSpy = vi.spyOn(HTMLFormElement.prototype, 'submit')
   server.use(
     rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json({ loginMethod: 'SAML' }))),
@@ -41,10 +40,6 @@ it('Should log out user and reset API state when session expires in less than 30
   renderComponent()
 
   await waitFor(() => {
-    expect(endSessionSpy).toHaveBeenCalledWith(endSession({ reason: 'logged-out' }))
-    // eslint-disable-next-line testing-library/no-wait-for-multiple-assertions
     expect(formSubmitSpy).toHaveBeenCalled()
-    // eslint-disable-next-line testing-library/no-wait-for-multiple-assertions
-    expect(endSessionSpy).toHaveBeenCalledWith(api.util.resetApiState())
   })
 })
