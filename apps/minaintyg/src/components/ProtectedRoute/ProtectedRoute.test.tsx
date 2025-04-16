@@ -5,6 +5,7 @@ import { server } from '../../mocks/server'
 import { store } from '../../store/store'
 import { withRouter } from '../../utils/withRouter'
 import { ProtectedRoute } from './ProtectedRoute'
+import { endSession } from '../../store/slice/session.slice'
 
 function renderComponent() {
   return render(<Provider store={store}>{withRouter(<ProtectedRoute>content</ProtectedRoute>)}</Provider>)
@@ -43,12 +44,33 @@ it('Should redirect to saml login when unable to load user', async () => {
 })
 
 it('Should redirect to saml logout when user has less than 30 seconds left in session', async () => {
-  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 25 }))))
-  const openSpy = vi.spyOn(window, 'open')
+  const dispatchMock = vi.spyOn(store, 'dispatch')
+  const createElementSpy = vi.spyOn(document, 'createElement')
+  const formSubmitSpy = vi.fn()
+  createElementSpy.mockImplementation((tag) => {
+    if (tag === 'form') {
+      return {
+        method: '',
+        action: '',
+        appendChild: vi.fn(),
+        submit: formSubmitSpy,
+      } as unknown as HTMLFormElement
+    }
+    if (tag === 'input') {
+      return {} as HTMLInputElement
+    }
+    return document.createElement(tag)
+  })
 
   renderComponent()
 
   await waitFor(() => {
-    expect(openSpy).toHaveBeenCalledWith('/logout', '_self')
+    expect(dispatchMock).toHaveBeenCalledWith(endSession({ reason: 'logged-out' }))
   })
+
+  await waitFor(() => {
+    expect(formSubmitSpy).toHaveBeenCalled()
+  })
+
+  createElementSpy.mockRestore()
 })
