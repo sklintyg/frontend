@@ -1076,8 +1076,12 @@ const handleCreateNewCertificate: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(
       apiCallBegan({
-        url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
+        url: `/api/certificate`,
         method: 'POST',
+        data: {
+          patientId: action.payload.patientId,
+          certificateType: action.payload.certificateType,
+        },
         onStart: createNewCertificateStarted.type,
         onSuccess: createNewCertificateSuccess.type,
         onError: certificateApiGenericError.type,
