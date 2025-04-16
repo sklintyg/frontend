@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import UeDateRange from './UeDateRange'
-import { fakeDateRangeElement, fakeCertificate } from '../../../../faker'
+import { fakeCertificate, fakeDateRangeElement } from '../../../../faker'
 import type { ValidationError } from '../../../../types'
 
 const QUESTION_ID = 'QUESTION_ID'
@@ -53,8 +53,30 @@ describe('Date range picker', () => {
       expect(screen.getByText(ERROR_TEXT)).toBeInTheDocument()
     })
 
+    it('should show validation error of type id.field for to', () => {
+      const validationErrors = getValidationErrors('jsonid.to')
+      const question = getQuestion(validationErrors)
+      store.dispatch(showValidationErrors())
+      store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
+
+      renderDefaultComponent({ disabled: false, question })
+
+      expect(screen.getByText(ERROR_TEXT)).toBeInTheDocument()
+    })
+
     it('should show validation error of type field.id', () => {
       const validationErrors = getValidationErrors('tom.jsonid')
+      const question = getQuestion(validationErrors)
+      store.dispatch(showValidationErrors())
+      store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
+
+      renderDefaultComponent({ disabled: false, question })
+
+      expect(screen.getByText(ERROR_TEXT)).toBeInTheDocument()
+    })
+
+    it('should show validation error of type id', () => {
+      const validationErrors = getValidationErrors('jsonId')
       const question = getQuestion(validationErrors)
       store.dispatch(showValidationErrors())
       store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
