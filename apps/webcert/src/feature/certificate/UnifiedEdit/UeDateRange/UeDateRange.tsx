@@ -1,14 +1,13 @@
-import {addDays, isValid} from 'date-fns'
+import { addDays, isValid } from 'date-fns'
 import type React from 'react'
-import {useRef, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import {updateCertificateDataElement} from '../../../../store/certificate/certificateActions'
-import {getVisibleValidationErrors} from '../../../../store/certificate/certificateSelectors'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
-
 import {
   _dateReg,
   _dateRegDashesOptional,
@@ -53,7 +52,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDateRange: React.FC<Props> = ({question, disabled}) => {
+const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeDateRange
   const value = question.value as ValueDateRange
   const [fromDateInput, setFromDateInput] = useState<string | null>(value.from ?? null)
@@ -69,7 +68,7 @@ const UeDateRange: React.FC<Props> = ({question, disabled}) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: {...value, from: fromValue && fromValue.length > 0 ? fromValue : undefined, to: toDateInput ?? undefined},
+        value: { ...value, from: fromValue && fromValue.length > 0 ? fromValue : undefined, to: toDateInput ?? undefined },
       })
     )
   }
@@ -79,7 +78,7 @@ const UeDateRange: React.FC<Props> = ({question, disabled}) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: {...value, from: fromDateInput ?? undefined, to: toValue && toValue.length > 0 ? toValue : undefined},
+        value: { ...value, from: fromDateInput ?? undefined, to: toValue && toValue.length > 0 ? toValue : undefined },
       })
     )
   }
@@ -129,10 +128,7 @@ const UeDateRange: React.FC<Props> = ({question, disabled}) => {
       return (
         validationErrors.filter(
           (v: ValidationError) =>
-            v.field.includes(field + '.' + id) ||
-            v.field.includes(id + '.' + field) ||
-            v.field.includes('row.' + id) ||
-            v.field == id
+            v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id) || v.field == id
         ).length > 0
       )
     }
@@ -143,20 +139,37 @@ const UeDateRange: React.FC<Props> = ({question, disabled}) => {
     <>
       <DateGrid>
         <DatesWrapper id="fromWrapper">
-          <DatePickerCustom disabled={disabled} label={config.fromLabel} id={`from${config.id}`} textInputRef={fromTextInputRef}
-                            textInputOnKeyDown={handleFromTextInputOnKeyDown} textInputName={`from${config.id}`} inputString={fromDateInput}
-                            setDate={handleFromTextInputChange} textInputOnChange={handleFromTextInputChange}
-                            textInputDataTestId={`from${config.id}`}
-                            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'from')} />
+          <DatePickerCustom
+            disabled={disabled}
+            label={config.fromLabel}
+            id={`from${config.id}`}
+            textInputRef={fromTextInputRef}
+            textInputOnKeyDown={handleFromTextInputOnKeyDown}
+            textInputName={`from${config.id}`}
+            inputString={fromDateInput}
+            setDate={handleFromTextInputChange}
+            textInputOnChange={handleFromTextInputChange}
+            textInputDataTestId={`from${config.id}`}
+            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'from')}
+          />
         </DatesWrapper>
         <DatesWrapper>
-          <DatePickerCustom disabled={disabled} label={config.toLabel} id={`tom${config.id}`} textInputName={`tom${config.id}`}
-                            textInputRef={tomTextInputRef} inputString={toDateInput} setDate={handleToTextInputChange}
-                            textInputOnChange={handleToTextInputChange} textInputOnBlur={handleToTextInputOnBlur}
-                            textInputOnKeyDown={handleToTextInputOnKeyDown} textInputDataTestId={`tom${config.id}`}
-                            displayValidationErrorOutline={
-                              getShouldDisplayValidationErrorOutline(config.id, 'tom') || getShouldDisplayValidationErrorOutline(config.id, 'to')
-                            } />
+          <DatePickerCustom
+            disabled={disabled}
+            label={config.toLabel}
+            id={`tom${config.id}`}
+            textInputName={`tom${config.id}`}
+            textInputRef={tomTextInputRef}
+            inputString={toDateInput}
+            setDate={handleToTextInputChange}
+            textInputOnChange={handleToTextInputChange}
+            textInputOnBlur={handleToTextInputOnBlur}
+            textInputOnKeyDown={handleToTextInputOnKeyDown}
+            textInputDataTestId={`tom${config.id}`}
+            displayValidationErrorOutline={
+              getShouldDisplayValidationErrorOutline(config.id, 'tom') || getShouldDisplayValidationErrorOutline(config.id, 'to')
+            }
+          />
         </DatesWrapper>
       </DateGrid>
 
