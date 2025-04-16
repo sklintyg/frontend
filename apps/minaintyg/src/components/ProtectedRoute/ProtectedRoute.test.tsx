@@ -30,7 +30,7 @@ it('Should display dialog when there is 5 minutes left of the session', async ()
   expect(await screen.findByText('Vill du fortsätta vara inloggad?')).toBeInTheDocument()
 })
 
-it('Should log out user and reset API state when session expires in less than 30 seconds', async () => {
+it('Should log out saml user when session expires in less than 30 seconds', async () => {
   const formSubmitSpy = vi.spyOn(HTMLFormElement.prototype, 'submit')
   server.use(
     rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json({ loginMethod: 'SAML' }))),
