@@ -7,16 +7,16 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type { CertificateDataElement, ConfigUeDateRange, ValueDateRange, ValidationError } from '../../../../types'
+import type { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
 import {
-  dayCodeReg,
-  weekCodeReg,
-  monthCodeReg,
-  getValidDate,
-  parseDayCodes,
-  formatDateToString,
   _dateReg,
   _dateRegDashesOptional,
+  dayCodeReg,
+  formatDateToString,
+  getValidDate,
+  monthCodeReg,
+  parseDayCodes,
+  weekCodeReg,
 } from '../../../../utils'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
@@ -127,7 +127,8 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
     if (id) {
       return (
         validationErrors.filter(
-          (v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id)
+          (v: ValidationError) =>
+            v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id) || v.field == id
         ).length > 0
       )
     }
@@ -165,7 +166,9 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
             textInputOnBlur={handleToTextInputOnBlur}
             textInputOnKeyDown={handleToTextInputOnKeyDown}
             textInputDataTestId={`tom${config.id}`}
-            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'tom')}
+            displayValidationErrorOutline={
+              getShouldDisplayValidationErrorOutline(config.id, 'tom') || getShouldDisplayValidationErrorOutline(config.id, 'to')
+            }
           />
         </DatesWrapper>
       </DateGrid>
