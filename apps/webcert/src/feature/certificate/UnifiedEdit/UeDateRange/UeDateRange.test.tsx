@@ -74,5 +74,16 @@ describe('Date range picker', () => {
 
       expect(screen.getByText(ERROR_TEXT)).toBeInTheDocument()
     })
+
+    it('should show validation error of type id', () => {
+      const validationErrors = getValidationErrors('jsonId')
+      const question = getQuestion(validationErrors)
+      store.dispatch(showValidationErrors())
+      store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
+
+      renderDefaultComponent({ disabled: false, question })
+
+      expect(screen.getByText(ERROR_TEXT)).toBeInTheDocument()
+    })
   })
 })
