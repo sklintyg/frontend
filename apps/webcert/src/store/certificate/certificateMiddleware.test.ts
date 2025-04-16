@@ -537,7 +537,7 @@ describe('Test certificate middleware', () => {
         certificateId: 'certificateId',
       }
 
-      fakeAxios.onPost(`/api/certificate/${data.certificateType}/${data.patientId}`).reply(200, response)
+      fakeAxios.onPost(`/api/certificate`).reply(200, response)
 
       testStore.dispatch(createNewCertificate(data))
 
