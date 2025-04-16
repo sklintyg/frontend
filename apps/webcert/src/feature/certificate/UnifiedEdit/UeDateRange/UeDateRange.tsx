@@ -128,10 +128,7 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
       return (
         validationErrors.filter(
           (v: ValidationError) =>
-            v.field.includes(field + '.' + id) ||
-            v.field.includes(id + '.' + field) ||
-            v.field.includes('row.' + id) ||
-            v.field.includes(id)
+            v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id) || v.field == id
         ).length > 0
       )
     }
