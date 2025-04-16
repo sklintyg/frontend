@@ -25,7 +25,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }): React.JSX
     return null
   }
 
-  if (user && session && session.secondsUntilExpire < 30) {
+  if (user && session && session.secondsUntilExpire <= 30) {
     dispatch(endSession({ reason: 'logged-out' }))
     if (user.loginMethod !== loginMethodEnum.enum.FAKE) {
       const form = document.createElement('form')
