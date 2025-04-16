@@ -41,3 +41,14 @@ it('Should redirect to saml login when unable to load user', async () => {
     expect(openSpy).toHaveBeenCalledWith('/saml2/authenticate/eleg', '_self')
   })
 })
+
+it('Should redirect to saml logout when user has less than 30 seconds left in session', async () => {
+  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 25 }))))
+  const openSpy = vi.spyOn(window, 'open')
+
+  renderComponent()
+
+  await waitFor(() => {
+    expect(openSpy).toHaveBeenCalledWith('/logout', '_self')
+  })
+})
