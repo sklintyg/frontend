@@ -7,7 +7,8 @@ import {updateCertificateDataElement} from '../../../../store/certificate/certif
 import {getVisibleValidationErrors} from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import type {CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange} from '../../../../types'
+import type { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
+
 import {
   _dateReg,
   _dateRegDashesOptional,
