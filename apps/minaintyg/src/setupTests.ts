@@ -11,6 +11,18 @@ import { reset as resetCertificateFilter } from './store/slice/certificateFilter
 import { reset as resetSession } from './store/slice/session.slice'
 import { store } from './store/store'
 
+class MockWorker {
+  onmessage: ((event: MessageEvent) => void) | null = null
+
+  postMessage = vi.fn()
+
+  terminate = vi.fn()
+
+  addEventListener = vi.fn()
+
+  removeEventListener = vi.fn()
+}
+
 Object.assign(global, global, {
   open: vi.fn(),
   scrollTo: vi.fn(),
@@ -21,6 +33,7 @@ Object.assign(global, global, {
   crypto: {
     randomUUID: () => '5f92e947-e2ee-4238-bf29-4cdc6b6c4b54',
   },
+  Worker: MockWorker,
 })
 
 // Used by floating-ui

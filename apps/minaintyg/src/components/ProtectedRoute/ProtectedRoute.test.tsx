@@ -6,20 +6,6 @@ import { store } from '../../store/store'
 import { withRouter } from '../../utils/withRouter'
 import { ProtectedRoute } from './ProtectedRoute'
 
-class MockWorker {
-  onmessage: ((event: MessageEvent) => void) | null = null
-
-  postMessage = vi.fn()
-
-  terminate = vi.fn()
-
-  addEventListener = vi.fn()
-
-  removeEventListener = vi.fn()
-}
-
-;(globalThis as unknown as { Worker: typeof Worker }).Worker = MockWorker as unknown as typeof Worker
-
 function renderComponent() {
   return render(<Provider store={store}>{withRouter(<ProtectedRoute>content</ProtectedRoute>)}</Provider>)
 }
