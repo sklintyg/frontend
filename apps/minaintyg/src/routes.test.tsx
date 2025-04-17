@@ -1,13 +1,13 @@
-import {render, screen, waitFor} from '@testing-library/react'
-import {Provider} from 'react-redux'
-import {createMemoryRouter, RouterProvider} from 'react-router-dom'
-import {routes} from './routes'
-import {store} from './store/store'
+import { render, screen, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { routes } from './routes'
+import { store } from './store/store'
 
 function renderComponent(initialEntries: string[]) {
   return render(
     <Provider store={store}>
-      <RouterProvider router={createMemoryRouter(routes, {initialEntries})} />
+      <RouterProvider router={createMemoryRouter(routes, { initialEntries })} />
     </Provider>
   )
 }
@@ -15,7 +15,7 @@ function renderComponent(initialEntries: string[]) {
 it('Should end session when visiting /logga-ut', async () => {
   renderComponent(['/logga-ut'])
 
-  expect(await screen.findByRole('heading', {name: 'Du är utloggad', level: 1})).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: 'Du är utloggad', level: 1 })).toBeInTheDocument()
   expect(store.getState().sessionSlice.hasSessionEnded).toBe(true)
   await waitFor(() => expect(document.title).toBe('Du är utloggad - 1177'))
 })
