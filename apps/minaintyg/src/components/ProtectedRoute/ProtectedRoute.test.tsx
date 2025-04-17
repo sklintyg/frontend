@@ -18,7 +18,7 @@ class MockWorker {
   removeEventListener = vi.fn()
 }
 
-;(globalThis as any).Worker = MockWorker
+;(globalThis as unknown as { Worker: typeof Worker }).Worker = MockWorker as unknown as typeof Worker
 
 function renderComponent() {
   return render(<Provider store={store}>{withRouter(<ProtectedRoute>content</ProtectedRoute>)}</Provider>)
