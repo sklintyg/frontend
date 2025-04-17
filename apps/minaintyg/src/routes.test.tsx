@@ -1,8 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { RouterProvider, createMemoryRouter } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import { store } from './store/store'
+
+vi.mock('@/hooks/useSessionWorker', () => ({
+  useSessionWorker: () => {},
+}))
 
 function renderComponent(initialEntries: string[]) {
   return render(
