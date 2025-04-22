@@ -31,7 +31,7 @@ listenerMiddleware.startListening({
       const isUnauthorized = status >= 401 && status <= 403
 
       if (status >= 500 || isUnauthorized) {
-        dispatch(endSession({ reason: isUnauthorized ? 'logged-out' : 'unavailable', errorId: error?.id }))
+        dispatch(endSession(isUnauthorized ? { reason: 'logged-out' } : { reason: 'unavailable', errorId: error?.id }))
       }
     }
   },
