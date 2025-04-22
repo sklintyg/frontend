@@ -16,7 +16,9 @@ listenerMiddleware.startListening({
 
     if (user && session && session.secondsUntilExpire <= 30) {
       dispatch(endSession({ reason: 'logged-out' }))
-      if (user.loginMethod !== loginMethodEnum.enum.FAKE) {
+      if (user.loginMethod === loginMethodEnum.enum.FAKE) {
+        dispatch(testabilityApi.endpoints.fakeLogout.initiate())
+      } else {
         const form = document.createElement('form')
         const input = document.createElement('input')
         form.method = 'POST'
@@ -27,8 +29,6 @@ listenerMiddleware.startListening({
         form.appendChild(input)
         document.body.appendChild(form)
         form.submit()
-      } else {
-        dispatch(testabilityApi.endpoints.fakeLogout.initiate())
       }
       dispatch(api.util.resetApiState())
     }
