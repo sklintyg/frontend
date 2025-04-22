@@ -11,7 +11,7 @@ const listenerMiddleware = createListenerMiddleware<RootState>()
 
 listenerMiddleware.startListening({
   matcher: api.endpoints.getSessionPing.matchFulfilled,
-  effect: async (action, { dispatch }) => {
+  effect: (action, { dispatch }) => {
     const session = action.payload
 
     if (session && session.secondsUntilExpire <= 30) {
@@ -22,7 +22,7 @@ listenerMiddleware.startListening({
 
 listenerMiddleware.startListening({
   matcher: isRejectedEndpoint,
-  effect: async (action, { dispatch, getState }) => {
+  effect: (action, { dispatch, getState }) => {
     const hasSession = selectHasSession(getState())
     const error = isQueryError(action) ? action.payload : null
 
@@ -39,7 +39,7 @@ listenerMiddleware.startListening({
 
 listenerMiddleware.startListening({
   actionCreator: endSession,
-  effect: async (action, { dispatch, getState }) => {
+  effect: (action, { dispatch, getState }) => {
     const { data: user } = api.endpoints.getUser.select()(getState())
 
     if (user && action.payload.reason === 'logged-out') {
