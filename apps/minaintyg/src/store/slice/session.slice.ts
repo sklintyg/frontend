@@ -3,8 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import { z } from 'zod'
 import type { ErrorTypeEnum } from '../../schema/error.schema'
-import { isQueryError } from '../../utils/isQueryError'
-import { api, hasResponse, isRejectedEndpoint } from '../api'
+import { api } from '../api'
 
 export const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
 export type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
@@ -35,35 +34,15 @@ const sessionSlice = createSlice({
       state.errorId = payload.errorId
     },
   },
+  selectors: {
+    selectHasSession: (state) => state.hasSession,
+  },
   extraReducers: (builder) => {
     // Start session after successful user fetch
     builder.addMatcher(api.endpoints.getUser.matchFulfilled, () => ({ ...initialState, hasSession: true }))
-
-    builder.addMatcher(isRejectedEndpoint, (state, action) => {
-      const error = isQueryError(action) ? action.payload : null
-
-      if (hasResponse(action.meta.baseQueryMeta) && state.hasSession === true) {
-        const { status } = action.meta.baseQueryMeta.response
-        const isUnauthorized = status >= 401 && status <= 403
-
-        if (status >= 500 || isUnauthorized) {
-          state.hasSession = false
-          state.hasSessionEnded = true
-        }
-
-        if (isUnauthorized) {
-          state.reason = 'logged-out'
-        } else if (status === 503) {
-          state.reason = 'unavailable'
-        }
-
-        if (status >= 500) {
-          state.errorId = error?.id
-        }
-      }
-    })
   },
 })
 
 export const { endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice
+export const { selectHasSession } = sessionSlice.selectors
