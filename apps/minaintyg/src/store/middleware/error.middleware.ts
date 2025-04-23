@@ -8,8 +8,8 @@ import type { RootState } from '../reducer'
 const hasMessage = (o: unknown): o is { message: string } => isPlainObject(o) && 'message' in o && typeof o.message === 'string'
 
 function getMessage(action: UnknownAction): string {
-  if (isRejectedWithValue(action) && isPlainObject(action.payload)) {
-    if (action.payload && 'data' in action.payload && hasMessage(action.payload.data)) {
+  if (isRejectedWithValue(action)) {
+    if (isPlainObject(action.payload) && 'data' in action.payload && hasMessage(action.payload.data)) {
       return action.payload.data.message
     }
     if (action.error && action.error.message) {
