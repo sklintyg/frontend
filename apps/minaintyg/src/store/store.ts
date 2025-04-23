@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { api } from './api'
 import { errorMiddleware } from './middleware/error.middleware'
+import { sessionMiddleware } from './middleware/session.middleware'
 import { reducer } from './reducer'
-import { sessionMiddleware } from './slice/sessionMiddleware'
 
 export const store = configureStore({
   reducer,

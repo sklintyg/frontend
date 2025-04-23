@@ -1,11 +1,11 @@
 import { getCookie } from '@frontend/utils'
-import { createListenerMiddleware } from '@reduxjs/toolkit'
+import { createListenerMiddleware, isRejected } from '@reduxjs/toolkit'
 import { loginMethodEnum } from '../../schema/user.schema'
 import { isQueryError } from '../../utils/isQueryError'
-import { api, hasResponse, isRejectedEndpoint } from '../api'
+import { api, hasResponse } from '../api'
 import type { RootState } from '../reducer'
+import { endSession, selectHasSession } from '../slice/session.slice'
 import { testabilityApi } from '../testabilityApi'
-import { endSession, selectHasSession } from './session.slice'
 
 const listenerMiddleware = createListenerMiddleware<RootState>()
 
@@ -21,13 +21,14 @@ listenerMiddleware.startListening({
 })
 
 listenerMiddleware.startListening({
-  matcher: isRejectedEndpoint,
+  matcher: isRejected,
   effect: (action, { dispatch, getState }) => {
     const hasSession = selectHasSession(getState())
     const error = isQueryError(action) ? action.payload : null
+    const baseQueryMeta = 'baseQueryMeta' in action.meta ? action.meta.baseQueryMeta : null
 
-    if (hasResponse(action.meta.baseQueryMeta) && hasSession === true) {
-      const { status } = action.meta.baseQueryMeta.response
+    if (hasResponse(baseQueryMeta) && hasSession === true) {
+      const { status } = baseQueryMeta.response
       const isUnauthorized = status >= 401 && status <= 403
 
       if (status >= 500 || isUnauthorized) {
