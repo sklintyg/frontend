@@ -185,6 +185,7 @@ export const handlers = [
   }),
 
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
+  rest.post('/api/testability/logout', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
     res(
