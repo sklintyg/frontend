@@ -42,7 +42,7 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
         dispatch(
           api.endpoints.logError.initiate({
             id,
-            code: 'status' in action.payload ? (action.payload.status as ErrorCodeEnum) : 'UNKNOWN_INTERNAL_ERROR',
+            code: 'status' in action.payload ? (action.payload.status as ErrorCodeEnum) : 'FETCH_ERROR',
             message,
             stackTrace: action.error ? action.error.stack : 'NO_STACK_TRACE',
           })

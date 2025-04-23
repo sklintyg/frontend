@@ -33,6 +33,10 @@ const sessionSlice = createSlice({
       state.reason = payload.reason
       state.errorId = payload.errorId
     },
+    startSession(state) {
+      state.hasSession = true
+      state.hasSessionEnded = false
+    },
   },
   selectors: {
     selectHasSession: (state) => state.hasSession,
@@ -45,6 +49,6 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { endSession, reset } = sessionSlice.actions
+export const { endSession, startSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice
 export const { selectHasSession, selectHasSessionEnded, selectSessionEndReason } = sessionSlice.selectors
