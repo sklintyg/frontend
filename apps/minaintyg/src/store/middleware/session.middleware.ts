@@ -4,7 +4,7 @@ import { loginMethodEnum } from '../../schema/user.schema'
 import { isQueryError } from '../../utils/isQueryError'
 import { api, hasResponse } from '../api'
 import type { RootState } from '../reducer'
-import { endSession, selectHasSession } from '../slice/session.slice'
+import { endSession, selectHasSession, selectSessionEndReason } from '../slice/session.slice'
 import { testabilityApi } from '../testabilityApi'
 
 const listenerMiddleware = createListenerMiddleware<RootState>()
@@ -39,11 +39,11 @@ listenerMiddleware.startListening({
 })
 
 listenerMiddleware.startListening({
-  actionCreator: endSession,
-  effect: (action, { dispatch, getState }) => {
+  predicate: (_, currentState, previousState) => selectHasSession(previousState) === true && selectHasSession(currentState) === false,
+  effect: (_, { dispatch, getState }) => {
     const { data: user } = api.endpoints.getUser.select()(getState())
 
-    if (user && action.payload.reason === 'logged-out') {
+    if (user && selectSessionEndReason(getState()) === 'logged-out') {
       if (user.loginMethod === loginMethodEnum.enum.FAKE) {
         dispatch(testabilityApi.endpoints.fakeLogout.initiate())
       } else {

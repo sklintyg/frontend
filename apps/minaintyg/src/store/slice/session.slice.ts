@@ -36,6 +36,8 @@ const sessionSlice = createSlice({
   },
   selectors: {
     selectHasSession: (state) => state.hasSession,
+    selectHasSessionEnded: (state) => state.hasSessionEnded,
+    selectSessionEndReason: (state) => state.reason,
   },
   extraReducers: (builder) => {
     // Start session after successful user fetch
@@ -45,4 +47,4 @@ const sessionSlice = createSlice({
 
 export const { endSession, reset } = sessionSlice.actions
 export const { reducer: sessionReducer, name: sessionReducerPath } = sessionSlice
-export const { selectHasSession } = sessionSlice.selectors
+export const { selectHasSession, selectHasSessionEnded, selectSessionEndReason } = sessionSlice.selectors
