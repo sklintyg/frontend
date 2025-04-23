@@ -1,14 +1,15 @@
 import { randomUUID } from '@frontend/utils'
 import type { ThunkMiddleware, UnknownAction } from '@reduxjs/toolkit'
-import { isPlainObject } from '@reduxjs/toolkit'
-import { api, hasRequest, isRejectedEndpoint } from '../api'
+import { isPlainObject, isRejectedWithValue } from '@reduxjs/toolkit'
+import type { ErrorCodeEnum } from '../../schema/error.schema'
+import { api, hasRequest } from '../api'
 import type { RootState } from '../reducer'
 
 const hasMessage = (o: unknown): o is { message: string } => isPlainObject(o) && 'message' in o && typeof o.message === 'string'
 
 function getMessage(action: UnknownAction): string {
-  if (isRejectedEndpoint(action)) {
-    if (action.payload && hasMessage(action.payload.data)) {
+  if (isRejectedWithValue(action)) {
+    if (isPlainObject(action.payload) && 'data' in action.payload && hasMessage(action.payload.data)) {
       return action.payload.data.message
     }
     if (action.error && action.error.message) {
@@ -30,9 +31,10 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
       return next(action)
     }
 
-    if (isRejectedEndpoint(action) && action.payload) {
+    if (isRejectedWithValue(action) && isPlainObject(action.payload)) {
       const id = randomUUID()
-      const request = hasRequest(action.meta.baseQueryMeta) ? action.meta.baseQueryMeta.request : null
+      const baseQueryMeta = 'baseQueryMeta' in action.meta ? action.meta.baseQueryMeta : null
+      const request = hasRequest(baseQueryMeta) ? baseQueryMeta.request : null
       const message = request ? `'${getMessage(action)}' method '${request.method}' url '${request.url}'` : getMessage(action)
       const { hasSession } = getState().sessionSlice
 
@@ -40,7 +42,7 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
         dispatch(
           api.endpoints.logError.initiate({
             id,
-            code: action.payload.status,
+            code: 'status' in action.payload ? (action.payload.status as ErrorCodeEnum) : 'FETCH_ERROR',
             message,
             stackTrace: action.error ? action.error.stack : 'NO_STACK_TRACE',
           })
