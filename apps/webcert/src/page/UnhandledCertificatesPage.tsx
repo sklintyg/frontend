@@ -7,7 +7,7 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import { ListContainer } from '../feature/list/ListContainer'
 import { noQuestionImage, speechBubbleImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
+import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig, getListError } from '../store/list/listSelectors'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import { ListType, ResourceLinkType } from '../types'
@@ -18,6 +18,7 @@ export function UnhandledCertificatesPage() {
   const config = useAppSelector(getActiveListConfig, shallowEqual)
   const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
   const nbrOfQuestionsOnUnit = useAppSelector(getNumberOfQuestionsOnUnit)
+  const listError = useAppSelector(getListError)
 
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
@@ -48,7 +49,7 @@ export function UnhandledCertificatesPage() {
       >
         <ListContainer
           type={ListType.UNHANDLED_CERTIFICATES}
-          showMessageForEmptyList={nbrOfQuestionsOnUnit === 0}
+          showMessageForEmptyList={!listError && nbrOfQuestionsOnUnit === 0}
           icon={undefined}
           emptyListIcon={noQuestionImage}
         />
