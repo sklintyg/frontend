@@ -38,6 +38,7 @@ export default ({ mode }: UserConfig) => {
       port: 5174,
       proxy,
       strictPort: true,
+      allowedHosts: true,
       hmr: hmr ? { host: process.env.VITE_WS_HOST, protocol: hmrProtocol } : false,
     },
   })
