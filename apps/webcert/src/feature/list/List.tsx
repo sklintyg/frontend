@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
+import DisplayError from '../../components/error/DisplayError'
+import InfoBox from '../../components/utils/InfoBox'
+import { getIsLoadingList, getIsSortingList, getListError } from '../../store/list/listSelectors'
 import { useAppSelector } from '../../store/store'
 import type { CertificateListItem, ListConfig, ListFilter, ListType, ResourceLink } from '../../types'
 import { ListItemContent } from './ListItemContent'
@@ -27,8 +29,16 @@ export function List({
 }>) {
   const isLoadingList = useAppSelector(getIsLoadingList)
   const isSortingList = useAppSelector(getIsSortingList)
+  const listError = useAppSelector(getListError)
 
   if (!config) {
+    if (listError) {
+      return (
+        <InfoBox type="error">
+          <DisplayError errorCode={listError?.errorCode} fallback="Sökningen kunde inte utföras." />
+        </InfoBox>
+      )
+    }
     return null
   }
 
