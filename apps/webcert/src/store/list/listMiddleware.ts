@@ -10,12 +10,14 @@ import {
   clearListError,
   getCertificateList,
   getCertificateListConfig,
+  getCertificateListConfigError,
   getCertificateListConfigStarted,
   getCertificateListConfigSuccess,
   getCertificateListError,
   getCertificateListStarted,
   getCertificateListSuccess,
   getDraftListConfig,
+  getDraftListConfigError,
   getDraftListConfigStarted,
   getDraftListConfigSuccess,
   getDrafts,
@@ -25,6 +27,7 @@ import {
   getListConfig,
   getPreviousCertificatesList,
   getPreviousCertificatesListConfig,
+  getPreviousCertificatesListConfigError,
   getPreviousCertificatesListConfigStarted,
   getPreviousCertificatesListConfigSuccess,
   getPreviousCertificatesListError,
@@ -33,6 +36,7 @@ import {
   getUnhandledCertificates,
   getUnhandledCertificatesError,
   getUnhandledCertificatesListConfig,
+  getUnhandledCertificatesListConfigError,
   getUnhandledCertificatesListConfigStarted,
   getUnhandledCertificatesListConfigSuccess,
   getUnhandledCertificatesStarted,
@@ -208,7 +212,7 @@ const handleGetDraftListConfig: Middleware<Dispatch> =
         method: 'GET',
         onStart: getDraftListConfigStarted.type,
         onSuccess: getDraftListConfigSuccess.type,
-        onError: setListError.type,
+        onError: getDraftListConfigError.type,
       })
     )
   }
@@ -223,7 +227,7 @@ const handleGetCertificateListConfig: Middleware<Dispatch> =
         method: 'GET',
         onStart: getCertificateListConfigStarted.type,
         onSuccess: getCertificateListConfigSuccess.type,
-        onError: setListError.type,
+        onError: getCertificateListConfigError.type,
       })
     )
   }
@@ -238,7 +242,7 @@ const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> =
         method: 'GET',
         onStart: getPreviousCertificatesListConfigStarted.type,
         onSuccess: getPreviousCertificatesListConfigSuccess.type,
-        onError: setListError.type,
+        onError: getPreviousCertificatesListConfigError.type,
       })
     )
   }
@@ -254,7 +258,7 @@ const handleGetUnhandledCertificatesListConfig: Middleware<Dispatch> =
         data: action.payload,
         onStart: getUnhandledCertificatesListConfigStarted.type,
         onSuccess: getUnhandledCertificatesListConfigSuccess.type,
-        onError: setListError.type,
+        onError: getUnhandledCertificatesListConfigError.type,
       })
     )
   }
@@ -308,6 +312,17 @@ const handleGetListConfigSuccess =
     }
   }
 
+const handleGetListConfigError =
+  (listType: ListType): Middleware<Dispatch> =>
+  ({ dispatch, getState }: MiddlewareAPI) =>
+  () =>
+  (action: AnyAction): void => {
+    if (getState().ui.uiList.activeListType === listType) {
+      dispatch(updateIsLoadingListConfig(false))
+      dispatch(setListError(action.payload.error))
+    }
+  }
+
 const handleGetListError =
   (listType: ListType): Middleware<Dispatch> =>
   ({ dispatch, getState }: MiddlewareAPI) =>
@@ -347,12 +362,14 @@ const middlewareMethods = {
   [getCertificateListConfig.type]: handleGetCertificateListConfig,
   [getCertificateListConfigStarted.type]: handleGetListConfigStarted(ListType.CERTIFICATES),
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess(ListType.CERTIFICATES),
+  [getCertificateListConfigError.type]: handleGetListConfigError(ListType.CERTIFICATES),
   [getCertificateListError.type]: handleGetListError(ListType.CERTIFICATES),
   [getCertificateListStarted.type]: handleGetListStarted(ListType.CERTIFICATES),
   [getCertificateListSuccess.type]: handleGetListSuccess(ListType.CERTIFICATES),
   [getDraftListConfig.type]: handleGetDraftListConfig,
   [getDraftListConfigStarted.type]: handleGetListConfigStarted(ListType.DRAFTS),
   [getDraftListConfigSuccess.type]: handleGetListConfigSuccess(ListType.DRAFTS),
+  [getDraftListConfigError.type]: handleGetListConfigError(ListType.DRAFTS),
   [getDrafts.type]: handleGetDrafts,
   [getDraftsError.type]: handleGetListError(ListType.DRAFTS),
   [getDraftsStarted.type]: handleGetListStarted(ListType.DRAFTS),
@@ -362,12 +379,14 @@ const middlewareMethods = {
   [getPreviousCertificatesListConfig.type]: handleGetPreviousCertificatesListConfig,
   [getPreviousCertificatesListConfigStarted.type]: handleGetListConfigStarted(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListConfigSuccess.type]: handleGetListConfigSuccess(ListType.PREVIOUS_CERTIFICATES),
+  [getPreviousCertificatesListConfigError.type]: handleGetListConfigError(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListError.type]: handleGetListError(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListStarted.type]: handleGetListStarted(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListSuccess.type]: handleGetListSuccess(ListType.PREVIOUS_CERTIFICATES),
   [getUnhandledCertificatesListConfig.type]: handleGetUnhandledCertificatesListConfig,
   [getUnhandledCertificatesListConfigStarted.type]: handleGetListConfigStarted(ListType.UNHANDLED_CERTIFICATES),
   [getUnhandledCertificatesListConfigSuccess.type]: handleGetListConfigSuccess(ListType.UNHANDLED_CERTIFICATES),
+  [getUnhandledCertificatesListConfigError.type]: handleGetListConfigError(ListType.UNHANDLED_CERTIFICATES),
   [getUnhandledCertificates.type]: handleGetUnhandledCertificates,
   [getUnhandledCertificatesError.type]: handleGetListError(ListType.UNHANDLED_CERTIFICATES),
   [getUnhandledCertificatesStarted.type]: handleGetListStarted(ListType.UNHANDLED_CERTIFICATES),

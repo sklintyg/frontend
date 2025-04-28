@@ -7,7 +7,7 @@ import ListHeader from '../components/List/ListHeader'
 import { ListContainer } from '../feature/list/ListContainer'
 import { epostImage, noDraftsImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
+import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig, getListError } from '../store/list/listSelectors'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
 import { ListType, ResourceLinkType } from '../types'
@@ -19,6 +19,7 @@ export function CertificateDraftsPage() {
   const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
   const nbrOfDraftsOnUnit = useAppSelector(getNumberOfDraftsOnUnit)
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
+  const listError = useAppSelector(getListError)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -47,7 +48,7 @@ export function CertificateDraftsPage() {
       >
         <ListContainer
           type={ListType.DRAFTS}
-          showMessageForEmptyList={nbrOfDraftsOnUnit === 0}
+          showMessageForEmptyList={!listError && nbrOfDraftsOnUnit === 0}
           icon={undefined}
           emptyListIcon={noDraftsImage}
         />
