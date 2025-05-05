@@ -38,7 +38,7 @@ const DatesWrapper = styled.div`
 const DateGrid = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 16px;
   flex-direction: column;
   @media (min-width: 1200px) {
     flex-direction: row;
