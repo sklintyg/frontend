@@ -33,7 +33,9 @@ const DatesWrapper = styled.div`
   label {
     margin-right: 0.625em;
     width: 42px;
-    text-align: right;
+    @media (min-width: 1200px) {
+      text-align: right;
+    }
   }
 `
 const DateGrid = styled.div`
