@@ -54,7 +54,7 @@ export function SelectButton({
   return (
     <div aria-expanded={open}>
       <button
-        className="flex w-28 items-center justify-between gap-2"
+        className="flex items-center justify-between gap-2"
         type="button"
         onClick={(event) => {
           handleOpenChange(!open)
@@ -69,13 +69,13 @@ export function SelectButton({
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
             <div
-              className="ids-content z-40 w-32 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              className="ids-content z-40 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
               ref={refs.setFloating}
               style={{
                 position: strategy,
                 top: y ?? 0,
                 left: x ?? 0,
-                minWidth: 100,
+                minWidth: 190,
                 outline: 0,
               }}
               {...getFloatingProps()}

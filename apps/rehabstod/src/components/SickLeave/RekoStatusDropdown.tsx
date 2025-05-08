@@ -17,7 +17,7 @@ export function RekoStatusDropdown({
 }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [setRekoStatus] = useSetRekoStatusMutation()
-  const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : 'Ingen')
+  const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : '-')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeaveFilter)
   const [open, setOpen] = useState(false)
