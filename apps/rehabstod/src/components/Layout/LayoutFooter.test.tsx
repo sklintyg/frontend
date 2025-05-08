@@ -5,11 +5,7 @@ import { LayoutFooter } from './LayoutFooter'
 it('Should display links', async () => {
   renderWithRouter(<LayoutFooter />)
 
-  expect(
-    screen.getByText(
-      'Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.'
-    )
-  ).toBeInTheDocument()
+  expect(screen.getByText('Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.')).toBeInTheDocument()
 
   expect(await screen.findAllByText('ineraManualRehabstod')).toHaveLength(2)
   expect(await screen.findAllByText('ineraNationellKundservice')).toHaveLength(2)

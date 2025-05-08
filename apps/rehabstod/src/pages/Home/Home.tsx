@@ -19,9 +19,9 @@ export function Home() {
     <PageHero type="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
       <p className="ids-preamble">
-        Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Är du
-        rehabkoordinator får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de pågående sjukfall där du har
-        skrivit det senaste intyget.{' '}
+        Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Har du uppdrag att
+        ge koordineringsinsatser på vårdenheten får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de
+        pågående sjukfall där du har skrivit det senaste intyget.
       </p>
       <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
       <IDSButton sblock data-testid="login-btn" onClick={() => window.open(config && config.sithsIdpUrl, '_self')}>

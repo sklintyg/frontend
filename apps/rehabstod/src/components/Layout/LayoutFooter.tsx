@@ -8,7 +8,7 @@ export function LayoutFooter() {
 
   return (
     <IDSFooter type="inera-admin" headline="Rehabstöd" className="print:hidden" cols={2}>
-      <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
+      <p>Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
 
       <p slot="link-col-1">
         <DynamicLink type="footer" link={links?.ineraManualRehabstod} />
