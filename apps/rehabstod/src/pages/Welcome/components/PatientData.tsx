@@ -95,7 +95,7 @@ export function PatientData() {
         <Select
           label="Diagnoskod (Bi-diagnos 1)"
           value={secondDiagnosisCode ?? ''}
-          defaultOption={{ value: '', label: 'Ingen' }}
+          defaultOption={{ value: '', label: '-' }}
           options={testDataOptions.diagnosisCodes.map((diagnosis) => ({ value: diagnosis, label: diagnosis }))}
           onChange={(e) => updatePatientData({ secondDiagnosisCode: e.target.value })}
         />
@@ -103,7 +103,7 @@ export function PatientData() {
         <Select
           label="Diagnoskod (Bi-diagnos 2)"
           value={thirdDiagnosisCode ?? ''}
-          defaultOption={{ value: '', label: 'Ingen' }}
+          defaultOption={{ value: '', label: '-' }}
           options={testDataOptions.diagnosisCodes.map((diagnosis) => ({ value: diagnosis, label: diagnosis }))}
           onChange={(e) => updatePatientData({ thirdDiagnosisCode: e.target.value })}
         />
