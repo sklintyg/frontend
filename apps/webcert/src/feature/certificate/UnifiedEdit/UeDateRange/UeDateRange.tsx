@@ -1,12 +1,13 @@
 import { addDays, isValid } from 'date-fns'
 import type React from 'react'
 import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
 import {
   _dateReg,
@@ -31,19 +32,19 @@ const DatesWrapper = styled.div`
 
   label {
     margin-right: 0.625em;
-  }
-
-  & + & {
-    margin-left: 8px;
+    width: 42px;
+    @media (min-width: 1200px) {
+      text-align: right;
+    }
   }
 `
 const DateGrid = styled.div`
-  display: grid;
+  display: flex;
   align-items: baseline;
-  grid-template-columns: 1fr 1fr;
-  @media (max-width: 1200px) {
-    grid-template-columns: 1fr;
-    grid-gap: 8px;
+  gap: 16px;
+  flex-direction: column;
+  @media (min-width: 1200px) {
+    flex-direction: row;
   }
 `
 
@@ -61,7 +62,7 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
 
   const dispatch = useDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
 
   const handleFromTextInputChange = (fromValue: string) => {
     setFromDateInput(fromValue)
