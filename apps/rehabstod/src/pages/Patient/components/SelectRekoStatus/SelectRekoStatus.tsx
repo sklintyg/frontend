@@ -21,7 +21,7 @@ export function SelectRekoStatus({
 }) {
   const [setRekoStatus] = useSetRekoStatusMutation()
   const { data: rekoStatus } = useGetRekoStatusForPatientQuery({ patientId, endDate, startDate })
-  const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
+  const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === '-')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeaveFilter)
 
