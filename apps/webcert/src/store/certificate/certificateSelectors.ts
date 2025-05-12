@@ -184,18 +184,31 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-const getQuestionServerValidationErrors =
-  (questionId: string) =>
-  (state: RootState): ValidationError[] =>
-    getQuestion(questionId)(state)?.validationErrors ?? []
-
 export const getVisibleValidationErrors =
   (questionId: string, field?: string) =>
   (state: RootState): ValidationError[] => {
+    const question = getQuestion(questionId)(state)
+    const questionValidationErrors = question?.validationErrors ?? []
+
+    function getParentValidationErrors(el: CertificateDataElement): ValidationError[] {
+      const parent = state.ui.uiCertificate.certificate?.data[el.parent]
+      const validationErrors = (parent?.validationErrors ?? []).map((parentValidationError) => ({
+        ...parentValidationError,
+        text: '',
+      }))
+
+      if (parent?.parent) {
+        return [...getParentValidationErrors(parent), ...validationErrors]
+      }
+
+      return validationErrors
+    }
+
     const showValidationErrors = getShowValidationErrors(state)
+    const parentValidationErrors = question ? getParentValidationErrors(question) : []
 
     return uniqWith<ValidationError>(
-      getQuestionServerValidationErrors(questionId)(state)
+      [...questionValidationErrors, ...parentValidationErrors]
         .filter((v) => showValidationErrors || v.showAlways)
         .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
       (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
