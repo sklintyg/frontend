@@ -16,6 +16,7 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
 import type { AppDispatch, RootState } from '../store'
 import {
+  abortSignCertificate,
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
@@ -403,6 +404,23 @@ const handleStartSignCertificate: Middleware<Dispatch> =
         )
         break
     }
+  }
+
+// FIXME: TicketID
+const handleAbortSignCertificate: Middleware<Dispatch> =
+  ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
+  () =>
+  (action: AnyAction): void => {
+  const ticketId = getState().ui.uiCertificate.signingData?.id;
+    dispatch(
+      apiCallBegan({
+        url: `/api/signature/${ticketId}/abort`,
+        method: 'GET',
+        //onSuccess: startSignCertificateSuccess.type,
+        //onError: signCertificateStatusError.type,
+        //functionDisablerType: toggleCertificateFunctionDisabler.type,
+      })
+    )
   }
 
 const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
@@ -1111,6 +1129,7 @@ const middlewareMethods = {
   [getCertificateEvents.type]: handleGetCertificateEvents,
   [getCertificateEventsSuccess.type]: handleGetCertificateEventsSuccess,
   [startSignCertificate.type]: handleStartSignCertificate,
+  [abortSignCertificate.type]: handleAbortSignCertificate,
   [startSignCertificateSuccess.type]: handleStartSignCertificateSuccess,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [validateCertificate.type]: handleValidateCertificate,

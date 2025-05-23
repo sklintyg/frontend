@@ -66,6 +66,7 @@ const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
 const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
+const SIGN_CERTIFICATE_ABORTED = `${CERTIFICATE} Sign certificate aborted`
 const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
 const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
 const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
@@ -290,6 +291,9 @@ export interface SendCertificateSuccess {
 }
 
 export const startSignCertificate = createAction(SIGN_CERTIFICATE)
+
+//FIXME
+export const abortSignCertificate = createAction(SIGN_CERTIFICATE_ABORTED)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 

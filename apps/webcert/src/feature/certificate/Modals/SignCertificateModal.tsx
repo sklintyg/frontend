@@ -9,7 +9,7 @@ import { CertificateSignStatus, SigningMethod } from '../../../types'
 import QRCode from '../../../components/qrcode/QRCode'
 import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
-import { updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
+import { abortSignCertificate } from '../../../store/certificate/certificateActions'
 
 const BankIDLogo = styled.img`
   width: 60%;
@@ -23,7 +23,7 @@ export function SignCertificateModal() {
   const [correctSigningStatus, setCorrectSigningStatus] = useState(false)
 
   const onCancel = () => {
-    dispatch(updateCertificateSignStatus(CertificateSignStatus.ABORT))
+    dispatch(abortSignCertificate())
   }
 
   useEffect(() => {
