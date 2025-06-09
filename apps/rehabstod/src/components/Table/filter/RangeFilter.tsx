@@ -1,7 +1,7 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSIconQuestion } from '@inera/ids-react'
 import { useId } from 'react'
-import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
+import { FormattedNumberInput } from '../../form/FormattedNumberInput'
+import { TooltipIcon } from '../../Tooltip'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({
@@ -38,7 +38,6 @@ export function RangeFilter({
             label="Från"
             onChange={(value) => onFromChange(value)}
             value={from === '0' ? '' : from}
-            inline
             max={to}
             min={min}
             defaultValue={min}
@@ -47,7 +46,6 @@ export function RangeFilter({
             label="Till"
             onChange={(value) => onToChange(value)}
             value={to === '0' ? '' : to}
-            inline
             max={max}
             min={from}
             defaultValue={max}

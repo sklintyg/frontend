@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { MobileMenuItem } from '@frontend/components'
-import { IDSHeaderMobileMenu, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink, IDSMobileMenuAvatar } from '@frontend/ids-react-ts'
+import { IDSHeader1177Admin, IDSHeader1177AdminAvatarMobile, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { MobileMenuItem } from './NavItem/MobileMenuItem'
 
 export function LayoutMobileHeader() {
   const { data: user } = useGetUserQuery()
@@ -19,11 +19,11 @@ export function LayoutMobileHeader() {
   }
 
   return (
-    <IDSHeaderMobileMenu type="inera-admin">
+    <IDSHeader1177Admin>
       <MobileMenuItem to="/" title="Översikt" />
       <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
       <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
-      <IDSMobileMenuAvatar username={user.namn} unit={user.valdVardenhet?.namn}>
+      <IDSHeader1177AdminAvatarMobile username={user.namn} unit={user.valdVardenhet?.namn}>
         <IDSLink block className="mb-5 mt-2" colorpreset={2}>
           <IDSIconSwap height="20" width="20" color="currentColor" />
           <Link to="/enhet">Byt vårdenhet</Link>
@@ -45,7 +45,7 @@ export function LayoutMobileHeader() {
             Logga ut
           </a>
         </IDSLink>
-      </IDSMobileMenuAvatar>
-    </IDSHeaderMobileMenu>
+      </IDSHeader1177AdminAvatarMobile>
+    </IDSHeader1177Admin>
   )
 }

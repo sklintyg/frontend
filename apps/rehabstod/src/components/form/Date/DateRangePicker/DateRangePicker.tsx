@@ -1,14 +1,16 @@
-import { TooltipIcon, classNames, useInputStyle } from '@frontend/components'
-import { IDSButton, IDSErrorMessage, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSErrorMessage, IDSIconQuestion } from '@inera/ids-react'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import type { AriaDateRangePickerProps, DateValue } from 'react-aria'
 import { useDateRangePicker } from 'react-aria'
 import { useDateRangePickerState } from 'react-stately'
+import { classNames } from '../../../../utils/classNames'
 import { isValidDate } from '../../../../utils/isValidDate'
+import { Button } from '../../../Button/Button'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
+import { TooltipIcon } from '../../../Tooltip'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 import { useDateFieldFocus } from '../hooks/useDateFieldFocus'
@@ -43,7 +45,7 @@ export function DateRangePicker({
       props.onChange(val)
     }
   }
-  const style = useInputStyle({ error, disabled })
+  // const style = useInputStyle({ error, disabled })
   const value = isValidDate(startDate) && isValidDate(endDate) ? { start: parseDate(startDate), end: parseDate(endDate) } : null
   const state = useDateRangePickerState({ value, ...props, onChange })
   const ref = useRef(null)
@@ -63,7 +65,7 @@ export function DateRangePicker({
           <span {...labelProps}>{label}</span>
           {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
         </div>
-        <div {...groupProps} ref={ref} className={`${style} flex`}>
+        <div {...groupProps} ref={ref} className="ids-input flex">
           <div ref={fieldRef} className="inline-flex w-full gap-1 pl-5">
             <DateField
               {...startFieldProps}
@@ -83,9 +85,9 @@ export function DateRangePicker({
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
             <RangeCalendar {...calendarProps} />
-            <IDSButton size="s" block secondary onClick={() => onDataChanged && onDataChanged({ start: null, end: null })}>
+            <Button size="s" block secondary onClick={() => onDataChanged && onDataChanged({ start: null, end: null })}>
               Återställ
-            </IDSButton>
+            </Button>
           </PopoverContent>
         )}
         {error && <IDSErrorMessage>Du måste ange ett giltigt datum</IDSErrorMessage>}

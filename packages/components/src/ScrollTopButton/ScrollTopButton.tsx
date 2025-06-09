@@ -1,4 +1,4 @@
-import { IDSButton, IDSIconArrow } from '@frontend/ids-react-ts'
+import { IDSButton, IDSIconArrow } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
 import { classNames } from '../utils'
 

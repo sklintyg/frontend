@@ -1,8 +1,9 @@
-import { IDSButton, IDSErrorMessage } from '@frontend/ids-react-ts'
+import { IDSErrorMessage } from '@inera/ids-react'
 import { useState } from 'react'
-import { Checkbox } from '../../../../../components/Form/Checkbox'
-import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
-import { RadioButton } from '../../../../../components/Form/RadioButton'
+import { Button } from '../../../../../components/Button/Button'
+import { Checkbox } from '../../../../../components/form/Checkbox'
+import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
+import { RadioButton } from '../../../../../components/form/RadioButton'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
@@ -85,12 +86,12 @@ export function OpenInformationWithConsent({
         <AboutPatientOverview />
       </div>
       <div className="flex flex-col gap-5 md:flex-row md:justify-center">
-        <IDSButton mblock secondary onClick={onClose}>
+        <Button mblock secondary onClick={onClose}>
           <span className="text-sm sm:text-base">Avbryt</span>
-        </IDSButton>
-        <IDSButton mblock onClick={handleGiveConsent}>
+        </Button>
+        <Button mblock onClick={handleGiveConsent}>
           <span className="text-sm sm:text-base">Patienten ger samtycke</span>
-        </IDSButton>
+        </Button>
       </div>
     </>
   )

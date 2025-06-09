@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { IDSButton } from '@frontend/ids-react-ts'
 import type { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import type { TableColumn } from '../../../schemas/tableSchema'
-import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
-import { SelectMultipleActions } from '../../Form/SelectMultiple/SelectMultipleActions'
-import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
+import { Button } from '../../Button/Button'
+import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
+import { SelectMultipleActions } from '../../form/SelectMultiple/SelectMultipleActions'
+import { SelectMultipleList } from '../../form/SelectMultiple/SelectMultipleList'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
 import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 
@@ -73,9 +73,9 @@ export function ModifyTableColumns({
         </ReorderableListBox>
       </SelectMultipleList>
       <SelectMultipleActions>
-        <IDSButton onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
+        <Button onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
           Återställ
-        </IDSButton>
+        </Button>
       </SelectMultipleActions>
     </SelectMultiple>
   )

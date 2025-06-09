@@ -46,6 +46,12 @@ module.exports = {
         depth: 25,
       },
     ],
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['\\.css$'],
+      },
+    ],
   },
   settings: {
     react: {

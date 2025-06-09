@@ -1,20 +1,19 @@
-import { LinkIcon, TertiaryButton } from '@frontend/components'
-import { IDSIconExternal } from '@frontend/ids-react-ts'
+import { IDSIconExternal } from '@inera/ids-react'
+import { Button } from '../../../components/Button/Button'
 import { usePatient } from '../hooks/usePatient'
 
 export function CertificateButton({ certificateId }: { certificateId: string }) {
   const { navigateToWebcert } = usePatient()
 
   return (
-    <TertiaryButton
+    <Button
+      tertiary
       onClick={() => {
         navigateToWebcert(certificateId)
       }}
-      className="whitespace-nowrap"
-      endIcon={<LinkIcon icon={IDSIconExternal} />}
-      underlined
     >
       Visa
-    </TertiaryButton>
+      <IDSIconExternal />
+    </Button>
   )
 }

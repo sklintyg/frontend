@@ -1,7 +1,7 @@
-import { classNames } from '@frontend/components'
 import { useRef } from 'react'
 import { useDateSegment } from 'react-aria'
 import type { DateFieldState, DateSegment } from 'react-stately'
+import { classNames } from '../../../utils/classNames'
 
 export function DateFieldSegment({ segment, state }: { segment: DateSegment; state: DateFieldState }) {
   const ref = useRef(null)

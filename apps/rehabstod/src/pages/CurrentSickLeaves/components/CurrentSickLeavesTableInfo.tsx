@@ -1,4 +1,4 @@
-import { TertiaryButton } from '@frontend/components'
+import { Button } from '../../../components/Button/Button'
 import { TableInfoItem } from '../../../components/Table/TableInfo/TableInfoItem'
 import { TableRowsInfoItem } from '../../../components/Table/TableInfo/TableRowsInfoItem'
 import { useAppDispatch } from '../../../store/hooks'
@@ -27,9 +27,7 @@ export function CurrentSickLeavesTableInfo({
         Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
       </TableInfoItem>
       <div className="print:hidden">
-        <TertiaryButton underlined onClick={() => dispatch(updateShowSettingsDialog(true))}>
-          Ändra
-        </TertiaryButton>
+        <Button onClick={() => dispatch(updateShowSettingsDialog(true))}>Ändra</Button>
       </div>
     </>
   )

@@ -1,16 +1,16 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { Button } from '../Button/Button'
 
 export function PrintButton() {
   const label = 'Skriv ut'
   const onClickHandler = () => window.print()
   return (
     <div>
-      <IDSButton size="l" onClick={onClickHandler} className="hidden whitespace-nowrap lg:inline-block">
+      <Button size="l" onClick={onClickHandler} className="hidden whitespace-nowrap lg:inline-block">
         {label}
-      </IDSButton>
-      <IDSButton size="m" mblock onClick={onClickHandler} className="whitespace-nowrap lg:hidden">
+      </Button>
+      <Button size="m" mblock onClick={onClickHandler} className="whitespace-nowrap lg:hidden">
         {label}
-      </IDSButton>
+      </Button>
     </div>
   )
 }

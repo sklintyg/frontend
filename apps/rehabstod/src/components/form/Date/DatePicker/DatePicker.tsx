@@ -1,11 +1,10 @@
-import { useInputStyle } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import type { AriaDatePickerProps, DateValue } from 'react-aria'
 import { useDatePicker } from 'react-aria'
 import { useDatePickerState } from 'react-stately'
 import { isValidDate } from '../../../../utils/isValidDate'
+import { Button } from '../../../Button/Button'
 import { Calendar } from '../../../Calendar/Calendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
@@ -30,7 +29,7 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
     }
   }
   const value = isValidDate(date) ? parseDate(date) : null
-  const style = useInputStyle({ error, disabled })
+  // const style = useInputStyle({ error, disabled })
   const state = useDatePickerState({ ...props, value, onChange })
   const ref = useRef(null)
   const fieldRef = useRef(null)
@@ -41,7 +40,7 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className="inline-flex w-full flex-row items-center gap-3">
         <div {...labelProps}>{label}</div>
-        <div {...groupProps} ref={ref} className={style}>
+        <div {...groupProps} ref={ref} className="ids-input">
           <span className="grow px-5" ref={fieldRef}>
             <DateField {...fieldProps} data={date} onDataChanged={(val) => onDataChanged && onDataChanged(val)} />
           </span>
@@ -50,9 +49,9 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
         {state.isOpen && (
           <PopoverContent {...dialogProps}>
             <Calendar {...calendarProps} />
-            <IDSButton size="s" block secondary onClick={() => onDataChanged && onDataChanged(null)}>
+            <Button size="s" block secondary onClick={() => onDataChanged && onDataChanged(null)}>
               Återställ
-            </IDSButton>
+            </Button>
           </PopoverContent>
         )}
       </div>

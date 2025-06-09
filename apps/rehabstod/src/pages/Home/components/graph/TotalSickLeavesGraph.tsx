@@ -1,8 +1,8 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSIconQuestion } from '@inera/ids-react'
 import { format } from 'date-fns'
 import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'
+import { TooltipIcon } from '../../../../components/Tooltip'
 
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props

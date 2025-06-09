@@ -1,4 +1,4 @@
-import { IDSIconChevron } from '@frontend/ids-react-ts'
+import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useRef, useState } from 'react'
 
@@ -14,7 +14,7 @@ export function Accordion({ children, title, open = false }: { children: ReactNo
       className="[&:not(:last-child)]:mb-5"
     >
       <summary role="button" className="mb-1.5 flex cursor-pointer items-center space-x-2 ">
-        <span className="m-0 text-accent-40 underline">{title}</span>
+        <span className="text-accent-40 m-0 underline">{title}</span>
         <span className="inline-block h-3 w-3 origin-center justify-self-end">
           <IDSIconChevron width="100%" rotate={internalOpen ? '270' : '90'} height="100%" className="h-full w-full" />
         </span>

@@ -1,4 +1,4 @@
-import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
+import { IDSContainer, IDSIconChevron, IDSLink } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
 

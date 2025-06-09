@@ -1,5 +1,5 @@
-import { Input } from '@frontend/components'
 import type { ComponentProps } from 'react'
+import { Input } from './Input/Input'
 
 export function FormattedNumberInput({
   onChange,

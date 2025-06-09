@@ -1,5 +1,6 @@
-import { Card, Divider } from '@frontend/components'
+import { IDSCard } from '@inera/ids-react'
 import type { ReactNode } from 'react'
+import { Divider } from '../../../../components/Divider/Divider'
 import { EmptyInformation } from './EmptyInformation'
 import { ExpandableCard } from './ExpandableCard'
 
@@ -21,7 +22,7 @@ export function PatientOverviewCard({
   onExpand?: () => void
 }) {
   return (
-    <Card fill={1}>
+    <IDSCard fill={1}>
       <h5 className="ids-heading-4">{title}</h5>
       <Divider />
       {!isEmpty ? (
@@ -31,6 +32,6 @@ export function PatientOverviewCard({
       ) : (
         <EmptyInformation />
       )}
-    </Card>
+    </IDSCard>
   )
 }

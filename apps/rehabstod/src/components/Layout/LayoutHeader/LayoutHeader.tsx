@@ -1,15 +1,14 @@
-import { HeaderNavItem } from '@frontend/components'
-import type { IDSHeaderAvatarElement } from '@frontend/ids-react-ts'
+import type { IDSHeader1177AdminAvatar as IDSHeader1177AdminAvatarElement } from '@inera/ids-core/components/header-1177-admin/header-1177-admin-avatar-element.js'
 import {
-  IDSHeader,
-  IDSHeaderAvatar,
-  IDSHeaderItem,
-  IDSHeaderNav,
+  IDSHeader1177Admin,
+  IDSHeader1177AdminAvatar,
+  IDSHeader1177AdminItem,
+  IDSHeader1177AdminNav,
   IDSIconCog,
   IDSIconSwap,
   IDSIconUser,
   IDSLink,
-} from '@frontend/ids-react-ts'
+} from '@inera/ids-react'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
@@ -20,16 +19,17 @@ import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 import { LayoutMobileHeader } from './LayoutMobileHeader'
+import { HeaderNavItem } from './NavItem/HeaderNavItem copy'
 
 export function LayoutHeader() {
   const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const { data: config } = useGetConfigQuery()
-  const avatarRef = useRef<IDSHeaderAvatarElement>(null)
+  const avatarRef = useRef<IDSHeader1177AdminAvatarElement>(null)
 
   return (
-    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
+    <IDSHeader1177Admin className="z-40 bg-white print:hidden">
       <IDSLink slot="skip-to-content" className="z-40">
         <a href="#content">Till sidans huvudinnehåll</a>
       </IDSLink>
@@ -41,8 +41,7 @@ export function LayoutHeader() {
       {!isLoading && user && (
         <>
           <AboutHeaderItem />
-          <IDSHeaderAvatar
-            type="inera-admin"
+          <IDSHeader1177AdminAvatar
             username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
             unit={user.valdVardenhet?.namn}
             ref={avatarRef}
@@ -50,13 +49,13 @@ export function LayoutHeader() {
             <div slot="dropdown">
               <IDSLink colorpreset={2} block className="ids-mb-5 ids-mt-2 ">
                 <IDSIconSwap height="20" width="20" />
-                <Link to="/enhet" onClick={() => avatarRef.current?.tooggleExpand()}>
+                <Link to="/enhet" onClick={() => avatarRef.current?.toggleExpanded()}>
                   Byt vårdenhet
                 </Link>
               </IDSLink>
               <HeaderAvatarMenuButton
                 onClick={() => {
-                  avatarRef.current?.tooggleExpand()
+                  avatarRef.current?.toggleExpanded()
                   dispatch(updateShowSettingsDialog(true))
                 }}
                 label="Inställningar"
@@ -71,23 +70,23 @@ export function LayoutHeader() {
                 testid="logout-button"
               />
             </div>
-          </IDSHeaderAvatar>
-          <IDSHeaderNav type="inera-admin">
+          </IDSHeader1177AdminAvatar>
+          <IDSHeader1177AdminNav>
             <HeaderNavItem title="Översikt" to="/" />
             <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
             <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
-          </IDSHeaderNav>
+          </IDSHeader1177AdminNav>
         </>
       )}
 
       <LayoutMobileHeader />
 
       {!isLoading && !user && (
-        <IDSHeaderItem type="inera-admin" separator-left>
+        <IDSHeader1177AdminItem separator-left>
           <IDSIconUser />
           <a href={config && config.sithsIdpUrl}>Logga in</a>
-        </IDSHeaderItem>
+        </IDSHeader1177AdminItem>
       )}
-    </IDSHeader>
+    </IDSHeader1177Admin>
   )
 }

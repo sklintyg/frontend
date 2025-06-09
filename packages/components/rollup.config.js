@@ -25,6 +25,7 @@ const external = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
   'type-fest/source/partial-deep',
+  '@inera/ids-design',
 ]
 
 const plugins = [

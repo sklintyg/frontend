@@ -1,8 +1,7 @@
-import { TooltipIcon } from '@frontend/components'
-import type { IDSCheckboxElement } from '@frontend/ids-react-ts'
-import { IDSCheckbox, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSCheckbox, IDSIconQuestion } from '@inera/ids-react'
 import type { ChangeEvent } from 'react'
 import { useId, useRef } from 'react'
+import { TooltipIcon } from '../Tooltip'
 
 export function Checkbox({
   label,
@@ -24,7 +23,7 @@ export function Checkbox({
   light?: boolean
 }) {
   const id = useId()
-  const ref = useRef<IDSCheckboxElement>(null)
+  const ref = useRef(null)
 
   return (
     <IDSCheckbox ref={ref} invalid={!valid} light={light}>

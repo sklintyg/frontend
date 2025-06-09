@@ -1,4 +1,4 @@
-import { IDSFooter, IDSMobileMenu } from '@frontend/ids-react-ts'
+import { IDSFooter1177Admin, IDSMobileMenu } from '@inera/ids-react'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { CookieDialog } from '../dialog/CookieDialog'
@@ -7,7 +7,7 @@ export function LayoutFooter() {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <IDSFooter type="inera-admin" headline="Rehabstöd" className="print:hidden" cols={2}>
+    <IDSFooter1177Admin servicename="Rehabstöd" className="print:hidden" cols={2}>
       <p>Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
 
       <p slot="link-col-1">
@@ -56,6 +56,6 @@ export function LayoutFooter() {
       <div slot="sub-footer-links" className="inline-block">
         <CookieDialog />
       </div>
-    </IDSFooter>
+    </IDSFooter1177Admin>
   )
 }

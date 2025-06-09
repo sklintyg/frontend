@@ -1,5 +1,5 @@
-import type { IDSCheckboxGroupElement } from '@frontend/ids-react-ts'
-import { IDSCheckboxGroup } from '@frontend/ids-react-ts'
+import type { IDSCheckboxGroup as IDSCheckboxGroupElement } from '@inera/ids-core/components/form/checkbox/checkbox-group-element.js'
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
 

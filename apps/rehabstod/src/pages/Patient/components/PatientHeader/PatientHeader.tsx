@@ -1,6 +1,7 @@
-import { IDSButton, IDSContainer } from '@frontend/ids-react-ts'
+import { IDSContainer } from '@inera/ids-react'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../../../../components/Button/Button'
 import type { Patient } from '../../../../schemas/patientSchema'
 import { PatientHeaderInfo } from './PatientHeaderInfo'
 
@@ -27,13 +28,13 @@ export function PatientHeader({ patient }: { patient?: Patient }) {
   }
 
   return (
-    <div className="z-30 order-1 bg-secondary-95 shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
+    <div className="bg-secondary-95 z-30 order-1 shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
       <IDSContainer>
         <div className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
           {patient && <PatientHeaderInfo firstCertificate={firstCertificate} currentSickness={currentSickness} />}
-          <IDSButton onClick={handleClick} tertiary>
+          <Button onClick={handleClick} tertiary>
             STÄNG PATIENTVYN
-          </IDSButton>
+          </Button>
         </div>
       </IDSContainer>
     </div>

@@ -1,7 +1,7 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
+import { Button } from '../../../../components/Button/Button'
+import { Dialog } from '../../../../components/dialog/Dialog'
 import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {
@@ -38,7 +38,7 @@ export function OpenTabsDialog() {
     >
       <h2 className="ids-heading-2">Öppnade patientfönster</h2>
       <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
-      <IDSButton
+      <Button
         slot="action"
         secondary
         onClick={() => {
@@ -46,8 +46,8 @@ export function OpenTabsDialog() {
         }}
       >
         Avbryt
-      </IDSButton>
-      <IDSButton
+      </Button>
+      <Button
         slot="action"
         onClick={() => {
           closeTabs()
@@ -55,7 +55,7 @@ export function OpenTabsDialog() {
         }}
       >
         Stäng patientvy
-      </IDSButton>
+      </Button>
     </Dialog>
   )
 }

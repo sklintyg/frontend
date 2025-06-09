@@ -1,7 +1,7 @@
 import type { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
-import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
-import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
+import { Checkbox } from '../../form/Checkbox'
+import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
+import { SelectMultipleList } from '../../form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function MultipleSelectFilterOption({

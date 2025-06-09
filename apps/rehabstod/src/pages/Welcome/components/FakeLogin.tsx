@@ -1,6 +1,9 @@
-import { Input, Radio, Select } from '@frontend/components'
-import { IDSButton, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSCard, IDSSpinner } from '@inera/ids-react'
+import { Button } from '../../../components/Button/Button'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
+import { Input } from '../../../components/form/Input/Input'
+import { Radio } from '../../../components/form/Radio/Radio'
+import { Select } from '../../../components/form/Select/Select'
 import { useFakeLoginMutation } from '../../../store/testabilityApi'
 import { useFakeLoginEffect } from '../hooks/useFakeLoginEffect'
 
@@ -71,9 +74,9 @@ export function FakeLogin() {
           <Input light label="hsaId" onChange={(evt) => setSelectedLogin(evt.currentTarget.value)} value={selectedLogin} />
           <Input light label="enhetId" onChange={(evt) => setSelectedUnit(evt.currentTarget.value)} value={selectedUnit} />
         </div>
-        <IDSButton sblock onclick={() => login({ hsaId: selectedLogin, enhetId: selectedUnit })}>
+        <Button sblock onClick={() => login({ hsaId: selectedLogin, enhetId: selectedUnit })}>
           Logga in
-        </IDSButton>
+        </Button>
       </IDSCard>
     </>
   )

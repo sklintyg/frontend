@@ -1,11 +1,11 @@
-import { IDSContainer, IDSIconChevron, IDSLink } from '@frontend/ids-react-ts'
 import { randomUUID } from '@frontend/utils'
+import { IDSContainer, IDSIconChevron, IDSLink } from '@inera/ids-react'
 import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
-import { ErrorIdentifier } from '@frontend/components'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
 import { PageHero } from '../../PageHero/PageHero'
+import { ErrorIdentifier } from '../ErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
 
 function errorMessage(error: unknown): string {
