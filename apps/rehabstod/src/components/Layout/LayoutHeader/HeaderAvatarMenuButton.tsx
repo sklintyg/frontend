@@ -1,28 +1,24 @@
-import type { MouseEventHandler, ReactNode } from 'react'
+import type { MouseEventHandler } from 'react'
 
 export function HeaderAvatarMenuButton({
   label,
   icon,
-  trigger,
   onClick,
   testid,
 }: {
   label: string
-  icon: ReactNode
-  trigger?: string
+  icon: string
   testid: string
   onClick?: MouseEventHandler<HTMLButtonElement>
 }) {
   return (
     <button
-      onClick={onClick}
-      className="ids-link-block mt-2 flex w-full items-center text-primary-40 hover:text-primary-30 [&:not(:last-child)]:mb-5"
-      trigger={trigger}
-      data-testid={testid}
+      className={`ids-icon-${icon} ids-link--start-icon ids-link ids-link--block ids-link--large h-auto text-left`}
       type="button"
+      onClick={onClick}
+      data-testid={testid}
     >
-      <div className="mr-2.5">{icon}</div>
-      <div className="flex-auto text-left hover:underline">{label}</div>
+      {label}
     </button>
   )
 }

@@ -1,8 +1,16 @@
+import { Heading } from '../Heading/Heading'
+
 export function PageHeading({ title, subTitle }: { title: string; subTitle?: string }) {
   return (
     <>
-      <h1 className="ids-heading-1 ids-small">{title}</h1>
-      {subTitle && <h2 className="ids-heading-3 mb-10">{subTitle}</h2>}
+      <Heading level={1} size="xxl">
+        {title}
+      </Heading>
+      {subTitle && (
+        <Heading level={2} size="xl">
+          {subTitle}
+        </Heading>
+      )}
     </>
   )
 }

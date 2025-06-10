@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import { Button } from '../../../../components/Button/Button'
 import { Dialog } from '../../../../components/dialog/Dialog'
+import { Heading } from '../../../../components/Heading/Heading'
 import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {
@@ -36,7 +37,9 @@ export function OpenTabsDialog() {
         }
       }}
     >
-      <h2 className="ids-heading-2">Öppnade patientfönster</h2>
+      <Heading level={2} size="m">
+        Öppnade patientfönster
+      </Heading>
       <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
       <Button
         slot="action"

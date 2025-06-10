@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Heading } from '../../../../components/Heading/Heading'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import { filterHiddenColumns, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
@@ -36,7 +37,9 @@ export function PatientAGCertificatesTable() {
 
   return (
     <>
-      <h3 className="ids-heading-3">Intyg till arbetsgivaren</h3>
+      <Heading level={3} size="s">
+        Intyg till arbetsgivaren
+      </Heading>
       <PatientAccordion
         title="Intyg till arbetsgivaren för patienten - räknas inte in i patientens uppskattade dag i sjukfallet."
         open={false}

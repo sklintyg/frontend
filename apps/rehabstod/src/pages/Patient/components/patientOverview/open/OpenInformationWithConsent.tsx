@@ -4,6 +4,7 @@ import { Button } from '../../../../../components/Button/Button'
 import { Checkbox } from '../../../../../components/form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
 import { RadioButton } from '../../../../../components/form/RadioButton'
+import { Heading } from '../../../../../components/Heading/Heading'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
@@ -41,7 +42,9 @@ export function OpenInformationWithConsent({
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} inline />
-      <h6 className="ids-heading-4 pt-2">Samtycke sammanhållen vårddokumentation</h6>
+      <Heading level={6} size="xs">
+        Samtycke sammanhållen vårddokumentation
+      </Heading>
       <Checkbox
         label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
         checked={checkedConsent}
@@ -65,7 +68,9 @@ export function OpenInformationWithConsent({
         />
         <p>dagar</p>
       </div>
-      <h6 className="ids-heading-4 pt-3">Vem har samtycke?</h6>
+      <Heading level={6} size="xs">
+        Vem har samtycke?
+      </Heading>
       <div className="flex gap-3">
         <RadioButton
           label="Bara jag"

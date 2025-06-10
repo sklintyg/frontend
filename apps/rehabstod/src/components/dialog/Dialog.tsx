@@ -2,6 +2,7 @@ import type { IDSDialog as IDSDialogElement } from '@inera/ids-core/components/d
 import { IDSDialog } from '@inera/ids-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { useEffect, useId, useRef, useState } from 'react'
+import { Heading } from '../Heading/Heading'
 
 export function Dialog({
   children,
@@ -51,9 +52,9 @@ export function Dialog({
       {open && (
         <>
           {headline && (
-            <h2 className="ids-heading-m" slot="headline" tabIndex={-1}>
+            <Heading level={2} size="m" slot="headline" tabIndex={-1}>
               {headline}
-            </h2>
+            </Heading>
           )}
           {children}
         </>

@@ -2,13 +2,16 @@ import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Button } from '../Button/Button'
+import { Heading } from '../Heading/Heading'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
   const [expanded, setExpanded] = useState(true)
 
   return (
     <>
-      <h3 className="ids-heading-4 hidden print:block">Valda filter</h3>
+      <Heading level={3} size="xs" className="hidden print:block">
+        Valda filter
+      </Heading>
       <Button tertiary onClick={() => setExpanded(!expanded)} className="py-2">
         <IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" color="currentColor" inline />
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}

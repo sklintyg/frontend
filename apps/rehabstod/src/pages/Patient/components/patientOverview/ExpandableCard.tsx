@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Button } from '../../../../components/Button/Button'
+import { Heading } from '../../../../components/Heading/Heading'
 
 export function ExpandableCard({
   description,
@@ -38,7 +39,9 @@ export function ExpandableCard({
 
   return (
     <>
-      <h6 className="ids-heading-4 pt-5">{subTitle}</h6>
+      <Heading level={6} size="xs">
+        {subTitle}
+      </Heading>
       {children}
     </>
   )

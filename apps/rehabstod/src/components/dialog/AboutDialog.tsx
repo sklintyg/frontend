@@ -4,6 +4,7 @@ import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { hasUserFeature } from '../../utils/hasUserFeature'
 import { Button } from '../Button/Button'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
+import { Heading } from '../Heading/Heading'
 import { Dialog } from './Dialog'
 
 export function AboutDialog() {
@@ -25,7 +26,9 @@ export function AboutDialog() {
           Tjänsten kräver att JavaScript är aktiverat.
         </p>
 
-        <h2 className="ids-heading-3">Vad kan jag se i Rehabstöd?</h2>
+        <Heading level={2} size="s">
+          Vad kan jag se i Rehabstöd?
+        </Heading>
         <p className="ids-body">
           Arbetar du med koordineringsinsatser på en vårdenhet får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare
           ser du de pågående sjukfall där du har skrivit det senaste intyget.
@@ -46,7 +49,9 @@ export function AboutDialog() {
       </div>
       {user && hasUserFeature(user, 'SRS') && (
         <div className="ids-content text-base">
-          <h2 className="ids-heading-3">Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?</h2>
+          <Heading level={2} size="s">
+            Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?
+          </Heading>
           <p className="ids-body" />
           <p>
             Om du vill se mer information om SRS, t.ex. hur prediktionen räknas ut, fler åtgärder, mer nationell statistik så kan du gå till

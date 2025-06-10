@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
+import { Heading } from '../Heading/Heading'
 import { Dialog } from './Dialog'
 
 export function CookieDialog() {
@@ -18,7 +19,9 @@ export function CookieDialog() {
             Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du
             vår användning av kakor.
           </p>
-          <h2 className="ids-heading-3">Så här använder vi kakor</h2>
+          <Heading level={2} size="s">
+            Så här använder vi kakor
+          </Heading>
           <p className="ids-body">
             Den typ av kakor som används på den här webbplatsen kallas för sessionskakor. De lagras temporärt i din dators minne under tiden
             du är inne på webbplatsen. Sessionskakor sparar ingen personlig information om dig, och de försvinner när du stänger din
@@ -27,7 +30,9 @@ export function CookieDialog() {
             inloggad. För att vara säker på att kakorna inte sparas i din dator efter avslutad session måste du stänga webbläsaren när du
             har loggat ut.
           </p>
-          <h2 className="ids-heading-3">Undvika kakor</h2>
+          <Heading level={2} size="s">
+            Undvika kakor
+          </Heading>
           <p className="ids-body">
             Vill du inte acceptera kakor kan din webbläsare ställas in så att du automatiskt nekar till lagring av kakor eller informeras
             varje gång en webbplats begär att få lagra en kaka. Genom webbläsaren kan också tidigare lagrade kakor raderas. Se webbläsarens

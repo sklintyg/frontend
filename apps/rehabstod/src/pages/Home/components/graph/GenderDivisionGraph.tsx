@@ -1,3 +1,4 @@
+import { Heading } from '../../../../components/Heading/Heading'
 import { Gender } from '../../../../schemas/patientSchema'
 import type { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { idsGraphColors } from '../../assets/Colors'
@@ -14,7 +15,9 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
 
   return (
     <div>
-      <h3 className="ids-heading-4">Könsfördelning totalt</h3>
+      <Heading level={3} size="xs">
+        Könsfördelning totalt
+      </Heading>
       <div className="mb-2 flex items-center justify-center">
         <GenderGraph gender={female} />
         <GenderGraph gender={male} />

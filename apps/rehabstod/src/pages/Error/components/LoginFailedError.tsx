@@ -1,4 +1,5 @@
 import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
+import { Heading } from '../../../components/Heading/Heading'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useGetLinksQuery } from '../../../store/api'
 import { useLogErrorEffect } from '../hooks/useLogErrorEffect'
@@ -9,7 +10,9 @@ export function LoginFailedError() {
 
   return (
     <>
-      <h1 className="ids-heading-1">Inloggning misslyckades</h1>
+      <Heading level={1} size="xxl">
+        Inloggning misslyckades
+      </Heading>
       <p className="ids-preamble">
         Gå tillbaka till startsidan och försök igen. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         <DynamicLink type="footer" link={links?.ineraNationellKundservice} />

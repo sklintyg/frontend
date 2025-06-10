@@ -2,6 +2,7 @@ import { IDSIconQuestion } from '@inera/ids-react'
 import { format } from 'date-fns'
 import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'
+import { Heading } from '../../../../components/Heading/Heading'
 import { TooltipIcon } from '../../../../components/Tooltip'
 
 function renderCustomizedLabel(props: LabelProps) {
@@ -27,7 +28,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
 
   return (
     <>
-      <h3 className="ids-heading-4">
+      <Heading level={3} size="xs">
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
@@ -35,7 +36,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
             <IDSIconQuestion size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
           }
         />
-      </h3>
+      </Heading>
       <div>
         <PieChart width={128} height={208} className="m-auto">
           <Pie

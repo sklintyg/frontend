@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
+import { Heading } from '../../../components/Heading/Heading'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
 import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
@@ -34,7 +35,9 @@ export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: Sick
 
   return (
     <div className="hidden print:block">
-      <h3 className="ids-heading-4">{title}</h3>
+      <Heading level={3} size="xs">
+        {title}
+      </Heading>
       <div className="mb-2 flex">
         <div className="w-1/2 whitespace-nowrap">{tableInfo}</div>
         <div className="w-1/2 whitespace-nowrap text-right">

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { IDSHeader1177Admin, IDSHeader1177AdminAvatarMobile, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink } from '@inera/ids-react'
+import { IDSHeader1177AdminAvatarMobile, IDSIconCog, IDSIconSwap, IDSIconUser, IDSLink } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useGetUserQuery } from '../../../store/api'
@@ -19,7 +19,7 @@ export function LayoutMobileHeader() {
   }
 
   return (
-    <IDSHeader1177Admin>
+    <>
       <MobileMenuItem to="/" title="Översikt" />
       <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
       <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
@@ -46,6 +46,6 @@ export function LayoutMobileHeader() {
           </a>
         </IDSLink>
       </IDSHeader1177AdminAvatarMobile>
-    </IDSHeader1177Admin>
+    </>
   )
 }

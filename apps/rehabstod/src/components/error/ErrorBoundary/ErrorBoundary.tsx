@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
+import { Heading } from '../../Heading/Heading'
 import { PageHero } from '../../PageHero/PageHero'
 import { ErrorIdentifier } from '../ErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
@@ -50,7 +51,9 @@ export function ErrorBoundary() {
     <IDSContainer>
       <PageHero type="error">
         <div className="mb-5">
-          <h1 className="ids-heading-1">Ett fel har inträffat</h1>
+          <Heading level={1} size="xxl">
+            Ett fel har inträffat
+          </Heading>
           <p className="ids-preamble">{message}</p>
           {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
         </div>
