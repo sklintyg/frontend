@@ -22,7 +22,7 @@ export function StatisticsCard({
   const [open, setOpen] = useState(false)
 
   return (
-    <IDSCard fill={1}>
+    <IDSCard>
       <Heading level={3} size="xs">
         {title}
       </Heading>

@@ -7,7 +7,7 @@ export function MissingEmployeeAssignmentError() {
 
   return (
     <>
-      <Heading level={1} size="xxl">
+      <Heading level={1} size="l">
         Medarbetaruppdrag saknas
       </Heading>
       <p className="ids-preamble">

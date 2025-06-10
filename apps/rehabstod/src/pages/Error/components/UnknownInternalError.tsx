@@ -10,7 +10,7 @@ export function UnknownInternalError() {
 
   return (
     <>
-      <Heading level={1} size="xxl">
+      <Heading level={1} size="l">
         Tekniskt fel
       </Heading>
       <p className="ids-preamble">

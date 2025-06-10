@@ -45,7 +45,7 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
           <table
             ref={tableRef}
-            className={classNames('ids-table whitespace-nowrap border-none text-sm', posAbsolute && 'ids-table-sticky')}
+            className={classNames('ids-data-table whitespace-nowrap border-none text-sm', posAbsolute && 'ids-table-sticky')}
             style={{ width: `${tableWidth}px` }}
           >
             {fixed && children}

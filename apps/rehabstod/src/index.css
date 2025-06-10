@@ -9,3 +9,15 @@
   --IDS-FONT-FAMILY-BASE: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --IDS-FONT-FAMILY-HEADING: 'Inter', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
 }
+
+body.ids {
+  background-color: var(--IDS-COLOR-SECONDARY-95) !important;
+}
+
+.ids-data-table.ids-table-sticky tr th.sticky {
+  position: absolute !important;
+}
+
+.ids-data-table tr td {
+  background-color: #fff !important;
+}

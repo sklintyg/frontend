@@ -18,7 +18,7 @@ export function Home() {
     </ProtectedRoute>
   ) : (
     <PageHero type="user">
-      <Heading size="xl" level={1}>
+      <Heading size="s" level={1}>
         Välkommen till Rehabstöd
       </Heading>
       <p className="ids-preamble">

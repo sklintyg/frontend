@@ -7,7 +7,7 @@ export function MissingHsaRoleError() {
 
   return (
     <>
-      <Heading level={1} size="xxl">
+      <Heading level={1} size="l">
         Behörighet saknas
       </Heading>
       <p className="ids-preamble">

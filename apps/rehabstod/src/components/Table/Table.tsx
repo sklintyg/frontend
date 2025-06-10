@@ -4,6 +4,8 @@ import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
 import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
 
+import '@inera/ids-design/components/data-table/data-table.css'
+
 export interface TableOptions {
   ascending?: boolean
   sortColumn?: string
@@ -68,7 +70,7 @@ export function Table({
       <div className="print:hidden">
         <FloatingTableScroll ref={scrollRef}>
           <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
-          <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
+          <table className="ids-data-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
             {header}
             {children}
           </table>

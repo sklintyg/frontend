@@ -51,7 +51,7 @@ export function ErrorBoundary() {
     <IDSContainer>
       <PageHero type="error">
         <div className="mb-5">
-          <Heading level={1} size="xxl">
+          <Heading level={1} size="l">
             Ett fel har inträffat
           </Heading>
           <p className="ids-preamble">{message}</p>

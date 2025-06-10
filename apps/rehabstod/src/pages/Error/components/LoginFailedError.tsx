@@ -10,7 +10,7 @@ export function LoginFailedError() {
 
   return (
     <>
-      <Heading level={1} size="xxl">
+      <Heading level={1} size="l">
         Inloggning misslyckades
       </Heading>
       <p className="ids-preamble">

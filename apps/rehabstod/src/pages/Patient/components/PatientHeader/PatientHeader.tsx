@@ -28,7 +28,7 @@ export function PatientHeader({ patient }: { patient?: Patient }) {
   }
 
   return (
-    <div className="bg-secondary-95 z-30 order-1 shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
+    <div className="z-30 order-1 bg-white shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
       <IDSContainer>
         <div className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
           {patient && <PatientHeaderInfo firstCertificate={firstCertificate} currentSickness={currentSickness} />}

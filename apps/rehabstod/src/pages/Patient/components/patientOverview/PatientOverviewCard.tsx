@@ -23,7 +23,7 @@ export function PatientOverviewCard({
   onExpand?: () => void
 }) {
   return (
-    <IDSCard fill={1}>
+    <IDSCard>
       <Heading level={5} size="xs">
         {title}
       </Heading>

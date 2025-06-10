@@ -39,7 +39,7 @@ export function FakeLogin() {
           <ErrorAlert heading="Tekniskt fel" errorType="error" text="Kunde inte hämta HSA data" error={error} dynamicLink={false} />
         </div>
       )}
-      <IDSCard fill={1}>
+      <IDSCard>
         {!error && (
           <fieldset className="mb-2 flex gap-2">
             <legend className="ids-label">Visa Mallar för</legend>

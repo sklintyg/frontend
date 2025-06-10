@@ -50,10 +50,10 @@ export function OverviewStatistics() {
         subTitle={unit}
       />
       <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <IDSCard fill={1}>
+        <IDSCard>
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />
         </IDSCard>
-        <IDSCard fill={1}>
+        <IDSCard>
           <GenderDivisionGraph genders={summary ? summary.genders : []} />
         </IDSCard>
         <IDSCard>

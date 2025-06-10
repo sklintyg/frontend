@@ -13,7 +13,7 @@ export function PatientAccordion({ title, children, open = true }: { title: stri
           {title}
         </Heading>
       }
-      level={1}
+      headlineSize="xs"
       onCollapsed={() => setInternalOpen(false)}
       onExpanded={() => setInternalOpen(true)}
     >
