@@ -39,7 +39,7 @@ export function DateField({ label, onDataChanged, data, ...props }: DateFieldPro
   return (
     <div>
       <span {...labelProps}>{label}</span>
-      <div {...fieldProps} ref={ref} className="flex py-3">
+      <div {...fieldProps} ref={ref} className="flex py-1.5">
         {state.segments.map((segment, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <DateFieldSegment key={index} segment={segment} state={state} />

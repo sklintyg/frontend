@@ -29,7 +29,6 @@ export function DatePicker({ label, error, disabled, date, onDataChanged, ...pro
     }
   }
   const value = isValidDate(date) ? parseDate(date) : null
-  // const style = useInputStyle({ error, disabled })
   const state = useDatePickerState({ ...props, value, onChange })
   const ref = useRef(null)
   const fieldRef = useRef(null)

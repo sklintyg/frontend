@@ -1,7 +1,7 @@
-import { IDSCheckbox, IDSIconQuestion } from '@inera/ids-react'
+import { IDSCheckbox } from '@inera/ids-react'
 import type { ChangeEvent } from 'react'
 import { useId, useRef } from 'react'
-import { TooltipIcon } from '../Tooltip'
+import { FormTooltip } from './FormTooltip'
 
 export function Checkbox({
   label,
@@ -27,11 +27,11 @@ export function Checkbox({
 
   return (
     <IDSCheckbox ref={ref} invalid={!valid} light={light}>
-      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="ml-2" />} />}
       <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} required={required} />
       <label htmlFor={id} className="cursor-pointer">
         {label}
       </label>
+      {description && <FormTooltip>{description}</FormTooltip>}
     </IDSCheckbox>
   )
 }

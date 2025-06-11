@@ -10,7 +10,7 @@ export function DatePickerButton({ error, ...props }: AriaButtonProps & { error?
   const { buttonProps } = useButton(props, ref)
 
   return (
-    <PopoverTrigger ref={ref} {...buttonProps} className={classNames('px-5 py-3', error ? 'text-error-40' : 'text-accent-40')}>
+    <PopoverTrigger ref={ref} {...buttonProps} className={classNames('pl-3 py-1.5', error ? 'text-error-40' : 'text-accent-40')}>
       <IDSIconCalendar width="1.25em" height="1.25em" color="currentColor" color2="currentColor" />
     </PopoverTrigger>
   )

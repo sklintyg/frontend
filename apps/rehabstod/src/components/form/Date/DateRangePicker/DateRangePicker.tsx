@@ -1,4 +1,4 @@
-import { IDSErrorMessage, IDSIconQuestion } from '@inera/ids-react'
+import { IDSErrorMessage } from '@inera/ids-react'
 import { parseDate } from '@internationalized/date'
 import { useRef } from 'react'
 import type { AriaDateRangePickerProps, DateValue } from 'react-aria'
@@ -10,7 +10,7 @@ import { Button } from '../../../Button/Button'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { TooltipIcon } from '../../../Tooltip'
+import { FormTooltip } from '../../FormTooltip'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 import { useDateFieldFocus } from '../hooks/useDateFieldFocus'
@@ -29,7 +29,7 @@ interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
 export function DateRangePicker({
   label,
   error,
-  disabled,
+  // disabled,
   description,
   inline,
   startDate,
@@ -45,7 +45,6 @@ export function DateRangePicker({
       props.onChange(val)
     }
   }
-  // const style = useInputStyle({ error, disabled })
   const value = isValidDate(startDate) && isValidDate(endDate) ? { start: parseDate(startDate), end: parseDate(endDate) } : null
   const state = useDateRangePickerState({ value, ...props, onChange })
   const ref = useRef(null)
@@ -61,19 +60,22 @@ export function DateRangePicker({
   return (
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className={classNames('inline-flex w-full ', inline ? 'flex-row gap-3' : 'flex-col')}>
-        <div className="mb-[5px]">
-          <span {...labelProps}>{label}</span>
-          {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />}
+        <div className="ids-label-tooltip-wrapper">
+          <span {...labelProps} className="ids-label">
+            {label}
+          </span>
+          {description && <FormTooltip>{description}</FormTooltip>}
+          {/* {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />} */}
         </div>
         <div {...groupProps} ref={ref} className="ids-input flex">
-          <div ref={fieldRef} className="inline-flex w-full gap-1 pl-5">
+          <div ref={fieldRef} className="inline-flex w-full gap-1 ">
             <DateField
               {...startFieldProps}
               data={startDate}
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, start: val })}
             />
-            <span className={classNames('hidden px-1 py-3 sm:inline-block', !(value?.start && value.end) && 'italic')}>till</span>
-            <span className="px-1 py-3 sm:hidden">-</span>
+            <span className={classNames('hidden px-1 py-1.5 sm:inline-block', !(value?.start && value.end) && 'italic')}>till</span>
+            <span className="p-1.5 sm:hidden">-</span>
             <DateField
               {...endFieldProps}
               data={endDate}

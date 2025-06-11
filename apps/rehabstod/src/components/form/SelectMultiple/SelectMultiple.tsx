@@ -19,13 +19,7 @@ export function SelectMultiple({
   }
 
   return (
-    <IDSSelectMultiple
-      labeltext={label}
-      maxheight=""
-      multiselectedlabel="valda"
-      placeholder="Choose your letters"
-      selectedlabel={placeholder}
-    >
+    <IDSSelectMultiple labeltext={label} maxheight="" multiselectedlabel="valda" placeholder={placeholder} selectedlabel={placeholder}>
       {description && <FormTooltip>{description}</FormTooltip>}
       {children}
     </IDSSelectMultiple>

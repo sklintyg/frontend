@@ -1,19 +1,17 @@
-import { IDSIconExternal } from '@inera/ids-react'
-import { Button } from '../../../components/Button/Button'
+import { TertiaryButton } from '../../../components/TertiaryButton/TertiaryButton'
 import { usePatient } from '../hooks/usePatient'
 
 export function CertificateButton({ certificateId }: { certificateId: string }) {
   const { navigateToWebcert } = usePatient()
 
   return (
-    <Button
-      tertiary
+    <TertiaryButton
       onClick={() => {
         navigateToWebcert(certificateId)
       }}
     >
       Visa
-      <IDSIconExternal />
-    </Button>
+      <span className="ids-icon-external-link-small ids-icon--text-end" />
+    </TertiaryButton>
   )
 }
