@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import type { TableColumn } from '../../../schemas/tableSchema'
 import { Button } from '../../Button/Button'
 import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { SelectMultipleActions } from '../../form/SelectMultiple/SelectMultipleActions'
-import { SelectMultipleList } from '../../form/SelectMultiple/SelectMultipleList'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
 import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 
@@ -50,7 +50,7 @@ export function ModifyTableColumns({
       description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >
-      <SelectMultipleList>
+      <IDSCheckboxGroup>
         <ReorderableListBox
           label="Anpassa tabeller"
           getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
@@ -71,7 +71,7 @@ export function ModifyTableColumns({
             </Item>
           ))}
         </ReorderableListBox>
-      </SelectMultipleList>
+      </IDSCheckboxGroup>
       <SelectMultipleActions>
         <Button onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
           Återställ

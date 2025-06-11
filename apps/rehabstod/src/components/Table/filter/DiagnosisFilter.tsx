@@ -1,7 +1,7 @@
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { Checkbox } from '../../form/Checkbox'
 import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
-import { SelectMultipleList } from '../../form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 
@@ -34,7 +34,7 @@ export function DiagnosisFilter({
     <>
       <div className="flex-1 print:hidden">
         <SelectMultiple label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
-          <SelectMultipleList>
+          <IDSCheckboxGroup>
             {allDiagnoses &&
               allDiagnoses.map((diagnosis) => (
                 <Checkbox
@@ -45,7 +45,7 @@ export function DiagnosisFilter({
                   onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
                 />
               ))}
-          </SelectMultipleList>
+          </IDSCheckboxGroup>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">

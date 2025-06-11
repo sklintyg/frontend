@@ -2,7 +2,7 @@ import { IDSRadio } from '@inera/ids-react'
 import type { ComponentProps, InputHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import type { IDSHtmlAttribute } from '../../../utils/IDSHtmlAttributes'
-import { InputLabel } from '../InputLabel/InputLabel'
+import { FormTooltip } from '../FormTooltip'
 
 type RadioProps = {
   label: string
@@ -18,12 +18,9 @@ export const Radio = forwardRef<
 
   return (
     <IDSRadio light={light} invalid={invalid} compact={compact}>
-      <input type="radio" ref={ref} {...props} />
-      {label && (
-        <InputLabel htmlFor={id} description={description}>
-          {label}
-        </InputLabel>
-      )}
+      <input id={id} type="radio" ref={ref} {...props} />
+      {label && <label htmlFor={id}>{label}</label>}
+      {description && <FormTooltip>{description}</FormTooltip>}
     </IDSRadio>
   )
 })

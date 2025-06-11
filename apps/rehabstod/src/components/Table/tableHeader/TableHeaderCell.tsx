@@ -51,14 +51,12 @@ export function TableHeaderCell({
             'overflow-hidden',
             'text-ellipsis',
             'whitespace-nowrap',
-            'text-left font-bold p-2 first:p-4 last:p-4',
+            'text-left leading-5 font-bold p-2 first:p-4 last:p-4',
             sticky != null && `sticky z-60`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}
         >
-          <span>
-            {column} {sortable && <SortingIcon column={column} />}
-          </span>
+          {column} {sortable && <SortingIcon column={column} />}
         </th>
       </TooltipTrigger>
     </Tooltip>

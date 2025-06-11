@@ -2,7 +2,7 @@ import { IDSInput } from '@inera/ids-react'
 import type { ComponentProps, InputHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import type { IDSHtmlAttribute } from '../../../utils/IDSHtmlAttributes'
-import { InputLabel } from '../InputLabel/InputLabel'
+import { FormTooltip } from '../FormTooltip'
 
 type InputProps = {
   label: string
@@ -18,12 +18,9 @@ export const Input = forwardRef<
 
   return (
     <IDSInput light={light} invalid={invalid} hasIcon={Boolean(icon)}>
-      {label && (
-        <InputLabel htmlFor={id} description={description}>
-          {label}
-        </InputLabel>
-      )}
-      <input ref={ref} {...props} />
+      {label && <label htmlFor={id}>{label}</label>}
+      {description && <FormTooltip>{description}</FormTooltip>}
+      <input id={id} ref={ref} {...props} />
     </IDSInput>
   )
 })

@@ -1,19 +1,7 @@
-import {
-  autoUpdate,
-  flip,
-  FloatingFocusManager,
-  FloatingPortal,
-  offset,
-  size,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-} from '@floating-ui/react'
+import { IDSSelectMultiple } from '@inera/ids-react'
 import type { ReactNode } from 'react'
-import { useId, useState } from 'react'
 import { hasNoChildren } from '../../../utils/hasNoChildren'
-import { Input } from '../Input/Input'
+import { FormTooltip } from '../FormTooltip'
 
 export function SelectMultiple({
   children,
@@ -26,79 +14,20 @@ export function SelectMultiple({
   label: string
   placeholder: string
 }) {
-  const [open, setOpen] = useState(false)
-  const { x, y, strategy, refs, context } = useFloating({
-    placement: 'bottom-start',
-    open,
-    onOpenChange: setOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(1),
-      flip({ padding: 10 }),
-      size({
-        apply({ rects, elements }) {
-          Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
-          })
-        },
-        padding: 10,
-      }),
-    ],
-  })
-  const dismiss = useDismiss(context)
-  const role = useRole(context, { role: 'listbox' })
-  const { getFloatingProps } = useInteractions([dismiss, role])
-  const id = useId()
-
   if (hasNoChildren(children)) {
     return null
   }
 
   return (
-    <div className="w-full">
-      <Input
-        label={label}
-        description={description}
-        ref={refs.setReference}
-        id={id}
-        type="button"
-        aria-expanded={open}
-        value={placeholder}
-        onClick={() => setOpen(!open)}
-        // icon={
-        //   <IDSIconChevronBold
-        //     size="xs"
-        //     className={classNames(
-        //       open ? '-rotate-90' : 'rotate-90',
-        //       'top-1/2',
-        //       'absolute',
-        //       'right-6',
-        //       '-translate-y-1/2',
-        //       'pointer-events-none'
-        //     )}
-        //   />
-        // }
-      />
-      {open && (
-        <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false}>
-            <div
-              className="ids-content z-40 rounded bg-white shadow-[0_0_10px_rgba(0,0,0,0.3)]"
-              ref={refs.setFloating}
-              style={{
-                position: strategy,
-                top: y ?? 0,
-                left: x ?? 0,
-                minWidth: 100,
-                outline: 0,
-              }}
-              {...getFloatingProps()}
-            >
-              {children}
-            </div>
-          </FloatingFocusManager>
-        </FloatingPortal>
-      )}
-    </div>
+    <IDSSelectMultiple
+      labeltext={label}
+      maxheight=""
+      multiselectedlabel="valda"
+      placeholder="Choose your letters"
+      selectedlabel={placeholder}
+    >
+      {description && <FormTooltip>{description}</FormTooltip>}
+      {children}
+    </IDSSelectMultiple>
   )
 }

@@ -1,9 +1,9 @@
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
 import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
 import { Checkbox } from '../../form/Checkbox'
 import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
-import { SelectMultipleList } from '../../form/SelectMultiple/SelectMultipleList'
 import { PrintTitle } from '../print/PrintTitle'
 import { getSickLeaveLengthLabel, getSickLeaveLengthPlaceholder } from './utils/getSickLeaveLengthPlaceholder'
 import { convertSelectedValue } from './utils/timePeriodConversion'
@@ -55,7 +55,7 @@ export function TimePeriodFilter({
     <>
       <div className="print:hidden">
         <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
-          <SelectMultipleList>
+          <IDSCheckboxGroup>
             {availableOptions.map((option) => (
               <Checkbox
                 key={`${option.to}${option.from}${option.id}`}
@@ -64,7 +64,7 @@ export function TimePeriodFilter({
                 checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
               />
             ))}
-          </SelectMultipleList>
+          </IDSCheckboxGroup>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
