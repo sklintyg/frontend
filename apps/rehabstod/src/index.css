@@ -14,6 +14,18 @@ body.ids {
   background-color: var(--IDS-COLOR-SECONDARY-95) !important;
 }
 
+.ids-content ::-webkit-scrollbar {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 0.625rem;
+  background-color: var(--IDS-COLOR-NEUTRAL-99);
+}
+
+.ids-content ::-webkit-scrollbar-thumb {
+  background-color: var(--IDS-COLOR-ACCENT-40);
+  border-radius: 0.625rem;
+}
+
 .ids-data-table.ids-table-sticky tr th.sticky {
   position: absolute !important;
 }

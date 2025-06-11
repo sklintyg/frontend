@@ -7,7 +7,7 @@ export function TableRow<T>({
   focusable = false,
   children,
 }: {
-  italic: boolean
+  italic?: boolean
   onNavigate?: (data: T) => void
   data: T
   focusable?: boolean
@@ -32,7 +32,7 @@ export function TableRow<T>({
           onNavigate(data)
         }
       }}
-      className={`${focusable ? 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)]' : ''} ${
+      className={`${focusable ? 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ' : ''} ${
         italic ? 'italic' : ''
       } print:hidden`}
     >

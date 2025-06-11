@@ -20,7 +20,13 @@ export function TableHeaderCell({
     <Tooltip>
       <TooltipTrigger asChild>
         <th
-          style={{ width: width ?? '25%', zIndex: 11 }}
+          style={{
+            width: width ?? '25%',
+            zIndex: 11,
+            background: 'var(--IDS-DATA-TABLE__HEAD-BACKGROUND_COLOR)',
+            borderBottom: '.125rem solid var(--IDS-DATA-TABLE__CELL-BORDER_COLOR)',
+            fontFamily: 'var(--IDS-DATA-TABLE__HEAD-FONT-FAMILY)',
+          }}
           tabIndex={sortable ? 0 : undefined}
           role="columnheader"
           scope="col"
@@ -45,7 +51,7 @@ export function TableHeaderCell({
             'overflow-hidden',
             'text-ellipsis',
             'whitespace-nowrap',
-            'border-l-0',
+            'text-left font-bold p-2 first:p-4 last:p-4',
             sticky != null && `sticky z-60`,
             classNames(sticky === 'right' && 'right-0', sticky === 'left' && 'left-0', sticky === 'top' && 'top-0')
           )}
