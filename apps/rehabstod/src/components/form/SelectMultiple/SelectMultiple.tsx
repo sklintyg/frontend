@@ -1,5 +1,5 @@
 import { IDSSelectMultiple } from '@inera/ids-react'
-import type { ComponentProps } from 'react'
+import { type ComponentProps } from 'react'
 import { hasNoChildren } from '../../../utils/hasNoChildren'
 import { FormTooltip } from '../FormTooltip'
 

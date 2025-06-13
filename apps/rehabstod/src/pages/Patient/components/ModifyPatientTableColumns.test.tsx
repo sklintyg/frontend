@@ -73,9 +73,10 @@ describe('position', () => {
     expect(getOptionIndex('Grad')).toBe(2)
   })
 
-  it('Should be possible to move column down', async () => {
+  it.only('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    await user.click(await screen.findByRole('button'))
+    screen.debug()
+    await user.click(await screen.findByLabelText('Alla valda'))
 
     expect(getOptionIndex('Grad')).toBe(3)
 

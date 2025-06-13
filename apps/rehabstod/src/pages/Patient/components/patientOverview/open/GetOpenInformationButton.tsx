@@ -8,19 +8,18 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
 
   return (
     <>
-      <Button role="button" tertiary>
-        <button
-          type="button"
-          onClick={() => {
-            if (item.bidrarTillAktivtSjukfall) {
-              onClick(item.itemId)
-            } else {
-              setOpen(!open)
-            }
-          }}
-        >
-          Hämta
-        </button>
+      <Button
+        role="button"
+        tertiary
+        onClick={() => {
+          if (item.bidrarTillAktivtSjukfall) {
+            onClick(item.itemId)
+          } else {
+            setOpen(!open)
+          }
+        }}
+      >
+        Hämta
       </Button>
       <Dialog open={open} onOpenChange={setOpen} headline="Ingen information hämtad">
         <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>

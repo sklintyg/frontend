@@ -80,12 +80,14 @@ export function SettingsDialog() {
         standardenhet={preferences.standardenhet}
         onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
-      <Button slot="action" role="button" mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
-        Avbryt
-      </Button>
-      <Button slot="action" role="button" mblock onClick={onSave} disabled={!isSaveEnabled}>
-        Spara
-      </Button>
+      <div slot="actions">
+        <Button slot="action" role="button" mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
+          Avbryt
+        </Button>
+        <Button slot="action" role="button" mblock onClick={onSave} disabled={!isSaveEnabled}>
+          Spara
+        </Button>
+      </div>
     </Dialog>
   )
 }

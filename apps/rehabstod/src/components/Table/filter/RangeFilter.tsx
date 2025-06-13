@@ -42,6 +42,7 @@ export function RangeFilter({
             max={to}
             min={min}
             defaultValue={min}
+            inline
           />
           <FormattedNumberInput
             light
@@ -52,6 +53,7 @@ export function RangeFilter({
             min={from}
             defaultValue={max}
             aria-label={id}
+            inline
           />
         </div>
       </div>
