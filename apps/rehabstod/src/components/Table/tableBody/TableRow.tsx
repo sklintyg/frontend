@@ -10,7 +10,7 @@ export function TableRow<T>({
 }: {
   italic?: boolean
   onNavigate?: (data: T) => void
-  data: T
+  data?: T
   focusable?: boolean
   children: ReactNode
 }) {
@@ -18,7 +18,7 @@ export function TableRow<T>({
     <tr
       tabIndex={0}
       onKeyDown={({ code, currentTarget }) => {
-        if (onNavigate && ['Enter', 'Space'].includes(code)) {
+        if (onNavigate && data && ['Enter', 'Space'].includes(code)) {
           onNavigate(data)
         }
         if (focusable && code === 'ArrowUp' && currentTarget.previousElementSibling) {
@@ -29,7 +29,7 @@ export function TableRow<T>({
         }
       }}
       onClick={() => {
-        if (onNavigate) {
+        if (onNavigate && data) {
           onNavigate(data)
         }
       }}
