@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Button } from '../Button/Button'
 import { Heading } from '../Heading/Heading'
-import { TertiaryButton } from '../TertiaryButton/TertiaryButton'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
   const [expanded, setExpanded] = useState(true)
@@ -13,13 +12,13 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       <Heading level={3} size="xs" className="hidden print:block">
         Valda filter
       </Heading>
-      <TertiaryButton
-        onClick={() => setExpanded(!expanded)}
-        className="flex py-2 align-middle"
-        startIcon={<IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" color="currentColor" inline />}
-      >
-        <span className="font-bold">{expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}</span>
-      </TertiaryButton>
+      <div className="py-2">
+        <Button tertiary onClick={() => setExpanded(!expanded)} className="flex py-2 align-middle">
+          <IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" color="currentColor" inline />
+          <span className="font-bold">{expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}</span>
+        </Button>
+      </div>
+
       {expanded && (
         <div className="mb-5 print:mb-2">
           <div className="mb-7 grid grid-cols-table-filter gap-x-10 gap-y-7 print:mb-4 print:gap-2 sm:grid-cols-table-filter-sm print:sm:grid-cols-4">
