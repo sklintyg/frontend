@@ -1,4 +1,4 @@
-import { IDSIconQuestion } from '@inera/ids-react'
+import { IDSIconInformation } from '@inera/ids-react'
 import { format } from 'date-fns'
 import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'
@@ -33,7 +33,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
           icon={
-            <IDSIconQuestion size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
+            <IDSIconInformation size="s" className="relative top-1" color="currentColor" color2="currentColor" data-testid="tooltipIcon" />
           }
         />
       </Heading>

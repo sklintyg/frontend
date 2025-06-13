@@ -33,7 +33,7 @@ export function DoctorFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple label={LABEL} description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
+        <SelectMultiple light labeltext={LABEL} description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
           <IDSCheckboxGroup>
             {doctors &&
               doctors.map((doctor) => (

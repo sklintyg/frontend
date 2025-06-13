@@ -9,6 +9,7 @@ export function CertificateButton({ certificateId }: { certificateId: string }) 
       onClick={() => {
         navigateToWebcert(certificateId)
       }}
+      className="text-nowrap"
     >
       Visa
       <span className="ids-icon-external-link-small ids-icon--text-end" />

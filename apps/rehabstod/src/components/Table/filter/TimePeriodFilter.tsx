@@ -54,7 +54,7 @@ export function TimePeriodFilter({
   return (
     <>
       <div className="print:hidden">
-        <SelectMultiple label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
+        <SelectMultiple light labeltext={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
           <IDSCheckboxGroup>
             {availableOptions.map((option) => (
               <Checkbox

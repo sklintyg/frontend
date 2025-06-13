@@ -34,7 +34,7 @@ export function MultipleSelectFilterOption({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple label={label} description={description} placeholder={placeholder}>
+        <SelectMultiple light labeltext={label} description={description} placeholder={placeholder}>
           <IDSCheckboxGroup>
             {options &&
               options.map((option) => (

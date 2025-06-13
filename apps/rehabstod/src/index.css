@@ -8,6 +8,12 @@
 :root {
   --IDS-FONT-FAMILY-BASE: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --IDS-FONT-FAMILY-HEADING: 'Inter', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --IDS__MAX-WIDTH: 1920px;
 }
 
 body.ids {

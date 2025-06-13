@@ -1,25 +1,20 @@
 import { IDSSelectMultiple } from '@inera/ids-react'
-import type { ReactNode } from 'react'
+import type { ComponentProps } from 'react'
 import { hasNoChildren } from '../../../utils/hasNoChildren'
 import { FormTooltip } from '../FormTooltip'
 
 export function SelectMultiple({
   children,
   description,
-  label,
   placeholder,
-}: {
-  children: ReactNode
-  description: string
-  label: string
-  placeholder: string
-}) {
+  ...props
+}: ComponentProps<typeof IDSSelectMultiple> & { description?: string }) {
   if (hasNoChildren(children)) {
     return null
   }
 
   return (
-    <IDSSelectMultiple labeltext={label} maxheight="" multiselectedlabel="valda" placeholder={placeholder} selectedlabel={placeholder}>
+    <IDSSelectMultiple maxheight="" multiselectedlabel="valda" placeholder={placeholder} selectedlabel={placeholder} {...props}>
       {description && <FormTooltip>{description}</FormTooltip>}
       {children}
     </IDSSelectMultiple>

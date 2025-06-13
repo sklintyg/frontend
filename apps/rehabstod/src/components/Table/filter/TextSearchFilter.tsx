@@ -18,6 +18,7 @@ export function TextSearchFilter({
     <>
       <div className="print:hidden">
         <Input
+          light
           description={description}
           label={title}
           placeholder={placeholder}

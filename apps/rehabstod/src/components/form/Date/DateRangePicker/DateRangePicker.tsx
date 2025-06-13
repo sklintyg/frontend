@@ -67,7 +67,7 @@ export function DateRangePicker({
           {description && <FormTooltip>{description}</FormTooltip>}
           {/* {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />} */}
         </div>
-        <div {...groupProps} ref={ref} className="ids-input flex">
+        <div {...groupProps} ref={ref} className="ids-input ids-input--light flex">
           <div ref={fieldRef} className="inline-flex w-full gap-1 ">
             <DateField
               {...startFieldProps}

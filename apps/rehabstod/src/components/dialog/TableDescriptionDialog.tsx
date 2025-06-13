@@ -1,4 +1,4 @@
-import { IDSIconQuestion } from '@inera/ids-react'
+import { IDSIconInformation } from '@inera/ids-react'
 import { useState } from 'react'
 import { Button } from '../Button/Button'
 import { Heading } from '../Heading/Heading'
@@ -10,7 +10,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   return (
     <>
       <button className="pt-5 text-sm text-accent-40 underline print:hidden" onClick={() => setOpen(true)} type="button">
-        <IDSIconQuestion size="s" className="inline-block pr-2 align-middle" />
+        <IDSIconInformation size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
       <Dialog dismissible open={open} onOpenChange={setOpen} headline="Beskrivning av tabellens rubriker">

@@ -1,4 +1,4 @@
-import { IDSIconQuestion, IDSRadio } from '@inera/ids-react'
+import { IDSIconInformation, IDSRadio } from '@inera/ids-react'
 import type { ChangeEvent } from 'react'
 import { useId } from 'react'
 import { TooltipIcon } from '../Tooltip'
@@ -24,7 +24,7 @@ export function RadioButton({
 
   return (
     <IDSRadio light={light}>
-      {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="ml-2" />} />}
+      {description && <TooltipIcon description={description} icon={<IDSIconInformation size="s" className="ml-2" />} />}
       <input id={id} type="radio" checked={checked} onChange={onChange} disabled={disabled} value={value} />
       <label htmlFor={id} className="cursor-pointer">
         {label}

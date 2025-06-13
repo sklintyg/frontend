@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { classNames } from '../../../utils/classNames'
 
 export function TableRow<T>({
   italic,
@@ -32,9 +33,11 @@ export function TableRow<T>({
           onNavigate(data)
         }
       }}
-      className={`${focusable ? 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ' : ''} ${
-        italic ? 'italic' : ''
-      } print:hidden`}
+      className={classNames(
+        'print:hidden group',
+        focusable && 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)]',
+        italic && 'italic'
+      )}
     >
       {children}
     </tr>

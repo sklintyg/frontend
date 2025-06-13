@@ -7,17 +7,20 @@ export function PatientAccordion({ title, children, open = true }: { title: stri
   const [internalOpen, setInternalOpen] = useState(open)
 
   return (
-    <IDSAccordion
-      headline={
-        <Heading level={4} size="xs">
-          {title}
-        </Heading>
-      }
-      headlineSize="xs"
-      onCollapsed={() => setInternalOpen(false)}
-      onExpanded={() => setInternalOpen(true)}
-    >
-      {internalOpen && children}
-    </IDSAccordion>
+    <div className="[&:not(:last-child)]:mb-5">
+      <IDSAccordion
+        expanded={open}
+        headline={
+          <Heading level={4} size="xs">
+            {title}
+          </Heading>
+        }
+        headlineSize="xs"
+        onCollapsed={() => setInternalOpen(false)}
+        onExpanded={() => setInternalOpen(true)}
+      >
+        {internalOpen && children}
+      </IDSAccordion>
+    </div>
   )
 }

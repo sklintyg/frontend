@@ -1,4 +1,4 @@
-import { IDSIconQuestion } from '@inera/ids-react'
+import { IDSIconInformation } from '@inera/ids-react'
 import { useId } from 'react'
 import { FormattedNumberInput } from '../../form/FormattedNumberInput'
 import { TooltipIcon } from '../../Tooltip'
@@ -30,10 +30,11 @@ export function RangeFilter({
       <div className="print:hidden">
         <div className="mb-[5px]">
           <label htmlFor={id}>{title}</label>
-          <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />
+          <TooltipIcon description={description} icon={<IDSIconInformation size="s" className="relative top-1 ml-2" />} />
         </div>
         <div className="flex grow gap-3">
           <FormattedNumberInput
+            light
             id={id}
             label="Från"
             onChange={(value) => onFromChange(value)}
@@ -43,6 +44,7 @@ export function RangeFilter({
             defaultValue={min}
           />
           <FormattedNumberInput
+            light
             label="Till"
             onChange={(value) => onToChange(value)}
             value={to === '0' ? '' : to}

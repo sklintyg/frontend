@@ -22,6 +22,7 @@ export function SelectFilter({
     <>
       <div className="print:hidden">
         <Select
+          light
           label={label}
           value={value}
           description={description}
