@@ -6,7 +6,7 @@ import { MaleIcon } from '../../assets/MaleIcon'
 import { ChartLegend } from './ChartLegend'
 import { GenderGraph } from './GenderGraph'
 
-const femaleColor = '#FB8001'
+const femaleColor = '#D17200'
 const maleColor = '#5B224E'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {

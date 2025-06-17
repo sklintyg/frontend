@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
-import { act } from 'react-dom/test-utils'
 import { server, waitForRequest } from '../../../../mocks/server'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 import { fakeUser } from '../../../../utils/fake/fakeUser'
@@ -47,7 +46,7 @@ describe('vibility', () => {
     await user.click(await screen.findByRole('button'))
     await user.click(screen.getByLabelText('Slutdatum'))
 
-    const request = await act(() => pendingRequest)
+    const request = await pendingRequest
 
     expect(await request.json()).toMatchObject({
       patientTableColumns: Object.values(PatientColumn)
@@ -73,10 +72,9 @@ describe('position', () => {
     expect(getOptionIndex('Grad')).toBe(2)
   })
 
-  it.only('Should be possible to move column down', async () => {
+  it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    screen.debug()
-    await user.click(await screen.findByLabelText('Alla valda'))
+    await user.click(await screen.findByRole('button'))
 
     expect(getOptionIndex('Grad')).toBe(3)
 

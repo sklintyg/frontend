@@ -1,24 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { IDSHeader1177AdminItem, IDSIconQuestion } from '@inera/ids-react'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowAboutDialog } from '../../../store/slices/settings.slice'
 
 export function AboutHeaderItem() {
   const dispatch = useAppDispatch()
+
   return (
-    <IDSHeader1177AdminItem
-      mobile
+    <button
+      type="button"
       onClick={() => dispatch(updateShowAboutDialog(true))}
-      data-testid="ICON"
-      onKeyDown={({ code }) => {
-        if (['Enter', 'Space'].includes(code)) {
-          dispatch(updateShowAboutDialog(true))
-        }
-      }}
-      tabIndex={0}
+      className="ids-header-1177-admin__items__item ids-header-1177-admin__items__item--mobile"
     >
-      <IDSIconQuestion />
-      <a className="font-thin">Om Rehabstöd</a>
-    </IDSHeader1177AdminItem>
+      <div className="ids-header-1177-admin__items__item-icon">
+        <span className="ids-icon-information" />
+      </div>
+      <div className="ids-header-1177-admin__items__item-text">Om Rehabstöd</div>
+    </button>
   )
 }

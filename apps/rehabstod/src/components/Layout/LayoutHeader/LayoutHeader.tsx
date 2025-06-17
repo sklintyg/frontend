@@ -1,72 +1,80 @@
-import type { IDSHeader1177AdminAvatar as IDSHeader1177AdminAvatarElement } from '@inera/ids-core/components/header-1177-admin/header-1177-admin-avatar-element.js'
-import { IDSHeader1177Admin, IDSHeader1177AdminAvatar, IDSHeader1177AdminItem, IDSHeader1177AdminNav, IDSLink } from '@inera/ids-react'
-import { useRef } from 'react'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-avatar-mobile.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-avatar.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-item.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav-item.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin.css'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../../hooks/useLogout'
 import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
-import { useAppDispatch } from '../../../store/hooks'
-import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
-import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
-import { LayoutMobileHeader } from './LayoutMobileHeader'
+import { HeaderAvatarMenu } from './HeaderAvatarMenu'
+import { LayoutMobileMenu } from './LayoutMobileMenu/LayoutMobileMenu'
 import { HeaderNavItem } from './NavItem/HeaderNavItem'
 
 export function LayoutHeader() {
-  const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
-  const { logout } = useLogout()
   const { data: config } = useGetConfigQuery()
-  const avatarRef = useRef<IDSHeader1177AdminAvatarElement>(null)
+  const name = `${user?.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`
+  const unit = user?.valdVardenhet?.namn ?? ''
 
   return (
-    <IDSHeader1177Admin className="z-40 bg-white print:hidden" brandtext="Rehabstöd" mobilemenuexpanded>
-      <a href="#content" slot="skip-to-content" className="text-accent-40">
-        Till sidans huvudinnehåll
-      </a>
+    <header className="ids-header-1177-admin">
+      <div className="ids-header-1177-admin__container">
+        <div className="ids-header-1177-admin__inner">
+          <div className="ids-header-1177-admin__logo-col">
+            <div className="ids-header-1177-admin__logo">
+              <Link to="/" className="ids-header-1177-admin__logo-link" aria-label="Logotyp" />
+            </div>
+            <div className="ids-header-1177-admin__brand">
+              <div className="ids-header-1177-admin__brand-text">Rehabstöd</div>
+            </div>
+          </div>
 
-      <LayoutMobileHeader />
+          <div className="ids-header-1177-admin__items">
+            <div className="ids-header-1177-admin__items-inner">
+              {!isLoading && user && (
+                <>
+                  <AboutHeaderItem />
 
-      {!isLoading && user && (
-        <>
-          <AboutHeaderItem />
+                  <HeaderAvatarMenu name={name} unit={unit} />
 
-          <IDSHeader1177AdminAvatar
-            username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
-            unit={user.valdVardenhet?.namn}
-            ref={avatarRef}
-          >
-            <IDSLink block large starticon="question">
-              <Link to="/enhet" onClick={() => avatarRef.current?.toggleExpanded()}>
-                Byt vårdenhet
-              </Link>
-            </IDSLink>
-            <HeaderAvatarMenuButton
-              onClick={() => {
-                avatarRef.current?.toggleExpanded()
-                dispatch(updateShowSettingsDialog(true))
-              }}
-              label="Inställningar"
-              icon="settings"
-              testid="settings-button"
-            />
-            <hr />
-            <HeaderAvatarMenuButton label="Logga ut" icon="user" onClick={logout} testid="logout-button" />
-          </IDSHeader1177AdminAvatar>
-          <IDSHeader1177AdminNav>
-            <HeaderNavItem title="Översikt" to="/" />
-            <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
-            <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
-          </IDSHeader1177AdminNav>
-        </>
-      )}
+                  <div className="ids-header-1177-admin__mobile-menu">
+                    <button type="button" aria-label="Meny" className="ids-header-1177-admin__mobile-menu__btn" aria-expanded="true">
+                      <div className="ids-hamburger">
+                        <div className="ids-hamburger__lines" />
+                      </div>
+                    </button>
+                  </div>
+                </>
+              )}
 
-      {!isLoading && !user && (
-        <IDSHeader1177AdminItem>
-          <span className="ids-icon-user" slot="icon" />
-          <a href={config && config.sithsIdpUrl}>Logga in</a>
-        </IDSHeader1177AdminItem>
-      )}
-    </IDSHeader1177Admin>
+              {!isLoading && !user && (
+                <a
+                  href={config && config.sithsIdpUrl}
+                  className="ids-header-1177-admin__items__item ids-header-1177-admin__items__item--mobile"
+                >
+                  <div className="ids-header-1177-admin__items__item-icon">
+                    <span className="ids-icon-user" />
+                  </div>
+                  <div className="ids-header-1177-admin__items__item-text">Logga in</div>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {user && (
+          <nav className="ids-header-1177-admin__nav">
+            <ul className="ids-header-1177-admin__nav-inner">
+              <HeaderNavItem title="Översikt" to="/" />
+              <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
+              <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
+            </ul>
+          </nav>
+        )}
+      </div>
+      <LayoutMobileMenu name={name} unit={unit} />
+    </header>
   )
 }
