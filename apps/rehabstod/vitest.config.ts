@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   test: {
     deps: {
-      inline: ['@inera/ids-react'],
+      inline: ['@inera/ids-react', '@inera/ids-design'],
     },
     globals: true,
     environment: 'jsdom',
