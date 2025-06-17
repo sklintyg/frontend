@@ -11,8 +11,8 @@ export function PageHero({ type, children }: { type?: 'error' | 'user'; children
           </div>
         )}
         {type === 'user' && (
-          <div className="mb-7 inline-block rounded-full bg-secondary-90 px-6 py-5 text-primary-40">
-            <IDSIconUser height="3.75rem" width="3.125rem" color="currentColor" color2="currentColor" />
+          <div style={{ background: '#c6d2df' }} className="mb-7 inline-block rounded-full px-6 py-5">
+            <IDSIconUser height="3.75rem" width="3.125rem" color="#396291" color2="#3b4266" />
           </div>
         )}
         {children}

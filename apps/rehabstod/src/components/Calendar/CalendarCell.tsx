@@ -27,7 +27,7 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
   const { focusProps, isFocusVisible } = useFocusRing()
 
   return (
-    <td {...cellProps} className={`relative py-0.5 ${isFocusVisible ? 'z-10' : 'z-0'}`}>
+    <td {...cellProps} className={`relative py-0.5 ${isFocusVisible ? 'z-[8]' : 'z-0'}`}>
       <button
         type="button"
         {...mergeProps(buttonProps, focusProps)}

@@ -26,7 +26,14 @@ export const Select = forwardRef<
   const id = controlledId ?? uncontrolledId
 
   return (
-    <IDSSelect invalid={invalid} light={light} nooptiondescriber={nooptiondescriber} novalidation={novalidation} srof={srof} slot={slot}>
+    <IDSSelect
+      invalid={invalid}
+      light={light}
+      nooptiondescriber={nooptiondescriber}
+      novalidation={novalidation}
+      srof={srof || 'av'}
+      slot={slot}
+    >
       {label && <label htmlFor={id}>{label}</label>}
       {description && <FormTooltip>{description}</FormTooltip>}
       <select id={id} ref={ref} {...props}>

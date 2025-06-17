@@ -1,5 +1,5 @@
 import { IDSCheckboxGroup, IDSInput } from '@inera/ids-react'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { Checkbox } from '../../form/Checkbox'
 import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
@@ -19,6 +19,7 @@ export function DiagnosisFilter({
   selected: DiagnosKapitel[]
   description: string
 }) {
+  const id = useId()
   const [search, setSearch] = useState('')
   const handleOnChange = (diagnosis: DiagnosKapitel, isAdded: boolean) => {
     let diagnoses
@@ -35,10 +36,10 @@ export function DiagnosisFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple light labeltext="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
+        <SelectMultiple id={id} light label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
           <div className="mb-2">
             <IDSInput>
-              <input type="text" placeholder="search" onChange={(event) => setSearch(event.target.value)} />
+              <input aria-labelledby={id} type="text" placeholder="search" onChange={(event) => setSearch(event.target.value)} />
             </IDSInput>
           </div>
           <hr className="ids-divider mb-2" />

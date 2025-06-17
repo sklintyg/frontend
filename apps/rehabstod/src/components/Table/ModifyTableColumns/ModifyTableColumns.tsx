@@ -47,7 +47,7 @@ export function ModifyTableColumns({
   return (
     <SelectMultiple
       light
-      labeltext="Anpassa tabeller"
+      label="Anpassa tabeller"
       description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >

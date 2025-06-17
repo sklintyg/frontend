@@ -22,7 +22,7 @@ export function TableHeaderCell({
         <th
           style={{
             width: width ?? '25%',
-            zIndex: 11,
+            zIndex: 9,
             background: 'var(--IDS-DATA-TABLE__HEAD-BACKGROUND_COLOR)',
             borderBottom: '.125rem solid var(--IDS-DATA-TABLE__CELL-BORDER_COLOR)',
             fontFamily: 'var(--IDS-DATA-TABLE__HEAD-FONT-FAMILY)',

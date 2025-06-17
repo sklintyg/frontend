@@ -40,6 +40,7 @@ export function SelectRekoStatus({
       options={rekoStatusTypes.map(({ id, name }) => ({ label: name, value: id }))}
       description={description}
       label="Status"
+      nooptiondescriber
     />
   )
 }

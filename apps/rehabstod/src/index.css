@@ -16,6 +16,13 @@
   --IDS__MAX-WIDTH: 1920px;
 }
 
+@media print {
+  html,
+  body.ids {
+    font-size: 11px;
+  }
+}
+
 body.ids {
   background-color: var(--IDS-COLOR-SECONDARY-95) !important;
 }

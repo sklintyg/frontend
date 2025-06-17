@@ -27,6 +27,7 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
             { value: '', label: 'Ingen förvald enhet' },
             ...getUnitsForUser(user).map((unit) => ({ value: unit.id, label: unit.namn })),
           ]}
+          nooptiondescriber
         />
       </div>
     </SettingsDialogInput>

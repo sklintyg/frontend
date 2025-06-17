@@ -70,6 +70,7 @@ export function FakeLogin() {
               setSelectedLogin(hsaId)
               setSelectedUnit(unitId)
             }}
+            nooptiondescriber
           />
           <Input light label="hsaId" onChange={(evt) => setSelectedLogin(evt.currentTarget.value)} value={selectedLogin} />
           <Input light label="enhetId" onChange={(evt) => setSelectedUnit(evt.currentTarget.value)} value={selectedUnit} />

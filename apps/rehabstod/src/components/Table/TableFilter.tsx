@@ -12,7 +12,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       <Heading level={3} size="xs" className="hidden print:block">
         Valda filter
       </Heading>
-      <div className="py-2">
+      <div className="py-2 print:hidden">
         <Button tertiary onClick={() => setExpanded(!expanded)} className="flex py-2 align-middle">
           <IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" color="currentColor" inline />
           <span className="font-bold">{expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}</span>

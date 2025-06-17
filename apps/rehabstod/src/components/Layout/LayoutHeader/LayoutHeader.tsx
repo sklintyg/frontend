@@ -9,6 +9,7 @@ import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
+import { LayoutMobileHeader } from './LayoutMobileHeader'
 import { HeaderNavItem } from './NavItem/HeaderNavItem'
 
 export function LayoutHeader() {
@@ -19,14 +20,17 @@ export function LayoutHeader() {
   const avatarRef = useRef<IDSHeader1177AdminAvatarElement>(null)
 
   return (
-    <IDSHeader1177Admin className="z-40 bg-white print:hidden" brandtext="Rehabstöd">
+    <IDSHeader1177Admin className="z-40 bg-white print:hidden" brandtext="Rehabstöd" mobilemenuexpanded>
       <a href="#content" slot="skip-to-content" className="text-accent-40">
         Till sidans huvudinnehåll
       </a>
 
+      <LayoutMobileHeader />
+
       {!isLoading && user && (
         <>
           <AboutHeaderItem />
+
           <IDSHeader1177AdminAvatar
             username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
             unit={user.valdVardenhet?.namn}
@@ -56,8 +60,6 @@ export function LayoutHeader() {
           </IDSHeader1177AdminNav>
         </>
       )}
-
-      {/* <LayoutMobileHeader /> */}
 
       {!isLoading && !user && (
         <IDSHeader1177AdminItem>
