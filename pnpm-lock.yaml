@@ -669,15 +669,15 @@ importers:
       '@floating-ui/react':
         specifier: ^0.25.1
         version: 0.25.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@frontend/ids-react-ts':
+        specifier: workspace:*
+        version: link:../ids-react-ts
       '@inera/ids-core':
-        specifier: ^6.2.0
-        version: 6.2.0
+        specifier: ^4.10.0
+        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@inera/ids-design':
-        specifier: ^6.2.0
-        version: 6.2.0
-      '@inera/ids-react':
-        specifier: ^6.2.0
-        version: 6.2.0(react@18.3.1)
+        specifier: ^4.10.0
+        version: 4.10.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
