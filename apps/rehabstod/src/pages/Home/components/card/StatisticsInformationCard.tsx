@@ -7,7 +7,7 @@ export function StatisticsInformationCard() {
 
   return (
     <>
-      <Heading level={3} size="xs">
+      <Heading level={3} size="s">
         Använd Intygsstatistik för att se mer statistik
       </Heading>
       <div>

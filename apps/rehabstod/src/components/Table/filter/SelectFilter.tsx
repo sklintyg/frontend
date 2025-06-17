@@ -29,7 +29,6 @@ export function SelectFilter({
           disabled={disabled}
           options={[{ value: '', label: 'Visa alla' }, ...options.map((opt) => ({ value: opt.id, label: opt.name }))]}
           onChange={(event) => onChange(event.currentTarget.value)}
-          nooptiondescriber
         />
       </div>
       <div className="hidden print:block">

@@ -28,7 +28,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
 
   return (
     <>
-      <Heading level={3} size="xs">
+      <Heading level={3} size="s">
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}

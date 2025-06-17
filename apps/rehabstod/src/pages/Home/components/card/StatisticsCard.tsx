@@ -23,7 +23,7 @@ export function StatisticsCard({
 
   return (
     <IDSCard>
-      <Heading level={3} size="xs">
+      <Heading level={3} size="s">
         {title}
       </Heading>
       <p className="mb-4 max-w-xl">{subTitle}</p>
