@@ -6,9 +6,9 @@ export function MobileMenuItem({ to, title, active }: { to: string; title: strin
   const isActive = useActivePage(to)
   return (
     <li className={classNames('ids-mobile-menu-item', (active || isActive) && 'ids-mobile-menu-item--active')}>
-      <Link className="ids-mobile-menu-item__inner" to={to}>
-        {title}
-      </Link>
+      <div className="ids-mobile-menu-item__inner">
+        <Link to={to}>{title}</Link>
+      </div>
     </li>
   )
 }
