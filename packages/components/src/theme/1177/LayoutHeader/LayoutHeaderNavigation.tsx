@@ -1,4 +1,4 @@
-import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@inera/ids-react'
+import { IDSHeaderMobileItem, IDSHeaderMobileMenu, IDSHeaderNav } from '@frontend/ids-react-ts'
 import { Link, useInRouterContext } from 'react-router-dom'
 import { HeaderNavItem, MobileMenuItem } from '../../../header'
 import { getNavigation, getNavigationItemUrl, getSettingsUrl } from '../navigation'

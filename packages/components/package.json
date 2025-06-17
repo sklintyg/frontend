@@ -56,9 +56,9 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
-    "@inera/ids-core": "^6.2.0",
-    "@inera/ids-react": "^6.2.0",
-    "@inera/ids-design": "^6.2.0",
+    "@frontend/ids-react-ts": "workspace:*",
+    "@inera/ids-core": "^4.10.0",
+    "@inera/ids-design": "^4.10.0",
     "react": "^18.3.1",
     "react-focus-lock": "^2.9.6",
     "react-focus-on": "^3.9.1",
@@ -90,6 +90,8 @@
   },
   "peerDependencies": {
     "@floating-ui/react": "^0.25.1",
+    "@frontend/ids-react-ts": "workspace:*",
+    "@inera/ids-core": "^4",
     "react": "^18",
     "react-focus-on": "^3",
     "react-router-dom": "^6"

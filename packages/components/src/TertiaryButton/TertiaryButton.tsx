@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react'
+import type { IDSIcon } from '@frontend/ids-react-ts'
+import '@inera/ids-design/components/link/link.css'
+import type { ComponentProps, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { useTheme } from '../theme/useTheme'
 import { classNames } from '../utils'
@@ -6,7 +8,7 @@ import { classNames } from '../utils'
 interface TertiaryButtonProps {
   startIcon?: ReactNode
   endIcon?: ReactNode
-  iconSize?: 'm' | 's' | 'xs'
+  iconSize?: ComponentProps<IDSIcon>['size']
   underlined?: boolean
 }
 

@@ -1,4 +1,4 @@
-import { IDSMobileMenuItem } from '@inera/ids-react'
+import { IDSMobileMenuItem } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useActivePage } from './hooks/useActivePage'
 

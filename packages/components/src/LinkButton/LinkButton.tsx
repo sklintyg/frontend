@@ -1,3 +1,4 @@
+import '@inera/ids-design/components/button/button.css'
 import { forwardRef } from 'react'
 import { classNames } from '../utils'
 

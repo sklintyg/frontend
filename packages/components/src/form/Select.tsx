@@ -1,4 +1,4 @@
-import { IDSSelect } from '@inera/ids-react'
+import { IDSSelect } from '@frontend/ids-react-ts'
 import type { OptionHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import { InputLabel } from './InputLabel'
