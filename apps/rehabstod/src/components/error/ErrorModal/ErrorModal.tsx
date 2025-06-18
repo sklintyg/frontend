@@ -46,9 +46,11 @@ export function ErrorModal({
         {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}.
       </p>
       {generateError && <ErrorIdentifier id={errorId} />}
-      <Button slot="action" secondary onClick={() => setOpen(false)}>
-        Stäng
-      </Button>
+      <div slot="actions">
+        <Button secondary onClick={() => setOpen(false)}>
+          Stäng
+        </Button>
+      </div>
     </Dialog>
   )
 }

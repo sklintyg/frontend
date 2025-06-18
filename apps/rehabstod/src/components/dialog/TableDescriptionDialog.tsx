@@ -24,9 +24,11 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
               <p>{column.description}</p>
             </div>
           ))}
-        <Button slot="action" sblock onClick={() => setOpen(false)}>
-          Stäng
-        </Button>
+        <div slot="actions">
+          <Button sblock onClick={() => setOpen(false)}>
+            Stäng
+          </Button>
+        </div>
       </Dialog>
     </>
   )

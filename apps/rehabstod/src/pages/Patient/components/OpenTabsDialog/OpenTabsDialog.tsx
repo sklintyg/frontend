@@ -41,24 +41,24 @@ export function OpenTabsDialog() {
         Öppnade patientfönster
       </Heading>
       <p>Du har öppnat ett eller flera intyg i Webcert. När du stänger patientvyn kommer flikarna med intyg i Webcert också att stängas.</p>
-      <Button
-        slot="action"
-        secondary
-        onClick={() => {
-          blocker.reset?.()
-        }}
-      >
-        Avbryt
-      </Button>
-      <Button
-        slot="action"
-        onClick={() => {
-          closeTabs()
-          blocker.proceed?.()
-        }}
-      >
-        Stäng patientvy
-      </Button>
+      <div slot="actions">
+        <Button
+          secondary
+          onClick={() => {
+            blocker.reset?.()
+          }}
+        >
+          Avbryt
+        </Button>
+        <Button
+          onClick={() => {
+            closeTabs()
+            blocker.proceed?.()
+          }}
+        >
+          Stäng patientvy
+        </Button>
+      </div>
     </Dialog>
   )
 }

@@ -23,9 +23,9 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
       </Button>
       <Dialog open={open} onOpenChange={setOpen} headline="Ingen information hämtad">
         <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-        <Button slot="action" onClick={() => setOpen(false)}>
-          Stäng
-        </Button>
+        <div slot="actions">
+          <Button onClick={() => setOpen(false)}>Stäng</Button>
+        </div>
       </Dialog>
     </>
   )

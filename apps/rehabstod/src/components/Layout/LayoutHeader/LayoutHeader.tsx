@@ -19,7 +19,7 @@ export function LayoutHeader() {
   const unit = user?.valdVardenhet?.namn ?? ''
 
   return (
-    <header className="ids-header-1177-admin">
+    <header className="ids-header-1177-admin print:hidden">
       <div className="ids-header-1177-admin__container">
         <div className="ids-header-1177-admin__inner">
           <div className="ids-header-1177-admin__logo-col">

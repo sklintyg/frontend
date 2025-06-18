@@ -60,7 +60,7 @@ export function AboutDialog() {
           {links?.rattsjukskrivning && <DynamicLink link={links.rattsjukskrivning} />}
         </div>
       )}
-      <div className="ids-body mt-2 flex justify-center">
+      <div slot="actions">
         <Button sblock onClick={() => dispatch(updateShowAboutDialog(false))}>
           Stäng
         </Button>
