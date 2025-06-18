@@ -45,7 +45,7 @@ export function PatientOverview({
   }
 
   if (sjfMetaData.haveSekretess || isPersonResponseMissing) {
-    return <IDSAlert>{sjfMetaData.haveSekretess ? PROTECTED_PERSON_ALERT : PERSON_RESPONSE_MISSING_ALERT}</IDSAlert>
+    return <IDSAlert compact>{sjfMetaData.haveSekretess ? PROTECTED_PERSON_ALERT : PERSON_RESPONSE_MISSING_ALERT}</IDSAlert>
   }
 
   if (sjfMetaData.consentServiceError || sjfMetaData.blockingServiceError) {

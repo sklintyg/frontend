@@ -34,6 +34,7 @@ export function SelectRekoStatus({
 
   return (
     <Select
+      light
       disabled={disabled}
       value={rekoStatus?.status?.id || emptyRekoStatus?.id}
       onChange={(event) => handleSetRekoStatus(event.target.value)}

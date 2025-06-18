@@ -70,11 +70,9 @@ export function CareProvider() {
           </p>
           {user.roleSwitchPossible && (
             <div className="mb-5">
-              <IDSAlert>
-                <span className="flex items-center">
-                  Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från
-                  Läkare till Rehabkoordinator när du väljer att logga in på en sådan enhet.
-                </span>
+              <IDSAlert compact>
+                Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från
+                Läkare till Rehabkoordinator när du väljer att logga in på en sådan enhet.
               </IDSAlert>
             </div>
           )}

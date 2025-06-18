@@ -6,7 +6,7 @@ export function EmptyTableAlert({ tableName }: { tableName: string }) {
   const { data: user } = useGetUserQuery()
   return (
     <div className="py-10">
-      <IDSAlert>{getEmptyTableText(user, tableName)}</IDSAlert>
+      <IDSAlert compact>{getEmptyTableText(user, tableName)}</IDSAlert>
     </div>
   )
 }

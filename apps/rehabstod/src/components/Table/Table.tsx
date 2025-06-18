@@ -67,7 +67,7 @@ export function Table({
 
   return (
     <TableContext.Provider value={table}>
-      <div className="print:hidden">
+      <div className="print:hidden [&:not(:last-child)]:mb-5">
         <FloatingTableScroll ref={scrollRef}>
           <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
           <table

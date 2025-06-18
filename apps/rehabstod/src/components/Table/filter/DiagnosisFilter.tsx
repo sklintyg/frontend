@@ -1,6 +1,7 @@
 import { IDSCheckboxGroup, IDSInput } from '@inera/ids-react'
 import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
+import { Divider } from '../../Divider/Divider'
 import { Checkbox } from '../../form/Checkbox'
 import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
@@ -42,7 +43,7 @@ export function DiagnosisFilter({
               <input aria-labelledby={id} type="text" placeholder="search" onChange={(event) => setSearch(event.target.value)} />
             </IDSInput>
           </div>
-          <hr className="ids-divider mb-2" />
+          <Divider />
           <div className="max-h-96 overflow-auto">
             <IDSCheckboxGroup>
               {allDiagnoses &&
