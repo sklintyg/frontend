@@ -9,13 +9,18 @@ export default defineConfig({
     },
   },
   test: {
+    css: false,
     deps: {
-      optimizer: {
-        web: {
-          enabled: true,
-          include: ['@inera/ids-react'],
-        },
-      },
+      // web: {
+      //   transformCss: true,
+      // },
+      inline: ['@inera/ids-react'],
+      // optimizer: {
+      //   web: {
+      //     enabled: true,
+      //     include: ['@inera/ids-react'],
+      //   },
+      // },
     },
     globals: true,
     environment: 'jsdom',
