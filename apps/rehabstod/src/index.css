@@ -16,6 +16,10 @@
   --IDS__MAX-WIDTH: 1920px;
 }
 
+@page {
+  size: A4 landscape;
+}
+
 @media print {
   html,
   body.ids {
