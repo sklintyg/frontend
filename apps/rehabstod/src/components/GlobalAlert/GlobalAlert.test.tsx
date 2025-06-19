@@ -26,16 +26,16 @@ describe('GlobalAlert', () => {
 
   it('should render info icon', () => {
     renderComponent(PriorityEnum.INFO)
-    expect(screen.getByTestId('LOW_ICON')).toBeInTheDocument()
+    expect(screen.getByTestId('global-alert-icon')).toHaveClass('ids-icon-information')
   })
 
   it('should render observe icon', () => {
     renderComponent(PriorityEnum.OBSERVE)
-    expect(screen.getByTestId('MEDIUM_ICON')).toBeInTheDocument()
+    expect(screen.getByTestId('global-alert-icon')).toHaveClass('ids-icon-attention')
   })
 
   it('should render error icon', () => {
     renderComponent(PriorityEnum.ERROR)
-    expect(screen.getByTestId('HIGH_ICON')).toBeInTheDocument()
+    expect(screen.getByTestId('global-alert-icon')).toHaveClass('ids-icon-warning')
   })
 })

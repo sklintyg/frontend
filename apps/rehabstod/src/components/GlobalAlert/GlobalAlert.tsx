@@ -15,6 +15,7 @@ export function GlobalAlert({ children, priority }: { children: ReactNode; prior
         headline={<h2>Driftmeddelande</h2>}
         icon={
           <span
+            data-testid="global-alert-icon"
             className={classNames(
               priority === PriorityEnum.INFO && 'ids-icon-information',
               priority === PriorityEnum.OBSERVE && 'ids-icon-attention',
