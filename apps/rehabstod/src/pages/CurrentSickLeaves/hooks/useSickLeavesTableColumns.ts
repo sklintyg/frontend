@@ -65,7 +65,7 @@ const getSickLeaveColumnDescription = (column: string, valdVardenhet?: string): 
     case SickLeaveColumn.Ärenden:
       return 'Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är.'
     case SickLeaveColumn.Status:
-      return 'Status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra status. Dessa alternativ finns: Ingen, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt.'
+      return 'Status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra status. Dessa alternativ finns: -, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt, Lämnas utan åtgärd, Medicinsk rehab.'
     default:
       return undefined
   }
