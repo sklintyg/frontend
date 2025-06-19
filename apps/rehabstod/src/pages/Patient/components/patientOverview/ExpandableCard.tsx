@@ -1,6 +1,7 @@
-import { IDSButton } from '@frontend/ids-react-ts'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
+import { Button } from '../../../../components/Button/Button'
+import { Heading } from '../../../../components/Heading/Heading'
 
 export function ExpandableCard({
   description,
@@ -29,16 +30,18 @@ export function ExpandableCard({
     return (
       <>
         <p className="py-5">{description}</p>
-        <IDSButton sblock onClick={handleOnClick} className="flex justify-center">
+        <Button sblock onClick={handleOnClick} className="flex justify-center">
           Visa
-        </IDSButton>
+        </Button>
       </>
     )
   }
 
   return (
     <>
-      <h6 className="ids-heading-4 pt-5">{subTitle}</h6>
+      <Heading level={6} size="xs">
+        {subTitle}
+      </Heading>
       {children}
     </>
   )

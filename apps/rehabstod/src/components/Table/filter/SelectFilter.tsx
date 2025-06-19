@@ -1,4 +1,4 @@
-import { Select } from '@frontend/components'
+import { Select } from '../../form/Select/Select'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function SelectFilter({
@@ -22,6 +22,7 @@ export function SelectFilter({
     <>
       <div className="print:hidden">
         <Select
+          light
           label={label}
           value={value}
           description={description}

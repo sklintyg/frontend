@@ -1,6 +1,8 @@
-import { Card, classNames } from '@frontend/components'
+import { IDSCard } from '@inera/ids-react'
 import { useState } from 'react'
+import { Heading } from '../../../../components/Heading/Heading'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
+import { classNames } from '../../../../utils/classNames'
 import { PieChartGraph } from '../graph/PieChartGraph'
 import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 
@@ -20,8 +22,10 @@ export function StatisticsCard({
   const [open, setOpen] = useState(false)
 
   return (
-    <Card fill={1}>
-      <h3 className="ids-heading-4">{title}</h3>
+    <IDSCard>
+      <Heading level={3} size="s">
+        {title}
+      </Heading>
       <p className="mb-4 max-w-xl">{subTitle}</p>
       <div className="flex flex-col gap-5 xl:flex-row">
         <PieChartGraph data={parentData} />
@@ -33,6 +37,6 @@ export function StatisticsCard({
           </div>
         </div>
       </div>
-    </Card>
+    </IDSCard>
   )
 }

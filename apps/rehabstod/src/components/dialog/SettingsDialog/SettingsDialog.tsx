@@ -1,5 +1,3 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
@@ -7,6 +5,8 @@ import { useGetUserQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useUpdateUserPreferences } from '../../../store/hooks/useUpdateUserPreferences'
 import { resetSettingsPreferences, updateSettingsPreferences, updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { Button } from '../../Button/Button'
+import { Dialog } from '../Dialog'
 import { DaysBetweenSickLeaves } from './DaysBetweenSickLeaves'
 import { DaysFinishedSickLeave } from './DaysFinishedSickLeave'
 import { SelectCareUnits } from './SelectCareUnits'
@@ -80,12 +80,14 @@ export function SettingsDialog() {
         standardenhet={preferences.standardenhet}
         onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
-      <IDSButton slot="action" role="button" mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
-        Avbryt
-      </IDSButton>
-      <IDSButton slot="action" role="button" mblock onClick={onSave} disabled={!isSaveEnabled}>
-        Spara
-      </IDSButton>
+      <div slot="actions">
+        <Button role="button" mblock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
+          Avbryt
+        </Button>
+        <Button role="button" mblock onClick={onSave} disabled={!isSaveEnabled}>
+          Spara
+        </Button>
+      </div>
     </Dialog>
   )
 }

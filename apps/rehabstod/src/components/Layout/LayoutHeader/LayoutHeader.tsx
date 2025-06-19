@@ -1,93 +1,82 @@
-import { HeaderNavItem } from '@frontend/components'
-import type { IDSHeaderAvatarElement } from '@frontend/ids-react-ts'
-import {
-  IDSHeader,
-  IDSHeaderAvatar,
-  IDSHeaderItem,
-  IDSHeaderNav,
-  IDSIconCog,
-  IDSIconSwap,
-  IDSIconUser,
-  IDSLink,
-} from '@frontend/ids-react-ts'
-import { useRef } from 'react'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-avatar-mobile.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-avatar.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-item.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav-item.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav.css'
+import '@inera/ids-design/components/header-1177-admin/header-1177-admin.css'
 import { Link } from 'react-router-dom'
-import { useLogout } from '../../../hooks/useLogout'
 import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
-import { useAppDispatch } from '../../../store/hooks'
-import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
-import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
-import { LayoutMobileHeader } from './LayoutMobileHeader'
+import { HeaderAvatarMenu } from './HeaderAvatarMenu'
+import { LayoutMobileMenu } from './LayoutMobileMenu/LayoutMobileMenu'
+import { HeaderNavItem } from './NavItem/HeaderNavItem'
 
 export function LayoutHeader() {
-  const dispatch = useAppDispatch()
   const { isLoading, data: user } = useGetUserQuery()
-  const { logout } = useLogout()
   const { data: config } = useGetConfigQuery()
-  const avatarRef = useRef<IDSHeaderAvatarElement>(null)
+  const name = `${user?.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`
+  const unit = user?.valdVardenhet?.namn ?? ''
 
   return (
-    <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
-      <IDSLink slot="skip-to-content" className="z-40">
-        <a href="#content">Till sidans huvudinnehåll</a>
-      </IDSLink>
-
-      <Link className="text-primary-40" slot="brand-text" to="/">
-        Rehabstöd
-      </Link>
-
-      {!isLoading && user && (
-        <>
-          <AboutHeaderItem />
-          <IDSHeaderAvatar
-            type="inera-admin"
-            username={`${user.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`}
-            unit={user.valdVardenhet?.namn}
-            ref={avatarRef}
-          >
-            <div slot="dropdown">
-              <IDSLink colorpreset={2} block className="ids-mb-5 ids-mt-2 ">
-                <IDSIconSwap height="20" width="20" />
-                <Link to="/enhet" onClick={() => avatarRef.current?.tooggleExpand()}>
-                  Byt vårdenhet
-                </Link>
-              </IDSLink>
-              <HeaderAvatarMenuButton
-                onClick={() => {
-                  avatarRef.current?.tooggleExpand()
-                  dispatch(updateShowSettingsDialog(true))
-                }}
-                label="Inställningar"
-                icon={<IDSIconCog color="currentColor" color2="currentColor" height="20" width="20" />}
-                testid="settings-button"
-              />
-              <hr className="mb-5 border-neutral-40" />
-              <HeaderAvatarMenuButton
-                label="Logga ut"
-                icon={<IDSIconUser color="currentColor" color2="currentColor" height="20" width="20" />}
-                onClick={logout}
-                testid="logout-button"
-              />
+    <div className="z-40 bg-white print:hidden">
+      <header className="ids-header-1177-admin">
+        <div className="ids-header-1177-admin__container">
+          <div className="ids-header-1177-admin__inner">
+            <div className="ids-header-1177-admin__logo-col">
+              <div className="ids-header-1177-admin__logo">
+                <Link to="/" className="ids-header-1177-admin__logo-link" aria-label="Logotyp" />
+              </div>
+              <div className="ids-header-1177-admin__brand">
+                <div className="ids-header-1177-admin__brand-text">Rehabstöd</div>
+              </div>
             </div>
-          </IDSHeaderAvatar>
-          <IDSHeaderNav type="inera-admin">
-            <HeaderNavItem title="Översikt" to="/" />
-            <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
-            <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
-          </IDSHeaderNav>
-        </>
-      )}
 
-      <LayoutMobileHeader />
+            <div className="ids-header-1177-admin__items">
+              <div className="ids-header-1177-admin__items-inner">
+                {!isLoading && user && (
+                  <>
+                    <AboutHeaderItem />
 
-      {!isLoading && !user && (
-        <IDSHeaderItem type="inera-admin" separator-left>
-          <IDSIconUser />
-          <a href={config && config.sithsIdpUrl}>Logga in</a>
-        </IDSHeaderItem>
-      )}
-    </IDSHeader>
+                    <HeaderAvatarMenu name={name} unit={unit} />
+
+                    <div className="ids-header-1177-admin__mobile-menu">
+                      <button type="button" aria-label="Meny" className="ids-header-1177-admin__mobile-menu__btn" aria-expanded="true">
+                        <div className="ids-hamburger">
+                          <div className="ids-hamburger__lines" />
+                        </div>
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {!isLoading && !user && (
+                  <a
+                    href={config && config.sithsIdpUrl}
+                    className="ids-header-1177-admin__items__item ids-header-1177-admin__items__item--mobile"
+                  >
+                    <div className="ids-header-1177-admin__items__item-icon">
+                      <span className="ids-icon-user" />
+                    </div>
+                    <div className="ids-header-1177-admin__items__item-text">Logga in</div>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {user && (
+            <nav className="ids-header-1177-admin__nav">
+              <ul className="ids-header-1177-admin__nav-inner">
+                <HeaderNavItem title="Översikt" to="/" />
+                <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
+                <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
+              </ul>
+            </nav>
+          )}
+        </div>
+        <LayoutMobileMenu name={name} unit={unit} />
+      </header>
+    </div>
   )
 }

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import type { TableColumn } from '../../../schemas/tableSchema'
-import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
-import { SelectMultipleActions } from '../../Form/SelectMultiple/SelectMultipleActions'
-import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
+import { Button } from '../../Button/Button'
+import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
+import { SelectMultipleActions } from '../../form/SelectMultiple/SelectMultipleActions'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
 import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 
@@ -46,11 +46,12 @@ export function ModifyTableColumns({
 
   return (
     <SelectMultiple
+      light
       label="Anpassa tabeller"
       description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >
-      <SelectMultipleList>
+      <IDSCheckboxGroup>
         <ReorderableListBox
           label="Anpassa tabeller"
           getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
@@ -71,11 +72,11 @@ export function ModifyTableColumns({
             </Item>
           ))}
         </ReorderableListBox>
-      </SelectMultipleList>
+      </IDSCheckboxGroup>
       <SelectMultipleActions>
-        <IDSButton onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
+        <Button onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
           Återställ
-        </IDSButton>
+        </Button>
       </SelectMultipleActions>
     </SelectMultiple>
   )

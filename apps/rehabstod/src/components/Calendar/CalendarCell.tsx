@@ -1,9 +1,9 @@
-import { classNames } from '@frontend/components'
 import type { CalendarDate } from '@internationalized/date'
 import { getDayOfWeek, isSameDay } from '@internationalized/date'
 import { useRef } from 'react'
 import { mergeProps, useCalendarCell, useFocusRing, useLocale } from 'react-aria'
 import type { CalendarState, RangeCalendarState } from 'react-stately'
+import { classNames } from '../../utils/classNames'
 
 export function CalendarCell({ state, date }: { state: CalendarState | RangeCalendarState; date: CalendarDate }) {
   const ref = useRef(null)
@@ -27,7 +27,7 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
   const { focusProps, isFocusVisible } = useFocusRing()
 
   return (
-    <td {...cellProps} className={`relative py-0.5 ${isFocusVisible ? 'z-10' : 'z-0'}`}>
+    <td {...cellProps} className={`relative py-0.5 ${isFocusVisible ? 'z-[8]' : 'z-0'}`}>
       <button
         type="button"
         {...mergeProps(buttonProps, focusProps)}

@@ -4,7 +4,7 @@ import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
-import { SelectButton } from '../Form/SelectButton'
+import { SelectButton } from '../form/SelectButton'
 
 export function RekoStatusDropdown({
   statusFromSickLeave,

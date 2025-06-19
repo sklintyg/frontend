@@ -1,5 +1,4 @@
-import { LinkIcon, TertiaryButton } from '@frontend/components'
-import { IDSIconExternal } from '@frontend/ids-react-ts'
+import { TertiaryButton } from '../../../components/TertiaryButton/TertiaryButton'
 import { usePatient } from '../hooks/usePatient'
 
 export function CertificateButton({ certificateId }: { certificateId: string }) {
@@ -11,10 +10,9 @@ export function CertificateButton({ certificateId }: { certificateId: string }) 
         navigateToWebcert(certificateId)
       }}
       className="whitespace-nowrap"
-      endIcon={<LinkIcon icon={IDSIconExternal} />}
-      underlined
     >
       Visa
+      <span className="ids-icon-external-link-small ids-icon--text-end" />
     </TertiaryButton>
   )
 }

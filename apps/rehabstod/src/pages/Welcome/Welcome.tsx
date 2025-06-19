@@ -1,4 +1,4 @@
-import { IDSHeader, IDSTab, IDSTabPanel, IDSTabs } from '@frontend/ids-react-ts'
+import { IDSHeader1177Admin, IDSTab, IDSTabPanel, IDSTabs } from '@inera/ids-react'
 import { useState } from 'react'
 import { FakeLogin } from './components/FakeLogin'
 import { PatientData } from './components/PatientData'
@@ -9,7 +9,7 @@ export function Welcome() {
 
   return (
     <>
-      <IDSHeader type="inera-admin" brandtext="Rehabstöd" />
+      <IDSHeader1177Admin brandtext="Rehabstöd" />
       <div className="m-auto max-w-4xl px-3 py-2">
         <IDSTabs activeTab={parseInt(activeTab, 10)} emitTabChange={setActiveTab}>
           <IDSTab label="Login" />

@@ -10,14 +10,14 @@ import { sickLeaveColumnFilter } from '../utils/sickLeaveColumnFilter'
 const getSickLeaveColumnWidth = (column: string): number | undefined => {
   switch (column) {
     case SickLeaveColumn.Personnummer:
-      return 145
+      return 148
     case SickLeaveColumn.Ålder:
     case SickLeaveColumn.Intyg:
       return 80
     case SickLeaveColumn.Namn:
       return 136
     case SickLeaveColumn.Kön:
-      return 65
+      return 70
     case SickLeaveColumn.Diagnos:
       return 255
     case SickLeaveColumn.Sysselsättning:

@@ -2,7 +2,7 @@
 import type { ReactEventHandler } from 'react'
 import type { DropPosition } from 'react-aria'
 import type { TableColumn } from '../../../schemas/tableSchema'
-import { Checkbox } from '../../Form/Checkbox'
+import { Checkbox } from '../../form/Checkbox'
 import { MoveColumnButton } from './MoveColumnButton'
 
 const preventEventPropagation: ReactEventHandler = (event) => event.stopPropagation()

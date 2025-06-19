@@ -1,3 +1,52 @@
+@import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
+@import '@inera/ids-design/themes/1177-pro/1177-pro.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --IDS-FONT-FAMILY-BASE: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --IDS-FONT-FAMILY-HEADING: 'Inter', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --IDS__MAX-WIDTH: 1920px;
+}
+
+@page {
+  size: A4 landscape;
+}
+
+@media print {
+  html,
+  body.ids {
+    font-size: 11px;
+  }
+}
+
+body.ids {
+  background-color: var(--IDS-COLOR-SECONDARY-95) !important;
+}
+
+.ids-content ::-webkit-scrollbar {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 0.625rem;
+  background-color: var(--IDS-COLOR-NEUTRAL-99);
+}
+
+.ids-content ::-webkit-scrollbar-thumb {
+  background-color: var(--IDS-COLOR-ACCENT-40);
+  border-radius: 0.625rem;
+}
+
+.ids-data-table.ids-table-sticky tr th.sticky {
+  position: absolute !important;
+}
+
+.ids-data-table tr td {
+  background-color: #fff !important;
+}

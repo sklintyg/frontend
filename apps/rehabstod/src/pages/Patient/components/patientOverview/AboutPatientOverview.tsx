@@ -1,8 +1,8 @@
-import { Accordion } from '../../../../components/Accordion/Accordion'
+import { IDSAccordion } from '@inera/ids-react'
 
 export function AboutPatientOverview() {
   return (
-    <Accordion title="Om samtycke och sammanhållen vårddokumentation">
+    <IDSAccordion headline="Om samtycke och sammanhållen vårddokumentation">
       <div className="flex flex-col gap-4">
         <p>
           Med sammanhållen vårddokumentation avses möjligheten för en vårdgivare att digitalt läsa vårddokumentation från en annan
@@ -16,6 +16,6 @@ export function AboutPatientOverview() {
         </ul>
         <p>Samtycket kan ha getts muntligen eller skriftligen.</p>
       </div>
-    </Accordion>
+    </IDSAccordion>
   )
 }

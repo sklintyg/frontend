@@ -1,5 +1,5 @@
-import { classNames } from '@frontend/components'
-import { IDSIconArrow } from '@frontend/ids-react-ts'
+import { IDSIconArrow } from '@inera/ids-react'
+import { classNames } from '../../utils/classNames'
 
 export function SickLeaveDegreeInfo({ degrees, activeDegree }: { degrees: number[]; activeDegree?: number }) {
   if (degrees.length === 0) {

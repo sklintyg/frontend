@@ -1,13 +1,14 @@
-import { GlobalAlert, PriorityEnum } from '@frontend/components'
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSSpinner } from '@inera/ids-react'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
 import { BannerPriority } from '../../schemas'
 import { useGetConfigQuery } from '../../store/api'
+import { GlobalAlert, PriorityEnum } from '../GlobalAlert'
 import { PageContainer } from '../PageContainer/PageContainer'
 import { PageHero } from '../PageHero/PageHero'
 import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 import { AboutDialog } from '../dialog/AboutDialog'
+import { DialogPortalProvider } from '../dialog/DialogPortalProvider'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
 import { LayoutFooter } from './LayoutFooter'
@@ -25,43 +26,45 @@ export function Layout() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <LayoutHeader />
-      <main id="content" className="flex-1">
-        <StickyContainerProvider>
-          {config &&
-            config.banners.length > 0 &&
-            config.banners.map((banner) => (
-              <GlobalAlert key={banner.id} priority={getAlertPriority(banner.priority)}>
-                {banner.message}
-              </GlobalAlert>
-            ))}
-          {user && (
-            <>
-              <SettingsDialog />
-              <AboutDialog />
-            </>
-          )}
-          {isLoading && (
-            <PageHero>
-              <IDSSpinner className="inline-flex" />
-            </PageHero>
-          )}
-          {!isError && !isLoading && <Outlet />}
-          {error && (
-            <PageContainer>
-              <ErrorAlert
-                heading="Ett fel har inträffat"
-                text="Tekniskt problem, försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
-                errorType="error"
-                error={error}
-                dynamicLink
-              />
-            </PageContainer>
-          )}
-        </StickyContainerProvider>
-      </main>
-      <LayoutFooter />
-    </div>
+    <DialogPortalProvider>
+      <div className="flex min-h-screen flex-col">
+        <LayoutHeader />
+        <main id="content" className="flex-1">
+          <StickyContainerProvider>
+            {config &&
+              config.banners.length > 0 &&
+              config.banners.map((banner) => (
+                <GlobalAlert key={banner.id} priority={getAlertPriority(banner.priority)}>
+                  {banner.message}
+                </GlobalAlert>
+              ))}
+            {user && (
+              <>
+                <SettingsDialog />
+                <AboutDialog />
+              </>
+            )}
+            {isLoading && (
+              <PageHero>
+                <IDSSpinner className="inline-flex" />
+              </PageHero>
+            )}
+            {!isError && !isLoading && <Outlet />}
+            {error && (
+              <PageContainer>
+                <ErrorAlert
+                  heading="Ett fel har inträffat"
+                  text="Tekniskt problem, försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand"
+                  errorType="error"
+                  error={error}
+                  dynamicLink
+                />
+              </PageContainer>
+            )}
+          </StickyContainerProvider>
+        </main>
+        <LayoutFooter />
+      </div>
+    </DialogPortalProvider>
   )
 }
