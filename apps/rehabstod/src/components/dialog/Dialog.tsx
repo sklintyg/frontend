@@ -3,6 +3,7 @@ import { IDSDialog } from '@inera/ids-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { Heading } from '../Heading/Heading'
+import { DialogPortal } from './DialogPortal'
 
 export function Dialog({
   children,
@@ -48,17 +49,19 @@ export function Dialog({
   }, [open, setOpen])
 
   return (
-    <IDSDialog role="dialog" aria-labelledby={id} ref={ref} show={open ? 'true' : 'false'} {...props}>
-      {open && (
-        <>
-          {headline && (
-            <Heading level={2} size="m" slot="headline" tabIndex={-1}>
-              {headline}
-            </Heading>
-          )}
-          {children}
-        </>
-      )}
-    </IDSDialog>
+    <DialogPortal>
+      <IDSDialog role="dialog" aria-labelledby={id} ref={ref} show={open ? 'true' : 'false'} {...props}>
+        {open && (
+          <>
+            {headline && (
+              <Heading level={2} size="m" slot="headline" tabIndex={-1}>
+                {headline}
+              </Heading>
+            )}
+            {children}
+          </>
+        )}
+      </IDSDialog>
+    </DialogPortal>
   )
 }
