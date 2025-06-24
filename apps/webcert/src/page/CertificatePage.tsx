@@ -10,6 +10,7 @@ import { CertificateHeader } from '../feature/certificate/CertificateHeader/Cert
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
+import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
@@ -26,7 +27,6 @@ import type { RootState } from '../store/store'
 import { useAppSelector } from '../store/store'
 import { getUserStatistics } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'
-import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -40,14 +40,9 @@ const Columns = styled.div`
   height: 100%;
 `
 
-interface Params {
-  certificateId: string
-  error: string
-}
-
 const CertificatePage: React.FC = () => {
   const dispatch = useDispatch()
-  const { certificateId, error } = useParams<Params>()
+  const { certificateId, error } = useParams()
   const isCertificateDeleted = useAppSelector(getIsCertificateDeleted())
   const hasPatient = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient !== null)
   const currentCertificateId = useAppSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.id)
@@ -104,7 +99,7 @@ const CertificatePage: React.FC = () => {
               {...confirmationModal}
             />
           )}
-          {isLuaenaIntegrated && hasPatient && (
+          {certificateId && isLuaenaIntegrated && hasPatient && (
             <LuaenaConfirmModalIntegrated certificateId={certificateId} setOpen={setShowLuaenaModal} open={showLuaenaModal} />
           )}
           <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">

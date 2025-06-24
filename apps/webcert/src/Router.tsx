@@ -49,16 +49,18 @@ export function Router() {
             </LoggedInUserRedirect>
           }
         />
-        <Route path="/certificate/:certificateId/sign/:error" element={<CertificatePage />} />
-        <Route path="/certificate/:certificateId/launch-unit-selection" element={<SelectUnitPage />} />
-        <Route path="/certificate/:certificateId" element={<CertificatePage />} />
-        <Route path="/welcome(.html)?" element={<Welcome />} />
-        <Route path="/error(.jsp)?" element={<ErrorPage />} />
-        <Route path="/create/:patientId?" element={<CreatePageWithRedirect />} />
-        <Route path="/search" element={<SearchPageWithRedirect />} />
-        <Route path="/list/draft" element={<CertificateDraftsPage />} />
-        <Route path="/list/certificate" element={<SignedCertificatesPage />} />
-        <Route path="/list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
+        <Route path="certificate/:certificateId/sign/:error" element={<CertificatePage />} />
+        <Route path="certificate/:certificateId/launch-unit-selection" element={<SelectUnitPage />} />
+        <Route path="certificate/:certificateId" element={<CertificatePage />} />
+        <Route path="welcome" element={<Welcome />} />
+        <Route path="welcome.html" element={<Welcome />} />
+        <Route path="error" element={<ErrorPage />} />
+        <Route path="error.jsp" element={<ErrorPage />} />
+        <Route path="create/:patientId?" element={<CreatePageWithRedirect />} />
+        <Route path="search" element={<SearchPageWithRedirect />} />
+        <Route path="list/draft" element={<CertificateDraftsPage />} />
+        <Route path="list/certificate" element={<SignedCertificatesPage />} />
+        <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
       </Route>
     </Routes>
   )
