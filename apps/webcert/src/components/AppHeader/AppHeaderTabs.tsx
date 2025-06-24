@@ -24,7 +24,7 @@ export interface Props {
 const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
   const location = useLocation()
   const isSelectedTab = (tab: UserTab) => {
-    return location.pathname === tab.url || (location.pathname.startsWith(tab.url) && location.pathname.charAt(tab.url.length) === '/')
+    return location.pathname === tab.url || tab.matchedUrls.some((url) => location.pathname.startsWith(url))
   }
 
   const switchTab = (tab: UserTab) => {
