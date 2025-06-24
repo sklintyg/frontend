@@ -1,5 +1,5 @@
 import type React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../constants'
 import { useAppSelector } from '../store/store'
@@ -19,8 +19,8 @@ export const LoggedInUserRedirect: React.FC = ({ children: startPage }) => {
   }
 
   if (isCareAdministrator) {
-    return <Redirect to={START_URL_FOR_ADMINISTRATORS} />
+    return <Navigate to={START_URL_FOR_ADMINISTRATORS} />
   }
 
-  return <Redirect to={START_URL} />
+  return <Navigate to={START_URL} />
 }

@@ -1,17 +1,14 @@
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 
-const history = createMemoryHistory()
-
 const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo, hasSeveralDiagnoses: boolean) => {
   render(
-    <Router history={history}>
+    <MemoryRouter>
       <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasSeveralDiagnoses={hasSeveralDiagnoses} />
-    </Router>
+    </MemoryRouter>
   )
 }
 

@@ -2,10 +2,9 @@ import { getByType } from '@frontend/utils'
 import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash-es'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -17,8 +16,6 @@ import { QuestionType, ResourceLinkType } from '../../types'
 import QuestionItem from './QuestionItem'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const setupStore = () => configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, questionMiddleware])
 
@@ -175,9 +172,9 @@ const createQuestion = (): Question => ({
 const renderComponent = (question: Question) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionItem question={question} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
