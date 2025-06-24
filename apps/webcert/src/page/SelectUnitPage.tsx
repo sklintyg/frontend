@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import CommonLayout from '../components/commonLayout/CommonLayout'
@@ -35,7 +35,7 @@ export function SelectUnitPage() {
   const modalTitle = useAppSelector(getSelectUnitHeading)
   const careProviders = useAppSelector(getCareProviders)
 
-  if (!user) {
+  if (!user || !certificateId) {
     return null
   }
 

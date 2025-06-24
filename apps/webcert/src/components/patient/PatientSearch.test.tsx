@@ -1,30 +1,32 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { fakePatient } from '../../faker'
 import { setPatient } from '../../store/patient/patientActions'
 import store from '../../store/store'
 import PatientSearch from './PatientSearch'
-import { fakePatient } from '../../faker'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
-
-const history = createBrowserHistory()
-history.push = vi.fn()
 
 const renderComponent = () => {
   render(
     <Provider store={store}>
-      <Router history={history}>
-        <PatientSearch />
-      </Router>
+      <MemoryRouter initialEntries={['/search']}>
+        <Routes>
+          <Route path="/search" element={<PatientSearch />} />
+          <Route path="/create/:id" element="you are on the patient page" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 }
 
 describe('PatientSearch', () => {
+  beforeEach(() => {
+    store.dispatch(setPatient(undefined))
+  })
+
   it('should render component', () => {
     expect(() => renderComponent()).not.toThrow()
   })
@@ -33,9 +35,8 @@ describe('PatientSearch', () => {
     renderComponent()
     await userEvent.type(screen.getByRole('textbox'), '191212121212')
     await userEvent.click(screen.getByText('Fortsätt'))
-    store.dispatch(setPatient(undefined))
 
-    expect(history.push).not.toHaveBeenCalled()
+    expect(screen.queryByText(/you are on the patient page/i)).not.toBeInTheDocument()
   })
 
   it('should route if patient is set', async () => {
@@ -44,7 +45,7 @@ describe('PatientSearch', () => {
     store.dispatch(setPatient(fakePatient()))
     await userEvent.click(screen.getByText('Fortsätt'))
 
-    expect(history.push).toHaveBeenCalled()
+    expect(screen.getByText(/you are on the patient page/i)).toBeInTheDocument()
   })
 
   describe('Input', () => {

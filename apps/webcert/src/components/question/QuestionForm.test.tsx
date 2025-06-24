@@ -3,9 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
@@ -32,14 +31,12 @@ import QuestionForm from './QuestionForm'
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
 
-const history = createMemoryHistory()
-
 const renderComponent = (questionDraft?: Question) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionForm questionDraft={questionDraft || testStore.getState().ui.uiQuestion.questionDraft} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

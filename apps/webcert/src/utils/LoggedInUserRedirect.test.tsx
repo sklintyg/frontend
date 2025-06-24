@@ -1,28 +1,28 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { apiMiddleware } from '../store/api/apiMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
-import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 import type { Unit, User } from '../types'
 import { SigningMethod } from '../types'
+import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 
 let testStore: EnhancedStore
-const testHistory = createBrowserHistory()
-testHistory.replace = vi.fn()
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={testHistory}>
-        <LoggedInUserRedirect>Test</LoggedInUserRedirect>
-      </Router>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<LoggedInUserRedirect>Test</LoggedInUserRedirect>} />
+          <Route path="/search" element="you are on the search page" />
+          <Route path="/list/unhandledcertificates" element="you are on the unhandled certificates page" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -69,39 +69,27 @@ describe('LoggedInUserRedirect', () => {
   })
 
   it('should redirect to /search if logged in as doctor', () => {
-    renderComponent()
     const doctor = getDummyUser('Läkare')
     testStore.dispatch(updateUser(doctor))
+    renderComponent()
 
-    expect(testHistory.replace).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/search',
-      })
-    )
+    expect(screen.getByText(/you are on the search page/i)).toBeInTheDocument()
   })
 
   it('should redirect to /search if logged in as nurse', () => {
-    renderComponent()
     const doctor = getDummyUser('Sjuksköterska')
     testStore.dispatch(updateUser(doctor))
+    renderComponent()
 
-    expect(testHistory.replace).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/search',
-      })
-    )
+    expect(screen.getByText(/you are on the search page/i)).toBeInTheDocument()
   })
 
   it('should redirect to /list/unhandledcertificates  if logged in as care admin', () => {
-    renderComponent()
     const doctor = getDummyUser('Vårdadministratör')
     testStore.dispatch(updateUser(doctor))
+    renderComponent()
 
-    expect(testHistory.replace).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/list/unhandledcertificates',
-      })
-    )
+    expect(screen.getByText(/you are on the unhandled certificates page/i)).toBeInTheDocument()
   })
 
   it('should render wrapped component if doctor or care admin not loaded', () => {

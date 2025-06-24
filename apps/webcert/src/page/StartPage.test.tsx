@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
@@ -14,10 +14,10 @@ let testStore: EnhancedStore
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <MemoryRouter initialEntries={['/']}>
-        <Route path="/">
-          <StartPage />
-        </Route>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )

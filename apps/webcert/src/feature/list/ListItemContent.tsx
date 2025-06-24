@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import PatientListInfoContent from '../../components/List/PatientListInfoContent'
@@ -28,10 +28,10 @@ export function ListItemContent({
   links: ResourceLink[]
   certificateId: string
 }>) {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const openCertificate = (id: string) => {
-    history.push('/certificate/' + id)
+    navigate('/certificate/' + id)
   }
 
   const getOpenCertificateButton = () => {

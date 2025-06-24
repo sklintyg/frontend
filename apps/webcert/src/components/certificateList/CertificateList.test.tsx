@@ -1,10 +1,8 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { fakePatient, fakeResourceLink } from '../../faker'
 import { fakeCertificateConfirmationModal } from '../../faker/certificate/fakeCertificateConfirmationModal'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
@@ -40,15 +38,16 @@ const createType = ({
 
 let testStore: EnhancedStore
 let types: CertificateType[]
-const testHistory = createBrowserHistory()
-testHistory.push = vi.fn()
 
 const renderComponent = () =>
   render(
     <Provider store={testStore}>
-      <Router history={testHistory}>
-        <CertificateList />
-      </Router>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<CertificateList />} />
+          <Route path="/certificate/certificateId" element="you are on the certificate page" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 
@@ -150,7 +149,7 @@ describe('CertificateList', () => {
 
     renderComponent()
 
-    expect(testHistory.push).toHaveBeenCalledWith('/certificate/certificateId')
+    expect(screen.getByText(/you are on the certificate page/i)).toBeInTheDocument()
   })
 
   it('should clear certificate id after certificate id is set', () => {

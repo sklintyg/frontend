@@ -2,9 +2,8 @@ import { getByType } from '@frontend/utils'
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
@@ -18,15 +17,12 @@ import CertificateSidePanel from './CertificateSidePanel'
 
 let testStore: EnhancedStore
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const history = createMemoryHistory()
-
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <CertificateSidePanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
