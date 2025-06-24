@@ -64,8 +64,10 @@ describe('CertificatePage', () => {
 
     render(
       <Provider store={testStore}>
-        <MemoryRouter>
-          <CertificatePage />
+        <MemoryRouter initialEntries={['/123']}>
+          <Routes>
+            <Route path="/:certificateId" element={<CertificatePage />} />
+          </Routes>
         </MemoryRouter>
       </Provider>
     )
