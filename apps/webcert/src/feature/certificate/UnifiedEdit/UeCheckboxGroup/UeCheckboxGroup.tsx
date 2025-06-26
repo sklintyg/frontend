@@ -12,7 +12,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeCheckboxGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeCheckboxMultipleCodes
   const checkboxes = config.list
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))

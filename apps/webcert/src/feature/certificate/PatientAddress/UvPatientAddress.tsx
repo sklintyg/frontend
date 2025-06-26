@@ -14,7 +14,7 @@ const additionalContentStyles = css`
   }
 `
 
-const UvPatientAddress: React.FC = () => {
+const UvPatientAddress = () => {
   const metadata = useSelector(getCertificateMetaData, isEqual)
 
   return !metadata ? null : (

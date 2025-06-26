@@ -7,7 +7,7 @@ interface Props {
   additionalWrapperStyles?: string
 }
 
-const Logo: React.FC<Props> = ({ imgSrc, imgAlt, additionalImgStyles }) => {
+const Logo = ({ imgSrc, imgAlt, additionalImgStyles }: Props) => {
   return (
     <figure className="iu-bg-main">
       <img src={imgSrc} alt={imgAlt} className={`${additionalImgStyles}`} />

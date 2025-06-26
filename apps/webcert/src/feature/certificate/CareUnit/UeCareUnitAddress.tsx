@@ -63,7 +63,7 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   }
 `
 
-const UeCareUnitAddress: React.FC = () => {
+const UeCareUnitAddress = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getCareUnitValidationErrors(), isEqual)
   const dispatch = useDispatch()

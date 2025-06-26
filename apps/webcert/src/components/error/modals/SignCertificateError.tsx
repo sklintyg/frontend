@@ -5,7 +5,7 @@ import type { ModalProps } from './errorUtils'
 
 export const SIGN_CERTIFICATE_ERROR_TITLE = 'Signering misslyckades'
 
-const SignCertificateError: React.FC<ModalProps> = ({ errorData }) => {
+const SignCertificateError = ({ errorData }: ModalProps) => {
   return (
     <ErrorModalBase errorData={errorData}>
       <p>

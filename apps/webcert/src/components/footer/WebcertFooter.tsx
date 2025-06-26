@@ -57,7 +57,7 @@ const getMobileFooterMenu = () => {
   )
 }
 
-export const WebcertFooter: React.FC = () => (
+export const WebcertFooter = () => (
   <Footer
     title="Webcert"
     description="Webcert är en tjänst som drivs av Inera AB."

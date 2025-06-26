@@ -15,7 +15,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, description, enabled, body }) => {
+const CreateCertificateFromTemplateButton = ({ name, title, description, enabled, body }: Props) => {
   const dispatch = useDispatch()
 
   const handleConfirm = () => {

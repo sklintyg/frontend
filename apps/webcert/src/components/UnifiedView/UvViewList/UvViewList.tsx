@@ -2,9 +2,7 @@ import type React from 'react'
 import type { ValueViewList } from '../../../types'
 import { Badge } from '../Badge'
 
-export const UvViewList: React.FC<{
-  value: ValueViewList
-}> = ({ value }) => (
+export const UvViewList = ({ value }: { value: ValueViewList }) => (
   <Badge>
     {value &&
       (value.list.length === 0 ? (

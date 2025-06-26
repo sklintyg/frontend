@@ -16,7 +16,7 @@ interface Props extends FunctionDisabled {
   isValidForSigning: boolean
 }
 
-const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled, isValidForSigning, functionDisabled }) => {
+const ReadyForSignButton = ({ name, title, description, enabled, isValidForSigning, functionDisabled }: Props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {

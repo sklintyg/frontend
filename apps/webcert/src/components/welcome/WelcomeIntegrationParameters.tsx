@@ -6,7 +6,7 @@ import { getIntegrationParameters, getIntegrationParametersDisablers } from '../
 import Checkbox from '../Inputs/Checkbox'
 import TextInput from '../Inputs/TextInput'
 
-const WelcomeIntegrationParameters: React.FC = () => {
+const WelcomeIntegrationParameters = () => {
   const integrationParameters = useSelector(getIntegrationParameters())
   const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
   const dispatch = useDispatch()

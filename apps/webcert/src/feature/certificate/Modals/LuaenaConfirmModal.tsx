@@ -20,7 +20,7 @@ const ContentWrapper = styled.div`
   gap: 1em;
 `
 
-export const LuaenaConfirmModal: React.FC<Props> = ({ patient, setOpen, open }) => {
+export const LuaenaConfirmModal = ({ patient, setOpen, open }: Props) => {
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(true)
 

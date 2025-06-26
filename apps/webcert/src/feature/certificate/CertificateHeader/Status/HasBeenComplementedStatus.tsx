@@ -8,7 +8,7 @@ interface Props {
   relation: CertificateRelation | undefined
 }
 
-const HasBeenComplementedStatus: React.FC<Props> = ({ relation }) => {
+const HasBeenComplementedStatus = ({ relation }: Props) => {
   if (!relation) {
     return null
   }

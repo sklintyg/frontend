@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const Image = styled.img`
@@ -15,9 +15,10 @@ const Figure = styled.figure`
 
 interface Props {
   imgSrc: string | undefined
+  children: ReactNode
 }
 
-const CenteredImageWithContent: React.FC<Props> = ({ children, imgSrc }) => {
+const CenteredImageWithContent = ({ children, imgSrc }: Props) => {
   return (
     <div className={'iu-flex iu-flex-center'}>
       <Figure>

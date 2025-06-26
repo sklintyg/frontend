@@ -48,7 +48,7 @@ interface Props {
   changeUnitLinkPointer?: boolean
 }
 
-const WebcertHeaderUnit: React.FC<Props> = () => {
+const WebcertHeaderUnit = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useAppSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)

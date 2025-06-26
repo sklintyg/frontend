@@ -7,9 +7,7 @@ import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 
-export const UvDiagnosisList: React.FC<{
-  value: ValueDiagnosisList
-}> = ({ value }) => {
+export const UvDiagnosisList = ({ value }: { value: ValueDiagnosisList }) => {
   if (value.list && value.list.length > 0) {
     return (
       <div className={'iu-p-none'}>

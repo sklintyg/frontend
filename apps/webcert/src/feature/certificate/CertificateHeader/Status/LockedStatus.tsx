@@ -8,7 +8,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const LockedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const LockedStatus = ({ certificateMetadata }: Props) => {
   const isDraftLockedRevoked = isLockedRevoked(certificateMetadata)
 
   return isDraftLockedRevoked ? (

@@ -14,7 +14,7 @@ const PatientWrapper = styled.div`
   max-width: 600px;
 `
 
-const WelcomeCertificateTypes: React.FC = () => {
+const WelcomeCertificateTypes = () => {
   const certificateTypes = useSelector(getAvailableCertificateTypes())
   const patients = useSelector(getAvailablePatients())
   const createCertificate = useSelector(getCreateCertificate())

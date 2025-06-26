@@ -10,7 +10,7 @@ export const TIMEOUT_MESSAGE_ORIGIN_NORMAL =
   'Du har blivit utloggad från Webcert på grund av inaktivitet. Om du vill fortsätta använda Webcert behöver du logga in igen.'
 export const GO_TO_START_TEXT = 'Gå till startsidan'
 
-const Timeout: React.FC = () => {
+const Timeout = () => {
   const origin = useAppSelector((state) => getUser(state)?.origin)
 
   if (origin == 'NORMAL') {

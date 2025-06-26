@@ -12,7 +12,7 @@ interface Props {
   resourceLink: ResourceLink | undefined
 }
 
-const CreateCertificateFromCandidateWithMessageModal: React.FC<Props> = ({ resourceLink }) => {
+const CreateCertificateFromCandidateWithMessageModal = ({ resourceLink }: Props) => {
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const [showButton, setShowButton] = useState(true)

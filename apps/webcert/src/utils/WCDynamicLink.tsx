@@ -8,7 +8,7 @@ interface Props {
   light?: boolean
 }
 
-const WCDynamicLink: React.FC<Props> = ({ linkKey, light }) => {
+const WCDynamicLink = ({ linkKey, light }: Props) => {
   const link = useSelector(getDynamicLink(linkKey), shallowEqual)
 
   return <DynamicLink link={link} light={light} />

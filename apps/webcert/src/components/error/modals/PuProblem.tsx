@@ -8,7 +8,7 @@ export const PU_PROBLEM_MESSAGE =
   'Åtgärden kan inte genomföras eftersom den kräver att personuppgifter kan hämtas från personuppgiftsregistret. Prova igen om en stund.'
 export const PU_PROBLEM_MESSAGE_2 = 'Om problemet kvarstår, kontakta i förstahand din lokala IT-avdelning och i andrahand '
 
-const PuProblem: React.FC<ModalProps> = ({ errorData }) => {
+const PuProblem = ({ errorData }: ModalProps) => {
   return (
     <ErrorModalBase errorData={errorData}>
       <p>

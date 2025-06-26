@@ -1,5 +1,5 @@
 import FocusTrap from 'focus-trap-react'
-import type React from 'react'
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -25,9 +25,10 @@ interface ErrorModalProps {
   confirmButtonText?: string
   closeButtonText?: string
   errorData: ErrorData
+  children?: ReactNode
 }
 
-const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, closeButtonText = 'Stäng', children, errorData }) => {
+const ErrorModalBase = ({ onConfirm, confirmButtonText, closeButtonText = 'Stäng', children, errorData }: ErrorModalProps) => {
   const [open, setOpen] = useState(true)
   const dispatch = useDispatch()
 

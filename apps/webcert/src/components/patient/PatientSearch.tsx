@@ -15,7 +15,7 @@ const FormWrapper = styled.div`
   align-items: center;
 `
 
-const PatientSearch: React.FC = () => {
+const PatientSearch = () => {
   const [patientId, setPatientId] = useState('')
   const patient = useAppSelector(getActivePatient)
   const dispatch = useAppDispatch()

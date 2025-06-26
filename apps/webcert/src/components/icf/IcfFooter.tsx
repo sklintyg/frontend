@@ -7,7 +7,7 @@ interface IcfFooterProps {
   handleToggleDropdownButtonClick: () => void
 }
 
-const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }) => {
+const IcfFooter = ({ handleToggleDropdownButtonClick }: IcfFooterProps) => {
   return (
     <Footer className={'iu-bg-secondary-light iu-p-300'}>
       <ButtonWrapper>

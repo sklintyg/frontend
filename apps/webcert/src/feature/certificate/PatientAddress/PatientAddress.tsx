@@ -57,7 +57,7 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   }
 `
 
-const PatientAddress: React.FC = () => {
+const PatientAddress = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
   const patient = useSelector(getPatient, isEqual)

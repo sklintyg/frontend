@@ -30,10 +30,13 @@ const isMedicalInvestigationListEmpty = (config: ConfigUeMedicalInvestigationLis
   })
   return isEmpty
 }
-export const UvMedicalInvestigationList: React.FC<{
+export const UvMedicalInvestigationList = ({
+  value,
+  config,
+}: {
   value: ValueMedicalInvestigationList
   config: ConfigUeMedicalInvestigationList
-}> = ({ value, config }) =>
+}) =>
   isMedicalInvestigationListEmpty(config, value) ? (
     <Badge>
       <p>Ej angivet</p>

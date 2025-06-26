@@ -24,7 +24,7 @@ interface Props {
   onClick?: (currentExpanded: boolean) => void
 }
 
-export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title, onClick }) => {
+export const ExpandableTextWithTitle = ({ text, title, onClick }: Props) => {
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {

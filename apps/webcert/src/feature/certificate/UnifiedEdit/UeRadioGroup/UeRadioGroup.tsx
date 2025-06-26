@@ -16,7 +16,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeRadioGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
   const [code, setCode] = useState((question.value as ValueCode)?.code)

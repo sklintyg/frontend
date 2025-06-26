@@ -23,7 +23,7 @@ interface Props {
   fallback?: string
 }
 
-const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
+const DisplayError = ({ errorCode, fallback }: Props) => {
   switch (errorCode) {
     case ErrorCode.TIMEOUT:
       return <Timeout />

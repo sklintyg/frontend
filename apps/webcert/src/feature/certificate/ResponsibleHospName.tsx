@@ -9,7 +9,7 @@ const UserIcon = styled.img`
   max-height: 2rem;
 `
 
-const ResponsibleHospName: React.FC = () => {
+const ResponsibleHospName = () => {
   const isUnsigned = useSelector(getIsUnsigned())
   const responsibleHospName = useSelector(getResponsibleHospName)
   const signCertificateLink = useSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))

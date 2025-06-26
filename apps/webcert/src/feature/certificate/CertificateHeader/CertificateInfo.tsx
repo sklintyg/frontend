@@ -17,7 +17,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
+const CertificateInfo = ({ certificateMetadata }: Props) => {
   return (
     <Wrapper>
       <h1 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.name}</h1>

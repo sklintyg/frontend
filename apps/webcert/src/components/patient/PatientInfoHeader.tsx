@@ -17,7 +17,7 @@ const ButtonWrapper = styled.div`
   margin-top: auto;
 `
 
-const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
+const PatientInfoHeader = ({ patient }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

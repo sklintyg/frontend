@@ -39,7 +39,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['missing-parameter', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
 ])
 
-const ErrorPage: React.FC = () => {
+const ErrorPage = () => {
   const location = useLocation()
   const dispatch = useDispatch()
   let errorCode: string | undefined

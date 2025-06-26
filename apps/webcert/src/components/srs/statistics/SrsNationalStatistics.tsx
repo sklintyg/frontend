@@ -8,7 +8,7 @@ import SrsNationalStatisticsLineChart from './SrsNationalStatisticsLineChart'
 export const SRS_STATISTICS_TITLE = 'Andel avslutade sjukskrivningsfall*'
 export const SRS_STATISTICS_INFO = '*Sjukskrivningsfall som påbörjades 2017 (Källa: Försäkringskassan)'
 
-const SrsNationalStatistics: React.FC = () => {
+const SrsNationalStatistics = () => {
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.STATISTICS))
   const diagnosisDescription = useSelector(getDiagnosisDescription(SrsInformationChoice.STATISTICS))
   const infoTooltip = `Den statistik som visas är för koden ${diagnosisCode} - ${diagnosisDescription}.`

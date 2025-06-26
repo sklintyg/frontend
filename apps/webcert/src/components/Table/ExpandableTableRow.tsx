@@ -1,4 +1,5 @@
 import type React from 'react'
+import type { ReactNode } from 'react'
 import { Fragment, useState } from 'react'
 import ArrowToggle from '../utils/ArrowToggle'
 
@@ -7,9 +8,10 @@ interface Props {
   id: string
   handleClick: (event: React.MouseEvent) => void
   disabled?: boolean
+  children: ReactNode
 }
 
-const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, children, disabled }) => {
+const ExpandableTableRow = ({ rowContent, id, handleClick, children, disabled }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const handleToggle = () => {

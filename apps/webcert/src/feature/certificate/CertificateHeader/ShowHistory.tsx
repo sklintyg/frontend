@@ -16,7 +16,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
+const ShowHistory = ({ historyEntries, certificateMetadata }: Props) => {
   const isEmpty = historyEntries.length === 0
 
   function formatDate(date: string) {

@@ -13,7 +13,7 @@ const StyledLightbulpIcon = styled(LightbulpIcon)`
   width: 1rem;
 `
 
-const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
+const Icon = ({ iconType, includeTooltip, size }: Props) => {
   const getIconTooltip = (id: string) => {
     switch (id) {
       case 'lightbulb_outline':

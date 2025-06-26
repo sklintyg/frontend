@@ -14,7 +14,7 @@ interface CategoryProps {
   id: string
 }
 
-const Category: React.FC<CategoryProps> = ({ id }) => {
+const Category = ({ id }: CategoryProps) => {
   const category = useSelector(getQuestion(id), isEqual)
   const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 

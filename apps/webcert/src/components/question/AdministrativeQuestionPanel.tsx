@@ -29,7 +29,7 @@ interface Props {
   administrativeQuestionDraft: Question
 }
 
-const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }) => {
+const AdministrativeQuestionPanel = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   return (

@@ -27,7 +27,7 @@ interface Props {
   isValidating?: boolean
 }
 
-const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, questions, isValidForSigning, isValidating }) => {
+const CertificateHeaderStatuses = ({ certificateMetadata, questions, isValidForSigning, isValidating }: Props) => {
   const isCertificateLocked = isLocked(certificateMetadata)
 
   const getStatusInFirstPosition = () => {

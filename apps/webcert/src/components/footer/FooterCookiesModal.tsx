@@ -16,7 +16,7 @@ const StyledTextWithInfoModal = styled(TextWithInfoModal)`
   }
 `
 
-export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
+export const FooterCookiesModal = ({ className }: Props) => (
   <StyledTextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor (cookies)" className={className}>
     <p>
       Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår

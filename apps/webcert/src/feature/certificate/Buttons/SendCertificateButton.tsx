@@ -16,7 +16,7 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, title, description, enabled, body, certificateMetadata, functionDisabled }) => {
+const SendCertificateButton = ({ name, title, description, enabled, body, certificateMetadata, functionDisabled }: Props) => {
   const dispatch = useDispatch()
 
   return (

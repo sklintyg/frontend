@@ -5,7 +5,7 @@ interface Props {
   info: FMBDiagnosisCodeInfoFormContent
 }
 
-const FMBPanelGuidanceInfo: React.FC<Props> = ({ info }) => {
+const FMBPanelGuidanceInfo = ({ info }: Props) => {
   if (info.text) {
     return (
       <ul>

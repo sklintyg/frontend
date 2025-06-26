@@ -1,6 +1,5 @@
 import { debounce } from 'lodash-es'
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -37,7 +36,7 @@ const Wrapper = styled.div`
   padding: 10px;
 `
 
-const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
+const QuestionForm = ({ questionDraft }: Props) => {
   const dispatch = useAppDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
   const isSaved = useAppSelector(isQuestionDraftSaved)

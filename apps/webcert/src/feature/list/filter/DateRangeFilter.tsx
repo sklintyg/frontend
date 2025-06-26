@@ -52,7 +52,7 @@ const Label = styled.label`
   gap: 4px;
 `
 
-const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
+const DateRangeFilter = ({ config, onChange }: Props) => {
   const dispatch = useDispatch()
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const [savedValue, setSavedValue] = useState<ListFilterValueDateRange>(filterValue)

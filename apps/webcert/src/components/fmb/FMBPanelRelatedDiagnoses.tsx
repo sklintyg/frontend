@@ -8,7 +8,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelRelatedDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelRelatedDiagnoses = ({ fmbDiagnosisCodeInfo }: Props) => {
   useEffect(() => {
     ReactTooltip.rebuild()
   })

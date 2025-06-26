@@ -18,7 +18,7 @@ const ModalContent = styled.div`
   white-space: pre-line;
 `
 
-export const MissingRelatedCertificateModal: React.FC<Props> = ({
+export const MissingRelatedCertificateModal = ({
   createCertificateType,
   confirmButtonText,
   patient,
@@ -28,7 +28,7 @@ export const MissingRelatedCertificateModal: React.FC<Props> = ({
   name,
   title,
   enabled,
-}) => {
+}: Props) => {
   const dispatch = useDispatch()
 
   return (

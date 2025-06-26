@@ -20,7 +20,7 @@ const ContentWrapper = styled.div`
   gap: 1em;
 `
 
-export const LuaenaConfirmModalIntegrated: React.FC<Props> = ({ certificateId, setOpen, open }) => {
+export const LuaenaConfirmModalIntegrated = ({ certificateId, setOpen, open }: Props) => {
   const [disabled, setDisabled] = useState(true)
   const deleteCertificate = useDeleteCertificate(certificateId)
   const patient = useSelector((state: RootState) => state.ui.uiCertificate.certificate?.metadata.patient)

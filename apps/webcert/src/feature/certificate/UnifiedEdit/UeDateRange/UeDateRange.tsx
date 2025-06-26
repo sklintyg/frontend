@@ -53,7 +53,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
+const UeDateRange = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeDateRange
   const value = question.value as ValueDateRange
   const [fromDateInput, setFromDateInput] = useState<string | null>(value.from ?? null)

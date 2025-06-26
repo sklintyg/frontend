@@ -29,7 +29,7 @@ const Label = styled.label<LabelProps>`
   white-space: pre-wrap;
 `
 
-const Checkbox: React.FC<Props> = (props) => {
+const Checkbox = (props: Props) => {
   const {
     label,
     id,

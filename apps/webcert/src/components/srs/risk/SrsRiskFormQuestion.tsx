@@ -12,7 +12,7 @@ interface Props {
   checkedOption: string
 }
 
-const SrsRiskFormQuestion: React.FC<Props> = ({ question, onChange, checkedOption }) => {
+const SrsRiskFormQuestion = ({ question, onChange, checkedOption }: Props) => {
   const [currentValue, setCurrentValue] = useState(checkedOption ? checkedOption : '')
   const dispatch = useDispatch()
 

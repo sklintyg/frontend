@@ -15,7 +15,7 @@ import { UeCheckboxDateRangeListField } from './UeCheckboxDateRangeListField'
 
 let testStore: EnhancedStore
 
-const DateRangePickerWrapper: React.FC<Omit<ComponentProps<typeof UeCheckboxDateRangeListField>, 'onChange'>> = ({ value, ...props }) => {
+const DateRangePickerWrapper = ({ value, ...props }: Omit<ComponentProps<typeof UeCheckboxDateRangeListField>, 'onChange'>) => {
   const [val, setValue] = useState<ValueDateRange>(value)
 
   return <UeCheckboxDateRangeListField onChange={setValue} value={val} {...props} />

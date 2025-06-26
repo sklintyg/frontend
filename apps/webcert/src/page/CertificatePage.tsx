@@ -40,7 +40,7 @@ const Columns = styled.div`
   height: 100%;
 `
 
-const CertificatePage: React.FC = () => {
+const CertificatePage = () => {
   const dispatch = useDispatch()
   const { certificateId, error } = useParams()
   const isCertificateDeleted = useAppSelector(getIsCertificateDeleted())

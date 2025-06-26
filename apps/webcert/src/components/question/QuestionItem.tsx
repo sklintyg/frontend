@@ -118,7 +118,7 @@ interface Props {
   question: Question
 }
 
-const QuestionItem: React.FC<Props> = ({ question }) => {
+const QuestionItem = ({ question }: Props) => {
   const dispatch = useDispatch()
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message

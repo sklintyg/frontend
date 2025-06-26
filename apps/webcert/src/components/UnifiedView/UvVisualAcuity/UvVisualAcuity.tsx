@@ -7,10 +7,7 @@ import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 import { formatFixed } from '../../../utils/format/formatAcuity'
 
-export const UvVisualAcuity: React.FC<{
-  value: ValueVisualAcuity
-  config: ConfigUeVisualAcuity
-}> = ({ value, config }) => (
+export const UvVisualAcuity = ({ value, config }: { value: ValueVisualAcuity; config: ConfigUeVisualAcuity }) => (
   <Table>
     <TableHeader>
       <TableRow>

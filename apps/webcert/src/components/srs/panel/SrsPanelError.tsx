@@ -5,7 +5,7 @@ import { throwError } from '../../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
 import InfoBox from '../../utils/InfoBox'
 
-const SrsPanelError: React.FC = () => {
+const SrsPanelError = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {

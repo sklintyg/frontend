@@ -1,5 +1,6 @@
 import classnames from 'classnames'
 import type React from 'react'
+import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
@@ -26,9 +27,10 @@ interface Props {
   subHeader?: React.ReactNode
   noPadding?: boolean
   hasSidePanel?: boolean
+  children: ReactNode
 }
 
-const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePanel = false, noPadding = false }) => {
+const CommonLayout = ({ header, subHeader, children, hasSidePanel = false, noPadding = false }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const [boundryRef, setBoundryRef] = useState<React.RefObject<HTMLElement>>()
 

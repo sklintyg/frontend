@@ -103,7 +103,7 @@ interface Props {
   yearOnly?: boolean
 }
 
-const DatePickerCustom: React.FC<Props> = ({
+const DatePickerCustom = ({
   label,
   setDate,
   inputString,
@@ -122,7 +122,7 @@ const DatePickerCustom: React.FC<Props> = ({
   vertical,
   inputCss,
   yearOnly,
-}) => {
+}: Props) => {
   const [open, setOpen] = useState(false)
   const boundryRef = useContext(DatePickerBoundryContext)
 

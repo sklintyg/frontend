@@ -9,7 +9,7 @@ interface Props extends ResourceLink {
   disabled: boolean
 }
 
-export const CreateCertificateButton: React.FC<Props> = ({ onClick, id, description, enabled, name, disabled }) => {
+export const CreateCertificateButton = ({ onClick, id, description, enabled, name, disabled }: Props) => {
   return (
     <CustomButton
       buttonStyle="primary"

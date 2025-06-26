@@ -27,7 +27,7 @@ export interface Props {
   onChange: (value: ValueEyeAcuity) => void
 }
 
-const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, validationErrors }) => {
+const UeEyeAcuity = ({ disabled, config, value, onChange, validationErrors }: Props) => {
   const [noCorrection, setNoCorrection] = useState(formatFixed(value.withoutCorrection.value?.toString() ?? ''))
   const [correction, setCorrection] = useState(formatFixed(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)

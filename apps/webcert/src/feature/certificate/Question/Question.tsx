@@ -16,7 +16,7 @@ export interface QuestionProps {
   className?: string
 }
 
-const Question: React.FC<QuestionProps> = ({ id, className }) => {
+const Question = ({ id, className }: QuestionProps) => {
   const question = useAppSelector(getQuestion(id), isEqual)
   const isEditable = useAppSelector(getIsEditable)
   const disabled = useAppSelector(getIsLocked) || Boolean(question?.disabled) || !isEditable

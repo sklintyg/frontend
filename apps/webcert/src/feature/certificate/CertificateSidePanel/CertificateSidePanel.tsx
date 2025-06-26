@@ -14,7 +14,7 @@ import { useAppSelector } from '../../../store/store'
 import { ResourceLinkType, SrsEvent } from '../../../types'
 import AboutCertificatePanel from './AboutCertificatePanel'
 
-const CertificateSidePanel: React.FC = () => {
+const CertificateSidePanel = () => {
   const showSpinner = useAppSelector(getIsShowSpinner)
   const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   const hasUnhandledQuestions = useAppSelector((state) => getQuestions(state).filter((question) => !question.handled).length > 0)

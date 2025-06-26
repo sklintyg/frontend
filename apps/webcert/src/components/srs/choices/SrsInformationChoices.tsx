@@ -22,16 +22,17 @@ interface Props {
   currentChoice: SrsInformationChoice
 }
 
-const SrsInformationButton: React.FC<
-  Props & {
-    text: string
-    choice: SrsInformationChoice
-  }
-> = ({ text, choice, currentChoice, onChange }) => (
-  <StyledButton rounded text={text} onClick={() => onChange(choice)} buttonStyle={currentChoice === choice ? 'primary' : 'secondary'} />
-)
+const SrsInformationButton = ({
+  text,
+  choice,
+  currentChoice,
+  onChange,
+}: Props & {
+  text: string
+  choice: SrsInformationChoice
+}) => <StyledButton rounded text={text} onClick={() => onChange(choice)} buttonStyle={currentChoice === choice ? 'primary' : 'secondary'} />
 
-const SrsInformationChoices: React.FC<Props> = (props) => (
+const SrsInformationChoices = (props: Props) => (
   <Root className="iu-mb-300">
     <SrsInformationButton text={SRS_RECOMMENDATIONS_BUTTON_TEXT} choice={SrsInformationChoice.RECOMMENDATIONS} {...props} />
     <SrsInformationButton text={SRS_STATISTICS_BUTTON_TEXT} choice={SrsInformationChoice.STATISTICS} {...props} />

@@ -15,7 +15,7 @@ interface Props {
   content: ReactNode
 }
 
-const PanelHeaderCustomized: React.FC<Props> = ({ content }) => {
+const PanelHeaderCustomized = ({ content }: Props) => {
   return <Root className="iu-bg-white">{content}</Root>
 }
 

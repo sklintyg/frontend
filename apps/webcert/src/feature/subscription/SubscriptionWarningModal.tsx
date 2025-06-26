@@ -32,7 +32,7 @@ const ModalContent = () => {
   )
 }
 
-const SubscriptionWarningModal: React.FC = () => {
+const SubscriptionWarningModal = () => {
   const dispatch = useAppDispatch()
   const [open, setOpen] = useState(false)
   const userLinks = useAppSelector(getUserResourceLinks)

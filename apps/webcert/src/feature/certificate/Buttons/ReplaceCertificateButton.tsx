@@ -13,7 +13,7 @@ interface Props extends FunctionDisabled {
   enabled: boolean
 }
 
-const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const ReplaceCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
   const isDodsbevis = certificateMetadata?.type === 'db'

@@ -27,7 +27,7 @@ interface Props {
   hasSeveralDiagnoses: boolean
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
+const FMBPanelDiagnosisInfo = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }: Props) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">

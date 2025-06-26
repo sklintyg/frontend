@@ -12,7 +12,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeYear: React.FC<Props> = ({ question, disabled }) => {
+const UeYear = ({ question, disabled }: Props) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueYear
   const questionConfig = question.config as ConfigUeYear

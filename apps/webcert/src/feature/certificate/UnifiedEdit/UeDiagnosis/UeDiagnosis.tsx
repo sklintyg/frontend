@@ -53,7 +53,7 @@ const DescriptionAdditional = styled.div`
   grid-area: diagnosis;
 `
 
-const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, validationErrors, hasValidationError }) => {
+const UeDiagnosis = ({ disabled, id, selectedCodeSystem, question, validationErrors, hasValidationError }: Props) => {
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')

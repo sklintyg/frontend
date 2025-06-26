@@ -6,7 +6,7 @@ interface Props {
   items: React.ReactNode
 }
 
-const AppHeaderUserUnit: React.FC<Props> = ({ items }) => {
+const AppHeaderUserUnit = ({ items }: Props) => {
   return <AppHeaderImageWithText items={items} image={houseImage} alt="Vald enhet"></AppHeaderImageWithText>
 }
 

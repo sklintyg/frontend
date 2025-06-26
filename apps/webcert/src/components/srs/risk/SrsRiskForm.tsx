@@ -27,7 +27,7 @@ const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boole
   return option ? option.id : ''
 }
 
-const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
+const SrsRiskForm = ({ previousAnswers, onClick }: Props) => {
   const questions = useSelector(getSrsQuestions)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')

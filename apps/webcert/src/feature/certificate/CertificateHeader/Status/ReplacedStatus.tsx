@@ -9,7 +9,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const ReplacedStatus = ({ certificateMetadata }: Props) => {
   const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
 
   const getText = () => {

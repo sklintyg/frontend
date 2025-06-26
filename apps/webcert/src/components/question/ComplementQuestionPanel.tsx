@@ -30,7 +30,7 @@ interface Props {
   isDisplayingCertificateDraft: boolean
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
+const ComplementQuestionPanel = ({ complementQuestions, isDisplayingCertificateDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   const getContinueOnDraft = () => {

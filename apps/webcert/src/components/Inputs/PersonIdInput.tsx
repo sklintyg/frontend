@@ -23,7 +23,7 @@ const TextInputStyles = css`
   height: 3rem;
 `
 
-const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, onFocus }) => {
+const PersonIdInput = ({ label, onFormattedChange, value, id, onFocus }: Props) => {
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

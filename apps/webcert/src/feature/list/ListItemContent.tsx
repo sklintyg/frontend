@@ -107,7 +107,7 @@ export function ListItemContent({
   const getListItemContent = () => {
     switch (valueType) {
       case CertificateListItemValueType.TEXT:
-        return <td>{value}</td>
+        return <td>{value as string}</td>
       case CertificateListItemValueType.DATE:
         return <td>{formatDate(value as string)}</td>
       case CertificateListItemValueType.PATIENT_INFO:

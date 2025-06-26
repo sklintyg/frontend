@@ -9,7 +9,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelGuidanceSection = ({ fmbDiagnosisCodeInfo }: Props) => {
   const workCapacityList = fmbDiagnosisCodeInfo.forms?.filter(
     (form: FMBDiagnosisCodeInfoForm) => form.name === FMBDiagnosisCodeInfoFormType.FMB_WORK_CAPACITY
   )

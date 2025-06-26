@@ -26,7 +26,7 @@ interface Props {
   closeOnBackdropClick?: boolean
 }
 
-const ModalBase: React.FC<Props> = ({
+const ModalBase = ({
   open,
   handleClose,
   title,
@@ -36,7 +36,7 @@ const ModalBase: React.FC<Props> = ({
   className,
   focusTrap = true,
   closeOnBackdropClick = true,
-}) => {
+}: Props) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
   const rootElement = document.getElementById('modalRoot')
 

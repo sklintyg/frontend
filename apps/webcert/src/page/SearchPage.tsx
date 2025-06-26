@@ -8,7 +8,7 @@ import { getUser } from '../store/user/userSelectors'
 import { ResourceLinkType } from '../types'
 import { ResourceAccess } from '../utils/ResourceAccess'
 
-const SearchPage: React.FC = () => {
+const SearchPage = () => {
   const user = useAppSelector(getUser)
 
   return (
@@ -21,7 +21,7 @@ const SearchPage: React.FC = () => {
     </>
   )
 }
-export const SearchPageWithRedirect: React.FC<ComponentProps<typeof SearchPage>> = () => (
+export const SearchPageWithRedirect = () => (
   <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
     <SearchPage />
   </ResourceAccess>

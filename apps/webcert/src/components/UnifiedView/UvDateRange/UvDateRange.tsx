@@ -11,7 +11,7 @@ const DateRangeWrapper = styled.div`
   display: inline-block;
 `
 
-export const UvDateRange: React.FC<{ value: ValueDateRange; config: ConfigUeDateRange }> = ({ value, config }) => {
+export const UvDateRange = ({ value, config }: { value: ValueDateRange; config: ConfigUeDateRange }) => {
   return (
     <div className={'iu-p-none'}>
       <Table style={{ tableLayout: 'fixed', width: '100%' }}>

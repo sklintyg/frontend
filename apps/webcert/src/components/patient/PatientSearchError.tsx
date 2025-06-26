@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   max-width: 720px;
 `
 
-const PatientSearchError: React.FC = () => {
+const PatientSearchError = () => {
   const error = useSelector(getPatientError)
 
   if (!error) {

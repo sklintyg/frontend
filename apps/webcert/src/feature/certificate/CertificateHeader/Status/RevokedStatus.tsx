@@ -12,7 +12,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const RevokedStatus = ({ certificateMetadata }: Props) => {
   const isLocked = useSelector(getIsLocked)
 
   const getRevokedStatus = () => {

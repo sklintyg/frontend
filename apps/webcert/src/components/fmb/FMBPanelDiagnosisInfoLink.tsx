@@ -6,7 +6,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelDiagnosisInfoLink: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelDiagnosisInfoLink = ({ fmbDiagnosisCodeInfo }: Props) => {
   if (!fmbDiagnosisCodeInfo.referenceLink) {
     return null
   }

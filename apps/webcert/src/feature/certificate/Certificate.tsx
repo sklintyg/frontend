@@ -54,7 +54,7 @@ const CategoryWrapper = styled.div`
   }
 `
 
-const Certificate: React.FC = () => {
+const Certificate = () => {
   const dispatch = useDispatch()
   const certificateStructure = useAppSelector(getCertificateDataElements, isEqual)
   const showSpinner = useAppSelector(getIsShowSpinner)

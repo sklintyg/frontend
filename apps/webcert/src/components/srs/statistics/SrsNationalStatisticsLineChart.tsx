@@ -28,7 +28,7 @@ const CustomizedLabel = (props: LabelProps) => {
   )
 }
 
-const SrsNationalStatistics: React.FC = () => {
+const SrsNationalStatistics = () => {
   const srsInfo = useSelector(getSrsInfo)
   const statistics = srsInfo && srsInfo.statistikNationellStatistik.length > 0 ? srsInfo.statistikNationellStatistik : []
   const xLabels = [30, 90, 180, 365]

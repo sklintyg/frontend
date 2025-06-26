@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideValidationErrors, showValidationErrors } from '../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 
-const ShowValidationErrorsSwitch: React.FC = () => {
+const ShowValidationErrorsSwitch = () => {
   const showErrors = useSelector(getShowValidationErrors)
   const dispatch = useDispatch()
   const [toggled, setToggled] = useState(showErrors)

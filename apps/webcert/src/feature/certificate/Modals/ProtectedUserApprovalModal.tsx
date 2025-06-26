@@ -16,7 +16,7 @@ interface Props {
   preferenceKey: string
 }
 
-const ProtectedUserApprovalModal: React.FC<Props> = ({ showModal, preferenceKey }) => {
+const ProtectedUserApprovalModal = ({ showModal, preferenceKey }: Props) => {
   const dispatch = useDispatch()
   const [approved, setApproved] = useState(false)
   const isUserDoctor = useSelector(isDoctor)

@@ -4,7 +4,7 @@ import { getIsEditable, getIsLocked, getIsUnsigned } from '../../../store/certif
 import PatientAddress from './PatientAddress'
 import UvPatientAddress from './UvPatientAddress'
 
-const PatientAddressInfo: React.FC = () => {
+const PatientAddressInfo = () => {
   const isUnsigned = useSelector(getIsUnsigned())
   const isEditable = useSelector(getIsEditable)
   const isLocked = useSelector(getIsLocked)

@@ -16,7 +16,7 @@ const Img = styled.img`
   bottom: 2px;
 `
 
-const ExternalLinkIcon: React.FC<Props> = ({ className, light }) => {
+const ExternalLinkIcon = ({ className, light }: Props) => {
   return <Img src={light ? externalLinkLight : externalLink} className={className} />
 }
 

@@ -19,7 +19,7 @@ const ModalBaseLarge = styled(ModalBase)`
   max-width: 55rem;
 `
 
-const CareProviderModal: React.FC = () => {
+const CareProviderModal = () => {
   const dispatch = useAppDispatch()
   const isLoadingUserStatistics = useAppSelector(selectIsLoadingUserStatistics, isEqual)
   const isCareProviderModalOpen = useAppSelector(getIsCareProviderModalOpen)

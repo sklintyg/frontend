@@ -15,7 +15,7 @@ interface Props {
   type?: string
 }
 
-export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
+export const RevokeCertificateModalContent = ({ onChange, type }: Props) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
   const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)

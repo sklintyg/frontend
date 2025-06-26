@@ -7,7 +7,7 @@ export const GENERAL_ERROR_TITLE = 'Tekniskt fel'
 export const GENERAL_ERROR_MESSAGE =
   'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand'
 
-const GeneralErrorReload: React.FC<ModalProps> = ({ errorData }) => {
+const GeneralErrorReload = ({ errorData }: ModalProps) => {
   return (
     <ReloadModal errorData={errorData}>
       <p>

@@ -23,7 +23,17 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 
-export const UeCheckboxDateItem: React.FC<{
+export const UeCheckboxDateItem = ({
+  value,
+  onChange,
+  disabled,
+  validationErrors,
+  hasValidationError,
+  maxDate,
+  minDate,
+  label,
+  id,
+}: {
   value: ValueDate
   onChange: (val: ValueDate) => void
   disabled: boolean
@@ -33,7 +43,7 @@ export const UeCheckboxDateItem: React.FC<{
   minDate?: string
   label: string
   id: string
-}> = ({ value, onChange, disabled, validationErrors, hasValidationError, maxDate, minDate, label, id }) => {
+}) => {
   const handleDatepickerChange = (date: string) => onChange({ ...value, date })
 
   return (

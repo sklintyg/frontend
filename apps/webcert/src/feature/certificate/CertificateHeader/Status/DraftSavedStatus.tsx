@@ -8,7 +8,7 @@ interface Props {
   isValidating: boolean
 }
 
-const DraftSavedStatus: React.FC<Props> = ({ certificateMetadata, isValidating }) => {
+const DraftSavedStatus = ({ certificateMetadata, isValidating }: Props) => {
   return (
     <StatusWithIcon icon={'CheckIcon'}>
       {isDraftSaved(certificateMetadata, isValidating) ? 'Utkastet är sparat' : 'Utkastet sparas'}

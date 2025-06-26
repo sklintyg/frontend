@@ -1,10 +1,9 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
 import { calendarImage } from '../../../images'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import CategoryTitle from '../Category/CategoryTitle'
 
 const CareUnitHeaderWrapper = styled.div`
@@ -35,9 +34,9 @@ const CareUnitAddress = styled.section`
   }
 `
 
-const UvCareUnitAddress: React.FC = () => {
-  const metadata = useSelector(getCertificateMetaData, isEqual)
-  const signedCertificate = useSelector(getCertificateEvents, isEqual)
+const UvCareUnitAddress = () => {
+  const metadata = useAppSelector(getCertificateMetaData, isEqual)
+  const signedCertificate = useAppSelector(getCertificateEvents, isEqual)
   const signedCertificateDate =
     metadata?.signed ??
     signedCertificate

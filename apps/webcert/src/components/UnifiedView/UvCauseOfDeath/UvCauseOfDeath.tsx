@@ -7,7 +7,7 @@ const CauseOfDeathWrapper = styled.div`
   display: inline-block;
 `
 
-export const UvCauseOfDeath: React.FC<{ value: ValueCauseOfDeath; config: ConfigUeCauseOfDeath }> = ({ value, config }) => {
+export const UvCauseOfDeath = ({ value, config }: { value: ValueCauseOfDeath; config: ConfigUeCauseOfDeath }) => {
   const chosenSpec = config.causeOfDeath.specifications.find((item) => item.code === value.specification.code)
   const description = value.description?.text ?? 'Ej angivet'
   const debut = value.debut?.date ?? 'Ej angivet'

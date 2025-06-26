@@ -5,7 +5,7 @@ import { getIsRoutedFromDeletedCertificate } from '../../../store/certificate/ce
 import RemovedCertificate from '../RemovedCertificate/RemovedCertificate'
 import ToastModal from '../../../components/utils/Modal/ToastModal'
 
-const CertificateDeletedModal: React.FC = () => {
+const CertificateDeletedModal = () => {
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const dispatch = useDispatch()
 

@@ -6,10 +6,7 @@ import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 
-export const UvTable: React.FC<{
-  value: ValueViewTable
-  config: ConfigUeViewTable
-}> = ({ config: { columns }, value: { rows } }) => {
+export const UvTable = ({ config: { columns }, value: { rows } }: { value: ValueViewTable; config: ConfigUeViewTable }) => {
   return (
     rows && (
       <Table>

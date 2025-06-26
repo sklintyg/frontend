@@ -12,7 +12,7 @@ interface Props {
   disabled: boolean
 }
 
-const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
+const QuestionEditComponent = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const isAccordionOpen = useCallback(
     (value: { id?: string } & ValueType) => (value.id != null ? validateExpression(`'${value.id}'`, value) : false),

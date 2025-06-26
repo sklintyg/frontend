@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import InfoBox from '../../../components/utils/InfoBox'
 import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'
 
-export const RevokeDBAndDOIModalContent: React.FC = () => {
+export const RevokeDBAndDOIModalContent = () => {
   const locked = useSelector(getIsLocked)
   const metadata = useSelector(getCertificateMetaData, isEqual)
   const isDodsbevis = metadata?.type === 'db'

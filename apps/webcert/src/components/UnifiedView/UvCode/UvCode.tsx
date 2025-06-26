@@ -20,11 +20,15 @@ const getCodeLabel = (value: ValueCode, config: CertificateDataConfig): string |
   return 'Ej angivet'
 }
 
-export const UvCode: React.FC<{
+export const UvCode = ({
+  value,
+  config,
+  questionWithOptionalDropdown,
+}: {
   value: ValueCode
   config: CertificateDataConfig
   questionWithOptionalDropdown?: CertificateDataElement
-}> = ({ value, config, questionWithOptionalDropdown }) => {
+}) => {
   const label = getCodeLabel(value, config)
   if (questionWithOptionalDropdown) {
     return <Badge>{`${label} ${getCodeLabel(questionWithOptionalDropdown.value as ValueCode, questionWithOptionalDropdown.config)}`}</Badge>

@@ -8,7 +8,7 @@ interface Props {
   addedClass?: string
 }
 
-const AppHeaderLink: React.FC<Props> = (props) => {
+const AppHeaderLink = (props: Props) => {
   return (
     <Link to={props.link} className={`${props.addedClass} ${!props.withoutDivider && 'iu-link-divider-right'} iu-color-main`}>
       {props.text}

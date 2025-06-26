@@ -15,7 +15,7 @@ import { SRS_OPINION_IDS, SRS_OPINION_LABELS, hasCurrentRiskDataPoint } from '..
 
 export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 
-const SrsRiskOpinion: React.FC = () => {
+const SrsRiskOpinion = () => {
   const dispatch = useDispatch()
   const riskOpinion = useSelector(getRiskOpinion)
   const unitId = useSelector(getUnitId)

@@ -35,16 +35,7 @@ const StyledChevronDownIcon = styled(ChevronDownIcon)`
   font-size: 0.875em;
 `
 
-const IcfDropdown: React.FC<Props> = ({
-  modalLabel,
-  icfData,
-  chosenIcfCodeValues,
-  onAddCode,
-  onRemoveCode,
-  collectionsLabel,
-  disabled,
-  id,
-}) => {
+const IcfDropdown = ({ modalLabel, icfData, chosenIcfCodeValues, onAddCode, onRemoveCode, collectionsLabel, disabled, id }: Props) => {
   const icd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>

@@ -18,7 +18,7 @@ interface Props extends FunctionDisabled {
   enabled: boolean
 }
 
-const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const RevokeCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
   const metadata = useSelector(getCertificateMetaData, isEqual)

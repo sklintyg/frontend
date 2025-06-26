@@ -17,7 +17,7 @@ export const Italic = styled.p`
   font-style: italic;
 `
 
-const FMBPanel: React.FC = () => {
+const FMBPanel = () => {
   const dispatch = useAppDispatch()
   const fmbDiagnosisCodes = useAppSelector(getFMBDiagnosisCodes, isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()

@@ -40,7 +40,7 @@ interface Props {
   isExpanded: boolean
 }
 
-const ExpandableBox: React.FC<Props> = ({ isExpanded, linkText, onClickLink }) => {
+const ExpandableBox = ({ isExpanded, linkText, onClickLink }: Props) => {
   const [isExpandedBox, setIsExpandedBox] = useState(false)
 
   const handleToggle = () => {

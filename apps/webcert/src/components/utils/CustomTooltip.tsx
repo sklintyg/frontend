@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   }
 `
 
-const CustomTooltip: React.FC<Props> = ({ placement }) => {
+const CustomTooltip = ({ placement }: Props) => {
   return (
     <Wrapper>
       <ReactTooltip

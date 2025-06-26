@@ -13,7 +13,7 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
+const ReplaceCertificateContinueButton = ({ name, description, enabled, certificateMetadata, functionDisabled }: Props) => {
   const navigate = useNavigate()
 
   const handleConfirm = () => {

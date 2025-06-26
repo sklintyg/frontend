@@ -1,11 +1,12 @@
-import type React from 'react'
-import type { Banner } from '../../types/utils'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import externalLinkIcon from '../../images/external_link.svg'
+import type { Banner } from '../../types/utils'
 import { sanitizeText } from '../../utils/sanitizeText'
 
 interface Props {
   banner: Banner
+  children?: ReactNode
 }
 
 const Icon = styled.i`
@@ -22,7 +23,7 @@ const Content = styled.div`
   }
 `
 
-const SystemBanner: React.FC<Props> = ({ banner }) => {
+const SystemBanner = ({ banner }: Props) => {
   const getIconClass = () => {
     if (banner.priority === 'HOG') {
       return 'ic-error-icon'

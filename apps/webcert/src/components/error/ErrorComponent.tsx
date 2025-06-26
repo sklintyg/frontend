@@ -1,4 +1,3 @@
-import type React from 'react'
 import { Navigate } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import { getActiveError } from '../../store/error/errorSelectors'
@@ -20,7 +19,7 @@ export interface ErrorRoute {
   errorId: string
 }
 
-const ErrorComponent: React.FC = () => {
+const ErrorComponent = () => {
   const activeError = useAppSelector(getActiveError)
 
   if (!activeError) return null

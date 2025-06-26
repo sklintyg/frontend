@@ -13,7 +13,7 @@ interface Props {
   description: string
 }
 
-const PanelHeader: React.FC<Props> = ({ description }) => {
+const PanelHeader = ({ description }: Props) => {
   return (
     <Root>
       <p className="iu-fw-heading">{description}</p>

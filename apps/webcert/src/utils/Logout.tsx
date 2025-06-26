@@ -21,7 +21,7 @@ interface Props {
   user: User | null
 }
 
-const Logout: React.FC<Props> = ({ link, user }) => {
+const Logout = ({ link, user }: Props) => {
   const dispatch = useAppDispatch()
 
   if (!link) {

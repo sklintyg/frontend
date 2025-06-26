@@ -40,7 +40,7 @@ interface Props {
   isPanelActive: boolean
 }
 
-const SrsPanel: React.FC<Props> = ({ minimizedView, isPanelActive }) => {
+const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   const dispatch = useDispatch()
   const diagnosisListValue = useSelector(getDiagnosisListValue)
   const patientId = useSelector(getPatientId)

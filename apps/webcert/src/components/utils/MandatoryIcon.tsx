@@ -13,7 +13,7 @@ const Wrapper = styled.span`
   position: relative;
 `
 
-const MandatoryIcon: React.FC = () => (
+const MandatoryIcon = () => (
   <Wrapper>
     <Icon data-testid="mandatory-icon" className="iu-color-error">
       *

@@ -6,7 +6,7 @@ interface Props {
   className?: string
 }
 
-const Spinner: React.FC<Props> = ({ text, size, className }) => {
+const Spinner = ({ text, size, className }: Props) => {
   return (
     <div>
       <div className={`ic-spinner ${className}`}>
