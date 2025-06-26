@@ -42,30 +42,30 @@ describe('StartPage', () => {
   })
 
   it('should show loading info when config is loading', () => {
-    renderComponent()
     testStore.dispatch(updateIsLoadingConfig(true))
+    renderComponent()
 
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
   it('should render elegIdp link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
+    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
   })
 
   it('should render sithsIdp link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
+    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
   })
 
   it('should render ppHost link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
+    expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
   })
 })

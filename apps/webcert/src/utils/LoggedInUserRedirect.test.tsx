@@ -61,11 +61,11 @@ describe('LoggedInUserRedirect', () => {
     clearDispatchedActions()
   })
 
-  it('should show spinner while loading user', () => {
+  it('should show spinner while loading user', async () => {
     renderComponent()
     testStore.dispatch(updateIsLoadingUser(true))
 
-    expect(screen.getByText('Laddar...')).toBeInTheDocument()
+    expect(await screen.findByText('Laddar...')).toBeInTheDocument()
   })
 
   it('should redirect to /search if logged in as doctor', () => {

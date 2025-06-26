@@ -31,20 +31,20 @@ describe('SrsRiskForm', () => {
   })
 
   describe('layout', () => {
-    it('should show radio button for each answer option', () => {
+    it('should show radio button for each answer option', async () => {
       const answerOptions = [fakeSrsAnswerOption(), fakeSrsAnswerOption()]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
-      expect(screen.getAllByRole('radio')).toHaveLength(2)
+      expect(await screen.findAllByRole('radio')).toHaveLength(2)
     })
 
-    it('should show label for each answer option', () => {
+    it('should show label for each answer option', async () => {
       const answerOptions = [fakeSrsAnswerOption(), fakeSrsAnswerOption()]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
-      expect(screen.getByText(answerOptions[0].text)).toBeInTheDocument()
+      expect(await screen.findByText(answerOptions[0].text)).toBeInTheDocument()
       expect(screen.getByText(answerOptions[1].text)).toBeInTheDocument()
     })
 
@@ -53,12 +53,14 @@ describe('SrsRiskForm', () => {
       expect(screen.getByText('Beräkna')).toBeInTheDocument()
     })
 
-    it('should show info box if old model version is used', () => {
+    it('should show info box if old model version is used', async () => {
       renderComponent()
       const prediction = fakeSrsPrediction()
       prediction.modelVersion = '2.1'
       testStore.dispatch(updateSrsPredictions([prediction]))
-      expect(screen.getByText('Tidigare risk beräknades med annan version av prediktionsmodellen.', { exact: false })).toBeInTheDocument()
+      expect(
+        await screen.findByText('Tidigare risk beräknades med annan version av prediktionsmodellen.', { exact: false })
+      ).toBeInTheDocument()
     })
 
     it('should not show info box if old model version is not used', () => {
@@ -80,9 +82,9 @@ describe('SrsRiskForm', () => {
       const question = fakeSrsQuestion(answerOptions)
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
       testStore.dispatch(updateSrsQuestions([question]))
-      const radioButtons = screen.getAllByRole('radio')
-      await expect(radioButtons[0]).not.toBeChecked()
-      await expect(radioButtons[1]).toBeChecked()
+      const radioButtons = await screen.findAllByRole('radio')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
     })
 
     it('should check pressed radio button', async () => {
@@ -90,24 +92,23 @@ describe('SrsRiskForm', () => {
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
-      const radioButtons = screen.getAllByRole('radio')
+      const radioButtons = await screen.findAllByRole('radio')
       await userEvent.click(radioButtons[1])
-      await expect(radioButtons[0]).not.toBeChecked()
-      await expect(radioButtons[1]).toBeChecked()
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
     })
 
-    // TODO: Fix flaky tests
-    it.skip('should check default option if previous answers are missing', async () => {
+    it('should check default option if previous answers are missing', async () => {
       const answerOptions = [fakeSrsAnswerOption(true), fakeSrsAnswerOption(false)]
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
-      const radioButtons = screen.getAllByRole('radio')
-      await expect(radioButtons[0]).toBeChecked()
-      await expect(radioButtons[1]).not.toBeChecked()
+      const radioButtons = await screen.findAllByRole('radio')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
     })
 
-    it.skip('should check default option if old prediction model is being used', async () => {
+    it('should check default option if old prediction model is being used', async () => {
       const notDefault = fakeSrsAnswerOption(false)
       const defaultOption = fakeSrsAnswerOption(true)
       const answerOptions = [defaultOption, notDefault]
@@ -117,9 +118,9 @@ describe('SrsRiskForm', () => {
       testStore.dispatch(updateSrsPredictions([predictions]))
       renderComponent([{ questionId: question.questionId, answerId: notDefault.id }])
       testStore.dispatch(updateSrsQuestions([question]))
-      const radioButtons = screen.getAllByRole('radio')
-      await expect(radioButtons[0]).toBeChecked()
-      await expect(radioButtons[1]).not.toBeChecked()
+      const radioButtons = await screen.findAllByRole('radio')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
     })
 
     it('shall log when answering question', async () => {
@@ -127,7 +128,7 @@ describe('SrsRiskForm', () => {
       const question = fakeSrsQuestion(answerOptions)
       renderComponent()
       testStore.dispatch(updateSrsQuestions([question]))
-      const radioButtons = screen.getAllByRole('radio')
+      const radioButtons = await screen.findAllByRole('radio')
 
       await userEvent.click(radioButtons[1])
       expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()

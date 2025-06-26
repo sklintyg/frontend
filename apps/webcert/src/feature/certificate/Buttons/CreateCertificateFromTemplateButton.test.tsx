@@ -57,7 +57,7 @@ describe('Create certificate from template button', () => {
   it('shall set description for button', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
+    expect(await screen.findByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('shall not show modal if button is not pressed', () => {

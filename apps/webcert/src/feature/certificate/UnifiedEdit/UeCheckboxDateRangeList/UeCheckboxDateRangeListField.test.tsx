@@ -2,8 +2,8 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { ComponentProps } from 'react'
 import type React from 'react'
+import type { ComponentProps } from 'react'
 import { useState } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateValue } from '../../../../faker'
@@ -100,7 +100,7 @@ describe('Date range picker', () => {
     await userEvent.click(screen.getByRole('checkbox'))
     await userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
-    expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
+    expect(await screen.findByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
     expect(screen.getByText('i 7 dagar.', { exact: false })).toBeInTheDocument()
   })
 
@@ -110,7 +110,7 @@ describe('Date range picker', () => {
     await userEvent.click(screen.getByRole('checkbox'))
     await userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
 
-    expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
+    expect(await screen.findByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
     expect(screen.getByText('i 31 dagar', { exact: false })).toBeInTheDocument()
   })
 
