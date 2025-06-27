@@ -1,6 +1,5 @@
-import type React from 'react'
-import { getUser } from '../../../store/user/userSelectors'
 import { useAppSelector } from '../../../store/store'
+import { getUser } from '../../../store/user/userSelectors'
 
 export const TIMEOUT_TITLE = 'Du är utloggad'
 export const TIMEOUT_MESSAGE_ORIGIN_INTEGRATED =

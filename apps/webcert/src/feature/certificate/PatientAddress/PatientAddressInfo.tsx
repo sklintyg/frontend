@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { getIsEditable, getIsLocked, getIsUnsigned } from '../../../store/certificate/certificateSelectors'
 import PatientAddress from './PatientAddress'

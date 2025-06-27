@@ -2,7 +2,6 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type React from 'react'
 import type { ComponentProps } from 'react'
 import { useState } from 'react'
 import { Provider } from 'react-redux'

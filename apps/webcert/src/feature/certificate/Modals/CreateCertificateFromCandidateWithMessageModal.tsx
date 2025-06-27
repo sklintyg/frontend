@@ -1,12 +1,11 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
-import { getModalData } from '../../../store/certificate/certificateSelectors'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
-import type { ResourceLink, ModalData } from '../../../types'
-import { useKeyPress, sanitizeText } from '../../../utils'
+import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
+import { getModalData } from '../../../store/certificate/certificateSelectors'
+import type { ModalData, ResourceLink } from '../../../types'
+import { sanitizeText, useKeyPress } from '../../../utils'
 
 interface Props {
   resourceLink: ResourceLink | undefined

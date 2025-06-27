@@ -1,4 +1,3 @@
-import type React from 'react'
 import ErrorModalBase from './ErrorModalBase'
 import type { ModalProps } from './errorUtils'
 

@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'

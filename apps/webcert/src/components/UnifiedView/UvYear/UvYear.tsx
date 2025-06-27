@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { ValueYear } from '../../../types/certificate'
 import { Badge } from '../Badge'
 

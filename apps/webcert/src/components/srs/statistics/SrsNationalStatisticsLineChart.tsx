@@ -1,8 +1,7 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
+import type { LabelProps, TooltipProps } from 'recharts'
+import { CartesianGrid, LabelList, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { getSrsInfo } from '../../../store/srs/srsSelectors'
-import type { TooltipProps, LabelProps } from 'recharts'
-import { LineChart, Line, XAxis, CartesianGrid, YAxis, Tooltip, LabelList } from 'recharts'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {

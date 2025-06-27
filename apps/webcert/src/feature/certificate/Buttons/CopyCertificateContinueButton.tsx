@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'

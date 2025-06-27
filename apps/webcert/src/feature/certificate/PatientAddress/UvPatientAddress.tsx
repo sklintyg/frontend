@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { css } from 'styled-components'
 import { Badge } from '../../../components/UnifiedView/Badge'

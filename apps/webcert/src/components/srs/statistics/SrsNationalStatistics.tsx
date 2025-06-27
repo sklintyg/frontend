@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { InfoCircle } from '../../../images'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'

@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import type React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import type { UserTab } from '../../types'

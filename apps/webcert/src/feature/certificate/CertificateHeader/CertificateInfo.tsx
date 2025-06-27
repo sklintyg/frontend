@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import type { CertificateMetadata } from '../../../types'
 import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'

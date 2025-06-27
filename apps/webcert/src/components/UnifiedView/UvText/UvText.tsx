@@ -1,4 +1,3 @@
-import type React from 'react'
 import { Badge } from '../Badge'
 
 export const UvText = ({ value }: { value: { text?: string | null } }) => (

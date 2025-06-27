@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRiskOpinion, updateRiskOpinion } from '../../../store/srs/srsActions'
 import {

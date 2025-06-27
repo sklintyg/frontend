@@ -1,4 +1,3 @@
-import type React from 'react'
 import { InfoCircle } from '../../images'
 import type { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm } from '../../types'
 import { FMBDiagnosisCodeInfoFormType } from '../../types'

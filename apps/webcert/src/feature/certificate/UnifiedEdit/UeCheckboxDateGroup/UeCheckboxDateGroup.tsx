@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'

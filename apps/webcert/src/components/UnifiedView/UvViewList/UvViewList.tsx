@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { ValueViewList } from '../../../types'
 import { Badge } from '../Badge'
 

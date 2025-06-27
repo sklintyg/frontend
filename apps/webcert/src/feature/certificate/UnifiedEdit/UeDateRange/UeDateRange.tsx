@@ -1,5 +1,4 @@
 import { addDays, isValid } from 'date-fns'
-import type React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'

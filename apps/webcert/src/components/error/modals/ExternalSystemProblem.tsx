@@ -1,7 +1,6 @@
-import type { ModalProps } from './errorUtils'
-import type React from 'react'
-import ErrorModalBase from './ErrorModalBase'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
+import ErrorModalBase from './ErrorModalBase'
+import type { ModalProps } from './errorUtils'
 
 export const EXTERNAL_SYSTEM_PROBLEM_TITLE =
   'Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.'

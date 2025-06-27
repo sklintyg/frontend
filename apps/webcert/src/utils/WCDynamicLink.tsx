@@ -1,4 +1,3 @@
-import type React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import DynamicLink from '../components/utils/DynamicLink'
 import { getDynamicLink } from '../store/utils/utilsSelectors'

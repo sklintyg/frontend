@@ -1,4 +1,3 @@
-import type React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import ReloadModal from './ReloadModal'
 import type { ModalProps } from './errorUtils'

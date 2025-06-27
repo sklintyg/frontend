@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'

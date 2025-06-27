@@ -1,14 +1,13 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import type { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
-import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
-import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
 import RadioButton from '../../../components/Inputs/RadioButton'
 import TextArea from '../../../components/Inputs/TextArea'
 import InfoBox from '../../../components/utils/InfoBox'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import type { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
+import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
+import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 interface Props {
   onChange: (obj: RevokeCertificateReason) => void

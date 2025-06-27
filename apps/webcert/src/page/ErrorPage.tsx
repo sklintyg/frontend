@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'

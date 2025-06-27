@@ -1,11 +1,10 @@
-import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { DoubleArrowIcon } from '../../../images'
+import { replaceCertificate } from '../../../store/certificate/certificateActions'
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

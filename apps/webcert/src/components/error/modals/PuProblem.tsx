@@ -1,7 +1,6 @@
-import type { ModalProps } from './errorUtils'
-import type React from 'react'
-import ErrorModalBase from './ErrorModalBase'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
+import ErrorModalBase from './ErrorModalBase'
+import type { ModalProps } from './errorUtils'
 
 export const PU_PROBLEM_TITLE = 'Personuppgiftstjänsten svarar inte'
 export const PU_PROBLEM_MESSAGE =

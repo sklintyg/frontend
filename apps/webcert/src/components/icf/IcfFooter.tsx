@@ -1,4 +1,3 @@
-import type React from 'react'
 import { CustomButton } from '../Inputs/CustomButton'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 import { ButtonWrapper, Footer } from './Styles'
