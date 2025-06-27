@@ -7,7 +7,7 @@ import { fakePatient, fakeResourceLink } from '../../../faker'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
 

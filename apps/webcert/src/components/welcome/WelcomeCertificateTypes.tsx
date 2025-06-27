@@ -1,9 +1,8 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useDeepCompareEffect } from '../../hooks/useDeepCompareEffect'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
 import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
 import Dropdown from '../Inputs/Dropdown'
@@ -15,10 +14,10 @@ const PatientWrapper = styled.div`
 `
 
 const WelcomeCertificateTypes = () => {
-  const certificateTypes = useSelector(getAvailableCertificateTypes())
-  const patients = useSelector(getAvailablePatients())
-  const createCertificate = useSelector(getCreateCertificate())
-  const dispatch = useDispatch()
+  const certificateTypes = useAppSelector(getAvailableCertificateTypes())
+  const patients = useAppSelector(getAvailablePatients())
+  const createCertificate = useAppSelector(getCreateCertificate())
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getPatients())

@@ -13,7 +13,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
 import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../../store/test/dispatchHelperMiddleware'
 import IcfDropdown from './IcfDropdown'
 
 let testStore: EnhancedStore

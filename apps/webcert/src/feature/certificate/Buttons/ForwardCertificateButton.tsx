@@ -1,12 +1,11 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { forwardCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { ShareIcon } from '../../../images'
-import { ResourceLinkType } from '../../../types'
+import { forwardCertificate } from '../../../store/certificate/certificateActions'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { getConfig } from '../../../store/utils/utilsSelectors'
+import { ResourceLinkType } from '../../../types'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -31,8 +30,8 @@ function ForwardCertificateButton({
   certificateId,
   type,
 }: Props) {
-  const dispatch = useDispatch()
-  const config = useSelector(getConfig)
+  const dispatch = useAppDispatch()
+  const config = useAppSelector(getConfig)
 
   const subject = encodeURIComponent(
     type === ResourceLinkType.FORWARD_CERTIFICATE

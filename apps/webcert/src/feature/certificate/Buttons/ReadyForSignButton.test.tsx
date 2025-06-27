@@ -8,7 +8,7 @@ import { fakeCertificate } from '../../../faker'
 import { readyForSign, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import ReadyForSignButton from './ReadyForSignButton'
 
 const NAME = 'ReadyForSign button name'

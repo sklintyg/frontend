@@ -9,7 +9,7 @@ import { updateCreatedCertificateId } from '../../store/certificate/certificateA
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
 import { patientMiddleware } from '../../store/patient/patientMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import type { CertificateType, User } from '../../types'

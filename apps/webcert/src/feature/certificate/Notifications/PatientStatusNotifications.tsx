@@ -1,4 +1,4 @@
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
 import PatientDeceasedStatus from '../../../components/notification/PatientDeceasedStatus'
 import PatientTestIndicatedStatus from '../../../components/notification/PatientTestIndicatedStatus'
@@ -13,9 +13,10 @@ import {
   getPatient,
   getPreviousPatientId,
 } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
+import type { PersonId } from '../../../types'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
-import type { PersonId } from '../../../types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,14 +27,14 @@ const Wrapper = styled.div`
 `
 
 const PatientStatusNotifications = () => {
-  const isPatientDeceased = useSelector(getIsPatientDeceased)
-  const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
-  const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
-  const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
-  const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId, shallowEqual)
-  const isPatientIdChanged = useSelector(getIsPatientIdChanged)
-  const isReserveId = useSelector(getIsReserveId)
-  const patient = useSelector(getPatient)
+  const isPatientDeceased = useAppSelector(getIsPatientDeceased)
+  const isPatientProtectedPerson = useAppSelector(getIsPatientProtectedPerson)
+  const isPatientTestIndicated = useAppSelector(getIsPatientTestIndicated)
+  const isPatientNameDifferentFromEHR = useAppSelector(getIsPatientNameDifferentFromEHR)
+  const previousPatientId: PersonId | undefined = useAppSelector(getPreviousPatientId, shallowEqual)
+  const isPatientIdChanged = useAppSelector(getIsPatientIdChanged)
+  const isReserveId = useAppSelector(getIsReserveId)
+  const patient = useAppSelector(getPatient)
 
   return (
     <Wrapper>

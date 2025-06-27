@@ -1,8 +1,7 @@
-import type React from 'react'
-import { useSelector } from 'react-redux'
+import type { LabelProps, TooltipProps } from 'recharts'
+import { CartesianGrid, LabelList, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { getSrsInfo } from '../../../store/srs/srsSelectors'
-import type { TooltipProps, LabelProps } from 'recharts'
-import { LineChart, Line, XAxis, CartesianGrid, YAxis, Tooltip, LabelList } from 'recharts'
+import { useAppSelector } from '../../../store/store'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
@@ -29,7 +28,7 @@ const CustomizedLabel = (props: LabelProps) => {
 }
 
 const SrsNationalStatistics = () => {
-  const srsInfo = useSelector(getSrsInfo)
+  const srsInfo = useAppSelector(getSrsInfo)
   const statistics = srsInfo && srsInfo.statistikNationellStatistik.length > 0 ? srsInfo.statistikNationellStatistik : []
   const xLabels = [30, 90, 180, 365]
   const statisticsTotalNumber = statistics[statistics.length - 1]

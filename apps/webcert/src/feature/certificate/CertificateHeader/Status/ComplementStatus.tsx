@@ -1,4 +1,3 @@
-import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 
 const ComplementStatus = () => {

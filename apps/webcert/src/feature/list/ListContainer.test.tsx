@@ -15,7 +15,7 @@ import {
   updateIsLoadingListConfig,
 } from '../../store/list/listActions'
 import { listMiddleware } from '../../store/list/listMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
 import { ListContainer } from './ListContainer'
 

@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react'
-import { useSelector } from 'react-redux'
 import RadioButton from '../../../components/Inputs/RadioButton'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { ListFilterRadioConfig, ListFilterValue, ListFilterValueRadio } from '../../../types'
 import { ListFilterType } from '../../../types'
 import { FilterWrapper } from './filterStyles'
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const RadioFilter = ({ config, onChange, isHighlighted }: Props) => {
-  const val = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueRadio
+  const val = useAppSelector(getActiveListFilterValue(config.id)) as ListFilterValueRadio
 
   const onFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value: ListFilterValueRadio = {

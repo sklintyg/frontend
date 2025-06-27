@@ -1,8 +1,7 @@
-import type React from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
+import { useAppSelector } from '../../store/store'
 import type { Question } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import Spinner from '../utils/Spinner'
@@ -30,7 +29,7 @@ interface Props {
 }
 
 const AdministrativeQuestionPanel = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }: Props) => {
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
+  const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
 
   return (
     <Root>

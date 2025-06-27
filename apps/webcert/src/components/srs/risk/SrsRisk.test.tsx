@@ -14,7 +14,7 @@ import {
   updateSrsQuestions,
 } from '../../../store/srs/srsActions'
 import { srsMiddleware } from '../../../store/srs/srsMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import { SrsSickLeaveChoice } from '../../../types'
 import SrsRisk, { SRS_RISK_BUTTON_TEXT } from './SrsRisk'
 

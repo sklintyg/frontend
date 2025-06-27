@@ -6,7 +6,7 @@ import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorType } from '../error/errorReducer'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../test/dispatchHelperMiddleware'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
 import { apiMiddleware } from './apiMiddleware'
 

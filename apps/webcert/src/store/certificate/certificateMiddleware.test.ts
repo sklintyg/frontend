@@ -21,7 +21,7 @@ import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { push, replace } from '../navigateSlice'
 import { getSessionStatusError } from '../session/sessionActions'
 import type { RootState } from '../store'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import type {

@@ -1,5 +1,4 @@
 import classnames from 'classnames'
-import type React from 'react'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'

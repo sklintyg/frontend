@@ -1,17 +1,16 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers, updateSickLeaveChoice } from '../../../store/srs/srsActions'
 import { getIsCertificateRenewed, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { SrsSickLeaveChoice } from '../../../types'
 import RadioButton from '../../Inputs/RadioButton'
 import { getSickLeaveChoicesLabel } from '../srsUtils'
 
 const SrsSickLeaveChoices = () => {
   const buttons = [SrsSickLeaveChoice.NEW, SrsSickLeaveChoice.EXTENSION, SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS]
-  const choice = useSelector(getSickLeaveChoice)
-  const dispatch = useDispatch()
-  const isCertificateRenewal = useSelector(getIsCertificateRenewed)
+  const choice = useAppSelector(getSickLeaveChoice)
+  const dispatch = useAppDispatch()
+  const isCertificateRenewal = useAppSelector(getIsCertificateRenewed)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSickLeaveChoice(SrsSickLeaveChoice[event.currentTarget.value as keyof typeof SrsSickLeaveChoice]))

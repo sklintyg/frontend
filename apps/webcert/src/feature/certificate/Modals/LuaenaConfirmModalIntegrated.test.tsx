@@ -10,7 +10,7 @@ import { updateCertificate } from '../../../store/certificate/certificateActions
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import { LuaenaConfirmModalIntegrated } from './LuaenaConfirmModalIntegrated'
 
 const mockDispatchFn = vi.fn()

@@ -1,5 +1,4 @@
 import { isTruthy } from '@frontend/utils'
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Tabs } from '../../../components/Tabs/Tabs'

@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { copyFile } from '../../images'

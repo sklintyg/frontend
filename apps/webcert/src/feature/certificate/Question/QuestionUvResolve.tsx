@@ -1,6 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
-import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
 import { UvCauseOfDeath } from '../../../components/UnifiedView/UvCauseOfDeath/UvCauseOfDeath'
@@ -22,6 +20,7 @@ import { UvViewList } from '../../../components/UnifiedView/UvViewList/UvViewLis
 import { UvVisualAcuity } from '../../../components/UnifiedView/UvVisualAcuity/UvVisualAcuity'
 import { UvYear } from '../../../components/UnifiedView/UvYear/UvYear'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import type {
   CertificateDataElement,
   ConfigUeCauseOfDeath,
@@ -46,7 +45,7 @@ const QuestionUvResolve = ({ question }: { question: CertificateDataElement }) =
     }
   }
   const optionalDropdown = getOptionalDropdown()
-  const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
+  const questionWithOptionalDropdown = useAppSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
 
   if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
     return null

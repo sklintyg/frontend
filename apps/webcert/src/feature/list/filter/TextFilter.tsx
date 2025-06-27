@@ -1,10 +1,10 @@
 import type { ChangeEvent } from 'react'
-import { useSelector } from 'react-redux'
-import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import { FilterWrapper } from './filterStyles'
 import TextInput from '../../../components/Inputs/TextInput'
+import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { ListFilterConfig, ListFilterValue, ListFilterValueText } from '../../../types'
 import { ListFilterType } from '../../../types'
+import { FilterWrapper } from './filterStyles'
 
 interface Props {
   config: ListFilterConfig
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ListFilterComponent = ({ config, onChange, isHighlighted }: Props) => {
-  const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
+  const value = useAppSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const onTextFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value: ListFilterValueText = {

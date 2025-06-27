@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import SidePanelFooter from '../../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { SrsEvent, SrsInformationChoice } from '../../../types'
 import ExternalLinkIcon from '../../image/image/ExternalLinkIcon'
 
@@ -10,9 +10,9 @@ interface Props {
   informationChoice: SrsInformationChoice
 }
 const SrsPanelFooter = React.forwardRef<HTMLDivElement, Props>(({ informationChoice }, ref) => {
-  const dispatch = useDispatch()
-  const diagnosisDescription = useSelector(getDiagnosisDescription(informationChoice))
-  const diagnosisCode = useSelector(getDiagnosisCode(informationChoice))
+  const dispatch = useAppDispatch()
+  const diagnosisDescription = useAppSelector(getDiagnosisDescription(informationChoice))
+  const diagnosisCode = useAppSelector(getDiagnosisCode(informationChoice))
   const link = `https://skr.se/${diagnosisCode ? diagnosisCode.replace('.', '').toLowerCase() : ''}`
 
   const onClick = () => {

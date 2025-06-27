@@ -5,7 +5,7 @@ import { fakeCategoryElement, fakeCertificate, fakeCertificateMetaData, fakeText
 import { updateCertificate, updateCertificateSignStatus, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
 import { CertificateFooter } from './CertificateFooter'
 

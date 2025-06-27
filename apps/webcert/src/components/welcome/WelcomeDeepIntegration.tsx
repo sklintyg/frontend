@@ -1,6 +1,5 @@
-import type React from 'react'
 import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../store/store'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import SpinnerBackdrop from '../utils/SpinnerBackdrop'
 
@@ -11,8 +10,8 @@ interface Props {
 
 const WelcomeDeepIntegration = ({ certificateId, unitId }: Props) => {
   const formRef = useRef(null)
-  const integrationParameters = useSelector(getIntegrationParameters())
-  const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
+  const integrationParameters = useAppSelector(getIntegrationParameters())
+  const integrationParametersDisablers = useAppSelector(getIntegrationParametersDisablers())
   sessionStorage.removeItem('launchId')
   useEffect(() => {
     if (formRef) {

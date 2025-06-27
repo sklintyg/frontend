@@ -7,7 +7,7 @@ import { fakeCertificateConfirmationModal } from '../faker/certificate/fakeCerti
 import { updateCertificate } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../types'
 import CertificatePage from './CertificatePage'
 

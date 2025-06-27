@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import { UserHeaderMenu, UserHeaderMenuItem } from '../components/AppHeader/UserHeaderMenu'

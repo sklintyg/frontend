@@ -10,7 +10,7 @@ import { ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchHelperMiddleware } from '../test/dispatchHelperMiddleware'
 import type { ListResponse } from './listActions'
 import {
   getCertificateList,

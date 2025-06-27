@@ -10,7 +10,7 @@ import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import type { ErrorData } from '../../../store/error/errorReducer'
 import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import ErrorModalBase from './ErrorModalBase'
 
 let testStore: EnhancedStore

@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import type { FlattenSimpleInterpolation } from 'styled-components'
 import { css } from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode } from '../../../../types'
 import { ConfigLayout } from '../../../../types'
 import Question from '../../Question/Question'
@@ -26,7 +25,7 @@ interface Props {
 const UeRadioGroupOptionalDropdown = ({ question, disabled }: Props) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list
   const [code, setCode] = useState((question.value as ValueCode)?.code)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = radiobuttons.length <= 2
 

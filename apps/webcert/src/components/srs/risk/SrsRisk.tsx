@@ -1,6 +1,5 @@
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images'
 import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
@@ -11,6 +10,7 @@ import {
   getPreviousAnswers,
   getSickLeaveChoice,
 } from '../../../store/srs/srsSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { SrsAnswer } from '../../../types'
 import { SrsEvent, SrsSickLeaveChoice } from '../../../types'
 import { getMainDiagnosisCode } from '../srsUtils'
@@ -50,11 +50,11 @@ const SrsRisk = () => {
   const [expanded, setExpanded] = useState(false)
   const ref = useRef<null | HTMLDivElement>(null)
 
-  const patientId = useSelector(getPatientId)
-  const certificateId = useSelector(getCertificateId)
-  const sickLeaveChoice = useSelector(getSickLeaveChoice)
-  const valueDiagnosis = useSelector(getDiagnosisListValue)
-  const previousAnswers = useSelector(getPreviousAnswers)
+  const patientId = useAppSelector(getPatientId)
+  const certificateId = useAppSelector(getCertificateId)
+  const sickLeaveChoice = useAppSelector(getSickLeaveChoice)
+  const valueDiagnosis = useAppSelector(getDiagnosisListValue)
+  const previousAnswers = useAppSelector(getPreviousAnswers)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   const getIcon = () => {

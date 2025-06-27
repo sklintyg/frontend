@@ -15,7 +15,7 @@ export interface ApiCall {
 const API = '[API]'
 
 export const apiCallBegan = createAction<ApiCall>(`${API} Call began`)
-export const apiCallSuccess = createAction<any>(`${API} Call success`)
+export const apiCallSuccess = createAction<unknown>(`${API} Call success`)
 export const apiCallFailed = createAction<string>(`${API} Call failed`)
 
 export interface ApiError {

@@ -1,10 +1,8 @@
-import type React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeCheckboxMultipleDate, ValueDate, ValueDateList } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 import { UeCheckboxDateItem } from './UeCheckboxDateItem'
@@ -18,7 +16,7 @@ const UeCheckboxDateGroup = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
   const [value, setValue] = useState<ValueDateList>(question.value as ValueDateList)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const otherValidationErrors = validationErrors.filter(({ field }) => !checkboxes.map(({ id }) => id).includes(field))
 
   return (

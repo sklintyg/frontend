@@ -1,13 +1,11 @@
-import type React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import type { Merge } from 'type-fest'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
 import { editImage } from '../../../images'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import type { ResourceLink } from '../../../types'
 import { CertificateSignStatus, ResourceLinkType } from '../../../types'
 import type { CertificateConfirmationModal } from '../../../types/confirmModal'
@@ -21,9 +19,9 @@ interface Props extends Merge<FunctionDisabled, ResourceLink> {
 
 const SignAndSendButton = ({ name, canSign, title, description, enabled, body, type, functionDisabled, signConfirmationModal }: Props) => {
   const dispatch = useAppDispatch()
-  const isValidForSigning = useSelector(getIsValidForSigning)
-  const isValidating = useSelector(getIsValidating)
-  const signingStatus = useSelector(getSigningStatus)
+  const isValidForSigning = useAppSelector(getIsValidForSigning)
+  const isValidating = useAppSelector(getIsValidating)
+  const signingStatus = useAppSelector(getSigningStatus)
   const isSigning = signingStatus === CertificateSignStatus.PROCESSING || signingStatus === CertificateSignStatus.WAIT_FOR_SIGN
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false)

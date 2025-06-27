@@ -10,7 +10,7 @@ import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { stopPoll } from '../session/sessionActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../test/dispatchHelperMiddleware'
 import {
   acknowledgeSubscription,
   getUserStatistics,

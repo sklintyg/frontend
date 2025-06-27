@@ -11,7 +11,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateQuestions } from '../../../store/question/questionActions'
 import { questionMiddleware } from '../../../store/question/questionMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import type { Certificate } from '../../../types'
 import { QuestionType } from '../../../types'
 import RevokeCertificateButton from './RevokeCertificateButton'

@@ -9,7 +9,7 @@ import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fak
 import { updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import SignAndSendButton from './SignAndSendButton'
 

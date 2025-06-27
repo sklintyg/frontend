@@ -39,10 +39,6 @@ const renderComponent = () => {
 }
 
 describe('WebcertHeader', () => {
-  it('should render component', () => {
-    renderComponent()
-  })
-
   it('should display about Webcert', () => {
     renderComponent()
     expect(screen.getByText('Om Webcert')).toBeInTheDocument()
