@@ -1,5 +1,6 @@
-import ErrorModalBase from './ErrorModalBase'
 import type { ModalProps } from './errorUtils'
+import type React from 'react'
+import ErrorModalBase from './ErrorModalBase'
 
 export const INVALID_STATE_TITLE = 'Funktionen är inte giltig'
 export const INVALID_STATE_REPLACED_MESSAGE = 'Intyget har blivit ersatt av ett senare intyg.'

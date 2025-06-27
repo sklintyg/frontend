@@ -1,10 +1,11 @@
-import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import type React from 'react'
+import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../../store/store'
-import type { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import type { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
 
 export interface Props {
   disabled: boolean
@@ -14,7 +15,7 @@ export interface Props {
 const UeCheckboxGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeCheckboxMultipleCodes
   const checkboxes = config.list
-  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const noItems = checkboxes.length
 

@@ -1,3 +1,4 @@
+import type React from 'react'
 import webcertLogo from '../../images/webcert_logo.png'
 import Logo from '../AppHeader/Logo'
 

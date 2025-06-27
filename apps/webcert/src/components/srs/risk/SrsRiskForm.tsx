@@ -1,7 +1,8 @@
+import type React from 'react'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
 import { getHasUpdatedAnswers, getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
 import type { SrsAnswer, SrsQuestion } from '../../../types'
 import { CustomButton } from '../../Inputs/CustomButton'
 import InfoBox from '../../utils/InfoBox'
@@ -27,11 +28,11 @@ const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boole
 }
 
 const SrsRiskForm = ({ previousAnswers, onClick }: Props) => {
-  const questions = useAppSelector(getSrsQuestions)
-  const predictions = useAppSelector(getSrsPredictions)
+  const questions = useSelector(getSrsQuestions)
+  const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')
-  const hasUpdatedAnswers = useAppSelector(getHasUpdatedAnswers)
-  const dispatch = useAppDispatch()
+  const hasUpdatedAnswers = useSelector(getHasUpdatedAnswers)
+  const dispatch = useDispatch()
 
   const [answers, setAnswers] = useState(
     questions.map((question) => {

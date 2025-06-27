@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logSrsInteraction } from '../../../store/srs/srsActions'

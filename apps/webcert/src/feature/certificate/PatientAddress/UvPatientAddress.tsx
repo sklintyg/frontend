@@ -1,8 +1,9 @@
 import { isEqual } from 'lodash-es'
+import type React from 'react'
+import { useSelector } from 'react-redux'
 import { css } from 'styled-components'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../store/store'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
@@ -14,7 +15,7 @@ const additionalContentStyles = css`
 `
 
 const UvPatientAddress = () => {
-  const metadata = useAppSelector(getCertificateMetaData, isEqual)
+  const metadata = useSelector(getCertificateMetaData, isEqual)
 
   return !metadata ? null : (
     <>

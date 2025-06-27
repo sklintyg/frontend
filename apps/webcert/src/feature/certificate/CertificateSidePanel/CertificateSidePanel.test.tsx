@@ -10,7 +10,7 @@ import { hideSpinner, showSpinner, updateCertificate } from '../../../store/cert
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { logSrsInteraction, updateCertificateId, updateLoggedCertificateId } from '../../../store/srs/srsActions'
-import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import type { Certificate, CertificateMetadata, ResourceLink } from '../../../types'
 import { CertificateStatus, ResourceLinkType } from '../../../types'
 import CertificateSidePanel from './CertificateSidePanel'

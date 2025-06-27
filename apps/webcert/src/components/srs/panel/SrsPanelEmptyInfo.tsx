@@ -1,3 +1,4 @@
+import type React from 'react'
 import errorImage from '../../../images/fel-1.svg'
 import CenteredImageWithContent from '../../image/CenteredImageWithContent'
 

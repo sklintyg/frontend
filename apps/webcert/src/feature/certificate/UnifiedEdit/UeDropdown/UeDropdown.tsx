@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Dropdown from '../../../../components/Inputs/Dropdown'
-import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch, useAppSelector } from '../../../../store/store'
+import { useAppDispatch } from '../../../../store/store'
+import Dropdown from '../../../../components/Inputs/Dropdown'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { CertificateDataElement, ConfigUeDropdown, ValueCode } from '../../../../types'
 
 export interface Props {
@@ -16,7 +17,7 @@ const UeDropdown = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown
   const [currentValue, setCurrentValue] = useState(question.value as ValueCode)
-  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const updateValue = (value: Partial<ValueCode>) => {
     setCurrentValue({ ...currentValue, ...value })
     dispatch(updateCertificateDataElement({ ...question, value: { ...currentValue, ...value } }))

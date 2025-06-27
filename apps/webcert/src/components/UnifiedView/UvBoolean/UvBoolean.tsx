@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { ConfigUeCheckboxBoolean, ValueBoolean } from '../../../types/certificate'
 import { Badge } from '../Badge'
 

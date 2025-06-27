@@ -1,8 +1,9 @@
+import type React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
-import { useAppSelector } from '../../store/store'
 import type { Question } from '../../types'
 import { CertificateStatus } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
@@ -30,7 +31,7 @@ interface Props {
 }
 
 const ComplementQuestionPanel = ({ complementQuestions, isDisplayingCertificateDraft }: Props) => {
-  const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
+  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   const getContinueOnDraft = () => {
     const question = complementQuestions.find(

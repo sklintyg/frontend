@@ -1,11 +1,12 @@
+import type React from 'react'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { hideValidationErrors, showValidationErrors } from '../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
 
 const ShowValidationErrorsSwitch = () => {
-  const showErrors = useAppSelector(getShowValidationErrors)
-  const dispatch = useAppDispatch()
+  const showErrors = useSelector(getShowValidationErrors)
+  const dispatch = useDispatch()
   const [toggled, setToggled] = useState(showErrors)
 
   const handleToggle = () => {

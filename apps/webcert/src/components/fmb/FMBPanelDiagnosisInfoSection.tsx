@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '../../types'
 import { ExpandableText } from '../utils/ExpandableText'
 import { Italic } from './FMBPanel'

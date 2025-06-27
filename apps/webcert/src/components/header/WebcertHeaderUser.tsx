@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -31,6 +32,14 @@ const ExpandableBoxWrapper = styled.div<Props>`
 const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const StyledSpan = styled.span`
+  white-space: nowrap;
+
+  button {
+    font-style: italic;
+  }
 `
 
 interface Props {

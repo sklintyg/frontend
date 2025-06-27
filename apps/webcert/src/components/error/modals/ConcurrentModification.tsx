@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { ModalProps } from './errorUtils'
 import { messageSubstring } from './errorUtils'
 import ReloadModal from './ReloadModal'

@@ -1,8 +1,8 @@
 import { addDays, isValid } from 'date-fns'
 import { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../../store/store'
 import type { ConfigUeCheckboxDateRangeList, ValueDateRange, ValueDateRangeList } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 import { formatDateToString, getLatestPeriodEndDate, getNumberOfPeriodDays } from '../../../../utils'
@@ -40,7 +40,7 @@ export function UeCheckboxDateRangeList({
 }: UnifiedEdit<ConfigUeCheckboxDateRangeList, ValueDateRangeList>) {
   const [baseWorkHours, setBaseWorkHours] = useState('')
   const [valueList, setValueList] = useState(value.list)
-  const validationErrors = useAppSelector(getVisibleValidationErrors(id))
+  const validationErrors = useSelector(getVisibleValidationErrors(id))
 
   const otherValiadtionErrors = useMemo(() => {
     const fieldNames = config.list

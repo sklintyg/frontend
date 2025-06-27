@@ -1,3 +1,4 @@
+import type React from 'react'
 import styled from 'styled-components'
 import arrow from '../../images/arrow-down.svg'
 

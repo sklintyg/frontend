@@ -1,6 +1,7 @@
+import type React from 'react'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
-import ImageCentered from '../image/image/ImageCentered'
 import questionsAndAnswersImg from './fragor_svar_flik.svg'
+import ImageCentered from '../image/image/ImageCentered'
 
 const QuestionNotAvailablePanel = () => {
   return (

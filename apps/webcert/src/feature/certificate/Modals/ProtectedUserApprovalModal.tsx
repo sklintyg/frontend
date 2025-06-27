@@ -1,14 +1,15 @@
 import type { ChangeEvent } from 'react'
+import type React from 'react'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { throwError } from '../../../store/error/errorActions'
+import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
+import { setUserPreference } from '../../../store/user/userActions'
+import { isDoctor } from '../../../store/user/userSelectors'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import InfoBox from '../../../components/utils/InfoBox'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
-import { throwError } from '../../../store/error/errorActions'
-import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
-import { setUserPreference } from '../../../store/user/userActions'
-import { isDoctor } from '../../../store/user/userSelectors'
 
 interface Props {
   showModal: boolean
@@ -16,9 +17,9 @@ interface Props {
 }
 
 const ProtectedUserApprovalModal = ({ showModal, preferenceKey }: Props) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const [approved, setApproved] = useState(false)
-  const isUserDoctor = useAppSelector(isDoctor)
+  const isUserDoctor = useSelector(isDoctor)
   const [open, setOpen] = useState(true)
 
   if (!showModal) {

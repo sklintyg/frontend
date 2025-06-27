@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { CertificateDataConfig, CheckboxCode, ConfigUeCheckboxMultipleCodes, ValueCode, ValueCodeList } from '../../../types'
 import { ConfigLayout, ConfigTypes } from '../../../types'
 import { Badge } from '../Badge'

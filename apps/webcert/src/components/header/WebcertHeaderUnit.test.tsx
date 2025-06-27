@@ -6,7 +6,7 @@ import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../f
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { clearDispatchedActions, dispatchHelperMiddleware } from '../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { ResourceLinkType } from '../../types'

@@ -1,5 +1,4 @@
 import { getByType } from '@frontend/utils'
-import type { ReactNode } from 'react'
 import { getCertificateResourceLink } from '../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../store/store'
 import { getUserResourceLink } from '../../store/user/userSelectors'
@@ -7,7 +6,7 @@ import type { ResourceLink, ResourceLinkType } from '../../types'
 
 interface Props {
   type: ResourceLinkType
-  children: (link: ResourceLink) => ReactNode
+  children: (link: ResourceLink) => JSX.Element
 }
 
 export function WithCertificateResourceLink({ type, children }: Props) {

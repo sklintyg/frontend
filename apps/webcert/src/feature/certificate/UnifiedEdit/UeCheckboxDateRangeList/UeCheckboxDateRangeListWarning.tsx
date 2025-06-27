@@ -1,9 +1,9 @@
+import { useSelector } from 'react-redux'
 import InfoBox from '../../../../components/utils/InfoBox'
 import { getPeriodWarning } from '../../../../store/fmb/fmbSelectors'
-import { useAppSelector } from '../../../../store/store'
 
 export function UeCheckboxDateRangeListWarning() {
-  const warning = useAppSelector(getPeriodWarning)
+  const warning = useSelector(getPeriodWarning)
 
   if (warning === '' || warning == null) return null
 

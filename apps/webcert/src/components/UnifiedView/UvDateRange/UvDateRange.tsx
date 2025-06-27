@@ -1,10 +1,11 @@
+import type React from 'react'
 import styled from 'styled-components'
 import type { ConfigUeDateRange, ValueDateRange } from '../../../types'
 import { Table } from '../../Table/Table'
-import { TableBody } from '../../Table/TableBody'
-import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
+import { TableCell } from '../../Table/TableCell'
+import { TableBody } from '../../Table/TableBody'
 
 const DateRangeWrapper = styled.div`
   display: inline-block;

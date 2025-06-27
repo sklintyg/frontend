@@ -1,3 +1,4 @@
+import type React from 'react'
 import styled from 'styled-components'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import { Footer } from './Footer/Footer'

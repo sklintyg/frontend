@@ -1,4 +1,5 @@
 import { isEqual } from 'lodash-es'
+import type React from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'

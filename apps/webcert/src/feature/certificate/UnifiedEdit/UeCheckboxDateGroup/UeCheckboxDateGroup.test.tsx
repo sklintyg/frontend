@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue, fakeCheckboxMultipleDate } from '../../../../faker'
 import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
-import store, { useAppSelector } from '../../../../store/store'
+import store from '../../../../store/store'
 import { CertificateDataValidationType } from '../../../../types'
 import UeCheckboxDateGroup from './UeCheckboxDateGroup'
 
@@ -33,7 +33,7 @@ const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'checkbox'
 
 function ComponentTestWrapper({ disabled }: { disabled: boolean }) {
-  const state = useAppSelector(getQuestion(QUESTION_ID))
+  const state = useSelector(getQuestion(QUESTION_ID))
   return state ? <UeCheckboxDateGroup question={state} disabled={disabled} /> : null
 }
 

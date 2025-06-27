@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { throwError } from '../../../store/error/errorActions'

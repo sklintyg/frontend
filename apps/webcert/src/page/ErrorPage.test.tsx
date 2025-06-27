@@ -12,7 +12,7 @@ import {
 import { fakeUser } from '../faker'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
-import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateUser } from '../store/user/userActions'
 import ErrorPage from './ErrorPage'
 

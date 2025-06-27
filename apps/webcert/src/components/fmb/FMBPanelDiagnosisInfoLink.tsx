@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 

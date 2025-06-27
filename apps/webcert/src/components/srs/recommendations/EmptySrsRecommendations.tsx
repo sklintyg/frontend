@@ -1,3 +1,4 @@
+import type React from 'react'
 import InfoBox from '../../utils/InfoBox'
 
 interface Props {

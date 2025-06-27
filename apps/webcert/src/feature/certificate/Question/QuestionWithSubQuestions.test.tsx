@@ -6,7 +6,7 @@ import { fakeCategoryElement, fakeCertificate, fakeRadioBooleanElement, fakeText
 import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { clearDispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import type { Complement } from '../../../types'
 import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 

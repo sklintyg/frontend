@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { HTMLProps, MouseEventHandler } from 'react'
 import { forwardRef, useEffect } from 'react'
 import type { Place } from 'react-tooltip'

@@ -1,4 +1,5 @@
 import FocusTrap from 'focus-trap-react'
+import type React from 'react'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'

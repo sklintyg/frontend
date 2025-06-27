@@ -1,3 +1,4 @@
+import type React from 'react'
 import { fileImage } from '../../images'
 import type { ResourceLink } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'

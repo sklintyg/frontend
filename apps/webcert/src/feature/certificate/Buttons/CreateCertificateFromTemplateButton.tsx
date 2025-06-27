@@ -1,7 +1,8 @@
+import type React from 'react'
 import { useDispatch } from 'react-redux'
+import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { fileImage } from '../../../images'
-import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
 

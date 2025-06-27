@@ -1,7 +1,8 @@
 import { isEqual } from 'lodash-es'
+import type React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../store/store'
 import TextWithDynamicLinks from '../../../utils/TextWithDynamicLinks'
 import PanelHeader from './PanelHeader'
 
@@ -37,7 +38,7 @@ const CertificateVersion = styled.span`
 `
 
 const AboutCertificatePanel = () => {
-  const certMetaData = useAppSelector(getCertificateMetaData, isEqual)
+  const certMetaData = useSelector(getCertificateMetaData, isEqual)
 
   return (
     <Wrapper>

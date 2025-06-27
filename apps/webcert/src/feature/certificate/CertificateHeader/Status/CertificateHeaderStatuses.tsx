@@ -1,3 +1,4 @@
+import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import type { CertificateMetadata, Question } from '../../../../types'
 import {

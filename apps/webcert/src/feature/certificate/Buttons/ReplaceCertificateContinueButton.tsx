@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useNavigate } from 'react-router-dom'
 import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'

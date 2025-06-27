@@ -1,10 +1,11 @@
+import type React from 'react'
 import type { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
-import { formatFixed } from '../../../utils/format/formatAcuity'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
+import { formatFixed } from '../../../utils/format/formatAcuity'
 
 export const UvVisualAcuity = ({ value, config }: { value: ValueVisualAcuity; config: ConfigUeVisualAcuity }) => (
   <Table>

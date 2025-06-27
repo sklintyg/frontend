@@ -1,10 +1,11 @@
 import { isEqual } from 'lodash-es'
+import type React from 'react'
+import { useSelector } from 'react-redux'
 import Accordion from '../../../components/utils/Accordion'
 import AccordionHeader from '../../../components/utils/AccordionHeader'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { Text } from '../../../components/utils/Text'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
-import { useAppSelector } from '../../../store/store'
 import { sanitizeText } from '../../../utils'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
@@ -14,7 +15,7 @@ interface CategoryProps {
 }
 
 const Category = ({ id }: CategoryProps) => {
-  const category = useAppSelector(getQuestion(id), isEqual)
+  const category = useSelector(getQuestion(id), isEqual)
   const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 
   if (!category) return null

@@ -1,11 +1,12 @@
 import FocusTrap from 'focus-trap-react'
 import { isEqual } from 'lodash-es'
+import type React from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ChevronDownIcon, InfoCircle, LightbulpIcon } from '../../images'
 import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
-import { useAppSelector } from '../../store/store'
 import { useKeyPress } from '../../utils'
 import { CustomButton } from '../Inputs/CustomButton'
 import IcfCategory from './IcfCategory'
@@ -35,11 +36,11 @@ const StyledChevronDownIcon = styled(ChevronDownIcon)`
 `
 
 const IcfDropdown = ({ modalLabel, icfData, chosenIcfCodeValues, onAddCode, onRemoveCode, collectionsLabel, disabled, id }: Props) => {
-  const icd10Codes = useAppSelector(getOriginalIcd10Codes, isEqual)
+  const icd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
-  const functionDisabled = useAppSelector(isIcfFunctionDisabled)
+  const functionDisabled = useSelector(isIcfFunctionDisabled)
   const escapePress = useKeyPress('Escape')
   const clickedOutsideDropdown = useCallback(
     (e: Event) => {

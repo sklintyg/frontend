@@ -1,3 +1,4 @@
+import type React from 'react'
 import styled from 'styled-components'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'

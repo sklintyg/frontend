@@ -9,7 +9,7 @@ import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
 import { certificateMiddleware } from '../certificate/certificateMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
-import { clearDispatchedActions, dispatchedActions, dispatchHelperMiddleware } from '../test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import type { QuestionResponse, QuestionsResponse } from './questionActions'
 import {
   createAnswer,

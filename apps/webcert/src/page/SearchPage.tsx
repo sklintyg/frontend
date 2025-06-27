@@ -1,3 +1,5 @@
+import type React from 'react'
+import type { ComponentProps } from 'react'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import PatientSearch from '../components/patient/PatientSearch'

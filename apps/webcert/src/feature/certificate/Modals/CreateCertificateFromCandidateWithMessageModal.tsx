@@ -1,23 +1,24 @@
+import type React from 'react'
 import { useEffect, useState } from 'react'
-import { CustomButton } from '../../../components/Inputs/CustomButton'
-import ModalBase from '../../../components/utils/Modal/ModalBase'
+import { useDispatch, useSelector } from 'react-redux'
 import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
 import { getModalData } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
-import type { ModalData, ResourceLink } from '../../../types'
-import { sanitizeText, useKeyPress } from '../../../utils'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import ModalBase from '../../../components/utils/Modal/ModalBase'
+import type { ResourceLink, ModalData } from '../../../types'
+import { useKeyPress, sanitizeText } from '../../../utils'
 
 interface Props {
   resourceLink: ResourceLink | undefined
 }
 
 const CreateCertificateFromCandidateWithMessageModal = ({ resourceLink }: Props) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const [showButton, setShowButton] = useState(true)
   const [modalData, setModalData] = useState<ModalData>({ title: resourceLink?.name ?? '', message: resourceLink?.body ?? '' })
   const escPress = useKeyPress('Escape')
-  const modal = useAppSelector(getModalData())
+  const modal = useSelector(getModalData())
 
   const handleClose = () => {
     setOpen(false)

@@ -1,9 +1,9 @@
+import type React from 'react'
 import { ErrorCode } from '../../store/error/errorReducer'
 import AuthorizationProblem from './errorPageContent/AuthorizationProblem'
 import { AuthorizationProblemConfidentialityMarking } from './errorPageContent/AuthorizationProblemConfidentialityMarking'
 import AuthorizationProblemConfidentialityMarkingUnit from './errorPageContent/AuthorizationProblemConfidentialityMarkingUnit'
 import AuthorizationProblemResource from './errorPageContent/AuthorizationProblemResource'
-import { AuthorizationProblemSubscription } from './errorPageContent/AuthorizationProblemSubscription'
 import { AuthorizationUserSessionAlreadyActive } from './errorPageContent/AuthorizationUserSessionAlreadyActive'
 import DataNotFound from './errorPageContent/DataNotFound'
 import { GetCertificateProblem } from './errorPageContent/GetCertificateProblem'
@@ -16,6 +16,7 @@ import { MedarbetaruppdragSaknas } from './errorPageContent/MedarbetaruppdragSak
 import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgreementError'
 import Timeout from './errorPageContent/Timeout'
 import { UnknownInternalProblem } from './errorPageContent/UnknownInternalProblem'
+import { AuthorizationProblemSubscription } from './errorPageContent/AuthorizationProblemSubscription'
 
 interface Props {
   errorCode?: string

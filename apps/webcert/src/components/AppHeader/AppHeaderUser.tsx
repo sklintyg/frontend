@@ -1,3 +1,4 @@
+import type React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
 
 interface Props {

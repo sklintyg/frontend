@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 // eslint-disable-next-line import/no-duplicates
 import sv from 'date-fns/locale/sv'
+import type React from 'react'
 import { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import type { CSSProp } from 'styled-components'

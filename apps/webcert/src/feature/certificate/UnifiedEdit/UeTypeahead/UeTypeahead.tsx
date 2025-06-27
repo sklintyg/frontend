@@ -1,11 +1,11 @@
 import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import type { Suggestion } from '../../../../components/Inputs/Typeahead'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeTypeahead, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import { GetFilteredSuggestions } from '../../../../utils'
@@ -20,8 +20,8 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const [suggestions, setSuggestions] = useState([] as string[])
-  const dispatch = useAppDispatch()
-  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
+  const dispatch = useDispatch()
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined

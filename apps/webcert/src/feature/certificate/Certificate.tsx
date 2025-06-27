@@ -1,4 +1,5 @@
 import { isEqual } from 'lodash-es'
+import type React from 'react'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { scroller } from 'react-scroll'

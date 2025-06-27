@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useEffect, useState } from 'react'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import ModalBase from '../../components/utils/Modal/ModalBase'

@@ -1,3 +1,4 @@
+import type React from 'react'
 import { useMemo } from 'react'
 import type { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
 import { Table } from '../../Table/Table'

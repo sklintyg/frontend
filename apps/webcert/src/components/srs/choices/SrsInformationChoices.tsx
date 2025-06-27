@@ -1,3 +1,4 @@
+import type React from 'react'
 import styled from 'styled-components'
 import { SrsInformationChoice } from '../../../types'
 import { CustomButton } from '../../Inputs/CustomButton'

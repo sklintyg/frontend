@@ -1,3 +1,4 @@
+import type React from 'react'
 import type { ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'

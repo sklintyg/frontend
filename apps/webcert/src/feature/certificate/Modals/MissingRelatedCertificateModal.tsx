@@ -1,8 +1,9 @@
+import type React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
-import type { Patient, ResourceLink } from '../../../types'
+import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
+import type { ResourceLink, Patient } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
 interface Props extends ResourceLink {

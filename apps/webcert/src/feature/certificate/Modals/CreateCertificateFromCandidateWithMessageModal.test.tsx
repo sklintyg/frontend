@@ -9,7 +9,7 @@ import type { CreateCertificateFromCandidateWithMessageSuccess } from '../../../
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import type { Certificate, ResourceLink } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'

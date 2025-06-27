@@ -5,7 +5,7 @@ import { fakeCategoryElement, fakeCertificate } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { clearDispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import Category from './Category'
 
 let testStore: EnhancedStore

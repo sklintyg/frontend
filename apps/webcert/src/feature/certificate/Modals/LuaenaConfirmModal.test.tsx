@@ -8,7 +8,7 @@ import { vi } from 'vitest'
 import { fakePatient } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import { clearDispatchedActions, dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { LuaenaConfirmModal } from './LuaenaConfirmModal'
 
 let mockDispatchFn = vi.fn()

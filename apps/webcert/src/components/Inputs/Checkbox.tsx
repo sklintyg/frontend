@@ -1,4 +1,5 @@
 import type { ChangeEvent } from 'react'
+import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {

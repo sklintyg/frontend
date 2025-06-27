@@ -1,3 +1,5 @@
+import type React from 'react'
+
 interface Props {
   text?: string
   size?: 'small' | 'large' | undefined

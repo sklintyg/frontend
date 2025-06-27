@@ -1,5 +1,6 @@
-import { houseImage } from '../../images'
+import type React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
+import { houseImage } from '../../images'
 
 interface Props {
   items: React.ReactNode

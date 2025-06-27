@@ -1,10 +1,11 @@
+import type React from 'react'
 import type { ValueDiagnosisList } from '../../../types'
+import { Badge } from '../Badge'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
-import { Badge } from '../Badge'
 
 export const UvDiagnosisList = ({ value }: { value: ValueDiagnosisList }) => {
   if (value.list && value.list.length > 0) {

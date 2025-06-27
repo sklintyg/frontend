@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { dispatchHelperMiddleware } from '../../../store/test/dispatchHelperMiddleware'
-import { updateConfig } from '../../../store/utils/utilsActions'
-import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
+import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { ResourceLinkType } from '../../../types'
 import ForwardCertificateButton from './ForwardCertificateButton'
+import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
+import { updateConfig } from '../../../store/utils/utilsActions'
 
 const NAME = 'Forward button name'
 const DESCRIPTION = 'Forward button description'
@@ -17,6 +17,8 @@ const CERTIFICATE_ID = 'xxx'
 const CERTIFICATE_TYPE = 'type'
 
 let testStore: EnhancedStore
+
+let location: Location
 
 const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWARD_CERTIFICATE) =>
   render(
