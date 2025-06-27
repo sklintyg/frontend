@@ -25,7 +25,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeInteger: React.FC<Props> = ({ question, disabled }) => {
+const UeInteger = ({ question, disabled }: Props) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger

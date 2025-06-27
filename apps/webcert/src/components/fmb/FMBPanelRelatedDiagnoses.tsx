@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import { InfoCircle } from '../../images'
@@ -8,7 +7,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelRelatedDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelRelatedDiagnoses = ({ fmbDiagnosisCodeInfo }: Props) => {
   useEffect(() => {
     ReactTooltip.rebuild()
   })

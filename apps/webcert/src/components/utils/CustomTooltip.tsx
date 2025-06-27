@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { Place } from 'react-tooltip'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
@@ -15,7 +14,7 @@ const Wrapper = styled.div`
   }
 `
 
-const CustomTooltip: React.FC<Props> = ({ placement }) => {
+const CustomTooltip = ({ placement }: Props) => {
   return (
     <Wrapper>
       <ReactTooltip

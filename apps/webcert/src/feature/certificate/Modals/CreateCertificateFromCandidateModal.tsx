@@ -11,7 +11,7 @@ interface Props {
   resourceLink: ResourceLink | undefined
 }
 
-const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) => {
+const CreateCertificateFromCandidateModal = ({ resourceLink }: Props) => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')

@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import type { CertificateMetadata } from '../../../types'
 import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'
@@ -17,7 +16,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
+const CertificateInfo = ({ certificateMetadata }: Props) => {
   return (
     <Wrapper>
       <h1 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.name}</h1>

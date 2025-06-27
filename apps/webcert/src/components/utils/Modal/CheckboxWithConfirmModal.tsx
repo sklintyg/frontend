@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react'
+import type { ChangeEventHandler, ReactNode } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { FlattenSimpleInterpolation } from 'styled-components'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import Checkbox from '../../Inputs/Checkbox'
@@ -22,14 +23,15 @@ interface Props {
   checked: boolean
   id: string
   wrapperStyles?: FlattenSimpleInterpolation
+  children: ReactNode
 }
 
-const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
-  const [open, setOpen] = React.useState(false)
-  const [selected, setSelected] = React.useState<boolean>(false)
+const CheckboxWithConfirmModal = (props: Props) => {
+  const [open, setOpen] = useState(false)
+  const [selected, setSelected] = useState<boolean>(false)
   const escPress = useKeyPress('Escape')
 
-  const handleClickOpen: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleClickOpen: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSelected(event.currentTarget.checked)
     setOpen(true)
 

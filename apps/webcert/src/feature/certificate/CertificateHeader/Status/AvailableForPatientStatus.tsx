@@ -1,4 +1,3 @@
-import type React from 'react'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import type { CertificateMetadata } from '../../../../types'
@@ -9,7 +8,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const AvailableForPatientStatus = ({ certificateMetadata }: Props) => {
   if (!isSigned(certificateMetadata) || !certificateMetadata.availableForCitizen) return null
   const isLisjp = certificateMetadata.type === 'lisjp'
 

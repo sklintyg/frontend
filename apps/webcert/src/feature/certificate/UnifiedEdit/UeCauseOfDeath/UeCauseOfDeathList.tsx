@@ -1,13 +1,11 @@
 import { merge } from 'lodash-es'
-import type React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { CustomButton } from '../../../../components/Inputs/CustomButton'
 import { addCircleImage, removeCircleImage } from '../../../../images'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type {
   CertificateDataElement,
   ConfigUeCauseOfDeathList,
@@ -58,10 +56,10 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathL
   })
 }
 
-const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
+const UeCauseOfDeathList = ({ question, disabled }: Props) => {
   const questionConfig = question.config as ConfigUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(

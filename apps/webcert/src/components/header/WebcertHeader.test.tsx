@@ -49,7 +49,6 @@ describe('WebcertHeader', () => {
   })
 
   it('should display logout link if resource link exists', () => {
-    renderComponent()
     store.dispatch(
       updateUserResourceLinks([
         {
@@ -61,6 +60,7 @@ describe('WebcertHeader', () => {
         },
       ])
     )
+    renderComponent()
 
     expect(screen.getByText('Logga ut')).toBeInTheDocument()
   })

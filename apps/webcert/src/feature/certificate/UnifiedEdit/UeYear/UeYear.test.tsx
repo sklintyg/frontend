@@ -93,7 +93,7 @@ describe('YearPicker component', () => {
     await expect(afterMaxYear).toHaveClass('react-datepicker__year-text--disabled')
   })
 
-  it('should display server validation errors on question.config.id (field)', () => {
+  it('should display server validation errors on question.config.id (field)', async () => {
     const element = fakeYearElement({
       config: { id: 'field' },
       id: QUESTION_ID,
@@ -112,10 +112,10 @@ describe('YearPicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
-  it('should display server validation errors on question.id', () => {
+  it('should display server validation errors on question.id', async () => {
     const element = fakeYearElement({
       id: QUESTION_ID,
       validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
@@ -127,6 +127,6 @@ describe('YearPicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 })

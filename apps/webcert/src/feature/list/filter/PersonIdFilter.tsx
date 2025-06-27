@@ -14,7 +14,7 @@ interface Props {
   isHighlighted: boolean
 }
 
-const PersonIdFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
+const PersonIdFilter = ({ config, onChange, isHighlighted }: Props) => {
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValuePersonId
   const [personId, setPersonId] = useState<string>(filterValue ? filterValue.value : '')
   const dispatch = useDispatch()

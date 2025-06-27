@@ -18,7 +18,7 @@ interface Props {
   disabled: boolean
 }
 
-const UeIcf: React.FC<Props> = ({ question, disabled }) => {
+const UeIcf = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const valueId = (question.value as ValueIcf).id
   const icfData = useSelector(getIcfData(valueId), isEqual)

@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -48,7 +47,7 @@ interface Props {
   changeUnitLinkPointer?: boolean
 }
 
-const WebcertHeaderUnit: React.FC<Props> = () => {
+const WebcertHeaderUnit = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useAppSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)

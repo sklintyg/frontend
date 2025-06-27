@@ -74,7 +74,7 @@ describe('DatePicker component', () => {
     await expect(button).toHaveValue('2022-09-29')
   })
 
-  it('should display server validation errors on question.config.id (field)', () => {
+  it('should display server validation errors on question.config.id (field)', async () => {
     const element = fakeDateElement({
       config: { id: 'field' },
       id: QUESTION_ID,
@@ -93,10 +93,10 @@ describe('DatePicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
-  it('should display server validation errors on question.id', () => {
+  it('should display server validation errors on question.id', async () => {
     const element = fakeDateElement({
       id: QUESTION_ID,
       validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
@@ -108,7 +108,7 @@ describe('DatePicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
   it('Should disable options past max date', async () => {

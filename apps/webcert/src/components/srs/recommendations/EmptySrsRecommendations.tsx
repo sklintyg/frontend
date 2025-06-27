@@ -1,4 +1,3 @@
-import type React from 'react'
 import InfoBox from '../../utils/InfoBox'
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   title: string
 }
 
-export const EmptySrsRecommendations: React.FC<Props> = ({ diagnosisCode, title }) => {
+export const EmptySrsRecommendations = ({ diagnosisCode, title }: Props) => {
   return (
     <>
       <h3 className="iu-fw-bold iu-mb-200">{title}</h3>

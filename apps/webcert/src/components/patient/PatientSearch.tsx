@@ -1,6 +1,5 @@
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import { getActivePatient } from '../../store/patient/patientSelectors'
@@ -15,12 +14,12 @@ const FormWrapper = styled.div`
   align-items: center;
 `
 
-const PatientSearch: React.FC = () => {
+const PatientSearch = () => {
   const [patientId, setPatientId] = useState('')
   const patient = useAppSelector(getActivePatient)
   const dispatch = useAppDispatch()
   const enterPress = useKeyPress('Enter')
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onSubmit = useCallback(() => {
     dispatch(getPatient(patientId))
@@ -34,9 +33,9 @@ const PatientSearch: React.FC = () => {
 
   useEffect(() => {
     if (patient) {
-      history.push(`/create/${encodeURIComponent(btoa(patientId))}`)
+      navigate(`/create/${encodeURIComponent(btoa(patientId))}`)
     }
-  }, [patient, history, patientId])
+  }, [patient, patientId, navigate])
 
   const onChange = (formattedPatientId: string) => {
     dispatch(clearPatientError())

@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import { useCallback, useEffect } from 'react'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import { CustomButton } from '../../Inputs/CustomButton'
@@ -20,10 +20,11 @@ interface Props {
   onConfirm: () => void
   open: boolean
   setOpen: (val: boolean) => void
-  startIcon?: React.ReactNode
+  startIcon?: ReactNode
+  children: ReactNode
 }
 
-export const ConfirmModal: React.FC<Props> = ({
+export const ConfirmModal = ({
   additionalConfirmButtonStyles,
   children,
   closeOnBackdropClick,
@@ -38,7 +39,7 @@ export const ConfirmModal: React.FC<Props> = ({
   onConfirm,
   open,
   setOpen,
-}) => {
+}: Props) => {
   const escPress = useKeyPress('Escape')
 
   const handleClose = useCallback(() => {

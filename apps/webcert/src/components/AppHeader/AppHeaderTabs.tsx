@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import type React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import type { UserTab } from '../../types'
@@ -21,7 +20,7 @@ export interface Props {
   onSwitchTab?: (tab: number) => void
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
+const AppHeaderTabs = ({ tabs, onSwitchTab }: Props) => {
   const location = useLocation()
   const isSelectedTab = (tab: UserTab) => {
     return location.pathname === tab.url || tab.matchedUrls.some((url) => location.pathname.startsWith(url))

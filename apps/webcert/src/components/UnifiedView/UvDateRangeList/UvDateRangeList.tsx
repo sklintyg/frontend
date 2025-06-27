@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { ConfigUeCheckboxDateRangeList, ValueDateRangeList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
@@ -7,10 +6,7 @@ import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 import { Badge } from '../Badge'
 
-export const UvDateRangeList: React.FC<{
-  value: ValueDateRangeList
-  config: ConfigUeCheckboxDateRangeList
-}> = ({ value, config }) => {
+export const UvDateRangeList = ({ value, config }: { value: ValueDateRangeList; config: ConfigUeCheckboxDateRangeList }) => {
   if (value.list.length > 0 && value.list.some((val) => val.from && val.to)) {
     return (
       <Table>

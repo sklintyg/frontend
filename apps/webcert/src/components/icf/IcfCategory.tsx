@@ -24,7 +24,7 @@ interface Props {
   parentId: string
 }
 
-const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }) => {
+const IcfCategory = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }: Props) => {
   const originalIcd10Codes = useAppSelector(getOriginalIcd10Codes, isEqual)
 
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {

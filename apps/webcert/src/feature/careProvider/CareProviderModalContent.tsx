@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
 import SimpleTable from '../../components/Table/SimpleTable'
 import { START_URL, START_URL_FOR_ADMINISTRATORS } from '../../constants'
@@ -22,7 +21,7 @@ function getUnitStatisticsLiteral(amountOnUnit: number, amountOnOtherUnit = 0, c
 
 export function CareProviderModalContent() {
   const dispatch = useAppDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
   const careProviders = useAppSelector(getCareProviders)
   const isCareAdministrator = useAppSelector(selectIsCareAdministrator)
   const unitStatistics = useAppSelector(selectUnitStatistics)
@@ -34,7 +33,7 @@ export function CareProviderModalContent() {
     dispatch(clearPatient())
     dispatch(setUnit(unitId))
 
-    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL)
+    navigate(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL)
   }
 
   const isLoggedInUnit = (unit: Unit) => {

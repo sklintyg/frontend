@@ -60,7 +60,7 @@ describe('Revoke certificate with unhandled questions', () => {
     expect(screen.queryByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('shall show unhandled questions text if unhandled questions', () => {
+  it('shall show unhandled questions text if unhandled questions', async () => {
     testStore.dispatch(
       updateQuestions([
         {
@@ -84,7 +84,7 @@ describe('Revoke certificate with unhandled questions', () => {
     renderDefaultComponent(true)
     openModal()
 
-    expect(screen.getByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).toBeInTheDocument()
+    expect(await screen.findByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).toBeInTheDocument()
   })
 })
 
@@ -114,15 +114,16 @@ describe('Revoke continue button', () => {
     expect(description).toBeInTheDocument()
   })
 
-  it('shall open modal when clicked', () => {
+  it('shall open modal when clicked', async () => {
     renderDefaultComponent(true)
     openModal()
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(await screen.findByRole('dialog')).toBeInTheDocument()
   })
 
   it('shall have revoke button disabled if radio button is not chosen', async () => {
     renderDefaultComponent(true)
     openModal()
+    expect(await screen.findByText(REVOKE_BUTTON_TEXT)).toBeInTheDocument()
     const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
     await expect(revokeButton).toBeDisabled()
   })
@@ -130,6 +131,7 @@ describe('Revoke continue button', () => {
   it('shall have revoke button enabled by default if radio button wrong patient is chosen', async () => {
     renderDefaultComponent(true)
     openModal()
+    expect(await screen.findByText(WRONG_PATIENT_LABEL)).toBeInTheDocument()
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
     await userEvent.click(radioButton)
     await expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
@@ -138,6 +140,7 @@ describe('Revoke continue button', () => {
   it('shall have revoke button disabled if radio button other reason is chosen and message is empty', async () => {
     renderDefaultComponent(true)
     openModal()
+    expect(await screen.findByText(OTHER_REASON_LABEL)).toBeInTheDocument()
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
     await userEvent.click(radioButton)
     await expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeDisabled()
@@ -146,6 +149,7 @@ describe('Revoke continue button', () => {
   it('shall have revoke button enabled if radio button other reason is chosen and message is not empty', async () => {
     renderDefaultComponent(true)
     openModal()
+    expect(await screen.findByText(OTHER_REASON_LABEL)).toBeInTheDocument()
     const radioButton = screen.getByText(OTHER_REASON_LABEL)
     await userEvent.click(radioButton)
     await userEvent.type(screen.getByRole('textbox'), 'test')
@@ -156,6 +160,7 @@ describe('Revoke continue button', () => {
     renderDefaultComponent(true)
     const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
+    expect(await screen.findByText(WRONG_PATIENT_LABEL)).toBeInTheDocument()
     const radioButton = screen.getByText(WRONG_PATIENT_LABEL)
     await userEvent.click(radioButton)
     await userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
@@ -166,6 +171,7 @@ describe('Revoke continue button', () => {
     renderDefaultComponent(true)
     const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
+    expect(await screen.findByText('Avbryt')).toBeInTheDocument()
     await userEvent.click(screen.getByText('Avbryt'))
     expect(spy).not.toHaveBeenCalled()
   })
@@ -174,6 +180,7 @@ describe('Revoke continue button', () => {
     renderDefaultComponent(true)
     const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
+    expect(await screen.findByText(OTHER_REASON_LABEL)).toBeInTheDocument()
     await userEvent.click(screen.getByText(OTHER_REASON_LABEL))
     await userEvent.type(screen.getByRole('textbox'), 'test')
     await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
@@ -187,6 +194,7 @@ describe('Revoke continue button', () => {
     renderDefaultComponent(true)
     const spy = vi.spyOn(testStore, 'dispatch')
     openModal()
+    expect(await screen.findByText(WRONG_PATIENT_LABEL)).toBeInTheDocument()
     await userEvent.click(screen.getByText(WRONG_PATIENT_LABEL))
     await userEvent.type(screen.getByRole('textbox'), 'test')
     await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
@@ -212,13 +220,13 @@ describe('Revoke continue button', () => {
       renderComponentWithTestStore(true)
       openModal()
 
-      const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
-      await expect(revokeButton).toBeEnabled()
+      await expect(await screen.findByText(REVOKE_BUTTON_TEXT)).toBeEnabled()
     })
 
     it('shall dispatch revoke certificate when revoke is pressed', async () => {
       renderComponentWithTestStore(true)
       openModal()
+      expect(await screen.findByText(REVOKE_BUTTON_TEXT)).toBeInTheDocument()
       await userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
 
       const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
@@ -228,6 +236,7 @@ describe('Revoke continue button', () => {
     it('shall dispatch with empty reason, message and title', async () => {
       renderComponentWithTestStore(true)
       openModal()
+      expect(await screen.findByText(REVOKE_BUTTON_TEXT)).toBeInTheDocument()
       await userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
 
       const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))

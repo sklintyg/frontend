@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { Merge } from 'type-fest'
@@ -19,17 +18,7 @@ interface Props extends Merge<FunctionDisabled, ResourceLink> {
   signConfirmationModal?: CertificateConfirmationModal | null
 }
 
-const SignAndSendButton: React.FC<Props> = ({
-  name,
-  canSign,
-  title,
-  description,
-  enabled,
-  body,
-  type,
-  functionDisabled,
-  signConfirmationModal,
-}) => {
+const SignAndSendButton = ({ name, canSign, title, description, enabled, body, type, functionDisabled, signConfirmationModal }: Props) => {
   const dispatch = useAppDispatch()
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)

@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   }
 `
 
-const PatientStatusNotifications: React.FC = () => {
+const PatientStatusNotifications = () => {
   const isPatientDeceased = useSelector(getIsPatientDeceased)
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)

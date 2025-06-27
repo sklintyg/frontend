@@ -5,7 +5,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeViewTable: React.FC<Props> = ({ question }) => {
+const UeViewTable = ({ question }: Props) => {
   return (
     <div className="iu-p-none">
       <UvTable value={question.value as ValueViewTable} config={question.config as ConfigUeViewTable} />

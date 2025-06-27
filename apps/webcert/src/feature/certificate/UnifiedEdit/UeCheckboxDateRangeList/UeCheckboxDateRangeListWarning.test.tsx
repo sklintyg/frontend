@@ -31,9 +31,9 @@ describe('Sick leave period warning', () => {
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
   })
 
-  it('displays warning', () => {
+  it('displays warning', async () => {
     renderComponent()
     testStore.dispatch(setPeriodWarning(WARNING))
-    expect(screen.getByText(WARNING)).toBeInTheDocument()
+    expect(await screen.findByText(WARNING)).toBeInTheDocument()
   })
 })

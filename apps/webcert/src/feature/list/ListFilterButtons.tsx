@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   gap: 12px;
 `
 
-const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, isSearchEnabled, resetTooltip }) => {
+const ListFilterButtons = ({ searchTooltip, onSearch, onReset, isSearchEnabled, resetTooltip }: Props) => {
   return (
     <Wrapper>
       <CustomButton buttonStyle="primary" text="Sök" tooltip={searchTooltip} onClick={onSearch} disabled={!isSearchEnabled} inline={true} />

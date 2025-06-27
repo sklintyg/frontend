@@ -2,7 +2,7 @@ import { getIsInactiveCertificateType } from '../../../store/certificate/certifi
 import NotificationBannerBase from './NotificationBannerBase'
 import { useAppSelector } from '../../../store/store'
 
-const InactiveCertificateTypeNotification: React.FC = () => {
+const InactiveCertificateTypeNotification = () => {
   const isInactiveCertificateType = useAppSelector(getIsInactiveCertificateType)
 
   if (!isInactiveCertificateType) return null

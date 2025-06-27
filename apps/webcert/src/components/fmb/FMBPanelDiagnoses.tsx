@@ -1,5 +1,4 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import { InfoCircle } from '../../images'
@@ -12,7 +11,7 @@ interface Props {
   onDiagnosisSelect: (icd10Code: string) => void
 }
 
-const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnosisCode, onDiagnosisSelect }) => {
+const FMBPanelDiagnoses = ({ fmbDiagnosisCodes, selectedDiagnosisCode, onDiagnosisSelect }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     onDiagnosisSelect(event.target.value)
   }

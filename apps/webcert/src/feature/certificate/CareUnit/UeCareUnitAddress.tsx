@@ -1,5 +1,4 @@
 import { debounce, isEqual } from 'lodash-es'
-import type React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -63,7 +62,7 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   }
 `
 
-const UeCareUnitAddress: React.FC = () => {
+const UeCareUnitAddress = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getCareUnitValidationErrors(), isEqual)
   const dispatch = useDispatch()

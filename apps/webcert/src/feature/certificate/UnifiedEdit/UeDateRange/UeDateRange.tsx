@@ -1,5 +1,4 @@
 import { addDays, isValid } from 'date-fns'
-import type React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -53,7 +52,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
+const UeDateRange = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeDateRange
   const value = question.value as ValueDateRange
   const [fromDateInput, setFromDateInput] = useState<string | null>(value.from ?? null)

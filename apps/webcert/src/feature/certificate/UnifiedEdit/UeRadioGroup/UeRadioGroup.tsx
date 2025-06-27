@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import RadioButton from '../../../../components/Inputs/RadioButton'
@@ -16,7 +15,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeRadioGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
   const [code, setCode] = useState((question.value as ValueCode)?.code)

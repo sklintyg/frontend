@@ -1,9 +1,8 @@
-import { useSelector } from 'react-redux'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeRadioBoolean, ValueBoolean } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 
@@ -12,11 +11,11 @@ export interface Props {
   disabled: boolean
 }
 
-const UeRadio: React.FC<Props> = ({ question, disabled }) => {
+const UeRadio = ({ question, disabled }: Props) => {
   const booleanValue = getBooleanValue(question)
   const questionConfig = question.config as ConfigUeRadioBoolean
   const dispatch = useAppDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const updatedValue = getUpdatedValue(question, event.currentTarget.value === 'true')

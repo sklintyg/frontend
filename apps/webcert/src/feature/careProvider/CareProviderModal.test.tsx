@@ -3,10 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { START_URL } from '../../constants'
 import {
   fakeCareProvider,
@@ -30,15 +28,16 @@ import CareProviderModal from './CareProviderModal'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
-const history = createMemoryHistory()
-history.push = vi.fn()
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
-        <CareProviderModal />
-      </Router>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<CareProviderModal />} />
+          <Route path={START_URL} element="you are on the search page" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -105,7 +104,7 @@ describe('Care provider modal', () => {
       renderComponent()
 
       await userEvent.click(screen.getByText('Care unit 2'))
-      expect(history.push).toHaveBeenCalledWith(START_URL)
+      expect(screen.getByText(/you are on the search page/i)).toBeInTheDocument()
     })
 
     it('should close modal when clicking outside the modal', async () => {

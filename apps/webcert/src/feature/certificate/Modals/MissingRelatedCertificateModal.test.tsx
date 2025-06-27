@@ -1,9 +1,8 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { fakePatient, fakeResourceLink } from '../../../faker'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -13,7 +12,6 @@ import { ResourceLinkType } from '../../../types'
 import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
 
 let testStore: EnhancedStore
-const history = createMemoryHistory()
 const patient = fakePatient()
 const CONFIRM_BUTTON = 'Skapa dödsorsaksintyg'
 const setOpen = () => true
@@ -26,7 +24,7 @@ const missingRelatedCertificate = fakeResourceLink({
 const renderComponent = (isOpen: boolean) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <MissingRelatedCertificateModal
           createCertificateType="doi"
           confirmButtonText={CONFIRM_BUTTON}
@@ -35,7 +33,7 @@ const renderComponent = (isOpen: boolean) => {
           open={isOpen}
           {...missingRelatedCertificate}
         />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

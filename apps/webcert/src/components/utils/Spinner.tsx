@@ -1,12 +1,10 @@
-import type React from 'react'
-
 interface Props {
   text?: string
   size?: 'small' | 'large' | undefined
   className?: string
 }
 
-const Spinner: React.FC<Props> = ({ text, size, className }) => {
+const Spinner = ({ text, size, className }: Props) => {
   return (
     <div>
       <div className={`ic-spinner ${className}`}>

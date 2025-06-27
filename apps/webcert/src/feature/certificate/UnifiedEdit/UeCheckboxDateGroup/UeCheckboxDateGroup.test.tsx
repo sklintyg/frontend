@@ -121,7 +121,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach(async (checkbox) => {
-        await expect(checkbox).toBeDisabled()
+        expect(checkbox).toBeDisabled()
       })
     })
 
@@ -129,7 +129,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach(async (textbox) => {
-        await expect(textbox).toBeDisabled()
+        expect(textbox).toBeDisabled()
       })
     })
 
@@ -137,7 +137,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(true)
       const buttons = screen.getAllByRole('button')
       buttons.forEach(async (button) => {
-        await expect(button).toBeDisabled()
+        expect(button).toBeDisabled()
       })
     })
 
@@ -145,7 +145,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach(async (checkbox) => {
-        await expect(checkbox).toBeEnabled()
+        expect(checkbox).toBeEnabled()
       })
     })
 
@@ -153,7 +153,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(false)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach(async (textbox) => {
-        await expect(textbox).toBeEnabled()
+        expect(textbox).toBeEnabled()
       })
     })
 
@@ -161,7 +161,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(false)
       const buttons = screen.getAllByRole('button')
       buttons.forEach(async (button) => {
-        await expect(button).toBeEnabled()
+        expect(button).toBeEnabled()
       })
     })
   })
@@ -171,7 +171,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach(async (checkbox) => {
-        await expect(checkbox).not.toBeChecked()
+        expect(checkbox).not.toBeChecked()
       })
     })
 
@@ -179,7 +179,7 @@ describe('CheckboxDateGroup component', () => {
       renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach(async (textbox) => {
-        await expect(textbox).toHaveValue('')
+        expect(textbox).toHaveValue('')
       })
     })
   })
@@ -192,8 +192,8 @@ describe('CheckboxDateGroup component', () => {
       await Promise.all(
         checkboxes.map(async (checkbox, index) => {
           await userEvent.click(checkbox)
-          await expect(checkbox).toBeChecked()
-          await expect(textboxes[index]).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
+          expect(checkbox).toBeChecked()
+          expect(textboxes[index]).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
         })
       )
     })
@@ -206,8 +206,8 @@ describe('CheckboxDateGroup component', () => {
         checkboxes.map(async (checkbox, index) => {
           const label = screen.getByText(DATE_CHECKBOXES[index].label)
           await userEvent.click(label)
-          await expect(checkbox).toBeChecked()
-          await expect(textboxes[index]).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
+          expect(checkbox).toBeChecked()
+          expect(textboxes[index]).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
         })
       )
     })
@@ -220,8 +220,8 @@ describe('CheckboxDateGroup component', () => {
       await Promise.all(
         textboxes.map(async (textbox, index) => {
           await userEvent.type(textbox, inputString)
-          await expect(checkboxes[index]).toBeChecked()
-          await expect(textbox).toHaveValue(inputString)
+          expect(checkboxes[index]).toBeChecked()
+          expect(textbox).toHaveValue(inputString)
         })
       )
     })
@@ -232,10 +232,10 @@ describe('CheckboxDateGroup component', () => {
       const textboxes = screen.getAllByRole('textbox')
       const label = screen.getByText(DATE_CHECKBOXES[0].label)
       await userEvent.click(label)
-      await expect(checkboxes[1]).not.toBeChecked()
-      await expect(textboxes[1]).toHaveValue('')
-      await expect(checkboxes[2]).not.toBeChecked()
-      await expect(textboxes[2]).toHaveValue('')
+      expect(checkboxes[1]).not.toBeChecked()
+      expect(textboxes[1]).toHaveValue('')
+      expect(checkboxes[2]).not.toBeChecked()
+      expect(textboxes[2]).toHaveValue('')
     })
 
     it('only checks one checkbox and sets one value when clicking on checkbox', async () => {
@@ -243,10 +243,10 @@ describe('CheckboxDateGroup component', () => {
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       await userEvent.click(checkboxes[1])
-      await expect(checkboxes[0]).not.toBeChecked()
-      await expect(textboxes[0]).toHaveValue('')
-      await expect(checkboxes[2]).not.toBeChecked()
-      await expect(textboxes[2]).toHaveValue('')
+      expect(checkboxes[0]).not.toBeChecked()
+      expect(textboxes[0]).toHaveValue('')
+      expect(checkboxes[2]).not.toBeChecked()
+      expect(textboxes[2]).toHaveValue('')
     })
 
     it('only checks one checkbox and sets one value when typing in textbox', async () => {
@@ -254,21 +254,21 @@ describe('CheckboxDateGroup component', () => {
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       await userEvent.type(textboxes[2], 'test')
-      await expect(checkboxes[0]).not.toBeChecked()
-      await expect(textboxes[0]).toHaveValue('')
-      await expect(checkboxes[1]).not.toBeChecked()
-      await expect(textboxes[1]).toHaveValue('')
+      expect(checkboxes[0]).not.toBeChecked()
+      expect(textboxes[0]).toHaveValue('')
+      expect(checkboxes[1]).not.toBeChecked()
+      expect(textboxes[1]).toHaveValue('')
     })
   })
 
   it('renders validation message when there is a validation error', () => {
-    renderComponent(false)
     store.dispatch(showValidationErrors())
+    renderComponent(false)
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
-    store.dispatch(hideValidationErrors())
   })
 
   it('does not render validation message if validation messages are hidden', () => {
+    store.dispatch(hideValidationErrors())
     renderComponent(false)
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
   })

@@ -1,5 +1,4 @@
-import type React from 'react'
-import type { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -15,6 +14,7 @@ interface Props {
   wrapperAdditionalStyles?: string
   tooltip?: string
   tooltipPlacement?: 'top' | 'right' | 'bottom' | 'left'
+  children?: ReactNode
 }
 
 interface LabelProps {
@@ -27,7 +27,7 @@ const Label = styled.label<LabelProps>`
   }
 `
 
-const RadioButton: React.FC<Props> = ({
+const RadioButton = ({
   label,
   name,
   id,
@@ -41,7 +41,7 @@ const RadioButton: React.FC<Props> = ({
   tooltip,
   tooltipPlacement,
   disabled,
-}) => {
+}: Props) => {
   return (
     <div className={wrapperAdditionalStyles} data-tip={tooltip} data-place={tooltipPlacement}>
       <input

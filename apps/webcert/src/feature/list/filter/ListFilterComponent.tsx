@@ -26,7 +26,7 @@ interface Props {
 /**
  * Generates a components for filtering a table based on provided configuration.
  */
-const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
+const ListFilterComponent = ({ config, onChange }: Props) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const isValueDefaultValue = () => {

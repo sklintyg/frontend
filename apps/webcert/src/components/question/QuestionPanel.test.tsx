@@ -1,9 +1,8 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { fakeCertificate, fakeResourceLink } from '../../faker'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -15,14 +14,12 @@ import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

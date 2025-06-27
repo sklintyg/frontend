@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import type { ResourceLink } from '../../types'
 import { ResourceLinkType } from '../../types'

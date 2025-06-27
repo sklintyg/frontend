@@ -1,5 +1,4 @@
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import {
   deleteCertificate,
   updateIsDeleted,
@@ -7,12 +6,12 @@ import {
   updateShouldRouteAfterDelete,
 } from '../../../store/certificate/certificateActions'
 import { getShouldRouteAfterDelete } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 
 export function useDeleteCertificate(certificateId: string) {
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const shouldRouteAfterDelete = useSelector(getShouldRouteAfterDelete())
+  const shouldRouteAfterDelete = useAppSelector(getShouldRouteAfterDelete())
 
   return () => {
     dispatch(deleteCertificate({ certificateId }))
@@ -21,7 +20,7 @@ export function useDeleteCertificate(certificateId: string) {
       dispatch(updateRoutedFromDeletedCertificate(true))
       dispatch(updateShouldRouteAfterDelete(false))
       dispatch(updateIsDeleted(false))
-      history.goBack()
+      navigate(-1)
     }
   }
 }

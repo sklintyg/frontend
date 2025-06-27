@@ -5,7 +5,7 @@ import { getActiveListFilterValue, getListTotalCount } from '../../../store/list
 import type { ListFilterValueNumber } from '../../../types'
 import { ListFilterType } from '../../../types'
 
-const ListPagination: React.FC = () => {
+const ListPagination = () => {
   const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber
   const startFrom = useSelector(getActiveListFilterValue('START_FROM')) as ListFilterValueNumber
   const totalCount = useSelector(getListTotalCount)

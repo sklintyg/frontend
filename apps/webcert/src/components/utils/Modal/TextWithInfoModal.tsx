@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import type { ReactNode } from 'react'
 import React, { useEffect } from 'react'
 import { LinkButton } from '../../../styles'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
@@ -9,9 +10,10 @@ interface Props {
   text: string
   modalTitle: string
   className?: string
+  children: ReactNode
 }
 
-const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, className }) => {
+const TextWithInfoModal = ({ text, modalTitle, children, className }: Props) => {
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
 

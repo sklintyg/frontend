@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import { fileImage } from '../../images'
@@ -44,7 +44,7 @@ export function CertificateList() {
   const [favorites, setFavorites] = useState<string[]>([])
 
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     ReactTooltip.hide()
@@ -78,9 +78,9 @@ export function CertificateList() {
   useEffect(() => {
     if (certificateId) {
       dispatch(updateCreatedCertificateId(''))
-      history.push(`/certificate/${certificateId}`)
+      navigate(`/certificate/${certificateId}`)
     }
-  }, [certificateId, dispatch, history])
+  }, [certificateId, dispatch, navigate])
 
   return (
     <div className="iu-flex">

@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
@@ -14,10 +14,10 @@ let testStore: EnhancedStore
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <MemoryRouter initialEntries={['/']}>
-        <Route path="/">
-          <StartPage />
-        </Route>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )
@@ -42,30 +42,30 @@ describe('StartPage', () => {
   })
 
   it('should show loading info when config is loading', () => {
-    renderComponent()
     testStore.dispatch(updateIsLoadingConfig(true))
+    renderComponent()
 
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
   it('should render elegIdp link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
+    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
   })
 
   it('should render sithsIdp link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
+    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
   })
 
   it('should render ppHost link', () => {
-    renderComponent()
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    return expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
+    expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
   })
 })

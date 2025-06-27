@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { scroller } from 'react-scroll'
@@ -54,7 +53,7 @@ const CategoryWrapper = styled.div`
   }
 `
 
-const Certificate: React.FC = () => {
+const Certificate = () => {
   const dispatch = useDispatch()
   const certificateStructure = useAppSelector(getCertificateDataElements, isEqual)
   const showSpinner = useAppSelector(getIsShowSpinner)

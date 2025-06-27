@@ -54,23 +54,23 @@ describe('SRS Sick Leave Choices', () => {
 
   it('should have new chosen as default', async () => {
     renderComponent()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeChecked()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).not.toBeChecked()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).not.toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
   it('should have extension chosen as default if certificate is an extension of another certificate', async () => {
-    renderComponent()
     setRenewedCertificateToState()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeChecked()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).toBeChecked()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
+    renderComponent()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
   it('should switch checked radio button when user clicks', async () => {
     renderComponent()
     await userEvent.click(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2]))
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeChecked()
   })
 
   it('should update state when clicking radio button', async () => {
@@ -82,7 +82,7 @@ describe('SRS Sick Leave Choices', () => {
   it('should disable new radio button if sick leave is extension', async () => {
     renderComponent()
     setRenewedCertificateToState()
-    await expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()
+    expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()
   })
 
   it('should not update user client context if choosing extension after 60 days', async () => {

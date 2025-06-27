@@ -1,5 +1,4 @@
-import type React from 'react'
-import type { CertificateDataConfig, ValueCode, CertificateDataElement } from '../../../types/certificate'
+import type { CertificateDataConfig, CertificateDataElement, ValueCode } from '../../../types/certificate'
 import { Badge } from '../Badge'
 
 type CodeConfigListItem = { id: string; label: string }
@@ -20,11 +19,15 @@ const getCodeLabel = (value: ValueCode, config: CertificateDataConfig): string |
   return 'Ej angivet'
 }
 
-export const UvCode: React.FC<{
+export const UvCode = ({
+  value,
+  config,
+  questionWithOptionalDropdown,
+}: {
   value: ValueCode
   config: CertificateDataConfig
   questionWithOptionalDropdown?: CertificateDataElement
-}> = ({ value, config, questionWithOptionalDropdown }) => {
+}) => {
   const label = getCodeLabel(value, config)
   if (questionWithOptionalDropdown) {
     return <Badge>{`${label} ${getCodeLabel(questionWithOptionalDropdown.value as ValueCode, questionWithOptionalDropdown.config)}`}</Badge>

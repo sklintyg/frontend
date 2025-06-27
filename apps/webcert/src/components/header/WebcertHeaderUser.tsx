@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -46,7 +45,7 @@ interface Props {
   changeLinkPointer?: boolean
 }
 
-const WebcertHeaderUser: React.FC<Props> = () => {
+const WebcertHeaderUser = () => {
   const user = useAppSelector(getUser, shallowEqual)
   const privatePractitionerPortal = useAppSelector(getUserResourceLink(ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL))
   const ppHost = useAppSelector((state) => getConfig(state).ppHost)

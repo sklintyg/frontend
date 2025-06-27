@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 // eslint-disable-next-line import/no-duplicates
 import sv from 'date-fns/locale/sv'
-import type React from 'react'
 import { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import type { CSSProp } from 'styled-components'
@@ -103,7 +102,7 @@ interface Props {
   yearOnly?: boolean
 }
 
-const DatePickerCustom: React.FC<Props> = ({
+const DatePickerCustom = ({
   label,
   setDate,
   inputString,
@@ -122,7 +121,7 @@ const DatePickerCustom: React.FC<Props> = ({
   vertical,
   inputCss,
   yearOnly,
-}) => {
+}: Props) => {
   const [open, setOpen] = useState(false)
   const boundryRef = useContext(DatePickerBoundryContext)
 

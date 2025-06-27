@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.span`
@@ -16,7 +15,7 @@ interface Props {
   className?: string
 }
 
-export const NumberCircle: React.FC<Props> = ({ number, type, className }) => {
+export const NumberCircle = ({ number, type, className }: Props) => {
   return (
     <Wrapper className={`${className} ${type === 'secondary' ? 'ic-button iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}`}>
       {number}

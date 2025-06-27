@@ -1,5 +1,4 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers, updateSickLeaveChoice } from '../../../store/srs/srsActions'
 import { getIsCertificateRenewed, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
@@ -7,7 +6,7 @@ import { SrsSickLeaveChoice } from '../../../types'
 import RadioButton from '../../Inputs/RadioButton'
 import { getSickLeaveChoicesLabel } from '../srsUtils'
 
-const SrsSickLeaveChoices: React.FC = () => {
+const SrsSickLeaveChoices = () => {
   const buttons = [SrsSickLeaveChoice.NEW, SrsSickLeaveChoice.EXTENSION, SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS]
   const choice = useSelector(getSickLeaveChoice)
   const dispatch = useDispatch()

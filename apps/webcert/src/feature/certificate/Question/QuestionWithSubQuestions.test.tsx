@@ -78,7 +78,7 @@ describe('QuestionWithSubQuestions', () => {
     ]
     testStore.dispatch(updateCertificateComplements(complements))
 
-    complements.forEach((c) => expect(screen.getByText(c.message)).toBeInTheDocument())
+    complements.forEach(async (c) => expect(await screen.findByText(c.message)).toBeInTheDocument())
   })
 
   it('Should return null if parentQuestion is false or not visible', () => {
