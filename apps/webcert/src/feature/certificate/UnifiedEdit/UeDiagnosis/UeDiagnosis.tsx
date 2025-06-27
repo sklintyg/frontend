@@ -1,11 +1,11 @@
 import { debounce } from 'lodash-es'
 import React, { useEffect, useRef } from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import type {
@@ -58,7 +58,7 @@ const UeDiagnosis = ({ disabled, id, selectedCodeSystem, question, validationErr
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [codeChanged, setCodeChanged] = React.useState(false)
-  const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
+  const typeaheadResult = useAppSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
   const textValidation = question.validation
@@ -185,7 +185,12 @@ const UeDiagnosis = ({ disabled, id, selectedCodeSystem, question, validationErr
     if (value !== undefined) {
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
-      const regex = new RegExp(`(${`${value}`.replace(/([()[\]])/g, '\\$1')})`, 'ig')
+      const regex = new RegExp(
+        `(${String(value)
+          .replace(/\\/g, '\\\\')
+          .replace(/([()[\]])/g, '\\$1')})`,
+        'ig'
+      )
       return `${itemCode} ${DIAGNOSIS_DIVIDER} ${itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')}`
     } else return item
   }
