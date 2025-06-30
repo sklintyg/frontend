@@ -64,7 +64,7 @@
     "@vitejs/plugin-legacy": "^5.2.0",
     "@vitejs/plugin-react": "4.2.1",
     "axios-mock-adapter": "^1.19.0",
-    "esbuild": "^0.17.6",
+    "esbuild": "^0.25.0",
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
