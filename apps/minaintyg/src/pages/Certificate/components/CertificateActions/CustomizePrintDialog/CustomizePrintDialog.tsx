@@ -1,5 +1,5 @@
 import { Dialog, LinkButton, Radio } from '@frontend/components'
-import { IDSButton, IDSRadioGroup } from '@frontend/ids-react-ts'
+import { IDSButton, IDSRadioGroup } from '@inera/ids-react'
 import { InformationTypeEnum } from '../../../../../schema/certificate.schema'
 import { usePrintCertificateContext } from '../hooks/usePrintCertificate'
 

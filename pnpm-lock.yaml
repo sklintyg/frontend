@@ -135,9 +135,6 @@ importers:
       '@floating-ui/react':
         specifier: ^0.25.1
         version: 0.25.1(react-dom@18.2.0(react@18.3.1))(react@18.3.1)
-      '@frontend/components':
-        specifier: workspace:*
-        version: link:../../packages/components
       '@frontend/fake':
         specifier: workspace:*
         version: link:../../packages/fake
@@ -147,12 +144,12 @@ importers:
       '@frontend/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@inera/ids-core':
-        specifier: ^4.10.0
-        version: 4.10.0(patch_hash=unxiey4v72xzqvn7lfzde7uio4)
       '@inera/ids-design':
-        specifier: ^4.10.0
-        version: 4.10.0
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@inera/ids-react':
+        specifier: ^7.0.0
+        version: 7.0.0(react@18.3.1)
       '@internationalized/date':
         specifier: ^3.2.0
         version: 3.2.0
@@ -1964,14 +1961,25 @@ packages:
   '@inera/ids-core@6.2.0':
     resolution: {integrity: sha512-WqN3S0kjbfCIbcpINfdFo74tV8VnxZpeCKs3Z5fciq9RaWVlLoi4FVzbXAm0pPaXSIwwMBTbFzi8ip32IRYv9w==}
 
+  '@inera/ids-core@7.0.0':
+    resolution: {integrity: sha512-CXvQrdi6UNegwoRYkmgpo1NtICtWpn+kR7MZ3qzlZbt6c72iCVvtpdQsNgtjIg7BED6egIcSEg8n/NuQ9FH93w==}
+
   '@inera/ids-design@4.10.0':
     resolution: {integrity: sha512-chZeUymCzIOQ031g175fSlUlK9jvxv6P8roGBBduNKUrj2CPvFPcZlGNJY5DS/7r68JraKUs3dxl6h8/bUqFmg==}
 
   '@inera/ids-design@6.2.0':
     resolution: {integrity: sha512-kkuX+Pp4s4uFlkZR3ErDmSN2DsxOiqzthFmoobrr+IrVUEW0RRL9IQ6dl0vRLhq55HXB6x78L6nfj6MmfgW2qw==}
 
+  '@inera/ids-design@7.0.0':
+    resolution: {integrity: sha512-NaESlRCqQrYHR/Iskzv2fphICbEWHzG23HAr003zYNsumt86czkclJEpqi3zaKvQDPHAr5HvyGoFRvscWdWcpg==}
+
   '@inera/ids-react@6.2.0':
     resolution: {integrity: sha512-6hAQeCRNcmIVniBudEzx86n44OTRdN/JbwXMBtvYls5x7JwNqKki+VzzYRiMZg7/ebwS0ORowmkekgBqr5oZzw==}
+    peerDependencies:
+      react: '*'
+
+  '@inera/ids-react@7.0.0':
+    resolution: {integrity: sha512-rIbOdhQW9Y0nNsssmqdV/98TyD17LpDJAma5t+uwJGMwwALDsOoal/BgKo9LNwesSv8jUvDRvJXcNozYheiYfQ==}
     peerDependencies:
       react: '*'
 
@@ -2011,12 +2019,11 @@ packages:
     resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  '@jridgewell/gen-mapping@0.3.11':
+    resolution: {integrity: sha512-C512c1ytBTio4MrpWKlJpyFHT6+qfFL8SZ58zBzJ1OOzUEjHeF1BtjY2fH7n4x/g2OV/KiiMLAivOp1DXmiMMw==}
+
   '@jridgewell/gen-mapping@0.3.3':
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
-    engines: {node: '>=6.0.0'}
-
-  '@jridgewell/gen-mapping@0.3.8':
-    resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
     engines: {node: '>=6.0.0'}
 
   '@jridgewell/resolve-uri@3.1.2':
@@ -2027,12 +2034,8 @@ packages:
     resolution: {integrity: sha512-xnkseuNADM0gt2bs+BvhO0p78Mk762YnZdsuzFV018NoG1Sj1SCQvpSqa7XUaTam5vAGasABV9qXASMKnFMwMw==}
     engines: {node: '>=6.0.0'}
 
-  '@jridgewell/set-array@1.2.1':
-    resolution: {integrity: sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==}
-    engines: {node: '>=6.0.0'}
-
-  '@jridgewell/source-map@0.3.6':
-    resolution: {integrity: sha512-1ZJTZebgqllO79ue2bm3rIGud/bOe0pP5BjSRCRxxYkEZS8STV7zN84UBbiYu7jy+eCKSnVIUgoWWE/tt+shMQ==}
+  '@jridgewell/source-map@0.3.9':
+    resolution: {integrity: sha512-amBU75CKOOkcQLfyM6J+DnWwz41yTsWI7o8MQ003LwUIWb4NYX/evAblTx1oBBYJySqL/zHPxHXDw5ewpQaUFw==}
 
   '@jridgewell/sourcemap-codec@1.4.15':
     resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
@@ -2040,11 +2043,17 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
 
+  '@jridgewell/sourcemap-codec@1.5.3':
+    resolution: {integrity: sha512-AiR5uKpFxP3PjO4R19kQGIMwxyRyPuXmKEEy301V1C0+1rVjS94EZQXf1QKZYN8Q0YM+estSPhmx5JwNftv6nw==}
+
   '@jridgewell/trace-mapping@0.3.21':
     resolution: {integrity: sha512-SRfKmRe1KvYnxjEMtxEr+J4HIeMX5YBg/qhRHpxEIGjhX1rshcHlnFUE9K0GazhVKWM7B+nARSkV8LuvJdJ5/g==}
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@jridgewell/trace-mapping@0.3.28':
+    resolution: {integrity: sha512-KNNHHwW3EIp4EDYOvYFGyIFfx36R2dNJYH4knnZlF8T5jdbD5Wx8xmSaQ2gP9URkJ04LGEtlcCtwArKcmFcwKw==}
 
   '@juggle/resize-observer@3.4.0':
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
@@ -8179,13 +8188,29 @@ snapshots:
       lit: 3.3.0
       tslib: 2.6.3
 
+  '@inera/ids-core@7.0.0':
+    dependencies:
+      '@inera/ids-design': 7.0.0
+      '@lit/context': 1.1.5
+      lit: 3.3.0
+      tslib: 2.6.3
+
   '@inera/ids-design@4.10.0': {}
 
   '@inera/ids-design@6.2.0': {}
 
+  '@inera/ids-design@7.0.0': {}
+
   '@inera/ids-react@6.2.0(react@18.3.1)':
     dependencies:
       '@inera/ids-core': 6.2.0
+      '@lit-labs/react': 1.1.1
+      clsx: 1.2.1
+      react: 18.3.1
+
+  '@inera/ids-react@7.0.0(react@18.3.1)':
+    dependencies:
+      '@inera/ids-core': 7.0.0
       '@lit-labs/react': 1.1.1
       clsx: 1.2.1
       react: 18.3.1
@@ -8243,32 +8268,31 @@ snapshots:
       '@types/yargs': 17.0.24
       chalk: 4.1.2
 
+  '@jridgewell/gen-mapping@0.3.11':
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.3
+      '@jridgewell/trace-mapping': 0.3.28
+
   '@jridgewell/gen-mapping@0.3.3':
     dependencies:
       '@jridgewell/set-array': 1.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
       '@jridgewell/trace-mapping': 0.3.21
 
-  '@jridgewell/gen-mapping@0.3.8':
-    dependencies:
-      '@jridgewell/set-array': 1.2.1
-      '@jridgewell/sourcemap-codec': 1.5.0
-      '@jridgewell/trace-mapping': 0.3.25
-
   '@jridgewell/resolve-uri@3.1.2': {}
 
   '@jridgewell/set-array@1.1.2': {}
 
-  '@jridgewell/set-array@1.2.1': {}
-
-  '@jridgewell/source-map@0.3.6':
+  '@jridgewell/source-map@0.3.9':
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.8
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/gen-mapping': 0.3.11
+      '@jridgewell/trace-mapping': 0.3.28
 
   '@jridgewell/sourcemap-codec@1.4.15': {}
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
+
+  '@jridgewell/sourcemap-codec@1.5.3': {}
 
   '@jridgewell/trace-mapping@0.3.21':
     dependencies:
@@ -8279,6 +8303,11 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@jridgewell/trace-mapping@0.3.28':
+    dependencies:
+      '@jridgewell/resolve-uri': 3.1.2
+      '@jridgewell/sourcemap-codec': 1.5.3
 
   '@juggle/resize-observer@3.4.0': {}
 
@@ -14011,7 +14040,7 @@ snapshots:
 
   terser@5.33.0:
     dependencies:
-      '@jridgewell/source-map': 0.3.6
+      '@jridgewell/source-map': 0.3.9
       acorn: 8.15.0
       commander: 2.20.3
       source-map-support: 0.5.21

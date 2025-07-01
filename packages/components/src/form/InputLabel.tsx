@@ -1,4 +1,4 @@
-import { IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSIconQuestion } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { TooltipIcon } from '../Tooltip'
 

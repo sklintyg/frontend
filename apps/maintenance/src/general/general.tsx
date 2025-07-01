@@ -1,4 +1,4 @@
-import { IDSFooter, IDSHeader, IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSHeader, IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@inera/ids-react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '../styling/inera-admin.css'

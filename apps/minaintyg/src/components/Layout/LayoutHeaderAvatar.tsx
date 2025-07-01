@@ -1,5 +1,5 @@
 import { getSettingsUrl } from '@frontend/components/1177'
-import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
+import { IDSHeaderAvatar } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useGetUserQuery } from '../../store/hooks'
 

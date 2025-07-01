@@ -1,4 +1,4 @@
-import { IDSRadio } from '@frontend/ids-react-ts'
+import { IDSRadio } from '@inera/ids-react'
 import type { InputHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 

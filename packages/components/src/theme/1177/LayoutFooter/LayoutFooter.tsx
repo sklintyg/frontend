@@ -1,4 +1,4 @@
-import { IDSFooter, IDSIconArrow, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { IDSFooter, IDSIconArrow, IDSIconExternal, IDSLink } from '@inera/ids-react'
 import { LayoutFooterLink } from './LayoutFooterLink'
 import { LayoutFooterMobile } from './LayoutFooterMobile'
 import { footerLinks } from './footerLinks'

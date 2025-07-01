@@ -1,4 +1,4 @@
-import { IDSIconCopyFile } from '@frontend/ids-react-ts'
+import { IDSIconCopyFile } from '@inera/ids-react'
 import { useState } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip'
 import { classNames } from '../utils'

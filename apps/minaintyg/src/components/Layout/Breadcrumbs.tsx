@@ -1,5 +1,5 @@
 import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
-import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
+import { IDSBreadcrumbs, IDSCrumb } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { Params } from 'react-router-dom'
 import { Link, useMatches } from 'react-router-dom'

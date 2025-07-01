@@ -1,5 +1,5 @@
 import { Dialog } from '@frontend/components'
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@inera/ids-react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../store/api'
 import { useAppDispatch } from '../../store/hooks'

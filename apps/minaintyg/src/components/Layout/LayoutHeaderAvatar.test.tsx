@@ -1,4 +1,4 @@
-import { IDSHeader } from '@frontend/ids-react-ts'
+import { IDSHeader } from '@inera/ids-react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'

@@ -1,45 +1,27 @@
-import type { IDSDialogElement } from '@frontend/ids-react-ts'
-import { IDSDialog } from '@frontend/ids-react-ts'
+import type { IDSDialog as IDSDialogElement } from '@inera/ids-core/components/dialog/dialog-element.js'
+import { IDSDialog } from '@inera/ids-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { useEffect, useId, useRef, useState } from 'react'
-import { FocusOn } from 'react-focus-on'
-
-const tabbables = [
-  'button:enabled',
-  'select:enabled',
-  'textarea:enabled',
-  'input:enabled',
-  'a[href]',
-  'area[href]',
-  'summary',
-  'iframe',
-  'object',
-  'embed',
-  'audio[controls]',
-  'video[controls]',
-  '[tabindex]',
-  '[contenteditable]',
-  '[autofocus]',
-].join(',')
+import { Heading } from '../Heading/Heading'
+import { DialogPortal } from './DialogPortal'
 
 export function Dialog({
   children,
-  initialOpen = false,
+  headline,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
-  headline,
+  initialOpen = false,
   ...props
 }: ComponentProps<typeof IDSDialog> & {
   children: ReactNode
-  initialOpen?: boolean
   open?: boolean
   headline?: string
+  initialOpen?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
   const id = useId()
   const ref = useRef<IDSDialogElement>(null)
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
-  const returnElRef = useRef<HTMLElement | null>(null)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
@@ -53,11 +35,10 @@ export function Dialog({
     }
 
     if (open === true && !isShown) {
-      returnElRef.current = document.activeElement as HTMLElement
-      dialogEl?.showDialog()
+      dialogEl?.setAttribute('show', 'false')
     }
     if (open === false && isShown) {
-      dialogEl?.hideDialog()
+      dialogEl?.setAttribute('show', 'true')
     }
 
     dialogEl?.addEventListener('changedVisibility', handleVisibilityChanged)
@@ -67,54 +48,20 @@ export function Dialog({
     }
   }, [open, setOpen])
 
-  // Fix issue where dialog is not closed when pressing escape while nothing has focus
-  useEffect(() => {
-    function listener(event: KeyboardEvent) {
-      if (open && event.key === 'Escape') {
-        setOpen(false)
-      }
-    }
-    window.addEventListener('keydown', listener)
-
-    return () => window.removeEventListener('keydown', listener)
-  }, [open, setOpen])
-
   return (
-    <FocusOn
-      enabled={open}
-      scrollLock={false}
-      autoFocus={false}
-      onActivation={() => {
-        setTimeout(() => {
-          const firstEl = ref.current?.querySelector(tabbables)
-          if (firstEl && Object.getPrototypeOf(firstEl).focus !== undefined) {
-            Object.getPrototypeOf(firstEl).focus.call(firstEl)
-          }
-        }, 0)
-      }}
-      onDeactivation={() => {
-        // Without the zero-timeout, focus will likely remain on the button/control
-        // you used to set isFocusLockDisabled = true
-        setTimeout(() => returnElRef?.current?.focus(), 0)
-      }}
-    >
-      <IDSDialog
-        role="dialog"
-        aria-labelledby={id}
-        nofocustrap
-        keepscrollbar={false}
-        autofocus={false}
-        ref={ref}
-        show={open ? 'true' : 'false'}
-        {...props}
-      >
-        {headline && (
-          <h1 id={id} className="ids-heading-1 ids-small" slot="headline">
-            {headline}
-          </h1>
+    <DialogPortal>
+      <IDSDialog role="dialog" aria-labelledby={id} ref={ref} show={open ? 'true' : 'false'} {...props}>
+        {open && (
+          <>
+            {headline && (
+              <Heading level={2} size="m" slot="headline" tabIndex={-1}>
+                {headline}
+              </Heading>
+            )}
+            {children}
+          </>
         )}
-        {open && children}
       </IDSDialog>
-    </FocusOn>
+    </DialogPortal>
   )
 }

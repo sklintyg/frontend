@@ -1,4 +1,4 @@
-import { IDSAlert, IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSCard, IDSSpinner } from '@inera/ids-react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { ScrollRestoration, useParams } from 'react-router-dom'
 import { PageDivider } from '../../components/PageDivider/PageDivider'

@@ -1,4 +1,4 @@
-import { IDSExpandable } from '@frontend/ids-react-ts'
+import { IDSExpandable } from '@inera/ids-react'
 import { DisplayHTML } from '../../../../components/DisplayHTML/DisplayHTML'
 import type { CertificateContent } from '../../../../schema/certificate.schema'
 

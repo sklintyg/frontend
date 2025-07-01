@@ -1,4 +1,4 @@
-import { IDSIconMinus, IDSIconPlus } from '@frontend/ids-react-ts'
+import { IDSIconMinus, IDSIconPlus } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 
 export function CertificateCardEventsAccordion({ children }: { children: ReactNode }) {

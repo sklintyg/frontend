@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@inera/ids-react'
 import { useNavigate } from 'react-router-dom'
 import type { AvailableFunction, CertificateRecipient } from '../../../../schema/certificate.schema'
 import { useSendCertificateMutation } from '../../../../store/api'

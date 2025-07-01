@@ -1,4 +1,4 @@
-import { IDSInput } from '@frontend/ids-react-ts'
+import { IDSInput } from '@inera/ids-react'
 import type { ChangeEventHandler } from 'react'
 import { useId } from 'react'
 import type { TestabilityPerson } from '../../../schema/testability/person.schema'
