@@ -8,11 +8,11 @@ export function PrintCertificateAction() {
   const { url, customizePrintFunction, showCustomizePrintDialog } = usePrintCertificateContext()
 
   return customizePrintFunction ? (
-    <IDSButton secondary sblock role="button" onClick={() => showCustomizePrintDialog('print')}>
+    <IDSButton secondary sBlock role="button" onClick={() => showCustomizePrintDialog('print')}>
       {label}
     </IDSButton>
   ) : (
-    <LinkButton href={url} secondary sblock type="application/pdf" target="_blank" rel="noreferrer">
+    <LinkButton href={url} secondary sBlock type="application/pdf" target="_blank" rel="noreferrer">
       {label}
     </LinkButton>
   )

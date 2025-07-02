@@ -27,11 +27,11 @@ export function CertificateListFilter({ listed }: { listed: number }) {
         <CertificateYearFilter options={filterOptions.years} />
       </div>
       <div className="flex flex-col justify-end gap-5 md:flex-row">
-        <IDSButton secondary mblock onClick={() => dispatch(reset())} aria-label="Rensa filter">
+        <IDSButton secondary mBlock onClick={() => dispatch(reset())} aria-label="Rensa filter">
           Rensa filter
         </IDSButton>
         <IDSButton
-          mblock
+          mBlock
           onClick={() => {
             dispatch(submit(omit(filter, ['submitFilters'])))
           }}

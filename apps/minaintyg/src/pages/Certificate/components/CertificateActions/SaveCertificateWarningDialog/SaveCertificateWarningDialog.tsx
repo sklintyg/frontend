@@ -13,10 +13,10 @@ export function SaveCertificateWarningDialog() {
           till exempel på ett bibliotek, måste du själv ta bort filen från datorn innan du går därifrån.
         </p>
       </div>
-      <IDSButton slot="action" mblock secondary onClick={() => setSaveWarningDialogOpen(false)}>
+      <IDSButton slot="action" mBlock secondary onClick={() => setSaveWarningDialogOpen(false)}>
         Avbryt
       </IDSButton>
-      <LinkButton href={url} slot="action" mblock type="application/pdf" download onClick={() => setSaveWarningDialogOpen(false)}>
+      <LinkButton href={url} slot="action" mBlock type="application/pdf" download onClick={() => setSaveWarningDialogOpen(false)}>
         Spara
       </LinkButton>
     </Dialog>

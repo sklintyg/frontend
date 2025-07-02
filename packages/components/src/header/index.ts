@@ -1,1 +1,2 @@
-export { MobileMenuItem } from './MobileMenuItem'
+export * from './HeaderAvatarLink'
+export * from './MobileMenuItem'

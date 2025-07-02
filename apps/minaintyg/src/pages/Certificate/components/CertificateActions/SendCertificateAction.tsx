@@ -18,7 +18,7 @@ export function SendCertificateAction({ recipient, id }: { recipient: Certificat
   return (
     <>
       <IDSButton
-        sblock
+        sBlock
         role="button"
         onClick={() => {
           if (!sendFunction?.enabled) {

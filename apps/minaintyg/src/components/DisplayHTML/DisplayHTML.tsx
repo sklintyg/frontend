@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { IDSIconExternal, IDSLink } from '@inera/ids-react'
+import { AppLink } from '@frontend/components'
 import type { DOMNode } from 'html-react-parser'
 import parse, { attributesToProps, domToReact } from 'html-react-parser'
 import { createElement } from 'react'
@@ -36,12 +36,11 @@ const options = {
         )
       }
 
-      if (name === 'a') {
+      if (name === 'a' && props.href) {
         return (
-          <IDSLink underlined>
-            <a {...props}>{domToReact(children, options)}</a>
-            {attribs.target === '_blank' && <IDSIconExternal slot="append-icon" size="s" />}
-          </IDSLink>
+          <AppLink to={props.href} external={props.target === '_blank'}>
+            {domToReact(children, options)}
+          </AppLink>
         )
       }
 

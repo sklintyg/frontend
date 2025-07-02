@@ -1,6 +1,6 @@
+import { HeaderAvatarLink } from '@frontend/components'
 import { getSettingsUrl } from '@frontend/components/1177'
-import { IDSHeaderAvatar } from '@inera/ids-react'
-import { Link } from 'react-router-dom'
+import { IDSHeader1177Avatar } from '@inera/ids-react'
 import { useGetUserQuery } from '../../store/hooks'
 
 export function LayoutHeaderAvatar() {
@@ -11,13 +11,14 @@ export function LayoutHeaderAvatar() {
   }
 
   return (
-    <IDSHeaderAvatar username={user.personName}>
-      <Link to={getSettingsUrl(import.meta.env.MODE)} slot="avatar-left">
-        Inställningar
-      </Link>
-      <Link to="/logga-ut" slot="avatar-right">
-        Logga ut
-      </Link>
-    </IDSHeaderAvatar>
+    <IDSHeader1177Avatar
+      username={user.personName}
+      links={
+        <>
+          <HeaderAvatarLink to={getSettingsUrl(import.meta.env.MODE)}>Inställningar</HeaderAvatarLink>
+          <HeaderAvatarLink to="/logga-ut">Logga ut</HeaderAvatarLink>
+        </>
+      }
+    />
   )
 }

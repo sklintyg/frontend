@@ -1,5 +1,5 @@
-import { Dialog, LinkButton, Radio } from '@frontend/components'
-import { IDSButton, IDSRadioGroup } from '@inera/ids-react'
+import { Dialog, LinkButton } from '@frontend/components'
+import { IDSButton, IDSRadio, IDSRadioGroup } from '@inera/ids-react'
 import { InformationTypeEnum } from '../../../../../schema/certificate.schema'
 import { usePrintCertificateContext } from '../hooks/usePrintCertificate'
 
@@ -27,32 +27,33 @@ export function CustomizePrintDialog() {
     >
       <div className="max-w-3xl">
         <p className="mb-5">{customizePrintFunction.body}</p>
-        <IDSRadioGroup>
+        <IDSRadioGroup name="customize-print-options">
           {customizePrintFunction.information
             .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
             .map(({ id, text }) => (
-              <Radio
+              <IDSRadio
                 key={text}
-                label={text}
                 value={id || ''}
                 name="option"
                 checked={customizeId === (id || '')}
                 onChange={(event) => setCustomizeId(event.target.value)}
-              />
+              >
+                {text}
+              </IDSRadio>
             ))}
         </IDSRadioGroup>
         {customizeId === '!diagnoser' && <p className="mb-5">{customizePrintFunction.description}</p>}
       </div>
       {customizePrintDialogOpen && (
         <>
-          <IDSButton slot="action" mblock onClick={hideCustomizePrintDialog} role="button" secondary>
+          <IDSButton slot="action" mBlock onClick={hideCustomizePrintDialog} role="button" secondary>
             Avbryt
           </IDSButton>
           {}
           {customizePrintType === 'print' && (
             <LinkButton
               slot="action"
-              mblock
+              mBlock
               href={url}
               type="application/pdf"
               target="_blank"
@@ -65,7 +66,7 @@ export function CustomizePrintDialog() {
           {customizePrintType === 'save' && (
             <IDSButton
               secondary
-              mblock
+              mBlock
               slot="action"
               role="button"
               onClick={() => {

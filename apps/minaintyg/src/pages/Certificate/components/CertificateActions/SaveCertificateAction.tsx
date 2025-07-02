@@ -7,7 +7,7 @@ export function SaveCertificateAction() {
   return (
     <IDSButton
       secondary
-      sblock
+      sBlock
       role="button"
       onClick={() => {
         if (customizePrintFunction) {

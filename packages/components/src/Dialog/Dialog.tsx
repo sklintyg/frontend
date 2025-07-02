@@ -19,6 +19,7 @@ export function Dialog({
   persistent?: boolean
   noOverlay?: boolean
   noScrollAreaFocus?: boolean
+  dismissible?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
   const id = useId()

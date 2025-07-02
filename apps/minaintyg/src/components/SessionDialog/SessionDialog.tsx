@@ -11,10 +11,10 @@ export function SessionDialog() {
   return (
     <Dialog initialOpen persistent dismissible={false} headline="Du håller på att bli utloggad på grund av inaktivitet">
       Vill du fortsätta vara inloggad?
-      <IDSButton slot="action" mblock onClick={() => navigate('/logga-ut')} secondary>
+      <IDSButton slot="action" mBlock onClick={() => navigate('/logga-ut')} secondary>
         Logga ut
       </IDSButton>
-      <IDSButton slot="action" mblock onClick={() => dispatch(api.util.invalidateTags(['User']))}>
+      <IDSButton slot="action" mBlock onClick={() => dispatch(api.util.invalidateTags(['User']))}>
         Fortsätt vara inloggad
       </IDSButton>
     </Dialog>

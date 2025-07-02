@@ -1,5 +1,5 @@
 import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
-import { IDSBreadcrumbs, IDSCrumb } from '@inera/ids-react'
+import { IDSBreadcrumbs } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { Params } from 'react-router-dom'
 import { Link, useMatches } from 'react-router-dom'
@@ -30,35 +30,17 @@ export function Breadcrumbs() {
 
   return (
     <div className="mb-5">
-      <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
+      <IDSBreadcrumbs lead="Du är här:" mobileLink={prevMatchUrl ? <Link to={prevMatchUrl}>{prevMatchNode}</Link> : undefined}>
         {startLink && (
-          <IDSCrumb key="start">
-            <Link to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>Start</Link>
-          </IDSCrumb>
+          <Link key="start" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
+            Start
+          </Link>
         )}
-        {matches.map(resolveMatch).map(([url, node], index) =>
-          index !== matches.length - 1 ? (
-            <IDSCrumb key={url}>
-              <Link to={url}>{node}</Link>
-            </IDSCrumb>
-          ) : (
-            <span key={url}>{node}</span>
-          )
-        )}
-        {prevMatchUrl && (
-          <IDSCrumb key="mobile" mobile>
-            <Link className="no-underline" to={prevMatchUrl}>
-              {prevMatchNode}
-            </Link>
-          </IDSCrumb>
-        )}
-        {!prevMatchUrl && startLink && (
-          <IDSCrumb key="mobile" mobile>
-            <Link className="no-underline" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
-              Start
-            </Link>
-          </IDSCrumb>
-        )}
+        {matches.map(resolveMatch).map(([url, node]) => (
+          <Link key={url} to={url}>
+            {node}
+          </Link>
+        ))}
       </IDSBreadcrumbs>
     </div>
   )
