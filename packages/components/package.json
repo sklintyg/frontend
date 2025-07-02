@@ -56,12 +56,10 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
-    "@frontend/ids-react-ts": "workspace:*",
     "@inera/ids-design": "^7.0.0",
-    "react": "^18.3.1",
-    "react-focus-lock": "^2.9.6",
-    "react-focus-on": "^3.9.1",
-    "react-router-dom": "^6.21.2"
+    "@inera/ids-react": "^7.0.0",
+    "react-router-dom": "^6.21.2",
+    "react": "^18.3.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -91,7 +89,6 @@
     "@floating-ui/react": "^0.25.1",
     "@inera/ids-react": "^7",
     "react": "^18",
-    "react-focus-on": "^3",
     "react-router-dom": "^6"
   }
 }

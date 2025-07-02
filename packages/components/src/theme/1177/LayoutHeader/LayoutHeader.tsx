@@ -1,23 +1,19 @@
-import { IDSHeader, IDSLink } from '@inera/ids-react'
-import type { ReactNode } from 'react'
+import { IDSHeader1177 } from '@inera/ids-react'
 import { getNavigationItem, getNavigationItemUrl } from '../navigation'
+import { LayoutDesktopNav } from './LayoutDesktopNav'
+import { LayoutMobileMenu } from './LayoutMobileMenu'
 
-export function LayoutHeader({ children, skipToContent, mode }: { mode: string; skipToContent?: string; children?: ReactNode }) {
+export function LayoutHeader({ skipToContent, mode, activeLink }: { mode: string; skipToContent: string; activeLink?: string }) {
   const startLinkItem = getNavigationItem('Start')
 
   return (
-    <IDSHeader
-      type="1177"
-      logohref={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
-      hideregionpicker
-      className="z-40 bg-white print:hidden"
+    <IDSHeader1177
+      skipToContentLink={<a href={skipToContent}>Till sidans huvudinnehåll</a>}
+      logo={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
+      mobileMenu={<LayoutMobileMenu mode={mode} activeLink={activeLink} />}
+      hideRegionPicker
     >
-      {skipToContent && (
-        <IDSLink slot="skip-to-content" className="z-40">
-          <a href={skipToContent}>Till sidans huvudinnehåll</a>
-        </IDSLink>
-      )}
-      {children}
-    </IDSHeader>
+      <LayoutDesktopNav mode={mode} activeLink={activeLink} />
+    </IDSHeader1177>
   )
 }

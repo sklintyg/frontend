@@ -1,5 +1,5 @@
 import { createElement, forwardRef } from 'react'
-import { classNames } from '../../utils/classNames'
+import { classNames } from '../utils/classNames'
 
 type HeadingProps = {
   level: number
