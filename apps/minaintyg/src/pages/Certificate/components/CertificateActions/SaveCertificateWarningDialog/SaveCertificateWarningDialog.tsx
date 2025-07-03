@@ -5,7 +5,21 @@ import { usePrintCertificateContext } from '../hooks/usePrintCertificate'
 export function SaveCertificateWarningDialog() {
   const { url, saveWarningDialogOpen, setSaveWarningDialogOpen } = usePrintCertificateContext()
   return (
-    <Dialog open={saveWarningDialogOpen} onOpenChange={setSaveWarningDialogOpen} headline="Spara intyg som PDF">
+    <Dialog
+      open={saveWarningDialogOpen}
+      onOpenChange={setSaveWarningDialogOpen}
+      headline="Spara intyg som PDF"
+      actions={
+        <>
+          <IDSButton mBlock secondary onClick={() => setSaveWarningDialogOpen(false)}>
+            Avbryt
+          </IDSButton>
+          <LinkButton href={url} mBlock type="application/pdf" download onClick={() => setSaveWarningDialogOpen(false)}>
+            Spara
+          </LinkButton>
+        </>
+      }
+    >
       <div className="max-w-3xl">
         <p className="mb-5">Viktigt! Ditt intyg har information om dig, som ditt namn och andra personuppgifter.</p>
         <p>
@@ -13,12 +27,6 @@ export function SaveCertificateWarningDialog() {
           till exempel på ett bibliotek, måste du själv ta bort filen från datorn innan du går därifrån.
         </p>
       </div>
-      <IDSButton slot="action" mBlock secondary onClick={() => setSaveWarningDialogOpen(false)}>
-        Avbryt
-      </IDSButton>
-      <LinkButton href={url} slot="action" mBlock type="application/pdf" download onClick={() => setSaveWarningDialogOpen(false)}>
-        Spara
-      </LinkButton>
     </Dialog>
   )
 }

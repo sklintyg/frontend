@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import { tryCatch } from '@frontend/utils'
 import { IDSButton, IDSButtonGroup } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
@@ -24,7 +25,9 @@ export function FakeLoginForm({ persons }: { persons: TestabilityPerson[] }) {
 
   return (
     <div className="ids-content py-4">
-      <h1 className="ids-heading-2">Testinloggningar Mina Intyg</h1>
+      <Heading level={1} size="m">
+        Testinloggningar Mina Intyg
+      </Heading>
       <div className="flex space-x-7 pb-4">
         <div className="w-6/12 flex-auto">
           <SelectProfile

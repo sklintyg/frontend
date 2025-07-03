@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import { IDSAlert, IDSCard, IDSSpinner } from '@inera/ids-react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { ScrollRestoration, useParams } from 'react-router-dom'
@@ -58,7 +59,9 @@ export function CertificatePage() {
 
           <IDSCard>
             <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
-              <h2 className="ids-heading-2">{certificate.metadata.type.name}</h2>
+              <Heading level={2} size="m">
+                {certificate.metadata.type.name}
+              </Heading>
               <div className="flex gap-1">
                 {certificate.metadata.statuses.map((status) => (
                   <CertificateStatusBadge key={status} status={status} />
@@ -68,7 +71,9 @@ export function CertificatePage() {
             <div className="mb-5">
               <CertificateInformation {...certificate.metadata} />
             </div>
-            <h3 className="ids-heading-4 mb-0">Händelser</h3>
+            <Heading level={3} size="xs" className="mb-0">
+              Händelser
+            </Heading>
             <CertificateEventsInfo events={certificate.metadata.events} />
 
             <article className="ids-certificate">

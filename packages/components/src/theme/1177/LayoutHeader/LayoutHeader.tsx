@@ -21,7 +21,7 @@ export function LayoutHeader({
     <IDSHeader1177
       avatar={avatar}
       hideRegionPicker
-      logo={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
+      logoHref={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
       mobileMenu={<LayoutMobileMenu mode={mode} activeLink={activeLink} />}
       skipToContentLink={<a href={skipToContent}>Till sidans huvudinnehåll</a>}
     >

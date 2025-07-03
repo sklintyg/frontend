@@ -11,7 +11,7 @@ export function ReadMoreAboutDialog({
   onOpenChange: ComponentProps<typeof Dialog>['onOpenChange']
 }) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} dismissible headline="Vad kan du göra i Intyg">
+    <Dialog open={open} onOpenChange={onOpenChange} dismissible headline="Vad kan du göra i Intyg" actions={children}>
       <h2 className="ids-heading-4">Läsa</h2>
       <ul className="mb-5 list-disc pl-10">
         <li> Du kan läsa vad vården skrivit i ditt intyg. Det digitala intyget innehåller samma information som ett intyg på papper.</li>
@@ -37,7 +37,6 @@ export function ReadMoreAboutDialog({
         <li>Du kan bara se dina egna intyg. Intyg har ingen ombudsfunktion.</li>
         <li>Du kan inte begära intyg. Vill du begära intyg behöver du kontakta din mottagning.</li>
       </ul>
-      {children}
     </Dialog>
   )
 }

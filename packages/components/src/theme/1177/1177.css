@@ -15,23 +15,6 @@ summary::marker {
   display: none;
 }
 
-ids-input input,
-ids-input select,
-ids-select select,
-ids-textarea textarea {
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--color-web-action);
-}
-
-ids-select {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-ids-select select {
-  padding-right: 2.5rem;
-}
-
 .ids-certificate p,
 .ids-certificate ul,
 .ids-certificate table {
@@ -52,20 +35,6 @@ ids-select select {
 .ids-certificate .ids-heading-5,
 .ids-certificate .ids-heading-6 {
   margin-bottom: 0.3125rem !important;
-}
-
-ids-header-avatar a {
-  color: rgb(160, 11, 54) !important;
-  text-decoration: underline !important;
-}
-
-a {
-  color: var(--color-sky-base);
-  text-decoration: underline;
-}
-
-a:hover {
-  color: var(--color-sky-dark);
 }
 
 .ids table.ids-table {

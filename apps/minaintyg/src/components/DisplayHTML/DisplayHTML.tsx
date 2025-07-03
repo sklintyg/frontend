@@ -6,6 +6,8 @@ import { createElement } from 'react'
 import { MobileTable } from './MobileTable'
 import { isElement } from './utils/isElement'
 
+const headingMap = ['xxl', 'xl', 'l', 'm', 's', 'xs']
+
 const options = {
   replace: (domNode: DOMNode) => {
     if (isElement(domNode)) {
@@ -15,7 +17,11 @@ const options = {
 
       if (match && match[1]) {
         const [tag, level] = match
-        return createElement(tag, { className: `ids-heading-${parseInt(level, 10) < 4 ? level : 4}` }, domToReact(children, options))
+        return createElement(
+          tag,
+          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10), 4)]}` },
+          domToReact(children, options)
+        )
       }
 
       if (name === 'table') {

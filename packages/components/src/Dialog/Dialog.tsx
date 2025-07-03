@@ -12,15 +12,16 @@ export function Dialog({
   initialOpen = false,
   ...props
 }: {
+  actions?: ReactNode
   children: ReactNode
-  open?: boolean
+  dismissible?: boolean
   headline?: string
   initialOpen?: boolean
-  persistent?: boolean
   noOverlay?: boolean
   noScrollAreaFocus?: boolean
-  dismissible?: boolean
   onOpenChange?: (open: boolean) => void
+  open?: boolean
+  persistent?: boolean
 }) {
   const id = useId()
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)

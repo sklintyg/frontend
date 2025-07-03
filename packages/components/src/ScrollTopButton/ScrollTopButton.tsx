@@ -1,5 +1,6 @@
-import { IDSButton, IDSIconArrow } from '@inera/ids-react'
+import { IDSButton } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
+import { Icon } from '../Icon/Icon'
 import { classNames } from '../utils'
 
 export function ScrollTopButton() {
@@ -48,7 +49,8 @@ export function ScrollTopButton() {
           })
         }}
       >
-        <IDSIconArrow color="var(--btn-fab-icon_color)" width="24" height="24" rotate="-90" />
+        {/* <IDSIconArrow color="var(--btn-fab-icon_color)" width="24" height="24" rotate="-90" /> */}
+        <Icon icon="arrow-up" />
       </IDSButton>
     </div>
   )

@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import { IDSButton, IDSCard } from '@inera/ids-react'
 import { useNavigate } from 'react-router-dom'
 import type { CertificateMetadata } from '../../../../schema/certificate.schema'
@@ -17,7 +18,14 @@ export function CertificateCard({ id, type, summary, issuer, issued, statuses, e
         <CertificateCardInfo issuer={issuer} unit={unit} />
 
         <div className="flex flex-col justify-between gap-2.5 md:flex-row">
-          <CertificateCardEvents events={events} heading={<h5 className="ids-heading-4 mb-0">Händelser</h5>} />
+          <CertificateCardEvents
+            events={events}
+            heading={
+              <Heading level={5} size="xs" className="mb-0">
+                Händelser
+              </Heading>
+            }
+          />
           <IDSButton role="button" sBlock onClick={() => navigate(`/${id}`)} className="md:self-end">
             Visa intyg
           </IDSButton>

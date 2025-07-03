@@ -24,6 +24,34 @@ export function CustomizePrintDialog() {
       open={customizePrintDialogOpen}
       onOpenChange={(open) => !open && hideCustomizePrintDialog()}
       headline={customizePrintFunction.title ?? ''}
+      actions={
+        customizePrintDialogOpen && (
+          <>
+            <IDSButton mBlock onClick={hideCustomizePrintDialog} role="button" secondary>
+              Avbryt
+            </IDSButton>
+            {}
+            {customizePrintType === 'print' && (
+              <LinkButton mBlock href={url} type="application/pdf" target="_blank" rel="noreferrer" onClick={hideCustomizePrintDialog}>
+                Skriv ut
+              </LinkButton>
+            )}
+            {customizePrintType === 'save' && (
+              <IDSButton
+                secondary
+                mBlock
+                role="button"
+                onClick={() => {
+                  hideCustomizePrintDialog()
+                  setSaveWarningDialogOpen(true)
+                }}
+              >
+                Spara
+              </IDSButton>
+            )}
+          </>
+        )
+      }
     >
       <div className="max-w-3xl">
         <p className="mb-5">{customizePrintFunction.body}</p>
@@ -44,41 +72,6 @@ export function CustomizePrintDialog() {
         </IDSRadioGroup>
         {customizeId === '!diagnoser' && <p className="mb-5">{customizePrintFunction.description}</p>}
       </div>
-      {customizePrintDialogOpen && (
-        <>
-          <IDSButton slot="action" mBlock onClick={hideCustomizePrintDialog} role="button" secondary>
-            Avbryt
-          </IDSButton>
-          {}
-          {customizePrintType === 'print' && (
-            <LinkButton
-              slot="action"
-              mBlock
-              href={url}
-              type="application/pdf"
-              target="_blank"
-              rel="noreferrer"
-              onClick={hideCustomizePrintDialog}
-            >
-              Skriv ut
-            </LinkButton>
-          )}
-          {customizePrintType === 'save' && (
-            <IDSButton
-              secondary
-              mBlock
-              slot="action"
-              role="button"
-              onClick={() => {
-                hideCustomizePrintDialog()
-                setSaveWarningDialogOpen(true)
-              }}
-            >
-              Spara
-            </IDSButton>
-          )}
-        </>
-      )}
     </Dialog>
   )
 }
