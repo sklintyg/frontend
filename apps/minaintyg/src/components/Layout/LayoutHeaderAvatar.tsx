@@ -15,8 +15,12 @@ export function LayoutHeaderAvatar() {
       username={user.personName}
       links={
         <>
-          <HeaderAvatarLink to={getSettingsUrl(import.meta.env.MODE)}>Inställningar</HeaderAvatarLink>
-          <HeaderAvatarLink to="/logga-ut">Logga ut</HeaderAvatarLink>
+          <HeaderAvatarLink icon="settings" to={getSettingsUrl(import.meta.env.MODE)}>
+            Inställningar
+          </HeaderAvatarLink>
+          <HeaderAvatarLink icon="user" to="/logga-ut">
+            Logga ut
+          </HeaderAvatarLink>
         </>
       }
     />
