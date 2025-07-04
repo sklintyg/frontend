@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
@@ -39,9 +38,7 @@ import type {
 } from '../../../types'
 import { CertificateDataElementStyleEnum, CertificateDataValueType, ConfigTypes } from '../../../types'
 
-const QuestionUvResolve: React.FC<{
-  question: CertificateDataElement
-}> = ({ question }) => {
+const QuestionUvResolve = ({ question }: { question: CertificateDataElement }) => {
   const getOptionalDropdown = () => {
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN) {
       return question.config.list.find((r) => r.dropdownQuestionId && r.id === (question.value as ValueCode).id)

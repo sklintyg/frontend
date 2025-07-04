@@ -21,7 +21,7 @@ const IFrame = styled.iframe`
   display: none;
 `
 
-const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, body }) => {
+const PrintCertificateButton = ({ name, description, enabled, certificateMetadata, body }: Props) => {
   const dispatch = useDispatch()
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
 

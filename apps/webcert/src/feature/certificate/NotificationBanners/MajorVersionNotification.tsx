@@ -2,7 +2,7 @@ import { getIsInactiveCertificateType, getIsLatestMajorVersion } from '../../../
 import NotificationBannerBase from './NotificationBannerBase'
 import { useAppSelector } from '../../../store/store'
 
-const MajorVersionNotification: React.FC = () => {
+const MajorVersionNotification = () => {
   const isLatestMajorVersion = useAppSelector(getIsLatestMajorVersion)
   const isInactiveCertificateType = useAppSelector(getIsInactiveCertificateType)
 

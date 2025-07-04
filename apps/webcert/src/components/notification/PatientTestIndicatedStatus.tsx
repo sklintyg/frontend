@@ -6,7 +6,7 @@ interface Props {
 
 const testPersonTitle = 'Patienten är en valideringsperson'
 
-const PatientTestIndicatedStatus: React.FC<Props> = ({ isTestIndicated }) => {
+const PatientTestIndicatedStatus = ({ isTestIndicated }: Props) => {
   return (
     <PatientStatusNotificationWithModal type={'info'} status={isTestIndicated} title={testPersonTitle} modalTitle={testPersonTitle}>
       <p>

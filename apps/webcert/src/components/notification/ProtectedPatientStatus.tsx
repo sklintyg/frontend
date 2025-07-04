@@ -11,7 +11,7 @@ interface Props {
 
 const protectedPersonTitle = 'Patienten har skyddade personuppgifter'
 
-const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
+const ProtectedPatientStatus = ({ isProtectedPatient }: Props) => {
   return (
     <PatientStatusNotificationWithModal
       type="protected_person"

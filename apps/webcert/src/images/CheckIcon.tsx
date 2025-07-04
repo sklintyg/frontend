@@ -12,7 +12,7 @@ interface Props {
   tooltip?: string
 }
 
-const CheckIcon: React.FC<Props> = ({ className, tooltip }) => {
+const CheckIcon = ({ className, tooltip }: Props) => {
   return <Logo src={check} alt="Check" data-tip={tooltip} className={className} />
 }
 

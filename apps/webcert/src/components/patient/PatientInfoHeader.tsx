@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,7 +16,7 @@ const ButtonWrapper = styled.div`
   margin-top: auto;
 `
 
-const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
+const PatientInfoHeader = ({ patient }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

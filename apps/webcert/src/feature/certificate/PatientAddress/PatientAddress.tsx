@@ -1,6 +1,5 @@
 import { getByType } from '@frontend/utils'
 import { debounce, isEqual } from 'lodash-es'
-import type React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -57,7 +56,7 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   }
 `
 
-const PatientAddress: React.FC = () => {
+const PatientAddress = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
   const patient = useSelector(getPatient, isEqual)

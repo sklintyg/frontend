@@ -71,8 +71,7 @@ describe('Replace certificate continue button', () => {
   it('shall set the description passed as prop', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    const description = screen.queryByText(DESCRIPTION)
-    expect(description).toBeInTheDocument()
+    expect(await screen.findByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('shall open modal when clicked', async () => {

@@ -82,14 +82,14 @@ describe('SrsPanel', () => {
 
   describe('error', () => {
     it('should show error if state has error set', () => {
-      renderComponent()
       store.dispatch(updateError(true))
+      renderComponent()
       expect(screen.getByText('Tekniskt fel', { exact: false })).toBeInTheDocument()
     })
 
     it('should not show footer if state has error set', () => {
-      renderComponent()
       store.dispatch(updateError(true))
+      renderComponent()
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
     })
   })
@@ -128,10 +128,10 @@ describe('SrsPanel', () => {
 
   describe('no support', () => {
     it('should show no support if diagnosis without support is chosen', () => {
-      renderComponent()
       const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(setDiagnosisCodes([]))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      renderComponent()
       expect(screen.getByText('För den angivna diagnosen finns för tillfället inget stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
@@ -215,8 +215,8 @@ describe('SrsPanel', () => {
     })
 
     it('should show recommendations if chosen diagnosis has support', () => {
-      renderComponent()
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
+      renderComponent()
       expect(screen.getByText(SRS_OBSERVE_TITLE)).toBeInTheDocument()
     })
 

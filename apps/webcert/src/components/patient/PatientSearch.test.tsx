@@ -45,7 +45,7 @@ describe('PatientSearch', () => {
     store.dispatch(setPatient(fakePatient()))
     await userEvent.click(screen.getByText('Fortsätt'))
 
-    expect(screen.getByText(/you are on the patient page/i)).toBeInTheDocument()
+    expect(await screen.findByText(/you are on the patient page/i)).toBeInTheDocument()
   })
 
   describe('Input', () => {
@@ -122,7 +122,7 @@ describe('PatientSearch', () => {
       renderComponent()
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '191212121213')
-      expect(screen.getByText(EXPECTED_VALIDATION_TEXT)).toBeInTheDocument()
+      expect(await screen.findByText(EXPECTED_VALIDATION_TEXT)).toBeInTheDocument()
     })
   })
 })

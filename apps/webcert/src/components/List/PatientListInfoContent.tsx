@@ -23,7 +23,7 @@ interface Props {
   info: PatientListInfo
 }
 
-const PatientListInfoContent: React.FC<Props> = ({ info }) => {
+const PatientListInfoContent = ({ info }: Props) => {
   return (
     <Wrapper>
       {formatPersonId(info.id)}

@@ -12,7 +12,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDropdown: React.FC<Props> = ({ question, disabled }) => {
+const UeDropdown = ({ question, disabled }: Props) => {
   const selectRef = React.useRef<HTMLSelectElement>(null)
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown

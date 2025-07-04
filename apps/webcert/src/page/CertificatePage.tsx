@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -40,7 +39,7 @@ const Columns = styled.div`
   height: 100%;
 `
 
-const CertificatePage: React.FC = () => {
+const CertificatePage = () => {
   const dispatch = useDispatch()
   const { certificateId, error } = useParams()
   const isCertificateDeleted = useAppSelector(getIsCertificateDeleted())

@@ -13,7 +13,7 @@ const ErrorLink = styled(Link)`
   }
 `
 
-const CertificateValidation: React.FC = () => {
+const CertificateValidation = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getValidationErrorSummary(), isEqual)
 

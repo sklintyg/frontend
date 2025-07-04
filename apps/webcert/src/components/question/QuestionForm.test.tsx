@@ -199,8 +199,8 @@ describe('QuestionForm', () => {
     })
 
     it('does show message that question draft has been saved', () => {
-      renderComponent()
       testStore.dispatch(updateQuestionDraftSaved(true))
+      renderComponent()
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 

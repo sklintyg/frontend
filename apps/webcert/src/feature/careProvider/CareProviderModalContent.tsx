@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExpandableTableRow from '../../components/Table/ExpandableTableRow'
 import SimpleTable from '../../components/Table/SimpleTable'

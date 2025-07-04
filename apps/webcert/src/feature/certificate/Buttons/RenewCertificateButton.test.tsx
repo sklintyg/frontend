@@ -71,7 +71,7 @@ describe('Renew certificate button', () => {
   it('sets correct description for button', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
+    expect(await screen.findByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('sets correct body for button', () => {

@@ -1,5 +1,3 @@
-import type React from 'react'
-import type { ComponentProps } from 'react'
 import { useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -24,7 +22,7 @@ import { ResourceAccess } from '../utils/ResourceAccess'
 /**
  * Certificate page for a specific patient.
  */
-const CreatePage: React.FC = () => {
+const CreatePage = () => {
   const { patientId } = useParams()
   const dispatch = useDispatch()
   const config = useAppSelector(getActiveListConfig, shallowEqual)
@@ -103,8 +101,8 @@ const CreatePage: React.FC = () => {
     </>
   )
 }
-export const CreatePageWithRedirect: React.FC<ComponentProps<typeof CreatePage>> = (props) => (
+export const CreatePageWithRedirect = () => (
   <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
-    <CreatePage {...props} />
+    <CreatePage />
   </ResourceAccess>
 )

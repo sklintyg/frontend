@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 
@@ -6,7 +5,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelDiagnosisInfoLink: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelDiagnosisInfoLink = ({ fmbDiagnosisCodeInfo }: Props) => {
   if (!fmbDiagnosisCodeInfo.referenceLink) {
     return null
   }

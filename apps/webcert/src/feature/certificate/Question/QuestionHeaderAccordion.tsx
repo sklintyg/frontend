@@ -35,7 +35,7 @@ const AccordionControl = styled(Accordion)<AccordionProps>`
     line-height: 0;
   }
 `
-const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, questionId }) => {
+const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props) => {
   const validationErrors = useSelector(getVisibleValidationErrors(questionId))
   const parent = useSelector(getQuestion(questionId))
   const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY

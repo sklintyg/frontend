@@ -1,4 +1,3 @@
-import type React from 'react'
 import type { CertificateDataConfig, CheckboxCode, ConfigUeCheckboxMultipleCodes, ValueCode, ValueCodeList } from '../../../types'
 import { ConfigLayout, ConfigTypes } from '../../../types'
 import { Badge } from '../Badge'
@@ -28,10 +27,7 @@ function getCompareFunction(config: CertificateDataConfig) {
   return (a: ValueCode, b: ValueCode) => getCodeListConfigIndex(a.id, config) - getCodeListConfigIndex(b.id, config)
 }
 
-export const UvCodeList: React.FC<{
-  value: ValueCodeList
-  config: CertificateDataConfig
-}> = ({ value, config }) => {
+export const UvCodeList = ({ value, config }: { value: ValueCodeList; config: CertificateDataConfig }) => {
   if (value.list.length > 0) {
     return (
       <Badge>

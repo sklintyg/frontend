@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -50,7 +49,7 @@ const ExpandableDetails = styled.details`
   max-width: 600px;
 `
 
-const Welcome: React.FC = () => {
+const Welcome = () => {
   const certificateId = useAppSelector(getCertificateId())
   const createCertificate = useAppSelector(getCreateCertificate())
   const config = useAppSelector(getConfig)

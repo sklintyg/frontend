@@ -1,15 +1,14 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
-import { getUser } from '../../../store/user/userSelectors'
+import { CustomButton } from '../../../components/Inputs/CustomButton'
+import QRCode from '../../../components/qrcode/QRCode'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { bankIdLogoImage } from '../../../images'
-import { CertificateSignStatus, SigningMethod } from '../../../types'
-import QRCode from '../../../components/qrcode/QRCode'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
-import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { updateCertificateSignStatus } from '../../../store/certificate/certificateActions'
+import { getQrCodeForElegSignature, getSigningStatus } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
+import { getUser } from '../../../store/user/userSelectors'
+import { CertificateSignStatus, SigningMethod } from '../../../types'
 
 const BankIDLogo = styled.img`
   width: 60%;

@@ -19,7 +19,7 @@ interface Props extends FunctionDisabled {
   certificateId: string
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, certificateId }) => {
+const RenewCertificateButton = ({ name, description, enabled, body, functionDisabled, certificateId }: Props) => {
   const dispatch = useDispatch()
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser, isEqual)
