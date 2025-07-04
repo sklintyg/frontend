@@ -2,7 +2,7 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
@@ -29,9 +29,9 @@ const renderComponent = (url: string, matchedUrl: string) => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={[PAGE_URL]}>
-        <Route path={PAGE_URL}>
-          <AppHeaderTabs onSwitchTab={onSwitchTab} tabs={getTabs(url, matchedUrl)} />
-        </Route>
+        <Routes>
+          <Route path={PAGE_URL} element={<AppHeaderTabs onSwitchTab={onSwitchTab} tabs={getTabs(url, matchedUrl)} />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )

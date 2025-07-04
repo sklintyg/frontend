@@ -2,7 +2,7 @@ import type React from 'react'
 import type { ComponentProps } from 'react'
 import { useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import { CertificateList } from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
@@ -21,15 +21,11 @@ import { getUser } from '../store/user/userSelectors'
 import { ListFilterType, ListType, ResourceLinkType } from '../types'
 import { ResourceAccess } from '../utils/ResourceAccess'
 
-interface Params {
-  patientId: string
-}
-
 /**
  * Certificate page for a specific patient.
  */
 const CreatePage: React.FC = () => {
-  const { patientId } = useParams<Params>()
+  const { patientId } = useParams()
   const dispatch = useDispatch()
   const config = useAppSelector(getActiveListConfig, shallowEqual)
   const totalCount = useAppSelector(getListTotalCount)
@@ -37,7 +33,7 @@ const CreatePage: React.FC = () => {
   const patient = useAppSelector(getActivePatient)
   const user = useAppSelector(getUser)
   const patientFilter = useAppSelector(getActiveListFilterValue('PATIENT_ID'))
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(resetCertificateState())
@@ -82,7 +78,7 @@ const CreatePage: React.FC = () => {
   }, [dispatch, patientId])
 
   if (patient && !patientId) {
-    history.push(`/create/${encodeURIComponent(btoa(patient.personId.id))}`)
+    navigate(`/create/${encodeURIComponent(btoa(patient.personId.id))}`)
   }
 
   return (

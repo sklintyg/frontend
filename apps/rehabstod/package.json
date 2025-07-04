@@ -34,7 +34,7 @@
     "react-focus-on": "^3.9.1",
     "react-merge-refs": "^2.0.2",
     "react-redux": "^9.0.4",
-    "react-router-dom": "^6.21.2",
+    "react-router-dom": "^6.30.1",
     "react-stately": "^3.23.0",
     "recharts": "^2.5.0",
     "redux": "^5.0.1",
