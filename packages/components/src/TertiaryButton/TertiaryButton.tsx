@@ -15,7 +15,11 @@ export const TertiaryButton = forwardRef<HTMLButtonElement, React.HTMLProps<HTML
       ref={ref}
       {...props}
       type="button"
-      className={classNames('ids-link inline-flex text-base font-normal', underlined && 'ids-link--underlined', className ?? false)}
+      className={classNames(
+        'ids-link inline-flex text-base font-normal items-center',
+        underlined && 'ids-link--underlined',
+        className ?? false
+      )}
     >
       {startIcon}
       <span className="ids-link__text">{children}</span>
