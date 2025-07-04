@@ -1,5 +1,4 @@
 import { isTruthy } from '@frontend/utils'
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Tabs } from '../../../components/Tabs/Tabs'
@@ -14,7 +13,7 @@ import { useAppSelector } from '../../../store/store'
 import { ResourceLinkType, SrsEvent } from '../../../types'
 import AboutCertificatePanel from './AboutCertificatePanel'
 
-const CertificateSidePanel: React.FC = () => {
+const CertificateSidePanel = () => {
   const showSpinner = useAppSelector(getIsShowSpinner)
   const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   const hasUnhandledQuestions = useAppSelector((state) => getQuestions(state).filter((question) => !question.handled).length > 0)

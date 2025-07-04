@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import CharacterCounter from './CharacterCounter'
@@ -11,14 +10,22 @@ const Root = styled.textarea<{
   vertical-align: top;
 `
 
-const TextArea: React.FC<
-  {
-    additionalStyles?: string
-    autoResize?: boolean
-    disableCounter?: boolean
-    hasValidationError?: boolean
-  } & React.TextareaHTMLAttributes<HTMLTextAreaElement>
-> = ({ additionalStyles, autoResize, disableCounter, hasValidationError, maxLength, name, rows = 6, value = '', ...props }) => {
+const TextArea = ({
+  additionalStyles,
+  autoResize,
+  disableCounter,
+  hasValidationError,
+  maxLength,
+  name,
+  rows = 6,
+  value = '',
+  ...props
+}: {
+  additionalStyles?: string
+  autoResize?: boolean
+  disableCounter?: boolean
+  hasValidationError?: boolean
+} & React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {

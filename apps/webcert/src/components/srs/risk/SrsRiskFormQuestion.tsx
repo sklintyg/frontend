@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
@@ -12,7 +11,7 @@ interface Props {
   checkedOption: string
 }
 
-const SrsRiskFormQuestion: React.FC<Props> = ({ question, onChange, checkedOption }) => {
+const SrsRiskFormQuestion = ({ question, onChange, checkedOption }: Props) => {
   const [currentValue, setCurrentValue] = useState(checkedOption ? checkedOption : '')
   const dispatch = useDispatch()
 

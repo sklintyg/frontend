@@ -1,5 +1,5 @@
-import type { MouseEventHandler } from 'react'
-import React, { useEffect } from 'react'
+import type { HTMLProps, MouseEventHandler } from 'react'
+import { forwardRef, useEffect } from 'react'
 import type { Place } from 'react-tooltip'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
@@ -23,9 +23,7 @@ const Wrapper = styled.div<WrapperProps>`
 interface Props {
   buttonStyle?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
-  className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
-  onClick?: MouseEventHandler<HTMLButtonElement>
   onSubmit?: (event: React.FormEvent) => void
   startIcon?: React.ReactNode
   text?: string
@@ -43,8 +41,7 @@ const Button = styled.button<Props>`
   height: ${(props) => props.inline && '3rem'};
   white-space: nowrap;
 `
-
-export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
+export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonElement> & Props>((props, ref) => {
   useEffect(() => {
     ReactTooltip.rebuild()
   }, [props.tooltip])

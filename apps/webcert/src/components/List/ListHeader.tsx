@@ -11,7 +11,7 @@ interface Props {
   icon: string
 }
 
-const ListHeader: React.FC<Props> = ({ title, description, icon }) => {
+const ListHeader = ({ title, description, icon }: Props) => {
   return (
     <BoxShadowContainer>
       <div className="ic-container iu-py-300">

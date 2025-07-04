@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
@@ -37,7 +36,7 @@ const CertificateVersion = styled.span`
   text-transform: uppercase;
 `
 
-const AboutCertificatePanel: React.FC = () => {
+const AboutCertificatePanel = () => {
   const certMetaData = useSelector(getCertificateMetaData, isEqual)
 
   return (

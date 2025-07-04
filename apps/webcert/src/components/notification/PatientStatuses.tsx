@@ -7,7 +7,7 @@ interface Props {
   patient: Patient
 }
 
-const PatientStatuses: React.FC<Props> = ({ patient }) => {
+const PatientStatuses = ({ patient }: Props) => {
   return (
     <div className="iu-flex iu-pt-300">
       <PatientDeceasedStatus isPatientDeceased={patient.deceased} />

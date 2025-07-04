@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRiskOpinion, updateRiskOpinion } from '../../../store/srs/srsActions'
 import {
@@ -15,7 +14,7 @@ import { SRS_OPINION_IDS, SRS_OPINION_LABELS, hasCurrentRiskDataPoint } from '..
 
 export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 
-const SrsRiskOpinion: React.FC = () => {
+const SrsRiskOpinion = () => {
   const dispatch = useDispatch()
   const riskOpinion = useSelector(getRiskOpinion)
   const unitId = useSelector(getUnitId)

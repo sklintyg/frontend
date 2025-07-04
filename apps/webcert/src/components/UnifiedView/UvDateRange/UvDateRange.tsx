@@ -1,17 +1,16 @@
-import type React from 'react'
 import styled from 'styled-components'
 import type { ConfigUeDateRange, ValueDateRange } from '../../../types'
 import { Table } from '../../Table/Table'
+import { TableBody } from '../../Table/TableBody'
+import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
-import { TableCell } from '../../Table/TableCell'
-import { TableBody } from '../../Table/TableBody'
 
 const DateRangeWrapper = styled.div`
   display: inline-block;
 `
 
-export const UvDateRange: React.FC<{ value: ValueDateRange; config: ConfigUeDateRange }> = ({ value, config }) => {
+export const UvDateRange = ({ value, config }: { value: ValueDateRange; config: ConfigUeDateRange }) => {
   return (
     <div className={'iu-p-none'}>
       <Table style={{ tableLayout: 'fixed', width: '100%' }}>

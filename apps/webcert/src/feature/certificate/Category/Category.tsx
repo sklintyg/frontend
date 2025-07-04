@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import Accordion from '../../../components/utils/Accordion'
 import AccordionHeader from '../../../components/utils/AccordionHeader'
@@ -14,7 +13,7 @@ interface CategoryProps {
   id: string
 }
 
-const Category: React.FC<CategoryProps> = ({ id }) => {
+const Category = ({ id }: CategoryProps) => {
   const category = useSelector(getQuestion(id), isEqual)
   const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 

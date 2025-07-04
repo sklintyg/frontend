@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -11,7 +10,7 @@ const Wrapper = styled.p`
   font-style: italic;
 `
 
-const CharacterCounter: React.FC<Props> = (props) => {
+const CharacterCounter = (props: Props) => {
   const { limit, value } = props
 
   if (!limit || limit <= 35 || limit > 1000) {

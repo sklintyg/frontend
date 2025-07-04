@@ -1,8 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
@@ -13,14 +12,12 @@ import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionIte
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderComponent = (questions: Question[], isDisplayingCertificateDraft: boolean) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <ComplementQuestionPanel complementQuestions={questions} isDisplayingCertificateDraft={isDisplayingCertificateDraft} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

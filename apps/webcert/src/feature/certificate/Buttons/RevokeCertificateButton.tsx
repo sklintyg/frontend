@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
@@ -18,7 +17,7 @@ interface Props extends FunctionDisabled {
   enabled: boolean
 }
 
-const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const RevokeCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
   const metadata = useSelector(getCertificateMetaData, isEqual)

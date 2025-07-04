@@ -1,11 +1,10 @@
-import type React from 'react'
 import type { FMBDiagnosisCodeInfoFormContent } from '../../types'
 
 interface Props {
   info: FMBDiagnosisCodeInfoFormContent
 }
 
-const FMBPanelGuidanceInfo: React.FC<Props> = ({ info }) => {
+const FMBPanelGuidanceInfo = ({ info }: Props) => {
   if (info.text) {
     return (
       <ul>

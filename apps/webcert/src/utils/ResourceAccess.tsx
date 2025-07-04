@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
 import { throwError } from '../store/error/errorActions'
@@ -9,9 +9,10 @@ import type { ResourceLinkType } from '../types'
 
 interface Props {
   linkType: ResourceLinkType
+  children: ReactNode
 }
 
-export const ResourceAccess: React.FC<Props> = ({ children, linkType }) => {
+export const ResourceAccess = ({ children, linkType }: Props) => {
   const isLoadingUser = useAppSelector(selectIsLoadingUser)
   const user = useAppSelector(getUser)
   const userLinks = useAppSelector(getUserResourceLinks)

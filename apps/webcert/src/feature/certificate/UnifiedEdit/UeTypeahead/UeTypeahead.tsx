@@ -15,7 +15,7 @@ export interface Props {
   disabled?: boolean
 }
 
-const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
+const UeTypeahead = ({ question, disabled }: Props) => {
   const questionConfig = question.config as ConfigUeTypeahead
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')

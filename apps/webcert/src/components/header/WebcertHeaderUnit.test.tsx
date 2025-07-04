@@ -40,9 +40,8 @@ describe('Webcert header unit', () => {
 
   it('should open the dropdown with the button for changing unit when clicking on expand button', async () => {
     testStore.dispatch(updateUser(fakeUser()))
-    renderComponent()
-
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
+    renderComponent()
 
     await userEvent.click(screen.getAllByTestId('arrowToggle')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
@@ -111,10 +110,9 @@ describe('Webcert header unit', () => {
           })
         )
       )
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
       renderComponent()
-
-      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.CHANGE_UNIT })]))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter')).toBeInTheDocument()
     })

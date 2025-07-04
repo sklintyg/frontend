@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useState } from 'react'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import ModalBase from '../../components/utils/Modal/ModalBase'
@@ -32,7 +31,7 @@ const ModalContent = () => {
   )
 }
 
-const SubscriptionWarningModal: React.FC = () => {
+const SubscriptionWarningModal = () => {
   const dispatch = useAppDispatch()
   const [open, setOpen] = useState(false)
   const userLinks = useAppSelector(getUserResourceLinks)

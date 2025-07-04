@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 
 const Icon = styled.span`
@@ -13,7 +12,7 @@ const Wrapper = styled.span`
   position: relative;
 `
 
-const MandatoryIcon: React.FC = () => (
+const MandatoryIcon = () => (
   <Wrapper>
     <Icon data-testid="mandatory-icon" className="iu-color-error">
       *

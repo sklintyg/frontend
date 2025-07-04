@@ -1,6 +1,5 @@
 import FocusTrap from 'focus-trap-react'
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -35,16 +34,7 @@ const StyledChevronDownIcon = styled(ChevronDownIcon)`
   font-size: 0.875em;
 `
 
-const IcfDropdown: React.FC<Props> = ({
-  modalLabel,
-  icfData,
-  chosenIcfCodeValues,
-  onAddCode,
-  onRemoveCode,
-  collectionsLabel,
-  disabled,
-  id,
-}) => {
+const IcfDropdown = ({ modalLabel, icfData, chosenIcfCodeValues, onAddCode, onRemoveCode, collectionsLabel, disabled, id }: Props) => {
   const icd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>

@@ -1,8 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { fakeResourceLink, fakeUser } from '../../../faker'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -13,13 +12,15 @@ import { ResourceLinkType } from '../../../types'
 import NavigateBackButton from './NavigateBackButton'
 
 let testStore: EnhancedStore
-const history = createMemoryHistory()
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
-        <NavigateBackButton />
-      </Router>
+      <MemoryRouter initialEntries={['/back', '/']}>
+        <Routes>
+          <Route path="/" element={<NavigateBackButton />} />
+          <Route path="/back" element="you have navigated back" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -42,18 +43,14 @@ describe('NavigateBackButton', () => {
     expect(screen.queryByText('Tillbaka')).not.toBeInTheDocument()
   })
 
-  it('should use history.getBack()', () => {
+  it('should use navigate(-1)', () => {
     testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NAVIGATE_BACK_BUTTON })]))
-    history.push('/some-page')
-    history.push('/some-page1')
-    history.action = 'PUSH'
-
     renderComponent()
 
     const backButton = screen.getByRole('button')
     fireEvent.click(backButton)
 
-    expect(history.location.pathname).toBe('/some-page')
+    expect(screen.getByText(/you have navigated back/i)).toBeInTheDocument()
   })
 })

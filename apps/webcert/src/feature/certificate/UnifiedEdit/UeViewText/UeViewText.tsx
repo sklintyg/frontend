@@ -5,7 +5,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeViewText: React.FC<Props> = ({ question }) => {
+const UeViewText = ({ question }: Props) => {
   const questionConfig = question.config as ConfigUeViewText
 
   return (

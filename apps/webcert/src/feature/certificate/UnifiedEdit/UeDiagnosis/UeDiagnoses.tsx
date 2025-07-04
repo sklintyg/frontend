@@ -23,7 +23,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
+const UeDiagnoses = ({ question, disabled }: Props) => {
   const questionConfig = question.config as ConfigUeDiagnoses
   const questionValue = question.value as ValueDiagnosisList
   const firstSavedItem = questionValue.list.find((value) => value && value.terminology !== '')

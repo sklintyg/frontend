@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
@@ -29,7 +28,7 @@ interface Props {
   administrativeQuestionDraft: Question
 }
 
-const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }) => {
+const AdministrativeQuestionPanel = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   return (
