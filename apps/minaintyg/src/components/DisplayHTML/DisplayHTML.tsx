@@ -19,7 +19,7 @@ const options = {
         const [tag, level] = match
         return createElement(
           tag,
-          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10), 4)]}` },
+          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10) + 1, headingMap.length - 1)]}` },
           domToReact(children, options)
         )
       }

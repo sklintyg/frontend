@@ -6,7 +6,7 @@ it('Should render as expected', () => {
   expect(container).toMatchInlineSnapshot(`
     <div>
       <button
-        class="ids-link inline-flex text-base font-normal ids-link--underlined"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined"
         type="button"
       >
         <span

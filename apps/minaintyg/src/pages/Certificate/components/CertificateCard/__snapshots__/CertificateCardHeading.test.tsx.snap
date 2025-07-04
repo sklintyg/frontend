@@ -18,16 +18,24 @@ exports[`Should render correctly 1`] = `
     <div
       class="flex gap-1 [&:not(:last-child)]:mb-2.5"
     >
-      <ids-badge
-        class="whitespace-nowrap"
+      <div
+        class="ids-badge ids-badge--primary whitespace-nowrap"
       >
-        Nytt
-      </ids-badge>
-      <ids-badge
-        class="whitespace-nowrap"
+        <div
+          class="ids-badge__inner"
+        >
+          Nytt
+        </div>
+      </div>
+      <div
+        class="ids-badge ids-badge--error whitespace-nowrap"
       >
-        Ej skickat
-      </ids-badge>
+        <div
+          class="ids-badge__inner"
+        >
+          Ej skickat
+        </div>
+      </div>
     </div>
   </div>
 </div>
