@@ -31,17 +31,13 @@ export function Dialog({
 
   return (
     <DialogPortal>
-      <IDSDialog role="dialog" aria-labelledby={id} show={open} onVisibilityChange={setOpen} {...props}>
-        {open && (
-          <>
-            {headline && (
-              <Heading level={2} size="m" slot="headline" tabIndex={-1}>
-                {headline}
-              </Heading>
-            )}
-            {children}
-          </>
+      <IDSDialog role="dialog" aria-labelledby={id} data-open={open ? 'true' : 'false'} show={open} onVisibilityChange={setOpen} {...props}>
+        {headline && (
+          <Heading id={id} level={2} size="m" slot="headline" tabIndex={-1}>
+            {headline}
+          </Heading>
         )}
+        {open && children}
       </IDSDialog>
     </DialogPortal>
   )

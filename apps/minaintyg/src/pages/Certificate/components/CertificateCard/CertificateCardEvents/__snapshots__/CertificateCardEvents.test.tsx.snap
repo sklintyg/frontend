@@ -29,7 +29,7 @@ exports[`Should render correctly 1`] = `
         />
       </summary>
       <h5
-        class="ids-heading-4 mb-0"
+        class="ids-heading-xs !normal-case mb-0"
       >
         Händelser
       </h5>
@@ -42,13 +42,12 @@ exports[`Should render correctly 1`] = `
           >
             2023-09-06 11:00
           </span>
-          <ids-link>
-            <a
-              href="/itaque"
-            >
-              perferendis
-            </a>
-          </ids-link>
+          <a
+            class="ids-link ids-link--underlined"
+            href="/itaque"
+          >
+            perferendis
+          </a>
         </div>
       </div>
     </details>
@@ -57,7 +56,7 @@ exports[`Should render correctly 1`] = `
     class="hidden md:block"
   >
     <h5
-      class="ids-heading-4 mb-0"
+      class="ids-heading-xs !normal-case mb-0"
     >
       Händelser
     </h5>
@@ -70,13 +69,12 @@ exports[`Should render correctly 1`] = `
         >
           2023-09-06 11:00
         </span>
-        <ids-link>
-          <a
-            href="/itaque"
-          >
-            perferendis
-          </a>
-        </ids-link>
+        <a
+          class="ids-link ids-link--underlined"
+          href="/itaque"
+        >
+          perferendis
+        </a>
       </div>
     </div>
   </div>

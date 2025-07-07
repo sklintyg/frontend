@@ -14,15 +14,13 @@ export function ResultTextArea({
 }) {
   const id = useId()
   return (
-    <IDSTextarea className="w-full whitespace-nowrap">
-      <label htmlFor={id}>Result</label>
-      <textarea
-        id={id}
-        value={freeText != null ? freeText : JSON.stringify(person, null, 2)}
-        onChange={onChange}
-        className="h-40 w-full"
-        rows={5}
-      />
-    </IDSTextarea>
+    <IDSTextarea
+      id={id}
+      className="w-full whitespace-nowrap"
+      label="Result"
+      value={freeText != null ? freeText : JSON.stringify(person, null, 2)}
+      onChange={onChange}
+      rows={5}
+    />
   )
 }

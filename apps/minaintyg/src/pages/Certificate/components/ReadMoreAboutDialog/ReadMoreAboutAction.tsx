@@ -16,7 +16,7 @@ export function ReadMoreAboutAction() {
       </TertiaryButton>
 
       <ReadMoreAboutDialog open={readMoreDialogOpen} onOpenChange={showReadMoreDialog}>
-        <IDSButton mBlock onClick={() => showReadMoreDialog(false)} role="button">
+        <IDSButton data-testid="close-btn" mBlock onClick={() => showReadMoreDialog(false)} role="button">
           Stäng
         </IDSButton>
       </ReadMoreAboutDialog>

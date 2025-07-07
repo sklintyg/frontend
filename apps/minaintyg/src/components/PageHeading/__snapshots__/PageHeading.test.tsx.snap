@@ -6,7 +6,7 @@ exports[`Should render correctly 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-1"
+      class="ids-heading-xxl !normal-case"
     >
       Test
     </h1>

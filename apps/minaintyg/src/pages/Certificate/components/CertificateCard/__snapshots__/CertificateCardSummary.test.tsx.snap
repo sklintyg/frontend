@@ -9,7 +9,7 @@ exports[`Should render correctly with summary 1`] = `
       class="grow leading-5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Gäller intygsperiod
       </h4>
@@ -20,7 +20,7 @@ exports[`Should render correctly with summary 1`] = `
       class="flex flex-col whitespace-nowrap leading-5 md:flex-row md:gap-1.5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Intyg utfärdat
       </h4>
@@ -41,7 +41,7 @@ exports[`Should render correctly without summary 1`] = `
       class="flex flex-col whitespace-nowrap leading-5 md:flex-row md:gap-1.5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Intyg utfärdat
       </h4>

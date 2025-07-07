@@ -6,7 +6,7 @@ exports[`Should render correctly 1`] = `
     class="mb-2.5 flex flex-col justify-between gap-2.5 md:flex-row"
   >
     <h3
-      class="ids-heading-2 mb-0"
+      class="ids-heading-s !normal-case"
     >
       <a
         class="ids-anchor"

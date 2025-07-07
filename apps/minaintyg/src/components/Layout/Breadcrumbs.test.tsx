@@ -64,10 +64,9 @@ it('Should render as expected with two level', () => {
 
 it('Should contain correct link for start item, mobile and desktop', () => {
   renderComponent(['/'])
-  expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
-  screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
-    expect(element).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
-  })
+  const link = screen.getByRole('link', { name: 'Start' })
+  expect(link).toBeInTheDocument()
+  expect(link).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
 })
 
 it('Should render as expected with three levels', async () => {

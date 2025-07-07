@@ -180,11 +180,11 @@ describe('Print certificate action', () => {
       await renderComponent({ id }, [printFunction, customizeFunction])
       const dialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
 
-      expect(dialog).not.toHaveAttribute('show', 'true')
+      expect(dialog).not.toHaveAttribute('data-open', 'true')
 
       await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
 
-      expect(dialog).toHaveAttribute('show', 'true')
+      expect(dialog).toHaveAttribute('data-open', 'true')
     })
 
     it('Should have print link button', async () => {
@@ -204,11 +204,11 @@ describe('Print certificate action', () => {
 
       await userEvent.click(screen.getByRole('button', { name: 'Skriv ut' }))
 
-      expect(dialog).toHaveAttribute('show', 'true')
+      expect(dialog).toHaveAttribute('data-open', 'true')
 
       await userEvent.click(within(dialog).getByRole('button', { name: 'Avbryt' }))
 
-      expect(dialog).toHaveAttribute('show', 'false')
+      expect(dialog).toHaveAttribute('data-open', 'false')
     })
 
     it('Should change link when selecting second option', async () => {
@@ -247,11 +247,11 @@ describe('Save certificate action', () => {
     await renderComponent({ id }, [printFunction])
     const dialog = screen.getByRole('dialog', { name: 'Spara intyg som PDF' })
 
-    expect(dialog).not.toHaveAttribute('show', 'true')
+    expect(dialog).not.toHaveAttribute('data-open', 'true')
 
     await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-    expect(dialog).toHaveAttribute('show', 'true')
+    expect(dialog).toHaveAttribute('data-open', 'true')
   })
 
   it('Should be able to cancel dialog with button', async () => {
@@ -260,11 +260,11 @@ describe('Save certificate action', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-    expect(dialog).toHaveAttribute('show', 'true')
+    expect(dialog).toHaveAttribute('data-open', 'true')
 
     await userEvent.click(within(dialog).getByRole('button', { name: 'Avbryt' }))
 
-    expect(dialog).toHaveAttribute('show', 'false')
+    expect(dialog).toHaveAttribute('data-open', 'false')
   })
 
   it('Should have save link button', async () => {
@@ -288,7 +288,7 @@ describe('Save certificate action', () => {
       const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
       await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-      expect(customizeDialog).toHaveAttribute('show', 'true')
+      expect(customizeDialog).toHaveAttribute('data-open', 'true')
       expect(within(customizeDialog).getByRole('button', { name: 'Spara' })).toBeInTheDocument()
     })
 
@@ -298,11 +298,11 @@ describe('Save certificate action', () => {
       const customizeDialog = screen.getByRole('dialog', { name: 'Vill du visa eller dölja diagnos?' })
       await userEvent.click(screen.getByRole('button', { name: 'Spara PDF' }))
 
-      expect(saveWarningDialog).not.toHaveAttribute('show', 'true')
+      expect(saveWarningDialog).not.toHaveAttribute('data-open', 'true')
 
       await userEvent.click(within(customizeDialog).getByRole('button', { name: 'Spara' }))
 
-      expect(saveWarningDialog).toHaveAttribute('show', 'true')
+      expect(saveWarningDialog).toHaveAttribute('data-open', 'true')
     })
   })
 })
