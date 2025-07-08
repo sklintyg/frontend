@@ -2,68 +2,71 @@
 
 exports[`Should render 1177 type action 1`] = `
 <div>
-  <ids-link>
-    <ids-icon-chevron
-      class="ids-icon"
+  <a
+    class="ids-link"
+    href="https://www.1177.se"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small  ids-icon--text-start"
     />
-    <a
-      href="https://www.1177.se"
-    >
-      Till 1177
-    </a>
-    <ids-icon-external
-      class="ids-icon"
-      slot="append-icon"
+    Till 1177
+    <span
+      class="ids-icon-external-link-small  ids-icon--text-end"
     />
-  </ids-link>
+  </a>
 </div>
 `;
 
 exports[`Should render about type action 1`] = `
 <div>
-  <ids-link>
-    <ids-icon-chevron
-      class="ids-icon"
+  <a
+    class="ids-link"
+    href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small  ids-icon--text-start"
     />
-    <a
-      href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
-    >
-      Om 1177 intyg
-    </a>
-    <ids-icon-external
-      class="ids-icon"
-      slot="append-icon"
+    Om 1177 intyg
+    <span
+      class="ids-icon-external-link-small  ids-icon--text-end"
     />
-  </ids-link>
+  </a>
 </div>
 `;
 
 exports[`Should render login type action 1`] = `
 <div>
-  <ids-link>
-    <ids-icon-chevron
-      class="ids-icon"
+  <a
+    class="ids-link"
+    href="/"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small  ids-icon--text-start"
     />
-    <a
-      href="/"
-    >
-      Till inloggning
-    </a>
-  </ids-link>
+    Till inloggning
+    <span
+      class="ids-icon-external-link-small  ids-icon--text-end"
+    />
+  </a>
 </div>
 `;
 
 exports[`Should render start type action 1`] = `
 <div>
-  <ids-link>
-    <ids-icon-chevron
-      class="ids-icon"
+  <a
+    class="ids-link"
+    href="https://e-tjanster.1177.se/mvk/"
+  >
+    <span
+      class="ids-icon-arrow-right-small  ids-icon--text-start"
     />
-    <a
-      href="https://e-tjanster.1177.se/mvk/"
-    >
-      Till startsidan
-    </a>
-  </ids-link>
+    Till startsidan
+  </a>
 </div>
 `;

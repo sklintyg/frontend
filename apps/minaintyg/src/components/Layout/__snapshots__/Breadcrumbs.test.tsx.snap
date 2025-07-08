@@ -6,26 +6,55 @@ exports[`Should render as expected with one level 1`] = `
     <div
       class="mb-5"
     >
-      <ids-breadcrumbs>
-        <ids-crumb>
-          <a
-            href="https://e-tjanster.1177.se/mvk/"
+      <nav
+        aria-label="Du är här:"
+        class="ids-breadcrumbs"
+      >
+        <ol
+          class="ids-breadcrumbs__desktop"
+        >
+          <li
+            class="ids-breadcrumbs__lead"
           >
-            Start
-          </a>
-        </ids-crumb>
-        <span>
-          Intyg
-        </span>
-        <ids-crumb>
-          <a
-            class="no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
+            Du är här:
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
           >
-            Start
-          </a>
-        </ids-crumb>
-      </ids-breadcrumbs>
+            <a
+              href="https://e-tjanster.1177.se/mvk/"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
+          >
+            <a
+              href="/"
+            >
+              Intyg
+            </a>
+          </li>
+        </ol>
+        <ol
+          class="ids-breadcrumbs__mobile"
+        >
+          <li
+            class="ids-breadcrumbs__mobile-links"
+          >
+            <span
+              class="ids-breadcrumbs__icon"
+            />
+          </li>
+        </ol>
+      </nav>
     </div>
     Certificates List
   </div>
@@ -38,35 +67,76 @@ exports[`Should render as expected with three levels 1`] = `
     <div
       class="mb-5"
     >
-      <ids-breadcrumbs>
-        <ids-crumb>
-          <a
-            href="https://e-tjanster.1177.se/mvk/"
-          >
-            Start
-          </a>
-        </ids-crumb>
-        <ids-crumb>
-          <a
-            href="/"
-          >
-            Intyg
-          </a>
-        </ids-crumb>
-        <span>
-          läkares anmälan till transportstyrelsen
-        </span>
-        <ids-crumb
-          slot="mobile"
+      <nav
+        aria-label="Du är här:"
+        class="ids-breadcrumbs"
+      >
+        <ol
+          class="ids-breadcrumbs__desktop"
         >
-          <a
-            class="no-underline"
-            href="/"
+          <li
+            class="ids-breadcrumbs__lead"
           >
-            Intyg
-          </a>
-        </ids-crumb>
-      </ids-breadcrumbs>
+            Du är här:
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="https://e-tjanster.1177.se/mvk/"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="/"
+            >
+              Intyg
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
+          >
+            <a
+              href="/12345"
+            >
+              läkares anmälan till transportstyrelsen
+            </a>
+          </li>
+        </ol>
+        <ol
+          class="ids-breadcrumbs__mobile"
+        >
+          <li
+            class="ids-breadcrumbs__mobile-links"
+          >
+            <span
+              class="ids-breadcrumbs__icon"
+            />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="/"
+            >
+              Intyg
+            </a>
+          </li>
+        </ol>
+      </nav>
     </div>
     Intyget
   </div>
@@ -79,31 +149,74 @@ exports[`Should render as expected with two level 1`] = `
     <div
       class="mb-5"
     >
-      <ids-breadcrumbs>
-        <ids-crumb>
-          <a
-            href="https://e-tjanster.1177.se/mvk/"
+      <nav
+        aria-label="Du är här:"
+        class="ids-breadcrumbs"
+      >
+        <ol
+          class="ids-breadcrumbs__desktop"
+        >
+          <li
+            class="ids-breadcrumbs__lead"
           >
-            Start
-          </a>
-        </ids-crumb>
-        <ids-crumb>
-          <a
-            href="/"
+            Du är här:
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
           >
-            Intyg
-          </a>
-        </ids-crumb>
-        <span />
-        <ids-crumb>
-          <a
-            class="no-underline"
-            href="/"
+            <a
+              href="https://e-tjanster.1177.se/mvk/"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
           >
-            Intyg
-          </a>
-        </ids-crumb>
-      </ids-breadcrumbs>
+            <a
+              href="/"
+            >
+              Intyg
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
+          >
+            <a
+              href="/intyg"
+            />
+          </li>
+        </ol>
+        <ol
+          class="ids-breadcrumbs__mobile"
+        >
+          <li
+            class="ids-breadcrumbs__mobile-links"
+          >
+            <span
+              class="ids-breadcrumbs__icon"
+            />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="/"
+            >
+              Intyg
+            </a>
+          </li>
+        </ol>
+      </nav>
     </div>
     Intyget
   </div>

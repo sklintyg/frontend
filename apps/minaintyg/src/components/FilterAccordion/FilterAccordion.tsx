@@ -1,4 +1,4 @@
-import { IDSIconChevron } from '@frontend/ids-react-ts'
+import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 
 export function FilterAccordion({ total, listed, noun, children }: { noun: string; total: number; listed: number; children: ReactNode }) {

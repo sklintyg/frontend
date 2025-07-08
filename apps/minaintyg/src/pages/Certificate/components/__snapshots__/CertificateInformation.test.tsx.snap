@@ -7,7 +7,7 @@ exports[`Should render as expected 1`] = `
   >
     <div>
       <h3
-        class="ids-heading-4 mb-0"
+        class="ids-heading-xs !normal-case mb-0"
       >
         Avser diagnos
       </h3>
@@ -15,7 +15,7 @@ exports[`Should render as expected 1`] = `
     </div>
     <div>
       <h3
-        class="ids-heading-4 mb-0 whitespace-nowrap"
+        class="ids-heading-xs !normal-case mb-0 whitespace-nowrap"
       >
         Intyg utfärdat
       </h3>
@@ -23,7 +23,7 @@ exports[`Should render as expected 1`] = `
     </div>
     <div>
       <h3
-        class="ids-heading-4 mb-0"
+        class="ids-heading-xs !normal-case mb-0"
       >
         Skrivet av
       </h3>

@@ -31,7 +31,6 @@
     "react": "^18.3.1",
     "react-aria": "^3.25.0",
     "react-dom": "^18.3.1",
-    "react-focus-on": "^3.9.1",
     "react-merge-refs": "^2.0.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.1",

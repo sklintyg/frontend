@@ -1,5 +1,5 @@
 import legacy from '@vitejs/plugin-legacy'
-import { resolve } from 'path'
+import path, { resolve } from 'path'
 import { defineConfig } from 'vite'
 
 const root = resolve(__dirname, 'src')
@@ -28,7 +28,13 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+    },
+  },
   server: {
+    host: '0.0.0.0',
     port: 5175,
     allowedHosts: true,
   },

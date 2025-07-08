@@ -1,4 +1,4 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from '@inera/ids-react'
 import { useFormat } from '../../../../hooks/useFormat'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 

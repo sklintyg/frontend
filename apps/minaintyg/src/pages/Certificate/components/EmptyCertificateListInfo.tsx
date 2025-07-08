@@ -1,4 +1,4 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from '@inera/ids-react'
 
 export function EmptyCertificateListInfo({ total }: { total: number }) {
   if (total > 0) {

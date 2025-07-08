@@ -61,8 +61,7 @@
       "follow-redirects@<1.15.4": ">=1.15.4"
     },
     "patchedDependencies": {
-      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch",
-      "@inera/ids-core@4.10.0": "patches/@inera__ids-core@4.10.0.patch"
+      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch"
     }
   }
 }

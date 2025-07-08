@@ -1,4 +1,4 @@
-import { IDSInput } from '@frontend/ids-react-ts'
+import { IDSSelect } from '@inera/ids-react'
 import type { ChangeEventHandler } from 'react'
 import { useId } from 'react'
 import type { TestabilityPerson } from '../../../schema/testability/person.schema'
@@ -14,16 +14,13 @@ export function SelectProfile({
 }) {
   const id = useId()
   return (
-    <IDSInput>
-      <label htmlFor={id}>Login</label>
-      <select id={id} size={6} onChange={onChange} value={value} className="h-40 w-full rounded border">
-        {persons &&
-          persons.map(({ personId, personName }) => (
-            <option key={personId} value={personId}>
-              {personName} ({personId}){' '}
-            </option>
-          ))}
-      </select>
-    </IDSInput>
+    <IDSSelect label="Login" id={id} size={6} onChange={onChange} value={value} className="h-40 w-full rounded border">
+      {persons &&
+        persons.map(({ personId, personName }) => (
+          <option key={personId} value={personId}>
+            {personName} ({personId}){' '}
+          </option>
+        ))}
+    </IDSSelect>
   )
 }

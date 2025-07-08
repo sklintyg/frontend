@@ -5,13 +5,36 @@ exports[`Should render h1 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h1
-        class="ids-heading-1"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r2:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h1>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r2:"
+      >
+        <h1
+          class="ids-heading-l"
+        >
+          heading
+        </h1>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -21,13 +44,36 @@ exports[`Should render h2 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h2
-        class="ids-heading-2"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r3:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h2>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r3:"
+      >
+        <h2
+          class="ids-heading-m"
+        >
+          heading
+        </h2>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -37,13 +83,36 @@ exports[`Should render h3 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h3
-        class="ids-heading-3"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r4:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h3>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r4:"
+      >
+        <h3
+          class="ids-heading-s"
+        >
+          heading
+        </h3>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -53,13 +122,36 @@ exports[`Should render h4 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h4
-        class="ids-heading-4"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r5:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h4>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r5:"
+      >
+        <h4
+          class="ids-heading-xs"
+        >
+          heading
+        </h4>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -69,13 +161,36 @@ exports[`Should render h5 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h5
-        class="ids-heading-4"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r6:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h5>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r6:"
+      >
+        <h5
+          class="ids-heading-xs"
+        >
+          heading
+        </h5>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -85,13 +200,36 @@ exports[`Should render h6 heading as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <h6
-        class="ids-heading-4"
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r7:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        heading
-      </h6>
-    </ids-expandable>
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r7:"
+      >
+        <h6
+          class="ids-heading-xs"
+        >
+          heading
+        </h6>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -101,11 +239,34 @@ exports[`Should render html as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
-      <p>
-        Test
-      </p>
-    </ids-expandable>
+    <div
+      class="ids-accordion"
+    >
+      <div
+        aria-controls=":r0:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+        >
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r0:"
+      >
+        <p>
+          Test
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -115,26 +276,49 @@ exports[`Should render table as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <ids-expandable>
+    <div
+      class="ids-accordion"
+    >
       <div
-        class="md:hidden"
-      />
-      <div
-        class="hidden md:block"
+        aria-controls=":r1:"
+        aria-expanded="false"
+        class="ids-accordion__button ids-accordion__button--m"
+        role="button"
+        tabindex="0"
       >
-        <table
-          class="ids-table"
+        <div
+          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
         >
-          <tbody>
-            <tr>
-              <td>
-                Test
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <h2>
+            Rubrik 1
+          </h2>
+        </div>
       </div>
-    </ids-expandable>
+      <div
+        aria-hidden="true"
+        class="ids-accordion__content"
+        id=":r1:"
+      >
+        <div
+          class="md:hidden"
+        />
+        <div
+          class="hidden md:block"
+        >
+          <table
+            class="ids-table"
+          >
+            <tbody>
+              <tr>
+                <td>
+                  Test
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

@@ -24,8 +24,7 @@
       "@frontend/components/inera-admin": ["./packages/components/src/theme/inera-admin/index.ts"],
       "@frontend/components/colors": ["./packages/components/src/theme/colors.ts"],
       "@frontend/fake": ["./packages/fake/src/index.ts"],
-      "@frontend/utils": ["./packages/utils/src/index.ts"],
-      "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"]
+      "@frontend/utils": ["./packages/utils/src/index.ts"]
     },
     "types": ["vitest/globals"]
   },

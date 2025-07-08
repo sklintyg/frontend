@@ -1,5 +1,5 @@
 import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
-import { LayoutFooter, LayoutHeader, LayoutHeaderNavigation } from '@frontend/components/1177'
+import { LayoutFooter, LayoutHeader } from '@frontend/components/1177'
 import { skipToken } from '@reduxjs/toolkit/query'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
@@ -27,14 +27,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      <LayoutHeader mode={import.meta.env.MODE} skipToContent="#content">
-        {user && (
-          <>
-            <LayoutHeaderAvatar />
-            <LayoutHeaderNavigation mode={import.meta.env.MODE} activeLink="Intyg" />
-          </>
-        )}
-      </LayoutHeader>
+      <LayoutHeader mode={import.meta.env.MODE} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />
       <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&

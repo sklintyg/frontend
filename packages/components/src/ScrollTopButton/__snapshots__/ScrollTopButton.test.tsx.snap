@@ -5,15 +5,18 @@ exports[`Should render as expected 1`] = `
   <div
     class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out pointer-events-none"
   >
-    <ids-button
+    <button
+      aria-disabled="false"
       aria-label="Till toppen av sidan"
-      class="ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
+      aria-pressed="false"
+      class="ids-button ids-button--m ids-button--fab ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
       role="button"
+      tabindex="0"
     >
-      <ids-icon-arrow
-        class="ids-icon"
+      <span
+        class="ids-icon-arrow-up "
       />
-    </ids-button>
+    </button>
   </div>
 </div>
 `;

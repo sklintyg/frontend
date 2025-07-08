@@ -2,7 +2,7 @@
 
 exports[`Should have correct heading 1`] = `
 <h1
-  class="ids-heading-1"
+  class="ids-heading-xxl !normal-case"
 >
   Intyg
 </h1>
@@ -17,88 +17,108 @@ exports[`Should have correct paragraph 1`] = `
 `;
 
 exports[`Should render alert message when list is empty 1`] = `
-<ids-alert
+<div
+  aria-live="polite"
+  class="ids-spinner"
+  data-testid="certificate-list-spinner"
   role="alert"
 >
-  <p>
-    I Intyg visas endast intyg som utfärdats digitalt till dig. Intyg har ingen ombudsfunktion och du kan inte ladda upp egna intyg.
-  </p>
-  <p>
-    Om du saknar ett intyg, vänd dig till din mottagning.
-  </p>
-</ids-alert>
+  <p
+    class="ids-spinner-sr"
+  />
+  <div
+    class="ids-bounce-1"
+  />
+  <div
+    class="ids-bounce-2"
+  />
+  <div
+    class="ids-bounce-3"
+  />
+</div>
 `;
 
 exports[`Should render error message when unable to load list 1`] = `
 [
-  <ids-alert
+  <div
+    class="ids-alert ids-alert--error"
     role="alert"
   >
     <div
-      class="flex flex-col gap-4"
+      class="ids-alert__header"
     >
-      <p>
-        Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-        <ids-link
-          color="var(--link-colorpreset-1_color)"
-          hovercolor="var(--link-colorpreset-1-hover_color)"
-          underlined=""
+      <div
+        class="ids-alert__icon_and_text"
+      >
+        <span
+          class="ids-alert__state-icon"
+          title=""
+        />
+        <div
+          class="ids-alert__headline"
         >
+          Tekniskt fel
+        </div>
+      </div>
+    </div>
+    <div
+      class="ids-alert__content"
+    >
+      <div
+        class="flex flex-col gap-4"
+      >
+        <p>
+          Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
           <a
+            class="ids-link ids-link--underlined"
             href="https://www.1177.se/e-tjanster-support"
             rel="noreferrer"
             target="_blank"
           >
             support
-          </a>
-          <ids-icon-external
-            class="ids-icon"
-            color="var(--link-colorpreset-1_color)"
-            color2="var(--link-colorpreset-1_color)"
-            height="1rem"
-            size="m"
-            slot="append-icon"
-            width="1rem"
-          />
-        </ids-link>
-        och ange nedan fel-id:
-      </p>
-      <div
-        class=""
-      >
-        <button
-          aria-label="Kopiera fel-id"
-          tabindex="0"
-          type="button"
-          value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
-        >
-          <p
-            class="flex justify-center gap-1 align-bottom font-bold"
-            data-state="closed"
-          >
-            <span>
-              Fel-id: 
-            </span>
-             
             <span
-              class="font-normal"
-            >
-              5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
-            </span>
-            <ids-icon-copy-file
-              class="ids-icon"
-              size="s"
+              class="ids-icon-external-link-small  ids-icon--text-end"
             />
-          </p>
-          <p
-            class="flex justify-items-start"
-          />
-        </button>
+          </a>
+          och ange nedan fel-id:
+        </p>
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              class="flex justify-center gap-1 align-bottom font-bold"
+              data-state="closed"
+            >
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
+              >
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <ids-icon-copy-file
+                class="ids-icon"
+                size="s"
+              />
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
+        </div>
+        <p>
+          Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+        </p>
       </div>
-      <p>
-        Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
-      </p>
     </div>
-  </ids-alert>,
+  </div>,
 ]
 `;
