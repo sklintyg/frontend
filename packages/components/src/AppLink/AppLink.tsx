@@ -24,13 +24,13 @@ export const AppLink = forwardRef<
     <IDSLink underlined={underlined} block={block} colorPreset={colorPreset} large={large}>
       {external || target != null ? (
         <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
-          {arrow && <Icon icon="arrow-right-small" />}
+          {arrow && <Icon icon="arrow-right-small" textStart />}
           {children}
-          <Icon icon="external-link-small" />
+          <Icon icon="external-link-small" textEnd />
         </a>
       ) : (
         <Link ref={ref} to={to}>
-          {arrow && <Icon icon="arrow-right-small" />}
+          {arrow && <Icon icon="arrow-right-small" textStart />}
           {children}
         </Link>
       )}

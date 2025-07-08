@@ -1,4 +1,6 @@
-import { IDSFooter, IDSHeader, IDSIconAttention, IDSIconChevron, IDSIconExternal, IDSLink } from '@inera/ids-react'
+import { AppLink } from '@frontend/components'
+import { PageHero, PageHeroActions } from '@frontend/components/1177'
+import { IDSFooterIneraAdmin, IDSHeaderIneraAdmin } from '@inera/ids-react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '../styling/inera-admin.css'
@@ -6,18 +8,10 @@ import '../styling/inera-admin.css'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <div className="flex min-h-screen flex-col">
-      <IDSHeader type="inera-admin" className="z-40 bg-white print:hidden">
-        <a className="ids-heading-2 no-underline" slot="brand-text" href="/">
-          Intygstjänster
-        </a>
-      </IDSHeader>
+      <IDSHeaderIneraAdmin className="z-40 print:hidden" brandText="Intygstjänster" />
       <main className="relative flex-1">
         <div className="ids-content mx-auto max-w-screen-md py-24 text-center">
-          <div className="mb-10 inline-block">
-            <IDSIconAttention height="4.375rem" width="4.375rem" color="var(--IDS-COLOR-ERROR-40)" color2="var(--IDS-COLOR-ERROR-40)" />
-          </div>
-          <div className="mb-5">
-            <h1 className="ids-heading-1">Planerat underhåll</h1>
+          <PageHero heading="Planerat underhåll" type="error">
             <p className="ids-preamble">
               Intygstjänster är stängd för tekniskt underhåll. <br />
               <br />
@@ -26,21 +20,20 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <br />
               <br /> Välkommen åter!
             </p>
-            <IDSLink>
-              <IDSIconChevron />
-              <a href="https://www.inera.se">Till Inera.se</a> <IDSIconExternal slot="append-icon" />
-            </IDSLink>
-            <IDSLink className="pl-3">
-              <IDSIconChevron />
-              <a href="https://www.inera.se/driftstatus/kommande-atgarder/">Se driftstatus på Inera.se</a>{' '}
-              <IDSIconExternal slot="append-icon" />
-            </IDSLink>
-          </div>
+            <PageHeroActions>
+              <AppLink to="https://www.inera.se" arrow external>
+                Till Inera.se
+              </AppLink>
+              <AppLink to="https://www.inera.se/driftstatus/kommande-atgarder/" arrow external>
+                Se driftstatus på Inera.se
+              </AppLink>
+            </PageHeroActions>
+          </PageHero>
         </div>
       </main>
-      <IDSFooter type="inera-admin" headline="Intygstjänster">
+      <IDSFooterIneraAdmin headline="Intygstjänster">
         <p>Intygsjänster är en grupp tjänster som drivs av Inera AB.</p>
-      </IDSFooter>
+      </IDSFooterIneraAdmin>
     </div>
   </React.StrictMode>
 )
