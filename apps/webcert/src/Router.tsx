@@ -1,5 +1,5 @@
 import { ErrorBoundary } from 'react-error-boundary'
-import { Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import ErrorComponent from './components/error/ErrorComponent'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
@@ -34,11 +34,13 @@ export function Router() {
     <Routes>
       <Route
         path="/"
-        errorElement={
-          <ErrorBoundary fallbackRender={ErrorMessage} onError={onError}>
+        errorElement={<ErrorBoundary fallbackRender={ErrorMessage} onError={onError} />}
+        element={
+          <>
             <ErrorComponent />
             <SubscriptionWarningModal />
-          </ErrorBoundary>
+            <Outlet />
+          </>
         }
       >
         <Route

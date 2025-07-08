@@ -20,7 +20,7 @@ export function useNavigateEffect() {
           navigate(pathname, { replace: true })
         }
       } else {
-        navigate(pathname)
+        navigate(pathname, { state: { from: window.location.pathname } })
       }
       dispatch(reset())
     }
