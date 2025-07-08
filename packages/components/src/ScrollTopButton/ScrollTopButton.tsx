@@ -49,7 +49,6 @@ export function ScrollTopButton() {
           })
         }}
       >
-        {/* <IDSIconArrow color="var(--btn-fab-icon_color)" width="24" height="24" rotate="-90" /> */}
         <Icon icon="arrow-up" />
       </IDSButton>
     </div>
