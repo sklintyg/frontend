@@ -5,12 +5,17 @@ exports[`Should render logged-out type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-success
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-success "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du är utloggad
       </h1>
@@ -35,11 +40,11 @@ exports[`Should render logged-out type error 1`] = `
             target="_blank"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till inloggning
             <span
-              class="ids-icon-external-link-small "
+              class="ids-icon-external-link-small  ids-icon--text-end"
             />
           </a>
           <a
@@ -49,11 +54,11 @@ exports[`Should render logged-out type error 1`] = `
             target="_blank"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till 1177
             <span
-              class="ids-icon-external-link-small "
+              class="ids-icon-external-link-small  ids-icon--text-end"
             />
           </a>
         </div>
@@ -68,12 +73,17 @@ exports[`Should render login-failed type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Inloggning misslyckades
       </h1>
@@ -96,7 +106,7 @@ exports[`Should render login-failed type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till startsidan
           </a>
@@ -112,12 +122,17 @@ exports[`Should render not-found type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Sidan hittades inte
       </h1>
@@ -140,7 +155,7 @@ exports[`Should render not-found type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till startsidan
           </a>
@@ -156,12 +171,17 @@ exports[`Should render unavailable type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Tjänsten är inte tillgänglig just nu
       </h1>
@@ -180,12 +200,17 @@ exports[`Should render underage type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du som är under 16 har inte tillgång till 1177 intyg
       </h1>
@@ -208,7 +233,7 @@ exports[`Should render underage type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till startsidan
           </a>
@@ -219,11 +244,11 @@ exports[`Should render underage type error 1`] = `
             target="_blank"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Om 1177 intyg
             <span
-              class="ids-icon-external-link-small "
+              class="ids-icon-external-link-small  ids-icon--text-end"
             />
           </a>
         </div>
@@ -238,12 +263,17 @@ exports[`Should render unknown type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Någonting gick fel
       </h1>
@@ -266,7 +296,7 @@ exports[`Should render unknown type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small "
+              class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till startsidan
           </a>

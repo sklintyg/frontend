@@ -21,7 +21,7 @@ exports[`link > Should render link with external icon when target is _blank 1`] 
   >
     Some link
     <span
-      class="ids-icon-external-link-small "
+      class="ids-icon-external-link-small  ids-icon--text-end"
     />
   </a>
 </div>

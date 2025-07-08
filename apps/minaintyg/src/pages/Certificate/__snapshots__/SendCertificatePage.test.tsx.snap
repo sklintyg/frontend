@@ -91,7 +91,7 @@ exports[`Should render error message when unable to load certificate 1`] = `
           >
             support
             <span
-              class="ids-icon-external-link-small "
+              class="ids-icon-external-link-small  ids-icon--text-end"
             />
           </a>
           och ange nedan fel-id:
