@@ -5,12 +5,17 @@ exports[`Should render as expected with attention icon 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         heading
       </h1>
@@ -25,12 +30,17 @@ exports[`Should render as expected with success icon 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-success
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-success "
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         heading
       </h1>
