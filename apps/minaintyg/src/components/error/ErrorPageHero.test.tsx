@@ -1,3 +1,4 @@
+import { faker } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { ErrorType } from '../../schema/error.schema'
 import { withRouter } from '../../utils/withRouter'
@@ -11,6 +12,7 @@ it('Should render identifier', () => {
 })
 
 it.each(ErrorType.options)('Should render %s type error', (type) => {
+  faker.seed(1234)
   const { container } = render(withRouter(<ErrorPageHero type={type} />))
   expect(container).toMatchSnapshot()
 })

@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { availableFunctionSchema, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
 import { CertificateAttentionAlert } from './CertificateAttentionAlert'
@@ -24,6 +24,7 @@ it('Should hide info alert when there is no info availableFunction provided', ()
 })
 
 it('Should show info alert when there is info availableFunction provided', () => {
+  faker.seed(1234)
   render(<CertificateAttentionAlert availableFunctions={availableActionsWithInfo} />)
   expect(screen.getByRole('alert')).toMatchSnapshot()
 })
