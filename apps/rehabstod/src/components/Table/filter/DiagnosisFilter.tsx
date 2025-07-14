@@ -40,7 +40,7 @@ export function DiagnosisFilter({
         <SelectMultiple id={id} light label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
           <div className="mb-2">
             <IDSInput>
-              <input aria-labelledby={id} type="text" placeholder="search" onChange={(event) => setSearch(event.target.value)} />
+              <input aria-labelledby={id} type="text" placeholder="Sök diagnos" onChange={(event) => setSearch(event.target.value)} />
             </IDSInput>
           </div>
           <Divider />
