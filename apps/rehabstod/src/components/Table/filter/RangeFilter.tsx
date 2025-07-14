@@ -42,6 +42,8 @@ export function RangeFilter({
             max={to}
             min={min}
             defaultValue={min}
+            aria-label={`${title} från`}
+            aria-labelledby=""
             inline
           />
           <FormattedNumberInput
@@ -52,7 +54,8 @@ export function RangeFilter({
             max={max}
             min={from}
             defaultValue={max}
-            aria-label={id}
+            aria-label={`${title} till`}
+            aria-labelledby=""
             inline
           />
         </div>
