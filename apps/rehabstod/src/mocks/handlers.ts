@@ -29,12 +29,12 @@ export const handlers = [
     res(
       ctx.status(200),
       ctx.json<Record<string, Link>>({
-        ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod' }),
-        ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice' }),
-        ineraMainPage: fakeLink({ text: 'ineraMainPage' }),
-        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter' }),
-        statistiktjanstenTooltip: fakeLink({ text: 'statistiktjanstenTooltip' }),
-        rehabstodTillganglighetsredogorelse: fakeLink({ text: 'Tillgänglighetsredogörelse' }),
+        ineraManualRehabstod: fakeLink({ text: 'ineraManualRehabstod', target: '_blank' }),
+        ineraNationellKundservice: fakeLink({ text: 'ineraNationellKundservice', target: '_blank' }),
+        ineraMainPage: fakeLink({ text: 'ineraMainPage', target: '_blank' }),
+        ineraBehandlingPersonuppgifter: fakeLink({ text: 'ineraBehandlingPersonuppgifter', target: '_blank' }),
+        statistiktjanstenTooltip: fakeLink({ text: 'statistiktjanstenTooltip', target: '_blank' }),
+        rehabstodTillganglighetsredogorelse: fakeLink({ text: 'Tillgänglighetsredogörelse', target: '_blank' }),
       })
     )
   ),

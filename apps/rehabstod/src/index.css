@@ -50,3 +50,7 @@ body.ids {
 .ids-data-table tr td {
   background-color: #fff !important;
 }
+
+.ids-checkbox + .ids-label-tooltip-wrapper {
+  margin-left: 0.5rem;
+}

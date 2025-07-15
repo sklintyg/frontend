@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { IDSCheckboxGroup } from '@inera/ids-react'
-import type { DropPosition, DroppableCollectionReorderEvent } from 'react-aria'
+import { type DropPosition, type DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
 import type { TableColumn } from '../../../schemas/tableSchema'
 import { Button } from '../../Button/Button'
@@ -23,6 +23,7 @@ export function ModifyTableColumns({
   const selectedColumns = columns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
   const numVisible = columns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
+
   const getPlaceholder = () => {
     if (isAllSelected) {
       return 'Alla valda'
@@ -51,7 +52,17 @@ export function ModifyTableColumns({
       description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >
-      <IDSCheckboxGroup>
+      <IDSCheckboxGroup
+        onKeyDownCapture={(event) => {
+          if (
+            event.key === 'Tab' &&
+            event.currentTarget.contains(document.activeElement) &&
+            document.activeElement?.querySelector('input')
+          ) {
+            event.stopPropagation()
+          }
+        }}
+      >
         <ReorderableListBox
           label="Anpassa tabeller"
           getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}

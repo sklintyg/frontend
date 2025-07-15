@@ -10,7 +10,7 @@ export function CookieDialog() {
 
   return (
     <>
-      <button className="text-white underline lg:text-sm" onClick={() => setOpen(true)} type="button">
+      <button className="text-accent-40 underline decoration-accent-40 lg:text-sm" onClick={() => setOpen(true)} type="button">
         Hantering av kakor
       </button>
       <Dialog dismissible headline="Om kakor (cookies)" open={open} onOpenChange={setOpen}>

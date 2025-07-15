@@ -2,7 +2,7 @@ import { IDSSelect } from '@inera/ids-react'
 import type { ComponentProps, OptionHTMLAttributes, SelectHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import type { IDSHtmlAttribute } from '../../../utils/IDSHtmlAttributes'
-import { FormTooltip } from '../FormTooltip'
+import { InputLabel } from '../InputLabel/InputLabel'
 
 type SelectOption = {
   value: OptionHTMLAttributes<HTMLOptionElement>['value']
@@ -34,8 +34,9 @@ export const Select = forwardRef<
       srof={srof || 'av'}
       slot={slot}
     >
-      {label && <label htmlFor={id}>{label}</label>}
-      {description && <FormTooltip>{description}</FormTooltip>}
+      <InputLabel htmlFor={id} description={description}>
+        {label}
+      </InputLabel>
       <select id={id} ref={ref} {...props}>
         {options?.map((option) => (
           <option key={option.label} value={option.value}>

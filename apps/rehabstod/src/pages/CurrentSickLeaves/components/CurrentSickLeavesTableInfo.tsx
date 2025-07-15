@@ -27,7 +27,10 @@ export function CurrentSickLeavesTableInfo({
         Sjukfall visas i <span className="font-bold">{daysAfterSickLeaveEnd} dagar</span> efter slutdatum
       </TableInfoItem>
       <div className="print:hidden">
-        <TertiaryButton onClick={() => dispatch(updateShowSettingsDialog(true))}>Ändra</TertiaryButton>
+        <TertiaryButton onClick={() => dispatch(updateShowSettingsDialog(true))}>
+          <span className="ids-icon-edit ids-icon--text-start" />
+          Ändra
+        </TertiaryButton>
       </div>
     </>
   )

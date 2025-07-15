@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import type { ReactEventHandler } from 'react'
-import type { DropPosition } from 'react-aria'
+import { type ReactEventHandler } from 'react'
+import { type DropPosition } from 'react-aria'
 import type { TableColumn } from '../../../schemas/tableSchema'
-import { Checkbox } from '../../form/Checkbox'
+import { Checkbox } from '../../form/Checkbox/Checkbox'
 import { MoveColumnButton } from './MoveColumnButton'
 
 const preventEventPropagation: ReactEventHandler = (event) => event.stopPropagation()

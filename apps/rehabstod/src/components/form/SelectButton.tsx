@@ -57,8 +57,14 @@ export function SelectButton({
         className="flex items-center justify-between gap-2"
         type="button"
         onClick={(event) => {
-          handleOpenChange(!open)
           event.stopPropagation()
+          handleOpenChange(!open)
+        }}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+          if (event.key === 'Escape') {
+            handleOpenChange(false)
+          }
         }}
         ref={refs.setReference}
       >

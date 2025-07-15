@@ -4,6 +4,7 @@ import '@inera/ids-design/components/header-1177-admin/header-1177-admin-item.cs
 import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav-item.css'
 import '@inera/ids-design/components/header-1177-admin/header-1177-admin-nav.css'
 import '@inera/ids-design/components/header-1177-admin/header-1177-admin.css'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
@@ -17,6 +18,7 @@ export function LayoutHeader() {
   const { data: config } = useGetConfigQuery()
   const name = `${user?.namn}${user && isUserDoctor(user) ? ` - Läkare` : ''}`
   const unit = user?.valdVardenhet?.namn ?? ''
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="z-40 bg-white print:hidden">
@@ -41,7 +43,13 @@ export function LayoutHeader() {
                     <HeaderAvatarMenu name={name} unit={unit} />
 
                     <div className="ids-header-1177-admin__mobile-menu">
-                      <button type="button" aria-label="Meny" className="ids-header-1177-admin__mobile-menu__btn" aria-expanded="true">
+                      <button
+                        type="button"
+                        aria-label="Meny"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="ids-header-1177-admin__mobile-menu__btn"
+                        aria-expanded={mobileMenuOpen ? 'true' : 'false'}
+                      >
                         <div className="ids-hamburger">
                           <div className="ids-hamburger__lines" />
                         </div>
@@ -75,7 +83,7 @@ export function LayoutHeader() {
             </nav>
           )}
         </div>
-        <LayoutMobileMenu name={name} unit={unit} />
+        {mobileMenuOpen && <LayoutMobileMenu name={name} unit={unit} />}
       </header>
     </div>
   )
