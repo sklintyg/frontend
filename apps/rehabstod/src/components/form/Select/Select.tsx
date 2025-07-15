@@ -34,8 +34,14 @@ export const Select = forwardRef<
       srof={srof || 'av'}
       slot={slot}
     >
-      {label && <label htmlFor={id}>{label}</label>}
-      {description && <FormTooltip>{description}</FormTooltip>}
+      <div className="ids-label-tooltip-wrapper">
+        {label && (
+          <label className="ids-label" htmlFor={id}>
+            {label}
+          </label>
+        )}
+        {description && <FormTooltip>{description}</FormTooltip>}
+      </div>
       <select id={id} ref={ref} {...props}>
         {options?.map((option) => (
           <option key={option.label} value={option.value}>

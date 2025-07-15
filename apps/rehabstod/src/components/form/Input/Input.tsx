@@ -21,12 +21,14 @@ export const Input = forwardRef<
   return (
     <IDSInput light={light} invalid={invalid} hasIcon={Boolean(icon)}>
       <div className={classNames(inline && 'flex items-center')}>
-        {label && (
-          <label htmlFor={id} className={classNames(inline && 'mr-1')}>
-            {label}
-          </label>
-        )}
-        {description && <FormTooltip>{description}</FormTooltip>}
+        <div className="ids-label-tooltip-wrapper">
+          {label && (
+            <label htmlFor={id} className={classNames(inline && 'mr-1')}>
+              {label}
+            </label>
+          )}
+          {description && <FormTooltip>{description}</FormTooltip>}
+        </div>
         <input id={id} ref={ref} {...props} />
       </div>
     </IDSInput>
