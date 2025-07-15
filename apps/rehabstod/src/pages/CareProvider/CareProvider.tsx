@@ -86,7 +86,7 @@ export function CareProvider() {
           </p>
         ) : null}
         <div className="mb-2">
-          <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
+          <Checkbox light label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
           <Button mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>

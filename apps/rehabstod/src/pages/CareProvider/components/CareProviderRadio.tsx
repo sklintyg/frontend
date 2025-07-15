@@ -19,7 +19,7 @@ export function CareProviderRadioButton({
   onClick?: MouseEventHandler<HTMLInputElement>
 }) {
   return (
-    <IDSRadio>
+    <IDSRadio light>
       <input type="radio" name="selectedUnit" value={value} id={id} checked={checked} onClick={onClick} onChange={onChange} />
       <InputLabel htmlFor={id} className={classNames(checked && 'font-bold')}>
         {label}
