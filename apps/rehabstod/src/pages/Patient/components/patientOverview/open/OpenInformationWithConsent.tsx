@@ -1,7 +1,7 @@
 import { IDSErrorMessage } from '@inera/ids-react'
 import { useState } from 'react'
 import { Button } from '../../../../../components/Button/Button'
-import { Checkbox } from '../../../../../components/form/Checkbox'
+import { Checkbox } from '../../../../../components/form/Checkbox/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
 import { Radio } from '../../../../../components/form/Radio/Radio'
 import { Heading } from '../../../../../components/Heading/Heading'
@@ -52,7 +52,7 @@ export function OpenInformationWithConsent({
           setCheckedConsent(event.currentTarget.checked)
           setShowError(false)
         }}
-        valid={`${!showError}`}
+        valid={!showError}
         light
       />
       {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
