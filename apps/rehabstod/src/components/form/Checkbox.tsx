@@ -1,7 +1,7 @@
 import { IDSCheckbox } from '@inera/ids-react'
 import type { ChangeEvent } from 'react'
 import { useId, useRef } from 'react'
-import { FormTooltip } from './FormTooltip'
+import { InputLabel } from './InputLabel/InputLabel'
 
 export function Checkbox({
   label,
@@ -28,10 +28,9 @@ export function Checkbox({
   return (
     <IDSCheckbox ref={ref} invalid={!valid} light={light}>
       <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} required={required} />
-      <label htmlFor={id} className="cursor-pointer">
+      <InputLabel htmlFor={id} description={description}>
         {label}
-      </label>
-      {description && <FormTooltip>{description}</FormTooltip>}
+      </InputLabel>
     </IDSCheckbox>
   )
 }

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Button } from '../../../../../components/Button/Button'
 import { Checkbox } from '../../../../../components/form/Checkbox'
 import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
-import { RadioButton } from '../../../../../components/form/RadioButton'
+import { Radio } from '../../../../../components/form/Radio/Radio'
 import { Heading } from '../../../../../components/Heading/Heading'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
@@ -72,14 +72,14 @@ export function OpenInformationWithConsent({
         Vem har samtycke?
       </Heading>
       <div className="flex gap-3">
-        <RadioButton
+        <Radio
           label="Bara jag"
           onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
           value={PatientOverviewConsentChoices.ONLYCURRENT}
           checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
           light
         />
-        <RadioButton
+        <Radio
           label="All behörig personal på vårdenheten"
           onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
           value={PatientOverviewConsentChoices.ALL}

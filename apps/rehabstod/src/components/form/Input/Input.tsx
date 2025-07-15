@@ -3,7 +3,7 @@ import type { ComponentProps, InputHTMLAttributes } from 'react'
 import { forwardRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
 import type { IDSHtmlAttribute } from '../../../utils/IDSHtmlAttributes'
-import { FormTooltip } from '../FormTooltip'
+import { InputLabel } from '../InputLabel/InputLabel'
 
 type InputProps = {
   label: string
@@ -21,14 +21,9 @@ export const Input = forwardRef<
   return (
     <IDSInput light={light} invalid={invalid} hasIcon={Boolean(icon)}>
       <div className={classNames(inline && 'flex items-center')}>
-        <div className="ids-label-tooltip-wrapper">
-          {label && (
-            <label htmlFor={id} className={classNames(inline && 'mr-1')}>
-              {label}
-            </label>
-          )}
-          {description && <FormTooltip>{description}</FormTooltip>}
-        </div>
+        <InputLabel htmlFor={id} description={description}>
+          {label}
+        </InputLabel>
         <input id={id} ref={ref} {...props} />
       </div>
     </IDSInput>

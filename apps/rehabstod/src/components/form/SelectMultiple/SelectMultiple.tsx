@@ -14,7 +14,7 @@ import '@inera/ids-design/components/form/select-multiple/select-multiple.css'
 import { useId, useState, type ReactNode } from 'react'
 import { classNames } from '../../../utils/classNames'
 import { hasNoChildren } from '../../../utils/hasNoChildren'
-import { FormTooltip } from '../FormTooltip'
+import { InputLabel } from '../InputLabel/InputLabel'
 
 export function SelectMultiple({
   children,
@@ -64,12 +64,9 @@ export function SelectMultiple({
 
   return (
     <>
-      <div className="ids-label-tooltip-wrapper">
-        <label htmlFor={id} className="ids-label">
-          {label}
-        </label>
-        {description && <FormTooltip>{description}</FormTooltip>}
-      </div>
+      <InputLabel htmlFor={id} description={description}>
+        {label}
+      </InputLabel>
       <div className="ids-select-multiple-wrapper" ref={refs.setReference}>
         <input
           id={id}
