@@ -37,7 +37,7 @@ export function PatientSickLeaves() {
     <>
       <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user}>
         {!error && (
-          <div className="flex flex-col lg:flex-row lg:justify-end lg:gap-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:justify-end">
             <PatientRekoStatus
               currentSickLeaves={currentSickLeaves}
               earlierSickLeaves={earlierSickLeaves}
