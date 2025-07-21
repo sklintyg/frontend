@@ -1,4 +1,5 @@
 import { IDSFooter1177, IDSLink, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
+import { Icon } from '../../../Icon'
 import { classNames } from '../../../utils'
 
 export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
@@ -7,11 +8,14 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
       headline="1177"
       subHeadline=" - tryggt om din hälsa och vårt"
       cols={2}
+      col1Size="3"
+      col2Size="3"
       col1={[
         <IDSLink key="support">
           <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer">
-            <span className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <Icon icon="arrow-right" textStart />
             Support
+            <Icon icon="external-link" textEnd />
           </a>
         </IDSLink>,
         <IDSLink key="tillgänglighet">
@@ -20,21 +24,23 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <Icon icon="arrow-right" textStart />
             Tillgänglighet
+            <Icon icon="external-link" textEnd />
           </a>
         </IDSLink>,
       ]}
       col2={[
         <IDSLink key="read-more">
           <a href="https://www.1177.se/e-tjanster" target="_blank" rel="noreferrer">
-            <span className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <Icon icon="arrow-right" textStart />
             Läs mer om e-tjänster
+            <Icon icon="external-link" textEnd />
           </a>
         </IDSLink>,
         <IDSLink key="webbkarta" className={classNames(!hasSession && 'hidden')}>
           <a href="https://e-tjanster.1177.se/mvk/sitemap.xhtml">
-            <span className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <Icon icon="arrow-right" textStart />
             Webbkarta
           </a>
         </IDSLink>,
@@ -58,8 +64,8 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           <IDSMobileMenuItem
             link={
               <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer">
-                <span className="ids-icon-arrow-right-small ids-icon--text-start" />
                 Support
+                <Icon icon="external-link" textEnd />
               </a>
             }
           />
@@ -70,16 +76,16 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <span className="ids-icon-arrow-right-small ids-icon--text-start" />
                 Tillgänglighet
+                <Icon icon="external-link" textEnd />
               </a>
             }
           />
           <IDSMobileMenuItem
             link={
               <a href="https://www.1177.se/e-tjanster" target="_blank" rel="noreferrer">
-                <span className="ids-icon-arrow-right-small ids-icon--text-start" />
                 Läs mer om e-tjänster
+                <Icon icon="external-link" textEnd />
               </a>
             }
           />
@@ -87,7 +93,6 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
             className={classNames('ids-mobile-menu-item', !hasSession && 'hidden')}
             link={
               <a href="https://e-tjanster.1177.se/mvk/sitemap.xhtml" className={classNames(!hasSession && 'hidden')}>
-                <span className="ids-icon-arrow-right-small ids-icon--text-start" />
                 Webbkarta
               </a>
             }
@@ -100,7 +105,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           <IDSLink colorPreset={4} small underlined>
             <a href="html-external-link">
               Inera AB
-              <span className="ids-icon-external-link-small ids-icon--text-end" />
+              <Icon icon="external-link" textEnd />
             </a>
           </IDSLink>{' '}
           på uppdrag av Sveriges regioner
@@ -112,7 +117,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           <IDSLink colorPreset={4} small underlined>
             <a href="https://www.inera.se/" target="_blank" rel="noreferrer">
               Inera AB
-              <span className="ids-icon-external-link-small ids-icon--text-end" />
+              <Icon icon="external-link" textEnd />
             </a>
           </IDSLink>{' '}
           på uppdrag av Sveriges regioner
