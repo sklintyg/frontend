@@ -1,5 +1,5 @@
-import { IDSIconCopyFile } from '@inera/ids-react'
 import { useState } from 'react'
+import { Icon } from '../Icon'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip'
 import { classNames } from '../utils'
 
@@ -19,9 +19,9 @@ export function ErrorIdentifier({ id, showTitle = true, centerText = true }: { i
       >
         <Tooltip>
           <TooltipTrigger asChild>
-            <p className="flex justify-center gap-1 align-bottom font-bold">
+            <p>
               {showTitle && <span>Fel-id: </span>} <span className={classNames(showTitle ? 'font-normal' : 'font-bold')}>{id}</span>
-              <IDSIconCopyFile size="s" colorpreset={1} />
+              <Icon icon="copy-file" colorPreset={1} textEnd />
             </p>
           </TooltipTrigger>
           <TooltipContent>Kopiera fel-id</TooltipContent>
