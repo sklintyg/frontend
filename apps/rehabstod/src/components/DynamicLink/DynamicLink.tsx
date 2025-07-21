@@ -8,6 +8,7 @@ export function DynamicLink({ type = 'regular', link }: { link?: Link; type?: Dy
   const styles: Record<DynamicLinkType, string> = {
     regular: 'text-accent-40 decoration-accent-40',
     footer: 'text-neutral-20 decoration-neutral-20',
+    'sub-footer': '',
   }
 
   if (link == null) {
