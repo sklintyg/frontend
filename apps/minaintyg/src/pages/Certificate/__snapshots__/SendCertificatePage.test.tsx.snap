@@ -108,7 +108,6 @@ exports[`Should render error message when unable to load certificate 1`] = `
             value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
           >
             <p
-              class="flex justify-center gap-1 align-bottom font-bold"
               data-state="closed"
             >
               <span>
@@ -120,9 +119,8 @@ exports[`Should render error message when unable to load certificate 1`] = `
               >
                 5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
               </span>
-              <ids-icon-copy-file
-                class="ids-icon"
-                size="s"
+              <span
+                class="ids-icon-copy-file  ids-icon--color-preset-1 ids-icon--text-end"
               />
             </p>
             <p
