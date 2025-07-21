@@ -33,6 +33,6 @@ describe('Without user session', () => {
   it('Should display login button', async () => {
     renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findAllByText('Logga in')).toHaveLength(2)
+    expect(await screen.findByText('Logga in')).toBeInTheDocument()
   })
 })

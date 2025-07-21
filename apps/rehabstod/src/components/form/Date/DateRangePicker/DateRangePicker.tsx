@@ -10,7 +10,7 @@ import { Button } from '../../../Button/Button'
 import { RangeCalendar } from '../../../Calendar/RangeCalendar'
 import { Popover } from '../../../Popover/Popover'
 import { PopoverContent } from '../../../Popover/PopoverContent'
-import { FormTooltip } from '../../FormTooltip'
+import { InputLabel } from '../../InputLabel/InputLabel'
 import { DateField } from '../DateField'
 import { DatePickerButton } from '../DatePickerButton'
 import { useDateFieldFocus } from '../hooks/useDateFieldFocus'
@@ -60,13 +60,9 @@ export function DateRangePicker({
   return (
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className={classNames('inline-flex w-full ', inline ? 'flex-row gap-3' : 'flex-col')}>
-        <div className="ids-label-tooltip-wrapper">
-          <span {...labelProps} className="ids-label">
-            {label}
-          </span>
-          {description && <FormTooltip>{description}</FormTooltip>}
-          {/* {description && <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />} */}
-        </div>
+        <InputLabel {...labelProps} description={description}>
+          {label}
+        </InputLabel>
         <div {...groupProps} ref={ref} className="ids-input ids-input--light flex">
           <div ref={fieldRef} className="inline-flex w-full gap-1 ">
             <DateField

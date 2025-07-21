@@ -1,6 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
-import { PageContainer } from '../../../../components/PageContainer/PageContainer'
 import { TableHeadingForUnit } from '../../../../components/Table/heading/TableHeadingForUnit'
 import { PatientTableError } from '../../../../components/error/ErrorAlert/PatientTableError'
 import { PuResponse } from '../../../../schemas/patientSchema'
@@ -35,10 +34,10 @@ export function PatientSickLeaves() {
   const patientId = firstCertificate ? firstCertificate.patient.id : ''
 
   return (
-    <PageContainer>
+    <>
       <TableHeadingForUnit tableName="Patientens sjukfall" hideUserSpecifics hideDivider user={user}>
         {!error && (
-          <div className="flex flex-col lg:flex-row lg:justify-end lg:gap-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:justify-end">
             <PatientRekoStatus
               currentSickLeaves={currentSickLeaves}
               earlierSickLeaves={earlierSickLeaves}
@@ -71,6 +70,6 @@ export function PatientSickLeaves() {
       {earlierSickLeaves.length > 0 && (
         <PatientSickLeavesTable sickLeaves={earlierSickLeaves} isDoctor={isDoctor} title="Tidigare sjukfall" open={false} />
       )}
-    </PageContainer>
+    </>
   )
 }

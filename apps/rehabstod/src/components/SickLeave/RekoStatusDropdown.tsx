@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react'
 import { useState } from 'react'
 import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'
@@ -26,8 +25,7 @@ export function RekoStatusDropdown({
     return null
   }
 
-  const handleSetRekoStatus = (event: MouseEvent, type: RekoStatusType) => {
-    event.stopPropagation()
+  const handleSetRekoStatus = (type: RekoStatusType) => {
     setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
     updateSavedRekoStatus(type.name)
     setOpen(false)
@@ -38,9 +36,37 @@ export function RekoStatusDropdown({
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button
           key={type.id}
-          onClick={(event) => handleSetRekoStatus(event, type)}
+          onClick={(event) => {
+            event.stopPropagation()
+            handleSetRekoStatus(type)
+          }}
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape') {
+              event.stopPropagation()
+            }
+            if (event.key === 'Enter' || event.key === 'Space') {
+              handleSetRekoStatus(type)
+            }
+            if (event.key === 'ArrowDown') {
+              event.preventDefault()
+              if (event.currentTarget.nextSibling instanceof HTMLElement) {
+                event.currentTarget.nextSibling.focus()
+              } else if (event.currentTarget.parentNode?.firstChild instanceof HTMLElement) {
+                event.currentTarget.parentNode?.firstChild.focus()
+              }
+            }
+
+            if (event.key === 'ArrowUp') {
+              event.preventDefault()
+              if (event.currentTarget.previousSibling instanceof HTMLElement) {
+                event.currentTarget.previousSibling.focus()
+              } else if (event.currentTarget.parentNode?.lastChild instanceof HTMLElement) {
+                event.currentTarget.parentNode?.lastChild.focus()
+              }
+            }
+          }}
           type="button"
-          className="py-1 text-left hover:bg-secondary-95"
+          className="py-1 text-left hover:bg-accent-90"
         >
           <span className="px-2">{type.name}</span>
         </button>

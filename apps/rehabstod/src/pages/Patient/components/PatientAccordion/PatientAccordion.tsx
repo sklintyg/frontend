@@ -11,7 +11,7 @@ export function PatientAccordion({ title, children, open = true }: { title: stri
       <IDSAccordion
         expanded={open}
         headline={
-          <Heading level={4} size="xs">
+          <Heading level={4} size="xs" className="mb-0">
             {title}
           </Heading>
         }
