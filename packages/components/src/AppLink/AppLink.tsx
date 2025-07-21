@@ -21,7 +21,13 @@ export const AppLink = forwardRef<
 >(({ to, target: incommingTarget, block, colorPreset, large, underlined, arrow, external, children, ...props }, ref) => {
   const target = incommingTarget || external ? '_blank' : undefined
   return (
-    <IDSLink underlined={underlined} block={block} colorPreset={colorPreset} large={large}>
+    <IDSLink
+      underlined={underlined}
+      noUnderline={underlined != null ? !underlined : undefined}
+      block={block}
+      colorPreset={colorPreset}
+      large={large}
+    >
       {external || target != null ? (
         <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
           {arrow && <Icon icon="arrow-right-small" textStart />}

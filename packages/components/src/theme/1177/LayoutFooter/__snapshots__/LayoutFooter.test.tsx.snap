@@ -211,7 +211,7 @@ exports[`Should render correctly 1`] = `
                 />
               </div>
               <div
-                class="hidden"
+                class="ids-mobile-menu-item hidden"
               >
                 <div
                   class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"

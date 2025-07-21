@@ -84,7 +84,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
             }
           />
           <IDSMobileMenuItem
-            className={classNames(!hasSession && 'hidden')}
+            className={classNames('ids-mobile-menu-item', !hasSession && 'hidden')}
             link={
               <a href="https://e-tjanster.1177.se/mvk/sitemap.xhtml" className={classNames(!hasSession && 'hidden')}>
                 <span className="ids-icon-arrow-right-small ids-icon--text-start" />
