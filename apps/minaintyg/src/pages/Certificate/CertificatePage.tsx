@@ -57,7 +57,7 @@ export function CertificatePage() {
             <PageDivider />
           </div>
 
-          <IDSCard>
+          <IDSCard hideOnS>
             <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
               <Heading level={2} size="m">
                 {certificate.metadata.type.name}
