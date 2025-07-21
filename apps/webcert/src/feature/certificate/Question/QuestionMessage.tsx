@@ -1,8 +1,7 @@
 import InfoBox from '../../../components/utils/InfoBox'
-import { Text } from '../../../components/utils/Text'
 import type { ConfigMessage } from '../../../types'
 import { MessageLevel } from '../../../types'
-import { sanitizeText } from '../../../utils'
+import TextWithDynamicLinks from '../../../utils/TextWithDynamicLinks'
 
 const messageLevelToInfoBoxLevel = (level: MessageLevel): 'info' | 'error' | 'observe' => {
   switch (level) {
@@ -19,7 +18,7 @@ export function QuestionMessage({ message }: { message: ConfigMessage }) {
   return (
     <div className="iu-mb-200">
       <InfoBox type={messageLevelToInfoBoxLevel(message.level)}>
-        <Text dangerouslySetInnerHTML={sanitizeText(message.content)} />
+        <TextWithDynamicLinks text={message.content} />
       </InfoBox>
     </div>
   )
