@@ -7,7 +7,7 @@ import { CertificateStatusBadge } from '../CertificateStatusBadge'
 export function CertificateCardHeading({ title, id, statuses }: { title: string; id: string; statuses: CertificateStatus[] }) {
   return (
     <div className="mb-2.5 flex flex-col justify-between gap-2.5 md:flex-row">
-      <Heading level={3} size="s">
+      <Heading level={3} size="m">
         <Link to={`/${id}`} className="ids-anchor">
           {title}
         </Link>
