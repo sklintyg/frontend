@@ -71,10 +71,12 @@ export function CertificatePage() {
             <div className="mb-5">
               <CertificateInformation {...certificate.metadata} />
             </div>
-            <Heading level={3} size="xs" className="mb-0">
-              Händelser
-            </Heading>
-            <CertificateEventsInfo events={certificate.metadata.events} />
+            <div className="mb-5">
+              <Heading level={3} size="xs" className="mb-0">
+                Händelser
+              </Heading>
+              <CertificateEventsInfo events={certificate.metadata.events} />
+            </div>
 
             <article className="ids-certificate">
               <CertificateBody content={certificate.content} />

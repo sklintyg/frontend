@@ -71,7 +71,9 @@ exports[`Should render error message when unable to load certificate 1`] = `
         <div
           class="ids-alert__headline"
         >
-          Tekniskt fel
+          <h2>
+            Tekniskt fel
+          </h2>
         </div>
       </div>
     </div>

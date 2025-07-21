@@ -8,7 +8,7 @@ exports[`Should have article content 1`] = `
     class="border-b border-neutral-90"
   >
     <div
-      class="ids-accordion"
+      class="ids-accordion ids-accordion--lean"
     >
       <div
         aria-controls=":r6:"
@@ -95,7 +95,9 @@ exports[`Unable to load certificate > Should render error message 1`] = `
         <div
           class="ids-alert__headline"
         >
-          Tekniskt fel
+          <h2>
+            Tekniskt fel
+          </h2>
         </div>
       </div>
     </div>

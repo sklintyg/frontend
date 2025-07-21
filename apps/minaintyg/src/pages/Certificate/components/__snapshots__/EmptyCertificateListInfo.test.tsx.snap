@@ -19,7 +19,9 @@ exports[`Should display information if total above 0 1`] = `
         <div
           class="ids-alert__headline"
         >
-          Din filtrering gav inga träffar
+          <h2>
+            Din filtrering gav inga träffar
+          </h2>
         </div>
       </div>
     </div>
@@ -53,7 +55,9 @@ exports[`Should display information if total is 0 1`] = `
         <div
           class="ids-alert__headline"
         >
-          Du har inga intyg
+          <h2>
+            Du har inga intyg
+          </h2>
         </div>
       </div>
     </div>

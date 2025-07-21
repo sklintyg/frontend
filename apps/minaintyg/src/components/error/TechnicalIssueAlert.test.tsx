@@ -25,7 +25,9 @@ it('Should render without error id', () => {
           <div
             class="ids-alert__headline"
           >
-            Tekniskt fel
+            <h2>
+              Tekniskt fel
+            </h2>
           </div>
         </div>
       </div>
@@ -69,7 +71,9 @@ it('Should render with error id', () => {
           <div
             class="ids-alert__headline"
           >
-            Tekniskt fel
+            <h2>
+              Tekniskt fel
+            </h2>
           </div>
         </div>
       </div>
