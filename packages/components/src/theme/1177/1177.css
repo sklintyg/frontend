@@ -15,6 +15,10 @@ summary::marker {
   display: none;
 }
 
+.ids-link {
+  font-size: inherit;
+}
+
 .ids-certificate p,
 .ids-certificate ul,
 .ids-certificate table {
