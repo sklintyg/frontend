@@ -14,7 +14,11 @@ export function TableHeaderCell({
   sticky?: 'left' | 'top' | 'right'
   sortable?: boolean
 }) {
-  const { sortOnColumn, ascending } = useTableContext()
+  const { sortOnColumn, ascending, sortColumn } = useTableContext()
+  let ariaSort: 'ascending' | 'descending' | undefined
+  if (sortColumn === column) {
+    ariaSort = ascending ? 'ascending' : 'descending'
+  }
 
   return (
     <Tooltip>
@@ -30,7 +34,7 @@ export function TableHeaderCell({
           tabIndex={sortable ? 0 : undefined}
           role="columnheader"
           scope="col"
-          aria-sort={ascending ? 'ascending' : 'descending'}
+          aria-sort={ariaSort}
           onKeyDown={({ code, currentTarget }) => {
             if (code === 'Enter' || code === 'Space') {
               if (sortable) {

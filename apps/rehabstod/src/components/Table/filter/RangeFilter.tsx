@@ -1,7 +1,6 @@
-import { IDSIconInformation } from '@inera/ids-react'
 import { useId } from 'react'
 import { FormattedNumberInput } from '../../form/FormattedNumberInput'
-import { TooltipIcon } from '../../Tooltip'
+import { InputLabel } from '../../form/InputLabel/InputLabel'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({
@@ -28,10 +27,9 @@ export function RangeFilter({
   return (
     <>
       <div className="print:hidden">
-        <div className="mb-[5px]">
-          <label htmlFor={id}>{title}</label>
-          <TooltipIcon description={description} icon={<IDSIconInformation size="s" className="relative top-1 ml-2" />} />
-        </div>
+        <InputLabel htmlFor={id} description={description}>
+          {title}
+        </InputLabel>
         <div className="flex grow gap-3">
           <FormattedNumberInput
             light
@@ -42,6 +40,8 @@ export function RangeFilter({
             max={to}
             min={min}
             defaultValue={min}
+            aria-label={`${title} från`}
+            aria-labelledby=""
             inline
           />
           <FormattedNumberInput
@@ -52,7 +52,8 @@ export function RangeFilter({
             max={max}
             min={from}
             defaultValue={max}
-            aria-label={id}
+            aria-label={`${title} till`}
+            aria-labelledby=""
             inline
           />
         </div>
