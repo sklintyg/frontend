@@ -52,6 +52,12 @@ exports[`Should render as expected with one level 1`] = `
             <span
               class="ids-breadcrumbs__icon"
             />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="https://e-tjanster.1177.se/mvk/"
+            >
+              Start
+            </a>
           </li>
         </ol>
       </nav>

@@ -25,7 +25,9 @@ it('Should render without error id', () => {
           <div
             class="ids-alert__headline"
           >
-            Tekniskt fel
+            <h2>
+              Tekniskt fel
+            </h2>
           </div>
         </div>
       </div>
@@ -69,7 +71,9 @@ it('Should render with error id', () => {
           <div
             class="ids-alert__headline"
           >
-            Tekniskt fel
+            <h2>
+              Tekniskt fel
+            </h2>
           </div>
         </div>
       </div>
@@ -92,7 +96,6 @@ it('Should render with error id', () => {
               value="some-error-id"
             >
               <p
-                class="flex justify-center gap-1 align-bottom font-bold"
                 data-state="closed"
               >
                 <span>
@@ -104,8 +107,8 @@ it('Should render with error id', () => {
                 >
                   some-error-id
                 </span>
-                <ids-icon-copy-file
-                  class="ids-icon"
+                <span
+                  class="ids-icon-copy-file  ids-icon--color-preset-1 ids-icon--text-end"
                 />
               </p>
               <p

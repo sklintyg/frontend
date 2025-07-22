@@ -15,7 +15,7 @@ export function TechnicalIssueAlert({
   additionalInfo?: ReactNode
 }) {
   return (
-    <IDSAlert headline={headline} role="alert" type="error">
+    <IDSAlert headline={<h2>{headline}</h2>} role="alert" type="error">
       <div className="flex flex-col gap-4">
         {children}
         {error.id && <ErrorIdentifier id={error.id} centerText={false} />}

@@ -22,20 +22,17 @@ export function Breadcrumbs() {
   const prevMatch = matches ? matches[matches.length - 2] : undefined
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
-  if (matches.length === 0) {
-    return null
-  }
-
   const startLink = getNavigationItem('Start')
+  const startLinkComposed = startLink ? (
+    <Link key="start" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
+      Start
+    </Link>
+  ) : undefined
 
   return (
     <div className="mb-5">
-      <IDSBreadcrumbs lead="Du är här:" mobileLink={prevMatchUrl ? <Link to={prevMatchUrl}>{prevMatchNode}</Link> : undefined}>
-        {startLink && (
-          <Link key="start" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
-            Start
-          </Link>
-        )}
+      <IDSBreadcrumbs lead="Du är här:" mobileLink={prevMatchUrl ? <Link to={prevMatchUrl}>{prevMatchNode}</Link> : startLinkComposed}>
+        {startLinkComposed}
         {matches.map(resolveMatch).map(([url, node]) => (
           <Link key={url} to={url}>
             {node}

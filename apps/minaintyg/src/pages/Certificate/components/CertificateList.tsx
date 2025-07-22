@@ -11,7 +11,7 @@ export function CertificateList({ certificates, order = 'descending' }: { certif
     <>
       {groups.map(([year, list]) => (
         <div key={year} className="[&:not(:last-child)]:mb-10" data-testid={`${year}-certificates`}>
-          <Heading level={2} size="m" className="mb-5">
+          <Heading level={2} size="l" className="mb-5">
             {year}
           </Heading>
           {list.map((certificate) => (

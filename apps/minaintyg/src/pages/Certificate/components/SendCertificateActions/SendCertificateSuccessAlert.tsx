@@ -10,7 +10,7 @@ export function SendCertificateSuccessAlert({ recipient }: { recipient: Certific
   }
 
   return (
-    <IDSAlert headline="Intyg skickat" type="success" className="ids-content">
+    <IDSAlert headline={<h2>Intyg skickat</h2>} type="success" className="ids-content">
       <p className="mb-4">Ditt intyg har skickats till följande mottagare:</p>
       <p>
         <strong>

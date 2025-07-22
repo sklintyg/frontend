@@ -57,7 +57,7 @@ export function CertificatePage() {
             <PageDivider />
           </div>
 
-          <IDSCard>
+          <IDSCard hideOnS>
             <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
               <Heading level={2} size="m">
                 {certificate.metadata.type.name}
@@ -71,10 +71,12 @@ export function CertificatePage() {
             <div className="mb-5">
               <CertificateInformation {...certificate.metadata} />
             </div>
-            <Heading level={3} size="xs" className="mb-0">
-              Händelser
-            </Heading>
-            <CertificateEventsInfo events={certificate.metadata.events} />
+            <div className="mb-5">
+              <Heading level={3} size="xs" className="mb-0">
+                Händelser
+              </Heading>
+              <CertificateEventsInfo events={certificate.metadata.events} />
+            </div>
 
             <article className="ids-certificate">
               <CertificateBody content={certificate.content} />

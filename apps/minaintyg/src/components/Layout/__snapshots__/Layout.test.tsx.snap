@@ -216,51 +216,60 @@ exports[`Should render as expected 1`] = `
               </p>
             </div>
             <div
-              class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-2"
+              class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-3"
             >
               <a
-                class="ids-link ids-link--color-2 ids-link--icon ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block"
                 href="https://www.1177.se/e-tjanster-support"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right  ids-icon--text-start"
                 />
                 Support
+                <span
+                  class="ids-icon-external-link  ids-icon--text-end"
+                />
               </a>
               <a
-                class="ids-link ids-link--color-2 ids-link--icon ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block"
                 href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right  ids-icon--text-start"
                 />
                 Tillgänglighet
+                <span
+                  class="ids-icon-external-link  ids-icon--text-end"
+                />
               </a>
             </div>
             <div
-              class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-2"
+              class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-3"
             >
               <a
-                class="ids-link ids-link--color-2 ids-link--icon ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block"
                 href="https://www.1177.se/e-tjanster"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right  ids-icon--text-start"
                 />
                 Läs mer om e-tjänster
+                <span
+                  class="ids-icon-external-link  ids-icon--text-end"
+                />
               </a>
               <a
-                class="ids-link ids-link--color-2 ids-link--icon ids-link--block hidden"
+                class="ids-link ids-link--color-2 ids-link--block hidden"
                 href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
               >
                 <span
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right  ids-icon--text-start"
                 />
                 Webbkarta
               </a>
@@ -284,14 +293,14 @@ exports[`Should render as expected 1`] = `
                 1177 drivs av
                  
                 <a
-                  class="ids-link ids-link--color-4 ids-link--icon ids-link--light ids-link--small ids-link--underlined"
+                  class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                   href="https://www.inera.se/"
                   rel="noreferrer"
                   target="_blank"
                 >
                   Inera AB
                   <span
-                    class="ids-icon-external-link-small ids-icon--text-end"
+                    class="ids-icon-external-link  ids-icon--text-end"
                   />
                 </a>
                  
@@ -335,10 +344,10 @@ exports[`Should render as expected 1`] = `
                       rel="noreferrer"
                       target="_blank"
                     >
-                      <span
-                        class="ids-icon-arrow-right-small ids-icon--text-start"
-                      />
                       Support
+                      <span
+                        class="ids-icon-external-link  ids-icon--text-end"
+                      />
                     </a>
                   </div>
                   <div
@@ -357,10 +366,10 @@ exports[`Should render as expected 1`] = `
                       rel="noreferrer"
                       target="_blank"
                     >
-                      <span
-                        class="ids-icon-arrow-right-small ids-icon--text-start"
-                      />
                       Tillgänglighet
+                      <span
+                        class="ids-icon-external-link  ids-icon--text-end"
+                      />
                     </a>
                   </div>
                   <div
@@ -379,10 +388,10 @@ exports[`Should render as expected 1`] = `
                       rel="noreferrer"
                       target="_blank"
                     >
-                      <span
-                        class="ids-icon-arrow-right-small ids-icon--text-start"
-                      />
                       Läs mer om e-tjänster
+                      <span
+                        class="ids-icon-external-link  ids-icon--text-end"
+                      />
                     </a>
                   </div>
                   <div
@@ -391,7 +400,7 @@ exports[`Should render as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="hidden"
+                  class="ids-mobile-menu-item hidden"
                 >
                   <div
                     class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
@@ -400,9 +409,6 @@ exports[`Should render as expected 1`] = `
                       class="hidden"
                       href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
                     >
-                      <span
-                        class="ids-icon-arrow-right-small ids-icon--text-start"
-                      />
                       Webbkarta
                     </a>
                   </div>
@@ -445,12 +451,12 @@ exports[`Should render as expected 1`] = `
               1177 drivs av
                
               <a
-                class="ids-link ids-link--color-4 ids-link--icon ids-link--light ids-link--small ids-link--underlined"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="html-external-link"
               >
                 Inera AB
                 <span
-                  class="ids-icon-external-link-small ids-icon--text-end"
+                  class="ids-icon-external-link  ids-icon--text-end"
                 />
               </a>
                
