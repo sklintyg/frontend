@@ -14,7 +14,7 @@ export function SelectProfile({
 }) {
   const id = useId()
   return (
-    <IDSSelect label="Login" id={id} size={6} onChange={onChange} value={value} className="h-40 w-full rounded border">
+    <IDSSelect label="Login" id={id} data-testid="login-select-test-id" onChange={onChange} value={value}>
       {persons &&
         persons.map(({ personId, personName }) => (
           <option key={personId} value={personId}>
