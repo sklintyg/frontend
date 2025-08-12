@@ -38,7 +38,7 @@ import type {
   ConfigUeVisualAcuity,
   ConfigUeYear,
 } from '../../types/certificate'
-import { ConfigLayout, ConfigTypes, MessageLevel } from '../../types/certificate'
+import { ConfigLayout, ConfigTypes, IcfCodesPropertyEnum, MessageLevel } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
@@ -175,6 +175,7 @@ const fakeIcf = fakeDataElementConfig<ConfigUeIcf>(() => ({
   placeholder: faker.lorem.sentence(3),
   id: fakeId(),
   label: faker.lorem.sentence(3),
+  icfCodesPropertyName: IcfCodesPropertyEnum.FUNKTIONSNEDSETTNINGAR
 }))
 
 const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvestigationList>((override) => ({
