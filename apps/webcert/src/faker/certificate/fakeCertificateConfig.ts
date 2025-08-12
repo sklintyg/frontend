@@ -175,7 +175,7 @@ const fakeIcf = fakeDataElementConfig<ConfigUeIcf>(() => ({
   placeholder: faker.lorem.sentence(3),
   id: fakeId(),
   label: faker.lorem.sentence(3),
-  icfCodesPropertyName: 'FUNKTIONSNEDSETTNINGAR'
+  icfCodesPropertyName: 'FUNKTIONSNEDSETTNINGAR',
 }))
 
 const fakeMedicalInvestigationList = fakeDataElementConfig<ConfigUeMedicalInvestigationList>((override) => ({

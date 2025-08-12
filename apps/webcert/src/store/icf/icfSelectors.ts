@@ -4,9 +4,9 @@ import { IcfCodesPropertyEnum } from '../../types'
 
 export const getIcfData =
   (icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum) =>
-    (state: RootState): AvailableIcfCodes | undefined => {
-      return state.ui.uiIcf[IcfCodesPropertyEnum[icfCodesPropertyName]]
-    }
+  (state: RootState): AvailableIcfCodes | undefined => {
+    return state.ui.uiIcf[IcfCodesPropertyEnum[icfCodesPropertyName]]
+  }
 
 export const isIcfFunctionDisabled = (state: RootState): boolean => state.ui.uiIcf.functionDisablers.length > 0
 
