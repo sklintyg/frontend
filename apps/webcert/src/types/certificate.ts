@@ -346,7 +346,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   modalLabel: string
   collectionsLabel: string
   placeholder: string
-  icfCodesPropertyName: IcfCodesPropertyEnum
+  icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum
 }
 
 export interface ConfigUeHeader extends CertificateDataConfig {
