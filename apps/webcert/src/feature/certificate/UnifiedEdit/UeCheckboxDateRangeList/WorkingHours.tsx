@@ -47,34 +47,15 @@ export function WorkingHours({
   return (
     <div>
       {!disabled && (
-        <div className="iu-my-200">
-          {/* <DaysRangeWrapper>
-            <AccodrionWrapper>
-              <Accordion>
-                <AccordionHeader>
-                  
-                </AccordionHeader>
-                <Text className="iu-mb-400">
-                  Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka.
-                  Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna
-                  arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då
-                  Försäkringskassan inhämtar information från annat håll.
-                </Text>
-              </Accordion>
-            </AccodrionWrapper>
-          </DaysRangeWrapper> */}
-          <p>
+        <div className="iu-mb-400">
+          <p className="iu-mb-200">
             Antalet timmar per vecka patienten arbetar i snitt <Icon src={questionImage} data-tip={tooltip} alt={tooltip} />
           </p>
-          {/* <WorkingHoursInput
-            onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
-            value={baseWorkHours}
-            hasValidationError={workingHoursError != null}
-          /> */}
           <TextInput
             onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
             value={baseWorkHours}
             limit={3}
+            style={{ width: '120px' }}
             hasValidationError={workingHoursError != null}
             data-testid="workingHours"
             onKeyDown={(event) => {
