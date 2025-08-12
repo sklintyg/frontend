@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import ImageCentered from '../../components/image/image/ImageCentered'
 import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
 import { getListConfig, updateActiveListType, updateListConfig } from '../../store/list/listActions'
@@ -34,10 +33,6 @@ export function ListContainer({
   const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
   const loggedInUnit = useAppSelector(getLoggedInUnit)
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
 
   useEffect(() => {
     if (hasUpdatedConfig) {

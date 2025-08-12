@@ -28,7 +28,8 @@ const Icon = ({ iconType, includeTooltip, size }: Props) => {
         <StyledLightbulpIcon
           className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`}
           size={size}
-          data-tip={includeTooltip ? getIconTooltip(iconType) : ''}
+          data-tooltip-id="tooltip"
+          data-tooltip-content={includeTooltip ? getIconTooltip(iconType) : ''}
         />
       )
     default:

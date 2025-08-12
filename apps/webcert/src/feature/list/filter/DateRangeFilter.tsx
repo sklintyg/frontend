@@ -177,7 +177,10 @@ const DateRangeFilter = ({ config, onChange }: Props) => {
   return (
     <div>
       <Label>
-        {config.title} {config.description && <Icon src={questionImage} data-tip={config.description} alt={config.description} />}
+        {config.title}{' '}
+        {config.description && (
+          <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={config.description} alt={config.description} />
+        )}
       </Label>
       <DateRangeWrapper>
         <FilterWrapper highlighted={!!getFromValue() || config.alwaysHighlighted}>

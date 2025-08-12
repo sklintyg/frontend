@@ -17,7 +17,9 @@ const DynamicLink = ({ link, light }: Props) => {
       {link ? (
         <Wrapper>
           <a target={link.target} href={link.url} className={`ic-link ic-link-external ${light ? 'iu-color-white' : ''}`}>
-            <span data-tip={link.tooltip}>{link.text}</span>
+            <span data-tooltip-id="tooltip" data-tooltip-content={link.tooltip}>
+              {link.text}
+            </span>
             <ExternalLinkIcon className="iu-ml-200 iu-fs-100" light={light} />
           </a>
         </Wrapper>

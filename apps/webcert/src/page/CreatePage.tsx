@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
 import { CertificateList } from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -57,7 +56,6 @@ const CreatePage = () => {
   }, [dispatch, patient])
 
   useEffect(() => {
-    ReactTooltip.hide()
     updatePatientFilter()
     dispatch(performListSearch)
   }, [dispatch, updatePatientFilter])

@@ -31,18 +31,27 @@ const PatientListInfoContent = ({ info }: Props) => {
         {info.protectedPerson && (
           <Icon
             src={lockClosed}
-            data-tip="Patienten har skyddade personuppgifter."
+            data-tooltip-id="tooltip"
+            data-tooltip-content="Patienten har skyddade personuppgifter."
             alt="Symbol för att visa att patienten har skyddade personuppgifter."
           />
         )}
         {info.testIndicated && (
           <Icon
             src={alertImage}
-            data-tip="Patienten är en valideringsperson."
+            data-tooltip-id="tooltip"
+            data-tooltip-content="Patienten är en valideringsperson."
             alt="Symbol för att visa att patienten är en valideringsperson."
           />
         )}
-        {info.deceased && <Icon src={warningImage} data-tip="Patienten är avliden." alt="Symbol för att visa att patienten är avliden." />}
+        {info.deceased && (
+          <Icon
+            src={warningImage}
+            data-tooltip-id="tooltip"
+            data-tooltip-content="Patienten är avliden."
+            alt="Symbol för att visa att patienten är avliden."
+          />
+        )}
       </IconsWrapper>
     </Wrapper>
   )

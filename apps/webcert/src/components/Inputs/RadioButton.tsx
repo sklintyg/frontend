@@ -43,7 +43,7 @@ const RadioButton = ({
   disabled,
 }: Props) => {
   return (
-    <div className={wrapperAdditionalStyles} data-tip={tooltip} data-place={tooltipPlacement}>
+    <div className={wrapperAdditionalStyles} data-tooltip-id="tooltip" data-tooltip-content={tooltip} data-place={tooltipPlacement}>
       <input
         disabled={disabled}
         type="radio"

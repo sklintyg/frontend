@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import PanelHeader from '../../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
@@ -14,6 +12,7 @@ import {
   getPatientId,
   hasLoggedMeasuresDisplayed,
 } from '../../../store/srs/srsSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { SrsEvent, SrsInformationChoice } from '../../../types'
 import Spinner from '../../utils/Spinner'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
@@ -40,15 +39,15 @@ interface Props {
 }
 
 const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
-  const dispatch = useDispatch()
-  const diagnosisListValue = useSelector(getDiagnosisListValue)
-  const patientId = useSelector(getPatientId)
-  const certificateId = useSelector(getCertificateId)
-  const diagnosisCodes = useSelector(getDiagnosisCodes)
-  const hasError = useSelector(getHasError)
-  const isLoading = useSelector(getLoading)
-  const diagnosisCodeForPredictions = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
-  const hasLoggedMeasuresDisplay = useSelector(hasLoggedMeasuresDisplayed)
+  const dispatch = useAppDispatch()
+  const diagnosisListValue = useAppSelector(getDiagnosisListValue)
+  const patientId = useAppSelector(getPatientId)
+  const certificateId = useAppSelector(getCertificateId)
+  const diagnosisCodes = useAppSelector(getDiagnosisCodes)
+  const hasError = useAppSelector(getHasError)
+  const isLoading = useAppSelector(getLoading)
+  const diagnosisCodeForPredictions = useAppSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
+  const hasLoggedMeasuresDisplay = useAppSelector(hasLoggedMeasuresDisplayed)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
@@ -80,7 +79,6 @@ const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   }, [isPanelActive, dispatch, hasLoggedMeasuresDisplay, logMeasuresDisplayed])
 
   useEffect(() => {
-    ReactTooltip.rebuild()
     const currentRef = ref.current
     currentRef?.addEventListener('scroll', handleScroll)
     return () => {

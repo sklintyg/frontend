@@ -127,7 +127,8 @@ export function ListItemContent({
           <td>
             <StyledIcon
               src={checkImage}
-              data-tip={tooltips[CertificateListItemValueType.FORWARD]}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={tooltips[CertificateListItemValueType.FORWARD]}
               alt={tooltips[CertificateListItemValueType.FORWARD]}
             />
           </td>

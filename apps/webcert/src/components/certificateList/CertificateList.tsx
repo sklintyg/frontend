@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import { fileImage } from '../../images'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
@@ -45,10 +44,6 @@ export function CertificateList() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    ReactTooltip.hide()
-  }, [favorites])
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []

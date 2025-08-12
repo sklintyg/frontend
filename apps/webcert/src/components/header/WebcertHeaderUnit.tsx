@@ -92,7 +92,8 @@ const WebcertHeaderUnit = () => {
           {user.loggedInUnit.isInactive && (
             <InactiveUnit
               className="iu-ml-400"
-              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
+              data-tooltip-id="tooltip"
+              data-tooltip-content="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
             >
               <AlertCircle />
               <span className="iu-ml-200">Inaktiv enhet</span>
