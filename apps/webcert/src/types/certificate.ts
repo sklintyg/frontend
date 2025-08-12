@@ -154,7 +154,7 @@ export enum MessageLevel {
 }
 
 export enum IcfCodesPropertyEnum {
-  FUNKTIONSNEDSETTNINGAR = 'disability',
+  FUNKTIONSNEDSATTNINGAR = 'disability',
   AKTIVITETSBEGRANSNINGAR = 'activityLimitation',
 }
 
