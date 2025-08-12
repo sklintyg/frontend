@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { shallowEqual, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
@@ -10,13 +10,12 @@ import { ListContainer } from '../feature/list/ListContainer'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { listImage, noDraftsImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
-import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
+import { getActiveListConfig, getActiveListFilter, getListTotalCount } from '../store/list/listSelectors'
 import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { useAppSelector } from '../store/store'
 import { getUser } from '../store/user/userSelectors'
-import { ListFilterType, ListType, ResourceLinkType } from '../types'
+import { ListType, ResourceLinkType } from '../types'
 import { ResourceAccess } from '../utils/ResourceAccess'
 
 /**
@@ -30,7 +29,6 @@ const CreatePage = () => {
   const filter = useAppSelector(getActiveListFilter, shallowEqual)
   const patient = useAppSelector(getActivePatient)
   const user = useAppSelector(getUser)
-  const patientFilter = useAppSelector(getActiveListFilterValue('PATIENT_ID'))
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -42,31 +40,9 @@ const CreatePage = () => {
     return !patientId || (patientId && patient)
   }
 
-  const updatePatientFilter = useCallback(() => {
-    if (patient) {
-      dispatch(
-        updateActiveListFilterValue({
-          filterValue: {
-            type: ListFilterType.PERSON_ID,
-            value: patient.personId.id,
-          },
-          id: 'PATIENT_ID',
-        })
-      )
-    }
-  }, [dispatch, patient])
-
   useEffect(() => {
     ReactTooltip.hide()
-    updatePatientFilter()
-    dispatch(performListSearch)
-  }, [dispatch, updatePatientFilter])
-
-  useEffect(() => {
-    if (!patientFilter) {
-      updatePatientFilter()
-    }
-  }, [patientFilter, updatePatientFilter])
+  }, [])
 
   useEffect(() => {
     if (patientId) {

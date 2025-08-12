@@ -2,9 +2,10 @@ import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
 import type { ListFilterConfig } from '../../types'
-import { ListType } from '../../types'
+import { ListFilterType, ListType } from '../../types'
 import { apiCallBegan } from '../api/apiActions'
 import { forwardCertificateSuccess } from '../certificate/certificateActions'
+import { getActivePatient } from '../patient/patientSelectors'
 import {
   clearActiveList,
   clearListError,
@@ -59,6 +60,7 @@ import {
   updateTotalCount,
   updateUnhandledCertificatesListConfig,
 } from './listActions'
+import { getIsLoadingList } from './listSelectors'
 
 const handlePerformListSearch: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
@@ -66,8 +68,10 @@ const handlePerformListSearch: Middleware<Dispatch> =
   (): void => {
     const listType = getState().ui.uiList.activeListType
     const listFilter = getState().ui.uiList.activeListFilter
+
     dispatch(setListError(undefined))
-    if (listType === listFilter.type) {
+
+    if (listType === listFilter.type && !getIsLoadingList(getState())) {
       if (listType === ListType.DRAFTS) {
         dispatch(getDrafts(listFilter))
       } else if (listType === ListType.CERTIFICATES) {
@@ -141,14 +145,29 @@ const handleGetCertificateList: Middleware<Dispatch> =
   }
 
 const handleGetPreviousCertificatesList: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI) =>
+  ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
+    const patient = getActivePatient(getState())
+    if (!patient) {
+      throw Error('Missing patient')
+    }
     dispatch(
       apiCallBegan({
         url: '/api/list/previous',
         method: 'POST',
-        data: { filter: action.payload },
+        data: {
+          filter: {
+            ...action.payload,
+            values: {
+              ...action.payload.values,
+              PATIENT_ID: {
+                type: ListFilterType.PERSON_ID,
+                value: patient.personId.id,
+              },
+            },
+          },
+        },
         onStart: getPreviousCertificatesListStarted.type,
         onSuccess: getPreviousCertificatesListSuccess.type,
         onError: getPreviousCertificatesListError.type,
@@ -188,7 +207,6 @@ const handleGetListSuccess =
   () =>
   (action: AnyAction): void => {
     const config = getState().ui.uiList.activeListConfig
-
     if (getState().ui.uiList.activeListType === listType) {
       dispatch(updateActiveList(Object.values(action.payload.list)))
       dispatch(updateTotalCount(action.payload.totalCount))
@@ -196,7 +214,7 @@ const handleGetListSuccess =
       dispatch(updateIsLoadingList(false))
       dispatch(updateIsSortingList(false))
 
-      if (config.shouldUpdateConfigAfterListSearch) {
+      if (config?.shouldUpdateConfigAfterListSearch) {
         dispatch(updateHasUpdatedConfig(true))
       }
     }
@@ -309,6 +327,9 @@ const handleGetListConfigSuccess =
       dispatch(clearListError())
       dispatch(updateIsLoadingListConfig(false))
       dispatch(performListSearch)
+      if (getState().ui.uiList.hasUpdatedConfig === true) {
+        dispatch(updateListConfig())
+      }
     }
   }
 
@@ -340,7 +361,7 @@ const handleUpdateDefaultFilterValues =
   () =>
   (action: AnyAction): void => {
     const filters = action.payload.filters
-    dispatch(updateActiveListFilter({ type: getState().ui.uiList.activeListType }))
+    dispatch(updateActiveListFilter({ type: getState().ui.uiList.activeListType, values: {} }))
     if (filters) {
       filters.forEach((filter: ListFilterConfig) => {
         const defaultValue = getListFilterDefaultValue(filter)
