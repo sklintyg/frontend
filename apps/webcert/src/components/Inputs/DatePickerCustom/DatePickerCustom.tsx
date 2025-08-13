@@ -173,7 +173,7 @@ const DatePickerCustom = ({
             }}
             onBlur={textInputOnBlur}
             onKeyDown={textInputOnKeyDown}
-            placeholder={yearOnly ? 'åååå' : 'åååå-mm-dd'}
+            placeholder={yearOnly ? 'åååå' : 'ÅÅÅÅ-MM-DD'}
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}
