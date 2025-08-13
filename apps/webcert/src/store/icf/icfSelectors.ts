@@ -1,11 +1,10 @@
 import type { RootState } from '../store'
 import type { AvailableIcfCodes } from './icfReducer'
-import { IcfCodesPropertyEnum } from '../../types'
 
 export const getIcfData =
-  (icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum) =>
+  (id: string) =>
   (state: RootState): AvailableIcfCodes | undefined => {
-    return state.ui.uiIcf[IcfCodesPropertyEnum[icfCodesPropertyName]]
+    return id === 'aktivitetsbegransning' ? state.ui.uiIcf.activityLimitation : state.ui.uiIcf.disability
   }
 
 export const isIcfFunctionDisabled = (state: RootState): boolean => state.ui.uiIcf.functionDisablers.length > 0

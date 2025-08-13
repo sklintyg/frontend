@@ -21,7 +21,7 @@ interface Props {
 const UeIcf = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const valueId = (question.value as ValueIcf).id
-  const icfData = useSelector(getIcfData((question.config as ConfigUeIcf).icfCodesPropertyName), isEqual)
+  const icfData = useSelector(getIcfData(valueId), isEqual)
   const previousIcfCodes = usePrevious(getIcfValueList(icfData))
   const questionConfig = question.config as ConfigUeIcf
   const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
