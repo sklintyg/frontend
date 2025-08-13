@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { checkImage } from '../../../images'
@@ -17,10 +15,6 @@ interface Props extends FunctionDisabled {
 
 const ReadyForSignButton = ({ name, title, description, enabled, isValidForSigning, functionDisabled }: Props) => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
 
   const getComponentWhenDraftInvalid = () => (
     <ButtonWithConfirmModal

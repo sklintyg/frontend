@@ -1,7 +1,5 @@
 import type { HTMLProps, MouseEventHandler } from 'react'
-import { forwardRef, useEffect } from 'react'
-import type { Place } from 'react-tooltip'
-import ReactTooltip from 'react-tooltip'
+import { forwardRef } from 'react'
 import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'
 import { NumberCircle } from '../utils/NumberCircle'
@@ -31,7 +29,6 @@ interface Props {
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
   number?: string | number
-  tooltipPlacement?: Place
   buttonClasses?: string
   'data-testid'?: string
   inline?: boolean
@@ -42,10 +39,6 @@ const Button = styled.button<Props>`
   white-space: nowrap;
 `
 export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonElement> & Props>((props, ref) => {
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  }, [props.tooltip])
-
   let addedClass = ''
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
@@ -76,12 +69,16 @@ export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonEl
   }
 
   const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    ReactTooltip.hide()
     props.onClick && props.onClick(e)
   }
 
   return (
-    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+    <Wrapper
+      filter={getIconFilter()}
+      data-tooltip-id="tooltip"
+      data-tooltip-content={props.tooltip}
+      className={`custom-button ${props.className}`}
+    >
       <Button
         aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}

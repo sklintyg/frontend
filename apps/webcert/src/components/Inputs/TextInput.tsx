@@ -21,7 +21,8 @@ const TextInput = React.forwardRef<HTMLInputElement, Props>(
     <div>
       {label && (
         <>
-          <label htmlFor={id}>{label}</label> {tooltip && <Icon src={questionImage} data-tip={tooltip} alt={tooltip} />}
+          <label htmlFor={id}>{label}</label>{' '}
+          {tooltip && <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={tooltip} alt={tooltip} />}
         </>
       )}
       <input

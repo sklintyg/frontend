@@ -116,7 +116,13 @@ export function CertificateListRow({
       )}
       <Row data-testid={`certificate-list-row-${id}`} className="iu-flex iu-flex-column iu-p-400">
         <div className="iu-flex iu-flex-center">
-          <Star className="iu-mr-1rem" onClick={onPreferenceClick} data-tip={favoriteText} aria-label={favoriteText}>
+          <Star
+            className="iu-mr-1rem"
+            onClick={onPreferenceClick}
+            data-tooltip-id="tooltip"
+            data-tooltip-content={favoriteText}
+            aria-label={favoriteText}
+          >
             {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
           </Star>
           <CertificateName>

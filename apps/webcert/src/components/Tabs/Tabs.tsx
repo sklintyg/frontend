@@ -92,7 +92,8 @@ export function Tabs({
                 tabIndex={tabFocus === i ? 0 : -1}
                 onClick={() => setSelectedTabIndex(i)}
                 className="ic-tabbed__tab"
-                data-tip={description}
+                data-tooltip-id="tooltip"
+                data-tooltip-content={description}
                 onFocus={() => setTabFocus(i)}
               >
                 {icon && iconLinkType.includes(icon) && <LightbulpIcon className="iu-mr-200" />}

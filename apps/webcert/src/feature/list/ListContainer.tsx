@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import ImageCentered from '../../components/image/image/ImageCentered'
 import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
 import { getListConfig, updateActiveListType } from '../../store/list/listActions'
@@ -38,10 +37,6 @@ export function ListContainer({
   const loggedInUnit = useAppSelector(getLoggedInUnit)
   const listType = useAppSelector(getActiveListType)
   const patient = useAppSelector(getActivePatient)
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
 
   useEffect(() => {
     if (listType !== type) {

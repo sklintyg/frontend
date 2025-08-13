@@ -9,7 +9,6 @@ import {
   getListTotalCount,
 } from '../store/list/listSelectors'
 
-import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import ListHeader from '../components/List/ListHeader'
@@ -29,11 +28,7 @@ export function SignedCertificatesPage() {
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
   useEffect(() => {
-    ReactTooltip.rebuild()
     dispatch(resetCertificateState())
-  })
-
-  useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
   })
 
