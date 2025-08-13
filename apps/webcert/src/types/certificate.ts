@@ -153,6 +153,11 @@ export enum MessageLevel {
   ERROR = 'ERROR',
 }
 
+export enum IcfCodesPropertyEnum {
+  FUNKTIONSNEDSATTNINGAR = 'disability',
+  AKTIVITETSBEGRANSNINGAR = 'activityLimitation',
+}
+
 export interface ConfigMessage {
   level: MessageLevel
   content: string
@@ -341,6 +346,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   modalLabel: string
   collectionsLabel: string
   placeholder: string
+  icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum
 }
 
 export interface ConfigUeHeader extends CertificateDataConfig {
