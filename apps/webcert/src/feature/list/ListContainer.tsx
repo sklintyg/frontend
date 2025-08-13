@@ -2,14 +2,16 @@ import { useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
 import ImageCentered from '../../components/image/image/ImageCentered'
 import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
-import { getListConfig, updateActiveListType, updateListConfig } from '../../store/list/listActions'
+import { getListConfig, updateActiveListType } from '../../store/list/listActions'
 import {
   getActiveList,
   getActiveListConfig,
   getActiveListFilter,
+  getActiveListType,
   getHasUpdatedConfig,
   getIsLoadingListConfig,
 } from '../../store/list/listSelectors'
+import { getActivePatient } from '../../store/patient/patientSelectors'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { getLoggedInUnit } from '../../store/user/userSelectors'
 import type { ListType } from '../../types'
@@ -33,19 +35,20 @@ export function ListContainer({
   const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
   const loggedInUnit = useAppSelector(getLoggedInUnit)
+  const listType = useAppSelector(getActiveListType)
+  const patient = useAppSelector(getActivePatient)
 
   useEffect(() => {
-    if (hasUpdatedConfig) {
-      dispatch(updateListConfig())
+    if (listType !== type) {
+      dispatch(updateActiveListType(type))
     }
-  }, [dispatch, hasUpdatedConfig])
+  }, [dispatch, listType, type])
 
   useEffect(() => {
-    dispatch(updateActiveListType(type))
-    if (loggedInUnit?.unitId) {
+    if (listType === type && loggedInUnit?.unitId && config == null) {
       dispatch(getListConfig())
     }
-  }, [dispatch, type, loggedInUnit])
+  }, [dispatch, type, loggedInUnit, isLoadingListConfig, config, listType, patient])
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))

@@ -1,6 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { fakePatient } from '../../faker'
 import { fakeCertificateListItem } from '../../faker/certificate/fakeCertificateListItem'
 import { fakeListConfig } from '../../faker/list/fakeListConfig'
 import { fakeListFilter } from '../../faker/list/fakeListFilter'
@@ -10,6 +11,7 @@ import { ListType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { setPatient } from '../patient/patientActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import type { ListResponse } from './listActions'
 import {
@@ -51,6 +53,8 @@ describe('Test list middleware', () => {
         })
       )
     )
+
+    testStore.dispatch(setPatient(fakePatient()))
   })
 
   afterEach(() => {
