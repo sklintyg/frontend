@@ -319,7 +319,7 @@ describe('UeCheckboxDateRangeList', () => {
       }
 
       renderDefaultComponent(question)
-      expect(screen.getByText(/ange hur många timmar patienten/i)).toBeInTheDocument()
+      expect(screen.getByText(/Antalet timmar per vecka patienten arbetar i snitt/i)).toBeInTheDocument()
     })
 
     it('Should hide sick leave working hours', () => {
@@ -331,7 +331,7 @@ describe('UeCheckboxDateRangeList', () => {
       }
 
       renderDefaultComponent(question)
-      expect(screen.queryByText(/ange hur många timmar patienten/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Antalet timmar per vecka patienten arbetar i snitt/i)).not.toBeInTheDocument()
     })
   })
   describe('Display label', () => {
