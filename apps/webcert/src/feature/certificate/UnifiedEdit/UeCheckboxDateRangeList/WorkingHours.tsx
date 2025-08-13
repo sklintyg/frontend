@@ -49,7 +49,8 @@ export function WorkingHours({
       {!disabled && (
         <div className="iu-mb-400">
           <p className="iu-mb-200">
-            Antalet timmar per vecka patienten arbetar i snitt <Icon src={questionImage} data-tip={tooltip} alt={tooltip} />
+            Antalet timmar per vecka patienten arbetar i snitt{' '}
+            <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={tooltip} alt={tooltip} />
           </p>
           <TextInput
             onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
