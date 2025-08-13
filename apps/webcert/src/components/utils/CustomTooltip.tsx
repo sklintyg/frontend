@@ -20,6 +20,7 @@ const CustomTooltip = ({ placement }: Props) => {
       id="tooltip"
       role="tooltip"
       variant="light"
+      opacity={1}
       place={placement ? placement : 'bottom'}
       className="ic-popover iu-fw-body ic-text"
     />
