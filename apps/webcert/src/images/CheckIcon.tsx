@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CheckIcon = ({ className, tooltip }: Props) => {
-  return <Logo src={check} alt="Check" data-tip={tooltip} className={className} />
+  return <Logo src={check} alt="Check" data-tooltip-id="tooltip" data-tooltip-content={tooltip} className={className} />
 }
 
 export default CheckIcon

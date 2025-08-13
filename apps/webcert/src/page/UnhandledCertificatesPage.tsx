@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import ListHeader from '../components/List/ListHeader'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -23,11 +22,7 @@ export function UnhandledCertificatesPage() {
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
   useEffect(() => {
-    ReactTooltip.rebuild()
     dispatch(resetCertificateState())
-  })
-
-  useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
   })
 

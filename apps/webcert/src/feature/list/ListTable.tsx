@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import DisplayError from '../../components/error/DisplayError'
 import InfoBox from '../../components/utils/InfoBox'
@@ -72,10 +70,6 @@ export function ListTable({
   const dispatch = useAppDispatch()
   const listError = useAppSelector(getListError)
 
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
-
   if (listError) {
     return (
       <InfoBox type="error">
@@ -123,7 +117,8 @@ export function ListTable({
               scope="col"
               onClick={updateSortingOfList}
               data-html
-              data-tip={heading.description}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={heading.description}
             >
               <span className="iu-mr-500">{heading.title}</span>
               {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}

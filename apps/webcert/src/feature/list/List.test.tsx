@@ -45,39 +45,39 @@ describe('List', () => {
   })
 
   it('should display title', () => {
-    renderComponent([], { type: ListType.UNKOWN }, 10)
+    renderComponent([], { type: ListType.UNKOWN, values: {} }, 10)
     expect(screen.getByText('TITLE')).toBeInTheDocument()
   })
 
   it('should no results if filter results in empty list', () => {
-    renderComponent([], { type: ListType.UNKOWN }, 10)
+    renderComponent([], { type: ListType.UNKOWN, values: {} }, 10)
     expect(screen.getByText('Inga resultat att visa.')).toBeInTheDocument()
   })
 
   it('should show reset button', () => {
-    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN })
+    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN, values: {} })
     expect(screen.getByText('Återställ sökfilter', { exact: false })).toBeInTheDocument()
   })
 
   it('should show search button', () => {
-    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN })
+    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN, values: {} })
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
   it('should not display pagination if filtered list is empty', () => {
-    renderComponent([], { type: ListType.UNKOWN }, 0)
+    renderComponent([], { type: ListType.UNKOWN, values: {} }, 0)
     expect(screen.queryByText('Föregående', { exact: false })).not.toBeInTheDocument()
     expect(screen.queryByText('Visa antal träffar', { exact: false })).not.toBeInTheDocument()
   })
 
   it('should not display pagination if list is loading', () => {
-    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN }, 1, true)
+    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN, values: {} }, 1, true)
     expect(screen.queryByText('Föregående', { exact: false })).not.toBeInTheDocument()
     expect(screen.queryByText('Visa antal träffar', { exact: false })).not.toBeInTheDocument()
   })
 
   it('should display pagination if list is done loading', () => {
-    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN }, 20)
+    renderComponent([fakeCertificateListItem()], { type: ListType.UNKOWN, values: {} }, 20)
     expect(screen.getByText('Föregående', { exact: false })).toBeInTheDocument()
   })
 })

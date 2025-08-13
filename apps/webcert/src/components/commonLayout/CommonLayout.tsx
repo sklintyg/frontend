@@ -40,13 +40,13 @@ const CommonLayout = ({ header, subHeader, children, hasSidePanel = false, noPad
   return (
     <DatePickerBoundryContext.Provider value={boundryRef}>
       <Root>
-        <CustomTooltip placement="top" />
         {header && <NoFlexGrow>{header}</NoFlexGrow>}
         {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
         <Content ref={contentRef} className={classnames({ 'ic-container': hasSidePanel, 'popper-boundry': true })}>
           <CertificateDeletedModal />
           {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500 iu-pb-500'}`}>{children}</div>}
         </Content>
+        <CustomTooltip placement="top" />
       </Root>
     </DatePickerBoundryContext.Provider>
   )
