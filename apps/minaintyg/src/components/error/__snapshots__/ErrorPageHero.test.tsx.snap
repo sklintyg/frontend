@@ -36,16 +36,12 @@ exports[`Should render logged-out type error 1`] = `
           <a
             class="ids-link"
             href="/"
-            rel="noreferrer"
-            target="_blank"
+            target="self"
           >
             <span
               class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till inloggning
-            <span
-              class="ids-icon-external-link-small  ids-icon--text-end"
-            />
           </a>
           <a
             class="ids-link"

@@ -219,13 +219,13 @@ exports[`Should render as expected 1`] = `
               class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-3"
             >
               <a
-                class="ids-link ids-link--color-2 ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block ids-link--no-underline"
                 href="https://www.1177.se/e-tjanster-support"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small  ids-icon--text-start"
                 />
                 Support
                 <span
@@ -233,15 +233,15 @@ exports[`Should render as expected 1`] = `
                 />
               </a>
               <a
-                class="ids-link ids-link--color-2 ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block ids-link--no-underline"
                 href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small  ids-icon--text-start"
                 />
-                Tillgänglighet
+                Läs mer om e-tjänster
                 <span
                   class="ids-icon-external-link  ids-icon--text-end"
                 />
@@ -251,27 +251,18 @@ exports[`Should render as expected 1`] = `
               class="ids-footer-1177__link-col ids-footer-1177__link-col--2 ids-footer-1177__col-size-3"
             >
               <a
-                class="ids-link ids-link--color-2 ids-link--block"
+                class="ids-link ids-link--color-2 ids-link--block ids-link--no-underline"
                 href="https://www.1177.se/e-tjanster"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small  ids-icon--text-start"
                 />
                 Läs mer om e-tjänster
                 <span
                   class="ids-icon-external-link  ids-icon--text-end"
                 />
-              </a>
-              <a
-                class="ids-link ids-link--color-2 ids-link--block hidden"
-                href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
-              >
-                <span
-                  class="ids-icon-arrow-right  ids-icon--text-start"
-                />
-                Webbkarta
               </a>
             </div>
           </div>
@@ -293,14 +284,14 @@ exports[`Should render as expected 1`] = `
                 1177 drivs av
                  
                 <a
-                  class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
+                  class="ids-link ids-link--color-4 ids-link--light ids-link--small"
                   href="https://www.inera.se/"
                   rel="noreferrer"
                   target="_blank"
                 >
                   Inera AB
                   <span
-                    class="ids-icon-external-link  ids-icon--text-end"
+                    class="ids-icon-external-link-small  ids-icon--text-end"
                   />
                 </a>
                  
@@ -317,6 +308,9 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 Behandling av personuppgifter
+                <span
+                  class="ids-icon-external-link-small  ids-icon--text-end"
+                />
               </a>
               <a
                 class="ids-link ids-link--color-4 ids-link--light ids-link--small"
@@ -325,6 +319,9 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 Hantering av kakor
+                <span
+                  class="ids-icon-external-link-small  ids-icon--text-end"
+                />
               </a>
             </div>
             <div
@@ -429,6 +426,9 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 Behandling av personuppgifter
+                <span
+                  class="ids-icon-external-link-small  ids-icon--text-end"
+                />
               </a>
               <a
                 class="ids-link ids-link--color-4 ids-link--light ids-link--small"
@@ -437,6 +437,9 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 Hantering av kakor
+                <span
+                  class="ids-icon-external-link-small  ids-icon--text-end"
+                />
               </a>
             </div>
           </div>
@@ -451,12 +454,14 @@ exports[`Should render as expected 1`] = `
               1177 drivs av
                
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
-                href="html-external-link"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                href="https://www.inera.se/"
+                rel="noreferrer"
+                target="_blank"
               >
                 Inera AB
                 <span
-                  class="ids-icon-external-link  ids-icon--text-end"
+                  class="ids-icon-external-link-small  ids-icon--text-end"
                 />
               </a>
                
