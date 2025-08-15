@@ -14,7 +14,7 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
 
   return (
     <PrintCertificateContextProvider value={state}>
-      <IDSButtonGroup justify="end">
+      <IDSButtonGroup justify="end" break="s">
         {(printFunction || customizePrintFunction) && !isMobileApp() && (
           <>
             <SaveCertificateAction />
