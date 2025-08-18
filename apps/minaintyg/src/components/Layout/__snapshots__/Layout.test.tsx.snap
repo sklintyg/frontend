@@ -284,7 +284,7 @@ exports[`Should render as expected 1`] = `
                 1177 drivs av
                  
                 <a
-                  class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                  class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                   href="https://www.inera.se/"
                   rel="noreferrer"
                   target="_blank"
@@ -302,7 +302,7 @@ exports[`Should render as expected 1`] = `
               class="ids-footer-1177__sub-footer-right"
             >
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -313,7 +313,7 @@ exports[`Should render as expected 1`] = `
                 />
               </a>
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -396,31 +396,13 @@ exports[`Should render as expected 1`] = `
                     id=":r2:"
                   />
                 </div>
-                <div
-                  class="ids-mobile-menu-item hidden"
-                >
-                  <div
-                    class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
-                  >
-                    <a
-                      class="hidden"
-                      href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
-                    >
-                      Webbkarta
-                    </a>
-                  </div>
-                  <div
-                    class="ids-mobile-menu-item__sub-items"
-                    id=":r3:"
-                  />
-                </div>
               </div>
             </div>
             <div
               class="ids-footer-1177__mobile-links"
             >
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -431,7 +413,7 @@ exports[`Should render as expected 1`] = `
                 />
               </a>
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -454,7 +436,7 @@ exports[`Should render as expected 1`] = `
               1177 drivs av
                
               <a
-                class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+                class="ids-link ids-link--color-4 ids-link--light ids-link--small ids-link--underlined"
                 href="https://www.inera.se/"
                 rel="noreferrer"
                 target="_blank"

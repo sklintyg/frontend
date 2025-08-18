@@ -29,7 +29,7 @@ export const AppLink = forwardRef<
       block,
       colorPreset,
       large,
-      underlined,
+      underlined = false,
       arrow,
       external,
       small,
