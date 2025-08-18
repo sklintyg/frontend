@@ -34,21 +34,17 @@ exports[`Should render logged-out type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="/"
-            rel="noreferrer"
-            target="_blank"
+            target="self"
           >
             <span
               class="ids-icon-arrow-right-small  ids-icon--text-start"
             />
             Till inloggning
-            <span
-              class="ids-icon-external-link-small  ids-icon--text-end"
-            />
           </a>
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://www.1177.se"
             rel="noreferrer"
             target="_blank"
@@ -102,7 +98,7 @@ exports[`Should render login-failed type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
@@ -151,7 +147,7 @@ exports[`Should render not-found type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
@@ -229,7 +225,7 @@ exports[`Should render underage type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
@@ -238,7 +234,7 @@ exports[`Should render underage type error 1`] = `
             Till startsidan
           </a>
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
             rel="noreferrer"
             target="_blank"
@@ -292,7 +288,7 @@ exports[`Should render unknown type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span

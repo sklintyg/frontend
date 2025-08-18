@@ -84,7 +84,7 @@ summary::marker {
 }
 
 .ids table.ids-table tbody tr:last-child th ~ td {
-  border-bottom: 0;
+  border-bottom: 1;
 }
 
 .ids .ids-table thead td {
@@ -92,10 +92,7 @@ summary::marker {
   border-top: none;
 }
 
-.ids table.ids-table thead td:last-child {
-  border-radius: 0 10px 0 0;
-}
-
-.ids table.ids-table thead td:first-child {
-  border-radius: 10px 0 0 0;
+.ids table.ids-table tbody tr:last-child th {
+  border-bottom: var(--IDS-TABLE__CELL-BORDER);
+  border-radius: 0;
 }

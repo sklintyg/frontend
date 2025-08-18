@@ -17,31 +17,54 @@ export const AppLink = forwardRef<
     block?: boolean
     colorPreset?: ColorPreset
     large?: boolean
+    small?: boolean
+    largeIcon?: boolean
+    largeArrow?: boolean
   } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
->(({ to, target: incommingTarget, block, colorPreset, large, underlined, arrow, external, children, ...props }, ref) => {
-  const target = incommingTarget || external ? '_blank' : undefined
-  return (
-    <IDSLink
-      underlined={underlined}
-      noUnderline={underlined != null ? !underlined : undefined}
-      block={block}
-      colorPreset={colorPreset}
-      large={large}
-    >
-      {external || target != null ? (
-        <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
-          {arrow && <Icon icon="arrow-right-small" textStart />}
-          {children}
-          <Icon icon="external-link-small" textEnd />
-        </a>
-      ) : (
-        <Link ref={ref} to={to}>
-          {arrow && <Icon icon="arrow-right-small" textStart />}
-          {children}
-        </Link>
-      )}
-    </IDSLink>
-  )
-})
+>(
+  (
+    {
+      to,
+      target: incommingTarget,
+      block,
+      colorPreset,
+      large,
+      underlined = false,
+      arrow,
+      external,
+      small,
+      largeIcon = false,
+      largeArrow = false,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const target = incommingTarget || (external ? '_blank' : undefined)
+    return (
+      <IDSLink
+        underlined={underlined}
+        noUnderline={underlined != null ? !underlined : undefined}
+        block={block}
+        colorPreset={colorPreset}
+        large={large}
+        small={small}
+      >
+        {external || target != null ? (
+          <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
+            {arrow && <Icon icon="arrow-right-small" textStart />}
+            {children}
+            {target !== 'self' && <Icon icon={largeIcon ? 'external-link' : 'external-link-small'} textEnd />}
+          </a>
+        ) : (
+          <Link ref={ref} to={to}>
+            {arrow && <Icon icon={largeArrow ? 'arrow-right' : 'arrow-right-small'} textStart />}
+            {children}
+          </Link>
+        )}
+      </IDSLink>
+    )
+  }
+)
 
 AppLink.displayName = 'Heading'

@@ -19,7 +19,7 @@ const options = {
         const [tag, level] = match
         return createElement(
           tag,
-          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10) + 1, headingMap.length - 1)]}` },
+          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10) + 1, headingMap.length - 1)]} mb-4` },
           domToReact(children, options)
         )
       }
@@ -44,7 +44,7 @@ const options = {
 
       if (name === 'a' && props.href) {
         return (
-          <AppLink to={props.href} external={props.target === '_blank'}>
+          <AppLink to={props.href} underlined external={props.target === '_blank'}>
             {domToReact(children, options)}
           </AppLink>
         )
