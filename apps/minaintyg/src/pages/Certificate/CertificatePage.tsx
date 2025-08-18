@@ -78,7 +78,7 @@ export function CertificatePage() {
               <CertificateEventsInfo events={certificate.metadata.events} />
             </div>
 
-            <article className="ids-certificate">
+            <article className="ids-certificate pt-3">
               <CertificateBody content={certificate.content} />
               <CertificateFooter {...certificate.metadata} />
             </article>
