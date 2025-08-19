@@ -20,8 +20,9 @@ export function DateFieldSegment({ segment, state }: { segment: DateSegment; sta
       {segment.isPlaceholder ? (
         <span
           aria-hidden="true"
+          style={{ color: 'var(--IDS-FORM-PLACEHOLDER__COLOR)' }}
           className={classNames(
-            'block w-full text-center italic pointer-events-none',
+            'block w-full text-center pointer-events-none',
             segment.isPlaceholder ? 'visible' : 'hidden',
             segment.isPlaceholder && 'h-0'
           )}
