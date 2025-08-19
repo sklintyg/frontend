@@ -11,7 +11,7 @@ import { AboutDialog } from '../dialog/AboutDialog'
 import { DialogPortalProvider } from '../dialog/DialogPortalProvider'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
-import { LayoutFooter } from './LayoutFooter'
+import { LayoutFooter } from './LayoutFooter/LayoutFooter'
 import { LayoutHeader } from './LayoutHeader/LayoutHeader'
 
 export function Layout() {

@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage/session'
 import { api } from './api'
 import { hsaApi } from './hsaApi'
+import { cookieDialogReducer, cookieDialogReducerPath } from './slices/cookieDialog.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificatesFilter.slice'
 import { luTableColumnsReducerPath, luTableColumnsSlice } from './slices/luTableColumns.slice'
 import { luUnitTableColumnsReducerPath, luUnitTableColumnsSlice } from './slices/luUnitTableColumns.slice'
@@ -34,6 +35,7 @@ export const reducer = combineReducers({
   [patientTableColumnsReducerPath]: patientTableColumnsSlice.reducer,
   [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsSlice.reducer,
   [settingsReducerPath]: settingsReducer,
+  [cookieDialogReducerPath]: cookieDialogReducer,
 })
 
 export type RootState = ReturnType<typeof reducer>
