@@ -24,7 +24,7 @@ export function ErrorAlert({
     <IDSAlert type={errorType} headline={heading}>
       <div className="mb-5">
         <p slot="link-col-1">
-          {text} {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}
+          {text} {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}
         </p>
       </div>
       {error && error.id && <ErrorIdentifier id={error.id} />}

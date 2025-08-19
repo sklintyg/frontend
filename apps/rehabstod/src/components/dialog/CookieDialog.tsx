@@ -1,19 +1,18 @@
-import { useState } from 'react'
 import { useGetLinksQuery } from '../../store/api'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
 import { Heading } from '../Heading/Heading'
 import { Dialog } from './Dialog'
 
-export function CookieDialog() {
+export function CookieDialog({ open, onOpenChange }: { open: boolean; onOpenChange?: (open: boolean) => void }) {
   const { data: links } = useGetLinksQuery()
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
 
   return (
     <>
-      <button className="text-accent-40 underline decoration-accent-40 lg:text-sm" onClick={() => setOpen(true)} type="button">
+      {/* <button className="text-accent-40 underline decoration-accent-40 lg:text-sm" onClick={() => setOpen(true)} type="button">
         Hantering av kakor
-      </button>
-      <Dialog dismissible headline="Om kakor (cookies)" open={open} onOpenChange={setOpen}>
+      </button> */}
+      <Dialog dismissible headline="Om kakor (cookies)" open={open} onOpenChange={onOpenChange}>
         <div className="ids-content text-base">
           <p className="ids-body">
             Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du

@@ -1,7 +1,7 @@
-import { IDSContainer, IDSIconChevron, IDSLink } from '@inera/ids-react'
-import { Link } from 'react-router-dom'
+import { IDSContainer } from '@inera/ids-react'
 import { Heading } from '../../components/Heading/Heading'
 import { PageHero } from '../../components/PageHero/PageHero'
+import { StartPageLink } from '../../components/PageHero/StartPageLink'
 
 export function NoMatch() {
   return (
@@ -12,12 +12,7 @@ export function NoMatch() {
         </Heading>
         <p className="ids-preamble">Sidan du söker har fått en ny adress eller är borttagen.</p>
         <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
-        <div className="text-center">
-          <IDSLink>
-            <IDSIconChevron />
-            <Link to="/">Till startsidan</Link>
-          </IDSLink>
-        </div>
+        <StartPageLink />
       </PageHero>
     </IDSContainer>
   )

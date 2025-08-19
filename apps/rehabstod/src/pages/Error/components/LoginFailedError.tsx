@@ -15,7 +15,7 @@ export function LoginFailedError() {
       </Heading>
       <p className="ids-preamble">
         Gå tillbaka till startsidan och försök igen. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
-        <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
+        <DynamicLink link={links?.ineraNationellKundservice} />
       </p>
     </>
   )
