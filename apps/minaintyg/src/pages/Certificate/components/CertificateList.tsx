@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import type { SortDirection } from 'react-stately'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'
 import { useGroupCertificateByYear } from '../hooks/useGroupCertificateByYear'
@@ -10,7 +11,9 @@ export function CertificateList({ certificates, order = 'descending' }: { certif
     <>
       {groups.map(([year, list]) => (
         <div key={year} className="[&:not(:last-child)]:mb-10" data-testid={`${year}-certificates`}>
-          <h2 className="ids-heading-2 mb-5">{year}</h2>
+          <Heading level={2} size="l" className="mb-5">
+            {year}
+          </Heading>
           {list.map((certificate) => (
             <CertificateCard key={certificate.id} {...certificate} />
           ))}

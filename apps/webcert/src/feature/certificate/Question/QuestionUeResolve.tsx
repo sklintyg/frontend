@@ -44,7 +44,7 @@ function isQuestionTypes<C extends ConfigTypes, V extends CertificateDataValueTy
 
 export function QuestionUeResolve({ question, disabled }: { question: CertificateDataElement; disabled: boolean }) {
   const dispatch = useAppDispatch()
-  const commonProps = { key: question.id, disabled, question }
+  const commonProps = { disabled, question }
 
   const questionToUeProps = useCallback(
     <C extends CertificateDataConfigType, V extends ValueType>(config: C, value: V): UnifiedEdit<C, V> & { key: string } => ({
@@ -59,58 +59,58 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
   )
 
   if (isQuestionTypes(ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, CertificateDataValueType.DATE_RANGE_LIST, question)) {
-    return <UeCheckboxDateRangeList {...questionToUeProps(question.config, question.value)} />
+    return <UeCheckboxDateRangeList {...questionToUeProps(question.config, question.value)} key={question.id} />
   }
 
   switch (question.config.type) {
     case ConfigTypes.UE_RADIO_BOOLEAN:
-      return <UeRadio {...commonProps} />
+      return <UeRadio {...commonProps} key={question.id} />
     case ConfigTypes.UE_ICF:
-      return <UeIcf {...commonProps} />
+      return <UeIcf {...commonProps} key={question.id} />
     case ConfigTypes.UE_TEXTAREA:
-      return <UeTextArea {...commonProps} />
+      return <UeTextArea {...commonProps} key={question.id} />
     case ConfigTypes.UE_CHECKBOX_BOOLEAN:
-      return <UeCheckbox {...commonProps} />
+      return <UeCheckbox {...commonProps} key={question.id} />
     case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:
-      return <UeCheckboxGroup {...commonProps} />
+      return <UeCheckboxGroup {...commonProps} key={question.id} />
     case ConfigTypes.UE_DROPDOWN:
-      return <UeDropdown {...commonProps} />
+      return <UeDropdown {...commonProps} key={question.id} />
     case ConfigTypes.UE_RADIO_MULTIPLE_CODE:
-      return <UeRadioGroup {...commonProps} />
+      return <UeRadioGroup {...commonProps} key={question.id} />
     case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
-      return <UeCheckboxDateGroup {...commonProps} />
+      return <UeCheckboxDateGroup {...commonProps} key={question.id} />
     case ConfigTypes.UE_DIAGNOSES:
-      return <UeDiagnoses {...commonProps} />
+      return <UeDiagnoses {...commonProps} key={question.id} />
     case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
-      return <UeRadioGroupOptionalDropdown {...commonProps} />
+      return <UeRadioGroupOptionalDropdown {...commonProps} key={question.id} />
     case ConfigTypes.UE_UNCERTAIN_DATE:
-      return <UeUncertainDate {...commonProps} />
+      return <UeUncertainDate {...commonProps} key={question.id} />
     case ConfigTypes.UE_TYPE_AHEAD:
-      return <UeTypeahead {...commonProps} />
+      return <UeTypeahead {...commonProps} key={question.id} />
     case ConfigTypes.UE_TEXTFIELD:
-      return <UeTextField {...commonProps} />
+      return <UeTextField {...commonProps} key={question.id} />
     case ConfigTypes.UE_DATE:
-      return <UeDate {...commonProps} />
+      return <UeDate {...commonProps} key={question.id} />
     case ConfigTypes.UE_DATE_RANGE:
-      return <UeDateRange {...commonProps} />
+      return <UeDateRange {...commonProps} key={question.id} />
     case ConfigTypes.UE_YEAR:
-      return <UeYear {...commonProps} />
+      return <UeYear {...commonProps} key={question.id} />
     case ConfigTypes.UE_INTEGER:
-      return <UeInteger {...commonProps} />
+      return <UeInteger {...commonProps} key={question.id} />
     case ConfigTypes.UE_CAUSE_OF_DEATH:
-      return <UeCauseOfDeath {...commonProps} />
+      return <UeCauseOfDeath {...commonProps} key={question.id} />
     case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
-      return <UeCauseOfDeathList {...commonProps} />
+      return <UeCauseOfDeathList {...commonProps} key={question.id} />
     case ConfigTypes.UE_MEDICAL_INVESTIGATION:
-      return <UeMedicalInvestigationList {...commonProps} />
+      return <UeMedicalInvestigationList {...commonProps} key={question.id} />
     case ConfigTypes.UE_VISUAL_ACUITY:
-      return <UeVisualAcuity {...commonProps} />
+      return <UeVisualAcuity {...commonProps} key={question.id} />
     case ConfigTypes.UE_VIEW_TEXT:
-      return <UeViewText {...commonProps} />
+      return <UeViewText {...commonProps} key={question.id} />
     case ConfigTypes.UE_VIEW_LIST:
-      return <UeViewList {...commonProps} />
+      return <UeViewList {...commonProps} key={question.id} />
     case ConfigTypes.UE_VIEW_TABLE:
-      return <UeViewTable {...commonProps} />
+      return <UeViewTable {...commonProps} key={question.id} />
     case ConfigTypes.UE_HEADER:
       return null
     case ConfigTypes.UE_MESSAGE:

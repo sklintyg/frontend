@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import DatePickerCustom, { ValidationWrapper } from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
@@ -12,7 +11,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeYear: React.FC<Props> = ({ question, disabled }) => {
+const UeYear = ({ question, disabled }: Props) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueYear
   const questionConfig = question.config as ConfigUeYear

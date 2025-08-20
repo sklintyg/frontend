@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -11,7 +10,7 @@ const Wrapper = styled.p`
   padding-top: 3px;
 `
 
-const InvalidPersonIdMessage: React.FC<Props> = ({ display }) => {
+const InvalidPersonIdMessage = ({ display }: Props) => {
   if (!display) return null
   return <Wrapper className="iu-color-error iu-lh-narrow">Ange ett giltigt person- eller samordningsnummer.</Wrapper>
 }

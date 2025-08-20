@@ -6,14 +6,14 @@ import { CertificateAttentionAlert } from './CertificateAttentionAlert'
 const availableActionsWithPrint = [
   fakerFromSchema(availableFunctionSchema)({
     type: AvailableFunctionsTypeEnum.enum.PRINT_CERTIFICATE,
-    name: 'Skicka intyg',
+    title: 'Skicka intyg',
     information: [],
   }),
 ]
 const availableActionsWithInfo = [
   fakerFromSchema(availableFunctionSchema)({
     type: AvailableFunctionsTypeEnum.enum.ATTENTION,
-    name: 'Presentera informationsruta',
+    title: 'Presentera informationsruta',
     body: 'text',
     information: [],
   }),
@@ -25,11 +25,5 @@ it('Should hide info alert when there is no info availableFunction provided', ()
 
 it('Should show info alert when there is info availableFunction provided', () => {
   render(<CertificateAttentionAlert availableFunctions={availableActionsWithInfo} />)
-  expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
-    <ids-alert
-      role="alert"
-    >
-      text
-    </ids-alert>
-  `)
+  expect(screen.getByRole('alert')).toMatchSnapshot()
 })

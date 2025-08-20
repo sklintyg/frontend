@@ -1,7 +1,7 @@
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import type { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
-import { Checkbox } from '../../Form/Checkbox'
-import { SelectMultiple } from '../../Form/SelectMultiple/SelectMultiple'
-import { SelectMultipleList } from '../../Form/SelectMultiple/SelectMultipleList'
+import { Checkbox } from '../../form/Checkbox/Checkbox'
+import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function MultipleSelectFilterOption({
@@ -34,8 +34,8 @@ export function MultipleSelectFilterOption({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple label={label} description={description} placeholder={placeholder}>
-          <SelectMultipleList>
+        <SelectMultiple light label={label} description={description} placeholder={placeholder}>
+          <IDSCheckboxGroup>
             {options &&
               options.map((option) => (
                 <Checkbox
@@ -45,7 +45,7 @@ export function MultipleSelectFilterOption({
                   onChange={(event) => handleOnChange(option.id, event.currentTarget.checked)}
                 />
               ))}
-          </SelectMultipleList>
+          </IDSCheckboxGroup>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">

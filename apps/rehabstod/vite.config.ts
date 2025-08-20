@@ -1,6 +1,7 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 import type { ProxyOptions, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 
@@ -36,13 +37,18 @@ export default ({ mode }: UserConfig) => {
           })
         : []
     ),
+    resolve: {
+      alias: {
+        '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+      },
+    },
     server: {
       host,
       port: 5173,
       proxy,
       strictPort: true,
       allowedHosts: true,
-      hmr: hmr ? { host: process.env.VITE_WS_HOST ?? 'rs2.rs.localtest.me', protocol: hmrProtocol } : false,
+      hmr: hmr ? { protocol: hmrProtocol } : false,
     },
   })
 }

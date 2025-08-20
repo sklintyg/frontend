@@ -1,1 +1,1 @@
-export const idsGraphColors = ['#40775E', '#C8AA7A', '#A33662', '#088191', '#D17200', '#727373', '#DA90AE', '#353636', '#353636']
+export const idsGraphColors = ['#DA254C', '#166ED4', '#6A0032', '#79AEEC', '#353535', '#808285', '#396291', '#395428', '#E97C93', '#DADBDC']

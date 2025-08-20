@@ -1,7 +1,6 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion } from '@frontend/ids-react-ts'
 import { useId } from 'react'
-import { FormattedNumberInput } from '../../Form/FormattedNumberInput'
+import { FormattedNumberInput } from '../../form/FormattedNumberInput'
+import { InputLabel } from '../../form/InputLabel/InputLabel'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({
@@ -28,30 +27,34 @@ export function RangeFilter({
   return (
     <>
       <div className="print:hidden">
-        <div className="mb-[5px]">
-          <label htmlFor={id}>{title}</label>
-          <TooltipIcon description={description} icon={<IDSIconQuestion size="s" className="relative top-1 ml-2" />} />
-        </div>
+        <InputLabel htmlFor={id} description={description}>
+          {title}
+        </InputLabel>
         <div className="flex grow gap-3">
           <FormattedNumberInput
+            light
             id={id}
             label="Från"
             onChange={(value) => onFromChange(value)}
             value={from === '0' ? '' : from}
-            inline
             max={to}
             min={min}
             defaultValue={min}
+            aria-label={`${title} från`}
+            aria-labelledby=""
+            inline
           />
           <FormattedNumberInput
+            light
             label="Till"
             onChange={(value) => onToChange(value)}
             value={to === '0' ? '' : to}
-            inline
             max={max}
             min={from}
             defaultValue={max}
-            aria-label={id}
+            aria-label={`${title} till`}
+            aria-labelledby=""
+            inline
           />
         </div>
       </div>

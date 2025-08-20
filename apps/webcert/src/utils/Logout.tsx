@@ -1,10 +1,9 @@
-import type React from 'react'
+import { getCookie } from '@frontend/utils'
 import styled from 'styled-components'
+import { useAppDispatch } from '../store/store'
+import { triggerFakeLogout } from '../store/user/userActions'
 import type { ResourceLink, User } from '../types'
 import { LoginMethod } from '../types'
-import { getCookie } from '@frontend/utils'
-import { triggerFakeLogout } from '../store/user/userActions'
-import { useAppDispatch } from '../store/store'
 
 const StyledLink = styled.button`
   text-align: center;
@@ -21,7 +20,7 @@ interface Props {
   user: User | null
 }
 
-const Logout: React.FC<Props> = ({ link, user }) => {
+const Logout = ({ link, user }: Props) => {
   const dispatch = useAppDispatch()
 
   if (!link) {

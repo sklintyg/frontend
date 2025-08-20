@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import { UserHeaderMenu, UserHeaderMenuItem } from '../components/AppHeader/UserHeaderMenu'
@@ -29,7 +28,7 @@ interface CreateAccountProps {
   url: string
 }
 
-const CreateAccount: React.FC<CreateAccountProps> = ({ url }) => (
+const CreateAccount = ({ url }: CreateAccountProps) => (
   <div className="iu-text-right iu-mr-500">
     Är du privatläkare och vill använda Webcert?
     <br />
@@ -37,7 +36,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ url }) => (
   </div>
 )
 
-export const StartPage: React.FC = () => {
+export const StartPage = () => {
   const config = useAppSelector(getConfig)
   const isLoadingConfig = useAppSelector(selectIsLoadingConfig)
   const sithsUrl = '/saml2/authenticate/sithsNormal'

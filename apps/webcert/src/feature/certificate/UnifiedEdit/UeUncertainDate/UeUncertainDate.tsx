@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -27,7 +26,7 @@ const monthList = Array.from({ length: 12 }, (_, index) => `0${++index}`.slice(-
 
 const getDateSplit = (candidate: string) => [...(dateReg.test(candidate) ? candidate : '').split('-'), ''].slice(0, 2)
 
-const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
+const UeUncertainDate = ({ question, disabled }: Props) => {
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeUncertainDate

@@ -1,15 +1,14 @@
-import type React from 'react'
 import type {
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
 } from '../../../types'
-import { Badge } from '../Badge'
 import { Table } from '../../Table/Table'
 import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
+import { Badge } from '../Badge'
 
 const getMedicalValue = (value: ValueMedicalInvestigationList, medicalConfig: ConfigUeMedicalInvestigation) => {
   return value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
@@ -30,10 +29,13 @@ const isMedicalInvestigationListEmpty = (config: ConfigUeMedicalInvestigationLis
   })
   return isEmpty
 }
-export const UvMedicalInvestigationList: React.FC<{
+export const UvMedicalInvestigationList = ({
+  value,
+  config,
+}: {
   value: ValueMedicalInvestigationList
   config: ConfigUeMedicalInvestigationList
-}> = ({ value, config }) =>
+}) =>
   isMedicalInvestigationListEmpty(config, value) ? (
     <Badge>
       <p>Ej angivet</p>

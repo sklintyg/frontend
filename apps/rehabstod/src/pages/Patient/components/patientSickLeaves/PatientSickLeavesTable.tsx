@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Heading } from '../../../../components/Heading/Heading'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import type { PatientSjukfall } from '../../../../schemas/patientSchema'
@@ -24,7 +25,9 @@ export function PatientSickLeavesTable({
 
   return (
     <>
-      <h3 className="ids-heading-3">{title}</h3>
+      <Heading level={3} size="s">
+        {title}
+      </Heading>
       {sickLeaves.map(({ start, slut, diagnos, dagar, intyg }) => (
         <PatientDiagnosisAccordion key={`${start}${slut}`} diagnos={diagnos} dagar={dagar} open={open}>
           <Table header={<TableHeader columns={columns} />} sortColumn={PatientColumn.Num}>

@@ -3,8 +3,8 @@
 @import '@inera/ids-design/components/table/table.css';
 
 :root {
-  --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-  --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --IDS-FONT-FAMILY-BASE: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --IDS-FONT-FAMILY-HEADING: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
 }
 
 summary::-webkit-details-marker {
@@ -15,27 +15,14 @@ summary::marker {
   display: none;
 }
 
-ids-input input,
-ids-input select,
-ids-select select,
-ids-textarea textarea {
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--color-web-action);
-}
-
-ids-select {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-ids-select select {
-  padding-right: 2.5rem;
+.ids-link {
+  font-size: inherit;
 }
 
 .ids-certificate p,
 .ids-certificate ul,
 .ids-certificate table {
-  margin-bottom: 0.625rem;
+  margin-bottom: 1rem;
 }
 
 .ids-certificate ul {
@@ -54,31 +41,17 @@ ids-select select {
   margin-bottom: 0.3125rem !important;
 }
 
-ids-header-avatar a {
-  color: rgb(160, 11, 54) !important;
-  text-decoration: underline !important;
-}
-
-a {
-  color: var(--color-sky-base);
-  text-decoration: underline;
-}
-
-a:hover {
-  color: var(--color-sky-dark);
-}
-
 .ids table.ids-table {
   border-bottom: 0;
   border-radius: 0;
 }
 
 .ids table.ids-table tbody tr:last-child td {
-  border-bottom: var(--table_border-bottom);
+  border-bottom: var(--IDS-TABLE__CELL-BORDER);
 }
 
 .ids table.ids-table tbody:not(:first-child) tr:first-child th {
-  border-top: var(--table-cell_border);
+  border-top: var(--IDS-TABLE__CELL-BORDER);
 }
 
 .ids table.ids-table thead th:first-child {
@@ -98,7 +71,7 @@ a:hover {
 }
 
 .ids table.ids-table tbody tr:last-child th {
-  border-bottom: 0;
+  border-bottom: 0px;
   border-radius: 0 0 0 10px;
 }
 
@@ -111,18 +84,15 @@ a:hover {
 }
 
 .ids table.ids-table tbody tr:last-child th ~ td {
-  border-bottom: 0;
+  border-bottom: 1;
 }
 
 .ids .ids-table thead td {
-  background-color: var(--table-head_background-color);
+  background-color: var(--IDS-TABLE__HEAD-BACKGROUND-COLOR);
   border-top: none;
 }
 
-.ids table.ids-table thead td:last-child {
-  border-radius: 0 10px 0 0;
-}
-
-.ids table.ids-table thead td:first-child {
-  border-radius: 10px 0 0 0;
+.ids table.ids-table tbody tr:last-child th {
+  border-bottom: var(--IDS-TABLE__CELL-BORDER);
+  border-radius: 0;
 }

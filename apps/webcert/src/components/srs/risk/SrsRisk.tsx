@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -45,7 +44,7 @@ const BottomBorder = styled.div`
 
 export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
 
-const SrsRisk: React.FC = () => {
+const SrsRisk = () => {
   const dispatch = useDispatch()
   const [expanded, setExpanded] = useState(false)
   const ref = useRef<null | HTMLDivElement>(null)

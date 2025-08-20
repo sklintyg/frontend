@@ -1,12 +1,11 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateIntegrationParameters, updateIntegrationParametersDisablers } from '../../store/welcome/welcomeActions'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import Checkbox from '../Inputs/Checkbox'
 import TextInput from '../Inputs/TextInput'
 
-const WelcomeIntegrationParameters: React.FC = () => {
+const WelcomeIntegrationParameters = () => {
   const integrationParameters = useSelector(getIntegrationParameters())
   const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
   const dispatch = useDispatch()

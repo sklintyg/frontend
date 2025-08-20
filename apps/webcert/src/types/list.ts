@@ -200,7 +200,7 @@ export enum ListType {
 }
 
 export interface ListFilter {
-  values?: Record<string, ListFilterValue>
+  values: Record<string, ListFilterValue>
   type: ListType
 }
 

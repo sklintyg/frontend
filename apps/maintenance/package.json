@@ -16,15 +16,14 @@
   },
   "dependencies": {
     "@frontend/components": "workspace:*",
-    "@frontend/ids-react-ts": "workspace:*",
-    "@inera/ids-core": "^4.10.0",
-    "@inera/ids-design": "^4.10.0",
+    "@inera/ids-react": "^7.0.0",
+    "@inera/ids-design": "^7.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/react": "^18.3.8",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-legacy": "^5.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
@@ -35,6 +34,6 @@
     "jsdom": "^21.1.1",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
-    "vite": "^5.4.18"
+    "vite": "^5.4.19"
   }
 }

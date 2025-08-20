@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
@@ -19,7 +18,7 @@ const ModalBaseLarge = styled(ModalBase)`
   max-width: 55rem;
 `
 
-const CareProviderModal: React.FC = () => {
+const CareProviderModal = () => {
   const dispatch = useAppDispatch()
   const isLoadingUserStatistics = useAppSelector(selectIsLoadingUserStatistics, isEqual)
   const isCareProviderModalOpen = useAppSelector(getIsCareProviderModalOpen)

@@ -12,8 +12,8 @@ interface Props {
   tooltip?: string
 }
 
-const CheckIcon: React.FC<Props> = ({ className, tooltip }) => {
-  return <Logo src={check} alt="Check" data-tip={tooltip} className={className} />
+const CheckIcon = ({ className, tooltip }: Props) => {
+  return <Logo src={check} alt="Check" data-tooltip-id="tooltip" data-tooltip-content={tooltip} className={className} />
 }
 
 export default CheckIcon

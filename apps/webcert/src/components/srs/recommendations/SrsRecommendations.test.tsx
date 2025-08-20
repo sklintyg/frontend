@@ -53,20 +53,20 @@ describe('SRS Recommendations', () => {
     })
 
     it('should show title for extension recommendations if extension is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      renderComponent()
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should show title for extension recommendations if extension after 60 days is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      renderComponent()
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should not show title for extension recommendations if new is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.NEW))
+      renderComponent()
       expect(screen.queryByText(SRS_EXTENSION_TITLE)).not.toBeInTheDocument()
     })
   })
@@ -83,8 +83,8 @@ describe('SRS Recommendations', () => {
     })
 
     it('should show srs extension recommendation title', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      renderComponent()
       expect(screen.getByText(srsInfo.atgarderFrl[0].recommendationTitle)).toBeInTheDocument()
     })
 

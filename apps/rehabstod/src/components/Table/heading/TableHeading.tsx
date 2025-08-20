@@ -1,3 +1,4 @@
+import { Heading } from '../../Heading/Heading'
 import { PageHeading } from '../../PageHeading/PageHeading'
 
 export function TableHeading({
@@ -13,11 +14,15 @@ export function TableHeading({
 }) {
   return (
     <div className="w-full">
-      <div className="print:hidden">
+      <div data-testid="table-heading" className="print:hidden">
         <PageHeading title={title} subTitle={subTitle} />
         {!hideDivider && <hr className="opacity-40 " />}
       </div>
-      <h1 className="ids-heading-3 mb-5 hidden print:block">{printTitle}</h1>
+      <div data-testid="table-print-heading" className="hidden print:block">
+        <Heading level={1} size="s">
+          {printTitle}
+        </Heading>
+      </div>
     </div>
   )
 }

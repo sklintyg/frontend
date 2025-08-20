@@ -1,5 +1,5 @@
 import { getByType } from '@frontend/utils'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import PatientListInfoContent from '../../components/List/PatientListInfoContent'
@@ -28,10 +28,10 @@ export function ListItemContent({
   links: ResourceLink[]
   certificateId: string
 }>) {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const openCertificate = (id: string) => {
-    history.push('/certificate/' + id)
+    navigate('/certificate/' + id)
   }
 
   const getOpenCertificateButton = () => {
@@ -107,7 +107,7 @@ export function ListItemContent({
   const getListItemContent = () => {
     switch (valueType) {
       case CertificateListItemValueType.TEXT:
-        return <td>{value}</td>
+        return <td>{value as string}</td>
       case CertificateListItemValueType.DATE:
         return <td>{formatDate(value as string)}</td>
       case CertificateListItemValueType.PATIENT_INFO:
@@ -127,7 +127,8 @@ export function ListItemContent({
           <td>
             <StyledIcon
               src={checkImage}
-              data-tip={tooltips[CertificateListItemValueType.FORWARD]}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={tooltips[CertificateListItemValueType.FORWARD]}
               alt={tooltips[CertificateListItemValueType.FORWARD]}
             />
           </td>

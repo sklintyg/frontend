@@ -1,9 +1,8 @@
-import type React from 'react'
 import { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { getSigningData } from '../../../store/certificate/certificateSelectors'
 
-const SigningForm: React.FC = () => {
+const SigningForm = () => {
   const signingData = useSelector(getSigningData, shallowEqual)
   const formRef = useRef<HTMLFormElement | null>(null)
 

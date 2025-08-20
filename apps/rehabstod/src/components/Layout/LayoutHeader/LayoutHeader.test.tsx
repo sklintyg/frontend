@@ -9,17 +9,17 @@ describe('With user session', () => {
   it('Should have "about rehabstod" button', async () => {
     renderWithRouter(<LayoutHeader />)
 
-    expect(screen.getByText('Rehabstöd')).toBeInTheDocument()
     expect(await screen.findByText('Om Rehabstöd')).toBeInTheDocument()
   })
 
   it('Should be able to logout', async () => {
     const { user } = renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByTestId('logout-button')).toBeInTheDocument()
+    expect(await screen.findByTestId('avatar-menu')).toBeInTheDocument()
 
     const pendingRequest = waitForRequest('POST', '/api/testability/logout')
-    user.click(screen.getByTestId('logout-button'))
+    await user.click(screen.getByTestId('avatar-menu'))
+    await user.click(screen.getByTestId('logout-button'))
 
     expect(await pendingRequest).toBeTruthy()
   })

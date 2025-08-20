@@ -5,12 +5,17 @@ exports[`Should render logged-out type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-success
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-success"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du är utloggad
       </h1>
@@ -28,30 +33,30 @@ exports[`Should render logged-out type error 1`] = `
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+          <a
+            class="ids-link ids-link--no-underline"
+            href="/"
+            target="self"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
-            <a
-              href="/"
-            >
-              Till inloggning
-            </a>
-          </ids-link>
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+            Till inloggning
+          </a>
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://www.1177.se"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
-            <a
-              href="https://www.1177.se"
-            >
-              Till 1177
-            </a>
-            <ids-icon-external
-              class="ids-icon"
-              slot="append-icon"
+            Till 1177
+            <span
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
-          </ids-link>
+          </a>
         </div>
       </div>
     </div>
@@ -64,12 +69,17 @@ exports[`Should render login-failed type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Inloggning misslyckades
       </h1>
@@ -87,16 +97,16 @@ exports[`Should render login-failed type error 1`] = `
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
-            <a
-              href="https://e-tjanster.1177.se/mvk/"
-            >
-              Till startsidan
-            </a>
-          </ids-link>
+            Till startsidan
+          </a>
         </div>
       </div>
     </div>
@@ -109,12 +119,17 @@ exports[`Should render not-found type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Sidan hittades inte
       </h1>
@@ -132,16 +147,16 @@ exports[`Should render not-found type error 1`] = `
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
-            <a
-              href="https://e-tjanster.1177.se/mvk/"
-            >
-              Till startsidan
-            </a>
-          </ids-link>
+            Till startsidan
+          </a>
         </div>
       </div>
     </div>
@@ -154,12 +169,17 @@ exports[`Should render unavailable type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Tjänsten är inte tillgänglig just nu
       </h1>
@@ -178,12 +198,17 @@ exports[`Should render underage type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du som är under 16 har inte tillgång till 1177 intyg
       </h1>
@@ -201,30 +226,30 @@ exports[`Should render underage type error 1`] = `
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
-            <a
-              href="https://e-tjanster.1177.se/mvk/"
-            >
-              Till startsidan
-            </a>
-          </ids-link>
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+            Till startsidan
+          </a>
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
-            <a
-              href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
-            >
-              Om 1177 intyg
-            </a>
-            <ids-icon-external
-              class="ids-icon"
-              slot="append-icon"
+            Om 1177 intyg
+            <span
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
-          </ids-link>
+          </a>
         </div>
       </div>
     </div>
@@ -237,12 +262,17 @@ exports[`Should render unknown type error 1`] = `
   <div
     class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
   >
-    <ids-icon-attention
-      class="mx-auto ids-icon"
-    />
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
     <div>
       <h1
-        class="ids-heading-1 text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Någonting gick fel
       </h1>
@@ -260,16 +290,16 @@ exports[`Should render unknown type error 1`] = `
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
-          <ids-link>
-            <ids-icon-chevron
-              class="ids-icon"
+          <a
+            class="ids-link ids-link--no-underline"
+            href="https://e-tjanster.1177.se/mvk/"
+          >
+            <span
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
-            <a
-              href="https://e-tjanster.1177.se/mvk/"
-            >
-              Till startsidan
-            </a>
-          </ids-link>
+            Till startsidan
+          </a>
         </div>
       </div>
     </div>

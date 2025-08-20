@@ -1,5 +1,5 @@
 import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
-import { IDSBreadcrumbs, IDSCrumb } from '@frontend/ids-react-ts'
+import { IDSBreadcrumbs } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { Params } from 'react-router-dom'
 import { Link, useMatches } from 'react-router-dom'
@@ -22,43 +22,22 @@ export function Breadcrumbs() {
   const prevMatch = matches ? matches[matches.length - 2] : undefined
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
-  if (matches.length === 0) {
-    return null
-  }
-
   const startLink = getNavigationItem('Start')
+  const startLinkComposed = startLink ? (
+    <Link key="start" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
+      Start
+    </Link>
+  ) : undefined
 
   return (
     <div className="mb-5">
-      <IDSBreadcrumbs srlabel="Du är här" lead="Du är här:">
-        {startLink && (
-          <IDSCrumb key="start">
-            <Link to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>Start</Link>
-          </IDSCrumb>
-        )}
-        {matches.map(resolveMatch).map(([url, node], index) =>
-          index !== matches.length - 1 ? (
-            <IDSCrumb key={url}>
-              <Link to={url}>{node}</Link>
-            </IDSCrumb>
-          ) : (
-            <span key={url}>{node}</span>
-          )
-        )}
-        {prevMatchUrl && (
-          <IDSCrumb key="mobile" mobile>
-            <Link className="no-underline" to={prevMatchUrl}>
-              {prevMatchNode}
-            </Link>
-          </IDSCrumb>
-        )}
-        {!prevMatchUrl && startLink && (
-          <IDSCrumb key="mobile" mobile>
-            <Link className="no-underline" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
-              Start
-            </Link>
-          </IDSCrumb>
-        )}
+      <IDSBreadcrumbs lead="Du är här:" mobileLink={prevMatchUrl ? <Link to={prevMatchUrl}>{prevMatchNode}</Link> : startLinkComposed}>
+        {startLinkComposed}
+        {matches.map(resolveMatch).map(([url, node]) => (
+          <Link key={url} to={url}>
+            {node}
+          </Link>
+        ))}
       </IDSBreadcrumbs>
     </div>
   )

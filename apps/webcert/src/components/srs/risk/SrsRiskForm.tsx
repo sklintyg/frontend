@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateHasUpdatedAnswers } from '../../../store/srs/srsActions'
@@ -27,7 +26,7 @@ const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boole
   return option ? option.id : ''
 }
 
-const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
+const SrsRiskForm = ({ previousAnswers, onClick }: Props) => {
   const questions = useSelector(getSrsQuestions)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')

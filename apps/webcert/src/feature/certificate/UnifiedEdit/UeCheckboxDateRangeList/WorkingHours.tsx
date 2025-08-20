@@ -1,33 +1,21 @@
 import styled from 'styled-components'
+import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import Accordion from '../../../../components/utils/Accordion'
-import AccordionHeader from '../../../../components/utils/AccordionHeader'
-import { Text } from '../../../../components/utils/Text'
+import { questionImage } from '../../../../images'
 import type { ValidationError } from '../../../../types'
-import { WorkingHoursInput } from './WorkingHoursInput'
 
-const AccodrionWrapper = styled.div`
-  flex: 0 0 100%;
+const Icon = styled.img`
+  width: 1rem;
+  display: inline-block;
 `
 
-const DaysRangeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  > * + * {
-    margin-left: 0.5rem;
-  }
-
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type='number'] {
-    appearance: textfield;
-  }
-`
+const tooltip = `Ange hur många timmar patienten arbetar i snitt per vecka. 
+Maximal arbetstid som kan anges är 168 timmar per vecka. 
+Observera att denna funktion endast är ett stöd för att 
+tydliggöra hur många timmar per vecka patienten bedöms 
+kunna arbeta när en viss nedsättning av arbetsförmåga 
+har angivits. Uppgiften lagras inte som en del av intyget 
+då Försäkringskassan inhämtar information från annat håll.`
 
 export function WorkingHours({
   id,
@@ -59,28 +47,26 @@ export function WorkingHours({
   return (
     <div>
       {!disabled && (
-        <>
-          <DaysRangeWrapper>
-            <AccodrionWrapper>
-              <Accordion>
-                <AccordionHeader>
-                  <WorkingHoursInput
-                    onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
-                    value={baseWorkHours}
-                    hasValidationError={workingHoursError != null}
-                  />
-                </AccordionHeader>
-                <Text className="iu-mb-400">
-                  Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka.
-                  Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna
-                  arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då
-                  Försäkringskassan inhämtar information från annat håll.
-                </Text>
-              </Accordion>
-            </AccodrionWrapper>
-          </DaysRangeWrapper>
+        <div className="iu-mb-400">
+          <p className="iu-mb-200">
+            Antalet timmar per vecka patienten arbetar i snitt{' '}
+            <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={tooltip} alt={tooltip} />
+          </p>
+          <TextInput
+            onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
+            value={baseWorkHours}
+            limit={3}
+            style={{ width: '120px' }}
+            hasValidationError={workingHoursError != null}
+            data-testid="workingHours"
+            onKeyDown={(event) => {
+              if (event.key === ' ') {
+                event.preventDefault()
+              }
+            }}
+          />
           <QuestionValidationTexts validationErrors={workingHoursError ?? []} />
-        </>
+        </div>
       )}
     </div>
   )

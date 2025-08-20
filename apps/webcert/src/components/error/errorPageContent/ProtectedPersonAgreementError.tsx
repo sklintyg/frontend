@@ -1,6 +1,4 @@
-import type React from 'react'
-
-const ProtectedPersonAgreementError: React.FC = () => {
+const ProtectedPersonAgreementError = () => {
   return (
     <>
       <p>

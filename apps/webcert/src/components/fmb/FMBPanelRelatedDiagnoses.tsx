@@ -1,6 +1,3 @@
-import type React from 'react'
-import { useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
 import { InfoCircle } from '../../images'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 
@@ -8,11 +5,7 @@ interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
 }
 
-const FMBPanelRelatedDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
-
+const FMBPanelRelatedDiagnoses = ({ fmbDiagnosisCodeInfo }: Props) => {
   return (
     <div className="iu-p-500">
       <p className={'iu-fw-heading'}>

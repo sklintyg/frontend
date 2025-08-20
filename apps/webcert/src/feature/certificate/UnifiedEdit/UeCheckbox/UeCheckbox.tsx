@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Checkbox from '../../../../components/Inputs/Checkbox'
@@ -21,7 +20,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeCheckbox: React.FC<Props> = (props) => {
+const UeCheckbox = (props: Props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
   const isShowValidationError = useSelector(getShowValidationErrors)

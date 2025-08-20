@@ -1,19 +1,16 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
-import FMBPanel from './FMBPanel'
 import type { ValueDiagnosisList } from '../../types'
 import { CertificateDataValueType } from '../../types'
+import FMBPanel from './FMBPanel'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const getDiagnosisValueWithCodeSystem = (codeSystem: string): ValueDiagnosisList => ({
   type: CertificateDataValueType.DIAGNOSIS_LIST,
@@ -65,9 +62,9 @@ const renderDefaultComponent = () => {
   testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <FMBPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -76,9 +73,9 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
   testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <FMBPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

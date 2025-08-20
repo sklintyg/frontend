@@ -1,6 +1,5 @@
 import { isEqual } from 'lodash-es'
-import React, { useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
+import React from 'react'
 import styled from 'styled-components'
 import { InfoCircle } from '../../images'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
@@ -24,7 +23,7 @@ interface Props {
   parentId: string
 }
 
-const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }) => {
+const IcfCategory = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }: Props) => {
   const originalIcd10Codes = useAppSelector(getOriginalIcd10Codes, isEqual)
 
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
@@ -36,10 +35,6 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
   const isOriginalIcd10Code = (icd10Code: string) => {
     return originalIcd10Codes.some((code: string) => code === icd10Code)
   }
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  }, [icd10Codes])
 
   const getIcfTitles = () => {
     return (

@@ -1,5 +1,5 @@
-import { Dialog, LinkButton, Radio } from '@frontend/components'
-import { IDSButton, IDSRadioGroup } from '@frontend/ids-react-ts'
+import { Dialog, LinkButton } from '@frontend/components'
+import { IDSButton, IDSRadio, IDSRadioGroup } from '@inera/ids-react'
 import { InformationTypeEnum } from '../../../../../schema/certificate.schema'
 import { usePrintCertificateContext } from '../hooks/usePrintCertificate'
 
@@ -24,60 +24,54 @@ export function CustomizePrintDialog() {
       open={customizePrintDialogOpen}
       onOpenChange={(open) => !open && hideCustomizePrintDialog()}
       headline={customizePrintFunction.title ?? ''}
+      actions={
+        customizePrintDialogOpen && (
+          <>
+            <IDSButton mBlock onClick={hideCustomizePrintDialog} role="button" secondary>
+              Avbryt
+            </IDSButton>
+            {}
+            {customizePrintType === 'print' && (
+              <LinkButton mBlock href={url} type="application/pdf" target="_blank" rel="noreferrer" onClick={hideCustomizePrintDialog}>
+                Skriv ut
+              </LinkButton>
+            )}
+            {customizePrintType === 'save' && (
+              <IDSButton
+                secondary
+                mBlock
+                role="button"
+                onClick={() => {
+                  hideCustomizePrintDialog()
+                  setSaveWarningDialogOpen(true)
+                }}
+              >
+                Spara
+              </IDSButton>
+            )}
+          </>
+        )
+      }
     >
       <div className="max-w-3xl">
         <p className="mb-5">{customizePrintFunction.body}</p>
-        <IDSRadioGroup>
+        <IDSRadioGroup name="customize-print-options">
           {customizePrintFunction.information
             .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
             .map(({ id, text }) => (
-              <Radio
+              <IDSRadio
                 key={text}
-                label={text}
                 value={id || ''}
                 name="option"
                 checked={customizeId === (id || '')}
                 onChange={(event) => setCustomizeId(event.target.value)}
-              />
+              >
+                {text}
+              </IDSRadio>
             ))}
         </IDSRadioGroup>
         {customizeId === '!diagnoser' && <p className="mb-5">{customizePrintFunction.description}</p>}
       </div>
-      {customizePrintDialogOpen && (
-        <>
-          <IDSButton slot="action" mblock onClick={hideCustomizePrintDialog} role="button" secondary>
-            Avbryt
-          </IDSButton>
-          {}
-          {customizePrintType === 'print' && (
-            <LinkButton
-              slot="action"
-              mblock
-              href={url}
-              type="application/pdf"
-              target="_blank"
-              rel="noreferrer"
-              onClick={hideCustomizePrintDialog}
-            >
-              Skriv ut
-            </LinkButton>
-          )}
-          {customizePrintType === 'save' && (
-            <IDSButton
-              secondary
-              mblock
-              slot="action"
-              role="button"
-              onClick={() => {
-                hideCustomizePrintDialog()
-                setSaveWarningDialogOpen(true)
-              }}
-            >
-              Spara
-            </IDSButton>
-          )}
-        </>
-      )}
     </Dialog>
   )
 }

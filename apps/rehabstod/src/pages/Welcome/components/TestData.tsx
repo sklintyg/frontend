@@ -1,4 +1,5 @@
-import { IDSAlert, IDSButton, IDSIconExternal, IDSLink, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSIconExternal, IDSLink, IDSSpinner } from '@inera/ids-react'
+import { Button } from '../../../components/Button/Button'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { useCreateDefaultTestDataMutation } from '../../../store/testabilityApi'
 
@@ -25,14 +26,14 @@ export function TestData() {
           <IDSLink>
             <a target="_blank" href="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
               Rehabstod - Testdata Documentation
+              <IDSIconExternal />
             </a>
-            <IDSIconExternal />
           </IDSLink>
         </IDSAlert>
       </div>
-      <IDSButton sblock role="button" onClick={() => triggerDefaultTestDataQuery()}>
+      <Button sblock role="button" onClick={() => triggerDefaultTestDataQuery()}>
         Skapa testdata
-      </IDSButton>
+      </Button>
       {data && <div className="mt-4">{data}</div>}
     </>
   )

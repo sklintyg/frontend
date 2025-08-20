@@ -1,7 +1,9 @@
-import { Input, Select } from '@frontend/components'
-import { IDSAlert, IDSButton, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSAlert, IDSSpinner } from '@inera/ids-react'
+import { Button } from '../../../components/Button/Button'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
-import { Checkbox } from '../../../components/Form/Checkbox'
+import { Checkbox } from '../../../components/form/Checkbox/Checkbox'
+import { Input } from '../../../components/form/Input/Input'
+import { Select } from '../../../components/form/Select/Select'
 import { useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../../store/testabilityApi'
 import { usePatientData } from '../hooks/usePatientData'
 
@@ -159,10 +161,10 @@ export function PatientData() {
         <Checkbox label="Makulera" checked={isRevoked} onChange={(e) => updatePatientData({ isRevoked: e.target.checked })} />
       </div>
 
-      <IDSButton
+      <Button
         sblock
         disabled={createSickLeaveLoading}
-        onclick={() =>
+        onClick={() =>
           triggerCreateSickLeave({
             careProviderId,
             careUnitId,
@@ -181,7 +183,7 @@ export function PatientData() {
         }
       >
         Skapa
-      </IDSButton>
+      </Button>
 
       <div className="mt-4">{certificateId !== undefined ? <p>{`intygs-Id: ${certificateId}`}</p> : ''}</div>
     </>

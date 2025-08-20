@@ -16,6 +16,9 @@ it('Should call onChange when clicking on option', async () => {
   const onChange = vi.fn()
   render(<SelectProfile persons={persons} onChange={onChange} />)
 
-  await userEvent.selectOptions(screen.getByRole('listbox'), screen.getByRole('option', { name: 'Alberto Stamm (198303193968)' }))
+  await userEvent.selectOptions(
+    screen.getByTestId('login-select-test-id'),
+    screen.getByRole('option', { name: 'Alberto Stamm (198303193968)' })
+  )
   expect(onChange).toHaveBeenCalledTimes(1)
 })

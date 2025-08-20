@@ -1,10 +1,9 @@
-import type React from 'react'
-import { useHistory } from 'react-router-dom'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { useNavigate } from 'react-router-dom'
 import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { DoubleArrowIcon } from '../../../images'
 import type { CertificateMetadata } from '../../../types'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -13,11 +12,11 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
-  const history = useHistory()
+const ReplaceCertificateContinueButton = ({ name, description, enabled, certificateMetadata, functionDisabled }: Props) => {
+  const navigate = useNavigate()
 
   const handleConfirm = () => {
-    history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
+    navigate(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
   return (

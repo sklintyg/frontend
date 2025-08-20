@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
@@ -9,7 +8,7 @@ const Wrapper = styled.div`
   }
 `
 
-const AboutWebcertModalContent: React.FC = () => {
+const AboutWebcertModalContent = () => {
   return (
     <Wrapper>
       <p className={'iu-pt-400'}>Webcert är en tjänst som drivs av Inera AB.</p>

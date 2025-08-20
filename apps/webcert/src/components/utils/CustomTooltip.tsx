@@ -1,13 +1,12 @@
-import type React from 'react'
-import type { Place } from 'react-tooltip'
-import ReactTooltip from 'react-tooltip'
+import type { PlacesType } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import styled from 'styled-components'
 
 interface Props {
-  placement?: Place
+  placement?: PlacesType
 }
 
-const Wrapper = styled.div`
+const StyledTooltip = styled(Tooltip)`
   ul {
     text-align: left;
     margin: 0;
@@ -15,17 +14,16 @@ const Wrapper = styled.div`
   }
 `
 
-const CustomTooltip: React.FC<Props> = ({ placement }) => {
+const CustomTooltip = ({ placement }: Props) => {
   return (
-    <Wrapper>
-      <ReactTooltip
-        role={'tooltip'}
-        type={'light'}
-        effect={'solid'}
-        place={placement ? placement : 'bottom'}
-        className={'ic-popover iu-fw-body ic-text'}
-      />
-    </Wrapper>
+    <StyledTooltip
+      id="tooltip"
+      role="tooltip"
+      variant="light"
+      opacity={1}
+      place={placement ? placement : 'bottom'}
+      className="ic-popover iu-fw-body ic-text"
+    />
   )
 }
 

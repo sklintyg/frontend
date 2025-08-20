@@ -1,10 +1,9 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakePatient } from '../../../faker'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -14,16 +13,15 @@ import { LuaenaConfirmModal } from './LuaenaConfirmModal'
 
 let mockDispatchFn = vi.fn()
 let testStore: EnhancedStore
-const history = createMemoryHistory()
 const patient = fakePatient()
 const setOpen = () => true
 
 const renderComponent = (isOpen: boolean) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <LuaenaConfirmModal patient={patient} setOpen={setOpen} open={isOpen} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

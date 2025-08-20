@@ -1,6 +1,6 @@
-import { classNames } from '@frontend/components'
 import type { ReactNode, RefObject } from 'react'
 import { useEffect, useRef, useState } from 'react'
+import { classNames } from '../../utils/classNames'
 import { StickyPortal } from '../StickyContainer/StickyPortal'
 
 export function FixedTable({ children, scrollRef }: { children: ReactNode; scrollRef: RefObject<HTMLDivElement> }) {
@@ -38,14 +38,15 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         ref={stickyRef}
         style={{ width: `${tableWidth}px` }}
         className={classNames(
-          'm-auto max-w-screen-xxl border-neutral-40 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
-          fixed ? 'h-auto border-x border-b' : 'h-0'
+          // 'ids-data-table',
+          'm-auto max-w-screen-xxl border-accent-30 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
+          fixed ? 'h-auto border-x' : 'h-0'
         )}
       >
         <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
           <table
             ref={tableRef}
-            className={classNames('ids-table whitespace-nowrap border-none text-sm', posAbsolute && 'ids-table-sticky')}
+            className={classNames('table-fixed m-0 whitespace-nowrap border-none text-sm', posAbsolute && 'ids-table-sticky')}
             style={{ width: `${tableWidth}px` }}
           >
             {fixed && children}

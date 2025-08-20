@@ -1,5 +1,5 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -75,17 +75,17 @@ describe('UeUncertainDate', () => {
     const yearOptions = within(yearDropdown).getAllByRole('option') as HTMLOptionElement[]
     const monthDropdown = screen.getByLabelText('Månad')
     const monthOptions = within(monthDropdown).getAllByRole('option') as HTMLOptionElement[]
-    await expect(yearDropdown).toHaveValue('')
+    expect(yearDropdown).toHaveValue('')
     expect(yearOptions[0].selected).toBeTruthy()
     expect(yearOptions[2].selected).toBeFalsy()
 
     await userEvent.click(yearDropdown)
     await userEvent.selectOptions(yearDropdown, YEARS[0])
-    await expect(yearDropdown).toHaveValue(YEARS[0])
+    expect(yearDropdown).toHaveValue(YEARS[0])
     expect(yearOptions[2].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
-    await expect(monthDropdown).toBeEnabled()
-    await expect(monthDropdown).toHaveValue('')
+    await waitFor(() => expect(monthDropdown).toBeEnabled())
+    expect(monthDropdown).toHaveValue('')
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[2].selected).toBeFalsy()
 
@@ -96,11 +96,11 @@ describe('UeUncertainDate', () => {
 
     await userEvent.click(yearDropdown)
     await userEvent.selectOptions(yearDropdown, '0000')
-    await expect(yearDropdown).toHaveValue('0000')
+    expect(yearDropdown).toHaveValue('0000')
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
-    await expect(monthDropdown).toBeDisabled()
-    await expect(monthDropdown).toHaveValue('00')
+    await waitFor(() => expect(monthDropdown).toBeDisabled())
+    expect(monthDropdown).toHaveValue('00')
     expect(monthOptions[1].selected).toBeTruthy()
     expect(monthOptions[0].selected).toBeFalsy()
   })
@@ -108,8 +108,8 @@ describe('UeUncertainDate', () => {
   it('gets disabled correctly', async () => {
     renderComponent({ question, disabled: true })
     const yearDropdown = screen.getByLabelText('År')
-    await expect(yearDropdown).toBeDisabled()
+    expect(yearDropdown).toBeDisabled()
     const monthDropdown = screen.getByLabelText('Månad')
-    await expect(monthDropdown).toBeDisabled()
+    expect(monthDropdown).toBeDisabled()
   })
 })

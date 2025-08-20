@@ -1,4 +1,4 @@
-import { IDSExpandable } from '@frontend/ids-react-ts'
+import { IDSAccordion } from '@inera/ids-react'
 import { DisplayHTML } from '../../../../components/DisplayHTML/DisplayHTML'
 import type { CertificateContent } from '../../../../schema/certificate.schema'
 
@@ -7,9 +7,9 @@ export function CertificateBody({ content }: { content: CertificateContent[] }) 
     <>
       {content.map(({ heading, body }) => (
         <div key={heading} className="border-b border-neutral-90">
-          <IDSExpandable headline={heading}>
+          <IDSAccordion headline={<h2>{heading}</h2>}>
             <DisplayHTML html={body} />
-          </IDSExpandable>
+          </IDSAccordion>
         </div>
       ))}
     </>

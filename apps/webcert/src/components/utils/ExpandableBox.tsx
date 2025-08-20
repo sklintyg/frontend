@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import ArrowToggle from './ArrowToggle'
@@ -40,7 +39,7 @@ interface Props {
   isExpanded: boolean
 }
 
-const ExpandableBox: React.FC<Props> = ({ isExpanded, linkText, onClickLink }) => {
+const ExpandableBox = ({ isExpanded, linkText, onClickLink }: Props) => {
   const [isExpandedBox, setIsExpandedBox] = useState(false)
 
   const handleToggle = () => {

@@ -1,7 +1,6 @@
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../components/Inputs/CustomButton'
 import RadioButton from '../components/Inputs/RadioButton'
@@ -13,6 +12,7 @@ import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
 import { useAppSelector } from '../store/store'
 import { triggerFakeLogout } from '../store/user/userActions'
 import { getConfig } from '../store/utils/utilsSelectors'
+import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
 import {
   clearWelcome,
   createNewCertificate,
@@ -23,7 +23,6 @@ import {
 } from '../store/welcome/welcomeActions'
 import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
 import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
-import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
 
 const StyledForm = styled.form`
   display: flex;
@@ -50,7 +49,7 @@ const ExpandableDetails = styled.details`
   max-width: 600px;
 `
 
-const Welcome: React.FC = () => {
+const Welcome = () => {
   const certificateId = useAppSelector(getCertificateId())
   const createCertificate = useAppSelector(getCreateCertificate())
   const config = useAppSelector(getConfig)
@@ -67,7 +66,7 @@ const Welcome: React.FC = () => {
   const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
 
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const performLogin = useCallback(() => {
     dispatch(loginUser(jsonUser))
@@ -102,17 +101,17 @@ const Welcome: React.FC = () => {
 
     if (certificateId.length === 0) {
       if (!jsonUser.legitimeradeYrkesgrupper) {
-        history.push('/list/unhandledcertificates')
+        navigate('/list/unhandledcertificates')
       } else {
-        history.push('/search')
+        navigate('/search')
       }
     } else {
       if (isFreestanding) {
-        history.push(`/certificate/${certificateId}`)
+        navigate(`/certificate/${certificateId}`)
         dispatch(clearWelcome())
       }
     }
-  }, [certificateId, dispatch, history, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigateToCertificate])
+  }, [certificateId, dispatch, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigate, navigateToCertificate])
 
   if (navigateToCertificate && !isFreestanding) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />

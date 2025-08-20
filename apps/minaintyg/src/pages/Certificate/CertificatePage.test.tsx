@@ -89,12 +89,25 @@ it('Should display alert message when certificate is replaced', async () => {
 
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
-    <ids-alert
-      class="mb-2"
+    <div
+      aria-live="polite"
+      class="ids-spinner"
+      data-testid="spinner"
       role="alert"
     >
-      Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
-    </ids-alert>
+      <p
+        class="ids-spinner-sr"
+      />
+      <div
+        class="ids-bounce-1"
+      />
+      <div
+        class="ids-bounce-2"
+      />
+      <div
+        class="ids-bounce-3"
+      />
+    </div>
   `)
 })
 

@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@inera/ids-react'
 import { usePrintCertificateContext } from './hooks/usePrintCertificate'
 
 export function SaveCertificateAction() {
@@ -7,7 +7,7 @@ export function SaveCertificateAction() {
   return (
     <IDSButton
       secondary
-      sblock
+      sBlock
       role="button"
       onClick={() => {
         if (customizePrintFunction) {

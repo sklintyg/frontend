@@ -1,27 +1,28 @@
 import { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { reset } from '../store/navigateSlice'
 import { useAppDispatch, useAppSelector } from '../store/store'
 
 export function useNavigateEffect() {
   const dispatch = useAppDispatch()
-  const history = useHistory<{ from?: string }>()
+  const navigate = useNavigate()
+  const location = useLocation()
   const pathname = useAppSelector((state) => state.ui.uiNavigation.pathname)
   const shouldReplace = useAppSelector((state) => state.ui.uiNavigation.replace)
 
   useEffect(() => {
     if (pathname) {
       if (shouldReplace) {
-        const from = history.location.state?.from ?? ''
+        const from = location.state?.from ?? ''
         if (from === pathname) {
-          history.goBack()
+          navigate(-1)
         } else {
-          history.replace(pathname)
+          navigate(pathname, { replace: true })
         }
       } else {
-        history.push(pathname, { from: history.location.pathname })
+        navigate(pathname, { state: { from: window.location.pathname } })
       }
       dispatch(reset())
     }
-  }, [dispatch, history, shouldReplace, pathname])
+  }, [dispatch, shouldReplace, pathname, navigate, location.state?.from])
 }

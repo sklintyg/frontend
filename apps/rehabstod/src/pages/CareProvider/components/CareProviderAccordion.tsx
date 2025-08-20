@@ -1,4 +1,4 @@
-import { IDSIconChevron } from '@frontend/ids-react-ts'
+import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { Vardenhet } from '../../../schemas'

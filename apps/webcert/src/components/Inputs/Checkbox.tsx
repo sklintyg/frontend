@@ -1,5 +1,4 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -29,7 +28,7 @@ const Label = styled.label<LabelProps>`
   white-space: pre-wrap;
 `
 
-const Checkbox: React.FC<Props> = (props) => {
+const Checkbox = (props: Props) => {
   const {
     label,
     id,

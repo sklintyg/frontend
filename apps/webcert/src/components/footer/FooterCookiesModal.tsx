@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
@@ -16,7 +15,7 @@ const StyledTextWithInfoModal = styled(TextWithInfoModal)`
   }
 `
 
-export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
+export const FooterCookiesModal = ({ className }: Props) => (
   <StyledTextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor (cookies)" className={className}>
     <p>
       Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår
