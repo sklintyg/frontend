@@ -186,7 +186,7 @@ export const Icon = forwardRef<HTMLSpanElement, IconProps>(
     <span
       ref={ref}
       className={classNames(
-        `ids-icon-${icon} `,
+        `ids-icon-${icon}`,
         colorPreset && `ids-icon--color-preset-${colorPreset}`,
         size && `ids-icon--${size}`,
         rotate && `ids-icon--rotate-${rotate}`,

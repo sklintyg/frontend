@@ -9,11 +9,11 @@ exports[`Should render 1177 type action 1`] = `
     target="_blank"
   >
     <span
-      class="ids-icon-arrow-right-small  ids-icon--text-start"
+      class="ids-icon-arrow-right-small ids-icon--text-start"
     />
     Till 1177
     <span
-      class="ids-icon-external-link-small  ids-icon--text-end"
+      class="ids-icon-external-link-small ids-icon--text-end"
     />
   </a>
 </div>
@@ -28,11 +28,11 @@ exports[`Should render about type action 1`] = `
     target="_blank"
   >
     <span
-      class="ids-icon-arrow-right-small  ids-icon--text-start"
+      class="ids-icon-arrow-right-small ids-icon--text-start"
     />
     Om 1177 intyg
     <span
-      class="ids-icon-external-link-small  ids-icon--text-end"
+      class="ids-icon-external-link-small ids-icon--text-end"
     />
   </a>
 </div>
@@ -46,7 +46,7 @@ exports[`Should render login type action 1`] = `
     target="self"
   >
     <span
-      class="ids-icon-arrow-right-small  ids-icon--text-start"
+      class="ids-icon-arrow-right-small ids-icon--text-start"
     />
     Till inloggning
   </a>
@@ -60,7 +60,8 @@ exports[`Should render start type action 1`] = `
     href="https://e-tjanster.1177.se/mvk/"
   >
     <span
-      class="ids-icon-arrow-right-small  ids-icon--text-start"
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+      data-testid="arrow"
     />
     Till startsidan
   </a>

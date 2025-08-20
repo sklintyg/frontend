@@ -29,7 +29,7 @@ exports[`Should render h1 heading as expected 1`] = `
         id=":r2:"
       >
         <h1
-          class="ids-heading-l mb-4"
+          class="ids-heading-l"
         >
           heading
         </h1>
@@ -68,7 +68,7 @@ exports[`Should render h2 heading as expected 1`] = `
         id=":r3:"
       >
         <h2
-          class="ids-heading-m mb-4"
+          class="ids-heading-m"
         >
           heading
         </h2>
@@ -107,7 +107,7 @@ exports[`Should render h3 heading as expected 1`] = `
         id=":r4:"
       >
         <h3
-          class="ids-heading-s mb-4"
+          class="ids-heading-s"
         >
           heading
         </h3>
@@ -146,7 +146,7 @@ exports[`Should render h4 heading as expected 1`] = `
         id=":r5:"
       >
         <h4
-          class="ids-heading-xs mb-4"
+          class="ids-heading-xs"
         >
           heading
         </h4>
@@ -185,7 +185,7 @@ exports[`Should render h5 heading as expected 1`] = `
         id=":r6:"
       >
         <h5
-          class="ids-heading-xs mb-4"
+          class="ids-heading-xs"
         >
           heading
         </h5>
@@ -224,7 +224,7 @@ exports[`Should render h6 heading as expected 1`] = `
         id=":r7:"
       >
         <h6
-          class="ids-heading-xs mb-4"
+          class="ids-heading-xs"
         >
           heading
         </h6>

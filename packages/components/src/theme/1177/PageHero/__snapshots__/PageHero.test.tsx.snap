@@ -10,7 +10,7 @@ exports[`Should render as expected with attention icon 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -35,7 +35,7 @@ exports[`Should render as expected with success icon 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-success "
+        class="ids-icon-success"
       />
     </div>
     <div>

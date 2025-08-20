@@ -25,10 +25,10 @@ exports[`Should render correctly 1`] = `
           class="flex h-5 w-5 items-center rounded-full bg-accent-40 p-1 text-white"
         >
           <span
-            class="ids-icon-plus  ids-icon--xs group-open:hidden"
+            class="ids-icon-plus ids-icon--xs group-open:hidden"
           />
           <span
-            class="ids-icon-minus  ids-icon--xs hidden group-open:inline"
+            class="ids-icon-minus ids-icon--xs hidden group-open:inline"
           />
         </div>
       </summary>

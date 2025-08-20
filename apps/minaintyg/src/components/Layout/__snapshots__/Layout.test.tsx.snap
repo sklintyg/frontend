@@ -177,7 +177,7 @@ exports[`Should render as expected 1`] = `
           tabindex="0"
         >
           <span
-            class="ids-icon-arrow-up "
+            class="ids-icon-arrow-up"
           />
         </button>
       </div>
@@ -201,7 +201,7 @@ exports[`Should render as expected 1`] = `
               <span
                 class="ids-footer-1177__headline--sub"
               >
-                 - tryggt om din hälsa och vårt
+                 - tryggt om din hälsa och vård
               </span>
             </h1>
           </div>
@@ -225,11 +225,11 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
                 />
                 Support
                 <span
-                  class="ids-icon-external-link  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
               <a
@@ -239,11 +239,11 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
                 />
                 Läs mer om e-tjänster
                 <span
-                  class="ids-icon-external-link  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
             </div>
@@ -257,11 +257,11 @@ exports[`Should render as expected 1`] = `
                 target="_blank"
               >
                 <span
-                  class="ids-icon-arrow-right-small  ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
                 />
                 Läs mer om e-tjänster
                 <span
-                  class="ids-icon-external-link  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
             </div>
@@ -291,7 +291,7 @@ exports[`Should render as expected 1`] = `
                 >
                   Inera AB
                   <span
-                    class="ids-icon-external-link-small  ids-icon--text-end"
+                    class="ids-icon-external-link-small ids-icon--text-end"
                   />
                 </a>
                  
@@ -309,7 +309,7 @@ exports[`Should render as expected 1`] = `
               >
                 Behandling av personuppgifter
                 <span
-                  class="ids-icon-external-link-small  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
               <a
@@ -320,7 +320,7 @@ exports[`Should render as expected 1`] = `
               >
                 Hantering av kakor
                 <span
-                  class="ids-icon-external-link-small  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
             </div>
@@ -343,7 +343,7 @@ exports[`Should render as expected 1`] = `
                     >
                       Support
                       <span
-                        class="ids-icon-external-link  ids-icon--text-end"
+                        class="ids-icon-external-link ids-icon--text-end"
                       />
                     </a>
                   </div>
@@ -365,7 +365,7 @@ exports[`Should render as expected 1`] = `
                     >
                       Tillgänglighet
                       <span
-                        class="ids-icon-external-link  ids-icon--text-end"
+                        class="ids-icon-external-link ids-icon--text-end"
                       />
                     </a>
                   </div>
@@ -387,7 +387,7 @@ exports[`Should render as expected 1`] = `
                     >
                       Läs mer om e-tjänster
                       <span
-                        class="ids-icon-external-link  ids-icon--text-end"
+                        class="ids-icon-external-link ids-icon--text-end"
                       />
                     </a>
                   </div>
@@ -409,7 +409,7 @@ exports[`Should render as expected 1`] = `
               >
                 Behandling av personuppgifter
                 <span
-                  class="ids-icon-external-link-small  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
               <a
@@ -420,7 +420,7 @@ exports[`Should render as expected 1`] = `
               >
                 Hantering av kakor
                 <span
-                  class="ids-icon-external-link-small  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
             </div>
@@ -443,7 +443,7 @@ exports[`Should render as expected 1`] = `
               >
                 Inera AB
                 <span
-                  class="ids-icon-external-link-small  ids-icon--text-end"
+                  class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
                

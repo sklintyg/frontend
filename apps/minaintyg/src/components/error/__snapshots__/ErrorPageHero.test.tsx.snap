@@ -10,7 +10,7 @@ exports[`Should render logged-out type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-success "
+        class="ids-icon-success"
       />
     </div>
     <div>
@@ -39,7 +39,7 @@ exports[`Should render logged-out type error 1`] = `
             target="self"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
             Till inloggning
           </a>
@@ -50,11 +50,11 @@ exports[`Should render logged-out type error 1`] = `
             target="_blank"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
             Till 1177
             <span
-              class="ids-icon-external-link-small  ids-icon--text-end"
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
           </a>
         </div>
@@ -74,7 +74,7 @@ exports[`Should render login-failed type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -102,7 +102,8 @@ exports[`Should render login-failed type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
             Till startsidan
           </a>
@@ -123,7 +124,7 @@ exports[`Should render not-found type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -151,7 +152,8 @@ exports[`Should render not-found type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
             Till startsidan
           </a>
@@ -172,7 +174,7 @@ exports[`Should render unavailable type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -201,7 +203,7 @@ exports[`Should render underage type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -229,7 +231,8 @@ exports[`Should render underage type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
             Till startsidan
           </a>
@@ -240,11 +243,11 @@ exports[`Should render underage type error 1`] = `
             target="_blank"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
             />
             Om 1177 intyg
             <span
-              class="ids-icon-external-link-small  ids-icon--text-end"
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
           </a>
         </div>
@@ -264,7 +267,7 @@ exports[`Should render unknown type error 1`] = `
       style="font-size: 72px;"
     >
       <span
-        class="ids-icon-attention "
+        class="ids-icon-attention"
       />
     </div>
     <div>
@@ -292,7 +295,8 @@ exports[`Should render unknown type error 1`] = `
             href="https://e-tjanster.1177.se/mvk/"
           >
             <span
-              class="ids-icon-arrow-right-small  ids-icon--text-start"
+              class="ids-icon-arrow-right-small ids-icon--text-start"
+              data-testid="arrow"
             />
             Till startsidan
           </a>
