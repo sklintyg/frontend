@@ -7,7 +7,7 @@ export function PageHeading({ title, subTitle }: { title: string; subTitle?: str
         {title}
       </Heading>
       {subTitle && (
-        <Heading level={2} size="s" className="mb-5">
+        <Heading level={2} size="s" className="mb-6">
           {subTitle}
         </Heading>
       )}

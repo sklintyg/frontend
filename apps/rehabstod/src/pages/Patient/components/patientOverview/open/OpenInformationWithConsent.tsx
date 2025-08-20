@@ -42,52 +42,56 @@ export function OpenInformationWithConsent({
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} inline />
-      <Heading level={6} size="xs">
-        Samtycke sammanhållen vårddokumentation
-      </Heading>
-      <Checkbox
-        label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
-        checked={checkedConsent}
-        onChange={(event) => {
-          setCheckedConsent(event.currentTarget.checked)
-          setShowError(false)
-        }}
-        valid={!showError}
-        light
-      />
-      {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
-      <div className="ml-10 flex w-44 items-center gap-3">
-        <FormattedNumberInput
-          label=""
-          onChange={(value) => setDaysOfConsent(value)}
-          value={daysOfConsent}
-          max="365"
-          min="1"
-          defaultValue="7"
+      <div className="mb-4">
+        <Heading level={6} size="xs">
+          Samtycke sammanhållen vårddokumentation
+        </Heading>
+        <Checkbox
+          label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
+          checked={checkedConsent}
+          onChange={(event) => {
+            setCheckedConsent(event.currentTarget.checked)
+            setShowError(false)
+          }}
+          valid={!showError}
           light
         />
-        <p>dagar</p>
+        {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
+        <div className="ml-10 flex w-44 items-center gap-3">
+          <FormattedNumberInput
+            label=""
+            onChange={(value) => setDaysOfConsent(value)}
+            value={daysOfConsent}
+            max="365"
+            min="1"
+            defaultValue="7"
+            light
+          />
+          <p>dagar</p>
+        </div>
       </div>
-      <Heading level={6} size="xs">
-        Vem har samtycke?
-      </Heading>
-      <div className="flex gap-3">
-        <Radio
-          label="Bara jag"
-          onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-          value={PatientOverviewConsentChoices.ONLYCURRENT}
-          checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
-          light
-        />
-        <Radio
-          label="All behörig personal på vårdenheten"
-          onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-          value={PatientOverviewConsentChoices.ALL}
-          checked={consentId === PatientOverviewConsentChoices.ALL}
-          light
-        />
+      <div>
+        <Heading level={6} size="xs">
+          Vem har samtycke?
+        </Heading>
+        <div className="flex gap-3">
+          <Radio
+            label="Bara jag"
+            onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+            value={PatientOverviewConsentChoices.ONLYCURRENT}
+            checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
+            light
+          />
+          <Radio
+            label="All behörig personal på vårdenheten"
+            onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+            value={PatientOverviewConsentChoices.ALL}
+            checked={consentId === PatientOverviewConsentChoices.ALL}
+            light
+          />
+        </div>
       </div>
-      <div className="pb-5 pt-3">
+      <div>
         <AboutPatientOverview />
       </div>
       <div className="flex flex-col gap-5 md:flex-row md:justify-center">
