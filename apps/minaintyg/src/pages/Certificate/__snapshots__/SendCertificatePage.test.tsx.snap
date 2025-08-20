@@ -20,7 +20,7 @@ exports[`Should render as expected 1`] = `
         type="button"
       >
         <span
-          class="ids-icon-information "
+          class="ids-icon-information"
         />
         <span
           class="ids-link__text"
@@ -93,7 +93,7 @@ exports[`Should render error message when unable to load certificate 1`] = `
           >
             support
             <span
-              class="ids-icon-external-link-small  ids-icon--text-end"
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
           </a>
           och ange nedan fel-id:
@@ -120,7 +120,7 @@ exports[`Should render error message when unable to load certificate 1`] = `
                 5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
               </span>
               <span
-                class="ids-icon-copy-file  ids-icon--color-preset-1 ids-icon--text-end"
+                class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
               />
             </p>
             <p

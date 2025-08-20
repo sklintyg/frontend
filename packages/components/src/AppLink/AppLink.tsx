@@ -18,7 +18,6 @@ export const AppLink = forwardRef<
     colorPreset?: ColorPreset
     large?: boolean
     small?: boolean
-    largeIcon?: boolean
     largeArrow?: boolean
   } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
 >(
@@ -33,7 +32,6 @@ export const AppLink = forwardRef<
       arrow,
       external,
       small,
-      largeIcon = false,
       largeArrow = false,
       children,
       ...props
@@ -54,11 +52,11 @@ export const AppLink = forwardRef<
           <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
             {arrow && <Icon icon="arrow-right-small" textStart />}
             {children}
-            {target !== 'self' && <Icon icon={largeIcon ? 'external-link' : 'external-link-small'} textEnd />}
+            {target !== 'self' && <Icon icon="external-link-small" textEnd />}
           </a>
         ) : (
           <Link ref={ref} to={to}>
-            {arrow && <Icon icon={largeArrow ? 'arrow-right' : 'arrow-right-small'} textStart />}
+            {arrow && <Icon data-testid="arrow" icon={largeArrow ? 'arrow-right' : 'arrow-right-small'} textStart />}
             {children}
           </Link>
         )}

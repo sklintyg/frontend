@@ -14,7 +14,7 @@ exports[`Should render as expected 1`] = `
       tabindex="0"
     >
       <span
-        class="ids-icon-arrow-up "
+        class="ids-icon-arrow-up"
       />
     </button>
   </div>

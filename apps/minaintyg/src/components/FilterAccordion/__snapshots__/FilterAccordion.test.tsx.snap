@@ -23,7 +23,7 @@ exports[`Should render as expected 1`] = `
       >
         Filtrera lista
         <span
-          class="ids-icon-chevron-down  ids-icon--color-preset-1 self-center group-open:rotate-180"
+          class="ids-icon-chevron-down ids-icon--color-preset-1 self-center group-open:rotate-180"
         />
       </div>
     </summary>

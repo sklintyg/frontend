@@ -84,27 +84,27 @@ describe('link', () => {
 describe('headings', () => {
   it('Should render level 1 heading as expected', () => {
     render(<DisplayHTML html="<h1>text</h1>" />)
-    expect(screen.getByRole('heading', { level: 1 })).toHaveClass(`ids-heading-l mb-4`, { exact: true })
+    expect(screen.getByRole('heading', { level: 1 })).toHaveClass(`ids-heading-l`, { exact: true })
   })
 
   it('Should render level 2 heading as expected', () => {
     render(<DisplayHTML html="<h2>text</h2>" />)
-    expect(screen.getByRole('heading', { level: 2 })).toHaveClass(`ids-heading-m mb-4`, { exact: true })
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass(`ids-heading-m`, { exact: true })
   })
 
   it('Should render level 3 heading as expected', () => {
     render(<DisplayHTML html="<h3>text</h3>" />)
-    expect(screen.getByRole('heading', { level: 3 })).toHaveClass(`ids-heading-s mb-4`, { exact: true })
+    expect(screen.getByRole('heading', { level: 3 })).toHaveClass(`ids-heading-s`, { exact: true })
   })
 
   it('Should render level 4 heading as expected', () => {
     render(<DisplayHTML html="<h4>text</h4>" />)
-    expect(screen.getByRole('heading', { level: 4 })).toHaveClass(`ids-heading-xs mb-4`, { exact: true })
+    expect(screen.getByRole('heading', { level: 4 })).toHaveClass(`ids-heading-xs`, { exact: true })
   })
 
   it('Should render level 5 heading as expected', () => {
     render(<DisplayHTML html="<h5>text</h5>" />)
-    expect(screen.getByRole('heading', { level: 5 })).toHaveClass(`ids-heading-xs mb-4`, { exact: true })
+    expect(screen.getByRole('heading', { level: 5 })).toHaveClass(`ids-heading-xs`, { exact: true })
   })
 })
 

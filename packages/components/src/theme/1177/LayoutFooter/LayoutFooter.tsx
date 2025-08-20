@@ -7,26 +7,25 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
   return (
     <IDSFooter1177
       headline="1177"
-      subHeadline=" - tryggt om din hälsa och vårt"
+      subHeadline=" - tryggt om din hälsa och vård"
       cols={2}
       col1Size="3"
       col2Size="3"
       col1={[
-        <AppLink key="support" to="https://www.1177.se/e-tjanster-support" external largeIcon arrow>
+        <AppLink key="support" to="https://www.1177.se/e-tjanster-support" external arrow>
           Support
         </AppLink>,
         <AppLink
           key="tillgänglighet"
           to="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
           external
-          largeIcon
           arrow
         >
           Läs mer om e-tjänster
         </AppLink>,
       ]}
       col2={[
-        <AppLink key="read-more" to="https://www.1177.se/e-tjanster" external largeIcon arrow>
+        <AppLink key="read-more" to="https://www.1177.se/e-tjanster" external arrow>
           Läs mer om e-tjänster
         </AppLink>,
         hasSession ? (

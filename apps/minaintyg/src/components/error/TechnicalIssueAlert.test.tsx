@@ -108,7 +108,7 @@ it('Should render with error id', () => {
                   some-error-id
                 </span>
                 <span
-                  class="ids-icon-copy-file  ids-icon--color-preset-1 ids-icon--text-end"
+                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
                 />
               </p>
               <p
