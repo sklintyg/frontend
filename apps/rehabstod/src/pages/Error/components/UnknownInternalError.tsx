@@ -15,7 +15,7 @@ export function UnknownInternalError() {
       </Heading>
       <p className="ids-preamble">
         Gå tillbaka till startsidan och prova att logga in igen. Om problemet kvarstår kontakta i första hand din lokala IT-support och i
-        andra hand <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
+        andra hand <DynamicLink link={links?.ineraNationellKundservice} />
       </p>
     </>
   )
