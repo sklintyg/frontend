@@ -20,7 +20,7 @@ export function LayoutFooterMobileMenu() {
             ) : null
           )}
         </ul>
-      </nav>{' '}
+      </nav>
     </div>
   )
 }
