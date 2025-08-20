@@ -148,7 +148,7 @@ export const links = {
     key: 'fmbSocWithIcon',
     url: 'https://forsakringsmedicin.socialstyrelsen.se/',
     text: "Socialstyrelsens försäkringsmedicinska beslutsstöd <img src='/img/link_icon.png'/>",
-    tooltip: 'Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos',
+    tooltip: 'Öppnar Socialstyrelsens beslutstöd inom försäkringsmedicin',
     target: '_blank',
   },
   elegInformation: {
@@ -167,7 +167,7 @@ export const links = {
     key: 'fmbSoc',
     url: 'https://forsakringsmedicin.socialstyrelsen.se/',
     text: 'Läs mer om FMB hos Socialstyrelsen',
-    tooltip: 'Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos.',
+    tooltip: 'Öppnar Socialstyrelsens beslutstöd inom försäkringsmedicin.',
     target: '_blank',
   },
   ineraPersonuppgifter: {
