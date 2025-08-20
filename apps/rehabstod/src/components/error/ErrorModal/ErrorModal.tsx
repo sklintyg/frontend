@@ -43,7 +43,7 @@ export function ErrorModal({
     <Dialog dismissible open={open} headline="Tekniskt fel">
       <p className="mb-5">
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
-        {dynamicLink && <DynamicLink type="footer" link={links?.ineraNationellKundservice} />}.
+        {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}.
       </p>
       {generateError && <ErrorIdentifier id={errorId} />}
       <div slot="actions">

@@ -70,7 +70,12 @@ export function DateRangePicker({
               data={startDate}
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, start: val })}
             />
-            <span className={classNames('hidden px-1 py-1.5 sm:inline-block', !(value?.start && value.end) && 'italic')}>till</span>
+            <span
+              style={{ color: value?.start && value.end ? 'inherit' : 'var(--IDS-FORM-PLACEHOLDER__COLOR)' }}
+              className="hidden px-1 py-1.5 sm:inline-block"
+            >
+              till
+            </span>
             <span className="p-1.5 sm:hidden">-</span>
             <DateField
               {...endFieldProps}

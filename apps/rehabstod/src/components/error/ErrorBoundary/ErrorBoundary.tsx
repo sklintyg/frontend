@@ -1,11 +1,12 @@
 import { randomUUID } from '@frontend/utils'
-import { IDSContainer, IDSIconChevron, IDSLink } from '@inera/ids-react'
+import { IDSContainer } from '@inera/ids-react'
 import { useEffect, useRef } from 'react'
-import { Link, useRouteError } from 'react-router-dom'
+import { useRouteError } from 'react-router-dom'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorMutation } from '../../../store/api'
 import { Heading } from '../../Heading/Heading'
 import { PageHero } from '../../PageHero/PageHero'
+import { StartPageLink } from '../../PageHero/StartPageLink'
 import { ErrorIdentifier } from '../ErrorIdentifier'
 import { ErrorBoundryStacktrace } from './ErrorBoundaryStacktrace'
 
@@ -59,12 +60,7 @@ export function ErrorBoundary() {
         </div>
         <ErrorIdentifier id={errorId} />
         <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
-        <div className="text-center">
-          <IDSLink>
-            <IDSIconChevron />
-            <Link to="/">Till startsidan</Link>
-          </IDSLink>
-        </div>
+        <StartPageLink />
       </PageHero>
     </IDSContainer>
   )

@@ -15,7 +15,7 @@ export function HsaError() {
       </Heading>
       <p className="ids-preamble">
         Försök igen om en stund. Om felet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
-        <DynamicLink type="footer" link={links?.ineraNationellKundservice} />
+        <DynamicLink link={links?.ineraNationellKundservice} />
       </p>
     </>
   )

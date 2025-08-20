@@ -18,7 +18,7 @@
     "@floating-ui/react": "^0.25.1",
     "@frontend/fake": "workspace:*",
     "@frontend/utils": "workspace:*",
-    "@inera/ids-core": "^6.2.0",
+    "@inera/ids-core": "^6.2.2",
     "@inera/ids-design": "^6.2.0",
     "@inera/ids-react": "^6.2.0",
     "@internationalized/date": "^3.2.0",

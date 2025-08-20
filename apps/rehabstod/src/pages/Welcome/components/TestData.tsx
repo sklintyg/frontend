@@ -26,8 +26,8 @@ export function TestData() {
           <IDSLink>
             <a target="_blank" href="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
               Rehabstod - Testdata Documentation
+              <IDSIconExternal />
             </a>
-            <IDSIconExternal />
           </IDSLink>
         </IDSAlert>
       </div>

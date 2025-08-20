@@ -23,6 +23,9 @@ export function LayoutHeader() {
   return (
     <div className="z-40 bg-white print:hidden">
       <header className="ids-header-1177-admin">
+        <div className="ids-header-1177-admin__skip-to-content">
+          <a href="#content">Till sidans huvudinnehåll</a>
+        </div>
         <div className="ids-header-1177-admin__container">
           <div className="ids-header-1177-admin__inner">
             <div className="ids-header-1177-admin__logo-col">

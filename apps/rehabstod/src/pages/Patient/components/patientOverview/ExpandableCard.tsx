@@ -29,7 +29,7 @@ export function ExpandableCard({
   if (expanded ? !expanded : !localExpanded) {
     return (
       <>
-        <p className="py-5">{description}</p>
+        <p className="mb-5">{description}</p>
         <Button sblock onClick={handleOnClick} className="flex justify-center">
           Visa
         </Button>
