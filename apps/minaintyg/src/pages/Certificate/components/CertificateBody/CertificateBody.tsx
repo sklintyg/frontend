@@ -7,7 +7,7 @@ export function CertificateBody({ content }: { content: CertificateContent[] }) 
     <>
       {content.map(({ heading, body }) => (
         <div key={heading} className="border-b border-neutral-90">
-          <IDSAccordion headline={<h2>{heading}</h2>}>
+          <IDSAccordion lean headline={<h2>{heading}</h2>}>
             <DisplayHTML html={body} />
           </IDSAccordion>
         </div>
