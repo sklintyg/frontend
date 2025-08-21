@@ -54,7 +54,6 @@ export function OpenInformationWithConsent({
             setShowError(false)
           }}
           valid={!showError}
-          light
         />
         {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
         <div className="ml-10 flex w-44 items-center gap-3">
@@ -65,7 +64,6 @@ export function OpenInformationWithConsent({
             max="365"
             min="1"
             defaultValue="7"
-            light
           />
           <p>dagar</p>
         </div>
@@ -80,14 +78,12 @@ export function OpenInformationWithConsent({
             onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
             value={PatientOverviewConsentChoices.ONLYCURRENT}
             checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
-            light
           />
           <Radio
             label="All behörig personal på vårdenheten"
             onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
             value={PatientOverviewConsentChoices.ALL}
             checked={consentId === PatientOverviewConsentChoices.ALL}
-            light
           />
         </div>
       </div>
