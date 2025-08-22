@@ -67,3 +67,22 @@ exports[`Should render start type action 1`] = `
   </a>
 </div>
 `;
+
+exports[`Should render support type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://www.1177.se/e-tjanster-support"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+    />
+    Kontakta supporten
+    <span
+      class="ids-icon-external-link-small ids-icon--text-end"
+    />
+  </a>
+</div>
+`;

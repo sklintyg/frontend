@@ -32,6 +32,14 @@ export function ErrorPageAction({ type }: { type: ErrorPageActionTypeEnum }) {
     )
   }
 
+  if (type === ErrorPageActionType.enum.support) {
+    return (
+      <AppLink key="inera" to="https://www.1177.se/e-tjanster-support" external arrow>
+        Kontakta supporten
+      </AppLink>
+    )
+  }
+
   if (type === ErrorPageActionType.enum.about) {
     return (
       <AppLink
