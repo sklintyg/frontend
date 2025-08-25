@@ -1,4 +1,4 @@
-import { Lakare } from '../../../../schemas/lakareSchema'
+import type { Lakare } from '../../../../schemas/lakareSchema'
 
 export const getDoctorsPlaceholder = (selected: string[], doctors: Lakare[]) => {
   if (selected.length === 0 || !selected) {

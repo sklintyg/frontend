@@ -1,5 +1,5 @@
-import { IDSIconCog } from '@frontend/ids-react-ts'
-import { MouseEventHandler } from 'react'
+import { IDSIconCog } from '@inera/ids-react'
+import type { MouseEventHandler } from 'react'
 
 export function SettingsButton({ onClick }: { onClick?: MouseEventHandler<HTMLButtonElement> }) {
   return (

@@ -1,5 +1,5 @@
-import { Select } from '@frontend/components'
-import { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
+import { Select } from '../../../../components/form/Select/Select'
+import type { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetRekoStatusForPatientQuery, useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../../../utils/getRekoStatusSickLeaveTimestamp'
@@ -21,7 +21,7 @@ export function SelectRekoStatus({
 }) {
   const [setRekoStatus] = useSetRekoStatusMutation()
   const { data: rekoStatus } = useGetRekoStatusForPatientQuery({ patientId, endDate, startDate })
-  const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === 'Ingen')
+  const emptyRekoStatus = rekoStatusTypes.find((rekoStatusType) => rekoStatusType.name === '-')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeaveFilter)
 
@@ -34,12 +34,14 @@ export function SelectRekoStatus({
 
   return (
     <Select
+      light
       disabled={disabled}
       value={rekoStatus?.status?.id || emptyRekoStatus?.id}
       onChange={(event) => handleSetRekoStatus(event.target.value)}
       options={rekoStatusTypes.map(({ id, name }) => ({ label: name, value: id }))}
       description={description}
       label="Status"
+      nooptiondescriber
     />
   )
 }

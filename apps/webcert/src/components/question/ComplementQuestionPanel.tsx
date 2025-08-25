@@ -1,10 +1,10 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
-import { CertificateStatus, Question } from '../../types'
+import type { Question } from '../../types'
+import { CertificateStatus } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import InfoBox from '../utils/InfoBox'
 import Spinner from '../utils/Spinner'
@@ -29,18 +29,8 @@ interface Props {
   isDisplayingCertificateDraft: boolean
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
+const ComplementQuestionPanel = ({ complementQuestions, isDisplayingCertificateDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-
-  const getNoQuestionsMessage = () => {
-    return (
-      <div>
-        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
-          <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
-        </ImageCentered>
-      </div>
-    )
-  }
 
   const getContinueOnDraft = () => {
     const question = complementQuestions.find(
@@ -74,7 +64,13 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
           {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
             <QuestionItem key={complementQuestion.id} question={complementQuestion} />
           ))}
-          {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+          {complementQuestions && complementQuestions.length === 0 && (
+            <div>
+              <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
+                <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
+              </ImageCentered>
+            </div>
+          )}
         </>
       )}
     </Wrapper>

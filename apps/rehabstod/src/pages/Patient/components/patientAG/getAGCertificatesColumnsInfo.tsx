@@ -1,4 +1,4 @@
-import { Column } from '../../../../components/Table/types/Column'
+import type { Column } from '../../../../components/Table/types/Column'
 import { PatientColumn } from '../../../../store/slices/patientTableColumns.slice'
 
 export const getAGCertificatesColumnInfo = (column: string): Column => {
@@ -20,7 +20,7 @@ export const getAGCertificatesColumnInfo = (column: string): Column => {
     case PatientColumn.Läkare:
       return { name: column, width: 114 }
     case PatientColumn.Sysselsättning:
-      return { name: column, width: 140 }
+      return { name: column, width: 150 }
     case PatientColumn.Vårdenhet:
       return { name: column, width: 120 }
     case PatientColumn.Vårdgivare:

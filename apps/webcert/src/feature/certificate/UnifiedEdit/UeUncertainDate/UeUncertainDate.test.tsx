@@ -1,13 +1,13 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, within } from '@testing-library/react'
+import type { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeUncertainDateElement } from '../../../../faker'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
-import { fakeUncertainDateElement, fakeCertificate } from '../../../../faker'
 
 const YEARS = ['2020', '2021', '2022']
 const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
@@ -52,21 +52,21 @@ describe('UeUncertainDate', () => {
     expect(() => renderComponent({ question })).not.toThrow()
   })
 
-  it('renders control and all options', () => {
+  it('renders control and all options', async () => {
     renderComponent({ question })
     const yearDropdown = screen.getByLabelText('År')
     expect(yearDropdown).toBeInTheDocument()
-    expect(yearDropdown).toBeEnabled()
+    await expect(yearDropdown).toBeEnabled()
     expect(within(yearDropdown).getAllByRole('option')).toHaveLength(YEARS.length + 2)
 
     const monthDropdown = screen.getByLabelText('Månad')
     expect(monthDropdown).toBeInTheDocument()
-    expect(monthDropdown).toBeDisabled()
+    await expect(monthDropdown).toBeDisabled()
     expect(within(monthDropdown).getAllByRole('option')).toHaveLength(14)
 
     const dayText = screen.getByLabelText('Dag')
     expect(dayText).toBeInTheDocument()
-    expect(dayText).toBeDisabled()
+    await expect(dayText).toBeDisabled()
   })
 
   it('lets user choose option', async () => {
@@ -84,7 +84,7 @@ describe('UeUncertainDate', () => {
     expect(yearDropdown).toHaveValue(YEARS[0])
     expect(yearOptions[2].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
-    expect(monthDropdown).toBeEnabled()
+    await waitFor(() => expect(monthDropdown).toBeEnabled())
     expect(monthDropdown).toHaveValue('')
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[2].selected).toBeFalsy()
@@ -99,13 +99,13 @@ describe('UeUncertainDate', () => {
     expect(yearDropdown).toHaveValue('0000')
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
-    expect(monthDropdown).toBeDisabled()
+    await waitFor(() => expect(monthDropdown).toBeDisabled())
     expect(monthDropdown).toHaveValue('00')
     expect(monthOptions[1].selected).toBeTruthy()
     expect(monthOptions[0].selected).toBeFalsy()
   })
 
-  it('gets disabled correctly', () => {
+  it('gets disabled correctly', async () => {
     renderComponent({ question, disabled: true })
     const yearDropdown = screen.getByLabelText('År')
     expect(yearDropdown).toBeDisabled()

@@ -1,14 +1,20 @@
 import { randomUUID } from '@frontend/utils'
-import { AnyAction, ThunkMiddleware } from '@reduxjs/toolkit'
-import { api, hasRequest, isRejectedEndpoint } from '../api'
-import { RootState } from '../reducer'
+import type { ThunkMiddleware, UnknownAction } from '@reduxjs/toolkit'
+import { isPlainObject, isRejectedWithValue } from '@reduxjs/toolkit'
+import type { ErrorCodeEnum } from '../../schema/error.schema'
+import { api, hasRequest } from '../api'
+import type { RootState } from '../reducer'
 
-function getMessage(action: AnyAction): string {
-  if (action.payload && action.payload.data && action.payload.data.message) {
-    return action.payload.data.message
-  }
-  if (action.error && action.error.message) {
-    return action.error.message
+const hasMessage = (o: unknown): o is { message: string } => isPlainObject(o) && 'message' in o && typeof o.message === 'string'
+
+function getMessage(action: UnknownAction): string {
+  if (isRejectedWithValue(action)) {
+    if (isPlainObject(action.payload) && 'data' in action.payload && hasMessage(action.payload.data)) {
+      return action.payload.data.message
+    }
+    if (action.error && action.error.message) {
+      return action.error.message
+    }
   }
   return 'NO_MESSAGE'
 }
@@ -21,9 +27,14 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
   ({ dispatch, getState }) =>
   (next) =>
   (action) => {
-    if (isRejectedEndpoint(action) && action.payload) {
+    if (api.endpoints.getSessionPing.matchRejected(action) && !getState().sessionSlice.errorId) {
+      return next(action)
+    }
+
+    if (isRejectedWithValue(action) && isPlainObject(action.payload)) {
       const id = randomUUID()
-      const request = hasRequest(action.meta.baseQueryMeta) ? action.meta.baseQueryMeta.request : null
+      const baseQueryMeta = 'baseQueryMeta' in action.meta ? action.meta.baseQueryMeta : null
+      const request = hasRequest(baseQueryMeta) ? baseQueryMeta.request : null
       const message = request ? `'${getMessage(action)}' method '${request.method}' url '${request.url}'` : getMessage(action)
       const { hasSession } = getState().sessionSlice
 
@@ -31,7 +42,7 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
         dispatch(
           api.endpoints.logError.initiate({
             id,
-            code: action.payload.status,
+            code: 'status' in action.payload ? (action.payload.status as ErrorCodeEnum) : 'FETCH_ERROR',
             message,
             stackTrace: action.error ? action.error.stack : 'NO_STACK_TRACE',
           })

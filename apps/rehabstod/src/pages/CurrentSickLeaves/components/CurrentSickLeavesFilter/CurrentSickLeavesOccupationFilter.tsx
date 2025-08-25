@@ -1,6 +1,6 @@
 import { MultipleSelectFilterOption } from '../../../../components/Table/filter/MultipleSelectFilterOption'
 import { getMultipleSelectPlaceholder } from '../../../../components/Table/filter/utils/getMultipleSelectPlaceholder'
-import { OccupationType } from '../../../../schemas/sickLeaveSchema'
+import type { OccupationType } from '../../../../schemas/sickLeaveSchema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slices/sickLeaveFilter.slice'
 

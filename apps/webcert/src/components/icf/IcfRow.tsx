@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { IcfCode } from '../../types'
+import type { IcfCode } from '../../types'
 import Checkbox from '../Inputs/Checkbox'
 
 const TitleWrapper = styled.div`
@@ -25,7 +25,7 @@ interface Props {
   parentId: string
 }
 
-const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, parentId }) => {
+const IcfRow = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, parentId }: Props) => {
   const [displayDescription, setDisplayDescription] = useState(false)
 
   const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {

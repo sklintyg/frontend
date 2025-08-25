@@ -1,16 +1,11 @@
-import { useHistory } from 'react-router-dom'
+import { getByType } from '@frontend/utils'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../../components/Inputs/CustomButton'
 import PatientListInfoContent from '../../components/List/PatientListInfoContent'
 import { checkImage, readImage } from '../../images'
-import {
-  CertificateListItemValueType,
-  ForwardedListInfo,
-  ListButtonTooltips,
-  PatientListInfo,
-  ResourceLink,
-  ResourceLinkType,
-} from '../../types'
+import type { ForwardedListInfo, ListButtonTooltips, PatientListInfo, ResourceLink } from '../../types'
+import { CertificateListItemValueType, ResourceLinkType } from '../../types'
 import { formatDate } from '../../utils'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
@@ -20,23 +15,27 @@ export const StyledIcon = styled.img`
   margin: auto;
 `
 
-interface Props {
+export function ListItemContent({
+  value,
+  valueType,
+  tooltips,
+  links,
+  certificateId,
+}: Readonly<{
   value: string | boolean | PatientListInfo | ForwardedListInfo | ResourceLink[]
   valueType: CertificateListItemValueType
   tooltips: ListButtonTooltips
   links: ResourceLink[]
   certificateId: string
-}
-
-const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId }) => {
-  const history = useHistory()
+}>) {
+  const navigate = useNavigate()
 
   const openCertificate = (id: string) => {
-    history.push('/certificate/' + id)
+    navigate('/certificate/' + id)
   }
 
   const getOpenCertificateButton = () => {
-    const link = getLink(ResourceLinkType.READ_CERTIFICATE)
+    const link = getByType(links, ResourceLinkType.READ_CERTIFICATE)
     if (link) {
       return (
         <td>
@@ -58,7 +57,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   }
 
   const getRenewCertificateButton = () => {
-    const link = getLink(ResourceLinkType.RENEW_CERTIFICATE)
+    const link = getByType(links, ResourceLinkType.RENEW_CERTIFICATE)
     if (link) {
       return (
         <td>
@@ -79,14 +78,10 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     }
   }
 
-  const getLink = (type: ResourceLinkType): ResourceLink | undefined => {
-    return links ? links.find((link) => link.type === type) : undefined
-  }
-
   const getForwardedButton = (info: ForwardedListInfo) => {
-    const forwardDraft = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
-    const forwardQuestion = getLink(ResourceLinkType.FORWARD_QUESTION)
-    const link = forwardDraft ? forwardDraft : forwardQuestion
+    const forwardDraft = getByType(links, ResourceLinkType.FORWARD_CERTIFICATE)
+    const forwardQuestion = getByType(links, ResourceLinkType.FORWARD_QUESTION)
+    const link = forwardDraft ?? forwardQuestion
     if (link && info) {
       return (
         <td>
@@ -112,7 +107,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   const getListItemContent = () => {
     switch (valueType) {
       case CertificateListItemValueType.TEXT:
-        return <td>{value}</td>
+        return <td>{value as string}</td>
       case CertificateListItemValueType.DATE:
         return <td>{formatDate(value as string)}</td>
       case CertificateListItemValueType.PATIENT_INFO:
@@ -132,7 +127,8 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
           <td>
             <StyledIcon
               src={checkImage}
-              data-tip={tooltips[CertificateListItemValueType.FORWARD]}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={tooltips[CertificateListItemValueType.FORWARD]}
               alt={tooltips[CertificateListItemValueType.FORWARD]}
             />
           </td>
@@ -147,5 +143,3 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
 
   return getListItemContent()
 }
-
-export default ListItemContent

@@ -1,8 +1,7 @@
-import React from 'react'
+import webcertLogo from '../../images/webcert_logo.png'
 import Logo from '../AppHeader/Logo'
-import webcertLogo from './webcert_logo.png'
 
-const WebcertTitle: React.FC = () => {
+const WebcertTitle = () => {
   return <Logo imgAlt="" imgSrc={webcertLogo}></Logo>
 }
 

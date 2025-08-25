@@ -1,4 +1,4 @@
-import { Column } from '../../../components/Table/types/Column'
+import type { Column } from '../../../components/Table/types/Column'
 import { LUCertificatesColumn } from '../../../store/slices/luUnitTableColumns.slice'
 
 export const getLUCertificatesColumnInfo = (column: string): Column => {

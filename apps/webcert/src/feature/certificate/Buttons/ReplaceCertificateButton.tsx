@@ -1,11 +1,10 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { DoubleArrowIcon } from '../../../images'
+import { replaceCertificate } from '../../../store/certificate/certificateActions'
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -13,7 +12,7 @@ interface Props extends FunctionDisabled {
   enabled: boolean
 }
 
-const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const ReplaceCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
   const isDodsbevis = certificateMetadata?.type === 'db'

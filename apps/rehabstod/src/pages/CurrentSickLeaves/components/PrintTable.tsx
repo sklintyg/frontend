@@ -1,8 +1,10 @@
-import { classNames } from '@frontend/components'
-import { ReactNode, useEffect } from 'react'
+import type { ReactNode } from 'react'
+import { useEffect } from 'react'
+import { Heading } from '../../../components/Heading/Heading'
 import { useTableContext } from '../../../components/Table/hooks/useTableContext'
-import { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
+import type { SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { useLogPrintInteractionMutation } from '../../../store/sickLeaveApi'
+import { classNames } from '../../../utils/classNames'
 import { isDateBeforeToday } from '../../../utils/isDateBeforeToday'
 import { useSickLeavesTableColumn } from '../hooks/useSickLeavesTableColumns'
 import { getSickLeavesColumnData } from '../utils/getSickLeavesColumnData'
@@ -33,7 +35,9 @@ export function PrintTable({ sickLeaves, tableInfo, title }: { sickLeaves?: Sick
 
   return (
     <div className="hidden print:block">
-      <h3 className="ids-heading-4">{title}</h3>
+      <Heading level={3} size="xs">
+        {title}
+      </Heading>
       <div className="mb-2 flex">
         <div className="w-1/2 whitespace-nowrap">{tableInfo}</div>
         <div className="w-1/2 whitespace-nowrap text-right">

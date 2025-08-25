@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
+import type { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
 import UeDiagnosis from './UeDiagnosis'
 
 const RadioWrapper = styled.div`
@@ -24,69 +23,64 @@ export interface Props {
   disabled: boolean
 }
 
-const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
+const UeDiagnoses = ({ question, disabled }: Props) => {
   const questionConfig = question.config as ConfigUeDiagnoses
   const questionValue = question.value as ValueDiagnosisList
   const firstSavedItem = questionValue.list.find((value) => value && value.terminology !== '')
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
     questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
   )
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
+  const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
   const dispatch = useAppDispatch()
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    resetDiagnosisList()
+    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, list: [] } }))
     setSelectedCodeSystem(event.currentTarget.name)
-  }
-
-  const resetDiagnosisList = () => {
-    const updatedQuestion: CertificateDataElement = { ...question }
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-    updatedQuestionValue.list = []
-    updatedQuestion.value = updatedQuestionValue
-    dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
   return (
     <>
-      <p>Välj kodverk:</p>
-      <RadioWrapper>
-        {questionConfig.terminology.map((terminology) => {
-          return (
-            <RadioButton
-              key={terminology.id}
-              disabled={disabled}
-              label={terminology.label}
-              name={terminology.id}
-              id={terminology.id}
-              value={terminology.id}
-              checked={selectedCodeSystem === terminology.id}
-              onChange={handleCodeSystemChange}
-            />
-          )
-        })}
-      </RadioWrapper>
-      <p className={'iu-mb-200'}>Diagnoskod enligt ICD-10 SE</p>
+      {questionConfig.terminology.length > 1 && (
+        <>
+          <p>Välj kodverk:</p>
+          <RadioWrapper>
+            {questionConfig.terminology.map(({ id, label }) => {
+              return (
+                <RadioButton
+                  key={id}
+                  disabled={disabled}
+                  label={label}
+                  name={id}
+                  id={id}
+                  value={id}
+                  checked={selectedCodeSystem === id}
+                  onChange={handleCodeSystemChange}
+                />
+              )
+            })}
+          </RadioWrapper>
+        </>
+      )}
+      <p className={'iu-mb-200'}>Diagnoskod enligt {questionConfig.terminology.find(({ id }) => id === selectedCodeSystem)?.label}</p>
       <div>
-        {questionConfig.list.map((diagnosis, index) => {
-          const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
+        {questionConfig.list.map(({ id }, index) => {
+          const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
           return (
             <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrors.length === 1) || diagnosisValidationErrors.length > 0}
-              key={`${diagnosis.id}-diagnosis`}
+              hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
+              key={`${id}-diagnosis`}
               question={question}
               disabled={disabled}
-              id={diagnosis.id}
+              id={id}
               selectedCodeSystem={selectedCodeSystem}
               validationErrors={diagnosisValidationErrors}
             />
           )
         })}
       </div>
-      {validationErrors.length === 1 && (
-        <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
-      )}
+      {validationErrorsWithMissingField.length > 0 && <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />}
     </>
   )
 }

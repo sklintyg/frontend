@@ -1,4 +1,4 @@
-import { Column } from '../../../components/Table/types/Column'
+import type { Column } from '../../../components/Table/types/Column'
 import { useGetUserQuery } from '../../../store/api'
 import { useAppSelector } from '../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../store/sickLeaveApi'
@@ -10,14 +10,14 @@ import { sickLeaveColumnFilter } from '../utils/sickLeaveColumnFilter'
 const getSickLeaveColumnWidth = (column: string): number | undefined => {
   switch (column) {
     case SickLeaveColumn.Personnummer:
-      return 145
+      return 148
     case SickLeaveColumn.Ålder:
     case SickLeaveColumn.Intyg:
       return 80
     case SickLeaveColumn.Namn:
       return 136
     case SickLeaveColumn.Kön:
-      return 65
+      return 70
     case SickLeaveColumn.Diagnos:
       return 255
     case SickLeaveColumn.Sysselsättning:
@@ -32,6 +32,7 @@ const getSickLeaveColumnWidth = (column: string): number | undefined => {
     case SickLeaveColumn.Läkare:
       return 114
     case SickLeaveColumn.Status:
+      return 180
     case SickLeaveColumn.Risk:
       return 150
     case SickLeaveColumn.Ärenden:
@@ -64,7 +65,7 @@ const getSickLeaveColumnDescription = (column: string, valdVardenhet?: string): 
     case SickLeaveColumn.Ärenden:
       return 'Visar om det finns intyg i sjukfallet som har obesvarade ärenden och hur många det är.'
     case SickLeaveColumn.Status:
-      return 'Status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra status. Dessa alternativ finns: Ingen, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt.'
+      return 'Status är ett sätt för Rehabkoordinatorer att göra en minnesnotering per sjukfall. Som Läkare kan du se men inte ange eller ändra status. Dessa alternativ finns: -, Kontaktad, Aktiv, Uppföljning, Avslutad, Avböjt, Lämnas utan åtgärd, Medicinsk rehab.'
     default:
       return undefined
   }

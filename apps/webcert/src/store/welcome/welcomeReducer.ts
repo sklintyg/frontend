@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Patient } from '../../types'
+import type { Patient } from '../../types'
 import { mockUserData } from './mockUserData'
 import {
   clearWelcome,
@@ -64,6 +64,11 @@ export interface MockUser {
   efterNamn: string
   enhetId: string
   legitimeradeYrkesgrupper?: string[]
+}
+
+export interface JsonUser extends MockUser {
+  origin: string
+  authenticationMethod: string
 }
 
 export interface WelcomeState {

@@ -1,5 +1,5 @@
 import { areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
-import { ConfigUeCheckboxDateRange, ValueDateRange } from './../types/certificate'
+import type { ConfigUeCheckboxDateRange, ValueDateRange } from './../types/certificate'
 import { replaceDecimalSeparator } from './textUtils'
 
 export const _dateReg = /[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -90,8 +90,8 @@ export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], 
   let maxDate: Date | undefined
 
   for (let i = 0; i < configList.length; i++) {
-    const currPeriodId = configList[i].id
-    const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId.toLowerCase())
+    const currPeriodId = configList[i]?.id
+    const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId?.toLowerCase())
 
     if (currPeriodValue?.to && getValidDate(currPeriodValue.to)) {
       const currentDate = getValidDate(currPeriodValue.to)
@@ -170,7 +170,7 @@ export const getPeriodWorkDays = (fromDate: Date, toDate: Date): number => {
   return differenceInCalendarDays(toDate, fromDate) + 1
 }
 
-export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]): number => {
+export const getNumberOfPeriodDays = (periods: ValueDateRange[]): number => {
   let total = 0
 
   for (let i = 0; i < periods.length; i++) {

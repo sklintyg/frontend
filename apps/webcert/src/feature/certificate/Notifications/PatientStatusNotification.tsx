@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   text-align: center;
 `
 
-const PatientStatusNotification: React.FC<Props> = ({ status, title, type }) => {
+const PatientStatusNotification = ({ status, title, type }: Props) => {
   if (!status) return null
 
   return (

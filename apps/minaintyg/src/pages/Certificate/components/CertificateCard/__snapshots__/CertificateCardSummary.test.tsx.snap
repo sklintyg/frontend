@@ -3,13 +3,13 @@
 exports[`Should render correctly with summary 1`] = `
 <div>
   <div
-    class="mb-2.5 flex flex-col place-content-end gap-2.5 border-stone-line md:mb-5 md:flex-row md:border-b md:pb-5"
+    class="mb-2.5 flex flex-col place-content-end gap-2.5 border-neutral-90 md:mb-5 md:flex-row md:border-b md:pb-5"
   >
     <div
       class="grow leading-5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Gäller intygsperiod
       </h4>
@@ -20,7 +20,7 @@ exports[`Should render correctly with summary 1`] = `
       class="flex flex-col whitespace-nowrap leading-5 md:flex-row md:gap-1.5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Intyg utfärdat
       </h4>
@@ -35,13 +35,13 @@ exports[`Should render correctly with summary 1`] = `
 exports[`Should render correctly without summary 1`] = `
 <div>
   <div
-    class="mb-2.5 flex flex-col place-content-end gap-2.5 border-stone-line md:mb-5 md:flex-row md:border-b md:pb-5"
+    class="mb-2.5 flex flex-col place-content-end gap-2.5 border-neutral-90 md:mb-5 md:flex-row md:border-b md:pb-5"
   >
     <div
       class="flex flex-col whitespace-nowrap leading-5 md:flex-row md:gap-1.5"
     >
       <h4
-        class="ids-heading-4 mb-0 leading-5 md:inline-block md:after:content-[':']"
+        class="ids-heading-xs !normal-case mb-0 leading-5 md:inline-block md:after:content-[':']"
       >
         Intyg utfärdat
       </h4>

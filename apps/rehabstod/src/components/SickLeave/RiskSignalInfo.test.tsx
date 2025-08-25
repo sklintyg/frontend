@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RiskSignal } from '../../schemas/sickLeaveSchema'
+import type { RiskSignal } from '../../schemas/sickLeaveSchema'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { RiskSignalInfo } from './RiskSignalInfo'
 
@@ -35,8 +35,8 @@ describe('RiskSignalInfo', () => {
   it('should render two colored rings and one white for category 2', () => {
     renderComponent(getRiskSignal(2))
     const riskSignals = screen.getAllByTestId('riskSignalRing')
-    expect(riskSignals[0]).toHaveClass('bg-error-10')
-    expect(riskSignals[1]).toHaveClass('bg-error-10')
+    expect(riskSignals[0]).toHaveClass('bg-graphic')
+    expect(riskSignals[1]).toHaveClass('bg-graphic')
     expect(riskSignals[2]).toHaveClass('bg-white')
   })
 

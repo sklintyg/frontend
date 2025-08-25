@@ -1,9 +1,9 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
 import Spinner from '../../../components/utils/Spinner'
-import { CertificateEvent, CertificateEventType, CertificateMetadata, CertificateRelationType, CertificateStatus } from '../../../types'
+import type { CertificateEvent, CertificateMetadata } from '../../../types'
+import { CertificateEventType, CertificateRelationType, CertificateStatus } from '../../../types'
 import { isHasParent, isParentRevoked } from '../../../utils'
 
 const LinkWithMargin = styled(Link)`
@@ -15,7 +15,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
+const ShowHistory = ({ historyEntries, certificateMetadata }: Props) => {
   const isEmpty = historyEntries.length === 0
 
   function formatDate(date: string) {

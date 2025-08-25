@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected 1`] = `
+<div>
+  <div
+    class="sticky bottom-0 h-16 opacity-0 transition-opacity ease-in-out pointer-events-none"
+  >
+    <button
+      aria-disabled="false"
+      aria-label="Till toppen av sidan"
+      aria-pressed="false"
+      class="ids-button ids-button--m ids-button--fab ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
+      role="button"
+      tabindex="0"
+    >
+      <span
+        class="ids-icon-arrow-up"
+      />
+    </button>
+  </div>
+</div>
+`;

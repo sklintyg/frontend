@@ -1,9 +1,8 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { noQuestionImage } from '../../images'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
-import { Question } from '../../types'
+import type { Question } from '../../types'
 import ImageCentered from '../image/image/ImageCentered'
 import Spinner from '../utils/Spinner'
 import QuestionForm from './QuestionForm'
@@ -29,18 +28,8 @@ interface Props {
   administrativeQuestionDraft: Question
 }
 
-const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }) => {
+const AdministrativeQuestionPanel = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-
-  const getNoQuestionsMessage = () => {
-    return (
-      <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
-        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
-          <p>Det finns inga administrativa frågor för detta intyg.</p>
-        </ImageCentered>
-      </div>
-    )
-  }
 
   return (
     <Root>
@@ -51,7 +40,13 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
           {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (
             <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
           ))}
-          {!isLoadingQuestions && administrativeQuestions.length === 0 && getNoQuestionsMessage()}
+          {!isLoadingQuestions && administrativeQuestions.length === 0 && (
+            <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
+              <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
+                <p>Det finns inga administrativa frågor för detta intyg.</p>
+              </ImageCentered>
+            </div>
+          )}
         </div>
       </Wrapper>
     </Root>

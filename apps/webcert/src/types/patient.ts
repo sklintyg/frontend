@@ -1,4 +1,5 @@
-import { ResourceLink } from './resourceLink'
+import type { CertificateConfirmationModal } from './confirmModal'
+import type { ResourceLink } from './resourceLink'
 
 export enum PatientStatus {
   FOUND = 'FOUND',
@@ -13,6 +14,7 @@ export interface Patient {
   previousPersonId?: PersonId
   firstName: string
   lastName: string
+  middleName: string
   fullName: string
   street: string
   zipCode: string
@@ -24,6 +26,7 @@ export interface Patient {
   differentNameFromEHR: boolean
   personIdChanged: boolean
   reserveId: boolean
+  addressFromPU: boolean
 }
 
 export interface PersonId {
@@ -39,4 +42,5 @@ export interface CertificateType {
   label: string
   links: ResourceLink[]
   message: string
+  confirmationModal: CertificateConfirmationModal | null
 }

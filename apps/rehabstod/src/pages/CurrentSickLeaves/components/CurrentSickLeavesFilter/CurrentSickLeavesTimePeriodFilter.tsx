@@ -1,5 +1,5 @@
 import { TimePeriodFilter } from '../../../../components/Table/filter/TimePeriodFilter'
-import { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
+import type { SickLeaveLengthInterval } from '../../../../schemas/sickLeaveSchema'
 import { TimePeriodMetric } from '../../../../schemas/timePeriodOptionSchema'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slices/sickLeaveFilter.slice'

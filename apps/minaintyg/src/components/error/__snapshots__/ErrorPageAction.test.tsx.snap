@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render 1177 type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://www.1177.se"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+    />
+    Till 1177
+    <span
+      class="ids-icon-external-link-small ids-icon--text-end"
+    />
+  </a>
+</div>
+`;
+
+exports[`Should render about type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+    />
+    Om 1177 intyg
+    <span
+      class="ids-icon-external-link-small ids-icon--text-end"
+    />
+  </a>
+</div>
+`;
+
+exports[`Should render login type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="/"
+    target="self"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+    />
+    Till inloggning
+  </a>
+</div>
+`;
+
+exports[`Should render start type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://e-tjanster.1177.se/mvk/"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+      data-testid="arrow"
+    />
+    Till startsidan
+  </a>
+</div>
+`;
+
+exports[`Should render support type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://www.1177.se/e-tjanster-support"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+    />
+    Kontakta supporten
+    <span
+      class="ids-icon-external-link-small ids-icon--text-end"
+    />
+  </a>
+</div>
+`;

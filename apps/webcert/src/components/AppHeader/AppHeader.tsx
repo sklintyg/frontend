@@ -1,6 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
-import { UserTab } from '../../types'
+import type { UserTab } from '../../types'
 import AppHeaderTabs from './AppHeaderTabs'
 import AppHeaderTitle from './AppHeaderTitle'
 

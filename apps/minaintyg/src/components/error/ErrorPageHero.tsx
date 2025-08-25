@@ -1,94 +1,72 @@
 import { ErrorIdentifier } from '@frontend/components'
-import { getNavigationItem, getNavigationItemUrl, PageHero, PageHeroActions } from '@frontend/components/1177'
-import { IDSIconChevron, IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
-import { z } from 'zod'
-import { ErrorType, ErrorTypeEnum } from '../../schema/error.schema'
+import { PageHero, PageHeroActions } from '@frontend/components/1177'
+import type { ErrorTypeEnum } from '../../schema/error.schema'
+import { ErrorPageActionType, ErrorType } from '../../schema/error.schema'
+import { ErrorPageAction } from './ErrorPageAction'
 import { SupportLink } from './SupportLink/SupportLink'
 
-const ActionType = z.enum(['start', 'login', '1177'])
-export type ActionTypeEnum = z.infer<typeof ActionType>
+const errorInfo = {
+  [ErrorType.enum.unavailable]: {
+    heading: 'Tjänsten är inte tillgänglig just nu',
+    description: 'Välkommen tillbaka vid senare tillfälle.',
+    actions: [],
+  },
+  [ErrorType.enum['login-failed']]: {
+    heading: 'Inloggning misslyckades',
+    description: 'På grund av ett tekniskt fel går det inte att logga in just nu. Försök igen senare.',
+    actions: [ErrorPageActionType.enum.start],
+  },
+  [ErrorType.enum['logged-out']]: {
+    heading: 'Du är utloggad',
+    description:
+      'Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.',
+    actions: [ErrorPageActionType.enum.login, ErrorPageActionType.enum[1177]],
+  },
+  [ErrorType.enum['not-found']]: {
+    heading: 'Sidan hittades inte',
+    description: 'Sidan du söker har fått en ny adress eller är borttagen.',
+    actions: [ErrorPageActionType.enum.start],
+  },
+  [ErrorType.enum.underage]: {
+    heading: 'Du som är under 16 har inte tillgång till 1177 intyg',
+    description: 'Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.',
+    actions: [ErrorPageActionType.enum.start, ErrorPageActionType.enum.about],
+  },
+  [ErrorType.enum.inactive]: {
+    heading: 'Din inloggning är låst',
+    description: 'Din inloggning är låst. Kontakta supporten om du har frågor.',
+    actions: [ErrorPageActionType.enum.login, ErrorPageActionType.enum.support],
+  },
+  [ErrorType.enum.unknown]: {
+    heading: 'Någonting gick fel',
+    description: 'På grund av ett tekniskt fel går det inte att visa Intyg just nu. Försök igen senare.',
+    actions: [ErrorPageActionType.enum.start],
+  },
+} as const
 
 function getErrorHeading(type?: ErrorTypeEnum) {
-  switch (type) {
-    case ErrorType.enum.unavailable:
-      return 'Tjänsten är inte tillgänglig just nu'
-    case ErrorType.enum['login-failed']:
-      return 'Inloggning misslyckades'
-    case ErrorType.enum['logged-out']:
-      return 'Du är utloggad'
-    case ErrorType.enum['not-found']:
-      return 'Sidan hittades inte'
-    default:
-      return 'Någonting gick fel'
-  }
+  return (type !== undefined && errorInfo[type]?.heading) || errorInfo.unknown.heading
 }
 
 function getErrorDescription(type?: ErrorTypeEnum) {
-  switch (type) {
-    case ErrorType.enum.unavailable:
-      return 'Välkommen tillbaka vid senare tillfälle.'
-    case ErrorType.enum['login-failed']:
-      return 'På grund av ett tekniskt fel går det inte att logga in just nu. Försök igen senare.'
-    case ErrorType.enum['logged-out']:
-      return 'Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.'
-    case ErrorType.enum['not-found']:
-      return 'Sidan du söker har fått en ny adress eller är borttagen.'
-    default:
-      return 'På grund av ett tekniskt fel går det inte att visa Intyg just nu. Försök igen senare.'
-  }
+  return (type !== undefined && errorInfo[type]?.description) || errorInfo.unknown.description
 }
 
-function getAction(type: ActionTypeEnum) {
-  const startLinkItem = getNavigationItem('Start')
-  switch (type) {
-    case ActionType.enum.start:
-      return (
-        startLinkItem && (
-          <IDSLink key="start">
-            <IDSIconChevron />
-            <Link to={getNavigationItemUrl(startLinkItem, import.meta.env.MODE)}>Till startsidan</Link>
-          </IDSLink>
-        )
-      )
-    case ActionType.enum.login:
-      return (
-        <IDSLink key="login">
-          <IDSIconChevron />
-          <a href="/">Till inloggning</a>
-        </IDSLink>
-      )
-    case ActionType.enum['1177']:
-      return (
-        <IDSLink key="inera">
-          <IDSIconChevron />
-          <Link to="https://www.1177.se">Till 1177</Link>
-          <IDSIconExternal slot="append-icon" />
-        </IDSLink>
-      )
-    default:
-      return null
-  }
-}
-
-function getActions(type?: ErrorTypeEnum): ActionTypeEnum[] {
-  switch (type) {
-    case ErrorType.enum.unavailable:
-      return []
-    case ErrorType.enum['logged-out']:
-      return ['login', '1177']
-    default:
-      return ['start']
-  }
+function getActions(type?: ErrorTypeEnum) {
+  return (type !== undefined && errorInfo[type]?.actions) || errorInfo.unknown.actions
 }
 
 export function ErrorPageHero({ id, type }: { id?: string; type?: ErrorTypeEnum }) {
   return (
     <PageHero heading={getErrorHeading(type)} type={type === ErrorType.enum['logged-out'] ? 'success' : 'error'}>
       <p className="ids-preamble">{getErrorDescription(type)}</p>
-      <PageHeroActions>{getActions(type).map(getAction)}</PageHeroActions>
+      <PageHeroActions>
+        {getActions(type).map((t) => (
+          <ErrorPageAction type={t} key={t} />
+        ))}
+      </PageHeroActions>
       {id && type !== ErrorType.enum['logged-out'] && (
-        <div className="border-y border-stone-clear py-5">
+        <div className="border-y border-neutral-90 py-5">
           Om problemet kvarstår, spara nedan id och kontakta <SupportLink />
           <br />
           <ErrorIdentifier id={id} showTitle={false} />

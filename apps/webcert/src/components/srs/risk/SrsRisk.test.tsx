@@ -1,5 +1,6 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { act, render, screen } from '@testing-library/react'
+import { getByType } from '@frontend/utils'
+import type { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
@@ -48,41 +49,38 @@ describe('SrsRisk', () => {
 
   describe('title', () => {
     it('should show title including diagnosis from srs info if predictions is not set', () => {
-      const srsInfo = fakeSrsInfo()
+      const prediction = fakeSrsPrediction()
+      const srsInfo = fakeSrsInfo({ predictions: [prediction] })
+      store.dispatch(updateSrsInfo(srsInfo))
+      store.dispatch(updateSrsPredictions([]))
       renderComponent()
-      act(() => {
-        store.dispatch(updateSrsInfo(srsInfo))
-        store.dispatch(updateSrsPredictions([]))
-      })
-      expect(
-        screen.getByText(`Risken gäller ${srsInfo.predictions[0].diagnosisCode} ${srsInfo.predictions[0].diagnosisDescription}`)
-      ).toBeInTheDocument()
+      expect(screen.getByText(`Risken gäller ${prediction.diagnosisCode} ${prediction.diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from predictions if set', () => {
-      const predictions = [fakeSrsPrediction()]
-      renderComponent()
+      const prediction = fakeSrsPrediction()
       store.dispatch(updateSrsInfo(undefined))
-      store.dispatch(updateSrsPredictions(predictions))
-      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
+      store.dispatch(updateSrsPredictions([prediction]))
+      renderComponent()
+      expect(screen.getByText(`Risken gäller ${prediction.diagnosisCode} ${prediction.diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from predictions if both predictions and srs info is set', () => {
-      const predictions = [fakeSrsPrediction()]
+      const prediction = fakeSrsPrediction()
       const srsInfo = fakeSrsInfo()
-      renderComponent()
       store.dispatch(updateSrsInfo(srsInfo))
-      store.dispatch(updateSrsPredictions(predictions))
-      expect(screen.getByText(`Risken gäller ${predictions[0].diagnosisCode} ${predictions[0].diagnosisDescription}`)).toBeInTheDocument()
+      store.dispatch(updateSrsPredictions([prediction]))
+      renderComponent()
+      expect(screen.getByText(`Risken gäller ${prediction.diagnosisCode} ${prediction.diagnosisDescription}`)).toBeInTheDocument()
     })
 
     it('should show title including diagnosis from last predictions matching chosen diagnosis code', () => {
       const chosenPrediction = fakeSrsPrediction('J201')
       const predictions = [fakeSrsPrediction('J20'), fakeSrsPrediction('J30'), chosenPrediction]
       const srsInfo = fakeSrsInfo()
-      renderComponent()
       store.dispatch(updateSrsInfo(srsInfo))
       store.dispatch(updateSrsPredictions(predictions))
+      renderComponent()
       expect(
         screen.getByText(`Risken gäller ${chosenPrediction.diagnosisCode} ${chosenPrediction.diagnosisDescription}`)
       ).toBeInTheDocument()
@@ -117,12 +115,12 @@ describe('SrsRisk', () => {
     it('should log when clicking button', async () => {
       renderComponent()
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
-    it('should disabled button when choosing extension after 60 days sickleave option', () => {
-      renderComponent()
+    it('should disabled button when choosing extension after 60 days sickleave option', async () => {
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      renderComponent()
       expect(screen.getByText(SRS_RISK_BUTTON_TEXT)).toBeDisabled()
     })
   })
@@ -138,7 +136,7 @@ describe('SrsRisk', () => {
       renderComponent()
       await userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
       await userEvent.click(screen.getByText('Beräkna'))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
     it('should close risk form if open risk form button gets disabled', async () => {

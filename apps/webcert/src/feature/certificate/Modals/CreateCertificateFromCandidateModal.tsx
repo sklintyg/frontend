@@ -4,14 +4,14 @@ import { createCertificateFromCandidate } from '../../../store/certificate/certi
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ModalBase from '../../../components/utils/Modal/ModalBase'
 import { CopyIcon } from '../../../images'
-import { ResourceLink } from '../../../types'
+import type { ResourceLink } from '../../../types'
 import { useKeyPress, sanitizeText } from '../../../utils'
 
 interface Props {
   resourceLink: ResourceLink | undefined
 }
 
-const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) => {
+const CreateCertificateFromCandidateModal = ({ resourceLink }: Props) => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')

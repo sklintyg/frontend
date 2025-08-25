@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import DisplayError from '../components/error/DisplayError'
-import { ErrorRoute } from '../components/error/ErrorComponent'
+import type { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
-import logo from '../components/header/webcert_logo.png'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import SystemBanners from '../components/notification/SystemBanners'
 import errorImage from '../images/fel-1.svg'
+import logo from '../images/webcert_logo.png'
 import { throwError } from '../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 
@@ -27,15 +27,28 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['login.failed', ErrorCode.LOGIN_FAILED],
   ['login.hsaerror', ErrorCode.LOGIN_HSA_ERROR],
   ['login.medarbetaruppdrag', ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
+  ['auth-exception', ErrorCode.AUTHORIZATION_PROBLEM],
+  ['auth-exception-sekretessmarkering', ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING],
+  ['auth-exception-subscription', ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION],
+  ['auth-exception-resource', ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE],
+  ['auth-exception-user-already-active', ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE],
+  ['integration.nocontent', ErrorCode.INTEGRATION_NOCONTENT],
+  ['unknown', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
+  ['pu-problem', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
+  ['missing-parameter', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
 ])
 
-const ErrorPage: React.FC = () => {
+const ErrorPage = () => {
   const location = useLocation()
   const dispatch = useDispatch()
   let errorCode: string | undefined
   let errorId: string | undefined
 
-  const excludeErrorId = [ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET, ErrorCode.TIMEOUT]
+  const excludeErrorId = [
+    ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
+    ErrorCode.TIMEOUT,
+    ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION,
+  ]
 
   const shouldExcludeErrorId = () => {
     return excludeErrorId.some((code) => code.toString() === errorCode)

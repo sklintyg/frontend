@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
+import { useMemo } from 'react'
+import type { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
@@ -7,10 +7,7 @@ import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 import { Badge } from '../Badge'
 
-export const UvCauseOfDeathList: React.FC<{
-  value: ValueCauseOfDeathList
-  config: ConfigUeCauseOfDeathList
-}> = ({ value, config }) => {
+export const UvCauseOfDeathList = ({ value, config }: { value: ValueCauseOfDeathList; config: ConfigUeCauseOfDeathList }) => {
   const rows = useMemo(() => {
     return config.list.reduce<string[][]>((result, configItem) => {
       const valueItem = value.list.find((item) => item.id === configItem.id)

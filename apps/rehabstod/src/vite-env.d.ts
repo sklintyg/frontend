@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { AriaAttributes, DOMAttributes } from 'react'
+import type { AriaAttributes, DOMAttributes } from 'react'
 
 // Add properties used by ids-code
 declare module 'react' {

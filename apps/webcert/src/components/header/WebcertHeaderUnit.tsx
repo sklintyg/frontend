@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
 import { AlertCircle } from '../../images'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import {
   getTotalDraftsAndUnhandledQuestionsOnOtherUnits,
   getUser,
-  getUserResourceLinks,
+  getUserResourceLink,
   isPrivatePractitioner,
 } from '../../store/user/userSelectors'
-import { ResourceLinkType, User } from '../../types'
+import type { User } from '../../types'
+import { ResourceLinkType } from '../../types'
 import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
 import ExpandableBox from '../utils/ExpandableBox'
 
@@ -45,14 +47,13 @@ interface Props {
   changeUnitLinkPointer?: boolean
 }
 
-const WebcertHeaderUnit: React.FC<Props> = () => {
-  const dispatch = useDispatch()
-  const user = useSelector(getUser, shallowEqual)
-  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
-  const userLinks = useSelector(getUserResourceLinks)
-  const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
+const WebcertHeaderUnit = () => {
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(getUser, shallowEqual)
+  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useAppSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
+  const changeUnitLink = useAppSelector(getUserResourceLink(ResourceLinkType.CHANGE_UNIT))
   const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
-  const privatePractitioner = useSelector(isPrivatePractitioner)
+  const privatePractitioner = useAppSelector(isPrivatePractitioner)
 
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -91,7 +92,8 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
           {user.loggedInUnit.isInactive && (
             <InactiveUnit
               className="iu-ml-400"
-              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
+              data-tooltip-id="tooltip"
+              data-tooltip-content="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
             >
               <AlertCircle />
               <span className="iu-ml-200">Inaktiv enhet</span>

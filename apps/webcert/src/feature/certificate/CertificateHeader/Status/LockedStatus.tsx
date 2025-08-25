@@ -1,14 +1,13 @@
-import React from 'react'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import { CertificateMetadata } from '../../../../types'
+import type { CertificateMetadata } from '../../../../types'
 import { isLockedRevoked } from '../../../../utils'
 
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const LockedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const LockedStatus = ({ certificateMetadata }: Props) => {
   const isDraftLockedRevoked = isLockedRevoked(certificateMetadata)
 
   return isDraftLockedRevoked ? (

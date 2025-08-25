@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { Staff } from '../types/certificate'
+import type { Staff } from '../types/certificate'
 
 export const fakeStaff = (data?: Partial<Staff>): Staff => {
   return {

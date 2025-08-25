@@ -1,7 +1,7 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconQuestion, IDSIconUser } from '@frontend/ids-react-ts'
+import { IDSIconInformation, IDSIconUser } from '@inera/ids-react'
 import { differenceInDays, parseISO } from 'date-fns'
-import { PatientSjukfall, PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
+import { TooltipIcon } from '../../../../components/Tooltip'
+import type { PatientSjukfall, PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { useAppSelector } from '../../../../store/hooks'
 
 export function PatientHeaderInfo({
@@ -34,7 +34,7 @@ export function PatientHeaderInfo({
             <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar </span>
             <TooltipIcon
               description="Visar antal dagar som sjukfallet pågått från första intygets startdatum till idag."
-              icon={<IDSIconQuestion width="100%" height="100%" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
+              icon={<IDSIconInformation width="100%" height="100%" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
               alignMiddle
             />
           </div>

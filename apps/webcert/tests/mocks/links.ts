@@ -49,7 +49,7 @@ export const links = {
   },
   socialstyrelsenFmbAnvandas: {
     key: 'socialstyrelsenFmbAnvandas',
-    url: 'https://roi.socialstyrelsen.se/fmb',
+    url: 'https://forsakringsmedicin.socialstyrelsen.se/',
     text: 'Socialstyrelsens hemsida',
     target: '_blank',
   },
@@ -146,9 +146,9 @@ export const links = {
   },
   fmbSocWithIcon: {
     key: 'fmbSocWithIcon',
-    url: 'https://roi.socialstyrelsen.se/fmb',
+    url: 'https://forsakringsmedicin.socialstyrelsen.se/',
     text: "Socialstyrelsens försäkringsmedicinska beslutsstöd <img src='/img/link_icon.png'/>",
-    tooltip: 'Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos',
+    tooltip: 'Öppnar Socialstyrelsens beslutstöd inom försäkringsmedicin',
     target: '_blank',
   },
   elegInformation: {
@@ -165,9 +165,9 @@ export const links = {
   },
   fmbSoc: {
     key: 'fmbSoc',
-    url: 'https://roi.socialstyrelsen.se/fmb',
+    url: 'https://forsakringsmedicin.socialstyrelsen.se/',
     text: 'Läs mer om FMB hos Socialstyrelsen',
-    tooltip: 'Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos.',
+    tooltip: 'Öppnar Socialstyrelsens beslutstöd inom försäkringsmedicin.',
     target: '_blank',
   },
   ineraPersonuppgifter: {

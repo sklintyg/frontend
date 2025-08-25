@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import SpinnerBackdrop from '../utils/SpinnerBackdrop'
@@ -8,7 +8,7 @@ interface Props {
   unitId: string
 }
 
-const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
+const WelcomeDeepIntegration = ({ certificateId, unitId }: Props) => {
   const formRef = useRef(null)
   const integrationParameters = useSelector(getIntegrationParameters())
   const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
@@ -20,7 +20,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
     }
   }, [])
 
-  const url = window.location.origin.replace('wc2.', '') + '/visa/intyg/' + certificateId
+  const url = window.location.origin + '/visa/intyg/' + certificateId
 
   return (
     <>

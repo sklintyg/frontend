@@ -1,25 +1,23 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '../../types'
+import type { CertificateRelation, Question } from '../../types'
+import { CertificateRelationType, CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderComponent = (questions: Question[], isDisplayingCertificateDraft: boolean) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <ComplementQuestionPanel complementQuestions={questions} isDisplayingCertificateDraft={isDisplayingCertificateDraft} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -38,6 +36,7 @@ function createQuestion(): Question {
     reminders: [],
     type: QuestionType.COMPLEMENT,
     links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
+    certificateId: 'certificateId',
   }
 }
 
@@ -113,10 +112,10 @@ describe('ComplementQuestionPanel', () => {
       expect(screen.getByText('Det finns redan en påbörjad komplettering.')).toBeInTheDocument()
     })
 
-    it('displays link to open existing draft', () => {
+    it('displays link to open existing draft', async () => {
       renderComponent([expectedQuestion], false)
       expect(screen.getByText('Öppna utkastet')).toBeInTheDocument()
-      expect(screen.getByText('Öppna utkastet')).toHaveAttribute('href', '/certificate/certificateId')
+      await expect(screen.getByText('Öppna utkastet')).toHaveAttribute('href', '/certificate/certificateId')
     })
 
     it('dont display information about existing draft if the draft is being displayed', () => {
@@ -138,10 +137,10 @@ describe('ComplementQuestionPanel', () => {
       expect(screen.getByText('Kompletteringsbegäran besvarades med ett nytt intyg.')).toBeInTheDocument()
     })
 
-    it('displays link to open complement certificate', () => {
+    it('displays link to open complement certificate', async () => {
       renderComponent([expectedQuestion], false)
       expect(screen.getByText('Öppna intyget')).toBeInTheDocument()
-      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/certificateId')
+      await expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/certificateId')
     })
   })
 

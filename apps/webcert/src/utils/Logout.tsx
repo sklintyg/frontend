@@ -1,6 +1,9 @@
-import React from 'react'
+import { getCookie } from '@frontend/utils'
 import styled from 'styled-components'
-import { ResourceLink, User, LoginMethod } from '../types'
+import { useAppDispatch } from '../store/store'
+import { triggerFakeLogout } from '../store/user/userActions'
+import type { ResourceLink, User } from '../types'
+import { LoginMethod } from '../types'
 
 const StyledLink = styled.button`
   text-align: center;
@@ -17,23 +20,39 @@ interface Props {
   user: User | null
 }
 
-const Logout: React.FC<Props> = ({ link, user }) => {
+const Logout = ({ link, user }: Props) => {
+  const dispatch = useAppDispatch()
+
   if (!link) {
     return null
   }
 
-  const getLogoutPath = () => {
+  const logout = () => {
     if (!user || user.loginMethod === LoginMethod.FAKE) {
-      return '/logout'
+      dispatch(triggerFakeLogout)
+      window.open('/welcome', '_self')
     } else {
-      return '/saml/logout'
+      triggerSamlLogout()
     }
   }
 
+  const triggerSamlLogout = () => {
+    const form = document.createElement('form')
+    const input = document.createElement('input')
+    form.method = 'POST'
+    form.action = '/logout'
+    input.type = 'hidden'
+    input.name = '_csrf'
+    input.value = getCookie('XSRF-TOKEN') ?? ''
+    form.appendChild(input)
+    document.body.appendChild(form)
+    form.submit()
+  }
+
   return (
-    <form action={getLogoutPath()} method="POST" id="logoutForm">
-      <StyledLink className="ic-link">{link.name}</StyledLink>
-    </form>
+    <StyledLink className="ic-link" onClick={logout}>
+      {link.name}
+    </StyledLink>
   )
 }
 

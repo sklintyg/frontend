@@ -3,13 +3,12 @@ import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import { Provider, useSelector } from 'react-redux'
 import { vi } from 'vitest'
+import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue, fakeCheckboxMultipleDate } from '../../../../faker'
 import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import store from '../../../../store/store'
+import { CertificateDataValidationType } from '../../../../types'
 import UeCheckboxDateGroup from './UeCheckboxDateGroup'
-import { fakeCheckboxMultipleDate, fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
-import { CertificateDataElement, CertificateDataValidationType } from '../../../../types'
-import { getCertificateWithQuestion } from '../../../../utils'
 
 const DATE_CHECKBOXES = [
   {
@@ -33,23 +32,6 @@ const DATE_CHECKBOXES = [
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'checkbox'
 
-const question: CertificateDataElement = fakeCheckboxMultipleDate({
-  id: QUESTION_ID,
-  value: { list: [] },
-  config: {
-    text: '',
-    list: DATE_CHECKBOXES,
-  },
-  validation: [
-    {
-      type: CertificateDataValidationType.MANDATORY_VALIDATION,
-      questionId: QUESTION_ID,
-      expression: `!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)`,
-    },
-  ],
-  validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
-})[QUESTION_ID]
-
 function ComponentTestWrapper({ disabled }: { disabled: boolean }) {
   const state = useSelector(getQuestion(QUESTION_ID))
   return state ? <UeCheckboxDateGroup question={state} disabled={disabled} /> : null
@@ -65,7 +47,30 @@ const renderComponent = (disabled: boolean) => {
 
 describe('CheckboxDateGroup component', () => {
   beforeEach(() => {
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: {
+            ...fakeCheckboxMultipleDate({
+              id: QUESTION_ID,
+              value: { list: [] },
+              config: {
+                text: '',
+                list: DATE_CHECKBOXES,
+              },
+              validation: [
+                {
+                  type: CertificateDataValidationType.MANDATORY_VALIDATION,
+                  questionId: QUESTION_ID,
+                  expression: `!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)`,
+                },
+              ],
+              validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
+            }),
+          },
+        })
+      )
+    )
   })
 
   it('renders without crashing', () => {
@@ -89,17 +94,19 @@ describe('CheckboxDateGroup component', () => {
   it('Should disable options past max date', async () => {
     store.dispatch(
       updateCertificate(
-        getCertificateWithQuestion(
-          fakeCheckboxMultipleDate({
-            id: QUESTION_ID,
-            config: fakeCertificateConfig.checkboxMultipleDate({
-              list: [{ id: 'item', maxDate: '2023-02-17' }],
+        fakeCertificate({
+          data: {
+            ...fakeCheckboxMultipleDate({
+              id: QUESTION_ID,
+              config: fakeCertificateConfig.checkboxMultipleDate({
+                list: [{ id: 'item', maxDate: '2023-02-17' }],
+              }),
+              value: fakeCertificateValue.dateList({
+                list: [{ id: 'item', date: '2023-02-17' }],
+              }),
             }),
-            value: fakeCertificateValue.dateList({
-              list: [{ id: 'item', date: '2023-02-17' }],
-            }),
-          })[QUESTION_ID]
-        )
+          },
+        })
       )
     )
     renderComponent(false)
@@ -110,10 +117,10 @@ describe('CheckboxDateGroup component', () => {
   })
 
   describe('disables component correctly', () => {
-    it('disables all checkboxes when disabled is set', () => {
+    it('disables all checkboxes when disabled is set', async () => {
       renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
-      checkboxes.forEach((checkbox) => {
+      checkboxes.forEach(async (checkbox) => {
         expect(checkbox).toBeDisabled()
       })
     })
@@ -121,7 +128,7 @@ describe('CheckboxDateGroup component', () => {
     it('disables all textboxes when disabled is set', () => {
       renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
-      textboxes.forEach((textbox) => {
+      textboxes.forEach(async (textbox) => {
         expect(textbox).toBeDisabled()
       })
     })
@@ -129,7 +136,7 @@ describe('CheckboxDateGroup component', () => {
     it('disables all buttons when disabled is set', () => {
       renderComponent(true)
       const buttons = screen.getAllByRole('button')
-      buttons.forEach((button) => {
+      buttons.forEach(async (button) => {
         expect(button).toBeDisabled()
       })
     })
@@ -137,7 +144,7 @@ describe('CheckboxDateGroup component', () => {
     it('does not disable all checkboxes when disabled is not set', () => {
       renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
-      checkboxes.forEach((checkbox) => {
+      checkboxes.forEach(async (checkbox) => {
         expect(checkbox).toBeEnabled()
       })
     })
@@ -145,7 +152,7 @@ describe('CheckboxDateGroup component', () => {
     it('does not disable all textboxes when disabled is not set', () => {
       renderComponent(false)
       const textboxes = screen.getAllByRole('textbox')
-      textboxes.forEach((textbox) => {
+      textboxes.forEach(async (textbox) => {
         expect(textbox).toBeEnabled()
       })
     })
@@ -153,7 +160,7 @@ describe('CheckboxDateGroup component', () => {
     it('does not disable all buttons when disabled is not set', () => {
       renderComponent(false)
       const buttons = screen.getAllByRole('button')
-      buttons.forEach((button) => {
+      buttons.forEach(async (button) => {
         expect(button).toBeEnabled()
       })
     })
@@ -163,7 +170,7 @@ describe('CheckboxDateGroup component', () => {
     it('sets correct default values for all checkboxes', () => {
       renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
-      checkboxes.forEach((checkbox) => {
+      checkboxes.forEach(async (checkbox) => {
         expect(checkbox).not.toBeChecked()
       })
     })
@@ -171,7 +178,7 @@ describe('CheckboxDateGroup component', () => {
     it('sets correct default values for all textboxes', () => {
       renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
-      textboxes.forEach((textbox) => {
+      textboxes.forEach(async (textbox) => {
         expect(textbox).toHaveValue('')
       })
     })
@@ -255,13 +262,13 @@ describe('CheckboxDateGroup component', () => {
   })
 
   it('renders validation message when there is a validation error', () => {
-    renderComponent(false)
     store.dispatch(showValidationErrors())
+    renderComponent(false)
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
-    store.dispatch(hideValidationErrors())
   })
 
   it('does not render validation message if validation messages are hidden', () => {
+    store.dispatch(hideValidationErrors())
     renderComponent(false)
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
   })

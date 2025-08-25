@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import { themes } from '@frontend/components/themes'
+import { elevenSeventySevenColors } from '@frontend/components/colors'
 import type { Config } from 'tailwindcss'
 
 export default {
@@ -14,25 +14,9 @@ export default {
       xl: '1280px',
     },
     colors: {
-      main: 'var(--color-main)',
-      sky: {
-        dark: 'var(--color-sky-dark)',
-        base: 'var(--color-sky-base)',
-        clear: 'var(--color-sky-clear)',
-      },
-      stone: {
-        dark: 'var(--color-stone-dark)',
-        base: 'var(--color-stone-base)',
-        clear: 'var(--color-stone-clear)',
-        line: 'var(--color-stone-line)',
-        background: 'var(--color-stone-background)',
-      },
-      accent: {
-        30: 'var(--IDS-COLOR-ACCENT-30)',
-        40: 'var(--IDS-COLOR-ACCENT-40)',
-        90: 'var(--IDS-COLOR-ACCENT-90)',
-      },
-      ...themes.baseTheme,
+      black: '#000',
+      white: '#FFF',
+      ...elevenSeventySevenColors,
     },
     extend: {},
   },

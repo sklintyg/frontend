@@ -1,8 +1,9 @@
-import { ChangeEvent } from 'react'
+import type { ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import RadioButton from '../../../components/Inputs/RadioButton'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import { ListFilterRadioConfig, ListFilterType, ListFilterValue, ListFilterValueRadio, ListFilterValueSelect } from '../../../types'
+import type { ListFilterRadioConfig, ListFilterValue, ListFilterValueRadio } from '../../../types'
+import { ListFilterType } from '../../../types'
 import { FilterWrapper } from './filterStyles'
 
 interface Props {
@@ -11,33 +12,22 @@ interface Props {
   isHighlighted: boolean
 }
 
-const RadioFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
-  const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueSelect
+const RadioFilter = ({ config, onChange, isHighlighted }: Props) => {
+  const val = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueRadio
 
   const onFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value: ListFilterValueSelect = {
+    const value: ListFilterValueRadio = {
       type: ListFilterType.RADIO,
       value: event.target.value,
     }
     onChange(value, config.id)
   }
 
-  const getFilter = () => {
-    return config.values.map((configValue, index) => (
-      <RadioButton
-        key={index}
-        label={configValue.name}
-        onChange={onFilterChange}
-        id={configValue.id}
-        value={configValue.id}
-        checked={value && (value as ListFilterValueRadio).value === configValue.id}
-      />
-    ))
-  }
-
   return (
     <FilterWrapper highlighted={isHighlighted} role="radiogroup" className="ic-radio-group-horizontal">
-      {getFilter()}
+      {config.values.map(({ id, name }) => (
+        <RadioButton key={id} label={name} onChange={onFilterChange} id={id} value={id} checked={val && val.value === id} />
+      ))}
     </FilterWrapper>
   )
 }

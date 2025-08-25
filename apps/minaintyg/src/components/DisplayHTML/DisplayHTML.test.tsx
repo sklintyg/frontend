@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { DisplayHTML } from './DisplayHTML'
 
 describe('tables', () => {
@@ -66,7 +67,11 @@ describe('tables', () => {
 
 describe('link', () => {
   it('Should render link as ids-link', () => {
-    const { container } = render(<DisplayHTML html="<a href='http://some-place.com'>Some link</a>" />)
+    const { container } = render(
+      <MemoryRouter>
+        <DisplayHTML html="<a href='http://some-place.com'>Some link</a>" />
+      </MemoryRouter>
+    )
     expect(container).toMatchSnapshot()
   })
 
@@ -77,10 +82,29 @@ describe('link', () => {
 })
 
 describe('headings', () => {
-  it.each(Array.from({ length: 6 }, (_, index) => index + 1))('Should render %s heading as expected', (level) => {
-    const tag = `h${level}`
-    render(<DisplayHTML html={`<${tag}>text</${tag}>`} />)
-    expect(screen.getByRole('heading')).toHaveClass(`ids-heading-${level}`, { exact: true })
+  it('Should render level 1 heading as expected', () => {
+    render(<DisplayHTML html="<h1>text</h1>" />)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveClass(`ids-heading-l`, { exact: true })
+  })
+
+  it('Should render level 2 heading as expected', () => {
+    render(<DisplayHTML html="<h2>text</h2>" />)
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass(`ids-heading-m`, { exact: true })
+  })
+
+  it('Should render level 3 heading as expected', () => {
+    render(<DisplayHTML html="<h3>text</h3>" />)
+    expect(screen.getByRole('heading', { level: 3 })).toHaveClass(`ids-heading-s`, { exact: true })
+  })
+
+  it('Should render level 4 heading as expected', () => {
+    render(<DisplayHTML html="<h4>text</h4>" />)
+    expect(screen.getByRole('heading', { level: 4 })).toHaveClass(`ids-heading-xs`, { exact: true })
+  })
+
+  it('Should render level 5 heading as expected', () => {
+    render(<DisplayHTML html="<h5>text</h5>" />)
+    expect(screen.getByRole('heading', { level: 5 })).toHaveClass(`ids-heading-xs`, { exact: true })
   })
 })
 

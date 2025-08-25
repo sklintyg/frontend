@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import InfoBox from '../../../components/utils/InfoBox'
 import TextWithInfoModal from '../../../components/utils/Modal/TextWithInfoModal'
@@ -7,6 +8,7 @@ interface Props {
   title: string
   modalTitle: string
   type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
+  children: ReactNode
 }
 
 const Wrapper = styled.div`
@@ -14,7 +16,7 @@ const Wrapper = styled.div`
   margin-right: 10px;
 `
 
-const PatientStatusNotificationWithModal: React.FC<Props> = ({ status, title, modalTitle, type, children }) => {
+const PatientStatusNotificationWithModal = ({ status, title, modalTitle, type, children }: Props) => {
   if (!status) return null
 
   return (

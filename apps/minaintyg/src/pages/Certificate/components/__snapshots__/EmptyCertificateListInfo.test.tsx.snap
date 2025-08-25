@@ -2,27 +2,75 @@
 
 exports[`Should display information if total above 0 1`] = `
 <div>
-  <ids-alert
+  <div
+    class="ids-alert ids-alert--info"
     role="alert"
   >
-    <p>
-      Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.
-    </p>
-  </ids-alert>
+    <div
+      class="ids-alert__header"
+    >
+      <div
+        class="ids-alert__icon_and_text"
+      >
+        <span
+          class="ids-alert__state-icon"
+          title=""
+        />
+        <div
+          class="ids-alert__headline"
+        >
+          <h2>
+            Din filtrering gav inga träffar
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ids-alert__content"
+    >
+      <p>
+        Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.
+      </p>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`Should display information if total is 0 1`] = `
 <div>
-  <ids-alert
+  <div
+    class="ids-alert ids-alert--info"
     role="alert"
   >
-    <p>
-      I Intyg visas endast intyg som utfärdats digitalt till dig. Intyg har ingen ombudsfunktion och du kan inte ladda upp egna intyg.
-    </p>
-    <p>
-      Om du saknar ett intyg, vänd dig till din mottagning.
-    </p>
-  </ids-alert>
+    <div
+      class="ids-alert__header"
+    >
+      <div
+        class="ids-alert__icon_and_text"
+      >
+        <span
+          class="ids-alert__state-icon"
+          title=""
+        />
+        <div
+          class="ids-alert__headline"
+        >
+          <h2>
+            Du har inga intyg
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ids-alert__content"
+    >
+      <p>
+        I Intyg visas endast intyg som utfärdats digitalt till dig. Intyg har ingen ombudsfunktion och du kan inte ladda upp egna intyg.
+      </p>
+      <p>
+        Om du saknar ett intyg, vänd dig till din mottagning.
+      </p>
+    </div>
+  </div>
 </div>
 `;

@@ -1,9 +1,10 @@
 import FocusTrap from 'focus-trap-react'
-import React, { useState } from 'react'
+import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { clearError } from '../../../store/error/errorActions'
-import { ErrorData } from '../../../store/error/errorReducer'
+import type { ErrorData } from '../../../store/error/errorReducer'
 import { CustomButton } from '../../Inputs/CustomButton'
 import ErrorCopyText from '../ErrorCopyText'
 
@@ -24,9 +25,10 @@ interface ErrorModalProps {
   confirmButtonText?: string
   closeButtonText?: string
   errorData: ErrorData
+  children?: ReactNode
 }
 
-const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, closeButtonText = 'Stäng', children, errorData }) => {
+const ErrorModalBase = ({ onConfirm, confirmButtonText, closeButtonText = 'Stäng', children, errorData }: ErrorModalProps) => {
   const [open, setOpen] = useState(true)
   const dispatch = useDispatch()
 

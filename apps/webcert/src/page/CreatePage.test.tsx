@@ -1,86 +1,27 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { fakeUser } from '../faker'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
+import { ResourceLinkType } from '../types'
 import { CreatePageWithRedirect } from './CreatePage'
-import { User, Unit, LoginMethod, SigningMethod, ResourceLinkType } from '../types'
 
 let testStore: EnhancedStore
-const history = createMemoryHistory()
-history.replace = vi.fn()
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create/:patientId?">
-          <CreatePageWithRedirect />
-        </Route>
+        <Routes>
+          <Route path="/create/:patientId?" element={<CreatePageWithRedirect />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )
-}
-
-const getUser = (): User => {
-  const unit: Unit = {
-    unitId: '',
-    unitName: '',
-    address: '',
-    zipCode: '',
-    city: '',
-    phoneNumber: '',
-    email: '',
-    isInactive: false,
-  }
-  return {
-    hsaId: '',
-    name: '',
-    role: 'doctor',
-    loggedInUnit: unit,
-    loggedInCareUnit: unit,
-    loggedInCareProvider: unit,
-    preferences: null,
-    loginMethod: LoginMethod.BANK_ID,
-    signingMethod: SigningMethod.FAKE,
-    protectedPerson: false,
-    careProviders: [
-      {
-        id: '',
-        name: 'Care Provider',
-        missingSubscription: false,
-        careUnits: [
-          {
-            unitId: '1234a',
-            unitName: 'Care unit',
-            address: '',
-            zipCode: '',
-            city: '',
-            phoneNumber: '',
-            email: '',
-            isInactive: false,
-            units: [
-              {
-                unitId: '1234b',
-                unitName: 'Unit',
-                address: '',
-                zipCode: '',
-                city: '',
-                phoneNumber: '',
-                email: '',
-                isInactive: false,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  }
 }
 
 describe('SearchAndCreatePage', () => {
@@ -88,7 +29,7 @@ describe('SearchAndCreatePage', () => {
     testStore = configureApplicationStore([dispatchHelperMiddleware])
 
     testStore.dispatch(updateIsLoadingUser(false))
-    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(fakeUser()))
     testStore.dispatch(
       updateUserResourceLinks([{ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, description: '', name: '', body: '', enabled: true }])
     )

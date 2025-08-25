@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
+import type { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
 import {
   resetDiagnosisTypeahead,
   updateConfig,
@@ -9,9 +9,7 @@ import {
   updateIsLoadingDynamicLinks,
 } from './utilsActions'
 
-export interface DynamicLinkMap {
-  [key: string]: DynamicLinkData
-}
+export type DynamicLinkMap = Record<string, DynamicLinkData>
 
 export interface Configuration {
   version: string
@@ -19,6 +17,7 @@ export interface Configuration {
   cgiFunktionstjansterIdpUrl: string
   sakerhetstjanstIdpUrl: string
   ppHost: string
+  forwardDraftOrQuestionUrl: string
 }
 
 export interface UtilsState {
@@ -32,7 +31,14 @@ export interface UtilsState {
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
-  config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '', ppHost: '' },
+  config: {
+    version: '',
+    banners: [],
+    cgiFunktionstjansterIdpUrl: '',
+    sakerhetstjanstIdpUrl: '',
+    ppHost: '',
+    forwardDraftOrQuestionUrl: '',
+  },
   isLoadingConfig: false,
   isLoadingDynamicLinks: false,
 }

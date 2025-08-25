@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../store/store'
 import { getBanners } from '../../store/utils/utilsSelectors'
-import { Banner } from '../../types'
+import type { Banner } from '../../types'
 import SystemBanner from '../utils/SystemBanner'
 
-const SystemBanners: React.FC = () => {
-  const banners: Banner[] = useSelector(getBanners)
+const SystemBanners = () => {
+  const banners: Banner[] = useAppSelector(getBanners)
 
   if (banners.length === 0) return null
 

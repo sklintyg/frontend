@@ -1,5 +1,7 @@
-import { ResourceLink, ResourceLinkType, Unit, UnitStatistics, User, UserStatistics } from '../../types'
-import { RootState } from '../store'
+import { getByType } from '@frontend/utils'
+import type { CareProvider, ResourceLink, UnitStatistics, User, UserStatistics } from '../../types'
+import { ResourceLinkType } from '../../types'
+import type { RootState } from '../store'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -17,6 +19,9 @@ export const isPrivatePractitioner = (state: RootState): boolean | null =>
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
 
+export const hasOriginDeepIntegration = (state: RootState): boolean | null =>
+  state.ui.uiUser.user && state.ui.uiUser.user.origin.toLowerCase().includes('djupintegration')
+
 export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
@@ -24,7 +29,7 @@ export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.
 export const getUserResourceLink =
   (type: ResourceLinkType) =>
   (state: RootState): ResourceLink | undefined =>
-    state.ui.uiUser.links.find((link) => link.type === type)
+    getByType(getUserResourceLinks(state), type)
 
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
 
@@ -34,8 +39,7 @@ export const getNumberOfDraftsOnUnit = (state: RootState): number =>
 export const getNumberOfQuestionsOnUnit = (state: RootState): number =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfUnhandledQuestionsOnSelectedUnit : 0
 
-export const getUnitStatistics = (state: RootState): UnitStatistics =>
-  state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.unitStatistics : {}
+export const getUnitStatistics = (state: RootState): UnitStatistics => state.ui.uiUser.userStatistics?.unitStatistics ?? {}
 
 export const selectIsLoadingUserStatistics = (state: RootState): boolean => state.ui.uiUser.isLoadingUserStatistics
 
@@ -44,6 +48,24 @@ export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState
 
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
 
-export const getLoggedInCareProvider = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInCareProvider
+export const getLoggedInCareProvider = (state: RootState): User['loggedInCareProvider'] | undefined =>
+  state.ui.uiUser.user?.loggedInCareProvider
 
-export const getLoggedInUnit = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInUnit
+export const getLoggedInUnit = (state: RootState): User['loggedInUnit'] | undefined => state.ui.uiUser.user?.loggedInUnit
+
+export function getSelectUnitHeading(state: RootState): string {
+  const chooseUnitLink = getUserResourceLink(ResourceLinkType.CHOOSE_UNIT)(state)
+  const changeUnitLink = getUserResourceLink(ResourceLinkType.CHANGE_UNIT)(state)
+
+  if (chooseUnitLink) {
+    return chooseUnitLink.name
+  } else if (changeUnitLink) {
+    return changeUnitLink.name
+  } else {
+    return 'Välj vårdenhet'
+  }
+}
+
+export function getCareProviders(state: RootState): CareProvider[] {
+  return getUser(state)?.careProviders ?? []
+}

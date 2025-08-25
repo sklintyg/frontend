@@ -81,3 +81,4 @@ export type CertificateRecipient = z.infer<typeof certificateRecipientSchema>
 export type CertificateStatus = z.infer<typeof CertificateStatusEnum>
 export type CertificateSummary = z.infer<typeof certificateSummarySchema>
 export type CertificateUnit = z.infer<typeof certificateUnitSchema>
+export type AvailableFunctionsType = z.infer<typeof AvailableFunctionsTypeEnum>

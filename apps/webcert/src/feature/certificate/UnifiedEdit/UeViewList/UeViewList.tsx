@@ -1,11 +1,11 @@
 import { Badge } from '../../../../components/UnifiedView/Badge'
-import { CertificateDataElement, ValueViewList, ConfigUeViewList, ValueViewText } from '../../../../types'
+import type { CertificateDataElement, ValueViewList, ConfigUeViewList, ValueViewText } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement
 }
 
-const UeViewList: React.FC<Props> = ({ question }) => {
+const UeViewList = ({ question }: Props) => {
   const value = question.value as ValueViewList
   const questionConfig = question.config as ConfigUeViewList
 

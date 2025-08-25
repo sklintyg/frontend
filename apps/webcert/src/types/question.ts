@@ -1,5 +1,5 @@
-import { ResourceLink } from './resourceLink'
-import { CertificateRelation } from './certificate'
+import type { CertificateRelation } from './certificate'
+import type { ResourceLink } from './resourceLink'
 
 export interface Question {
   id: string
@@ -18,6 +18,7 @@ export interface Question {
   links: ResourceLink[]
   lastDateToReply?: string
   contactInfo?: string[]
+  certificateId: string
 }
 
 export interface Answer {
@@ -48,4 +49,9 @@ export enum QuestionType {
   CONTACT = 'CONTACT',
   OTHER = 'OTHER',
   COMPLEMENT = 'COMPLEMENT',
+}
+
+export enum CannotComplementOption {
+  NO_FURTHER_MED_INFO = 'NO_FURTHER_MED_INFO',
+  NO_RESP_MEDICAL_CONTENT = 'NO_RESP_MEDICAL_CONTENT',
 }

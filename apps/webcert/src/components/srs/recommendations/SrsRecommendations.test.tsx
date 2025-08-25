@@ -1,4 +1,5 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
@@ -52,20 +53,20 @@ describe('SRS Recommendations', () => {
     })
 
     it('should show title for extension recommendations if extension is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      renderComponent()
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should show title for extension recommendations if extension after 60 days is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      renderComponent()
       expect(screen.getByText(SRS_EXTENSION_TITLE)).toBeInTheDocument()
     })
 
     it('should not show title for extension recommendations if new is chosen', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.NEW))
+      renderComponent()
       expect(screen.queryByText(SRS_EXTENSION_TITLE)).not.toBeInTheDocument()
     })
   })
@@ -82,8 +83,8 @@ describe('SRS Recommendations', () => {
     })
 
     it('should show srs extension recommendation title', () => {
-      renderComponent()
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION))
+      renderComponent()
       expect(screen.getByText(srsInfo.atgarderFrl[0].recommendationTitle)).toBeInTheDocument()
     })
 
@@ -101,7 +102,7 @@ describe('SRS Recommendations', () => {
     it('should log when pressing show more', async () => {
       renderComponent()
       await userEvent.click(screen.getAllByText('Visa mer')[0])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
 
     it('should show measure description if show more is pressed', async () => {
@@ -119,7 +120,7 @@ describe('SRS Recommendations', () => {
     it('should log when pressing show more recommendations', async () => {
       renderComponent()
       await userEvent.click(screen.getAllByText('Se fler')[0])
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+      expect(getByType(dispatchedActions, logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

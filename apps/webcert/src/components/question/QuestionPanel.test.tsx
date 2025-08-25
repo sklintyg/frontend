@@ -1,35 +1,28 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
+import { fakeCertificate, fakeResourceLink } from '../../faker'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '../../types'
+import type { Question } from '../../types'
+import { CertificateStatus, QuestionType, ResourceLinkType } from '../../types'
 import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
-
-const createCertificate = (metadata: CertificateMetadata): Certificate =>
-  ({
-    metadata,
-    links: [],
-  }) as unknown as Certificate
 
 function createQuestion(handled = true): Question {
   return {
@@ -45,6 +38,7 @@ function createQuestion(handled = true): Question {
     reminders: [],
     type: QuestionType.COORDINATION,
     links: [],
+    certificateId: '',
   }
 }
 
@@ -76,7 +70,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the complement questions header if signed certificate', () => {
-    const certificate = createCertificate({ status: CertificateStatus.SIGNED } as CertificateMetadata)
+    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.SIGNED } })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -88,7 +82,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the complement questions header if unsigned certificate', () => {
-    const certificate = createCertificate({ status: CertificateStatus.UNSIGNED } as CertificateMetadata)
+    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.UNSIGNED } })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -122,7 +116,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the administrative questions header if signed certificate', () => {
-    const certificate = createCertificate({ status: CertificateStatus.SIGNED } as CertificateMetadata)
+    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.SIGNED } })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
@@ -133,7 +127,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the administrative questions header if unsigned certificate', () => {
-    const certificate = createCertificate({ status: CertificateStatus.UNSIGNED } as CertificateMetadata)
+    const certificate = fakeCertificate({ metadata: { status: CertificateStatus.UNSIGNED } })
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
@@ -185,5 +179,31 @@ describe('QuestionPanel', () => {
     renderDefaultComponent()
     await userEvent.click(screen.getByText('Administrativa frågor'))
     expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
+  })
+
+  it('Administrative question button should be enabled by default', async () => {
+    testStore.dispatch(updateCertificate(fakeCertificate()))
+
+    renderDefaultComponent()
+    await expect(screen.getByText('Administrativa frågor')).toBeEnabled()
+  })
+
+  it('Should disable administrative question button with link', async () => {
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          links: [
+            fakeResourceLink({
+              type: ResourceLinkType.QUESTIONS_ADMINISTRATIVE,
+              description: 'Funktionen finns inte för detta intyg.',
+              enabled: false,
+            }),
+          ],
+        })
+      )
+    )
+
+    renderDefaultComponent()
+    await expect(screen.getByText('Administrativa frågor')).toBeDisabled()
   })
 })

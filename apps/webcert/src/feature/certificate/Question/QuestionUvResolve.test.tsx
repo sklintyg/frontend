@@ -1,37 +1,28 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import {
+  fakeCertificate,
   fakeCertificateConfig,
   fakeCertificateValue,
   fakeCheckboxBooleanElement,
+  fakeCheckboxDateRangeList,
   fakeCheckboxMultipleCodeElement,
   fakeCheckboxMultipleDate,
   fakeDateRangeElement,
   fakeDropdownElement,
   fakeICFDataElement,
   fakeIntegerElement,
-  fakeMessageElement,
   fakeRadioBooleanElement,
   fakeRadioMultipleCodesOptionalDropdown,
-  fakeSickLeavePeriod,
   fakeTextAreaElement,
   fakeYearElement,
 } from '../../../faker'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import {
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigTypes,
-  ConfigUeIcf,
-  MessageLevel,
-  ValueIcf,
-  ValueText,
-  ValueYear,
-} from '../../../types'
-import { getCertificateWithQuestion } from '../../../utils'
+import type { CertificateDataElement, ConfigUeIcf, ValueIcf, ValueText, ValueYear } from '../../../types'
+import { CertificateDataValueType, ConfigTypes } from '../../../types'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -144,7 +135,7 @@ const createQuestionWithDateRange = (): CertificateDataElement =>
   }).id
 
 const createQuestionWithMultipleDateRanges = (): CertificateDataElement =>
-  fakeSickLeavePeriod({
+  fakeCheckboxDateRangeList({
     id: 'id',
     value: {
       list: [
@@ -214,17 +205,6 @@ const createDropdownQuestion = () =>
       ],
     },
   }).questionId
-
-function createQuestionWithUeMessageConfig(): CertificateDataElement {
-  return fakeMessageElement({
-    id: 'id',
-    config: {
-      level: MessageLevel.OBSERVE,
-      message: 'Hello from UE_MESSAGE',
-      id: '1.1',
-    },
-  }).id
-}
 
 function createQuestionWithIntegerValue(): CertificateDataElement {
   return fakeIntegerElement({
@@ -375,20 +355,9 @@ describe('QuestionUvResolve', () => {
   it('should add text of optional dropdown to radio group text', () => {
     const question = createQuestionWithOptionalDropdown()
     const dropdownQuestion = createDropdownQuestion()
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [question.id]: question, [dropdownQuestion.id]: dropdownQuestion } })))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
-  })
-  it('should render ue_message if visible is true', () => {
-    const question = createQuestionWithUeMessageConfig()
-    renderDefaultComponent(question)
-    expect(screen.getByText(/Hello from UE_MESSAGE/i)).toBeInTheDocument()
-  })
-  it('should not render ue_message if visible is false', () => {
-    const question = createQuestionWithUeMessageConfig()
-    question.visible = false
-    renderDefaultComponent(question)
-    expect(screen.queryByText(/Hello from UE_MESSAGE/i)).not.toBeInTheDocument()
   })
 
   it('displaying year value', () => {

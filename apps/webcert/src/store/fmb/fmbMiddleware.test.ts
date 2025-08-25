@@ -1,24 +1,23 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement, fakeSickLeavePeriod } from '../../faker'
-import {
+import { fakeCertificateConfig, fakeCertificateValue, fakeCheckboxDateRangeList, fakeDiagnosesElement } from '../../faker'
+import type {
   Certificate,
   CertificateDataElement,
-  CertificateDataValueType,
   CertificateMetadata,
   Patient,
   PersonId,
-  ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
 } from '../../types'
+import { CertificateDataValueType, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import type { FMBDiagnoseRequest } from './fmbActions'
 import {
-  FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   initializeFMBPanel,
   setDiagnosisListValue,
@@ -137,7 +136,7 @@ const getDiagnosisListValue = (): ValueDiagnosisList => ({
 })
 
 const getDateRangeListElement = (): CertificateDataElement =>
-  fakeSickLeavePeriod({
+  fakeCheckboxDateRangeList({
     id: '6.1',
     parent: '6',
     index: 6,
@@ -389,7 +388,7 @@ describe('Test FMB middleware', () => {
       testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
       testStore.dispatch(
         updateCertificateDataElement(
-          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } }).id
+          fakeCheckboxDateRangeList({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } }).id
         )
       )
 

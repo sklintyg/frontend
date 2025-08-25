@@ -1,8 +1,7 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import { getActiveError } from '../../store/error/errorSelectors'
+import { useAppSelector } from '../../store/store'
 import CertificateRevoked from './modals/CertificateRevoked'
 import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
 import ConcurrentModification from './modals/ConcurrentModification'
@@ -20,8 +19,8 @@ export interface ErrorRoute {
   errorId: string
 }
 
-const ErrorComponent: React.FC = () => {
-  const activeError = useSelector(getActiveError)
+const ErrorComponent = () => {
+  const activeError = useAppSelector(getActiveError)
 
   if (!activeError) return null
 
@@ -61,15 +60,7 @@ const ErrorComponent: React.FC = () => {
       case ErrorType.MODAL:
         return getModal()
       case ErrorType.ROUTE:
-        return (
-          <Redirect
-            push
-            to={{
-              pathname: '/error',
-              state: { errorCode: activeError.errorCode, errorId: activeError.errorId },
-            }}
-          />
-        )
+        return <Navigate to="/error" state={{ errorCode: activeError.errorCode, errorId: activeError.errorId }} />
       default:
         return null
     }

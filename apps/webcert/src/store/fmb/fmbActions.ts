@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 export interface FMBDiagnoseRequest {
   icd10Code: string
@@ -34,7 +35,7 @@ export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel a
 
 export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB} Remove diagnosis code info`)
 
-export const setSickLeavePeriodWarning = createAction<string>(`${FMB} Set sick leave period warning`)
+export const setPeriodWarning = createAction<string>(`${FMB} Set sick leave period warning`)
 
 export const setPatientId = createAction<string>(`${FMB} Set patient id`)
 

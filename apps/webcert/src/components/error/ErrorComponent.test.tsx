@@ -1,15 +1,14 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
-import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import type { ErrorRequest } from '../../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import ErrorComponent, { ErrorRoute } from './ErrorComponent'
+import ErrorComponent from './ErrorComponent'
 import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE } from './modals/ComplementaryCertificateExists'
 import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
@@ -27,14 +26,6 @@ import { SIGN_CERTIFICATE_ERROR_TITLE } from './modals/SignCertificateError'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
-const { location } = window
-window.location = {
-  ...location,
-  reload: vi.fn(),
-}
-
 const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
   const error: ErrorRequest = {
     type,
@@ -44,12 +35,20 @@ const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
   testStore.dispatch(throwError(error))
 }
 
+function ErrorPage() {
+  const location = useLocation()
+  return <>{location.state.errorCode}</>
+}
+
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
-        <ErrorComponent />
-      </Router>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<ErrorComponent />} />
+          <Route path="/error" element={<ErrorPage />} />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -151,75 +150,21 @@ describe('ErrorComponent', () => {
   })
 
   describe('ErrorType.ROUTE', () => {
-    it('shall route user to error page if ErrorCode.TIMEOUT error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.TIMEOUT)
+    it.each([
+      ErrorCode.TIMEOUT,
+      ErrorCode.DATA_NOT_FOUND,
+      ErrorCode.AUTHORIZATION_PROBLEM,
+      ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING,
+      ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
+      ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE,
+      ErrorCode.INTERNAL_PROBLEM,
+      ErrorCode.UNKNOWN_INTERNAL_PROBLEM,
+      ErrorCode.INVALID_LAUNCHID,
+    ])('shall route user to error page if %s error exists', (code) => {
+      setErrorState(ErrorType.ROUTE, code)
       renderComponent()
 
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.TIMEOUT)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.DATA_NOT_FOUND error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.DATA_NOT_FOUND)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.DATA_NOT_FOUND)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.AUTHORIZATION_PROBLEM error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.AUTHORIZATION_PROBLEM)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.AUTHORIZATION_PROBLEM)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.INTERNAL_PROBLEM error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.INTERNAL_PROBLEM)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.INTERNAL_PROBLEM)
-      expect(history.location.pathname).toBe('/error')
-    })
-
-    it('shall route user to error page if ErrorCode.UNKNOWN_INTERNAL_PROBLEM error exists', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.UNKNOWN_INTERNAL_PROBLEM)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.UNKNOWN_INTERNAL_PROBLEM)
-      expect(history.location.pathname).toBe('/error')
-    })
-    it('shall display ErrorCode.INVALID_LAUNCHID information', () => {
-      setErrorState(ErrorType.ROUTE, ErrorCode.INVALID_LAUNCHID)
-      renderComponent()
-
-      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.INVALID_LAUNCHID)
-      expect(history.location.pathname).toBe('/error')
+      expect(screen.getByText(code)).toBeInTheDocument()
     })
   })
 })

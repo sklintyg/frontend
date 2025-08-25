@@ -1,4 +1,3 @@
-import React from 'react'
 import WCDynamicLink from './WCDynamicLink'
 import { sanitizeText } from './sanitizeText'
 
@@ -6,7 +5,7 @@ interface Props {
   text: string
 }
 
-const TextWithDynamicLinks: React.FC<Props> = ({ text }) => {
+const TextWithDynamicLinks = ({ text }: Props) => {
   const formatText = (text: string) => {
     const splitText = text.split('<LINK:')
     if (splitText.length > 1) {

@@ -1,15 +1,12 @@
-import React from 'react'
-import { ValueDiagnosisList } from '../../../types'
-import { Badge } from '../Badge'
+import type { ValueDiagnosisList } from '../../../types'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
+import { Badge } from '../Badge'
 
-export const UvDiagnosisList: React.FC<{
-  value: ValueDiagnosisList
-}> = ({ value }) => {
+export const UvDiagnosisList = ({ value }: { value: ValueDiagnosisList }) => {
   if (value.list && value.list.length > 0) {
     return (
       <div className={'iu-p-none'}>

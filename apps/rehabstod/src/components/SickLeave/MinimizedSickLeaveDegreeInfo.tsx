@@ -1,4 +1,4 @@
-import { IDSIconArrow } from '@frontend/ids-react-ts'
+import { IDSIconArrow } from '@inera/ids-react'
 
 export function MinimizedSickLeaveDegreeInfo({ degrees }: { degrees: number[] }) {
   if (degrees.length === 0) {

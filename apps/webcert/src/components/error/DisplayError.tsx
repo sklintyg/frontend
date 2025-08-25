@@ -1,27 +1,28 @@
-import React from 'react'
 import { ErrorCode } from '../../store/error/errorReducer'
 import AuthorizationProblem from './errorPageContent/AuthorizationProblem'
-import AuthorizationProblemConfidentialityMarking from './errorPageContent/AuthorizationProblemConfidentialityMarking'
+import { AuthorizationProblemConfidentialityMarking } from './errorPageContent/AuthorizationProblemConfidentialityMarking'
 import AuthorizationProblemConfidentialityMarkingUnit from './errorPageContent/AuthorizationProblemConfidentialityMarkingUnit'
 import AuthorizationProblemResource from './errorPageContent/AuthorizationProblemResource'
-import AuthorizationUserSessionAlreadyActive from './errorPageContent/AuthorizationUserSessionAlreadyActive'
+import { AuthorizationProblemSubscription } from './errorPageContent/AuthorizationProblemSubscription'
+import { AuthorizationUserSessionAlreadyActive } from './errorPageContent/AuthorizationUserSessionAlreadyActive'
 import DataNotFound from './errorPageContent/DataNotFound'
-import GetCertificateProblem from './errorPageContent/GetCertificateProblem'
-import HSAError from './errorPageContent/HSAError'
-import InternalProblem from './errorPageContent/InternalProblem'
+import { GetCertificateProblem } from './errorPageContent/GetCertificateProblem'
+import { HSAError } from './errorPageContent/HSAError'
+import { IntegrationNoContentError } from './errorPageContent/IntegrationNoContentError'
+import { InternalProblem } from './errorPageContent/InternalProblem'
+import { InvalidLaunchIdError } from './errorPageContent/InvalidLaunchIdError'
 import LoginFailed from './errorPageContent/LoginFailed'
-import MedarbetaruppdragSaknas from './errorPageContent/MedarbetaruppdragSaknas'
+import { MedarbetaruppdragSaknas } from './errorPageContent/MedarbetaruppdragSaknas'
 import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgreementError'
 import Timeout from './errorPageContent/Timeout'
-import UnknownInternalProblem from './errorPageContent/UnknownInternalProblem'
-import InvalidLaunchIdError from './errorPageContent/InvalidLaunchIdError'
+import { UnknownInternalProblem } from './errorPageContent/UnknownInternalProblem'
 
 interface Props {
   errorCode?: string
   fallback?: string
 }
 
-const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
+const DisplayError = ({ errorCode, fallback }: Props) => {
   switch (errorCode) {
     case ErrorCode.TIMEOUT:
       return <Timeout />
@@ -35,6 +36,8 @@ const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
       return <AuthorizationProblemConfidentialityMarking />
     case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET:
       return <AuthorizationProblemConfidentialityMarkingUnit />
+    case ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION:
+      return <AuthorizationProblemSubscription />
     case ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE:
       return <AuthorizationUserSessionAlreadyActive />
     case ErrorCode.INTERNAL_PROBLEM:
@@ -51,6 +54,8 @@ const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
       return <GetCertificateProblem />
     case ErrorCode.INVALID_LAUNCHID:
       return <InvalidLaunchIdError />
+    case ErrorCode.INTEGRATION_NOCONTENT:
+      return <IntegrationNoContentError />
     case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
     default:
       return fallback != null ? <p>{fallback}</p> : <UnknownInternalProblem />

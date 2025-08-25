@@ -1,10 +1,10 @@
 import FocusTrap from 'focus-trap-react'
 import { isEqual } from 'lodash-es'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ChevronDownIcon, InfoCircle, LightbulpIcon } from '../../images'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import { useKeyPress } from '../../utils'
 import { CustomButton } from '../Inputs/CustomButton'
@@ -34,16 +34,7 @@ const StyledChevronDownIcon = styled(ChevronDownIcon)`
   font-size: 0.875em;
 `
 
-const IcfDropdown: React.FC<Props> = ({
-  modalLabel,
-  icfData,
-  chosenIcfCodeValues,
-  onAddCode,
-  onRemoveCode,
-  collectionsLabel,
-  disabled,
-  id,
-}) => {
+const IcfDropdown = ({ modalLabel, icfData, chosenIcfCodeValues, onAddCode, onRemoveCode, collectionsLabel, disabled, id }: Props) => {
   const icd10Codes = useSelector(getOriginalIcd10Codes, isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>

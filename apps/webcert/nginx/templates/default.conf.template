@@ -11,65 +11,16 @@ server {
     try_files $uri $uri/ /index.html =404;
   }
 
-  location /api {
-      proxy_pass  http://wc;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Host $host:$server_port;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Port $server_port;
-  }
-
-  location /moduleapi {
-      proxy_pass  http://wc;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Host $host:$server_port;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Port $server_port;
-  }
-
-  location /fake {
-      proxy_pass  http://wc;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Host $host:$server_port;
-      proxy_set_header X-Forwarded-Proto https;
-      proxy_set_header X-Forwarded-Port $server_port;
-  }
-
-    location /testability {
-        proxy_pass  http://wc;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host:$server_port;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Forwarded-Port $server_port;
-    }
-
-    location /visa {
-        proxy_pass  http://wc;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host:$server_port;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Forwarded-Port $server_port;
-    }
-
-    location /saml {
+  location ~ ^/(api|moduleapi|fake|testability|visa|saml2|v1|v2|webcert|login|logout|authtestability) {
       proxy_pass http://wc;
       proxy_set_header Host $host;
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Host $host:$server_port;
-      proxy_set_header X-Forwarded-Proto https;
       proxy_set_header X-Forwarded-Port $server_port;
-    }
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Trace-Id $trace_id;
+  }
 
   include /etc/nginx/extra-conf.d/*.conf;
 }

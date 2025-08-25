@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
@@ -19,6 +18,7 @@ const InnerWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+
   h3 {
     color: white;
   }
@@ -34,13 +34,15 @@ const CareUnitAddress = styled.section`
   }
 `
 
-const UvCareUnitAddress: React.FC = () => {
+const UvCareUnitAddress = () => {
   const metadata = useSelector(getCertificateMetaData, isEqual)
   const signedCertificate = useSelector(getCertificateEvents, isEqual)
-  const signedCertificateDate = signedCertificate
-    .filter((obj) => obj && obj.type === 'SIGNED')
-    .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
-    .reduce((acc, obj) => (obj && obj.timestamp ? obj.timestamp : acc), '')
+  const signedCertificateDate =
+    metadata?.signed ??
+    signedCertificate
+      .filter((obj) => obj && obj.type === 'SIGNED')
+      .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+      .reduce((acc, obj) => (obj?.timestamp ? obj.timestamp : acc), '')
 
   if (!metadata) return null
 

@@ -1,22 +1,21 @@
-import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash-es'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { Complement, Question, QuestionType, ResourceLinkType } from '../../types'
+import type { Complement, Question } from '../../types'
+import { QuestionType, ResourceLinkType } from '../../types'
 import QuestionItem from './QuestionItem'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const setupStore = () => configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, questionMiddleware])
 
@@ -102,6 +101,7 @@ const createComplementWithLongText = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const createQuestionWithLongText = (): Question => ({
@@ -135,6 +135,7 @@ const createQuestionWithLongText = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const createQuestion = (): Question => ({
@@ -165,14 +166,15 @@ const createQuestion = (): Question => ({
       description: 'Hantera fråga',
     },
   ],
+  certificateId: 'certificateId',
 })
 
 const renderComponent = (question: Question) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionItem question={question} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -299,24 +301,24 @@ describe('QuestionItem', () => {
   })
 
   describe('answering a question with default values', () => {
-    it('display default value for message', () => {
+    it('display default value for message', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       const message = screen.getByRole('textbox')
 
-      expect(message).toHaveValue('')
+      await expect(message).toHaveValue('')
     })
 
-    it('send question disabled', () => {
+    it('send question disabled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
-      expect(screen.getByText(/Skicka/i)).toBeDisabled()
+      await expect(screen.getByText(/Skicka/i)).toBeDisabled()
     })
 
-    it('cancel question disabled', () => {
+    it('cancel question disabled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
-      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
+      await expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
     it('does not show message that answer draft has been saved', () => {
@@ -335,11 +337,11 @@ describe('QuestionItem', () => {
       clearDispatchedActions()
     })
 
-    it('enable send and cancel when answer has value', () => {
+    it('enable send and cancel when answer has value', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
-      expect(screen.getByText(/Skicka/i)).toBeEnabled()
-      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
+      await expect(screen.getByText(/Skicka/i)).toBeEnabled()
+      await expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
     it('does show message that answer has been saved', () => {
@@ -365,7 +367,7 @@ describe('QuestionItem', () => {
       await userEvent.click(screen.getByText('Avbryt'))
       await userEvent.click(screen.getByText('Ja, radera'))
 
-      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+      const action = getByType(dispatchedActions, apiCallBegan.type)
 
       expect(
         actionHasSimilarPayload(action, {
@@ -392,8 +394,8 @@ describe('QuestionItem', () => {
 
       await userEvent.click(sendButton)
 
-      expect(sendButton).toBeDisabled()
-      expect(cancelButton).toBeDisabled()
+      await expect(sendButton).toBeDisabled()
+      await expect(cancelButton).toBeDisabled()
     })
 
     it('disable send and cancel while deleting answer draft', async () => {
@@ -405,8 +407,8 @@ describe('QuestionItem', () => {
       await userEvent.click(cancelButton)
       await userEvent.click(screen.getByText('Ja, radera'))
 
-      expect(sendButton).toBeDisabled()
-      expect(cancelButton).toBeDisabled()
+      await expect(sendButton).toBeDisabled()
+      await expect(cancelButton).toBeDisabled()
     })
   })
 
@@ -426,18 +428,18 @@ describe('QuestionItem', () => {
       expect(screen.getByRole('checkbox')).toBeInTheDocument()
     })
 
-    it('display checkbox as checked if handled', () => {
+    it('display checkbox as checked if handled', async () => {
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
 
-      expect(screen.queryByRole('checkbox')).toBeChecked()
+      await expect(screen.queryByRole('checkbox')).toBeChecked()
     })
 
-    it('display checkbox as unchecked if unhandled', () => {
+    it('display checkbox as unchecked if unhandled', async () => {
       renderComponent(createQuestion())
 
-      expect(screen.queryByRole('checkbox')).not.toBeChecked()
+      await expect(screen.queryByRole('checkbox')).not.toBeChecked()
     })
 
     it('dont display checkbox when question missing resource link handled', () => {
@@ -471,7 +473,7 @@ describe('QuestionItem', () => {
 
       await userEvent.click(screen.getByText('Hanterad'))
 
-      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+      const action = getByType(dispatchedActions, apiCallBegan.type)
 
       expect(
         actionHasSimilarPayload(action, {
@@ -488,7 +490,7 @@ describe('QuestionItem', () => {
 
       await userEvent.click(screen.getByText('Hanterad'))
 
-      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+      const action = getByType(dispatchedActions, apiCallBegan.type)
 
       expect(
         actionHasSimilarPayload(action, {
@@ -513,7 +515,7 @@ describe('QuestionItem', () => {
       await userEvent.click(screen.getByText('Hanterad'))
       await userEvent.click(screen.getAllByText('Markera som hanterad')[1])
 
-      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+      const action = getByType(dispatchedActions, apiCallBegan.type)
 
       expect(
         actionHasSimilarPayload(action, {

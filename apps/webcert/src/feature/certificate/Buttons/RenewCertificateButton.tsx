@@ -9,7 +9,7 @@ import { renewCertificate } from '../../../store/certificate/certificateActions'
 import { setUserPreference } from '../../../store/user/userActions'
 import { getUser } from '../../../store/user/userSelectors'
 import { sanitizeText } from '../../../utils'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -19,7 +19,7 @@ interface Props extends FunctionDisabled {
   certificateId: string
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, certificateId }) => {
+const RenewCertificateButton = ({ name, description, enabled, body, functionDisabled, certificateId }: Props) => {
   const dispatch = useDispatch()
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser, isEqual)

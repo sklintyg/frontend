@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import {
+import type {
   CertificateListItemValueType,
   ListConfig,
   ListFilterBooleanConfig,
@@ -9,11 +9,10 @@ import {
   ListFilterPageSizeConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterType,
   ListFilterValue,
   ListFilterValueDateRange,
-  ListFilterValues,
 } from '../../types'
+import { ListFilterType } from '../../types'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
   switch (filter.type) {
@@ -63,7 +62,7 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
   }
 }
 
-export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values: ListFilterValues | undefined): boolean => {
+export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values?: Record<string, ListFilterValue>): boolean => {
   let isDefault = true
   if (!configs || !values) {
     return false

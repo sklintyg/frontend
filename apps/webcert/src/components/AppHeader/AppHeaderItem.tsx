@@ -1,10 +1,8 @@
-import React from 'react'
-
 interface AppHeaderItemProps {
   children: React.ReactNode
 }
 
-const AppHeaderItem: React.FC<AppHeaderItemProps> = (props) => {
+const AppHeaderItem = (props: AppHeaderItemProps) => {
   return <div>{props.children}</div>
 }
 

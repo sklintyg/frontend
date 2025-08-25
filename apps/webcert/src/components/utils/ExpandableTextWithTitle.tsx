@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 import { LinkButton } from '../../styles'
@@ -23,7 +23,7 @@ interface Props {
   onClick?: (currentExpanded: boolean) => void
 }
 
-export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title, onClick }) => {
+export const ExpandableTextWithTitle = ({ text, title, onClick }: Props) => {
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {

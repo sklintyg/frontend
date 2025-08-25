@@ -1,4 +1,5 @@
-import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { Heading } from '@frontend/components'
+import { IDSCard, IDSSpinner } from '@inera/ids-react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
@@ -29,14 +30,22 @@ export function SendCertificatePage() {
       {certificate && recipient && sendFunction && (
         <>
           <div>
-            <h2 className="ids-heading-2 mb-5">Intyg som ska skickas</h2>
-            <IDSCard className="mb-5">
-              <h2 className="ids-heading-3">{certificate.metadata.type.name}</h2>
-              <CertificateInformation {...certificate.metadata} />
-            </IDSCard>
+            <Heading level={2} size="m">
+              Intyg som ska skickas
+            </Heading>
+            <div className="mb-5">
+              <IDSCard>
+                <Heading level={2} size="s">
+                  {certificate.metadata.type.name}
+                </Heading>
+                <CertificateInformation {...certificate.metadata} />
+              </IDSCard>
+            </div>
           </div>
           <div className="mb-5">
-            <h2 className="ids-heading-2 mb-5">Mottagare</h2>
+            <Heading level={2} size="m">
+              Mottagare
+            </Heading>
             <IDSCard>{recipient.name}</IDSCard>
           </div>
           {id && <SendCertificateActions id={id} recipient={recipient} sendFunction={sendFunction} />}

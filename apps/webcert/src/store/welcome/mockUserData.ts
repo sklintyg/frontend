@@ -1,4 +1,4 @@
-import { MockUser } from './welcomeReducer'
+import type { MockUser } from './welcomeReducer'
 
 export const mockUserData: MockUser[] = [
   {
@@ -14,6 +14,13 @@ export const mockUserData: MockUser[] = [
     efterNamn: 'Doktor',
     enhetId: 'TSTNMT2321000156-ALVC',
     legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-SKAA',
+    forNamn: 'Anna',
+    efterNamn: 'Sjuksköterska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Sjuksköterska'],
   },
   {
     hsaId: 'TSTNMT2321000156-VAAA',
@@ -35,6 +42,13 @@ export const mockUserData: MockUser[] = [
     enhetId: 'TSTNMT2321000156-BEMC',
   },
   {
+    hsaId: 'TSTNMT2321000156-BMBL',
+    forNamn: 'Bertil',
+    efterNamn: 'Barnmorska',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    legitimeradeYrkesgrupper: ['Barnmorska'],
+  },
+  {
     hsaId: 'TSTNMT2321000156-1079',
     forNamn: 'Arnold',
     efterNamn: 'Johansson',
@@ -53,5 +67,55 @@ export const mockUserData: MockUser[] = [
     efterNamn: 'Nilsson Olsson',
     enhetId: 'TSTNMT2321000156-105P',
     legitimeradeYrkesgrupper: ['Läkare'],
+  },
+]
+
+export const mockUserDataSit1: MockUser[] = [
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10LT',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M6',
+    forNamn: 'Åsa',
+    efterNamn: 'Gustafsson',
+    enhetId: 'TSTNMT2321000156-10MS',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10LZ',
+    forNamn: 'Per',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10LT',
+    forNamn: 'Per',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-10LR',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M0',
+    forNamn: 'Johanna',
+    efterNamn: 'Nilsson',
+    enhetId: 'TSTNMT2321000156-10LR',
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10M0',
+    forNamn: 'Johanna',
+    efterNamn: 'Nilsson',
+    enhetId: 'TSTNMT2321000156-10LT',
   },
 ]

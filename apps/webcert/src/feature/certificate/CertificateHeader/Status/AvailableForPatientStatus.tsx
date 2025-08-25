@@ -1,7 +1,6 @@
-import React from 'react'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import { CertificateMetadata } from '../../../../types'
+import type { CertificateMetadata } from '../../../../types'
 import { isSigned } from '../../../../utils'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
@@ -9,8 +8,8 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isSigned(certificateMetadata) || certificateMetadata.type === 'db' || certificateMetadata.type === 'doi') return null
+const AvailableForPatientStatus = ({ certificateMetadata }: Props) => {
+  if (!isSigned(certificateMetadata) || !certificateMetadata.availableForCitizen) return null
   const isLisjp = certificateMetadata.type === 'lisjp'
 
   return (

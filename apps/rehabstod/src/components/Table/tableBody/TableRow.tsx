@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { classNames } from '../../../utils/classNames'
 
 export function TableRow<T>({
   italic,
@@ -7,9 +8,9 @@ export function TableRow<T>({
   focusable = false,
   children,
 }: {
-  italic: boolean
+  italic?: boolean
   onNavigate?: (data: T) => void
-  data: T
+  data?: T
   focusable?: boolean
   children: ReactNode
 }) {
@@ -17,7 +18,7 @@ export function TableRow<T>({
     <tr
       tabIndex={0}
       onKeyDown={({ code, currentTarget }) => {
-        if (onNavigate && ['Enter', 'Space'].includes(code)) {
+        if (onNavigate && data && ['Enter', 'Space'].includes(code)) {
           onNavigate(data)
         }
         if (focusable && code === 'ArrowUp' && currentTarget.previousElementSibling) {
@@ -28,13 +29,15 @@ export function TableRow<T>({
         }
       }}
       onClick={() => {
-        if (onNavigate) {
+        if (onNavigate && data) {
           onNavigate(data)
         }
       }}
-      className={`${focusable ? 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)]' : ''} ${
-        italic ? 'italic' : ''
-      } print:hidden`}
+      className={classNames(
+        'print:hidden group',
+        focusable && 'hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)]',
+        italic && 'italic'
+      )}
     >
       {children}
     </tr>

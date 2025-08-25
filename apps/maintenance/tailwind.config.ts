@@ -32,6 +32,9 @@ export default {
         40: 'var(--IDS-COLOR-ACCENT-40)',
         90: 'var(--IDS-COLOR-ACCENT-90)',
       },
+      legacy: {
+        main: '#00706e',
+      },
     },
     extend: {},
   },

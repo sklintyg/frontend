@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { LightbulpIcon } from '../../../images'
 
@@ -13,7 +12,7 @@ const StyledLightbulpIcon = styled(LightbulpIcon)`
   width: 1rem;
 `
 
-const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
+const Icon = ({ iconType, includeTooltip, size }: Props) => {
   const getIconTooltip = (id: string) => {
     switch (id) {
       case 'lightbulb_outline':
@@ -29,7 +28,8 @@ const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
         <StyledLightbulpIcon
           className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`}
           size={size}
-          data-tip={includeTooltip ? getIconTooltip(iconType) : ''}
+          data-tooltip-id="tooltip"
+          data-tooltip-content={includeTooltip ? getIconTooltip(iconType) : ''}
         />
       )
     default:

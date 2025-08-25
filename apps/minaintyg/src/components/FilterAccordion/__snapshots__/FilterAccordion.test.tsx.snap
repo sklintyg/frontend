@@ -9,7 +9,7 @@ exports[`Should render as expected 1`] = `
       class="flex cursor-pointer select-none flex-col md:flex-row"
     >
       <div
-        class="grow border-y border-stone-clear py-2.5 md:pl-5"
+        class="grow border-y border-neutral-90  py-2.5 md:pl-5"
       >
         Visar 
         43
@@ -19,16 +19,16 @@ exports[`Should render as expected 1`] = `
         intyg
       </div>
       <div
-        class="-mt-px flex justify-between gap-5 border-y border-stone-clear py-2.5 md:mt-0 md:border-l md:px-5"
+        class="-mt-px flex justify-between gap-5 border-y border-neutral-90  py-2.5 md:mt-0 md:border-l md:px-5"
       >
         Filtrera lista
-        <ids-icon-chevron
-          class="h-2.5 w-2.5 rotate-90 self-center group-open:-rotate-90 ids-icon"
+        <span
+          class="ids-icon-chevron-down ids-icon--color-preset-1 self-center group-open:rotate-180"
         />
       </div>
     </summary>
     <div
-      class="border-b border-stone-clear py-5"
+      class="border-b border-neutral-90  py-5"
     >
       <span>
         Test

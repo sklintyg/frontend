@@ -1,5 +1,5 @@
 import { debounce, isEqual } from 'lodash-es'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
@@ -13,7 +13,7 @@ import {
   getShowValidationErrors,
   getUnit,
 } from '../../../store/certificate/certificateSelectors'
-import { Unit } from '../../../types'
+import type { Unit } from '../../../types'
 import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
@@ -62,7 +62,7 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   }
 `
 
-const UeCareUnitAddress: React.FC = () => {
+const UeCareUnitAddress = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getCareUnitValidationErrors(), isEqual)
   const dispatch = useDispatch()

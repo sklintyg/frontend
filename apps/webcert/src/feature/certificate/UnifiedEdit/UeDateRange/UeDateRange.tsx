@@ -1,21 +1,22 @@
 import { addDays, isValid } from 'date-fns'
-import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { CertificateDataElement, ConfigUeDateRange, ValueDateRange, ValidationError } from '../../../../types'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../../store/store'
+import type { CertificateDataElement, ConfigUeDateRange, ValidationError, ValueDateRange } from '../../../../types'
 import {
-  dayCodeReg,
-  weekCodeReg,
-  monthCodeReg,
-  getValidDate,
-  parseDayCodes,
-  formatDateToString,
   _dateReg,
   _dateRegDashesOptional,
+  dayCodeReg,
+  formatDateToString,
+  getValidDate,
+  monthCodeReg,
+  parseDayCodes,
+  weekCodeReg,
 } from '../../../../utils'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
@@ -30,19 +31,19 @@ const DatesWrapper = styled.div`
 
   label {
     margin-right: 0.625em;
-  }
-
-  & + & {
-    margin-left: 8px;
+    width: 42px;
+    @media (min-width: 1200px) {
+      text-align: right;
+    }
   }
 `
 const DateGrid = styled.div`
-  display: grid;
+  display: flex;
   align-items: baseline;
-  grid-template-columns: 1fr 1fr;
-  @media (max-width: 1200px) {
-    grid-template-columns: 1fr;
-    grid-gap: 8px;
+  gap: 16px;
+  flex-direction: column;
+  @media (min-width: 1200px) {
+    flex-direction: row;
   }
 `
 
@@ -51,7 +52,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
+const UeDateRange = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeDateRange
   const value = question.value as ValueDateRange
   const [fromDateInput, setFromDateInput] = useState<string | null>(value.from ?? null)
@@ -60,7 +61,7 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
 
   const dispatch = useDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
 
   const handleFromTextInputChange = (fromValue: string) => {
     setFromDateInput(fromValue)
@@ -126,7 +127,8 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
     if (id) {
       return (
         validationErrors.filter(
-          (v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id)
+          (v: ValidationError) =>
+            v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id) || v.field == id
         ).length > 0
       )
     }
@@ -164,7 +166,9 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
             textInputOnBlur={handleToTextInputOnBlur}
             textInputOnKeyDown={handleToTextInputOnKeyDown}
             textInputDataTestId={`tom${config.id}`}
-            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'tom')}
+            displayValidationErrorOutline={
+              getShouldDisplayValidationErrorOutline(config.id, 'tom') || getShouldDisplayValidationErrorOutline(config.id, 'to')
+            }
           />
         </DatesWrapper>
       </DateGrid>

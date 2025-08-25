@@ -1,5 +1,6 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
-import { AvailableFunction, AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
+import { IDSAlert } from '@inera/ids-react'
+import type { AvailableFunction } from '../../../../schema/certificate.schema'
+import { AvailableFunctionsTypeEnum } from '../../../../schema/certificate.schema'
 
 export function CertificateAttentionAlert({ availableFunctions }: { availableFunctions: AvailableFunction[] }) {
   const infoFunction = availableFunctions.find((availableFunction) => availableFunction.type === AvailableFunctionsTypeEnum.enum.ATTENTION)
@@ -10,7 +11,7 @@ export function CertificateAttentionAlert({ availableFunctions }: { availableFun
 
   return (
     <div className="mb-5">
-      <IDSAlert key={infoFunction.name} type="attention" headline={infoFunction.title || ''}>
+      <IDSAlert key={infoFunction.name} role="alert" type="attention" headline={infoFunction.title || ''}>
         {infoFunction.body}
       </IDSAlert>
     </div>

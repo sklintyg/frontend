@@ -7,13 +7,13 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('has title', async ({ page }) => {
-  await page.goto('https://wc2.wc.localtest.me/')
+  await page.goto('/')
 
   await expect(page).toHaveTitle(/Webcert/)
 })
 
 test('has header content', async ({ page }) => {
-  await page.goto('https://wc2.wc.localtest.me/')
+  await page.goto('/')
 
   await expect(page.getByRole('img', { name: 'Webcert', exact: true })).toBeVisible()
   await expect(page.getByText('Är du privatläkare och vill')).toBeVisible()
@@ -21,7 +21,7 @@ test('has header content', async ({ page }) => {
 })
 
 test('has page content', async ({ page }) => {
-  await page.goto('https://wc2.wc.localtest.me/')
+  await page.goto('/')
 
   await expect(page.getByRole('img', { name: 'Bärbar dator som är inloggad' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Välkommen till Webcert' })).toBeVisible()
@@ -32,7 +32,7 @@ test('has page content', async ({ page }) => {
 })
 
 test('has footer content', async ({ page }) => {
-  await page.goto('https://wc2.wc.localtest.me/')
+  await page.goto('/')
 
   await expect(page.getByText('Webcert', { exact: true })).toBeVisible()
   await expect(page.getByText('Webcert är en tjänst som')).toBeVisible()

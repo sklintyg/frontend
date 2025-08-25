@@ -1,29 +1,29 @@
+import { getByType } from '@frontend/utils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash-es'
-import {
+import type {
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateEvent,
   CertificateMetadata,
-  CertificateRelationType,
   CertificateSignStatus,
-  CertificateStatus,
   Complement,
-  ConfigTypes,
+  MessageType,
   ModalData,
   Patient,
   PersonId,
   ResourceLink,
-  ResourceLinkType,
   Unit,
   ValidationError,
 } from '../../types'
+import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
-import { ValidationErrorSummary, sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
-import { ErrorData } from '../error/errorReducer'
-import { RootState } from '../store'
-import { SigningData } from './certificateActions'
+import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import type { ErrorData } from '../error/errorReducer'
+import type { RootState } from '../store'
+import type { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -31,12 +31,14 @@ export const getSpinnerText = (state: RootState): string => state.ui.uiCertifica
 
 export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
 
-export const getIsValidForSigning = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate != null
-    ? Object.values(state.ui.uiCertificate.certificate.data)
-        .map(({ validationErrors }) => validationErrors)
-        .flat().length === 0
-    : false
+export const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.status === CertificateStatus.UNSIGNED
+
+export const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
+
+export const getIsValidForSigning = (state: RootState): boolean => {
+  const validationErrors = getValidationErrorSummary()(state)
+  return validationErrors.length === 0
+}
 
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
 
@@ -46,6 +48,10 @@ export const getQuestion =
   (id: string) =>
   (state: RootState): CertificateDataElement | undefined =>
     state.ui.uiCertificate.certificate?.data[id]
+
+export const getQrCodeForElegSignature = (state: RootState) => {
+  return state.ui.uiCertificate.qrCode
+}
 
 export const displayAsMandatory =
   (questionId: string) =>
@@ -130,6 +136,16 @@ export const getCertificateMetaData = (state: RootState): CertificateMetadata | 
   return certificate.metadata
 }
 
+export const getCertificateMessageTypes = (state: RootState): MessageType[] => {
+  const fallback = [
+    { type: QuestionType.MISSING, subject: 'Välj typ av fråga' },
+    { type: QuestionType.COORDINATION, subject: 'Avstämningsmöte' },
+    { type: QuestionType.CONTACT, subject: 'Kontakt' },
+    { type: QuestionType.OTHER, subject: 'Övrigt' },
+  ]
+  return getCertificateMetaData(state)?.messageTypes || fallback
+}
+
 export interface CertificateStructure {
   id: string
   subQuestionIds: string[]
@@ -155,41 +171,44 @@ export const getValidationErrorSummary =
 export const getCareUnitValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.careUnitValidationErrors || []
   }
 
 export const getPatientValidationErrors =
   () =>
   (state: RootState): ValidationError[] => {
-    if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
-      return []
-    }
-
-    return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
+    return state.ui.uiCertificate.certificate?.metadata.patientValidationErrors || []
   }
 
 const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-const getQuestionServerValidationErrors =
-  (questionId: string) =>
-  (state: RootState): ValidationError[] => {
-    const question = getQuestion(questionId)(state)
-    return question?.validationErrors ?? []
-  }
-
 export const getVisibleValidationErrors =
   (questionId: string, field?: string) =>
   (state: RootState): ValidationError[] => {
+    const question = getQuestion(questionId)(state)
+    const questionValidationErrors = question?.validationErrors ?? []
+
+    function getParentValidationErrors(el: CertificateDataElement): ValidationError[] {
+      const parent = state.ui.uiCertificate.certificate?.data[el.parent]
+      const validationErrors = (parent?.validationErrors ?? []).map((parentValidationError) => ({
+        ...parentValidationError,
+        text: '',
+      }))
+
+      if (parent?.parent) {
+        return [...getParentValidationErrors(parent), ...validationErrors]
+      }
+
+      return validationErrors
+    }
+
     const showValidationErrors = getShowValidationErrors(state)
+    const parentValidationErrors = question ? getParentValidationErrors(question) : []
 
     return uniqWith<ValidationError>(
-      getQuestionServerValidationErrors(questionId)(state)
+      [...questionValidationErrors, ...parentValidationErrors]
         .filter((v) => showValidationErrors || v.showAlways)
         .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
       (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
@@ -198,11 +217,11 @@ export const getVisibleValidationErrors =
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
-export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
-export const getResourceLink =
+export const getCertificateResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
+export const getCertificateResourceLink =
   (type: ResourceLinkType) =>
   (state: RootState): ResourceLink | undefined =>
-    state.ui.uiCertificate.certificate?.links.find((link) => link.type === type)
+    getByType(getCertificateResourceLinks(state), type)
 
 export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||
@@ -216,6 +235,9 @@ export const getSigningError = (state: RootState): ErrorData | undefined => stat
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
+
+export const getIsInactiveCertificateType = (state: RootState): boolean | undefined =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.inactiveCertificateType : false
 
 export const getIsPatientDeceased = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false

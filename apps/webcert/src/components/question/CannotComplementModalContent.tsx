@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type { ResourceLink } from '../../types'
+import { ResourceLinkType } from '../../types'
 import RadioButton from '../Inputs/RadioButton'
 import TextArea from '../Inputs/TextArea'
 import InfoBox from '../utils/InfoBox'
@@ -9,11 +11,7 @@ export interface CannotComplementData {
   message: string
 }
 
-interface Props {
-  onChange: (data: CannotComplementData) => void
-}
-
-export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
+export function CannotComplementModalContent({ link, onChange }: { link: ResourceLink; onChange: (data: CannotComplementData) => void }) {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +26,11 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
 
   return (
     <div className={'iu-color-black'}>
-      <p className="iu-fw-bold iu-fs-200 iu-mb-300">Ange varför intyget inte kan kompletteras med ett nytt intyg:</p>
+      <p className="iu-fw-bold iu-fs-200 iu-mb-300">
+        {link.type === ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE
+          ? 'Ange varför intyget inte kan kompletteras med ett nytt intyg:'
+          : 'Ange varför du inte kan komplettera med ett nytt intyg:'}
+      </p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för varför komplettering inte går" className="ic-radio-group-vertical">
         <RadioButton
           id="ANSWER_WITH_CERTIFICATE"

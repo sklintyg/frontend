@@ -1,11 +1,10 @@
-import React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import ErrorModalBase from './ErrorModalBase'
-import { ModalProps } from './errorUtils'
+import type { ModalProps } from './errorUtils'
 
 export const SIGN_CERTIFICATE_ERROR_TITLE = 'Signering misslyckades'
 
-const SignCertificateError: React.FC<ModalProps> = ({ errorData }) => {
+const SignCertificateError = ({ errorData }: ModalProps) => {
   return (
     <ErrorModalBase errorData={errorData}>
       <p>

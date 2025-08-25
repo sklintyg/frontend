@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
-import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
-import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
 import RadioButton from '../../../components/Inputs/RadioButton'
 import TextArea from '../../../components/Inputs/TextArea'
 import InfoBox from '../../../components/utils/InfoBox'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
+import type { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
+import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
+import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 interface Props {
   onChange: (obj: RevokeCertificateReason) => void
   type?: string
 }
 
-export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
+export const RevokeCertificateModalContent = ({ onChange, type }: Props) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
   const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)

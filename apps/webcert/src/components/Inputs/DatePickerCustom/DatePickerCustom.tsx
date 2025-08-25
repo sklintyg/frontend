@@ -3,9 +3,10 @@ import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 // eslint-disable-next-line import/no-duplicates
 import sv from 'date-fns/locale/sv'
-import React, { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
-import styled, { CSSProp } from 'styled-components'
+import type { CSSProp } from 'styled-components'
+import styled from 'styled-components'
 import calendar from '../../../images/calendar.svg'
 import { _format, _maxAllowedDate, _minAllowedDate, _yearFormat, formatDateToString, getValidDate } from '../../../utils'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
@@ -101,7 +102,7 @@ interface Props {
   yearOnly?: boolean
 }
 
-const DatePickerCustom: React.FC<Props> = ({
+const DatePickerCustom = ({
   label,
   setDate,
   inputString,
@@ -120,7 +121,7 @@ const DatePickerCustom: React.FC<Props> = ({
   vertical,
   inputCss,
   yearOnly,
-}) => {
+}: Props) => {
   const [open, setOpen] = useState(false)
   const boundryRef = useContext(DatePickerBoundryContext)
 
@@ -172,7 +173,7 @@ const DatePickerCustom: React.FC<Props> = ({
             }}
             onBlur={textInputOnBlur}
             onKeyDown={textInputOnKeyDown}
-            placeholder={yearOnly ? 'åååå' : 'åååå-mm-dd'}
+            placeholder={yearOnly ? 'åååå' : 'ÅÅÅÅ-MM-DD'}
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}

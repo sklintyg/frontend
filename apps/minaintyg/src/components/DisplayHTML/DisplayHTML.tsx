@@ -1,9 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
-import parse, { DOMNode, attributesToProps, domToReact } from 'html-react-parser'
+import { AppLink } from '@frontend/components'
+import type { DOMNode } from 'html-react-parser'
+import parse, { attributesToProps, domToReact } from 'html-react-parser'
 import { createElement } from 'react'
 import { MobileTable } from './MobileTable'
 import { isElement } from './utils/isElement'
+
+const headingMap = ['xxl', 'xl', 'l', 'm', 's', 'xs']
 
 const options = {
   replace: (domNode: DOMNode) => {
@@ -12,8 +15,13 @@ const options = {
       const props = attributesToProps(attribs)
       const match = name.match(/^h(\d)$/)
 
-      if (match) {
-        return createElement(match[0], { className: `ids-heading-${match[1]}` }, domToReact(children, options))
+      if (match && match[1]) {
+        const [tag, level] = match
+        return createElement(
+          tag,
+          { className: `ids-heading-${headingMap[Math.min(parseInt(level, 10) + 1, headingMap.length - 1)]}` },
+          domToReact(children, options)
+        )
       }
 
       if (name === 'table') {
@@ -34,12 +42,11 @@ const options = {
         )
       }
 
-      if (name === 'a') {
+      if (name === 'a' && props.href) {
         return (
-          <IDSLink underlined>
-            <a {...props}>{domToReact(children, options)}</a>
-            {attribs.target === '_blank' && <IDSIconExternal slot="append-icon" size="s" />}
-          </IDSLink>
+          <AppLink to={props.href} underlined external={props.target === '_blank'}>
+            {domToReact(children, options)}
+          </AppLink>
         )
       }
 

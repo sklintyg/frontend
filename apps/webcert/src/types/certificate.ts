@@ -1,5 +1,7 @@
-import { Patient } from './patient'
-import { ResourceLink } from './resourceLink'
+import type { CertificateConfirmationModal } from './confirmModal'
+import type { Patient } from './patient'
+import type { QuestionType } from './question'
+import type { ResourceLink } from './resourceLink'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -40,6 +42,17 @@ export interface CertificateMetadata {
   version: number
   latestMajorVersion: boolean
   responsibleHospName: string
+  signed?: string
+  messageTypes?: MessageType[]
+  confirmationModal: CertificateConfirmationModal | null
+  signConfirmationModal: CertificateConfirmationModal | null
+  availableForCitizen: boolean
+  inactiveCertificateType?: boolean
+}
+
+export type MessageType = {
+  type: QuestionType
+  subject: string
 }
 
 export type CertificateData = Record<string, CertificateDataElement>
@@ -55,7 +68,7 @@ export interface CertificateDataElement {
   config: CertificateDataConfigType
   value: ValueType | null
   validation: CertificateDataValidation[]
-  validationErrors: ValidationError[]
+  validationErrors?: ValidationError[]
   style?: CertificateDataElementStyleEnum
 }
 
@@ -82,7 +95,7 @@ export enum ConfigTypes {
   UE_RADIO_CODE = 'UE_RADIO_CODE',
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN = 'UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN',
-  UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
+  UE_CHECKBOX_DATE_RANGE_LIST = 'UE_CHECKBOX_DATE_RANGE_LIST',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
@@ -108,6 +121,7 @@ export type CertificateDataConfigType =
   | ConfigUeCheckboxBoolean
   | ConfigUeCheckboxDate
   | ConfigUeCheckboxDateRange
+  | ConfigUeCheckboxDateRangeList
   | ConfigUeCheckboxMultipleCodes
   | ConfigUeCheckboxMultipleDate
   | ConfigUeDate
@@ -116,13 +130,13 @@ export type CertificateDataConfigType =
   | ConfigUeDropdown
   | ConfigUeHeader
   | ConfigUeIcf
+  | ConfigUeInteger
   | ConfigUeMedicalInvestigationList
   | ConfigUeMessage
   | ConfigUeRadioBoolean
   | ConfigUeRadioCode
   | ConfigUeRadioMultipleCodes
   | ConfigUeRadioMultipleCodesOptionalDropdown
-  | ConfigUeSickLeavePeriod
   | ConfigUeTextArea
   | ConfigUeTextField
   | ConfigUeTypeahead
@@ -132,12 +146,21 @@ export type CertificateDataConfigType =
   | ConfigUeViewText
   | ConfigUeVisualAcuity
   | ConfigUeYear
-  | ConfigUeInteger
 
 export enum MessageLevel {
   INFO = 'INFO',
   OBSERVE = 'OBSERVE',
   ERROR = 'ERROR',
+}
+
+export enum IcfCodesPropertyEnum {
+  FUNKTIONSNEDSATTNINGAR = 'disability',
+  AKTIVITETSBEGRANSNINGAR = 'activityLimitation',
+}
+
+export interface ConfigMessage {
+  level: MessageLevel
+  content: string
 }
 
 export interface CertificateDataConfig {
@@ -149,6 +172,7 @@ export interface CertificateDataConfig {
   type: ConfigTypes
   accordion?: ConfigAccordion
   list?: unknown
+  message?: ConfigMessage
 }
 
 export interface ConfigAccordion {
@@ -164,6 +188,7 @@ export interface ConfigCategory extends CertificateDataConfig {
 export interface ConfigUeTextArea extends CertificateDataConfig {
   type: ConfigTypes.UE_TEXTAREA
   id: string
+  label?: string
 }
 
 export interface ConfigUeTextField extends CertificateDataConfig {
@@ -189,8 +214,7 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
 export interface ConfigUeMessage extends CertificateDataConfig {
   type: ConfigTypes.UE_MESSAGE
   id: string
-  level: MessageLevel
-  message: string
+  message: ConfigMessage
 }
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
@@ -265,10 +289,14 @@ export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
   list: ConfigUeCheckboxDate[]
 }
 
-export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
-  type: ConfigTypes.UE_SICK_LEAVE_PERIOD
+export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST
   list: ConfigUeCheckboxDateRange[]
-  previousSickLeavePeriod: string
+  label?: string
+  previousDateRangeText?: string
+  hideWorkingHours: boolean
+  min?: string
+  max?: string
 }
 
 export interface ConfigUeDiagnosisTerminology {
@@ -318,6 +346,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   modalLabel: string
   collectionsLabel: string
   placeholder: string
+  icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum
 }
 
 export interface ConfigUeHeader extends CertificateDataConfig {
@@ -396,6 +425,8 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   rightEye: ConfigEyeAcuity
   leftEye: ConfigEyeAcuity
   binocular: ConfigEyeAcuity
+  min?: number
+  max?: number
 }
 
 export interface ConfigUeViewText extends CertificateDataConfig {
@@ -505,7 +536,7 @@ export interface ValueBoolean {
 export interface ValueCode {
   type: CertificateDataValueType.CODE
   id: string
-  code: string
+  code?: string
 }
 
 export interface ValueDate {
@@ -551,7 +582,7 @@ export interface ValueCodeList {
 
 export interface ValueText {
   type: CertificateDataValueType.TEXT
-  text: string | null
+  text?: string | null
   id: string
 }
 
@@ -820,4 +851,6 @@ export enum CertificateSignStatus {
   NO_CLIENT = 'NO_CLIENT',
   SIGNED = 'SIGNERAD',
   FAILED = 'FAILED',
+  ABORT = 'ABORT',
+  WAIT_FOR_SIGN = 'VANTA_SIGN',
 }

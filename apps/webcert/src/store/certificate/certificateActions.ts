@@ -1,19 +1,20 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError } from '../api/apiActions'
-import {
+import type {
   Certificate,
-  CertificateEvent,
-  CertificateSignStatus,
-  ModalData,
-  ValidationError,
-  CertificateStatus,
   CertificateDataElement,
-  Unit,
-  Patient,
+  CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
+  CertificateStatus,
   Complement,
+  ModalData,
+  Patient,
+  Unit,
+  ValidationError,
 } from '../../types'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import type { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -70,6 +71,7 @@ const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate succ
 const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
 const SIGN_CERTIFICATE_STATUS_SUCCESS = `${CERTIFICATE} Get certificate sign status success`
 const SIGN_CERTIFICATE_STATUS_ERROR = `${CERTIFICATE} Get certificate sign status error`
+const SET_QR_CODE_FOR_ELEG_SIGNATURE = `${CERTIFICATE} Set QR code for eleg signature`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -142,7 +144,6 @@ const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as dele
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
 const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
-const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
 const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
 const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
@@ -174,8 +175,6 @@ const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
-
-const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 
 const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
 const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`
@@ -313,6 +312,8 @@ export const updateCertificateSignStatus = createAction<CertificateSignStatus>(U
 export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
 
 export const signCertificateStatusError = createAction<CertificateApiGenericError>(SIGN_CERTIFICATE_STATUS_ERROR)
+
+export const setQrCodeForElegSignature = createAction<string>(SET_QR_CODE_FOR_ELEG_SIGNATURE)
 
 export interface RevokeCertificateReason {
   reason: string
@@ -467,6 +468,7 @@ interface ValidateCertificateSuccess {
 }
 
 export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
+export const clearClientValidationErrors = createAction<string>(`${CERTIFICATE} clear client validation errors`)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
 
@@ -522,8 +524,6 @@ export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER
 
 export const hideSpinner = createAction(HIDE_CERTIFICATE_LOADING_SPINNER)
 
-export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VALIDATION_ERRORS)
-
 export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
 
 export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
@@ -567,19 +567,7 @@ export interface CertificateApiGenericError {
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
 
-export interface ModifyValidationErrors {
-  questionId: string
-  validationErrors: ValidationError[]
-}
-
-export interface UpdateValidationError {
-  shouldBeRemoved: boolean
-  validationError: ValidationError
-}
-
 export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
-
-export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
 
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
 

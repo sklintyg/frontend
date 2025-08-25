@@ -1,4 +1,7 @@
-import { ReactNode, createContext, useCallback, useMemo, useRef, useState } from 'react'
+import '@inera/ids-design/components/data-table/data-table.css'
+import type { ReactNode } from 'react'
+import { createContext, useCallback, useMemo, useRef, useState } from 'react'
+import { classNames } from '../../utils/classNames'
 import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
 import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
@@ -64,10 +67,15 @@ export function Table({
 
   return (
     <TableContext.Provider value={table}>
-      <div className="print:hidden">
+      <div className="print:hidden [&:not(:last-child)]:mb-5">
         <FloatingTableScroll ref={scrollRef}>
           <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
-          <table className="ids-table ids-table-rounded w-full overflow-visible whitespace-nowrap border-none text-sm">
+          <table
+            className={classNames(
+              'table-fixed m-0 w-full overflow-visible whitespace-nowrap border-none text-sm'
+              // interactive && 'ids-data-table--interactive'
+            )}
+          >
             {header}
             {children}
           </table>

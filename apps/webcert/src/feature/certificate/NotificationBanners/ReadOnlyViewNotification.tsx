@@ -4,7 +4,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import { getUser } from '../../../store/user/userSelectors'
 import NotificationBannerBase from './NotificationBannerBase'
 
-const ReadOnlyViewNotification: React.FC = () => {
+const ReadOnlyViewNotification = () => {
   const metadata = useSelector(getCertificateMetaData, isEqual)
   const user = useSelector(getUser)
 

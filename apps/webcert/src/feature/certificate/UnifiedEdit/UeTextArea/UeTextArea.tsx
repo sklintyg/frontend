@@ -5,21 +5,15 @@ import TextArea from '../../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeTextArea,
-  TextValidation,
-  ValueText,
-} from '../../../../types'
+import type { CertificateDataElement, ConfigUeTextArea, TextValidation, ValueText } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
 export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }
 
-const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
+const UeTextArea = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextArea
   const [text, setText] = useState(textValue != null ? textValue.text : '')
@@ -47,6 +41,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
+      <>{questionConfig.label}</>
       <TextArea
         data-testid={`textarea-${question.id}`}
         disabled={disabled}

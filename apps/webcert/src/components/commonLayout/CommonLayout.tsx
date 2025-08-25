@@ -1,5 +1,6 @@
 import classnames from 'classnames'
-import React, { useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { DatePickerBoundryContext } from '../Inputs/DatePickerCustom/DatePickerBoundryContext'
@@ -25,9 +26,10 @@ interface Props {
   subHeader?: React.ReactNode
   noPadding?: boolean
   hasSidePanel?: boolean
+  children: ReactNode
 }
 
-const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePanel = false, noPadding = false }) => {
+const CommonLayout = ({ header, subHeader, children, hasSidePanel = false, noPadding = false }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const [boundryRef, setBoundryRef] = useState<React.RefObject<HTMLElement>>()
 
@@ -38,13 +40,13 @@ const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePan
   return (
     <DatePickerBoundryContext.Provider value={boundryRef}>
       <Root>
-        <CustomTooltip placement="top" />
         {header && <NoFlexGrow>{header}</NoFlexGrow>}
         {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
         <Content ref={contentRef} className={classnames({ 'ic-container': hasSidePanel, 'popper-boundry': true })}>
           <CertificateDeletedModal />
           {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500 iu-pb-500'}`}>{children}</div>}
         </Content>
+        <CustomTooltip placement="top" />
       </Root>
     </DatePickerBoundryContext.Provider>
   )

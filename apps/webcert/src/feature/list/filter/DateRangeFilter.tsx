@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../components/Inputs/DatePickerCustom/DatePickerCustom'
@@ -6,7 +6,13 @@ import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
 import { questionImage } from '../../../images'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange, ValidationError } from '../../../types'
+import type {
+  ListFilterDateConfig,
+  ListFilterDateRangeConfig,
+  ListFilterValue,
+  ListFilterValueDateRange,
+  ValidationError,
+} from '../../../types'
 import { isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate } from '../../../utils'
 import { getDateValidationError } from '../../../utils/certificate/getClientValidationErrors'
 import { FilterWrapper } from './filterStyles'
@@ -45,7 +51,7 @@ const Label = styled.label`
   gap: 4px;
 `
 
-const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
+const DateRangeFilter = ({ config, onChange }: Props) => {
   const dispatch = useDispatch()
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const [savedValue, setSavedValue] = useState<ListFilterValueDateRange>(filterValue)
@@ -171,7 +177,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   return (
     <div>
       <Label>
-        {config.title} {config.description && <Icon src={questionImage} data-tip={config.description} alt={config.description} />}
+        {config.title}{' '}
+        {config.description && (
+          <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={config.description} alt={config.description} />
+        )}
       </Label>
       <DateRangeWrapper>
         <FilterWrapper highlighted={!!getFromValue() || config.alwaysHighlighted}>

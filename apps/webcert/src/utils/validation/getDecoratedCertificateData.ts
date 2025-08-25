@@ -1,18 +1,15 @@
+import type { CertificateData, CertificateDataElement, CertificateMetadata, ResourceLink } from '../../types'
 import {
-  CertificateData,
-  CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateMetadata,
   CertificateStatus,
   ConfigTypes,
-  DisableSubElementValidation,
-  ResourceLink,
   ResourceLinkType,
 } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import { getValidationResults } from './getValidationResults'
+import { isEqual } from 'lodash-es'
 
 function shouldBeReadOnly(metadata: CertificateMetadata) {
   return metadata.status === CertificateStatus.SIGNED || metadata.status === CertificateStatus.REVOKED
@@ -26,18 +23,14 @@ function shouldBeDisabled(metadata: CertificateMetadata, links: ResourceLink[]) 
   )
 }
 
-function getDisabledSubElements(
-  element: CertificateDataElement,
-  validation: DisableSubElementValidation,
-  result: boolean
-): CertificateDataElement {
+function getDisabledSubElements(element: CertificateDataElement, ids: string[], result: boolean): CertificateDataElement {
   const config =
     element.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
       ? {
           ...element.config,
           list: element.config.list.map((item) => ({
             ...item,
-            disabled: validation.id.includes(item.id) ? result : item.disabled,
+            disabled: ids.includes(item.id) ? result : item.disabled,
           })),
         }
       : element.config
@@ -73,8 +66,9 @@ function validateElement(data: CertificateData, element: CertificateDataElement)
           return { ...el, disabled: result }
         case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
           return { ...el, style: result ? CertificateDataElementStyleEnum.HIGHLIGHTED : CertificateDataElementStyleEnum.NORMAL }
-        case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
-          return getDisabledSubElements(el, validation, result)
+        case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION: {
+          return getDisabledSubElements(el, validation.id, result)
+        }
         case CertificateDataValidationType.AUTO_FILL_VALIDATION:
           return result ? { ...el, value: validation.fillValue } : el
         default:
@@ -85,14 +79,28 @@ function validateElement(data: CertificateData, element: CertificateDataElement)
   )
 }
 
-function isVisible(element: CertificateDataElement) {
-  return element.visible ?? true
+function isVisible(data: CertificateData, element: CertificateDataElement) {
+  return validateElement(data, element).visible ?? true
 }
 
 function validateData(data: CertificateData, metadata: CertificateMetadata): CertificateData {
-  return shouldBeReadOnly(metadata)
-    ? data
-    : Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
+  if (shouldBeReadOnly(metadata)) {
+    return data
+  }
+
+  let previousData: CertificateData
+  let currentData = data
+
+  do {
+    previousData = currentData
+    currentData = validateAllElements(previousData)
+  } while (!isEqual(previousData, currentData))
+
+  return currentData
+}
+
+function validateAllElements(data: CertificateData): CertificateData {
+  return Object.fromEntries(Object.entries(data).map(([id, element]) => [id, validateElement(data, element)]))
 }
 
 export function getDecoratedCertificateData(data: CertificateData, metadata: CertificateMetadata, links: ResourceLink[]): CertificateData {
@@ -101,8 +109,10 @@ export function getDecoratedCertificateData(data: CertificateData, metadata: Cer
 
   return validateData(
     Object.fromEntries(
-      Object.entries(data).map(([id, element]) =>
-        readOnly ? [id, { ...element, visible: isVisible(element), readOnly }] : [id, { ...element, visible: isVisible(element), disabled }]
+      Object.entries(data).map(([id, element], _, entries) =>
+        readOnly
+          ? [id, { ...element, visible: isVisible(Object.fromEntries(entries), element), readOnly }]
+          : [id, { ...element, visible: isVisible(Object.fromEntries(entries), element), disabled }]
       )
     ),
     metadata

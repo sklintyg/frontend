@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
@@ -18,8 +18,10 @@ const renderDefaultComponent = () => {
 
 const INFO_TEXT = 'Du kan inte använda alla funktioner, intyget är av en äldre version.'
 
-const setState = (latestMajorVersion: boolean) => {
-  testStore.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ latestMajorVersion }) })))
+const setState = (latestMajorVersion: boolean, inactiveCertificateType: boolean) => {
+  testStore.dispatch(
+    updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ latestMajorVersion, inactiveCertificateType }) }))
+  )
 }
 
 describe('MajorVersionNotification', () => {
@@ -28,13 +30,19 @@ describe('MajorVersionNotification', () => {
   })
 
   it('shall render a banner if not latest major version', () => {
-    setState(false)
+    setState(false, false)
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
   })
 
+  it('shall not render a banner if certificate type is inactive', () => {
+    setState(false, true)
+    renderDefaultComponent()
+    expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
+  })
+
   it('shall not render a banner if latest major version', () => {
-    setState(true)
+    setState(true, false)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })

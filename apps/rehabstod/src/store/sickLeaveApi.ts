@@ -1,6 +1,6 @@
-import { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
-import { Patient } from '../schemas/patientSchema'
-import {
+import type { AGCertificatesInfo } from '../schemas/agCertificatesSchema'
+import type { Patient } from '../schemas/patientSchema'
+import type {
   RekoStatus,
   RekoStatusType,
   SickLeaveFilter,
@@ -8,7 +8,7 @@ import {
   SickLeaveInfo,
   SickLeaveSummary,
 } from '../schemas/sickLeaveSchema'
-import { api } from './api'
+import { api, tagType } from './api'
 
 const sickLeaveApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,7 +18,7 @@ const sickLeaveApi = api.injectEndpoints({
         method: 'POST',
         body: request,
       }),
-      providesTags: ['User'],
+      providesTags: [tagType.USER],
       async onQueryStarted(_, { dispatch }) {
         dispatch(sickLeaveApi.endpoints.getSickLeavesFilters.initiate(undefined, { forceRefetch: true }))
       },
@@ -27,13 +27,13 @@ const sickLeaveApi = api.injectEndpoints({
       query: () => ({
         url: 'sickleaves/filters',
       }),
-      providesTags: ['User', 'SickLeaves'],
+      providesTags: [tagType.USER, tagType.SICKLEAVES],
     }),
     getSickLeavesSummary: builder.query<SickLeaveSummary, void>({
       query: () => ({
         url: 'sickleaves/summary',
       }),
-      providesTags: ['User', 'SickLeaves'],
+      providesTags: [tagType.USER, tagType.SICKLEAVES],
     }),
     getPatientSickLeaves: builder.query<Patient, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
@@ -42,7 +42,7 @@ const sickLeaveApi = api.injectEndpoints({
         method: 'POST',
         body: encryptedPatientId,
       }),
-      providesTags: ['Patient', 'SickLeaves'],
+      providesTags: [tagType.PATIENT, tagType.SICKLEAVES],
     }),
     getAGCertificatesForPatient: builder.query<AGCertificatesInfo, { encryptedPatientId: string }>({
       keepUnusedDataFor: 0,
@@ -58,7 +58,7 @@ const sickLeaveApi = api.injectEndpoints({
         method: 'POST',
         body: { patientId, vardenhetId },
       }),
-      invalidatesTags: ['Patient'],
+      invalidatesTags: [tagType.PATIENT],
     }),
     addVardgivare: builder.mutation<string[], { patientId: string; vardgivareId: string }>({
       query: ({ patientId, vardgivareId }) => ({
@@ -66,7 +66,7 @@ const sickLeaveApi = api.injectEndpoints({
         method: 'POST',
         body: { patientId, vardgivareId },
       }),
-      invalidatesTags: ['Patient'],
+      invalidatesTags: [tagType.PATIENT],
     }),
     logPrintInteraction: builder.mutation<void, { sickLeaves: SickLeaveInfo[] | undefined }>({
       query: (sickLeaves) => ({
@@ -98,7 +98,7 @@ const sickLeaveApi = api.injectEndpoints({
         try {
           await queryFulfilled
         } catch {
-          dispatch(api.util.invalidateTags(['User']))
+          dispatch(api.util.invalidateTags([tagType.USER]))
         }
       },
     }),
@@ -136,7 +136,7 @@ const sickLeaveApi = api.injectEndpoints({
             )
           )
         } catch {
-          dispatch(api.util.invalidateTags(['Patient']))
+          dispatch(api.util.invalidateTags([tagType.PATIENT]))
         }
       },
     }),

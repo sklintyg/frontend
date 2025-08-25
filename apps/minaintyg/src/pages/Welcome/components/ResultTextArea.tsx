@@ -1,6 +1,7 @@
-import { IDSTextarea } from '@frontend/ids-react-ts'
-import { ChangeEventHandler, useId } from 'react'
-import { TestabilityPerson } from '../../../schema/testability/person.schema'
+import { IDSTextarea } from '@inera/ids-react'
+import type { ChangeEventHandler } from 'react'
+import { useId } from 'react'
+import type { TestabilityPerson } from '../../../schema/testability/person.schema'
 
 export function ResultTextArea({
   freeText,
@@ -13,15 +14,13 @@ export function ResultTextArea({
 }) {
   const id = useId()
   return (
-    <IDSTextarea className="w-full whitespace-nowrap">
-      <label htmlFor={id}>Result</label>
-      <textarea
-        id={id}
-        value={freeText != null ? freeText : JSON.stringify(person, null, 2)}
-        onChange={onChange}
-        className="h-40 w-full"
-        rows={5}
-      />
-    </IDSTextarea>
+    <IDSTextarea
+      id={id}
+      className="w-full whitespace-nowrap"
+      label="Result"
+      value={freeText != null ? freeText : JSON.stringify(person, null, 2)}
+      onChange={onChange}
+      rows={5}
+    />
   )
 }

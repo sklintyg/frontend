@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { ReactEventHandler } from 'react'
-import { DropPosition } from 'react-aria'
-import { TableColumn } from '../../../schemas/tableSchema'
-import { Checkbox } from '../../Form/Checkbox'
+import { type ReactEventHandler } from 'react'
+import { type DropPosition } from 'react-aria'
+import type { TableColumn } from '../../../schemas/tableSchema'
+import { Checkbox } from '../../form/Checkbox/Checkbox'
 import { MoveColumnButton } from './MoveColumnButton'
 
 const preventEventPropagation: ReactEventHandler = (event) => event.stopPropagation()
@@ -25,16 +25,17 @@ export function ModifyTableColumnsOption({
 }) {
   return (
     <div className="flex cursor-move" onKeyDown={preventEventPropagation} onClick={preventEventPropagation}>
-      <div className="h-12 w-full">
-        <Checkbox
-          checked={visible}
-          disabled={disabled || disableCheckbox}
-          label={name}
-          compact
-          onChange={(event) => {
-            onVisibilityChange(name, event.currentTarget.checked)
-          }}
-        />
+      <div className="w-full py-0.5">
+        <div className="pt-1">
+          <Checkbox
+            checked={visible}
+            disabled={disabled || disableCheckbox}
+            label={name}
+            onChange={(event) => {
+              onVisibilityChange(name, event.currentTarget.checked)
+            }}
+          />
+        </div>
       </div>
       <MoveColumnButton
         disabled={!before}

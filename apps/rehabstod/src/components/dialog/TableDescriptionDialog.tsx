@@ -1,14 +1,16 @@
-import { Dialog } from '@frontend/components'
-import { IDSButton, IDSIconQuestion } from '@frontend/ids-react-ts'
+import { IDSIconInformation } from '@inera/ids-react'
 import { useState } from 'react'
-import { Column } from '../Table/types/Column'
+import { Button } from '../Button/Button'
+import { Heading } from '../Heading/Heading'
+import type { Column } from '../Table/types/Column'
+import { Dialog } from './Dialog'
 
 export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   const [open, setOpen] = useState(false)
   return (
     <>
       <button className="pt-5 text-sm text-accent-40 underline print:hidden" onClick={() => setOpen(true)} type="button">
-        <IDSIconQuestion size="s" className="inline-block pr-2 align-middle" />
+        <IDSIconInformation size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
       <Dialog dismissible open={open} onOpenChange={setOpen} headline="Beskrivning av tabellens rubriker">
@@ -16,13 +18,17 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
           .filter((column) => column.description && column.description?.length > 0)
           .map((column) => (
             <div key={column.name} className="pb-5">
-              <h2 className="ids-heading-4">{column.name}</h2>
+              <Heading level={2} size="xs">
+                {column.name}
+              </Heading>
               <p>{column.description}</p>
             </div>
           ))}
-        <IDSButton slot="action" sblock onClick={() => setOpen(false)}>
-          Stäng
-        </IDSButton>
+        <div slot="actions">
+          <Button sblock onClick={() => setOpen(false)}>
+            Stäng
+          </Button>
+        </div>
       </Dialog>
     </>
   )

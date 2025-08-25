@@ -1,23 +1,19 @@
-import React from 'react'
-import { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
-import { formatAcuity } from '../../../utils/format/formatAcuity'
+import type { ConfigUeVisualAcuity, ValueVisualAcuity } from '../../../types'
+import { formatFixed } from '../../../utils/format/formatAcuity'
 import { Table } from '../../Table/Table'
 import { TableBody } from '../../Table/TableBody'
 import { TableCell } from '../../Table/TableCell'
 import { TableHeader } from '../../Table/TableHeader'
 import { TableRow } from '../../Table/TableRow'
 
-export const UvVisualAcuity: React.FC<{
-  value: ValueVisualAcuity
-  config: ConfigUeVisualAcuity
-}> = ({ value, config }) => (
+export const UvVisualAcuity = ({ value, config }: { value: ValueVisualAcuity; config: ConfigUeVisualAcuity }) => (
   <Table>
     <TableHeader>
       <TableRow>
         <TableCell></TableCell>
         <TableCell>{config.withoutCorrectionLabel}</TableCell>
         <TableCell>{config.withCorrectionLabel}</TableCell>
-        <TableCell>{config.contactLensesLabel}</TableCell>
+        {config.contactLensesLabel && <TableCell>{config.contactLensesLabel}</TableCell>}
       </TableRow>
     </TableHeader>
     <TableBody>
@@ -28,9 +24,9 @@ export const UvVisualAcuity: React.FC<{
       ].map(({ label, withoutCorrection, withCorrection, contactLenses }, index) => (
         <TableRow key={index}>
           <TableCell>{label}</TableCell>
-          <TableCell>{formatAcuity(`${withoutCorrection.value}`)}</TableCell>
-          <TableCell>{formatAcuity(`${withCorrection.value}`)}</TableCell>
-          <TableCell>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</TableCell>
+          <TableCell>{withoutCorrection.value != null ? formatFixed(`${withoutCorrection.value}`) : ''}</TableCell>
+          <TableCell>{withCorrection.value != null ? formatFixed(`${withCorrection.value}`) : ''}</TableCell>
+          {contactLenses && <TableCell>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</TableCell>}
         </TableRow>
       ))}
     </TableBody>

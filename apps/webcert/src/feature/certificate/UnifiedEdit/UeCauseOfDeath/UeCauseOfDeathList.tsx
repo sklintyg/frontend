@@ -1,21 +1,20 @@
 import { merge } from 'lodash-es'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { CustomButton } from '../../../../components/Inputs/CustomButton'
 import { addCircleImage, removeCircleImage } from '../../../../images'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
-import {
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
+import type {
   CertificateDataElement,
-  CertificateDataValueType,
   ConfigUeCauseOfDeathList,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
   ValueDate,
   ValueText,
 } from '../../../../types'
+import { CertificateDataValueType } from '../../../../types'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
@@ -50,17 +49,17 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathL
       specification: {
         id: configItem.id,
         type: CertificateDataValueType.CODE,
-        code: value?.specification?.code ?? null,
+        code: value?.specification?.code ?? undefined,
       },
       type: CertificateDataValueType.CAUSE_OF_DEATH,
     }
   })
 }
 
-const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
+const UeCauseOfDeathList = ({ question, disabled }: Props) => {
   const questionConfig = question.config as ConfigUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(

@@ -1,9 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { fakeCertificate, fakeCertificateEvent, fakeHSA, faker, fakerFromSchema } from '@frontend/fake'
 import { format, getYear, parseISO, subDays } from 'date-fns'
-import { DefaultBodyType, PathParams, RestRequest, rest } from 'msw'
+import type { DefaultBodyType, PathParams, RestRequest } from 'msw'
+import { rest } from 'msw'
+import type { CertificateStatus } from '../schema/certificate.schema'
 import {
-  CertificateStatus,
   CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,
@@ -184,6 +185,7 @@ export const handlers = [
   }),
 
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
+  rest.post('/api/testability/logout', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
     res(

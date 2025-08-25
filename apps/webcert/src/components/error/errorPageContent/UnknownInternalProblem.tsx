@@ -1,17 +1,14 @@
-import React from 'react'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-export const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Ett tekniskt problem inträffade'
-export const UNKNOWN_INTERNAL_PROBLEM_MESSAGE = 'Försök igen och kontakta supporten om problemet kvarstår.'
-
-const UnknownInternalProblem: React.FC = () => {
+export function UnknownInternalProblem() {
   return (
     <>
       <p>
-        <strong>{UNKNOWN_INTERNAL_PROBLEM_TITLE}</strong>
+        <strong>Intyget kunde inte visas</strong>
       </p>
-      <p>{UNKNOWN_INTERNAL_PROBLEM_MESSAGE}</p>
+      <p>
+        Prova att ladda om sidan. <ContactSupportMessage />
+      </p>
     </>
   )
 }
-
-export default UnknownInternalProblem

@@ -1,5 +1,5 @@
 import FocusTrap from 'focus-trap-react'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
 
@@ -25,7 +25,7 @@ interface Props {
   closeOnBackdropClick?: boolean
 }
 
-const ModalBase: React.FC<Props> = ({
+const ModalBase = ({
   open,
   handleClose,
   title,
@@ -35,7 +35,7 @@ const ModalBase: React.FC<Props> = ({
   className,
   focusTrap = true,
   closeOnBackdropClick = true,
-}) => {
+}: Props) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
   const rootElement = document.getElementById('modalRoot')
 

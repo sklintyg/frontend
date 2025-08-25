@@ -1,14 +1,14 @@
 import { isEqual } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import {
+import type {
   ListFilterConfig,
   ListFilterDateRangeConfig,
   ListFilterRadioConfig,
   ListFilterSelectConfig,
-  ListFilterType,
   ListFilterValue,
 } from '../../../types'
+import { ListFilterType } from '../../../types'
 import { getListFilterDefaultValue } from '../listUtils'
 import DateRangeFilter from './DateRangeFilter'
 import PersonIdFilter from './PersonIdFilter'
@@ -26,7 +26,7 @@ interface Props {
 /**
  * Generates a components for filtering a table based on provided configuration.
  */
-const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
+const ListFilterComponent = ({ config, onChange }: Props) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const isValueDefaultValue = () => {

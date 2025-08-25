@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
-import { formatAcuity } from '../../../../utils/format/formatAcuity'
+import type { ConfigEyeAcuity, ValidationError, ValueEyeAcuity } from '../../../../types'
+import { formatAcuity, formatFixed } from '../../../../utils/format/formatAcuity'
 
 const AcuityInput = styled(TextInput)`
   width: 40px;
@@ -18,10 +18,6 @@ const parseValue = (val: string): number | null => {
   return isNaN(num) ? null : num
 }
 
-const formatFixed = (value: string) => {
-  return value ? parseFloat(value.replace(',', '.')).toFixed(1).replace('.', ',') : ''
-}
-
 export interface Props {
   disabled?: boolean
   config: ConfigEyeAcuity
@@ -30,9 +26,9 @@ export interface Props {
   onChange: (value: ValueEyeAcuity) => void
 }
 
-const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, validationErrors }) => {
-  const [noCorrection, setNoCorrection] = useState(formatAcuity(value.withoutCorrection.value?.toString() ?? ''))
-  const [correction, setCorrection] = useState(formatAcuity(value.withCorrection.value?.toString() ?? ''))
+const UeEyeAcuity = ({ disabled, config, value, onChange, validationErrors }: Props) => {
+  const [noCorrection, setNoCorrection] = useState(formatFixed(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(formatFixed(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import InfoBox from '../../../components/utils/InfoBox'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import { Patient } from '../../../types'
+import { createNewCertificate } from '../../../store/certificate/certificateActions'
+import type { Patient } from '../../../types'
 
 interface Props {
   patient: Patient
@@ -19,7 +19,7 @@ const ContentWrapper = styled.div`
   gap: 1em;
 `
 
-export const LuaenaConfirmModal: React.FC<Props> = ({ patient, setOpen, open }) => {
+export const LuaenaConfirmModal = ({ patient, setOpen, open }: Props) => {
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(true)
 

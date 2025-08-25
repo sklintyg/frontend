@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import PersonIdInput from '../../../components/Inputs/PersonIdInput'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import { ListFilterConfig, ListFilterType, ListFilterValue, ListFilterValuePersonId } from '../../../types'
+import type { ListFilterConfig, ListFilterValue, ListFilterValuePersonId } from '../../../types'
+import { ListFilterType } from '../../../types'
 import { isPersonIdValid } from '../../../utils'
 import { FilterWrapper } from './filterStyles'
 
@@ -13,7 +14,7 @@ interface Props {
   isHighlighted: boolean
 }
 
-const PersonIdFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
+const PersonIdFilter = ({ config, onChange, isHighlighted }: Props) => {
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValuePersonId
   const [personId, setPersonId] = useState<string>(filterValue ? filterValue.value : '')
   const dispatch = useDispatch()

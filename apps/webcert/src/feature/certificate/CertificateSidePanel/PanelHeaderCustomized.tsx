@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -14,7 +14,7 @@ interface Props {
   content: ReactNode
 }
 
-const PanelHeaderCustomized: React.FC<Props> = ({ content }) => {
+const PanelHeaderCustomized = ({ content }: Props) => {
   return <Root className="iu-bg-white">{content}</Root>
 }
 

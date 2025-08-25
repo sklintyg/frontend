@@ -15,7 +15,7 @@ import {
 } from '../../../store/certificate/certificateSelectors'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
-import { PersonId } from '../../../types'
+import type { PersonId } from '../../../types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   }
 `
 
-const PatientStatusNotifications: React.FC = () => {
+const PatientStatusNotifications = () => {
   const isPatientDeceased = useSelector(getIsPatientDeceased)
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)

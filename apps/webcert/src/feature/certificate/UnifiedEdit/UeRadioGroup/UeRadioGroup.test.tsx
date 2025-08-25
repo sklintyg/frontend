@@ -1,12 +1,12 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeRadioBooleanElement } from '../../../../faker'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeRadioGroup from './UeRadioGroup'
-import { fakeRadioBooleanElement, fakeCertificate } from '../../../../faker'
 
 const CODES = [
   { label: 'Option1', id: 'Option_1' },
@@ -56,17 +56,17 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).not.toBeChecked())
     await userEvent.click(radioButtons[0])
-    expect(radioButtons[0]).toBeChecked()
-    expect(radioButtons[1]).not.toBeChecked()
-    expect(radioButtons[2]).not.toBeChecked()
+    await expect(radioButtons[0]).toBeChecked()
+    await expect(radioButtons[1]).not.toBeChecked()
+    await expect(radioButtons[2]).not.toBeChecked()
     await userEvent.click(radioButtons[2])
-    expect(radioButtons[2]).toBeChecked()
-    expect(radioButtons[0]).not.toBeChecked()
-    expect(radioButtons[1]).not.toBeChecked()
+    await expect(radioButtons[2]).toBeChecked()
+    await expect(radioButtons[0]).not.toBeChecked()
+    await expect(radioButtons[1]).not.toBeChecked()
     await userEvent.click(radioButtons[1])
-    expect(radioButtons[1]).toBeChecked()
-    expect(radioButtons[0]).not.toBeChecked()
-    expect(radioButtons[2]).not.toBeChecked()
+    await expect(radioButtons[1]).toBeChecked()
+    await expect(radioButtons[0]).not.toBeChecked()
+    await expect(radioButtons[2]).not.toBeChecked()
   })
 
   it('allows user to check and uncheck radiobuttons by clicking on label', async () => {
@@ -77,9 +77,9 @@ describe('Radio group component', () => {
 
   it.each(CODES)('allows user to check and uncheck %label', async ({ label }) => {
     renderDefaultComponent()
-    expect(screen.getByRole('radio', { name: label })).not.toBeChecked()
+    await expect(screen.getByRole('radio', { name: label })).not.toBeChecked()
     await userEvent.click(screen.getByRole('radio', { name: label }))
-    expect(screen.getByRole('radio', { name: label })).toBeChecked()
+    await expect(screen.getByRole('radio', { name: label })).toBeChecked()
   })
 
   it('disables radio buttons when disabled is set', () => {
@@ -91,5 +91,12 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).toBeDisabled())
+  })
+
+  it('Should have unique id for each radio button and question', () => {
+    renderDefaultComponent()
+    expect(screen.getByRole('radio', { name: 'Option1' })).toHaveAttribute('id', 'id-Option_1')
+    expect(screen.getByRole('radio', { name: 'Option-2' })).toHaveAttribute('id', 'id-Option_2')
+    expect(screen.getByRole('radio', { name: 'Option 3' })).toHaveAttribute('id', 'id-Option_3')
   })
 })

@@ -1,43 +1,43 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { vi } from 'vitest'
-import { fakeCertificate, fakeCertificateMetaData, fakeHighlightValidation, fakeRadioBooleanElement } from '../../faker'
 import {
-  Certificate,
-  CertificateDataElementStyleEnum,
-  CertificateRelation,
-  CertificateRelationType,
-  CertificateRelations,
-  CertificateStatus,
-  SigningMethod,
-} from '../../types'
-import { getUser } from '../../utils'
+  fakeCertificate,
+  fakeCertificateMetaData,
+  fakeCertificateValidationError,
+  fakeCertificateValue,
+  fakeDateElement,
+  fakeHighlightValidation,
+  fakeRadioBooleanElement,
+  fakeUser,
+} from '../../faker'
+import type { Certificate, CertificateRelation, CertificateRelations } from '../../types'
+import { CertificateDataElementStyleEnum, CertificateRelationType, CertificateStatus, SigningMethod } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
-import { configureApplicationStore, history } from '../configureApplicationStore'
+import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { push, replace } from '../navigateSlice'
 import { getSessionStatusError } from '../session/sessionActions'
+import type { RootState } from '../store'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
-import {
+import type {
   CertificateApiGenericError,
   ComplementCertificateSuccess,
   CreateCertificate,
   CreateCertificateFromCandidateSuccess,
-  CreateCertificateFromCandidateWithMessageSuccess,
   CreateCertificateResponse,
   SigningData,
+} from './certificateActions'
+import {
   answerComplementCertificate,
-  autoSaveCertificate,
   autoSaveCertificateError,
   certificateApiGenericError,
-  complementCertificate,
   complementCertificateSuccess,
   createCertificateFromCandidate,
-  createCertificateFromCandidateWithMessage,
   createNewCertificate,
   deleteCertificate,
   getCertificate,
@@ -45,15 +45,21 @@ import {
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
-  showRelatedCertificate,
+  showValidationErrors,
   signCertificateStatusError,
   startSignCertificate,
   updateCertificate,
   updateCertificateDataElement,
-  updateValidationErrors,
-  validateCertificate,
+  validateCertificateSuccess,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
+import {
+  getCareUnitValidationErrors,
+  getPatientValidationErrors,
+  getQuestion,
+  getShowValidationErrors,
+  getVisibleValidationErrors,
+} from './certificateSelectors'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {
@@ -85,7 +91,7 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
-  let testStore: EnhancedStore
+  let testStore: EnhancedStore<RootState>
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
@@ -174,24 +180,6 @@ describe('Test certificate middleware', () => {
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
-
-    it.skip('shall not perform api call if not draft', async () => {
-      const certificate = getTestCertificate('id')
-      certificate.metadata.status = CertificateStatus.SIGNED
-
-      testStore.dispatch(autoSaveCertificate(certificate))
-      await flushPromises()
-      expect(fakeAxios.history.put.length).toBe(0)
-    })
-
-    it.skip('shall perform api call if draft', async () => {
-      const certificate = getTestCertificate('id')
-      certificate.metadata.status = CertificateStatus.UNSIGNED
-
-      testStore.dispatch(autoSaveCertificate(certificate))
-      await flushPromises()
-      expect(fakeAxios.history.put.length).toBe(1)
-    })
   })
 
   describe('Handle StartSignCertificate', () => {
@@ -199,7 +187,7 @@ describe('Test certificate middleware', () => {
       const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.FAKE }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.FAKE }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -216,7 +204,7 @@ describe('Test certificate middleware', () => {
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -231,7 +219,7 @@ describe('Test certificate middleware', () => {
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
 
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.BANK_ID }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.BANK_ID }))
 
       testStore.dispatch(startSignCertificate())
 
@@ -264,7 +252,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.metadata.readyForSign).toBe(expectedReadyForSign)
+      expect(testStore.getState().ui.uiCertificate.certificate?.metadata.readyForSign).toBe(expectedReadyForSign)
     })
 
     it('shall update version', async () => {
@@ -276,21 +264,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.metadata.version).toBe(expectedVersion)
-    })
-  })
-
-  describe('Handle ComplementCertificate', () => {
-    it.skip('shall update certificate when complemented', async () => {
-      const certificateToComplement = getTestCertificate('originalCertificateId')
-      const expectedCertificate = getTestCertificate('newCertificateId')
-      fakeAxios
-        .onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`)
-        .reply(200, { certificate: expectedCertificate } as ComplementCertificateSuccess)
-      testStore.dispatch(updateCertificate(certificateToComplement))
-      testStore.dispatch(complementCertificate({ message: '' }))
-      await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
+      expect(testStore.getState().ui.uiCertificate.certificate?.metadata.version).toBe(expectedVersion)
     })
   })
 
@@ -298,26 +272,6 @@ describe('Test certificate middleware', () => {
     beforeEach(() => {
       fakeAxios = new MockAdapter(axios)
       testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
-    })
-
-    it.skip('shall update certificate on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-      const updateCertificateDispatchFound = dispatchedActions.some((action) => updateCertificate.match(action))
-
-      expect(updateCertificateDispatchFound).toBeTruthy()
-    })
-
-    it.skip('shall validate certificate on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-
-      const validateAction = dispatchedActions.find((action) => validateCertificate.match(action))
-      expect(validateAction).toBeTruthy()
     })
 
     it('shall hide spinner on success', async () => {
@@ -332,21 +286,11 @@ describe('Test certificate middleware', () => {
 
     it('shall route to the new certificate', async () => {
       const certificateToComplement = getTestCertificate('id')
-      const pushSpy = vi.spyOn(history, 'push')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
-      expect(pushSpy).toHaveBeenCalledWith(`/certificate/id`)
-    })
-
-    it.skip('shall get certificate events on success', async () => {
-      const certificateToComplement = getTestCertificate('id')
-
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
-      await flushPromises()
-
-      expect(fakeAxios.history.get.some((req) => req.url?.includes('events'))).toBeTruthy()
+      expect(dispatchedActions.some((action) => push.match(action) && action.payload === '/certificate/id')).toBe(true)
     })
   })
 
@@ -370,7 +314,7 @@ describe('Test certificate middleware', () => {
     it('shall update signing data when successfully starting the signing process', async () => {
       const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
       const certificate = getTestCertificate('id', 'lisjp', 2)
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
       testStore.dispatch(updateCertificate(certificate))
 
       fakeAxios
@@ -387,7 +331,7 @@ describe('Test certificate middleware', () => {
 
     it('shall make a signing request to DSS when users signing method is DSS', async () => {
       const certificate = getTestCertificate('id', 'lisjp', 2)
-      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+      testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
       testStore.dispatch(startSignCertificate)
@@ -414,39 +358,6 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe.skip('Handle CreateCertificateFromCandidateWithMessage', () => {
-    it('shall return message', async () => {
-      const expectedCertificate = getTestCertificate('newCertificateId', 'ag7804')
-      const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
-        modal: { title: 'Test title', message: 'test message' },
-      }
-      fakeAxios
-        .onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`)
-        .reply(200, createCertificateFromCandidateWithMessageSuccess)
-      testStore.dispatch(updateCertificate(expectedCertificate))
-
-      testStore.dispatch(createCertificateFromCandidateWithMessage())
-
-      await flushPromises()
-      setTimeout(() => {
-        expect(testStore.getState().ui.certificate.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
-        expect(fakeAxios.history.post.length).toBe(1)
-      }, 200)
-    })
-  })
-
-  describe('Handle Show Related Certificate', () => {
-    it.skip('shall call api to show related certificate', async () => {
-      const certificate = getTestCertificate('certificateId')
-      // @ts-expect-error mocking history
-      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id }))
-
-      await flushPromises()
-      expect(fakeAxios.history.get.length).toBe(1)
-      expect(fakeAxios.history.get[0].url).toEqual('/api/certificate/certificateId/related')
-    })
-  })
-
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(true)
@@ -455,7 +366,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
+      expect(testStore.getState().ui.uiCertificate.certificate?.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
     })
 
     it('shall unstyle certificate data element', async () => {
@@ -464,13 +375,13 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificateDataElement(certificate.data[0]))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)
+      expect(testStore.getState().ui.uiCertificate.certificate?.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)
     })
   })
 
   describe('handleDeleteCertificate', () => {
     it('shall set isDeleted true on successful deletion', async () => {
-      const certificate = getTestCertificate('test', '', 0, '', undefined)
+      const certificate = getTestCertificate('test', '', 0, '')
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -482,7 +393,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall hide spinner on successful deletion', async () => {
-      const certificate = getTestCertificate('test', '', 0, '', undefined)
+      const certificate = getTestCertificate('test', '', 0, '')
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -524,7 +435,6 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route user after successful deletion if parent certificate exists', async () => {
-      const pushSpy = vi.spyOn(history, 'push')
       const parentCertificate: CertificateRelation = {
         certificateId: 'parent',
         type: CertificateRelationType.RENEW,
@@ -538,27 +448,70 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
-      expect(pushSpy).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
+      expect(
+        dispatchedActions.some((action) => replace.match(action) && action.payload === `/certificate/${parentCertificate.certificateId}`)
+      ).toBe(true)
     })
   })
 
-  describe('Handle sign certificate', () => {
-    it('should halt and display careUnitValidationErrors', () => {
-      const certificate = getCertificateWithHiglightValidation(false)
+  describe('Handle validate certificate', () => {
+    it('Should add client validationErrors when element changes', () => {
+      const certificateData = fakeDateElement({ id: '1', value: fakeCertificateValue.date({ date: 'abc' }) })
+      const certificate = fakeCertificate({ data: certificateData })
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(updateValidationErrors([{ category: 'vardenhet', field: 'field', text: 'text', type: 'EMPTY', id: '1' }]))
 
-      testStore.dispatch(startSignCertificate())
-      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
+      expect(getQuestion('1')(testStore.getState())?.validationErrors).toHaveLength(0)
+
+      testStore.dispatch(updateCertificateDataElement(certificateData['1']))
+      testStore.dispatch(showValidationErrors())
+
+      expect(getVisibleValidationErrors('1')(testStore.getState())).toMatchObject([
+        {
+          text: 'Ange giltigt datum i formatet åååå-mm-dd.',
+          type: 'INVALID_DATE_FORMAT',
+        },
+      ])
     })
 
-    it('should halt and display patientValidationErrors', () => {
-      const certificate = getCertificateWithHiglightValidation(false)
+    it('Should update validationErrors on validateCertificateSuccess', () => {
+      const certificate = fakeCertificate({
+        data: fakeDateElement({ id: '1', validationErrors: [fakeCertificateValidationError({ id: '1' })] }),
+      })
+      const validationError = fakeCertificateValidationError({ id: '1' })
+
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(updateValidationErrors([{ category: 'patient', field: 'field', text: 'text', type: 'EMPTY', id: '1' }]))
+      testStore.dispatch(validateCertificateSuccess({ validationErrors: [validationError] }))
+      testStore.dispatch(showValidationErrors())
+
+      expect(getVisibleValidationErrors('1')(testStore.getState())).toMatchObject([validationError])
+    })
+
+    it('Should halt and display careUnitValidationErrors', () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      const validationError = fakeCertificateValidationError({ category: 'vardenhet' })
+
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(validateCertificateSuccess({ validationErrors: [validationError] }))
+
+      expect(getCareUnitValidationErrors()(testStore.getState())).toMatchObject([validationError])
 
       testStore.dispatch(startSignCertificate())
-      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
+
+      expect(getShowValidationErrors(testStore.getState())).toBe(true)
+    })
+
+    it('Should halt and display patientValidationErrors', () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      const validationError = fakeCertificateValidationError({ category: 'patient' })
+
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(validateCertificateSuccess({ validationErrors: [validationError] }))
+
+      expect(getPatientValidationErrors()(testStore.getState())).toMatchObject([validationError])
+
+      testStore.dispatch(startSignCertificate())
+
+      expect(getShowValidationErrors(testStore.getState())).toBe(true)
     })
   })
 
@@ -584,7 +537,7 @@ describe('Test certificate middleware', () => {
         certificateId: 'certificateId',
       }
 
-      fakeAxios.onPost(`/api/certificate/${data.certificateType}/${data.patientId}`).reply(200, response)
+      fakeAxios.onPost(`/api/certificate`).reply(200, response)
 
       testStore.dispatch(createNewCertificate(data))
 
@@ -727,6 +680,26 @@ describe('Test certificate middleware', () => {
 
     it('shall throw AUTHORIZATION_PROBLEM error with type Route', async () => {
       const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw INVALID_LAUNCHID error', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.INVALID_LAUNCHID)
+    })
+
+    it('shall throw INVALID_LAUNCHID error with type Route', async () => {
+      const expectedError = getExpectedError(ErrorCode.INVALID_LAUNCHID.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 

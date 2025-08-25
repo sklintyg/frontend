@@ -1,5 +1,6 @@
 import handyScroll from 'handy-scroll'
-import { HTMLProps, forwardRef } from 'react'
+import type { HTMLProps } from 'react'
+import { forwardRef } from 'react'
 import { mergeRefs } from 'react-merge-refs'
 import useResizeObserver from 'use-resize-observer'
 import './FloatingTableScroll.css'
@@ -20,7 +21,7 @@ export const FloatingTableScroll = forwardRef<HTMLDivElement, HTMLProps<HTMLDivE
     },
   ])
   return (
-    <div style={{ overflow: 'auto' }} className="relative rounded border border-neutral-40 " ref={mergedRefCallback}>
+    <div style={{ overflow: 'auto' }} className="relative rounded-lg border border-accent-30" ref={mergedRefCallback}>
       {children}
     </div>
   )

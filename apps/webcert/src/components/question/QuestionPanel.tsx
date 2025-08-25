@@ -1,9 +1,8 @@
 import { isEqual } from 'lodash-es'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { getIsSigned } from '../../store/certificate/certificateSelectors'
+import { getCertificateResourceLink, getIsSigned } from '../../store/certificate/certificateSelectors'
 import {
   getErrorId,
   getIsLoadingQuestions,
@@ -12,12 +11,14 @@ import {
   isCreateQuestionsAvailable,
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
-import { Question, QuestionType } from '../../types'
+import { useAppSelector } from '../../store/store'
+import type { Question } from '../../types'
+import { QuestionType, ResourceLinkType } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
-import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
+import { FetchQuestionsProblem } from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
-import QuestionPanelFooter from './QuestionPanelFooter'
+import { QuestionPanelFooter } from './QuestionPanelFooter/QuestionPanelFooter'
 import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive } from './questionUtils'
 
 const HeaderButtons = styled.div`
@@ -37,23 +38,25 @@ const Content = styled.div`
   flex-grow: 1;
 `
 
-const QuestionPanel: React.FC = () => {
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
+const QuestionPanel = () => {
+  const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   return isLoadingQuestions ? null : <QuestionPanelInner />
 }
 
-const QuestionPanelInner: React.FC = () => {
-  const questions = useSelector(getQuestions, isEqual)
-  const questionDraft = useSelector(getQuestionDraft, isEqual)
-  const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
-  const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
-  const isSigned = useSelector(getIsSigned())
+const QuestionPanelInner = () => {
+  const isCertificateDraft = useAppSelector(isDisplayingCertificateDraft)
+  const isQuestionFormVisible = useAppSelector(isCreateQuestionsAvailable)
+  const isSigned = useAppSelector(getIsSigned())
+  const questionAdministrative = useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS_ADMINISTRATIVE))
+  const questionDraft = useAppSelector(getQuestionDraft, isEqual)
+  const questions = useAppSelector(getQuestions, isEqual)
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
   const [isComplementSelected, setIsComplementSelected] = useState(
-    getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
+    getShouldComplementedBeActive(administrativeQuestions, complementQuestions) ||
+      (questionAdministrative && questionAdministrative.enabled === false)
   )
-  const errorId = useSelector(getErrorId)
+  const errorId = useAppSelector(getErrorId)
 
   const getButtonNumber = (questions: Question[]) => {
     if (!isSigned) return undefined
@@ -83,6 +86,8 @@ const QuestionPanelInner: React.FC = () => {
                   text="Administrativa frågor"
                   number={getButtonNumber(administrativeQuestions)}
                   buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
+                  disabled={questionAdministrative && questionAdministrative.enabled === false}
+                  tooltip={questionAdministrative?.description}
                   rounded={true}
                   onClick={() => setIsComplementSelected(false)}
                   buttonClasses="iu-height-800 iu-ml-300"

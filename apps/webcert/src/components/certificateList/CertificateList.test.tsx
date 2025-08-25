@@ -1,11 +1,10 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import type { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { fakePatient, fakeResourceLink } from '../../faker'
+import { fakeCertificateConfirmationModal } from '../../faker/certificate/fakeCertificateConfirmationModal'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
@@ -13,8 +12,9 @@ import { patientMiddleware } from '../../store/patient/patientMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import { CertificateType, ResourceLink, ResourceLinkType, User } from '../../types'
-import CertificateList from './CertificateList'
+import type { CertificateType, User } from '../../types'
+import { ResourceLinkType } from '../../types'
+import { CertificateList } from './CertificateList'
 
 const createType = ({
   description = '',
@@ -24,15 +24,8 @@ const createType = ({
   label = '',
   links = [],
   message = '',
-}: {
-  description?: string
-  detailedDescription?: string
-  id?: string
-  issuerTypeId?: string
-  label?: string
-  links?: ResourceLink[]
-  message?: string
-}): CertificateType => ({
+  confirmationModal = null,
+}: Partial<CertificateType>): CertificateType => ({
   description,
   detailedDescription,
   id,
@@ -40,19 +33,21 @@ const createType = ({
   label,
   links,
   message,
+  confirmationModal,
 })
 
 let testStore: EnhancedStore
 let types: CertificateType[]
-const testHistory = createBrowserHistory()
-testHistory.push = vi.fn()
 
 const renderComponent = () =>
   render(
     <Provider store={testStore}>
-      <Router history={testHistory}>
-        <CertificateList />
-      </Router>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<CertificateList />} />
+          <Route path="/certificate/certificateId" element="you are on the certificate page" />
+        </Routes>
+      </MemoryRouter>
     </Provider>
   )
 
@@ -73,10 +68,7 @@ describe('CertificateList', () => {
       createType({
         id: 'typ2',
         label: 'Typ 2',
-        links: [
-          fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' }),
-          fakeResourceLink({ type: ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION, name: 'Dödsbevis saknas' }),
-        ],
+        links: [fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' })],
       }),
       createType({ id: 'typ3', label: 'Typ 3' }),
       createType({ id: 'typ4', label: 'Typ 4' }),
@@ -88,6 +80,12 @@ describe('CertificateList', () => {
           fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' }),
           fakeResourceLink({ type: ResourceLinkType.CREATE_LUAENA_CONFIRMATION, name: 'Luaena saknas' }),
         ],
+      }),
+      createType({
+        id: 'typ7',
+        label: 'Typ 7',
+        confirmationModal: fakeCertificateConfirmationModal(),
+        links: [fakeResourceLink({ type: ResourceLinkType.CREATE_CERTIFICATE, name: 'Skapa intyg' })],
       }),
     ]
 
@@ -115,7 +113,7 @@ describe('CertificateList', () => {
     renderComponent()
 
     const labels = screen.getAllByText('Typ', { exact: false }).map((el) => el.textContent?.trim())
-    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5', 'Typ 6'])
+    expect(labels).toEqual(['Typ 2', 'Typ 4', 'Typ 1', 'Typ 3', 'Typ 5', 'Typ 6', 'Typ 7'])
   })
 
   it('should add favorites', async () => {
@@ -151,7 +149,7 @@ describe('CertificateList', () => {
 
     renderComponent()
 
-    expect(testHistory.push).toHaveBeenCalledWith('/certificate/certificateId')
+    expect(screen.getByText(/you are on the certificate page/i)).toBeInTheDocument()
   })
 
   it('should clear certificate id after certificate id is set', () => {
@@ -168,25 +166,13 @@ describe('CertificateList', () => {
     expect(screen.getByText('Meddelande')).toBeInTheDocument()
   })
 
-  it('should show confirm modal when CREATE_DODSBEVIS_CONFIRMATION resource link exists', async () => {
-    testStore.dispatch(setPatient(fakePatient()))
-    renderComponent()
-
-    const button = screen.getAllByRole('button', {
-      name: /Skapa intyg/,
-    }) as HTMLElement[]
-    await userEvent.click(button[1])
-
-    expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
-  })
-
   it('should show confirm modal when CREATE_LUAENA_CONFIRMATION resource link exists', async () => {
     testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
     const button = screen.getAllByRole('button', {
       name: /Skapa intyg/,
-    }) as HTMLElement[]
+    })
     await userEvent.click(button[2])
 
     expect(screen.getByText('Du är på väg att utfärda Läkarutlåtande för', { exact: false })).toBeInTheDocument()
@@ -200,6 +186,19 @@ describe('CertificateList', () => {
       name: /Skapa intyg/,
     })
     await userEvent.click(button[0])
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('Should show general confirmation modal', async () => {
+    testStore.dispatch(setPatient(fakePatient()))
+    renderComponent()
+
+    const row = screen.getByTestId('certificate-list-row-typ7')
+    expect(row).toBeInTheDocument()
+    expect(within(row).getByRole('button', { name: 'Skapa intyg' })).toBeInTheDocument()
+
+    await userEvent.click(within(row).getByRole('button', { name: 'Skapa intyg' }))
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })

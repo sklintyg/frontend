@@ -6,7 +6,7 @@ import { reducer } from './reducer'
 
 export const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, errorMiddleware, sessionMiddleware]),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, sessionMiddleware, errorMiddleware]),
 })
 
 export type AppDispatch = typeof store.dispatch

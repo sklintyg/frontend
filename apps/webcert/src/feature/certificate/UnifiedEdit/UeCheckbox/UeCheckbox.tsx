@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types'
+import type { CertificateDataElement, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types'
+import { CertificateDataValueType, ConfigTypes } from '../../../../types'
 
 export interface Props {
   label?: string
@@ -19,7 +20,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeCheckbox: React.FC<Props> = (props) => {
+const UeCheckbox = (props: Props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
   const isShowValidationError = useSelector(getShowValidationErrors)
@@ -61,7 +62,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
         wrapperAdditionalStyles={props.wrapperAdditionalStyles}
       />
       {isShowValidationError && isSingleCheckbox && (
-        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+        <QuestionValidationTexts validationErrors={question.validationErrors || []}></QuestionValidationTexts>
       )}
     </div>
   )

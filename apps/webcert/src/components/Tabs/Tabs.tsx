@@ -1,5 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import classNames from 'classnames'
+import { useState } from 'react'
 import styled from 'styled-components'
+import { LightbulpIcon } from '../../images/LightbulpIcon'
+import { ResourceLinkType } from '../../types'
 
 const Root = styled.div`
   display: flex;
@@ -7,158 +10,117 @@ const Root = styled.div`
   height: 100%;
 `
 
-const Section = styled.section`
+const TabContent = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: auto;
+  height: 100%;
 `
 
-const Ul = styled.ul`
+const TabList = styled.ul`
   border-bottom: 0 !important;
 `
 
-interface Props {
-  tabs: React.ReactNode[]
+const TabPanel = styled.div`
+  overflow-y: auto;
+  height: 100%;
+`
+
+const TabButton = styled.button.attrs({
+  classNames: 'ic-tabbed__tab',
+})`
+  border: none;
+  color: #00706e;
+`
+
+type Tab = {
+  name: string
+  description: string
+  icon?: ResourceLinkType
+}
+
+export function Tabs({
+  tabs,
+  tabsContent,
+  setSelectedTabIndex,
+  selectedTabIndex,
+}: {
+  tabs: Tab[]
   tabsContent: React.ReactNode[]
   setSelectedTabIndex: (index: number) => void
   selectedTabIndex: number
-}
-
-export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex }) => {
-  const tabbed = useRef<HTMLDivElement | null>(null)
-  const tabList = useRef<HTMLUListElement | null>(null)
-  const tabRefs = useRef<HTMLAnchorElement[]>([])
-  const panels = useRef<HTMLDivElement[]>([])
-
-  const setTab = useCallback(
-    (index: number) => {
-      for (let i = 0; i < panels.current.length; i++) {
-        if (i === selectedTabIndex) {
-          continue
-        }
-        const tab = tabList.current?.querySelector(`#tab${i}`)
-        panels.current[i].hidden = true
-        tab?.removeAttribute('aria-selected')
-        tab?.setAttribute('tabindex', '-1')
-      }
-      const tab = tabList?.current?.querySelector(`#tab${index}`)
-
-      // Make the active tab focusable by the user (Tab key)
-      tab?.removeAttribute('tabindex')
-      // Set the selected state
-      tab?.setAttribute('aria-selected', 'true')
-      // Get the indices of the new and old tabs to find the correct
-      // tab panels to show and hide
-      panels.current[index].hidden = false
-    },
-    [selectedTabIndex]
-  )
-
-  useEffect(() => {
-    // Add the tablist role to the first <ul> in the .tabbed container
-    tabList?.current?.setAttribute('role', 'tablist')
-
-    // Add semantics are remove user focusability for each tab
-    Array.prototype.forEach.call(tabRefs.current, (tab: HTMLAnchorElement, i) => {
-      tab.setAttribute('role', 'tab')
-      tab.setAttribute('id', 'tab' + i)
-      tab.setAttribute('tabindex', '-1')
-      ;(tab.parentNode as HTMLAnchorElement).setAttribute('role', 'presentation')
-
-      // Handle clicking of tabs for mouse users
-      tab.addEventListener('click', (e) => {
-        e.preventDefault()
-        const currentTab = tabList?.current?.querySelector('[aria-selected]')
-        if (currentTab && e.currentTarget && e.currentTarget !== currentTab) {
-          switchTab(currentTab as HTMLElement, e.currentTarget as HTMLElement)
-        }
-      })
-
-      // Handle keydown events for keyboard users
-      tab.addEventListener('keydown', (e) => {
-        // Get the index of the current tab in the tabs node list
-        const index = Array.prototype.indexOf.call(tabRefs.current, e.currentTarget)
-        // Work out which key the user is pressing and
-        // Calculate the new tab's index where appropriate
-        const dir = e.which === 37 ? index - 1 : e.which === 39 ? index + 1 : e.which === 40 ? 'down' : null
-        if (dir !== null && e.currentTarget) {
-          e.preventDefault()
-          // If the down key is pressed, move focus to the open panel,
-          // otherwise switch to the adjacent tab
-          dir === 'down'
-            ? panels.current[i].focus()
-            : tabRefs.current[dir]
-              ? switchTab(e.currentTarget as HTMLElement, tabRefs.current[dir])
-              : void 0
-        }
-      })
-    })
-
-    // Add tab panel semantics and hide them all
-    Array.prototype.forEach.call(panels.current, (panel, i) => {
-      panel.setAttribute('role', 'tabpanel')
-      panel.setAttribute('tabindex', '-1')
-      panel.setAttribute('aria-labelledby', tabRefs.current[i].id)
-      // eslint-disable-next-line no-param-reassign
-      panel.hidden = true
-    })
-
-    // Initially activate the selectedTabIndex tab and reveal the selectedTabIndex tab panel
-    tabRefs.current[selectedTabIndex].removeAttribute('tabindex')
-    tabRefs.current[selectedTabIndex].setAttribute('aria-selected', 'true')
-    panels.current[selectedTabIndex].hidden = false
-
-    setTab(selectedTabIndex)
-  }, [selectedTabIndex, setTab])
-
-  useEffect(() => {
-    setTab(selectedTabIndex)
-  }, [selectedTabIndex, setTab])
-
-  // The tab switching function
-  const switchTab = (oldTab: HTMLElement, newTab: HTMLElement) => {
-    newTab.focus()
-    // Make the active tab focusable by the user (Tab key)
-    newTab.removeAttribute('tabindex')
-    // Set the selected state
-    newTab.setAttribute('aria-selected', 'true')
-    oldTab.removeAttribute('aria-selected')
-    oldTab.setAttribute('tabindex', '-1')
-    // Get the indices of the new and old tabs to find the correct
-    // tab panels to show and hide
-    const index = Array.prototype.indexOf.call(tabRefs.current, newTab)
-    const oldIndex = Array.prototype.indexOf.call(tabRefs.current, oldTab)
-    panels.current[oldIndex].hidden = true
-    panels.current[index].hidden = false
-  }
+}) {
+  const [tabFocus, setTabFocus] = useState(0)
+  const iconLinkType = [ResourceLinkType.FMB, ResourceLinkType.SRS_FULL_VIEW, ResourceLinkType.SRS_MINIMIZED_VIEW]
 
   return (
-    <Root ref={tabbed} className="ic-tabbed tabbed">
-      <Ul ref={tabList} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-pt-200">
-        {tabs.map((tab, i) => {
+    <Root className="ic-tabbed tabbed">
+      <TabList
+        role="tablist"
+        className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-pt-200"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            const tabButtons = e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+            let updatedFocusIndex = 0
+
+            if (tabButtons[tabFocus]) {
+              tabButtons[tabFocus].setAttribute('tabindex', '-1')
+            }
+
+            if (e.key === 'ArrowRight') {
+              updatedFocusIndex = tabFocus + 1 >= tabButtons.length ? 0 : tabFocus + 1
+            } else if (e.key === 'ArrowLeft') {
+              updatedFocusIndex = tabFocus - 1 < 0 ? tabButtons.length - 1 : tabFocus - 1
+            }
+
+            setTabFocus(updatedFocusIndex)
+            if (tabButtons[updatedFocusIndex]) {
+              tabButtons[updatedFocusIndex].setAttribute('tabindex', '0')
+              tabButtons[updatedFocusIndex].focus()
+            }
+          }
+        }}
+      >
+        {tabs.map(({ name, description, icon }, i) => {
           return (
-            <li key={i} className={`${i === 0 ? 'iu-pl-300' : ''}`}>
-              <a
+            <li key={name} className={classNames(i === 0 && 'iu-pl-300')}>
+              <TabButton
+                id={`tab-${i}`}
+                role="tab"
+                aria-selected={selectedTabIndex === i}
+                aria-controls={`panel-${i}`}
+                tabIndex={tabFocus === i ? 0 : -1}
                 onClick={() => setSelectedTabIndex(i)}
-                ref={(el: HTMLAnchorElement) => (tabRefs.current[i] = el)}
                 className="ic-tabbed__tab"
-                href={i.toString()}
+                data-tooltip-id="tooltip"
+                data-tooltip-content={description}
+                onFocus={() => setTabFocus(i)}
               >
-                {tab}
-              </a>
+                {icon && iconLinkType.includes(icon) && <LightbulpIcon className="iu-mr-200" />}
+                {name}
+              </TabButton>
             </li>
           )
         })}
-      </Ul>
+      </TabList>
 
-      {tabsContent.map((tabContent, i) => {
-        return (
-          <Section key={i} ref={(el: HTMLDivElement) => (panels.current[i] = el)} className="ic-tabbed__section ic-text" id={i.toString()}>
-            {tabContent}
-          </Section>
-        )
-      })}
+      <TabPanel role="tabpanel">
+        {tabsContent.map((tabContent, i) => {
+          return (
+            <TabContent
+              id={`panel-${i}`}
+              key={i}
+              role="tabpanel"
+              tabIndex={0}
+              aria-labelledby={`tab-${i}`}
+              hidden={i !== selectedTabIndex}
+              className="ic-tabbed__section ic-text"
+            >
+              {tabContent}
+            </TabContent>
+          )
+        })}
+      </TabPanel>
     </Root>
   )
 }

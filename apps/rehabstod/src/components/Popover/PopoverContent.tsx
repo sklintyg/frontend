@@ -1,14 +1,15 @@
 import { FloatingFocusManager, FloatingPortal } from '@floating-ui/react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { usePopoverContext } from './Popover'
 
 export function PopoverContent({ children }: { children: ReactNode }) {
   const { context, refs, strategy, x, y, getFloatingProps } = usePopoverContext()
+
   return (
     <FloatingPortal>
       <FloatingFocusManager context={context} modal={false}>
         <div
-          className="ids-content z-40 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+          className="ids-select-multiple__dropdown__wrapper"
           ref={refs.setFloating}
           style={{
             position: strategy,
@@ -19,7 +20,9 @@ export function PopoverContent({ children }: { children: ReactNode }) {
           }}
           {...getFloatingProps()}
         >
-          {children}
+          <div className="ids-select-multiple__dropdown relative">
+            <div className="ids-select-multiple__dropdown__inner">{children}</div>
+          </div>
         </div>
       </FloatingFocusManager>
     </FloatingPortal>

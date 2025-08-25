@@ -1,4 +1,4 @@
-import { Patient } from '../../types'
+import type { Patient } from '../../types'
 import PatientDeceasedStatus from './PatientDeceasedStatus'
 import PatientTestIndicatedStatus from './PatientTestIndicatedStatus'
 import ProtectedPatientStatus from './ProtectedPatientStatus'
@@ -7,7 +7,7 @@ interface Props {
   patient: Patient
 }
 
-const PatientStatuses: React.FC<Props> = ({ patient }) => {
+const PatientStatuses = ({ patient }: Props) => {
   return (
     <div className="iu-flex iu-pt-300">
       <PatientDeceasedStatus isPatientDeceased={patient.deceased} />

@@ -1,27 +1,19 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import type { ErrorData } from '../../../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ErrorModalBase from './ErrorModalBase'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
-
-const { location } = window
-window.location = {
-  ...location,
-  reload: vi.fn(),
-}
 
 const CONFIRM_BUTTON_TEXT = 'CONFIRM_BUTTON_TEXT'
 const CLOSE_BUTTON_TEXT = 'CLOSE_BUTTON_TEXT'
@@ -35,9 +27,9 @@ const createError = (errorId = '123'): ErrorData => ({
 const renderComponent = ({ children, ...props }: ComponentProps<typeof ErrorModalBase>) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <ErrorModalBase {...props}>{children}</ErrorModalBase>
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

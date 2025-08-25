@@ -1,11 +1,12 @@
-import { useSelector } from 'react-redux'
-import { getIsLatestMajorVersion } from '../../../store/certificate/certificateSelectors'
+import { getIsInactiveCertificateType, getIsLatestMajorVersion } from '../../../store/certificate/certificateSelectors'
 import NotificationBannerBase from './NotificationBannerBase'
+import { useAppSelector } from '../../../store/store'
 
-const MajorVersionNotification: React.FC = () => {
-  const isLatestMajorVersion = useSelector(getIsLatestMajorVersion)
+const MajorVersionNotification = () => {
+  const isLatestMajorVersion = useAppSelector(getIsLatestMajorVersion)
+  const isInactiveCertificateType = useAppSelector(getIsInactiveCertificateType)
 
-  if (isLatestMajorVersion) return null
+  if (isLatestMajorVersion || isInactiveCertificateType) return null
 
   return (
     <NotificationBannerBase type={'observe'}>

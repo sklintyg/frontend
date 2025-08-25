@@ -1,5 +1,6 @@
-import React from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import type { ReactNode } from 'react'
+import type { FlattenSimpleInterpolation } from 'styled-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   border-bottom-left-radius: 0;
@@ -16,9 +17,10 @@ const InnerWrapper = styled.div`
 
 interface Props {
   additionalStyles?: FlattenSimpleInterpolation
+  children: ReactNode
 }
 
-const CategoryHeader: React.FC<Props> = ({ additionalStyles, children }) => {
+const CategoryHeader = ({ additionalStyles, children }: Props) => {
   return (
     <Wrapper className="iu-bg-white iu-radius-sm">
       <InnerWrapper css={additionalStyles} className="contentPaperWrapper">

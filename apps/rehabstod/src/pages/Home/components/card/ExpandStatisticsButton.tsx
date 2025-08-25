@@ -1,5 +1,5 @@
-import { IDSIconMinus, IDSIconPlus } from '@frontend/ids-react-ts'
-import { MouseEventHandler } from 'react'
+import { IDSIconMinus, IDSIconPlus } from '@inera/ids-react'
+import type { MouseEventHandler } from 'react'
 
 export function ExpandStatisticsButton({ onClick, open }: { onClick: MouseEventHandler; open: boolean }) {
   return (

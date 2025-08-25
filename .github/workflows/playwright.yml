@@ -1,0 +1,32 @@
+name: Playwright Tests
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+env:
+  LEGACY_SUPPORT: false
+jobs:
+  playwright:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.53.0-jammy
+    steps:
+      - name: Checkout code branch
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm run -r test:playwright --project=chromium --workers $(node -r os -e 'process.stdout.write(os.cpus().length.toString())')
+        env:
+          HOME: /root

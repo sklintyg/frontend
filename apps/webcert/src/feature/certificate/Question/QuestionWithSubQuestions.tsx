@@ -1,7 +1,7 @@
-import React from 'react'
 import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
-import { RootState, useAppSelector } from '../../../store/store'
+import type { RootState } from '../../../store/store'
+import { useAppSelector } from '../../../store/store'
 import { CertificateDataElementStyleEnum } from '../../../types'
 import Question from './Question'
 import { QuestionComplements } from './QuestionComplements'
@@ -38,7 +38,7 @@ interface Props {
   questionIds: string[]
 }
 
-export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
+export const QuestionWithSubQuestions = ({ questionIds }: Props) => {
   const hasComplements = useAppSelector((state) => getComplementsForQuestions(questionIds)(state).length > 0)
   const hasParentQuestion = useAppSelector((state) => getQuestion(questionIds[0])(state)?.visible ?? false)
   const isParentHighlighted = useAppSelector(
@@ -48,7 +48,7 @@ export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
   if (!hasParentQuestion) return null
 
   return (
-    <Highlighted highlight={hasComplements}>
+    <Highlighted highlight={hasComplements} data-testid={hasComplements ? `${questionIds.toString()}-highlighted` : ''}>
       <QuestionWrapper highlighted={isParentHighlighted}>
         {questionIds.map((id) => (
           <QuestionWithMargin key={id} id={id} />

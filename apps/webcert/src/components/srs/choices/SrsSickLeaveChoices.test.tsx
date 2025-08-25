@@ -52,16 +52,16 @@ describe('SRS Sick Leave Choices', () => {
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).toBeInTheDocument()
   })
 
-  it('should have new chosen as default', () => {
+  it('should have new chosen as default', async () => {
     renderComponent()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeChecked()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).not.toBeChecked()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
   })
 
-  it('should have extension chosen as default if certificate is an extension of another certificate', () => {
-    renderComponent()
+  it('should have extension chosen as default if certificate is an extension of another certificate', async () => {
     setRenewedCertificateToState()
+    renderComponent()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).not.toBeChecked()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[1])).toBeChecked()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[2])).not.toBeChecked()
@@ -79,7 +79,7 @@ describe('SRS Sick Leave Choices', () => {
     expect(store.getState().ui.uiSRS.sickLeaveChoice).toEqual(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS)
   })
 
-  it('should disable new radio button if sick leave is extension', () => {
+  it('should disable new radio button if sick leave is extension', async () => {
     renderComponent()
     setRenewedCertificateToState()
     expect(screen.getByLabelText(SICKLEAVE_CHOICES_TEXTS[0])).toBeDisabled()

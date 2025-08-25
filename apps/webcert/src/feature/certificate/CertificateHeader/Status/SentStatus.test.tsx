@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '../../../../types'
+import type { Question } from '../../../../types'
+import { CertificateRelationType, CertificateStatus, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
 
 const EXPECTED_TEXT = 'Intyget är skickat till Försäkringskassan'
 
@@ -21,8 +22,21 @@ const renderComponent = (
         <CertificateHeaderStatuses
           certificateMetadata={
             childRelationType && childStatus
-              ? createCertificateMetadataWithChildRelation(status, childStatus, childRelationType, isSent)
-              : createCertificateMetadata(status, isSent)
+              ? fakeCertificateMetaData({
+                  status,
+                  relations: {
+                    parent: null,
+                    children: [
+                      {
+                        type: childRelationType,
+                        status: childStatus,
+                      },
+                    ],
+                  },
+                  sent: isSent,
+                  sentTo: isSent ? 'Försäkringskassan' : undefined,
+                })
+              : fakeCertificateMetaData({ status, sent: isSent, sentTo: isSent ? 'Försäkringskassan' : undefined })
           }
           questions={
             hasUndhandledComplementQuestions

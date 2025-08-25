@@ -1,15 +1,17 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
+import { fakeCertificate } from '../../../faker'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
-import { CreateCertificateFromCandidateWithMessageSuccess, updateCertificate } from '../../../store/certificate/certificateActions'
+import type { CreateCertificateFromCandidateWithMessageSuccess } from '../../../store/certificate/certificateActions'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
-import { Certificate, ResourceLink, ResourceLinkType } from '../../../types'
-import { getCertificate } from '../../../utils'
+import type { Certificate, ResourceLink } from '../../../types'
+import { ResourceLinkType } from '../../../types'
 import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 
 let fakeAxios: MockAdapter
@@ -48,7 +50,7 @@ describe('Create certificate from candidate modal', () => {
   }
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
-    certificate = getCertificate()
+    certificate = fakeCertificate()
     testStore.dispatch(updateCertificate(certificate))
     fakeAxios = new MockAdapter(axios)
     fakeAxios.onPost(`/api/certificate/${certificate.metadata.id}/candidate`).reply(200, createCertificateFromCandidateWithMessageSuccess)

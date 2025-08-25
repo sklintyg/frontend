@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { fileImage } from '../../images'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 import { getActivePatient, selectCertificateTypes } from '../../store/patient/patientSelectors'
+import { useAppSelector } from '../../store/store'
 import { setUserPreference } from '../../store/user/userActions'
 import { getUserPreference } from '../../store/user/userSelectors'
 import { selectIsLoadingInitialState } from '../../store/utils/utilsSelectors'
 import Spinner from '../utils/Spinner'
-import CertificateListRow from './CertificateListRow'
+import { CertificateListRow } from './CertificateListRow'
 
 const sortByFavorite = (a: boolean, b: boolean): number => {
   if (a > b) {
@@ -33,21 +33,17 @@ const FlexWrapper = styled.div`
   flex: 1;
 `
 
-const CertificateList: React.FC = () => {
-  const certificateId = useSelector(getCertificateId())
-  const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
-  const certificateTypes = useSelector(selectCertificateTypes)
-  const patient = useSelector(getActivePatient)
-  const isLoadingInitialState = useSelector(selectIsLoadingInitialState)
+export function CertificateList() {
+  const certificateId = useAppSelector(getCertificateId())
+  const userPreferences = useAppSelector(getUserPreference('wc.favoritIntyg'))
+  const certificateTypes = useAppSelector(selectCertificateTypes)
+  const patient = useAppSelector(getActivePatient)
+  const isLoadingInitialState = useAppSelector(selectIsLoadingInitialState)
 
   const [favorites, setFavorites] = useState<string[]>([])
 
   const dispatch = useDispatch()
-  const history = useHistory()
-
-  useEffect(() => {
-    ReactTooltip.hide()
-  }, [favorites])
+  const navigate = useNavigate()
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []
@@ -77,9 +73,9 @@ const CertificateList: React.FC = () => {
   useEffect(() => {
     if (certificateId) {
       dispatch(updateCreatedCertificateId(''))
-      history.push(`/certificate/${certificateId}`)
+      navigate(`/certificate/${certificateId}`)
     }
-  }, [certificateId, dispatch, history])
+  }, [certificateId, dispatch, navigate])
 
   return (
     <div className="iu-flex">
@@ -94,7 +90,7 @@ const CertificateList: React.FC = () => {
           <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
             {[...certificateTypes]
               .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
-              .map(({ label, detailedDescription, id, issuerTypeId, links, message }) => {
+              .map(({ label, detailedDescription, id, issuerTypeId, links, message, confirmationModal }) => {
                 return (
                   <CertificateListRow
                     certificateName={label}
@@ -107,6 +103,7 @@ const CertificateList: React.FC = () => {
                     key={id}
                     patient={patient}
                     links={links ?? []}
+                    confirmationModal={confirmationModal}
                   />
                 )
               })}
@@ -116,5 +113,3 @@ const CertificateList: React.FC = () => {
     </div>
   )
 }
-
-export default CertificateList

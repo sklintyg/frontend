@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import ReactTooltip, { Place } from 'react-tooltip'
+import type { HTMLProps, MouseEventHandler } from 'react'
+import { forwardRef } from 'react'
 import styled from 'styled-components'
 import { getFilter } from '../../utils/getFilters'
 import { NumberCircle } from '../utils/NumberCircle'
@@ -21,9 +21,7 @@ const Wrapper = styled.div<WrapperProps>`
 interface Props {
   buttonStyle?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
-  className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
-  onClick?: () => void
   onSubmit?: (event: React.FormEvent) => void
   startIcon?: React.ReactNode
   text?: string
@@ -31,7 +29,6 @@ interface Props {
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
   number?: string | number
-  tooltipPlacement?: Place
   buttonClasses?: string
   'data-testid'?: string
   inline?: boolean
@@ -39,13 +36,9 @@ interface Props {
 
 const Button = styled.button<Props>`
   height: ${(props) => props.inline && '3rem'};
+  white-space: nowrap;
 `
-
-export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  }, [props.tooltip])
-
+export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonElement> & Props>((props, ref) => {
   let addedClass = ''
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
@@ -75,13 +68,17 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
     return getFilter('primary')
   }
 
-  const onClick = () => {
-    ReactTooltip.hide()
-    props.onClick && props.onClick()
+  const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    props.onClick && props.onClick(e)
   }
 
   return (
-    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+    <Wrapper
+      filter={getIconFilter()}
+      data-tooltip-id="tooltip"
+      data-tooltip-content={props.tooltip}
+      className={`custom-button ${props.className}`}
+    >
       <Button
         aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}

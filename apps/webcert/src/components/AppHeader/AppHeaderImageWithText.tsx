@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -23,7 +22,7 @@ const LogoWrapper = styled.div`
   flex-shrink: 0;
 `
 
-const AppHeaderImageWithText: React.FC<Props> = ({ image, items, alt }) => {
+const AppHeaderImageWithText = ({ image, items, alt }: Props) => {
   return (
     <Wrapper>
       <LogoWrapper className="iu-mr-300 iu-ml-400">

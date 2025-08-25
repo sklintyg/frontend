@@ -1,4 +1,4 @@
-import { Column } from '../../../../../components/Table/types/Column'
+import type { Column } from '../../../../../components/Table/types/Column'
 import { filterTableColumns } from '../../../../../components/Table/utils/filterTableColumns'
 import { UserUrval } from '../../../../../schemas'
 import { useGetUserQuery } from '../../../../../store/api'
@@ -27,11 +27,11 @@ const getPatientSickLeaveColumnWidth = (column: string): number | undefined => {
     case PatientColumn.Läkare:
       return 114
     case PatientColumn.Sysselsättning:
-      return 140
+      return 150
     case PatientColumn.Risk:
       return 150
     case PatientColumn.Intyg:
-      return 80
+      return 100
     default:
       return undefined
   }

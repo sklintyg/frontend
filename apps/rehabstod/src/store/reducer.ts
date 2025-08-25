@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage/session'
 import { api } from './api'
 import { hsaApi } from './hsaApi'
+import { cookieDialogReducer, cookieDialogReducerPath } from './slices/cookieDialog.slice'
 import { luCertificatesReducer, luCertificatesReducerPath } from './slices/luCertificatesFilter.slice'
 import { luTableColumnsReducerPath, luTableColumnsSlice } from './slices/luTableColumns.slice'
 import { luUnitTableColumnsReducerPath, luUnitTableColumnsSlice } from './slices/luUnitTableColumns.slice'
@@ -10,7 +11,6 @@ import { patientTableColumnsReducerPath, patientTableColumnsSlice } from './slic
 import { settingsReducer, settingsReducerPath } from './slices/settings.slice'
 import { sickLeaveReducer, sickLeaveReducerPath } from './slices/sickLeaveFilter.slice'
 import { sickLeaveTableColumnsReducerPath, sickLeaveTableColumnsSlice } from './slices/sickLeaveTableColumns.slice'
-import { welcomeReducer, welcomeReducerPath } from './slices/welcome.slice'
 
 const persistSickLeaveConfig = {
   key: sickLeaveReducerPath,
@@ -29,13 +29,13 @@ export const reducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [hsaApi.reducerPath]: hsaApi.reducer,
   [sickLeaveReducerPath]: persistedSickLeaveReducer,
-  [welcomeReducerPath]: welcomeReducer,
   [luCertificatesReducerPath]: persistedLUReducer,
   [luTableColumnsReducerPath]: luTableColumnsSlice.reducer,
   [luUnitTableColumnsReducerPath]: luUnitTableColumnsSlice.reducer,
   [patientTableColumnsReducerPath]: patientTableColumnsSlice.reducer,
   [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsSlice.reducer,
   [settingsReducerPath]: settingsReducer,
+  [cookieDialogReducerPath]: cookieDialogReducer,
 })
 
 export type RootState = ReturnType<typeof reducer>

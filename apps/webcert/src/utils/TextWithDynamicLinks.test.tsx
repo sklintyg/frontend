@@ -1,9 +1,8 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { certificateMiddleware } from '../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
@@ -12,8 +11,6 @@ import { utilsMiddleware } from '../store/utils/utilsMiddleware'
 import TextWithDynamicLinks from './TextWithDynamicLinks'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const text1 = faker.lorem.sentence(10)
 const text2 = faker.lorem.sentence(10)
@@ -26,9 +23,9 @@ const textWithLinks = `${text1} <LINK:${link1}> ${text2} <LINK:${link2}> ${text3
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <TextWithDynamicLinks text={textWithLinks} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

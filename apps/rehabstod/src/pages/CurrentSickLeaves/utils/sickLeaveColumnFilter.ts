@@ -1,4 +1,4 @@
-import { TableColumn } from '../../../schemas/tableSchema'
+import type { TableColumn } from '../../../schemas/tableSchema'
 import { SickLeaveColumn } from '../../../store/slices/sickLeaveTableColumns.slice'
 
 export function sickLeaveColumnFilter(showPersonalInformation: boolean, isDoctor: boolean, srsActivated: boolean) {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ErrorCode } from '../../store/error/errorReducer'
@@ -11,7 +10,7 @@ const Wrapper = styled.div`
   max-width: 720px;
 `
 
-const PatientSearchError: React.FC = () => {
+const PatientSearchError = () => {
   const error = useSelector(getPatientError)
 
   if (!error) {

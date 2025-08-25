@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 import { LinkButton } from '../../styles'
@@ -17,7 +17,7 @@ interface Props {
   onClick?: (currentExpanded: boolean) => void
 }
 
-export const ExpandableList: React.FC<Props> = ({ items, nbrOfVisibleItems, onClick }) => {
+export const ExpandableList = ({ items, nbrOfVisibleItems, onClick }: Props) => {
   const [expanded, setExpanded] = useState(false)
 
   const handleOnClick = () => {

@@ -1,9 +1,8 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import { ResourceLink, Patient } from '../../../types'
+import { createNewCertificate } from '../../../store/certificate/certificateActions'
+import type { Patient, ResourceLink } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
 interface Props extends ResourceLink {
@@ -18,7 +17,7 @@ const ModalContent = styled.div`
   white-space: pre-line;
 `
 
-export const MissingRelatedCertificateModal: React.FC<Props> = ({
+export const MissingRelatedCertificateModal = ({
   createCertificateType,
   confirmButtonText,
   patient,
@@ -28,7 +27,7 @@ export const MissingRelatedCertificateModal: React.FC<Props> = ({
   name,
   title,
   enabled,
-}) => {
+}: Props) => {
   const dispatch = useDispatch()
 
   return (

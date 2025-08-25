@@ -1,8 +1,7 @@
 import classNames from 'classnames'
-import React from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { UserTab } from '../../types'
+import type { UserTab } from '../../types'
 import { NumberCircle } from '../utils/NumberCircle'
 
 const Wrapper = styled.nav`
@@ -21,23 +20,20 @@ export interface Props {
   onSwitchTab?: (tab: number) => void
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
-  const match = useRouteMatch()
+const AppHeaderTabs = ({ tabs, onSwitchTab }: Props) => {
+  const location = useLocation()
+  const isSelectedTab = (tab: UserTab) => {
+    return location.pathname === tab.url || tab.matchedUrls.some((url) => location.pathname.startsWith(url))
+  }
 
   const switchTab = (tab: UserTab) => {
-    if (match.url !== tab.url) {
-      if (onSwitchTab) {
-        onSwitchTab(tabs.findIndex((t) => t === tab))
-      }
+    if (location.pathname !== tab.url && onSwitchTab) {
+      onSwitchTab(tabs.findIndex((t) => t === tab))
     }
   }
 
   if (!tabs || tabs.length === 0) {
     return null
-  }
-
-  const isSelectedTab = (tab: UserTab) => {
-    return match.url.includes(tab.url) || tab.matchedUrls.some((url) => match.url.startsWith(url))
   }
 
   return (

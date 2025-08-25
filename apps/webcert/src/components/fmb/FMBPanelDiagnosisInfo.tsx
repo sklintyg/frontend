@@ -1,6 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
-import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
+import type { FMBDiagnosisCodeInfo } from '../../types'
+import { FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType } from '../../types'
 import InfoBox from '../utils/InfoBox'
 import FMBPanelDiagnosisHeader from './FMBPanelDiagnosisHeader'
 import FMBPanelDiagnosisInfoLink from './FMBPanelDiagnosisInfoLink'
@@ -26,7 +26,7 @@ interface Props {
   hasSeveralDiagnoses: boolean
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
+const FMBPanelDiagnosisInfo = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }: Props) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">

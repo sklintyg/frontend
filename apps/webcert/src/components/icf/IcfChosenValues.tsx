@@ -1,12 +1,11 @@
 import { ValuesWrapper } from './Styles'
-import React from 'react'
 
 interface IcfChosenValuesProps {
   collectionsLabel: string
   chosenIcfCodeValues: string[] | undefined
 }
 
-const IcfChosenValues: React.FC<IcfChosenValuesProps> = ({ collectionsLabel, chosenIcfCodeValues }) => {
+const IcfChosenValues = ({ collectionsLabel, chosenIcfCodeValues }: IcfChosenValuesProps) => {
   return (
     <div className={'iu-p-300 iu-bg-grey-200 iu-mt-200 iu-mb-300'}>
       <p className={'iu-mb-200'}>{collectionsLabel}</p>

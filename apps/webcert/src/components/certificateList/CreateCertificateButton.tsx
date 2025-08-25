@@ -1,6 +1,5 @@
-import React from 'react'
 import { fileImage } from '../../images'
-import { ResourceLink } from '../../types'
+import type { ResourceLink } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 
 interface Props extends ResourceLink {
@@ -9,7 +8,7 @@ interface Props extends ResourceLink {
   disabled: boolean
 }
 
-export const CreateCertificateButton: React.FC<Props> = ({ onClick, id, description, enabled, name, disabled }) => {
+export const CreateCertificateButton = ({ onClick, id, description, enabled, name, disabled }: Props) => {
   return (
     <CustomButton
       buttonStyle="primary"

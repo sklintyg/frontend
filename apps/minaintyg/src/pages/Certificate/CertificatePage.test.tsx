@@ -4,14 +4,14 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server, waitForRequest } from '../../mocks/server'
+import type { CertificateMetadata } from '../../schema/certificate.schema'
 import {
   AvailableFunctionsTypeEnum,
-  CertificateMetadata,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
 } from '../../schema/certificate.schema'
-import { startSession } from '../../store/slice/session.slice'
+import { api } from '../../store/api'
 import { store } from '../../store/store'
 import { CertificatePage } from './CertificatePage'
 
@@ -89,12 +89,42 @@ it('Should display alert message when certificate is replaced', async () => {
 
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
-    <ids-alert
+    <div
+      aria-live="polite"
+      class="ids-spinner"
+      data-testid="spinner"
       role="alert"
     >
-      Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
-    </ids-alert>
+      <p
+        class="ids-spinner-sr"
+      />
+      <div
+        class="ids-bounce-1"
+      />
+      <div
+        class="ids-bounce-2"
+      />
+      <div
+        class="ids-bounce-3"
+      />
+    </div>
   `)
+})
+
+it('Should display print information when on mobile', async () => {
+  vi.stubGlobal('navigator', {
+    userAgent: '1177-appen',
+  })
+  renderComponent(fakerFromSchema(certificateMetadataSchema)())
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.getByText(/om du vill skriva ut eller spara ditt intyg behöver du/i)).toBeInTheDocument()
+  vi.unstubAllGlobals()
+})
+
+it('Should not display print information when not on mobile', async () => {
+  renderComponent(fakerFromSchema(certificateMetadataSchema)())
+  await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
+  expect(screen.queryByText(/om du vill skriva ut eller spara ditt intyg behöver du/i)).not.toBeInTheDocument()
 })
 
 describe('Unable to load certificate', () => {
@@ -126,7 +156,7 @@ describe('Unable to load certificate', () => {
   })
 
   it('Should log error and display id', async () => {
-    store.dispatch(startSession())
+    store.dispatch(api.endpoints.getUser.initiate())
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
     const pendingLogRequest = waitForRequest('POST', '/api/log/error')
 

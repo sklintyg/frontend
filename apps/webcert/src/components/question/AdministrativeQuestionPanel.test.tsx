@@ -1,28 +1,26 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { Question, QuestionType } from '../../types'
+import type { Question } from '../../types'
+import { QuestionType } from '../../types'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderDefaultComponent = (questions: Question[], isQuestionFormVisible: boolean, questionDraft: Question) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <AdministrativeQuestionPanel
           administrativeQuestions={questions}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
         />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -41,6 +39,7 @@ function createQuestion(): Question {
     reminders: [],
     type: QuestionType.COORDINATION,
     links: [],
+    certificateId: 'certificateId',
   }
 }
 

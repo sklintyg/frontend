@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
+import { fakeCertificateMetaData } from '../../../faker'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 import store from '../../../store/store'
-import HeaderButtons from './HeaderButtons'
-import { fakeCertificateMetaData } from '../../../faker'
-import { ResourceLink, CertificateStatus, CertificateRelationType, ResourceLinkType } from '../../../types'
+import type { ResourceLink } from '../../../types'
+import { CertificateRelationType, CertificateStatus, ResourceLinkType } from '../../../types'
+import { HeaderButtons } from './HeaderButtons'
 
 describe('Verify header buttons', () => {
   const description = 'description'
@@ -16,24 +16,26 @@ describe('Verify header buttons', () => {
   const renderComponent = (resourceLinks: ResourceLink[]) =>
     render(
       <Provider store={store}>
-        <HeaderButtons
-          functionDisabled={false}
-          resourceLinks={resourceLinks}
-          certificateMetadata={fakeCertificateMetaData({
-            status: CertificateStatus.SIGNED,
-            relations: {
-              parent: null,
-              children: [
-                {
-                  certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
-                  type: CertificateRelationType.REPLACED,
-                  status: CertificateStatus.UNSIGNED,
-                  created: new Date().toISOString(),
-                },
-              ],
-            },
-          })}
-        />
+        <MemoryRouter>
+          <HeaderButtons
+            functionDisabled={false}
+            resourceLinks={resourceLinks}
+            certificateMetadata={fakeCertificateMetaData({
+              status: CertificateStatus.SIGNED,
+              relations: {
+                parent: null,
+                children: [
+                  {
+                    certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
+                    type: CertificateRelationType.REPLACED,
+                    status: CertificateStatus.UNSIGNED,
+                    created: new Date().toISOString(),
+                  },
+                ],
+              },
+            })}
+          />
+        </MemoryRouter>
       </Provider>
     )
 
@@ -63,14 +65,12 @@ describe('Verify header buttons', () => {
 
   it('Should include print certificate button when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.PRINT_CERTIFICATE }])
     expect(await screen.findByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
   it('Should include print certificate button with modal when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     renderComponent([{ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE }])
     await screen.findByRole('button', { name: expectedButton })
     await userEvent.click(screen.getByText(expectedButton))
@@ -90,17 +90,17 @@ describe('Verify header buttons', () => {
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('Should enable remove certificate button when not validating certificate', () => {
+  it('Should enable remove certificate button when not validating certificate', async () => {
     const expectedButton = 'Radera'
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
   })
 
-  it('Should disable remove certificate button when validating certificate', () => {
+  it('Should disable remove certificate button when validating certificate', async () => {
     const expectedButton = 'Radera'
     store.dispatch(validateCertificateStarted())
     renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
-    expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
+    await expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
   })
 
   it('Should include revoke certificate button when its resource link type is available', () => {

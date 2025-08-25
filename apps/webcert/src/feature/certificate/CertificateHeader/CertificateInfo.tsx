@@ -1,10 +1,11 @@
-import React from 'react'
 import styled from 'styled-components'
+import type { CertificateMetadata } from '../../../types'
 import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'
-import { CertificateMetadata } from '../../../types'
 
 const Wrapper = styled.section`
-  flex-grow: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 1rem;
 `
 
 const PersonIdWrapper = styled.div`
@@ -15,12 +16,12 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
+const CertificateInfo = ({ certificateMetadata }: Props) => {
   return (
     <Wrapper>
       <h1 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.name}</h1>
       <PersonIdWrapper>
-        <h2 className={`iu-mb-200 iu-fs-400 iu-color-sky-dark`}>
+        <h2 className="iu-mb-200 iu-fs-400 iu-color-sky-dark" style={{ whiteSpace: 'nowrap' }}>
           {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId.id}
         </h2>
         <p className={'iu-pl-300'}>

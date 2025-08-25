@@ -1,12 +1,10 @@
-import { ResourceLink } from './resourceLink'
+import type { ResourceLink } from './resourceLink'
 
 export interface CertificateListItem {
-  values: { [key: string]: string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean }
+  values: Record<string, string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean>
 }
 
-export interface ListButtonTooltips {
-  [key: string]: string
-}
+export type ListButtonTooltips = Record<string, string>
 
 export interface PatientListInfo {
   id: string
@@ -43,8 +41,7 @@ export enum ListFilterType {
   RADIO = 'RADIO',
 }
 
-export interface ListFilterConfig {
-  type: ListFilterType
+export interface ListFilterConfigBase {
   id: string
   title: string
   alwaysHighlighted: boolean
@@ -57,45 +54,65 @@ export interface ListFilterConfigValue {
   defaultValue: boolean
 }
 
-export interface ListFilterTextConfig extends ListFilterConfig {
+export interface ListFilterTextConfig extends ListFilterConfigBase {
+  type: ListFilterType.TEXT
   placeholder: string
 }
 
-export interface ListFilterOrderConfig extends ListFilterConfig {
+export interface ListFilterOrderConfig extends ListFilterConfigBase {
+  type: ListFilterType.ORDER
   defaultValue: string
 }
 
-export interface ListFilterPageSizeConfig extends ListFilterConfig {
+export interface ListFilterPageSizeConfig extends ListFilterConfigBase {
+  type: ListFilterType.PAGESIZE
   pageSizes: number[]
 }
 
-export interface ListFilterBooleanConfig extends ListFilterConfig {
+export interface ListFilterBooleanConfig extends ListFilterConfigBase {
+  type: ListFilterType.BOOLEAN
   defaultValue: boolean
 }
 
-export interface ListFilterPersonIdConfig extends ListFilterConfig {
+export interface ListFilterPersonIdConfig extends ListFilterConfigBase {
+  type: ListFilterType.PERSON_ID
   placeholder: string
 }
 
-export interface ListFilterSelectConfig extends ListFilterConfig {
+export interface ListFilterSelectConfig extends ListFilterConfigBase {
+  type: ListFilterType.SELECT
   values: ListFilterConfigValue[]
 }
 
-export interface ListFilterRadioConfig extends ListFilterConfig {
+export interface ListFilterRadioConfig extends ListFilterConfigBase {
+  type: ListFilterType.RADIO
   values: ListFilterConfigValue[]
 }
 
-export interface ListFilterDateConfig extends ListFilterConfig {
+export interface ListFilterDateConfig extends ListFilterConfigBase {
+  type: ListFilterType.DATE
   max?: string
   min?: string
   defaultValue?: string
 }
 
-export interface ListFilterDateRangeConfig extends ListFilterConfig {
+export interface ListFilterDateRangeConfig extends ListFilterConfigBase {
+  type: ListFilterType.DATE_RANGE
   to: ListFilterDateConfig
   from: ListFilterDateConfig
   forbidFutureDates: boolean
 }
+
+export type ListFilterConfig =
+  | ListFilterTextConfig
+  | ListFilterOrderConfig
+  | ListFilterPageSizeConfig
+  | ListFilterBooleanConfig
+  | ListFilterPersonIdConfig
+  | ListFilterSelectConfig
+  | ListFilterRadioConfig
+  | ListFilterDateConfig
+  | ListFilterDateRangeConfig
 
 export interface TableHeading {
   id: string
@@ -118,39 +135,61 @@ export interface ListConfig {
   shouldUpdateConfigAfterListSearch: boolean
 }
 
-export interface ListFilterValue {
-  type?: ListFilterType
-  [propName: string]: unknown
-}
-
-export interface ListFilterValueText extends ListFilterValue {
+export interface ListFilterValueText {
+  type: ListFilterType.TEXT
   value: string
 }
 
-export interface ListFilterValueBoolean extends ListFilterValue {
+export interface ListFilterValueBoolean {
+  type: ListFilterType.BOOLEAN
   value: boolean
 }
 
-export interface ListFilterValueNumber extends ListFilterValue {
+export interface ListFilterValueNumber {
+  type: ListFilterType.NUMBER
   value: number
 }
 
-export interface ListFilterValuePersonId extends ListFilterValue {
+export interface ListFilterValuePersonId {
+  type: ListFilterType.PERSON_ID
   value: string
 }
 
-export interface ListFilterValueDateRange extends ListFilterValue {
+export interface ListFilterValueDateRange {
+  type: ListFilterType.DATE_RANGE
   to: string
   from: string
 }
 
-export interface ListFilterValueSelect extends ListFilterValue {
+export interface ListFilterValueSelect {
+  type: ListFilterType.SELECT
   value: string
 }
 
-export interface ListFilterValueRadio extends ListFilterValue {
+export interface ListFilterValueRadio {
+  type: ListFilterType.RADIO
   value: string
 }
+
+export interface ListFilterValueOrder {
+  type: ListFilterType.ORDER
+  value: string
+}
+
+export interface ListFilterValueUnknown {
+  type: ListFilterType.UNKOWN
+}
+
+export type ListFilterValue =
+  | ListFilterValueText
+  | ListFilterValueBoolean
+  | ListFilterValueNumber
+  | ListFilterValuePersonId
+  | ListFilterValueDateRange
+  | ListFilterValueSelect
+  | ListFilterValueRadio
+  | ListFilterValueOrder
+  | ListFilterValueUnknown
 
 export enum ListType {
   DRAFTS = 'DRAFTS',
@@ -161,12 +200,8 @@ export enum ListType {
 }
 
 export interface ListFilter {
-  values?: ListFilterValues
+  values: Record<string, ListFilterValue>
   type: ListType
-}
-
-export interface ListFilterValues {
-  [propName: string]: ListFilterValue
 }
 
 export interface ForwardedListInfo {

@@ -1,8 +1,7 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import SystemBanner from '../utils/SystemBanner'
@@ -14,9 +13,9 @@ const renderComponent = (primaryUserMenu: React.ReactNode[], secondaryItems: Rea
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create">
-          <AppHeader primaryUserMenu={primaryUserMenu} secondaryUserMenu={secondaryItems} />
-        </Route>
+        <Routes>
+          <Route path="/create" element={<AppHeader primaryUserMenu={primaryUserMenu} secondaryUserMenu={secondaryItems} />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )
@@ -26,9 +25,9 @@ const renderComponentWithLogo = (logo: string, alt: string) => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create">
-          <AppHeader logo={logo} alt={alt} />
-        </Route>
+        <Routes>
+          <Route path="/create" element={<AppHeader logo={logo} alt={alt} />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )
@@ -38,9 +37,9 @@ const renderComponentWithSubMenuBanners = (subMenuBanners: React.ReactNode[]) =>
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create">
-          <AppHeader subMenuBanners={subMenuBanners} />
-        </Route>
+        <Routes>
+          <Route path="/create" element={<AppHeader subMenuBanners={subMenuBanners} />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )

@@ -1,9 +1,12 @@
-import { IDSButton, IDSErrorMessage } from '@frontend/ids-react-ts'
+import { IDSErrorMessage } from '@inera/ids-react'
 import { useState } from 'react'
-import { Checkbox } from '../../../../../components/Form/Checkbox'
-import { FormattedNumberInput } from '../../../../../components/Form/FormattedNumberInput'
-import { RadioButton } from '../../../../../components/Form/RadioButton'
-import { PatientOverviewConsentChoices, SjfItem } from '../../../../../schemas/patientSchema'
+import { Button } from '../../../../../components/Button/Button'
+import { Checkbox } from '../../../../../components/form/Checkbox/Checkbox'
+import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
+import { Radio } from '../../../../../components/form/Radio/Radio'
+import { Heading } from '../../../../../components/Heading/Heading'
+import type { SjfItem } from '../../../../../schemas/patientSchema'
+import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
 import { BlockedInformation } from '../blocked/BlockedInformation'
 import { OpenInformation } from './OpenInformation'
@@ -39,56 +42,61 @@ export function OpenInformationWithConsent({
   ) : (
     <>
       <BlockedInformation items={items.map((item) => item.itemName)} inline />
-      <h6 className="ids-heading-4 pt-2">Samtycke sammanhållen vårddokumentation</h6>
-      <Checkbox
-        label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
-        checked={checkedConsent}
-        onChange={(event) => {
-          setCheckedConsent(event.currentTarget.checked)
-          setShowError(false)
-        }}
-        compact
-        valid={`${!showError}`}
-        light
-      />
-      {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
-      <div className="-mt-5 ml-10 flex w-44 items-center gap-3">
-        <FormattedNumberInput
-          label=""
-          onChange={(value) => setDaysOfConsent(value)}
-          value={daysOfConsent}
-          max="365"
-          min="1"
-          defaultValue="7"
-          light
+      <div className="mb-4">
+        <Heading level={6} size="xs">
+          Samtycke sammanhållen vårddokumentation
+        </Heading>
+        <Checkbox
+          label="Patienten samtycker till att information hämtas från andra vårdgivare i:"
+          checked={checkedConsent}
+          onChange={(event) => {
+            setCheckedConsent(event.currentTarget.checked)
+            setShowError(false)
+          }}
+          valid={!showError}
         />
-        <p>dagar</p>
+        {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
+        <div className="ml-10 flex w-44 items-center gap-3">
+          <FormattedNumberInput
+            label=""
+            onChange={(value) => setDaysOfConsent(value)}
+            value={daysOfConsent}
+            max="365"
+            min="1"
+            defaultValue="7"
+          />
+          <p>dagar</p>
+        </div>
       </div>
-      <h6 className="ids-heading-4 pt-3">Vem har samtycke?</h6>
-      <RadioButton
-        label="Bara jag"
-        onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-        value={PatientOverviewConsentChoices.ONLYCURRENT}
-        checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
-        light
-      />
-      <RadioButton
-        label="All behörig personal på vårdenheten"
-        onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
-        value={PatientOverviewConsentChoices.ALL}
-        checked={consentId === PatientOverviewConsentChoices.ALL}
-        light
-      />
-      <div className="pb-5 pt-3">
+      <div>
+        <Heading level={6} size="xs">
+          Vem har samtycke?
+        </Heading>
+        <div className="flex gap-3">
+          <Radio
+            label="Bara jag"
+            onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+            value={PatientOverviewConsentChoices.ONLYCURRENT}
+            checked={consentId === PatientOverviewConsentChoices.ONLYCURRENT}
+          />
+          <Radio
+            label="All behörig personal på vårdenheten"
+            onChange={(event) => setConsentId(event.currentTarget.value as PatientOverviewConsentChoices)}
+            value={PatientOverviewConsentChoices.ALL}
+            checked={consentId === PatientOverviewConsentChoices.ALL}
+          />
+        </div>
+      </div>
+      <div>
         <AboutPatientOverview />
       </div>
       <div className="flex flex-col gap-5 md:flex-row md:justify-center">
-        <IDSButton mblock secondary onClick={onClose}>
+        <Button mblock secondary onClick={onClose}>
           <span className="text-sm sm:text-base">Avbryt</span>
-        </IDSButton>
-        <IDSButton mblock onClick={handleGiveConsent}>
+        </Button>
+        <Button mblock onClick={handleGiveConsent}>
           <span className="text-sm sm:text-base">Patienten ger samtycke</span>
-        </IDSButton>
+        </Button>
       </div>
     </>
   )

@@ -1,11 +1,32 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import { fakeCareProvider, fakeResourceLink, fakeUnit, fakeUser } from '../../faker'
 import store from '../../store/store'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import type { Unit, User } from '../../types'
 import { ResourceLinkType } from '../../types'
-import { getResourceLinkWithType, getUserWithMissingSubscription } from '../../utils'
 import WebcertHeader from './WebcertHeader'
+
+const getUserWithMissingSubscription = (): User => {
+  const unit: Unit = fakeUnit({
+    unitName: 'Care Provider',
+    isInactive: true,
+  })
+
+  return fakeUser({
+    loggedInUnit: unit,
+    loggedInCareUnit: unit,
+    loggedInCareProvider: unit,
+    careProviders: [
+      fakeCareProvider({
+        id: unit.unitId,
+        name: unit.unitName,
+        missingSubscription: true,
+      }),
+    ],
+  })
+}
 
 const renderComponent = () => {
   render(
@@ -28,7 +49,6 @@ describe('WebcertHeader', () => {
   })
 
   it('should display logout link if resource link exists', () => {
-    renderComponent()
     store.dispatch(
       updateUserResourceLinks([
         {
@@ -40,6 +60,7 @@ describe('WebcertHeader', () => {
         },
       ])
     )
+    renderComponent()
 
     expect(screen.getByText('Logga ut')).toBeInTheDocument()
   })
@@ -56,7 +77,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should display warning normal origin banner when user has resource link', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.WARNING_NORMAL_ORIGIN })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValue =
@@ -66,7 +87,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should not display warning normal origin banner when user has no resource link', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.ANSWER_QUESTION)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ANSWER_QUESTION })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValue =
@@ -76,7 +97,7 @@ describe('WebcertHeader', () => {
   })
 
   it('should display both warning normal origin banner & subscription warning banner', () => {
-    store.dispatch(updateUserResourceLinks([getResourceLinkWithType(ResourceLinkType.WARNING_NORMAL_ORIGIN)]))
+    store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.WARNING_NORMAL_ORIGIN })]))
     store.dispatch(updateUser(getUserWithMissingSubscription()))
     renderComponent()
     const expectedValueOriginBanner =

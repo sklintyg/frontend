@@ -1,8 +1,10 @@
-import { generateMock, GenerateMockOptions } from '@anatine/zod-mock'
+import type { GenerateMockOptions } from '@anatine/zod-mock'
+import { generateMock } from '@anatine/zod-mock'
 import { faker } from '@faker-js/faker'
-import { deepmergeCustom, DeepMergeLeafURI } from 'deepmerge-ts'
-import { DeepPartial } from 'ts-essentials'
-import { z, ZodTypeAny } from 'zod'
+import type { DeepMergeLeafURI } from 'deepmerge-ts'
+import { deepmergeCustom } from 'deepmerge-ts'
+import type { DeepPartial } from 'ts-essentials'
+import type { z, ZodTypeAny } from 'zod'
 import { fakeHSA } from './hsa'
 import { fakePersonId } from './personId'
 
@@ -30,21 +32,31 @@ export const stringMap = {
   personName: faker.name.fullName,
 }
 
+type FakeFromSchemaOptions = Omit<GenerateMockOptions, 'seed'> & { seed?: number }
+
 const customDeepmerge = deepmergeCustom<{
   DeepMergeArraysURI: DeepMergeLeafURI
 }>({
   mergeArrays: false,
 })
 
-export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: GenerateMockOptions) {
-  return (data?: DeepPartial<z.infer<T>>) =>
-    customDeepmerge(generateMock(schema, { faker, ...options, stringMap: { ...stringMap, ...options?.stringMap } }), data ?? {})
+function handleOptions(options?: FakeFromSchemaOptions) {
+  const { seed, ...other } = options ?? { seed: undefined }
+  if (seed !== undefined) {
+    faker.seed(seed)
+  }
+  return other
+}
+
+export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: FakeFromSchemaOptions) {
+  const o = handleOptions({ faker, ...options, stringMap: { ...stringMap, ...options?.stringMap } })
+  return (data?: DeepPartial<z.infer<T>>) => customDeepmerge(generateMock(schema, o), data ?? {})
 }
 
 export function fakerFromSchemaFactory<T extends ZodTypeAny>(
   schema: T,
   initialData: (data?: DeepPartial<z.infer<T>>) => DeepPartial<z.infer<T>>,
-  options?: GenerateMockOptions
+  options?: FakeFromSchemaOptions
 ) {
   return (data?: DeepPartial<z.infer<T>>) => fakerFromSchema(schema, options)({ ...initialData(data), ...data })
 }

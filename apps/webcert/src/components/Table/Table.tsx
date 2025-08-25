@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 interface Props extends React.HTMLAttributes<HTMLTableElement> {
   children?: React.ReactNode

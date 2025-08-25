@@ -1,4 +1,5 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
+import { Heading } from '@frontend/components'
+import { IDSAlert, IDSCard, IDSSpinner } from '@inera/ids-react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { ScrollRestoration, useParams } from 'react-router-dom'
 import { PageDivider } from '../../components/PageDivider/PageDivider'
@@ -16,6 +17,7 @@ import { CertificateReplacedAlert } from './components/CertificateReplacedAlert'
 import { CertificateStatusBadge } from './components/CertificateStatusBadge'
 import { ReadCertificateError } from './components/ReadCertificateError'
 import { ReadMoreAboutAction } from './components/ReadMoreAboutDialog/ReadMoreAboutAction'
+import { isMobileApp } from './utils/isMobileApp'
 
 const FALLBACK_DESCRIPTION = `Det här är ditt intyg. Intyget innehåller all information vården fyllt i. Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.`
 
@@ -43,20 +45,23 @@ export function CertificatePage() {
         <>
           <div className="mb-5">
             <CertificateAttentionAlert availableFunctions={certificate.availableFunctions} />
-            <CertificateActions
-              recipient={certificate.metadata.recipient}
-              availableFunctions={certificate.availableFunctions}
-              id={certificate.metadata.id}
-            />
+            {isMobileApp() && (
+              <IDSAlert className="mb-5">
+                Om du vill skriva ut eller spara ditt intyg behöver du logga in på 1177.se via din webbläsare.
+              </IDSAlert>
+            )}
+            <CertificateActions recipient={certificate.metadata.recipient} id={certificate.metadata.id} />
           </div>
 
           <div className="md:hidden">
             <PageDivider />
           </div>
 
-          <div className="rounded-[10px] border-stone-line md:border md:p-7 md:shadow-[0_0_2px_0px_rgba(0,0,0,0.3)]">
+          <IDSCard hideOnS>
             <div className="mb-5 flex flex-col justify-between gap-2.5 md:flex-row md:gap-5">
-              <h2 className="ids-heading-2">{certificate.metadata.type.name}</h2>
+              <Heading level={2} size="m">
+                {certificate.metadata.type.name}
+              </Heading>
               <div className="flex gap-1">
                 {certificate.metadata.statuses.map((status) => (
                   <CertificateStatusBadge key={status} status={status} />
@@ -66,14 +71,18 @@ export function CertificatePage() {
             <div className="mb-5">
               <CertificateInformation {...certificate.metadata} />
             </div>
-            <h3 className="ids-heading-4 mb-0">Händelser</h3>
-            <CertificateEventsInfo events={certificate.metadata.events} />
+            <div className="mb-5">
+              <Heading level={3} size="xs" className="mb-0">
+                Händelser
+              </Heading>
+              <CertificateEventsInfo events={certificate.metadata.events} />
+            </div>
 
-            <article className="ids-certificate">
+            <article className="ids-certificate pt-3">
               <CertificateBody content={certificate.content} />
               <CertificateFooter {...certificate.metadata} />
             </article>
-          </div>
+          </IDSCard>
         </>
       )}
     </>

@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useGetUserQuery } from '../../store/api'
 
-export function ProtectedRoute({ children, requireUnit }: { children: ReactNode; requireUnit?: boolean }): JSX.Element | null {
+export function ProtectedRoute({ children, requireUnit }: { children: ReactNode; requireUnit?: boolean }): React.JSX.Element | null {
   const { data: user, isLoading } = useGetUserQuery()
 
   if (isLoading || user?.pdlConsentGiven === false) {

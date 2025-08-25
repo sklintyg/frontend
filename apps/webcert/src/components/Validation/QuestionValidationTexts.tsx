@@ -1,6 +1,5 @@
-import React from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components'
-import { ValidationError } from '../../types'
+import type { FlattenSimpleInterpolation } from 'styled-components'
+import type { ValidationError } from '../../types'
 import ValidationText from './ValidationText'
 
 interface QuestionValidationTextsProps {
@@ -8,7 +7,7 @@ interface QuestionValidationTextsProps {
   additionalStyles?: FlattenSimpleInterpolation
 }
 
-const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ validationErrors, additionalStyles }) => {
+const QuestionValidationTexts = ({ validationErrors, additionalStyles }: QuestionValidationTextsProps) => {
   return validationErrors && validationErrors.length > 0 ? (
     <div css={additionalStyles}>
       {validationErrors.map((validationError, index) => (

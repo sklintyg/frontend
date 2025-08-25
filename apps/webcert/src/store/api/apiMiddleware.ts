@@ -1,10 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import axios, { AxiosError, AxiosResponse } from 'axios'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { AxiosError, AxiosResponse } from 'axios'
+import axios from 'axios'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
+import { ErrorCode } from '../error/errorReducer'
+import type { ApiError } from './apiActions'
+import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
 
 const handleApiCallBegan: Middleware =
   ({ dispatch }: MiddlewareAPI) =>
@@ -84,14 +88,14 @@ const handleApiSilentGenericError: Middleware<Dispatch> =
 
 function createApiError(api: string, response: AxiosResponse | undefined, altMessage: string): ApiError {
   if (!response) {
-    return { api, errorCode: 'UNKNOWN_INTERNAL_PROBLEM', message: altMessage }
+    return { api, errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, message: altMessage }
   }
 
   if (response.data && response.data.errorCode) {
     return { api, errorCode: response.data.errorCode, message: response.data.message }
   }
 
-  const errorCode: string = response.status === 403 ? 'TIMEOUT' : 'UNKNOWN_INTERNAL_PROBLEM'
+  const errorCode: string = response.status === 403 ? ErrorCode.TIMEOUT : ErrorCode.UNKNOWN_INTERNAL_PROBLEM
   return { api, errorCode, message: response.status + ' - ' + response.statusText }
 }
 

@@ -1,8 +1,13 @@
+import { Heading } from '../../../../components/Heading/Heading'
 import { Gender } from '../../../../schemas/patientSchema'
-import { GenderSummary } from '../../../../schemas/sickLeaveSchema'
-import { idsGraphColors } from '../../assets/Colors'
+import type { GenderSummary } from '../../../../schemas/sickLeaveSchema'
+import { FemaleIcon } from '../../assets/FemaleIcon'
+import { MaleIcon } from '../../assets/MaleIcon'
 import { ChartLegend } from './ChartLegend'
 import { GenderGraph } from './GenderGraph'
+
+const femaleColor = '#D17200'
+const maleColor = '#5B224E'
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   const female = genders.find((gender) => gender.gender === Gender.F)
@@ -14,15 +19,21 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
 
   return (
     <div>
-      <h3 className="ids-heading-4">Könsfördelning totalt</h3>
+      <Heading level={3} size="s">
+        Könsfördelning totalt
+      </Heading>
       <div className="mb-2 flex items-center justify-center">
-        <GenderGraph gender={female} />
-        <GenderGraph gender={male} />
+        <GenderGraph percentage={female.percentage} color={femaleColor}>
+          <FemaleIcon fill={femaleColor} />
+        </GenderGraph>
+        <GenderGraph percentage={male.percentage} color={maleColor}>
+          <MaleIcon fill={maleColor} />
+        </GenderGraph>
       </div>
       <ChartLegend
         data={[
-          { label: `Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`, color: idsGraphColors[4] },
-          { label: `Män (${male.count} st, ${Math.round(male.percentage)}%)`, color: idsGraphColors[3] },
+          { label: `Kvinnor (${female.count} st, ${Math.round(female.percentage)} %)`, color: femaleColor },
+          { label: `Män (${male.count} st, ${Math.round(male.percentage)}%)`, color: maleColor },
         ]}
       />
     </div>

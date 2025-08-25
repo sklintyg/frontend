@@ -1,12 +1,9 @@
-import { IDSIconExternal, IDSLink } from '@frontend/ids-react-ts'
+import { AppLink } from '@frontend/components'
 
 export function SupportLink() {
   return (
-    <IDSLink underlined>
-      <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer">
-        support
-      </a>
-      <IDSIconExternal slot="append-icon" />
-    </IDSLink>
+    <AppLink to="https://www.1177.se/e-tjanster-support" underlined external>
+      support
+    </AppLink>
   )
 }

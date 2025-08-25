@@ -1,18 +1,18 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import {
+import type {
   CertificateDataValidation,
-  CertificateDataValidationType,
   ConfigUeCauseOfDeathControl,
   ConfigUeCodeItem,
   TextValidation,
   ValidationError,
   ValueCauseOfDeath,
 } from '../../../../types'
+import { CertificateDataValidationType } from '../../../../types'
 
 export interface Props {
   config: ConfigUeCauseOfDeathControl
@@ -22,6 +22,7 @@ export interface Props {
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   value: ValueCauseOfDeath
+  children?: ReactNode
 }
 
 const Wrapper = styled.div`
@@ -54,7 +55,7 @@ const DateAndSpecInner = styled.div`
   min-width: 22ch;
 `
 
-const UeCauseOfDeathControl: React.FC<Props> = ({
+const UeCauseOfDeathControl = ({
   value,
   config,
   disabled = false,
@@ -63,7 +64,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   onChange,
   validation,
   validationErrors,
-}) => {
+}: Props) => {
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined

@@ -1,7 +1,7 @@
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from '@inera/ids-react'
 import { ErrorModal } from '../../../../components/error/ErrorModal/ErrorModal'
 import { ErrorCode } from '../../../../schemas/errorSchema'
-import { SjfMetaData } from '../../../../schemas/patientSchema'
+import type { SjfMetaData } from '../../../../schemas/patientSchema'
 import { useAddVardenhetMutation, useAddVardgivareMutation, useGiveSjfConsentMutation } from '../../../../store/sickLeaveApi'
 import { BlockedInformationCard } from './blocked/BlockedInformationCard'
 import { OpenInformationCard } from './open/OpenInformationCard'
@@ -45,7 +45,7 @@ export function PatientOverview({
   }
 
   if (sjfMetaData.haveSekretess || isPersonResponseMissing) {
-    return <IDSAlert>{sjfMetaData.haveSekretess ? PROTECTED_PERSON_ALERT : PERSON_RESPONSE_MISSING_ALERT}</IDSAlert>
+    return <IDSAlert compact>{sjfMetaData.haveSekretess ? PROTECTED_PERSON_ALERT : PERSON_RESPONSE_MISSING_ALERT}</IDSAlert>
   }
 
   if (sjfMetaData.consentServiceError || sjfMetaData.blockingServiceError) {

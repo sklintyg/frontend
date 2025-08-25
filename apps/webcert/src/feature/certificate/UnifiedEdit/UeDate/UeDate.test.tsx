@@ -1,14 +1,14 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { fakeCertificate, fakeCertificateValidationError, fakeDateElement } from '../../../../faker'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeDate from './UeDate'
-import { fakeDateElement, fakeCertificateValidationError, fakeCertificate } from '../../../../faker'
 
 let testStore: EnhancedStore
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
@@ -39,20 +39,20 @@ describe('DatePicker component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('does not disable component if disabled is not set', () => {
+  it('does not disable component if disabled is not set', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toBeEnabled()
-    expect(button).toBeEnabled()
+    await expect(input).toBeEnabled()
+    await expect(button).toBeEnabled()
   })
 
-  it('disables component if disabled is set', () => {
+  it('disables component if disabled is set', async () => {
     renderComponent({ disabled: true, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toBeDisabled()
-    expect(button).toBeDisabled()
+    await expect(input).toBeDisabled()
+    await expect(button).toBeDisabled()
   })
 
   it('formats input into yyyy-mm-dd', async () => {
@@ -63,18 +63,18 @@ describe('DatePicker component', () => {
     const input = screen.getByRole('textbox')
 
     await userEvent.type(input, inputDate)
-    expect(input).toHaveValue(expected)
+    await expect(input).toHaveValue(expected)
   })
 
-  it('renders component with correct default values', () => {
+  it('renders component with correct default values', async () => {
     renderComponent({ disabled: false, question })
     const input = screen.getByRole('textbox')
     const button = screen.getByRole('button')
-    expect(input).toHaveValue('2022-09-29')
-    expect(button).toHaveValue('2022-09-29')
+    await expect(input).toHaveValue('2022-09-29')
+    await expect(button).toHaveValue('2022-09-29')
   })
 
-  it('should display server validation errors on question.config.id (field)', () => {
+  it('should display server validation errors on question.config.id (field)', async () => {
     const element = fakeDateElement({
       config: { id: 'field' },
       id: QUESTION_ID,
@@ -93,10 +93,10 @@ describe('DatePicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
-  it('should display server validation errors on question.id', () => {
+  it('should display server validation errors on question.id', async () => {
     const element = fakeDateElement({
       id: QUESTION_ID,
       validationErrors: [fakeCertificateValidationError({ text: VALIDATION_ERROR })],
@@ -108,7 +108,7 @@ describe('DatePicker component', () => {
     expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
 
     testStore.dispatch(showValidationErrors())
-    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    expect(await screen.findByText(VALIDATION_ERROR)).toBeInTheDocument()
   })
 
   it('Should disable options past max date', async () => {

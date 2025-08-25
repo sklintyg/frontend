@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import { useAppSelector } from '../../../store/store'
-import { CertificateDataElement, ConfigTypes } from '../../../types'
+import type { CertificateDataElement } from '../../../types'
+import { ConfigTypes } from '../../../types'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;
+
   :empty {
     display: none;
   }
@@ -33,9 +35,11 @@ export function QuestionHeading({ question: { id, parent, config, readOnly } }: 
     </>
   ) : questionTypeIsCategory ? (
     <>
-      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-        {config.text}
-      </QuestionHeadline>
+      {config.text && (
+        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+          {config.text}
+        </QuestionHeadline>
+      )}
       {readOnly && !hideLabel && (
         <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
           {config.label}
@@ -44,7 +48,7 @@ export function QuestionHeading({ question: { id, parent, config, readOnly } }: 
     </>
   ) : (
     <>
-      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>
+      {config.text && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>}
       {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.label}</QuestionSubHeadline>}
     </>
   )

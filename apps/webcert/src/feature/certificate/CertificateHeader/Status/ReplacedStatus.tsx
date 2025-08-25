@@ -1,14 +1,14 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import { CertificateMetadata, CertificateStatus } from '../../../../types'
+import type { CertificateMetadata } from '../../../../types'
+import { CertificateStatus } from '../../../../types'
 import { getReplacedCertificateStatus } from '../../../../utils'
 
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const ReplacedStatus = ({ certificateMetadata }: Props) => {
   const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
 
   const getText = () => {

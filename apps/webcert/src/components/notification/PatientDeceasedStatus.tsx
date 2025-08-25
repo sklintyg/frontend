@@ -4,7 +4,7 @@ interface Props {
   isPatientDeceased: boolean
 }
 
-const PatientDeceasedStatus: React.FC<Props> = ({ isPatientDeceased }) => {
+const PatientDeceasedStatus = ({ isPatientDeceased }: Props) => {
   return <PatientStatusNotification type="deceased" title="Patienten är avliden" status={isPatientDeceased} />
 }
 

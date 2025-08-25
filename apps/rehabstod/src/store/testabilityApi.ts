@@ -1,8 +1,26 @@
-import { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
-import { api } from './api'
+import type { CreateSickleaveDTO, TestDataOptionsDTO } from '../schemas/testabilitySchema'
+import { api, tagType } from './api'
 
 const testabilityApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    fakeLogin: builder.mutation<void, { hsaId: string; enhetId: string }>({
+      query: (body) => ({
+        url: '/testability/fake',
+        method: 'POST',
+        body,
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        await queryFulfilled
+        window.location.assign('/')
+      },
+    }),
+    fakeLogout: builder.mutation<void, void>({
+      query: () => ({
+        url: '/testability/logout',
+        method: 'POST',
+      }),
+      invalidatesTags: [tagType.USER],
+    }),
     createDefaultTestData: builder.mutation<string, void>({
       query: () => ({
         url: '/testability/createDefault',
@@ -28,4 +46,10 @@ const testabilityApi = api.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useCreateDefaultTestDataMutation, useCreateSickLeaveMutation, useGetTestDataOptionsQuery } = testabilityApi
+export const {
+  useFakeLoginMutation,
+  useFakeLogoutMutation,
+  useCreateDefaultTestDataMutation,
+  useCreateSickLeaveMutation,
+  useGetTestDataOptionsQuery,
+} = testabilityApi

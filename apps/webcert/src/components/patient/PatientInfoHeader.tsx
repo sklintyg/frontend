@@ -1,11 +1,10 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { swapImage, userImage } from '../../images'
 import { clearPatient } from '../../store/patient/patientActions'
 import { BoxShadowContainer } from '../../styles'
-import { Patient } from '../../types'
+import type { Patient } from '../../types'
 import { CustomButton } from '../Inputs/CustomButton'
 import PatientStatuses from '../notification/PatientStatuses'
 
@@ -17,13 +16,13 @@ const ButtonWrapper = styled.div`
   margin-top: auto;
 `
 
-const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
+const PatientInfoHeader = ({ patient }: Props) => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onSwitchPatient = () => {
     dispatch(clearPatient())
-    history.push('/search')
+    navigate('/search')
   }
 
   return (

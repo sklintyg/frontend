@@ -1,11 +1,10 @@
-import React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 
 interface Props {
   isValidForSigning: boolean
 }
 
-const SignableStatus: React.FC<Props> = ({ isValidForSigning }) => {
+const SignableStatus = ({ isValidForSigning }: Props) => {
   return (
     <StatusWithIcon
       icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}

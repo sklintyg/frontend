@@ -15,5 +15,19 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/no-multi-comp': 'error',
     'react/require-default-props': 'off',
+    'no-restricted-imports': 'off',
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        name: 'react-redux',
+        importNames: ['useDispatch'],
+        message: 'Use typed hook `useAppDispatch` instead.',
+      },
+      {
+        name: 'react-redux',
+        importNames: ['useSelector'],
+        message: 'Use typed hook `useAppSelector` instead.',
+      },
+    ],
   },
 }

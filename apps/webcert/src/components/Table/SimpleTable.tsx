@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import Spinner from '../utils/Spinner'
 import { Table } from './Table'
@@ -16,6 +16,7 @@ interface Props {
   caption?: string
   headings: Headings[]
   isLoadingContent?: boolean
+  children: ReactNode
 }
 
 const Caption = styled.caption`
@@ -27,7 +28,7 @@ const NoWrap = styled(TableCell)`
   white-space: nowrap;
 `
 
-const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings }) => {
+const SimpleTable = ({ isLoadingContent, caption, children, headings }: Props) => {
   return (
     <Table>
       <TableHeader>

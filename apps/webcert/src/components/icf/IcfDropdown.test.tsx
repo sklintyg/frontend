@@ -1,25 +1,22 @@
 /* eslint-disable jest/no-disabled-tests */
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { createRef } from 'react'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
+import { fakeIcfResponse } from '../../faker'
 import { CertificateContext } from '../../feature/certificate/CertificateContext'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import IcfDropdown from './IcfDropdown'
-import { getIcfData } from './icfTestUtils'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
 
@@ -31,13 +28,13 @@ const getIcfValues = () => ['1', '2']
 
 const renderComponent = (
   infoText = 'infoText test',
-  icfData = getIcfData().activityLimitation,
+  icfData = fakeIcfResponse().activityLimitation,
   icfValues = getIcfValues(),
   disabled = false
 ) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <CertificateContext.Provider value={mockContext}>
           <IcfDropdown
             modalLabel={infoText}
@@ -50,7 +47,7 @@ const renderComponent = (
             id="test"
           />
         </CertificateContext.Provider>
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -61,7 +58,7 @@ const updateOriginalIcd10Codes = () => {
   testStore.dispatch(setOriginalIcd10Codes(codeInfo))
 }
 const setDefaultIcfState = () => {
-  const icfData = getIcfData()
+  const icfData = fakeIcfResponse()
   testStore.dispatch(updateIcfCodes(icfData))
   updateOriginalIcd10Codes()
 }
@@ -94,17 +91,17 @@ describe.skip('IcfDropdown', () => {
     expect(() => renderComponent()).not.toThrow()
   })
 
-  it('display disabled button if no icd codes', () => {
+  it('display disabled button if no icd codes', async () => {
     renderComponent()
 
-    expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
+    await expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
   })
 
-  it('display disabled button if disabled prop is true', () => {
+  it('display disabled button if disabled prop is true', async () => {
     renderComponent(undefined, undefined, undefined, true)
     setDefaultIcfState()
 
-    expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
+    await expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
   })
 
   it.skip('display tooltip if no icd codes', async () => {
@@ -116,11 +113,11 @@ describe.skip('IcfDropdown', () => {
     expect(screen.getByText(expected)).toBeInTheDocument()
   })
 
-  it('display enabled button if icd codes exist', () => {
+  it('display enabled button if icd codes exist', async () => {
     renderComponent()
     setDefaultIcfState()
 
-    expect(screen.getByText('Ta hjälp av ICF')).toBeEnabled()
+    await expect(screen.getByText('Ta hjälp av ICF')).toBeEnabled()
   })
 
   it('display no infoText before ICF button is clicked', () => {
@@ -131,15 +128,15 @@ describe.skip('IcfDropdown', () => {
     expect(screen.queryByText(expected)).not.toBeInTheDocument()
   })
 
-  it('display infoText after ICF button is clicked', () => {
+  it('display infoText after ICF button is clicked', async () => {
     const expected = 'Välj enbart de problem som påverkar patienten.'
     renderAndOpenDropdown(expected)
 
-    expect(screen.getByText(expected)).toBeVisible()
+    await expect(screen.getByText(expected)).toBeVisible()
   })
 
   it('display icd codes after ICF button is clicked', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     renderAndOpenDropdown()
     expect(screen.getAllByText(icfData.activityLimitation?.commonCodes.icd10Codes[0].title ?? '')[0]).toBeInTheDocument()
     expect(screen.getAllByText(icfData.activityLimitation?.commonCodes.icd10Codes[1].title ?? '')[0]).toBeInTheDocument()
@@ -160,7 +157,7 @@ describe.skip('IcfDropdown', () => {
   })
 
   it('display description when expanding show more', async () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const sut = icfData.activityLimitation?.commonCodes.icfCodes[0]
     const expected = sut?.description
     renderAndOpenDropdown()
@@ -171,7 +168,7 @@ describe.skip('IcfDropdown', () => {
   })
 
   it('hides description when expanding and de-expanding show more', async () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const sut = icfData.activityLimitation?.commonCodes.icfCodes[0]
     const expected = sut?.description
     renderAndOpenDropdown()
@@ -182,11 +179,11 @@ describe.skip('IcfDropdown', () => {
     expect(screen.queryByText(`${expected}`)).not.toBeInTheDocument()
   })
 
-  it('display link in footer to socialstyrelsen', () => {
+  it('display link in footer to socialstyrelsen', async () => {
     renderAndOpenDropdown()
 
     expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toBeInTheDocument()
-    expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toHaveAttribute(
+    await expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toHaveAttribute(
       'href',
       'https://www.socialstyrelsen.se/statistik-och-data/klassifikationer-och-koder/icf'
     )
@@ -198,28 +195,28 @@ describe.skip('IcfDropdown', () => {
     expect(screen.getByRole('button', { name: /stäng/i })).toBeInTheDocument()
   })
 
-  it('checkbox is checked if icf id is passed to component', () => {
-    const icfData = getIcfData()
+  it('checkbox is checked if icf id is passed to component', async () => {
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
 
-    expect(screen.getByRole('checkbox', { name: icfData.activityLimitation?.commonCodes.icfCodes[0].title })).toBeChecked()
+    await expect(screen.getByRole('checkbox', { name: icfData.activityLimitation?.commonCodes.icfCodes[0].title })).toBeChecked()
   })
 
   it('shall display chosen values', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     updateOriginalIcd10Codes()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    icfValues?.forEach((value) => {
+    icfValues?.forEach(async (value) => {
       const valueTitle = screen.getByText(value)
-      expect(valueTitle).toBeVisible()
+      await expect(valueTitle).toBeVisible()
     })
   })
 
   it('shall display collections label', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     updateOriginalIcd10Codes()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
@@ -228,18 +225,18 @@ describe.skip('IcfDropdown', () => {
   })
 
   it('shall display chosen values if no icd codes', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    icfValues?.forEach((value) => {
+    icfValues?.forEach(async (value) => {
       const valueTitle = screen.getByText(value)
-      expect(valueTitle).toBeVisible()
+      await expect(valueTitle).toBeVisible()
     })
   })
 
   it('shall show info symbol that support is for another icd10 code', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one original code
@@ -247,7 +244,7 @@ describe.skip('IcfDropdown', () => {
   })
 
   it('shall not show info symbol that support exists for another icd10 code', () => {
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     updateOriginalIcd10Codes()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
@@ -256,7 +253,7 @@ describe.skip('IcfDropdown', () => {
 
   it('should close dropdown on escape press', async () => {
     const expectedText = 'Test'
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
     await userEvent.keyboard('{escape}')
@@ -265,7 +262,7 @@ describe.skip('IcfDropdown', () => {
 
   it('should have correct tab order', async () => {
     const expectedText = 'Test'
-    const icfData = getIcfData()
+    const icfData = fakeIcfResponse()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
@@ -275,12 +272,12 @@ describe.skip('IcfDropdown', () => {
 
     await userEvent.tab({ focusTrap: container })
     // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
+    await expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
 
     await userEvent.tab({ focusTrap: container })
-    expect(screen.getByLabelText('title 0')).toHaveFocus()
+    await expect(screen.getByLabelText('title 0')).toHaveFocus()
 
     await userEvent.tab({ focusTrap: container })
-    expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
+    await expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
   })
 })

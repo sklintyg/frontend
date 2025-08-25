@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ErrorData } from '../error/errorReducer'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '../../types'
+import type { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '../../types'
+import type { ErrorData } from '../error/errorReducer'
 
 const LIST = '[List]'
 
@@ -63,6 +63,7 @@ export const updateUnhandledCertificatesListConfig = createAction<UpdateListConf
 )
 export const getUnhandledCertificatesListConfigStarted = createAction(`${LIST} Get unhandled certificates list config started`)
 export const getUnhandledCertificatesListConfigSuccess = createAction(`${LIST} Get unhandled certificates list config success`)
+export const getUnhandledCertificatesListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
 export const getQuestionListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)

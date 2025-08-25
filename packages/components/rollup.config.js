@@ -5,6 +5,7 @@ import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
+import styles from 'rollup-plugin-styles'
 import svg from 'rollup-plugin-svg'
 
 const require = createRequire(import.meta.url)
@@ -12,8 +13,11 @@ const pkg = require('./package.json')
 
 const entries = {
   index: 'src/index.ts',
-  themes: 'src/themes/index.ts',
-  1177: 'src/1177/index.ts',
+  1177: 'src/theme/1177/index.ts',
+  '1177-pro': 'src/theme/1177-pro/index.ts',
+  inera: 'src/theme/inera/index.ts',
+  'inera-admin': 'src/theme/inera-admin/index.ts',
+  colors: 'src/theme/colors.ts',
 }
 
 const external = [
@@ -24,6 +28,7 @@ const external = [
 ]
 
 const plugins = [
+  styles(),
   svg({ base64: true }),
   esbuild({
     target: 'esnext',
@@ -63,7 +68,7 @@ export default defineConfig([
   },
   {
     input: {
-      themes: 'src/themes/index.ts',
+      colors: 'src/theme/colors.ts',
     },
     output: [
       {

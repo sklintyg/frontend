@@ -1,15 +1,19 @@
-import React from 'react'
+import styled from 'styled-components'
 
 interface Props {
   id: string
   message: string
 }
 
-const ValidationText: React.FC<Props> = ({ id, message }) => {
+const ValidationTextParagraph = styled.p`
+  padding-top: 4px;
+`
+
+const ValidationText = ({ id, message }: Props) => {
   return (
-    <p id={id} aria-live="polite" className="iu-color-error">
+    <ValidationTextParagraph id={id} aria-live="polite" className="iu-color-error">
       {message}
-    </p>
+    </ValidationTextParagraph>
   )
 }
 

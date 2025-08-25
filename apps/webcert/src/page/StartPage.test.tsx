@@ -1,12 +1,12 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
-import { Configuration } from '../store/utils/utilsReducer'
+import type { Configuration } from '../store/utils/utilsReducer'
 import { StartPage } from './StartPage'
 
 let testStore: EnhancedStore
@@ -14,13 +14,22 @@ let testStore: EnhancedStore
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <MemoryRouter initialEntries={['/']}>
-        <Route path="/">
-          <StartPage />
-        </Route>
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )
+}
+
+const config: Configuration = {
+  version: '',
+  banners: [],
+  cgiFunktionstjansterIdpUrl: '#elegIdp',
+  sakerhetstjanstIdpUrl: '#sithsIdp',
+  ppHost: '#ppHostUrl',
+  forwardDraftOrQuestionUrl: '',
 }
 
 describe('StartPage', () => {
@@ -33,24 +42,30 @@ describe('StartPage', () => {
   })
 
   it('should show loading info when config is loading', () => {
-    renderComponent()
     testStore.dispatch(updateIsLoadingConfig(true))
+    renderComponent()
 
     expect(screen.getByText('Laddar inloggningsalternativ...')).toBeInTheDocument()
   })
 
-  it('should render idp links', () => {
-    renderComponent()
-    const config: Configuration = {
-      version: '',
-      banners: [],
-      cgiFunktionstjansterIdpUrl: '#elegIdp',
-      sakerhetstjanstIdpUrl: '#sithsIdp',
-      ppHost: '',
-    }
+  it('should render elegIdp link', () => {
     testStore.dispatch(updateConfig(config))
+    renderComponent()
 
-    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml/login/alias/siths-wc2?idp=#sithsIdp')
-    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml/login/alias/eleg-wc2?idp=#elegIdp')
+    expect(screen.getByRole('link', { name: 'SITHS-kort' })).toHaveAttribute('href', '/saml2/authenticate/sithsNormal')
+  })
+
+  it('should render sithsIdp link', () => {
+    testStore.dispatch(updateConfig(config))
+    renderComponent()
+
+    expect(screen.getByRole('link', { name: 'E-legitimation' })).toHaveAttribute('href', '/saml2/authenticate/eleg')
+  })
+
+  it('should render ppHost link', () => {
+    testStore.dispatch(updateConfig(config))
+    renderComponent()
+
+    expect(screen.getByRole('link', { name: 'Skapa konto' })).toHaveAttribute('href', '#ppHostUrl')
   })
 })

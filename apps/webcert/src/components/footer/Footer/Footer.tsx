@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface Props {
   title: string
   description?: string
@@ -7,7 +5,7 @@ interface Props {
   mobileFooterMenu?: React.ReactNode
 }
 
-export const Footer: React.FC<Props> = ({ title, description, footerMenu, mobileFooterMenu }) => (
+export const Footer = ({ title, description, footerMenu, mobileFooterMenu }: Props) => (
   <footer className="ic-page-footer">
     <div className="ic-page-footer__inner">
       <div className="iu-grid-cols-lg-5 ic-container--narrow-md ic-container iu-mb-500">

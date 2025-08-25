@@ -1,10 +1,11 @@
-import { IDSAlert, IDSButton } from '@frontend/ids-react-ts'
+import { IDSAlert } from '@inera/ids-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Checkbox } from '../../components/Form/Checkbox'
+import { Button } from '../../components/Button/Button'
+import { Checkbox } from '../../components/form/Checkbox/Checkbox'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
-import { Mottagning, Vardenhet } from '../../schemas'
+import type { Mottagning, Vardenhet } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { useUpdateUserPreferences } from '../../store/hooks/useUpdateUserPreferences'
 import { CareProviderItem } from './components/CareProviderItem'
@@ -68,30 +69,32 @@ export function CareProvider() {
             inloggning.{' '}
           </p>
           {user.roleSwitchPossible && (
-            <IDSAlert className="mb-5">
-              <span className="flex items-center">
+            <div className="mb-5">
+              <IDSAlert compact>
                 Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från
                 Läkare till Rehabkoordinator när du väljer att logga in på en sådan enhet.
-              </span>
-            </IDSAlert>
+              </IDSAlert>
+            </div>
           )}
           {user.vardgivare.map((provider) => (
             <CareProviderItem key={provider.id} provider={provider} handleChooseUnit={handleChooseUnit} selectedRadio={selectedRadio} />
           ))}
         </div>
         {selectedRadio ? (
-          <p>
+          <p className="mb-2">
             Du har valt <span className="font-bold">{selectedRadio}</span>
           </p>
         ) : null}
-        <Checkbox label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
-        <div className="flex flex-col gap-5 md:flex-row ">
-          <IDSButton mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
+        <div className="mb-2">
+          <Checkbox light label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <Button mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
-          </IDSButton>
-          <IDSButton mblock onClick={handleClick}>
+          </Button>
+          <Button mblock onClick={handleClick}>
             Välj
-          </IDSButton>
+          </Button>
         </div>
       </div>
     </PageContainer>

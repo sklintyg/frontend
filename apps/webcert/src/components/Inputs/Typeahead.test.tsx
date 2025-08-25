@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { vi } from 'vitest'
-import Typeahead, { Suggestion } from './Typeahead'
+import type { Suggestion } from './Typeahead'
+import Typeahead from './Typeahead'
 
 const suggestions: Suggestion[] = [
   { label: 'Hello, World!', disabled: false, title: null },
@@ -53,7 +54,7 @@ describe('Typeahead component', () => {
     expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
     await userEvent.keyboard('{esc}')
     await userEvent.click(screen.getByRole('textbox'))
-    expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
+    await waitFor(() => expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white'))
   })
 
   it("Should close list if input doesn't have focus", async () => {

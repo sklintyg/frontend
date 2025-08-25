@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, ConfigLayout, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types'
+import type { CertificateDataElement, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types'
+import { ConfigLayout } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 
@@ -14,7 +15,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeRadioGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
   const [code, setCode] = useState((question.value as ValueCode)?.code)
@@ -46,12 +47,12 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
       <>
         <GroupWrapper layout={config.layout} role="radiogroup" className={`${validationErrors.length > 0 ? 'iu-mb-300' : ''}`}>
           {radiobuttons.map((radio, index) => (
-            <ItemWrapper key={index} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
+            <ItemWrapper key={radio.id} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
               <RadioButton
-                id={radio.id as string}
+                id={`${question.id}-${radio.id}`}
                 value={radio.id}
                 name={question.id}
-                key={index}
+                key={radio.id}
                 label={radio.label}
                 disabled={disabled}
                 checked={radio.id === code}

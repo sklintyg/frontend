@@ -1,5 +1,4 @@
-import React from 'react'
-import { FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '../../types'
+import type { FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '../../types'
 import { ExpandableText } from '../utils/ExpandableText'
 import { Italic } from './FMBPanel'
 
@@ -9,7 +8,7 @@ interface Props {
   contentHeader?: FMBDiagnosisCodeInfoFormContentHeading
 }
 
-const FMBPanelDiagnosisInfoSection: React.FC<Props> = ({ header, form, contentHeader }) => {
+const FMBPanelDiagnosisInfoSection = ({ header, form, contentHeader }: Props) => {
   const maxTextLength = 250
 
   const getContent = (): string => {

@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { fakeCertificateMetaData } from '../../../../faker'
 import store from '../../../../store/store'
-import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '../../../../types'
+import type { CertificateMetadata, Question } from '../../../../types'
+import { CertificateStatus, QuestionType } from '../../../../types'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
   render(
@@ -18,21 +19,21 @@ const EXPECTED_TEXT = 'Försäkringskassan har begärt komplettering'
 describe('Complement status', () => {
   it('displays that FK has requested complements', () => {
     const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
     renderComponent(certificateMetadata, questions)
 
     expect(screen.getByText(EXPECTED_TEXT)).toBeInTheDocument()
   })
 
   it('doesnt render anything if empty question list', () => {
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
     renderComponent(certificateMetadata, [])
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if no unhandled questions', () => {
     const questions = [{ type: QuestionType.COMPLEMENT, handled: true }] as Question[]
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
     renderComponent(certificateMetadata, questions)
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
@@ -47,14 +48,14 @@ describe('Complement status', () => {
       { type: QuestionType.OTHER, handled: false },
       { type: QuestionType.MISSING, handled: false },
     ] as Question[]
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.SIGNED, sent: true })
     renderComponent(certificateMetadata, questions)
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if not signed', () => {
     const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.UNSIGNED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.UNSIGNED, sent: true })
     renderComponent(certificateMetadata, questions)
 
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
@@ -62,7 +63,7 @@ describe('Complement status', () => {
 
   it('should not render status if revoked', () => {
     const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
-    const certificateMetadata = createCertificateMetadata(CertificateStatus.REVOKED, true)
+    const certificateMetadata = fakeCertificateMetaData({ status: CertificateStatus.REVOKED, sent: true })
     renderComponent(certificateMetadata, questions)
 
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()

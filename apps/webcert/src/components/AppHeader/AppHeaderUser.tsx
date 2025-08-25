@@ -1,4 +1,3 @@
-import React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   image: string
 }
 
-const AppHeaderUser: React.FC<Props> = ({ items, image }) => {
+const AppHeaderUser = ({ items, image }: Props) => {
   return <AppHeaderImageWithText items={items} image={image} alt="Inloggad användare"></AppHeaderImageWithText>
 }
 

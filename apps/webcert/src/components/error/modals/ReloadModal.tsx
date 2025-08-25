@@ -1,12 +1,12 @@
-import ErrorModalBase from './ErrorModalBase'
-import { ModalProps, reloadPage } from './errorUtils'
-import React from 'react'
 import { useDispatch } from 'react-redux'
+import ErrorModalBase from './ErrorModalBase'
+import type { ModalProps } from './errorUtils'
+import { reloadPage } from './errorUtils'
 
 export const RELOAD_CONFIRM_BUTTON_TEXT = 'Ladda om'
 export const RELOAD_CLOSE_BUTTON_TEXT = 'Stäng'
 
-const ReloadModal: React.FC<ModalProps> = ({ errorData, children }) => {
+const ReloadModal = ({ errorData, children }: ModalProps) => {
   const dispatch = useDispatch()
 
   return (

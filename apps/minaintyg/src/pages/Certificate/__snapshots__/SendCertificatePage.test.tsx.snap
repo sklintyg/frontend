@@ -6,7 +6,7 @@ exports[`Should render as expected 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-1"
+      class="ids-heading-xxl !normal-case"
     >
       Skicka intyg 
     </h1>
@@ -16,119 +16,123 @@ exports[`Should render as expected 1`] = `
     <div>
       <button
         aria-label="Läs mer om vad du kan göra i Intyg"
-        class="mt-4 flex text-sky-base hover:text-sky-dark"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined"
         type="button"
       >
-        <ids-icon-information
-          class="mr-2 mt-0.5 inline ids-icon"
-          size="s"
+        <span
+          class="ids-icon-information"
         />
-        Läs mer om vad du kan göra i Intyg
-      </button>
-      <div
-        data-focus-guard="true"
-        style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-        tabindex="-1"
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-      >
-        <ids-dialog
-          role="dialog"
-          show="false"
-          srclosetext="Stäng"
+        <span
+          class="ids-link__text"
         >
-          <h1
-            class="ids-heading-1 ids-small"
-            slot="headline"
-          >
-            Vad kan du göra i Intyg
-          </h1>
-        </ids-dialog>
-      </div>
-      <div
-        data-focus-guard="true"
-        style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-        tabindex="-1"
-      />
+          Läs mer om vad du kan göra i Intyg
+        </span>
+      </button>
     </div>
   </header>
-  <ids-spinner
+  <div
+    aria-live="polite"
+    class="ids-spinner"
     data-testid="spinner"
-  />
+    role="alert"
+  >
+    <p
+      class="ids-spinner-sr"
+    />
+    <div
+      class="ids-bounce-1"
+    />
+    <div
+      class="ids-bounce-2"
+    />
+    <div
+      class="ids-bounce-3"
+    />
+  </div>
 </div>
 `;
 
 exports[`Should render error message when unable to load certificate 1`] = `
 [
-  <ids-alert
+  <div
+    class="ids-alert ids-alert--error"
     role="alert"
   >
     <div
-      class="flex flex-col gap-4"
+      class="ids-alert__header"
     >
-      <p>
-        Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-        <ids-link
-          color="var(--link-colorpreset-1_color)"
-          hovercolor="var(--link-colorpreset-1-hover_color)"
-          underlined=""
+      <div
+        class="ids-alert__icon_and_text"
+      >
+        <span
+          class="ids-alert__state-icon"
+          title=""
+        />
+        <div
+          class="ids-alert__headline"
         >
+          <h2>
+            Tekniskt fel
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ids-alert__content"
+    >
+      <div
+        class="flex flex-col gap-4"
+      >
+        <p>
+          Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
           <a
+            class="ids-link ids-link--underlined"
             href="https://www.1177.se/e-tjanster-support"
             rel="noreferrer"
             target="_blank"
           >
             support
-          </a>
-          <ids-icon-external
-            class="ids-icon"
-            color="var(--link-colorpreset-1_color)"
-            color2="var(--link-colorpreset-1_color)"
-            height="1rem"
-            size="m"
-            slot="append-icon"
-            width="1rem"
-          />
-        </ids-link>
-        och ange nedan fel-id:
-      </p>
-      <div
-        class=""
-      >
-        <button
-          aria-label="Kopiera fel-id"
-          tabindex="0"
-          type="button"
-          value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
-        >
-          <p
-            class="flex justify-center gap-1 align-bottom font-bold"
-            data-state="closed"
-          >
-            <span>
-              Fel-id: 
-            </span>
-             
             <span
-              class="font-normal"
-            >
-              5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
-            </span>
-            <ids-icon-copy-file
-              class="ids-icon"
-              size="s"
+              class="ids-icon-external-link-small ids-icon--text-end"
             />
-          </p>
-          <p
-            class="flex justify-items-start"
-          />
-        </button>
+          </a>
+          och ange nedan fel-id:
+        </p>
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              data-state="closed"
+            >
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
+              >
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <span
+                class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+              />
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
+        </div>
+        <p>
+          Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+        </p>
       </div>
-      <p>
-        Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
-      </p>
     </div>
-  </ids-alert>,
+  </div>,
 ]
 `;

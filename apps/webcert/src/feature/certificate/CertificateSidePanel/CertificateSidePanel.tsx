@@ -1,30 +1,29 @@
 import { isTruthy } from '@frontend/utils'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Tabs } from '../../../components/Tabs/Tabs'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
-import { LightbulpIcon } from '../../../images'
-import { getCertificate, getIsShowSpinner, getResourceLink } from '../../../store/certificate/certificateSelectors'
+import { getCertificate, getCertificateResourceLink, getIsShowSpinner } from '../../../store/certificate/certificateSelectors'
 import { getIsLoadingQuestions, getQuestions } from '../../../store/question/questionSelectors'
 import { logSrsInteraction } from '../../../store/srs/srsActions'
 import { useAppSelector } from '../../../store/store'
 import { ResourceLinkType, SrsEvent } from '../../../types'
 import AboutCertificatePanel from './AboutCertificatePanel'
 
-const CertificateSidePanel: React.FC = () => {
+const CertificateSidePanel = () => {
   const showSpinner = useAppSelector(getIsShowSpinner)
   const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   const hasUnhandledQuestions = useAppSelector((state) => getQuestions(state).filter((question) => !question.handled).length > 0)
   const hasCertificate = useAppSelector((state) => Boolean(getCertificate(state)))
   const availableTabs = [
-    useAppSelector(getResourceLink(ResourceLinkType.SRS_FULL_VIEW)),
-    useAppSelector(getResourceLink(ResourceLinkType.SRS_MINIMIZED_VIEW)),
-    useAppSelector(getResourceLink(ResourceLinkType.FMB)),
-    useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS)),
-    useAppSelector(getResourceLink(ResourceLinkType.QUESTIONS_NOT_AVAILABLE)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.SRS_FULL_VIEW)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.SRS_MINIMIZED_VIEW)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.FMB)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS)),
+    useAppSelector(getCertificateResourceLink(ResourceLinkType.QUESTIONS_NOT_AVAILABLE)),
   ].filter(isTruthy)
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
@@ -63,23 +62,6 @@ const CertificateSidePanel: React.FC = () => {
     }
   }
 
-  const getTab = (name: string, description: string, icon?: ReactNode) => {
-    return (
-      <div data-tip={description}>
-        <p>
-          {icon}
-          {name}
-        </p>
-      </div>
-    )
-  }
-
-  const getIcon = (type: ResourceLinkType) => {
-    if (type === ResourceLinkType.FMB || type === ResourceLinkType.SRS_FULL_VIEW || type === ResourceLinkType.SRS_MINIMIZED_VIEW) {
-      return <LightbulpIcon className="iu-mr-200" />
-    }
-  }
-
   const getPanel = (type: ResourceLinkType) => {
     switch (type) {
       case ResourceLinkType.FMB:
@@ -99,10 +81,7 @@ const CertificateSidePanel: React.FC = () => {
     <Tabs
       selectedTabIndex={selectedTabIndex}
       setSelectedTabIndex={handleTabChange}
-      tabs={[
-        ...availableTabs.map(({ type, name, description }) => getTab(name, description, getIcon(type))),
-        getTab('Om intyget', 'Läs om intyget'),
-      ]}
+      tabs={[...availableTabs, { name: 'Om intyget', description: 'Läs om intyget' }]}
       tabsContent={[...availableTabs.map(({ type }) => getPanel(type)), <AboutCertificatePanel key={'about'} />]}
     />
   )

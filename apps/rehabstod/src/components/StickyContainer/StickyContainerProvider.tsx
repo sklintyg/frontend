@@ -1,4 +1,5 @@
-import { ReactNode, createContext, useRef } from 'react'
+import type { ReactNode } from 'react'
+import { createContext, useRef } from 'react'
 
 export const StickyContext = createContext<HTMLElement | null>(null)
 

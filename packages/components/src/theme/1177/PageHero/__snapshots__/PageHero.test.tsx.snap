@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render as expected with attention icon 1`] = `
+<div>
+  <div
+    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  >
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-attention"
+      />
+    </div>
+    <div>
+      <h1
+        class="ids-heading-xxl !normal-case text-center"
+      >
+        heading
+      </h1>
+      content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Should render as expected with success icon 1`] = `
+<div>
+  <div
+    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  >
+    <div
+      class="mx-auto"
+      style="font-size: 72px;"
+    >
+      <span
+        class="ids-icon-success"
+      />
+    </div>
+    <div>
+      <h1
+        class="ids-heading-xxl !normal-case text-center"
+      >
+        heading
+      </h1>
+      content
+    </div>
+  </div>
+</div>
+`;

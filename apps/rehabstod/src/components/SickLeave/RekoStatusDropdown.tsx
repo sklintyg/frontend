@@ -1,9 +1,9 @@
-import { MouseEvent, useState } from 'react'
-import { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
+import { useState } from 'react'
+import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/sickLeaveApi'
 import { getRekoStatusSickLeaveTimestamp } from '../../utils/getRekoStatusSickLeaveTimestamp'
-import { SelectButton } from '../Form/SelectButton'
+import { SelectButton } from '../form/SelectButton'
 
 export function RekoStatusDropdown({
   statusFromSickLeave,
@@ -16,7 +16,7 @@ export function RekoStatusDropdown({
 }) {
   const { data: populatedFilters } = useGetSickLeavesFiltersQuery()
   const [setRekoStatus] = useSetRekoStatusMutation()
-  const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : 'Ingen')
+  const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : '-')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeaveFilter)
   const [open, setOpen] = useState(false)
@@ -25,8 +25,7 @@ export function RekoStatusDropdown({
     return null
   }
 
-  const handleSetRekoStatus = (event: MouseEvent, type: RekoStatusType) => {
-    event.stopPropagation()
+  const handleSetRekoStatus = (type: RekoStatusType) => {
     setRekoStatus({ patientId, status: type, sickLeaveTimestamp, filter })
     updateSavedRekoStatus(type.name)
     setOpen(false)
@@ -37,9 +36,37 @@ export function RekoStatusDropdown({
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button
           key={type.id}
-          onClick={(event) => handleSetRekoStatus(event, type)}
+          onClick={(event) => {
+            event.stopPropagation()
+            handleSetRekoStatus(type)
+          }}
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape') {
+              event.stopPropagation()
+            }
+            if (event.key === 'Enter' || event.key === 'Space') {
+              handleSetRekoStatus(type)
+            }
+            if (event.key === 'ArrowDown') {
+              event.preventDefault()
+              if (event.currentTarget.nextSibling instanceof HTMLElement) {
+                event.currentTarget.nextSibling.focus()
+              } else if (event.currentTarget.parentNode?.firstChild instanceof HTMLElement) {
+                event.currentTarget.parentNode?.firstChild.focus()
+              }
+            }
+
+            if (event.key === 'ArrowUp') {
+              event.preventDefault()
+              if (event.currentTarget.previousSibling instanceof HTMLElement) {
+                event.currentTarget.previousSibling.focus()
+              } else if (event.currentTarget.parentNode?.lastChild instanceof HTMLElement) {
+                event.currentTarget.parentNode?.lastChild.focus()
+              }
+            }
+          }}
           type="button"
-          className="py-1 text-left hover:bg-secondary-95"
+          className="py-1 text-left hover:bg-accent-90"
         >
           <span className="px-2">{type.name}</span>
         </button>

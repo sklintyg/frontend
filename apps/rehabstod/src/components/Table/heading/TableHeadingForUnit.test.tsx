@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { TableHeadingForUnit } from './TableHeadingForUnit'
-import { User, UserUrval } from '../../../schemas'
+import type { User } from '../../../schemas'
+import { UserUrval } from '../../../schemas'
 import { fakeUser } from '../../../utils/fake/fakeUser'
+import { TableHeadingForUnit } from './TableHeadingForUnit'
 
 const TABLE_NAME = 'pågående sjukfall'
 
@@ -36,6 +37,6 @@ describe('TableHeadingForUnit', () => {
 
   it('should only print title for printing', () => {
     renderComponent(fakeUser({ urval: '', valdVardenhet: { namn: 'enhetsnamn' } }))
-    expect(screen.queryByText('Alla pågående sjukfall på enhetsnamn')).toHaveClass('hidden print:block')
+    expect(screen.queryByTestId('table-print-heading')).toHaveClass('hidden print:block')
   })
 })

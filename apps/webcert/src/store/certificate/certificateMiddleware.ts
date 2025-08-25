@@ -1,18 +1,20 @@
-import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { push } from 'connected-react-router'
+import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { debounce } from 'lodash-es'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Certificate, CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
-import { getCertificateToSave, isLocked } from '../../utils'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { Certificate, ValidationError } from '../../types'
+import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
+import { getCertificateToSave, isLocked, isShowAlways } from '../../utils'
 import { getClientValidationErrors } from '../../utils/certificate/getClientValidationErrors'
+import { mapValidationErrorsToCertificateData } from '../../utils/certificate/mapValidationErrorsToCertificateData'
 import { getDecoratedCertificateData } from '../../utils/validation/getDecoratedCertificateData'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { push, replace } from '../navigateSlice'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
-import { AppDispatch, RootState } from '../store'
+import type { AppDispatch, RootState } from '../store'
 import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
@@ -85,8 +87,8 @@ import {
   sendCertificateSuccess,
   setCertificatePatientData,
   setCertificateUnitData,
+  setQrCodeForElegSignature,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showRelatedCertificate,
   showRelatedCertificateCompleted,
   showRelatedCertificateStarted,
@@ -105,15 +107,14 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificatePatient,
-  updateCertificateSignStatus,
   updateCertificateSigningData,
+  updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateModalData,
   updateRoutedFromDeletedCertificate,
-  updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
   validateCertificateError,
@@ -165,6 +166,7 @@ const handleGetCertificateError: Middleware<Dispatch> =
       ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
       ErrorCode.AUTHORIZATION_PROBLEM,
       ErrorCode.DATA_NOT_FOUND,
+      ErrorCode.INVALID_LAUNCHID,
     ]
     if (errorCodesToMapToOriginal.some((code) => code.toString() === action.payload.error.errorCode)) {
       errorCode = action.payload.error.errorCode
@@ -225,7 +227,7 @@ const handleDeleteCertificate: Middleware<Dispatch> =
         onStart: deleteCertificateStarted.type,
         onSuccess: deleteCertificateSuccess.type,
         onError: certificateApiGenericError.type,
-        onArgs: { history: action.payload.history, metadata: certificate.metadata },
+        onArgs: { metadata: certificate.metadata },
         functionDisablerType: toggleCertificateFunctionDisabler.type,
       })
     )
@@ -237,7 +239,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> =
   (action: AnyAction): void => {
     if (action.payload.metadata.relations?.parent?.certificateId) {
       dispatch(updateRoutedFromDeletedCertificate(true))
-      dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
+      dispatch(replace(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
     } else {
       dispatch(updateCertificateAsDeleted())
     }
@@ -355,11 +357,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
     }
 
     for (const questionId in certificate?.data) {
-      if (
-        certificate.data[questionId].visible &&
-        certificate.data[questionId].validationErrors &&
-        certificate.data[questionId].validationErrors.length > 0
-      ) {
+      if (certificate.data[questionId].visible && (certificate.data[questionId].validationErrors?.length || 0) > 0) {
         dispatch(showValidationErrors())
         return
       }
@@ -393,6 +391,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
         )
         break
       case SigningMethod.BANK_ID:
+      case SigningMethod.MOBILT_BANK_ID:
         dispatch(
           apiCallBegan({
             url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/GRP`,
@@ -411,38 +410,43 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
-    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
-
-    if (action.payload?.status) {
-      dispatch(updateCertificateSignStatus(action.payload.status))
-    }
-
     if (!certificate) {
       return
     }
 
-    switch (signStatus) {
-      case CertificateSignStatus.UNKNOWN:
-      case CertificateSignStatus.SIGNED:
-        dispatch(signCertificateCompleted())
-        dispatch(getCertificate(certificate.metadata.id))
-        break
-      default:
-        setTimeout(
-          () =>
-            dispatch(
-              apiCallBegan({
-                url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
-                method: 'GET',
-                onSuccess: signCertificateStatusSuccess.type,
-                onError: signCertificateStatusError.type,
-                functionDisablerType: toggleCertificateFunctionDisabler.type,
-              })
-            ),
-          1000
-        )
-        break
+    const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+    if (action.payload?.status && action.payload?.status != signStatus) {
+      dispatch(updateCertificateSignStatus(action.payload.status))
     }
+
+    const signingMethod = getState().ui.uiUser.user?.signingMethod
+    if (action.payload?.qrCode && signingMethod === SigningMethod.MOBILT_BANK_ID && signStatus !== CertificateSignStatus.SIGNED) {
+      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
+    }
+
+    setTimeout(() => {
+      const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+      switch (signStatus) {
+        case CertificateSignStatus.UNKNOWN:
+        case CertificateSignStatus.ABORT:
+          dispatch(updateCertificateSignStatus(signStatus))
+          return
+        case CertificateSignStatus.SIGNED:
+          dispatch(signCertificateCompleted())
+          dispatch(getCertificate(certificate.metadata.id))
+          return
+        default:
+          dispatch(
+            apiCallBegan({
+              url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
+              method: 'GET',
+              onSuccess: signCertificateStatusSuccess.type,
+              onError: signCertificateStatusError.type,
+              functionDisablerType: toggleCertificateFunctionDisabler.type,
+            })
+          )
+      }
+    }, 1000)
   }
 
 const handleSignCertificateStatusError: Middleware<Dispatch> =
@@ -466,9 +470,16 @@ const handleStartSignCertificateSuccess: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     const certificate = getState().ui.uiCertificate.certificate
+    const signingMethod = getState().ui.uiUser.user?.signingMethod
 
     if (!certificate) {
       return
+    }
+    if (action.payload?.autoStartToken && signingMethod == SigningMethod.BANK_ID) {
+      window.open(`bankid:///?autostarttoken=${action.payload.autoStartToken}&redirect=null`, '_self')
+    }
+    if (action.payload?.qrCode && signingMethod == SigningMethod.MOBILT_BANK_ID) {
+      dispatch(setQrCodeForElegSignature(action.payload.qrCode))
     }
 
     if (action.payload?.status === CertificateSignStatus.PROCESSING) {
@@ -876,23 +887,28 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   (action: ReturnType<typeof updateCertificateDataElement>): void => {
     const certificate = getState().ui.uiCertificate.certificate
     if (certificate) {
-      const clientValidationErrors = getClientValidationErrors(action.payload)
-      dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
+      const element = certificate.data[action.payload.id]
 
-      if (clientValidationErrors.length === 0 && !isLocked(certificate.metadata)) {
-        dispatch(
-          updateCertificate({
-            ...certificate,
-            data: getDecoratedCertificateData(
-              { ...certificate.data, [action.payload.id]: action.payload },
-              certificate.metadata,
-              certificate.links
-            ),
-          })
-        )
+      if (element && !isLocked(certificate.metadata)) {
+        const validationErrors = getClientValidationErrors(action.payload)
+        const updatedCertificate = {
+          ...certificate,
+          data: getDecoratedCertificateData(
+            {
+              ...certificate.data,
+              [action.payload.id]:
+                validationErrors.length > 0 ? { ...element, validationErrors } : { ...action.payload, validationErrors: [] },
+            },
+            certificate.metadata,
+            certificate.links
+          ),
+        }
 
-        dispatch(validateCertificate(certificate))
-        dispatch(autoSaveCertificate(certificate))
+        dispatch(updateCertificate(updatedCertificate))
+        if (validationErrors.length === 0) {
+          dispatch(validateCertificate(updatedCertificate))
+          dispatch(autoSaveCertificate(updatedCertificate))
+        }
       }
     }
   }
@@ -998,10 +1014,29 @@ const handleValidateCertificate: Middleware<Dispatch> = (middlewareAPI: Middlewa
 }
 
 const handleValidateCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
+  ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
-  (action: AnyAction): void => {
-    dispatch(updateValidationErrors(action.payload.validationErrors))
+  (action: PayloadAction<{ validationErrors: ValidationError[] }>): void => {
+    const certificate = getState().ui.uiCertificate.certificate
+
+    if (certificate) {
+      const validationErrors = action.payload.validationErrors.map((validationError) => ({
+        ...validationError,
+        showAlways: isShowAlways(validationError),
+      }))
+
+      dispatch(
+        updateCertificate({
+          ...certificate,
+          metadata: {
+            ...certificate.metadata,
+            careUnitValidationErrors: validationErrors.filter(({ category }) => category === 'vardenhet'),
+            patientValidationErrors: validationErrors.filter(({ category }) => category === 'patient'),
+          },
+          data: mapValidationErrorsToCertificateData(certificate.data, validationErrors),
+        })
+      )
+    }
     dispatch(validateCertificateCompleted())
   }
 
@@ -1041,8 +1076,12 @@ const handleCreateNewCertificate: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(
       apiCallBegan({
-        url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
+        url: `/api/certificate`,
         method: 'POST',
+        data: {
+          patientId: action.payload.patientId,
+          certificateType: action.payload.certificateType,
+        },
         onStart: createNewCertificateStarted.type,
         onSuccess: createNewCertificateSuccess.type,
         onError: certificateApiGenericError.type,

@@ -1,6 +1,7 @@
 import { useTableContext } from '../../../../components/Table/hooks/useTableContext'
+import { TableRow } from '../../../../components/Table/tableBody/TableRow'
 import { filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'
-import { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
+import type { PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetSickLeavesFiltersQuery } from '../../../../store/sickLeaveApi'
 import { allPatientColumns } from '../../../../store/slices/patientTableColumns.selector'
@@ -23,11 +24,11 @@ export function PatientTableBody({ certificates, isDoctor }: { certificates: Pat
       {sortedList.map(
         (certificate) =>
           columns.length > 0 && (
-            <tr key={`${certificate.intygsId}`} className={certificate.otherVardgivare || certificate.otherVardenhet ? 'italic' : ''}>
+            <TableRow key={`${certificate.intygsId}`} italic={certificate.otherVardgivare || certificate.otherVardenhet}>
               {visibleColumns.map(({ name }) => (
                 <PatientTableCellResolver key={name} column={name} certificate={certificate} list={sortedList} />
               ))}
-            </tr>
+            </TableRow>
           )
       )}
     </tbody>

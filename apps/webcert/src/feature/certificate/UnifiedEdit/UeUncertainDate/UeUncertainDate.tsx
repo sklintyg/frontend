@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Dropdown from '../../../../components/Inputs/Dropdown'
@@ -7,7 +7,7 @@ import QuestionValidationTexts from '../../../../components/Validation/QuestionV
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { CertificateDataElement, ConfigUeDropdownItem, ConfigUeUncertainDate, ValueUncertainDate } from '../../../../types'
+import type { CertificateDataElement, ConfigUeDropdownItem, ConfigUeUncertainDate, ValueUncertainDate } from '../../../../types'
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
@@ -26,7 +26,7 @@ const monthList = Array.from({ length: 12 }, (_, index) => `0${++index}`.slice(-
 
 const getDateSplit = (candidate: string) => [...(dateReg.test(candidate) ? candidate : '').split('-'), ''].slice(0, 2)
 
-const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
+const UeUncertainDate = ({ question, disabled }: Props) => {
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeUncertainDate

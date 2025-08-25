@@ -1,19 +1,21 @@
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
-import { isCareAdministrator } from '../../store/user/userSelectors'
 import { userImage } from '../../images'
+import { getCertificateResourceLink, getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
+import { ResourceLinkType } from '../../types'
+import { hasOriginDeepIntegration } from '../../store/user/userSelectors'
 
 const UserIcon = styled.img`
   max-height: 2rem;
 `
 
-const ResponsibleHospName: React.FC = () => {
+const ResponsibleHospName = () => {
   const isUnsigned = useSelector(getIsUnsigned())
-  const isUserCareAdministrator = useSelector(isCareAdministrator)
   const responsibleHospName = useSelector(getResponsibleHospName)
+  const signCertificateLink = useSelector(getCertificateResourceLink(ResourceLinkType.SIGN_CERTIFICATE))
+  const originDeepIntegration = useSelector(hasOriginDeepIntegration)
 
-  if (!isUnsigned || !isUserCareAdministrator) {
+  if (!isUnsigned || signCertificateLink || !originDeepIntegration) {
     return null
   }
 

@@ -1,4 +1,5 @@
-import { forwardRef, Ref } from 'react'
+import type { Ref } from 'react'
+import { forwardRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getIsCertificateRenewed, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { SrsInformationChoice } from '../../../types'
@@ -24,7 +25,7 @@ export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>
         ref={ref}
         recommendations={info.atgarderReh}
         isEmpty={isEmpty}
-        title="Som rehabkoordinator, tänk på att"
+        title="Vid koordinering, tänk på att"
         id={'REKO-'}
       />
       <div className="iu-pt-600">

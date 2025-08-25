@@ -1,8 +1,11 @@
-import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { getByType } from '@frontend/utils'
+import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { ResourceLink, ResourceLinkType } from '../../types'
-import { getSubscriptionWarningResourceLink, getUser, getUserWithLaunchId, getUserStatistics as statistics } from '../../utils'
+import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
+import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
+import type { ResourceLink } from '../../types'
+import { ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -67,7 +70,12 @@ describe('Test user middleware', () => {
     })
 
     it('shall set number of drafts on selected unit if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 
@@ -76,7 +84,12 @@ describe('Test user middleware', () => {
     })
 
     it('should set number of drafts and unhandled questions on other units if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 
@@ -85,7 +98,12 @@ describe('Test user middleware', () => {
     })
 
     it('should set number of drafts on unit if success', async () => {
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+      fakeAxios.onGet('/api/user/statistics').reply(
+        200,
+        fakeUserStatistics({
+          unitStatistics: Object.fromEntries(['1234a', '1234b', '1234c'].map((id) => [id, fakeUnitStatistic()])),
+        })
+      )
 
       testStore.dispatch(getUserStatistics)
 
@@ -104,7 +122,7 @@ describe('Test user middleware', () => {
     })
 
     it('should set care unit on success', async () => {
-      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
+      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: fakeUser({ loggedInUnit: fakeUnit({ unitId: '1234a' }) }) })
       testStore.dispatch(setUnit('1234a'))
 
       await flushPromises()
@@ -121,7 +139,7 @@ describe('Test user middleware', () => {
     })
 
     it('should remove SUBSCRIPTION_WARNING resource link on success', async () => {
-      testStore.dispatch(updateUserResourceLinks(getSubscriptionWarningResourceLink()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.SUBSCRIPTION_WARNING })]))
       fakeAxios.onGet('/api/subscription/acknowledgeSubscriptionModal').reply(200)
       testStore.dispatch(acknowledgeSubscription())
 
@@ -139,7 +157,9 @@ describe('Test user middleware', () => {
     })
     it('should add launchId to sessionStorage if added on user', async () => {
       const data = {
-        user: getUserWithLaunchId(),
+        user: fakeUser({
+          launchId: '97f279ba-7d2b-4b0a-8665-7adde08f26f4',
+        }),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -150,7 +170,7 @@ describe('Test user middleware', () => {
     })
     it('should not add launchId to sessionStorage if not added on user', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -161,20 +181,18 @@ describe('Test user middleware', () => {
     })
     it('should dispatch updateUser action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
 
       await flushPromises()
 
-      const didUpdateUser: AnyAction | undefined = dispatchedActions.find((action) => action.type === '[User] Update user')
-
-      expect(didUpdateUser).toBeTruthy()
+      expect(getByType(dispatchedActions, '[User] Update user')).toBeTruthy()
     })
     it('should update the user with correct values', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -186,7 +204,7 @@ describe('Test user middleware', () => {
     })
     it('should dispatch updateUserResources action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -201,7 +219,7 @@ describe('Test user middleware', () => {
     })
     it('should update the user resourceLinks with correct values', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -214,7 +232,7 @@ describe('Test user middleware', () => {
     })
     it('should dispatch isLoadingUser action', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))
@@ -229,7 +247,7 @@ describe('Test user middleware', () => {
     })
     it('should update isLoadingUser to false', async () => {
       const data = {
-        user: getUser(),
+        user: fakeUser(),
         links: [],
       }
       testStore.dispatch(getUserSuccess(data))

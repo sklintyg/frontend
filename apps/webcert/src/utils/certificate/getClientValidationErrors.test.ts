@@ -1,4 +1,4 @@
-import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../../faker'
+import { fakeCheckboxDateRangeList, fakeDateElement, fakeVisualAcuityElement, fakeYearElement } from '../../faker'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { getClientValidationErrors } from './getClientValidationErrors'
 
@@ -46,7 +46,7 @@ describe('Validation based on value', () => {
 
   describe(`${CertificateDataValueType.DATE_RANGE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } }).question
+      const dataElement = fakeCheckboxDateRangeList({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } }).question
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -66,7 +66,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the future', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '2099-12-13', to: '2099-12-13' }] },
       }).question
@@ -89,7 +89,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_DATE for dates too far in the past', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '1212-12-12', to: '1212-12-12' }] },
       }).question
@@ -112,7 +112,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
-      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } }).question
+      const dataElement = fakeCheckboxDateRangeList({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } }).question
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
@@ -126,7 +126,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return INVALID_DATE_PERIOD_ERROR for invalid periods', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] },
       }).question
@@ -186,9 +186,84 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
-  describe(`${ConfigTypes.UE_SICK_LEAVE_PERIOD}`, () => {
+  describe(`${ConfigTypes.UE_DATE}`, () => {
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2023-12-31',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-01',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should return before max error if date is after max', () => {
+      const dataElement = fakeDateElement({
+        id: 'question',
+        config: {
+          minDate: '2023-12-31',
+          maxDate: '2024-01-01',
+        },
+        value: {
+          date: '2024-01-02',
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'question',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är senast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  describe(`${ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
-      const dataElement = fakeSickLeavePeriod({
+      const dataElement = fakeCheckboxDateRangeList({
         id: 'question',
         value: {
           list: [
@@ -203,10 +278,166 @@ describe('Validation based on config', () => {
           id: 'question',
           field: 'question',
           type: 'OVERLAP_ERROR',
-          text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+          text: 'Ange perioder som inte överlappar varandra.',
           showAlways: true,
         },
       ])
     })
+
+    it('Should not return before min error if date is same as min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should not return before max error if date is same as max', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          max: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2024-01-01', to: '2024-01-01' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([])
+    })
+
+    it('Should return before min error if date is before min', () => {
+      const dataElement = fakeCheckboxDateRangeList({
+        id: 'question',
+        config: {
+          min: '2024-01-01',
+        },
+        value: {
+          list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+        },
+      }).question
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'first.from',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+        {
+          id: 'question',
+          field: 'first.to',
+          type: 'DATE_VIOLATES_LIMIT',
+          text: 'Ange ett datum som är tidigast 2024-01-01.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  describe(`${ConfigTypes.UE_VISUAL_ACUITY}`, () => {
+    it('Should return OUT_OF_RANGE error when a value is above max', () => {
+      const { element } = fakeVisualAcuityElement({
+        id: 'element',
+        config: {
+          max: 2,
+          min: 0,
+        },
+        value: {
+          rightEye: {
+            withoutCorrection: { id: 'rightEye_withoutCorrection', value: 8 },
+            withCorrection: { value: 0 },
+          },
+          leftEye: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+          binocular: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+        },
+      })
+
+      expect(getClientValidationErrors(element)).toMatchObject([
+        {
+          id: 'element',
+          field: 'rightEye_withoutCorrection',
+          type: 'OUT_OF_RANGE',
+          text: 'Ange synskärpa i intervallet 0,0 - 2,0.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should return OUT_OF_RANGE error when a value is below min', () => {
+      const { element } = fakeVisualAcuityElement({
+        id: 'element',
+        config: {
+          max: 2,
+          min: 0,
+        },
+        value: {
+          rightEye: {
+            withoutCorrection: { id: 'rightEye_withoutCorrection', value: -1 },
+            withCorrection: { value: 0 },
+          },
+          leftEye: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+          binocular: {
+            withoutCorrection: { value: 0 },
+            withCorrection: { value: 0 },
+          },
+        },
+      })
+
+      expect(getClientValidationErrors(element)).toMatchObject([
+        {
+          id: 'element',
+          field: 'rightEye_withoutCorrection',
+          type: 'OUT_OF_RANGE',
+          text: 'Ange synskärpa i intervallet 0,0 - 2,0.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  it('Should return limit violation error if date is after max limit', () => {
+    const dataElement = fakeCheckboxDateRangeList({
+      id: 'question',
+      config: {
+        max: '2020-01-01',
+      },
+      value: {
+        list: [{ id: 'first', from: '2023-12-30', to: '2023-12-31' }],
+      },
+    }).question
+
+    expect(getClientValidationErrors(dataElement)).toMatchObject([
+      {
+        id: 'question',
+        field: 'first.from',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+      {
+        id: 'question',
+        field: 'first.to',
+        type: 'DATE_VIOLATES_LIMIT',
+        text: 'Ange ett datum som är senast 2020-01-01.',
+        showAlways: true,
+      },
+    ])
   })
 })

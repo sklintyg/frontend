@@ -1,28 +1,23 @@
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
+import { fakePatient } from '../../faker'
 import store from '../../store/store'
 import PatientInfoHeader from './PatientInfoHeader'
-import { createPatient } from './patientTestUtils'
 
-const EXPECTED_PATIENT = createPatient('patientId')
+const EXPECTED_PATIENT = fakePatient()
 
 const renderComponent = () => {
   render(
     <Provider store={store}>
-      <Router history={createMemoryHistory()}>
+      <MemoryRouter>
         <PatientInfoHeader patient={EXPECTED_PATIENT} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
 
 describe('PatientInfoHeader', () => {
-  it('should render component', () => {
-    renderComponent()
-  })
-
   it('should show patient name', () => {
     renderComponent()
     expect(screen.getByText(EXPECTED_PATIENT.fullName, { exact: false })).toBeInTheDocument()

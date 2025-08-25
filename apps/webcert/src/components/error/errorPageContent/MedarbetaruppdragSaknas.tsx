@@ -1,14 +1,14 @@
-import React from 'react'
+import { ContactSupportMessage } from '../ContactSupportMessage'
 
-const MedarbetaruppdragSaknas: React.FC = () => {
+export function MedarbetaruppdragSaknas() {
   return (
     <>
       <p>
         <strong>Medarbetaruppdrag saknas</strong>
       </p>
-      <p>Det krävs minst ett giltigt medarbetaruppdrag med ändamål "Vård och behandling" för att använda Webcert.</p>
+      <p>
+        Det krävs minst ett giltigt medarbetaruppdrag med ändamål "Vård och behandling" för att använda Webcert. <ContactSupportMessage />
+      </p>
     </>
   )
 }
-
-export default MedarbetaruppdragSaknas

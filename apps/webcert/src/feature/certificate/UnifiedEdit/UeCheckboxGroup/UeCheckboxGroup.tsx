@@ -1,18 +1,17 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
+import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import type { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
-import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { CertificateDataElement, ConfigUeCheckboxMultipleCodes } from '../../../../types'
 
 export interface Props {
   disabled: boolean
   question: CertificateDataElement
 }
 
-const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeCheckboxGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeCheckboxMultipleCodes
   const checkboxes = config.list
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))

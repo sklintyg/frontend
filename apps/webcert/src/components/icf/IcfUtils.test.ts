@@ -1,12 +1,12 @@
-import { fakeIcf } from '../../faker'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { fakeIcfCode, fakeIcfCodeCollection, fakeIcfCollection } from '../../faker'
+import type { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
 
 function getIcfData(): AvailableIcfCodes {
-  const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `${index}` }))
-  return fakeIcf.collection({
-    commonCodes: fakeIcf.group({ icfCodes }),
-    uniqueCodes: [fakeIcf.group({ icfCodes })],
+  const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcfCode({ title: `${index}` }))
+  return fakeIcfCollection({
+    commonCodes: fakeIcfCodeCollection({ icfCodes }),
+    uniqueCodes: [fakeIcfCodeCollection({ icfCodes })],
   })
 }
 

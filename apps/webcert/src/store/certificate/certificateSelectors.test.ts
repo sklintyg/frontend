@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import faker from 'faker'
 import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '../../faker'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -175,6 +175,89 @@ describe('certificateSelectors', () => {
       expect(getVisibleValidationErrors('id', 'ie')(testStore.getState()).length).toBe(4)
       expect(getVisibleValidationErrors('id', 'ld')(testStore.getState()).length).toBe(4)
       expect(getVisibleValidationErrors('id', 'ld')(testStore.getState()).length).toBe(4)
+    })
+
+    it('Should return parent validation error when present', () => {
+      testStore.dispatch(showValidationErrors())
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            data: {
+              ...fakeTextFieldElement({
+                id: '1',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+              ...fakeTextFieldElement({
+                id: '2',
+                parent: 'category',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+              ...fakeCategoryElement({
+                id: 'category',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+            },
+          })
+        )
+      )
+
+      expect(getVisibleValidationErrors('1', '')(testStore.getState()).length).toBe(6)
+      expect(getVisibleValidationErrors('2', '')(testStore.getState()).length).toBe(12)
+      expect(getVisibleValidationErrors('category', '')(testStore.getState()).length).toBe(6)
+    })
+
+    it('Should return deep parent validation errors', () => {
+      testStore.dispatch(showValidationErrors())
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            data: {
+              ...fakeTextFieldElement({
+                id: 'textfield',
+                parent: 'category-2',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+              ...fakeCategoryElement({
+                id: 'category-2',
+                parent: 'category-1',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+              ...fakeCategoryElement({
+                id: 'category-1',
+                validationErrors: faker.datatype.array(6).map(() => fakeCertificateValidationError()),
+              }),
+            },
+          })
+        )
+      )
+
+      expect(getVisibleValidationErrors('textfield', '')(testStore.getState()).length).toBe(18)
+      expect(getVisibleValidationErrors('category-2', '')(testStore.getState()).length).toBe(12)
+      expect(getVisibleValidationErrors('category-1', '')(testStore.getState()).length).toBe(6)
+    })
+
+    it('Should strip text from parent validation error', () => {
+      testStore.dispatch(showValidationErrors())
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            data: {
+              ...fakeTextFieldElement({
+                id: 'textfield',
+                parent: 'category',
+              }),
+              ...fakeCategoryElement({
+                id: 'category',
+                validationErrors: [fakeCertificateValidationError({ id: 'cat', text: 'lorem ipsum', field: '' })],
+              }),
+            },
+          })
+        )
+      )
+
+      const result = getVisibleValidationErrors('textfield', '')(testStore.getState())
+      expect(result.length).toBe(1)
+      expect(result).toMatchObject([{ id: 'cat', text: '', field: '' }])
     })
   })
 })

@@ -1,19 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import {
-  CertificateDataValueType,
-  FMBDiagnosisCodeInfo,
-  ResourceLinkType,
-  ValueDateRangeList,
-  ValueDiagnosisList,
-  ValueType,
-} from '../../types'
-import { getResourceLink, isDateRangeValid } from '../../utils'
+import { getByType } from '@frontend/utils'
+import type { AnyAction } from '@reduxjs/toolkit'
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList, ValueType } from '../../types'
+import { CertificateDataValueType, ResourceLinkType } from '../../types'
+import { isDateRangeValid } from '../../utils'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { getCertificate } from '../certificate/certificateSelectors'
+import type { FMBDiagnoseRequest } from './fmbActions'
 import {
-  FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
@@ -21,8 +16,8 @@ import {
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,
   setPatientId,
+  setPeriodWarning,
   setSickLeavePeriodValue,
-  setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
   validateSickLeavePeriod,
@@ -61,7 +56,7 @@ const isIcdCodeSystemChosen = (value: ValueType) => {
   if (!value || value.type !== CertificateDataValueType.DIAGNOSIS_LIST) {
     return true
   }
-  return (value as ValueDiagnosisList).list.length === 0 || (value as ValueDiagnosisList).list[0].terminology.toLowerCase().includes('icd')
+  return value.list.length === 0 || value.list[0]?.terminology.toLowerCase().includes('icd')
 }
 
 const handleInitializeFMBPanel: Middleware<Dispatch> =
@@ -72,7 +67,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    const fmbPanelActive = getResourceLink(certificate.links, ResourceLinkType.FMB)?.enabled
+    const fmbPanelActive = getByType(certificate.links, ResourceLinkType.FMB)?.enabled ?? false
     dispatch(updateFMBPanelActive(fmbPanelActive))
 
     if (!fmbPanelActive) {
@@ -86,7 +81,7 @@ const handleInitializeFMBPanel: Middleware<Dispatch> =
     }
 
     for (const questionId in certificate.data) {
-      if (Object.prototype.hasOwnProperty.call(certificate.data, questionId)) {
+      if (certificate.data[questionId]) {
         const question = certificate.data[questionId]
         if (isValueDateRangeList(question.value)) {
           dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
@@ -152,7 +147,7 @@ const getValidationForSickLeavePeriod = (
       })
     )
   } else {
-    dispatch(setSickLeavePeriodWarning(''))
+    dispatch(setPeriodWarning(''))
   }
 }
 
@@ -251,7 +246,7 @@ export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
-    dispatch(setSickLeavePeriodWarning(action.payload.message))
+    dispatch(setPeriodWarning(action.payload.message))
   }
 
 const middlewareMethods = {

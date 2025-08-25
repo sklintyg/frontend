@@ -1,4 +1,4 @@
-import { IDSCard, IDSSpinner } from '@frontend/ids-react-ts'
+import { IDSCard, IDSSpinner } from '@inera/ids-react'
 import { PageHeading } from '../../../components/PageHeading/PageHeading'
 import { EmptyTableAlert } from '../../../components/Table/EmptyTableAlert'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
@@ -50,10 +50,10 @@ export function OverviewStatistics() {
         subTitle={unit}
       />
       <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <IDSCard fill className="bg-secondary-95">
+        <IDSCard>
           <TotalSickLeavesGraph total={summary ? summary.total : 0} />
         </IDSCard>
-        <IDSCard fill className="bg-secondary-95">
+        <IDSCard>
           <GenderDivisionGraph genders={summary ? summary.genders : []} />
         </IDSCard>
         <IDSCard>

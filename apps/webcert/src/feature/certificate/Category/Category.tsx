@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import Accordion from '../../../components/utils/Accordion'
 import AccordionHeader from '../../../components/utils/AccordionHeader'
@@ -14,7 +13,7 @@ interface CategoryProps {
   id: string
 }
 
-const Category: React.FC<CategoryProps> = ({ id }) => {
+const Category = ({ id }: CategoryProps) => {
   const category = useSelector(getQuestion(id), isEqual)
   const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 
@@ -36,7 +35,10 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           </Accordion>
         </div>
       ) : (
-        <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
+        <>
+          {displayMandatory && <MandatoryIcon />}
+          <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
+        </>
       )}
     </CategoryHeader>
   ) : null

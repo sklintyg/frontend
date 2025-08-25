@@ -1,13 +1,13 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
-import { CertificateRelation, CertificateStatus } from '../../../../types'
+import type { CertificateRelation } from '../../../../types'
+import { CertificateStatus } from '../../../../types'
 
 interface Props {
   relation: CertificateRelation | undefined
 }
 
-const HasBeenComplementedStatus: React.FC<Props> = ({ relation }) => {
+const HasBeenComplementedStatus = ({ relation }: Props) => {
   if (!relation) {
     return null
   }

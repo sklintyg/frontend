@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { formatPersonId, isPersonIdValid } from '../../utils/personIdValidatorUtils'
 import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
@@ -21,7 +22,7 @@ const TextInputStyles = css`
   height: 3rem;
 `
 
-const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, onFocus }) => {
+const PersonIdInput = ({ label, onFormattedChange, value, id, onFocus }: Props) => {
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -1,18 +1,16 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
+import type { ValueDiagnosisList } from '../../types'
+import { CertificateDataValueType } from '../../types'
 import FMBPanel from './FMBPanel'
-import { ValueDiagnosisList, CertificateDataValueType } from '../../types'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const getDiagnosisValueWithCodeSystem = (codeSystem: string): ValueDiagnosisList => ({
   type: CertificateDataValueType.DIAGNOSIS_LIST,
@@ -64,9 +62,9 @@ const renderDefaultComponent = () => {
   testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <FMBPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -75,9 +73,9 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
   testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <FMBPanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -114,7 +112,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
 
-    expect(screen.getByLabelText(/Description for A01/i)).toBeEnabled()
+    await expect(screen.getByLabelText(/Description for A01/i)).toBeEnabled()
   })
 
   it('shall display disabled diagnosis description when a diagnosis is selected and is missing FMB recommendation', async () => {
@@ -122,7 +120,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
 
-    expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
+    await expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
   })
 
   it('shall select first diagnoses when two diagnoses are selected with FMB recommendation', async () => {
@@ -132,8 +130,8 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultTwo))
     renderDefaultComponent()
 
-    expect(screen.getByLabelText(/Description for A01/i)).toBeChecked()
-    expect(screen.getByLabelText(/Description for B01/i)).not.toBeChecked()
+    await expect(screen.getByLabelText(/Description for A01/i)).toBeChecked()
+    await expect(screen.getByLabelText(/Description for B01/i)).not.toBeChecked()
   })
 
   it('shall select first diagnoses with FMB recommendations when two diagnoses are selected', async () => {
@@ -143,8 +141,8 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultTwo))
     renderDefaultComponent()
 
-    expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
-    expect(screen.getByLabelText(/Description for B01/i)).toBeChecked()
+    await expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
+    await expect(screen.getByLabelText(/Description for B01/i)).toBeChecked()
   })
 
   it('shall display FMB details of the second diagnoses after the user selects it', async () => {
@@ -165,7 +163,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateDynamicLinks({ fmbSoc: { text: expectedText, target: '', key: 'fmbSoc', url: expectedLink, tooltip: '' } }))
     renderDefaultComponent()
 
-    expect(screen.getByRole('link', { name: expectedText })).toHaveAttribute('href', expectedLink)
+    await expect(screen.getByRole('link', { name: expectedText })).toHaveAttribute('href', expectedLink)
   })
 
   it('shall show symbol that fmb info is shown for other diagnosis code if fmb result doesnt exist for code', async () => {
@@ -210,6 +208,6 @@ describe('FMBPanel', () => {
     const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
-    expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
+    await expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
   })
 })

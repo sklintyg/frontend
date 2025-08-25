@@ -1,29 +1,27 @@
-import { EnhancedStore } from '@reduxjs/toolkit'
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import type { ErrorData } from '../../../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 let location: Location
 
 const renderComponent = (errorData: ErrorData) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <ReloadModal errorData={errorData} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

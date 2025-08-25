@@ -1,7 +1,4 @@
-import React from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getConfig } from '../../../store/utils/utilsSelectors'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 const Wrapper = styled.div`
@@ -11,14 +8,10 @@ const Wrapper = styled.div`
   }
 `
 
-const AboutWebcertModalContent: React.FC = () => {
-  const { version } = useSelector(getConfig, shallowEqual)
-
+const AboutWebcertModalContent = () => {
   return (
     <Wrapper>
       <p className={'iu-pt-400'}>Webcert är en tjänst som drivs av Inera AB.</p>
-
-      <p>Nuvarande version är {version}.</p>
 
       <p>Webcert är utvecklat för senaste versionen av webbläsare Edge Chromium och Chrome. </p>
       <p>

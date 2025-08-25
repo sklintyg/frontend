@@ -1,23 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit'
+import type { Certificate, CertificateEvent, Complement, ModalData, ValueBoolean, ValueText } from '../../types'
 import {
-  Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateEvent,
   CertificateSignStatus,
-  Complement,
   ConfigTypes,
-  ModalData,
-  ValueBoolean,
-  ValueText,
 } from '../../types'
-import { isShowAlways } from '../../utils'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
-import { ErrorData } from '../error/errorReducer'
+import { isClientValidationError } from '../../utils/certificate/getClientValidationErrors'
+import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import type { ErrorData } from '../error/errorReducer'
+import type { GotoCertificateDataElement, SigningData } from './certificateActions'
 import {
-  GotoCertificateDataElement,
-  SigningData,
+  clearClientValidationErrors,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -29,8 +25,8 @@ import {
   resetCertificateState,
   setCertificatePatientData,
   setCertificateUnitData,
+  setQrCodeForElegSignature,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -53,51 +49,51 @@ import {
   updateModalData,
   updateRoutedFromDeletedCertificate,
   updateShouldRouteAfterDelete,
-  updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
 
 export interface CertificateState {
+  autoStartToken: string
   certificate?: Certificate
   certificateEvents: CertificateEvent[]
+  complements: Complement[]
+  createdCertificateId: string
+  functionDisablers: FunctionDisabler[]
+  gotoCertificateDataElement?: GotoCertificateDataElement
+  isDeleted: boolean
+  modalData: ModalData | null
+  qrCode: string
+  routedFromDeletedCertificate: boolean
+  shouldRouteAfterDelete: boolean
+  showValidationErrors: boolean
+  signingData?: SigningData
+  signingError?: ErrorData
+  signingStatus: CertificateSignStatus
   spinner: boolean
   spinnerText: string
   validationInProgress: boolean
-  showValidationErrors: boolean
-  isDeleted: boolean
-  complements: Complement[]
-  gotoCertificateDataElement?: GotoCertificateDataElement
-  signingData?: SigningData
-  routedFromDeletedCertificate: boolean
-  functionDisablers: FunctionDisabler[]
-  createdCertificateId: string
-  shouldRouteAfterDelete: boolean
-  signingStatus: CertificateSignStatus
-  signingError?: ErrorData
-  modalData: ModalData | null
 }
 
 const getInitialState = (): CertificateState => {
   return {
+    autoStartToken: '',
     certificateEvents: [],
+    complements: [],
+    createdCertificateId: '',
+    functionDisablers: [],
+    isDeleted: false,
+    modalData: null,
+    qrCode: '',
+    routedFromDeletedCertificate: false,
+    shouldRouteAfterDelete: false,
+    showValidationErrors: false,
+    signingStatus: CertificateSignStatus.INITIAL,
     spinner: false,
     spinnerText: '',
     validationInProgress: false,
-    showValidationErrors: false,
-    isDeleted: false,
-    complements: [],
-    routedFromDeletedCertificate: false,
-    functionDisablers: [],
-    createdCertificateId: '',
-    shouldRouteAfterDelete: false,
-    signingStatus: CertificateSignStatus.INITIAL,
-    modalData: null,
   }
 }
-
-const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
-const PATIENT_CATEGORY_NAME = 'patient'
 
 const certificateReducer = createReducer(getInitialState(), (builder) =>
   builder
@@ -186,33 +182,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(validateCertificateCompleted, (state) => {
       state.validationInProgress = false
-    })
-    .addCase(updateValidationErrors, (state, action) => {
-      action.payload = action.payload.map((validationError) => ({ ...validationError, showAlways: isShowAlways(validationError) }))
-
-      if (state.certificate) {
-        for (const questionId in state.certificate.data) {
-          const question = state.certificate.data[questionId]
-          if (!question) {
-            continue
-          }
-
-          question.validationErrors = action.payload.filter(({ id }) => id === questionId)
-        }
-
-        state.certificate.metadata.careUnitValidationErrors = action.payload.filter(({ category }) => category === CARE_UNIT_CATEGORY_NAME)
-        state.certificate.metadata.patientValidationErrors = action.payload.filter(({ category }) => category === PATIENT_CATEGORY_NAME)
-      }
-    })
-    .addCase(setValidationErrorsForQuestion, (state, action) => {
-      if (state.certificate) {
-        const question = state.certificate.data[action.payload.questionId]
-        if (!question) {
-          return
-        }
-
-        question.validationErrors = action.payload.validationErrors
-      }
     })
     .addCase(showValidationErrors, (state) => {
       state.showValidationErrors = true
@@ -334,6 +303,15 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(resetCertificateState, () => getInitialState())
     .addCase(updateModalData, (state, action) => {
       state.modalData = action.payload
+    })
+    .addCase(clearClientValidationErrors, (state, action) => {
+      if (state.certificate?.data[action.payload]) {
+        const element = state.certificate.data[action.payload]
+        element.validationErrors = (element.validationErrors || []).filter((error) => !isClientValidationError(error.type))
+      }
+    })
+    .addCase(setQrCodeForElegSignature, (state, action) => {
+      state.qrCode = action.payload
     })
 )
 

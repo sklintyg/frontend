@@ -1,12 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Mock, vi } from 'vitest'
+import type { Mock } from 'vitest'
+import { vi } from 'vitest'
 import { fakeVardenhet } from '../../../utils/fake/fakeVardenhet'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 let selectedRadio: string | null
 let handleChooseUnit: Mock<unknown[], unknown>
-let children: string | number | boolean | JSX.Element | null | undefined
+let children: string | number | boolean | React.JSX.Element | null | undefined
 const vardenhet = fakeVardenhet({ namn: 'Alfa regionen' })
 
 beforeEach(() => {

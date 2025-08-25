@@ -1,8 +1,7 @@
-import React from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 
-const FMBPanelFooter: React.FC = () => {
+const FMBPanelFooter = () => {
   return (
     <SidePanelFooter additionalStyles="iu-m-none">
       <WCDynamicLink linkKey="fmbSoc" />
