@@ -228,7 +228,6 @@ const handleDeleteCertificate: Middleware<Dispatch> =
         onSuccess: deleteCertificateSuccess.type,
         onError: certificateApiGenericError.type,
         onArgs: { metadata: certificate.metadata },
-        functionDisablerType: toggleCertificateFunctionDisabler.type,
       })
     )
   }
