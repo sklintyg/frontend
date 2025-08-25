@@ -632,7 +632,7 @@ importers:
         version: 21.1.1
       msw:
         specifier: ^1.2.0
-        version: 1.2.0(typescript@5.3.3)
+        version: 1.2.0(typescript@5.6.2)
       vite:
         specifier: ^5.4.19
         version: 5.4.19(@types/node@20.11.0)(terser@5.33.0)
@@ -11583,7 +11583,7 @@ snapshots:
   inquirer@8.2.5:
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
@@ -13880,9 +13880,9 @@ snapshots:
     dependencies:
       inherits: 2.0.4
       is-arguments: 1.1.1
-      is-generator-function: 1.0.10
-      is-typed-array: 1.1.12
-      which-typed-array: 1.1.13
+      is-generator-function: 1.1.0
+      is-typed-array: 1.1.15
+      which-typed-array: 1.1.19
 
   uuid@9.0.1: {}
 
