@@ -1,5 +1,5 @@
-import { Answer, Complement, Question, QuestionType } from '../types'
-import { TAG, api } from './api'
+import type { Answer, Complement, Question, QuestionType } from '../types';
+import { TAG, api } from './api';
 
 const questionApi = api.injectEndpoints({
   endpoints: (build) => ({
