@@ -7,7 +7,7 @@ import SimpleTable from '../components/Table/SimpleTable'
 import ModalBase from '../components/utils/Modal/ModalBase'
 import logo from '../images/webcert_logo.png'
 import { useAppSelector } from '../store/store'
-import { getCareProviders, getSelectUnitHeading, getUser } from '../store/user/userSelectors'
+import { getCareProviders, getSelectUnitHeading } from '../store/user/userSelectors'
 import type { CareUnit, Unit } from '../types'
 
 const ModalBaseLarge = styled(ModalBase)`
@@ -30,11 +30,10 @@ function SelectUnitRow({ unit, certificateId }: { unit: CareUnit | Unit; certifi
 
 export function SelectUnitPage() {
   const { certificateId } = useParams<{ certificateId: string }>()
-  const user = useAppSelector(getUser)
   const modalTitle = useAppSelector(getSelectUnitHeading)
   const careProviders = useAppSelector(getCareProviders)
 
-  if (!user || !certificateId) {
+  if (!certificateId) {
     return null
   }
 
