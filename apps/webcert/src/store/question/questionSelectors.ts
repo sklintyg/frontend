@@ -1,5 +1,5 @@
 import type { Question } from '../../types'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 
 export const getQuestions = (state: RootState): Question[] => state.ui.uiQuestion.questions
 

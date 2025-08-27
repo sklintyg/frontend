@@ -13,8 +13,9 @@ import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiErr
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { push, replace } from '../navigateSlice'
 import { gotoComplement, updateComplements } from '../question/questionActions'
+import type { RootState } from '../reducer'
 import { getSessionStatusError } from '../session/sessionActions'
-import type { AppDispatch, RootState } from '../store'
+import type { AppDispatch } from '../store'
 import {
   answerComplementCertificate,
   answerComplementCertificateStarted,

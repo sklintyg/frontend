@@ -1,5 +1,6 @@
 import { getCookie } from '@frontend/utils'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import type { ErrorLogRequest } from './error/errorReducer'
 
 export enum TAG {
   CERTIFICATE = 'Certificate',
@@ -17,6 +18,14 @@ export const api = createApi({
       return headers
     },
   }),
-  endpoints: () => ({}),
+  endpoints: (builder) => ({
+    logError: builder.mutation<void, ErrorLogRequest>({
+      query: (error) => ({
+        url: 'log/error',
+        method: 'POST',
+        body: error,
+      }),
+    }),
+  }),
   tagTypes: Object.values(TAG),
 })

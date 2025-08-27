@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { api } from './api'
 import certificateReducer from './certificate/certificateReducer'
 import errorReducer from './error/errorReducer'
 import fmbReducer from './fmb/fmbReducer'
@@ -13,7 +14,8 @@ import userReducer from './user/userReducer'
 import utilsReducer from './utils/utilsReducer'
 import welcomeReducer from './welcome/welcomeReducer'
 
-export const reducer = {
+export const reducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   ui: combineReducers({
     uiCertificate: certificateReducer,
     uiUser: userReducer,
@@ -29,4 +31,6 @@ export const reducer = {
     uiSRS: srsReducer,
     uiNavigation: navigateReducer,
   }),
-}
+})
+
+export type RootState = ReturnType<typeof reducer>

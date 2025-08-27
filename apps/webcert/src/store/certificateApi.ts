@@ -1,9 +1,9 @@
-import { tryCatch } from '@frontend/utils';
-import type { Certificate, CertificateEvent, ModalData, ValidationError } from '../types';
-import { SigningMethod } from '../types';
-import { TAG, api } from './api';
+import { tryCatch } from '@frontend/utils'
+import type { Certificate, CertificateEvent, ModalData, ValidationError } from '../types'
+import { SigningMethod } from '../types'
+import { TAG, api } from './api'
 
-const certificateApi = api.injectEndpoints({
+export const certificateApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCertificate: builder.query<Certificate, string>({
       query: (id) => `certificate/${id}`,

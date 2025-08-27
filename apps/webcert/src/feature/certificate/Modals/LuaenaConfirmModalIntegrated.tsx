@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import InfoBox from '../../../components/utils/InfoBox'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import type { RootState } from '../../../store/store'
+import type { RootState } from '../../../store/reducer'
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate'
 
 interface Props {

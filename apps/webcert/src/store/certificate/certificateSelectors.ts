@@ -1,5 +1,6 @@
 import { getByType } from '@frontend/utils'
 import { createSelector } from '@reduxjs/toolkit'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 import { uniqWith } from 'lodash-es'
 import type {
   Certificate,
@@ -22,10 +23,11 @@ import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import type { ErrorData } from '../error/errorReducer'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 import type { SigningData } from './certificateActions'
 
-export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
+export const getIsShowSpinner = (state: RootState): boolean =>
+  state.ui.uiCertificate.spinner || state.api.queries.getCertificate?.status === QueryStatus.pending
 
 export const getSpinnerText = (state: RootState): string => state.ui.uiCertificate.spinnerText
 
