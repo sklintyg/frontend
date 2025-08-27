@@ -9,7 +9,7 @@ import { showValidationErrors, updateCertificate } from '../../../store/certific
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import type { RootState } from '../../../store/store'
+import type { RootState } from '../../../store/reducer'
 import QuestionEditComponent from './QuestionEditComponent'
 
 let testStore: EnhancedStore<RootState>

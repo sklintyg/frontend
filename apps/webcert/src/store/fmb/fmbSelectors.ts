@@ -1,5 +1,5 @@
 import type { FMBDiagnosisCodeInfo, ValueDiagnosisList } from '../../types'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 
 export const getFMBDiagnosisCodes = (state: RootState): FMBDiagnosisCodeInfo[] => state.ui.uiFMB.fmbDiagnosisCodeInfo
 

@@ -26,6 +26,7 @@ export interface ApiError {
 
 export interface ApiGenericError {
   error: ApiError
+  certificateId?: string
 }
 
 /**

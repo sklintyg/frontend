@@ -1,10 +1,15 @@
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
+import 'whatwg-fetch'
+import { server } from './mocks/server'
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
 
 beforeAll(() => {
+  // Start MSW server
+  server.listen({ onUnhandledRequest: 'error' })
+
   // Mock needed for react-tooltip
   window.ResizeObserver = class ResizeObserver {
     // eslint-disable-next-line class-methods-use-this
@@ -29,3 +34,6 @@ beforeEach(() => {
 afterEach(() => {
   cleanup()
 })
+
+// Clean up after the tests are finished.
+afterAll(() => server.close())

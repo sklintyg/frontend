@@ -1,6 +1,6 @@
-import type { RootState } from '../store'
-import type { AvailableIcfCodes } from './icfReducer'
 import { IcfCodesPropertyEnum } from '../../types'
+import type { RootState } from '../reducer'
+import type { AvailableIcfCodes } from './icfReducer'
 
 export const getIcfData =
   (icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum) =>

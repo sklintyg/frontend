@@ -7,8 +7,7 @@ import SimpleTable from '../components/Table/SimpleTable'
 import ModalBase from '../components/utils/Modal/ModalBase'
 import logo from '../images/webcert_logo.png'
 import { useAppSelector } from '../store/store'
-import { getUser } from '../store/user/userActions'
-import { getCareProviders, getSelectUnitHeading } from '../store/user/userSelectors'
+import { getCareProviders, getSelectUnitHeading, getUser } from '../store/user/userSelectors'
 import type { CareUnit, Unit } from '../types'
 
 const ModalBaseLarge = styled(ModalBase)`
