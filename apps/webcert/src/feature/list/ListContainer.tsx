@@ -42,9 +42,6 @@ export function ListContainer({
     if (listType !== type) {
       dispatch(updateActiveListType(type))
     }
-    return () => {
-      console.log('unmount list page')
-    }
   }, [dispatch, listType, type])
 
   useEffect(() => {
