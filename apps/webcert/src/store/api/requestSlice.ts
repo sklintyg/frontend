@@ -1,11 +1,10 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { isMatch } from 'lodash-es'
 import type { RootState } from '../reducer'
+import type { ApiCall } from './apiActions'
 
-type ApiRequest = {
+type ApiRequest = ApiCall & {
   id: string
-  method: string
-  url: string
-  disableGroup?: string
 }
 
 const requestAdapter = createEntityAdapter<ApiRequest>()
@@ -26,4 +25,7 @@ export const { addRequest, removeRequest, updateRequest } = requestSlice.actions
 export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<RootState>((state) => state.requests)
 
 export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =>
-  Boolean(selectAllRequests(state).find((req) => req.disableGroup === disableGroup))
+  Boolean(selectAllRequests(state).find((req) => req.functionDisablerType === disableGroup))
+
+export const isRequestLoading = (payload: ApiCall) => (state: RootState) =>
+  Boolean(selectAllRequests(state).find((req) => isMatch(req, payload)))

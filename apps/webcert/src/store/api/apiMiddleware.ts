@@ -8,31 +8,26 @@ import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } 
 import { ErrorCode } from '../error/errorReducer'
 import type { ApiError } from './apiActions'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
-import { addRequest, removeRequest, selectAllRequests } from './requestSlice'
+import { addRequest, isRequestLoading, removeRequest } from './requestSlice'
 
 const handleApiCallBegan: Middleware =
   ({ getState, dispatch }: MiddlewareAPI) =>
   () =>
   async (action: AnyAction) => {
-    if (!apiCallBegan.match(action)) {
+    if (!apiCallBegan.match(action) || isRequestLoading(action.payload)(getState())) {
       return
     }
 
     const id = randomUUID()
-    const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-
-    const isRequestLoading = selectAllRequests(getState()).find((activeReq) => activeReq.method === method && activeReq.url === url)
-
-    if (isRequestLoading) {
-      return
-    }
+    const { url, method, data, headers, onStart, onSuccess, onError, onArgs } = action.payload
 
     if (onStart) {
       dispatch({ type: onStart, payload: { ...onArgs } })
-      dispatch(addRequest({ id, url, method, disableGroup: functionDisablerType }))
     }
 
     try {
+      dispatch(addRequest({ id, ...action.payload }))
+
       const response = await axios.request({
         url,
         method,
