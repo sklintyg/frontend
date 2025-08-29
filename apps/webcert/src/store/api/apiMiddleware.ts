@@ -9,9 +9,10 @@ import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } 
 import { ErrorCode } from '../error/errorReducer'
 import type { ApiError } from './apiActions'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
+import { addRequest, removeRequest, selectAllRequests } from './requestSlice'
 
 const handleApiCallBegan: Middleware =
-  ({ dispatch }: MiddlewareAPI) =>
+  ({ getState, dispatch }: MiddlewareAPI) =>
   () =>
   async (action: AnyAction) => {
     if (!apiCallBegan.match(action)) {
@@ -20,16 +21,20 @@ const handleApiCallBegan: Middleware =
 
     const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
     const functionDisabler: FunctionDisabler = generateFunctionDisabler()
+    const id = functionDisabler.id
+
+    const isRequestLoading = selectAllRequests(getState()).find((activeReq) => activeReq.method === method && activeReq.url === url)
+
+    if (isRequestLoading) {
+      return
+    }
 
     if (onStart) {
       dispatch({ type: onStart, payload: { ...onArgs } })
+      dispatch(addRequest({ id, url, method, disableGroup: functionDisablerType }))
     }
 
     try {
-      if (functionDisablerType) {
-        dispatch({ type: functionDisablerType, payload: functionDisabler })
-      }
-
       const response = await axios.request({
         url,
         method,
@@ -59,9 +64,7 @@ const handleApiCallBegan: Middleware =
         })
       }
     } finally {
-      if (functionDisablerType) {
-        dispatch({ type: functionDisablerType, payload: functionDisabler })
-      }
+      dispatch(removeRequest(id))
     }
   }
 

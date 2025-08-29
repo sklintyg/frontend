@@ -9,7 +9,6 @@ import {
 } from '../../types'
 import { isClientValidationError } from '../../utils/certificate/getClientValidationErrors'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
 import type { GotoCertificateDataElement, SigningData } from './certificateActions'
 import {
@@ -31,7 +30,6 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
   unstyleCertificateDataElement,
   updateCertificate,
@@ -287,9 +285,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateRoutedFromDeletedCertificate, (state, action) => {
       state.routedFromDeletedCertificate = action.payload
-    })
-    .addCase(toggleCertificateFunctionDisabler, (state, action) => {
-      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload

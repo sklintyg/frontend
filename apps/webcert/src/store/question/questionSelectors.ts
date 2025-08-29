@@ -1,5 +1,7 @@
 import type { Question } from '../../types'
-import type { RootState } from '../store'
+import { isFunctionDisabled } from '../api/requestSlice'
+import type { RootState } from '../reducer'
+import { toggleQuestionFunctionDisabler } from './questionActions'
 
 export const getQuestions = (state: RootState): Question[] => state.ui.uiQuestion.questions
 
@@ -22,7 +24,7 @@ export const isAnswerDraftSaved =
 
 export const isDisplayingCertificateDraft = (state: RootState): boolean => state.ui.uiQuestion.isDisplayingCertificateDraft
 
-export const isQuestionFunctionDisabled = (state: RootState): boolean => state.ui.uiQuestion.functionDisablers.length > 0
+export const isQuestionFunctionDisabled = isFunctionDisabled(toggleQuestionFunctionDisabler.type)
 
 export const getErrorId = (state: RootState): string => state.ui.uiQuestion.errorId
 

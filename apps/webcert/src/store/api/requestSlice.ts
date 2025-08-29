@@ -1,0 +1,29 @@
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import type { RootState } from '../reducer'
+
+type ApiRequest = {
+  id: string
+  method: string
+  url: string
+  disableGroup?: string
+}
+
+const requestAdapter = createEntityAdapter<ApiRequest>()
+
+const requestSlice = createSlice({
+  name: 'requests',
+  initialState: requestAdapter.getInitialState(),
+  reducers: {
+    addRequest: requestAdapter.addOne,
+    removeRequest: requestAdapter.removeOne,
+    updateRequest: requestAdapter.updateOne,
+  },
+})
+
+export const { name: requestPath, reducer: requestReducer } = requestSlice
+export const { addRequest, removeRequest, updateRequest } = requestSlice.actions
+
+export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<RootState>((state) => state.requests)
+
+export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =>
+  Boolean(selectAllRequests(state).find((req) => req.disableGroup === disableGroup))

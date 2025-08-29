@@ -3,12 +3,10 @@ import { getFilteredPredictions } from '../../components/srs/srsUtils'
 import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, ValueDiagnosisList } from '../../types'
 import { SrsSickLeaveChoice, SrsUserClientContext } from '../../types'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   resetState,
   setDiagnosisCodes,
   setDiagnosisListValue,
-  toggleSRSFunctionDisabler,
   updateCareProviderId,
   updateCertificateId,
   updateError,
@@ -92,9 +90,6 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(setDiagnosisCodes, (state, action) => {
       state.diagnosisCodes = action.payload
-    })
-    .addCase(toggleSRSFunctionDisabler, (state, action) => {
-      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
     .addCase(updateError, (state, action) => {
       state.error = action.payload

@@ -2,7 +2,6 @@ import { createReducer } from '@reduxjs/toolkit'
 import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,
   addQuestion,
@@ -10,7 +9,6 @@ import {
   clearQuestionDraft,
   resetState,
   setErrorId,
-  toggleQuestionFunctionDisabler,
   updateAnswer,
   updateAnswerDraftSaved,
   updateCertificateId,
@@ -138,9 +136,6 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateSendingQuestion, (state, action) => {
       state.isSendingQuestion = action.payload
-    })
-    .addCase(toggleQuestionFunctionDisabler, (state, action) => {
-      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
     .addCase(setErrorId, (state, action) => {
       state.errorId = action.payload
