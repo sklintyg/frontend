@@ -28,4 +28,8 @@ export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =
   Boolean(selectAllRequests(state).find((req) => req.functionDisablerType === disableGroup))
 
 export const isRequestLoading = (payload: ApiCall) => (state: RootState) =>
-  Boolean(selectAllRequests(state).find((req) => isMatch(req, payload)))
+  Boolean(
+    selectAllRequests(state)
+      .filter((req) => req.url === payload.url && req.method === payload.method)
+      .find((req) => isMatch(req, payload))
+  )
