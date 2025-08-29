@@ -1,7 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import type { Answer, Complement, Question } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import type { ApiGenericError } from '../api/apiActions'
 
 const QUESTION = '[Question]'
@@ -146,6 +144,6 @@ export const updateComplements = createAction<Complement[]>(`${QUESTION} Update 
 
 export const updateDisplayingCertificateDraft = createAction(`${QUESTION} Update displaying certificate draft`)
 
-export const toggleQuestionFunctionDisabler = createAction<FunctionDisabler>(`${QUESTION} ${TOGGLE_FUNCTION_DISABLER}`)
+export const toggleQuestionFunctionDisabler = createAction(`${QUESTION} toggling function disabler`)
 
 export const updateIsLoadingQuestions = createAction<boolean>(`${QUESTION} Update is loading questions`)

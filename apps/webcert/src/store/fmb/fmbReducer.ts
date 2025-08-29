@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import type { FMBDiagnosisCodeInfo, ValueDateRangeList, ValueDiagnosisList } from '../../types'
 import { sortByIndex } from '../../utils'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,
@@ -19,7 +18,6 @@ export interface FMBState {
   patientId: string
   sickLeavePeriodValue: ValueDateRangeList | null
   diagnosisListValue: ValueDiagnosisList | null
-  functionDisablers: FunctionDisabler[]
 }
 
 const initialState: FMBState = {
@@ -29,7 +27,6 @@ const initialState: FMBState = {
   patientId: '',
   sickLeavePeriodValue: null,
   diagnosisListValue: null,
-  functionDisablers: [],
 }
 
 const fmbReducer = createReducer(initialState, (builder) =>

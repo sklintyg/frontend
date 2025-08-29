@@ -1,6 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
 import type { IcfCodeCollection } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { setOriginalIcd10Codes, updateIcfCodes } from './icfActions'
 
 export interface AvailableIcfCodes {
@@ -11,12 +10,10 @@ export interface AvailableIcfCodes {
 export interface IcfState {
   disability?: AvailableIcfCodes
   activityLimitation?: AvailableIcfCodes
-  functionDisablers: FunctionDisabler[]
   originalIcd10Codes: string[]
 }
 
 const initialState: IcfState = {
-  functionDisablers: [],
   originalIcd10Codes: [],
 }
 

@@ -12,8 +12,6 @@ import type {
   Unit,
   ValidationError,
 } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import type { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -567,7 +565,7 @@ export interface CertificateApiGenericError {
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
 
-export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
+export const toggleCertificateFunctionDisabler = createAction(`${CERTIFICATE} functionDisabler`)
 
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
 

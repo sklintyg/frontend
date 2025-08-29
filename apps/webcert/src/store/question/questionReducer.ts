@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import type { Question } from '../../types'
 import { QuestionType } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,
   addQuestion,
@@ -40,12 +39,11 @@ export interface QuestionState {
   }
   isDisplayingCertificateDraft: boolean
   isSendingQuestion: boolean
-  functionDisablers: FunctionDisabler[]
   errorId: string
   isLoadingQuestions: boolean
 }
 
-const getInitialState = (functionDisablers?: FunctionDisabler[]): QuestionState => {
+const getInitialState = (): QuestionState => {
   return {
     questions: [],
     questionDraft: defaultQuestionDraft(),
@@ -58,7 +56,6 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): QuestionState 
     isAnswerDraftSaved: {},
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
-    functionDisablers: functionDisablers ? functionDisablers : [],
     errorId: '',
     isLoadingQuestions: false,
   }
@@ -109,7 +106,7 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateDisplayValidationMessages, (state, action) => {
       state.isDisplayValidationMessages = action.payload
     })
-    .addCase(resetState, (state) => getInitialState(state.functionDisablers))
+    .addCase(resetState, () => getInitialState())
     .addCase(addAnswer, (state, action) => {
       const question = state.questions.find((question) => question.id === action.payload.questionId)
       if (question) {

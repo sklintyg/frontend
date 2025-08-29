@@ -1,9 +1,8 @@
+import { randomUUID } from '@frontend/utils'
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { AxiosError, AxiosResponse } from 'axios'
 import axios from 'axios'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode } from '../error/errorReducer'
@@ -19,9 +18,8 @@ const handleApiCallBegan: Middleware =
       return
     }
 
+    const id = randomUUID()
     const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-    const functionDisabler: FunctionDisabler = generateFunctionDisabler()
-    const id = functionDisabler.id
 
     const isRequestLoading = selectAllRequests(getState()).find((activeReq) => activeReq.method === method && activeReq.url === url)
 

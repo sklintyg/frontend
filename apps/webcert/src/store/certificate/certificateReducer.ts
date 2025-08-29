@@ -8,7 +8,6 @@ import {
   ConfigTypes,
 } from '../../types'
 import { isClientValidationError } from '../../utils/certificate/getClientValidationErrors'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
 import type { GotoCertificateDataElement, SigningData } from './certificateActions'
 import {
@@ -57,7 +56,6 @@ export interface CertificateState {
   certificateEvents: CertificateEvent[]
   complements: Complement[]
   createdCertificateId: string
-  functionDisablers: FunctionDisabler[]
   gotoCertificateDataElement?: GotoCertificateDataElement
   isDeleted: boolean
   modalData: ModalData | null
@@ -79,7 +77,6 @@ const getInitialState = (): CertificateState => {
     certificateEvents: [],
     complements: [],
     createdCertificateId: '',
-    functionDisablers: [],
     isDeleted: false,
     modalData: null,
     qrCode: '',
