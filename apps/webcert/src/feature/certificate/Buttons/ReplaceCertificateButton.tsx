@@ -1,20 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { DoubleArrowIcon } from '../../../images'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { useAppSelector } from '../../../store/store'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
+  functionDisabled: boolean
 }
 
 const ReplaceCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
+  const certificateMetadata = useAppSelector(getCertificateMetaData)
   const isDodsbevis = certificateMetadata?.type === 'db'
   const isDodsorsaksIntyg = certificateMetadata?.type === 'doi'
   const certificate = isDodsbevis ? 'dödsbevis' : 'dödsorsaksintyg'

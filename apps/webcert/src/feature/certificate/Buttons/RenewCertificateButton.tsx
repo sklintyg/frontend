@@ -1,28 +1,29 @@
 import { isEqual } from 'lodash-es'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Checkbox from '../../../components/Inputs/Checkbox'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { ReloadIcon } from '../../../images'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
+import { useAppSelector } from '../../../store/store'
 import { setUserPreference } from '../../../store/user/userActions'
 import { getUser } from '../../../store/user/userSelectors'
 import { sanitizeText } from '../../../utils'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
   body?: string
   certificateId: string
+  functionDisabled: boolean
 }
 
 const RenewCertificateButton = ({ name, description, enabled, body, functionDisabled, certificateId }: Props) => {
   const dispatch = useDispatch()
   const [checked, setChecked] = React.useState(false)
-  const user = useSelector(getUser, isEqual)
+  const user = useAppSelector(getUser, isEqual)
   const dontShowFornyaDialog = 'wc.dontShowFornyaDialog'
   const showModal = user?.preferences?.[dontShowFornyaDialog] !== 'true'
 

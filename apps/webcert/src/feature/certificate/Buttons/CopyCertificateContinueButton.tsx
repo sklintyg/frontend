@@ -2,13 +2,13 @@ import { useNavigate } from 'react-router-dom'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'
 import type { CertificateMetadata } from '../../../types'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
 const CopyCertificateContinueButton = ({ name, description, enabled, certificateMetadata, functionDisabled }: Props) => {

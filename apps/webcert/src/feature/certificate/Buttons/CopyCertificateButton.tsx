@@ -4,14 +4,14 @@ import { CopyIcon } from '../../../images'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
 const CopyCertificateButton = ({ name, description, body, enabled, functionDisabled }: Props) => {
