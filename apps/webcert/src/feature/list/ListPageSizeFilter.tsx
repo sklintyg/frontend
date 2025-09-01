@@ -1,8 +1,8 @@
 import type { ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
 import Dropdown from '../../components/Inputs/Dropdown'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
 import type { ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber } from '../../types'
 import { ListFilterType } from '../../types'
 
@@ -10,7 +10,7 @@ interface Props {
   filter: ListFilterPageSizeConfig | undefined
   totalCount: number
   onFilterChange: (value: ListFilterValue, id: string) => void
-  value: ListFilterValueNumber
+  value?: ListFilterValueNumber
   tableHasCaption?: boolean
 }
 
