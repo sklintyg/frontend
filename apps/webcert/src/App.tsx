@@ -8,7 +8,7 @@ import { cancelLogout, triggerLogout } from './store/user/userActions'
 import { getUser } from './store/user/userSelectors'
 import { initateApplication } from './store/welcome/welcomeActions'
 
-function App(): JSX.Element {
+function App() {
   const dispatch = useAppDispatch()
   const origin = useAppSelector((state) => getUser(state)?.origin)
 

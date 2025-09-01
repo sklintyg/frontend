@@ -1,8 +1,9 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { ResourceLinkType } from '../../types'
+import { ListType, ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { deleteCertificateSuccess, resetCertificateState, startSignCertificate } from '../certificate/certificateActions'
+import { updateActiveListType } from '../list/listActions'
 import { handleQuestionSuccess } from '../question/questionActions'
 import { stopPoll } from '../session/sessionActions'
 import {
@@ -253,6 +254,7 @@ const handleSetUnitSuccess: Middleware<Dispatch> =
     dispatch(getUserStatistics())
     dispatch(updateIsCareProviderModalOpen(false))
     dispatch(resetCertificateState())
+    dispatch(updateActiveListType(ListType.UNKOWN))
   }
 
 const handleStopPoll: Middleware<Dispatch> =
