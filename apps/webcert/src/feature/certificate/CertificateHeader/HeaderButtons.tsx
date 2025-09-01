@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { WithResourceLink } from '../../../components/utils/WithResourceLink'
 import type { CertificateMetadata, ResourceLink } from '../../../types'
 import { ResourceLinkType } from '../../../types'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
@@ -25,9 +24,10 @@ const Wrapper = styled.div`
   align-items: flex-start;
 `
 
-interface Props extends FunctionDisabled {
+interface Props {
   resourceLinks: ResourceLink[]
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
 export function HeaderButtons({ resourceLinks, certificateMetadata, functionDisabled }: Props) {

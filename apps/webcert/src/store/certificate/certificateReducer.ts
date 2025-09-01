@@ -8,8 +8,6 @@ import {
   ConfigTypes,
 } from '../../types'
 import { isClientValidationError } from '../../utils/certificate/getClientValidationErrors'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import type { ErrorData } from '../error/errorReducer'
 import type { GotoCertificateDataElement, SigningData } from './certificateActions'
 import {
@@ -31,7 +29,6 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
   unstyleCertificateDataElement,
   updateCertificate,
@@ -59,7 +56,6 @@ export interface CertificateState {
   certificateEvents: CertificateEvent[]
   complements: Complement[]
   createdCertificateId: string
-  functionDisablers: FunctionDisabler[]
   gotoCertificateDataElement?: GotoCertificateDataElement
   isDeleted: boolean
   modalData: ModalData | null
@@ -81,7 +77,6 @@ const getInitialState = (): CertificateState => {
     certificateEvents: [],
     complements: [],
     createdCertificateId: '',
-    functionDisablers: [],
     isDeleted: false,
     modalData: null,
     qrCode: '',
@@ -287,9 +282,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateRoutedFromDeletedCertificate, (state, action) => {
       state.routedFromDeletedCertificate = action.payload
-    })
-    .addCase(toggleCertificateFunctionDisabler, (state, action) => {
-      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload

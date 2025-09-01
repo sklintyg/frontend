@@ -2,13 +2,14 @@ import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { flushPromises } from '../../utils/flushPromises'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorType } from '../error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import type { ApiCall } from './apiActions'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
 import { apiMiddleware } from './apiMiddleware'
+import { isFunctionDisabled, selectAllRequests } from './requestSlice'
 
 describe('Test API middleware', () => {
   let fakeAxios: MockAdapter
@@ -148,48 +149,27 @@ describe('Test API middleware', () => {
     })
   })
 
-  describe('handle functionDisabler', () => {
+  it('should handle functionDisabler', async () => {
     const FUNCTION_DISABLER_TYPE = 'FUNCTION_DISABLER_TYPE'
     const URL = 'URL'
 
-    beforeEach(() => {
-      clearDispatchedActions()
-    })
+    fakeAxios.onGet(URL).reply(200)
 
-    it('shall dispatch functionDisablerType', async () => {
-      fakeAxios.onGet(URL).reply(200)
+    const call: ApiCall = { url: URL, method: 'GET', functionDisablerType: FUNCTION_DISABLER_TYPE }
 
-      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionDisablerType: FUNCTION_DISABLER_TYPE }))
-      await flushPromises()
-      const functionDisablerAction: AnyAction | undefined = dispatchedActions.find((action) => action.type === FUNCTION_DISABLER_TYPE)
+    testStore.dispatch(apiCallBegan(call))
 
-      expect(functionDisablerAction).toBeTruthy()
-    })
+    expect(selectAllRequests(testStore.getState())).toMatchObject([call])
 
-    it('shall dispatch functionDisablerType and then dispatch the same functionDisabler after successful api call', async () => {
-      fakeAxios.onGet(URL).reply(200)
+    expect(isFunctionDisabled(FUNCTION_DISABLER_TYPE)(testStore.getState())).toBe(true)
 
-      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionDisablerType: FUNCTION_DISABLER_TYPE }))
-      await flushPromises()
-      const functionDisablerActions: AnyAction[] | undefined = dispatchedActions.filter((action) => action.type === FUNCTION_DISABLER_TYPE)
-      const initialFunctionDisabler = functionDisablerActions[0]?.payload as FunctionDisabler
-      const finalFunctionDisabler = functionDisablerActions[1]?.payload as FunctionDisabler
+    await flushPromises()
 
-      expect(initialFunctionDisabler.id).toBe(finalFunctionDisabler.id)
-    })
+    expect(selectAllRequests(testStore.getState())).toMatchObject([])
 
-    it('shall dispatch functionDisablerType and then dispatch the same functionDisabler after failed api call', async () => {
-      fakeAxios.onGet(URL).reply(500)
-
-      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionDisablerType: FUNCTION_DISABLER_TYPE }))
-      await flushPromises()
-      const functionDisablerActions: AnyAction[] | undefined = dispatchedActions.filter((action) => action.type === FUNCTION_DISABLER_TYPE)
-      const addFunctionDisabler = functionDisablerActions[0]?.payload as FunctionDisabler
-      const removeFunctionDisabler = functionDisablerActions[1]?.payload as FunctionDisabler
-
-      expect(addFunctionDisabler.id).toBe(removeFunctionDisabler.id)
-    })
+    expect(isFunctionDisabled(FUNCTION_DISABLER_TYPE)(testStore.getState())).toBe(false)
   })
+
   describe('handle API calls with launchId', () => {
     const INVALID_LAUNCHID = 'INVALID_LAUNCHID'
     const user = {

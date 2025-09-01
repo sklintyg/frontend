@@ -3,14 +3,14 @@ import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { checkImage } from '../../../images'
 import { readyForSign } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   title?: string
   description: string
   enabled: boolean
   isValidForSigning: boolean
+  functionDisabled: boolean
 }
 
 const ReadyForSignButton = ({ name, title, description, enabled, isValidForSigning, functionDisabled }: Props) => {

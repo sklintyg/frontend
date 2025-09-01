@@ -3,13 +3,13 @@ import InfoBox from '../../../components/utils/InfoBox'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { DoubleArrowIcon } from '../../../images'
 import type { CertificateMetadata } from '../../../types'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
 const ReplaceCertificateContinueButton = ({ name, description, enabled, certificateMetadata, functionDisabled }: Props) => {

@@ -1,34 +1,32 @@
+import { randomUUID } from '@frontend/utils'
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { AxiosError, AxiosResponse } from 'axios'
 import axios from 'axios'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode } from '../error/errorReducer'
 import type { ApiError } from './apiActions'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
+import { addRequest, isRequestLoading, removeRequest } from './requestSlice'
 
 const handleApiCallBegan: Middleware =
-  ({ dispatch }: MiddlewareAPI) =>
+  ({ getState, dispatch }: MiddlewareAPI) =>
   () =>
   async (action: AnyAction) => {
-    if (!apiCallBegan.match(action)) {
+    if (!apiCallBegan.match(action) || isRequestLoading(action.payload)(getState())) {
       return
     }
 
-    const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-    const functionDisabler: FunctionDisabler = generateFunctionDisabler()
+    const id = randomUUID()
+    const { url, method, data, headers, onStart, onSuccess, onError, onArgs } = action.payload
 
     if (onStart) {
       dispatch({ type: onStart, payload: { ...onArgs } })
     }
 
     try {
-      if (functionDisablerType) {
-        dispatch({ type: functionDisablerType, payload: functionDisabler })
-      }
+      dispatch(addRequest({ id, ...action.payload }))
 
       const response = await axios.request({
         url,
@@ -59,9 +57,7 @@ const handleApiCallBegan: Middleware =
         })
       }
     } finally {
-      if (functionDisablerType) {
-        dispatch({ type: functionDisablerType, payload: functionDisabler })
-      }
+      dispatch(removeRequest(id))
     }
   }
 

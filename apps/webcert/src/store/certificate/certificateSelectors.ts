@@ -21,9 +21,10 @@ import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, 
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { isFunctionDisabled } from '../api/requestSlice'
 import type { ErrorData } from '../error/errorReducer'
-import type { RootState } from '../store'
-import type { SigningData } from './certificateActions'
+import type { RootState } from '../reducer'
+import { toggleCertificateFunctionDisabler, type SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -261,7 +262,7 @@ export const getResponsibleHospName = (state: RootState): string => {
   return state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.responsibleHospName : ''
 }
 
-export const isCertificateFunctionDisabled = (state: RootState): boolean => state.ui.uiCertificate.functionDisablers.length > 0
+export const isCertificateFunctionDisabled = isFunctionDisabled(toggleCertificateFunctionDisabler.type)
 
 export const getCertificateId =
   () =>

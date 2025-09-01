@@ -4,12 +4,12 @@ import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithCo
 import { DoubleArrowIcon } from '../../../images'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
+  functionDisabled: boolean
 }
 
 const ReplaceCertificateButton = ({ name, description, enabled, functionDisabled }: Props) => {

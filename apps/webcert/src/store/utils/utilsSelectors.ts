@@ -1,5 +1,5 @@
 import type { Banner, DiagnosisTypeahead, DynamicLinkData } from '../../types'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 import type { Configuration } from './utilsReducer'
 
 export const getDynamicLink =

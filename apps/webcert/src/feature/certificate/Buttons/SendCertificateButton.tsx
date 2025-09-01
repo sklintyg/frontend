@@ -4,15 +4,15 @@ import { epostImage } from '../../../images'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   title?: string
   description: string
   body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
 const SendCertificateButton = ({ name, title, description, enabled, body, certificateMetadata, functionDisabled }: Props) => {

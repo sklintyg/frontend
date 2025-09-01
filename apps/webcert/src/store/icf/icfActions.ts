@@ -1,7 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import type { AvailableIcfCodes } from './icfReducer'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 export interface IcfRequest {
   icdCodes: string[]
@@ -26,4 +24,4 @@ export const updateIcfCodes = createAction<IcfResponse>(`${ICF} Update diagnosis
 
 export const setOriginalIcd10Codes = createAction<string[]>(`${ICF} Set original icd 10 codes`)
 
-export const toggleIcfFunctionDisabler = createAction<FunctionDisabler>(`${ICF} ${TOGGLE_FUNCTION_DISABLER}`)
+export const toggleIcfFunctionDisabler = createAction(`${ICF} toggling function disabler`)
