@@ -10,13 +10,12 @@ import { CareProviderItem } from './CareProviderItem'
 
 let handleChooseUnit: Mock<unknown[], unknown>
 const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.datatype.uuid() })] })
-let selectedRadio: string | null
 beforeEach(() => {
   handleChooseUnit = vi.fn()
 })
 
 function renderComponent() {
-  return render(<CareProviderItem handleChooseUnit={handleChooseUnit} provider={vardgivare} selectedRadio={selectedRadio} />)
+  return render(<CareProviderItem handleChooseUnit={handleChooseUnit} provider={vardgivare} selectedRadio={null} />)
 }
 
 it('renders without error', () => {
