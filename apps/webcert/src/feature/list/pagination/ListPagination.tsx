@@ -1,20 +1,33 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useCallback, useEffect } from 'react'
 import { Pagination } from '../../../components/Pagination/Pagination'
 import { performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
-import type { ListFilterValueNumber } from '../../../types'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import { ListFilterType } from '../../../types'
 
 const ListPagination = () => {
-  const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber
-  const startFrom = useSelector(getActiveListFilterValue('START_FROM')) as ListFilterValueNumber
-  const totalCount = useSelector(getListTotalCount)
-  const dispatch = useDispatch()
+  const pageSize = useAppSelector(getActiveListFilterValue('PAGESIZE', ListFilterType.NUMBER))
+  const startFrom = useAppSelector(getActiveListFilterValue('START_FROM', ListFilterType.NUMBER))
+  const totalCount = useAppSelector(getListTotalCount)
+  const dispatch = useAppDispatch()
 
-  const handlePageChange = (startFrom: number) => {
-    dispatch(updateActiveListFilterValue({ id: 'START_FROM', filterValue: { type: ListFilterType.NUMBER, value: startFrom } }))
-    dispatch(performListSearch)
-  }
+  const handlePageChange = useCallback(
+    (startFrom: number) => {
+      dispatch(updateActiveListFilterValue({ id: 'START_FROM', filterValue: { type: ListFilterType.NUMBER, value: startFrom } }))
+      dispatch(performListSearch)
+    },
+    [dispatch]
+  )
+
+  useEffect(() => {
+    if (startFrom && totalCount && pageSize) {
+      const currentPage = Math.floor(startFrom.value / pageSize.value) + 1
+      const totalPages = Math.ceil(totalCount / pageSize.value)
+      if (currentPage > totalPages) {
+        handlePageChange(pageSize.value * (totalPages - 1))
+      }
+    }
+  }, [dispatch, handlePageChange, pageSize, startFrom, totalCount])
 
   return (
     <Pagination

@@ -62,7 +62,7 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
   }
 }
 
-export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values?: Record<string, ListFilterValue>): boolean => {
+export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values?: Record<string, ListFilterValue | undefined>): boolean => {
   let isDefault = true
   if (!configs || !values) {
     return false
