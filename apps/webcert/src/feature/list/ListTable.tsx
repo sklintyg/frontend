@@ -118,7 +118,7 @@ export function ListTable({
               onClick={updateSortingOfList}
               data-html
               data-tooltip-id="tooltip"
-              data-tooltip-content={heading.description}
+              data-tooltip-html={heading.description}
             >
               <span className="iu-mr-500">{heading.title}</span>
               {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}
