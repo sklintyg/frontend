@@ -36,6 +36,9 @@ RUN  touch /var/run/nginx.pid && \
      chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid /etc/nginx/ /var/log/nginx
 USER nginx
 
-RUN apk add --no-cache python3 py3-pip
+# Install python3 + pip (Debian slim)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends python3 python3-pip \
+ && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8080
