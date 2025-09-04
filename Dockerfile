@@ -31,14 +31,14 @@ COPY /$application_path/dist/ .
 COPY /$application_path/nginx/templates /etc/nginx/templates/
 COPY /$application_path/nginx/conf/nginx.conf /etc/nginx/nginx.conf
 
-# Allow Nginx user access to specifed paths (101:101)
-RUN  touch /var/run/nginx.pid && \
-     chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid /etc/nginx/ /var/log/nginx
-USER nginx
-
 # Install python3 + pip (Debian slim)
 RUN apt-get update \
  && apt-get install -y --no-install-recommends python3 python3-pip \
  && rm -rf /var/lib/apt/lists/*
+
+# Allow Nginx user access to specifed paths (101:101)
+RUN  touch /var/run/nginx.pid && \
+     chown -R nginx:nginx /var/cache/nginx /var/run/nginx.pid /etc/nginx/ /var/log/nginx
+USER nginx
 
 EXPOSE 8080
