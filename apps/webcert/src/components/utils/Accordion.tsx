@@ -5,6 +5,10 @@ const Accordion = styled.details.attrs({
 })`
   padding: 0 !important;
   overflow: visible;
+
+  &:open > summary {
+    padding-bottom: 0.625rem !important;
+  }
 `
 
 export default Accordion
