@@ -9,9 +9,8 @@ export const GroupWrapper = styled.div<Props>`
   ${(props) => {
     if (props.layout === ConfigLayout.COLUMNS) {
       return css`
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        row-gap: 0.9375rem;
+        column-count: 2;
+        gap: 0.9375rem;
       `
     }
   }}
