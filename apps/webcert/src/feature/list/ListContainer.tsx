@@ -14,7 +14,7 @@ import {
 import { getActivePatient } from '../../store/patient/patientSelectors'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { getLoggedInUnit } from '../../store/user/userSelectors'
-import type { ListType } from '../../types'
+import { ListType } from '../../types'
 import { List } from './List'
 
 export function ListContainer({
@@ -41,6 +41,11 @@ export function ListContainer({
   useEffect(() => {
     if (listType !== type) {
       dispatch(updateActiveListType(type))
+    }
+    return () => {
+      if (listType === type) {
+        dispatch(updateActiveListType(ListType.UNKOWN))
+      }
     }
   }, [dispatch, listType, type])
 
