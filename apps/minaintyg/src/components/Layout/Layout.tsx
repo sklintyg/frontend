@@ -27,25 +27,23 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      {info && (
-        <>
-          <LayoutHeader mode={info.environment} skipToContent="#content" avatar={user && <LayoutHeaderAvatar environment={info.environment} />} />
-          <main id="content" className="relative flex-1">
-            {info &&
-              info.banners.length > 0 &&
-              info.banners.map((banner) => (
-                <GlobalAlert key={banner.type} priority={getAlertPriority(banner.type)}>
-                  {banner.content}
-                </GlobalAlert>
-              ))}
-            <div ref={ref} className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
-              {hasSessionEnded ? <ErrorPageHero type={sessionEndedReason} id={sessionEndedErrorId} /> : children}
-            </div>
-            <ScrollTopButton />
-          </main>
-          <LayoutFooter hasSession={hasSession} />
-        </>
-      )}
+      {info &&
+        <LayoutHeader mode={info.environment} skipToContent="#content" avatar={user && <LayoutHeaderAvatar environment={info.environment} />} />
+      }
+      <main id="content" className="relative flex-1">
+        {info &&
+          info.banners.length > 0 &&
+          info.banners.map((banner) => (
+            <GlobalAlert key={banner.type} priority={getAlertPriority(banner.type)}>
+              {banner.content}
+            </GlobalAlert>
+          ))}
+        <div ref={ref} className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
+          {hasSessionEnded ? <ErrorPageHero type={sessionEndedReason} id={sessionEndedErrorId} /> : children}
+        </div>
+        <ScrollTopButton />
+      </main>
+      <LayoutFooter hasSession={hasSession} />
     </div>
   )
 }
