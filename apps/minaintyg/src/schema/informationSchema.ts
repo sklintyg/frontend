@@ -14,6 +14,7 @@ export const bannerSchema = z.object({
 })
 export const informationSchema = z.object({
   banners: z.array(bannerSchema),
+  environment: z.string(),
 })
 
 export type InformationResponse = z.infer<typeof informationSchema>

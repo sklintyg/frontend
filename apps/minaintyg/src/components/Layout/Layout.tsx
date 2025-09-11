@@ -27,7 +27,13 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      <LayoutHeader mode={import.meta.env.MODE} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />
+      {info && (
+        <LayoutHeader
+          mode={info.environment}
+          skipToContent="#content"
+          avatar={user && <LayoutHeaderAvatar environment={info.environment} />}
+        />
+      )}
       <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&
