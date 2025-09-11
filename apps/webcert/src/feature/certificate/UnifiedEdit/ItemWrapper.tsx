@@ -23,11 +23,10 @@ export const ItemWrapper = styled.div<Props>`
             : ''}
         `
       case ConfigLayout.COLUMNS: {
-        const column = Math.trunc((2 * index) / noItems + 1)
-        const row = index < noItems / 2 ? index + 1 : index - Math.ceil(noItems / 2) + 1
         return css`
-          grid-column: ${column};
-          grid-row: ${row};
+          display: inline-block;
+          width: 100%;
+          padding-bottom: 0.9375rem;
         `
       }
       default:
