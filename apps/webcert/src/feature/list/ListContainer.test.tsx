@@ -15,6 +15,7 @@ import {
   updateIsLoadingListConfig,
 } from '../../store/list/listActions'
 import { listMiddleware } from '../../store/list/listMiddleware'
+import { getActiveListType } from '../../store/list/listSelectors'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
 import { ListContainer } from './ListContainer'
@@ -61,5 +62,19 @@ describe('List', () => {
   it('Should show empty list when empty list flag is set', () => {
     renderComponent(true)
     expect(screen.getByAltText('Det finns inga resultat i listan.')).toBeInTheDocument()
+  })
+
+  it('Should reset list when unmounting', () => {
+    const { unmount } = render(
+      <Provider store={testStore}>
+        <ListContainer type={ListType.CERTIFICATES} showMessageForEmptyList emptyListIcon="" />
+      </Provider>
+    )
+
+    expect(getActiveListType(testStore.getState())).toBe(ListType.CERTIFICATES)
+
+    unmount()
+
+    expect(getActiveListType(testStore.getState())).toBe(ListType.UNKOWN)
   })
 })
