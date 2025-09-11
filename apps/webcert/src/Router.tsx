@@ -54,6 +54,7 @@ export function Router() {
         <Route path="certificate/:certificateId/sign/:error" element={<CertificatePage />} />
         <Route path="certificate/:certificateId/launch-unit-selection" element={<SelectUnitPage />} />
         <Route path="certificate/:certificateId" element={<CertificatePage />} />
+        <Route path="certificate/:certificateId/questions" element={<CertificatePage />} />
         <Route path="welcome" element={<Welcome />} />
         <Route path="welcome.html" element={<Welcome />} />
         <Route path="error" element={<ErrorPage />} />
