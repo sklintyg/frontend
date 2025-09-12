@@ -29,7 +29,7 @@ export function Layout({ children }: { children?: ReactNode }) {
     <div id="top" className="flex min-h-screen flex-col">
       {info && (
         <LayoutHeader
-          mode={info.environment}
+          links={info.links}
           skipToContent="#content"
           avatar={user && <LayoutHeaderAvatar environment={info.environment} />}
         />
