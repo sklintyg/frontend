@@ -12,7 +12,7 @@ import { UeCheckboxDateRangeList } from '../UnifiedEdit/UeCheckboxDateRangeList/
 import UeCheckboxGroup from '../UnifiedEdit/UeCheckboxGroup/UeCheckboxGroup'
 import UeDate from '../UnifiedEdit/UeDate/UeDate'
 import UeDateRange from '../UnifiedEdit/UeDateRange/UeDateRange'
-import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
+import { UeDiagnoses } from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
 import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
@@ -55,11 +55,15 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
         dispatch(updateCertificateDataElement({ ...question, value }))
       },
     }),
-    [disabled, dispatch, question]
+    [question, disabled, dispatch]
   )
 
   if (isQuestionTypes(ConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, CertificateDataValueType.DATE_RANGE_LIST, question)) {
     return <UeCheckboxDateRangeList {...questionToUeProps(question.config, question.value)} key={question.id} />
+  }
+
+  if (isQuestionTypes(ConfigTypes.UE_DIAGNOSES, CertificateDataValueType.DIAGNOSIS_LIST, question)) {
+    return <UeDiagnoses {...questionToUeProps(question.config, question.value)} key={question.id} />
   }
 
   switch (question.config.type) {
@@ -79,8 +83,6 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
       return <UeRadioGroup {...commonProps} key={question.id} />
     case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
       return <UeCheckboxDateGroup {...commonProps} key={question.id} />
-    case ConfigTypes.UE_DIAGNOSES:
-      return <UeDiagnoses {...commonProps} key={question.id} />
     case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
       return <UeRadioGroupOptionalDropdown {...commonProps} key={question.id} />
     case ConfigTypes.UE_UNCERTAIN_DATE:
