@@ -31,7 +31,7 @@ export function Layout({ children }: { children?: ReactNode }) {
         <LayoutHeader
           links={info.links}
           skipToContent="#content"
-          avatar={user && <LayoutHeaderAvatar environment={info.environment} />}
+          avatar={user && <LayoutHeaderAvatar settingLink={info.links.find((link) => link.id === '99')} />}
         />
       )}
       <main id="content" className="relative flex-1">
