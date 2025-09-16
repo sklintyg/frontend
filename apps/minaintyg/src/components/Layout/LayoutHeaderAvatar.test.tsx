@@ -8,9 +8,12 @@ it('Should render links', async () => {
   render(
     <Provider store={store}>
       <RouterProvider
-        router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<LayoutHeaderAvatar />} />), {
-          initialEntries: ['/'],
-        })}
+        router={createMemoryRouter(
+          createRoutesFromElements(<Route path="/" element={<LayoutHeaderAvatar environment={import.meta.env.MODE} />} />),
+          {
+            initialEntries: ['/'],
+          }
+        )}
       />
     </Provider>
   )
@@ -22,9 +25,12 @@ it('Should not render anything when user is not loaded', async () => {
   const { container } = render(
     <Provider store={store}>
       <RouterProvider
-        router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<LayoutHeaderAvatar />} />), {
-          initialEntries: ['/'],
-        })}
+        router={createMemoryRouter(
+          createRoutesFromElements(<Route path="/" element={<LayoutHeaderAvatar environment={import.meta.env.MODE} />} />),
+          {
+            initialEntries: ['/'],
+          }
+        )}
       />
     </Provider>
   )

@@ -3,7 +3,7 @@ import { getSettingsUrl } from '@frontend/components/1177'
 import { IDSHeader1177Avatar } from '@inera/ids-react'
 import { useGetUserQuery } from '../../store/hooks'
 
-export function LayoutHeaderAvatar() {
+export function LayoutHeaderAvatar({ environment }: { environment: string }) {
   const { data: user } = useGetUserQuery()
 
   if (!user) {
@@ -15,7 +15,7 @@ export function LayoutHeaderAvatar() {
       username={user.personName}
       links={
         <>
-          <HeaderAvatarLink icon="settings" to={getSettingsUrl(import.meta.env.MODE)}>
+          <HeaderAvatarLink icon="settings" to={getSettingsUrl(environment)}>
             Inställningar
           </HeaderAvatarLink>
           <HeaderAvatarLink icon="user" to="/logga-ut">
