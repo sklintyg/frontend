@@ -1,11 +1,13 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
 import { server } from '../../mocks/server'
 import { CertificateCrumb } from '../../pages/Certificate/CertificateCrumb'
 import { certificateSchema } from '../../schema/certificate.schema'
+import { api } from '../../store/api'
+import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Breadcrumbs } from './Breadcrumbs'
 
@@ -43,6 +45,11 @@ const renderComponent = (initialEntries = ['/']) =>
     </Provider>
   )
 
+beforeEach(() => {
+  store.dispatch(startSession())
+  store.dispatch(api.endpoints.getInfo.initiate())
+})
+
 it('Should render as expected with no matches', () => {
   const { container } = renderComponent(['/no-matches'])
   expect(container).toMatchInlineSnapshot(`
@@ -62,13 +69,16 @@ it('Should render as expected with two level', () => {
   expect(container).toMatchSnapshot()
 })
 
-it('Should contain correct link for start item, mobile and desktop', () => {
+it('Should contain correct link for start item, mobile and desktop', async () => {
   renderComponent(['/'])
+
+  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
+
   const links = screen.getAllByRole('link', { name: 'Start' })
   expect(links).toHaveLength(2)
   links.forEach((link) => {
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
+    expect(link).toHaveAttribute('href', 'https://e-tjanster.st.1177.se/mvk/start.xhtml')
   })
 })
 

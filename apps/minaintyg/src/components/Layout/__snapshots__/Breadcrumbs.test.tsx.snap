@@ -68,6 +68,21 @@ exports[`Should render as expected with three levels 1`] = `
             class="ids-breadcrumbs__crumb"
           >
             <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
               href="/"
             >
               Intyg
