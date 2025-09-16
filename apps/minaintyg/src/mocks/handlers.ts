@@ -5,12 +5,12 @@ import type { DefaultBodyType, PathParams, RestRequest } from 'msw'
 import { rest } from 'msw'
 import type { CertificateStatus } from '../schema/certificate.schema'
 import {
-  CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
+  CertificateStatusEnum,
   certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
@@ -194,7 +194,14 @@ export const handlers = [
       })
     )
   ),
-  rest.get('/api/info', (_, res, ctx) => res(ctx.status(200))),
+  rest.get('/api/info', (_, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({
+        links: [{ id: '99', name: 'Inställningar', url: 'https://e-tjanster.1177.se/mvk/settings.xhtml' }],
+      })
+    )
+  ),
   rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
   rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]
