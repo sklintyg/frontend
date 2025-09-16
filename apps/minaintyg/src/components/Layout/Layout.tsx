@@ -20,7 +20,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   useDocumentTitle(ref)
   const { data: user } = useGetUserQuery()
   const { data: info } = useGetInfoQuery(hasSession ? undefined : skipToken)
-  const links = useLinks()
+  const navLinks = useLinks().slice(0, -1)
   const getAlertPriority = (priority: BannerPriority) => {
     if (priority === BannerPriority.ERROR) {
       return PriorityEnum.ERROR
@@ -29,7 +29,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      {links && <LayoutHeader links={links} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />}
+      {navLinks && <LayoutHeader links={navLinks} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />}
       <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&

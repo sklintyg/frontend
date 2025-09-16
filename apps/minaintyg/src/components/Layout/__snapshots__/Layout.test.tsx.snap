@@ -36,7 +36,7 @@ exports[`Should render as expected 1`] = `
                 <a
                   aria-label="Logotyp"
                   class="ids-header-1177__logo-link"
-                  href="https://e-tjanster.1177.se/mvk/"
+                  href=""
                 />
               </div>
             </div>
@@ -80,80 +80,7 @@ exports[`Should render as expected 1`] = `
       >
         <div
           class="ids-header-1177__nav-inner"
-        >
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://e-tjanster.1177.se/mvk/"
-            >
-              Start
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://e-tjanster.1177.se/mvk/messageList.xhtml"
-            >
-              Inkorg
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://bokadetider.1177.se/"
-            >
-              Bokade tider
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://journalen.1177.se/"
-            >
-              Journalen
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://pep.1177.se/"
-            >
-              Egen provhantering
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://sob.1177.se/"
-            >
-              Stöd och behandling
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item ids-header-1177__nav-item--active"
-          >
-            <a
-              href="/"
-            >
-              Intyg
-            </a>
-          </div>
-          <div
-            class="ids-header-1177__nav-item"
-          >
-            <a
-              href="https://e-tjanster.1177.se/mvk/services.xhtml?tab=3"
-            >
-              Övriga tjänster
-            </a>
-          </div>
-        </div>
+        />
       </nav>
     </header>
     <main
