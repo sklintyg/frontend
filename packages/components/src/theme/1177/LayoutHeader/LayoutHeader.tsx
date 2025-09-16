@@ -12,7 +12,7 @@ export function LayoutHeader({
 }: {
   activeLink?: string
   avatar: ReactNode
-  links: Array<DynamicLink>
+  links: DynamicLink[]
   skipToContent: string
 }) {
   const startLinkItem = links.find((link) => link.name === 'Start')

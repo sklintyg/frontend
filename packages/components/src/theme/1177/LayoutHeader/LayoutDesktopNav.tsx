@@ -3,7 +3,7 @@ import { useInRouterContext } from 'react-router-dom'
 import { LayoutDesktopNavItem } from './LayoutDesktopNavItem'
 import type { DynamicLink } from '../DynamicLink'
 
-export function LayoutDesktopNav({ activeLink, links }: { activeLink?: string; links: Array<DynamicLink> }) {
+export function LayoutDesktopNav({ activeLink, links }: { activeLink?: string; links: DynamicLink[] }) {
   const inRouterContext = useInRouterContext()
 
   if (!inRouterContext) {
