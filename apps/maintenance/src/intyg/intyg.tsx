@@ -7,7 +7,7 @@ import '../styling/1177.css'
 ReactDOM.createRoot(document.getElementById('rootIntyg') as HTMLElement).render(
   <React.StrictMode>
     <div className="flex min-h-screen flex-col">
-      <LayoutHeader mode={import.meta.env.MODE} avatar={undefined} skipToContent="#content" />
+      <LayoutHeader links={[]} avatar={undefined} skipToContent="#content" />
       <main id="content" className="relative flex-1">
         <div className="ids-content m-auto max-w-screen-xl overflow-hidden px-2.5 py-5">
           <PageHero heading="Planerat underhållsarbete" type="error">

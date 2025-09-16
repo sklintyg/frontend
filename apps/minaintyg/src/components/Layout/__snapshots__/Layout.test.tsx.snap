@@ -6,6 +6,83 @@ exports[`Should render as expected 1`] = `
     class="flex min-h-screen flex-col"
     id="top"
   >
+    <header
+      class="ids-header-1177"
+    >
+      <div
+        class="ids-header-1177__skip-to-content"
+      >
+        <a
+          href="#content"
+        >
+          Till sidans huvudinnehåll
+        </a>
+      </div>
+      <div
+        class="ids-header-1177__container"
+      >
+        <div
+          class="ids-header-1177__inner"
+        >
+          <div
+            class="ids-header-1177__inner-left"
+          >
+            <div
+              class="ids-header-1177__logo-wrapper"
+            >
+              <div
+                class="ids-header-1177__logo"
+              >
+                <a
+                  aria-label="Logotyp"
+                  class="ids-header-1177__logo-link"
+                  href=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="ids-header-1177__inner-right"
+          >
+            <div
+              class="ids-header-1177__items"
+            >
+               
+              <div
+                class="ids-header-1177__mobile-menu"
+              >
+                <div
+                  class="ids-header-1177-menu-mobile-component"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-label="Meny"
+                    class="ids-header-1177-menu-mobile"
+                  >
+                    <div
+                      class="ids-hamburger"
+                    >
+                      <span
+                        class="ids-hamburger__lines"
+                      />
+                    </div>
+                    <slot />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav
+        class="ids-header-1177__nav"
+        slot="nav"
+      >
+        <div
+          class="ids-header-1177__nav-inner"
+        />
+      </nav>
+    </header>
     <main
       class="relative flex-1"
       id="content"

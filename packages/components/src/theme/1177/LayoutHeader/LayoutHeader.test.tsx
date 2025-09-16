@@ -3,7 +3,7 @@ import { LayoutHeader } from './LayoutHeader'
 
 it('Should render links when user is loaded', async () => {
   const links = [
-    { id: '1', name: 'Start', url: '/' },
+    { id: '1', name: 'Start', url: 'https://e-tjanster.st.1177.se/mvk/start.xhtml' },
     { id: '2', name: 'Om Mina intyg', url: '/about' },
     { id: '3', name: 'Hjälp', url: '/help' },
   ]

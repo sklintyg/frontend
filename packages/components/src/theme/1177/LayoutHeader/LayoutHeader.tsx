@@ -2,6 +2,7 @@ import { IDSHeader1177 } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { LayoutDesktopNav } from './LayoutDesktopNav'
 import { LayoutMobileMenu } from './LayoutMobileMenu'
+import type { DynamicLink } from '../DynamicLink'
 
 export function LayoutHeader({
   activeLink,
@@ -11,7 +12,7 @@ export function LayoutHeader({
 }: {
   activeLink?: string
   avatar: ReactNode
-  links: Array<{ id: string; name: string; url: string }>
+  links: Array<DynamicLink>
   skipToContent: string
 }) {
   const startLinkItem = links.find((link) => link.name === 'Start')

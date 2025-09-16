@@ -27,3 +27,4 @@ export const informationSchema = z.object({
 
 export type InformationResponse = z.infer<typeof informationSchema>
 export type Banner = z.infer<typeof bannerSchema>
+export type DynamicLink = z.infer<typeof linkSchema>

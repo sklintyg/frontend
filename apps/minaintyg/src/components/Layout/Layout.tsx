@@ -9,6 +9,7 @@ import { useGetInfoQuery } from '../../store/api'
 import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
+import { useLinks } from '../../hooks/useLinks'
 
 export function Layout({ children }: { children?: ReactNode }) {
   const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)
@@ -19,6 +20,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   useDocumentTitle(ref)
   const { data: user } = useGetUserQuery()
   const { data: info } = useGetInfoQuery(hasSession ? undefined : skipToken)
+  const links = useLinks()
   const getAlertPriority = (priority: BannerPriority) => {
     if (priority === BannerPriority.ERROR) {
       return PriorityEnum.ERROR
@@ -27,13 +29,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      {info && (
-        <LayoutHeader
-          links={info.links}
-          skipToContent="#content"
-          avatar={user && <LayoutHeaderAvatar settingLink={info.links.find((link) => link.id === '99')} />}
-        />
-      )}
+      {links && <LayoutHeader links={links} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />}
       <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&

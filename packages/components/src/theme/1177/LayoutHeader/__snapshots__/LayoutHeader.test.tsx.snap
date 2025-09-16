@@ -32,7 +32,7 @@ exports[`Should render links when user is loaded 1`] = `
               <a
                 aria-label="Logotyp"
                 class="ids-header-1177__logo-link"
-                href="/"
+                href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
               />
             </div>
           </div>
