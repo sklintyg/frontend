@@ -7,6 +7,8 @@ env:
   LEGACY_SUPPORT: false
 jobs:
   playwright:
+    permissions:
+      contents: read
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
