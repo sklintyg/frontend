@@ -2,229 +2,189 @@
 
 exports[`Should render inactive type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-attention"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Din inloggning är låst
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        Din inloggning är låst. Kontakta supporten om du har frågor.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="/"
-            target="self"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-            />
-            Till inloggning
-          </a>
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://www.1177.se/e-tjanster-support"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-            />
-            Kontakta supporten
-            <span
-              class="ids-icon-external-link-small ids-icon--text-end"
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;
 
 exports[`Should render logged-out type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-success"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Du är utloggad
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        Du har antingen valt att logga ut eller blivit utloggad på grund av inaktivitet. Du kan nu stänga fliken eller logga in på nytt.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="/"
-            target="self"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-            />
-            Till inloggning
-          </a>
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://www.1177.se"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-            />
-            Till 1177
-            <span
-              class="ids-icon-external-link-small ids-icon--text-end"
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;
 
 exports[`Should render login-failed type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-attention"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Inloggning misslyckades
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        På grund av ett tekniskt fel går det inte att logga in just nu. Försök igen senare.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;
 
 exports[`Should render not-found type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-attention"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Sidan hittades inte
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        Sidan du söker har fått en ny adress eller är borttagen.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;
 
@@ -259,114 +219,94 @@ exports[`Should render unavailable type error 1`] = `
 
 exports[`Should render underage type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-attention"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Du som är under 16 har inte tillgång till 1177 intyg
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-            />
-            Om 1177 intyg
-            <span
-              class="ids-icon-external-link-small ids-icon--text-end"
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;
 
 exports[`Should render unknown type error 1`] = `
 <div>
-  <div
-    class="ids-content mx-auto flex max-w-[620px] flex-col gap-10 pt-12 text-center md:pt-24"
+  <h2>
+    Unexpected Application Error!
+  </h2>
+  <h3
+    style="font-style: italic;"
   >
-    <div
-      class="mx-auto"
-      style="font-size: 72px;"
+    could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+  </h3>
+  <pre
+    style="padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"
+  >
+    Error: could not find react-redux context value; please ensure the component is wrapped in a &lt;Provider&gt;
+    at useReduxContext (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useReduxContext.ts:17:13)
+    at Module.useSelector2 (file:///C:/GIT/Inera/Intyg/frontend/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.3.23_react@18.3.1_redux@5.0.1/node_modules/react-redux/src/hooks/useSelector.ts:162:26)
+    at Module.useLinks (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\hooks\\useLinks.ts:6:22)
+    at ErrorPageAction (C:\\GIT\\Inera\\Intyg\\frontend\\apps\\minaintyg\\src\\components\\error\\ErrorPageAction.tsx:7:25)
+    at renderWithHooks (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:20103:13)
+    at beginWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26599:12)
+    at workLoopSync (C:\\GIT\\Inera\\Intyg\\frontend\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom\\cjs\\react-dom.development.js:26505:5)
+  </pre>
+  <p>
+    💿 Hey developer 👋
+  </p>
+  <p>
+    You can provide a way better UX than this when your app throws errors by providing your own 
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
     >
-      <span
-        class="ids-icon-attention"
-      />
-    </div>
-    <div>
-      <h1
-        class="ids-heading-xxl !normal-case text-center"
-      >
-        Någonting gick fel
-      </h1>
-      <p
-        class="ids-preamble"
-      >
-        På grund av ett tekniskt fel går det inte att visa Intyg just nu. Försök igen senare.
-      </p>
-      <div
-        class="mb-5 text-left md:text-center"
-      >
-        <div
-          class="mb-5 mt-8 w-[43px] border-b md:hidden"
-        />
-        <div
-          class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+      ErrorBoundary
+    </code>
+     or
+     
+    <code
+      style="padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"
+    >
+      errorElement
+    </code>
+     prop on your route.
+  </p>
 </div>
 `;

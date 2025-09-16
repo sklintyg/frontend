@@ -1,8 +1,8 @@
-import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import { IDSBreadcrumbs } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { Params } from 'react-router-dom'
 import { Link, useMatches } from 'react-router-dom'
+import { useLinks } from '../../hooks/useLinks'
 
 type Match = ReturnType<typeof useMatches>[number]
 type MatchWithCrumb = Match & {
@@ -22,9 +22,9 @@ export function Breadcrumbs() {
   const prevMatch = matches ? matches[matches.length - 2] : undefined
   const [prevMatchUrl, prevMatchNode] = prevMatch ? resolveMatch(prevMatch) : []
 
-  const startLink = getNavigationItem('Start')
+  const startLink = useLinks().find((link) => link.name === 'Start')
   const startLinkComposed = startLink ? (
-    <Link key="start" to={getNavigationItemUrl(startLink, import.meta.env.MODE)}>
+    <Link key="start" to={startLink.url}>
       Start
     </Link>
   ) : undefined

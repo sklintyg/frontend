@@ -198,7 +198,53 @@ export const handlers = [
     res(
       ctx.status(200),
       ctx.json({
-        links: [{ id: '99', name: 'Inställningar', url: 'https://e-tjanster.1177.se/mvk/settings.xhtml' }],
+        links: [
+          {
+            id: '1',
+            name: 'Start',
+            url: 'https://e-tjanster.st.1177.se/mvk/start.xhtml',
+          },
+          {
+            id: '2',
+            name: 'Inkorg',
+            url: 'https://e-tjanster.st.1177.se/mvk/messageList.xhtml',
+          },
+          {
+            id: '3',
+            name: 'Bokade tider',
+            url: 'https://bokadetider.st.1177.se/',
+          },
+          {
+            id: '5',
+            name: 'Journalen',
+            url: 'https://sit.journalen.inera.se/',
+          },
+          {
+            id: '4',
+            name: 'Egen provhantering',
+            url: 'https://pep.omniq.se/PEP.Resident/context/',
+          },
+          {
+            id: '6',
+            name: 'Stöd och behandling',
+            url: 'https://st.sob.1177.se/',
+          },
+          {
+            id: '7',
+            name: 'Intyg',
+            url: 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
+          },
+          {
+            id: '8',
+            name: 'Övriga tjänster',
+            url: 'https://e-tjanster.st.1177.se/mvk/services.xhtml',
+          },
+          {
+            id: '99',
+            name: 'Inställningar',
+            url: 'https://e-tjanster.st.1177.se/mvk/settings.xhtml',
+          },
+        ],
       })
     )
   ),

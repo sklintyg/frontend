@@ -1,15 +1,15 @@
 import { AppLink } from '@frontend/components'
-import { getNavigationItem, getNavigationItemUrl } from '@frontend/components/1177'
 import type { ErrorPageActionTypeEnum } from '../../schema/error.schema'
 import { ErrorPageActionType } from '../../schema/error.schema'
+import { useLinks } from '../../hooks/useLinks'
 
 export function ErrorPageAction({ type }: { type: ErrorPageActionTypeEnum }) {
-  const startLinkItem = getNavigationItem('Start')
+  const startLinkItem = useLinks().find((link) => link.name.toLowerCase() === 'start')
 
   if (type === ErrorPageActionType.enum.start) {
     return (
       startLinkItem && (
-        <AppLink to={getNavigationItemUrl(startLinkItem, import.meta.env.MODE)} arrow>
+        <AppLink to={startLinkItem.url} arrow>
           Till startsidan
         </AppLink>
       )
