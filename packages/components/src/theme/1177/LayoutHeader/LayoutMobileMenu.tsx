@@ -1,7 +1,7 @@
 import { IDSHeader1177MenuMobile, IDSMobileMenu } from '@inera/ids-react'
 import { useInRouterContext } from 'react-router-dom'
 import { MobileMenuItem } from '../../../header'
-import type { DynamicLink } from '../DynamicLink'
+import type { DynamicLink } from '../../../types'
 
 export function LayoutMobileMenu({ links, activeLink }: { links: DynamicLink[]; activeLink?: string }) {
   const inRouterContext = useInRouterContext()

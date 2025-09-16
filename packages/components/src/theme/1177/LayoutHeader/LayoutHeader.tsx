@@ -1,8 +1,8 @@
 import { IDSHeader1177 } from '@inera/ids-react'
 import type { ReactNode } from 'react'
+import type { DynamicLink } from '../../../types'
 import { LayoutDesktopNav } from './LayoutDesktopNav'
 import { LayoutMobileMenu } from './LayoutMobileMenu'
-import type { DynamicLink } from '../DynamicLink'
 
 export function LayoutHeader({
   activeLink,
