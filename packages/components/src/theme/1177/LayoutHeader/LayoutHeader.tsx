@@ -15,6 +15,13 @@ export function LayoutHeader({
   links: DynamicLink[]
   skipToContent: string
 }) {
+  const mappedLinks = links.map((link) => {
+    if (link.name === 'Intyg') {
+      return { ...link, url: '/' }
+    }
+    return link
+  })
+
   const startLinkItem = links.find((link) => link.name === 'Start')
 
   return (
@@ -22,10 +29,10 @@ export function LayoutHeader({
       avatar={avatar}
       hideRegionPicker
       logoHref={startLinkItem?.url}
-      mobileMenu={<LayoutMobileMenu links={links} activeLink={activeLink} />}
+      mobileMenu={<LayoutMobileMenu links={mappedLinks} activeLink={activeLink} />}
       skipToContentLink={<a href={skipToContent}>Till sidans huvudinnehåll</a>}
     >
-      <LayoutDesktopNav links={links} activeLink={activeLink} />
+      <LayoutDesktopNav links={mappedLinks} activeLink={activeLink} />
     </IDSHeader1177>
   )
 }
