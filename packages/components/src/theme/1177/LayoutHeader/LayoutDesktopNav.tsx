@@ -1,9 +1,9 @@
 import { IDSHeader1177Nav } from '@inera/ids-react'
 import { useInRouterContext } from 'react-router-dom'
-import { getNavigation, getNavigationItemUrl } from '../navigation'
+import type { DynamicLink } from '../../../types'
 import { LayoutDesktopNavItem } from './LayoutDesktopNavItem'
 
-export function LayoutDesktopNav({ mode, activeLink }: { mode: string; activeLink?: string }) {
+export function LayoutDesktopNav({ activeLink, links }: { activeLink?: string; links: DynamicLink[] }) {
   const inRouterContext = useInRouterContext()
 
   if (!inRouterContext) {
@@ -12,8 +12,8 @@ export function LayoutDesktopNav({ mode, activeLink }: { mode: string; activeLin
 
   return (
     <IDSHeader1177Nav>
-      {getNavigation().map((item) => (
-        <LayoutDesktopNavItem key={item.id} to={getNavigationItemUrl(item, mode)} title={item.name} active={activeLink === item.name} />
+      {links.map((item) => (
+        <LayoutDesktopNavItem key={item.id} to={item.url} title={item.name} active={activeLink === item.name} />
       ))}
     </IDSHeader1177Nav>
   )

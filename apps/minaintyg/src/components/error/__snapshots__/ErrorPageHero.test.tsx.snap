@@ -163,7 +163,7 @@ exports[`Should render login-failed type error 1`] = `
         >
           <a
             class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
+            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
               class="ids-icon-arrow-right-small ids-icon--text-start"
@@ -213,7 +213,7 @@ exports[`Should render not-found type error 1`] = `
         >
           <a
             class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
+            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
               class="ids-icon-arrow-right-small ids-icon--text-start"
@@ -292,7 +292,7 @@ exports[`Should render underage type error 1`] = `
         >
           <a
             class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
+            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
               class="ids-icon-arrow-right-small ids-icon--text-start"
@@ -356,7 +356,7 @@ exports[`Should render unknown type error 1`] = `
         >
           <a
             class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.1177.se/mvk/"
+            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
               class="ids-icon-arrow-right-small ids-icon--text-start"

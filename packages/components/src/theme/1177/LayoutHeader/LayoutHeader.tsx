@@ -1,31 +1,38 @@
 import { IDSHeader1177 } from '@inera/ids-react'
 import type { ReactNode } from 'react'
-import { getNavigationItem, getNavigationItemUrl } from '../navigation'
+import type { DynamicLink } from '../../../types'
 import { LayoutDesktopNav } from './LayoutDesktopNav'
 import { LayoutMobileMenu } from './LayoutMobileMenu'
 
 export function LayoutHeader({
   activeLink,
   avatar,
-  mode,
+  links,
   skipToContent,
 }: {
   activeLink?: string
   avatar: ReactNode
-  mode: string
+  links: DynamicLink[]
   skipToContent: string
 }) {
-  const startLinkItem = getNavigationItem('Start')
+  const mappedLinks = links.map((link) => {
+    if (link.name === 'Intyg') {
+      return { ...link, url: '/' }
+    }
+    return link
+  })
+
+  const startLinkItem = links.find((link) => link.name === 'Start')
 
   return (
     <IDSHeader1177
       avatar={avatar}
       hideRegionPicker
-      logoHref={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
-      mobileMenu={<LayoutMobileMenu mode={mode} activeLink={activeLink} />}
+      logoHref={startLinkItem?.url}
+      mobileMenu={<LayoutMobileMenu links={mappedLinks} activeLink={activeLink} />}
       skipToContentLink={<a href={skipToContent}>Till sidans huvudinnehåll</a>}
     >
-      <LayoutDesktopNav mode={mode} activeLink={activeLink} />
+      <LayoutDesktopNav links={mappedLinks} activeLink={activeLink} />
     </IDSHeader1177>
   )
 }

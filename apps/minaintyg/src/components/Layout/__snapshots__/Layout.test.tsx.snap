@@ -6,6 +6,156 @@ exports[`Should render as expected 1`] = `
     class="flex min-h-screen flex-col"
     id="top"
   >
+    <header
+      class="ids-header-1177"
+    >
+      <div
+        class="ids-header-1177__skip-to-content"
+      >
+        <a
+          href="#content"
+        >
+          Till sidans huvudinnehåll
+        </a>
+      </div>
+      <div
+        class="ids-header-1177__container"
+      >
+        <div
+          class="ids-header-1177__inner"
+        >
+          <div
+            class="ids-header-1177__inner-left"
+          >
+            <div
+              class="ids-header-1177__logo-wrapper"
+            >
+              <div
+                class="ids-header-1177__logo"
+              >
+                <a
+                  aria-label="Logotyp"
+                  class="ids-header-1177__logo-link"
+                  href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="ids-header-1177__inner-right"
+          >
+            <div
+              class="ids-header-1177__items"
+            >
+               
+              <div
+                class="ids-header-1177__mobile-menu"
+              >
+                <div
+                  class="ids-header-1177-menu-mobile-component"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-label="Meny"
+                    class="ids-header-1177-menu-mobile"
+                  >
+                    <div
+                      class="ids-hamburger"
+                    >
+                      <span
+                        class="ids-hamburger__lines"
+                      />
+                    </div>
+                    <slot />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav
+        class="ids-header-1177__nav"
+        slot="nav"
+      >
+        <div
+          class="ids-header-1177__nav-inner"
+        >
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/messageList.xhtml"
+            >
+              Inkorg
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://bokadetider.st.1177.se/"
+            >
+              Bokade tider
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://sit.journalen.inera.se/"
+            >
+              Journalen
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://pep.omniq.se/PEP.Resident/context/"
+            >
+              Egen provhantering
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://st.sob.1177.se/"
+            >
+              Stöd och behandling
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item ids-header-1177__nav-item--active"
+          >
+            <a
+              href="/"
+            >
+              Intyg
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/services.xhtml"
+            >
+              Övriga tjänster
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
     <main
       class="relative flex-1"
       id="content"
@@ -113,6 +263,16 @@ exports[`Should render as expected 1`] = `
                 <span
                   class="ids-icon-external-link-small ids-icon--text-end"
                 />
+              </a>
+              <a
+                class="ids-link ids-link--color-2 ids-link--block ids-link--no-underline"
+                href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+              >
+                <span
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  data-testid="arrow"
+                />
+                Webbkarta
               </a>
             </div>
           </div>
@@ -244,6 +404,24 @@ exports[`Should render as expected 1`] = `
                   <div
                     class="ids-mobile-menu-item__sub-items"
                     id=":r2:"
+                  />
+                </div>
+                <div
+                  class="ids-mobile-menu-item"
+                >
+                  <div
+                    class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
+                  >
+                    <a
+                      class=""
+                      href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+                    >
+                      Webbkarta
+                    </a>
+                  </div>
+                  <div
+                    class="ids-mobile-menu-item__sub-items"
+                    id=":r3:"
                   />
                 </div>
               </div>
