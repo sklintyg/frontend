@@ -136,10 +136,10 @@ exports[`Should render as expected 1`] = `
             </a>
           </div>
           <div
-            class="ids-header-1177__nav-item"
+            class="ids-header-1177__nav-item ids-header-1177__nav-item--active"
           >
             <a
-              href="https://mi2-minaintyg-devtest.intyg.nordicmedtest.se"
+              href="/"
             >
               Intyg
             </a>
