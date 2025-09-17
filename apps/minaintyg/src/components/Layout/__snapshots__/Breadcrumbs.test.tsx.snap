@@ -203,7 +203,7 @@ exports[`Should render as expected with two level 1`] = `
             <a
               href="/intyg"
             >
-              Läkarintyg för deltagare i arbetsmarknadspolitiska program
+              Läkarutlåtande för aktivitetsersättning vid nedsatt arbetsförmåga
             </a>
           </li>
         </ol>

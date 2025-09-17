@@ -1,5 +1,5 @@
-import { fakerFromSchema } from '@frontend/fake'
-import { render, screen, waitFor } from '@testing-library/react'
+import { faker, fakerFromSchema } from '@frontend/fake'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChildren } from 'react-router-dom'
@@ -45,14 +45,14 @@ const renderComponent = (initialEntries = ['/']) =>
     </Provider>
   )
 
-beforeEach(() => {
+beforeEach(async () => {
   store.dispatch(startSession())
-  store.dispatch(api.endpoints.getInfo.initiate())
+  await store.dispatch(api.endpoints.getInfo.initiate())
 })
 
 it('Should render as expected with no matches', async () => {
   const { container } = renderComponent(['/no-matches'])
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
+
   expect(container).toMatchInlineSnapshot(`
     <div>
       No available breadcrumbs
@@ -62,20 +62,18 @@ it('Should render as expected with no matches', async () => {
 
 it('Should render as expected with one level', async () => {
   const { container } = renderComponent(['/'])
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchSnapshot()
 })
 
 it('Should render as expected with two level', async () => {
+  faker.seed(1234)
+  await store.dispatch(api.endpoints.getCertificate.initiate({ id: 'intyg' }))
   const { container } = renderComponent(['/intyg'])
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchSnapshot()
 })
 
 it('Should contain correct link for start item, mobile and desktop', async () => {
   renderComponent(['/'])
-
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
 
   const links = screen.getAllByRole('link', { name: 'Start' })
   expect(links).toHaveLength(2)
@@ -104,7 +102,6 @@ it('Should render as expected with three levels', async () => {
     )
   )
   const { container } = renderComponent(['/12345'])
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(await screen.findByText(certificateName)).toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })

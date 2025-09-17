@@ -1,5 +1,5 @@
 import { faker } from '@frontend/fake'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { ErrorType } from '../../schema/error.schema'
@@ -22,9 +22,9 @@ it('Should render identifier', () => {
 })
 
 it.each(ErrorType.options)('Should render %s type error', async (type) => {
-  store.dispatch(startSession())
-  store.dispatch(api.endpoints.getInfo.initiate())
   faker.seed(1234)
+  store.dispatch(startSession())
+  await store.dispatch(api.endpoints.getInfo.initiate())
   const { container } = render(
     <Provider store={store}>
       <MemoryRouter>
@@ -32,6 +32,5 @@ it.each(ErrorType.options)('Should render %s type error', async (type) => {
       </MemoryRouter>
     </Provider>
   )
-  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchSnapshot()
 })
