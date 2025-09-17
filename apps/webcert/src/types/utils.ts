@@ -13,7 +13,7 @@ export interface Diagnosis {
 
 export interface DiagnosisTypeahead {
   resultat: string
-  diagnoser: Diagnosis[]
+  diagnoser?: Diagnosis[]
   moreResults: boolean
 }
 
