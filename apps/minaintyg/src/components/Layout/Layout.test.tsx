@@ -1,9 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
-import { endSession } from '../../store/slice/session.slice'
+import { createMemoryRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { endSession, startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Layout } from './Layout'
+import { api } from '../../store/api'
+
+beforeEach(async () => {
+  store.dispatch(startSession())
+  await store.dispatch(api.endpoints.getInfo.initiate())
+})
 
 it('Should render as expected', () => {
   const { container } = render(

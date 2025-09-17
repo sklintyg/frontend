@@ -36,7 +36,7 @@ exports[`Should render as expected 1`] = `
                 <a
                   aria-label="Logotyp"
                   class="ids-header-1177__logo-link"
-                  href=""
+                  href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
                 />
               </div>
             </div>
@@ -80,7 +80,80 @@ exports[`Should render as expected 1`] = `
       >
         <div
           class="ids-header-1177__nav-inner"
-        />
+        >
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/messageList.xhtml"
+            >
+              Inkorg
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://bokadetider.st.1177.se/"
+            >
+              Bokade tider
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://sit.journalen.inera.se/"
+            >
+              Journalen
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://pep.omniq.se/PEP.Resident/context/"
+            >
+              Egen provhantering
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://st.sob.1177.se/"
+            >
+              Stöd och behandling
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://mi2-minaintyg-devtest.intyg.nordicmedtest.se"
+            >
+              Intyg
+            </a>
+          </div>
+          <div
+            class="ids-header-1177__nav-item"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/services.xhtml"
+            >
+              Övriga tjänster
+            </a>
+          </div>
+        </div>
       </nav>
     </header>
     <main
@@ -190,6 +263,16 @@ exports[`Should render as expected 1`] = `
                 <span
                   class="ids-icon-external-link-small ids-icon--text-end"
                 />
+              </a>
+              <a
+                class="ids-link ids-link--color-2 ids-link--block ids-link--no-underline"
+                href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+              >
+                <span
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  data-testid="arrow"
+                />
+                Webbkarta
               </a>
             </div>
           </div>
@@ -321,6 +404,24 @@ exports[`Should render as expected 1`] = `
                   <div
                     class="ids-mobile-menu-item__sub-items"
                     id=":r2:"
+                  />
+                </div>
+                <div
+                  class="ids-mobile-menu-item"
+                >
+                  <div
+                    class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
+                  >
+                    <a
+                      class=""
+                      href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
+                    >
+                      Webbkarta
+                    </a>
+                  </div>
+                  <div
+                    class="ids-mobile-menu-item__sub-items"
+                    id=":r3:"
                   />
                 </div>
               </div>
