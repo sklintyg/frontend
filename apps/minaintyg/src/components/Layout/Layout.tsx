@@ -29,7 +29,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   }
   return (
     <div id="top" className="flex min-h-screen flex-col">
-      {navLinks && <LayoutHeader links={navLinks} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />}
+      <LayoutHeader links={navLinks ?? []} skipToContent="#content" avatar={user && <LayoutHeaderAvatar />} />
       <main id="content" className="relative flex-1">
         {info &&
           info.banners.length > 0 &&
