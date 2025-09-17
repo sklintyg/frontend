@@ -20,7 +20,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   useDocumentTitle(ref)
   const { data: user } = useGetUserQuery()
   const { data: info } = useGetInfoQuery(hasSession ? undefined : skipToken)
-  const navLinks = useLinks().slice(0, -1)
+  const navLinks = useLinks().filter((link) => link.name !== 'Inställningar')
   const getAlertPriority = (priority: BannerPriority) => {
     if (priority === BannerPriority.ERROR) {
       return PriorityEnum.ERROR
