@@ -53,7 +53,20 @@ exports[`Should render login type action 1`] = `
 </div>
 `;
 
-exports[`Should render start type action 1`] = `<div />`;
+exports[`Should render start type action 1`] = `
+<div>
+  <a
+    class="ids-link ids-link--no-underline"
+    href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+  >
+    <span
+      class="ids-icon-arrow-right-small ids-icon--text-start"
+      data-testid="arrow"
+    />
+    Till startsidan
+  </a>
+</div>
+`;
 
 exports[`Should render support type action 1`] = `
 <div>

@@ -19,6 +19,21 @@ exports[`Should render as expected with one level 1`] = `
             Du är här:
           </li>
           <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
             class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
           >
             <a
@@ -37,6 +52,12 @@ exports[`Should render as expected with one level 1`] = `
             <span
               class="ids-breadcrumbs__icon"
             />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
           </li>
         </ol>
       </nav>
@@ -150,6 +171,21 @@ exports[`Should render as expected with two level 1`] = `
             class="ids-breadcrumbs__crumb"
           >
             <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
               href="/"
             >
               Intyg
@@ -166,7 +202,9 @@ exports[`Should render as expected with two level 1`] = `
           >
             <a
               href="/intyg"
-            />
+            >
+              Transportstyrelsens läkarintyg högre körkortsbehörighet
+            </a>
           </li>
         </ol>
         <ol

@@ -198,6 +198,7 @@ export const handlers = [
     res(
       ctx.status(200),
       ctx.json({
+        banners: [],
         links: [
           {
             id: '1',

@@ -50,8 +50,9 @@ beforeEach(() => {
   store.dispatch(api.endpoints.getInfo.initiate())
 })
 
-it('Should render as expected with no matches', () => {
+it('Should render as expected with no matches', async () => {
   const { container } = renderComponent(['/no-matches'])
+  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchInlineSnapshot(`
     <div>
       No available breadcrumbs
@@ -59,13 +60,15 @@ it('Should render as expected with no matches', () => {
   `)
 })
 
-it('Should render as expected with one level', () => {
+it('Should render as expected with one level', async () => {
   const { container } = renderComponent(['/'])
+  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchSnapshot()
 })
 
-it('Should render as expected with two level', () => {
+it('Should render as expected with two level', async () => {
   const { container } = renderComponent(['/intyg'])
+  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(container).toMatchSnapshot()
 })
 
@@ -101,6 +104,7 @@ it('Should render as expected with three levels', async () => {
     )
   )
   const { container } = renderComponent(['/12345'])
+  await waitFor(() => expect(api.endpoints.getInfo.select()(store.getState()).data).not.toBeUndefined())
   expect(await screen.findByText(certificateName)).toBeInTheDocument()
   expect(container).toMatchSnapshot()
 })
