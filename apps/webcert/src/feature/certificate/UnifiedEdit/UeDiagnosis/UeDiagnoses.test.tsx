@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { ComponentProps } from 'react'
+import { type ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement } from '../../../../faker'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -203,5 +203,23 @@ describe('Diagnoses component', () => {
     })
     await userEvent.type(screen.getByTestId('id-diagnos'), 'ä')
     expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length - 1)
+  })
+
+  it('Should reset code when losing focus', async () => {
+    renderComponent({})
+    await userEvent.type(screen.getByTestId('id-code'), 'abc')
+    fireEvent.blur(screen.getByTestId('id-code'))
+    expect(screen.getByTestId('id-code')).toHaveValue('')
+  })
+
+  it('Should reset code when removing description', async () => {
+    renderComponent({})
+    await userEvent.type(screen.getByTestId('id-code'), 'F50')
+    testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false }))
+    const items = screen.getAllByRole('option')
+    await userEvent.click(items[0])
+    await waitFor(() => expect(screen.getByTestId('id-code')).toHaveValue('F501'))
+    await userEvent.clear(screen.getByTestId('id-diagnos'))
+    expect(screen.getByTestId('id-code')).toHaveValue('')
   })
 })
