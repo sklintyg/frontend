@@ -70,7 +70,7 @@ export function useDiagnosisTypeahead({ list }: { list: ValueDiagnosis[] }) {
           })
         )
       } else if (typeaheadResult !== null) {
-        dispatch(resetDiagnosisTypeahead())
+        dispatch(resetDiagnosisTypeaheadAction())
       }
     }, 150)
   ).current

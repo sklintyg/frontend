@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -54,20 +54,28 @@ export function UeDiagnosis({
   validationErrors: ValidationError[]
   onChange: (value: ValueDiagnosis) => void
 } & ReturnType<typeof useDiagnosisTypeahead>) {
-  const { code, description } = value
-
-  const codeInput = React.createRef<HTMLInputElement>()
+  const [{ code, description }, setValue] = useState(value)
 
   const onDiagnosisSelected = (diagnosis: string) => {
     const { code, description } = getDiagnosisParts(diagnosis)
     resetDiagnosisTypeahead()
-    onChange({ ...value, code, description })
+    handleUpdate({ ...value, code, description })
   }
+
+  const handleUpdate = (updatedValue: ValueDiagnosis, updateIncomming = true) => {
+    if (updateIncomming) {
+      onChange(updatedValue)
+    }
+    setValue(updatedValue)
+  }
+
+  useEffect(() => {
+    setValue(value)
+  }, [value])
 
   return (
     <DiagnosisWrapper key={`${id}-wrapper`}>
       <Typeahead
-        ref={codeInput}
         suggestions={suggestions}
         css={codeAdditionalStyles}
         placeholder="Kod"
@@ -78,9 +86,10 @@ export function UeDiagnosis({
         value={code}
         onChange={(event) => {
           const newCode = event.currentTarget.value
-          onChange({ ...value, code: newCode, description: newCode === '' ? '' : description })
+          handleUpdate({ ...value, code: newCode, description: newCode === '' ? '' : description }, newCode === '')
           updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
         }}
+        onBlur={() => setValue(value)}
         onClose={() => resetDiagnosisTypeahead()}
         moreResults={moreResults}
       />
@@ -95,7 +104,7 @@ export function UeDiagnosis({
           value={description}
           onChange={(event) => {
             const newDescription = event.currentTarget.value
-            onChange({ ...value, code: newDescription === '' ? '' : code, description: newDescription })
+            handleUpdate({ ...value, code: newDescription === '' ? '' : code, description: newDescription })
             updateTypeaheadResult(newDescription, false, selectedCodeSystem)
           }}
           onClose={() => resetDiagnosisTypeahead()}
