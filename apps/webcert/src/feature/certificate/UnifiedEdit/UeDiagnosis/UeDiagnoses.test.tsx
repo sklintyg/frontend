@@ -5,6 +5,7 @@ import { type ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement } from '../../../../faker'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
@@ -59,7 +60,7 @@ const renderComponent = ({ ...args }: Partial<ComponentProps<typeof UeDiagnoses>
 
 describe('Diagnoses component', () => {
   beforeEach(() => {
-    testStore = configureApplicationStore([utilsMiddleware])
+    testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
     testStore.dispatch(updateDiagnosisTypeahead({ diagnoser: DIAGNOSES, resultat: 'OK', moreResults: false }))
   })
 
