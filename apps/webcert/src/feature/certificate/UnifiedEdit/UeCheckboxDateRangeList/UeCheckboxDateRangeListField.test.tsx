@@ -40,10 +40,11 @@ const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWo
 describe('Date range picker', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
-    vi.useFakeTimers()
+    vi.useFakeTimers({ shouldAdvanceTime: true })
   })
 
   afterEach(() => {
+    vi.runOnlyPendingTimers()
     vi.useRealTimers()
   })
 
@@ -57,7 +58,7 @@ describe('Date range picker', () => {
     const checkbox = screen.getByRole('checkbox')
     await userEvent.click(checkbox)
 
-    expect((screen.getByLabelText('Fr.o.m') as HTMLInputElement).value).toBeTruthy()
+    expect(screen.getByLabelText<HTMLInputElement>('Fr.o.m').value).toBeTruthy()
   })
 
   it('Calculates 1 day with 1d/d1', async () => {
@@ -67,8 +68,8 @@ describe('Date range picker', () => {
     const checkbox = screen.getByRole('checkbox')
     await userEvent.click(checkbox)
     await userEvent.type(screen.getByLabelText('t.o.m'), '1d{enter}')
-    await expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
-    await expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-02-01')
+    expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
+    expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-02-01')
   })
 
   it('Calculates 1 week ahead with 1v/v1', async () => {
@@ -78,8 +79,8 @@ describe('Date range picker', () => {
     const checkbox = screen.getByRole('checkbox')
     await userEvent.click(checkbox)
     await userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
-    await expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
-    await expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-02-07')
+    expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
+    expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-02-07')
   })
 
   it('Calculates 1 month ahead with 1m/m1', async () => {
@@ -89,8 +90,8 @@ describe('Date range picker', () => {
     const checkbox = screen.getByRole('checkbox')
     await userEvent.click(checkbox)
     await userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
-    await expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
-    await expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-03-02')
+    expect(screen.getByLabelText('Fr.o.m')).toHaveValue('2000-02-01')
+    expect(screen.getByLabelText('t.o.m')).toHaveValue('2000-03-02')
   })
 
   it('displays correct number of sick hours and days for one week', async () => {

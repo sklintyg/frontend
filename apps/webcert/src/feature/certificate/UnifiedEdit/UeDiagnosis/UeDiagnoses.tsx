@@ -76,7 +76,7 @@ export function UeDiagnoses({
         const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
         return (
           <UeDiagnosis
-            key={id}
+            key={`${id}-${selectedCodeSystem}`}
             id={id}
             value={
               list.find((item) => item.id === id) ?? {

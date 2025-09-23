@@ -6,7 +6,7 @@ import { CertificateDataValueType } from '../../types/certificate'
 import { convertExpression, differenceInDays, getKeyValuePair, parseDateValue, validateExpression } from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')
-vi.useFakeTimers().setSystemTime(SYSTEM_DATE)
+vi.useFakeTimers({ shouldAdvanceTime: true }).setSystemTime(SYSTEM_DATE)
 
 describe('getKeyValuePair', () => {
   it('Should convert BOOLEAN to key-value pair', () => {

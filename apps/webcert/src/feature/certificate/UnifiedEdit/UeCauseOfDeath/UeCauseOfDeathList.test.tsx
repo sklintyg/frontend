@@ -83,9 +83,9 @@ describe('Cause of death component', () => {
       })[QUESTION_ID],
     })
 
-    await expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')
-    await expect(screen.getAllByLabelText(DESCRIPTION_LABEL)[0]).toHaveValue('Description text')
-    await expect(screen.getAllByLabelText(SPECIFICATION_LABEL)[0]).toHaveValue('')
+    expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)[0]).toHaveValue('Description text')
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)[0]).toHaveValue('')
   })
 
   it('does not disable component if disabled is not set', () => {
@@ -94,17 +94,17 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach(async (description) => {
-      await expect(description).toBeEnabled()
+    descriptions.forEach((description) => {
+      expect(description).toBeEnabled()
     })
-    specifications.forEach(async (specification) => {
-      await expect(specification).toBeEnabled()
+    specifications.forEach((specification) => {
+      expect(specification).toBeEnabled()
     })
-    dates.forEach(async (date) => {
-      await expect(date).toBeEnabled()
+    dates.forEach((date) => {
+      expect(date).toBeEnabled()
     })
-    buttons.forEach(async (button) => {
-      await expect(button).toBeEnabled()
+    buttons.forEach((button) => {
+      expect(button).toBeEnabled()
     })
   })
 
@@ -114,30 +114,32 @@ describe('Cause of death component', () => {
     const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    descriptions.forEach(async (description) => {
-      await expect(description).toBeDisabled()
+    descriptions.forEach((description) => {
+      expect(description).toBeDisabled()
     })
-    specifications.forEach(async (specification) => {
-      await expect(specification).toBeDisabled()
+    specifications.forEach((specification) => {
+      expect(specification).toBeDisabled()
     })
-    dates.forEach(async (date) => {
-      await expect(date).toBeDisabled()
+    dates.forEach((date) => {
+      expect(date).toBeDisabled()
     })
-    buttons.forEach(async (button) => {
-      await expect(button).toBeDisabled()
+    buttons.forEach((button) => {
+      expect(button).toBeDisabled()
     })
   })
 
-  it('formats input into yyyy-mm-dd', () => {
+  it('formats input into yyyy-mm-dd', async () => {
     renderComponent({ disabled: false, question })
     const dates = screen.getAllByLabelText(DEBUT_LABEL)
     const inputDate = '20200202'
     const expected = '2020-02-02'
-    dates.forEach(async (date) => {
-      await userEvent.clear(date)
-      await userEvent.type(date, inputDate)
-      await expect(date).toHaveValue(expected)
-    })
+    await Promise.all(
+      dates.map(async (date) => {
+        await userEvent.clear(date)
+        await userEvent.type(date, inputDate)
+        expect(date).toHaveValue(expected)
+      })
+    )
   })
 
   it('should add new row when button is clicked', async () => {
@@ -161,11 +163,11 @@ describe('Cause of death component', () => {
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(7)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(7)
-    await expect(button).toBeEnabled()
+    expect(button).toBeEnabled()
     await userEvent.click(button)
     expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(8)
     expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(8)
-    await expect(button).toBeDisabled()
+    expect(button).toBeDisabled()
   })
 })
