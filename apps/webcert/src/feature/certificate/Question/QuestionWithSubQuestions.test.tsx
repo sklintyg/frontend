@@ -69,16 +69,16 @@ describe('QuestionWithSubQuestions', () => {
     questions.forEach((q) => expect(screen.getByText(q)).toBeInTheDocument())
   })
 
-  it('should render complements for all questions', () => {
-    renderComponent()
+  it('should render complements for all questions', async () => {
     const complements = [
       createComplement({ questionId: '1.1', message: 'Komplettering för 1.1' }),
       createComplement({ questionId: '1.2', message: 'Komplettering för 1.2' }),
       createComplement({ questionId: '1.3', message: 'Komplettering för 1.3' }),
     ]
     testStore.dispatch(updateCertificateComplements(complements))
+    renderComponent()
 
-    complements.forEach(async (c) => expect(await screen.findByText(c.message)).toBeInTheDocument())
+    await Promise.all(complements.map(async (c) => expect(await screen.findByText(c.message)).toBeInTheDocument()))
   })
 
   it('Should return null if parentQuestion is false or not visible', () => {
