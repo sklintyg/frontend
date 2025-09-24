@@ -13,7 +13,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
+      checks: write
       contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -75,4 +77,4 @@ jobs:
         run: pnpm prettier . --check --ignore-unknown
 
       - name: Lint
-        uses: reviewdog/action-eslint@v1.18.2
+        uses: reviewdog/action-eslint@v1.34.0

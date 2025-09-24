@@ -52,7 +52,7 @@ describe('Typeahead component', () => {
     await userEvent.click(screen.getByRole('textbox'))
     await userEvent.keyboard('{arrowDown}')
     expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
-    await userEvent.keyboard('{esc}')
+    await userEvent.keyboard('{Escape}')
     await userEvent.click(screen.getByRole('textbox'))
     await waitFor(() => expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white'))
   })

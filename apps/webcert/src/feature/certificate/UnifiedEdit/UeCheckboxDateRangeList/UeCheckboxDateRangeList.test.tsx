@@ -80,7 +80,7 @@ const renderDefaultComponent = (question: QuestionDataElement = defaultQuestion,
 
 describe('UeCheckboxDateRangeList', () => {
   beforeEach(() => {
-    vi.useFakeTimers()
+    vi.useFakeTimers({ shouldAdvanceTime: true })
   })
 
   afterEach(() => {

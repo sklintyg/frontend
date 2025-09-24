@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -68,10 +68,6 @@ export function UeDiagnosis({
     }
     setValue(updatedValue)
   }
-
-  useEffect(() => {
-    setValue(value)
-  }, [value])
 
   return (
     <DiagnosisWrapper key={`${id}-wrapper`}>

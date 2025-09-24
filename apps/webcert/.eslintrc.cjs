@@ -32,6 +32,7 @@ module.exports = {
     'guard-for-in': 'off',
     'import/no-cycle': 'off',
     'import/no-default-export': 'off',
+    'import/no-named-as-default': 'off',
     'import/no-useless-path-segments': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',

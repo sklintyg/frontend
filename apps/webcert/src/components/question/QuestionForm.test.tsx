@@ -128,7 +128,7 @@ describe('QuestionForm', () => {
     })
 
     it('writes a message', async () => {
-      vi.useFakeTimers()
+      vi.useFakeTimers({ shouldAdvanceTime: true })
       renderComponent()
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
