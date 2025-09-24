@@ -1,29 +1,35 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
-import { fakeTypeaheadElement } from '../../../../faker'
+import type { EnhancedStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import { fakeCertificate, fakeTypeaheadElement } from '../../../../faker'
+import { updateCertificate } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { getQuestion } from '../../../../store/certificate/certificateSelectors'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import UeTypeahead from './UeTypeahead'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
-const mockDispatchFn = vi.fn()
+let testStore: EnhancedStore
 
 const renderDefaultComponent = () => {
-  render(<UeTypeahead question={question} disabled={false} />)
+  render(
+    <Provider store={testStore}>
+      <UeTypeahead question={question} disabled={false} />
+    </Provider>
+  )
 }
 
 const renderWithSuggestions = () => {
-  render(<UeTypeahead question={question} disabled />)
+  render(
+    <Provider store={testStore}>
+      <UeTypeahead question={question} disabled />
+    </Provider>
+  )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue({})
-  useDispatchSpy.mockReturnValue(mockDispatchFn)
-})
 
 const checkListVisibility = (visible: boolean) => {
   const listItems = screen.queryAllByRole('option')
@@ -35,6 +41,11 @@ const checkListVisibility = (visible: boolean) => {
 }
 
 describe('Typeahead component', () => {
+  beforeEach(() => {
+    testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { '1': question } })))
+  })
+
   it('renders without crashing', () => {
     expect(() => renderDefaultComponent()).not.toThrow()
   })
@@ -70,7 +81,7 @@ describe('Typeahead component', () => {
     await userEvent.type(input, 'Ö')
     await userEvent.clear(input)
     await userEvent.type(input, 'Ö')
-    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+    expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: null } })
   })
 
   it('Render correct suggestions', async () => {

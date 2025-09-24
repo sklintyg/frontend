@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { UvDateRange } from './UvDateRange'
-import '@testing-library/jest-dom/extend-expect'
 import { CertificateDataValueType, ConfigTypes } from '../../../types'
+import { UvDateRange } from './UvDateRange'
 
 describe('UvDateRange', () => {
   it('should render without crashing', () => {

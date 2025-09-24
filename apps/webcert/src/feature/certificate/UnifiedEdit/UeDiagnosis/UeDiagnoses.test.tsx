@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { type ComponentProps } from 'react'
+import { act, type ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement } from '../../../../faker'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -91,20 +91,19 @@ describe('Diagnoses component', () => {
   it('Should remove values when switching code system', async () => {
     renderComponent({ question, disabled: false })
     const radioButtons = screen.queryAllByRole('radio')
-    const input = screen.queryAllByRole('textbox')
-    await userEvent.click(input[1])
-    await userEvent.type(input[1], 'F50')
+    await userEvent.click(screen.getByTestId('id-diagnos'))
+    await userEvent.type(screen.getByTestId('id-diagnos'), 'F50')
     await userEvent.click(screen.queryAllByRole('option')[0])
-    expect(input[0]).toHaveValue(DIAGNOSES[0].kod)
-    expect(input[1]).toHaveValue(DIAGNOSES[0].beskrivning)
+    expect(screen.getByTestId('id-code')).toHaveValue(DIAGNOSES[0].kod)
+    expect(screen.getByTestId('id-diagnos')).toHaveValue(DIAGNOSES[0].beskrivning)
 
     expect(radioButtons[0]).toBeChecked()
     expect(radioButtons[1]).not.toBeChecked()
     await userEvent.click(radioButtons[1])
     expect(radioButtons[0]).not.toBeChecked()
     expect(radioButtons[1]).toBeChecked()
-    await waitFor(() => expect(input[0]).toHaveValue(''))
-    expect(input[1]).toHaveValue('')
+    await waitFor(() => expect(screen.getByTestId('id-code')).toHaveValue(''))
+    expect(screen.getByTestId('id-diagnos')).toHaveValue('')
   })
 
   it('Should show no results and has no values as default', () => {
@@ -128,9 +127,9 @@ describe('Diagnoses component', () => {
     renderComponent({})
     expect(screen.queryAllByRole('option')).toHaveLength(0)
     await userEvent.type(screen.getByTestId('id-code'), 'f')
-    testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false }))
+    await act(async () => testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false })))
     await userEvent.type(screen.getByTestId('id-code'), '50')
-    testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false }))
+    await act(async () => testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false })))
     expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
   })
 
@@ -166,8 +165,8 @@ describe('Diagnoses component', () => {
     expect(items).toHaveLength(2)
     await userEvent.click(items[0])
     expect(screen.queryAllByRole('option')).toHaveLength(0)
-    await expect(screen.getByTestId('id-code')).toHaveValue('')
-    await expect(screen.getByTestId('id-diagnos')).toHaveValue('a')
+    expect(screen.getByTestId('id-code')).toHaveValue('')
+    expect(screen.getByTestId('id-diagnos')).toHaveValue('a')
   })
 
   it('Should close list when component does not have focus', async () => {
@@ -216,7 +215,7 @@ describe('Diagnoses component', () => {
   it('Should reset code when removing description', async () => {
     renderComponent({})
     await userEvent.type(screen.getByTestId('id-code'), 'F50')
-    testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false }))
+    await act(async () => testStore.dispatch(updateDiagnosisTypeahead({ resultat: 'OK', diagnoser: DIAGNOSES, moreResults: false })))
     const items = screen.getAllByRole('option')
     await userEvent.click(items[0])
     await waitFor(() => expect(screen.getByTestId('id-code')).toHaveValue('F501'))

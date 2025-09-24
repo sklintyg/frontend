@@ -268,16 +268,16 @@ describe.skip('IcfDropdown', () => {
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
 
     // eslint-disable-next-line testing-library/no-node-access
-    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
+    screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     // eslint-disable-next-line testing-library/no-node-access
     await expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     await expect(screen.getByLabelText('title 0')).toHaveFocus()
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     await expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
   })
 })
