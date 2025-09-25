@@ -5,6 +5,7 @@ import {
   getActiveListConfig,
   getActiveListFilter,
   getHasUpdatedConfig,
+  getIsLoadingList,
   getIsLoadingListConfig,
   getListTotalCount,
 } from '../store/list/listSelectors'
@@ -24,6 +25,7 @@ export function SignedCertificatesPage() {
   const config = useAppSelector(getActiveListConfig, shallowEqual)
   const filter = useAppSelector(getActiveListFilter, shallowEqual)
   const isLoadingListConfig = useAppSelector(getIsLoadingListConfig)
+  const isLoadingList = useAppSelector(getIsLoadingList)
   const totalCount = useAppSelector(getListTotalCount)
   const hasUpdatedConfig = useAppSelector(getHasUpdatedConfig)
 
@@ -50,7 +52,7 @@ export function SignedCertificatesPage() {
       >
         <ListContainer
           type={ListType.CERTIFICATES}
-          showMessageForEmptyList={isFilterDefault(config?.filters, filter?.values) && totalCount === 0}
+          showMessageForEmptyList={!isLoadingList && isFilterDefault(config?.filters, filter?.values) && totalCount === 0}
           icon={undefined}
           emptyListIcon={noDraftsImage}
         />

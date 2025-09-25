@@ -9,7 +9,7 @@ import { ListContainer } from '../feature/list/ListContainer'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { listImage, noDraftsImage } from '../images'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { getActiveListConfig, getActiveListFilter, getListTotalCount } from '../store/list/listSelectors'
+import { getActiveListConfig, getActiveListFilter, getIsLoadingList, getListTotalCount } from '../store/list/listSelectors'
 import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { useAppSelector } from '../store/store'
@@ -28,6 +28,7 @@ const CreatePage = () => {
   const filter = useAppSelector(getActiveListFilter, shallowEqual)
   const patient = useAppSelector(getActivePatient)
   const user = useAppSelector(getUser)
+  const isLoadingList = useAppSelector(getIsLoadingList)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const CreatePage = () => {
               <div className="iu-mt-800">
                 <ListContainer
                   type={ListType.PREVIOUS_CERTIFICATES}
-                  showMessageForEmptyList={isFilterDefault(config?.filters, filter?.values) && totalCount === 0}
+                  showMessageForEmptyList={!isLoadingList && isFilterDefault(config?.filters, filter?.values) && totalCount === 0}
                   icon={listImage}
                   emptyListIcon={noDraftsImage}
                 />
