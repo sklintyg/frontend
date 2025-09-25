@@ -3,9 +3,10 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { act, type ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement } from '../../../../faker'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { fakeCertificate, fakeCertificateConfig, fakeCertificateValue, fakeDiagnosesElement } from '../../../../faker'
+import { updateCertificate, updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
@@ -61,6 +62,7 @@ const renderComponent = ({ ...args }: Partial<ComponentProps<typeof UeDiagnoses>
 describe('Diagnoses component', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { id: question } })))
     testStore.dispatch(updateDiagnosisTypeahead({ diagnoser: DIAGNOSES, resultat: 'OK', moreResults: false }))
   })
 
@@ -219,7 +221,10 @@ describe('Diagnoses component', () => {
     const items = screen.getAllByRole('option')
     await userEvent.click(items[0])
     await waitFor(() => expect(screen.getByTestId('id-code')).toHaveValue('F501'))
+    expect(getQuestion('id')(testStore.getState())).toMatchObject({ value: { list: [{ code: 'F501' }] } })
+
     await userEvent.clear(screen.getByTestId('id-diagnos'))
     expect(screen.getByTestId('id-code')).toHaveValue('')
+    expect(getQuestion('id')(testStore.getState())).toMatchObject({ value: { list: [] } })
   })
 })
