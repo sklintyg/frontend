@@ -14,7 +14,7 @@ const ListPagination = () => {
   const handlePageChange = useCallback(
     (startFrom: number) => {
       dispatch(updateActiveListFilterValue({ id: 'START_FROM', filterValue: { type: ListFilterType.NUMBER, value: startFrom } }))
-      dispatch(performListSearch)
+      dispatch(performListSearch())
     },
     [dispatch]
   )
