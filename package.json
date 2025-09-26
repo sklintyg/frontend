@@ -24,7 +24,7 @@
     "@types/node": "^20.11.0",
     "@vitest/coverage-v8": "^1.6.1",
     "@vitest/ui": "^1.6.1",
-    "caniuse-lite": "^1.0.30001743",
+    "caniuse-lite": "^1.0.30001745",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
