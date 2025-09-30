@@ -17,11 +17,6 @@ overrides:
 
 pnpmfileChecksum: 4ir4efxdofvuaugkc5dzzlk6cu
 
-patchedDependencies:
-  focus-lock@1.0.0:
-    hash: bzzitpzsf5jp5eenoafyrhwjam
-    path: patches/focus-lock@1.0.0.patch
-
 importers:
 
   .:
@@ -156,9 +151,6 @@ importers:
       date-fns:
         specifier: ^2.29.3
         version: 2.29.3
-      focus-lock:
-        specifier: ^1.0.0
-        version: 1.0.0(patch_hash=bzzitpzsf5jp5eenoafyrhwjam)
       html-react-parser:
         specifier: ^4.2.2
         version: 4.2.2(react@18.3.1)
@@ -4363,10 +4355,6 @@ packages:
 
   flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
-
-  focus-lock@1.0.0:
-    resolution: {integrity: sha512-a8Ge6cdKh9za/GZR/qtigTAk7SrGore56EFcoMshClsh7FLk1zwszc/ltuMfKhx56qeuyL/jWQ4J4axou0iJ9w==}
-    engines: {node: '>=10'}
 
   focus-trap-react@10.1.0:
     resolution: {integrity: sha512-mAUw9lrcZbMz/KZZdU55TuwHp5991hES7z7WKokopzIsRC5cTmbMUXRIhN7ZNPW4Mt7ULAH+gVjm0v4e2kN4/Q==}
@@ -11216,10 +11204,6 @@ snapshots:
       rimraf: 3.0.2
 
   flatted@3.2.9: {}
-
-  focus-lock@1.0.0(patch_hash=bzzitpzsf5jp5eenoafyrhwjam):
-    dependencies:
-      tslib: 2.6.2
 
   focus-trap-react@10.1.0(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
