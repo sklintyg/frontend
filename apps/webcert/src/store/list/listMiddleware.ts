@@ -324,12 +324,6 @@ const handleGetListConfigSuccess =
     if (getState().ui.uiList.activeListType === listType) {
       dispatch(updateActiveListConfig(action.payload))
       dispatch(updateDefaultListFilterValues(action.payload))
-      dispatch(clearListError())
-      dispatch(updateIsLoadingListConfig(false))
-      dispatch(performListSearch)
-      if (getState().ui.uiList.hasUpdatedConfig === true) {
-        dispatch(updateListConfig())
-      }
     }
   }
 
@@ -367,6 +361,13 @@ const handleUpdateDefaultFilterValues =
         const defaultValue = getListFilterDefaultValue(filter)
         dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
       })
+    }
+
+    dispatch(clearListError())
+    dispatch(updateIsLoadingListConfig(false))
+    dispatch(performListSearch())
+    if (getState().ui.uiList.hasUpdatedConfig === true) {
+      dispatch(updateListConfig())
     }
   }
 

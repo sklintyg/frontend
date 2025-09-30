@@ -63,18 +63,15 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
 }
 
 export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values?: Record<string, ListFilterValue | undefined>): boolean => {
-  let isDefault = true
   if (!configs || !values) {
     return false
   }
-  Object.keys(values).forEach((key) => {
+
+  return Object.keys(values).every((key) => {
     const matchedConfig = configs.find((config) => config.id === key)
     const defaultValue = matchedConfig ? getListFilterDefaultValue(matchedConfig) : null
-    if (!isEqual(values[key], defaultValue)) {
-      isDefault = false
-    }
+    return isEqual(values[key], defaultValue)
   })
-  return isDefault
 }
 
 export const isFilterValueDefault = (config: ListFilterConfig, value: ListFilterValue): boolean => {

@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash-es'
 import { useState } from 'react'
 import styled from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
@@ -93,7 +94,7 @@ export function UeDiagnoses({
             validationErrors={diagnosisValidationErrors}
             selectedCodeSystem={selectedCodeSystem}
             onChange={(changedItem) => {
-              const updatedList = list.filter((item) => item.id !== changedItem.id).concat(changedItem)
+              const updatedList = list.filter((item) => item.id !== changedItem.id).concat(isEmpty(changedItem.code) ? [] : changedItem)
               onListUpdate(updatedList)
             }}
             {...typeaheadProps}

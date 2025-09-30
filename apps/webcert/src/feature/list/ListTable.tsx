@@ -100,7 +100,7 @@ export function ListTable({
       )
 
       dispatch(updateIsSortingList(true))
-      dispatch(performListSearch)
+      dispatch(performListSearch())
     }
   }
 
