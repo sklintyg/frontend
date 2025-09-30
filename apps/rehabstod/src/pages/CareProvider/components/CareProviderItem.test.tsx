@@ -8,7 +8,7 @@ import { vardenhetSchema } from '../../../schemas'
 import { fakeVardgivare } from '../../../utils/fake/fakeVardgivare'
 import { CareProviderItem } from './CareProviderItem'
 
-let handleChooseUnit: Mock<unknown[], unknown>
+let handleChooseUnit: Mock<(...args: unknown[]) => void>
 const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin', vardenheter: [fakerFromSchema(vardenhetSchema)({ id: faker.datatype.uuid() })] })
 beforeEach(() => {
   handleChooseUnit = vi.fn()
