@@ -66,9 +66,6 @@
           "vitest": ">= 3.0"
         }
       }
-    },
-    "patchedDependencies": {
-      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch"
     }
   }
 }
