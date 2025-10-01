@@ -1,4 +1,4 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
@@ -159,8 +159,6 @@ describe('Unable to load certificate', () => {
     store.dispatch(api.endpoints.getUser.initiate())
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
     const pendingLogRequest = waitForRequest('POST', '/api/log/error')
-
-    vi.stubGlobal('crypto', { randomUUID: faker.datatype.uuid })
 
     renderWithFault()
 

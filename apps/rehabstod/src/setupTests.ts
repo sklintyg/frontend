@@ -15,17 +15,17 @@ import { reset as resetSickLeaveFilter } from './store/slices/sickLeaveFilter.sl
 import { resetSickLeaveTableColumns } from './store/slices/sickLeaveTableColumns.slice'
 import { store } from './store/store'
 
-Object.assign(global, global, {
-  open: vi.fn(),
-  scrollTo: vi.fn(),
+beforeEach(() => {
+  vi.spyOn(global.crypto, 'randomUUID').mockReturnValue('5f92e947-e2ee-4238-bf29-4cdc6b6c4b54')
+  vi.stubGlobal(
+    'ResizeObserver',
+    vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }))
+  )
 })
-
-// Used by floating-ui
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}))
 
 // Establish API mocking before all tests.
 beforeAll(() => {
@@ -37,6 +37,9 @@ beforeAll(() => {
 })
 
 afterEach(() => {
+  vi.restoreAllMocks()
+  vi.unstubAllGlobals()
+
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
 

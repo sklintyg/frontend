@@ -60,6 +60,13 @@
       "semver@>=7.0.0 <7.5.2": ">=7.5.2",
       "follow-redirects@<1.15.4": ">=1.15.4"
     },
+    "packageExtensions": {
+      "@testing-library/jest-dom": {
+        "peerDependencies": {
+          "vitest": ">= 3.0"
+        }
+      }
+    },
     "patchedDependencies": {
       "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch"
     }

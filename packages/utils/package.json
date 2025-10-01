@@ -16,9 +16,6 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
-  "dependencies": {
-    "uuid": "^9.0.1"
-  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -29,8 +26,5 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "vitest": "^3.2.4"
-  },
-  "peerDependencies": {
-    "uuid": "^9"
   }
 }
