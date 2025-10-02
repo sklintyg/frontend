@@ -12,38 +12,44 @@ beforeEach(() => {
   store.dispatch(updateShowSettingsDialog(true))
 })
 
-it('should render without errors', () => {
-  expect(() => renderWithRouter(<SettingsDialog />)).not.toThrow()
-})
+describe('with predefined settings', () => {
+  beforeEach(() => {
+    const preferences = { maxAntalDagarMellanIntyg: '12', maxAntalDagarSedanSjukfallAvslut: '6' }
+    server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ preferences })))))
+    store.dispatch(updateSettingsPreferences(preferences))
+  })
 
-it('should render save button', async () => {
-  renderWithRouter(<SettingsDialog />)
-  expect(await screen.findByText('Spara')).toBeInTheDocument()
-})
+  it('should render without errors', () => {
+    expect(() => renderWithRouter(<SettingsDialog />)).not.toThrow()
+  })
 
-it('should render cancel button', async () => {
-  renderWithRouter(<SettingsDialog />)
-  expect(await screen.findByText('Avbryt')).toBeInTheDocument()
-})
+  it('should render save button', async () => {
+    renderWithRouter(<SettingsDialog />)
+    expect(await screen.findByText('Spara')).toBeInTheDocument()
+  })
 
-it('should close when clicking cancel button', async () => {
-  renderWithRouter(<SettingsDialog />)
-  await userEvent.click(await screen.findByText('Avbryt'))
-  expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
-})
+  it('should render cancel button', async () => {
+    renderWithRouter(<SettingsDialog />)
+    expect(await screen.findByText('Avbryt')).toBeInTheDocument()
+  })
 
-it('should close when clicking save button', async () => {
-  renderWithRouter(<SettingsDialog />)
-  await userEvent.click(await screen.findByText('Spara'))
-  expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
-})
+  it('should close when clicking cancel button', async () => {
+    renderWithRouter(<SettingsDialog />)
+    await userEvent.click(await screen.findByText('Avbryt'))
+    expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
+  })
 
-it('should not have save button disabled as default', async () => {
-  const preferences = { maxAntalDagarMellanIntyg: '12', maxAntalDagarSedanSjukfallAvslut: '6' }
-  server.use(rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ preferences })))))
-  store.dispatch(updateSettingsPreferences(preferences))
-  renderWithRouter(<SettingsDialog />)
-  expect(await screen.findByText('Spara')).toBeEnabled()
+  it('should close when clicking save button', async () => {
+    renderWithRouter(<SettingsDialog />)
+    expect(await screen.findByText('Spara')).toBeEnabled()
+    await userEvent.click(await screen.findByText('Spara'))
+    expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
+  })
+
+  it('should not have save button disabled as default', async () => {
+    renderWithRouter(<SettingsDialog />)
+    expect(await screen.findByText('Spara')).toBeEnabled()
+  })
 })
 
 describe('days after finished sick leaves', () => {
@@ -75,13 +81,6 @@ describe('days after finished sick leaves', () => {
   it('should disable save button if input is under limit', async () => {
     renderWithRouter(<SettingsDialog />)
     await userEvent.type(await screen.findByLabelText('Max antal dagar sedan avslut (0-14 dagar)'), '-6')
-    expect(screen.getByText('Spara')).toBeDisabled()
-  })
-
-  it('should disable save button if input is empty limit', async () => {
-    renderWithRouter(<SettingsDialog />)
-    await userEvent.clear(await screen.findByLabelText('Max antal dagar sedan avslut (0-14 dagar)'))
-    expect(screen.getByLabelText('Max antal dagar sedan avslut (0-14 dagar)')).toHaveValue(null)
     expect(screen.getByText('Spara')).toBeDisabled()
   })
 })

@@ -1,16 +1,14 @@
 import { createAction } from '@reduxjs/toolkit'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import type {
-  ValueDiagnosisList,
-  SrsInfoForDiagnosis,
-  SrsQuestion,
-  SrsPredictionInfo,
-  SrsSickLeaveChoice,
-  SrsPrediction,
   SrsAnswer,
   SrsEvent,
+  SrsInfoForDiagnosis,
+  SrsPrediction,
+  SrsPredictionInfo,
+  SrsQuestion,
+  SrsSickLeaveChoice,
   SrsUserClientContext,
+  ValueDiagnosisList,
 } from '../../types'
 
 const SRS = '[SRS]'
@@ -18,7 +16,7 @@ export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${SRS} Se
 
 export const setDiagnosisCodes = createAction<string[]>(`${SRS} Set diagnosis codes`)
 
-export const toggleSRSFunctionDisabler = createAction<FunctionDisabler>(`${SRS} ${TOGGLE_FUNCTION_DISABLER}`)
+export const toggleSRSFunctionDisabler = createAction(`${SRS} toggling function disabler`)
 
 export const getSRSCodes = createAction(`${SRS} Get SRS codes`)
 

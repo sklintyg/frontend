@@ -8,7 +8,7 @@ import { ErrorBoundary } from './ErrorBoundary'
 it('Should display error message', async () => {
   const pendingRequest = waitForRequest('POST', '/api/log/error')
   const router = createMemoryRouter(
-    createRoutesFromElements(<Route path="/" errorElement={<ErrorBoundary />} Component={() => <h1>Home</h1>} />),
+    createRoutesFromElements(<Route path="/" errorElement={<ErrorBoundary />} Component={() => <p>Home</p>} />),
     {
       initialEntries: ['/'],
       hydrationData: {

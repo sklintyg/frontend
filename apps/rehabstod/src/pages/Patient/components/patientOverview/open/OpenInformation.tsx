@@ -5,7 +5,7 @@ export function OpenInformation({ items, onGetInformation }: { items: SjfItem[];
   return (
     <>
       {items.map((item) => (
-        <div key={item.itemId} className="flex items-center pb-3">
+        <div key={item.itemId} className="mb-4 flex items-center">
           <div className="w-full">{item.itemName}</div>
           <div>
             {item.includedInSjukfall ? (

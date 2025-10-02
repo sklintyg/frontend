@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
@@ -9,7 +8,7 @@ interface Props {
   unitId: string
 }
 
-const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
+const WelcomeDeepIntegration = ({ certificateId, unitId }: Props) => {
   const formRef = useRef(null)
   const integrationParameters = useSelector(getIntegrationParameters())
   const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())

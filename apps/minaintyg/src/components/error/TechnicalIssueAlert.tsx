@@ -1,5 +1,5 @@
 import { ErrorIdentifier } from '@frontend/components'
-import { IDSAlert } from '@frontend/ids-react-ts'
+import { IDSAlert } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { QueryError } from '../../utils/isQueryError'
 
@@ -15,7 +15,7 @@ export function TechnicalIssueAlert({
   additionalInfo?: ReactNode
 }) {
   return (
-    <IDSAlert headline={headline} role="alert" type="error">
+    <IDSAlert headline={<h2>{headline}</h2>} role="alert" type="error">
       <div className="flex flex-col gap-4">
         {children}
         {error.id && <ErrorIdentifier id={error.id} centerText={false} />}

@@ -1,9 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
-import { vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { fakeUser } from '../faker'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
@@ -13,16 +11,14 @@ import { ResourceLinkType } from '../types'
 import { CreatePageWithRedirect } from './CreatePage'
 
 let testStore: EnhancedStore
-const history = createMemoryHistory()
-history.replace = vi.fn()
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create/:patientId?">
-          <CreatePageWithRedirect />
-        </Route>
+        <Routes>
+          <Route path="/create/:patientId?" element={<CreatePageWithRedirect />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )

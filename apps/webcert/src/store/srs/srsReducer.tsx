@@ -2,13 +2,10 @@ import { createReducer } from '@reduxjs/toolkit'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
 import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, ValueDiagnosisList } from '../../types'
 import { SrsSickLeaveChoice, SrsUserClientContext } from '../../types'
-import type { FunctionDisabler } from '../../utils/functionDisablerUtils'
-import { toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   resetState,
   setDiagnosisCodes,
   setDiagnosisListValue,
-  toggleSRSFunctionDisabler,
   updateCareProviderId,
   updateCertificateId,
   updateError,
@@ -33,7 +30,6 @@ import {
 
 export interface SRSState {
   diagnosisListValue: ValueDiagnosisList | null
-  functionDisablers: FunctionDisabler[]
   diagnosisCodes: string[]
   srsInfo: SrsInfoForDiagnosis | undefined
   srsQuestions: SrsQuestion[]
@@ -57,10 +53,9 @@ export interface SRSState {
   hasLoggedMeasuresDisplayed: boolean
 }
 
-const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
+const getInitialState = (): SRSState => {
   return {
     diagnosisListValue: null,
-    functionDisablers: functionDisablers ? functionDisablers : [],
     diagnosisCodes: [],
     error: false,
     srsInfo: undefined,
@@ -92,9 +87,6 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(setDiagnosisCodes, (state, action) => {
       state.diagnosisCodes = action.payload
-    })
-    .addCase(toggleSRSFunctionDisabler, (state, action) => {
-      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
     .addCase(updateError, (state, action) => {
       state.error = action.payload
@@ -151,7 +143,7 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateHasUpdatedAnswers, (state, action) => {
       state.hasUpdatedAnswers = action.payload
     })
-    .addCase(resetState, (state) => getInitialState(state.functionDisablers))
+    .addCase(resetState, () => getInitialState())
     .addCase(updateUserClientContext, (state, action) => {
       state.userClientContext = action.payload
     })

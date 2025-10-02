@@ -3,7 +3,13 @@ import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
-import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
+import {
+  getUserSuccess,
+  setUnitSuccess,
+  triggerLogoutNowStarted,
+  triggerLogoutStarted,
+  triggerFakeLogoutStarted,
+} from '../user/userActions'
 import {
   clearPollHandle,
   getSessionStatus,
@@ -122,6 +128,13 @@ const handleTriggerLogoutNowStarted: Middleware<Dispatch> =
     dispatch(stopPoll())
   }
 
+const handleTriggerFakeLogoutStarted: Middleware<Dispatch> =
+  ({ dispatch }) =>
+  () =>
+  (): void => {
+    dispatch(stopPoll())
+  }
+
 const middlewareMethods = {
   [startPoll.type]: handleStartPoll,
   [stopPoll.type]: handleStopPoll,
@@ -129,6 +142,7 @@ const middlewareMethods = {
   [getSessionStatusSuccess.type]: handleGetSessionStatusSuccess,
   [getSessionStatusError.type]: handleGetSessionStatusError,
   [getUserSuccess.type]: handleGetUserSuccess,
+  [triggerFakeLogoutStarted.type]: handleTriggerFakeLogoutStarted,
   [triggerLogoutStarted.type]: handleTriggerLogoutStarted,
   [triggerLogoutNowStarted.type]: handleTriggerLogoutNowStarted,
   [setUnitSuccess.type]: handleSetUnitSuccess,

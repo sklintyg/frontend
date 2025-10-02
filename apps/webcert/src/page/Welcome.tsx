@@ -1,7 +1,6 @@
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CustomButton } from '../components/Inputs/CustomButton'
 import RadioButton from '../components/Inputs/RadioButton'
@@ -11,8 +10,9 @@ import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration
 import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
 import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
 import { useAppSelector } from '../store/store'
-import { triggerLogoutNow } from '../store/user/userActions'
+import { triggerFakeLogout } from '../store/user/userActions'
 import { getConfig } from '../store/utils/utilsSelectors'
+import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
 import {
   clearWelcome,
   createNewCertificate,
@@ -20,16 +20,9 @@ import {
   populateFmb,
   updateCertificateId,
   updateCreateCertificate,
-  updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import type { MockUser } from '../store/welcome/welcomeReducer'
+import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
 import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
-import { mockUserData, mockUserDataSit1 } from '../store/welcome/mockUserData'
-
-interface JsonUser extends MockUser {
-  origin: string
-  authenticationMethod: string
-}
 
 const StyledForm = styled.form`
   display: flex;
@@ -56,7 +49,7 @@ const ExpandableDetails = styled.details`
   max-width: 600px;
 `
 
-const Welcome: React.FC = () => {
+const Welcome = () => {
   const certificateId = useAppSelector(getCertificateId())
   const createCertificate = useAppSelector(getCreateCertificate())
   const config = useAppSelector(getConfig)
@@ -72,14 +65,11 @@ const Welcome: React.FC = () => {
   const [isFakeLogin, setFakeLogin] = useState(true)
   const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
 
-  const sithsUrl = '/saml/login/alias/defaultAliasNormal?idp=' + config.sakerhetstjanstIdpUrl
-
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const performLogin = useCallback(() => {
-    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-    dispatch(loginUser(jsonString))
+    dispatch(loginUser(jsonUser))
   }, [dispatch, jsonUser])
 
   useDeepCompareEffect(() => {
@@ -89,7 +79,7 @@ const Welcome: React.FC = () => {
       unitId: jsonUser.enhetId,
     }
     dispatch(updateCreateCertificate(updatedCreateCertificate))
-    dispatch(triggerLogoutNow())
+    dispatch(triggerFakeLogout())
   }, [createCertificate, dispatch, jsonUser.enhetId, jsonUser.hsaId])
 
   useEffect(() => {
@@ -98,7 +88,7 @@ const Welcome: React.FC = () => {
     }
 
     if (!isFakeLogin) {
-      dispatch(updateNavigateToCertificate(true))
+      window.open('/visa/intyg/' + certificateId, '_self')
     } else {
       performLogin()
     }
@@ -111,17 +101,17 @@ const Welcome: React.FC = () => {
 
     if (certificateId.length === 0) {
       if (!jsonUser.legitimeradeYrkesgrupper) {
-        history.push('/list/unhandledcertificates')
+        navigate('/list/unhandledcertificates')
       } else {
-        history.push('/search')
+        navigate('/search')
       }
     } else {
       if (isFreestanding) {
-        history.push(`/certificate/${certificateId}`)
+        navigate(`/certificate/${certificateId}`)
         dispatch(clearWelcome())
       }
     }
-  }, [certificateId, dispatch, history, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigateToCertificate])
+  }, [certificateId, dispatch, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigate, navigateToCertificate])
 
   if (navigateToCertificate && !isFreestanding) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
@@ -147,7 +137,7 @@ const Welcome: React.FC = () => {
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault()
     if (isCreateNewCertificate && !isFakeLogin) {
-      window.open(sithsUrl, '_self')
+      dispatch(createNewCertificate(createCertificate))
     } else if (isCreateNewCertificate) {
       dispatch(createNewCertificate(createCertificate))
     } else if (existingCertificateId.length > 1) {

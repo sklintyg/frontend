@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
-import { expect, vi } from 'vitest'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { expect } from 'vitest'
 import CustomTooltip from '../../../components/utils/CustomTooltip'
 import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../faker'
 import { CertificateRelationType, CertificateStatus } from '../../../types'
@@ -11,8 +10,6 @@ import ReplaceCertificateContinueButton from './ReplaceCertificateContinueButton
 const NAME = 'Replace continue button name'
 const DESCRIPTION = 'Replace continue button description'
 const CERTIFICATE_ID = 'xxxxxx-yyyyyyy-zzzzzzz'
-
-const history = createMemoryHistory()
 
 const getMetadata = () =>
   fakeCertificateMetaData({
@@ -29,16 +26,26 @@ const getMetadata = () =>
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
-    <Router history={history}>
-      <CustomTooltip />
-      <ReplaceCertificateContinueButton
-        name={NAME}
-        description={DESCRIPTION}
-        enabled={enabled}
-        certificateMetadata={getMetadata()}
-        functionDisabled={false}
-      />
-    </Router>
+    <MemoryRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <CustomTooltip />
+              <ReplaceCertificateContinueButton
+                name={NAME}
+                description={DESCRIPTION}
+                enabled={enabled}
+                certificateMetadata={getMetadata()}
+                functionDisabled={false}
+              />
+            </>
+          }
+        />
+        <Route path={`/certificate/${CERTIFICATE_ID}`} element="the certificate page" />
+      </Routes>
+    </MemoryRouter>
   )
 }
 
@@ -64,8 +71,7 @@ describe('Replace certificate continue button', () => {
   it('shall set the description passed as prop', async () => {
     renderDefaultComponent(true)
     await userEvent.hover(screen.getByText(NAME))
-    const description = screen.queryByText(DESCRIPTION)
-    expect(description).toBeInTheDocument()
+    expect(await screen.findByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it('shall open modal when clicked', async () => {
@@ -76,18 +82,16 @@ describe('Replace certificate continue button', () => {
   })
 
   it("shall navigate to draft when dialog button 'continue' is clicked", async () => {
-    const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
     await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     await userEvent.click(screen.getByText('Fortsätt på utkast'))
-    expect(pushSpy).toHaveBeenCalledWith(`/certificate/${CERTIFICATE_ID}`)
+    expect(screen.getByText(/the certificate page/i)).toBeInTheDocument()
   })
 
   it("shall not navigate to draft when dialog button 'cancelled' is clicked", async () => {
-    const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
     await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     await userEvent.click(screen.getByText('Avbryt'))
-    expect(pushSpy).toHaveBeenCalledTimes(0)
+    expect(screen.queryByText(/the certificate page/i)).not.toBeInTheDocument()
   })
 })

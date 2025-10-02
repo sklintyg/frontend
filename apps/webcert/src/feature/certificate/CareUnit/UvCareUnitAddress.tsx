@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
@@ -35,7 +34,7 @@ const CareUnitAddress = styled.section`
   }
 `
 
-const UvCareUnitAddress: React.FC = () => {
+const UvCareUnitAddress = () => {
   const metadata = useSelector(getCertificateMetaData, isEqual)
   const signedCertificate = useSelector(getCertificateEvents, isEqual)
   const signedCertificateDate =

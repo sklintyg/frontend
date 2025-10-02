@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -48,7 +47,7 @@ interface Props {
   changeUnitLinkPointer?: boolean
 }
 
-const WebcertHeaderUnit: React.FC<Props> = () => {
+const WebcertHeaderUnit = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useAppSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
@@ -93,7 +92,8 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
           {user.loggedInUnit.isInactive && (
             <InactiveUnit
               className="iu-ml-400"
-              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
+              data-tooltip-id="tooltip"
+              data-tooltip-content="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
             >
               <AlertCircle />
               <span className="iu-ml-200">Inaktiv enhet</span>

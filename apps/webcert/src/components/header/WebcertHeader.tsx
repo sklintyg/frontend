@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import CareProviderModal from '../../feature/careProvider/CareProviderModal'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'

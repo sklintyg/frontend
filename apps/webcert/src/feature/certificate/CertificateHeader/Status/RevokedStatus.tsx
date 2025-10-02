@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TextWithInfoModal from '../../../../components/utils/Modal/TextWithInfoModal'
@@ -12,7 +11,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+const RevokedStatus = ({ certificateMetadata }: Props) => {
   const isLocked = useSelector(getIsLocked)
 
   const getRevokedStatus = () => {

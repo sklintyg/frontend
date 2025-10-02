@@ -1,4 +1,4 @@
-import { IDSLink } from '@frontend/ids-react-ts'
+import { IDSLink } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useFormat } from '../../../../hooks/useFormat'
 import type { CertificateEvent } from '../../../../schema/certificate.schema'

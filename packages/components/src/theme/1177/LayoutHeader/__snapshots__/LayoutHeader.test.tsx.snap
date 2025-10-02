@@ -1,0 +1,56 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render links when user is loaded 1`] = `
+<div>
+  <header
+    class="ids-header-1177"
+  >
+    <div
+      class="ids-header-1177__skip-to-content"
+    >
+      <a
+        href="skip-to-content"
+      >
+        Till sidans huvudinnehåll
+      </a>
+    </div>
+    <div
+      class="ids-header-1177__container"
+    >
+      <div
+        class="ids-header-1177__inner"
+      >
+        <div
+          class="ids-header-1177__inner-left"
+        >
+          <div
+            class="ids-header-1177__logo-wrapper"
+          >
+            <div
+              class="ids-header-1177__logo"
+            >
+              <a
+                aria-label="Logotyp"
+                class="ids-header-1177__logo-link"
+                href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="ids-header-1177__inner-right"
+        >
+          <div
+            class="ids-header-1177__items"
+          >
+             
+            <div
+              class="ids-header-1177__mobile-menu"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+`;

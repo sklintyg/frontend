@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should show info alert when there is info availableFunction provided 1`] = `
+<div
+  class="ids-alert ids-alert--attention"
+  role="alert"
+>
+  <div
+    class="ids-alert__header"
+  >
+    <div
+      class="ids-alert__icon_and_text"
+    >
+      <span
+        class="ids-alert__state-icon"
+        title=""
+      />
+      <div
+        class="ids-alert__headline"
+      >
+        Presentera informationsruta
+      </div>
+    </div>
+  </div>
+  <div
+    class="ids-alert__content"
+  >
+    text
+  </div>
+</div>
+`;

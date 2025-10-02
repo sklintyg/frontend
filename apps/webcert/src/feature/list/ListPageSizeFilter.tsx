@@ -1,8 +1,8 @@
 import type { ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
 import Dropdown from '../../components/Inputs/Dropdown'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
 import type { ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber } from '../../types'
 import { ListFilterType } from '../../types'
 
@@ -10,7 +10,7 @@ interface Props {
   filter: ListFilterPageSizeConfig | undefined
   totalCount: number
   onFilterChange: (value: ListFilterValue, id: string) => void
-  value: ListFilterValueNumber
+  value?: ListFilterValueNumber
   tableHasCaption?: boolean
 }
 
@@ -30,7 +30,7 @@ const PageSizeInnerWrapper = styled.div`
   min-width: 18ch;
 `
 
-const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value, tableHasCaption }) => {
+const ListPageSizeFilter = ({ filter, totalCount, onFilterChange, value, tableHasCaption }: Props) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
   const SHOW_ALL = 'show-all'
   const dispatch = useDispatch()

@@ -2,10 +2,7 @@ import React from 'react'
 import type { ConfigUeCheckboxMultipleDate, ValueDateList } from '../../../types'
 import { Badge } from '../Badge'
 
-export const UvDateList: React.FC<{
-  config: ConfigUeCheckboxMultipleDate
-  value: ValueDateList
-}> = ({ config, value }) => (
+export const UvDateList = ({ config, value }: { config: ConfigUeCheckboxMultipleDate; value: ValueDateList }) => (
   <>
     {config.list.map((element, index) => {
       const foundValue = value.list.find((v) => v.id === element.id)

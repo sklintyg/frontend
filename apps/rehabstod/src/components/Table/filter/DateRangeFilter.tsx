@@ -1,4 +1,4 @@
-import { DateRangePicker } from '../../Form/Date/DateRangePicker/DateRangePicker'
+import { DateRangePicker } from '../../form/Date/DateRangePicker/DateRangePicker'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function DateRangeFilter({

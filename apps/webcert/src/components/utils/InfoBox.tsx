@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import protectedPersonIcon from '../../images/lock-closed.svg'
 import deceasedIcon from '../../images/warning.svg'
@@ -34,9 +34,10 @@ interface Props {
   additionalWrapperStyles?: string
   squared?: boolean
   activateIconWrap?: boolean
+  children: ReactNode
 }
 
-const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }) => {
+const InfoBox = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }: Props) => {
   const getIconClass = () => {
     switch (type) {
       case 'info':

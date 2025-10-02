@@ -5,7 +5,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeViewList: React.FC<Props> = ({ question }) => {
+const UeViewList = ({ question }: Props) => {
   const value = question.value as ValueViewList
   const questionConfig = question.config as ConfigUeViewList
 

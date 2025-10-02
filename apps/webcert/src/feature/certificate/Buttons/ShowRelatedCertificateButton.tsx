@@ -1,17 +1,17 @@
 import { useDispatch } from 'react-redux'
-import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { fileImage } from '../../../images'
+import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
   certificateId: string
+  functionDisabled: boolean
 }
 
-const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateId }) => {
+const ShowRelatedCertificateButton = ({ name, description, enabled, certificateId }: Props) => {
   const dispatch = useDispatch()
 
   const handleClick = () => {

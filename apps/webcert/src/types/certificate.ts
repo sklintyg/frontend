@@ -45,7 +45,9 @@ export interface CertificateMetadata {
   signed?: string
   messageTypes?: MessageType[]
   confirmationModal: CertificateConfirmationModal | null
+  signConfirmationModal: CertificateConfirmationModal | null
   availableForCitizen: boolean
+  inactiveCertificateType?: boolean
 }
 
 export type MessageType = {
@@ -149,6 +151,11 @@ export enum MessageLevel {
   INFO = 'INFO',
   OBSERVE = 'OBSERVE',
   ERROR = 'ERROR',
+}
+
+export enum IcfCodesPropertyEnum {
+  FUNKTIONSNEDSATTNINGAR = 'disability',
+  AKTIVITETSBEGRANSNINGAR = 'activityLimitation',
 }
 
 export interface ConfigMessage {
@@ -339,6 +346,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   modalLabel: string
   collectionsLabel: string
   placeholder: string
+  icfCodesPropertyName: keyof typeof IcfCodesPropertyEnum
 }
 
 export interface ConfigUeHeader extends CertificateDataConfig {
@@ -417,6 +425,8 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   rightEye: ConfigEyeAcuity
   leftEye: ConfigEyeAcuity
   binocular: ConfigEyeAcuity
+  min?: number
+  max?: number
 }
 
 export interface ConfigUeViewText extends CertificateDataConfig {

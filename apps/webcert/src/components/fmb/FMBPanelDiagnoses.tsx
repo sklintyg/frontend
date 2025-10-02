@@ -1,7 +1,4 @@
 import type { ChangeEvent } from 'react'
-import type React from 'react'
-import { useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
 import { InfoCircle } from '../../images'
 import type { FMBDiagnosisCodeInfo } from '../../types'
 import RadioButton from '../Inputs/RadioButton'
@@ -12,14 +9,10 @@ interface Props {
   onDiagnosisSelect: (icd10Code: string) => void
 }
 
-const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnosisCode, onDiagnosisSelect }) => {
+const FMBPanelDiagnoses = ({ fmbDiagnosisCodes, selectedDiagnosisCode, onDiagnosisSelect }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     onDiagnosisSelect(event.target.value)
   }
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
 
   return (
     <div className="iu-border-grey-300 iu-p-500 iu-m-none">

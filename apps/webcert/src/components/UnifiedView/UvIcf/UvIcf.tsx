@@ -10,10 +10,7 @@ const IcfCodeWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-export const UvIcf: React.FC<{
-  value: ValueIcf
-  config: ConfigUeIcf
-}> = ({ value, config }) => {
+export const UvIcf = ({ value, config }: { value: ValueIcf; config: ConfigUeIcf }) => {
   const icfCodes = value.icfCodes as string[]
   const icfTextValue = value.text as string
   const collectionsLabel = config.collectionsLabel

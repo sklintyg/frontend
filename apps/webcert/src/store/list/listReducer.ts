@@ -1,4 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
+import type { CertificateListItem, ListConfig, ListFilter } from '../../types'
+import { ListType } from '../../types'
 import type { ErrorData } from '../error/errorReducer'
 import {
   clearActiveList,
@@ -21,8 +23,6 @@ import {
   updateTotalCount,
   updateValidationError,
 } from './listActions'
-import type { CertificateListItem, ListConfig, ListFilter } from '../../types'
-import { ListType } from '../../types'
 
 export interface ListState {
   activeList: CertificateListItem[]
@@ -43,12 +43,12 @@ const getInitialState = (): ListState => {
     activeListConfig: undefined,
     activeList: [],
     activeListType: ListType.UNKOWN,
-    activeListFilter: { type: ListType.UNKOWN },
+    activeListFilter: { type: ListType.UNKOWN, values: {} },
     listError: undefined,
     totalCount: undefined,
-    isLoadingList: true,
+    isLoadingList: false,
     isSortingList: false,
-    isLoadingListConfig: true,
+    isLoadingListConfig: false,
     validationErrors: {},
     hasUpdatedConfig: false,
   }
@@ -69,10 +69,6 @@ const listReducer = createReducer(getInitialState(), (builder) =>
       state.activeList = []
     })
     .addCase(updateActiveListFilterValue, (state, action) => {
-      if (!state.activeListFilter.values) {
-        state.activeListFilter.values = {}
-      }
-
       state.activeListFilter.values[action.payload.id] = action.payload.filterValue
     })
     .addCase(clearActiveListFilter, (state) => {
@@ -81,9 +77,7 @@ const listReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateActiveListFilter, (state, action) => {
       state.activeListFilter = action.payload
     })
-    .addCase(updateActiveListType, (state, action) => {
-      state.activeListType = action.payload
-    })
+    .addCase(updateActiveListType, (state, action) => ({ ...getInitialState(), activeListType: action.payload }))
     .addCase(clearActiveListType, (state) => {
       state.activeListType = ListType.UNKOWN
     })

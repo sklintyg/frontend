@@ -19,8 +19,8 @@ import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { push, replace } from '../navigateSlice'
+import type { RootState } from '../reducer'
 import { getSessionStatusError } from '../session/sessionActions'
-import type { RootState } from '../store'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
@@ -537,7 +537,7 @@ describe('Test certificate middleware', () => {
         certificateId: 'certificateId',
       }
 
-      fakeAxios.onPost(`/api/certificate/${data.certificateType}/${data.patientId}`).reply(200, response)
+      fakeAxios.onPost(`/api/certificate`).reply(200, response)
 
       testStore.dispatch(createNewCertificate(data))
 

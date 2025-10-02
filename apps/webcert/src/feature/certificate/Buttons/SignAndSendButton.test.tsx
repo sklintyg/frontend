@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { afterEach, beforeEach, expect } from 'vitest'
-import { fakeCertificate, fakeTextAreaElement } from '../../../faker'
+import { fakeCategoryElement, fakeCertificate, fakeTextAreaElement } from '../../../faker'
+import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
 import { updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -60,7 +61,16 @@ describe('Sign certificate without confirmation modal', () => {
 describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
-    testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: {
+            ...fakeTextAreaElement({ id: 'id', parent: 'category' }),
+            ...fakeCategoryElement({ id: 'category' }),
+          },
+        })
+      )
+    )
     testStore.dispatch(validateCertificateSuccess({ validationErrors: [] }))
     clearDispatchedActions()
   })
@@ -91,6 +101,38 @@ describe('Sign certificate with confirmation modal', () => {
     const modalBody = screen.getByRole('dialog')
     expect(within(modalBody).getByRole('button', { name: commonProps.name })).toBeInTheDocument()
     expect(within(modalBody).getByText('Avbryt')).toBeInTheDocument()
+  })
+
+  it('Click Sign button and modal from metadata', async () => {
+    const modal = fakeCertificateConfirmationModal()
+    renderDefaultComponent({ ...commonProps, signConfirmationModal: modal })
+    const button = screen.getByRole('button')
+    await userEvent.click(button)
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(modal.checkboxText)).toBeInTheDocument()
+    expect(screen.getByText(modal.title)).toBeInTheDocument()
+  })
+
+  it('Should first show SIGN_CERTIFICATE_CONFIRMATION and then signConfirmationModal when both exists', async () => {
+    const modal = fakeCertificateConfirmationModal()
+
+    renderDefaultComponent({
+      ...commonProps,
+      type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+      signConfirmationModal: modal,
+    })
+    const button = screen.getByRole('button')
+    await userEvent.click(button)
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(commonProps.body)).toBeInTheDocument()
+
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Fortsätt signering' }))
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(modal.checkboxText)).toBeInTheDocument()
+    expect(screen.getByText(modal.title)).toBeInTheDocument()
   })
 
   it('Click Sign button and modal cancel', async () => {
@@ -144,6 +186,6 @@ describe('Sign certificate with confirmation modal', () => {
 
     const modalBody = screen.getByRole('dialog')
     expect(within(modalBody).queryByRole('button', { name: commonProps.name })).not.toBeInTheDocument()
-    expect(within(modalBody).getByText('Avbryt')).toBeInTheDocument()
+    expect(within(modalBody).getByText('Stäng')).toBeInTheDocument()
   })
 })

@@ -7,10 +7,12 @@ env:
   LEGACY_SUPPORT: false
 jobs:
   playwright:
+    permissions:
+      contents: read
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.44.0-jammy
+      image: mcr.microsoft.com/playwright:v1.53.0-jammy
     steps:
       - name: Checkout code branch
         uses: actions/checkout@v4
@@ -20,7 +22,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies

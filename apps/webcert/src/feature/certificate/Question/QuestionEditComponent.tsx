@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useCallback, useEffect } from 'react'
 import { clearClientValidationErrors } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
@@ -12,7 +11,7 @@ interface Props {
   disabled: boolean
 }
 
-const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
+const QuestionEditComponent = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const isAccordionOpen = useCallback(
     (value: { id?: string } & ValueType) => (value.id != null ? validateExpression(`'${value.id}'`, value) : false),

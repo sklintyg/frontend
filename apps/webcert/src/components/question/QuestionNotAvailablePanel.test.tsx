@@ -1,22 +1,19 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionNotAvailablePanel from './QuestionNotAvailablePanel'
 
 let testStore: EnhancedStore
 
-const history = createMemoryHistory()
-
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionNotAvailablePanel />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }

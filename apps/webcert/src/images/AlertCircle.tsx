@@ -6,7 +6,7 @@ const Logo = styled.img`
   width: 15px;
 `
 
-const AlertCircle: React.FC = () => {
+const AlertCircle = () => {
   return <Logo src={infoCircle} alt="Uppmärksamma" />
 }
 

@@ -1,4 +1,4 @@
-import { IDSTooltip } from '@frontend/ids-react-ts'
+import { IDSTooltip } from '@inera/ids-react'
 
 export function EndDateInfo({ date, isDateAfterToday }: { date: string; isDateAfterToday: boolean }) {
   return !isDateAfterToday ? (

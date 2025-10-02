@@ -1,4 +1,3 @@
-import type React from 'react'
 import styled from 'styled-components'
 import type { DynamicLinkData } from '../../types/utils'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
@@ -12,13 +11,15 @@ const Wrapper = styled.span`
   white-space: nowrap;
 `
 
-const DynamicLink: React.FC<Props> = ({ link, light }) => {
+const DynamicLink = ({ link, light }: Props) => {
   return (
     <>
       {link ? (
         <Wrapper>
           <a target={link.target} href={link.url} className={`ic-link ic-link-external ${light ? 'iu-color-white' : ''}`}>
-            <span data-tip={link.tooltip}>{link.text}</span>
+            <span data-tooltip-id="tooltip" data-tooltip-content={link.tooltip}>
+              {link.text}
+            </span>
             <ExternalLinkIcon className="iu-ml-200 iu-fs-100" light={light} />
           </a>
         </Wrapper>

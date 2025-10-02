@@ -1,4 +1,4 @@
-import { Select } from '@frontend/components'
+import { IDSSelect } from '@inera/ids-react'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { update } from '../../../../store/slice/certificateFilter.slice'
 
@@ -14,11 +14,19 @@ export function CertificateTypeFilter({
   const dispatch = useAppDispatch()
 
   return (
-    <Select
+    <IDSSelect
       label="Intygstyp"
       value={certificateTypes ?? ''}
       onChange={(event) => dispatch(update({ key: 'certificateTypes', value: event.target.value }))}
-      options={[{ value: '', label: 'Välj intygstyp' }, ...options.map((option) => ({ value: option.id, label: option.name }))]}
-    />
+    >
+      <option disabled value="">
+        Välj intygstyp
+      </option>
+      {...options.map(({ id, name }) => (
+        <option key={id} value={id}>
+          {name}
+        </option>
+      ))}
+    </IDSSelect>
   )
 }

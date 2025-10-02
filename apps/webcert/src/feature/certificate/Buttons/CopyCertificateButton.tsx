@@ -1,21 +1,20 @@
-import type React from 'react'
 import { useDispatch } from 'react-redux'
-import { copyCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'
+import { copyCertificate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
-const CopyCertificateButton: React.FC<Props> = ({ name, description, body, enabled, functionDisabled }) => {
+const CopyCertificateButton = ({ name, description, body, enabled, functionDisabled }: Props) => {
   const dispatch = useDispatch()
 
   const handleConfirm = () => {

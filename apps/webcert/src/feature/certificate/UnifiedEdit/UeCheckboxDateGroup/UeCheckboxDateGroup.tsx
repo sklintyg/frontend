@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -14,7 +13,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeCheckboxDateGroup = ({ question, disabled }: Props) => {
   const dispatch = useAppDispatch()
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
   const [value, setValue] = useState<ValueDateList>(question.value as ValueDateList)

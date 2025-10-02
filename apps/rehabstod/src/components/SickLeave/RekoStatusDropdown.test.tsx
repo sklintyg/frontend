@@ -19,7 +19,7 @@ describe('RekoStatusDropdown', () => {
           ctx.status(200),
           ctx.json({
             rekoStatusTypes: [
-              { id: 'REKO_1', name: 'Ingen' },
+              { id: 'REKO_1', name: '-' },
               { id: 'REKO_2', name: 'Kontaktad' },
               { id: 'REKO_3', name: 'Uppföljning' },
             ],
@@ -41,7 +41,7 @@ describe('RekoStatusDropdown', () => {
   it('should show options when opening dropdown', async () => {
     renderComponent()
     await userEvent.click(await screen.findByText(STATUS.status.name))
-    expect(await screen.findByText('Ingen')).toBeInTheDocument()
+    expect(await screen.findByText('-')).toBeInTheDocument()
     expect(await screen.findByText('Kontaktad')).toBeInTheDocument()
     expect(await screen.findByText('Uppföljning')).toBeInTheDocument()
   })
@@ -49,7 +49,7 @@ describe('RekoStatusDropdown', () => {
   it('should close dropdown when clicking on option', async () => {
     renderComponent()
     await userEvent.click(await screen.findByText(STATUS.status.name))
-    await userEvent.click(screen.getByText('Ingen'))
+    await userEvent.click(screen.getByText('-'))
     expect(await screen.findAllByRole('button')).toHaveLength(1)
   })
 

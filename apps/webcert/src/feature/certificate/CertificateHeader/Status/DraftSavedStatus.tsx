@@ -1,4 +1,3 @@
-import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import type { CertificateMetadata } from '../../../../types'
 import { isDraftSaved } from '../../../../utils'
@@ -8,7 +7,7 @@ interface Props {
   isValidating: boolean
 }
 
-const DraftSavedStatus: React.FC<Props> = ({ certificateMetadata, isValidating }) => {
+const DraftSavedStatus = ({ certificateMetadata, isValidating }: Props) => {
   return (
     <StatusWithIcon icon={'CheckIcon'}>
       {isDraftSaved(certificateMetadata, isValidating) ? 'Utkastet är sparat' : 'Utkastet sparas'}

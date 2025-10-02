@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -30,7 +29,7 @@ interface Props {
   isDisplayingCertificateDraft: boolean
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
+const ComplementQuestionPanel = ({ complementQuestions, isDisplayingCertificateDraft }: Props) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   const getContinueOnDraft = () => {

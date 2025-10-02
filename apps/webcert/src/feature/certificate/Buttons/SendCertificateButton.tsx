@@ -1,22 +1,21 @@
-import type React from 'react'
 import { useDispatch } from 'react-redux'
-import { sendCertificate } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { epostImage } from '../../../images'
+import { sendCertificate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   title?: string
   description: string
   body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, title, description, enabled, body, certificateMetadata, functionDisabled }) => {
+const SendCertificateButton = ({ name, title, description, enabled, body, certificateMetadata, functionDisabled }: Props) => {
   const dispatch = useDispatch()
 
   return (

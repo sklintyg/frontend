@@ -12,7 +12,7 @@ exports[`Should render with order set to "ascending" 1`] = `
     >
       <button
         aria-label="Nyast först"
-        class="ids-link inline-flex text-base font-normal ids-link--underlined"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined"
         type="button"
       >
         <span
@@ -28,7 +28,7 @@ exports[`Should render with order set to "ascending" 1`] = `
       </div>
       <button
         aria-label="Äldst först"
-        class="ids-link inline-flex text-base font-normal ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
         type="button"
       >
         <span
@@ -54,7 +54,7 @@ exports[`Should render with order set to "descending" 1`] = `
     >
       <button
         aria-label="Nyast först"
-        class="ids-link inline-flex text-base font-normal ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined font-semibold text-neutral-20 pointer-events-none no-underline"
         type="button"
       >
         <span
@@ -70,7 +70,7 @@ exports[`Should render with order set to "descending" 1`] = `
       </div>
       <button
         aria-label="Äldst först"
-        class="ids-link inline-flex text-base font-normal ids-link--underlined"
+        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined"
         type="button"
       >
         <span

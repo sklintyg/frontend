@@ -3,18 +3,21 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
+import { addRequest, removeRequest } from '../../store/api/requestSlice'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
   createQuestion,
   deleteQuestion,
+  getQuestionsError,
+  getQuestionsStarted,
+  getQuestionsSuccess,
   saveQuestion,
   toggleQuestionFunctionDisabler,
   updateQuestionDraft,
@@ -26,20 +29,17 @@ import { questionMiddleware } from '../../store/question/questionMiddleware'
 import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
-import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import QuestionForm from './QuestionForm'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
 
-const history = createMemoryHistory()
-
 const renderComponent = (questionDraft?: Question) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <QuestionForm questionDraft={questionDraft || testStore.getState().ui.uiQuestion.questionDraft} />
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -128,7 +128,7 @@ describe('QuestionForm', () => {
     })
 
     it('writes a message', async () => {
-      vi.useFakeTimers()
+      vi.useFakeTimers({ shouldAdvanceTime: true })
       renderComponent()
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
@@ -152,13 +152,22 @@ describe('QuestionForm', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(true))
-      const functionDisabler = generateFunctionDisabler()
-      testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
+      testStore.dispatch(
+        addRequest({
+          id: '1',
+          url: '/api/question/1',
+          method: 'GET',
+          onStart: getQuestionsStarted.type,
+          onSuccess: getQuestionsSuccess.type,
+          onError: getQuestionsError.type,
+          functionDisablerType: toggleQuestionFunctionDisabler.type,
+        })
+      )
       renderComponent()
 
       await expect(screen.getByText(/Skicka/i)).toBeDisabled()
       await expect(screen.getByText(/Avbryt/i)).toBeDisabled()
-      testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
+      testStore.dispatch(removeRequest('1'))
     })
 
     it('disable send and cancel when question draft has no values', async () => {
@@ -202,8 +211,8 @@ describe('QuestionForm', () => {
     })
 
     it('does show message that question draft has been saved', () => {
-      renderComponent()
       testStore.dispatch(updateQuestionDraftSaved(true))
+      renderComponent()
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 

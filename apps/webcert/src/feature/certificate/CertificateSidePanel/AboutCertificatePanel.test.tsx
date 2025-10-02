@@ -1,15 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
-import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
+import { fakeCertificateMetaData } from '../../../faker'
 import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import AboutCertificatePanel from './AboutCertificatePanel'
-import { fakeCertificateMetaData } from '../../../faker'
-
-const history = createMemoryHistory()
 
 const text1 = faker.lorem.sentence(10)
 const text2 = faker.lorem.sentence(10)
@@ -20,9 +17,9 @@ const link2 = faker.lorem.word()
 const descriptionWithLinks = `${text1} <LINK:${link1}> ${text2} <LINK:${link2}> ${text3}`
 const renderComponent = () => {
   render(
-    <Router history={history}>
+    <MemoryRouter>
       <AboutCertificatePanel />
-    </Router>
+    </MemoryRouter>
   )
 }
 

@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import { useFormat } from '../../../hooks/useFormat'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'
 
@@ -7,16 +8,22 @@ export function CertificateInformation({ issued, issuer, summary, unit }: Certif
     <div className="flex flex-col gap-5 md:flex-row md:gap-10">
       {summary && (
         <div>
-          <h3 className="ids-heading-4 mb-0">{summary.label}</h3>
+          <Heading level={3} size="xs" className="mb-0">
+            {summary.label}
+          </Heading>
           {summary.value}
         </div>
       )}
       <div>
-        <h3 className="ids-heading-4 mb-0 whitespace-nowrap">Intyg utfärdat</h3>
+        <Heading level={3} size="xs" className="mb-0 whitespace-nowrap">
+          Intyg utfärdat
+        </Heading>
         {date(issued)}
       </div>
       <div>
-        <h3 className="ids-heading-4 mb-0">Skrivet av</h3>
+        <Heading level={3} size="xs" className="mb-0">
+          Skrivet av
+        </Heading>
         {issuer.name}, {unit.name}
       </div>
     </div>

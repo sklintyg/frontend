@@ -1,23 +1,31 @@
-import { getSettingsUrl } from '@frontend/components/1177'
-import { IDSHeaderAvatar } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
+import { HeaderAvatarLink } from '@frontend/components'
+import { IDSHeader1177Avatar } from '@inera/ids-react'
 import { useGetUserQuery } from '../../store/hooks'
+import { useLinks } from '../../hooks/useLinks'
 
 export function LayoutHeaderAvatar() {
   const { data: user } = useGetUserQuery()
+  const settingLink = useLinks().find((link) => link.id === '99')
 
   if (!user) {
     return null
   }
 
   return (
-    <IDSHeaderAvatar username={user.personName}>
-      <Link to={getSettingsUrl(import.meta.env.MODE)} slot="avatar-left">
-        Inställningar
-      </Link>
-      <Link to="/logga-ut" slot="avatar-right">
-        Logga ut
-      </Link>
-    </IDSHeaderAvatar>
+    <IDSHeader1177Avatar
+      username={user.personName}
+      links={
+        <>
+          {settingLink && (
+            <HeaderAvatarLink icon="settings" to={settingLink.url}>
+              {settingLink.name}
+            </HeaderAvatarLink>
+          )}
+          <HeaderAvatarLink icon="user" to="/logga-ut">
+            Logga ut
+          </HeaderAvatarLink>
+        </>
+      }
+    />
   )
 }

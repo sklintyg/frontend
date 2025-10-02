@@ -31,7 +31,6 @@ const ITEMS = [ITEM_1, ITEM_2, ITEM_3]
 
 let onGetInformation: (id: string) => void
 let onGiveConsent: (days: string, onlyCurrentUser: boolean) => void
-let onClose: () => void
 
 const renderComponent = (hasConsent: boolean) => {
   render(
@@ -39,7 +38,7 @@ const renderComponent = (hasConsent: boolean) => {
       items={ITEMS}
       onGetInformation={onGetInformation}
       onGiveConsent={onGiveConsent}
-      onClose={onClose}
+      onClose={vi.fn()}
       hasGivenConsent={hasConsent}
     />
   )

@@ -1,5 +1,5 @@
-import { classNames } from '@frontend/components'
 import type { ReactNode } from 'react'
+import { classNames } from '../../../utils/classNames'
 
 export function TableInfoItem({ children, noPrintAfter = false }: { children: ReactNode; noPrintAfter?: boolean }) {
   return (

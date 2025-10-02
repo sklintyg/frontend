@@ -1,5 +1,5 @@
 import type { Patient } from '../../types'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
 
 export const getAvailableCertificateTypes =

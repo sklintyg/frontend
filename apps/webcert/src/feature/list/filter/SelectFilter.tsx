@@ -19,7 +19,7 @@ interface Props {
 /**
  * Component for generating a generic dropdown field based on the provided configuration.
  */
-const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
+const SelectFilter = ({ config, onChange, isHighlighted }: Props) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueSelect
 
   const onSelectFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {

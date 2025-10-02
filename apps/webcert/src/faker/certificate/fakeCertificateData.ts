@@ -1,7 +1,6 @@
 import faker from 'faker'
 import type { PartialDeep } from 'type-fest'
 import type {
-  CertificateData,
   CertificateDataConfigType,
   CertificateDataElement,
   ConfigCategory,
@@ -62,38 +61,43 @@ import { fakeList } from '../fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
 
-export function fakeCertificateDataElement<T extends CertificateDataElement>(data?: Partial<T>): Record<string, CertificateDataElement> {
-  const id = data?.id ?? fakeId()
+function fakeCertificateDataElement<C extends CertificateDataConfigType, V extends ValueType | null>(
+  data: Partial<CertificateDataElement> & {
+    config: C
+    value: V
+  }
+): CertificateDataElement & {
+  config: C
+  value: V
+} {
   return {
-    [id]: {
-      parent: '',
-      index: 0,
-      visible: true,
-      readOnly: false,
-      mandatory: false,
-      id: fakeId(),
-      config: fakeCertificateConfig.category(),
-      value: null,
-      ...data,
-      validation: data?.validation ?? [],
-      validationErrors: data?.validationErrors ?? [],
-    },
+    id: fakeId(),
+    parent: '',
+    index: 0,
+    visible: true,
+    readOnly: false,
+    mandatory: false,
+    ...data,
+    config: data.config,
+    value: data.value,
+    validation: data?.validation ?? [],
+    validationErrors: data?.validationErrors ?? [],
   }
 }
 
-const fakeDataElementFactory =
-  <T extends CertificateDataConfigType, P extends ValueType | null>(
-    callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
-  ) =>
-  ({
-    config,
-    value,
-    ...data
-  }: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & { config?: PartialDeep<T>; value?: PartialDeep<P> }): CertificateData =>
-    fakeCertificateDataElement({
-      ...data,
-      ...callback(config, value),
-    })
+function fakeDataElementFactory<C extends CertificateDataConfigType, V extends ValueType | null>(
+  cb: (config?: PartialDeep<C>, value?: PartialDeep<V>) => { config: C; value: V }
+) {
+  return (
+    data: Partial<Omit<CertificateDataElement, 'config' | 'value'>> & {
+      config?: PartialDeep<C>
+      value?: PartialDeep<V>
+    }
+  ) => {
+    const el = fakeCertificateDataElement({ ...data, ...cb(data.config, data.value) })
+    return { [el.id]: el }
+  }
+}
 
 export const fakeCategoryElement = fakeDataElementFactory<ConfigCategory, null>((config) => ({
   config: fakeCertificateConfig.category(config),

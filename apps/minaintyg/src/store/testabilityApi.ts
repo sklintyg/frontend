@@ -1,7 +1,7 @@
 import type { TestabilityPerson } from '../schema/testability/person.schema'
 import { api } from './api'
 
-const testabilityApi = api.injectEndpoints({
+export const testabilityApi = api.injectEndpoints({
   endpoints: (builder) => ({
     fakeLogin: builder.mutation<void, { personId: string }>({
       query: ({ personId }) => ({

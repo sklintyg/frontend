@@ -23,7 +23,7 @@ interface Props {
   question: CertificateDataElement
 }
 
-const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) => {
+const UeRadioGroupOptionalDropdown = ({ question, disabled }: Props) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list
   const [code, setCode] = useState((question.value as ValueCode)?.code)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))

@@ -21,15 +21,19 @@ exports[`Should render correctly 1`] = `
         >
           Dölj händelser
         </h4>
-        <ids-icon-plus
-          class="h-5 w-5 rounded-full bg-accent-40 p-1 text-white group-open:hidden ids-icon"
-        />
-        <ids-icon-minus
-          class="hidden h-5 w-5 rounded-full bg-accent-40 p-1 text-white group-open:flex ids-icon"
-        />
+        <div
+          class="flex h-5 w-5 items-center rounded-full bg-accent-40 p-1 text-white"
+        >
+          <span
+            class="ids-icon-plus ids-icon--xs group-open:hidden"
+          />
+          <span
+            class="ids-icon-minus ids-icon--xs hidden group-open:inline"
+          />
+        </div>
       </summary>
       <h5
-        class="ids-heading-4 mb-0"
+        class="ids-heading-xs !normal-case mb-0"
       >
         Händelser
       </h5>
@@ -42,13 +46,12 @@ exports[`Should render correctly 1`] = `
           >
             2023-09-06 11:00
           </span>
-          <ids-link>
-            <a
-              href="/itaque"
-            >
-              perferendis
-            </a>
-          </ids-link>
+          <a
+            class="ids-link ids-link--underlined"
+            href="/itaque"
+          >
+            perferendis
+          </a>
         </div>
       </div>
     </details>
@@ -57,7 +60,7 @@ exports[`Should render correctly 1`] = `
     class="hidden md:block"
   >
     <h5
-      class="ids-heading-4 mb-0"
+      class="ids-heading-xs !normal-case mb-0"
     >
       Händelser
     </h5>
@@ -70,13 +73,12 @@ exports[`Should render correctly 1`] = `
         >
           2023-09-06 11:00
         </span>
-        <ids-link>
-          <a
-            href="/itaque"
-          >
-            perferendis
-          </a>
-        </ids-link>
+        <a
+          class="ids-link ids-link--underlined"
+          href="/itaque"
+        >
+          perferendis
+        </a>
       </div>
     </div>
   </div>

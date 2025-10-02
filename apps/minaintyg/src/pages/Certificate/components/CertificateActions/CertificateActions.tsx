@@ -1,4 +1,4 @@
-import { IDSButtonGroup } from '@frontend/ids-react-ts'
+import { IDSButtonGroup } from '@inera/ids-react'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'
 import { isMobileApp } from '../../utils/isMobileApp'
 import { CustomizePrintDialog } from './CustomizePrintDialog/CustomizePrintDialog'
@@ -14,7 +14,7 @@ export function CertificateActions({ recipient, id }: { recipient?: CertificateR
 
   return (
     <PrintCertificateContextProvider value={state}>
-      <IDSButtonGroup justify="end">
+      <IDSButtonGroup justify="end" break="s">
         {(printFunction || customizePrintFunction) && !isMobileApp() && (
           <>
             <SaveCertificateAction />

@@ -3,13 +3,13 @@ import type { MedarbetarUppdrag, Person } from '../schemas/hsa'
 
 export const hsaApi = createApi({
   reducerPath: 'hsa-api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/services/api/hsa-api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/testability' }),
   endpoints: (builder) => ({
     getMedarbetarUppdrag: builder.query<MedarbetarUppdrag[], void>({
-      query: () => 'medarbetaruppdrag',
+      query: () => 'commissions',
     }),
     getPerson: builder.query<Person[], void>({
-      query: () => 'person',
+      query: () => 'persons',
     }),
   }),
 })

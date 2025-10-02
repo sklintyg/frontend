@@ -2,7 +2,6 @@
 import { faker } from '@frontend/fake'
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { mockViewport } from 'jsdom-testing-mocks'
 import { vi } from 'vitest'
 import 'whatwg-fetch'
 import { server } from './mocks/server'
@@ -11,24 +10,9 @@ import { reset as resetCertificateFilter } from './store/slice/certificateFilter
 import { reset as resetSession } from './store/slice/session.slice'
 import { store } from './store/store'
 
-Object.assign(global, global, {
-  open: vi.fn(),
-  scrollTo: vi.fn(),
-  visualViewport: {
-    ...mockViewport({ width: '1440px', height: '900px' }),
-    addEventListener: vi.fn(),
-  },
-  crypto: {
-    randomUUID: () => '5f92e947-e2ee-4238-bf29-4cdc6b6c4b54',
-  },
+beforeEach(() => {
+  vi.spyOn(global.crypto, 'randomUUID').mockReturnValue('5f92e947-e2ee-4238-bf29-4cdc6b6c4b54')
 })
-
-// Used by floating-ui
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}))
 
 // Establish API mocking before all tests.
 beforeAll(() => {
@@ -40,6 +24,8 @@ beforeAll(() => {
 })
 
 afterEach(() => {
+  vi.restoreAllMocks()
+
   // runs a cleanup after each test case (e.g. clearing jsdom)
   cleanup()
 

@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '../../../faker'
+import { fakeCategoryElement, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '../../../faker'
 import { updateCertificate, updateCertificateSignStatus, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -59,7 +59,10 @@ describe('CertificateFooter', () => {
         testStore.dispatch(
           updateCertificate(
             fakeCertificate({
-              data: fakeTextFieldElement({ id: 'id' }),
+              data: {
+                ...fakeTextFieldElement({ id: 'id', parent: 'category' }),
+                ...fakeCategoryElement({ id: 'category' }),
+              },
               links: [{ type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true }],
             })
           )
@@ -73,12 +76,11 @@ describe('CertificateFooter', () => {
         await expect(button).toBeEnabled()
       })
 
-      it('shall not show readyForSign button when certificate is already signed', () => {
+      it('shall not show readyForSign button when certificate is already signed', async () => {
         renderComponent()
         testStore.dispatch(validateCertificateSuccess({ validationErrors: [] }))
         testStore.dispatch(updateCertificateSignStatus(CertificateSignStatus.SIGNED))
-        const button = screen.queryByText('Ready For sign')
-        expect(button).not.toBeInTheDocument()
+        await waitFor(() => expect(screen.queryByText('Ready For sign')).not.toBeInTheDocument())
       })
 
       it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is false', async () => {
@@ -96,13 +98,12 @@ describe('CertificateFooter', () => {
         expect(text).not.toBeInTheDocument()
       })
 
-      it('shall show validation error switch even if the draft contains validation errors', () => {
+      it('shall show validation error switch even if the draft contains validation errors', async () => {
         renderComponent()
         testStore.dispatch(
           validateCertificateSuccess({ validationErrors: [{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }] })
         )
-        const text = screen.queryByText('Visa vad som saknas')
-        expect(text).toBeInTheDocument()
+        expect(await screen.findByText('Visa vad som saknas')).toBeInTheDocument()
       })
     })
 

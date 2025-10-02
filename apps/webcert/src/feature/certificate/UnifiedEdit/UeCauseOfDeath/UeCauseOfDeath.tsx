@@ -1,21 +1,19 @@
-import type React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
-import UeCauseOfDeathControl from './UeCauseOfDeathControl'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '../../../../types'
+import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }
 
-const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
+const UeCauseOfDeath = ({ disabled, question }: Props) => {
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeCauseOfDeath
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(question.value as ValueCauseOfDeath)
 
   const handleChange = (value: ValueCauseOfDeath) => {

@@ -25,7 +25,7 @@ export const SrsMinimizedView = forwardRef((_: unknown, ref: Ref<HTMLDivElement>
         ref={ref}
         recommendations={info.atgarderReh}
         isEmpty={isEmpty}
-        title="Som rehabkoordinator, tänk på att"
+        title="Vid koordinering, tänk på att"
         id={'REKO-'}
       />
       <div className="iu-pt-600">

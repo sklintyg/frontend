@@ -18,10 +18,6 @@ describe('StatisticsInformationCard', () => {
 
   it('should show text', () => {
     renderComponent()
-    expect(
-      screen.getByText(
-        'När du klickar på länken nedan öppnas Intygsstatistik i en ny flik. Om du har behörighet till Intygsstatistik blir du automatiskt inloggad på samma enhet.'
-      )
-    ).toBeInTheDocument()
+    expect(screen.getByText('När du klickar på länken nedan öppnas Intygsstatistik i en ny flik.')).toBeInTheDocument()
   })
 })

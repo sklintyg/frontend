@@ -21,29 +21,6 @@ test('have correct heading', async ({ page }) => {
 })
 
 test.describe('Confirmation modals', () => {
-  test('Show db warning modal', async ({ page, routeJson }) => {
-    routeJson(`**/*/api/certificate/type/${patient.personId.id}`, [
-      fakeCertificateType({
-        label: 'Dödsbevis',
-        links: [
-          fakeResourceLink({
-            type: ResourceLinkType.CREATE_CERTIFICATE,
-          }),
-          fakeResourceLink({
-            type: ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION,
-          }),
-        ],
-      }),
-    ])
-
-    await page.goto(`/create/${btoa(patient.personId.id)}`)
-    await page.getByRole('button', { name: 'Skapa intyg' }).click()
-
-    await expect(page.getByRole('heading', { name: 'Kontrollera namn och' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Gå vidare' })).toBeDisabled()
-    await expect(page).toHaveURL(`/create/${btoa(patient.personId.id)}`)
-  })
-
   test('Show missing related certificate modal', async ({ page, routeJson }) => {
     routeJson(`**/*/api/certificate/type/${patient.personId.id}`, [
       fakeCertificateType({

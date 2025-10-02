@@ -12,6 +12,10 @@ jobs:
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -24,7 +28,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -45,6 +49,8 @@ jobs:
   lint:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Check out code
@@ -55,7 +61,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -71,4 +77,4 @@ jobs:
         run: pnpm prettier . --check --ignore-unknown
 
       - name: Lint
-        uses: reviewdog/action-eslint@v1.18.2
+        uses: reviewdog/action-eslint@v1.34.0

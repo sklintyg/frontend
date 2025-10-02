@@ -13,8 +13,9 @@ import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiErr
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { push, replace } from '../navigateSlice'
 import { gotoComplement, updateComplements } from '../question/questionActions'
+import type { RootState } from '../reducer'
 import { getSessionStatusError } from '../session/sessionActions'
-import type { AppDispatch, RootState } from '../store'
+import type { AppDispatch } from '../store'
 import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
@@ -1076,8 +1077,12 @@ const handleCreateNewCertificate: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(
       apiCallBegan({
-        url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
+        url: `/api/certificate`,
         method: 'POST',
+        data: {
+          patientId: action.payload.patientId,
+          certificateType: action.payload.certificateType,
+        },
         onStart: createNewCertificateStarted.type,
         onSuccess: createNewCertificateSuccess.type,
         onError: certificateApiGenericError.type,

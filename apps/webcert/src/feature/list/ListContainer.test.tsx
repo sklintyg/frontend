@@ -15,9 +15,10 @@ import {
   updateIsLoadingListConfig,
 } from '../../store/list/listActions'
 import { listMiddleware } from '../../store/list/listMiddleware'
+import { getActiveListType } from '../../store/list/listSelectors'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { ListType } from '../../types'
-import ListContainer from './ListContainer'
+import { ListContainer } from './ListContainer'
 
 let testStore: EnhancedStore
 
@@ -46,14 +47,34 @@ describe('List', () => {
 
   afterEach(() => clearDispatchedActions())
 
-  it('should show error message when error', () => {
+  it('Should show error message when error', () => {
     testStore.dispatch(setListError(error))
     renderComponent(false)
     expect(screen.getByText('Sökningen kunde inte utföras.')).toBeInTheDocument()
   })
 
-  it('should show empty list when empty list flag is set', () => {
+  it('Should have list filters when list request failed', () => {
+    testStore.dispatch(setListError(error))
+    renderComponent(false)
+    expect(screen.getByRole('button', { name: 'Sök' })).toBeInTheDocument()
+  })
+
+  it('Should show empty list when empty list flag is set', () => {
     renderComponent(true)
     expect(screen.getByAltText('Det finns inga resultat i listan.')).toBeInTheDocument()
+  })
+
+  it('Should reset list when unmounting', () => {
+    const { unmount } = render(
+      <Provider store={testStore}>
+        <ListContainer type={ListType.CERTIFICATES} showMessageForEmptyList emptyListIcon="" />
+      </Provider>
+    )
+
+    expect(getActiveListType(testStore.getState())).toBe(ListType.CERTIFICATES)
+
+    unmount()
+
+    expect(getActiveListType(testStore.getState())).toBe(ListType.UNKOWN)
   })
 })

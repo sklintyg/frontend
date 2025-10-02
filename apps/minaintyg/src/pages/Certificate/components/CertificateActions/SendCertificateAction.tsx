@@ -1,4 +1,4 @@
-import { IDSButton } from '@frontend/ids-react-ts'
+import { IDSButton } from '@inera/ids-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { CertificateRecipient } from '../../../../schema/certificate.schema'
@@ -18,7 +18,7 @@ export function SendCertificateAction({ recipient, id }: { recipient: Certificat
   return (
     <>
       <IDSButton
-        sblock
+        sBlock
         role="button"
         onClick={() => {
           if (!sendFunction?.enabled) {

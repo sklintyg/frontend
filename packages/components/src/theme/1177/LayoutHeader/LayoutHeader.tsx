@@ -1,23 +1,38 @@
-import { IDSHeader, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeader1177 } from '@inera/ids-react'
 import type { ReactNode } from 'react'
-import { getNavigationItem, getNavigationItemUrl } from '../navigation'
+import type { DynamicLink } from '../../../types'
+import { LayoutDesktopNav } from './LayoutDesktopNav'
+import { LayoutMobileMenu } from './LayoutMobileMenu'
 
-export function LayoutHeader({ children, skipToContent, mode }: { mode: string; skipToContent?: string; children?: ReactNode }) {
-  const startLinkItem = getNavigationItem('Start')
+export function LayoutHeader({
+  activeLink,
+  avatar,
+  links,
+  skipToContent,
+}: {
+  activeLink?: string
+  avatar: ReactNode
+  links: DynamicLink[]
+  skipToContent: string
+}) {
+  const mappedLinks = links.map((link) => {
+    if (link.name === 'Intyg') {
+      return { ...link, url: '/' }
+    }
+    return link
+  })
+
+  const startLinkItem = links.find((link) => link.name === 'Start')
 
   return (
-    <IDSHeader
-      type="1177"
-      logohref={startLinkItem && getNavigationItemUrl(startLinkItem, mode)}
-      hideregionpicker
-      className="z-40 bg-white print:hidden"
+    <IDSHeader1177
+      avatar={avatar}
+      hideRegionPicker
+      logoHref={startLinkItem?.url}
+      mobileMenu={<LayoutMobileMenu links={mappedLinks} activeLink={activeLink} />}
+      skipToContentLink={<a href={skipToContent}>Till sidans huvudinnehåll</a>}
     >
-      {skipToContent && (
-        <IDSLink slot="skip-to-content" className="z-40">
-          <a href={skipToContent}>Till sidans huvudinnehåll</a>
-        </IDSLink>
-      )}
-      {children}
-    </IDSHeader>
+      <LayoutDesktopNav links={mappedLinks} activeLink={activeLink} />
+    </IDSHeader1177>
   )
 }

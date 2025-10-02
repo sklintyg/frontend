@@ -12,7 +12,7 @@ interface Props {
   isHighlighted: boolean
 }
 
-const ListFilterComponent: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
+const ListFilterComponent = ({ config, onChange, isHighlighted }: Props) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const onTextFilterChange = (event: ChangeEvent<HTMLInputElement>) => {

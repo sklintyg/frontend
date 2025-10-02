@@ -12,7 +12,7 @@ interface Props {
   isHighlighted: boolean
 }
 
-const RadioFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
+const RadioFilter = ({ config, onChange, isHighlighted }: Props) => {
   const val = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueRadio
 
   const onFilterChange = (event: ChangeEvent<HTMLInputElement>) => {

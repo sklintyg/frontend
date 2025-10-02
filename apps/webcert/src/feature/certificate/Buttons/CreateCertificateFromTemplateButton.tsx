@@ -1,8 +1,7 @@
-import type React from 'react'
 import { useDispatch } from 'react-redux'
-import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { fileImage } from '../../../images'
+import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
@@ -15,7 +14,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, description, enabled, body }) => {
+const CreateCertificateFromTemplateButton = ({ name, title, description, enabled, body }: Props) => {
   const dispatch = useDispatch()
 
   const handleConfirm = () => {

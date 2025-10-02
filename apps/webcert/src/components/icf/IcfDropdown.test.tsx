@@ -2,10 +2,9 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { createRef } from 'react'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeIcfResponse } from '../../faker'
 import { CertificateContext } from '../../feature/certificate/CertificateContext'
@@ -18,8 +17,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import IcfDropdown from './IcfDropdown'
 
 let testStore: EnhancedStore
-
-const history = createMemoryHistory()
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
 
@@ -37,7 +34,7 @@ const renderComponent = (
 ) => {
   render(
     <Provider store={testStore}>
-      <Router history={history}>
+      <MemoryRouter>
         <CertificateContext.Provider value={mockContext}>
           <IcfDropdown
             modalLabel={infoText}
@@ -50,7 +47,7 @@ const renderComponent = (
             id="test"
           />
         </CertificateContext.Provider>
-      </Router>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -271,16 +268,16 @@ describe.skip('IcfDropdown', () => {
     testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
 
     // eslint-disable-next-line testing-library/no-node-access
-    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
+    screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     // eslint-disable-next-line testing-library/no-node-access
     await expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     await expect(screen.getByLabelText('title 0')).toHaveFocus()
 
-    await userEvent.tab({ focusTrap: container })
+    await userEvent.tab()
     await expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
   })
 })

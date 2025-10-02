@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -31,6 +30,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['auth-exception', ErrorCode.AUTHORIZATION_PROBLEM],
   ['auth-exception-sekretessmarkering', ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING],
   ['auth-exception-subscription', ErrorCode.AUTHORIZATION_PROBLEM_SUBSCRIPTION],
+  ['auth-exception-resource', ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE],
   ['auth-exception-user-already-active', ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE],
   ['integration.nocontent', ErrorCode.INTEGRATION_NOCONTENT],
   ['unknown', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
@@ -38,7 +38,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
   ['missing-parameter', ErrorCode.UNKNOWN_INTERNAL_PROBLEM],
 ])
 
-const ErrorPage: React.FC = () => {
+const ErrorPage = () => {
   const location = useLocation()
   const dispatch = useDispatch()
   let errorCode: string | undefined

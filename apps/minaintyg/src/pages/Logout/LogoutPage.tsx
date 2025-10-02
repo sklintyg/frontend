@@ -1,16 +1,18 @@
-import { useEffect } from 'react'
-import { useLogout } from '../../hooks/useLogout'
-import { useAppSelector } from '../../store/hooks'
+import { useEffect, type ReactNode } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { endSession } from '../../store/slice/session.slice'
 
-export function LogoutPage() {
+export function LogoutPage({ children }: { children?: ReactNode }) {
   const hasSessionEnded = useAppSelector((state) => state.sessionSlice.hasSessionEnded)
-  const logout = useLogout()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!hasSessionEnded) {
-      logout()
-    }
-  }, [hasSessionEnded, logout])
+    dispatch(endSession({ reason: 'logged-out' }))
+  }, [dispatch])
+
+  if (hasSessionEnded) {
+    return children
+  }
 
   return null
 }

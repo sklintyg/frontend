@@ -70,6 +70,14 @@ Run playwright on different host for example on WSL
 BASE_URL="http://localhost:3000/" pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
 ```
 
+Alternative, launch playwright as a server inside a docker container
+
+```bash
+docker run --add-host=hostmachine:host-gateway -p 46501:46501 --rm --init -it --ipc=host --workdir /home/pwuser --user pwuser mcr.microsoft.com/playwright:v1.53.0-noble /bin/sh -c "npx -y playwright@1.53.0 run-server --port 46501 --host 0.0.0.0"
+
+PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:46501/ BASE_URL="http://hostmachine:3000/" pnpm --filter @frontend/webcert test:playwright --ui-host 127.0.0.1
+```
+
 ## Resources
 
 - [React](https://react.dev/) ─ Components

@@ -1,7 +1,6 @@
-import type React from 'react'
 import styled, { css } from 'styled-components'
 import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
-import type { RootState } from '../../../store/store'
+import type { RootState } from '../../../store/reducer'
 import { useAppSelector } from '../../../store/store'
 import { CertificateDataElementStyleEnum } from '../../../types'
 import Question from './Question'
@@ -39,7 +38,7 @@ interface Props {
   questionIds: string[]
 }
 
-export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
+export const QuestionWithSubQuestions = ({ questionIds }: Props) => {
   const hasComplements = useAppSelector((state) => getComplementsForQuestions(questionIds)(state).length > 0)
   const hasParentQuestion = useAppSelector((state) => getQuestion(questionIds[0])(state)?.visible ?? false)
   const isParentHighlighted = useAppSelector(

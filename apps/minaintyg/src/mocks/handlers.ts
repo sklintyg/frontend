@@ -5,12 +5,12 @@ import type { DefaultBodyType, PathParams, RestRequest } from 'msw'
 import { rest } from 'msw'
 import type { CertificateStatus } from '../schema/certificate.schema'
 import {
-  CertificateStatusEnum,
   availableFunctionSchema,
   certificateEventSchema,
   certificateMetadataSchema,
   certificateRecipientSchema,
   certificateSchema,
+  CertificateStatusEnum,
   certificateTextSchema,
 } from '../schema/certificate.schema'
 import { certificateFilterOptionsSchema } from '../schema/certificateListFilter.schema'
@@ -185,6 +185,7 @@ export const handlers = [
   }),
 
   rest.post('/api/testability/fake', (_, res, ctx) => res(ctx.status(200))),
+  rest.post('/api/testability/logout', (_, res, ctx) => res(ctx.status(200))),
 
   rest.get('/api/testability/person', (_, res, ctx) =>
     res(
@@ -193,7 +194,61 @@ export const handlers = [
       })
     )
   ),
-  rest.get('/api/info', (_, res, ctx) => res(ctx.status(200))),
+  rest.get('/api/info', (_, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({
+        banners: [],
+        links: [
+          {
+            id: '1',
+            name: 'Start',
+            url: 'https://e-tjanster.st.1177.se/mvk/start.xhtml',
+          },
+          {
+            id: '2',
+            name: 'Inkorg',
+            url: 'https://e-tjanster.st.1177.se/mvk/messageList.xhtml',
+          },
+          {
+            id: '3',
+            name: 'Bokade tider',
+            url: 'https://bokadetider.st.1177.se/',
+          },
+          {
+            id: '5',
+            name: 'Journalen',
+            url: 'https://sit.journalen.inera.se/',
+          },
+          {
+            id: '4',
+            name: 'Egen provhantering',
+            url: 'https://pep.omniq.se/PEP.Resident/context/',
+          },
+          {
+            id: '6',
+            name: 'Stöd och behandling',
+            url: 'https://st.sob.1177.se/',
+          },
+          {
+            id: '7',
+            name: 'Intyg',
+            url: 'https://mi2-minaintyg-devtest.intyg.nordicmedtest.se',
+          },
+          {
+            id: '8',
+            name: 'Övriga tjänster',
+            url: 'https://e-tjanster.st.1177.se/mvk/services.xhtml',
+          },
+          {
+            id: '99',
+            name: 'Inställningar',
+            url: 'https://e-tjanster.st.1177.se/mvk/settings.xhtml',
+          },
+        ],
+      })
+    )
+  ),
   rest.get('/api/session/ping', (_, res, ctx) => res(ctx.status(200), ctx.json({ hasSession: true, secondsUntilExpire: 2000 }))),
   rest.post('/api/log/error', (_, res, ctx) => res(ctx.status(200))),
 ]

@@ -1,3 +1,4 @@
+import type { ViteUserConfig } from 'vitest/config'
 import { defineProject } from 'vitest/config'
 
 export default defineProject({
@@ -17,4 +18,4 @@ export default defineProject({
       },
     },
   },
-})
+} as ViteUserConfig)

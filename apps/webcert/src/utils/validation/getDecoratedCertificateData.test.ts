@@ -3,7 +3,6 @@ import {
   fakeCategoryElement,
   fakeCertificate,
   fakeCertificateConfig,
-  fakeCertificateDataElement,
   fakeCertificateMetaData,
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
@@ -29,30 +28,6 @@ describe('mandatory', () => {
         ...fakeRadioBooleanElement({
           id: '1.1',
           value: { id: 'foo', selected: null },
-          validation: [
-            fakeMandatoryValidation({
-              questionId: '1.1',
-              expression: 'exists(foo)',
-            }),
-          ],
-        }),
-      },
-    })
-
-    expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(true)
-  })
-
-  it('Should set mandatory to true on boolean element if undefined', () => {
-    const { data, metadata, links } = fakeCertificate({
-      data: {
-        ...fakeCertificateDataElement({
-          id: '1.1',
-          config: fakeCertificateConfig.radioBoolean(),
-          value: {
-            type: CertificateDataValueType.BOOLEAN,
-            id: 'foo',
-            selected: undefined,
-          },
           validation: [
             fakeMandatoryValidation({
               questionId: '1.1',
@@ -132,7 +107,7 @@ describe('visibility', () => {
   it('Should set visible to false on boolean element if undefined', () => {
     const { data, metadata, links } = fakeCertificate({
       data: {
-        ...fakeCertificateDataElement({
+        ...fakeRadioBooleanElement({
           id: '1.1',
           config: fakeCertificateConfig.radioBoolean(),
           value: { type: CertificateDataValueType.BOOLEAN, id: 'harFunktionsnedsattning', selected: undefined },
@@ -594,5 +569,58 @@ describe('highlight', () => {
     )
 
     expect(result['100'].style).toBe('NORMAL')
+  })
+})
+
+describe('chain of dependending elements', () => {
+  it('Should set visible to true for chain of dependending elements', () => {
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({
+          id: '1',
+          value: { id: 'first', selected: true },
+        }),
+        ...fakeRadioBooleanElement({
+          id: '2',
+          value: { id: 'second', selected: true },
+          visible: false,
+          validation: [
+            fakeShowValidation({
+              questionId: '1',
+              expression: 'first',
+            }),
+          ],
+        }),
+        ...fakeRadioBooleanElement({
+          id: '3',
+          value: { id: 'third', selected: true },
+          visible: false,
+          validation: [
+            fakeShowValidation({
+              questionId: '2',
+              expression: 'second',
+            }),
+          ],
+        }),
+        ...fakeRadioBooleanElement({
+          id: '4',
+          value: { id: 'fourth', selected: true },
+          visible: false,
+          validation: [
+            fakeShowValidation({
+              questionId: '3',
+              expression: 'third',
+            }),
+          ],
+        }),
+      },
+    })
+
+    const result = getDecoratedCertificateData(data, metadata, links)
+
+    expect(result['1'].visible).toBe(true)
+    expect(result['2'].visible).toBe(true)
+    expect(result['3'].visible).toBe(true)
+    expect(result['4'].visible).toBe(true)
   })
 })

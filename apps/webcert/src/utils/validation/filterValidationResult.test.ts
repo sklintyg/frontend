@@ -1,14 +1,14 @@
-import { fakeShowValidation, fakeTextAreaElement } from '../../faker'
-import type { CertificateDataValidation } from '../../types'
+import { fakeCheckboxMultipleCodeElement, fakeShowValidation, fakeTextAreaElement } from '../../faker'
+import type { CertificateDataValidation, DisableSubElementValidation } from '../../types'
 import { CertificateDataValidationType } from '../../types'
 import { filterValidationResults } from './filterValidationResults'
 import type { ValidationResult } from './getValidationResults'
 
-const element = fakeTextAreaElement({
-  id: 'id',
-}).id
-
 describe('Priority', () => {
+  const element = fakeTextAreaElement({
+    id: 'id',
+  }).id
+
   it('HIDE has priority over show when HIDE is true', () => {
     const hideValidation: ValidationResult = {
       element,
@@ -58,41 +58,45 @@ describe('Priority', () => {
     expect(result).toHaveLength(1)
     expect(result).toMatchObject([showValidation])
   })
-})
 
-it.each<CertificateDataValidation>([
-  {
-    type: CertificateDataValidationType.SHOW_VALIDATION,
-    questionId: 'id',
-  },
-  {
-    type: CertificateDataValidationType.HIDE_VALIDATION,
-    questionId: 'id',
-  },
-  {
-    type: CertificateDataValidationType.DISABLE_VALIDATION,
-    questionId: 'id',
-    id: ['123'],
-  },
-  {
-    type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-    questionId: 'id',
-    id: ['123'],
-  },
-])('Should merge same $type validation rules', (validation) => {
-  const validationResult: ValidationResult = {
-    element,
-    validation,
-    result: true,
-  }
+  it.each<CertificateDataValidation>([
+    {
+      type: CertificateDataValidationType.SHOW_VALIDATION,
+      questionId: 'id',
+    },
+    {
+      type: CertificateDataValidationType.HIDE_VALIDATION,
+      questionId: 'id',
+    },
+    {
+      type: CertificateDataValidationType.DISABLE_VALIDATION,
+      questionId: 'id',
+      id: ['123'],
+    },
+    {
+      type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+      questionId: 'id',
+      id: ['123'],
+    },
+  ])('Should merge same $type validation rules', (validation) => {
+    const validationResult: ValidationResult = {
+      element,
+      validation,
+      result: true,
+    }
 
-  const result = filterValidationResults([validationResult, validationResult, validationResult])
+    const result = filterValidationResults([validationResult, validationResult, validationResult])
 
-  expect(result).toHaveLength(1)
-  expect(result).toMatchObject([validationResult])
+    expect(result).toHaveLength(1)
+    expect(result).toMatchObject([validationResult])
+  })
 })
 
 describe('Same rule override', () => {
+  const element = fakeTextAreaElement({
+    id: 'id',
+  }).id
+
   it('Should override rule where validation id was equal', () => {
     const showValidationFirst: ValidationResult = {
       element,
@@ -192,6 +196,129 @@ describe('Same rule override', () => {
         validation: fakeShowValidation({ id: '123123', questionId: '1' }),
         result: true,
       },
+    ])
+  })
+})
+
+describe('mergeDisableSubElementValidation', () => {
+  const { element } = fakeCheckboxMultipleCodeElement({ id: 'element' })
+  function fakeDisableSubElementValidation(data?: Partial<CertificateDataValidation>): DisableSubElementValidation {
+    return {
+      questionId: element.id,
+      ...data,
+      type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+      id: data?.id && data.id instanceof Array ? data.id : [],
+    }
+  }
+
+  function fakeDisableSubValidationResult(data?: Partial<ValidationResult>): ValidationResult {
+    return {
+      element,
+      result: false,
+      validation: fakeDisableSubElementValidation(data?.validation),
+      ...data,
+    }
+  }
+
+  it('should add a new item when no existing items match', () => {
+    const item = fakeDisableSubValidationResult({
+      result: true,
+      validation: fakeDisableSubElementValidation({
+        id: ['id1'],
+      }),
+    })
+
+    const output = filterValidationResults([item])
+    expect(output).toEqual([
+      {
+        ...item,
+        validation: {
+          ...item.validation,
+          id: ['id1'],
+        },
+      },
+    ])
+  })
+
+  it('should merge IDs when an existing item matches', () => {
+    const input = [
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id1'],
+        }),
+      }),
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id2'],
+        }),
+      }),
+    ]
+
+    const output = filterValidationResults(input)
+    expect(output).toEqual([
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id2', 'id1'],
+        }),
+      }),
+    ])
+  })
+
+  it('should replace an opposite negative result when found', () => {
+    const input = [
+      fakeDisableSubValidationResult({
+        result: false,
+        validation: fakeDisableSubElementValidation({
+          id: ['id1'],
+        }),
+      }),
+      fakeDisableSubValidationResult({
+        result: true,
+        element,
+        validation: fakeDisableSubElementValidation({
+          id: ['id2'],
+        }),
+      }),
+    ]
+
+    const output = filterValidationResults(input)
+    expect(output).toEqual([
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id2'],
+        }),
+      }),
+    ])
+  })
+
+  it('should remove negative result if a positive already exists', () => {
+    const input = [
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id1'],
+        }),
+      }),
+      fakeDisableSubValidationResult({
+        result: false,
+        validation: fakeDisableSubElementValidation({
+          id: ['id2'],
+        }),
+      }),
+    ]
+
+    const output = filterValidationResults(input)
+    expect(output).toEqual([
+      fakeDisableSubValidationResult({
+        result: true,
+        validation: fakeDisableSubElementValidation({
+          id: ['id1'],
+        }),
+      }),
     ])
   })
 })

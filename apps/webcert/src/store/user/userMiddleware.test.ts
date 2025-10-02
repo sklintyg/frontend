@@ -5,10 +5,12 @@ import MockAdapter from 'axios-mock-adapter'
 import { fakeResourceLink, fakeUnit, fakeUnitStatistic, fakeUser } from '../../faker'
 import { fakeUserStatistics } from '../../faker/user/fakeUserStatistics'
 import type { ResourceLink } from '../../types'
-import { ResourceLinkType } from '../../types'
+import { ListType, ResourceLinkType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { updateActiveListType } from '../list/listActions'
+import { getActiveListType } from '../list/listSelectors'
 import { stopPoll } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
@@ -127,6 +129,16 @@ describe('Test user middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiUser.user.loggedInUnit.unitId).toEqual('1234a')
+    })
+
+    it('should clear list state on success', async () => {
+      testStore.dispatch(updateActiveListType(ListType.PREVIOUS_CERTIFICATES))
+
+      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: fakeUser({ loggedInUnit: fakeUnit({ unitId: '1234a' }) }) })
+      testStore.dispatch(setUnit('1234a'))
+
+      await flushPromises()
+      expect(getActiveListType(testStore.getState())).toBe(ListType.UNKOWN)
     })
   })
 

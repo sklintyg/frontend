@@ -1,6 +1,6 @@
-import type { ListFilter, CertificateListItem, ListConfig, ListType } from '../../types'
+import type { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListFilterValue, ListType } from '../../types'
 import type { ErrorData } from '../error/errorReducer'
-import type { RootState } from '../store'
+import type { RootState } from '../reducer'
 
 export const getActiveListFilter = (state: RootState): ListFilter | undefined => state.ui.uiList.activeListFilter
 
@@ -8,10 +8,23 @@ export const getActiveList = (state: RootState): CertificateListItem[] => state.
 
 export const getActiveListConfig = (state: RootState): ListConfig | undefined => state.ui.uiList.activeListConfig
 
-export const getActiveListFilterValue =
-  (id: string) =>
-  (state: RootState): unknown =>
-    state.ui.uiList.activeListFilter?.values ? state.ui.uiList.activeListFilter?.values[id] : undefined
+// Overload signatures
+export function getActiveListFilterValue<T extends ListFilterType>(
+  id: string,
+  type: T
+): (state: RootState) => Extract<ListFilterValue, { type: T }> | undefined
+export function getActiveListFilterValue(id: string): (state: RootState) => ListFilterValue | undefined
+
+// Implementation
+export function getActiveListFilterValue<T extends ListFilterType>(id: string, type?: T) {
+  return (state: RootState) => {
+    const filterValue = state.ui.uiList.activeListFilter?.values[id]
+    if (type !== undefined) {
+      return filterValue && filterValue.type === type ? (filterValue as Extract<ListFilterValue, { type: T }>) : undefined
+    }
+    return filterValue
+  }
+}
 
 export const getActiveListType = (state: RootState): ListType => state.ui.uiList.activeListType
 

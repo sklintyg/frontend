@@ -3,7 +3,7 @@ import { getBanners } from '../../store/utils/utilsSelectors'
 import type { Banner } from '../../types'
 import SystemBanner from '../utils/SystemBanner'
 
-const SystemBanners: React.FC = () => {
+const SystemBanners = () => {
   const banners: Banner[] = useAppSelector(getBanners)
 
   if (banners.length === 0) return null

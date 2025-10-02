@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import type React from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
@@ -39,12 +38,12 @@ const Content = styled.div`
   flex-grow: 1;
 `
 
-const QuestionPanel: React.FC = () => {
+const QuestionPanel = () => {
   const isLoadingQuestions = useAppSelector(getIsLoadingQuestions)
   return isLoadingQuestions ? null : <QuestionPanelInner />
 }
 
-const QuestionPanelInner: React.FC = () => {
+const QuestionPanelInner = () => {
   const isCertificateDraft = useAppSelector(isDisplayingCertificateDraft)
   const isQuestionFormVisible = useAppSelector(isCreateQuestionsAvailable)
   const isSigned = useAppSelector(getIsSigned())

@@ -26,6 +26,6 @@ describe('TableHeading', () => {
 
   it('should only print title for printing', () => {
     renderComponent()
-    expect(screen.queryByText(PRINT_TITLE)).toHaveClass('hidden print:block')
+    expect(screen.queryByTestId('table-print-heading')).toHaveClass('hidden print:block')
   })
 })

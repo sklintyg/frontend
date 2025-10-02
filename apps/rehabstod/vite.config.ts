@@ -1,6 +1,7 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 import type { ProxyOptions, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 
@@ -11,7 +12,9 @@ export default ({ mode }: UserConfig) => {
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? 'ws'
 
-  const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html', 'saml'].reduce<Record<string, string | ProxyOptions>>(
+  const proxy = ['api', 'services', 'fake', 'error.jsp', 'login', 'logout', 'welcome.html', 'saml'].reduce<
+    Record<string, string | ProxyOptions>
+  >(
     (result, route) => ({
       ...result,
       [`/${route}`]: {
@@ -34,12 +37,18 @@ export default ({ mode }: UserConfig) => {
           })
         : []
     ),
+    resolve: {
+      alias: {
+        '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+      },
+    },
     server: {
       host,
       port: 5173,
       proxy,
       strictPort: true,
-      hmr: hmr ? { host: process.env.VITE_WS_HOST ?? 'rs2.rs.localtest.me', protocol: hmrProtocol } : false,
+      allowedHosts: true,
+      hmr: hmr ? { protocol: hmrProtocol } : false,
     },
   })
 }

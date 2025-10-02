@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
-import type { ListConfig, ListFilter, ListFilterPageSizeConfig, ListFilterValue, ListFilterValueNumber } from '../../../types'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
+import type { ListConfig, ListFilter, ListFilterValue } from '../../../types'
 import { CertificateListItemValueType, ListFilterType } from '../../../types'
 import ListFilterButtons from '../ListFilterButtons'
 import ListPageSizeFilter from '../ListPageSizeFilter'
@@ -24,51 +24,18 @@ const FilterWrapper = styled.div`
   align-items: flex-end;
 `
 
-interface Props {
-  /** For this and sub-components. */
-  config: ListConfig | undefined
-  /** All filter options. */
-  filter: ListFilter | undefined
-}
-
-/**
- * Generates a filter container to contain all filters for a specific table.
- */
-const ListFilterContainer: React.FC<Props> = ({ config }) => {
-  const dispatch = useDispatch()
-  const totalCount = useSelector(getListTotalCount)
-  const hasValidationErrors = useSelector(getHasValidationErrors)
-  const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
-  const pageSizeValue = useSelector(getActiveListFilterValue(pageSizeFilter ? pageSizeFilter.id : '')) as ListFilterValue
+function ListFilterContainer({ config }: Readonly<{ config: ListConfig | undefined; filter: ListFilter | undefined }>) {
+  const dispatch = useAppDispatch()
+  const totalCount = useAppSelector(getListTotalCount)
+  const hasValidationErrors = useAppSelector(getHasValidationErrors)
+  const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE)
+  const pageSizeValue = useAppSelector(getActiveListFilterValue(pageSizeFilter?.id ?? '', ListFilterType.NUMBER))
 
   if (!config) {
     return null
   }
 
-  const getSelectFilter = () => {
-    return config.filters.map(
-      (filterConfig) =>
-        filterConfig.type === ListFilterType.SELECT && (
-          <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
-        )
-    )
-  }
-
-  const hasSelectFilter = () => {
-    if (!config) {
-      return false
-    }
-    return config.filters.some((filterConfig) => filterConfig.type === ListFilterType.SELECT)
-  }
-
-  const getOtherFilter = () => {
-    return config.filters.map(
-      (filterConfig) =>
-        filterConfig.type !== ListFilterType.SELECT && (
-          <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
-        )
-    )
-  }
+  const hasSelectFilter = config?.filters.some((filterConfig) => filterConfig.type === ListFilterType.SELECT) ?? false
 
   const onSearch = () => {
     dispatch(performListSearch())
@@ -93,9 +60,23 @@ const ListFilterContainer: React.FC<Props> = ({ config }) => {
   return (
     <>
       <Root>
-        {hasSelectFilter() && <FilterWrapper>{getSelectFilter()}</FilterWrapper>}
+        {hasSelectFilter && (
+          <FilterWrapper>
+            {config.filters.map(
+              (filterConfig) =>
+                filterConfig.type === ListFilterType.SELECT && (
+                  <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
+                )
+            )}
+          </FilterWrapper>
+        )}
         <FilterWrapper>
-          {getOtherFilter()}
+          {config.filters.map(
+            (filterConfig) =>
+              filterConfig.type !== ListFilterType.SELECT && (
+                <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
+              )
+          )}
           {!config?.excludeFilterButtons && (
             <ListFilterButtons
               searchTooltip={getTooltip(config, CertificateListItemValueType.SEARCH_BUTTON)}
@@ -109,8 +90,8 @@ const ListFilterContainer: React.FC<Props> = ({ config }) => {
       </Root>
       <ListPageSizeFilter
         filter={pageSizeFilter}
-        value={pageSizeValue as ListFilterValueNumber}
-        totalCount={totalCount ? totalCount : 0}
+        value={pageSizeValue}
+        totalCount={totalCount ?? 0}
         onFilterChange={onUpdateList}
         tableHasCaption={!!config.title}
       />

@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect } from 'react'
-import ModalBase from './ModalBase'
+import type { ReactNode } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import { CustomButton } from '../../Inputs/CustomButton'
+import ModalBase from './ModalBase'
 
 interface Props {
   disabled: boolean
   name: string
-  startIcon?: React.ReactNode
+  startIcon?: ReactNode
   modalTitle: string
   onConfirm: () => void
   confirmButtonText: string
@@ -23,10 +24,11 @@ interface Props {
   hideDeclineButton?: boolean
   hideConfirmButton?: boolean
   buttonClasses?: string
+  children: ReactNode
 }
 
-const ButtonWithConfirmModal: React.FC<Props> = (props) => {
-  const [open, setOpen] = React.useState(false)
+const ButtonWithConfirmModal = (props: Props) => {
+  const [open, setOpen] = useState(false)
   const escPress = useKeyPress('Escape')
 
   const handleClickOpen = () => {

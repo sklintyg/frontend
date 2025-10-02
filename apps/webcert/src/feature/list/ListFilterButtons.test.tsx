@@ -43,13 +43,13 @@ describe('ListFilterButtons', () => {
   it('should show search tooltip', async () => {
     renderComponent(true)
     await userEvent.hover(screen.getByText('Sök'))
-    expect(screen.getByText(TOOLTIP_SEARCH)).toBeInTheDocument()
+    expect(await screen.findByText(TOOLTIP_SEARCH)).toBeInTheDocument()
   })
 
   it('should show reset tooltip', async () => {
     renderComponent(true)
     await userEvent.hover(screen.getByText('Återställ sökfilter'))
-    expect(screen.getByText(TOOLTIP_RESET)).toBeInTheDocument()
+    expect(await screen.findByText(TOOLTIP_RESET)).toBeInTheDocument()
   })
 
   it('should have search enabled if filter validates', async () => {

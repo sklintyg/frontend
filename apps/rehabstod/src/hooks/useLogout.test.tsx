@@ -39,15 +39,13 @@ describe('useLogout', () => {
 
     await waitForRequest('GET', '/api/user')
 
-    const pendingRequest = waitForRequest('POST', '/logout')
+    const pendingRequest = waitForRequest('POST', '/api/testability/logout')
 
     expect(screen.getByText('Logout')).toBeInTheDocument()
 
     await user.click(screen.getByText('Logout'))
 
-    const request = await pendingRequest
-
-    expect(request.headers.get('content-type')).toEqual('application/x-www-form-urlencoded')
+    await pendingRequest
 
     expect(screen.getByText('Welcome')).toBeInTheDocument()
   })

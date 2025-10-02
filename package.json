@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@vitest/coverage-v8": "^1.6.0",
-    "@vitest/ui": "^1.6.0",
-    "caniuse-lite": "^1.0.30001651",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "caniuse-lite": "^1.0.30001746",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
@@ -32,8 +32,8 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.1",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
@@ -60,9 +60,12 @@
       "semver@>=7.0.0 <7.5.2": ">=7.5.2",
       "follow-redirects@<1.15.4": ">=1.15.4"
     },
-    "patchedDependencies": {
-      "focus-lock@1.0.0": "patches/focus-lock@1.0.0.patch",
-      "@inera/ids-core@4.10.0": "patches/@inera__ids-core@4.10.0.patch"
+    "packageExtensions": {
+      "@testing-library/jest-dom": {
+        "peerDependencies": {
+          "vitest": ">= 3.0"
+        }
+      }
     }
   }
 }

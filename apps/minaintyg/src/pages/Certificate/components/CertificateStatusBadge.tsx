@@ -1,4 +1,4 @@
-import { IDSBadge } from '@frontend/ids-react-ts'
+import { IDSBadge } from '@inera/ids-react'
 import type { ComponentProps } from 'react'
 import type { CertificateStatus } from '../../../schema/certificate.schema'
 import { CertificateStatusEnum } from '../../../schema/certificate.schema'

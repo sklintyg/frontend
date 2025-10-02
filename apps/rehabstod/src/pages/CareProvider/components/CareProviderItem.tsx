@@ -1,3 +1,4 @@
+import { Heading } from '../../../components/Heading/Heading'
 import type { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
 import { CareProviderRadioButton } from './CareProviderRadio'
@@ -13,7 +14,9 @@ export function CareProviderItem({
 }) {
   return (
     <div className="mb-6">
-      <h2 className="ids-heading-4 my-2 border-b border-neutral-90 pb-2">{provider.namn}</h2>
+      <Heading level={2} size="xs">
+        {provider.namn}
+      </Heading>
       {provider.vardenheter.map((unit) => (
         <div key={unit.id}>
           {unit.mottagningar && unit.mottagningar.length > 0 ? (

@@ -1,4 +1,4 @@
-import { fakerFromSchema } from '@frontend/fake'
+import { faker, fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
@@ -6,6 +6,8 @@ import { Outlet, Route, RouterProvider, createMemoryRouter, createRoutesFromChil
 import { server } from '../../mocks/server'
 import { CertificateCrumb } from '../../pages/Certificate/CertificateCrumb'
 import { certificateSchema } from '../../schema/certificate.schema'
+import { api } from '../../store/api'
+import { startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Breadcrumbs } from './Breadcrumbs'
 
@@ -43,8 +45,14 @@ const renderComponent = (initialEntries = ['/']) =>
     </Provider>
   )
 
-it('Should render as expected with no matches', () => {
+beforeEach(async () => {
+  store.dispatch(startSession())
+  await store.dispatch(api.endpoints.getInfo.initiate())
+})
+
+it('Should render as expected with no matches', async () => {
   const { container } = renderComponent(['/no-matches'])
+
   expect(container).toMatchInlineSnapshot(`
     <div>
       No available breadcrumbs
@@ -52,21 +60,26 @@ it('Should render as expected with no matches', () => {
   `)
 })
 
-it('Should render as expected with one level', () => {
+it('Should render as expected with one level', async () => {
   const { container } = renderComponent(['/'])
   expect(container).toMatchSnapshot()
 })
 
-it('Should render as expected with two level', () => {
+it('Should render as expected with two level', async () => {
+  faker.seed(1234)
+  await store.dispatch(api.endpoints.getCertificate.initiate({ id: 'intyg' }))
   const { container } = renderComponent(['/intyg'])
   expect(container).toMatchSnapshot()
 })
 
-it('Should contain correct link for start item, mobile and desktop', () => {
+it('Should contain correct link for start item, mobile and desktop', async () => {
   renderComponent(['/'])
-  expect(screen.getAllByRole('link', { name: 'Start' })).toHaveLength(2)
-  screen.getAllByRole('link', { name: 'Start' }).forEach((element) => {
-    expect(element).toHaveAttribute('href', 'https://e-tjanster.1177.se/mvk/')
+
+  const links = screen.getAllByRole('link', { name: 'Start' })
+  expect(links).toHaveLength(2)
+  links.forEach((link) => {
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('href', 'https://e-tjanster.st.1177.se/mvk/start.xhtml')
   })
 })
 

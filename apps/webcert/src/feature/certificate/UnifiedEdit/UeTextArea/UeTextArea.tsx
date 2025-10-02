@@ -13,7 +13,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
+const UeTextArea = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextArea
   const [text, setText] = useState(textValue != null ? textValue.text : '')

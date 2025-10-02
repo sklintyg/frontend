@@ -1,4 +1,3 @@
-import type React from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { copyFile } from '../../images'
@@ -27,7 +26,7 @@ interface Props {
   errorId: string
 }
 
-const ErrorCopyText: React.FC<Props> = ({ errorId }) => {
+const ErrorCopyText = ({ errorId }: Props) => {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)
 
   if (!errorId) {

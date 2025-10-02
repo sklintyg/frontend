@@ -1,3 +1,4 @@
+import { Heading } from '@frontend/components'
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
@@ -10,7 +11,19 @@ function renderComponent(events: CertificateEvent[]) {
     <RouterProvider
       router={createMemoryRouter(
         createRoutesFromElements(
-          <Route path="/" element={<CertificateCardEvents events={events} heading={<h5 className="ids-heading-4 mb-0">Händelser</h5>} />} />
+          <Route
+            path="/"
+            element={
+              <CertificateCardEvents
+                events={events}
+                heading={
+                  <Heading level={5} size="xs" className="mb-0">
+                    Händelser
+                  </Heading>
+                }
+              />
+            }
+          />
         )
       )}
     />

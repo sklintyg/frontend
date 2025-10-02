@@ -2,7 +2,7 @@ import { getByType } from '@frontend/utils'
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { fakeUser } from '../faker'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import { throwError } from '../store/error/errorActions'
@@ -17,11 +17,16 @@ const renderComponent = () => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
-        <Route path="/create/:patientId?">
-          <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
-            <p>Component</p>
-          </ResourceAccess>
-        </Route>
+        <Routes>
+          <Route
+            path="/create/:patientId?"
+            element={
+              <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
+                <p>Component</p>
+              </ResourceAccess>
+            }
+          />
+        </Routes>
       </MemoryRouter>
     </Provider>
   )

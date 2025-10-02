@@ -1,12 +1,15 @@
+import { isEmpty } from 'lodash-es'
 import { useState } from 'react'
 import styled from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch, useAppSelector } from '../../../../store/store'
-import type { CertificateDataElement, ConfigUeDiagnoses, ValueDiagnosisList } from '../../../../types'
-import UeDiagnosis from './UeDiagnosis'
+import { useAppSelector } from '../../../../store/store'
+import type { ConfigUeDiagnoses, TextValidation, ValueDiagnosis, ValueDiagnosisList } from '../../../../types'
+import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
+import type { UnifiedEdit } from '../UnifiedEdit'
+import { useDiagnosisTypeahead } from './hooks/useDiagnosisTypeahead'
+import { UeDiagnosis } from './UeDiagnosis'
 
 const RadioWrapper = styled.div`
   display: flex;
@@ -18,35 +21,37 @@ const RadioWrapper = styled.div`
   }
 `
 
-export interface Props {
-  question: CertificateDataElement
-  disabled: boolean
-}
-
-const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
-  const questionConfig = question.config as ConfigUeDiagnoses
-  const questionValue = question.value as ValueDiagnosisList
-  const firstSavedItem = questionValue.list.find((value) => value && value.terminology !== '')
+export function UeDiagnoses({
+  question: { id, config, value, validation },
+  disabled,
+  onUpdate,
+}: UnifiedEdit<ConfigUeDiagnoses, ValueDiagnosisList>) {
+  const [list, setList] = useState(value.list)
+  const firstSavedItem = value.list.find((value) => value && value.terminology !== '')
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
-    questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
+    value.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : config.terminology[0].id
   )
-  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
-  const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
+  const fields = config.list.map(({ id }) => id)
+  const validationErrors = useAppSelector(getVisibleValidationErrors(id))
   const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
-  const dispatch = useAppDispatch()
+  const textValidation = validation
+    ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
+    : undefined
 
-  const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, list: [] } }))
-    setSelectedCodeSystem(event.currentTarget.name)
+  const typeaheadProps = useDiagnosisTypeahead({ list })
+
+  function onListUpdate(list: ValueDiagnosis[]) {
+    setList(list)
+    onUpdate({ ...value, list })
   }
 
   return (
     <>
-      {questionConfig.terminology.length > 1 && (
+      {config.terminology.length > 1 && (
         <>
           <p>Välj kodverk:</p>
           <RadioWrapper>
-            {questionConfig.terminology.map(({ id, label }) => {
+            {config.terminology.map(({ id, label }) => {
               return (
                 <RadioButton
                   key={id}
@@ -56,33 +61,48 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
                   id={id}
                   value={id}
                   checked={selectedCodeSystem === id}
-                  onChange={handleCodeSystemChange}
+                  onChange={(event) => {
+                    onListUpdate([])
+                    setSelectedCodeSystem(event.currentTarget.name)
+                  }}
                 />
               )
             })}
           </RadioWrapper>
         </>
       )}
-      <p className={'iu-mb-200'}>Diagnoskod enligt {questionConfig.terminology.find(({ id }) => id === selectedCodeSystem)?.label}</p>
-      <div>
-        {questionConfig.list.map(({ id }, index) => {
-          const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
-          return (
-            <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
-              key={`${id}-diagnosis`}
-              question={question}
-              disabled={disabled}
-              id={id}
-              selectedCodeSystem={selectedCodeSystem}
-              validationErrors={diagnosisValidationErrors}
-            />
-          )
-        })}
-      </div>
+      <p className="iu-mb-200">Diagnoskod enligt {config.terminology.find(({ id }) => id === selectedCodeSystem)?.label}</p>
+
+      {config.list.map(({ id }, index) => {
+        const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === id)
+        return (
+          <UeDiagnosis
+            key={`${id}-${selectedCodeSystem}`}
+            id={id}
+            value={
+              list.find((item) => item.id === id) ?? {
+                type: CertificateDataValueType.DIAGNOSIS,
+                id: id,
+                terminology: selectedCodeSystem,
+                code: '',
+                description: '',
+              }
+            }
+            limit={textValidation?.limit}
+            disabled={disabled}
+            hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
+            validationErrors={diagnosisValidationErrors}
+            selectedCodeSystem={selectedCodeSystem}
+            onChange={(changedItem) => {
+              const updatedList = list.filter((item) => item.id !== changedItem.id).concat(isEmpty(changedItem.code) ? [] : changedItem)
+              onListUpdate(updatedList)
+            }}
+            {...typeaheadProps}
+          />
+        )
+      })}
+
       {validationErrorsWithMissingField.length > 0 && <QuestionValidationTexts validationErrors={validationErrorsWithMissingField} />}
     </>
   )
 }
-
-export default UeDiagnoses

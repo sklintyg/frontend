@@ -2,7 +2,6 @@ import { getByType } from '@frontend/utils'
 import { format } from 'date-fns'
 import { debounce } from 'lodash-es'
 import type { ChangeEvent } from 'react'
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -118,7 +117,7 @@ interface Props {
   question: Question
 }
 
-const QuestionItem: React.FC<Props> = ({ question }) => {
+const QuestionItem = ({ question }: Props) => {
   const dispatch = useDispatch()
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message

@@ -1,5 +1,5 @@
-import { LinkIcon, TertiaryButton } from '@frontend/components'
-import { IDSButton, IDSIconInformation } from '@frontend/ids-react-ts'
+import { Icon, TertiaryButton } from '@frontend/components'
+import { IDSButton } from '@inera/ids-react'
 import { useState } from 'react'
 import { ReadMoreAboutDialog } from './ReadMoreAboutDialog'
 
@@ -8,7 +8,7 @@ export function ReadMoreAboutAction() {
   return (
     <div>
       <TertiaryButton
-        startIcon={<LinkIcon icon={IDSIconInformation} width="20" height="20" color="currentColor" />}
+        startIcon={<Icon icon="information" />}
         onClick={() => showReadMoreDialog(true)}
         aria-label="Läs mer om vad du kan göra i Intyg"
       >
@@ -16,7 +16,7 @@ export function ReadMoreAboutAction() {
       </TertiaryButton>
 
       <ReadMoreAboutDialog open={readMoreDialogOpen} onOpenChange={showReadMoreDialog}>
-        <IDSButton slot="action" mblock onClick={() => showReadMoreDialog(false)} role="button">
+        <IDSButton data-testid="close-btn" mBlock onClick={() => showReadMoreDialog(false)} role="button">
           Stäng
         </IDSButton>
       </ReadMoreAboutDialog>

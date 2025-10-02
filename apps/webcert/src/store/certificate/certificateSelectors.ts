@@ -21,9 +21,10 @@ import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, 
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
+import { isFunctionDisabled } from '../api/requestSlice'
 import type { ErrorData } from '../error/errorReducer'
-import type { RootState } from '../store'
-import type { SigningData } from './certificateActions'
+import type { RootState } from '../reducer'
+import { toggleCertificateFunctionDisabler, type SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -36,15 +37,8 @@ export const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.
 export const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
 
 export const getIsValidForSigning = (state: RootState): boolean => {
-  const certificate = getCertificate(state)
-
-  if (certificate == null) {
-    return false
-  }
-
-  const hasCertificateValidationErrors = Object.values(certificate.data).flatMap(({ validationErrors }) => validationErrors).length > 0
-
-  return !hasCertificateValidationErrors
+  const validationErrors = getValidationErrorSummary()(state)
+  return validationErrors.length === 0
 }
 
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
@@ -191,18 +185,31 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-const getQuestionServerValidationErrors =
-  (questionId: string) =>
-  (state: RootState): ValidationError[] =>
-    getQuestion(questionId)(state)?.validationErrors ?? []
-
 export const getVisibleValidationErrors =
   (questionId: string, field?: string) =>
   (state: RootState): ValidationError[] => {
+    const question = getQuestion(questionId)(state)
+    const questionValidationErrors = question?.validationErrors ?? []
+
+    function getParentValidationErrors(el: CertificateDataElement): ValidationError[] {
+      const parent = state.ui.uiCertificate.certificate?.data[el.parent]
+      const validationErrors = (parent?.validationErrors ?? []).map((parentValidationError) => ({
+        ...parentValidationError,
+        text: '',
+      }))
+
+      if (parent?.parent) {
+        return [...getParentValidationErrors(parent), ...validationErrors]
+      }
+
+      return validationErrors
+    }
+
     const showValidationErrors = getShowValidationErrors(state)
+    const parentValidationErrors = question ? getParentValidationErrors(question) : []
 
     return uniqWith<ValidationError>(
-      getQuestionServerValidationErrors(questionId)(state)
+      [...questionValidationErrors, ...parentValidationErrors]
         .filter((v) => showValidationErrors || v.showAlways)
         .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
       (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
@@ -230,6 +237,9 @@ export const getSigningError = (state: RootState): ErrorData | undefined => stat
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
 
+export const getIsInactiveCertificateType = (state: RootState): boolean | undefined =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.inactiveCertificateType : false
+
 export const getIsPatientDeceased = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false
 
@@ -252,7 +262,7 @@ export const getResponsibleHospName = (state: RootState): string => {
   return state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.responsibleHospName : ''
 }
 
-export const isCertificateFunctionDisabled = (state: RootState): boolean => state.ui.uiCertificate.functionDisablers.length > 0
+export const isCertificateFunctionDisabled = isFunctionDisabled(toggleCertificateFunctionDisabler.type)
 
 export const getCertificateId =
   () =>

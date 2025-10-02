@@ -17,10 +17,10 @@ export default ({ mode }: UserConfig) => {
     '/visa',
     '/v2',
     '/webcert',
-    '/saml',
+    '/saml2',
     '/error.jsp',
     '/logout',
-    '/web/eleglogin',
+    '/login',
   ].reduce<Record<string, string | ProxyOptions>>(
     (result, route) => ({
       ...result,
@@ -49,6 +49,7 @@ export default ({ mode }: UserConfig) => {
       port: 3000,
       proxy,
       strictPort: true,
+      allowedHosts: true,
       hmr: hmr
         ? {
             host: process.env.VITE_WS_HOST ?? 'wc.localtest.me',

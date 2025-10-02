@@ -1,22 +1,21 @@
-import type React from 'react'
-import { useHistory } from 'react-router-dom'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { useNavigate } from 'react-router-dom'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { CopyIcon } from '../../../images'
 import type { CertificateMetadata } from '../../../types'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
+  functionDisabled: boolean
 }
 
-const CopyCertificateContinueButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
-  const history = useHistory()
+const CopyCertificateContinueButton = ({ name, description, enabled, certificateMetadata, functionDisabled }: Props) => {
+  const navigate = useNavigate()
 
   const handleConfirm = () => {
-    return () => history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
+    return () => navigate(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
   return (

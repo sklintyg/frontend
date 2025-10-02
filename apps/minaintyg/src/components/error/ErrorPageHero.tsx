@@ -32,6 +32,11 @@ const errorInfo = {
     description: 'Vänd dig till din mottagning om du har frågor eller behöver en kopia av ditt intyg.',
     actions: [ErrorPageActionType.enum.start, ErrorPageActionType.enum.about],
   },
+  [ErrorType.enum.inactive]: {
+    heading: 'Din inloggning är låst',
+    description: 'Din inloggning är låst. Kontakta supporten om du har frågor.',
+    actions: [ErrorPageActionType.enum.login, ErrorPageActionType.enum.support],
+  },
   [ErrorType.enum.unknown]: {
     heading: 'Någonting gick fel',
     description: 'På grund av ett tekniskt fel går det inte att visa Intyg just nu. Försök igen senare.',

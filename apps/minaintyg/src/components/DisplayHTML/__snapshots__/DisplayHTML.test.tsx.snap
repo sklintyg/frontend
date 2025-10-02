@@ -2,30 +2,28 @@
 
 exports[`link > Should render link as ids-link 1`] = `
 <div>
-  <ids-link>
-    <a
-      href="http://some-place.com"
-    >
-      Some link
-    </a>
-  </ids-link>
+  <a
+    class="ids-link ids-link--underlined"
+    href="http://some-place.com"
+  >
+    Some link
+  </a>
 </div>
 `;
 
 exports[`link > Should render link with external icon when target is _blank 1`] = `
 <div>
-  <ids-link>
-    <a
-      href="http://some-place.com"
-      target="_blank"
-    >
-      Some link
-    </a>
-    <ids-icon-external
-      class="ids-icon"
-      slot="append-icon"
+  <a
+    class="ids-link ids-link--underlined"
+    href="http://some-place.com"
+    rel="noreferrer"
+    target="_blank"
+  >
+    Some link
+    <span
+      class="ids-icon-external-link-small ids-icon--text-end"
     />
-  </ids-link>
+  </a>
 </div>
 `;
 

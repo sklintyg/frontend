@@ -64,6 +64,12 @@ module.exports = {
         'deprecation/deprecation': 'off',
       },
     },
+    {
+      files: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx'],
+      rules: {
+        'compat/compat': 'off',
+      },
+    },
   ],
   ignorePatterns: ['dist/**', '**/dist/**', 'public/**', '**/public/**'],
   settings: {

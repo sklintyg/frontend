@@ -1,8 +1,8 @@
-import { IDSSpinner } from '@frontend/ids-react-ts'
-import { MaxColspanRow } from './tableBody/MaxColspanRow'
+import { IDSSpinner } from '@inera/ids-react'
 import type { User } from '../../schemas'
-import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
 import { isUserDoctor } from '../../utils/isUserDoctor'
+import { MaxColspanRow } from './tableBody/MaxColspanRow'
+import { getEmptyFiltrationText, getEmptyTableText, getSearchText } from './utils/tableTextGeneratorUtils'
 
 export function TableInfoMessage<T>({
   isLoading,

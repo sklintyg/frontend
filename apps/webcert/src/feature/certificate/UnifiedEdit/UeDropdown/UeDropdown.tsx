@@ -12,7 +12,7 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeDropdown: React.FC<Props> = ({ question, disabled }) => {
+const UeDropdown = ({ question, disabled }: Props) => {
   const selectRef = React.useRef<HTMLSelectElement>(null)
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown
@@ -27,6 +27,8 @@ const UeDropdown: React.FC<Props> = ({ question, disabled }) => {
     if (!disabled && selectRef.current && selectRef.current.value !== '') {
       const event = new Event('change', { bubbles: true })
       selectRef.current.dispatchEvent(event)
+    } else if (disabled) {
+      dispatch(updateCertificateDataElement({ ...question, value: { ...currentValue, code: undefined } }))
     }
   }, [disabled])
 

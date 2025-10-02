@@ -1,4 +1,4 @@
-import { faker, fakerFromSchema } from '@frontend/fake'
+import { fakerFromSchema } from '@frontend/fake'
 import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { Provider } from 'react-redux'
@@ -89,12 +89,25 @@ it('Should display alert message when certificate is replaced', async () => {
 
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
-    <ids-alert
-      class="mb-2"
+    <div
+      aria-live="polite"
+      class="ids-spinner"
+      data-testid="spinner"
       role="alert"
     >
-      Läkaren kan ersätta ett intyg om till exempel intyget innehåller fel information eller om ny information tillkommit.
-    </ids-alert>
+      <p
+        class="ids-spinner-sr"
+      />
+      <div
+        class="ids-bounce-1"
+      />
+      <div
+        class="ids-bounce-2"
+      />
+      <div
+        class="ids-bounce-3"
+      />
+    </div>
   `)
 })
 
@@ -146,8 +159,6 @@ describe('Unable to load certificate', () => {
     store.dispatch(api.endpoints.getUser.initiate())
     server.use(rest.get('/api/certificate/:id', (_, res, ctx) => res(ctx.status(500))))
     const pendingLogRequest = waitForRequest('POST', '/api/log/error')
-
-    vi.stubGlobal('crypto', { randomUUID: faker.datatype.uuid })
 
     renderWithFault()
 

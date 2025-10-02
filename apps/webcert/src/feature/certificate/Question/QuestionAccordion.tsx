@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import Icon from '../../../components/image/image/Icon'
@@ -10,6 +10,7 @@ export interface Props {
   accordion: ConfigAccordion
   icon?: string
   open: boolean
+  children: ReactNode
 }
 
 const OpenLink = styled.h5.attrs({
@@ -46,7 +47,7 @@ const AccordionControl = styled(Accordion)`
   }
 `
 
-const QuestionAccordion: React.FC<Props> = ({ accordion, icon, children, open }) => {
+const QuestionAccordion = ({ accordion, icon, children, open }: Props) => {
   const isOpen = useRef(open)
   return (
     <AccordionControl open={isOpen.current}>

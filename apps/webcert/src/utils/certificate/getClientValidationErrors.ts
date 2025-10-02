@@ -2,16 +2,19 @@ import { isAfter, isBefore, isValid } from 'date-fns'
 import type { CertificateDataConfigType, CertificateDataElement, ValidationError, ValueType } from '../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../types'
 import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUtils'
+import { formatFixed } from '../format/formatAcuity'
 import { getFieldValuePair } from './getFieldValuePair'
 
 const ClientValidationError = {
-  INVALID_DATE_FORMAT: 'INVALID_DATE_FORMAT',
-  UNREASONABLE_DATE: 'UNREASONABLE_DATE',
-  INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
-  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR',
+  DATE_VIOLATES_LIMIT: 'DATE_VIOLATES_LIMIT',
   EMPTY_PERIOD: 'EMPTY_PERIOD',
+  INVALID_DATE_FORMAT: 'INVALID_DATE_FORMAT',
   INVALID_DATE_PERIOD: 'INVALID_DATE_PERIOD',
+  INVALID_YEAR_FORMAT: 'INVALID_YEAR_FORMAT',
   OVERLAP_ERROR: 'OVERLAP_ERROR',
+  UNREASONABLE_DATE: 'UNREASONABLE_DATE',
+  UNREASONABLE_YEAR: 'UNREASONABLE_YEAR',
+  OUT_OF_RANGE: 'OUT_OF_RANGE',
 } as const
 
 type ClientValidationErrorType = (typeof ClientValidationError)[keyof typeof ClientValidationError]
@@ -72,15 +75,25 @@ const getEarlyDateError = (id: string, field: string, min?: string) => {
   return getValidationErrorFactory(
     id,
     field
-  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är tidigast ${min ?? ''}.`, showAlways: true })
+  )({ type: ClientValidationError.DATE_VIOLATES_LIMIT, text: `Ange ett datum som är tidigast ${min ?? ''}.`, showAlways: true })
 }
 
 const getLateDateError = (id: string, field: string, max?: string) => {
   return getValidationErrorFactory(
     id,
     field
-  )({ type: 'DATE_VIOLATES_LIMIT', text: `Ange ett datum som är senast ${max ?? ''}.`, showAlways: true })
+  )({ type: ClientValidationError.DATE_VIOLATES_LIMIT, text: `Ange ett datum som är senast ${max ?? ''}.`, showAlways: true })
 }
+
+const getVisualAcuityOutOfRangeError = (id: string, field: string, min: number, max: number): ValidationError =>
+  getValidationErrorFactory(
+    id,
+    field
+  )({
+    type: ClientValidationError.OUT_OF_RANGE,
+    text: `Ange synskärpa i intervallet ${formatFixed(min.toString())} - ${formatFixed(max.toString())}.`,
+    showAlways: true,
+  })
 
 const isValueFormatIncorrect = (value?: string): boolean => {
   return Boolean(value && value.length > 0 && !isValid(getValidDateFormat(value)))
@@ -197,6 +210,22 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
           .concat(fromViolationAgainstMaxLimit)
           .concat(toViolationAgainstMaxLimit)
       }
+      break
+    case ConfigTypes.UE_VISUAL_ACUITY:
+      if (value.type === CertificateDataValueType.VISUAL_ACUITIES) {
+        const values = [value.rightEye, value.leftEye, value.binocular]
+
+        return values
+          .map((val) => [val.withCorrection, val.withoutCorrection])
+          .flat()
+          .reduce<ValidationError[]>((errors, val) => {
+            if (val.value != null && config.max != null && config.min != null && (val.value > config.max || val.value < config.min)) {
+              return [...errors, getVisualAcuityOutOfRangeError(id, val.id, config.min, config.max)]
+            }
+            return errors
+          }, [])
+      }
+      break
   }
   return []
 }

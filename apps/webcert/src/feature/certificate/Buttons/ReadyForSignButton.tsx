@@ -1,27 +1,20 @@
-import type React from 'react'
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import ReactTooltip from 'react-tooltip'
-import { readyForSign } from '../../../store/certificate/certificateActions'
-import type { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import ButtonWithConfirmModal from '../../../components/utils/Modal/ButtonWithConfirmModal'
 import { checkImage } from '../../../images'
+import { readyForSign } from '../../../store/certificate/certificateActions'
 
-interface Props extends FunctionDisabled {
+interface Props {
   name: string
   title?: string
   description: string
   enabled: boolean
   isValidForSigning: boolean
+  functionDisabled: boolean
 }
 
-const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled, isValidForSigning, functionDisabled }) => {
+const ReadyForSignButton = ({ name, title, description, enabled, isValidForSigning, functionDisabled }: Props) => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
 
   const getComponentWhenDraftInvalid = () => (
     <ButtonWithConfirmModal

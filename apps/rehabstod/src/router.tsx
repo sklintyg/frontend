@@ -14,11 +14,17 @@ import { Home } from './pages/Home/Home'
 import { LUCertificates } from './pages/LUCertificates/LUCertificates'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Patient } from './pages/Patient/Patient'
-import { Welcome } from './pages/Welcome/Welcome'
 
 export const router = createBrowserRouter(
   createRoutesFromChildren([
-    <Route key="welcome" path="/welcome" element={<Welcome />} />,
+    <Route
+      key="welcome"
+      path="/welcome"
+      lazy={async () => {
+        const { Welcome } = await import('./pages/Welcome/Welcome')
+        return { Component: Welcome }
+      }}
+    />,
     <Route key="root" path="/" element={<Layout />}>
       <Route index errorElement={<ErrorBoundary />} element={<Home />} />
       <Route

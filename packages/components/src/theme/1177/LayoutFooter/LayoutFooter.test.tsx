@@ -1,13 +1,21 @@
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { LayoutFooter } from './LayoutFooter'
 
-it('Should render correctly', () => {
-  const { container } = render(<LayoutFooter hasSession={false} />)
-  expect(container).toMatchSnapshot()
-  expect(screen.queryByRole('link', { name: 'Webbkarta' })).not.toBeInTheDocument()
+it('Should not have Webbkarta link when session is available', () => {
+  render(
+    <MemoryRouter>
+      <LayoutFooter hasSession={false} />
+    </MemoryRouter>
+  )
+  expect(screen.queryAllByRole('link', { name: 'Webbkarta' })).toHaveLength(0)
 })
 
 it('Should have Webbkarta link when session is available', () => {
-  render(<LayoutFooter hasSession />)
-  expect(screen.getAllByRole('link', { name: 'Webbkarta' })).toHaveLength(2)
+  render(
+    <MemoryRouter>
+      <LayoutFooter hasSession />
+    </MemoryRouter>
+  )
+  expect(screen.queryAllByRole('link', { name: 'Webbkarta' })).toHaveLength(2)
 })

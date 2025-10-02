@@ -1,7 +1,7 @@
-import { Select } from '@frontend/components'
 import { useId } from 'react'
 import { useGetUserQuery } from '../../../store/api'
 import { getUnitsForUser } from '../../../utils/getUnitsForUser'
+import { Select } from '../../form/Select/Select'
 import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value: string) => void; standardenhet?: string | null }) {
@@ -27,6 +27,7 @@ export function SelectCareUnits({ onChange, standardenhet }: { onChange: (value:
             { value: '', label: 'Ingen förvald enhet' },
             ...getUnitsForUser(user).map((unit) => ({ value: unit.id, label: unit.namn })),
           ]}
+          nooptiondescriber
         />
       </div>
     </SettingsDialogInput>

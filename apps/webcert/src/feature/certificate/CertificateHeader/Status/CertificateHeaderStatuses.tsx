@@ -1,4 +1,3 @@
-import type React from 'react'
 import StatusWithIcon from '../../../../components/utils/StatusWithIcon'
 import type { CertificateMetadata, Question } from '../../../../types'
 import {
@@ -27,7 +26,7 @@ interface Props {
   isValidating?: boolean
 }
 
-const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, questions, isValidForSigning, isValidating }) => {
+const CertificateHeaderStatuses = ({ certificateMetadata, questions, isValidForSigning, isValidating }: Props) => {
   const isCertificateLocked = isLocked(certificateMetadata)
 
   const getStatusInFirstPosition = () => {

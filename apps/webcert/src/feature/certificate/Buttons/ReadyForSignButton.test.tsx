@@ -40,27 +40,23 @@ describe('ReadyForSign button', () => {
 
   it('shall enable button when enabled is true and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
-    const button = screen.queryByRole('button')
-    await expect(button).toBeEnabled()
+    await expect(screen.getByRole('button')).toBeEnabled()
   })
 
   it('shall disable button when enabled is false and isValidForSigning is true', async () => {
     renderDefaultComponent(false, true)
-    const button = screen.queryByRole('button')
-    await expect(button).toBeDisabled()
+    await expect(screen.getByRole('button')).toBeDisabled()
   })
 
   it('shall set the name passed as prop and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
-    const name = screen.queryByText(NAME)
-    expect(name).toBeInTheDocument()
+    expect(screen.getByText(NAME)).toBeInTheDocument()
   })
 
   it('shall set the description passed as prop and isValidForSigning is true', async () => {
     renderDefaultComponent(true, true)
     await userEvent.hover(screen.getByText(NAME))
-    const description = screen.queryByText(DESCRIPTION)
-    expect(description).toBeInTheDocument()
+    expect(await screen.findByText(DESCRIPTION)).toBeInTheDocument()
   })
 
   it("shall dispatch readyForSign when button 'readyForSign' is clicked and isValidForSigning is true", async () => {

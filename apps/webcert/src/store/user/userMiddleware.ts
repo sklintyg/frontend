@@ -1,8 +1,9 @@
 import type { AnyAction } from '@reduxjs/toolkit'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { ResourceLinkType } from '../../types'
+import { ListType, ResourceLinkType } from '../../types'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { deleteCertificateSuccess, resetCertificateState, startSignCertificate } from '../certificate/certificateActions'
+import { updateActiveListType } from '../list/listActions'
 import { handleQuestionSuccess } from '../question/questionActions'
 import { stopPoll } from '../session/sessionActions'
 import {
@@ -26,6 +27,9 @@ import {
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
+  triggerFakeLogout,
+  triggerFakeLogoutStarted,
+  triggerFakeLogoutSuccess,
   triggerLogout,
   triggerLogoutNow,
   triggerLogoutNowStarted,
@@ -167,6 +171,21 @@ const handleTriggerLogoutNow: Middleware<Dispatch> =
     )
   }
 
+const handleTriggerFakeLogout: Middleware<Dispatch> =
+  ({ dispatch }: MiddlewareAPI) =>
+  () =>
+  (): void => {
+    dispatch(
+      apiCallBegan({
+        url: '/testability/logout',
+        method: 'POST',
+        onStart: triggerFakeLogoutStarted.type,
+        onSuccess: triggerFakeLogoutSuccess.type,
+        onError: apiSilentGenericError.type,
+      })
+    )
+  }
+
 const handleStartSignCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
@@ -235,6 +254,7 @@ const handleSetUnitSuccess: Middleware<Dispatch> =
     dispatch(getUserStatistics())
     dispatch(updateIsCareProviderModalOpen(false))
     dispatch(resetCertificateState())
+    dispatch(updateActiveListType(ListType.UNKOWN))
   }
 
 const handleStopPoll: Middleware<Dispatch> =
@@ -287,6 +307,7 @@ const middlewareMethods = {
   [setUserPreference.type]: handleSetUserPreference,
   [setUserPreferenceSuccess.type]: handleSetUserPreferenceSuccess,
   [cancelLogout.type]: handleCancelLogout,
+  [triggerFakeLogout.type]: handleTriggerFakeLogout,
   [triggerLogout.type]: handleTriggerLogout,
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,

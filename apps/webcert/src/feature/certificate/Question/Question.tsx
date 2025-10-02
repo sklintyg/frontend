@@ -1,6 +1,4 @@
 import { isEqual } from 'lodash-es'
-import { useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
 import Icon from '../../../components/image/image/Icon'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { displayAsMandatory, getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
@@ -16,17 +14,13 @@ export interface QuestionProps {
   className?: string
 }
 
-const Question: React.FC<QuestionProps> = ({ id, className }) => {
+const Question = ({ id, className }: QuestionProps) => {
   const question = useAppSelector(getQuestion(id), isEqual)
   const isEditable = useAppSelector(getIsEditable)
   const disabled = useAppSelector(getIsLocked) || Boolean(question?.disabled) || !isEditable
   const hasDescription = useAppSelector((state) => getQuestion(id)(state)?.config.description !== null)
   const isReadOnly = useAppSelector((state) => getQuestion(id)(state)?.readOnly)
   const displayMandatory = useAppSelector(displayAsMandatory(id))
-
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  }, [question])
 
   if (!question || (!question.visible && !question.readOnly)) return null
 

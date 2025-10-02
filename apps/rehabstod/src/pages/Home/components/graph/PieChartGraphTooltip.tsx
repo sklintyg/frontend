@@ -1,5 +1,5 @@
-import { TooltipWrapper } from '@frontend/components'
 import type { TooltipProps } from 'recharts'
+import { TooltipWrapper } from '../../../../components/Tooltip'
 
 export function PieChartGraphTooltip({ payload }: TooltipProps<string, string>) {
   if (payload && payload.length > 0) {
