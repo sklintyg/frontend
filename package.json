@@ -29,6 +29,7 @@
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
     "husky": "^7.0.4",
+    "knip": "^5.64.1",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.1",
@@ -47,6 +48,9 @@
     "not op_mini all",
     "not kaios > 0"
   ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "packageManager": "pnpm@9.11.0",
   "pnpm": {
     "overrides": {
