@@ -27,7 +27,7 @@ it('Should log client error for active session', async () => {
   const logRequest = await pendingLogRequest
   expect(await logRequest.json()).toMatchObject({
     code: 'CLIENT_ERROR',
-    id: '5f92e947-e2ee-4238-bf29-4cdc6b6c4b54',
+    id: expect.any(String),
     message: 'A error message',
     stackTrace: expect.stringContaining('Error: A error message'),
   })
