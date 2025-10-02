@@ -37,6 +37,10 @@ jobs:
       - name: Build
         run: pnpm --filter="[origin/${GITHUB_BASE_REF}]..." build
 
+      # Check that there are no unused dependencies, exports or files etc
+      - name: Run knip
+        run: pnpm knip
+
       # Run coverage, linting and tests on changed files
       # (Most likely to fail before comitting to runing all tests)
       - name: Lint-staged
