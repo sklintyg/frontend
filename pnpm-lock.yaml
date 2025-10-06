@@ -762,7 +762,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4
         version: 4.17.21
       ts-essentials:
         specifier: ^9.3.1
