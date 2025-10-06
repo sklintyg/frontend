@@ -50,7 +50,7 @@ function handleOptions(options?: FakeFromSchemaOptions) {
 
 export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: FakeFromSchemaOptions) {
   const o = handleOptions({ faker, ...options, stringMap: { ...stringMap, ...options?.stringMap } })
-  return (data?: DeepPartial<z.infer<T>>) => customDeepmerge(generateMock(schema, o), data ?? {})
+  return (data?: DeepPartial<z.infer<T>>) => (data ? customDeepmerge(generateMock(schema, o), data) : generateMock(schema, o))
 }
 
 export function fakerFromSchemaFactory<T extends ZodTypeAny>(

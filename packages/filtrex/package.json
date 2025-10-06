@@ -9,5 +9,6 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "filtrex": "^2.2.0"
-  }
+  },
+  "devDependencies": {}
 }
