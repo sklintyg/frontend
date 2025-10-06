@@ -55,6 +55,7 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
+    "@frontend/colors": "workspace:*",
     "@floating-ui/react": "^0.25.1",
     "@inera/ids-design": "^7.0.0",
     "@inera/ids-react": "^7.0.0",

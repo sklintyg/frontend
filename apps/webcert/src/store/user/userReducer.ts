@@ -12,7 +12,7 @@ import {
   updateUserStatistics,
 } from './userActions'
 
-export interface UserState {
+interface UserState {
   user: null | User
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean

@@ -36,7 +36,6 @@ export enum ListFilterType {
   NUMBER = 'NUMBER',
   ORDER = 'ORDER',
   PAGESIZE = 'PAGESIZE',
-  STARTFROM = 'STARTFROM',
   DATE = 'DATE',
   RADIO = 'RADIO',
 }
@@ -48,7 +47,7 @@ export interface ListFilterConfigBase {
   description?: string
 }
 
-export interface ListFilterConfigValue {
+interface ListFilterConfigValue {
   id: string
   name: string
   defaultValue: boolean
@@ -171,12 +170,12 @@ export interface ListFilterValueRadio {
   value: string
 }
 
-export interface ListFilterValueOrder {
+interface ListFilterValueOrder {
   type: ListFilterType.ORDER
   value: string
 }
 
-export interface ListFilterValueUnknown {
+interface ListFilterValueUnknown {
   type: ListFilterType.UNKOWN
 }
 

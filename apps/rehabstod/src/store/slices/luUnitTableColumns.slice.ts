@@ -26,8 +26,7 @@ export const {
   reset: resetLUUnitTableColumns,
   showColumn,
   hideColumn,
-  showAllColumns,
-  hideAllColumns,
+
   moveColumn,
   setColumnDefaults,
 } = luUnitTableColumnsSlice.actions

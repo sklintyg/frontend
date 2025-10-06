@@ -25,7 +25,7 @@ import {
   updateSendingQuestion,
 } from './questionActions'
 
-export interface QuestionState {
+interface QuestionState {
   questions: Question[]
   questionDraft: Question
   certificateId: string

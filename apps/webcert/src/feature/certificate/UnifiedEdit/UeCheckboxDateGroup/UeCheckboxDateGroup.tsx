@@ -8,7 +8,7 @@ import type { CertificateDataElement, ConfigUeCheckboxMultipleDate, ValueDate, V
 import { CertificateDataValueType } from '../../../../types'
 import { UeCheckboxDateItem } from './UeCheckboxDateItem'
 
-export interface Props {
+interface Props {
   disabled: boolean
   question: CertificateDataElement
 }

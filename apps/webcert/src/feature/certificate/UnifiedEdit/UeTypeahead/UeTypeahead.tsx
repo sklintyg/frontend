@@ -10,7 +10,7 @@ import type { CertificateDataElement, ConfigUeTypeahead, TextValidation, ValueTe
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import { GetFilteredSuggestions } from '../../../../utils'
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled?: boolean
 }

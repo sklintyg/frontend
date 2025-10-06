@@ -4,19 +4,19 @@ import { diagnosGruppStatSchema, diagnosisSchema, diagnosKapitelSchema } from '.
 import { lakareSchema } from './lakareSchema'
 import { patientInfoSchema } from './patientSchema'
 
-export const riskSignalSchema = z.object({
+const riskSignalSchema = z.object({
   berakningsTidpunkt: z.string(),
   intygsId: z.string(),
   riskDescription: z.string(),
   riskKategori: z.nullable(z.number()),
 })
 
-export const unansweredCommunicationFilterType = z.object({
+const unansweredCommunicationFilterType = z.object({
   id: z.string(),
   name: z.string(),
 })
 
-export const rekoStatusType = z.object({
+const rekoStatusType = z.object({
   id: z.string(),
   name: z.string(),
 })
@@ -55,12 +55,12 @@ export const sickLeaveInfoSchema = z.object({
   rekoStatus,
 })
 
-export const sickLeaveLengthIntervalSchema = z.object({
+const sickLeaveLengthIntervalSchema = z.object({
   to: z.nullable(z.number()),
   from: z.nullable(z.number()),
 })
 
-export const sickLeaveFilterSchema = z.object({
+const sickLeaveFilterSchema = z.object({
   doctorIds: z.array(z.string()),
   sickLeaveLengthIntervals: z.array(sickLeaveLengthIntervalSchema),
   diagnosisChapters: z.array(diagnosKapitelSchema),
@@ -80,14 +80,14 @@ export const genderSummarySchema = z.object({
   percentage: z.number(),
 })
 
-export const sickLeaveDegreeSummarySchema = z.object({
+const sickLeaveDegreeSummarySchema = z.object({
   id: z.number(),
   name: z.string(),
   count: z.number(),
   percentage: z.number(),
 })
 
-export const sickLeaveLengthSummarySchema = z.object({
+const sickLeaveLengthSummarySchema = z.object({
   id: z.number(),
   name: z.string(),
   count: z.number(),
@@ -111,7 +111,7 @@ export const sickLeaveSummary = z.object({
   femaleSickLeaveLengths: z.array(sickLeaveLengthSummarySchema),
 })
 
-export const summaryDataPointSchema = z.object({
+const summaryDataPointSchema = z.object({
   id: z.string(),
   value: z.number(),
   fill: z.string(),

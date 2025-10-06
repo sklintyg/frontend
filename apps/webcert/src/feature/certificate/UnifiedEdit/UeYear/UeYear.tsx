@@ -6,7 +6,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import type { CertificateDataElement, ConfigUeYear, ValueYear } from '../../../../types'
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

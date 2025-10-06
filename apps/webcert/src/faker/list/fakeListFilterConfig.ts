@@ -14,7 +14,7 @@ import type {
 import { ListFilterType } from '../../types'
 import { fakeId } from '../fakeId'
 
-export function fakeListFilterConfigBase(data?: Partial<ListFilterConfigBase>): ListFilterConfigBase {
+function fakeListFilterConfigBase(data?: Partial<ListFilterConfigBase>): ListFilterConfigBase {
   return {
     id: fakeId(),
     title: faker.lorem.sentence(),

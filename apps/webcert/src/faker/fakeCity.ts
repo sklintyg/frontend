@@ -293,4 +293,4 @@ export const fakeCityList = (): string[] => [
   'KIRUNA',
 ]
 
-export const fakeRandomCity = faker.random.arrayElement(fakeCityList())
+const fakeRandomCity = faker.random.arrayElement(fakeCityList())

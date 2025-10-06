@@ -18,7 +18,7 @@ import {
 } from './icfActions'
 import { getOriginalIcd10Codes } from './icfSelectors'
 
-export const handleGetIcfCodes: Middleware<Dispatch> =
+const handleGetIcfCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -39,7 +39,7 @@ const handleGetIcfCodesStarted: Middleware<Dispatch> = () => () => (): void => {
   return
 }
 
-export const handleGetIcfCodesSuccess: Middleware<Dispatch> =
+const handleGetIcfCodesSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {

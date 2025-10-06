@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const sessionSchema = z.object({
+const sessionSchema = z.object({
   hasSession: z.boolean(),
   secondsUntilExpire: z.number(),
 })

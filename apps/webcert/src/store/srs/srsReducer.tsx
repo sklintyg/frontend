@@ -28,7 +28,7 @@ import {
   updateUserLaunchFromOrigin,
 } from './srsActions'
 
-export interface SRSState {
+interface SRSState {
   diagnosisListValue: ValueDiagnosisList | null
   diagnosisCodes: string[]
   srsInfo: SrsInfoForDiagnosis | undefined

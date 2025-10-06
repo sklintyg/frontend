@@ -7,7 +7,7 @@ export interface AvailableIcfCodes {
   uniqueCodes: IcfCodeCollection[]
 }
 
-export interface IcfState {
+interface IcfState {
   disability?: AvailableIcfCodes
   activityLimitation?: AvailableIcfCodes
   originalIcd10Codes: string[]

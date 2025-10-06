@@ -2,7 +2,7 @@ import faker from 'faker'
 import type { PartialDeep } from 'type-fest'
 import type { Patient, PersonId } from '../types/patient'
 
-export function fakePatientId() {
+function fakePatientId() {
   return `${faker.date.past().toISOString().split('T')[0].replace(/-/g, '')}${faker.random.alphaNumeric(4)}`
 }
 

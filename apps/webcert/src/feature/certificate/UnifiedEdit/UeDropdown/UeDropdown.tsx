@@ -7,7 +7,7 @@ import Dropdown from '../../../../components/Inputs/Dropdown'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { CertificateDataElement, ConfigUeDropdown, ValueCode } from '../../../../types'
 
-export interface Props {
+interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }

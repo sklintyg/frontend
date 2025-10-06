@@ -3,7 +3,7 @@ import { diagnosisSchema } from './diagnosisSchema'
 import { lakareSchema } from './lakareSchema'
 import { patientInfoSchema } from './patientSchema'
 
-export const agCertificateSchema = z.object({
+const agCertificateSchema = z.object({
   biDiagnoses: z.array(diagnosisSchema),
   careProviderId: z.string(),
   careProviderName: z.string(),

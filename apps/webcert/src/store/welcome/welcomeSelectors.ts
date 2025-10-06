@@ -22,7 +22,7 @@ export const getCertificateId =
   (state: RootState): string =>
     state.ui.uiWelcome.createdCertificateId
 
-export const getAvailableUsers =
+const getAvailableUsers =
   () =>
   (state: RootState): MockUser[] =>
     state.ui.uiWelcome.users

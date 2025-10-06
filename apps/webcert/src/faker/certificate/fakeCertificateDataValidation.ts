@@ -44,7 +44,7 @@ export const fakeHideValidation = (data?: Partial<HideValidation>): HideValidati
   ...data,
 })
 
-export const fakeDisableValidation = (data?: Partial<DisableValidation>): DisableValidation => ({
+const fakeDisableValidation = (data?: Partial<DisableValidation>): DisableValidation => ({
   type: CertificateDataValidationType.DISABLE_VALIDATION,
   questionId: fakeId(),
   id: [fakeId()],
@@ -58,7 +58,7 @@ export const fakeDisableSubElementValidation = (data?: Partial<DisableSubElement
   ...data,
 })
 
-export const fakeEnableValidation = (data?: Partial<EnableValidation>): EnableValidation => ({
+const fakeEnableValidation = (data?: Partial<EnableValidation>): EnableValidation => ({
   type: CertificateDataValidationType.ENABLE_VALIDATION,
   questionId: fakeId(),
   ...data,
@@ -70,7 +70,7 @@ export const fakeMandatoryValidation = (data?: Partial<MandatoryValidation>): Ma
   ...data,
 })
 
-export const fakeCategoryMandatoryValidation = (data?: Partial<CategoryMandatoryValidation>): CategoryMandatoryValidation => ({
+const fakeCategoryMandatoryValidation = (data?: Partial<CategoryMandatoryValidation>): CategoryMandatoryValidation => ({
   type: CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION,
   questionId: fakeId(),
   ...data,

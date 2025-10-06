@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '../../../../types'
 import UeEyeAcuity from './UeEyeAcuity'
 
-export interface Props {
+interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }

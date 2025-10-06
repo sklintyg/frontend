@@ -23,8 +23,8 @@ export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
 export const CARE_UNIT_CITY_FIELD = 'grunddata.skapadAv.vardenhet.postort'
 export const CARE_UNIT_PHONE_NUMBER_FIELD = 'grunddata.skapadAv.vardenhet.telefonnummer'
-export const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
-export const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
+const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
+const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
 
 const Wrapper = styled.div`
   align-items: center;

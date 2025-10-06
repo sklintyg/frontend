@@ -45,7 +45,7 @@ export function usePrintCertificate(id: string) {
   }
 }
 
-export const PrintCertificateContext = createContext<ReturnType<typeof usePrintCertificate> | null>(null)
+const PrintCertificateContext = createContext<ReturnType<typeof usePrintCertificate> | null>(null)
 export const PrintCertificateContextProvider = PrintCertificateContext.Provider
 
 export function usePrintCertificateContext() {

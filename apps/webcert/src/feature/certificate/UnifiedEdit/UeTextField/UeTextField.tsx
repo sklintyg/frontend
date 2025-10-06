@@ -8,7 +8,7 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import type { CertificateDataElement, ConfigUeTextField, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

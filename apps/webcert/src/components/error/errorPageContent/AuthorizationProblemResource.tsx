@@ -1,7 +1,7 @@
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
-export const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas'
-export const AUTHORIZATION_PROBLEM_MESSAGE =
+const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas'
+const AUTHORIZATION_PROBLEM_MESSAGE =
   'Du saknar behörighet för att komma åt sidan. För att få hjälp, kontakta i första hand din lokala IT-avdelning och i andra hand '
 
 const AuthorizationProblem = () => {

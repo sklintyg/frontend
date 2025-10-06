@@ -9,7 +9,7 @@ export const _minAllowedDate = new Date(1900, 0, 2)
 export const _maxAllowedDate = new Date(2099, 11, 12)
 
 export const _format = 'yyyy-MM-dd'
-export const _parseformat = 'yyyyMMdd'
+const _parseformat = 'yyyyMMdd'
 
 export const _yearFormat = 'yyyy'
 
@@ -48,7 +48,7 @@ export const getValidDate = (dateString: string | undefined): Date | undefined =
 
 export const isValidUncertainDate = (dateString: string): boolean => /[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(dateString)
 
-export const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {
+const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {
   if (!dateString) return
 
   return isValid(getValidDate(dateString)) || dayCodeReg.test(dateString) || weekCodeReg.test(dateString) || monthCodeReg.test(dateString)
@@ -76,7 +76,7 @@ export const parseDayCodes = (input: string): number | null => {
   return null
 }
 
-export const parseMonthCode = (input: string): number | null => {
+const parseMonthCode = (input: string): number | null => {
   if (input) {
     const result = monthCodeReg.exec(input)
     if (result && result.length > 0) {

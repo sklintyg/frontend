@@ -19,5 +19,5 @@ const cookieDialogSlice = createSlice({
   },
 })
 
-export const { resetCookieDialogState, updateShowCookieDialog } = cookieDialogSlice.actions
+export const { updateShowCookieDialog } = cookieDialogSlice.actions
 export const { name: cookieDialogReducerPath, reducer: cookieDialogReducer } = cookieDialogSlice

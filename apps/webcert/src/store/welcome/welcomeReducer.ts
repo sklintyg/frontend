@@ -71,7 +71,7 @@ export interface JsonUser extends MockUser {
   authenticationMethod: string
 }
 
-export interface WelcomeState {
+interface WelcomeState {
   types: CertificateType[] | null
   patients: Patient[]
   createCertificate: CreateCertificate

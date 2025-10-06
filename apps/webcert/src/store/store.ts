@@ -17,7 +17,7 @@ import { userMiddleware } from './user/userMiddleware'
 import { utilsMiddleware } from './utils/utilsMiddleware'
 import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 
-export const store = configureApplicationStore([
+const store = configureApplicationStore([
   apiMiddleware,
   certificateMiddleware,
   userMiddleware,

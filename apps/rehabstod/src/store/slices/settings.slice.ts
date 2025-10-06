@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import type { UserPreferences } from '../../schemas'
 
-export interface Settings {
+interface Settings {
   showSettingsDialog: boolean
   preferences: Partial<UserPreferences>
   showPersonalInformation: boolean

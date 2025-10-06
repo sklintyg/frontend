@@ -18,7 +18,7 @@ export const ErrorCode = z.enum([
 
 export type ErrorCodeEnum = z.infer<typeof ErrorCode>
 
-export const errorSchema = z.object({
+const errorSchema = z.object({
   id: z.string(),
   code: ErrorCode.or(z.number()),
   message: z.string(),

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const pingSchema = z.object({
+const pingSchema = z.object({
   hasSession: z.boolean(),
   secondsUntilExpire: z.number(),
   authenticated: z.boolean(),

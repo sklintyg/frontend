@@ -6,25 +6,25 @@ export enum BannerPriority {
   ERROR = 'ERROR',
 }
 
-export const bannerTypeEnum = z.nativeEnum(BannerPriority)
+const bannerTypeEnum = z.nativeEnum(BannerPriority)
 
-export const bannerSchema = z.object({
+const bannerSchema = z.object({
   content: z.string(),
   type: bannerTypeEnum,
 })
 
-export const linkSchema = z.object({
+const linkSchema = z.object({
   id: z.string(),
   name: z.string(),
   url: z.string().url(),
 })
 
-export const informationSchema = z.object({
+const informationSchema = z.object({
   banners: z.array(bannerSchema),
   environment: z.string(),
   links: z.array(linkSchema),
 })
 
 export type InformationResponse = z.infer<typeof informationSchema>
-export type Banner = z.infer<typeof bannerSchema>
-export type DynamicLink = z.infer<typeof linkSchema>
+type Banner = z.infer<typeof bannerSchema>
+type DynamicLink = z.infer<typeof linkSchema>

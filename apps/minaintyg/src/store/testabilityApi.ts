@@ -29,4 +29,4 @@ export const testabilityApi = api.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useFakeLoginMutation, useFakeLogoutMutation, useGetPersonsQuery } = testabilityApi
+export const { useFakeLoginMutation, useGetPersonsQuery } = testabilityApi

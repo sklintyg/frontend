@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit'
 import type { Configuration, DynamicLinkMap } from './utilsReducer'
 import type { DiagnosisTypeahead } from '../../types'
 
-export interface GetDiagnosisTypeahead {
+interface GetDiagnosisTypeahead {
   codeSystem: string
   fragment: string
   code: boolean
@@ -20,7 +20,7 @@ export const updateIsLoadingDynamicLinks = createAction<boolean>('[Utils] Update
 export const getDiagnosisTypeahead = createAction<GetDiagnosisTypeahead>('[Utils] Get diagnosis typeahead')
 export const getDiagnosisTypeaheadStarted = createAction('[Utils] Get diagnosis typeahead started')
 export const getDiagnosisTypeaheadSuccess = createAction<DiagnosisTypeahead>('[Utils] Get diagnosis typeahead success')
-export const getDiagnosisTypeaheadError = createAction<string>('[Utils] Get diagnosis typeahead error')
+const getDiagnosisTypeaheadError = createAction<string>('[Utils] Get diagnosis typeahead error')
 export const resetDiagnosisTypeahead = createAction('[Utils] Resets diagnosis typeahead')
 
 export const updateDiagnosisTypeahead = createAction<DiagnosisTypeahead>('[Utils] Update diagnosis typeahead')
