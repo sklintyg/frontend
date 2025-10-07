@@ -13,7 +13,7 @@ export function LayoutFooter() {
   const dispatch = useAppDispatch()
 
   return (
-    <footer className="ids-footer-1177-admin">
+    <footer className="ids-footer-1177-admin print:hidden">
       <CookieDialog />
       <div className="ids-footer-1177-admin__inner-wrapper">
         <div className="ids-footer-1177-admin__inner">
