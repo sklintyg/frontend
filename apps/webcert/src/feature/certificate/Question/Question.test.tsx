@@ -92,5 +92,5 @@ it('Should display question header accordion when text is present', () => {
     )
   )
   renderComponent()
-  expect(screen.getByTestId("question-heading-h5")).toBeInTheDocument()
+  expect(screen.getByTestId('question-heading-h5')).toBeInTheDocument()
 })
