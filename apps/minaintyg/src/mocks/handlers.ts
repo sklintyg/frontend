@@ -141,7 +141,7 @@ export const handlers = [
                 type: 'OPTIONS',
               },
               {
-                id: '!diagnoser',
+                id: faker.random.numeric(),
                 text: 'Dölj Diagnos',
                 type: 'OPTIONS',
               },
