@@ -13,6 +13,7 @@ export function CustomizePrintDialog() {
     setCustomizeId,
     customizePrintType,
     setSaveWarningDialogOpen,
+    hideDiagnoseSelected,
   } = usePrintCertificateContext()
 
   if (!customizePrintFunction) {
@@ -70,7 +71,7 @@ export function CustomizePrintDialog() {
               </IDSRadio>
             ))}
         </IDSRadioGroup>
-        {customizeId === '!diagnoser' && <p className="mb-5">{customizePrintFunction.description}</p>}
+        {hideDiagnoseSelected && <p className="mb-5">{customizePrintFunction.description}</p>}
       </div>
     </Dialog>
   )
