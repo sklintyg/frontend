@@ -19,6 +19,7 @@ const Question = ({ id, className }: QuestionProps) => {
   const isEditable = useAppSelector(getIsEditable)
   const disabled = useAppSelector(getIsLocked) || Boolean(question?.disabled) || !isEditable
   const hasDescription = useAppSelector((state) => getQuestion(id)(state)?.config.description !== null)
+  const hasText = useAppSelector((state) => getQuestion(id)(state)?.config.text)
   const isReadOnly = useAppSelector((state) => getQuestion(id)(state)?.readOnly)
   const displayMandatory = useAppSelector(displayAsMandatory(id))
 
@@ -26,7 +27,7 @@ const Question = ({ id, className }: QuestionProps) => {
 
   return (
     <div className={className}>
-      {!isReadOnly && hasDescription ? (
+      {!isReadOnly && hasDescription && hasText ? (
         <div id={question.id}>
           <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} questionId={question.parent} />
         </div>

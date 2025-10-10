@@ -33,7 +33,7 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)
       caniuse-lite:
-        specifier: ^1.0.30001746
+        specifier: ^1.0.30001749
         version: 1.0.30001749
       cross-env:
         specifier: ^7.0.3
