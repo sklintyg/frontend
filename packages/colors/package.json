@@ -22,7 +22,6 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch",
-    "test": "vitest",
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
   },
