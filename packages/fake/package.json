@@ -20,7 +20,7 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.10.0",
+    "@anatine/zod-mock": "3.11.0",
     "@faker-js/faker": "^7.6.0",
     "deepmerge-ts": "^5.0.0",
     "ts-essentials": "^9.3.1",

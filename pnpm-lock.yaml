@@ -790,8 +790,8 @@ importers:
   packages/fake:
     dependencies:
       '@anatine/zod-mock':
-        specifier: ^3.10.0
-        version: 3.14.0(@faker-js/faker@7.6.0)(zod@3.22.3)
+        specifier: 3.11.0
+        version: 3.11.0(@faker-js/faker@7.6.0)
       '@faker-js/faker':
         specifier: ^7.6.0
         version: 7.6.0
@@ -970,6 +970,11 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@anatine/zod-mock@3.11.0':
+    resolution: {integrity: sha512-aQFhCKyILkedgV0M/hqvq7D7gw4Xx7Hcoh4hBAD9Awr9HbMbY5/Vg2hw/BQh8/br4YZ34RW0vDE4MqSGAJsa5A==}
+    peerDependencies:
+      '@faker-js/faker': ^7.0.0
 
   '@anatine/zod-mock@3.14.0':
     resolution: {integrity: sha512-pTYyn9dlszUl5gMGWtE7DBRvx1EcqpBJ1iJ73rlJYCZr9lgIEdZ6PCZQqoXIdlC8DYIwuT1M3/N8arkJa7A10Q==}
@@ -6556,6 +6561,11 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
+
+  '@anatine/zod-mock@3.11.0(@faker-js/faker@7.6.0)':
+    dependencies:
+      '@faker-js/faker': 7.6.0
+      randexp: 0.5.3
 
   '@anatine/zod-mock@3.14.0(@faker-js/faker@7.6.0)(zod@3.22.3)':
     dependencies:
