@@ -853,6 +853,9 @@ importers:
       '@frontend/components':
         specifier: workspace:*
         version: link:../components
+      '@inera/ids-design':
+        specifier: ^7.0.0
+        version: 7.0.0
       '@inera/ids-react':
         specifier: ^7.0.0
         version: 7.0.0(react@18.3.1)
