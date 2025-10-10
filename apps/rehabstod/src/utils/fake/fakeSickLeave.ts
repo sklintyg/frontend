@@ -2,13 +2,13 @@ import { fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
 import { diagnosKapitelSchema, diagnosKategoriSchema } from '../../schemas/diagnosisSchema'
 import { genderSummarySchema, sickLeaveSummary } from '../../schemas/sickLeaveSchema'
 
-export const fakeDiagnosKategori = fakerFromSchema(diagnosKategoriSchema)
-export const fakeDiagnosKapitel = fakerFromSchemaFactory(diagnosKapitelSchema, () => ({
+const fakeDiagnosKategori = fakerFromSchema(diagnosKategoriSchema)
+const fakeDiagnosKapitel = fakerFromSchemaFactory(diagnosKapitelSchema, () => ({
   to: fakeDiagnosKategori(),
   from: fakeDiagnosKategori(),
 }))
 
-export const fakeGenderSummarySchema = fakerFromSchema(genderSummarySchema)
+const fakeGenderSummarySchema = fakerFromSchema(genderSummarySchema)
 
 export const fakeSickLeaveSummary = fakerFromSchemaFactory(sickLeaveSummary, () => ({
   genders: Array.from({ length: 2 }, fakeGenderSummarySchema),

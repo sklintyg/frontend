@@ -22,11 +22,11 @@ import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 
-export const PATIENT_STREET_FIELD = 'grunddata.patient.postadress'
-export const PATIENT_ZIP_CODE_FIELD = 'grunddata.patient.postnummer'
-export const PATIENT_CITY_FIELD = 'grunddata.patient.postort'
-export const PATIENT_ADDRESS_CATEGORY_TITLE_ID = 'patientensadress'
-export const PATIENT_ADDRESS_CATEGORY_TITLE = 'Patientens adressuppgifter'
+const PATIENT_STREET_FIELD = 'grunddata.patient.postadress'
+const PATIENT_ZIP_CODE_FIELD = 'grunddata.patient.postnummer'
+const PATIENT_CITY_FIELD = 'grunddata.patient.postort'
+const PATIENT_ADDRESS_CATEGORY_TITLE_ID = 'patientensadress'
+const PATIENT_ADDRESS_CATEGORY_TITLE = 'Patientens adressuppgifter'
 
 const Wrapper = styled.div`
   align-items: center;

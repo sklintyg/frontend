@@ -50,7 +50,7 @@ import {
   validateCertificateStarted,
 } from './certificateActions'
 
-export interface CertificateState {
+interface CertificateState {
   autoStartToken: string
   certificate?: Certificate
   certificateEvents: CertificateEvent[]

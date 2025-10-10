@@ -10,7 +10,7 @@ import { formatDate } from '../../utils'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 
-export const StyledIcon = styled.img`
+const StyledIcon = styled.img`
   width: 14px;
   margin: auto;
 `

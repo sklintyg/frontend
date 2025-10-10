@@ -1,6 +1,6 @@
 /* eslint-disable import/no-default-export */
+import { elevenSeventySevenColors, elevenSeventySevenProColors, ineraAdminColors, ineraColors } from '@frontend/colors'
 import type { Config } from 'tailwindcss'
-import { elevenSeventySevenColors, elevenSeventySevenProColors, ineraAdminColors, ineraColors } from './src/theme/colors'
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],

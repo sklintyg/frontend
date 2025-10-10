@@ -8,7 +8,7 @@ const qrCodeOptions: QRCodeRenderersOptions = {
   errorCorrectionLevel: 'L',
 }
 
-export function QrCode({ qrCode }: { qrCode: string }) {
+function QrCode({ qrCode }: { qrCode: string }) {
   const [qrImage, setQrImage] = useState<string>()
 
   useEffect(() => {

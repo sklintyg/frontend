@@ -10,7 +10,7 @@ import { ConfigLayout } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 
-export interface Props {
+interface Props {
   disabled: boolean
   question: CertificateDataElement
 }

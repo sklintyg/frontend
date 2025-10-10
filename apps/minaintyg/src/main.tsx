@@ -1,5 +1,5 @@
-/* eslint-disable import/order */
-import { ThemeProvider } from '@frontend/components/1177'
+/* eslint-disable import/no-duplicates */
+import { ThemeProvider } from '@frontend/theme-1177'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
 import React from 'react'

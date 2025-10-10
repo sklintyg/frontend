@@ -5,7 +5,7 @@ const ERROR = '[Error]'
 
 export const throwError = createAction<ErrorRequest>(`${ERROR} Throw error`)
 
-export interface ClearErrorRequest {
+interface ClearErrorRequest {
   errorId: string
 }
 

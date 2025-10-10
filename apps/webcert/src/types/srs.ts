@@ -39,7 +39,7 @@ export interface SrsPrediction {
   timestamp: string
 }
 
-export interface SrsExtensionChain {
+interface SrsExtensionChain {
   mainDiagnosisCode: string
 }
 
@@ -77,7 +77,6 @@ export interface SrsAnswer {
 export enum SrsEvent {
   SRS_LOADED = 'SRS_LOADED',
   SRS_PANEL_ACTIVATED = 'SRS_PANEL_ACTIVATED',
-  SRS_CONSENT_ANSWERED = 'SRS_CONSENT_ANSWERED',
   SRS_QUESTION_ANSWERED = 'SRS_QUESTION_ANSWERED',
   SRS_CALCULATE_CLICKED = 'SRS_CALCULATE_CLICKED',
   SRS_HIDE_QUESTIONS_CLICKED = 'SRS_HIDE_QUESTIONS_CLICKED',

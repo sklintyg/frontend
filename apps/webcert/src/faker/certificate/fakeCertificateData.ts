@@ -284,7 +284,7 @@ export const fakeIntegerElement = fakeDataElementFactory<ConfigUeInteger, ValueI
   value: fakeCertificateValue.integer(value),
 }))
 
-export const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHeader>((config, value) => ({
+const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHeader>((config, value) => ({
   config: fakeCertificateConfig.header(config),
   value: fakeCertificateValue.header(value),
 }))
@@ -447,7 +447,7 @@ export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementFactory<Con
   })
 )
 
-export const fakeMessageElement = fakeDataElementFactory<ConfigUeMessage, ValueText>((config, value) => ({
+const fakeMessageElement = fakeDataElementFactory<ConfigUeMessage, ValueText>((config, value) => ({
   config: fakeCertificateConfig.message(config),
   value: fakeCertificateValue.text(value),
 }))

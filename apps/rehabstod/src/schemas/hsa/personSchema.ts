@@ -1,31 +1,31 @@
 import { z } from 'zod'
 import { AllowedInApplicationEnum, EnvEnum, HealthCareProfessionalLicenceEnum } from './enums'
 
-export const extraContextPropertiesSchema = z.object({
+const extraContextPropertiesSchema = z.object({
   pdlConsentGiven: z.string().optional(),
 })
 
-export const loginSchema = z.object({
+const loginSchema = z.object({
   forvaldEnhet: z.string(),
   beskrivning: z.string(),
 })
 
-export const healthCareProfessionalLicenceTypeSchema = z.object({
+const healthCareProfessionalLicenceTypeSchema = z.object({
   healthCareProfessionalLicenceCode: z.string(),
   healthCareProfessionalLicenceName: z.string(),
 })
 
-export const paTitleSchema = z.object({
+const paTitleSchema = z.object({
   titleCode: z.string(),
   titleName: z.string(),
 })
 
-export const specialitySchema = z.object({
+const specialitySchema = z.object({
   specialityName: z.string(),
   specialityCode: z.string(),
 })
 
-export const fakePropertiesSchema = z.object({
+const fakePropertiesSchema = z.object({
   displayOrder: z.string().nullable(),
   env: EnvEnum.nullable(),
   readOnly: z.boolean(),
@@ -34,7 +34,7 @@ export const fakePropertiesSchema = z.object({
   extraContextProperties: extraContextPropertiesSchema,
 })
 
-export const restrictionSchema = z.object({
+const restrictionSchema = z.object({
   restrictionCode: z.string(),
   restrictionName: z.string(),
 })
@@ -60,11 +60,11 @@ export const personSchema = z.object({
   healthCareProfessionalLicenceType: z.array(healthCareProfessionalLicenceTypeSchema),
 })
 
-export type ExtraContextProperties = z.infer<typeof extraContextPropertiesSchema>
-export type Login = z.infer<typeof loginSchema>
-export type HealthCareProfessionalLicenceType = z.infer<typeof healthCareProfessionalLicenceTypeSchema>
-export type PaTitle = z.infer<typeof paTitleSchema>
-export type Speciality = z.infer<typeof specialitySchema>
-export type FakeProperties = z.infer<typeof fakePropertiesSchema>
-export type Restriction = z.infer<typeof restrictionSchema>
+type ExtraContextProperties = z.infer<typeof extraContextPropertiesSchema>
+type Login = z.infer<typeof loginSchema>
+type HealthCareProfessionalLicenceType = z.infer<typeof healthCareProfessionalLicenceTypeSchema>
+type PaTitle = z.infer<typeof paTitleSchema>
+type Speciality = z.infer<typeof specialitySchema>
+type FakeProperties = z.infer<typeof fakePropertiesSchema>
+type Restriction = z.infer<typeof restrictionSchema>
 export type Person = z.infer<typeof personSchema>

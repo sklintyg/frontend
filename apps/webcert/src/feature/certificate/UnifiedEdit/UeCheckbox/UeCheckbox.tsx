@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../../../store/store'
 import type { CertificateDataElement, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../../../types'
 
-export interface Props {
+interface Props {
   label?: string
   name?: string
   id?: string

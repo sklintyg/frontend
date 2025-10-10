@@ -6,7 +6,7 @@ import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
 
-export interface Props {
+interface Props {
   disabled: boolean
   question: CertificateDataElement
 }

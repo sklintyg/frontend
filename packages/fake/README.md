@@ -24,6 +24,6 @@ fakeFromSchema(userSchema, { seed: 1234 })
 fakeFromSchema(userSchema, { stringMap: { firstName: 'Arnold' } })() // { firstName: 'Arnold', lastName: 'Johansson' }
 ```
 
-# Available faker functions
+## Available faker functions
 
 Read about the API at [fakerjs](https://fakerjs.dev/api/)

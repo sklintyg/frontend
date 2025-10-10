@@ -16,7 +16,7 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 
-export interface Props {
+interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }

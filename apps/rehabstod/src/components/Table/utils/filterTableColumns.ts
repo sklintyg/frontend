@@ -2,7 +2,7 @@ import type { TableColumn } from '../../../schemas/tableSchema'
 
 export const isPatientViewColumn = (name: string) => name === 'Namn' || name === 'Personnummer' || name === 'Kön' || name === 'Ålder'
 
-export const isPersonalInformationColumn = (name: string) => name === 'Namn' || name === 'Personnummer'
+const isPersonalInformationColumn = (name: string) => name === 'Namn' || name === 'Personnummer'
 
 export const filterTableColumns = (
   columns: TableColumn[],

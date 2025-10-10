@@ -1,0 +1,40 @@
+{
+  "name": "@frontend/colors",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": {
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup -c",
+    "test": "echo 'No tests available'",
+    "dev": "rollup -c --watch",
+    "lint": "eslint .",
+    "typescript": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@typescript-eslint/parser": "^6.18.1",
+    "eslint": "^8.56.0",
+    "rollup": "^4.22.4",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-esbuild": "^6.1.0"
+  }
+}

@@ -9,7 +9,7 @@ import { QuestionHeading } from './QuestionHeading'
 import { QuestionMessage } from './QuestionMessage'
 import QuestionUvResolve from './QuestionUvResolve'
 
-export interface QuestionProps {
+interface QuestionProps {
   id: string
   className?: string
 }

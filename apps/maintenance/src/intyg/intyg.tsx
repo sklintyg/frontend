@@ -1,5 +1,5 @@
 import { AppLink } from '@frontend/components'
-import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from '@frontend/components/1177'
+import { LayoutFooter, LayoutHeader, PageHero, PageHeroActions } from '@frontend/theme-1177'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '../styling/1177.css'

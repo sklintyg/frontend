@@ -2,7 +2,7 @@ import faker from 'faker'
 import type { DynamicLinkData } from '../types/utils'
 import { fakeId } from './fakeId'
 
-export const fakeDynamicLink = (data?: Partial<DynamicLinkData>): DynamicLinkData => {
+const fakeDynamicLink = (data?: Partial<DynamicLinkData>): DynamicLinkData => {
   return {
     key: fakeId(),
     url: faker.internet.url(),

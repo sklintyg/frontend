@@ -20,7 +20,7 @@ const StyledTextInput = styled(TextInput)`
   margin-right: 0.625em;
 `
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

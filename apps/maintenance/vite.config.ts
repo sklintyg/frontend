@@ -26,6 +26,12 @@ export default defineConfig({
         general: resolve(root, 'general/index.html'),
         intyg: resolve(root, 'intyg/index.html'),
       },
+      onwarn(warning, warn) {
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+          return
+        }
+        warn(warning)
+      },
     },
   },
   resolve: {

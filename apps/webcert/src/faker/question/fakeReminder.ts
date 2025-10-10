@@ -2,7 +2,7 @@ import faker from 'faker'
 import type { Reminder } from '../../types'
 import { fakeId } from '../fakeId'
 
-export function fakeReminder(data?: Partial<Reminder>): Reminder {
+function fakeReminder(data?: Partial<Reminder>): Reminder {
   return {
     id: fakeId(),
     message: faker.lorem.paragraph(),

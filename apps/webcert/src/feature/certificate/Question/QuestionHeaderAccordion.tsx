@@ -10,7 +10,7 @@ import type { CertificateDataConfig } from '../../../types'
 import { ConfigTypes } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
-export interface Props {
+interface Props {
   config: CertificateDataConfig
   displayMandatory: boolean
   questionId: string

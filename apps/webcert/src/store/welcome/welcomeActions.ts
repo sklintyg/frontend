@@ -10,7 +10,7 @@ interface CertificateTypesResponse {
 }
 
 export const getCertificateTypesSuccess = createAction<CertificateTypesResponse>('[Welcome] Get certificate types success')
-export const getCertificateTypesError = createAction<string>('[Welcome] Get certificate types error')
+const getCertificateTypesError = createAction<string>('[Welcome] Get certificate types error')
 
 export const updateCertificateTypes = createAction<CertificateType[]>('[Welcome] Update certificate types')
 
@@ -22,7 +22,7 @@ interface CertificatePatientsResponse {
 }
 
 export const getPatientsSuccess = createAction<CertificatePatientsResponse>('[Welcome] Get patients success')
-export const getPatientsError = createAction<string>('[Welcome] Get patients error')
+const getPatientsError = createAction<string>('[Welcome] Get patients error')
 
 export const updatePatients = createAction<Patient[]>('[Welcome] Update patients')
 
@@ -36,14 +36,14 @@ interface CreateCertificateResponse {
 }
 
 export const createNewCertificateSuccess = createAction<CreateCertificateResponse>('[Welcome] Create certificate success')
-export const createNewCertificateError = createAction<string>('[Welcome] Create certificate error')
+const createNewCertificateError = createAction<string>('[Welcome] Create certificate error')
 export const updateCertificateId = createAction<string>('[Welcome] Update certificate id')
 
 export const loginUser = createAction<JsonUser>('[Welcome] Login user')
 export const loginUserStarted = createAction('[Welcome] Login user started')
 export const loginUserSuccess = createAction('[Welcome] Login user success')
-export const loginUserError = createAction('[Welcome] Login user error')
-export const loginUserCompleted = createAction('[Welcome] Login user completed')
+const loginUserError = createAction('[Welcome] Login user error')
+const loginUserCompleted = createAction('[Welcome] Login user completed')
 
 export const updateNavigateToCertificate = createAction<boolean>('[Welcome] NavigateToCertificate')
 export const clearWelcome = createAction('[Welcome] Clear Welcome')

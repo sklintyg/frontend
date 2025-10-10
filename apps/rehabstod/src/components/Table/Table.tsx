@@ -6,7 +6,7 @@ import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
 import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'
 
-export interface TableOptions {
+interface TableOptions {
   ascending?: boolean
   sortColumn?: string
   onSortChange?: (state: { sortColumn: string; ascending: boolean }) => void
@@ -14,7 +14,7 @@ export interface TableOptions {
 
 export const TableContext = createContext<ReturnType<typeof useTable> | null>(null)
 
-export function useTable(options: TableOptions) {
+function useTable(options: TableOptions) {
   const [ascending, setAscending] = useState(options.ascending ?? false)
   const [sortColumn, setSortColumn] = useState(options.sortColumn ?? '')
   const [scrollDiv, setScrollDiv] = useState<HTMLDivElement>()

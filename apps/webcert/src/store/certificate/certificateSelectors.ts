@@ -32,9 +32,9 @@ export const getSpinnerText = (state: RootState): string => state.ui.uiCertifica
 
 export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
 
-export const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.status === CertificateStatus.UNSIGNED
+const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.status === CertificateStatus.UNSIGNED
 
-export const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
+const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
 
 export const getIsValidForSigning = (state: RootState): boolean => {
   const validationErrors = getValidationErrorSummary()(state)
@@ -72,12 +72,12 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
   return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
 }
 
-export const getComplements =
+const getComplements =
   (questionId: string) =>
   (state: RootState): Complement[] =>
     state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
 
-export const getComplementsIncludingSubQuestions =
+const getComplementsIncludingSubQuestions =
   (questionId: string) =>
   (state: RootState): Complement[] =>
     state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
@@ -232,7 +232,7 @@ export const getIsEditable = (state: RootState): boolean | undefined =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
 
 export const getSigningData = (state: RootState): SigningData | undefined => state.ui.uiCertificate.signingData
-export const getSigningError = (state: RootState): ErrorData | undefined => state.ui.uiCertificate.signingError
+const getSigningError = (state: RootState): ErrorData | undefined => state.ui.uiCertificate.signingError
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true

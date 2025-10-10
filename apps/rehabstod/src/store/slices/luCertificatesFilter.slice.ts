@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import type { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
 import { isValidDate } from '../../utils/isValidDate'
 
-export interface LuCertificatesState {
+interface LuCertificatesState {
   filter: LUCertificatesFilter
   isValidDateRange: boolean
   displayValidationErrors: boolean

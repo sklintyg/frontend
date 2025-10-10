@@ -82,7 +82,6 @@ export enum CertificateDataElementStyleEnum {
 export enum ConfigTypes {
   CATEGORY = 'CATEGORY',
   UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
-  UE_CHECKBOX_CODE = 'UE_CHECKBOX_CODE',
   UE_CHECKBOX_DATE = 'UE_CHECKBOX_DATE',
   UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
@@ -251,7 +250,7 @@ export interface ConfigUeRadioCode extends CertificateDataConfig {
   label: string
 }
 
-export interface ConfigUeRadioCodeOptionalDropdown {
+interface ConfigUeRadioCodeOptionalDropdown {
   id: string
   label: string
   dropdownQuestionId: string
@@ -299,12 +298,12 @@ export interface ConfigUeCheckboxDateRangeList extends CertificateDataConfig {
   max?: string
 }
 
-export interface ConfigUeDiagnosisTerminology {
+interface ConfigUeDiagnosisTerminology {
   id: string
   label: string
 }
 
-export interface ConfigUeDiagnosisId {
+interface ConfigUeDiagnosisId {
   id: string
 }
 
@@ -523,7 +522,7 @@ export type ValueType =
   | ValueInteger
   | ValueUnknown
 
-export interface ValueUnknown {
+interface ValueUnknown {
   type: CertificateDataValueType.UNKNOWN
 }
 
@@ -692,7 +691,6 @@ export enum CertificateDataValidationType {
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
-  DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
 }
@@ -790,7 +788,6 @@ export interface CertificateRelation {
 
 export enum CertificateRelationType {
   REPLACED = 'REPLACED',
-  COPIED = 'COPIED',
   RENEW = 'RENEW',
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
@@ -833,7 +830,7 @@ export enum CertificateEventType {
   RELATED_CERTIFICATE_REVOKED = 'RELATED_CERTIFICATE_REVOKED',
 }
 
-export interface IcfTitles {
+interface IcfTitles {
   activityLimitation: {
     unique: string[]
     common: string[]

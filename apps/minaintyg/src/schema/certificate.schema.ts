@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const CertificateStatusEnum = z.enum(['NEW', 'REPLACED', 'SENT', 'NOT_SENT'])
 export const AvailableFunctionsTypeEnum = z.enum(['CUSTOMIZE_PRINT_CERTIFICATE', 'PRINT_CERTIFICATE', 'ATTENTION', 'SEND_CERTIFICATE'])
 export const InformationTypeEnum = z.enum(['OPTIONS', 'ALERT', 'FILENAME'])
-export const CertificateTextTypeEnum = z.enum(['PREAMBLE_TEXT'])
+const CertificateTextTypeEnum = z.enum(['PREAMBLE_TEXT'])
 
 export const certificateEventSchema = z.object({
   timestamp: z.string().datetime(),
@@ -11,9 +11,9 @@ export const certificateEventSchema = z.object({
   description: z.string(),
 })
 
-export const certificateSummarySchema = z.object({ label: z.string(), value: z.string() }).optional()
+const certificateSummarySchema = z.object({ label: z.string(), value: z.string() }).optional()
 
-export const certificateTypeSchema = z.object({
+const certificateTypeSchema = z.object({
   id: z.string(),
   name: z.string(),
   version: z.string(),
@@ -51,8 +51,8 @@ export const certificateMetadataSchema = z.object({
   summary: certificateSummarySchema,
 })
 
-export const certificateContentSchema = z.object({ heading: z.string(), body: z.string() })
-export const informationSchema = z.object({ id: z.string().nullable(), text: z.string(), type: InformationTypeEnum })
+const certificateContentSchema = z.object({ heading: z.string(), body: z.string() })
+const informationSchema = z.object({ id: z.string().nullable(), text: z.string(), type: InformationTypeEnum })
 
 export const availableFunctionSchema = z.object({
   type: AvailableFunctionsTypeEnum,

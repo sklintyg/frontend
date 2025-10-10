@@ -20,7 +20,7 @@ const requestSlice = createSlice({
 })
 
 export const { name: requestPath, reducer: requestReducer } = requestSlice
-export const { addRequest, removeRequest, updateRequest } = requestSlice.actions
+export const { addRequest, removeRequest } = requestSlice.actions
 
 export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<RootState>((state) => state.requests)
 

@@ -41,7 +41,7 @@ import type {
 import { ConfigLayout, ConfigTypes, MessageLevel } from '../../types/certificate'
 import { fakeId } from '../fakeId'
 
-export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
+const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
   openText: faker.lorem.words(),
   closeText: faker.lorem.words(),
   header: faker.lorem.words(),

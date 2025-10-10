@@ -12,7 +12,7 @@ import {
 import RadioButton from '../../Inputs/RadioButton'
 import { SRS_OPINION_IDS, SRS_OPINION_LABELS, hasCurrentRiskDataPoint } from '../srsUtils'
 
-export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
+const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 
 const SrsRiskOpinion = () => {
   const dispatch = useDispatch()

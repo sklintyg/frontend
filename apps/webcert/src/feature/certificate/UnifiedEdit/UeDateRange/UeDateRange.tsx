@@ -47,7 +47,7 @@ const DateGrid = styled.div`
   }
 `
 
-export interface Props {
+interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }

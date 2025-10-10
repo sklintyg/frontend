@@ -3,7 +3,7 @@ import { diagnosKapitelSchema, diagnosisSchema } from './diagnosisSchema'
 import { lakareSchema } from './lakareSchema'
 import { patientInfoSchema } from './patientSchema'
 
-export const luCertificatesFilterSchema = z.object({
+const luCertificatesFilterSchema = z.object({
   certTypes: z.array(z.string()),
   diagnoses: z.array(z.string()),
   doctors: z.array(z.string()),
@@ -15,7 +15,7 @@ export const luCertificatesFilterSchema = z.object({
   toAge: z.number(),
 })
 
-export const luCertificateSchema = z.object({
+const luCertificateSchema = z.object({
   biDiagnoses: z.array(diagnosisSchema),
   careProviderId: z.string(),
   careProviderName: z.string(),

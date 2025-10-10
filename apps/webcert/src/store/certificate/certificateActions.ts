@@ -192,14 +192,14 @@ export interface CreateCertificate {
 export const createNewCertificate = createAction<CreateCertificate>(CREATE_NEW_CERTIFICATE)
 export const createNewCertificateStarted = createAction(CREATE_NEW_CERTIFICATE_STARTED)
 export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(CREATE_NEW_CERTIFICATE_SUCCESS)
-export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
+const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
 export const updateCreatedCertificateId = createAction<string>(UPDATE_CERTIFICATE_ID)
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
 
-export interface GetCertificateSuccess {
+interface GetCertificateSuccess {
   certificate: Certificate
 }
 
@@ -213,17 +213,17 @@ export const getCertificateEvents = createAction<string>(GET_CERTIFICATE_EVENTS)
 
 export const getCertificateEventsStarted = createAction(GET_CERTIFICATE_EVENTS_STARTED)
 
-export interface GetCertificateEventsSuccess {
+interface GetCertificateEventsSuccess {
   certificateEvents: CertificateEvent[]
 }
 
 export const getCertificateEventsSuccess = createAction<GetCertificateEventsSuccess>(GET_CERTIFICATE_EVENTS_SUCCESS)
 
-export const getCertificateEventsError = createAction<string>(GET_CERTIFICATE_EVENTS_ERROR)
+const getCertificateEventsError = createAction<string>(GET_CERTIFICATE_EVENTS_ERROR)
 
 export const getCertificateEventsCompleted = createAction(GET_CERTIFICATE_EVENTS_COMPLETED)
 
-export interface DeleteCertificate {
+interface DeleteCertificate {
   certificateId: string
 }
 
@@ -231,13 +231,13 @@ export const deleteCertificate = createAction<DeleteCertificate>(DELETE_CERTIFIC
 
 export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
 
-export interface DeleteCertificateSuccess {
+interface DeleteCertificateSuccess {
   parentCertificateId: string
 }
 
 export const deleteCertificateSuccess = createAction<DeleteCertificateSuccess>(DELETE_CERTIFICATE_SUCCESS)
 
-export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
+const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
 
 export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLETED)
 
@@ -247,18 +247,18 @@ export const forwardCertificate = createAction<ForwardCertificateRequest>(FORWAR
 
 export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
 
-export interface ForwardCertificateRequest {
+interface ForwardCertificateRequest {
   certificateId: string
   forward: boolean
 }
 
-export interface ForwardCertificateSuccess {
+interface ForwardCertificateSuccess {
   certificate: Certificate
 }
 
 export const forwardCertificateSuccess = createAction<ForwardCertificateSuccess>(FORWARD_CERTIFICATE_SUCCESS)
 
-export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
+const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
 
 export const forwardCertificateCompleted = createAction(FORWARD_CERTIFICATE_COMPLETED)
 
@@ -266,13 +266,13 @@ export const readyForSign = createAction(READY_FOR_SIGN)
 
 export const readyForSignStarted = createAction(READY_FOR_SIGN_STARTED)
 
-export interface ReadyForSignSuccess {
+interface ReadyForSignSuccess {
   certificate: Certificate
 }
 
 export const readyForSignSuccess = createAction<ReadyForSignSuccess>(READY_FOR_SIGN_SUCCESS)
 
-export const readyForSignError = createAction<string>(READY_FOR_SIGN_ERROR)
+const readyForSignError = createAction<string>(READY_FOR_SIGN_ERROR)
 
 export const readyForSignCompleted = createAction(READY_FOR_SIGN_COMPLETED)
 
@@ -280,18 +280,18 @@ export const setReadyForSign = createAction<string>(SET_READY_FOR_SIGN)
 
 export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
 export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_CERTIFICATE_SUCCESS)
-export const sendCertificateError = createAction<string>(SEND_CERTIFICATE_ERROR)
+const sendCertificateError = createAction<string>(SEND_CERTIFICATE_ERROR)
 
-export interface SendCertificateSuccess {
+interface SendCertificateSuccess {
   certificateId: string
   result: string
 }
 
 export const startSignCertificate = createAction(SIGN_CERTIFICATE)
 
-export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
+const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export interface FakeSignCertificateSuccess {
+interface FakeSignCertificateSuccess {
   certificate: Certificate
 }
 
@@ -301,7 +301,7 @@ export const startSignCertificateSuccess = createAction<SigningData>(SIGN_CERTIF
 
 export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 
-export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
+const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
 export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
 
@@ -323,13 +323,13 @@ export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CE
 
 export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
 
-export interface RevokeCertificateSuccess {
+interface RevokeCertificateSuccess {
   certificate: Certificate
 }
 
 export const revokeCertificateSuccess = createAction<RevokeCertificateSuccess>(REVOKE_CERTIFICATE_SUCCESS)
 
-export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
+const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 
 export const revokeCertificateCompleted = createAction(REVOKE_CERTIFICATE_COMPLETED)
 
@@ -337,17 +337,17 @@ export const replaceCertificate = createAction(REPLACE_CERTIFICATE)
 
 export const replaceCertificateStarted = createAction(REPLACE_CERTIFICATE_STARTED)
 
-export interface ReplaceCertificateSuccess {
+interface ReplaceCertificateSuccess {
   certificateId: string
 }
 
 export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>(REPLACE_CERTIFICATE_SUCCESS)
 
-export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
+const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
 
-export interface ComplementCertificate {
+interface ComplementCertificate {
   message: string
 }
 
@@ -361,9 +361,9 @@ export interface ComplementCertificateSuccess {
 
 export const complementCertificateSuccess = createAction<ComplementCertificateSuccess>(COMPLEMENT_CERTIFICATE_SUCCESS)
 
-export const complementCertificateError = createAction<string>(COMPLEMENT_CERTIFICATE_ERROR)
+const complementCertificateError = createAction<string>(COMPLEMENT_CERTIFICATE_ERROR)
 
-export const complementCertificateCompleted = createAction(COMPLEMENT_CERTIFICATE_COMPLETED)
+const complementCertificateCompleted = createAction(COMPLEMENT_CERTIFICATE_COMPLETED)
 
 export const answerComplementCertificate = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE)
 
@@ -371,19 +371,19 @@ export const answerComplementCertificateStarted = createAction(ANSWER_COMPLEMENT
 
 export const answerComplementCertificateSuccess = createAction<ComplementCertificateSuccess>(ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS)
 
-export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
+const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
 
 export const renewCertificate = createAction<RenewCertificate>(RENEW_CERTIFICATE)
 
 export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
 
-export interface RenewCertificate {
+interface RenewCertificate {
   certificateId: string
 }
 
 export const renewCertificateSuccess = createAction<RenewCertificate>(RENEW_CERTIFICATE_SUCCESS)
 
-export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
+const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
 
 export const renewCertificateCompleted = createAction(RENEW_CERTIFICATE_COMPLETED)
 
@@ -391,13 +391,13 @@ export const showRelatedCertificate = createAction<ShowRelatedCertificate>(SHOW_
 
 export const showRelatedCertificateStarted = createAction(SHOW_RELATED_CERTIFICATE_STARTED)
 
-export interface ShowRelatedCertificate {
+interface ShowRelatedCertificate {
   certificateId: string
 }
 
 export const showRelatedCertificateSuccess = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE_SUCCESS)
 
-export const showRelatedCertificateError = createAction<string>(SHOW_RELATED_CERTIFICATE_ERROR)
+const showRelatedCertificateError = createAction<string>(SHOW_RELATED_CERTIFICATE_ERROR)
 
 export const showRelatedCertificateCompleted = createAction(SHOW_RELATED_CERTIFICATE_COMPLETED)
 
@@ -413,9 +413,9 @@ export const createCertificateFromTemplateSuccess = createAction<CreateCertifica
   CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS
 )
 
-export const createCertificateFromTemplateError = createAction<string>(CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR)
+const createCertificateFromTemplateError = createAction<string>(CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR)
 
-export interface CreateCertificateFromTemplateSuccess {
+interface CreateCertificateFromTemplateSuccess {
   certificateId: string
 }
 
@@ -427,7 +427,7 @@ export const createCertificateFromCandidateSuccess = createAction<CreateCertific
   CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS
 )
 
-export const createCertificateFromCandidateError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR)
+const createCertificateFromCandidateError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR)
 
 export interface CreateCertificateFromCandidateSuccess {
   certificateId: string
@@ -441,19 +441,19 @@ export const createCertificateFromCandidateWithMessageSuccess = createAction<Cre
   CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS
 )
 
-export const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
+const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
 
 export interface CreateCertificateFromCandidateWithMessageSuccess {
   modal: ModalData
 }
 
-export interface CopyCertificateSuccess {
+interface CopyCertificateSuccess {
   certificateId: string
 }
 
 export const copyCertificateSuccess = createAction<CopyCertificateSuccess>(COPY_CERTIFICATE_SUCCESS)
 
-export const copyCertificateError = createAction<string>(COPY_CERTIFICATE_ERROR)
+const copyCertificateError = createAction<string>(COPY_CERTIFICATE_ERROR)
 
 export const copyCertificateCompleted = createAction(COPY_CERTIFICATE_COMPLETED)
 

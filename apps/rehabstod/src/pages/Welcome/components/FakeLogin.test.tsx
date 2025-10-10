@@ -25,13 +25,13 @@ it('Should selected vardgivare and vardenhet once fully loaded', async () => {
   })
 
   await waitFor(() => {
-    expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('ZBQGHL1000042809-8793')
+    expect(screen.getByRole('textbox', { name: 'hsaId' })).toHaveValue('BDVTTE1000028635-77152')
   })
 
-  expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('CVSMTR1000040485-97631')
+  expect(screen.getByRole('textbox', { name: 'enhetId' })).toHaveValue('UMPZGR1000030720-57576')
 
   expect(screen.getByRole('option', { selected: true })).toBeInTheDocument()
-  expect(screen.getByRole('option', { selected: true })).toHaveValue('ZBQGHL1000042809-8793_CVSMTR1000040485-97631')
+  expect(screen.getByRole('option', { selected: true })).toHaveValue('BDVTTE1000028635-77152_UMPZGR1000030720-57576')
 })
 
 it('Should have a fallback login option in case of failure', async () => {
