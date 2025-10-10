@@ -21,6 +21,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && rollup -c",
+    "test": "echo 'No tests available'",
     "dev": "rollup -c --watch",
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
