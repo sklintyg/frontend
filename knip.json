@@ -1,4 +1,5 @@
 {
+  "ignore": ["**/*/mockServiceWorker.js"],
   "ignoreDependencies": ["caniuse-lite"],
   "ignoreWorkspaces": ["apps/maintenance"]
 }
