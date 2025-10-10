@@ -71,6 +71,9 @@ importers:
       '@frontend/components':
         specifier: workspace:*
         version: link:../../packages/components
+      '@frontend/theme-1177':
+        specifier: workspace:*
+        version: link:../../packages/theme-1177
       '@inera/ids-design':
         specifier: ^7.0.0
         version: 7.0.0

@@ -1,5 +1,5 @@
 import { AppLink } from '@frontend/components'
-import { PageHero, PageHeroActions } from '@frontend/components/1177'
+import { PageHero, PageHeroActions } from '@frontend/theme-1177'
 import { IDSFooterIneraAdmin, IDSHeaderIneraAdmin } from '@inera/ids-react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'

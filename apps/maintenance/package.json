@@ -15,6 +15,7 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
+    "@frontend/theme-1177": "workspace:*",
     "@frontend/components": "workspace:*",
     "@inera/ids-react": "^7.0.0",
     "@inera/ids-design": "^7.0.0",
