@@ -12,9 +12,6 @@
     "test:playwright": "playwright test",
     "typescript": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
-  },
   "dependencies": {
     "@frontend/filtrex": "workspace:*",
     "@frontend/utils": "workspace:*",

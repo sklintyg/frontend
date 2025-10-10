@@ -11,9 +11,6 @@
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
     "typescript": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
-  },
   "dependencies": {
     "@frontend/colors": "workspace:*",
     "@frontend/components": "workspace:*",
