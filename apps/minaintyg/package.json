@@ -21,6 +21,7 @@
     "@frontend/theme-1177": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-react": "^7.0.0",
+    "@inera/ids-design": "^7.0.0",
     "@react-hooks-library/core": "^0.5.1",
     "@reduxjs/toolkit": "^2.8.2",
     "date-fns": "^2.29.3",
