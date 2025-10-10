@@ -1,3 +1,4 @@
 {
-  "ignoreDependencies": ["caniuse-lite"]
+  "ignoreDependencies": ["caniuse-lite"],
+  "ignoreWorkspaces": ["apps/maintenance"]
 }
