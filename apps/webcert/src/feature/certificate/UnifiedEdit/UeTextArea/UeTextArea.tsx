@@ -1,10 +1,10 @@
 import { debounce } from 'lodash-es'
 import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import TextArea from '../../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeTextArea, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 
@@ -17,8 +17,8 @@ const UeTextArea = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextArea
   const [text, setText] = useState(textValue != null ? textValue.text : '')
-  const dispatch = useDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const dispatch = useAppDispatch()
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined

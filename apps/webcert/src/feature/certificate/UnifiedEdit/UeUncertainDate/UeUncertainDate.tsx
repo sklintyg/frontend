@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Dropdown from '../../../../components/Inputs/Dropdown'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeDropdownItem, ConfigUeUncertainDate, ValueUncertainDate } from '../../../../types'
 
 const ValidationWrapper = styled.div`
@@ -27,7 +26,7 @@ const monthList = Array.from({ length: 12 }, (_, index) => `0${++index}`.slice(-
 const getDateSplit = (candidate: string) => [...(dateReg.test(candidate) ? candidate : '').split('-'), ''].slice(0, 2)
 
 const UeUncertainDate = ({ question, disabled }: Props) => {
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeUncertainDate
   const value = question.value as ValueUncertainDate

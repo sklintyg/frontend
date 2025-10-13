@@ -1,7 +1,7 @@
 import { getByType } from '@frontend/utils'
 import { debounce, isEqual } from 'lodash-es'
 import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
@@ -15,6 +15,7 @@ import {
   getPatientValidationErrors,
   getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { Patient } from '../../../types'
 import { ResourceLinkType } from '../../../types'
 import { getValidationErrors } from '../../../utils'
@@ -57,15 +58,15 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 `
 
 const PatientAddress = () => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getPatientValidationErrors(), isEqual)
-  const patient = useSelector(getPatient, isEqual)
-  const resourceLinks = useSelector(getCertificateResourceLinks, isEqual)
-  const disabled = useSelector(getIsLocked)
+  const isShowValidationError = useAppSelector(getShowValidationErrors)
+  const validationErrors = useAppSelector(getPatientValidationErrors(), isEqual)
+  const patient = useAppSelector(getPatient, isEqual)
+  const resourceLinks = useAppSelector(getCertificateResourceLinks, isEqual)
+  const disabled = useAppSelector(getIsLocked)
   const displayPatientAddressInCertificate =
     getByType(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)?.enabled ?? false
   const editable =
-    useSelector(getIsEditable) &&
+    useAppSelector(getIsEditable) &&
     resourceLinks.some((link) => link.type === ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE) &&
     displayPatientAddressInCertificate
 
