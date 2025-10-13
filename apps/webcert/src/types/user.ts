@@ -34,10 +34,6 @@ export interface UserProperty {
   value: string
 }
 
-interface FakeLogin {
-  unitId: string
-}
-
 export interface UserStatistics {
   nbrOfDraftsOnSelectedUnit: number
   nbrOfUnhandledQuestionsOnSelectedUnit: number

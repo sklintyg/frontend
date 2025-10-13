@@ -1,6 +1,6 @@
 import type { Patient } from '../../types'
 import type { RootState } from '../reducer'
-import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
+import type { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers } from './welcomeReducer'
 
 export const getAvailableCertificateTypes =
   () =>
@@ -21,11 +21,6 @@ export const getCertificateId =
   () =>
   (state: RootState): string =>
     state.ui.uiWelcome.createdCertificateId
-
-const getAvailableUsers =
-  () =>
-  (state: RootState): MockUser[] =>
-    state.ui.uiWelcome.users
 
 export const getNavigateToCertificate =
   () =>
