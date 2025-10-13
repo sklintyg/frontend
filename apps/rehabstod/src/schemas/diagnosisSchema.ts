@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const diagnosKategoriSchema = z.object({
+const diagnosKategoriSchema = z.object({
   letter: z.string(),
   number: z.number(),
 })

@@ -139,7 +139,7 @@ export interface ListFilterValueText {
   value: string
 }
 
-export interface ListFilterValueBoolean {
+interface ListFilterValueBoolean {
   type: ListFilterType.BOOLEAN
   value: boolean
 }

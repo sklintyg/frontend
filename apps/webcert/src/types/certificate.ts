@@ -730,7 +730,7 @@ export type ShowValidation = CertificateDataValidationBase<CertificateDataValida
 
 export type HideValidation = CertificateDataValidationBase<CertificateDataValidationType.HIDE_VALIDATION>
 
-export interface DisableValidation extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_VALIDATION> {
+interface DisableValidation extends CertificateDataValidationBase<CertificateDataValidationType.DISABLE_VALIDATION> {
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
@@ -739,11 +739,11 @@ export interface DisableSubElementValidation
   id: string[]
 }
 
-export type EnableValidation = CertificateDataValidationBase<CertificateDataValidationType.ENABLE_VALIDATION>
+type EnableValidation = CertificateDataValidationBase<CertificateDataValidationType.ENABLE_VALIDATION>
 
 export type MandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.MANDATORY_VALIDATION>
 
-export type CategoryMandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION>
+type CategoryMandatoryValidation = CertificateDataValidationBase<CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION>
 
 export type HighlightValidation = CertificateDataValidationBase<CertificateDataValidationType.HIGHLIGHT_VALIDATION>
 
