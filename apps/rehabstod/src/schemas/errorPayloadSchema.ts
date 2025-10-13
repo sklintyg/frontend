@@ -13,4 +13,3 @@ const payloadSchema = z.object({
 export const errorPayloadSchema = z.object({
   action: payloadSchema,
 })
-type ErrorPayloadSchema = z.infer<typeof errorPayloadSchema>

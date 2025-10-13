@@ -60,11 +60,4 @@ export const personSchema = z.object({
   healthCareProfessionalLicenceType: z.array(healthCareProfessionalLicenceTypeSchema),
 })
 
-type ExtraContextProperties = z.infer<typeof extraContextPropertiesSchema>
-type Login = z.infer<typeof loginSchema>
-type HealthCareProfessionalLicenceType = z.infer<typeof healthCareProfessionalLicenceTypeSchema>
-type PaTitle = z.infer<typeof paTitleSchema>
-type Speciality = z.infer<typeof specialitySchema>
-type FakeProperties = z.infer<typeof fakePropertiesSchema>
-type Restriction = z.infer<typeof restrictionSchema>
 export type Person = z.infer<typeof personSchema>

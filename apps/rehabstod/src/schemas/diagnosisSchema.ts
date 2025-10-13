@@ -33,7 +33,5 @@ export const diagnosisSchema = z.object({
 })
 
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
-type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
-type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
 export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type Diagnosis = z.infer<typeof diagnosisSchema>

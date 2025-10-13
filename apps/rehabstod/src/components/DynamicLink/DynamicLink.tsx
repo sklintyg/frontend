@@ -1,8 +1,6 @@
 import type { Link } from '../../schemas'
 import { classNames } from '../../utils/classNames'
 
-type DynamicLinkType = 'regular' | 'footer' | 'sub-footer-mobile' | 'sub-footer-desktop'
-
 export function DynamicLink({
   light,
   underlined,

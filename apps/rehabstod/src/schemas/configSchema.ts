@@ -40,4 +40,3 @@ export const configSchema = z.object({
 })
 
 export type Config = z.infer<typeof configSchema>
-type Banner = z.infer<typeof bannerSchema>

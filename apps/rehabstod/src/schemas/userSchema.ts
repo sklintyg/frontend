@@ -68,13 +68,4 @@ export enum UserUrval {
 }
 
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
-type UserPreferencesTableSettings =
-  | 'lakarutlatandeUnitTableColumns'
-  | 'patientTableColumns'
-  | 'sjukfallTableColumns'
-  | 'lakarutlatandenTableColumns'
-type SrsFeature = z.infer<typeof srsFeatureSchema>
-type LakareRole = z.infer<typeof lakareRoleSchema>
-type UserRole = z.infer<typeof userRoleSchema>
-type UserFeature = z.infer<typeof userFeatureSchema>
 export type User = z.infer<typeof userSchema>

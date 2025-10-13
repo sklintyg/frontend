@@ -6,7 +6,6 @@ import type { ErrorTypeEnum } from '../../schema/error.schema'
 import { api } from '../api'
 
 const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
-type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
 
 const initialState: {
   hasSession: boolean

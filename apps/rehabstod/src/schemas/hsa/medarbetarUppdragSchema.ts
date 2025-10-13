@@ -13,5 +13,4 @@ export const medarbetarUppdragSchema = z.object({
   commissionList: z.array(commissionListSchema),
 })
 
-type CommissionList = z.infer<typeof commissionListSchema>
 export type MedarbetarUppdrag = z.infer<typeof medarbetarUppdragSchema>

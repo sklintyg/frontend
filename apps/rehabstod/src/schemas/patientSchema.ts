@@ -107,10 +107,8 @@ export const patientInfoSchema = z.object({
   riskSignal: patientRiskSignalSchema,
 })
 
-type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
 export type Patient = z.infer<typeof patientSchema>
 export type SjfMetaData = z.infer<typeof sjfMetaDataSchema>
 export type SjfItem = z.infer<typeof sjfItemSchema>
-type PatientInfo = z.infer<typeof patientInfoSchema>

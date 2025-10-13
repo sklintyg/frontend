@@ -1,10 +1,7 @@
 import faker from 'faker'
 import type {
   AutoFillValidation,
-  CategoryMandatoryValidation,
   DisableSubElementValidation,
-  DisableValidation,
-  EnableValidation,
   HideValidation,
   HighlightValidation,
   MandatoryValidation,
@@ -44,13 +41,6 @@ export const fakeHideValidation = (data?: Partial<HideValidation>): HideValidati
   ...data,
 })
 
-const fakeDisableValidation = (data?: Partial<DisableValidation>): DisableValidation => ({
-  type: CertificateDataValidationType.DISABLE_VALIDATION,
-  questionId: fakeId(),
-  id: [fakeId()],
-  ...data,
-})
-
 export const fakeDisableSubElementValidation = (data?: Partial<DisableSubElementValidation>): DisableSubElementValidation => ({
   type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
   questionId: fakeId(),
@@ -58,20 +48,8 @@ export const fakeDisableSubElementValidation = (data?: Partial<DisableSubElement
   ...data,
 })
 
-const fakeEnableValidation = (data?: Partial<EnableValidation>): EnableValidation => ({
-  type: CertificateDataValidationType.ENABLE_VALIDATION,
-  questionId: fakeId(),
-  ...data,
-})
-
 export const fakeMandatoryValidation = (data?: Partial<MandatoryValidation>): MandatoryValidation => ({
   type: CertificateDataValidationType.MANDATORY_VALIDATION,
-  questionId: fakeId(),
-  ...data,
-})
-
-const fakeCategoryMandatoryValidation = (data?: Partial<CategoryMandatoryValidation>): CategoryMandatoryValidation => ({
-  type: CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION,
   questionId: fakeId(),
   ...data,
 })

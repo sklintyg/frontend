@@ -1,6 +1,5 @@
 export * from './certificate'
 export * from './fakeCity'
-export * from './fakeDynamicLink'
 export * from './fakeList'
 export * from './fakePatient'
 export * from './fakeResourceLink'
