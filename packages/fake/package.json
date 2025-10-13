@@ -36,12 +36,5 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "vitest": "^3.2.4"
-  },
-  "peerDependencies": {
-    "@anatine/zod-mock": "^3",
-    "@faker-js/faker": "^7",
-    "lodash": "^4",
-    "type-fest": "^3",
-    "zod": "^3"
   }
 }
