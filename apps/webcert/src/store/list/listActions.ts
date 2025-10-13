@@ -64,7 +64,6 @@ export const updateUnhandledCertificatesListConfig = createAction<UpdateListConf
 export const getUnhandledCertificatesListConfigStarted = createAction(`${LIST} Get unhandled certificates list config started`)
 export const getUnhandledCertificatesListConfigSuccess = createAction(`${LIST} Get unhandled certificates list config success`)
 export const getUnhandledCertificatesListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
-const getQuestionListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)

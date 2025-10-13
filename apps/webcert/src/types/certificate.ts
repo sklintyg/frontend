@@ -830,17 +830,6 @@ export enum CertificateEventType {
   RELATED_CERTIFICATE_REVOKED = 'RELATED_CERTIFICATE_REVOKED',
 }
 
-interface IcfTitles {
-  activityLimitation: {
-    unique: string[]
-    common: string[]
-  }
-  disability: {
-    unique: string[]
-    common: string[]
-  }
-}
-
 export enum CertificateSignStatus {
   INITIAL = '',
   UNKNOWN = 'OKAND',

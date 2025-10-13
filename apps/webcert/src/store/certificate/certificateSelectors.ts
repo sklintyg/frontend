@@ -22,7 +22,6 @@ import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { isFunctionDisabled } from '../api/requestSlice'
-import type { ErrorData } from '../error/errorReducer'
 import type { RootState } from '../reducer'
 import { toggleCertificateFunctionDisabler, type SigningData } from './certificateActions'
 
@@ -31,10 +30,6 @@ export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertif
 export const getSpinnerText = (state: RootState): string => state.ui.uiCertificate.spinnerText
 
 export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
-
-const getIsDraft = (state: RootState) => getCertificate(state)?.metadata.status === CertificateStatus.UNSIGNED
-
-const getIsDraftSaved = (state: RootState) => getIsDraft(state) && !getIsValidating(state)
 
 export const getIsValidForSigning = (state: RootState): boolean => {
   const validationErrors = getValidationErrorSummary()(state)
@@ -71,16 +66,6 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
 
   return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
 }
-
-const getComplements =
-  (questionId: string) =>
-  (state: RootState): Complement[] =>
-    state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
-
-const getComplementsIncludingSubQuestions =
-  (questionId: string) =>
-  (state: RootState): Complement[] =>
-    state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
 
 export const getComplementsForQuestions =
   (questionIds: string[]) =>
@@ -232,7 +217,6 @@ export const getIsEditable = (state: RootState): boolean | undefined =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
 
 export const getSigningData = (state: RootState): SigningData | undefined => state.ui.uiCertificate.signingData
-const getSigningError = (state: RootState): ErrorData | undefined => state.ui.uiCertificate.signingError
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true

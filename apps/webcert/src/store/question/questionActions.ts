@@ -28,8 +28,6 @@ export const deleteQuestionStarted = createAction(`${QUESTION} Delete question s
 
 export const deleteQuestionSuccess = createAction(`${QUESTION} Delete question success`)
 
-const deleteQuestionError = createAction<string>(`${QUESTION} Delete question error`)
-
 export const editQuestion = createAction<Question>(`${QUESTION} Edit question`)
 
 export const validateQuestion = createAction<Question>(`${QUESTION} Validate question`)
@@ -39,8 +37,6 @@ export const saveQuestion = createAction<Question>(`${QUESTION} Save question`)
 export const saveQuestionStarted = createAction(`${QUESTION} Save question started`)
 
 export const saveQuestionSuccess = createAction(`${QUESTION} Save question success`)
-
-const saveQuestionError = createAction<string>(`${QUESTION} Save question error`)
 
 export const sendQuestion = createAction<Question>(`${QUESTION} Send question`)
 
@@ -61,8 +57,6 @@ export const createQuestion = createAction<Question>(`${QUESTION} Create questio
 export const createQuestionStarted = createAction(`${QUESTION} Create question started`)
 
 export const createQuestionSuccess = createAction<QuestionResponse>(`${QUESTION} Create question success`)
-
-const createQuestionError = createAction<string>(`${QUESTION} Create question error`)
 
 export const updateCertificateId = createAction<string>(`${QUESTION} Update certificateId`)
 
@@ -110,7 +104,6 @@ export const updateAnswerDraftSaved = createAction<AnswerDraftSavedPayload>(`${Q
 export const saveAnswer = createAction<AnswerPayload>(`${QUESTION} Save answer`)
 export const saveAnswerStarted = createAction(`${QUESTION} Save answer started`)
 export const saveAnswerSuccess = createAction<QuestionResponse>(`${QUESTION} Save answer success`)
-const saveAnswerError = createAction<string>(`${QUESTION} Save answer error`)
 
 export const sendAnswer = createAction<AnswerPayload>(`${QUESTION} Send answer`)
 export const sendAnswerStarted = createAction(`${QUESTION} Send answer started`)
@@ -120,7 +113,6 @@ export const sendAnswerError = createAction<ApiGenericError>(`${QUESTION} Send a
 export const deleteAnswer = createAction<Question>(`${QUESTION} Delete answer`)
 export const deleteAnswerStarted = createAction(`${QUESTION} Delete answer started`)
 export const deleteAnswerSuccess = createAction<QuestionResponse>(`${QUESTION} Delete answer success`)
-const deleteAnswerError = createAction<string>(`${QUESTION} Delete answer error`)
 
 interface HandleQuestionPayload {
   questionId: string
@@ -130,7 +122,6 @@ interface HandleQuestionPayload {
 export const handleQuestion = createAction<HandleQuestionPayload>(`${QUESTION} Handle question`)
 export const handleQuestionStarted = createAction(`${QUESTION} Handle question started`)
 export const handleQuestionSuccess = createAction<QuestionResponse>(`${QUESTION} Handle question success`)
-const handleQuestionError = createAction<string>(`${QUESTION} Handle question error`)
 export const updateHandledQuestion = createAction<HandleQuestionPayload>(`${QUESTION} Update handled question`)
 
 interface GotoComplementPayload {

@@ -48,12 +48,6 @@ export const getValidDate = (dateString: string | undefined): Date | undefined =
 
 export const isValidUncertainDate = (dateString: string): boolean => /[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(dateString)
 
-const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {
-  if (!dateString) return
-
-  return isValid(getValidDate(dateString)) || dayCodeReg.test(dateString) || weekCodeReg.test(dateString) || monthCodeReg.test(dateString)
-}
-
 export const formatDateToString = (date: Date): string => {
   return format(date, _format)
 }

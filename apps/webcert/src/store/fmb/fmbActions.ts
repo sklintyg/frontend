@@ -25,8 +25,6 @@ export const getFMBDiagnosisCodeInfoStarted = createAction(`${FMB} Get diagnosis
 
 export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>(`${FMB} Get diagnosis code info success`)
 
-const getFMBDiagnosisCodeInfoError = createAction<string>(`${FMB} Get diagnosis code info error`)
-
 export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>(`${FMB} Update diagnosis code info`)
 
 export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel active`)
@@ -44,8 +42,5 @@ export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${FMB} Se
 export const validateSickLeavePeriod = createAction<FMBValidateSickLeavePeriodRequest>(`${FMB} Validate sick leave period`)
 export const validateSickLeavePeriodStarted = createAction(`${FMB} Validate sick leave period started`)
 export const validateSickLeavePeriodSuccess = createAction<ValidateSickLeavePeriodResponse>(`${FMB} Validate sick leave period success`)
-const validateSickLeavePeriodError = createAction(`${FMB} Validate sick leave period error`)
-
-const toggleFMBFunctionDisabler = createAction(`${FMB} toggling function disabler`)
 
 export const initializeFMBPanel = createAction(`${FMB} Initialize FMB Panel`)

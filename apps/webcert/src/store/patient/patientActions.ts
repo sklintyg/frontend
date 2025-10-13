@@ -26,7 +26,6 @@ export const clearPatient = createAction(`${PATIENT} Clear patient`)
 export const getCertificateTypes = createAction<string>(`${PATIENT} Get certificate types`)
 export const getCertificateTypesStarted = createAction(`${PATIENT} Get certificate started`)
 export const getCertificateTypesSuccess = createAction(`${PATIENT} Get certificate success`)
-const getCertificateTypesError = createAction<string>(`${PATIENT} Get certificate error`)
 
 export const updateCertificateTypes = createAction<CertificateType[]>(`${PATIENT} Update certificate types`)
 
