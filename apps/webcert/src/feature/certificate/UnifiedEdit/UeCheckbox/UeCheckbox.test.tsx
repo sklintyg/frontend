@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { Provider } from 'react-redux'
 import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '../../../../faker'
+import store from '../../../../store/store'
 import type { CertificateDataElement } from '../../../../types'
 import UeCheckbox from './UeCheckbox'
 
@@ -27,19 +27,20 @@ const questionCode: CertificateDataElement = fakeCheckboxCodeElement({
 }).checkbox
 
 const renderBooleanComponent = () => {
-  render(<UeCheckbox question={questionBoolean} disabled={false} id="checkbox" />)
+  render(
+    <Provider store={store}>
+      <UeCheckbox question={questionBoolean} disabled={false} id="checkbox" />
+    </Provider>
+  )
 }
 
 const renderCodeComponent = () => {
-  render(<UeCheckbox question={questionCode} disabled={false} id="checkbox" />)
+  render(
+    <Provider store={store}>
+      <UeCheckbox question={questionCode} disabled={false} id="checkbox" />
+    </Provider>
+  )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
@@ -112,12 +113,12 @@ describe('Checkbox component', () => {
 
   it('gets disabled when value is given', async () => {
     render(
-      <>
+      <Provider store={store}>
         <UeCheckbox question={questionCode} disabled id="checkbox" />
         <UeCheckbox question={questionBoolean} disabled id="checkbox" />
         <UeCheckbox question={questionCode} disabled={false} id="checkbox" />
         <UeCheckbox question={questionBoolean} disabled={false} id="checkbox" />
-      </>
+      </Provider>
     )
     const checkboxes = screen.queryAllByRole('checkbox')
     expect(checkboxes).toHaveLength(4)

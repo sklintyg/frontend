@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { Provider } from 'react-redux'
 import { fakeCertificateConfig } from '../../../../faker'
+import store from '../../../../store/store'
 import type { CertificateDataElement } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 import UeCheckboxGroup from './UeCheckboxGroup'
@@ -32,15 +31,12 @@ const question: CertificateDataElement = {
 }
 
 const renderDefaultComponent = () => {
-  render(<UeCheckboxGroup question={question} disabled={false} />)
+  render(
+    <Provider store={store}>
+      <UeCheckboxGroup question={question} disabled={false} />
+    </Provider>
+  )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Checkbox group component', () => {
   it('renders without crashing', () => {
@@ -48,7 +44,11 @@ describe('Checkbox group component', () => {
   })
 
   it.each(CHECKBOXES.map(({ label }) => label))('Disable checbox for option %s', async (label) => {
-    render(<UeCheckboxGroup question={question} disabled />)
+    render(
+      <Provider store={store}>
+        <UeCheckboxGroup question={question} disabled />
+      </Provider>
+    )
     await expect(screen.getByRole('checkbox', { name: label })).toBeDisabled()
   })
 

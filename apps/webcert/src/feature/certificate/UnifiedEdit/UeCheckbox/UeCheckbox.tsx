@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import Checkbox from '../../../../components/Inputs/Checkbox'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ValueBoolean, ValueCode, ValueCodeList } from '../../../../types'
 import { CertificateDataValueType, ConfigTypes } from '../../../../types'
 
@@ -23,7 +22,7 @@ interface Props {
 const UeCheckbox = (props: Props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
-  const isShowValidationError = useSelector(getShowValidationErrors)
+  const isShowValidationError = useAppSelector(getShowValidationErrors)
   const isSingleCheckbox = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
