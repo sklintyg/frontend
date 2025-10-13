@@ -193,9 +193,6 @@ importers:
         specifier: ^3.22.3
         version: 3.22.3
     devDependencies:
-      '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.0
@@ -341,9 +338,6 @@ importers:
         specifier: ^3.22.3
         version: 3.22.3
     devDependencies:
-      '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.0
