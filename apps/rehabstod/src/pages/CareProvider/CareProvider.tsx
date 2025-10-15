@@ -1,8 +1,8 @@
 import { IDSAlert } from '@inera/ids-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../../components/Button/Button'
-import { Checkbox } from '../../components/form/Checkbox/Checkbox'
+import { Button } from '../../../../../packages/components/src/Button/Button'
+import { Checkbox } from '../../../../../packages/components/src/form/Checkbox/Checkbox'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHeading } from '../../components/PageHeading/PageHeading'
 import type { Mottagning, Vardenhet } from '../../schemas'
@@ -89,10 +89,10 @@ export function CareProvider() {
           <Checkbox light label="Spara vald enhet som förvald" checked={isChecked} onChange={handleCheck} />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
-          <Button mblock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
+          <Button mBlock disabled={!user?.valdVardenhet} onClick={() => navigate('/')} secondary>
             Avbryt
           </Button>
-          <Button mblock onClick={handleClick}>
+          <Button mBlock onClick={handleClick}>
             Välj
           </Button>
         </div>

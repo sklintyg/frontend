@@ -1,9 +1,7 @@
-import { IDSCheckboxGroup, IDSInput } from '@inera/ids-react'
+import { Checkbox, Divider, Input, SelectMultiple } from '@frontend/components'
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
-import { Divider } from '../../Divider/Divider'
-import { Checkbox } from '../../form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 
@@ -39,9 +37,13 @@ export function DiagnosisFilter({
       <div className="flex-1 print:hidden">
         <SelectMultiple id={id} light label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
           <div className="mb-2">
-            <IDSInput>
-              <input aria-labelledby={id} type="text" placeholder="Sök diagnos" onChange={(event) => setSearch(event.target.value)} />
-            </IDSInput>
+            <Input
+              label=""
+              aria-labelledby={id}
+              type="text"
+              placeholder="Sök diagnos"
+              onChange={(event) => setSearch(event.target.value)}
+            />
           </div>
           <Divider />
           <div className="max-h-96 overflow-auto">

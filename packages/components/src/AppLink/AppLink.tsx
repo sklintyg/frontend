@@ -3,7 +3,7 @@ import { IDSLink } from '@inera/ids-react'
 import type { HTMLAttributeAnchorTarget, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Icon } from '../Icon'
+import { Icon } from '../Icon/Icon'
 
 export const AppLink = forwardRef<
   HTMLAnchorElement,

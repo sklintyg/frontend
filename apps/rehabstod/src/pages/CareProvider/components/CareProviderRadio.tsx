@@ -1,7 +1,6 @@
+import { InputLabel, classNames } from '@frontend/components'
 import { IDSRadio } from '@inera/ids-react'
 import type { ChangeEventHandler, MouseEventHandler } from 'react'
-import { InputLabel } from '../../../components/form/InputLabel/InputLabel'
-import { classNames } from '../../../utils/classNames'
 
 export function CareProviderRadioButton({
   id,
@@ -20,7 +19,7 @@ export function CareProviderRadioButton({
 }) {
   return (
     <IDSRadio light>
-      <input type="radio" name="selectedUnit" value={value} id={id} checked={checked} onClick={onClick} onChange={onChange} />
+      <IDSInput type="radio" name="selectedUnit" value={value} id={id} checked={checked} onClick={onClick} onChange={onChange} />
       <InputLabel htmlFor={id} className={classNames(checked && 'font-bold')}>
         {label}
       </InputLabel>

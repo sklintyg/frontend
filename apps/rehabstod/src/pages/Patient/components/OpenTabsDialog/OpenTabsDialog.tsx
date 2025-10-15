@@ -1,8 +1,6 @@
+import { Button, Dialog, Heading } from '@frontend/components'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
-import { Button } from '../../../../components/Button/Button'
-import { Dialog } from '../../../../components/dialog/Dialog'
-import { Heading } from '../../../../components/Heading/Heading'
 import { usePatient } from '../../hooks/usePatient'
 
 export function OpenTabsDialog() {

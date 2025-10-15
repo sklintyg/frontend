@@ -1,4 +1,4 @@
-import { Checkbox } from '../../form/Checkbox/Checkbox'
+import { Checkbox } from '../../../../../../packages/components/src/form/Checkbox/Checkbox'
 
 export function ShowPersonalInformationCheckbox({ checked, onChange }: { checked: boolean; onChange: (checked: boolean) => void }) {
   return (

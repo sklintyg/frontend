@@ -1,0 +1,24 @@
+{
+  "options": [
+    {
+      "mode": "bundle",
+      "project": "tsconfig.json",
+      "useSemicolon": false,
+      "useBanner": false,
+      "useTimestamp": false,
+      "overwrite": true,
+      "backup": false,
+      "skipEmptyDir": true,
+      "generationStyle": "auto",
+      "startFrom": "./src",
+      "output": "./src",
+      "include": [
+        "src/**/*.*"
+      ],
+      "exclude": [
+        "src/setupTests.ts",
+        "src/**/*.test.*"
+      ]
+    }
+  ]
+}

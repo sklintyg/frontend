@@ -1,5 +1,5 @@
+import { Heading } from '@frontend/components'
 import { DynamicLink } from '../../../../components/DynamicLink/DynamicLink'
-import { Heading } from '../../../../components/Heading/Heading'
 import { useGetLinksQuery } from '../../../../store/api'
 
 export function StatisticsInformationCard() {

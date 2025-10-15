@@ -1,9 +1,8 @@
+import { Dialog, Heading } from '@frontend/components'
 import { useGetLinksQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowCookieDialog } from '../../store/slices/cookieDialog.slice'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
-import { Heading } from '../Heading/Heading'
-import { Dialog } from './Dialog'
 
 export function CookieDialog() {
   const { data: links } = useGetLinksQuery()

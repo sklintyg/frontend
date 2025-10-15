@@ -1,9 +1,7 @@
+import { Button, Dialog, Heading } from '@frontend/components'
 import { IDSIconInformation } from '@inera/ids-react'
 import { useState } from 'react'
-import { Button } from '../Button/Button'
-import { Heading } from '../Heading/Heading'
 import type { Column } from '../Table/types/Column'
-import { Dialog } from './Dialog'
 
 export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   const [open, setOpen] = useState(false)
@@ -25,7 +23,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
             </div>
           ))}
         <div slot="actions">
-          <Button sblock onClick={() => setOpen(false)}>
+          <Button sBlock onClick={() => setOpen(false)}>
             Stäng
           </Button>
         </div>

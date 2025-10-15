@@ -17,7 +17,6 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "paths": {
-      "@frontend/colors": ["./packages/colors/src/index.ts"],
       "@frontend/components": ["./packages/components/src/index.ts"],
       "@frontend/fake": ["./packages/fake/src/index.ts"],
       "@frontend/theme-1177": ["./packages/theme-1177/src/index.ts"],

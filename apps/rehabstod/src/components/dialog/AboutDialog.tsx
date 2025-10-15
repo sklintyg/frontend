@@ -1,11 +1,9 @@
+import { Button, Dialog, Heading } from '@frontend/components'
 import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { hasUserFeature } from '../../utils/hasUserFeature'
-import { Button } from '../Button/Button'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
-import { Heading } from '../Heading/Heading'
-import { Dialog } from './Dialog'
 
 export function AboutDialog() {
   const { data: user } = useGetUserQuery()
@@ -61,7 +59,7 @@ export function AboutDialog() {
         </div>
       )}
       <div slot="actions">
-        <Button sblock onClick={() => dispatch(updateShowAboutDialog(false))}>
+        <Button sBlock onClick={() => dispatch(updateShowAboutDialog(false))}>
           Stäng
         </Button>
       </div>

@@ -1,9 +1,9 @@
+import { classNames } from '@frontend/components'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
-import { classNames } from '../../../utils/classNames'
 
 export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string }) {
   const [open, setOpen] = useState(false)

@@ -1,4 +1,12 @@
 {
   "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
+  },
+  "include": ["src/index.js"],
   "exclude": ["dist", "node_modules"]
 }

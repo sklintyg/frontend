@@ -8,7 +8,7 @@ import { PatientHeader } from './components/PatientHeader/PatientHeader'
 import { PatientTabs } from './components/PatientTabs'
 import { PatientContext, usePatientState } from './hooks/usePatient'
 
-export function Patient({ activeTab }: { activeTab: string }) {
+export function Patient({ activeTab }: { activeTab: number }) {
   const patientState = usePatientState()
   const { encryptedPatientId } = useParams()
 

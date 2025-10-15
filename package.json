@@ -19,6 +19,7 @@
     "test:ci": "pnpm test -- run --reporter=default --reporter=junit --outputFile.junit=./junit.xml --coverage",
     "test:ui": "pnpm test -- --ui --coverage",
     "test:report": "pnpm test:ci",
+    "ctix": "pnpm run -r ctix",
     "typescript": "pnpm run -r typescript"
   },
   "devDependencies": {

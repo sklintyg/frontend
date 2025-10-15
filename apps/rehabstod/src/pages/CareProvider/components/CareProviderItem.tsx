@@ -1,4 +1,4 @@
-import { Heading } from '../../../components/Heading/Heading'
+import { Heading } from '@frontend/components'
 import type { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
 import { CareProviderRadioButton } from './CareProviderRadio'

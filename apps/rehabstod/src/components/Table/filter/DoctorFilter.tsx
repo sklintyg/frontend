@@ -1,7 +1,7 @@
 import { IDSCheckboxGroup } from '@inera/ids-react'
+import { Checkbox } from '../../../../../../packages/components/src/form/Checkbox/Checkbox'
+import { SelectMultiple } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultiple'
 import type { Lakare } from '../../../schemas/lakareSchema'
-import { Checkbox } from '../../form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
 
