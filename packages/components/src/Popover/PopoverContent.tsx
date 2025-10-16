@@ -20,7 +20,7 @@ export function PopoverContent({ children }: { children: ReactNode }) {
           }}
           {...getFloatingProps()}
         >
-          <div className="ids-select-multiple__dropdown relative">
+          <div className="ids-select-multiple__dropdown relative block">
             <div className="ids-select-multiple__dropdown__inner">{children}</div>
           </div>
         </div>
