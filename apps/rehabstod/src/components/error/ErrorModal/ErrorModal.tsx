@@ -39,17 +39,22 @@ export function ErrorModal({
   }, [dispatch, description, errorCode, generateError, errorId])
 
   return (
-    <Dialog dismissible open={open} headline="Tekniskt fel">
+    <Dialog
+      dismissible
+      open={open}
+      headline="Tekniskt fel"
+      onOpenChange={setOpen}
+      actions={
+        <Button secondary onClick={() => setOpen(false)}>
+          Stäng
+        </Button>
+      }
+    >
       <p className="mb-5">
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}.
       </p>
       {generateError && <ErrorIdentifier id={errorId} />}
-      <div slot="actions">
-        <Button secondary onClick={() => setOpen(false)}>
-          Stäng
-        </Button>
-      </div>
     </Dialog>
   )
 }

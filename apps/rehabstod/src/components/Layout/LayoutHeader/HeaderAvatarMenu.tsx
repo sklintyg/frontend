@@ -1,9 +1,10 @@
-import { classNames } from '@frontend/components'
+import { classNames, Icon } from '@frontend/components'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
+import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 
 export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string }) {
   const [open, setOpen] = useState(false)
@@ -44,28 +45,20 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
 
       {open && (
         <div ref={dropdownRef} className="ids-header-1177-admin__avatar-dropdown">
-          <Link to="/enhet" className="ids-icon-swap-horizontal ids-link--start-icon ids-link ids-link--large ids-link--block text-left">
+          <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
+            <Icon icon="swap-horizontal" textStart />
             Byt vårdenhet
           </Link>
 
-          <button
-            type="button"
-            className="ids-icon-settings ids-link--start-icon ids-link ids-link--large ids-link--block text-left"
-            onClick={() => dispatch(updateShowSettingsDialog(true))}
-          >
+          <HeaderAvatarMenuButton icon="settings" onClick={() => dispatch(updateShowSettingsDialog(true))}>
             Inställningar
-          </button>
+          </HeaderAvatarMenuButton>
 
           <hr className="ids-header-1177-admin__link-separator" />
 
-          <button
-            type="button"
-            className="ids-icon-user ids-link--start-icon ids-link ids-link--large ids-link--block text-left"
-            data-testid="logout-button"
-            onClick={logout}
-          >
+          <HeaderAvatarMenuButton icon="user" onClick={logout}>
             Logga ut
-          </button>
+          </HeaderAvatarMenuButton>
         </div>
       )}
     </div>

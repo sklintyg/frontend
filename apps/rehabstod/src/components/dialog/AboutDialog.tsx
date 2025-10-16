@@ -13,7 +13,17 @@ export function AboutDialog() {
   const dispatch = useAppDispatch()
 
   return (
-    <Dialog open={showAboutDialog} onOpenChange={(open) => dispatch(updateShowAboutDialog(open))} dismissible headline="Om Rehabstöd">
+    <Dialog
+      open={showAboutDialog}
+      onOpenChange={(open) => dispatch(updateShowAboutDialog(open))}
+      dismissible
+      headline="Om Rehabstöd"
+      actions={
+        <Button sBlock onClick={() => dispatch(updateShowAboutDialog(false))}>
+          Stäng
+        </Button>
+      }
+    >
       <div className="ids-content text-base [&:not(:last-child)]:mb-8">
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.
@@ -58,11 +68,6 @@ export function AboutDialog() {
           {links?.rattsjukskrivning && <DynamicLink link={links.rattsjukskrivning} />}
         </div>
       )}
-      <div slot="actions">
-        <Button sBlock onClick={() => dispatch(updateShowAboutDialog(false))}>
-          Stäng
-        </Button>
-      </div>
     </Dialog>
   )
 }

@@ -64,6 +64,16 @@ export function SettingsDialog() {
       onOpenChange={(open) => dispatch(updateShowSettingsDialog(open))}
       dismissible
       headline="Inställningar"
+      actions={
+        <>
+          <Button role="button" mBlock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
+            Avbryt
+          </Button>
+          <Button role="button" mBlock onClick={onSave} disabled={!isSaveEnabled}>
+            Spara
+          </Button>
+        </>
+      }
     >
       <DaysFinishedSickLeave
         value={preferences.maxAntalDagarSedanSjukfallAvslut}
@@ -79,14 +89,6 @@ export function SettingsDialog() {
         standardenhet={preferences.standardenhet}
         onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
       />
-      <div slot="actions">
-        <Button role="button" mBlock secondary onClick={() => dispatch(updateShowSettingsDialog(false))}>
-          Avbryt
-        </Button>
-        <Button role="button" mBlock onClick={onSave} disabled={!isSaveEnabled}>
-          Spara
-        </Button>
-      </div>
     </Dialog>
   )
 }

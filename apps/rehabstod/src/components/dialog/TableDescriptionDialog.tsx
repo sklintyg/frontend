@@ -11,7 +11,17 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
         <IDSIconInformation size="s" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
-      <Dialog dismissible open={open} onOpenChange={setOpen} headline="Beskrivning av tabellens rubriker">
+      <Dialog
+        dismissible
+        open={open}
+        onOpenChange={setOpen}
+        headline="Beskrivning av tabellens rubriker"
+        actions={
+          <Button sBlock onClick={() => setOpen(false)}>
+            Stäng
+          </Button>
+        }
+      >
         {columns
           .filter((column) => column.description && column.description?.length > 0)
           .map((column) => (
@@ -22,11 +32,6 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
               <p>{column.description}</p>
             </div>
           ))}
-        <div slot="actions">
-          <Button sBlock onClick={() => setOpen(false)}>
-            Stäng
-          </Button>
-        </div>
       </Dialog>
     </>
   )
