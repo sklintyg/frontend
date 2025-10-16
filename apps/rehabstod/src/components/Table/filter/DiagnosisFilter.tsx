@@ -5,6 +5,10 @@ import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
 
+function getDiagnosisLabel({ id, name }: DiagnosKapitel) {
+  return id ? `${id}: ${name}` : name
+}
+
 export function DiagnosisFilter({
   onChange,
   allDiagnoses,
@@ -50,13 +54,13 @@ export function DiagnosisFilter({
             <IDSCheckboxGroup>
               {allDiagnoses &&
                 allDiagnoses
-                  .filter(({ name }) => (search !== '' ? name.includes(search) : true))
+                  .filter((diagnosis) => (search !== '' ? getDiagnosisLabel(diagnosis).includes(search) : true))
                   .map((diagnosis) => (
                     <Checkbox
                       key={diagnosis.id ?? diagnosis.name}
                       disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
                       checked={selected.some((selectedDiagnosis) => diagnosis.id === selectedDiagnosis.id)}
-                      label={diagnosis.id ? `${diagnosis.id}: ${diagnosis.name}` : diagnosis.name}
+                      label={getDiagnosisLabel(diagnosis)}
                       onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
                     />
                   ))}
