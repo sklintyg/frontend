@@ -1,8 +1,8 @@
+import { Radio } from '@frontend/components'
 import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { Vardenhet } from '../../../schemas'
-import { CareProviderRadioButton } from './CareProviderRadio'
 
 export function CareProviderAccordion({
   unit,
@@ -34,7 +34,7 @@ export function CareProviderAccordion({
     <details id={unit.id} className="group my-2 border-b border-neutral-90 pb-2">
       <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between [&:not(:last-child)]:mb-2">
-          <CareProviderRadioButton
+          <Radio
             id={unit.namn}
             value={unit.namn}
             label={unit.namn}

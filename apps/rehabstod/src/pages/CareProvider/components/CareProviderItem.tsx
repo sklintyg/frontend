@@ -1,7 +1,6 @@
-import { Heading } from '@frontend/components'
+import { Heading, Radio } from '@frontend/components'
 import type { Mottagning, Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
-import { CareProviderRadioButton } from './CareProviderRadio'
 
 export function CareProviderItem({
   provider,
@@ -23,7 +22,7 @@ export function CareProviderItem({
             <CareProviderAccordion unit={unit} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
                 <div key={reception.id} className="ml-5 flex items-center [&:not(:last-child)]:mb-2">
-                  <CareProviderRadioButton
+                  <Radio
                     id={reception.namn}
                     value={reception.namn}
                     label={reception.namn}
@@ -35,7 +34,7 @@ export function CareProviderItem({
             </CareProviderAccordion>
           ) : (
             <div className="my-2 flex items-center border-b border-neutral-90">
-              <CareProviderRadioButton
+              <Radio
                 id={unit.namn}
                 value={unit.namn}
                 label={unit.namn}
