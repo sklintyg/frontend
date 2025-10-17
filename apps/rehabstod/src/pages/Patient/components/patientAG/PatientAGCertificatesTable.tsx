@@ -1,6 +1,6 @@
+import { Heading } from '@frontend/components'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Heading } from '../../../../components/Heading/Heading'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import { filterHiddenColumns, filterTableColumns } from '../../../../components/Table/utils/filterTableColumns'

@@ -1,7 +1,6 @@
+import { Button, Heading } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
-import { Button } from '../../../../components/Button/Button'
-import { Heading } from '../../../../components/Heading/Heading'
 
 export function ExpandableCard({
   description,
@@ -30,7 +29,7 @@ export function ExpandableCard({
     return (
       <>
         <p className="mb-5">{description}</p>
-        <Button sblock onClick={handleOnClick} className="flex justify-center">
+        <Button sBlock onClick={handleOnClick} className="flex justify-center">
           Visa
         </Button>
       </>

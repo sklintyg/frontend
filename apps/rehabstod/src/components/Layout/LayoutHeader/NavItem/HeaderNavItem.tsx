@@ -1,5 +1,5 @@
+import { classNames } from '@frontend/components'
 import { Link } from 'react-router-dom'
-import { classNames } from '../../../../utils/classNames'
 import { useActivePage } from '../hooks/useActivePage'
 
 export function HeaderNavItem({ to, title, active = false }: { to: string; title: string; active?: boolean }) {

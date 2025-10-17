@@ -1,5 +1,5 @@
+import { Heading } from '@frontend/components'
 import { IDSAccordion } from '@inera/ids-react'
-import { Heading } from '../../../../components/Heading/Heading'
 
 export function AboutPatientOverview() {
   return (

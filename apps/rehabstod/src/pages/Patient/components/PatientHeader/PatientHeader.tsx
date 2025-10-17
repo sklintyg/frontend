@@ -1,6 +1,6 @@
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../../../../components/Button/Button'
+import { Button } from '../../../../../../../packages/components/src/Button/Button'
 import type { Patient } from '../../../../schemas/patientSchema'
 import { PatientHeaderInfo } from './PatientHeaderInfo'
 

@@ -21,9 +21,9 @@ export function OverviewStatistics() {
 
   if (loadingSummary) {
     return (
-      <p className="p-10">
+      <>
         Laddar översikt ... <IDSSpinner />
-      </p>
+      </>
     )
   }
 

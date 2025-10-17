@@ -1,4 +1,4 @@
-import { Heading } from '../../Heading/Heading'
+import { Heading } from '@frontend/components'
 import { PageHeading } from '../../PageHeading/PageHeading'
 
 export function TableHeading({

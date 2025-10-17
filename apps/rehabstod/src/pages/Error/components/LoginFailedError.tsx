@@ -1,5 +1,5 @@
+import { Heading } from '@frontend/components'
 import { DynamicLink } from '../../../components/DynamicLink/DynamicLink'
-import { Heading } from '../../../components/Heading/Heading'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useGetLinksQuery } from '../../../store/api'
 import { useLogErrorEffect } from '../hooks/useLogErrorEffect'

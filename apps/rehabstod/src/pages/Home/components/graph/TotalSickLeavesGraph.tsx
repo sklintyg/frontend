@@ -1,8 +1,8 @@
+import { Heading } from '@frontend/components'
 import { IDSIconInformation } from '@inera/ids-react'
 import { format } from 'date-fns'
 import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'
-import { Heading } from '../../../../components/Heading/Heading'
 import { TooltipIcon } from '../../../../components/Tooltip'
 
 function renderCustomizedLabel(props: LabelProps) {

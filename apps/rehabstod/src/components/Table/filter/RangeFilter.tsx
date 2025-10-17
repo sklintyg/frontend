@@ -1,6 +1,5 @@
+import { FormattedNumberInput, InputLabel } from '@frontend/components'
 import { useId } from 'react'
-import { FormattedNumberInput } from '../../form/FormattedNumberInput'
-import { InputLabel } from '../../form/InputLabel/InputLabel'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function RangeFilter({

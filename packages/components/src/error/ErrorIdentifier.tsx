@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Icon } from '../Icon'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip'
-import { classNames } from '../utils'
+import { Icon } from '../Icon/Icon'
+import { Tooltip } from '../Tooltip/Tooltip'
+import { TooltipContent } from '../Tooltip/TooltipContent'
+import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
+import { classNames } from '../utils/classNames'
 
 export function ErrorIdentifier({ id, showTitle = true, centerText = true }: { id: string; showTitle?: boolean; centerText?: boolean }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)

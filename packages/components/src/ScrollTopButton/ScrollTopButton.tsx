@@ -1,7 +1,7 @@
 import { IDSButton } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
 import { Icon } from '../Icon/Icon'
-import { classNames } from '../utils'
+import { classNames } from '../utils/classNames'
 
 export function ScrollTopButton() {
   const [show, setShow] = useState(false)

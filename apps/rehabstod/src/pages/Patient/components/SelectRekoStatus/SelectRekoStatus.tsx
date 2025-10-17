@@ -1,4 +1,4 @@
-import { Select } from '../../../../components/form/Select/Select'
+import { Select } from '@frontend/components'
 import type { RekoStatusType } from '../../../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../../../store/hooks'
 import { useGetRekoStatusForPatientQuery, useSetRekoStatusMutation } from '../../../../store/sickLeaveApi'
@@ -41,7 +41,6 @@ export function SelectRekoStatus({
       options={rekoStatusTypes.map(({ id, name }) => ({ label: name, value: id }))}
       description={description}
       label="Status"
-      nooptiondescriber
     />
   )
 }
