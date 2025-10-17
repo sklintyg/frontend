@@ -156,6 +156,9 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
     }
     dispatch(getCertificateEvents(certificate.metadata.id))
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
+
+    // Save potential changes created from getDecoratedCertificateData such as AUTO_FILL
+    dispatch(autoSaveCertificate())
   }
 
 const handleGetCertificateError: Middleware<Dispatch> =
@@ -908,7 +911,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
         dispatch(updateCertificate(updatedCertificate))
         if (validationErrors.length === 0) {
           dispatch(validateCertificate(updatedCertificate))
-          dispatch(autoSaveCertificate(updatedCertificate))
+          dispatch(autoSaveCertificate())
         }
       }
     }
@@ -924,7 +927,7 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(autoSaveCertificate())
   }
 
 const handleUpdateCertificatePatient: Middleware<Dispatch> =
@@ -937,7 +940,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(autoSaveCertificate())
   }
 
 const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
