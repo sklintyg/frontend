@@ -1,22 +1,20 @@
 import { z } from 'zod'
 
 export enum AllowedInApplication {
-  IB = 'IB',
   RS = 'RS',
-  WC = 'WC',
 }
 
-export enum HealthCareProfessionalLicence {
+enum HealthCareProfessionalLicence {
   Läkare = 'Läkare',
   Tandläkare = 'Tandläkare',
 }
 
-export enum Env {
+enum Env {
   demo = 'demo',
   dev = 'dev',
 }
 
-export enum CommissionPurpose {
+enum CommissionPurpose {
   Admin = 'Admin',
   INGET = 'INGET',
   STATISTIK = 'STATISTIK',

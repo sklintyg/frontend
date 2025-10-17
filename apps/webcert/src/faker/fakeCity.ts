@@ -1,5 +1,3 @@
-import faker from 'faker'
-
 export const fakeCityList = (): string[] => [
   'STOCKHOLM',
   'NACKA',
@@ -292,5 +290,3 @@ export const fakeCityList = (): string[] => [
   'GÄLLIVARE',
   'KIRUNA',
 ]
-
-export const fakeRandomCity = faker.random.arrayElement(fakeCityList())

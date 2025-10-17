@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Icon from '../../../components/image/image/Icon'
 import Accordion from '../../../components/utils/Accordion'
@@ -6,11 +5,12 @@ import AccordionHeader from '../../../components/utils/AccordionHeader'
 import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 import { Text } from '../../../components/utils/Text'
 import { getQuestion, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import type { CertificateDataConfig } from '../../../types'
 import { ConfigTypes } from '../../../types'
 import { sanitizeText } from '../../../utils'
 
-export interface Props {
+interface Props {
   config: CertificateDataConfig
   displayMandatory: boolean
   questionId: string
@@ -36,8 +36,8 @@ const AccordionControl = styled(Accordion)<AccordionProps>`
   }
 `
 const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props) => {
-  const validationErrors = useSelector(getVisibleValidationErrors(questionId))
-  const parent = useSelector(getQuestion(questionId))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(questionId))
+  const parent = useAppSelector(getQuestion(questionId))
   const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
   const h5text = Boolean(config.header) || !questionTypeIsCategory
   const heading = h5text ? (

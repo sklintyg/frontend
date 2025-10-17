@@ -20,7 +20,7 @@ export interface Configuration {
   forwardDraftOrQuestionUrl: string
 }
 
-export interface UtilsState {
+interface UtilsState {
   dynamicLinks: DynamicLinkMap
   diagnosisTypeahead: DiagnosisTypeahead | null
   config: Configuration

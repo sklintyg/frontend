@@ -1,14 +1,13 @@
 import { z } from 'zod'
 
 export enum BannerPriority {
-  LOW = 'LAG',
   MEDIUM = 'MEDEL',
   HIGH = 'HOG',
 }
 
-export const BannerPriorityEnum = z.nativeEnum(BannerPriority)
+const BannerPriorityEnum = z.nativeEnum(BannerPriority)
 
-export const bannerSchema = z.object({
+const bannerSchema = z.object({
   application: z.string(),
   createdAt: z.string(),
   displayFrom: z.string(),
@@ -41,4 +40,3 @@ export const configSchema = z.object({
 })
 
 export type Config = z.infer<typeof configSchema>
-export type Banner = z.infer<typeof bannerSchema>

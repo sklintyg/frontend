@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export enum AgandeForm {
+enum AgandeForm {
   PRIVAT = 'PRIVAT',
 }
 

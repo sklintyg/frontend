@@ -26,18 +26,12 @@ export enum SigningMethod {
 
 export enum LoginMethod {
   BANK_ID = 'BANK_ID',
-  BANK_ID_MOBILE = 'BANK_ID_MOBILE',
   FAKE = 'FAKE',
-  SITHS = 'SITHS',
 }
 
 export interface UserProperty {
   key: string
   value: string
-}
-
-export interface FakeLogin {
-  unitId: string
 }
 
 export interface UserStatistics {

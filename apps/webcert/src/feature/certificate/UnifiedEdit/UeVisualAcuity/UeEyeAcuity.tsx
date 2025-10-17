@@ -18,7 +18,7 @@ const parseValue = (val: string): number | null => {
   return isNaN(num) ? null : num
 }
 
-export interface Props {
+interface Props {
   disabled?: boolean
   config: ConfigEyeAcuity
   value: ValueEyeAcuity

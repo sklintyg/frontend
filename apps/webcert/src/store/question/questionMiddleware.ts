@@ -69,7 +69,7 @@ import {
   validateQuestion,
 } from './questionActions'
 
-export const handleGetQuestions: Middleware<Dispatch> =
+const handleGetQuestions: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -85,7 +85,7 @@ export const handleGetQuestions: Middleware<Dispatch> =
     )
   }
 
-export const handleGetComplementQuestions: Middleware<Dispatch> =
+const handleGetComplementQuestions: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -101,14 +101,14 @@ export const handleGetComplementQuestions: Middleware<Dispatch> =
     )
   }
 
-export const handleGetQuestionsStarted: Middleware<Dispatch> =
+const handleGetQuestionsStarted: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateIsLoadingQuestions(true))
   }
 
-export const handleGetQuestionsSuccess: Middleware<Dispatch> =
+const handleGetQuestionsSuccess: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
@@ -150,7 +150,7 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> =
     dispatch(updateIsLoadingQuestions(false))
   }
 
-export const handleGetQuestionsError: Middleware<Dispatch> =
+const handleGetQuestionsError: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -168,7 +168,7 @@ export const handleGetQuestionsError: Middleware<Dispatch> =
     dispatch(setErrorId(errorRequest.errorId ?? ''))
   }
 
-export const handleUpdateCertificate: Middleware<Dispatch> =
+const handleUpdateCertificate: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
@@ -190,14 +190,14 @@ export const handleUpdateCertificate: Middleware<Dispatch> =
     }
   }
 
-export const handleResetState: Middleware<Dispatch> =
+const handleResetState: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateComplements([]))
   }
 
-export const handleDeleteQuestion: Middleware<Dispatch> =
+const handleDeleteQuestion: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -213,14 +213,14 @@ export const handleDeleteQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleDeleteQuestionSuccess: Middleware<Dispatch> =
+const handleDeleteQuestionSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (): void => {
     dispatch(clearQuestionDraft())
   }
 
-export const handleEditQuestion: Middleware<Dispatch> =
+const handleEditQuestion: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -236,7 +236,7 @@ export const handleEditQuestion: Middleware<Dispatch> =
     }
   }
 
-export const handleValidateQuestion: Middleware<Dispatch> =
+const handleValidateQuestion: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -244,7 +244,7 @@ export const handleValidateQuestion: Middleware<Dispatch> =
     dispatch(updateQuestionMissingMessage(!action.payload.message))
   }
 
-export const handleSaveQuestion: Middleware<Dispatch> =
+const handleSaveQuestion: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -263,14 +263,14 @@ export const handleSaveQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleSaveQuestionSuccess: Middleware<Dispatch> =
+const handleSaveQuestionSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (): void => {
     dispatch(updateQuestionDraftSaved(true))
   }
 
-export const handleCreateQuestion: Middleware<Dispatch> =
+const handleCreateQuestion: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
@@ -291,7 +291,7 @@ export const handleCreateQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleCreateQuestionSuccess: Middleware<Dispatch> =
+const handleCreateQuestionSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -299,7 +299,7 @@ export const handleCreateQuestionSuccess: Middleware<Dispatch> =
     dispatch(updateQuestionDraftSaved(true))
   }
 
-export const handleSendQuestion: Middleware<Dispatch> =
+const handleSendQuestion: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
@@ -325,7 +325,7 @@ export const handleSendQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleSendQuestionSuccess: Middleware<Dispatch> =
+const handleSendQuestionSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -334,7 +334,7 @@ export const handleSendQuestionSuccess: Middleware<Dispatch> =
     dispatch(updateQuestionDraftSaved(false))
   }
 
-export const handleSendQuestionError: Middleware<Dispatch> =
+const handleSendQuestionError: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -342,7 +342,7 @@ export const handleSendQuestionError: Middleware<Dispatch> =
     dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
   }
 
-export const handleCreateAnswer: Middleware<Dispatch> =
+const handleCreateAnswer: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -351,7 +351,7 @@ export const handleCreateAnswer: Middleware<Dispatch> =
     dispatch(updateAnswerDraftSaved({ questionId: action.payload.id, isAnswerDraftSaved: false }))
   }
 
-export const handleEditAnswer: Middleware<Dispatch> =
+const handleEditAnswer: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -360,7 +360,7 @@ export const handleEditAnswer: Middleware<Dispatch> =
     dispatch(saveAnswer(action.payload))
   }
 
-export const handleSaveAnswer: Middleware<Dispatch> =
+const handleSaveAnswer: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -379,14 +379,14 @@ export const handleSaveAnswer: Middleware<Dispatch> =
     )
   }
 
-export const handleSaveAnswerSuccess: Middleware<Dispatch> =
+const handleSaveAnswerSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateAnswerDraftSaved({ isAnswerDraftSaved: true, questionId: action.payload.question.id }))
   }
 
-export const handleSendAnswer: Middleware<Dispatch> =
+const handleSendAnswer: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -405,21 +405,21 @@ export const handleSendAnswer: Middleware<Dispatch> =
     )
   }
 
-export const handleSendAnswerSuccess: Middleware<Dispatch> =
+const handleSendAnswerSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateQuestion(action.payload.question))
   }
 
-export const handleSendAnswerError: Middleware<Dispatch> =
+const handleSendAnswerError: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
   }
 
-export const handleDeleteAnswer: Middleware<Dispatch> =
+const handleDeleteAnswer: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -435,14 +435,14 @@ export const handleDeleteAnswer: Middleware<Dispatch> =
     )
   }
 
-export const handleDeleteAnswerSuccess: Middleware<Dispatch> =
+const handleDeleteAnswerSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateQuestion(action.payload.question))
   }
 
-export const handleHandleQuestion: Middleware<Dispatch> =
+const handleHandleQuestion: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -463,7 +463,7 @@ export const handleHandleQuestion: Middleware<Dispatch> =
     )
   }
 
-export const handleHandleQuestionSuccess: Middleware<Dispatch> =
+const handleHandleQuestionSuccess: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {

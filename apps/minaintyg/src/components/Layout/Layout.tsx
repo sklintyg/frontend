@@ -1,15 +1,15 @@
 import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
-import { LayoutFooter, LayoutHeader } from '@frontend/components/1177'
+import { LayoutFooter, LayoutHeader } from '@frontend/theme-1177'
 import { skipToken } from '@reduxjs/toolkit/query'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
+import { useLinks } from '../../hooks/useLinks'
 import { BannerPriority } from '../../schema/informationSchema'
 import { useGetInfoQuery } from '../../store/api'
 import { useAppSelector, useGetUserQuery } from '../../store/hooks'
 import { ErrorPageHero } from '../error/ErrorPageHero'
 import { LayoutHeaderAvatar } from './LayoutHeaderAvatar'
-import { useLinks } from '../../hooks/useLinks'
 
 export function Layout({ children }: { children?: ReactNode }) {
   const hasSession = useAppSelector((state) => state.sessionSlice.hasSession)

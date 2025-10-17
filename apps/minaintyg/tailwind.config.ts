@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import { elevenSeventySevenColors } from '@frontend/components/colors'
+import { elevenSeventySevenColors } from '@frontend/colors'
 import type { Config } from 'tailwindcss'
 
 export default {

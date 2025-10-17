@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ValidationWrapper } from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeInteger, ValueInteger } from '../../../../types'
 
 const Wrapper = styled.div`
@@ -20,17 +20,17 @@ const StyledTextInput = styled(TextInput)`
   margin-right: 0.625em;
 `
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled: boolean
 }
 
 const UeInteger = ({ question, disabled }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
   const [number, setNumber] = useState(questionValue.value?.toString() ?? undefined)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ' ') {

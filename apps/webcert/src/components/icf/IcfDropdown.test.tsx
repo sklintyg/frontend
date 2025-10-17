@@ -2,12 +2,10 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRef } from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeIcfResponse } from '../../faker'
-import { CertificateContext } from '../../feature/certificate/CertificateContext'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
@@ -19,8 +17,6 @@ import IcfDropdown from './IcfDropdown'
 let testStore: EnhancedStore
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
-
-const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
 
 Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
 
@@ -35,18 +31,16 @@ const renderComponent = (
   render(
     <Provider store={testStore}>
       <MemoryRouter>
-        <CertificateContext.Provider value={mockContext}>
-          <IcfDropdown
-            modalLabel={infoText}
-            icfData={icfData}
-            chosenIcfCodeValues={icfValues}
-            collectionsLabel={COLLECTIONS_LABEL}
-            disabled={disabled}
-            onAddCode={() => null}
-            onRemoveCode={() => null}
-            id="test"
-          />
-        </CertificateContext.Provider>
+        <IcfDropdown
+          modalLabel={infoText}
+          icfData={icfData}
+          chosenIcfCodeValues={icfValues}
+          collectionsLabel={COLLECTIONS_LABEL}
+          disabled={disabled}
+          onAddCode={() => null}
+          onRemoveCode={() => null}
+          id="test"
+        />
       </MemoryRouter>
     </Provider>
   )

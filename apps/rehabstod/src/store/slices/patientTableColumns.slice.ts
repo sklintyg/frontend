@@ -27,8 +27,7 @@ export const {
   reset: resetPatientTableColumns,
   showColumn,
   hideColumn,
-  showAllColumns,
-  hideAllColumns,
+
   moveColumn,
   setColumnDefaults,
 } = patientTableColumnsSlice.actions

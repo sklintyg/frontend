@@ -29,17 +29,17 @@ export const srsFeatureSchema = z.object({
   intygstyper: z.array(z.unknown()),
 })
 
-export const lakareRoleSchema = z.object({
+const lakareRoleSchema = z.object({
   name: z.string(),
   desc: z.string(),
   privileges: z.array(z.string()),
 })
 
-export const userRoleSchema = z.object({
+const userRoleSchema = z.object({
   LAKARE: lakareRoleSchema,
 })
 
-export const userFeatureSchema = z
+const userFeatureSchema = z
   .object({
     SRS: srsFeatureSchema,
   })
@@ -68,13 +68,4 @@ export enum UserUrval {
 }
 
 export type UserPreferences = z.infer<typeof userPreferencesSchema>
-export type UserPreferencesTableSettings =
-  | 'lakarutlatandeUnitTableColumns'
-  | 'patientTableColumns'
-  | 'sjukfallTableColumns'
-  | 'lakarutlatandenTableColumns'
-export type SrsFeature = z.infer<typeof srsFeatureSchema>
-export type LakareRole = z.infer<typeof lakareRoleSchema>
-export type UserRole = z.infer<typeof userRoleSchema>
-export type UserFeature = z.infer<typeof userFeatureSchema>
 export type User = z.infer<typeof userSchema>

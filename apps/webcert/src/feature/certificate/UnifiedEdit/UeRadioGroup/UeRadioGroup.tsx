@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../../store/store'
+import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeRadioMultipleCodes, ValueCode } from '../../../../types'
 import { ConfigLayout } from '../../../../types'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 
-export interface Props {
+interface Props {
   disabled: boolean
   question: CertificateDataElement
 }
@@ -19,7 +18,7 @@ const UeRadioGroup = ({ question, disabled }: Props) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
   const [code, setCode] = useState((question.value as ValueCode)?.code)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = config.layout !== ConfigLayout.COLUMN && radiobuttons.length <= 2
 

@@ -1,12 +1,8 @@
 /* eslint-disable no-param-reassign */
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { z } from 'zod'
 import type { ErrorTypeEnum } from '../../schema/error.schema'
 import { api } from '../api'
-
-export const SessionEndedReason = z.enum(['logged-out', 'service-offline', 'error'])
-export type SessionEndedReasonEnum = z.infer<typeof SessionEndedReason>
 
 const initialState: {
   hasSession: boolean

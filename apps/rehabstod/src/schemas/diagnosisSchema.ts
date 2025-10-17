@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const diagnosKategoriSchema = z.object({
+const diagnosKategoriSchema = z.object({
   letter: z.string(),
   number: z.number(),
 })
@@ -12,7 +12,7 @@ export const diagnosKapitelSchema = z.object({
   id: z.string(),
 })
 
-export const diagnosGruppSchema = z.object({
+const diagnosGruppSchema = z.object({
   id: z.string(),
   name: z.string(),
   kapitelList: z.array(diagnosKapitelSchema),
@@ -33,7 +33,5 @@ export const diagnosisSchema = z.object({
 })
 
 export type DiagnosKapitel = z.infer<typeof diagnosKapitelSchema>
-export type DiagnosKategori = z.infer<typeof diagnosKategoriSchema>
-export type DiagnosGrupp = z.infer<typeof diagnosGruppSchema>
 export type DiagnosGruppStat = z.infer<typeof diagnosGruppStatSchema>
 export type Diagnosis = z.infer<typeof diagnosisSchema>

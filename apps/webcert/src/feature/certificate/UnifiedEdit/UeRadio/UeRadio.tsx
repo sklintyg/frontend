@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeRadioBoolean, ValueBoolean } from '../../../../types'
 import { CertificateDataValueType } from '../../../../types'
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

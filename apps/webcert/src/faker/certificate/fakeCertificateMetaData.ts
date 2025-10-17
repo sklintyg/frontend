@@ -16,7 +16,7 @@ export const fakeCertificateRelations = (data?: PartialDeep<CertificateRelations
   }
 }
 
-export function fakeCertifiaMessageType(data?: Partial<MessageType>): MessageType {
+function fakeCertifiaMessageType(data?: Partial<MessageType>): MessageType {
   return {
     type: QuestionType.CONTACT,
     subject: 'Kontakt',

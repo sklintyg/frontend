@@ -30,8 +30,7 @@ export const {
   reset: resetSickLeaveTableColumns,
   showColumn,
   hideColumn,
-  showAllColumns,
-  hideAllColumns,
+
   moveColumn,
   setColumnDefaults,
 } = sickLeaveTableColumnsSlice.actions

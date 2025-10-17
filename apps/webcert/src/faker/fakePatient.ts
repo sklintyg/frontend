@@ -2,11 +2,11 @@ import faker from 'faker'
 import type { PartialDeep } from 'type-fest'
 import type { Patient, PersonId } from '../types/patient'
 
-export function fakePatientId() {
+function fakePatientId() {
   return `${faker.date.past().toISOString().split('T')[0].replace(/-/g, '')}${faker.random.alphaNumeric(4)}`
 }
 
-export function fakePersonId(data?: Partial<PersonId>): PersonId {
+function fakePersonId(data?: Partial<PersonId>): PersonId {
   return { type: faker.random.alpha(), id: fakePatientId(), ...data }
 }
 

@@ -17,7 +17,7 @@ export interface ListResponse {
   totalCount: number
 }
 
-export interface UpdateListConfigRequest {
+interface UpdateListConfigRequest {
   config: ListConfig
   unitId: string
 }
@@ -64,7 +64,6 @@ export const updateUnhandledCertificatesListConfig = createAction<UpdateListConf
 export const getUnhandledCertificatesListConfigStarted = createAction(`${LIST} Get unhandled certificates list config started`)
 export const getUnhandledCertificatesListConfigSuccess = createAction(`${LIST} Get unhandled certificates list config success`)
 export const getUnhandledCertificatesListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
-export const getQuestionListConfigError = createAction(`${LIST} Get unhandled certificates list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)
@@ -76,7 +75,7 @@ export const updateIsSortingList = createAction<boolean>(`${LIST} Update is sort
 
 export const updateTotalCount = createAction<number | undefined>(`${LIST} Update total count for list`)
 
-export interface UpdateListFilterValue {
+interface UpdateListFilterValue {
   id: string
   filterValue: ListFilterValue
 }
@@ -90,7 +89,7 @@ export const clearActiveListType = createAction(`${LIST} Clear active list type`
 export const setListError = createAction<ErrorData | undefined>(`${LIST} Set list error`)
 export const clearListError = createAction(`${LIST} Clear list error`)
 
-export interface ValidationErrorData {
+interface ValidationErrorData {
   id: string
   value: boolean
 }

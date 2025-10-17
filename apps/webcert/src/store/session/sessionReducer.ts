@@ -7,7 +7,7 @@ export interface SessionStatus {
   secondsUntilExpire: number
 }
 
-export interface SessionState {
+interface SessionState {
   pollHandle: NodeJS.Timeout | null
   pending: boolean
   sessionStatus: SessionStatus

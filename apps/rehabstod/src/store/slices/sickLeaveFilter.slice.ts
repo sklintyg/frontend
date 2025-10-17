@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import type { SickLeaveFilter } from '../../schemas/sickLeaveSchema'
 import { isValidDate } from '../../utils/isValidDate'
 
-export interface SickLeaveState {
+interface SickLeaveState {
   filter: SickLeaveFilter
   isValidDateRange: boolean
   displayValidationErrors: boolean

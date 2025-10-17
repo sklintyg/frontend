@@ -12,7 +12,7 @@ import {
   updateCertificateTypes,
 } from './patientActions'
 
-export interface PatientState {
+interface PatientState {
   patient: Patient | undefined
   status: PatientStatus | undefined
   error: ErrorRequest | undefined

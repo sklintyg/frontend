@@ -14,11 +14,9 @@ import type {
   ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
-  ConfigUeHeader,
   ConfigUeIcf,
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
-  ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeRadioMultipleCodesOptionalDropdown,
@@ -41,7 +39,6 @@ import type {
   ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
-  ValueHeader,
   ValueIcf,
   ValueInteger,
   ValueMedicalInvestigationList,
@@ -284,11 +281,6 @@ export const fakeIntegerElement = fakeDataElementFactory<ConfigUeInteger, ValueI
   value: fakeCertificateValue.integer(value),
 }))
 
-export const fakeHeaderElement = fakeDataElementFactory<ConfigUeHeader, ValueHeader>((config, value) => ({
-  config: fakeCertificateConfig.header(config),
-  value: fakeCertificateValue.header(value),
-}))
-
 export const fakeCauseOfDeathElement = fakeDataElementFactory<ConfigUeCauseOfDeath, ValueCauseOfDeath>((config, value) => {
   const descriptionId = fakeId()
   const debutId = fakeId()
@@ -446,8 +438,3 @@ export const fakeRadioMultipleCodesOptionalDropdown = fakeDataElementFactory<Con
     value: fakeCertificateValue.code(value),
   })
 )
-
-export const fakeMessageElement = fakeDataElementFactory<ConfigUeMessage, ValueText>((config, value) => ({
-  config: fakeCertificateConfig.message(config),
-  value: fakeCertificateValue.text(value),
-}))

@@ -57,7 +57,7 @@ import {
 } from './srsActions'
 import { getCertificateId } from './srsSelectors'
 
-export const handleGetSRSCodes: Middleware<Dispatch> =
+const handleGetSRSCodes: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
@@ -72,14 +72,14 @@ export const handleGetSRSCodes: Middleware<Dispatch> =
     )
   }
 
-export const handleGetSRSCodesStarted: Middleware<Dispatch> =
+const handleGetSRSCodesStarted: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateLoadingCodes(true))
   }
 
-export const handleGetSRSCodesError: Middleware<Dispatch> =
+const handleGetSRSCodesError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
@@ -87,7 +87,7 @@ export const handleGetSRSCodesError: Middleware<Dispatch> =
     dispatch(updateLoadingCodes(false))
   }
 
-export const handleGetSRSCodesSuccess: Middleware<Dispatch> =
+const handleGetSRSCodesSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<Record<string, string>>): void => {
@@ -96,7 +96,7 @@ export const handleGetSRSCodesSuccess: Middleware<Dispatch> =
     dispatch(updateLoadingCodes(false))
   }
 
-export const handleGetRecommendations: Middleware<Dispatch> =
+const handleGetRecommendations: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<RecommendationsRequest>): void => {
@@ -112,14 +112,14 @@ export const handleGetRecommendations: Middleware<Dispatch> =
     )
   }
 
-export const handleGetRecommendationsStarted: Middleware<Dispatch> =
+const handleGetRecommendationsStarted: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateLoadingRecommendations(true))
   }
 
-export const handleGetRecommendationsError: Middleware<Dispatch> =
+const handleGetRecommendationsError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
@@ -127,7 +127,7 @@ export const handleGetRecommendationsError: Middleware<Dispatch> =
     dispatch(updateLoadingRecommendations(false))
   }
 
-export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
+const handleGetRecommendationsSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<SrsInfoForDiagnosis>): void => {
@@ -152,7 +152,7 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> =
     dispatch(updateLoadingCodes(false))
   }
 
-export const handleGetQuestions: Middleware<Dispatch> =
+const handleGetQuestions: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<string>): void => {
@@ -167,14 +167,14 @@ export const handleGetQuestions: Middleware<Dispatch> =
     )
   }
 
-export const handleGetQuestionsError: Middleware<Dispatch> =
+const handleGetQuestionsError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateError(true))
   }
 
-export const handleGetQuestionsSuccess: Middleware<Dispatch> =
+const handleGetQuestionsSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<SrsQuestion[]>): void => {
@@ -182,7 +182,7 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> =
     dispatch(updateSrsQuestions(Object.values(action.payload)))
   }
 
-export const handleGetPredictions: Middleware<Dispatch> =
+const handleGetPredictions: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<PredictionsRequest>): void => {
@@ -202,14 +202,14 @@ export const handleGetPredictions: Middleware<Dispatch> =
     )
   }
 
-export const handleGetPredictionsError: Middleware<Dispatch> =
+const handleGetPredictionsError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (): void => {
     dispatch(updateError(true))
   }
 
-export const handleGetPredictionsSuccess: Middleware<Dispatch> =
+const handleGetPredictionsSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<SrsInfoForDiagnosis>): void => {
@@ -225,7 +225,7 @@ export const handleGetPredictionsSuccess: Middleware<Dispatch> =
     }
   }
 
-export const handleSetRiskOpinion: Middleware<Dispatch> =
+const handleSetRiskOpinion: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<RiskOpinionRequest>): void => {
@@ -244,7 +244,7 @@ export const handleSetRiskOpinion: Middleware<Dispatch> =
     )
   }
 
-export const handleLogSrsInteraction: Middleware<Dispatch> =
+const handleLogSrsInteraction: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<SrsEvent>): void => {
@@ -286,7 +286,7 @@ export const handleLogSrsInteraction: Middleware<Dispatch> =
     )
   }
 
-export const handleGetUserSuccess: Middleware<Dispatch> =
+const handleGetUserSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -296,7 +296,7 @@ export const handleGetUserSuccess: Middleware<Dispatch> =
     }
   }
 
-export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
+const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: PayloadAction<{ value: ValueDiagnosisList }>): void => {

@@ -14,7 +14,7 @@ import type {
 } from '../../../../types'
 import { CertificateDataValidationType } from '../../../../types'
 
-export interface Props {
+interface Props {
   config: ConfigUeCauseOfDeathControl
   disabled?: boolean
   onChange: (value: ValueCauseOfDeath) => void

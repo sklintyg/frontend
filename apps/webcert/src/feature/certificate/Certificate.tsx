@@ -20,7 +20,6 @@ import { useAppSelector } from '../../store/store'
 import { CertificateDataElementStyleEnum, ConfigTypes, ResourceLinkType } from '../../types'
 import CareUnit from './CareUnit/CareUnit'
 import Category from './Category/Category'
-import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
@@ -96,35 +95,33 @@ const Certificate = () => {
             <PatientAddressInfo />
           </CategoryWrapper>
         )}
-        <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>
-          {certificateStructure &&
-            certificateStructure
-              .filter((data) => filterHidden(data))
-              .reduce((result, data) => {
-                const last = result[result.length - 1]
-                if (data.component === ConfigTypes.CATEGORY) {
-                  return [...result, [data]]
-                } else if (last) {
-                  return [...result.slice(0, -1), [...last, data]]
-                }
-                return result
-              }, [] as CertificateStructure[][])
-              .map((structure, index) => {
-                const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
-                return (
-                  <CategoryWrapper key={index}>
-                    {structure.map(({ id, subQuestionIds, component }) => {
-                      if (component === ConfigTypes.CATEGORY) {
-                        return <Category key={id} id={id} />
-                      } else {
-                        return <QuestionWithSubQuestions key={id} questionIds={[id, ...subQuestionIds]} />
-                      }
-                    })}
-                    {category && <QuestionValidationError id={category.id} />}
-                  </CategoryWrapper>
-                )
-              })}
-        </CertificateContext.Provider>
+        {certificateStructure &&
+          certificateStructure
+            .filter((data) => filterHidden(data))
+            .reduce((result, data) => {
+              const last = result[result.length - 1]
+              if (data.component === ConfigTypes.CATEGORY) {
+                return [...result, [data]]
+              } else if (last) {
+                return [...result.slice(0, -1), [...last, data]]
+              }
+              return result
+            }, [] as CertificateStructure[][])
+            .map((structure, index) => {
+              const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
+              return (
+                <CategoryWrapper key={index}>
+                  {structure.map(({ id, subQuestionIds, component }) => {
+                    if (component === ConfigTypes.CATEGORY) {
+                      return <Category key={id} id={id} />
+                    } else {
+                      return <QuestionWithSubQuestions key={id} questionIds={[id, ...subQuestionIds]} />
+                    }
+                  })}
+                  {category && <QuestionValidationError id={category.id} />}
+                </CategoryWrapper>
+              )
+            })}
         <CareUnit />
         <CertificateValidation />
         <CertificateFooter />

@@ -29,7 +29,7 @@ export interface Answer {
   contactInfo?: string[]
 }
 
-export interface Reminder {
+interface Reminder {
   id: string
   message: string
   author: string

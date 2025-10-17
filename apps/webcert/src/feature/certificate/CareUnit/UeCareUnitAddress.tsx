@@ -1,6 +1,5 @@
 import { debounce, isEqual } from 'lodash-es'
 import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
@@ -13,6 +12,7 @@ import {
   getShowValidationErrors,
   getUnit,
 } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import type { Unit } from '../../../types'
 import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
@@ -23,8 +23,8 @@ export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
 export const CARE_UNIT_CITY_FIELD = 'grunddata.skapadAv.vardenhet.postort'
 export const CARE_UNIT_PHONE_NUMBER_FIELD = 'grunddata.skapadAv.vardenhet.telefonnummer'
-export const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
-export const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
+const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
+const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -63,12 +63,12 @@ const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
 `
 
 const UeCareUnitAddress = () => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getCareUnitValidationErrors(), isEqual)
-  const dispatch = useDispatch()
-  const unit = useSelector(getUnit(), isEqual)
-  const disabled = useSelector(getIsLocked)
-  const editable = useSelector(getIsEditable)
+  const dispatch = useAppDispatch()
+  const isShowValidationError = useAppSelector(getShowValidationErrors)
+  const validationErrors = useAppSelector(getCareUnitValidationErrors(), isEqual)
+  const unit = useAppSelector(getUnit(), isEqual)
+  const disabled = useAppSelector(getIsLocked)
+  const editable = useAppSelector(getIsEditable)
   const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
 
   const addressValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)

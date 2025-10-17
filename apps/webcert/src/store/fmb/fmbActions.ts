@@ -7,13 +7,13 @@ export interface FMBDiagnoseRequest {
   index: number
 }
 
-export interface FMBValidateSickLeavePeriodRequest {
+interface FMBValidateSickLeavePeriodRequest {
   icd10Codes: string[]
   dateRangeList: ValueDateRangeList
   personId: string
 }
 
-export interface ValidateSickLeavePeriodResponse {
+interface ValidateSickLeavePeriodResponse {
   message: string
 }
 
@@ -24,8 +24,6 @@ export const getFMBDiagnosisCodeInfo = createAction<FMBDiagnoseRequest>(`${FMB} 
 export const getFMBDiagnosisCodeInfoStarted = createAction(`${FMB} Get diagnosis code info started`)
 
 export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>(`${FMB} Get diagnosis code info success`)
-
-export const getFMBDiagnosisCodeInfoError = createAction<string>(`${FMB} Get diagnosis code info error`)
 
 export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>(`${FMB} Update diagnosis code info`)
 
@@ -44,8 +42,5 @@ export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${FMB} Se
 export const validateSickLeavePeriod = createAction<FMBValidateSickLeavePeriodRequest>(`${FMB} Validate sick leave period`)
 export const validateSickLeavePeriodStarted = createAction(`${FMB} Validate sick leave period started`)
 export const validateSickLeavePeriodSuccess = createAction<ValidateSickLeavePeriodResponse>(`${FMB} Validate sick leave period success`)
-export const validateSickLeavePeriodError = createAction(`${FMB} Validate sick leave period error`)
-
-export const toggleFMBFunctionDisabler = createAction(`${FMB} toggling function disabler`)
 
 export const initializeFMBPanel = createAction(`${FMB} Initialize FMB Panel`)

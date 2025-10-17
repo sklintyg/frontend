@@ -7,7 +7,7 @@ export enum Gender {
   F = 'F',
 }
 
-export const patientRiskSignalSchema = z.object({
+const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
   riskKategori: z.number(),
   riskDescription: z.string(),
@@ -90,14 +90,13 @@ export enum PatientOverviewConsentChoices {
 }
 
 export enum PuResponse {
-  FOUND = 'FOUND',
   NOT_FOUND = 'NOT_FOUND',
   FOUND_NO_NAME = 'FOUND_NO_NAME',
 }
 
-export const puResponseSchema = z.nativeEnum(PuResponse)
+const puResponseSchema = z.nativeEnum(PuResponse)
 
-export const genderSchema = z.nativeEnum(Gender)
+const genderSchema = z.nativeEnum(Gender)
 
 export const patientInfoSchema = z.object({
   alder: z.number(),
@@ -108,10 +107,8 @@ export const patientInfoSchema = z.object({
   riskSignal: patientRiskSignalSchema,
 })
 
-export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
 export type Patient = z.infer<typeof patientSchema>
 export type SjfMetaData = z.infer<typeof sjfMetaDataSchema>
 export type SjfItem = z.infer<typeof sjfItemSchema>
-export type PatientInfo = z.infer<typeof patientInfoSchema>

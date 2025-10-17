@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import * as redux from 'react-redux'
-import { vi } from 'vitest'
+import { Provider } from 'react-redux'
 import { fakeCertificateConfig, fakeCertificateValue } from '../../../../faker'
+import store from '../../../../store/store'
 import type { CertificateDataElement } from '../../../../types'
 import { ConfigTypes } from '../../../../types'
 import UeDropdown from './UeDropdown'
@@ -36,15 +35,12 @@ const question: CertificateDataElement = {
 }
 
 const renderComponent = () => {
-  render(<UeDropdown question={question} disabled={false} />)
+  render(
+    <Provider store={store}>
+      <UeDropdown question={question} disabled={false} />
+    </Provider>
+  )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-  useSelectorSpy.mockReturnValue(vi.fn())
-})
 
 describe('Dropdown component', () => {
   it('renders label and all options', async () => {
@@ -82,7 +78,11 @@ describe('Dropdown component', () => {
   })
 
   it('gets disabled correctly', async () => {
-    render(<UeDropdown question={question} disabled />)
+    render(
+      <Provider store={store}>
+        <UeDropdown question={question} disabled />
+      </Provider>
+    )
     const dropdown = screen.getByRole('combobox')
     await expect(dropdown).toBeDisabled()
     await expect(dropdown).toHaveValue(undefined)

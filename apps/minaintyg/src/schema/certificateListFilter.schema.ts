@@ -9,7 +9,4 @@ export const certificateFilterOptionsSchema = z.object({
   years: z.array(z.string()),
 })
 
-type SelectedOptions<T> = { [X in keyof T]: T[X] extends Array<unknown> ? T[X][number] : T[X] }
-
 export type CertificateFilterOptions = z.infer<typeof certificateFilterOptionsSchema>
-export type CertificateSelectedOptions = SelectedOptions<CertificateFilterOptions>

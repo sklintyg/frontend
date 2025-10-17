@@ -15,7 +15,7 @@ const Wrapper = styled.nav`
   }
 `
 
-export interface Props {
+interface Props {
   tabs: UserTab[]
   onSwitchTab?: (tab: number) => void
 }

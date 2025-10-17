@@ -14,7 +14,7 @@ export const getSessionStatus = createAction(`${SESSION} Get session status`)
 export const getSessionStatusStarted = createAction(`${SESSION} Get session status started`)
 export const getSessionStatusSuccess = createAction<SessionStatus>(`${SESSION} Get session status success`)
 
-export interface SessionStatusError {
+interface SessionStatusError {
   error: ApiError
 }
 

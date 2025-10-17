@@ -25,7 +25,7 @@ import {
   validateSickLeavePeriodSuccess,
 } from './fmbActions'
 
-export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> =
+const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -45,7 +45,7 @@ export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> =
     )
   }
 
-export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> =
+const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -151,7 +151,7 @@ const getValidationForSickLeavePeriod = (
   }
 }
 
-export const handleUpdateCertificateDataElement: Middleware<Dispatch> =
+const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -226,7 +226,7 @@ function retrieveFMBForAddedDiagnosisCodes(
   })
 }
 
-export const handleValidateSickLeavePeriod: Middleware<Dispatch> =
+const handleValidateSickLeavePeriod: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {
@@ -242,7 +242,7 @@ export const handleValidateSickLeavePeriod: Middleware<Dispatch> =
     )
   }
 
-export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> =
+const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
   (action: AnyAction): void => {

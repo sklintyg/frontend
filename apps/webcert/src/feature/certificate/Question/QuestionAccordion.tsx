@@ -6,7 +6,7 @@ import Accordion from '../../../components/utils/Accordion'
 import AccordionHeader from '../../../components/utils/AccordionHeader'
 import type { ConfigAccordion } from '../../../types'
 
-export interface Props {
+interface Props {
   accordion: ConfigAccordion
   icon?: string
   open: boolean

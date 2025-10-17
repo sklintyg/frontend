@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { setRiskOpinion, updateRiskOpinion } from '../../../store/srs/srsActions'
 import {
   getCareGiverId,
@@ -9,20 +8,21 @@ import {
   getSrsPredictions,
   getUnitId,
 } from '../../../store/srs/srsSelectors'
+import { useAppDispatch, useAppSelector } from '../../../store/store'
 import RadioButton from '../../Inputs/RadioButton'
 import { SRS_OPINION_IDS, SRS_OPINION_LABELS, hasCurrentRiskDataPoint } from '../srsUtils'
 
-export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
+const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 
 const SrsRiskOpinion = () => {
-  const dispatch = useDispatch()
-  const riskOpinion = useSelector(getRiskOpinion)
-  const unitId = useSelector(getUnitId)
-  const careGiverId = useSelector(getCareGiverId)
-  const patientId = useSelector(getPatientId)
-  const certificateId = useSelector(getCertificateId)
-  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
-  const predictions = useSelector(getSrsPredictions)
+  const dispatch = useAppDispatch()
+  const riskOpinion = useAppSelector(getRiskOpinion)
+  const unitId = useAppSelector(getUnitId)
+  const careGiverId = useAppSelector(getCareGiverId)
+  const patientId = useAppSelector(getPatientId)
+  const certificateId = useAppSelector(getCertificateId)
+  const diagnosisCode = useAppSelector(getPredictionDiagnosisCode)
+  const predictions = useAppSelector(getSrsPredictions)
 
   if (!hasCurrentRiskDataPoint(predictions)) {
     return null

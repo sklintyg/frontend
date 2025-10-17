@@ -16,8 +16,6 @@ export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${SRS} Se
 
 export const setDiagnosisCodes = createAction<string[]>(`${SRS} Set diagnosis codes`)
 
-export const toggleSRSFunctionDisabler = createAction(`${SRS} toggling function disabler`)
-
 export const getSRSCodes = createAction(`${SRS} Get SRS codes`)
 
 export const getSRSCodesStarted = createAction<ValueDiagnosisList>(`${SRS} Get SRS codes started`)

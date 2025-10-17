@@ -1,7 +1,7 @@
 import { UvText } from '../../../../components/UnifiedView/UvText/UvText'
 import type { CertificateDataElement, ConfigUeViewText, ValueViewText } from '../../../../types'
 
-export interface Props {
+interface Props {
   question: CertificateDataElement
 }
 
