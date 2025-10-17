@@ -158,7 +158,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 
     // Save potential changes created from getDecoratedCertificateData such as AUTO_FILL
-    if (!isEqual(action.payload.certificate, getCertificateToSave(certificate))) {
+    if (!isEqual(data, getCertificateToSave(certificate).data)) {
       dispatch(autoSaveCertificate())
     }
   }
