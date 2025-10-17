@@ -1,5 +1,5 @@
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { debounce } from 'lodash-es'
+import { debounce, isEqual } from 'lodash-es'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import type { Certificate, ValidationError } from '../../types'
 import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
@@ -158,7 +158,9 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 
     // Save potential changes created from getDecoratedCertificateData such as AUTO_FILL
-    dispatch(autoSaveCertificate())
+    if (!isEqual(action.payload.certificate, getCertificateToSave(certificate))) {
+      dispatch(autoSaveCertificate())
+    }
   }
 
 const handleGetCertificateError: Middleware<Dispatch> =
