@@ -11,6 +11,12 @@
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' TZ=UTC vitest",
     "typescript": "tsc --noEmit"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "pnpm test -- related --run"
+    ]
+  },
   "dependencies": {
     "@floating-ui/react": "^0.25.1",
     "@frontend/fake": "workspace:*",

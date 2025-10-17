@@ -1,5 +1,5 @@
 import type { AnyAction, PayloadAction } from '@reduxjs/toolkit'
-import { debounce } from 'lodash-es'
+import { debounce, isEqual } from 'lodash-es'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import type { Certificate, ValidationError } from '../../types'
 import { CertificateSignStatus, CertificateStatus, SigningMethod } from '../../types'
@@ -156,6 +156,11 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
     }
     dispatch(getCertificateEvents(certificate.metadata.id))
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
+
+    // Save potential changes created from getDecoratedCertificateData such as AUTO_FILL
+    if (!isEqual(data, getCertificateToSave(certificate).data)) {
+      dispatch(autoSaveCertificate())
+    }
   }
 
 const handleGetCertificateError: Middleware<Dispatch> =
@@ -908,7 +913,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
         dispatch(updateCertificate(updatedCertificate))
         if (validationErrors.length === 0) {
           dispatch(validateCertificate(updatedCertificate))
-          dispatch(autoSaveCertificate(updatedCertificate))
+          dispatch(autoSaveCertificate())
         }
       }
     }
@@ -924,7 +929,7 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(autoSaveCertificate())
   }
 
 const handleUpdateCertificatePatient: Middleware<Dispatch> =
@@ -937,7 +942,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(autoSaveCertificate())
   }
 
 const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {

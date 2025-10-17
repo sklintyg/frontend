@@ -417,7 +417,7 @@ export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICAT
 
 export const validateCertificateCompleted = createAction(VALIDATE_CERTIFICATE_COMPLETED)
 
-export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)
+export const autoSaveCertificate = createAction(AUTO_SAVE_CERTIFICATE)
 
 export const autoSaveCertificateStarted = createAction(AUTO_SAVE_STARTED)
 
