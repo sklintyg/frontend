@@ -77,4 +77,4 @@ export const colors = {
     40: 'var(--IDS-COLOR-ON-ERROR-40)',
     99: 'var(--IDS-COLOR-ON-ERROR-99)',
   },
-}
+} as const

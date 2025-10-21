@@ -6,5 +6,5 @@
   },
   "extends": "./tsconfig.json",
   "exclude": ["dist"],
-  "include": ["src", "src/index.js", ".eslintrc.cjs", "./rollup.config.js"]
+  "include": ["src", ".eslintrc.cjs", "./rollup.config.js"]
 }

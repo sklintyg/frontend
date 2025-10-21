@@ -4,9 +4,9 @@
     "noEmit": false,
     "allowJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "outDir": "dist"
   },
-  "include": ["src/index.js"],
+  "include": ["src/index.ts"],
   "exclude": ["dist", "node_modules"]
 }
