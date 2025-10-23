@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { expect } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
 import { fakeCertificateMetaData, fakeCertificateRelation, fakeCertificateRelations } from '../../../faker'
 import { CertificateRelationType, CertificateStatus } from '../../../types'
 import ReplaceCertificateContinueButton from './ReplaceCertificateContinueButton'
@@ -31,16 +30,13 @@ const renderDefaultComponent = (enabled: boolean) => {
         <Route
           path="/"
           element={
-            <>
-              <CustomTooltip />
-              <ReplaceCertificateContinueButton
-                name={NAME}
-                description={DESCRIPTION}
-                enabled={enabled}
-                certificateMetadata={getMetadata()}
-                functionDisabled={false}
-              />
-            </>
+            <ReplaceCertificateContinueButton
+              name={NAME}
+              description={DESCRIPTION}
+              enabled={enabled}
+              certificateMetadata={getMetadata()}
+              functionDisabled={false}
+            />
           }
         />
         <Route path={`/certificate/${CERTIFICATE_ID}`} element="the certificate page" />

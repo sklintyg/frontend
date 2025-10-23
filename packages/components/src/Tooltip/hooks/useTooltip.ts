@@ -1,5 +1,19 @@
 import type { Placement } from '@floating-ui/react'
-import { autoUpdate, flip, offset, shift, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react'
+import {
+  autoUpdate,
+  flip,
+  hide,
+  offset,
+  shift,
+  useClick,
+  useDelayGroup,
+  useDismiss,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+  useRole,
+} from '@floating-ui/react'
 import { useMemo, useState } from 'react'
 
 export interface TooltipOptions {
@@ -31,22 +45,27 @@ export function useTooltip({
         fallbackAxisSideDirection: 'start',
       }),
       shift({ padding: 5 }),
+      hide(),
     ],
   })
 
   const { context } = data
 
+  const { delay } = useDelayGroup(context)
+
   const hover = useHover(context, {
     move: false,
     enabled: controlledOpen == null,
+    delay,
   })
   const focus = useFocus(context, {
     enabled: controlledOpen == null,
   })
   const dismiss = useDismiss(context)
   const role = useRole(context, { role: 'tooltip' })
+  const click = useClick(context)
 
-  const interactions = useInteractions([hover, focus, dismiss, role])
+  const interactions = useInteractions([hover, focus, dismiss, role, click])
 
   return useMemo(
     () => ({

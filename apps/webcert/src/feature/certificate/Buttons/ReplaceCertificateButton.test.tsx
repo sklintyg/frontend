@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { beforeEach, expect, vi } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
 import ReplaceCertificateButton from './ReplaceCertificateButton'
 
 const NAME = 'Replace button name'
@@ -11,12 +10,7 @@ const DESCRIPTION = 'Replace button description'
 let mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = (enabled: boolean) => {
-  render(
-    <>
-      <CustomTooltip />
-      <ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
-    </>
-  )
+  render(<ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />)
 }
 
 describe('Replace continue button', () => {
