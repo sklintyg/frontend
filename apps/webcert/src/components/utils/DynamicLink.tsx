@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import type { DynamicLinkData } from '../../types/utils'
 import ExternalLinkIcon from '../image/image/ExternalLinkIcon'
@@ -17,9 +18,12 @@ const DynamicLink = ({ link, light }: Props) => {
       {link ? (
         <Wrapper>
           <a target={link.target} href={link.url} className={`ic-link ic-link-external ${light ? 'iu-color-white' : ''}`}>
-            <span data-tooltip-id="tooltip" data-tooltip-content={link.tooltip}>
-              {link.text}
-            </span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span tabIndex={0}>{link.text}</span>
+              </TooltipTrigger>
+              <TooltipContent>{link.tooltip}</TooltipContent>
+            </Tooltip>
             <ExternalLinkIcon className="iu-ml-200 iu-fs-100" light={light} />
           </a>
         </Wrapper>

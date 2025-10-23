@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import CustomTooltip from '../../components/utils/CustomTooltip'
 import ListFilterButtons from './ListFilterButtons'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
@@ -11,16 +10,13 @@ let onReset = vi.fn()
 
 const renderComponent = (isSearchEnabled: boolean) => {
   render(
-    <>
-      <CustomTooltip />
-      <ListFilterButtons
-        searchTooltip={TOOLTIP_SEARCH}
-        resetTooltip={TOOLTIP_RESET}
-        isSearchEnabled={isSearchEnabled}
-        onSearch={onSearch}
-        onReset={onReset}
-      />
-    </>
+    <ListFilterButtons
+      searchTooltip={TOOLTIP_SEARCH}
+      resetTooltip={TOOLTIP_RESET}
+      isSearchEnabled={isSearchEnabled}
+      onSearch={onSearch}
+      onReset={onReset}
+    />
   )
 }
 

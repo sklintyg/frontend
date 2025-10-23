@@ -1,8 +1,18 @@
+import path from 'path'
 import type { ViteUserConfig } from 'vitest/config'
 import { defineProject } from 'vitest/config'
 
 export default defineProject({
+  resolve: {
+    alias: {
+      '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+    },
+  },
   test: {
+    css: false,
+    deps: {
+      inline: ['@inera/ids-react'],
+    },
     globals: true,
     environment: 'jsdom',
     include: ['./src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],

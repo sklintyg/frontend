@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import type { HTMLProps, MouseEventHandler } from 'react'
 import { forwardRef } from 'react'
 import styled from 'styled-components'
@@ -73,31 +74,31 @@ export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonEl
   }
 
   return (
-    <Wrapper
-      filter={getIconFilter()}
-      data-tooltip-id="tooltip"
-      data-tooltip-content={props.tooltip}
-      className={`custom-button ${props.className}`}
-    >
-      <Button
-        aria-label={props.text}
-        ref={ref as React.RefObject<HTMLButtonElement>}
-        type={props.type ?? 'button'}
-        onSubmit={props.onSubmit}
-        className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
-        disabled={props.disabled}
-        onClick={onClick}
-        data-testid={props['data-testid']}
-        inline={props.inline}
-      >
-        {props.startIcon ? (
-          <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
-            {props.startIcon}
-          </span>
-        ) : null}
-        {props.children} {props.text}{' '}
-        {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
-      </Button>
+    <Wrapper filter={getIconFilter()} className={`custom-button ${props.className}`}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label={props.text}
+            ref={ref as React.RefObject<HTMLButtonElement>}
+            type={props.type ?? 'button'}
+            onSubmit={props.onSubmit}
+            className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
+            disabled={props.disabled}
+            onClick={onClick}
+            data-testid={props['data-testid']}
+            inline={props.inline}
+          >
+            {props.startIcon ? (
+              <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
+                {props.startIcon}
+              </span>
+            ) : null}
+            {props.children} {props.text}{' '}
+            {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{props.tooltip}</TooltipContent>
+      </Tooltip>
     </Wrapper>
   )
 })

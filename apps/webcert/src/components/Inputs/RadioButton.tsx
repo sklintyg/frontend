@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import type { ChangeEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 
@@ -43,21 +44,26 @@ const RadioButton = ({
   disabled,
 }: Props) => {
   return (
-    <div className={wrapperAdditionalStyles} data-tooltip-id="tooltip" data-tooltip-content={tooltip} data-place={tooltipPlacement}>
-      <input
-        disabled={disabled}
-        type="radio"
-        id={id}
-        name={name}
-        className={`${additionalStyles} ic-forms__radio ${hasValidationError ? 'ic-forms__radio-error' : ''}`}
-        value={value}
-        onChange={onChange}
-        checked={checked}
-      />
-      <Label hasValidationError={hasValidationError} htmlFor={id}>
-        {label} {children}
-      </Label>
-    </div>
+    <Tooltip placement={tooltipPlacement}>
+      <TooltipTrigger asChild>
+        <div className={wrapperAdditionalStyles} tabIndex={0}>
+          <input
+            disabled={disabled}
+            type="radio"
+            id={id}
+            name={name}
+            className={`${additionalStyles} ic-forms__radio ${hasValidationError ? 'ic-forms__radio-error' : ''}`}
+            value={value}
+            onChange={onChange}
+            checked={checked}
+          />
+          <Label hasValidationError={hasValidationError} htmlFor={id}>
+            {label} {children}
+          </Label>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   )
 }
 

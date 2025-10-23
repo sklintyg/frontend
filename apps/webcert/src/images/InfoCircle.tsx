@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import info from '../images/info.svg'
 
@@ -16,15 +17,12 @@ interface Props {
 
 const InfoCircle = ({ className, tooltip, tabIndex, testId }: Props) => {
   return (
-    <Logo
-      src={info}
-      alt="Informera"
-      data-tooltip-id="tooltip"
-      data-tooltip-content={tooltip}
-      className={className}
-      tabIndex={tabIndex}
-      data-testid={testId}
-    />
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Logo src={info} alt="Informera" className={className} tabIndex={tabIndex} data-testid={testId} />
+      </TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   )
 }
 

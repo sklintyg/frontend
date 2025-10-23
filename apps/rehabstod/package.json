@@ -12,7 +12,7 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.25.1",
+    "@floating-ui/react": "^0.27.16",
     "@frontend/fake": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-core": "^6.2.2",

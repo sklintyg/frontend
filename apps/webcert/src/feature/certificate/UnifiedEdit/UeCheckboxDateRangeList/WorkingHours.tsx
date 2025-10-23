@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -50,7 +51,12 @@ export function WorkingHours({
         <div className="iu-mb-400">
           <p className="iu-mb-200">
             Antalet timmar per vecka patienten arbetar i snitt{' '}
-            <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={tooltip} alt={tooltip} />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Icon src={questionImage} tabIndex={0} alt={tooltip} />
+              </TooltipTrigger>
+              <TooltipContent>{tooltip}</TooltipContent>
+            </Tooltip>
           </p>
           <TextInput
             onChange={(event) => onBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}

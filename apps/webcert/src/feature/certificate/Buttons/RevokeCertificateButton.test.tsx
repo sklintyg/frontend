@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
 import { fakeCertificate, fakeCertificateMetaData } from '../../../faker'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { revokeCertificate, updateCertificate } from '../../../store/certificate/certificateActions'
@@ -28,7 +27,6 @@ let testStore: EnhancedStore
 const renderDefaultComponent = (enabled: boolean) => {
   render(
     <Provider store={testStore}>
-      <CustomTooltip />
       <RevokeCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
     </Provider>
   )
@@ -37,7 +35,6 @@ const renderDefaultComponent = (enabled: boolean) => {
 const renderComponentWithTestStore = (enabled: boolean) => {
   render(
     <Provider store={testStore}>
-      <CustomTooltip />
       <RevokeCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
     </Provider>
   )

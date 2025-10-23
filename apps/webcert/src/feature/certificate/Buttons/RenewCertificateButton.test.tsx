@@ -1,30 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { beforeEach, expect, vi } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
-import type { CertificateMetadata, Unit, User } from '../../../types'
+import { Provider } from 'react-redux'
+import { expect } from 'vitest'
+import { fakeUser } from '../../../faker'
+import store from '../../../store/store'
+import { updateUser } from '../../../store/user/userActions'
+import type { CertificateMetadata, Unit } from '../../../types'
 import RenewCertificateButton from './RenewCertificateButton'
 
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'
 const BODY = 'Renew button body'
 const DONT_SHOW_FORNYA_DIALOG = 'wc.dontShowFornyaDialog'
-const PREFERENCES = { [DONT_SHOW_FORNYA_DIALOG]: 'false' }
-const user = {
-  hsaId: '1234abc',
-  name: 'Test Testtest',
-  loggedInUnit: { unitName: 'testUnit' } as Unit,
-  loggedInCareProvider: { unitName: 'testProvider' } as Unit,
-  role: 'doctor',
-  preferences: PREFERENCES,
-} as unknown as User
 
 const certificateMetadata = {} as CertificateMetadata
 
 const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(
-    <>
+    <Provider store={store}>
       <RenewCertificateButton
         certificateId={certificateMetadata.id}
         name={NAME}
@@ -33,19 +26,25 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
         enabled={enabled}
         functionDisabled={functionDisabled}
       />
-      <CustomTooltip />
-    </>
+    </Provider>
   )
 }
 
-beforeEach(() => {
-  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue(user)
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
-
 describe('Renew certificate button', () => {
+  beforeEach(() => {
+    store.dispatch(
+      updateUser(
+        fakeUser({
+          hsaId: '1234abc',
+          name: 'Test Testtest',
+          loggedInUnit: { unitName: 'testUnit' } as Unit,
+          loggedInCareProvider: { unitName: 'testProvider' } as Unit,
+          role: 'doctor',
+          preferences: { [DONT_SHOW_FORNYA_DIALOG]: 'false' },
+        })
+      )
+    )
+  })
   it('renders without crashing', () => {
     expect(() => renderDefaultComponent(true)).not.toThrow()
   })
@@ -82,19 +81,17 @@ describe('Renew certificate button', () => {
 
   it('renders modal when button is clicked', async () => {
     renderDefaultComponent(true)
-    const button = screen.queryByRole('button') as HTMLButtonElement
-    await expect(button).toBeEnabled()
+    await expect(screen.getByRole('button')).toBeEnabled()
     expect(screen.queryByText(BODY)).not.toBeInTheDocument()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    await userEvent.click(button)
+    await userEvent.click(screen.getByRole('button'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(BODY)).toBeInTheDocument()
   })
 
   it('allows user to interact with modal', async () => {
     renderDefaultComponent(true)
-    const button = screen.queryByRole('button') as HTMLButtonElement
-    await userEvent.click(button)
+    await userEvent.click(screen.getByRole('button'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     const checkbox = screen.queryByRole('checkbox') as HTMLInputElement
     expect(checkbox).toBeInTheDocument()
@@ -106,17 +103,23 @@ describe('Renew certificate button', () => {
     await expect(checkbox).not.toBeChecked()
     await userEvent.click(screen.getByText('Förnya'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    await userEvent.click(button)
+    await userEvent.click(screen.getByRole('button'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     await userEvent.click(screen.getByText('Avbryt'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('does not show dialog if preference to hide renewal dialog is set', async () => {
-    user.preferences = { [DONT_SHOW_FORNYA_DIALOG]: 'true' }
+    store.dispatch(
+      updateUser(
+        fakeUser({
+          preferences: { [DONT_SHOW_FORNYA_DIALOG]: 'true' },
+        })
+      )
+    )
     renderDefaultComponent(true)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    await userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    await userEvent.click(screen.getByRole('button'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })

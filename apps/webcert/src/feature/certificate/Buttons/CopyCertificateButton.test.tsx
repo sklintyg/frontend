@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as redux from 'react-redux'
-import { beforeEach, expect, vi } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
+import { Provider } from 'react-redux'
+import { expect } from 'vitest'
+import store from '../../../store/store'
 import type { CertificateMetadata } from '../../../types'
 import CopyCertificateButton from './CopyCertificateButton'
 
@@ -14,7 +14,7 @@ const certificateMetadata = {} as CertificateMetadata
 
 const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(
-    <>
+    <Provider store={store}>
       <CopyCertificateButton
         name={NAME}
         description={DESCRIPTION}
@@ -23,15 +23,9 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
         certificateMetadata={certificateMetadata}
         functionDisabled={functionDisabled}
       />
-      <CustomTooltip />
-    </>
+    </Provider>
   )
 }
-
-beforeEach(() => {
-  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(vi.fn())
-})
 
 describe('Copy certificate button', () => {
   it('renders without crashing', () => {

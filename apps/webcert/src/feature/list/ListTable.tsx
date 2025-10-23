@@ -1,3 +1,5 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import parse from 'html-react-parser'
 import styled from 'styled-components'
 import DisplayError from '../../components/error/DisplayError'
 import InfoBox from '../../components/utils/InfoBox'
@@ -111,18 +113,17 @@ export function ListTable({
       <thead>
         <tr>
           {headings.map((heading) => (
-            <th
-              key={heading.id + '-heading'}
-              id={heading.id}
-              scope="col"
-              onClick={updateSortingOfList}
-              data-html
-              data-tooltip-id="tooltip"
-              data-tooltip-html={heading.description}
-            >
-              <span className="iu-mr-500">{heading.title}</span>
-              {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}
-            </th>
+            <Tooltip key={heading.id + '-heading'}>
+              <TooltipTrigger asChild>
+                <th id={heading.id} tabIndex={0} scope="col" onClick={updateSortingOfList}>
+                  <span className="iu-mr-500">{heading.title}</span>
+                  {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}
+                </th>
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="iu-fw-body ic-text">{parse(heading.description)}</div>
+              </TooltipContent>
+            </Tooltip>
           ))}
         </tr>
       </thead>
