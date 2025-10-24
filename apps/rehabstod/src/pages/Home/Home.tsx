@@ -1,5 +1,4 @@
-import { Button } from '../../components/Button/Button'
-import { Heading } from '../../components/Heading/Heading'
+import { Button, Heading } from '@frontend/components'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'
@@ -27,7 +26,7 @@ export function Home() {
         pågående sjukfall där du har skrivit det senaste intyget.
       </p>
       <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
-      <Button sblock data-testid="login-btn" onClick={() => window.open(config && config.sithsIdpUrl, '_self')}>
+      <Button sBlock data-testid="login-btn" onClick={() => window.open(config && config.sithsIdpUrl, '_self')}>
         Logga in
       </Button>
     </PageHero>

@@ -1,5 +1,5 @@
-import { IDSAlert, IDSIconExternal, IDSLink, IDSSpinner } from '@inera/ids-react'
-import { Button } from '../../../components/Button/Button'
+import { AppLink, Button } from '@frontend/components'
+import { IDSAlert, IDSSpinner } from '@inera/ids-react'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { useCreateDefaultTestDataMutation } from '../../../store/testabilityApi'
 
@@ -23,15 +23,12 @@ export function TestData() {
           Tryck på knappen *Skapa testdata* för att skjuta in test-data.
           <br />
           Beskrivning om datat hittas här:{' '}
-          <IDSLink>
-            <a target="_blank" href="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
-              Rehabstod - Testdata Documentation
-              <IDSIconExternal />
-            </a>
-          </IDSLink>
+          <AppLink target="_blank" to="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
+            Rehabstod - Testdata Documentation
+          </AppLink>
         </IDSAlert>
       </div>
-      <Button sblock role="button" onClick={() => triggerDefaultTestDataQuery()}>
+      <Button sBlock role="button" onClick={() => triggerDefaultTestDataQuery()}>
         Skapa testdata
       </Button>
       {data && <div className="mt-4">{data}</div>}

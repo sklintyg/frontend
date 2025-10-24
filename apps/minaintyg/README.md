@@ -37,7 +37,7 @@ Read more about setting up the backends
 Create a `.env.development.local` in the same folder as `.env.development`. This file will hold our configuration overrides and will be ignored by git. Add the following or change settings to fit your need:
 
 ```bash
-VITE_API_TARGET=http://localhost:8060
+VITE_API_TARGET=http://localhost:8041
 VITE_WS_PROTOCOL=wss
 ```
 

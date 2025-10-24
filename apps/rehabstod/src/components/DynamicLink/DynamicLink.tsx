@@ -1,5 +1,5 @@
+import { classNames } from '@frontend/components'
 import type { Link } from '../../schemas'
-import { classNames } from '../../utils/classNames'
 
 export function DynamicLink({
   light,

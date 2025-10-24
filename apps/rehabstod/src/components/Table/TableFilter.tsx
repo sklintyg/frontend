@@ -1,8 +1,7 @@
+import { Button, Heading } from '@frontend/components'
 import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
-import { Button } from '../Button/Button'
-import { Heading } from '../Heading/Heading'
 
 export function TableFilter({ onSearch, onReset, children }: { onSearch: () => void; onReset: () => void; children: ReactNode }) {
   const [expanded, setExpanded] = useState(true)
@@ -25,10 +24,10 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
             {children}
           </div>
           <div className="flex flex-col gap-5 print:hidden md:flex-row md:justify-end">
-            <Button mblock secondary onClick={onReset}>
+            <Button mBlock secondary onClick={onReset}>
               Återställ
             </Button>
-            <Button mblock onClick={() => onSearch()}>
+            <Button mBlock onClick={() => onSearch()}>
               Sök
             </Button>
           </div>

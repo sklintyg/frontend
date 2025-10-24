@@ -4,11 +4,8 @@ export function EndDateInfo({ date, isDateAfterToday }: { date: string; isDateAf
   return !isDateAfterToday ? (
     <p>{date}</p>
   ) : (
-    <IDSTooltip>
-      <p className="font-bold" slot="trigger">
-        {date}
-      </p>
-      <p slot="tooltip">Sjukfallet är avslutat</p>
+    <IDSTooltip trigger={<p className="font-bold">{date}</p>}>
+      <p>Sjukfallet är avslutat</p>
     </IDSTooltip>
   )
 }

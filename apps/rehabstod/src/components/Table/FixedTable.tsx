@@ -1,6 +1,6 @@
+import { classNames } from '@frontend/components'
 import type { ReactNode, RefObject } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { classNames } from '../../utils/classNames'
 import { StickyPortal } from '../StickyContainer/StickyPortal'
 
 export function FixedTable({ children, scrollRef }: { children: ReactNode; scrollRef: RefObject<HTMLDivElement> }) {
@@ -38,7 +38,6 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         ref={stickyRef}
         style={{ width: `${tableWidth}px` }}
         className={classNames(
-          // 'ids-data-table',
           'm-auto max-w-screen-xxl border-accent-30 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
           fixed ? 'h-auto border-x' : 'h-0'
         )}

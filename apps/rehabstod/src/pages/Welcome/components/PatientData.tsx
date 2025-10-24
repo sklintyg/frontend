@@ -1,9 +1,6 @@
+import { Button, Checkbox, Input, Select } from '@frontend/components'
 import { IDSAlert, IDSSpinner } from '@inera/ids-react'
-import { Button } from '../../../components/Button/Button'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
-import { Checkbox } from '../../../components/form/Checkbox/Checkbox'
-import { Input } from '../../../components/form/Input/Input'
-import { Select } from '../../../components/form/Select/Select'
 import { useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../../store/testabilityApi'
 import { usePatientData } from '../hooks/usePatientData'
 
@@ -162,7 +159,7 @@ export function PatientData() {
       </div>
 
       <Button
-        sblock
+        sBlock
         disabled={createSickLeaveLoading}
         onClick={() =>
           triggerCreateSickLeave({

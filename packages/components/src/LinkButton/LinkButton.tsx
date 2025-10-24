@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { classNames } from '../utils'
+import { classNames } from '../utils/classNames'
 
 interface LinkButtonProps {
   secondary?: boolean

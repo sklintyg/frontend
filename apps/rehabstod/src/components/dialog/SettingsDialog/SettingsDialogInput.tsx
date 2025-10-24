@@ -1,5 +1,5 @@
+import { Heading } from '@frontend/components'
 import type { ReactNode } from 'react'
-import { Heading } from '../../Heading/Heading'
 
 export function SettingsDialogInput({ title, description, children }: { title: string; description: string; children: ReactNode }) {
   return (

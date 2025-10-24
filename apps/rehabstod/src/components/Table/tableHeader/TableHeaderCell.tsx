@@ -1,4 +1,4 @@
-import { classNames } from '../../../utils/classNames'
+import { classNames } from '@frontend/components'
 import { Tooltip, TooltipTrigger } from '../../Tooltip'
 import { useTableContext } from '../hooks/useTableContext'
 import { SortingIcon } from './SortingIcon'

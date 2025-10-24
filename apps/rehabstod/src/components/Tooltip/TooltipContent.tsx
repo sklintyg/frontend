@@ -1,7 +1,7 @@
 import { FloatingPortal, useMergeRefs } from '@floating-ui/react'
+import { classNames } from '@frontend/components'
 import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
-import { classNames } from '../../utils/classNames'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
 export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>((props, propRef) => {

@@ -2,10 +2,10 @@
 import { IDSCheckboxGroup } from '@inera/ids-react'
 import { type DropPosition, type DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
+import { Button } from '../../../../../../packages/components/src/Button/Button'
+import { SelectMultiple } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultiple'
+import { SelectMultipleActions } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultipleActions'
 import type { TableColumn } from '../../../schemas/tableSchema'
-import { Button } from '../../Button/Button'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
-import { SelectMultipleActions } from '../../form/SelectMultiple/SelectMultipleActions'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
 import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
 

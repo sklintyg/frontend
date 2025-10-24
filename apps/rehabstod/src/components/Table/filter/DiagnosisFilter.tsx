@@ -1,11 +1,13 @@
-import { IDSCheckboxGroup, IDSInput } from '@inera/ids-react'
+import { Checkbox, Divider, Input, SelectMultiple } from '@frontend/components'
+import { IDSCheckboxGroup } from '@inera/ids-react'
 import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
-import { Divider } from '../../Divider/Divider'
-import { Checkbox } from '../../form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDiagnosisPlaceholder } from './utils/getDiagnosisPlaceholder'
+
+function getDiagnosisLabel({ id, name }: DiagnosKapitel) {
+  return id ? `${id}: ${name}` : name
+}
 
 export function DiagnosisFilter({
   onChange,
@@ -39,22 +41,26 @@ export function DiagnosisFilter({
       <div className="flex-1 print:hidden">
         <SelectMultiple id={id} light label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
           <div className="mb-2">
-            <IDSInput>
-              <input aria-labelledby={id} type="text" placeholder="Sök diagnos" onChange={(event) => setSearch(event.target.value)} />
-            </IDSInput>
+            <Input
+              label=""
+              aria-labelledby={id}
+              type="text"
+              placeholder="Sök diagnos"
+              onChange={(event) => setSearch(event.target.value)}
+            />
           </div>
           <Divider />
           <div className="max-h-96 overflow-auto">
             <IDSCheckboxGroup>
               {allDiagnoses &&
                 allDiagnoses
-                  .filter(({ name }) => (search !== '' ? name.includes(search) : true))
+                  .filter((diagnosis) => (search !== '' ? getDiagnosisLabel(diagnosis).includes(search) : true))
                   .map((diagnosis) => (
                     <Checkbox
                       key={diagnosis.id ?? diagnosis.name}
                       disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
                       checked={selected.some((selectedDiagnosis) => diagnosis.id === selectedDiagnosis.id)}
-                      label={diagnosis.id ? `${diagnosis.id}: ${diagnosis.name}` : diagnosis.name}
+                      label={getDiagnosisLabel(diagnosis)}
                       onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
                     />
                   ))}
