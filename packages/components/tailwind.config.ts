@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import { elevenSeventySevenColors, elevenSeventySevenProColors, ineraAdminColors, ineraColors } from '@frontend/colors'
+import { colors } from '@frontend/colors'
 import type { Config } from 'tailwindcss'
 
 export default {
@@ -12,14 +12,7 @@ export default {
       lg: '1024px',
       xl: '1280px',
     },
-    colors: {
-      black: '#000',
-      white: '#FFF',
-      ...elevenSeventySevenColors,
-      ...elevenSeventySevenProColors,
-      ...ineraAdminColors,
-      ...ineraColors,
-    },
+    colors,
     extend: {
       backgroundImage: {
         'form-invalid_background': 'var(--IDS-FORM-INVALID_BACKGROUND-IMAGE)',

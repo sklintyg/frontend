@@ -13,11 +13,7 @@ export default {
       lg: '940px',
       xl: '1280px',
     },
-    colors: {
-      black: '#000',
-      white: '#FFF',
-      ...colors,
-    },
+    colors,
     extend: {},
   },
   plugins: [],

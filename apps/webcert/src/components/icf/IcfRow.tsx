@@ -44,9 +44,6 @@ const IcfRow = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, pa
     }
   }
 
-  const handleShowMore = () => {
-    setDisplayDescription(!displayDescription)
-  }
   return (
     <div className={`${backgroundStyle} iu-pb-400 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
@@ -58,8 +55,8 @@ const IcfRow = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, pa
           value={icfCode.title}
           onFocus={handleCheckboxFocus}
         />
-        <ShowMoreButton onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
-          visa mer
+        <ShowMoreButton onClick={() => setDisplayDescription(!displayDescription)} data-testid={`${icfCode.title}-showmore`}>
+          {displayDescription ? 'visa mindre' : 'visa mer'}
         </ShowMoreButton>
       </TitleWrapper>
       {displayDescription && (

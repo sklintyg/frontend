@@ -12,11 +12,7 @@ export default {
       lg: '1024px',
       xl: '1280px',
     },
-    colors: {
-      black: '#000',
-      white: '#FFF',
-      ...colors,
-    },
+    colors,
   },
   plugins: [],
 } satisfies Config
