@@ -28,13 +28,13 @@ importers:
         version: 20.11.0
       '@vitest/coverage-v8':
         specifier: ^3.2.4
-        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(terser@5.33.0))
+        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(msw@1.2.0(typescript@5.9.2))(terser@5.33.0))
       '@vitest/ui':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)
       caniuse-lite:
         specifier: ^1.0.30001749
-        version: 1.0.30001749
+        version: 1.0.30001751
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -222,7 +222,7 @@ importers:
         version: 4.2.1(vite@5.4.21(@types/node@20.11.0)(terser@5.33.0))
       '@vitest/coverage-v8':
         specifier: ^3.2.4
-        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(terser@5.33.0))
+        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(msw@1.2.0(typescript@5.9.2))(terser@5.33.0))
       autoprefixer:
         specifier: ^10.4.13
         version: 10.4.13(postcss@8.5.6)
@@ -370,7 +370,7 @@ importers:
         version: 4.2.1(vite@5.4.21(@types/node@20.11.0)(terser@5.33.0))
       '@vitest/coverage-v8':
         specifier: ^3.2.4
-        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(terser@5.33.0))
+        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(msw@1.2.0(typescript@5.9.2))(terser@5.33.0))
       autoprefixer:
         specifier: ^10.4.13
         version: 10.4.13(postcss@8.5.6)
@@ -548,7 +548,7 @@ importers:
         version: 4.2.1(vite@5.4.21(@types/node@20.11.0)(terser@5.33.0))
       '@vitest/coverage-v8':
         specifier: ^3.2.4
-        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(terser@5.33.0))
+        version: 3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(msw@1.2.0(typescript@5.9.2))(terser@5.33.0))
       axios-mock-adapter:
         specifier: ^1.19.0
         version: 1.19.0(axios@1.12.0)
@@ -3481,8 +3481,8 @@ packages:
   caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
 
-  caniuse-lite@1.0.30001749:
-    resolution: {integrity: sha512-0rw2fJOmLfnzCRbkm8EyHL8SvI2Apu5UbnQuTsJ0ClgrH8hcwFooJ1s5R0EP8o8aVrFu8++ae29Kt9/gZAZp/Q==}
+  caniuse-lite@1.0.30001751:
+    resolution: {integrity: sha512-A0QJhug0Ly64Ii3eIqHu5X51ebln3k4yTUkY1j8drqpWHVreg/VLijN48cZ1bYPiqOQuqpkIKnzr/Ul8V+p6Cw==}
 
   chai@5.3.3:
     resolution: {integrity: sha512-4zNhdJD/iOjSH0A05ea+Ke6MU5mmpQcbQsSOkgdaUMJ9zTlDTD/GYlwohmIE2u0gaxHYiVHEn1Fw9mZ/ktJWgw==}
@@ -9244,7 +9244,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(terser@5.33.0))':
+  '@vitest/coverage-v8@3.2.4(vitest@3.2.4(@types/node@20.11.0)(@vitest/ui@3.2.4)(jsdom@21.1.1)(msw@1.2.0(typescript@5.9.2))(terser@5.33.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
@@ -9479,7 +9479,7 @@ snapshots:
   autoprefixer@10.4.13(postcss@8.5.6):
     dependencies:
       browserslist: 4.22.2
-      caniuse-lite: 1.0.30001749
+      caniuse-lite: 1.0.30001751
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -9574,7 +9574,7 @@ snapshots:
 
   browserslist@4.22.2:
     dependencies:
-      caniuse-lite: 1.0.30001749
+      caniuse-lite: 1.0.30001751
       electron-to-chromium: 1.4.629
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
@@ -9618,11 +9618,11 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.22.2
-      caniuse-lite: 1.0.30001749
+      caniuse-lite: 1.0.30001751
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  caniuse-lite@1.0.30001749: {}
+  caniuse-lite@1.0.30001751: {}
 
   chai@5.3.3:
     dependencies:
@@ -10332,7 +10332,7 @@ snapshots:
       '@mdn/browser-compat-data': 5.5.4
       ast-metadata-inferer: 0.8.0
       browserslist: 4.22.2
-      caniuse-lite: 1.0.30001749
+      caniuse-lite: 1.0.30001751
       eslint: 8.56.0
       find-up: 5.0.0
       lodash.memoize: 4.1.2
