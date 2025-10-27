@@ -49,7 +49,7 @@ export function OpenInformationWithConsent({
             setCheckedConsent(event.currentTarget.checked)
             setShowError(false)
           }}
-          valid={!showError}
+          invalid={showError}
         />
         {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
         <div className="ml-10 flex w-44 items-center gap-3">
