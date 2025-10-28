@@ -12,12 +12,17 @@ type Props = {
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & Props>(
-  ({ label, description, light, invalid, disabled, ...props }, ref) => {
+  ({ label, description, light, invalid, disabled, checked, role, ...props }, ref) => {
     const id = useId()
 
     return (
-      <div className={classNames('ids-checkbox', light && 'ids-checkbox--light')}>
-        <input id={id} ref={ref} type="checkbox" className={classNames(invalid && 'ids-input--invalid')} {...props} />
+      <div
+        className={classNames('ids-checkbox', light && 'ids-checkbox--light')}
+        role={role}
+        aria-selected={role === 'option' && checked}
+        aria-checked={role === 'option' && checked}
+      >
+        <input id={id} ref={ref} type="checkbox" className={classNames(invalid && 'ids-input--invalid')} checked={checked} {...props} />
         <InputLabel htmlFor={id} description={description} disabled={disabled} className="ids-label--clickable">
           {label}
         </InputLabel>

@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import { MultipleSelectFilterOption } from './MultipleSelectFilterOption'
 
 const DESCRIPTION = 'description'
-const LABEL = 'label'
+const LABEL = 'Välj i listan'
 let onChange: (values: string[]) => void
 
 const OPTIONS = [
@@ -39,29 +39,29 @@ describe('MultipleSelectFilterOption', () => {
 
   it('should show options when opening dropdown', async () => {
     renderComponent()
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('combobox', { name: 'Välj i listan' }))
     expect(screen.getByText(OPTIONS[0].name)).toBeInTheDocument()
     expect(screen.getByText(OPTIONS[1].name)).toBeInTheDocument()
   })
 
   it('should call on from change when changing from input', async () => {
     renderComponent()
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('combobox', { name: 'Välj i listan' }))
     await userEvent.click(screen.getByText(OPTIONS[0].name))
     expect(onChange).toHaveBeenLastCalledWith([OPTIONS[0].id])
   })
 
   it('should show options as unchecked by default', async () => {
     renderComponent()
-    await userEvent.click(screen.getByRole('button'))
-    expect(screen.getAllByRole('checkbox')[0]).not.toBeChecked()
-    expect(screen.getAllByRole('checkbox')[1]).not.toBeChecked()
+    await userEvent.click(screen.getByRole('combobox', { name: 'Välj i listan' }))
+    expect(screen.getAllByRole('checkbox', { hidden: true })[0]).not.toBeChecked()
+    expect(screen.getAllByRole('checkbox', { hidden: true })[1]).not.toBeChecked()
   })
 
   it('should show options sent in selected as checked', async () => {
     renderComponent([OPTIONS[0].id, OPTIONS[1].id])
-    await userEvent.click(screen.getByRole('button'))
-    expect(screen.getAllByRole('checkbox')[0]).toBeChecked()
-    expect(screen.getAllByRole('checkbox')[1]).toBeChecked()
+    await userEvent.click(screen.getByRole('combobox', { name: 'Välj i listan' }))
+    expect(screen.getAllByRole('checkbox', { hidden: true })[0]).toBeChecked()
+    expect(screen.getAllByRole('checkbox', { hidden: true })[1]).toBeChecked()
   })
 })

@@ -1,5 +1,4 @@
-import { Checkbox, Divider, Input, SelectMultiple } from '@frontend/components'
-import { IDSCheckboxGroup } from '@inera/ids-react'
+import { Divider, Input, SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
 import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { PrintTitle } from '../print/PrintTitle'
@@ -23,6 +22,7 @@ export function DiagnosisFilter({
   description: string
 }) {
   const id = useId()
+  const listBoxId = useId()
   const [search, setSearch] = useState('')
   const handleOnChange = (diagnosis: DiagnosKapitel, isAdded: boolean) => {
     let diagnoses
@@ -39,24 +39,31 @@ export function DiagnosisFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple id={id} light label="Diagnos" description={description} placeholder={getDiagnosisPlaceholder(selected)}>
+        <SelectMultiple
+          id={id}
+          light
+          label="Diagnos"
+          description={description}
+          placeholder={getDiagnosisPlaceholder(selected)}
+          listBoxId={listBoxId}
+        >
           <div className="mb-2">
             <Input
               label=""
               aria-labelledby={id}
               type="text"
               placeholder="Sök diagnos"
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) => setSearch(event.target.value.toLowerCase())}
             />
           </div>
           <Divider />
           <div className="max-h-96 overflow-auto">
-            <IDSCheckboxGroup>
+            <SelectMultipleListBox id={listBoxId}>
               {allDiagnoses &&
                 allDiagnoses
-                  .filter((diagnosis) => (search !== '' ? getDiagnosisLabel(diagnosis).includes(search) : true))
+                  .filter((diagnosis) => (search !== '' ? getDiagnosisLabel(diagnosis).toLowerCase().includes(search) : true))
                   .map((diagnosis) => (
-                    <Checkbox
+                    <SelectMultipleOption
                       key={diagnosis.id ?? diagnosis.name}
                       disabled={!enabledDiagnoses.some((enabledDiagnosis) => diagnosis.id === enabledDiagnosis.id)}
                       checked={selected.some((selectedDiagnosis) => diagnosis.id === selectedDiagnosis.id)}
@@ -64,7 +71,7 @@ export function DiagnosisFilter({
                       onChange={(event) => handleOnChange(diagnosis, event.currentTarget.checked)}
                     />
                   ))}
-            </IDSCheckboxGroup>
+            </SelectMultipleListBox>
           </div>
         </SelectMultiple>
       </div>

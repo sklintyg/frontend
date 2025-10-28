@@ -1,4 +1,4 @@
-import { DateRangePicker } from '../../../../../../packages/components/src/form/Date/DateRangePicker/DateRangePicker'
+import { DateRangePicker } from '@frontend/components'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function DateRangeFilter({

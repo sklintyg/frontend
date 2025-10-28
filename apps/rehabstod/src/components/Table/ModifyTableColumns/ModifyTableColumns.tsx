@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { IDSCheckboxGroup } from '@inera/ids-react'
+import { Button, SelectMultiple, SelectMultipleActions } from '@frontend/components'
+import { useId } from 'react'
 import { type DropPosition, type DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'
-import { Button } from '../../../../../../packages/components/src/Button/Button'
-import { SelectMultiple } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultiple'
-import { SelectMultipleActions } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultipleActions'
 import type { TableColumn } from '../../../schemas/tableSchema'
 import { ReorderableListBox } from '../../ReorderableListBox/ReorderableListBox'
 import { ModifyTableColumnsOption } from './ModifyTableColumnsOption'
@@ -20,6 +18,7 @@ export function ModifyTableColumns({
   onReorder: (target: string, keys: string[], position: DropPosition) => void
   onReset: () => void
 }) {
+  const listBoxId = useId()
   const selectedColumns = columns.filter(({ visible }) => visible)
   const isAllSelected = selectedColumns.length === columns.length
   const numVisible = columns.reduce((result, { visible }) => result + (visible ? 1 : 0), 0)
@@ -48,42 +47,32 @@ export function ModifyTableColumns({
   return (
     <SelectMultiple
       light
+      listBoxId={listBoxId}
       label="Anpassa tabeller"
       description="Välj kolumner och i vilken ordning de ska visas. Dina ändringar sparas tills vidare."
       placeholder={getPlaceholder()}
     >
-      <IDSCheckboxGroup
-        onKeyDownCapture={(event) => {
-          if (
-            event.key === 'Tab' &&
-            event.currentTarget.contains(document.activeElement) &&
-            document.activeElement?.querySelector('input')
-          ) {
-            event.stopPropagation()
-          }
-        }}
+      <ReorderableListBox
+        id={listBoxId}
+        label="Anpassa tabeller"
+        getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
+        items={columns}
+        selectionMode="none"
+        onReorder={onListReorder}
       >
-        <ReorderableListBox
-          label="Anpassa tabeller"
-          getItems={(keys) => [...keys].map((key) => ({ 'text/plain': key.toString() }))}
-          items={columns}
-          selectionMode="none"
-          onReorder={onListReorder}
-        >
-          {columns.map((column, index) => (
-            <Item key={column.name} textValue={column.name}>
-              <ModifyTableColumnsOption
-                {...column}
-                disableCheckbox={numVisible === 1 && column.visible}
-                onVisibilityChange={onVisibilityChange}
-                onReorder={onReorder}
-                before={index > 0 ? columns[index - 1] : undefined}
-                after={columns[index + 1]}
-              />
-            </Item>
-          ))}
-        </ReorderableListBox>
-      </IDSCheckboxGroup>
+        {columns.map((column, index) => (
+          <Item key={column.name} textValue={column.name}>
+            <ModifyTableColumnsOption
+              {...column}
+              disableCheckbox={numVisible === 1 && column.visible}
+              onVisibilityChange={onVisibilityChange}
+              onReorder={onReorder}
+              before={index > 0 ? columns[index - 1] : undefined}
+              after={columns[index + 1]}
+            />
+          </Item>
+        ))}
+      </ReorderableListBox>
       <SelectMultipleActions>
         <Button onClick={() => onReset()} secondary className="flex-1 text-center" size="s">
           Återställ

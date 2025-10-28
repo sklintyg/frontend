@@ -1,5 +1,5 @@
+import { FormattedNumberInput } from '@frontend/components'
 import type { ComponentProps } from 'react'
-import { FormattedNumberInput } from '../../../../../../packages/components/src/form/FormattedNumberInput'
 import { DAYS_FINISHED_SICK_LEAVE } from '../../../schemas/userSchema'
 import { useGetUserQuery } from '../../../store/api'
 import { SettingsDialogInput } from './SettingsDialogInput'

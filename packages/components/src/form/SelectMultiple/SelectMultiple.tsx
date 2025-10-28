@@ -8,7 +8,6 @@ import {
   useDismiss,
   useFloating,
   useInteractions,
-  useRole,
 } from '@floating-ui/react'
 import '@inera/ids-design/components/form/select-multiple/select-multiple.css'
 import { useId, useState, type ReactNode } from 'react'
@@ -21,12 +20,14 @@ export function SelectMultiple({
   description,
   disabled,
   id: controlledId,
+  listBoxId,
   label,
   light = false,
   placeholder,
 }: {
   children: ReactNode
   description: string
+  listBoxId: string
   disabled?: boolean
   id?: string
   label: string
@@ -45,7 +46,7 @@ export function SelectMultiple({
       size({
         apply({ rects, elements }) {
           Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
+            width: `${Math.max(rects.reference.width, 100)}px`,
           })
         },
         padding: 10,
@@ -53,8 +54,7 @@ export function SelectMultiple({
     ],
   })
   const dismiss = useDismiss(context)
-  const role = useRole(context, { role: 'listbox' })
-  const { getFloatingProps } = useInteractions([dismiss, role])
+  const { getFloatingProps } = useInteractions([dismiss])
   const uncontrolledId = useId()
   const id = controlledId ?? uncontrolledId
 
@@ -67,39 +67,44 @@ export function SelectMultiple({
       <InputLabel htmlFor={id} description={description}>
         {label}
       </InputLabel>
-      <div className="ids-select-multiple-wrapper" ref={refs.setReference}>
+      <div className="ids-select-multiple-wrapper">
         <input
           id={id}
           type="button"
+          role="combobox"
+          ref={refs.setReference}
+          aria-controls={listBoxId}
           aria-expanded={open}
+          aria-haspopup="listbox"
+          aria-label={label}
           className={classNames('ids-select-multiple__select', light && 'ids-input--light')}
           value={placeholder}
           disabled={disabled}
           onClick={() => setOpen(!open)}
         />
-      </div>
-      {open && (
-        <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false}>
-            <div
-              className="ids-select-multiple__dropdown__wrapper"
-              ref={refs.setFloating}
-              style={{
-                position: strategy,
-                top: y ?? 0,
-                left: x ?? 0,
-                minWidth: 100,
-                outline: 0,
-              }}
-              {...getFloatingProps()}
-            >
-              <div className="ids-select-multiple__dropdown relative block">
-                <div className="ids-select-multiple__dropdown__inner">{children}</div>
+        {open && (
+          <FloatingPortal>
+            <FloatingFocusManager context={context} modal={false}>
+              <div
+                className="ids-select-multiple__dropdown__wrapper"
+                ref={refs.setFloating}
+                style={{
+                  position: strategy,
+                  top: y ?? 0,
+                  left: x ?? 0,
+                  minWidth: 100,
+                  outline: 0,
+                }}
+                {...getFloatingProps()}
+              >
+                <div className="ids-select-multiple__dropdown relative block">
+                  <div className="ids-select-multiple__dropdown__inner">{children}</div>
+                </div>
               </div>
-            </div>
-          </FloatingFocusManager>
-        </FloatingPortal>
-      )}
+            </FloatingFocusManager>
+          </FloatingPortal>
+        )}
+      </div>
     </>
   )
 }

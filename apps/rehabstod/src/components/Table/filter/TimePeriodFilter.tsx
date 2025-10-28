@@ -1,6 +1,5 @@
-import { IDSCheckboxGroup } from '@inera/ids-react'
-import { Checkbox } from '../../../../../../packages/components/src/form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../../../../../packages/components/src/form/SelectMultiple/SelectMultiple'
+import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { useId } from 'react'
 import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'
 import { TimePeriodMetric } from '../../../schemas/timePeriodOptionSchema'
@@ -21,6 +20,7 @@ export function TimePeriodFilter({
   availableOptions: TimePeriodOption[]
   selectedOptions: SickLeaveLengthInterval[]
 }) {
+  const listBoxId = useId()
   const chosenOptions = availableOptions.filter((o1) =>
     selectedOptions.find((o2) => o1.to === convertSelectedValue(o2.to, o1.metric) && o1.from === convertSelectedValue(o2.from, o1.metric))
   )
@@ -54,17 +54,23 @@ export function TimePeriodFilter({
   return (
     <>
       <div className="print:hidden">
-        <SelectMultiple light label={label} description={description} placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}>
-          <IDSCheckboxGroup>
+        <SelectMultiple
+          listBoxId={listBoxId}
+          light
+          label={label}
+          description={description}
+          placeholder={getSickLeaveLengthPlaceholder(chosenOptions)}
+        >
+          <SelectMultipleListBox id={listBoxId}>
             {availableOptions.map((option) => (
-              <Checkbox
+              <SelectMultipleOption
                 key={`${option.to}${option.from}${option.id}`}
                 label={getSickLeaveLengthLabel(option)}
                 onChange={(event) => handleOnChange(option, event.currentTarget.checked)}
                 checked={chosenOptions.some((chosenOption) => chosenOption.id === option.id)}
               />
             ))}
-          </IDSCheckboxGroup>
+          </SelectMultipleListBox>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import { Checkbox } from '@frontend/components'
 import { type ReactEventHandler } from 'react'
 import { type DropPosition } from 'react-aria'
-import { Checkbox } from '../../../../../../packages/components/src/form/Checkbox/Checkbox'
 import type { TableColumn } from '../../../schemas/tableSchema'
 import { MoveColumnButton } from './MoveColumnButton'
 

@@ -1,5 +1,5 @@
+import { SelectButton } from '@frontend/components'
 import { useState } from 'react'
-import { SelectButton } from '../../../../../packages/components/src/form/SelectButton'
 import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'
 import { useGetSickLeavesFiltersQuery, useSetRekoStatusMutation } from '../../store/sickLeaveApi'
