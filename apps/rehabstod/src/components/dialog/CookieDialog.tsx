@@ -35,8 +35,8 @@ export function CookieDialog() {
           hjälpsidor för mer information. Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna
           e-tjänst.
         </p>
-        <p className="mb-2">Mer information om kakor kan du finna på Kommunikationsmyndigheten PTS sida om kakor </p>
-        {links?.ptsCookies && <DynamicLink link={links.ptsCookies} />}
+        <p className="mb-2">Mer information om kakor kan du finna på</p>
+        <DynamicLink link={links?.ptsCookies} />
       </div>
     </Dialog>
   )

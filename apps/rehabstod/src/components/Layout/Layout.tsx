@@ -8,6 +8,7 @@ import { PageContainer } from '../PageContainer/PageContainer'
 import { PageHero } from '../PageHero/PageHero'
 import { StickyContainerProvider } from '../StickyContainer/StickyContainerProvider'
 import { AboutDialog } from '../dialog/AboutDialog'
+import { CookieDialog } from '../dialog/CookieDialog'
 import { SettingsDialog } from '../dialog/SettingsDialog/SettingsDialog'
 import { ErrorAlert } from '../error/ErrorAlert/ErrorAlert'
 import { LayoutFooter } from './LayoutFooter/LayoutFooter'
@@ -26,6 +27,7 @@ export function Layout() {
 
   return (
     <DialogPortalProvider>
+      <CookieDialog />
       <div className="flex min-h-screen flex-col">
         <LayoutHeader />
         <main id="content" className="flex-1">

@@ -1,21 +1,16 @@
-import { classNames } from '@frontend/components'
+import { Icon } from '@frontend/components'
+import { IDSLink } from '@inera/ids-react'
+import type { ComponentProps } from 'react'
 import type { Link } from '../../schemas'
 
 export function DynamicLink({
-  light,
-  underlined,
-  small,
-  colorpreset,
   arrow,
   link,
+  ...props
 }: {
   link?: Link
-  light?: boolean
-  underlined?: boolean
-  small?: boolean
   arrow?: boolean
-  colorpreset?: 1 | 2 | 3
-}) {
+} & Omit<ComponentProps<typeof IDSLink>, 'children'>) {
   if (link == null) {
     return null
   }
@@ -25,23 +20,12 @@ export function DynamicLink({
   const external = target === '_blank'
 
   return (
-    <a
-      href={url}
-      target={target}
-      className={classNames(
-        arrow && 'ids-icon-arrow-link ids-link--start-icon',
-        external && !arrow && `ids-icon-external-link${small ? '-small' : ''} ids-link--end-icon`,
-        'ids-link',
-        light && 'ids-link--light',
-        underlined && 'ids-link--underlined',
-        small && 'ids-link--small',
-        colorpreset && `ids-link--color-${colorpreset}`,
-        'whitespace-nowrap'
-      )}
-      rel={target === '_blank' ? 'noreferrer' : undefined}
-    >
-      {text}
-      {external && arrow && <span className="ids-icon-external-link-small ids-icon--text-end" />}
-    </a>
+    <IDSLink {...props}>
+      <a href={url} target={target} rel={target === '_blank' ? 'noreferrer' : undefined}>
+        {arrow && <Icon icon="arrow-right-small" textStart />}
+        {text}
+        {external && <Icon icon="external-link-small" textEnd />}
+      </a>
+    </IDSLink>
   )
 }
