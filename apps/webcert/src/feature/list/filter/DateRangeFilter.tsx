@@ -1,11 +1,13 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
 import { questionImage } from '../../../images'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { useAppSelector } from '../../../store/store'
 import type {
   ListFilterDateConfig,
   ListFilterDateRangeConfig,
@@ -53,7 +55,7 @@ const Label = styled.label`
 
 const DateRangeFilter = ({ config, onChange }: Props) => {
   const dispatch = useDispatch()
-  const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
+  const filterValue = useAppSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const [savedValue, setSavedValue] = useState<ListFilterValueDateRange>(filterValue)
   const [toValidationError, setToValidationError] = useState<ValidationError | null>(null)
   const [fromValidationError, setFromValidationError] = useState<ValidationError | null>(null)
@@ -179,7 +181,12 @@ const DateRangeFilter = ({ config, onChange }: Props) => {
       <Label>
         {config.title}{' '}
         {config.description && (
-          <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={config.description} alt={config.description} />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Icon src={questionImage} tabIndex={0} alt={config.description} />
+            </TooltipTrigger>
+            <TooltipContent>{config.description}</TooltipContent>
+          </Tooltip>
         )}
       </Label>
       <DateRangeWrapper>

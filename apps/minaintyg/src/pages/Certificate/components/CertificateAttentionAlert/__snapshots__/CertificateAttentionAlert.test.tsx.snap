@@ -18,7 +18,9 @@ exports[`Should show info alert when there is info availableFunction provided 1`
       <div
         class="ids-alert__headline"
       >
-        Presentera informationsruta
+        <h2>
+          Presentera informationsruta
+        </h2>
       </div>
     </div>
   </div>

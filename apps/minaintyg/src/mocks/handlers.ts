@@ -160,6 +160,13 @@ export const handlers = [
             body: 'Från den här sidan kan du välja att skicka ditt intyg digitalt till mottagaren. Endast mottagare som kan ta emot digitala intyg visas nedan.',
             information: [],
           }),
+          fakerFromSchema(availableFunctionSchema)({
+            type: 'ATTENTION',
+            name: 'Hopsan',
+            title: 'Avstängning enligt smittskyddslagen',
+            body: 'I intyg som gäller avstängning enligt smittskydslagen kan du inte dölja din diagnos. När du klickar på "Skriv ut intyg" hämtas hela intyget.',
+            information: [],
+          }),
         ],
         texts: fakerFromSchema(certificateTextSchema)({ PREAMBLE_TEXT: certificateIngress('fk7263') ?? 'Ingresstext' }),
       })
