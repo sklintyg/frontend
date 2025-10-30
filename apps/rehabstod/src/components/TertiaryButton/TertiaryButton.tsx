@@ -1,6 +1,6 @@
+import { classNames } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { forwardRef } from 'react'
-import { classNames } from '../../utils/classNames'
 
 interface TertiaryButtonProps {
   startIcon?: ReactNode

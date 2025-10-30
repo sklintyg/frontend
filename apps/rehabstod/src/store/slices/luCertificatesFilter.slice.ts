@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
+import { isValidDate } from '@frontend/utils'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import type { LUCertificatesFilter } from '../../schemas/luCertificatesSchema'
-import { isValidDate } from '../../utils/isValidDate'
 
 interface LuCertificatesState {
   filter: LUCertificatesFilter

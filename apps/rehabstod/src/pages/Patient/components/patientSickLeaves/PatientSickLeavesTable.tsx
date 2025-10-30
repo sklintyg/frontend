@@ -1,5 +1,5 @@
+import { Heading } from '@frontend/components'
 import type { ReactNode } from 'react'
-import { Heading } from '../../../../components/Heading/Heading'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'
 import type { PatientSjukfall } from '../../../../schemas/patientSchema'

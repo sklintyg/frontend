@@ -1,4 +1,4 @@
-import { Heading } from '../../../../components/Heading/Heading'
+import { Heading } from '@frontend/components'
 import { Gender } from '../../../../schemas/patientSchema'
 import type { GenderSummary } from '../../../../schemas/sickLeaveSchema'
 import { FemaleIcon } from '../../assets/FemaleIcon'

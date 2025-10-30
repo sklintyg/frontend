@@ -36,14 +36,14 @@ describe('with predefined settings', () => {
   it('should close when clicking cancel button', async () => {
     renderWithRouter(<SettingsDialog />)
     await userEvent.click(await screen.findByText('Avbryt'))
-    expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
+    expect(screen.queryByRole('dialog')).toHaveAttribute('data-open', 'false')
   })
 
   it('should close when clicking save button', async () => {
     renderWithRouter(<SettingsDialog />)
     expect(await screen.findByText('Spara')).toBeEnabled()
     await userEvent.click(await screen.findByText('Spara'))
-    expect(screen.queryByRole('dialog')).toHaveAttribute('show', 'false')
+    expect(screen.queryByRole('dialog')).toHaveAttribute('data-open', 'false')
   })
 
   it('should not have save button disabled as default', async () => {

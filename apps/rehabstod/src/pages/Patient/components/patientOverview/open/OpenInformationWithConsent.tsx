@@ -1,10 +1,6 @@
+import { Button, Checkbox, FormattedNumberInput, Heading, Radio } from '@frontend/components'
 import { IDSErrorMessage } from '@inera/ids-react'
 import { useState } from 'react'
-import { Button } from '../../../../../components/Button/Button'
-import { Checkbox } from '../../../../../components/form/Checkbox/Checkbox'
-import { FormattedNumberInput } from '../../../../../components/form/FormattedNumberInput'
-import { Radio } from '../../../../../components/form/Radio/Radio'
-import { Heading } from '../../../../../components/Heading/Heading'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 import { PatientOverviewConsentChoices } from '../../../../../schemas/patientSchema'
 import { AboutPatientOverview } from '../AboutPatientOverview'
@@ -53,7 +49,7 @@ export function OpenInformationWithConsent({
             setCheckedConsent(event.currentTarget.checked)
             setShowError(false)
           }}
-          valid={!showError}
+          invalid={showError}
         />
         {showError && <IDSErrorMessage className="mb-5">Du behöver kryssa i rutan för att kunna fortsätta</IDSErrorMessage>}
         <div className="ml-10 flex w-44 items-center gap-3">
@@ -91,10 +87,10 @@ export function OpenInformationWithConsent({
         <AboutPatientOverview />
       </div>
       <div className="flex flex-col gap-5 md:flex-row md:justify-center">
-        <Button mblock secondary onClick={onClose}>
+        <Button mBlock secondary onClick={onClose}>
           <span className="text-sm sm:text-base">Avbryt</span>
         </Button>
-        <Button mblock onClick={handleGiveConsent}>
+        <Button mBlock onClick={handleGiveConsent}>
           <span className="text-sm sm:text-base">Patienten ger samtycke</span>
         </Button>
       </div>

@@ -41,52 +41,52 @@ describe('TimePeriodFilter', () => {
 
   it('should call on change if checking checkbox', async () => {
     renderComponent()
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     expect(onChange).toHaveBeenCalledWith([{ from: 1, to: 2 }])
   })
 
   it('should call on change if unchecking checkbox', async () => {
     renderComponent([availableOptions[0]])
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
     await userEvent.click(screen.getByLabelText('1-2 dagar'))
     expect(onChange).toHaveBeenLastCalledWith([])
   })
 
   it('should have selected options checked by default', async () => {
     renderComponent([{ from: 1, to: 2 }])
-    await userEvent.click(screen.getByRole('button'))
-    expect(screen.getAllByRole('checkbox')[0]).toBeChecked()
+    await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
+    expect(screen.getAllByRole('checkbox', { hidden: true })[0]).toBeChecked()
   })
 
   describe('open dropdown', () => {
     it('should show checkboxes', async () => {
       renderComponent()
-      await userEvent.click(screen.getByRole('button'))
-      expect(screen.getAllByRole('checkbox')).toHaveLength(availableOptions.length)
+      await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
+      expect(screen.getAllByRole('checkbox', { hidden: true })).toHaveLength(availableOptions.length)
     })
 
     it('should show days option', async () => {
       renderComponent()
-      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
       expect(screen.getByText('1-2 dagar')).toBeInTheDocument()
     })
 
     it('should show years option', async () => {
       renderComponent()
-      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
       expect(screen.getByText('10-20 år')).toBeInTheDocument()
     })
 
     it('should show null to date option', async () => {
       renderComponent()
-      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
       expect(screen.getByText('Över 5 år')).toBeInTheDocument()
     })
 
     it('should show null from date option', async () => {
       renderComponent()
-      await userEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
       expect(screen.getByText('Under 10 år')).toBeInTheDocument()
     })
   })
@@ -98,7 +98,7 @@ describe('TimePeriodFilter', () => {
 
   it('should not count 0 as null when deciding placeholder', async () => {
     renderComponent()
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('combobox', { name: TITLE }))
     expect(screen.getByText('0-10 dagar')).toBeInTheDocument()
   })
 })

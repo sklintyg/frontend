@@ -29,7 +29,7 @@ describe('vibility', () => {
   it('Should be possible to hide visible columns', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
 
-    await user.click(await screen.findByRole('button'))
+    await user.click(await screen.findByRole('combobox', { name: 'Anpassa tabeller' }))
 
     expect(screen.getByLabelText<HTMLInputElement>('Slutdatum')).toBeChecked()
 
@@ -43,7 +43,7 @@ describe('vibility', () => {
 
     const pendingRequest = waitForRequest('POST', '/api/user/preferences')
 
-    await user.click(await screen.findByRole('button'))
+    await user.click(await screen.findByRole('combobox', { name: 'Anpassa tabeller' }))
     await user.click(screen.getByLabelText('Slutdatum'))
 
     const request = await pendingRequest
@@ -58,23 +58,23 @@ describe('vibility', () => {
 
 describe('position', () => {
   function getOptionIndex(key: string) {
-    return screen.getAllByRole('option').findIndex((element) => element.getAttribute('data-key') === key)
+    return screen.getAllByRole('option', { hidden: true }).findIndex((element) => element.getAttribute('data-key') === key)
   }
 
   it('Should be possible to move column up', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    await user.click(await screen.findByRole('button'))
+    await user.click(await screen.findByRole('combobox', { name: 'Anpassa tabeller' }))
 
     expect(getOptionIndex('Grad')).toBe(3)
 
-    await user.click(screen.getByRole('button', { name: 'Flytta upp Grad' }))
+    await user.click(screen.getByRole('button', { name: 'Flytta upp Grad', hidden: true }))
 
     expect(getOptionIndex('Grad')).toBe(2)
   })
 
   it('Should be possible to move column down', async () => {
     const { user } = renderWithRouter(<ModifyPatientTableColumns />)
-    await user.click(await screen.findByRole('button'))
+    await user.click(await screen.findByRole('combobox', { name: 'Anpassa tabeller' }))
 
     expect(getOptionIndex('Grad')).toBe(3)
 

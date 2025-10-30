@@ -1,8 +1,7 @@
+import { Heading, classNames } from '@frontend/components'
 import { IDSCard } from '@inera/ids-react'
 import { useState } from 'react'
-import { Heading } from '../../../../components/Heading/Heading'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'
-import { classNames } from '../../../../utils/classNames'
 import { PieChartGraph } from '../graph/PieChartGraph'
 import { ExpandStatisticsButton } from './ExpandStatisticsButton'
 

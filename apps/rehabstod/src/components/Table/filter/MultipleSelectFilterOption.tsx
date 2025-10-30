@@ -1,7 +1,6 @@
-import { IDSCheckboxGroup } from '@inera/ids-react'
+import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { useId } from 'react'
 import type { OccupationType, RekoStatusType } from '../../../schemas/sickLeaveSchema'
-import { Checkbox } from '../../form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function MultipleSelectFilterOption({
@@ -19,6 +18,8 @@ export function MultipleSelectFilterOption({
   label: string
   placeholder: string
 }) {
+  const listBoxId = useId()
+
   const handleOnChange = (option: string, isAdded: boolean) => {
     let optionIds
     if (isAdded) {
@@ -34,18 +35,18 @@ export function MultipleSelectFilterOption({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple light label={label} description={description} placeholder={placeholder}>
-          <IDSCheckboxGroup>
+        <SelectMultiple listBoxId={listBoxId} light label={label} description={description} placeholder={placeholder}>
+          <SelectMultipleListBox id={listBoxId}>
             {options &&
               options.map((option) => (
-                <Checkbox
+                <SelectMultipleOption
                   key={option.id}
                   checked={selected.some((id) => id === option.id)}
                   label={option.name}
                   onChange={(event) => handleOnChange(option.id, event.currentTarget.checked)}
                 />
               ))}
-          </IDSCheckboxGroup>
+          </SelectMultipleListBox>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">

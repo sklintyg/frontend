@@ -16,7 +16,7 @@ exports[`Should render as expected 1`] = `
     <div>
       <button
         aria-label="Läs mer om vad du kan göra i Intyg"
-        class="ids-link inline-flex text-base font-normal items-center ids-link--underlined"
+        class="ids-link inline-flex font-normal items-center ids-link--underlined text-base"
         type="button"
       >
         <span

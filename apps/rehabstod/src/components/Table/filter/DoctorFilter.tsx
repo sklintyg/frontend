@@ -1,7 +1,6 @@
-import { IDSCheckboxGroup } from '@inera/ids-react'
+import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { useId } from 'react'
 import type { Lakare } from '../../../schemas/lakareSchema'
-import { Checkbox } from '../../form/Checkbox/Checkbox'
-import { SelectMultiple } from '../../form/SelectMultiple/SelectMultiple'
 import { PrintTitle } from '../print/PrintTitle'
 import { getDoctorsPlaceholder } from './utils/getDoctorsPlaceholder'
 
@@ -16,6 +15,7 @@ export function DoctorFilter({
   selected: string[]
   description: string
 }) {
+  const listBoxId = useId()
   const LABEL = 'Läkare'
 
   const handleOnChange = (doctorId: string, isAdded: boolean) => {
@@ -33,18 +33,24 @@ export function DoctorFilter({
   return (
     <>
       <div className="flex-1 print:hidden">
-        <SelectMultiple light label={LABEL} description={description} placeholder={getDoctorsPlaceholder(selected, doctors)}>
-          <IDSCheckboxGroup>
+        <SelectMultiple
+          listBoxId={listBoxId}
+          light
+          label={LABEL}
+          description={description}
+          placeholder={getDoctorsPlaceholder(selected, doctors)}
+        >
+          <SelectMultipleListBox id={listBoxId}>
             {doctors &&
               doctors.map((doctor) => (
-                <Checkbox
+                <SelectMultipleOption
                   key={doctor.hsaId}
                   checked={selected.some((id) => id === doctor.hsaId)}
                   label={doctor.namn}
                   onChange={(event) => handleOnChange(doctor.hsaId, event.currentTarget.checked)}
                 />
               ))}
-          </IDSCheckboxGroup>
+          </SelectMultipleListBox>
         </SelectMultiple>
       </div>
       <div className="hidden whitespace-pre-line print:block">
