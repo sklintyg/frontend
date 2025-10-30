@@ -25,28 +25,36 @@ export function QuestionHeading({ question: { id, parent, config, readOnly } }: 
   const questionTypeIsCategory = questionParent && questionParent.config.type === ConfigTypes.CATEGORY
   const hideLabel = config.type === ConfigTypes.UE_CAUSE_OF_DEATH
 
-  return config.header ? (
-    <>
-      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
-        {config.header}
-      </QuestionHeadline>
-      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>
-      {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.label}</QuestionSubHeadline>}
-    </>
-  ) : questionTypeIsCategory ? (
-    <>
-      {config.text && (
-        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-          {config.text}
+  if (config.header) {
+    return (
+      <>
+        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
+          {config.header}
         </QuestionHeadline>
-      )}
-      {readOnly && !hideLabel && (
-        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-          {config.label}
-        </QuestionHeadline>
-      )}
-    </>
-  ) : (
+        <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>
+        {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.label}</QuestionSubHeadline>}
+      </>
+    )
+  }
+
+  if (questionTypeIsCategory) {
+    return (
+      <>
+        {config.text && (
+          <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+            {config.text}
+          </QuestionHeadline>
+        )}
+        {readOnly && !hideLabel && (
+          <QuestionSubHeadline id={id} className={`iu-fw-heading iu-fs-200`}>
+            {config.label}
+          </QuestionSubHeadline>
+        )}
+      </>
+    )
+  }
+
+  return (
     <>
       {config.text && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.text}</QuestionSubHeadline>}
       {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{config.label}</QuestionSubHeadline>}
