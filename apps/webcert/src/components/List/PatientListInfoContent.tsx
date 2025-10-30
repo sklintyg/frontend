@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import alertImage from '../../images/alert.svg'
 import lockClosed from '../../images/lock-closed.svg'
@@ -29,28 +30,28 @@ const PatientListInfoContent = ({ info }: Props) => {
       {formatPersonId(info.id)}
       <IconsWrapper>
         {info.protectedPerson && (
-          <Icon
-            src={lockClosed}
-            data-tooltip-id="tooltip"
-            data-tooltip-content="Patienten har skyddade personuppgifter."
-            alt="Symbol för att visa att patienten har skyddade personuppgifter."
-          />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Icon src={lockClosed} tabIndex={0} alt="Symbol för att visa att patienten har skyddade personuppgifter." />
+            </TooltipTrigger>
+            <TooltipContent>Patienten har skyddade personuppgifter.</TooltipContent>
+          </Tooltip>
         )}
         {info.testIndicated && (
-          <Icon
-            src={alertImage}
-            data-tooltip-id="tooltip"
-            data-tooltip-content="Patienten är en valideringsperson."
-            alt="Symbol för att visa att patienten är en valideringsperson."
-          />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Icon src={alertImage} tabIndex={0} alt="Symbol för att visa att patienten är en valideringsperson." />
+            </TooltipTrigger>
+            <TooltipContent>Patienten är en valideringsperson.</TooltipContent>
+          </Tooltip>
         )}
         {info.deceased && (
-          <Icon
-            src={warningImage}
-            data-tooltip-id="tooltip"
-            data-tooltip-content="Patienten är avliden."
-            alt="Symbol för att visa att patienten är avliden."
-          />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Icon src={warningImage} tabIndex={0} alt="Symbol för att visa att patienten är avliden." />
+            </TooltipTrigger>
+            <TooltipContent>Patienten är avliden.</TooltipContent>
+          </Tooltip>
         )}
       </IconsWrapper>
     </Wrapper>

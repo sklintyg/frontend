@@ -1,4 +1,5 @@
 /* eslint-disable import/no-duplicates */
+import { FloatingDelayGroup } from '@frontend/components'
 import { ThemeProvider } from '@frontend/theme-1177'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ThemeProvider>
       <I18nProvider locale="sv-SE">
         <Provider store={store}>
-          <RouterProvider router={createBrowserRouter(routes)} />
+          <FloatingDelayGroup delay={200}>
+            <RouterProvider router={createBrowserRouter(routes)} />
+          </FloatingDelayGroup>
         </Provider>
       </I18nProvider>
     </ThemeProvider>

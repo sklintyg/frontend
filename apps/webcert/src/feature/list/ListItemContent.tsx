@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { getByType } from '@frontend/utils'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -125,12 +126,12 @@ export function ListItemContent({
       case CertificateListItemValueType.FORWARD:
         return value ? (
           <td>
-            <StyledIcon
-              src={checkImage}
-              data-tooltip-id="tooltip"
-              data-tooltip-content={tooltips[CertificateListItemValueType.FORWARD]}
-              alt={tooltips[CertificateListItemValueType.FORWARD]}
-            />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <StyledIcon src={checkImage} tabIndex={0} alt={tooltips[CertificateListItemValueType.FORWARD]} />
+              </TooltipTrigger>
+              <TooltipContent>{tooltips[CertificateListItemValueType.FORWARD]}</TooltipContent>
+            </Tooltip>
           </td>
         ) : (
           <td />

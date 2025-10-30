@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { beforeEach, expect } from 'vitest'
-import CustomTooltip from '../../../components/utils/CustomTooltip'
 import { fakeCertificate } from '../../../faker'
 import { readyForSign, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
@@ -26,7 +25,6 @@ describe('ReadyForSign button', () => {
     testStore.dispatch(updateCertificate(fakeCertificate()))
     render(
       <Provider store={testStore}>
-        <CustomTooltip />
         <ReadyForSignButton
           name={NAME}
           description={DESCRIPTION}
