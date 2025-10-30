@@ -9,7 +9,7 @@ const InactiveCertificateTypeNotification = () => {
 
   return (
     <NotificationBannerBase type={'info'}>
-      <p>Intyget är av en äldre version. Funktionaliteten för detta intyg är begränsad.</p>
+      <p>Intyget är av en äldre version. Funktionaliteten för detta intyg kan vara begränsad.</p>
     </NotificationBannerBase>
   )
 }
