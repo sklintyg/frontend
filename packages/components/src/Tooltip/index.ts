@@ -1,3 +1,4 @@
+export { FloatingDelayGroup } from './FloatingDelayGroup'
 export { Tooltip } from './Tooltip'
 export { TooltipContent } from './TooltipContent'
 export { TooltipIcon } from './TooltipIcon'

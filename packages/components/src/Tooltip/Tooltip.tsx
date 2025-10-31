@@ -1,3 +1,4 @@
+import '@inera/ids-design/components/tooltip/tooltip.css'
 import type { ReactNode } from 'react'
 import type { TooltipOptions } from './hooks/useTooltip'
 import { useTooltip } from './hooks/useTooltip'
