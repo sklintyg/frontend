@@ -40,7 +40,7 @@ export const RevokeDBAndDOIModalContent = () => {
           <p>För att makulera ett dödsorsaksintyg som är skickat på fel person måste du genomföra följande två steg:</p>
           <ol>
             <li>
-              Kontakta omedelbart Socialstyrelsen (Dödsorsaksproduktionen) på telefon <b style={{ whiteSpace: 'nowrap' }}>075-247 39 00</b>{' '}
+              Kontakta omedelbart Socialstyrelsen (Dödsorsaksproduktionen) på telefon <b style={{ whiteSpace: 'nowrap' }}>075-247 30 00</b>{' '}
               för att begära att intyget makuleras.
             </li>
             <li>Tryck på "Makulera" för att makulera dödsorsaksintyget i Webcert.</li>
