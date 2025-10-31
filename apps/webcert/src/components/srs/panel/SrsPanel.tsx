@@ -50,7 +50,7 @@ const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   const hasLoggedMeasuresDisplay = useAppSelector(hasLoggedMeasuresDisplayed)
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
-  const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
+  const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find(Boolean) : undefined
   const isEmpty = !mainDiagnosis || mainDiagnosis.code.length == 0
   const supportedDiagnosisCode =
     diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
