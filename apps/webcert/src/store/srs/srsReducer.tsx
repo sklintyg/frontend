@@ -1,11 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getFilteredPredictions } from '../../components/srs/srsUtils'
-import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, ValueDiagnosisList } from '../../types'
+import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion } from '../../types'
 import { SrsSickLeaveChoice, SrsUserClientContext } from '../../types'
 import {
   resetState,
   setDiagnosisCodes,
-  setDiagnosisListValue,
   updateCareProviderId,
   updateCertificateId,
   updateError,
@@ -29,7 +28,6 @@ import {
 } from './srsActions'
 
 interface SRSState {
-  diagnosisListValue: ValueDiagnosisList | null
   diagnosisCodes: string[]
   srsInfo: SrsInfoForDiagnosis | undefined
   srsQuestions: SrsQuestion[]
@@ -55,7 +53,6 @@ interface SRSState {
 
 const getInitialState = (): SRSState => {
   return {
-    diagnosisListValue: null,
     diagnosisCodes: [],
     error: false,
     srsInfo: undefined,
@@ -82,9 +79,6 @@ const getInitialState = (): SRSState => {
 
 const srsReducer = createReducer(getInitialState(), (builder) =>
   builder
-    .addCase(setDiagnosisListValue, (state, action) => {
-      state.diagnosisListValue = action.payload
-    })
     .addCase(setDiagnosisCodes, (state, action) => {
       state.diagnosisCodes = action.payload
     })
