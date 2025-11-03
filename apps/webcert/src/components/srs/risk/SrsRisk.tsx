@@ -4,12 +4,7 @@ import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images'
 import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
 import { getMainDiagnosisCode } from '../../../store/certificate/certificateSelectors'
-import {
-  getCertificateId,
-  getPatientId,
-  getPreviousAnswers,
-  getSickLeaveChoice,
-} from '../../../store/srs/srsSelectors'
+import { getCertificateId, getPatientId, getPreviousAnswers, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
 import type { SrsAnswer } from '../../../types'
 import { SrsEvent, SrsSickLeaveChoice } from '../../../types'
 import SrsRiskForm from './SrsRiskForm'

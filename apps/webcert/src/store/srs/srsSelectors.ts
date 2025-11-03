@@ -77,6 +77,3 @@ export const getSupportedDiagnosisCode = (state: RootState) => {
   const diagnosisCodes = getDiagnosisCodes(state)
   return diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
 }
-
-
-

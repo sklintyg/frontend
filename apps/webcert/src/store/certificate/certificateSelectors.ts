@@ -15,10 +15,9 @@ import type {
   PersonId,
   ResourceLink,
   Unit,
-  ValidationError} from '../../types';
-import {
-  CertificateDataValueType
+  ValidationError,
 } from '../../types'
+import { CertificateDataValueType } from '../../types'
 import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
