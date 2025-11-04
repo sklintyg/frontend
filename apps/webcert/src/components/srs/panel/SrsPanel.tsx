@@ -6,10 +6,10 @@ import {
   getCertificateId,
   getDiagnosisCode,
   getDiagnosisCodes,
-  getDiagnosisListValue,
   getHasError,
   getLoading,
   getPatientId,
+  getSupportedDiagnosisCode,
   hasLoggedMeasuresDisplayed,
 } from '../../../store/srs/srsSelectors'
 import { useAppDispatch, useAppSelector } from '../../../store/store'
@@ -26,6 +26,7 @@ import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
 import SrsPanelError from './SrsPanelError'
 import SRSPanelFooter from './SrsPanelFooter'
 import SrsPanelNoSupportInfo from './SrsPanelNoSupportInfo'
+import { getIsMainDiagnosisEmpty, getMainDiagnosisCode } from '../../../store/certificate/certificateSelectors'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 
@@ -40,7 +41,6 @@ interface Props {
 
 const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   const dispatch = useAppDispatch()
-  const diagnosisListValue = useAppSelector(getDiagnosisListValue)
   const patientId = useAppSelector(getPatientId)
   const certificateId = useAppSelector(getCertificateId)
   const diagnosisCodes = useAppSelector(getDiagnosisCodes)
@@ -48,13 +48,12 @@ const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   const isLoading = useAppSelector(getLoading)
   const diagnosisCodeForPredictions = useAppSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
   const hasLoggedMeasuresDisplay = useAppSelector(hasLoggedMeasuresDisplayed)
-
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
-  const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
-  const isEmpty = !mainDiagnosis || mainDiagnosis.code.length == 0
-  const supportedDiagnosisCode =
-    diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
+
+  const isEmpty = useAppSelector(getIsMainDiagnosisEmpty)
+  const supportedDiagnosisCode = useAppSelector(getSupportedDiagnosisCode)
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
+  const mainDiagnosisCode = useAppSelector(getMainDiagnosisCode)
 
   const ref = useRef<HTMLDivElement>(null)
   const measuresRef = useRef<HTMLDivElement>(null)
@@ -93,11 +92,11 @@ const SrsPanel = ({ minimizedView, isPanelActive }: Props) => {
   }, [isEmpty, diagnosisCodes, dispatch, isPanelActive])
 
   useEffect(() => {
-    if (isPanelActive && supportedDiagnosisCode && mainDiagnosis && mainDiagnosis.code !== diagnosisCodeForPredictions) {
-      dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosis.code, certificateId: certificateId }))
-      dispatch(getQuestions(mainDiagnosis.code))
+    if (isPanelActive && supportedDiagnosisCode && mainDiagnosisCode && mainDiagnosisCode !== diagnosisCodeForPredictions) {
+      dispatch(getRecommendations({ patientId: patientId, code: mainDiagnosisCode, certificateId: certificateId }))
+      dispatch(getQuestions(mainDiagnosisCode))
     }
-  }, [diagnosisCodeForPredictions, supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosis, isPanelActive])
+  }, [diagnosisCodeForPredictions, supportedDiagnosisCode, certificateId, patientId, dispatch, mainDiagnosisCode, isPanelActive])
 
   const updateInformationChoice = (choice: SrsInformationChoice) => {
     setInformationChoice(choice)

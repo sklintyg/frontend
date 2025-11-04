@@ -31,7 +31,6 @@ import {
   logSrsInteractionSuccess,
   resetState,
   setDiagnosisCodes,
-  setDiagnosisListValue,
   setRiskOpinion,
   setRiskOpinionError,
   setRiskOpinionStarted,
@@ -301,7 +300,6 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   () =>
   (action: PayloadAction<{ value: ValueDiagnosisList }>): void => {
     if (action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-      dispatch(setDiagnosisListValue(action.payload.value))
       dispatch(updateSrsPredictions([]))
     }
   }
@@ -322,15 +320,6 @@ const handleUpdateCertificate: Middleware<Dispatch> =
     dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))
     dispatch(updateUnitId(action.payload.metadata.careUnit.unitId))
     dispatch(updateCareProviderId(action.payload.metadata.careProvider.unitId))
-
-    for (const questionId in action.payload.data) {
-      if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
-        const question = action.payload.data[questionId]
-        if (question.value?.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-          dispatch(setDiagnosisListValue(question.value))
-        }
-      }
-    }
   }
 
 const middlewareMethods = {

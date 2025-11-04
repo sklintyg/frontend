@@ -2,8 +2,7 @@ import { getFilteredPredictions } from '../../components/srs/srsUtils'
 import type { SrsAnswer, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '../../types'
 import { SrsInformationChoice } from '../../types'
 import type { RootState } from '../reducer'
-
-export const getDiagnosisListValue = (state: RootState): ValueDiagnosisList | null => state.ui.uiSRS.diagnosisListValue
+import { getMainDiagnosisValue } from '../certificate/certificateSelectors'
 
 export const getDiagnosisCodes = (state: RootState): string[] => state.ui.uiSRS.diagnosisCodes
 
@@ -71,4 +70,10 @@ export const getPredictionDiagnosisCode = (state: RootState): string => {
 export const getPredictionDiagnosisDescription = (state: RootState): string => {
   const predictions = getFilteredPredictions(getSrsPredictions(state))
   return predictions && predictions.length > 0 ? predictions[predictions.length - 1].diagnosisDescription : ''
+}
+
+export const getSupportedDiagnosisCode = (state: RootState) => {
+  const mainDiagnosis = getMainDiagnosisValue(state)
+  const diagnosisCodes = getDiagnosisCodes(state)
+  return diagnosisCodes.find((code) => mainDiagnosis && (mainDiagnosis.code === code || mainDiagnosis.code.substring(0, 3) === code)) ?? ''
 }
