@@ -27,7 +27,7 @@ export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<Root
 export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =>
   Boolean(selectAllRequests(state).find((req) => req.functionDisablerType === disableGroup))
 
-export const isRequestLoading = (payload: ApiCall) => (state: RootState) =>
+export const isRequestLoading = (payload: { url: string; method: string }) => (state: RootState) =>
   Boolean(
     selectAllRequests(state)
       .filter(({ url, method }) => url === payload.url && method === payload.method)
