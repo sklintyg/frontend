@@ -17,6 +17,7 @@ import type {
   Unit,
   ValidationError,
 } from '../../types'
+import { CertificateDataValueType } from '../../types'
 import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
@@ -272,3 +273,22 @@ export const getModalData =
   () =>
   (state: RootState): ModalData | null =>
     state.ui.uiCertificate.modalData
+
+export const getMainDiagnosisValue = (state: RootState) => {
+  for (const el of Object.values(state.ui.uiCertificate.certificate?.data ?? {})) {
+    if (el.config.type === ConfigTypes.UE_DIAGNOSES && el.value?.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+      const mainDiagnosisId = el.config.list[0].id
+
+      return el.value.list.find((val) => val.id === mainDiagnosisId)
+    }
+  }
+}
+
+export const getMainDiagnosisCode = (state: RootState) => {
+  return getMainDiagnosisValue(state)?.code
+}
+
+export const getIsMainDiagnosisEmpty = (state: RootState) => {
+  const mainDiagnosis = getMainDiagnosisValue(state)
+  return !mainDiagnosis || mainDiagnosis.code.length == 0
+}

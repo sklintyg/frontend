@@ -3,16 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images'
 import { getPredictions, logSrsInteraction, updateSrsAnswers } from '../../../store/srs/srsActions'
-import {
-  getCertificateId,
-  getDiagnosisListValue,
-  getPatientId,
-  getPreviousAnswers,
-  getSickLeaveChoice,
-} from '../../../store/srs/srsSelectors'
+import { getMainDiagnosisCode } from '../../../store/certificate/certificateSelectors'
+import { getCertificateId, getPatientId, getPreviousAnswers, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
 import type { SrsAnswer } from '../../../types'
 import { SrsEvent, SrsSickLeaveChoice } from '../../../types'
-import { getMainDiagnosisCode } from '../srsUtils'
 import SrsRiskForm from './SrsRiskForm'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
@@ -52,7 +46,7 @@ const SrsRisk = () => {
   const patientId = useSelector(getPatientId)
   const certificateId = useSelector(getCertificateId)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
-  const valueDiagnosis = useSelector(getDiagnosisListValue)
+  const mainDiagnosisCode = useSelector(getMainDiagnosisCode)
   const previousAnswers = useSelector(getPreviousAnswers)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
@@ -86,7 +80,7 @@ const SrsRisk = () => {
       getPredictions({
         patientId: patientId,
         certificateId: certificateId,
-        code: getMainDiagnosisCode(valueDiagnosis),
+        code: mainDiagnosisCode ?? '',
         answers: answers,
         daysIntoSickLeave: sickLeaveChoice === SrsSickLeaveChoice.EXTENSION ? 45 : undefined,
       })

@@ -25,6 +25,7 @@ import { SRS_RISK_BUTTON_TEXT } from '../risk/SrsRisk'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
 import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
 import SrsPanel, { SRS_TITLE } from './SrsPanel'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 
 let store: EnhancedStore
 
@@ -38,7 +39,7 @@ const renderComponent = (minimizedView?: boolean) => {
 
 describe('SrsPanel', () => {
   beforeEach(() => {
-    store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
+    store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware, certificateMiddleware])
     HTMLElement.prototype.scrollIntoView = vi.fn()
 
     window.ResizeObserver = vi.fn().mockImplementation(() => ({
@@ -103,7 +104,7 @@ describe('SrsPanel', () => {
 
     it('should show empty message if diagnosis is chosen but it is not main diagnosis', () => {
       renderComponent()
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '1' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '1' }] } })
       store.dispatch(setDiagnosisCodes(['J20']))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(updateError(false))
@@ -112,7 +113,7 @@ describe('SrsPanel', () => {
 
     it('should show empty message if diagnosis has empty code', () => {
       renderComponent()
-      const element = fakeDiagnosesElement({ value: { list: [{ code: '', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: '', id: '0' }] } })
       store.dispatch(setDiagnosisCodes(['J20']))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(updateError(false))
@@ -128,7 +129,7 @@ describe('SrsPanel', () => {
 
   describe('no support', () => {
     it('should show no support if diagnosis without support is chosen', () => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(setDiagnosisCodes([]))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       renderComponent()
@@ -137,7 +138,7 @@ describe('SrsPanel', () => {
 
     it('should not show footer if diagnosis without support is chosen', () => {
       renderComponent()
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(setDiagnosisCodes([]))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.queryByText('Mer information')).not.toBeInTheDocument()
@@ -146,7 +147,7 @@ describe('SrsPanel', () => {
 
   describe('parent diagnosis has support', () => {
     beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'M792', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'M792', id: '0' }] } })
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(setDiagnosisCodes(['M79']))
     })
@@ -159,7 +160,7 @@ describe('SrsPanel', () => {
 
   describe('has support and minimized view', () => {
     beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(setDiagnosisCodes(['J20']))
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
@@ -194,7 +195,7 @@ describe('SrsPanel', () => {
 
   describe('has support and full view', () => {
     beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(setDiagnosisCodes(['J20']))
     })
@@ -241,7 +242,7 @@ describe('SrsPanel', () => {
 
   describe('SRS Information Choices', () => {
     beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      const element = fakeDiagnosesElement({ config: { list: [{ id: '0' }] }, value: { list: [{ code: 'J20', id: '0' }] } })
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(setDiagnosisCodes(['J20']))
     })

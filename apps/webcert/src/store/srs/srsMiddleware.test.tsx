@@ -73,42 +73,6 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle update diagnosis list value', () => {
-    it('should update diagnosis list if certificate data element updates', async () => {
-      const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
-      await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
-    })
-
-    it('should update diagnosis list if certificate updates', async () => {
-      const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-      testStore.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
-    })
-
-    it('should reset predictions if certificate data element updates with diagnosis list', async () => {
-      const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
-      const prediction = fakeSrsPrediction()
-      testStore.dispatch(updateSrsPredictions([prediction]))
-      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
-      await flushPromises()
-
-      expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(0)
-    })
-
-    it('should not reset predictions if certificate data element updates with other element than diagnosis list', async () => {
-      const element = fakeRadioMultipleCodeElement({ id: 'QUESTION_ID' })
-      const prediction = fakeSrsPrediction()
-      testStore.dispatch(updateSrsPredictions([prediction]))
-      testStore.dispatch(updateCertificateDataElement(element.QUESTION_ID))
-      await flushPromises()
-
-      expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(1)
-    })
-  })
-
   describe('Handle get srs recommendations', () => {
     const request = {
       certificateId: 'id',
@@ -226,12 +190,6 @@ describe('Test certificate middleware', () => {
   describe('Handle update certificate', () => {
     const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
     const certificate = fakeCertificate({ data: element, metadata: fakeCertificateMetaData({ status: CertificateStatus.SIGNED }) })
-
-    it('should update diagnosis list if certificate updates', async () => {
-      testStore.dispatch(updateCertificate(certificate))
-      await flushPromises()
-      expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element.QUESTION_ID.value)
-    })
 
     it('should update patient id if certificate updates', async () => {
       testStore.dispatch(updateCertificate(certificate))
