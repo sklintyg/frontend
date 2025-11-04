@@ -1,28 +1,16 @@
 import { randomUUID } from '@frontend/utils'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import store from '../store'
 import { apiCallFailed } from './apiActions'
+import { createApiError, getHeaders } from './apiUtils'
 import { addRequest, isRequestLoading, removeRequest } from './requestSlice'
 
-export interface ApiError {
-  api: string
-  errorCode: string
-  message: string
-}
-
-export interface ApiCall {
+interface ApiCall {
   url: string
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   data?: unknown
   headers?: Record<string, string>
-}
-
-function getHeaders() {
-  if (sessionStorage.getItem('launchId')) {
-    return { launchId: sessionStorage.getItem('launchId') }
-  }
-  return {}
 }
 
 export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, init: (args: ThunkArg) => ApiCall) {
@@ -31,7 +19,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
     const { url, method, data, headers } = init(args)
 
     if (isRequestLoading({ url, method })(store.getState())) {
-      return rejectWithValue(new Error('Request already loading'))
+      return rejectWithValue(new Error('Request is already loading'))
     }
 
     try {
@@ -46,10 +34,12 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
 
       return response.data
     } catch (error) {
-      if (error instanceof Error && error.message != null) {
-        dispatch(apiCallFailed(error.message))
-      }
-      return rejectWithValue(error)
+      const message = error instanceof Error ? error.message : ''
+      const response = error instanceof AxiosError ? error.response : undefined
+
+      dispatch(apiCallFailed(message))
+
+      return rejectWithValue({ error: createApiError(`${method} ${url}`, response, message) })
     } finally {
       dispatch(removeRequest(id))
     }
