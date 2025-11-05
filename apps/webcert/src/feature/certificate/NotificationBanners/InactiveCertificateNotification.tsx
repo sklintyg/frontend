@@ -10,7 +10,7 @@ const InactiveCertificateNotification = () => {
 
   return (
     <NotificationBannerBase type={'info'}>
-      <p>Intyget är tillfälligt inaktiverat och funktionaliteten är begränsad.</p>
+      <p>Denna version av intyget är inte längre aktiv. Funktionaliteten för detta intyg kan därför vara begränsad.</p>
     </NotificationBannerBase>
   )
 }

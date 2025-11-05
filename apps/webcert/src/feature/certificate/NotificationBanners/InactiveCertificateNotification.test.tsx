@@ -13,11 +13,11 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <InactiveCertificateNotification />
-    </Provider>
+    </Provider>,
   )
 }
 
-const INFO_TEXT = 'Intyget är tillfälligt inaktiverat och funktionaliteten är begränsad.'
+const INFO_TEXT = 'Denna version av intyget är inte längre aktiv. Funktionaliteten för detta intyg kan därför vara begränsad.'
 
 const setState = () => {
   testStore.dispatch(
@@ -31,8 +31,8 @@ const setState = () => {
             enabled: true,
           },
         ],
-      })
-    )
+      }),
+    ),
   )
 }
 
