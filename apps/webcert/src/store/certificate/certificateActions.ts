@@ -495,3 +495,5 @@ export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
 
 export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
+
+export const debouncedAutoSaveCertificate = createAction<Certificate>(`${CERTIFICATE} Debounce auto save`)
