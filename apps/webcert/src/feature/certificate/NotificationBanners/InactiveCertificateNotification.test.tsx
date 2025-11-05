@@ -13,7 +13,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <InactiveCertificateNotification />
-    </Provider>,
+    </Provider>
   )
 }
 
@@ -31,8 +31,8 @@ const setState = () => {
             enabled: true,
           },
         ],
-      }),
-    ),
+      })
+    )
   )
 }
 
