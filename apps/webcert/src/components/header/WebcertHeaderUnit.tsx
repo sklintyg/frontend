@@ -98,7 +98,7 @@ const WebcertHeaderUnit = () => {
                   <span className="iu-ml-200">Inaktiv enhet</span>
                 </InactiveUnit>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent small>
                 Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.
               </TooltipContent>
             </Tooltip>

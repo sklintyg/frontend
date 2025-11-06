@@ -62,7 +62,7 @@ const RadioButton = ({
           </Label>
         </div>
       </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
+      <TooltipContent small>{tooltip}</TooltipContent>
     </Tooltip>
   )
 }

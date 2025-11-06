@@ -34,7 +34,7 @@ const PatientListInfoContent = ({ info }: Props) => {
             <TooltipTrigger asChild>
               <Icon src={lockClosed} tabIndex={0} alt="Symbol för att visa att patienten har skyddade personuppgifter." />
             </TooltipTrigger>
-            <TooltipContent>Patienten har skyddade personuppgifter.</TooltipContent>
+            <TooltipContent small>Patienten har skyddade personuppgifter.</TooltipContent>
           </Tooltip>
         )}
         {info.testIndicated && (
@@ -42,7 +42,7 @@ const PatientListInfoContent = ({ info }: Props) => {
             <TooltipTrigger asChild>
               <Icon src={alertImage} tabIndex={0} alt="Symbol för att visa att patienten är en valideringsperson." />
             </TooltipTrigger>
-            <TooltipContent>Patienten är en valideringsperson.</TooltipContent>
+            <TooltipContent small>Patienten är en valideringsperson.</TooltipContent>
           </Tooltip>
         )}
         {info.deceased && (
@@ -50,7 +50,7 @@ const PatientListInfoContent = ({ info }: Props) => {
             <TooltipTrigger asChild>
               <Icon src={warningImage} tabIndex={0} alt="Symbol för att visa att patienten är avliden." />
             </TooltipTrigger>
-            <TooltipContent>Patienten är avliden.</TooltipContent>
+            <TooltipContent small>Patienten är avliden.</TooltipContent>
           </Tooltip>
         )}
       </IconsWrapper>

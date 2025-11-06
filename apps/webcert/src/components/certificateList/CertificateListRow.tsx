@@ -123,7 +123,7 @@ export function CertificateListRow({
                 {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
               </Star>
             </TooltipTrigger>
-            <TooltipContent>{favoriteText}</TooltipContent>
+            <TooltipContent small>{favoriteText}</TooltipContent>
           </Tooltip>
 
           <CertificateName>

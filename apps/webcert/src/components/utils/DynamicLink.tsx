@@ -22,7 +22,7 @@ const DynamicLink = ({ link, light }: Props) => {
               <TooltipTrigger asChild>
                 <span tabIndex={0}>{link.text}</span>
               </TooltipTrigger>
-              <TooltipContent>{link.tooltip}</TooltipContent>
+              <TooltipContent small>{link.tooltip}</TooltipContent>
             </Tooltip>
             <ExternalLinkIcon className="iu-ml-200 iu-fs-100" light={light} />
           </a>
