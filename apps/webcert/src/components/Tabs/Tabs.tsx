@@ -101,7 +101,7 @@ export function Tabs({
                     {name}
                   </TabButton>
                 </TooltipTrigger>
-                <TooltipContent>{description}</TooltipContent>
+                <TooltipContent small>{description}</TooltipContent>
               </Tooltip>
             </li>
           )

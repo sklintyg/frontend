@@ -55,7 +55,7 @@ export function WorkingHours({
               <TooltipTrigger asChild>
                 <Icon src={questionImage} tabIndex={0} alt={tooltip} />
               </TooltipTrigger>
-              <TooltipContent>{tooltip}</TooltipContent>
+              <TooltipContent small>{tooltip}</TooltipContent>
             </Tooltip>
           </p>
           <TextInput

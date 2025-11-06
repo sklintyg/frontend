@@ -130,7 +130,7 @@ export function ListItemContent({
               <TooltipTrigger asChild>
                 <StyledIcon src={checkImage} tabIndex={0} alt={tooltips[CertificateListItemValueType.FORWARD]} />
               </TooltipTrigger>
-              <TooltipContent>{tooltips[CertificateListItemValueType.FORWARD]}</TooltipContent>
+              <TooltipContent small>{tooltips[CertificateListItemValueType.FORWARD]}</TooltipContent>
             </Tooltip>
           </td>
         ) : (
