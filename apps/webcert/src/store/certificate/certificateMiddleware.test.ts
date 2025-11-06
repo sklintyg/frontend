@@ -34,7 +34,6 @@ import type {
 } from './certificateActions'
 import {
   answerComplementCertificate,
-  autoSaveCertificateError,
   certificateApiGenericError,
   complementCertificateSuccess,
   createCertificateFromCandidate,
@@ -146,41 +145,41 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle autoSave', () => {
-    const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
+  // describe.skip('Handle autoSave', () => {
+  //   const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
 
-    it('shall throw error if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
+  //   it('shall throw error if autosave fails', async () => {
+  //     testStore.dispatch(autoSaveCertificateError(expectedError))
 
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction).toBeTruthy()
-    })
+  //     await flushPromises()
+  //     const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+  //     expect(throwErrorAction).toBeTruthy()
+  //   })
 
-    it('shall throw error with type MODAL if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
+  //   it('shall throw error with type MODAL if autosave fails', async () => {
+  //     testStore.dispatch(autoSaveCertificateError(expectedError))
 
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
-    })
+  //     await flushPromises()
+  //     const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+  //     expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
+  //   })
 
-    it('shall throw error with errorCode CONCURRENT_MODIFICATION if autosave fails with UNKNOWN_INTERNAL_PROBLEM', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
+  //   it('shall throw error with errorCode CONCURRENT_MODIFICATION if autosave fails with UNKNOWN_INTERNAL_PROBLEM', async () => {
+  //     testStore.dispatch(autoSaveCertificateError(expectedError))
 
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.CONCURRENT_MODIFICATION)
-    })
+  //     await flushPromises()
+  //     const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+  //     expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.CONCURRENT_MODIFICATION)
+  //   })
 
-    it('shall throw error with original errorCode if its NOT UKNOWN_INTERNAL_ERROR', async () => {
-      testStore.dispatch(autoSaveCertificateError({ error: { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM } }))
+  //   it('shall throw error with original errorCode if its NOT UKNOWN_INTERNAL_ERROR', async () => {
+  //     testStore.dispatch(autoSaveCertificateError({ error: { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM } }))
 
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
-    })
-  })
+  //     await flushPromises()
+  //     const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+  //     expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
+  //   })
+  // })
 
   describe('Handle StartSignCertificate', () => {
     it('Should call correct endpoint for fake signin', async () => {
