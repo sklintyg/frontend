@@ -18,7 +18,7 @@
     "@frontend/filtrex": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-design": "^7.0.0",
-    "@reduxjs/toolkit": "1.7.2",
+    "@reduxjs/toolkit": "1.9.7",
     "axios": "^1.12.0",
     "classnames": "^2.3.2",
     "date-fns": "^2.16.1",
