@@ -120,7 +120,7 @@ import {
 } from './certificateActions'
 import { autoSaveCertificate } from './certificateThunks'
 
-const handleGetCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -139,7 +139,7 @@ const handleGetCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleGetCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
@@ -155,7 +155,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> 
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
   }
 
-const handleGetCertificateError: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetCertificateError: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -182,7 +182,7 @@ const handleGetCertificateError: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleGetCertificateEvents: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetCertificateEvents: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -198,7 +198,7 @@ const handleGetCertificateEvents: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleGetCertificateEventsSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetCertificateEventsSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -206,7 +206,7 @@ const handleGetCertificateEventsSuccess: Middleware<Dispatch, RootState, AppDisp
     dispatch(getCertificateEventsCompleted())
   }
 
-const handleDeleteCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleDeleteCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -231,7 +231,7 @@ const handleDeleteCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleDeleteCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleDeleteCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -245,7 +245,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch, RootState, AppDispatc
     dispatch(hideSpinner())
   }
 
-const handleForwardCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleForwardCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -266,7 +266,7 @@ const handleForwardCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleForwardCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleForwardCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
@@ -279,7 +279,7 @@ const handleForwardCertificateSuccess: Middleware<Dispatch, RootState, AppDispat
     dispatch(getCertificateEvents(certificate.metadata.id))
   }
 
-const handleReadyForSign: Middleware<Dispatch, RootState, AppDispatch> =
+const handleReadyForSign: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -301,7 +301,7 @@ const handleReadyForSign: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleReadyForSignSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleReadyForSignSuccess: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -315,7 +315,7 @@ const handleReadyForSignSuccess: Middleware<Dispatch, RootState, AppDispatch> =
     dispatch(readyForSignCompleted())
   }
 
-const handleSendCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleSendCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -335,7 +335,7 @@ const handleSendCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleSendCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleSendCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -344,7 +344,7 @@ const handleSendCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch>
     }
   }
 
-const handleStartSignCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleStartSignCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   async (): Promise<void> => {
@@ -405,7 +405,7 @@ const handleStartSignCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     }
   }
 
-const handleSignCertificateStatusSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleSignCertificateStatusSuccess: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -449,7 +449,7 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch, RootState, AppDis
     }, 1000)
   }
 
-const handleSignCertificateStatusError: Middleware<Dispatch, RootState, AppDispatch> =
+const handleSignCertificateStatusError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action): void => {
@@ -465,7 +465,7 @@ const handleSignCertificateStatusError: Middleware<Dispatch, RootState, AppDispa
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
   }
 
-const handleStartSignCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleStartSignCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -499,7 +499,7 @@ const handleStartSignCertificateSuccess: Middleware<Dispatch, RootState, AppDisp
     }
   }
 
-const handleFakeSignCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleFakeSignCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -523,7 +523,7 @@ const handleFakeSignCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleFakeSignCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleFakeSignCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
@@ -536,7 +536,7 @@ const handleFakeSignCertificateSuccess: Middleware<Dispatch, RootState, AppDispa
     dispatch(getCertificateEvents(certificate.metadata.id))
   }
 
-const handleRevokeCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleRevokeCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -561,7 +561,7 @@ const handleRevokeCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleRevokeCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleRevokeCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
@@ -573,7 +573,7 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch, RootState, AppDispatc
     dispatch(getCertificateEvents(certificate.metadata.id))
   }
 
-const handleComplementCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleComplementCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -600,7 +600,7 @@ const handleComplementCertificate: Middleware<Dispatch, RootState, AppDispatch> 
     )
   }
 
-const handleComplementCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleComplementCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -608,7 +608,7 @@ const handleComplementCertificateSuccess: Middleware<Dispatch, RootState, AppDis
     dispatch(push(`/certificate/${action.payload.certificate.metadata.id}`))
   }
 
-const handleAnswerComplementCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleAnswerComplementCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -635,7 +635,7 @@ const handleAnswerComplementCertificate: Middleware<Dispatch, RootState, AppDisp
     )
   }
 
-const handleAnswerComplementCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleAnswerComplementCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ certificate: Certificate }>): void => {
@@ -646,7 +646,7 @@ const handleAnswerComplementCertificateSuccess: Middleware<Dispatch, RootState, 
     dispatch(getCertificateEvents(certificate.metadata.id))
   }
 
-const handleReplaceCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleReplaceCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -675,7 +675,7 @@ const handleReplaceCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleReplaceCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleReplaceCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -684,7 +684,7 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch, RootState, AppDispat
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
-const handleRenewCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleRenewCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -702,7 +702,7 @@ const handleRenewCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleRenewCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleRenewCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -711,7 +711,7 @@ const handleRenewCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
-const handleShowRelatedCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleShowRelatedCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -729,7 +729,7 @@ const handleShowRelatedCertificate: Middleware<Dispatch, RootState, AppDispatch>
     )
   }
 
-const handleShowRelatedCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleShowRelatedCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -738,7 +738,7 @@ const handleShowRelatedCertificateSuccess: Middleware<Dispatch, RootState, AppDi
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
-const handleCreateCertificateFromTemplate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromTemplate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -763,7 +763,7 @@ const handleCreateCertificateFromTemplate: Middleware<Dispatch, RootState, AppDi
     )
   }
 
-const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -771,7 +771,7 @@ const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch, RootState
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
-const handleCreateCertificateFromCandidate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromCandidate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -795,7 +795,7 @@ const handleCreateCertificateFromCandidate: Middleware<Dispatch, RootState, AppD
     )
   }
 
-const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -803,7 +803,7 @@ const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch, RootStat
     dispatch(getCertificate(action.payload.certificateId))
   }
 
-const handleCreateCertificateFromCandidateWithMessage: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromCandidateWithMessage: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -827,7 +827,7 @@ const handleCreateCertificateFromCandidateWithMessage: Middleware<Dispatch, Root
     )
   }
 
-const handleCreateCertificateFromCandidateWithMessageSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateCertificateFromCandidateWithMessageSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -835,7 +835,7 @@ const handleCreateCertificateFromCandidateWithMessageSuccess: Middleware<Dispatc
     dispatch(updateModalData(action.payload))
   }
 
-const handleCopyCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCopyCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -864,7 +864,7 @@ const handleCopyCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleCopyCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCopyCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -873,7 +873,7 @@ const handleCopyCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch>
     dispatch(push(`/certificate/${action.payload.certificateId}`))
   }
 
-const handleGenericCertificateApiError: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGenericCertificateApiError: Middleware<Dispatch> =
   ({ dispatch }) =>
   () =>
   (action: AnyAction): void => {
@@ -881,7 +881,7 @@ const handleGenericCertificateApiError: Middleware<Dispatch, RootState, AppDispa
     dispatch(throwError(createErrorRequestFromApiError(action.payload.error, action.payload.certificateId)))
   }
 
-const handleUpdateCertificateDataElement: Middleware<Dispatch, RootState, AppDispatch> =
+const handleUpdateCertificateDataElement: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: ReturnType<typeof updateCertificateDataElement>): void => {
@@ -913,7 +913,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch, RootState, AppDis
     }
   }
 
-const handleUpdateCertificateUnit: Middleware<Dispatch, RootState, AppDispatch> =
+const handleUpdateCertificateUnit: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -926,7 +926,7 @@ const handleUpdateCertificateUnit: Middleware<Dispatch, RootState, AppDispatch> 
     dispatch(debouncedAutoSaveCertificate(certificate))
   }
 
-const handleUpdateCertificatePatient: Middleware<Dispatch, RootState, AppDispatch> =
+const handleUpdateCertificatePatient: Middleware<Dispatch> =
   ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
@@ -949,12 +949,12 @@ const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, 
   dispatch(autoSaveCertificate(certificate))
 }, 1000)
 
-const handleDebounceAutoSaveCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleDebounceAutoSaveCertificate: Middleware<Dispatch> =
   (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) => () => (): void => {
     autoSaving(middlewareAPI)
   }
 
-const handleAutoSaveCertificateError: Middleware<Dispatch, RootState, AppDispatch> =
+const handleAutoSaveCertificateError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -985,13 +985,12 @@ const validating = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, 
   )
 }, 1000)
 
-const handleValidateCertificate: Middleware<Dispatch, RootState, AppDispatch> =
-  (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) => () => (): void => {
-    middlewareAPI.dispatch(validateCertificateStarted())
-    validating(middlewareAPI)
-  }
+const handleValidateCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) => () => (): void => {
+  middlewareAPI.dispatch(validateCertificateStarted())
+  validating(middlewareAPI)
+}
 
-const handleValidateCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleValidateCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: PayloadAction<{ validationErrors: ValidationError[] }>): void => {
@@ -1018,21 +1017,21 @@ const handleValidateCertificateSuccess: Middleware<Dispatch, RootState, AppDispa
     dispatch(validateCertificateCompleted())
   }
 
-const handleUpdateComplements: Middleware<Dispatch, RootState, AppDispatch> =
+const handleUpdateComplements: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateCertificateComplements(action.payload))
   }
 
-const handleGotoComplement: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGotoComplement: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateGotoCertificateDataElement(action.payload))
   }
 
-const handlePrintCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handlePrintCertificate: Middleware<Dispatch> =
   () =>
   () =>
   (action: AnyAction): void => {
@@ -1048,7 +1047,7 @@ const handlePrintCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     }
   }
 
-const handleCreateNewCertificate: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateNewCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
@@ -1067,14 +1066,14 @@ const handleCreateNewCertificate: Middleware<Dispatch, RootState, AppDispatch> =
     )
   }
 
-const handleCreateNewCertificateSuccess: Middleware<Dispatch, RootState, AppDispatch> =
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
     dispatch(updateCreatedCertificateId(action.payload.certificateId))
   }
 
-const handleGetSessionStatusError: Middleware<Dispatch, RootState, AppDispatch> =
+const handleGetSessionStatusError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (): void => {
@@ -1137,7 +1136,7 @@ const middlewareMethods = {
   [showRelatedCertificateSuccess.type]: handleShowRelatedCertificateSuccess,
 }
 
-export const certificateMiddleware: Middleware<Dispatch, RootState, AppDispatch> =
+export const certificateMiddleware: Middleware<Dispatch> =
   (middlewareAPI) =>
   (next) =>
   (action: AnyAction): void => {
