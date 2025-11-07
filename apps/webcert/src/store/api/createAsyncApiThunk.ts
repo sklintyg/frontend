@@ -1,6 +1,6 @@
 import { randomUUID } from '@frontend/utils'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios, { AxiosError } from 'axios'
+import axios, { isAxiosError } from 'axios'
 import type { RootState } from '../reducer'
 import { apiCallFailed } from './apiActions'
 import { createApiError, getHeaders } from './apiUtils'
@@ -35,7 +35,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
       return response.data
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
-      const response = error instanceof AxiosError ? error.response : undefined
+      const response = isAxiosError(error) ? error.response : undefined
 
       dispatch(apiCallFailed(message))
 
