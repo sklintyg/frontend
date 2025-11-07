@@ -322,7 +322,7 @@ describe('Test certificate middleware', () => {
         )
         .reply(200, expectedSigningData)
 
-      testStore.dispatch(startSignCertificate)
+      testStore.dispatch(startSignCertificate())
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.signingData).toEqual(expectedSigningData)
@@ -333,7 +333,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(startSignCertificate)
+      testStore.dispatch(startSignCertificate())
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)

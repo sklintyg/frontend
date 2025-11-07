@@ -354,8 +354,6 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       return
     }
 
-    await dispatch(autoSaveCertificate(certificate))
-
     for (const questionId in certificate?.data) {
       if (certificate.data[questionId].visible && (certificate.data[questionId].validationErrors?.length || 0) > 0) {
         dispatch(showValidationErrors())
@@ -373,11 +371,13 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       return
     }
 
+    await dispatch(autoSaveCertificate(certificate))
+
     const signingMethod = getState().ui.uiUser.user?.signingMethod
 
     switch (signingMethod) {
       case SigningMethod.FAKE:
-        dispatch(fakeSignCertificate)
+        dispatch(fakeSignCertificate())
         break
       case SigningMethod.DSS:
         dispatch(
