@@ -49,6 +49,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
+import { autoSaveCertificate } from './certificateThunks'
 
 interface CertificateState {
   autoStartToken: string
@@ -304,6 +305,13 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(setQrCodeForElegSignature, (state, action) => {
       state.qrCode = action.payload
+    })
+    .addCase(autoSaveCertificate.fulfilled, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.metadata.version = action.payload.version
     })
 )
 

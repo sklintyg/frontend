@@ -1,12 +1,14 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { fakeCategoryElement, fakeCertificate, fakeTextAreaElement } from '../../../faker'
 import { fakeCertificateConfirmationModal } from '../../../faker/certificate/fakeCertificateConfirmationModal'
-import { updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
+import { startSignCertificate, updateCertificate, validateCertificateSuccess } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
@@ -32,6 +34,12 @@ const renderDefaultComponent = (props: ComponentProps<typeof SignAndSendButton>)
     </Provider>
   )
 }
+
+const mock = new MockAdapter(axios)
+
+afterEach(() => {
+  mock.reset()
+})
 
 describe('Sign certificate without confirmation modal', () => {
   beforeEach(() => {
@@ -154,7 +162,8 @@ describe('Sign certificate with confirmation modal', () => {
     const modalBody = screen.getByRole('dialog')
 
     await userEvent.click(within(modalBody).getByRole('button', { name: commonProps.name }))
-    expect(dispatchedActions).toHaveLength(1)
+
+    expect(dispatchedActions).toContainEqual(expect.objectContaining({ type: startSignCertificate.type }))
   })
 
   it('Should not display confirmation modal when there are unresolved validation errors', async () => {

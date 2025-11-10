@@ -113,12 +113,6 @@ const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
 const UPDATE_CERTIFICATE_UNIT = `${CERTIFICATE} Update certificate unit`
 const UPDATE_CERTIFICATE_PATIENT = `${CERTIFICATE} Update certificate patient`
 
-const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save certificate`
-const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save certificate started`
-const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save certificate completed`
-const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save certificate success`
-const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save certificate error`
-
 const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
 const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
@@ -417,24 +411,6 @@ export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICAT
 
 export const validateCertificateCompleted = createAction(VALIDATE_CERTIFICATE_COMPLETED)
 
-export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)
-
-export const autoSaveCertificateStarted = createAction(AUTO_SAVE_STARTED)
-
-export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
-
-interface AutoSaveCertificateSuccess {
-  version: number
-}
-
-export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
-
-interface AutoSaveCertificateError {
-  error: ApiError
-}
-
-export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
-
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
 
 export const updateCertificateEvents = createAction<CertificateEvent[]>(UPDATE_CERTIFICATE_EVENTS)
@@ -519,3 +495,5 @@ export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
 
 export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
+
+export const debouncedAutoSaveCertificate = createAction<Certificate>(`${CERTIFICATE} Debounce auto save`)
