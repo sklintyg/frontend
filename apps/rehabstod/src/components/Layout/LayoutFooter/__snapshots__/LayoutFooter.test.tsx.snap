@@ -138,7 +138,7 @@ exports[`Should render footer as expected 1`] = `
               />
             </a>
             <button
-              class="ids-link inline-flex font-normal items-center ids-link--underlined ids-link--color-4 ids-link--light ids-link--small ml-5"
+              class="ids-link inline-flex font-normal items-center ids-link--underlined ids-link--color-4 ids-link--light ids-link--small"
               type="button"
             >
               <span
