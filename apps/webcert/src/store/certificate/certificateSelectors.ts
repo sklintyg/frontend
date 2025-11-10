@@ -47,6 +47,8 @@ export const getShowValidationErrors = (state: RootState): boolean => state.ui.u
 
 export const getCertificate = (state: RootState): Certificate | undefined => state.ui.uiCertificate.certificate
 
+export const getCertificateVersion = (state: RootState) => getCertificate(state)?.metadata.version
+
 export const getQuestion =
   (id: string) =>
   (state: RootState): CertificateDataElement | undefined =>
