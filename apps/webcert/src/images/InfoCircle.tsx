@@ -21,7 +21,7 @@ const InfoCircle = ({ className, tooltip, tabIndex, testId }: Props) => {
       <TooltipTrigger asChild>
         <Logo src={info} alt="Informera" className={className} tabIndex={tabIndex} data-testid={testId} />
       </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
+      <TooltipContent small>{tooltip}</TooltipContent>
     </Tooltip>
   )
 }

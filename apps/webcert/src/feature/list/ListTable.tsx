@@ -120,7 +120,7 @@ export function ListTable({
                   {heading.title && <SortingArrow id={heading.id} orderBy={getOrderBy(filter)} ascending={getAscending(filter)} />}
                 </th>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent small>
                 <div className="iu-fw-body ic-text">{parse(heading.description)}</div>
               </TooltipContent>
             </Tooltip>
