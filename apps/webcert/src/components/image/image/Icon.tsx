@@ -30,7 +30,7 @@ const Icon = ({ iconType, includeTooltip, size }: Props) => {
           <TooltipTrigger asChild>
             <StyledLightbulpIcon tabIndex={0} className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`} size={size} />
           </TooltipTrigger>
-          <TooltipContent>{includeTooltip ? getIconTooltip(iconType) : ''}</TooltipContent>
+          <TooltipContent small>{includeTooltip ? getIconTooltip(iconType) : ''}</TooltipContent>
         </Tooltip>
       )
     default:

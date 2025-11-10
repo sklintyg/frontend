@@ -97,7 +97,7 @@ export const CustomButton = forwardRef<HTMLButtonElement, HTMLProps<HTMLButtonEl
             {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
           </Button>
         </TooltipTrigger>
-        <TooltipContent>{props.tooltip}</TooltipContent>
+        <TooltipContent small>{props.tooltip}</TooltipContent>
       </Tooltip>
     </Wrapper>
   )

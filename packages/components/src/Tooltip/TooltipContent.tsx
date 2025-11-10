@@ -7,10 +7,11 @@ import { useTooltipContext } from './hooks/useTooltipContext'
 
 interface TooltipContentProps {
   clickable?: boolean
+  small?: boolean
 }
 
 export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement> & TooltipContentProps>(
-  ({ clickable = true, ...props }, propRef) => {
+  ({ clickable = true, small = false, ...props }, propRef) => {
     const { x, y, strategy, getFloatingProps, open, refs } = useTooltipContext()
     const ref = useMergeRefs([refs.setFloating, propRef])
     const theme = useTheme()
@@ -23,6 +24,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElemen
           ref={ref}
           className={classNames(
             'z-50 max-w-xs whitespace-normal rounded border bg-white px-5 py-2.5 text-base font-normal md:max-w-sm',
+            small ? 'text-sm' : 'text-base',
             !clickable && 'pointer-events-none',
             theme === 'inera-admin' && 'text-neutral-20 border-neutral-40',
             theme === '1177' && 'text-black border-neutral-50'

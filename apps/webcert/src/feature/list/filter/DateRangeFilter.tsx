@@ -185,7 +185,7 @@ const DateRangeFilter = ({ config, onChange }: Props) => {
             <TooltipTrigger asChild>
               <Icon src={questionImage} tabIndex={0} alt={config.description} />
             </TooltipTrigger>
-            <TooltipContent>{config.description}</TooltipContent>
+            <TooltipContent small>{config.description}</TooltipContent>
           </Tooltip>
         )}
       </Label>

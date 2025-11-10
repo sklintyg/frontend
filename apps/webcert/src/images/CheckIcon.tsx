@@ -19,7 +19,7 @@ const CheckIcon = ({ className, tooltip }: Props) => {
       <TooltipTrigger asChild>
         <Logo src={check} tabIndex={0} alt="Check" className={className} />
       </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
+      <TooltipContent small>{tooltip}</TooltipContent>
     </Tooltip>
   )
 }

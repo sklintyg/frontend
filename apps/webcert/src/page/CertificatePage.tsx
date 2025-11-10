@@ -10,6 +10,7 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/Ce
 import { ConfirmationModal } from '../feature/certificate/Modals/ConfirmationModal'
 import { LuaenaConfirmModalIntegrated } from '../feature/certificate/Modals/LuaenaConfirmModalIntegrated'
 import InactiveCertificateTypeNotification from '../feature/certificate/NotificationBanners/InactiveCertificateTypeNotification'
+import InactiveCertificateNotification from '../feature/certificate/NotificationBanners/InactiveCertificateNotification'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
@@ -76,6 +77,7 @@ const CertificatePage = () => {
       subHeader={
         !isCertificateDeleted && (
           <>
+            <InactiveCertificateNotification />
             <MajorVersionNotification />
             <InactiveCertificateTypeNotification />
             <ReadOnlyViewNotification />
