@@ -118,6 +118,7 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
+import { getCertificateVersion } from './certificateSelectors'
 import { autoSaveCertificate } from './certificateThunks'
 
 const handleGetCertificate: Middleware<Dispatch> =
@@ -374,6 +375,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
     await dispatch(autoSaveCertificate(certificate))
 
     const signingMethod = getState().ui.uiUser.user?.signingMethod
+    const certificateVersion = getCertificateVersion(getState())
 
     switch (signingMethod) {
       case SigningMethod.FAKE:
@@ -382,7 +384,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       case SigningMethod.DSS:
         dispatch(
           apiCallBegan({
-            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
+            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificateVersion}/signeringshash/SIGN_SERVICE`,
             method: 'POST',
             onSuccess: startSignCertificateSuccess.type,
             onError: signCertificateStatusError.type,
@@ -394,7 +396,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       case SigningMethod.MOBILT_BANK_ID:
         dispatch(
           apiCallBegan({
-            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/GRP`,
+            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificateVersion}/signeringshash/GRP`,
             method: 'POST',
             onSuccess: startSignCertificateSuccess.type,
             onError: signCertificateStatusError.type,
