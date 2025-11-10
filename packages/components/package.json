@@ -31,7 +31,7 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.25.1",
+    "@floating-ui/react": "^0.27.16",
     "@frontend/colors": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-design": "^7.0.0",

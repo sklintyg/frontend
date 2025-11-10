@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import { LightbulpIcon } from '../../../images'
 
@@ -25,12 +26,12 @@ const Icon = ({ iconType, includeTooltip, size }: Props) => {
   switch (iconType) {
     case 'lightbulb_outline':
       return (
-        <StyledLightbulpIcon
-          className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`}
-          size={size}
-          data-tooltip-id="tooltip"
-          data-tooltip-content={includeTooltip ? getIconTooltip(iconType) : ''}
-        />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <StyledLightbulpIcon tabIndex={0} className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`} size={size} />
+          </TooltipTrigger>
+          <TooltipContent small>{includeTooltip ? getIconTooltip(iconType) : ''}</TooltipContent>
+        </Tooltip>
       )
     default:
       return null

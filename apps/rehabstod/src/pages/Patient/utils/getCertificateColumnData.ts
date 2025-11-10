@@ -19,7 +19,7 @@ export function getCertificateColumnData(column: string, certificate: PatientSju
     case PatientColumn.Ärenden:
       return getUnansweredCommunicationFormat(certificate.obesvaradeKompl, certificate.unansweredOther)
     case PatientColumn.Sysselsättning:
-      return certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(' ') : 'Okänt'
+      return certificate.sysselsattning.length > 0 ? certificate.sysselsattning.join(', ') : 'Okänt'
     case PatientColumn.Vårdenhet:
       return certificate.vardenhetNamn
     case PatientColumn.Vårdgivare:

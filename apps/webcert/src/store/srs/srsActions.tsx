@@ -12,7 +12,6 @@ import type {
 } from '../../types'
 
 const SRS = '[SRS]'
-export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${SRS} Set diagnosis list value`)
 
 export const setDiagnosisCodes = createAction<string[]>(`${SRS} Set diagnosis codes`)
 

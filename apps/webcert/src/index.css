@@ -1,3 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 16px;
+  }
+}
+
 body {
   font-size: 14px !important;
 }
@@ -219,4 +229,8 @@ img {
 
 .ic-text ol li:before {
   color: inherit;
+}
+
+.ic-backdrop {
+  z-index: 40;
 }

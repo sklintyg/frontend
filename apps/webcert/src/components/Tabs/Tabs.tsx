@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import classNames from 'classnames'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -84,21 +85,24 @@ export function Tabs({
         {tabs.map(({ name, description, icon }, i) => {
           return (
             <li key={name} className={classNames(i === 0 && 'iu-pl-300')}>
-              <TabButton
-                id={`tab-${i}`}
-                role="tab"
-                aria-selected={selectedTabIndex === i}
-                aria-controls={`panel-${i}`}
-                tabIndex={tabFocus === i ? 0 : -1}
-                onClick={() => setSelectedTabIndex(i)}
-                className="ic-tabbed__tab"
-                data-tooltip-id="tooltip"
-                data-tooltip-content={description}
-                onFocus={() => setTabFocus(i)}
-              >
-                {icon && iconLinkType.includes(icon) && <LightbulpIcon className="iu-mr-200" />}
-                {name}
-              </TabButton>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabButton
+                    id={`tab-${i}`}
+                    role="tab"
+                    aria-selected={selectedTabIndex === i}
+                    aria-controls={`panel-${i}`}
+                    tabIndex={tabFocus === i ? 0 : -1}
+                    onClick={() => setSelectedTabIndex(i)}
+                    className="ic-tabbed__tab"
+                    onFocus={() => setTabFocus(i)}
+                  >
+                    {icon && iconLinkType.includes(icon) && <LightbulpIcon className="iu-mr-200" />}
+                    {name}
+                  </TabButton>
+                </TooltipTrigger>
+                <TooltipContent small>{description}</TooltipContent>
+              </Tooltip>
             </li>
           )
         })}

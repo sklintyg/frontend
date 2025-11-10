@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import React from 'react'
 import type { FlattenSimpleInterpolation } from 'styled-components'
 import styled from 'styled-components'
@@ -22,7 +23,14 @@ const TextInput = React.forwardRef<HTMLInputElement, Props>(
       {label && (
         <>
           <label htmlFor={id}>{label}</label>{' '}
-          {tooltip && <Icon src={questionImage} data-tooltip-id="tooltip" data-tooltip-content={tooltip} alt={tooltip} />}
+          {tooltip && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Icon src={questionImage} tabIndex={0} alt={tooltip} />
+              </TooltipTrigger>
+              <TooltipContent small>{tooltip}</TooltipContent>
+            </Tooltip>
+          )}
         </>
       )}
       <input

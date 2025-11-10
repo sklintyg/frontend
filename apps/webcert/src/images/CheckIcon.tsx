@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import styled from 'styled-components'
 import check from '../images/check.svg'
 
@@ -13,7 +14,14 @@ interface Props {
 }
 
 const CheckIcon = ({ className, tooltip }: Props) => {
-  return <Logo src={check} alt="Check" data-tooltip-id="tooltip" data-tooltip-content={tooltip} className={className} />
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Logo src={check} tabIndex={0} alt="Check" className={className} />
+      </TooltipTrigger>
+      <TooltipContent small>{tooltip}</TooltipContent>
+    </Tooltip>
+  )
 }
 
 export default CheckIcon

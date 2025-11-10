@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import styled from 'styled-components'
@@ -90,14 +91,17 @@ const WebcertHeaderUnit = () => {
             )}
           </span>
           {user.loggedInUnit.isInactive && (
-            <InactiveUnit
-              className="iu-ml-400"
-              data-tooltip-id="tooltip"
-              data-tooltip-content="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig."
-            >
-              <AlertCircle />
-              <span className="iu-ml-200">Inaktiv enhet</span>
-            </InactiveUnit>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <InactiveUnit className="iu-ml-400" tabIndex={0}>
+                  <AlertCircle />
+                  <span className="iu-ml-200">Inaktiv enhet</span>
+                </InactiveUnit>
+              </TooltipTrigger>
+              <TooltipContent small>
+                Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.
+              </TooltipContent>
+            </Tooltip>
           )}
           {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} isExpanded={isExpanded} />}
         </ExpandableBoxWrapper>

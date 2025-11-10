@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import CertificateDeletedModal from '../../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { DatePickerBoundryContext } from '../Inputs/DatePickerCustom/DatePickerBoundryContext'
-import CustomTooltip from '../utils/CustomTooltip'
 
 const Root = styled.div`
   height: 100vh;
@@ -46,7 +45,6 @@ const CommonLayout = ({ header, subHeader, children, hasSidePanel = false, noPad
           <CertificateDeletedModal />
           {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500 iu-pb-500'}`}>{children}</div>}
         </Content>
-        <CustomTooltip placement="top" />
       </Root>
     </DatePickerBoundryContext.Provider>
   )

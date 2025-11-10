@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { getByType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -116,15 +117,15 @@ export function CertificateListRow({
       )}
       <Row data-testid={`certificate-list-row-${id}`} className="iu-flex iu-flex-column iu-p-400">
         <div className="iu-flex iu-flex-center">
-          <Star
-            className="iu-mr-1rem"
-            onClick={onPreferenceClick}
-            data-tooltip-id="tooltip"
-            data-tooltip-content={favoriteText}
-            aria-label={favoriteText}
-          >
-            {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
-          </Star>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Star className="iu-mr-1rem" tabIndex={0} onClick={onPreferenceClick} aria-label={favoriteText}>
+                {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
+              </Star>
+            </TooltipTrigger>
+            <TooltipContent small>{favoriteText}</TooltipContent>
+          </Tooltip>
+
           <CertificateName>
             <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId.toUpperCase()}
           </CertificateName>

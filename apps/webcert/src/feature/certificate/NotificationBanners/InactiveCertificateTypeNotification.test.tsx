@@ -16,7 +16,7 @@ const renderDefaultComponent = () => {
   )
 }
 
-const INFO_TEXT = 'Intyget är av en äldre version. Funktionaliteten för detta intyg är begränsad.'
+const INFO_TEXT = 'Intyget är av en äldre version. Funktionaliteten för detta intyg kan vara begränsad.'
 
 const setState = (inactiveCertificateType: boolean) => {
   testStore.dispatch(updateCertificate(fakeCertificate({ metadata: fakeCertificateMetaData({ inactiveCertificateType }) })))
