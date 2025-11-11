@@ -43,4 +43,10 @@ export interface CertificateType {
   links: ResourceLink[]
   message: string
   confirmationModal: CertificateConfirmationModal | null
+  modalLink: string
+}
+
+export interface CertificateTypeInfoModalData {
+  title: string
+  description: string
 }
