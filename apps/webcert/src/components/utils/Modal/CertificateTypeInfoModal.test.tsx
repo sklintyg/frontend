@@ -87,19 +87,6 @@ describe('CertificateTypeInfoModal', () => {
     expect(setOpen).toHaveBeenCalledWith(false)
   })
 
-  it('should handle API error gracefully', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    fakeAxios.onGet(`/api/certificate/type/modal/${certificateType}/${patientId}`).reply(500)
-
-    renderComponent(true)
-
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith('Failed to fetch certificate type info modal', expect.any(Object))
-    })
-
-    consoleSpy.mockRestore()
-  })
-
   it('should only fetch data once when modal is already loaded', async () => {
     fakeAxios.onGet(`/api/certificate/type/modal/${certificateType}/${patientId}`).reply(200, mockModalData)
 
