@@ -10,6 +10,10 @@ import ModalBase from './ModalBase'
 
 const ModalContent = styled.div`
   white-space: pre-line;
+
+  p + p {
+    margin-top: 0.7em !important;
+  }
 `
 
 interface Props {
