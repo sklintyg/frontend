@@ -38,9 +38,6 @@ export const CertificateTypeInfoModal = ({ certificateType, patientId, open, set
         .then((data) => {
           setModalData(data)
         })
-        .catch((error) => {
-          console.error('Failed to fetch certificate type info modal', error)
-        })
         .finally(() => {
           setLoading(false)
         })

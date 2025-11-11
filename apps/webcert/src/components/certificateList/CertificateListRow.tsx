@@ -143,7 +143,7 @@ export function CertificateListRow({
           </Tooltip>
 
           <CertificateName>
-            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
+            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId.toUpperCase()}
           </CertificateName>
           <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
             <ModalContent>

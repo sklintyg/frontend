@@ -113,14 +113,12 @@ describe('CertificateTypeInfoModal', () => {
       expect(screen.getByText('Test Modal Title')).toBeInTheDocument()
     })
 
-    // Rerender with same props
     rerender(
       <Provider store={testStore}>
         <CertificateTypeInfoModal certificateType={certificateType} patientId={patientId} open={true} setOpen={vi.fn()} />
       </Provider>
     )
 
-    // Should only have made one API call
     expect(fakeAxios.history.get.length).toBe(1)
   })
 
@@ -138,13 +136,11 @@ describe('CertificateTypeInfoModal', () => {
       expect(screen.getByText('Test Modal Title')).toBeInTheDocument()
     })
 
-    // Close the modal
     const closeButton = screen.getByRole('button', { name: 'Stäng' })
     await userEvent.click(closeButton)
 
     expect(setOpen).toHaveBeenCalledWith(false)
 
-    // Reopen the modal
     rerender(
       <Provider store={testStore}>
         <CertificateTypeInfoModal certificateType={certificateType} patientId={patientId} open={false} setOpen={setOpen} />
@@ -157,7 +153,6 @@ describe('CertificateTypeInfoModal', () => {
       </Provider>
     )
 
-    // Should fetch data again
     await waitFor(() => {
       expect(fakeAxios.history.get.length).toBe(2)
     })
