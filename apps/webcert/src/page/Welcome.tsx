@@ -175,7 +175,7 @@ const Welcome = () => {
   }
 
   const dispatchPopulateFmb = () => {
-    dispatch(populateFmb)
+    dispatch(populateFmb())
   }
 
   return (

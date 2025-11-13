@@ -20,11 +20,6 @@ import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
-  autoSaveCertificate,
-  autoSaveCertificateCompleted,
-  autoSaveCertificateError,
-  autoSaveCertificateStarted,
-  autoSaveCertificateSuccess,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateStarted,
@@ -45,6 +40,7 @@ import {
   createNewCertificate,
   createNewCertificateStarted,
   createNewCertificateSuccess,
+  debouncedAutoSaveCertificate,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateStarted,
@@ -122,6 +118,8 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
+import { getCertificateVersion } from './certificateSelectors'
+import { autoSaveCertificate } from './certificateThunks'
 
 const handleGetCertificate: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
@@ -350,7 +348,7 @@ const handleSendCertificateSuccess: Middleware<Dispatch> =
 const handleStartSignCertificate: Middleware<Dispatch> =
   ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
-  (): void => {
+  async (): Promise<void> => {
     const certificate = getState().ui.uiCertificate.certificate
 
     if (!certificate) {
@@ -374,16 +372,19 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       return
     }
 
+    await dispatch(autoSaveCertificate(certificate))
+
     const signingMethod = getState().ui.uiUser.user?.signingMethod
+    const certificateVersion = getCertificateVersion(getState())
 
     switch (signingMethod) {
       case SigningMethod.FAKE:
-        dispatch(fakeSignCertificate)
+        dispatch(fakeSignCertificate())
         break
       case SigningMethod.DSS:
         dispatch(
           apiCallBegan({
-            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
+            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificateVersion}/signeringshash/SIGN_SERVICE`,
             method: 'POST',
             onSuccess: startSignCertificateSuccess.type,
             onError: signCertificateStatusError.type,
@@ -395,7 +396,7 @@ const handleStartSignCertificate: Middleware<Dispatch> =
       case SigningMethod.MOBILT_BANK_ID:
         dispatch(
           apiCallBegan({
-            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/GRP`,
+            url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificateVersion}/signeringshash/GRP`,
             method: 'POST',
             onSuccess: startSignCertificateSuccess.type,
             onError: signCertificateStatusError.type,
@@ -908,7 +909,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
         dispatch(updateCertificate(updatedCertificate))
         if (validationErrors.length === 0) {
           dispatch(validateCertificate(updatedCertificate))
-          dispatch(autoSaveCertificate(updatedCertificate))
+          dispatch(debouncedAutoSaveCertificate(updatedCertificate))
         }
       }
     }
@@ -924,11 +925,11 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(debouncedAutoSaveCertificate(certificate))
   }
 
 const handleUpdateCertificatePatient: Middleware<Dispatch> =
-  ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) =>
+  ({ dispatch, getState }) =>
   () =>
   (action: AnyAction): void => {
     dispatch(setCertificatePatientData(action.payload))
@@ -937,7 +938,7 @@ const handleUpdateCertificatePatient: Middleware<Dispatch> =
       return
     }
     dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    dispatch(debouncedAutoSaveCertificate(certificate))
   }
 
 const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -947,41 +948,18 @@ const autoSaving = debounce(({ dispatch, getState }: MiddlewareAPI<AppDispatch, 
     return
   }
 
-  dispatch(
-    apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id,
-      method: 'PUT',
-      data: getCertificateToSave(certificate),
-      onStart: autoSaveCertificateStarted.type,
-      onSuccess: autoSaveCertificateSuccess.type,
-      onError: autoSaveCertificateError.type,
-      functionDisablerType: toggleCertificateFunctionDisabler.type,
-    })
-  )
+  dispatch(autoSaveCertificate(certificate))
 }, 1000)
 
-const handleAutoSaveCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) => () => (): void => {
-  autoSaving(middlewareAPI)
-}
-
-const handleAutoSaveCertificateSuccess: Middleware<Dispatch> =
-  ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
-  () =>
-  (action: AnyAction): void => {
-    dispatch(updateCertificateVersion(action.payload.version))
-
-    dispatch(autoSaveCertificateCompleted())
+const handleDebounceAutoSaveCertificate: Middleware<Dispatch> =
+  (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) => () => (): void => {
+    autoSaving(middlewareAPI)
   }
 
 const handleAutoSaveCertificateError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
-    if (!autoSaveCertificateError.match(action)) {
-      return
-    }
-    dispatch(autoSaveCertificateCompleted())
-
     if (action.payload.error.errorCode === 'UNKNOWN_INTERNAL_PROBLEM') {
       dispatch(throwError(createConcurrencyErrorRequestFromApiError(action.payload.error)))
     } else {
@@ -1116,9 +1094,8 @@ const middlewareMethods = {
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [validateCertificate.type]: handleValidateCertificate,
   [validateCertificateSuccess.type]: handleValidateCertificateSuccess,
-  [autoSaveCertificate.type]: handleAutoSaveCertificate,
-  [autoSaveCertificateSuccess.type]: handleAutoSaveCertificateSuccess,
-  [autoSaveCertificateError.type]: handleAutoSaveCertificateError,
+  [autoSaveCertificate.rejected.type]: handleAutoSaveCertificateError,
+  [debouncedAutoSaveCertificate.type]: handleDebounceAutoSaveCertificate,
   [updateCertificateUnit.type]: handleUpdateCertificateUnit,
   [updateCertificatePatient.type]: handleUpdateCertificatePatient,
   [deleteCertificate.type]: handleDeleteCertificate,
@@ -1162,7 +1139,7 @@ const middlewareMethods = {
 }
 
 export const certificateMiddleware: Middleware<Dispatch> =
-  (middlewareAPI: MiddlewareAPI<AppDispatch, RootState>) =>
+  (middlewareAPI) =>
   (next) =>
   (action: AnyAction): void => {
     next(action)

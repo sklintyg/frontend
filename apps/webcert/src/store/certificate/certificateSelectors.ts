@@ -17,8 +17,14 @@ import type {
   Unit,
   ValidationError,
 } from '../../types'
-import { CertificateDataValueType } from '../../types'
-import { CertificateRelationType, CertificateStatus, ConfigTypes, QuestionType, ResourceLinkType } from '../../types'
+import {
+  CertificateDataValueType,
+  CertificateRelationType,
+  CertificateStatus,
+  ConfigTypes,
+  QuestionType,
+  ResourceLinkType,
+} from '../../types'
 import { structureCertificate } from '../../utils/structureCertificate'
 import type { ValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
 import { sortedValidationErrorSummary } from '../../utils/validation/sortedValidationErrorSummary'
@@ -40,6 +46,8 @@ export const getIsValidForSigning = (state: RootState): boolean => {
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
 
 export const getCertificate = (state: RootState): Certificate | undefined => state.ui.uiCertificate.certificate
+
+export const getCertificateVersion = (state: RootState) => getCertificate(state)?.metadata.version
 
 export const getQuestion =
   (id: string) =>

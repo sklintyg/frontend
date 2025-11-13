@@ -47,7 +47,7 @@ describe('Test user middleware', () => {
 
   describe('Handle TriggerLogout', () => {
     it('shall send logout request if inactivateAutomaticLogout is false', async () => {
-      testStore.dispatch(triggerLogout)
+      testStore.dispatch(triggerLogout())
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(1)
@@ -55,7 +55,7 @@ describe('Test user middleware', () => {
 
     it('shall not send logout request if inactivateAutomaticLogout is true', async () => {
       testStore.dispatch(updateInactivateAutomaticLogout(true))
-      testStore.dispatch(triggerLogout)
+      testStore.dispatch(triggerLogout())
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(0)
@@ -64,7 +64,7 @@ describe('Test user middleware', () => {
 
   describe('GetUserStatistics', () => {
     it('shall make api call', async () => {
-      testStore.dispatch(getUserStatistics)
+      testStore.dispatch(getUserStatistics())
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(1)
@@ -79,7 +79,7 @@ describe('Test user middleware', () => {
         })
       )
 
-      testStore.dispatch(getUserStatistics)
+      testStore.dispatch(getUserStatistics())
 
       await flushPromises()
       expect(testStore.getState().ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit).toEqual(6)
@@ -93,7 +93,7 @@ describe('Test user middleware', () => {
         })
       )
 
-      testStore.dispatch(getUserStatistics)
+      testStore.dispatch(getUserStatistics())
 
       await flushPromises()
       expect(testStore.getState().ui.uiUser.userStatistics.totalDraftsAndUnhandledQuestionsOnOtherUnits).toEqual(17)
@@ -107,7 +107,7 @@ describe('Test user middleware', () => {
         })
       )
 
-      testStore.dispatch(getUserStatistics)
+      testStore.dispatch(getUserStatistics())
 
       await flushPromises()
       expect(testStore.getState().ui.uiUser.userStatistics.unitStatistics['1234a'].draftsOnUnit).toEqual(3)

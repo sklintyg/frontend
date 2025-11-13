@@ -29,7 +29,7 @@ const Logout = ({ link, user }: Props) => {
 
   const logout = () => {
     if (!user || user.loginMethod === LoginMethod.FAKE) {
-      dispatch(triggerFakeLogout)
+      dispatch(triggerFakeLogout())
       window.open('/welcome', '_self')
     } else {
       triggerSamlLogout()

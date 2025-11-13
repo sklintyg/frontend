@@ -1,4 +1,3 @@
-import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import {
@@ -17,9 +16,10 @@ import { flushPromises } from '../../utils/flushPromises'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
+import { errorMiddleware } from '../error/errorMiddleware'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { getActiveError } from '../error/errorSelectors'
 import { push, replace } from '../navigateSlice'
-import type { RootState } from '../reducer'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
@@ -34,7 +34,6 @@ import type {
 } from './certificateActions'
 import {
   answerComplementCertificate,
-  autoSaveCertificateError,
   certificateApiGenericError,
   complementCertificateSuccess,
   createCertificateFromCandidate,
@@ -60,6 +59,7 @@ import {
   getShowValidationErrors,
   getVisibleValidationErrors,
 } from './certificateSelectors'
+import { autoSaveCertificate } from './certificateThunks'
 
 const getExpectedError = (errorCode: string): CertificateApiGenericError => ({
   error: {
@@ -91,7 +91,7 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
-  let testStore: EnhancedStore<RootState>
+  let testStore: ReturnType<typeof configureApplicationStore>
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
@@ -148,37 +148,31 @@ describe('Test certificate middleware', () => {
 
   describe('Handle autoSave', () => {
     const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
+    const certificate = fakeCertificate()
+
+    beforeEach(() => {
+      testStore = configureApplicationStore([apiMiddleware, certificateMiddleware, errorMiddleware])
+    })
 
     it('shall throw error if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
+      fakeAxios.onPut(`/api/certificate/${certificate.metadata.id}`).reply(400, expectedError.error)
+      await testStore.dispatch(autoSaveCertificate(certificate))
 
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction).toBeTruthy()
-    })
-
-    it('shall throw error with type MODAL if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
-    })
-
-    it('shall throw error with errorCode CONCURRENT_MODIFICATION if autosave fails with UNKNOWN_INTERNAL_PROBLEM', async () => {
-      testStore.dispatch(autoSaveCertificateError(expectedError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.CONCURRENT_MODIFICATION)
+      expect(getActiveError(testStore.getState())).toMatchObject({
+        type: ErrorType.MODAL,
+        errorCode: ErrorCode.CONCURRENT_MODIFICATION,
+      })
     })
 
     it('shall throw error with original errorCode if its NOT UKNOWN_INTERNAL_ERROR', async () => {
-      testStore.dispatch(autoSaveCertificateError({ error: { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM } }))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
+      fakeAxios
+        .onPut(`/api/certificate/${certificate.metadata.id}`)
+        .reply(400, { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM })
+      await testStore.dispatch(autoSaveCertificate(certificate))
+      expect(getActiveError(testStore.getState())).toMatchObject({
+        type: ErrorType.ROUTE,
+        errorCode: ErrorCode.AUTHORIZATION_PROBLEM,
+      })
     })
   })
 
@@ -199,9 +193,9 @@ describe('Test certificate middleware', () => {
     })
 
     it('Should call correct endpoint for DSS signin', async () => {
-      const certificate = getTestCertificate('certificateId')
-      certificate.metadata.type = 'certificateType'
-      certificate.metadata.version = 12345
+      const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ version: 1 }) })
+      const expectedVersion = 2
+      fakeAxios.onPut(`/api/certificate/${certificate.metadata.id}`).reply(200, { version: expectedVersion })
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
@@ -210,13 +204,15 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/SIGN_SERVICE')
+      expect(fakeAxios.history.post[0].url).toEqual(
+        `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${expectedVersion}/signeringshash/SIGN_SERVICE`
+      )
     })
 
     it('Should call correct endpoint for bankid signin', async () => {
-      const certificate = getTestCertificate('certificateId')
-      certificate.metadata.type = 'certificateType'
-      certificate.metadata.version = 12345
+      const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ version: 1 }) })
+      const expectedVersion = 2
+      fakeAxios.onPut(`/api/certificate/${certificate.metadata.id}`).reply(200, { version: expectedVersion })
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.BANK_ID }))
@@ -225,7 +221,9 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/GRP')
+      expect(fakeAxios.history.post[0].url).toEqual(
+        `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${expectedVersion}/signeringshash/GRP`
+      )
     })
   })
 
@@ -323,7 +321,7 @@ describe('Test certificate middleware', () => {
         )
         .reply(200, expectedSigningData)
 
-      testStore.dispatch(startSignCertificate)
+      testStore.dispatch(startSignCertificate())
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.signingData).toEqual(expectedSigningData)
@@ -334,7 +332,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(startSignCertificate)
+      testStore.dispatch(startSignCertificate())
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)

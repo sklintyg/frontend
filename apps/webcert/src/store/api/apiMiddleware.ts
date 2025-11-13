@@ -1,13 +1,12 @@
 import { randomUUID } from '@frontend/utils'
 import type { AnyAction } from '@reduxjs/toolkit'
-import type { AxiosError, AxiosResponse } from 'axios'
+import type { AxiosError } from 'axios'
 import axios from 'axios'
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { ErrorCode } from '../error/errorReducer'
-import type { ApiError } from './apiActions'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, apiGenericError, apiSilentGenericError } from './apiActions'
+import { createApiError, getHeaders } from './apiUtils'
 import { addRequest, isRequestLoading, removeRequest } from './requestSlice'
 
 const handleApiCallBegan: Middleware =
@@ -61,13 +60,6 @@ const handleApiCallBegan: Middleware =
     }
   }
 
-function getHeaders() {
-  if (sessionStorage.getItem('launchId')) {
-    return { launchId: sessionStorage.getItem('launchId') }
-  }
-  return {}
-}
-
 const handleApiGenericError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI) =>
   () =>
@@ -81,19 +73,6 @@ const handleApiSilentGenericError: Middleware<Dispatch> =
   (action: AnyAction): void => {
     dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
   }
-
-function createApiError(api: string, response: AxiosResponse | undefined, altMessage: string): ApiError {
-  if (!response) {
-    return { api, errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM, message: altMessage }
-  }
-
-  if (response.data && response.data.errorCode) {
-    return { api, errorCode: response.data.errorCode, message: response.data.message }
-  }
-
-  const errorCode: string = response.status === 403 ? ErrorCode.TIMEOUT : ErrorCode.UNKNOWN_INTERNAL_PROBLEM
-  return { api, errorCode, message: response.status + ' - ' + response.statusText }
-}
 
 const middlewareMethods = {
   [apiCallBegan.type]: handleApiCallBegan,
