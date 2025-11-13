@@ -24,6 +24,7 @@ const certificateTypes: CertificateType[] = [
     links: [],
     message: 'message',
     confirmationModal: null,
+    modalLink: null,
   },
 ]
 

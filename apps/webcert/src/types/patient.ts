@@ -43,7 +43,7 @@ export interface CertificateType {
   links: ResourceLink[]
   message: string
   confirmationModal: CertificateConfirmationModal | null
-  modalLink: string
+  modalLink: string | null
 }
 
 export interface CertificateTypeInfoModalData {
