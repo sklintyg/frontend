@@ -143,7 +143,7 @@ export function CertificateListRow({
           </Tooltip>
 
           <CertificateName>
-            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId.toUpperCase()}
+            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
           </CertificateName>
           <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
             <ModalContent>
@@ -164,7 +164,12 @@ export function CertificateListRow({
         {message && (
           <div className="iu-pt-200">
             <InfoBox type="info">
-              {message} {modalLink && <LinkButton onClick={handleInfoModalClick}>{modalLink}</LinkButton>}
+              {message}{' '}
+              {modalLink && (
+                <LinkButton style={{ cursor: 'pointer' }} onClick={handleInfoModalClick}>
+                  {modalLink}
+                </LinkButton>
+              )}
             </InfoBox>
           </div>
         )}
