@@ -67,16 +67,13 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     const oldValue = question.value as ValueText
     const savedValue = oldValue?.text ?? ''
 
-    if (text === '') {
-      if (savedValue !== '') {
-        const updatedValue = getUpdatedValue(question, '')
-        dispatch(updateCertificateDataElement(updatedValue))
-      }
-    } else if (text !== savedValue) {
-      setText('')
-      const updatedValue = getUpdatedValue(question, '')
-      dispatch(updateCertificateDataElement(updatedValue))
+    if (text === savedValue) {
+      return
     }
+
+    setText('')
+    const updatedValue = getUpdatedValue(question, null)
+    dispatch(updateCertificateDataElement(updatedValue))
   }
 
   const getSuggestions = (): Suggestion[] => {
@@ -127,7 +124,7 @@ function getTextValue(question: CertificateDataElement): ValueText | null {
   return question.value as ValueText
 }
 
-function getUpdatedValue(question: CertificateDataElement, text: string): CertificateDataElement {
+function getUpdatedValue(question: CertificateDataElement, text: string | null): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
   updatedQuestion.value = { ...(updatedQuestion.value as ValueText) }
   ;(updatedQuestion.value as ValueText).text = text
