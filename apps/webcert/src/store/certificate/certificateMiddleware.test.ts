@@ -193,9 +193,9 @@ describe('Test certificate middleware', () => {
     })
 
     it('Should call correct endpoint for DSS signin', async () => {
-      const certificate = getTestCertificate('certificateId')
-      certificate.metadata.type = 'certificateType'
-      certificate.metadata.version = 12345
+      const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ version: 1 }) })
+      const expectedVersion = 2
+      fakeAxios.onPut(`/api/certificate/${certificate.metadata.id}`).reply(200, { version: expectedVersion })
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.DSS }))
@@ -204,13 +204,15 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/SIGN_SERVICE')
+      expect(fakeAxios.history.post[0].url).toEqual(
+        `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${expectedVersion}/signeringshash/SIGN_SERVICE`
+      )
     })
 
     it('Should call correct endpoint for bankid signin', async () => {
-      const certificate = getTestCertificate('certificateId')
-      certificate.metadata.type = 'certificateType'
-      certificate.metadata.version = 12345
+      const certificate = fakeCertificate({ metadata: fakeCertificateMetaData({ version: 1 }) })
+      const expectedVersion = 2
+      fakeAxios.onPut(`/api/certificate/${certificate.metadata.id}`).reply(200, { version: expectedVersion })
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(updateUser({ ...fakeUser(), signingMethod: SigningMethod.BANK_ID }))
@@ -219,7 +221,9 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/GRP')
+      expect(fakeAxios.history.post[0].url).toEqual(
+        `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${expectedVersion}/signeringshash/GRP`
+      )
     })
   })
 

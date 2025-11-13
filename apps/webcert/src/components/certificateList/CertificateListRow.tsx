@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { LinkButton, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { getByType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -16,6 +16,7 @@ import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
 import InfoBox from '../utils/InfoBox'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 import { CreateCertificateButton } from './CreateCertificateButton'
+import { CertificateTypeInfoModal } from '../utils/Modal/CertificateTypeInfoModal'
 
 const Row = styled.div`
   border-bottom: #e0e0e0 1px solid;
@@ -46,6 +47,7 @@ export function CertificateListRow({
   patient,
   links,
   confirmationModal,
+  modalLink,
 }: {
   certificateName: string
   certificateInfo: string
@@ -57,6 +59,7 @@ export function CertificateListRow({
   patient?: Patient
   links: ResourceLink[]
   confirmationModal: CertificateConfirmationModal | null
+  modalLink: string | null
 }) {
   const dispatch = useAppDispatch()
 
@@ -64,6 +67,7 @@ export function CertificateListRow({
   const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
   const [showLuaenaModal, setShowLuaenaModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showCertificateTypeInfoModal, setShowCertificateTypeInfoModal] = useState(false)
 
   const createCertificateLink = getByType(links, ResourceLinkType.CREATE_CERTIFICATE)
   const missingRelatedCertificateLink = getByType(links, ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
@@ -71,6 +75,10 @@ export function CertificateListRow({
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {
     preferenceClick(id)
+  }
+
+  const handleInfoModalClick = () => {
+    setShowCertificateTypeInfoModal(true)
   }
 
   const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
@@ -113,6 +121,14 @@ export function CertificateListRow({
               {...missingRelatedCertificateLink}
             />
           )}
+          {modalLink && (
+            <CertificateTypeInfoModal
+              certificateType={id}
+              patientId={patient.personId.id}
+              open={showCertificateTypeInfoModal}
+              setOpen={setShowCertificateTypeInfoModal}
+            />
+          )}
         </>
       )}
       <Row data-testid={`certificate-list-row-${id}`} className="iu-flex iu-flex-column iu-p-400">
@@ -127,7 +143,7 @@ export function CertificateListRow({
           </Tooltip>
 
           <CertificateName>
-            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId.toUpperCase()}
+            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
           </CertificateName>
           <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
             <ModalContent>
@@ -147,7 +163,14 @@ export function CertificateListRow({
         </div>
         {message && (
           <div className="iu-pt-200">
-            <InfoBox type="info">{message}</InfoBox>
+            <InfoBox type="info">
+              {message}{' '}
+              {modalLink && (
+                <LinkButton style={{ cursor: 'pointer' }} onClick={handleInfoModalClick}>
+                  {modalLink}
+                </LinkButton>
+              )}
+            </InfoBox>
           </div>
         )}
       </Row>

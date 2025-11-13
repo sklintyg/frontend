@@ -25,6 +25,7 @@ const createType = ({
   links = [],
   message = '',
   confirmationModal = null,
+  modalLink = null,
 }: Partial<CertificateType>): CertificateType => ({
   description,
   detailedDescription,
@@ -34,6 +35,7 @@ const createType = ({
   links,
   message,
   confirmationModal,
+  modalLink,
 })
 
 let testStore: EnhancedStore

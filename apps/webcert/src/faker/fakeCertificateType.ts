@@ -12,6 +12,7 @@ export function fakeCertificateType(data?: Partial<CertificateType>): Certificat
     links: [],
     message: fake.lorem.sentence(),
     confirmationModal: null,
+    modalLink: null,
     ...data,
   }
 }
