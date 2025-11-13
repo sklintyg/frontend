@@ -90,9 +90,10 @@ export function CertificateList() {
           <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
             {[...certificateTypes]
               .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
-              .map(({ label, detailedDescription, id, issuerTypeId, links, message, confirmationModal }) => {
+              .map(({ label, detailedDescription, id, issuerTypeId, links, message, confirmationModal, modalLink }) => {
                 return (
                   <CertificateListRow
+                    modalLink={modalLink}
                     certificateName={label}
                     certificateInfo={detailedDescription}
                     id={id}
