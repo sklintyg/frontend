@@ -42,14 +42,40 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     if (newText !== text) {
       setText(newText)
 
-      dispatchEditDraft(question, newText)
-
       if (newText === undefined || newText === null) {
-        return []
+        setSuggestions([])
+        return
       }
 
       const result = GetFilteredSuggestions(questionConfig.typeAhead, newText)
       setSuggestions(result)
+    }
+  }
+
+  const handleFocus: React.FocusEventHandler<HTMLInputElement> = () => {
+    if (text === undefined || text === null || text === '') {
+      setSuggestions([])
+    } else {
+      const result = GetFilteredSuggestions(questionConfig.typeAhead, text)
+      setSuggestions(result)
+    }
+  }
+
+  const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+    dispatchEditDraft.cancel()
+
+    const oldValue = question.value as ValueText
+    const savedValue = oldValue?.text ?? ''
+
+    if (text === '') {
+      if (savedValue !== '') {
+        const updatedValue = getUpdatedValue(question, '')
+        dispatch(updateCertificateDataElement(updatedValue))
+      }
+    } else if (text !== savedValue) {
+      setText('')
+      const updatedValue = getUpdatedValue(question, '')
+      dispatch(updateCertificateDataElement(updatedValue))
     }
   }
 
@@ -66,7 +92,9 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const onSuggestionSelected = (value: string) => {
     if (value !== text) {
       setText(value)
-      dispatchEditDraft(question, value)
+      dispatchEditDraft.cancel()
+      const updatedValue = getUpdatedValue(question, value)
+      dispatch(updateCertificateDataElement(updatedValue))
     }
   }
 
@@ -78,6 +106,8 @@ const UeTypeahead = ({ question, disabled }: Props) => {
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}
           onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
           placeholder={questionConfig.placeholder}
