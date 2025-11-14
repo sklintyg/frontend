@@ -11,7 +11,7 @@ export const getUserPreference =
     state.ui.uiUser.user?.preferences?.[key]
 
 export const isUnauthorizedPrivatePractitioner = (state: RootState): boolean | null =>
-  state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('privatelakare_obehorig')
+  state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('obehörig privatläkare')
 
 export const isDoctor = (state: RootState): boolean | null =>
   state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('läkare')
