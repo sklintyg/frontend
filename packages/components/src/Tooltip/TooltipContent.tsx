@@ -2,7 +2,8 @@ import { FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import type { HTMLProps } from 'react'
 import { forwardRef } from 'react'
 import { useTheme } from '../theme/useTheme'
-import { classNames, hasNoChildren } from '../utils'
+import { classNames } from '../utils/classNames'
+import { hasNoChildren } from '../utils/hasNoChildren'
 import { useTooltipContext } from './hooks/useTooltipContext'
 
 interface TooltipContentProps {

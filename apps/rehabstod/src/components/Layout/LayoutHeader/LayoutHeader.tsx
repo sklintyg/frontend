@@ -10,8 +10,8 @@ import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenu } from './HeaderAvatarMenu'
+import { LayoutHeaderNav } from './LayoutHeaderNav'
 import { LayoutMobileMenu } from './LayoutMobileMenu/LayoutMobileMenu'
-import { HeaderNavItem } from './NavItem/HeaderNavItem'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -76,15 +76,7 @@ export function LayoutHeader() {
             </div>
           </div>
 
-          {user && (
-            <nav className="ids-header-1177-admin__nav">
-              <ul className="ids-header-1177-admin__nav-inner">
-                <HeaderNavItem title="Översikt" to="/" />
-                <HeaderNavItem title="Pågående sjukfall" to="/pagaende-sjukfall" />
-                <HeaderNavItem title="Läkarutlåtanden" to="/lakarutlatanden" />
-              </ul>
-            </nav>
-          )}
+          {user && <LayoutHeaderNav />}
         </div>
         {mobileMenuOpen && <LayoutMobileMenu name={name} unit={unit} />}
       </header>

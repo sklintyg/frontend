@@ -1,14 +1,20 @@
-import { screen } from '@testing-library/react'
-import { renderWithRouter } from '../../../utils/renderWithRouter'
+import { render, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { createMemoryRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { api } from '../../../store/api'
+import { store } from '../../../store/store'
 import { LayoutFooter } from './LayoutFooter'
 
-it('Should display links', async () => {
-  renderWithRouter(<LayoutFooter />)
+it('Should render footer as expected', async () => {
+  store.dispatch(api.endpoints.getLinks.initiate())
 
-  expect(screen.getByText('Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.')).toBeInTheDocument()
+  await waitFor(() => expect(api.endpoints.getLinks.select()(store.getState()).isSuccess).toBe(true))
 
-  expect(await screen.findAllByText('ineraManualRehabstod')).toHaveLength(2)
-  expect(await screen.findAllByText('ineraNationellKundservice')).toHaveLength(2)
-  expect(await screen.findAllByText('ineraMainPage')).toHaveLength(2)
-  expect(await screen.findAllByText('ineraBehandlingPersonuppgifter')).toHaveLength(2)
+  const { container } = render(
+    <Provider store={store}>
+      <RouterProvider router={createMemoryRouter(createRoutesFromElements(<Route path="/" element={<LayoutFooter />} />))} />
+    </Provider>
+  )
+
+  expect(container).toMatchSnapshot()
 })

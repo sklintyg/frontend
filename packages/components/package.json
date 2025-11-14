@@ -13,31 +13,6 @@
       "import": {
         "default": "./dist/index.js"
       }
-    },
-    "./1177": {
-      "types": "./dist/1177.d.ts",
-      "import": "./dist/1177.js",
-      "require": "./dist/1177.js"
-    },
-    "./1177-pro": {
-      "types": "./dist/1177-pro.d.ts",
-      "import": "./dist/1177-pro.js",
-      "require": "./dist/1177-pro.js"
-    },
-    "./inera": {
-      "types": "./dist/inera.d.ts",
-      "import": "./dist/inera.js",
-      "require": "./dist/inera.js"
-    },
-    "./inera-admin": {
-      "types": "./dist/inera-admin.d.ts",
-      "import": "./dist/inera-admin.js",
-      "require": "./dist/inera-admin.js"
-    },
-    "./colors": {
-      "types": "./dist/colors.d.ts",
-      "import": "./dist/colors.js",
-      "require": "./dist/colors.js"
     }
   },
   "files": [
@@ -49,6 +24,7 @@
     "dev": "rollup -c --watch",
     "test": "vitest",
     "lint": "eslint .",
+    "ctix": "ctix build",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -57,11 +33,15 @@
   "dependencies": {
     "@floating-ui/react": "^0.27.16",
     "@frontend/colors": "workspace:*",
+    "@frontend/utils": "workspace:*",
     "@inera/ids-design": "^7.0.0",
     "@inera/ids-react": "^7.0.0",
+    "@internationalized/date": "^3.2.0",
     "react": "^18.3.1",
+    "react-aria": "^3.25.0",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.21.2"
+    "react-router-dom": "^6.21.2",
+    "react-stately": "^3.23.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -73,6 +53,7 @@
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/parser": "^6.18.1",
     "autoprefixer": "^10.4.13",
+    "ctix": "^2.7.1",
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",

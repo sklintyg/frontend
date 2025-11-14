@@ -1,11 +1,9 @@
+import { Button, Dialog, Heading } from '@frontend/components'
 import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
 import { hasUserFeature } from '../../utils/hasUserFeature'
-import { Button } from '../Button/Button'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
-import { Heading } from '../Heading/Heading'
-import { Dialog } from './Dialog'
 
 export function AboutDialog() {
   const { data: user } = useGetUserQuery()
@@ -15,7 +13,17 @@ export function AboutDialog() {
   const dispatch = useAppDispatch()
 
   return (
-    <Dialog open={showAboutDialog} onOpenChange={(open) => dispatch(updateShowAboutDialog(open))} dismissible headline="Om Rehabstöd">
+    <Dialog
+      open={showAboutDialog}
+      onOpenChange={(open) => dispatch(updateShowAboutDialog(open))}
+      dismissible
+      headline="Om Rehabstöd"
+      actions={
+        <Button sBlock onClick={() => dispatch(updateShowAboutDialog(false))}>
+          Stäng
+        </Button>
+      }
+    >
       <div className="ids-content text-base [&:not(:last-child)]:mb-8">
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.
@@ -60,11 +68,6 @@ export function AboutDialog() {
           {links?.rattsjukskrivning && <DynamicLink link={links.rattsjukskrivning} />}
         </div>
       )}
-      <div slot="actions">
-        <Button sblock onClick={() => dispatch(updateShowAboutDialog(false))}>
-          Stäng
-        </Button>
-      </div>
     </Dialog>
   )
 }

@@ -1,6 +1,5 @@
+import { Button, Dialog } from '@frontend/components'
 import { useState } from 'react'
-import { Button } from '../../../../../components/Button/Button'
-import { Dialog } from '../../../../../components/dialog/Dialog'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 
 export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onClick: (id: string) => void }) {
@@ -21,11 +20,13 @@ export function GetOpenInformationButton({ item, onClick }: { item: SjfItem; onC
       >
         Hämta
       </Button>
-      <Dialog open={open} onOpenChange={setOpen} headline="Ingen information hämtad">
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+        headline="Ingen information hämtad"
+        actions={<Button onClick={() => setOpen(false)}>Stäng</Button>}
+      >
         <p>Vårdenhetens intyg tillhör inte pågående sjukfall och inhämtas därför inte.</p>
-        <div slot="actions">
-          <Button onClick={() => setOpen(false)}>Stäng</Button>
-        </div>
       </Dialog>
     </>
   )

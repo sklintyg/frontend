@@ -1,7 +1,6 @@
+import { classNames, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { IDSIconCopyFile } from '@inera/ids-react'
 import { useState } from 'react'
-import { classNames } from '../../utils/classNames'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip'
 
 export function ErrorIdentifier({ id, showTitle = true, centerText = true }: { id: string; showTitle?: boolean; centerText?: boolean }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)

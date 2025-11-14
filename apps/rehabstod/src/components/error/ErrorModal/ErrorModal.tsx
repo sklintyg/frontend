@@ -1,11 +1,10 @@
+import { Button, Dialog } from '@frontend/components'
 import { randomUUID } from '@frontend/utils'
 import { useEffect, useState } from 'react'
 import type { ErrorCode } from '../../../schemas/errorSchema'
 import { api, useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
-import { Button } from '../../Button/Button'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
-import { Dialog } from '../../dialog/Dialog'
 import { ErrorIdentifier } from '../ErrorIdentifier'
 
 export function ErrorModal({
@@ -40,17 +39,22 @@ export function ErrorModal({
   }, [dispatch, description, errorCode, generateError, errorId])
 
   return (
-    <Dialog dismissible open={open} headline="Tekniskt fel">
+    <Dialog
+      dismissible
+      open={open}
+      headline="Tekniskt fel"
+      onOpenChange={setOpen}
+      actions={
+        <Button secondary onClick={() => setOpen(false)}>
+          Stäng
+        </Button>
+      }
+    >
       <p className="mb-5">
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}.
       </p>
       {generateError && <ErrorIdentifier id={errorId} />}
-      <div slot="actions">
-        <Button secondary onClick={() => setOpen(false)}>
-          Stäng
-        </Button>
-      </div>
     </Dialog>
   )
 }

@@ -1,9 +1,8 @@
+import { Dialog, Heading } from '@frontend/components'
 import { useGetLinksQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowCookieDialog } from '../../store/slices/cookieDialog.slice'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
-import { Heading } from '../Heading/Heading'
-import { Dialog } from './Dialog'
 
 export function CookieDialog() {
   const { data: links } = useGetLinksQuery()
@@ -36,8 +35,8 @@ export function CookieDialog() {
           hjälpsidor för mer information. Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna
           e-tjänst.
         </p>
-        <p className="mb-2">Mer information om kakor kan du finna på Kommunikationsmyndigheten PTS sida om kakor </p>
-        {links?.ptsCookies && <DynamicLink link={links.ptsCookies} />}
+        <p className="mb-2">Mer information om kakor kan du finna på</p>
+        <DynamicLink link={links?.ptsCookies} />
       </div>
     </Dialog>
   )
