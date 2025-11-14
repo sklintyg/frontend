@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import type { EnhancedStore } from '@reduxjs/toolkit'
@@ -95,5 +95,41 @@ describe('Typeahead component', () => {
     expect(listItems[2].title).toBe('DEGERFORS')
     expect(listItems[3].title).toBe('FORSHAGA')
     expect(listItems[4].title).toBe('HAGFORS')
+  })
+
+  it('does not save value when typing and blurring without explicit selection', async () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'ORS')
+
+    await userEvent.click(document.body)
+
+    await waitFor(() => {
+      expect(input).toHaveValue('')
+    })
+
+    expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: null } })
+  })
+
+  it('saves value when selecting from dropdown with Enter key', async () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'ORS')
+
+    await userEvent.keyboard('{Enter}')
+    expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: 'ORSA' } })
+    expect(input).toHaveValue('ORSA')
+  })
+
+  it('saves value when selecting from dropdown with Tab key', async () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'ORS')
+
+    await userEvent.keyboard('{Tab}')
+    expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: 'ORSA' } })
   })
 })
