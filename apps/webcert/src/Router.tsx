@@ -8,6 +8,11 @@ import { CertificateDraftsPage } from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
 import ErrorPage from './page/ErrorPage'
+import { PPRegistrationDone } from './page/PPRegistration/PPRegistrationDone'
+import { PPRegistrationStep01 } from './page/PPRegistration/PPRegistrationStep01'
+import { PPRegistrationStep02 } from './page/PPRegistration/PPRegistrationStep02'
+import { PPRegistrationStep03 } from './page/PPRegistration/PPRegistrationStep03'
+import { PPRegistrationStep04 } from './page/PPRegistration/PPRegistrationStep04'
 import { SearchPageWithRedirect } from './page/SearchPage'
 import { SelectUnitPage } from './page/SelectUnitPage'
 import { SignedCertificatesPage } from './page/SignedCertificatesPage'
@@ -64,6 +69,11 @@ export function Router() {
         <Route path="list/draft" element={<CertificateDraftsPage />} />
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
+        <Route path="register/step-1" element={<PPRegistrationStep01 />} />
+        <Route path="register/step-2" element={<PPRegistrationStep02 />} />
+        <Route path="register/step-3" element={<PPRegistrationStep03 />} />
+        <Route path="register/step-4" element={<PPRegistrationStep04 />} />
+        <Route path="register/done" element={<PPRegistrationDone />} />
       </Route>
     </Routes>
   )

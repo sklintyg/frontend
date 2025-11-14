@@ -7,6 +7,7 @@ import icfReducer from './icf/icfReducer'
 import listReducer from './list/listReducer'
 import { navigateReducer } from './navigateSlice'
 import patientReducer from './patient/patientReducer'
+import { ppReducer, ppReducerName } from './pp/ppReducer'
 import questionReducer from './question/questionReducer'
 import sessionReducer from './session/sessionReducer'
 import srsReducer from './srs/srsReducer'
@@ -30,6 +31,7 @@ export const reducer = combineReducers({
     uiList: listReducer,
     uiSRS: srsReducer,
     uiNavigation: navigateReducer,
+    [ppReducerName]: ppReducer,
   }),
   [requestPath]: requestReducer,
 })

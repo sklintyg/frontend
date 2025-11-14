@@ -1,38 +1,20 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import type { ReactNode } from 'react'
 import React from 'react'
 import type { FlattenSimpleInterpolation } from 'styled-components'
-import styled from 'styled-components'
-import { questionImage } from '../../images'
-
-const Icon = styled.img`
-  width: 14px;
-  display: inline-block;
-`
+import { FieldLabel } from './FieldLabel'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
   limit?: number
   hasValidationError?: boolean
   css?: FlattenSimpleInterpolation
-  tooltip?: string
+  tooltip?: ReactNode
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
   ({ label, id, limit, className, hasValidationError, css, autoComplete, tooltip, ...props }, ref) => (
     <div>
-      {label && (
-        <>
-          <label htmlFor={id}>{label}</label>{' '}
-          {tooltip && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Icon src={questionImage} tabIndex={0} alt={tooltip} />
-              </TooltipTrigger>
-              <TooltipContent small>{tooltip}</TooltipContent>
-            </Tooltip>
-          )}
-        </>
-      )}
+      {label && <FieldLabel id={id} label={label} tooltip={tooltip} />}
       <input
         ref={ref}
         className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
