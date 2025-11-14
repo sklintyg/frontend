@@ -3,7 +3,7 @@ import { createContext, useRef } from 'react'
 
 export const DialogPortalContext = createContext<HTMLElement | null>(null)
 
-function DialogPortalProvider({ children }: { children: ReactNode }) {
+export function DialogPortalProvider({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
   return (
     <DialogPortalContext.Provider value={ref.current}>

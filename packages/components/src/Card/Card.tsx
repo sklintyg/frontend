@@ -1,7 +1,7 @@
 import '@inera/ids-design/components/card/card.css'
 import { type ReactNode } from 'react'
 import { useTheme } from '../theme/useTheme'
-import { classNames } from '../utils'
+import { classNames } from '../utils/classNames'
 
 export function Card({
   hideons = false,

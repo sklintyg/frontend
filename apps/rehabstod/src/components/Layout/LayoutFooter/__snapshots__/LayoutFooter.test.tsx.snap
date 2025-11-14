@@ -1,0 +1,275 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Should render footer as expected 1`] = `
+<div>
+  <footer
+    class="ids-footer-1177-admin print:hidden"
+  >
+    <div
+      class="ids-footer-1177-admin__inner-wrapper"
+    >
+      <div
+        class="ids-footer-1177-admin__inner"
+      >
+        <div
+          class="ids-footer-1177-admin__headline-row"
+        >
+          <h1
+            class="ids-footer-1177-admin__headline"
+          >
+            Rehabstod
+          </h1>
+        </div>
+        <div
+          class="ids-footer-1177-admin__content"
+        >
+          <div
+            class="ids-footer-1177-admin__text"
+          >
+            <p
+              class="ids-body"
+            >
+              Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.
+            </p>
+          </div>
+          <div
+            class="ids-footer-1177-admin__link-col ids-footer-1177-admin__link-col--2 ids-footer-1177-admin__col-size-3"
+          >
+            <ul>
+              <li>
+                <a
+                  class="ids-link ids-link--color-1"
+                  href="https://insecure-ophthalmologist.com"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span
+                    class="ids-icon-arrow-right-small ids-icon--text-start"
+                  />
+                  ineraManualRehabstod
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                  />
+                </a>
+              </li>
+              <li>
+                <a
+                  class="ids-link ids-link--color-1"
+                  href="http://wrong-elephant.com"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span
+                    class="ids-icon-arrow-right-small ids-icon--text-start"
+                  />
+                  ineraNationellKundservice
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="ids-footer-1177-admin__link-col ids-footer-1177-admin__link-col--2 ids-footer-1177-admin__col-size-3"
+          >
+            <ul>
+              <li>
+                <a
+                  class="ids-link ids-link--color-1"
+                  href="http://new-adrenalin.info"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span
+                    class="ids-icon-arrow-right-small ids-icon--text-start"
+                  />
+                  Tillgänglighetsredogörelse
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ids-footer-1177-admin__sub-footer"
+    >
+      <div
+        class="ids-footer-1177-admin__sub-footer-container"
+      >
+        <div
+          class="ids-footer-1177-admin__sub-footer-row"
+        >
+          <div
+            class="ids-footer-1177-admin__sub-footer-left"
+          >
+            <p>
+              Rehabstöd drivs av
+               
+              <a
+                class="ids-link ids-link--color-4 ids-link--icon ids-link--light ids-link--small ids-link--underlined"
+                href="https://delicious-quadrant.org"
+                rel="noreferrer"
+                target="_blank"
+              >
+                ineraMainPage
+                <span
+                  class="ids-icon-external-link-small ids-icon--text-end"
+                />
+              </a>
+            </p>
+          </div>
+          <div
+            class="ids-footer-1177-admin__sub-footer-right"
+          >
+            <a
+              class="ids-link ids-link--color-4 ids-link--light ids-link--small"
+              href="http://grubby-dragster.info"
+              rel="noreferrer"
+              target="_blank"
+            >
+              ineraBehandlingPersonuppgifter
+              <span
+                class="ids-icon-external-link-small ids-icon--text-end"
+              />
+            </a>
+            <button
+              class="ids-link inline-flex font-normal items-center ids-link--underlined ids-link--color-4 ids-link--light ids-link--small"
+              type="button"
+            >
+              <span
+                class="ids-link__text"
+              >
+                Hantering av kakor
+              </span>
+            </button>
+          </div>
+          <div
+            class="ids-footer-1177-admin__mobile-menu"
+          >
+            <nav
+              aria-label="mobile-menu"
+              class="ids-mobile-menu ids-mobile-menu--variation-2"
+            >
+              <ul>
+                <li
+                  class="ids-mobile-menu-item"
+                >
+                  <div
+                    class="ids-mobile-menu-item__inner"
+                  >
+                    <a
+                      href="https://insecure-ophthalmologist.com"
+                      target="_blank"
+                    >
+                      ineraManualRehabstod
+                      <span
+                        class="ids-icon-external-link ids-icon--text-end ml-1"
+                      />
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="ids-mobile-menu-item"
+                >
+                  <div
+                    class="ids-mobile-menu-item__inner"
+                  >
+                    <a
+                      href="http://wrong-elephant.com"
+                      target="_blank"
+                    >
+                      ineraNationellKundservice
+                      <span
+                        class="ids-icon-external-link ids-icon--text-end ml-1"
+                      />
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="ids-mobile-menu-item"
+                >
+                  <div
+                    class="ids-mobile-menu-item__inner"
+                  >
+                    <a
+                      href="http://new-adrenalin.info"
+                      target="_blank"
+                    >
+                      Tillgänglighetsredogörelse
+                      <span
+                        class="ids-icon-external-link ids-icon--text-end ml-1"
+                      />
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div
+            class="ids-footer-1177-admin__mobile-links"
+          >
+            <a
+              class="ids-link"
+              href="http://grubby-dragster.info"
+              rel="noreferrer"
+              target="_blank"
+            >
+              ineraBehandlingPersonuppgifter
+              <span
+                class="ids-icon-external-link-small ids-icon--text-end"
+              />
+            </a>
+            <button
+              class="ids-link inline-flex font-normal items-center ids-link--underlined text-base"
+              type="button"
+            >
+              <span
+                class="ids-link__text"
+              >
+                Hantering av kakor
+              </span>
+            </button>
+          </div>
+          <div
+            class="ids-footer-1177-admin__sub-footer-mobile"
+          >
+            <div
+              class="ids-footer-1177-admin__sub-footer-mobile-icon"
+            >
+              <div
+                class="ids-footer-1177-admin__sub-footer-mobile-service-name"
+              >
+                Rehabstod
+              </div>
+            </div>
+            <div
+              class="ids-footer-1177-admin__sub-footer-mobile-text"
+            >
+              <p>
+                Rehabstöd drivs av
+                 
+                <a
+                  class="ids-link ids-link--icon ids-link--small ids-link--underlined"
+                  href="https://delicious-quadrant.org"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  ineraMainPage
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                  />
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

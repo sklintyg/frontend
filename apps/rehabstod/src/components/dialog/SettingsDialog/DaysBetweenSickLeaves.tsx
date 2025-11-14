@@ -1,7 +1,7 @@
+import { FormattedNumberInput } from '@frontend/components'
 import type { ComponentProps } from 'react'
 import { DAYS_BETWEEN_SICK_LEAVES } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
-import { FormattedNumberInput } from '../../form/FormattedNumberInput'
 import { SettingsDialogInput } from './SettingsDialogInput'
 
 export function DaysBetweenSickLeaves({ value, onChange }: Pick<ComponentProps<typeof FormattedNumberInput>, 'value' | 'onChange'>) {

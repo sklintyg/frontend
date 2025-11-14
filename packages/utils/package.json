@@ -11,6 +11,7 @@
     "dev": "rollup -c --watch",
     "test": "vitest",
     "lint": "eslint .",
+    "ctix": "ctix build",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -20,6 +21,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@typescript-eslint/parser": "^6.18.1",
+    "ctix": "^2.7.1",
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
     "rollup": "^4.22.4",
