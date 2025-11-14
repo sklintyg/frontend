@@ -1,3 +1,4 @@
+import '@inera/ids-design/components/footer-1177-admin/footer-1177-admin.css'
 import { useGetLinksQuery } from '../../../store/api'
 import { LinkColumn } from './LinkColumn'
 import { SubFooter } from './SubFooter'
