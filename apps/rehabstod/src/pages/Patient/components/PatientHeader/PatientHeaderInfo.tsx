@@ -1,6 +1,6 @@
+import { TooltipIcon } from '@frontend/components'
 import { IDSIconInformation, IDSIconUser } from '@inera/ids-react'
 import { differenceInDays, parseISO } from 'date-fns'
-import { TooltipIcon } from '../../../../components/Tooltip'
 import type { PatientSjukfall, PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 import { useAppSelector } from '../../../../store/hooks'
 

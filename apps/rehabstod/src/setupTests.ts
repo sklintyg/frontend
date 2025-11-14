@@ -36,6 +36,10 @@ beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' })
 })
 
+beforeEach(() => {
+  faker.seed(1234)
+})
+
 afterEach(() => {
   vi.restoreAllMocks()
   vi.unstubAllGlobals()

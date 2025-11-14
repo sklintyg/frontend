@@ -1,5 +1,6 @@
+import { classNames } from '@frontend/components'
 import { IDSIconArrow } from '@inera/ids-react'
-import { classNames } from '../../utils/classNames'
+import { Fragment } from 'react/jsx-runtime'
 
 export function SickLeaveDegreeInfo({ degrees, activeDegree }: { degrees: number[]; activeDegree?: number }) {
   if (degrees.length === 0) {
@@ -9,14 +10,12 @@ export function SickLeaveDegreeInfo({ degrees, activeDegree }: { degrees: number
   return (
     <div className="flex gap-1 whitespace-nowrap">
       {degrees.map((degree, index) => (
-        <>
-          {index > 0 && (
-            <IDSIconArrow key={`degree${degree}-icon`} size="xs" className="my-auto" color="currentColor" color2="currentColor" />
-          )}
+        <Fragment key={`degree${degree}-icon`}>
+          {index > 0 && <IDSIconArrow size="xs" className="my-auto" color="currentColor" color2="currentColor" />}
           <span className={classNames(activeDegree === degree && 'font-bold')} key={`degree${degree}`}>
             {degree}%
           </span>
-        </>
+        </Fragment>
       ))}
     </div>
   )

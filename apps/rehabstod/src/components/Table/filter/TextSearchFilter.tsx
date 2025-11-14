@@ -1,4 +1,4 @@
-import { Input } from '../../form/Input/Input'
+import { Input } from '@frontend/components'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function TextSearchFilter({

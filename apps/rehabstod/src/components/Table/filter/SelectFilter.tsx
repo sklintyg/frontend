@@ -1,4 +1,4 @@
-import { Select } from '../../form/Select/Select'
+import { Select } from '@frontend/components'
 import { PrintTitle } from '../print/PrintTitle'
 
 export function SelectFilter({

@@ -1,4 +1,4 @@
-import { classNames } from '../../utils/classNames'
+import { classNames } from '@frontend/components'
 
 export function RiskSignalCircle({ riskCategory, index }: { riskCategory: number; index: number }) {
   return (

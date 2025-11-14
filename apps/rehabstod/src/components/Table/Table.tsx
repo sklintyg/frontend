@@ -1,7 +1,7 @@
+import { classNames } from '@frontend/components'
 import '@inera/ids-design/components/data-table/data-table.css'
 import type { ReactNode } from 'react'
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
-import { classNames } from '../../utils/classNames'
 import { getTableSorter } from '../../utils/getTableSorter'
 import { FixedTable } from './FixedTable'
 import { FloatingTableScroll } from './FloatingTableScroll/FloatingTableScroll'

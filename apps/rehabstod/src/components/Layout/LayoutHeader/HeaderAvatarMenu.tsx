@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { classNames, Icon } from '@frontend/components'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
-import { classNames } from '../../../utils/classNames'
+import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 
 export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string }) {
   const [open, setOpen] = useState(false)
   const dispatch = useAppDispatch()
   const { logout } = useLogout()
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const id = useId()
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
@@ -26,16 +28,16 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
     <div className="ids-header-1177-admin__avatar ids-header-1177-admin__avatar--expanded">
       <button
         type="button"
-        data-testid="avatar-menu"
         onClick={(event) => {
           event.stopPropagation()
           setOpen(!open)
         }}
         className="ids-header-1177-admin__avatar-box"
         aria-expanded={open}
+        aria-labelledby={id}
       >
         <div className="ids-header-1177-admin__avatar-icon" />
-        <div className="ids-header-1177-admin__avatar-content">
+        <div id={id} className="ids-header-1177-admin__avatar-content">
           <div className="ids-header-1177-admin__avatar-content__name">{name}</div>
           <div className="ids-header-1177-admin__avatar-content__unit">{unit}</div>
         </div>
@@ -44,28 +46,26 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
 
       {open && (
         <div ref={dropdownRef} className="ids-header-1177-admin__avatar-dropdown">
-          <Link to="/enhet" className="ids-icon-swap-horizontal ids-link--start-icon ids-link ids-link--large ids-link--block text-left">
+          <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
+            <Icon icon="swap-horizontal" textStart />
             Byt vårdenhet
           </Link>
 
-          <button
-            type="button"
-            className="ids-icon-settings ids-link--start-icon ids-link ids-link--large ids-link--block text-left"
-            onClick={() => dispatch(updateShowSettingsDialog(true))}
+          <HeaderAvatarMenuButton
+            icon="settings"
+            onClick={() => {
+              setOpen(false)
+              dispatch(updateShowSettingsDialog(true))
+            }}
           >
             Inställningar
-          </button>
+          </HeaderAvatarMenuButton>
 
           <hr className="ids-header-1177-admin__link-separator" />
 
-          <button
-            type="button"
-            className="ids-icon-user ids-link--start-icon ids-link ids-link--large ids-link--block text-left"
-            data-testid="logout-button"
-            onClick={logout}
-          >
+          <HeaderAvatarMenuButton icon="user" onClick={logout}>
             Logga ut
-          </button>
+          </HeaderAvatarMenuButton>
         </div>
       )}
     </div>
