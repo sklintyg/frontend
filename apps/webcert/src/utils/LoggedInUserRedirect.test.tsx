@@ -21,6 +21,7 @@ const renderComponent = () => {
           <Route path="/" element={<LoggedInUserRedirect>Test</LoggedInUserRedirect>} />
           <Route path="/search" element="you are on the search page" />
           <Route path="/list/unhandledcertificates" element="you are on the unhandled certificates page" />
+          <Route path="/register-privat-practitioner" element="you are on the register private practitioner page" />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -96,5 +97,13 @@ describe('LoggedInUserRedirect', () => {
     renderComponent()
 
     expect(screen.getByText('Test')).toBeInTheDocument()
+  })
+
+  it("should redirect to /register-private-practitioner if logged in as unauthorized private practitioner", () => {
+    const privatePractitioner = getDummyUser('obehörig privatläkare')
+    testStore.dispatch(updateUser(privatePractitioner))
+    renderComponent()
+
+    expect(screen.getByText(/you are on the register private practitioner page/i)).toBeInTheDocument()
   })
 })
