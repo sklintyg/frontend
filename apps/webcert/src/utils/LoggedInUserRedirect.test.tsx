@@ -99,7 +99,7 @@ describe('LoggedInUserRedirect', () => {
     expect(screen.getByText('Test')).toBeInTheDocument()
   })
 
-  it("should redirect to /register-private-practitioner if logged in as unauthorized private practitioner", () => {
+  it('should redirect to /register-private-practitioner if logged in as unauthorized private practitioner', () => {
     const privatePractitioner = getDummyUser('obehörig privatläkare')
     testStore.dispatch(updateUser(privatePractitioner))
     renderComponent()

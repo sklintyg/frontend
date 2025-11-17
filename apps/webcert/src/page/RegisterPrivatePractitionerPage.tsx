@@ -1,6 +1,3 @@
-
 export function RegisterPrivatePractitionerPage() {
-  return (
-    <div></div>
-  );
+  return <div></div>
 }
