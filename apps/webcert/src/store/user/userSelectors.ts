@@ -11,7 +11,7 @@ export const getUserPreference =
     state.ui.uiUser.user?.preferences?.[key]
 
 export const isUnauthorizedPrivatePractitioner = (state: RootState): boolean | null =>
-  state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('obehörig privatläkare')
+  state.ui.uiUser.user && state.ui.uiUser.links.some(link => link.type === ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER)
 
 export const isDoctor = (state: RootState): boolean | null =>
   state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('läkare')
