@@ -69,11 +69,13 @@ export function Router() {
         <Route path="list/draft" element={<CertificateDraftsPage />} />
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
-        <Route path="register/step-1" element={<PPRegistrationStep01 />} />
-        <Route path="register/step-2" element={<PPRegistrationStep02 />} />
-        <Route path="register/step-3" element={<PPRegistrationStep03 />} />
-        <Route path="register/step-4" element={<PPRegistrationStep04 />} />
-        <Route path="register/done" element={<PPRegistrationDone />} />
+        <Route path="register">
+          <Route path="step-1" element={<PPRegistrationStep01 />} />
+          <Route path="step-2" element={<PPRegistrationStep02 />} />
+          <Route path="step-3" element={<PPRegistrationStep03 />} />
+          <Route path="step-4" element={<PPRegistrationStep04 />} />
+          <Route path="done" element={<PPRegistrationDone />} />
+        </Route>
       </Route>
     </Routes>
   )

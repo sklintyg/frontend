@@ -7,7 +7,7 @@ export function PPRegistrationDone() {
   const navigate = useNavigate()
   return (
     <PPLayout subHeader="Skapa konto">
-      <StatusBox>
+      <StatusBox type="INFO">
         <p>Om uppgifter avseende din läkarlegitimation har hämtats från Socialstyrelsen kan du logga in och börja använda Webcert.</p>
         <p>
           Om uppgifter avseende din läkarlegitimation behöver hämtas från Socialstyrelsen får du ett mejl till din registrerade mejladress

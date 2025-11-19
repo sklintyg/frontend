@@ -6,7 +6,7 @@ export function StatusBox({ type, children }: { type: 'INFO' | 'ERROR'; children
   return (
     <div
       className={classNames(
-        'flex flex-auto gap-5 p-4 border border-dashed mb-5 rounded-[10px]',
+        'flex flex-auto gap-5 p-4 border border-dashed mb-3 rounded-[10px]',
         type === 'INFO' && 'border-[#01A5A3] bg-[#E6F1F1]',
         type === 'ERROR' && 'border-[#DB0F00] bg-[#FFDAD7]'
       )}

@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash-es'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextInput from '../../components/Inputs/TextInput'
@@ -19,7 +20,8 @@ export function PPRegistrationStep02() {
 
   const [showPasteError, setShowPasteError] = useState(false)
   const { phoneNumber, email, emailRepeat, address, zipCode, city, county, municipality } = useAppSelector(
-    (state) => state.ui.pp.step02.data
+    (state) => state.ui.pp.step02.data,
+    isEqual
   )
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
   const [getZipCodeInfo, { data: zipCodeInfo, error: zipCodeError, isSuccess: isZipCodeSuccess }] = useLazyGetZipCodeInfoQuery()

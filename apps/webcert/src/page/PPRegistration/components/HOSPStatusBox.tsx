@@ -4,7 +4,7 @@ import { StatusBox } from './StatusBox'
 export function HOSPStatusBox() {
   const { isError } = useGetHOSPInformationQuery()
 
-  if (isError) {
+  if (!isError) {
     return null
   }
 
