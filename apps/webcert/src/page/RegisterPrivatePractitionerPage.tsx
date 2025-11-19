@@ -24,64 +24,54 @@ export function RegisterPrivatePractitionerPage() {
 
   return (
     <CommonLayout header={<WebcertHeader />}>
-      <div className="ic-container">
-        <div className="iu-grid-rows iu-mt-500">
-          <div className="iu-grid-cols iu-grid-cols-12">
-            <div className="iu-grid-span-7">
-              <h1 className="iu-mb-200">Skapa konto i Webcert</h1>
-              <p className="iu-mb-600">
-                Du har genomfört en beställning av abonnemang för Webcert i Ineras kundportal. Du som har eller är på väg att få en
-                läkarlegitimation kan nu skapa ett konto i Webcert.
-                <br /> <br /> Intyg som utfärdas med BankID är enbart den enskilde läkarens intyg och kan inte kopplas samman, överlåtas
-                eller delas med någon organisation.
+      <div className="flex flex-col">
+        <div className="">
+          <h1 className="">Skapa konto i Webcert</h1>
+          <p className="max-w-xl mb-10">
+            Du har genomfört en beställning av abonnemang för Webcert i Ineras kundportal. Du som har eller är på väg att få en
+            läkarlegitimation kan nu skapa ett konto i Webcert.
+            <br /> <br /> Intyg som utfärdas med BankID är enbart den enskilde läkarens intyg och kan inte kopplas samman, överlåtas eller
+            delas med någon organisation.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <h2 className="mb-5">Så fungerar det</h2>
+          <div className="flex flex-row gap-x-6">
+            <div className="flex flex-col">
+              <h3 className="mb-3">Steg 1 - lämna uppgifter</h3>
+              <p className="max-w-lg mb-8">
+                Du lämnar uppgifter om dig själv och din verksamhet. Uppgifterna behövs för att du ska kunna använda alla funktioner i
+                Webcert.
               </p>
             </div>
-            <div className="iu-grid-span-7">
-              <h2 className="iu-mb-400">Så fungerar det</h2>
-              <div className="iu-grid-span-5 iu-flex">
-                <div className="iu-mb-100">
-                  <h3 className="iu-mb-400">Steg 1 - lämna uppgifter</h3>
-                  <p className="iu-mb-600">
-                    Du lämnar uppgifter om dig själv och din verksamhet. Uppgifterna behövs för att du ska kunna använda alla funktioner i
-                    Webcert.
-                  </p>
-                </div>
-                <div className="iu-ml-300 iu-mt-100">
-                  <Logo className="iu-mt-400" src={list} tabIndex={0} alt="List" />
-                </div>
-              </div>
-              <div className="iu-grid-span-5 iu-flex">
-                <div className="iu-mb-100">
-                  <h3 className="iu-mb-400">Steg 2 - uppgifter verifieras</h3>
-                  <p className="iu-mb-600">
-                    Din yrkeslegitimation verifieras automatiskt mot Socialstyrelsens register över legitimerad hälso- och sjukvårdspersonal
-                    (HOSP).
-                  </p>
-                </div>
-                <div className="iu-ml-300 iu-mt-100">
-                  <Logo className="iu-mt-400" src={id_card} tabIndex={0} alt="Id Card" />
-                </div>
-              </div>
-              <div className="iu-grid-span-5 iu-flex">
-                <div className="iu-mb-100">
-                  <h3 className="iu-mb-400">Steg 3 - börja använda Webcert</h3>
-                  <p className="iu-mb-600">
-                    Efter godkänd verifiering mot Socialstyrelsens register över legitimerad hälso- och sjukvårdspersonal (HOSP) kan du
-                    börja använda Webcert.
-                  </p>
-                </div>
-                <div className="iu-ml-300 iu-mt-100">
-                  <Logo className="iu-mt-400" src={check} tabIndex={0} alt="Check" />
-                </div>
-              </div>
+            <Logo src={list} tabIndex={0} alt="List" />
+          </div>
+          <div className="flex flex-row gap-x-6">
+            <div className="flex flex-col">
+              <h3 className="mb-3">Steg 2 - uppgifter verifieras</h3>
+              <p className="max-w-lg mb-8">
+                Din yrkeslegitimation verifieras automatiskt mot Socialstyrelsens register över legitimerad hälso- och sjukvårdspersonal
+                (HOSP).
+              </p>
             </div>
+            <Logo src={id_card} tabIndex={0} alt="Id Card" />
+          </div>
+          <div className="flex flex-row gap-x-6">
+            <div className="flex flex-col">
+              <h3 className="mb-3">Steg 3 - börja använda Webcert</h3>
+              <p className="max-w-lg mb-10">
+                Efter godkänd verifiering mot Socialstyrelsens register över legitimerad hälso- och sjukvårdspersonal (HOSP) kan du börja
+                använda Webcert.
+              </p>
+            </div>
+            <Logo src={check} tabIndex={0} alt="Check" />
           </div>
         </div>
-        <div className="iu-flex">
+        <div className="flex flex-row gap-x-5">
           <CustomButton type="submit" onClick={logout}>
             Avbryt och logga ut
           </CustomButton>
-          <CustomButton className="iu-ml-600" buttonStyle="primary" type="submit">
+          <CustomButton className="" buttonStyle="primary" type="submit">
             Skapa konto
           </CustomButton>
         </div>
