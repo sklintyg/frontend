@@ -1,7 +1,7 @@
 import type { KeyboardEventHandler } from 'react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { sanitizeText } from '../../utils/sanitizeText'
+import { sanitizeText } from '../../utils'
 import TextInput from './TextInput'
 
 interface Props extends React.ComponentProps<typeof TextInput> {
@@ -104,10 +104,10 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
         if (open && suggestions.length > 0) {
           switch (event.key) {
             case 'ArrowDown': {
-              if (suggestions.some((val) => val.disabled === false)) {
-                let index = suggestions.findIndex(({ disabled }, index) => index >= (cursor + 1) % suggestions.length && disabled === false)
+              if (suggestions.some((val) => !val.disabled)) {
+                let index = suggestions.findIndex(({ disabled }, index) => index >= (cursor + 1) % suggestions.length && !disabled)
                 if (index === -1) {
-                  index = suggestions.findIndex(({ disabled }) => disabled === false, 0)
+                  index = suggestions.findIndex(({ disabled }) => !disabled, 0)
                 }
                 setCursor(index)
                 scrollToItem(index)
@@ -116,14 +116,27 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
               break
             }
             case 'ArrowUp': {
-              if (suggestions.some((val) => val.disabled === false)) {
-                const startIndex = cursor === 0 ? suggestions.length - 1 : cursor - 1
-                let index = suggestions.findLastIndex(({ disabled }) => disabled === false, startIndex % suggestions.length)
-                if (index === -1) {
-                  index = suggestions.findLastIndex(({ disabled }) => disabled === false, suggestions.length - 1)
+              if (suggestions.some((val) => !val.disabled)) {
+                let index = -1
+                const startIndex = cursor <= 0 ? suggestions.length - 1 : cursor - 1
+                for (let i = startIndex; i >= 0; i--) {
+                  if (!suggestions[i].disabled) {
+                    index = i
+                    break
+                  }
                 }
-                setCursor(index)
-                scrollToItem(index)
+                if (index === -1) {
+                  for (let i = suggestions.length - 1; i > startIndex; i--) {
+                    if (!suggestions[i].disabled) {
+                      index = i
+                      break
+                    }
+                  }
+                }
+                if (index !== -1) {
+                  setCursor(index)
+                  scrollToItem(index)
+                }
               }
               event.preventDefault()
               break

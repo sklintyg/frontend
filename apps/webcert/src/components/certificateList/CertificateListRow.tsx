@@ -36,6 +36,11 @@ const ModalContent = styled.div`
   white-space: pre-line;
 `
 
+const UnderlinedLinkButton = styled(LinkButton)`
+  text-decoration: underline !important;
+  cursor: pointer;
+`
+
 export function CertificateListRow({
   certificateName,
   certificateInfo,
@@ -164,12 +169,7 @@ export function CertificateListRow({
         {message && (
           <div className="iu-pt-200">
             <InfoBox type="info">
-              {message}{' '}
-              {modalLink && (
-                <LinkButton style={{ cursor: 'pointer' }} onClick={handleInfoModalClick}>
-                  {modalLink}
-                </LinkButton>
-              )}
+              {message} {modalLink && <UnderlinedLinkButton onClick={handleInfoModalClick}>{modalLink}</UnderlinedLinkButton>}
             </InfoBox>
           </div>
         )}
