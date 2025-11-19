@@ -3,13 +3,9 @@ import styled from 'styled-components'
 import list from '../images/list.svg'
 import id_card from '../images/id_card.svg'
 import check from '../images/check.svg'
-import Logout from '../utils/Logout'
-import { ResourceLinkType } from '../types'
-import { WithResourceLink } from '../components/utils/WithResourceLink'
-import { useAppSelector } from '../store/store'
-import { getUser, getUserResourceLinks } from '../store/user/userSelectors'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
+import { useLogout } from '../hooks/useLogout'
 
 const Logo = styled.img`
   height: 48px;
@@ -18,8 +14,13 @@ const Logo = styled.img`
 `
 
 export function RegisterPrivatePractitionerPage() {
-  const userLinks = useAppSelector(getUserResourceLinks)
-  const user = useAppSelector(getUser)
+  const result = useLogout()
+
+  if (!result) {
+    return null
+  }
+
+  const { logout } = result
 
   return (
     <CommonLayout header={<WebcertHeader />}>
@@ -77,13 +78,9 @@ export function RegisterPrivatePractitionerPage() {
           </div>
         </div>
         <div className="iu-flex">
-          <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
-            {(link) => (
-              <CustomButton>
-                <Logout user={user} link={{ ...link, name: `Avbryt och ${link.name.toLowerCase()}` }} />
-              </CustomButton>
-            )}
-          </WithResourceLink>
+          <CustomButton type="submit" onClick={logout}>
+            Avbryt och logga ut
+          </CustomButton>
           <CustomButton className="iu-ml-600" buttonStyle="primary" type="submit">
             Skapa konto
           </CustomButton>

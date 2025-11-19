@@ -1,9 +1,5 @@
-import { getCookie } from '@frontend/utils'
 import styled from 'styled-components'
-import { useAppDispatch } from '../store/store'
-import { triggerFakeLogout } from '../store/user/userActions'
-import type { ResourceLink, User } from '../types'
-import { LoginMethod } from '../types'
+import { useLogout } from '../hooks/useLogout'
 
 const StyledLink = styled.button`
   text-align: center;
@@ -15,39 +11,14 @@ const StyledLink = styled.button`
   text-decoration: none;
 `
 
-interface Props {
-  link: ResourceLink
-  user: User | null
-}
+const Logout = () => {
+  const result = useLogout()
 
-const Logout = ({ link, user }: Props) => {
-  const dispatch = useAppDispatch()
-
-  if (!link) {
+  if (!result) {
     return null
   }
 
-  const logout = () => {
-    if (!user || user.loginMethod === LoginMethod.FAKE) {
-      dispatch(triggerFakeLogout())
-      window.open('/welcome', '_self')
-    } else {
-      triggerSamlLogout()
-    }
-  }
-
-  const triggerSamlLogout = () => {
-    const form = document.createElement('form')
-    const input = document.createElement('input')
-    form.method = 'POST'
-    form.action = '/logout'
-    input.type = 'hidden'
-    input.name = '_csrf'
-    input.value = getCookie('XSRF-TOKEN') ?? ''
-    form.appendChild(input)
-    document.body.appendChild(form)
-    form.submit()
-  }
+  const { logout, link } = result
 
   return (
     <StyledLink className="ic-link" onClick={logout}>
