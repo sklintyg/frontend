@@ -22,7 +22,6 @@ import { UserHeaderMenu, UserHeaderMenuItem } from '../AppHeader/UserHeaderMenu'
 import SystemBanners from '../notification/SystemBanners'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 import SystemBanner from '../utils/SystemBanner'
-import { WithResourceLink } from '../utils/WithResourceLink'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
 
@@ -31,7 +30,6 @@ const InfoModal = styled(TextWithInfoModal)`
 `
 
 function WebcertHeader({ isEmpty = false }) {
-  const userLinks = useAppSelector(getUserResourceLinks)
   const user = useAppSelector(getUser)
   const isCareAdmin = useAppSelector(isCareAdministrator)
   const links = useAppSelector(getUserResourceLinks)
@@ -39,8 +37,8 @@ function WebcertHeader({ isEmpty = false }) {
   const tabs = getUserTabs(!!isCareAdmin, userStatistics, links)
   const dispatch = useAppDispatch()
   const loggedInCareProvider = useAppSelector(getLoggedInCareProvider)
-  const careProviders = user && user?.careProviders
-  const unitName = user && user.loggedInUnit.unitName
+  const careProviders = user?.careProviders
+  const unitName = user?.loggedInUnit.unitName
   const displayWarningNormalOriginBanner = useAppSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
 
   const onSwitchTab = () => {
@@ -98,13 +96,9 @@ function WebcertHeader({ isEmpty = false }) {
                     <AboutWebcertModalContent />
                   </InfoModal>
                 </UserHeaderMenuItem>
-                <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
-                  {(link) => (
-                    <UserHeaderMenuItem>
-                      <Logout user={user} link={link} />
-                    </UserHeaderMenuItem>
-                  )}
-                </WithResourceLink>
+                <UserHeaderMenuItem>
+                  <Logout />
+                </UserHeaderMenuItem>
               </>
             )}
           </UserHeaderMenu>
