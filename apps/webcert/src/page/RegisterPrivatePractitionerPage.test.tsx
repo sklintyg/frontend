@@ -110,7 +110,7 @@ describe('RegisterPrivatePractitionerPage', () => {
       expect(screen.getByRole('button', { name: 'Skapa konto' })).toBeInTheDocument()
     })
 
-    it('should render logout button with modified text when LOG_OUT link is available', () => {
+    it('should render "Avbryt och logga ut" button with modified text when log out link is available', () => {
       testStore.dispatch(
         updateUserResourceLinks([
           fakeResourceLink({
@@ -126,7 +126,7 @@ describe('RegisterPrivatePractitionerPage', () => {
       expect(screen.getByText('Avbryt och logga ut')).toBeInTheDocument()
     })
 
-    it('should not render logout button when LOG_OUT link is not available', () => {
+    it('should not render "Avbryt och logga ut" button when log out link is not available', () => {
       testStore.dispatch(updateUserResourceLinks([]))
 
       renderComponent()
