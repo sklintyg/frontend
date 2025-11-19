@@ -29,13 +29,17 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Legitimerad yrkesgrupp"
-            value={data?.licensedHealthcareProfessions[0].description ?? NO_INFORMATION_FETCHED}
+            value={data?.licensedHealthcareProfessions.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
             disabled
           />
         </div>
 
         <div>
-          <TextInput label="Specialitet" value={data?.specialities[0].description ?? NO_INFORMATION_FETCHED} disabled />
+          <TextInput
+            label="Specialitet"
+            value={data?.specialities.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
+            disabled
+          />
         </div>
 
         <div>
