@@ -1,16 +1,17 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { z } from 'zod'
+import * as z from 'zod/mini'
+import { updateUser } from '../user/userActions'
 import { requiredAlternative, requiredAnswer } from './ppConstants'
 
 const step01FormDataSchema = z.object({
   personId: z.string(),
   name: z.string(),
-  occupation: z.string().min(1, requiredAlternative),
-  position: z.string().min(1, requiredAnswer),
-  businessName: z.string().min(1, requiredAnswer),
-  careForm: z.string().min(1, requiredAlternative),
-  businessType: z.string().min(1, requiredAlternative),
+  occupation: z.string().check(z.minLength(1, requiredAlternative)),
+  position: z.string().check(z.minLength(1, requiredAnswer)),
+  businessName: z.string().check(z.minLength(1, requiredAnswer)),
+  careForm: z.string().check(z.minLength(1, requiredAlternative)),
+  businessType: z.string().check(z.minLength(1, requiredAlternative)),
   workplaceCode: z.string(),
 })
 
@@ -43,7 +44,6 @@ const ppStep01ReducerSlice = createSlice({
         state.errors[action.payload.field] = undefined
       }
     },
-
     validateData: (state) => {
       const zodError = step01FormDataSchema.safeParse(state.data).error
       state.errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
@@ -52,6 +52,12 @@ const ppStep01ReducerSlice = createSlice({
       state.errors = undefined
     },
     resetForm: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateUser, (state, { payload }) => {
+      state.data.name = payload.name
+      // state.data.personId = payload.p
+    })
   },
 })
 

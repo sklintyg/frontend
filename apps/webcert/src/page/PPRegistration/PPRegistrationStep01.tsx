@@ -1,6 +1,8 @@
 import { isEqual } from 'lodash-es'
 import { useNavigate } from 'react-router-dom'
 import TextInput from '../../components/Inputs/TextInput'
+import Spinner from '../../components/utils/Spinner'
+import { useGetPPConfigQuery } from '../../store/pp/ppApi'
 import { updateField, validateData } from '../../store/pp/ppStep01ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
@@ -12,12 +14,17 @@ import { ValidationError } from './components/ValidationError'
 export function PPRegistrationStep01() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { data: ppConfig, isLoading } = useGetPPConfigQuery()
   const { personId, name, occupation, position, businessName, careForm, businessType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
 
   const errors = useAppSelector((state) => state.ui.pp.step01.errors)
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <PPLayout subHeader="Skapa konto: Steg 1 av 4">
@@ -61,14 +68,11 @@ export function PPRegistrationStep01() {
             tooltip="Välj din huvudsakliga befattning enligt AID-etikett (Arbetsidentifikation kommuner och regioner)."
           >
             <option value="">Välj befattning</option>
-            <option value="overlakare">Överläkare</option>
-            <option value="distrikts_specialist_allmenmedicin">Distriktsläkare/Specialist allmänmedicin</option>
-            <option value="skollakare">Skolläkare</option>
-            <option value="foretagslakare">Företagsläkare</option>
-            <option value="specialistlakare">Specialistläkare</option>
-            <option value="lakare_legitimerad_specialiseringstjanstgoring">Läkare legitimerad, specialiseringstjänstgöring</option>
-            <option value="lakare_legitimerad_bastjanstgoring">Läkare legitimerad, bastjänstgöring</option>
-            <option value="lakare_legitimerad_annan">Läkare legitimerad, annan</option>
+            {ppConfig?.positions.map(({ code, description }) => (
+              <option key={code} value={code}>
+                {description}
+              </option>
+            ))}
           </PPDropdown>
           <ValidationError>{errors?.occupation}</ValidationError>
         </div>
@@ -102,9 +106,11 @@ export function PPRegistrationStep01() {
             tooltip="Ange verksamhetens huvudsakliga vårdform enligt definition i Socialstyrelsens termbank."
           >
             <option value="">Välj vårdform</option>
-            <option value="hemsjukvard">Hemsjukvård</option>
-            <option value="oppenvard">Öppenvård</option>
-            <option value="slutenvard">Slutenvård</option>
+            {ppConfig?.typeOfCare.map(({ code, description }) => (
+              <option key={code} value={code}>
+                {description}
+              </option>
+            ))}
           </PPDropdown>
           <ValidationError>{errors?.careForm}</ValidationError>
         </div>
@@ -131,17 +137,11 @@ export function PPRegistrationStep01() {
             }
           >
             <option value="">Välj verksamhetstyp</option>
-            <option value="barn_ungdomsverksamhet">Barn- och ungdomsverksamhet</option>
-            <option value="medicinsk_verksamhet">Medicinsk verksamhet</option>
-            <option value="laboratorieverksamhet">Laboratorieverksamhet</option>
-            <option value="kirurgisk_verksamhet">Kirurgisk verksamhet</option>
-            <option value="ovrig_medicinsk_verksamhet">Övrig medicinsk verksamhet</option>
-            <option value="primarvards_verksamhet">Primärvårdsverksamhet</option>
-            <option value="psykiatrisk_verksamhet">Psykiatrisk verksamhet</option>
-            <option value="radiologisk_verksamhet">Radiologisk verksamhet</option>
-            <option value="tandvards_verksamhet">Tandvårdsverksamhet</option>
-            <option value="ovrig_medicinsk_serviceverksamhet">Övrig medicinsk serviceverksamhet</option>
-            <option value="vard_omsorg_omvardnads_verksamhet">Vård-, Omsorg- och Omvårdnadsverksamhet</option>
+            {ppConfig?.healthcareServiceTypes.map(({ code, description }) => (
+              <option key={code} value={code}>
+                {description}
+              </option>
+            ))}
           </PPDropdown>
           <ValidationError>{errors?.businessType}</ValidationError>
         </div>

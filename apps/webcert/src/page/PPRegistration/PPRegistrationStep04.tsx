@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { HOSPStatusBox } from './components/HOSPStatusBox'
 import { PPForm } from './components/PPForm'
 import { PPLayout } from './components/PPLayout'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
@@ -22,6 +23,7 @@ export function PPRegistrationStep04() {
 
         <h3>Socialstyrelsens uppgifter</h3>
         <p>Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
+        <HOSPStatusBox />
         <Link to="/register/step-3">Ändra</Link>
         <hr />
       </PPForm>

@@ -1,9 +1,16 @@
+import { classNames } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { AttentionIcon } from '../../../images'
 
-export function StatusBox({ children }: { children: ReactNode }) {
+export function StatusBox({ type, children }: { type: 'INFO' | 'ERROR'; children: ReactNode }) {
   return (
-    <div className="flex flex-auto gap-5 p-4 border border-[#01A5A3] border-dashed bg-[#E6F1F1] mb-5 rounded-[10px]">
+    <div
+      className={classNames(
+        'flex flex-auto gap-5 p-4 border border-dashed mb-5 rounded-[10px]',
+        type === 'INFO' && 'border-[#01A5A3] bg-[#E6F1F1]',
+        type === 'ERROR' && 'border-[#DB0F00] bg-[#FFDAD7]'
+      )}
+    >
       <div className="w-5 h-5 shrink-0">
         <AttentionIcon className="w-full h-full" />
       </div>

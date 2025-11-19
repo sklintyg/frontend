@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { api } from './api'
 import { requestPath, requestReducer } from './api/requestSlice'
 import certificateReducer from './certificate/certificateReducer'
 import errorReducer from './error/errorReducer'
@@ -17,6 +18,7 @@ import utilsReducer from './utils/utilsReducer'
 import welcomeReducer from './welcome/welcomeReducer'
 
 export const reducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   ui: combineReducers({
     uiCertificate: certificateReducer,
     uiUser: userReducer,

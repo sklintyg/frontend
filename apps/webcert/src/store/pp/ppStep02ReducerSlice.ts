@@ -1,22 +1,36 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import { z } from 'zod'
-import { requiredAnswer } from './ppConstants'
+import * as z from 'zod/mini'
+import { api } from '../api'
+import { equalEmail, requiredAlternative, requiredAnswer } from './ppConstants'
 
-const step02FormDataSchema = z.object({
-  phoneNumber: z.string().min(1, requiredAnswer),
-  email: z.string().regex(z.regexes.email, 'Ange en giltig e-postadress.'),
-  emailRepeat: z.string().min(1, requiredAnswer),
-  address: z.string().min(1, requiredAnswer),
-  zipCode: z.string().regex(/^\d{5}$/, {
-    message: 'Postnummer fylls i med fem siffror 0-9.',
-  }),
-  city: z.string(),
-  municipality: z.string(),
-  county: z.string(),
-})
-
-step02FormDataSchema.refine((obj) => obj.email === obj.emailRepeat, { error: 'E-postadresserna stämmer inte överens med varandra.' })
+const step02FormDataSchema = z
+  .object({
+    phoneNumber: z.string().check(z.minLength(1, requiredAnswer)),
+    email: z.string().check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
+    emailRepeat: z.string().check(z.minLength(1, requiredAnswer)),
+    address: z.string().check(z.minLength(1, requiredAnswer)),
+    zipCode: z.string().check(
+      z.regex(/^\d{5}$/, {
+        message: 'Postnummer fylls i med fem siffror 0-9.',
+      })
+    ),
+    city: z.string().check(z.minLength(1, requiredAnswer)),
+    municipality: z.string().check(z.minLength(1, requiredAlternative)),
+    county: z.string().check(z.minLength(1, requiredAnswer)),
+  })
+  .check(
+    z.refine((obj) => obj.email === obj.emailRepeat, {
+      error: equalEmail,
+      path: ['email'],
+    })
+  )
+  .check(
+    z.refine((obj) => obj.email === obj.emailRepeat, {
+      error: equalEmail,
+      path: ['emailRepeat'],
+    })
+  )
 
 type Step02FormData = z.infer<typeof step02FormDataSchema>
 
@@ -55,6 +69,15 @@ const ppStep02ReducerSlice = createSlice({
       state.errors = undefined
     },
     resetForm: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(api.endpoints.getZipCodeInfo.matchFulfilled, (state, { payload }) => {
+      if (payload.length === 1) {
+        state.data.city = payload[0].city
+        state.data.county = payload[0].county
+        state.data.municipality = payload[0].municipality
+      }
+    })
   },
 })
 

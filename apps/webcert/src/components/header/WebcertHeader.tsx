@@ -22,7 +22,6 @@ import { UserHeaderMenu, UserHeaderMenuItem } from '../AppHeader/UserHeaderMenu'
 import SystemBanners from '../notification/SystemBanners'
 import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 import SystemBanner from '../utils/SystemBanner'
-import { WithResourceLink } from '../utils/WithResourceLink'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import WebcertHeaderUser from './WebcertHeaderUser'
 
@@ -98,13 +97,9 @@ function WebcertHeader({ isEmpty = false }) {
                     <AboutWebcertModalContent />
                   </InfoModal>
                 </UserHeaderMenuItem>
-                <WithResourceLink type={ResourceLinkType.LOG_OUT} links={userLinks}>
-                  {(link) => (
-                    <UserHeaderMenuItem>
-                      <Logout user={user} link={link} />
-                    </UserHeaderMenuItem>
-                  )}
-                </WithResourceLink>
+                <UserHeaderMenuItem>
+                  <Logout />
+                </UserHeaderMenuItem>
               </>
             )}
           </UserHeaderMenu>
