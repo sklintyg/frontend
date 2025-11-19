@@ -4,9 +4,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { fakeResourceLink, fakeUser } from '../faker'
 import { configureApplicationStore } from '../store/configureApplicationStore'
-import dispatchHelperMiddleware, {
-  clearDispatchedActions
-} from '../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { ResourceLinkType } from '../types'
 import { RegisterPrivatePractitionerPage } from './RegisterPrivatePractitionerPage'

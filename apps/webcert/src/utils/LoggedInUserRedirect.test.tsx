@@ -4,9 +4,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { apiMiddleware } from '../store/api/apiMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
-import dispatchHelperMiddleware, {
-  clearDispatchedActions
-} from '../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
 import { ResourceLinkType, SigningMethod, type Unit, type User } from '../types'
