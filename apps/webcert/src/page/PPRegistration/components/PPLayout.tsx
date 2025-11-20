@@ -1,15 +1,12 @@
-import type { ReactNode } from 'react'
+import { Outlet } from 'react-router-dom'
 import AppHeader from '../../../components/AppHeader/AppHeader'
 import { UserHeaderMenu, UserHeaderMenuItem } from '../../../components/AppHeader/UserHeaderMenu'
 import SystemBanners from '../../../components/notification/SystemBanners'
-import Spinner from '../../../components/utils/Spinner'
 import logo from '../../../images/webcert_logo.png'
-import { useAppSelector } from '../../../store/store'
-import { selectIsLoadingUser } from '../../../store/user/userSelectors'
-import { SubHeader } from './SubHeader'
+import { useGetHOSPInformationQuery } from '../../../store/pp/ppApi'
 
-export function PPLayout({ subHeader, children }: { subHeader: string; children: ReactNode }) {
-  const isLoadingUser = useAppSelector(selectIsLoadingUser)
+export function PPLayout() {
+  useGetHOSPInformationQuery()
 
   return (
     <>
@@ -23,10 +20,7 @@ export function PPLayout({ subHeader, children }: { subHeader: string; children:
         }
         banners={[<SystemBanners key="system-banners" />]}
       />
-      <SubHeader>{subHeader}</SubHeader>
-      <div className="px-10 pt-5">
-        <div className="w-[620px]">{isLoadingUser ? <Spinner /> : children}</div>
-      </div>
+      <Outlet />
     </>
   )
 }

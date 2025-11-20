@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { CustomButton } from '../../components/Inputs/CustomButton'
-import { PPLayout } from './components/PPLayout'
+import { PPPage } from './components/PPPage'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationDone() {
   const navigate = useNavigate()
   return (
-    <PPLayout subHeader="Skapa konto">
+    <PPPage subHeader="Skapa konto">
       <StatusBox type="INFO">
         <p>Om uppgifter avseende din läkarlegitimation har hämtats från Socialstyrelsen kan du logga in och börja använda Webcert.</p>
         <p>
@@ -21,6 +21,6 @@ export function PPRegistrationDone() {
       <CustomButton buttonStyle="primary" onClick={() => navigate('/')}>
         Till Webcert
       </CustomButton>
-    </PPLayout>
+    </PPPage>
   )
 }

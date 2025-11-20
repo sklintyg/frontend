@@ -7,7 +7,7 @@ import { updateField, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
 import { PPForm } from './components/PPForm'
-import { PPLayout } from './components/PPLayout'
+import { PPPage } from './components/PPPage'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
 import { StatusBox } from './components/StatusBox'
 import { ValidationError } from './components/ValidationError'
@@ -35,7 +35,7 @@ export function PPRegistrationStep02() {
   const invalidZipCode = isZipCodeSuccess && zipCodeInfo.length === 0 ? 'Ange ett giltigt postnummer.' : undefined
 
   return (
-    <PPLayout subHeader="Skapa konto: Steg 2 av 4">
+    <PPPage subHeader="Skapa konto: Steg 2 av 4">
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
@@ -153,6 +153,6 @@ export function PPRegistrationStep02() {
       {zipCodeError && (
         <StatusBox type="ERROR">Ett tekniskt fel har uppstått. Adressuppgifter kan inte hämtas. Försök igen senare.</StatusBox>
       )}
-    </PPLayout>
+    </PPPage>
   )
 }

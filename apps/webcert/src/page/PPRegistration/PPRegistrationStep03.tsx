@@ -3,7 +3,7 @@ import TextInput from '../../components/Inputs/TextInput'
 import { useGetHOSPInformationQuery } from '../../store/pp/ppApi'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
 import { PPForm } from './components/PPForm'
-import { PPLayout } from './components/PPLayout'
+import { PPPage } from './components/PPPage'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
 
 const NO_INFORMATION_FETCHED = 'Inga uppgifter hämtade'
@@ -13,7 +13,7 @@ export function PPRegistrationStep03() {
   const { data } = useGetHOSPInformationQuery()
 
   return (
-    <PPLayout subHeader="Skapa konto: Steg 3 av 4">
+    <PPPage subHeader="Skapa konto: Steg 3 av 4">
       <div className="mb-5">
         <h2>Socialstyrelsens uppgifter</h2>
         <p>Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
@@ -46,6 +46,6 @@ export function PPRegistrationStep03() {
           <TextInput label="Förskrivarkod" value={data?.personalPrescriptionCode ?? NO_INFORMATION_FETCHED} disabled />
         </div>
       </PPForm>
-    </PPLayout>
+    </PPPage>
   )
 }

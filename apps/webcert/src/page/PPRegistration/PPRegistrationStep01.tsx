@@ -7,7 +7,7 @@ import { updateField, validateData } from '../../store/pp/ppStep01ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
 import { PPForm } from './components/PPForm'
-import { PPLayout } from './components/PPLayout'
+import { PPPage } from './components/PPPage'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
 import { ValidationError } from './components/ValidationError'
 
@@ -27,7 +27,7 @@ export function PPRegistrationStep01() {
   }
 
   return (
-    <PPLayout subHeader="Skapa konto: Steg 1 av 4">
+    <PPPage subHeader="Skapa konto: Steg 1 av 4">
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
@@ -156,6 +156,6 @@ export function PPRegistrationStep01() {
           <ValidationError>{errors?.workplaceCode}</ValidationError>
         </div>
       </PPForm>
-    </PPLayout>
+    </PPPage>
   )
 }
