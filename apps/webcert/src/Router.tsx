@@ -13,6 +13,7 @@ import { SelectUnitPage } from './page/SelectUnitPage'
 import { SignedCertificatesPage } from './page/SignedCertificatesPage'
 import { StartPage } from './page/StartPage'
 import { UnhandledCertificatesPage } from './page/UnhandledCertificatesPage'
+import { RegisterPrivatePractitionerPage } from './page/RegisterPrivatePractitionerPage'
 import Welcome from './page/Welcome'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
@@ -64,6 +65,7 @@ export function Router() {
         <Route path="list/draft" element={<CertificateDraftsPage />} />
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
+        <Route path="register" element={<RegisterPrivatePractitionerPage />} />
       </Route>
     </Routes>
   )
