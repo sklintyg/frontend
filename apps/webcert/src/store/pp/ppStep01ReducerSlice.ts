@@ -56,7 +56,9 @@ const ppStep01ReducerSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(updateUser, (state, { payload }) => {
       state.data.name = payload.name
-      // state.data.personId = payload.p
+      if (payload.personId) {
+        state.data.personId = payload.personId
+      }
     })
   },
 })
