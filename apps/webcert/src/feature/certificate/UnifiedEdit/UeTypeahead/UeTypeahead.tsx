@@ -42,8 +42,9 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     if (newText !== text) {
       setText(newText)
 
-      if (newText === undefined || newText === null) {
-        setSuggestions([])
+      if (newText === undefined || newText === null || newText === '') {
+        const sortedSuggestions = [...questionConfig.typeAhead].sort()
+        setSuggestions(sortedSuggestions)
         return
       }
 
@@ -54,7 +55,8 @@ const UeTypeahead = ({ question, disabled }: Props) => {
 
   const handleFocus: React.FocusEventHandler<HTMLInputElement> = () => {
     if (text === undefined || text === null || text === '') {
-      setSuggestions([])
+      const sortedSuggestions = [...questionConfig.typeAhead].sort()
+      setSuggestions(sortedSuggestions)
     } else {
       const result = GetFilteredSuggestions(questionConfig.typeAhead, text)
       setSuggestions(result)
