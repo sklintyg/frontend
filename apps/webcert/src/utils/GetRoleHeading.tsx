@@ -1,19 +1,29 @@
 import { getUser, getUserResourceLink } from '../store/user/userSelectors'
-import { type ResourceLink, ResourceLinkType } from '../types'
+import { ResourceLinkType } from '../types'
 import { useAppSelector } from '../store/store'
+import type React from 'react'
+import styled from 'styled-components'
 
-export function GetRoleHeading(): string | ResourceLink | null {
+const StyledText = styled.i`
+  font-style: italic;
+`
+
+export function GetRoleHeading(): string | React.JSX.Element | null {
   const registerLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER))
   const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
   const notAuthorizedLink = useAppSelector(getUserResourceLink(ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER))
   const user = useAppSelector(getUser)
 
   if (notAuthorizedLink && notAuthorizedLink.enabled) {
-    return 'Ej behörig'
+    return <StyledText>Ej behörig</StyledText>
   } else if (registerLink && registerLink.enabled) {
-    return 'Ej registrerad'
+    return <StyledText>Ej registrerad</StyledText>
   } else if (editLink && editLink.enabled) {
-    return '' // FIXME: Placeholder, should be replaced with a proper link
+    return (
+      <a href={'/edit'} rel="noopener noreferrer">
+        Ändra uppgifter
+      </a>
+    )
   } else {
     return user?.role ?? null
   }

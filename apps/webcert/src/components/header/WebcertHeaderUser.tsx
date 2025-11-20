@@ -79,7 +79,9 @@ const WebcertHeaderUser = () => {
           onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}
         >
           <UserWrapper>
-            <span>{`${user.name} - ${userRole}`}</span>
+            <span>
+              {`${user.name} -`} {userRole}
+            </span>
           </UserWrapper>
           {privatePractitionerPortal && (
             <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />
