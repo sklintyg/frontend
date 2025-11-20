@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 import { Link } from 'react-router-dom'
-import { useGetHOSPInformationQuery } from '../../store/pp/ppApi'
+import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { useAppSelector } from '../../store/store'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
 import { PPForm } from './components/PPForm'
@@ -10,13 +10,15 @@ import { PPResultPart } from './components/PPResultPart'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationStep04() {
+  const [trigger] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
 
-  const { personId, name, occupation, position, businessName, careForm, businessType, workplaceCode } = useAppSelector(
+  const { personId, name, occupation, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
   const { phoneNumber, email, address, zipCode, city, county, municipality } = useAppSelector((state) => state.ui.pp.step02.data, isEqual)
+
   return (
     <PPPage subHeader="Skapa konto: Steg 4 av 4">
       <h3 className="mb-5">Granska uppgifter</h3>
@@ -28,7 +30,20 @@ export function PPRegistrationStep04() {
       <PPForm
         actions={<PPRegistrationAction prevStep={3} continueText="Skapa konto" />}
         onSubmit={() => {
-          console.log('do it!!')
+          trigger({
+            address,
+            careUnitName,
+            city,
+            county,
+            email,
+            healthcareServiceType,
+            municipality,
+            phoneNumber,
+            position,
+            typeOfCare,
+            workplaceCode,
+            zipCode,
+          })
         }}
       >
         <div>
@@ -39,10 +54,10 @@ export function PPRegistrationStep04() {
           <PPResultPart title="Personnummer" value={personId} />
           <PPResultPart title="Namn" value={name} />
           <PPResultPart title="Befattning" value={occupation} />
-          <PPResultPart title="Verksamhetens namn" value={businessName} />
+          <PPResultPart title="Verksamhetens namn" value={careUnitName} />
           <PPResultPart title="Ägarform" value={position} />
-          <PPResultPart title="Vårdform" value={careForm} />
-          <PPResultPart title="Verksamhetstyp" value={businessType} />
+          <PPResultPart title="Vårdform" value={typeOfCare} />
+          <PPResultPart title="Verksamhetstyp" value={healthcareServiceType} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
         </div>
         <hr />

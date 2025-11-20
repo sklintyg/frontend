@@ -34,3 +34,18 @@ export interface TypeOfCare {
   code: string
   description: string
 }
+
+export type RegisterPrivatePractitionerData = {
+  address: string
+  careUnitName: string
+  city?: string
+  county?: string
+  email: string
+  healthcareServiceType: string
+  municipality?: string
+  phoneNumber: string
+  position: string
+  typeOfCare: string
+  workplaceCode?: string
+  zipCode: string
+}

@@ -15,7 +15,7 @@ export function PPRegistrationStep01() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { data: ppConfig, isLoading } = useGetPPConfigQuery()
-  const { personId, name, occupation, position, businessName, careForm, businessType, workplaceCode } = useAppSelector(
+  const { personId, name, occupation, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
@@ -81,11 +81,11 @@ export function PPRegistrationStep01() {
           <TextInput
             label="Namn på din verksamhet"
             required
-            value={businessName}
-            onChange={(event) => dispatch(updateField({ field: 'businessName', value: event.currentTarget.value }))}
+            value={careUnitName}
+            onChange={(event) => dispatch(updateField({ field: 'careUnitName', value: event.currentTarget.value }))}
             tooltip="Namnet på din verksamhet visas i Webcert och i signerade intyg."
           />
-          <ValidationError>{errors?.businessName}</ValidationError>
+          <ValidationError>{errors?.careUnitName}</ValidationError>
         </div>
 
         <div>
@@ -101,8 +101,8 @@ export function PPRegistrationStep01() {
           <PPDropdown
             label="Vårdform"
             required
-            value={careForm}
-            onChange={(event) => dispatch(updateField({ field: 'careForm', value: event.currentTarget.value }))}
+            value={typeOfCare}
+            onChange={(event) => dispatch(updateField({ field: 'typeOfCare', value: event.currentTarget.value }))}
             tooltip="Ange verksamhetens huvudsakliga vårdform enligt definition i Socialstyrelsens termbank."
           >
             <option value="">Välj vårdform</option>
@@ -112,15 +112,15 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.careForm}</ValidationError>
+          <ValidationError>{errors?.typeOfCare}</ValidationError>
         </div>
 
         <div>
           <PPDropdown
             label="Verksamhetstyp"
             required
-            value={businessType}
-            onChange={(event) => dispatch(updateField({ field: 'businessType', value: event.currentTarget.value }))}
+            value={healthcareServiceType}
+            onChange={(event) => dispatch(updateField({ field: 'healthcareServiceType', value: event.currentTarget.value }))}
             tooltip={
               <>
                 <p>Välj den typ av verksamhet som huvudsakligen bedrivs. </p>
@@ -143,7 +143,7 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.businessType}</ValidationError>
+          <ValidationError>{errors?.healthcareServiceType}</ValidationError>
         </div>
 
         <div>
