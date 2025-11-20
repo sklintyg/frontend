@@ -169,7 +169,22 @@ export function CertificateListRow({
         {message && (
           <div className="iu-pt-200">
             <InfoBox type="info">
-              {message} {modalLink && <UnderlinedLinkButton onClick={handleInfoModalClick}>{modalLink}</UnderlinedLinkButton>}
+              {message}{' '}
+              {modalLink && (
+                <UnderlinedLinkButton
+                  tabIndex={0}
+                  role="button"
+                  onClick={handleInfoModalClick}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleInfoModalClick()
+                    }
+                  }}
+                >
+                  {modalLink}
+                </UnderlinedLinkButton>
+              )}
             </InfoBox>
           </div>
         )}
