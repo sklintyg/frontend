@@ -10,7 +10,7 @@ import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 import ExpandableBox from '../utils/ExpandableBox'
-import { GetRoleHeading } from '../../utils/GetRoleHeading'
+import { RoleHeading } from '../../utils/RoleHeading'
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,7 +53,7 @@ const WebcertHeaderUser = () => {
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
   const [isExpanded, setIsExpanded] = useState(false)
-  const userRole = GetRoleHeading()
+  const userRole = RoleHeading()
 
   const handleClick = () => {
     setIsExpanded(!isExpanded)

@@ -8,23 +8,23 @@ const StyledText = styled.i`
   font-style: italic;
 `
 
-export function GetRoleHeading(): string | React.JSX.Element | null {
+export function RoleHeading(): React.JSX.Element | null {
   const registerLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER))
   const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
   const notAuthorizedLink = useAppSelector(getUserResourceLink(ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER))
   const user = useAppSelector(getUser)
 
-  if (notAuthorizedLink && notAuthorizedLink.enabled) {
+  if (notAuthorizedLink?.enabled) {
     return <StyledText>Ej behörig</StyledText>
-  } else if (registerLink && registerLink.enabled) {
+  } else if (registerLink?.enabled) {
     return <StyledText>Ej registrerad</StyledText>
-  } else if (editLink && editLink.enabled) {
+  } else if (editLink?.enabled) {
     return (
       <a href={'/edit'} rel="noopener noreferrer">
         Ändra uppgifter
       </a>
     )
   } else {
-    return user?.role ?? null
+    return <span>{user?.role ?? ''}</span>
   }
 }

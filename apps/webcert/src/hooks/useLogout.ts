@@ -5,7 +5,7 @@ import { triggerFakeLogout } from '../store/user/userActions'
 import { getCookie } from '@frontend/utils'
 
 export function useLogout() {
-  const link = useAppSelector((state) => getUserResourceLink(ResourceLinkType.LOG_OUT)(state))
+  const link = useAppSelector(getUserResourceLink(ResourceLinkType.LOG_OUT))
   const user = useAppSelector(getUser)
   const dispatch = useAppDispatch()
 
