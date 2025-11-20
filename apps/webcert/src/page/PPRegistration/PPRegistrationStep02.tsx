@@ -125,10 +125,11 @@ export function PPRegistrationStep02() {
                 label="Kommun"
                 value={municipality}
                 onChange={(event) => {
+                  dispatch(updateField({ field: 'municipality', value: event.currentTarget.value }))
+
                   const data = zipCodeInfo.find(({ municipality }) => municipality === event.currentTarget.value)
                   if (data) {
                     dispatch(updateField({ field: 'city', value: data.city }))
-                    dispatch(updateField({ field: 'municipality', value: data.municipality }))
                     dispatch(updateField({ field: 'county', value: data.county }))
                   }
                 }}
