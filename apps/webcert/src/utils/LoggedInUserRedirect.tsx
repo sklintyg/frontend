@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
-import { REGISTER_PRIVATE_PRACTITIONER_URL, START_URL, START_URL_FOR_ADMINISTRATORS } from '../constants'
+import { START_URL, START_URL_FOR_ADMINISTRATORS, UNAUTHORIZED_PRIVATE_PRACTITIONER_URL } from '../constants'
 import { useAppSelector } from '../store/store'
 import {
   getUser,
@@ -24,8 +24,15 @@ export const LoggedInUserRedirect = ({ children }: { children: ReactNode }) => {
     return <>{children}</>
   }
 
+  /*
   if (isUnauthorizedPrivatePractitioner) {
     return <Navigate to={REGISTER_PRIVATE_PRACTITIONER_URL} />
+  }
+
+   */
+
+  if (isUnauthorizedPrivatePractitioner) {
+    return <Navigate to={UNAUTHORIZED_PRIVATE_PRACTITIONER_URL} />
   }
 
   if (isCareAdministrator) {
