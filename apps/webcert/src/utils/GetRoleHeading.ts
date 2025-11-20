@@ -13,7 +13,7 @@ export function GetRoleHeading(): string | ResourceLink | null {
   } else if (registerLink && registerLink.enabled) {
     return 'Ej registrerad'
   } else if (editLink && editLink.enabled) {
-    return editLink // FIXME: Placeholder, should be replaced with a proper link
+    return '' // FIXME: Placeholder, should be replaced with a proper link
   } else {
     return user?.role ?? null
   }
