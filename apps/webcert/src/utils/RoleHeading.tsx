@@ -2,11 +2,7 @@ import { getUser, getUserResourceLink } from '../store/user/userSelectors'
 import { ResourceLinkType } from '../types'
 import { useAppSelector } from '../store/store'
 import type React from 'react'
-import styled from 'styled-components'
-
-const StyledText = styled.i`
-  font-style: italic;
-`
+import { Link } from 'react-scroll'
 
 export function RoleHeading(): React.JSX.Element | null {
   const registerLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER))
@@ -15,15 +11,11 @@ export function RoleHeading(): React.JSX.Element | null {
   const user = useAppSelector(getUser)
 
   if (notAuthorizedLink?.enabled) {
-    return <StyledText>Ej behörig</StyledText>
+    return <span className="italic">Ej behörig</span>
   } else if (registerLink?.enabled) {
-    return <StyledText>Ej registrerad</StyledText>
+    return <span className="italic">Ej registrerad</span>
   } else if (editLink?.enabled) {
-    return (
-      <a href={'/edit'} rel="noopener noreferrer">
-        Ändra uppgifter
-      </a>
-    )
+    return <Link to="/edit">Ändra uppgifter</Link>
   } else {
     return <span>{user?.role ?? ''}</span>
   }
