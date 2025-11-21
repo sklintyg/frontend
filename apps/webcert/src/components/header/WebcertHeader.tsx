@@ -30,7 +30,6 @@ const InfoModal = styled(TextWithInfoModal)`
 `
 
 function WebcertHeader({ isEmpty = false }) {
-  const userLinks = useAppSelector(getUserResourceLinks)
   const user = useAppSelector(getUser)
   const isCareAdmin = useAppSelector(isCareAdministrator)
   const links = useAppSelector(getUserResourceLinks)
@@ -38,8 +37,8 @@ function WebcertHeader({ isEmpty = false }) {
   const tabs = getUserTabs(!!isCareAdmin, userStatistics, links)
   const dispatch = useAppDispatch()
   const loggedInCareProvider = useAppSelector(getLoggedInCareProvider)
-  const careProviders = user && user?.careProviders
-  const unitName = user && user.loggedInUnit.unitName
+  const careProviders = user?.careProviders
+  const unitName = user?.loggedInUnit.unitName
   const displayWarningNormalOriginBanner = useAppSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
 
   const onSwitchTab = () => {

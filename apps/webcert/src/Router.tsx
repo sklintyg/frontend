@@ -14,6 +14,7 @@ import { PPRegistrationStep02 } from './page/PPRegistration/PPRegistrationStep02
 import { PPRegistrationStep03 } from './page/PPRegistration/PPRegistrationStep03'
 import { PPRegistrationStep04 } from './page/PPRegistration/PPRegistrationStep04'
 import { PPLayout } from './page/PPRegistration/components/PPLayout'
+import { RegisterPrivatePractitionerPage } from './page/RegisterPrivatePractitionerPage'
 import { SearchPageWithRedirect } from './page/SearchPage'
 import { SelectUnitPage } from './page/SelectUnitPage'
 import { SignedCertificatesPage } from './page/SignedCertificatesPage'
@@ -71,7 +72,7 @@ export function Router() {
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
         <Route path="register" element={<PPLayout />}>
-          {/* <Route index element={<PPStart/>} /> */}
+          <Route index element={<RegisterPrivatePractitionerPage />} />
           <Route path="step-1" element={<PPRegistrationStep01 />} />
           <Route path="step-2" element={<PPRegistrationStep02 />} />
           <Route path="step-3" element={<PPRegistrationStep03 />} />

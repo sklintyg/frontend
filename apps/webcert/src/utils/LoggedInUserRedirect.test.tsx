@@ -5,10 +5,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { apiMiddleware } from '../store/api/apiMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
+import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { userMiddleware } from '../store/user/userMiddleware'
-import type { Unit, User } from '../types'
-import { SigningMethod } from '../types'
+import { ResourceLinkType, SigningMethod, type Unit, type User } from '../types'
 import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 
 let testStore: EnhancedStore
@@ -21,6 +20,7 @@ const renderComponent = () => {
           <Route path="/" element={<LoggedInUserRedirect>Test</LoggedInUserRedirect>} />
           <Route path="/search" element="you are on the search page" />
           <Route path="/list/unhandledcertificates" element="you are on the unhandled certificates page" />
+          <Route path="/register" element="you are on the register private practitioner page" />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -96,5 +96,18 @@ describe('LoggedInUserRedirect', () => {
     renderComponent()
 
     expect(screen.getByText('Test')).toBeInTheDocument()
+  })
+
+  it('should redirect to /register-private-practitioner if logged in as unauthorized private practitioner', () => {
+    const privatePractitioner = getDummyUser('obehörig privatläkare')
+    testStore.dispatch(updateUser(privatePractitioner))
+    testStore.dispatch(
+      updateUserResourceLinks([
+        { type: ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER, name: 'Skapa konto i Webcert', enabled: true, description: '' },
+      ])
+    )
+    renderComponent()
+
+    expect(screen.getByText(/you are on the register private practitioner page/i)).toBeInTheDocument()
   })
 })
