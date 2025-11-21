@@ -20,7 +20,6 @@ const PPDropdown = forwardRef<HTMLSelectElement, PPDropdownProps>(
     return (
       <div className="flex flex-col gap-1">
         <FieldLabel id={id} label={label} tooltip={tooltip} />
-
         <div
           className={classNames(
             'ic-forms__select dropdown relative w-full max-w-none',
