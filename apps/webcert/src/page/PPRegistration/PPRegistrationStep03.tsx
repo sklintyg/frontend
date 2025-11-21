@@ -13,7 +13,7 @@ export function PPRegistrationStep03() {
   const { data } = useGetHOSPInformationQuery()
 
   return (
-    <PPPage subHeader="Skapa konto: Steg 3 av 4">
+    <PPPage>
       <div className="mb-5">
         <h2>Socialstyrelsens uppgifter</h2>
         <p>Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>

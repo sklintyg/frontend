@@ -27,7 +27,7 @@ export function PPRegistrationStep01() {
   }
 
   return (
-    <PPPage subHeader="Skapa konto: Steg 1 av 4">
+    <PPPage>
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()

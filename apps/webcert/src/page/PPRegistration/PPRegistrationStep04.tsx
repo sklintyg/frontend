@@ -20,7 +20,7 @@ export function PPRegistrationStep04() {
   const { phoneNumber, email, address, zipCode, city, county, municipality } = useAppSelector((state) => state.ui.pp.step02.data, isEqual)
 
   return (
-    <PPPage subHeader="Skapa konto: Steg 4 av 4">
+    <PPPage>
       <h3 className="mb-5">Granska uppgifter</h3>
       <StatusBox type="INFO">
         Kontrollera att sammanfattningen av din information stämmer innan du går vidare. Du kan justera de uppgifter som du själv har
