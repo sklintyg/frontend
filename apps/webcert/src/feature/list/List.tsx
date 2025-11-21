@@ -3,7 +3,7 @@ import DisplayError from '../../components/error/DisplayError'
 import InfoBox from '../../components/utils/InfoBox'
 import { getIsLoadingList, getIsSortingList, getListError } from '../../store/list/listSelectors'
 import { useAppSelector } from '../../store/store'
-import type { CertificateListItem, ListConfig, ListFilter, ListType, ResourceLink } from '../../types'
+import { CertificateListItem, ListConfig, ListFilter, ListType, ResourceLink } from '../../types'
 import { ListItemContent } from './ListItemContent'
 import { ListTable } from './ListTable'
 import ListFilterContainer from './filter/ListFilterContainer'
@@ -19,6 +19,7 @@ export function List({
   list,
   filter,
   title,
+  type,
 }: Readonly<{
   config: ListConfig | undefined
   list: CertificateListItem[]
@@ -47,6 +48,7 @@ export function List({
       {icon && <img src={icon} alt="" className="iu-mr-gutter iu-height-600" />}
       <ContentWrapper>
         <h3>{title}</h3>
+        {type === ListType.PREVIOUS_CERTIFICATES && <p className="mt-3">{config.description}</p>}
         <ListFilterContainer config={config} filter={filter} />
         <ListTable
           caption={config.title}

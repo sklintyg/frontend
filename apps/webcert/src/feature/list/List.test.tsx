@@ -19,6 +19,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
       <List
         config={fakeListConfig({
           title: 'title',
+          description: 'DESCRIPTION',
           filters: [
             fakeTextFilter({
               id: 'TEXT_FILTER',
@@ -32,7 +33,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
         filter={filter}
         title="TITLE"
         icon="icon"
-        type={ListType.DRAFTS}
+        type={filter.type}
       />
     </Provider>
   )
@@ -47,6 +48,11 @@ describe('List', () => {
   it('should display title', () => {
     renderComponent([], { type: ListType.UNKOWN, values: {} }, 10)
     expect(screen.getByText('TITLE')).toBeInTheDocument()
+  })
+
+  it('should display description if type PREVIOUS_CERTIFICATES', () => {
+    renderComponent([], { type: ListType.PREVIOUS_CERTIFICATES, values: {} }, 10)
+    expect(screen.getByText('DESCRIPTION')).toBeInTheDocument()
   })
 
   it('should no results if filter results in empty list', () => {
