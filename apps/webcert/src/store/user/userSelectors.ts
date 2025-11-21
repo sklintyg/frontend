@@ -10,9 +10,13 @@ export const getUserPreference =
   (state: RootState): string | undefined =>
     state.ui.uiUser.user?.preferences?.[key]
 
-export const isUnauthorizedPrivatePractitioner = (state: RootState): boolean | null =>
+export const isNotRegisteredPrivatePractitioner = (state: RootState): boolean | null =>
   state.ui.uiUser.user &&
   state.ui.uiUser.links.some((link) => link.type === ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER && link.enabled)
+
+export const isUnauthorizedPrivatePractitioner = (state: RootState): boolean | null =>
+  state.ui.uiUser.user &&
+  state.ui.uiUser.links.some((link) => link.type === ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER && link.enabled)
 
 export const isDoctor = (state: RootState): boolean | null =>
   state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('läkare')

@@ -20,6 +20,7 @@ import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import { useAppDispatch } from './store/store'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
+import { UnauthorizedPage } from './page/UnauthorizedPage'
 
 export function Router() {
   useNavigateEffect()
@@ -66,6 +67,7 @@ export function Router() {
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
         <Route path="register" element={<RegisterPrivatePractitionerPage />} />
+        <Route path="unauthorized" element={<UnauthorizedPage />} />
       </Route>
     </Routes>
   )

@@ -1,11 +1,17 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import SpinnerBackdrop from '../components/utils/SpinnerBackdrop'
-import { REGISTER_PRIVATE_PRACTITIONER_URL, START_URL, START_URL_FOR_ADMINISTRATORS } from '../constants'
+import {
+  REGISTER_PRIVATE_PRACTITIONER_URL,
+  START_URL,
+  START_URL_FOR_ADMINISTRATORS,
+  UNAUTHORIZED_PRIVATE_PRACTITIONER_URL,
+} from '../constants'
 import { useAppSelector } from '../store/store'
 import {
   getUser,
   isCareAdministrator as selectIsCareAdministrator,
+  isNotRegisteredPrivatePractitioner as selectIsNotRegisteredPrivatePractitioner,
   isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner,
   selectIsLoadingUser,
 } from '../store/user/userSelectors'
@@ -15,6 +21,7 @@ export const LoggedInUserRedirect = ({ children }: { children: ReactNode }) => {
   const isCareAdministrator = useAppSelector(selectIsCareAdministrator)
   const user = useAppSelector(getUser)
   const isUnauthorizedPrivatePractitioner = useAppSelector(selectIsUnauthorizedPrivatePractitioner)
+  const isNotRegisteredPrivatePractitioner = useAppSelector(selectIsNotRegisteredPrivatePractitioner)
 
   if (isLoadingUser) {
     return <SpinnerBackdrop open spinnerText="Laddar..." />
@@ -24,8 +31,12 @@ export const LoggedInUserRedirect = ({ children }: { children: ReactNode }) => {
     return <>{children}</>
   }
 
-  if (isUnauthorizedPrivatePractitioner) {
+  if (isNotRegisteredPrivatePractitioner) {
     return <Navigate to={REGISTER_PRIVATE_PRACTITIONER_URL} />
+  }
+
+  if (isUnauthorizedPrivatePractitioner) {
+    return <Navigate to={UNAUTHORIZED_PRIVATE_PRACTITIONER_URL} />
   }
 
   if (isCareAdministrator) {
