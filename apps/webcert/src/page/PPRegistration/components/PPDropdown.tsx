@@ -2,6 +2,7 @@ import { classNames } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { forwardRef, useId } from 'react'
 import { FieldLabel } from '../../../components/Inputs/FieldLabel'
+import MandatoryIcon from '../../../components/utils/MandatoryIcon'
 
 interface PPDropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string
@@ -19,6 +20,7 @@ const PPDropdown = forwardRef<HTMLSelectElement, PPDropdownProps>(
 
     return (
       <div className="flex flex-col gap-1">
+        <MandatoryIcon />
         <FieldLabel id={id} label={label} tooltip={tooltip} />
         <div
           className={classNames(

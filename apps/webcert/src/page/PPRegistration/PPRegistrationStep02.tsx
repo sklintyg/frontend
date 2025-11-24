@@ -24,7 +24,7 @@ export function PPRegistrationStep02() {
     isEqual
   )
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
-  const [getZipCodeInfo, { data: zipCodeInfo, error: zipCodeError, isSuccess: isZipCodeSuccess }] = useLazyGetZipCodeInfoQuery()
+  const [getZipCodeInfo, { data: zipCodeInfo, isError: isZipCodeError, isSuccess: isZipCodeSuccess }] = useLazyGetZipCodeInfoQuery()
 
   useEffect(() => {
     if (`${zipCode}`.length === 5 && zipCodeInfo?.at(0)?.zipCode !== zipCode) {
@@ -49,6 +49,7 @@ export function PPRegistrationStep02() {
         <div>
           <TextInput
             label="Telefonnummer"
+            required
             tooltip="Telefonnummer fylls i med siffror 0-9."
             type="number"
             value={phoneNumber}
@@ -60,6 +61,7 @@ export function PPRegistrationStep02() {
         <div>
           <TextInput
             label="E-postadress"
+            required
             value={email}
             onChange={(event) => dispatch(updateField({ field: 'email', value: event.currentTarget.value }))}
           />
@@ -69,6 +71,7 @@ export function PPRegistrationStep02() {
         <div>
           <TextInput
             label="Upprepa e-postadress"
+            required
             value={emailRepeat}
             onChange={(event) => {
               setShowPasteError(false)
@@ -89,6 +92,7 @@ export function PPRegistrationStep02() {
         <div>
           <TextInput
             label="Postadress"
+            required
             value={address}
             onChange={(event) => dispatch(updateField({ field: 'address', value: event.currentTarget.value }))}
           />
@@ -98,6 +102,7 @@ export function PPRegistrationStep02() {
         <div>
           <TextInput
             label="Postnummer"
+            required
             type="number"
             min={1}
             max={99999}
@@ -151,7 +156,7 @@ export function PPRegistrationStep02() {
           <TextInput label="Län" disabled value={county} />
         </div>
       </PPForm>
-      {zipCodeError && (
+      {isZipCodeError && (
         <StatusBox type="ERROR">Ett tekniskt fel har uppstått. Adressuppgifter kan inte hämtas. Försök igen senare.</StatusBox>
       )}
     </PPPage>

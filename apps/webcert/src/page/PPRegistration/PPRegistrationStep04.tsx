@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { useAppSelector } from '../../store/store'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
@@ -10,8 +10,9 @@ import { PPResultPart } from './components/PPResultPart'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationStep04() {
-  const [trigger] = useRegisterPrivatePractitionerMutation()
+  const [trigger, { isLoading: isLoadingRegistration }] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
+  const navigate = useNavigate()
 
   const { personId, name, occupation, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
@@ -29,8 +30,12 @@ export function PPRegistrationStep04() {
       </StatusBox>
       <PPForm
         actions={<PPRegistrationAction prevStep={3} continueText="Skapa konto" />}
-        onSubmit={() => {
-          trigger({
+        onSubmit={async (event) => {
+          event.preventDefault()
+          if (isLoadingRegistration) {
+            return null
+          }
+          await trigger({
             address,
             careUnitName,
             city,
@@ -44,6 +49,7 @@ export function PPRegistrationStep04() {
             workplaceCode,
             zipCode,
           })
+          navigate('/register/done')
         }}
       >
         <div>

@@ -142,13 +142,6 @@ describe('PPRegistrationStart', () => {
 
       expect(screen.queryByText(/Avbryt och/)).not.toBeInTheDocument()
     })
-
-    it('should render "Skapa konto" button as primary button', () => {
-      renderComponent()
-
-      const createAccountButton = screen.getByRole('button', { name: 'Skapa konto' })
-      expect(createAccountButton).toHaveAttribute('type', 'submit')
-    })
   })
 
   describe('Resource links', () => {

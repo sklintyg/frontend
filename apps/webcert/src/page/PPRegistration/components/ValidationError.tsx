@@ -6,9 +6,9 @@ export function ValidationError({ children }: { children: ReactNode }) {
     return null
   }
 
-  if (children instanceof Array) {
-    return <p className="iu-color-error">{children[0]}</p>
-  }
-
-  return <p className="iu-color-error">{children}</p>
+  return (
+    <p className="iu-color-error" role="alert">
+      {children instanceof Array ? children[0] : children}
+    </p>
+  )
 }
