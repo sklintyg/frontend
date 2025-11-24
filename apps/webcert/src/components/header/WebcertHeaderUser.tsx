@@ -10,7 +10,9 @@ import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 import ExpandableBox from '../utils/ExpandableBox'
-import { RoleHeading } from '../../utils/RoleHeading'
+import type { RoleInfo } from '../../utils/RoleHeading'
+import { useRoleHeading } from '../../utils/RoleHeading'
+import { Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,6 +48,55 @@ interface Props {
   changeLinkPointer?: boolean
 }
 
+const renderUserRole = (user: User, label: string, status: RoleInfo['status'], editLinkEnabled: boolean) => {
+  switch (status) {
+    case 'normal':
+      return (
+        <>
+          <div className="flex items-center gap-1.5">
+            <span>{user.name}</span>
+            <span>- {label}</span>
+          </div>
+          {editLinkEnabled && (
+            <div>
+              <Link to="/edit">Ändra uppgifter</Link>
+            </div>
+          )}
+        </>
+      )
+    case 'notAuthorized':
+      return (
+        <>
+          <div>
+            <span>{user.name}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <StyledSpan>{label}</StyledSpan>
+            {editLinkEnabled && (
+              <>
+                <span>|</span>
+                <Link to="/edit">Ändra uppgifter</Link>
+              </>
+            )}
+          </div>
+        </>
+      )
+    case 'notRegistered':
+      return (
+        <>
+          <div>
+            <span>{user.name}</span>
+          </div>
+          <div>
+            <StyledSpan>{label}</StyledSpan>
+          </div>
+        </>
+      )
+    default:
+      return null
+  }
+}
+
 const WebcertHeaderUser = () => {
   const user = useAppSelector(getUser, shallowEqual)
   const privatePractitionerPortal = useAppSelector(getUserResourceLink(ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL))
@@ -53,7 +104,8 @@ const WebcertHeaderUser = () => {
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
   const [isExpanded, setIsExpanded] = useState(false)
-  const userRole = RoleHeading()
+  const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
+  const { label, status } = useRoleHeading()
 
   const handleClick = () => {
     setIsExpanded(!isExpanded)
@@ -78,11 +130,7 @@ const WebcertHeaderUser = () => {
           tabIndex={privatePractitionerPortal ? 0 : -1}
           onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}
         >
-          <UserWrapper>
-            <span>
-              {`${user.name} -`} {userRole}
-            </span>
-          </UserWrapper>
+          <UserWrapper>{renderUserRole(user, label, status, !!editLink?.enabled)}</UserWrapper>
           {privatePractitionerPortal && (
             <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />
           )}
