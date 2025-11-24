@@ -22,14 +22,8 @@ import {
   updateCreateCertificate,
 } from '../store/welcome/welcomeActions'
 import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
-import {
-  getCertificateId,
-  getCreateCertificate,
-  getNavigateToCertificate
-} from '../store/welcome/welcomeSelectors'
-import {
-  isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner
-} from '../store/user/userSelectors'
+import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner } from '../store/user/userSelectors'
 
 const StyledForm = styled.form`
   display: flex;
@@ -127,6 +121,7 @@ const Welcome = () => {
     navigate,
     navigateToCertificate,
     isUnauthorizedPrivatePractitioner,
+    selectedUser,
   ])
 
   if (navigateToCertificate && !isFreestanding) {
