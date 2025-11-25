@@ -67,7 +67,7 @@ export function Router() {
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
         <Route path="register" element={<RegisterPrivatePractitionerPage />} />
-        <Route path="/edit" element={<EditPrivatePractitionerPageWithRedirect />} />
+        <Route path="edit" element={<EditPrivatePractitionerPageWithRedirect />} />
       </Route>
     </Routes>
   )
