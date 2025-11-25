@@ -153,7 +153,7 @@ describe('PPRegistrationStep01', () => {
 
       renderComponent()
 
-      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(2)
+      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(1)
       expect(screen.getAllByText('Välj ett alternativ.')).toHaveLength(3)
     })
 
@@ -173,12 +173,15 @@ describe('PPRegistrationStep01', () => {
       store.dispatch(updateField({ field: 'name', value: 'Test User' }))
       store.dispatch(updateField({ field: 'careUnitName', value: 'Test Clinic' }))
       store.dispatch(updateField({ field: 'typeOfCare', value: 'Öppenvard' }))
+      store.dispatch(updateField({ field: 'position', value: 'Fooo' }))
       store.dispatch(updateField({ field: 'healthcareServiceType', value: 'Medicinsk Verksamhet' }))
       store.dispatch(updateField({ field: 'workplaceCode', value: '123456' }))
 
       renderComponent()
 
       await userEvent.click(screen.getByRole('button', { name: 'Fortsätt' }))
+
+      expect(store.getState().ui.pp.step01.errors).not.toBeDefined()
 
       await waitFor(() => {
         expect(screen.getByTestId('step-02')).toBeInTheDocument()
