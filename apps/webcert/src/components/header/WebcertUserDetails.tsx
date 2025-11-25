@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useAppSelector } from '../../store/store'
+import { getUserResourceLink } from '../../store/user/userSelectors'
 import type { User } from '../../types'
-import type { RoleInfo } from '../../utils/RoleHeading'
+import { ResourceLinkType } from '../../types'
 
 const StyledSpan = styled.span`
   white-space: nowrap;
@@ -13,36 +15,22 @@ const StyledSpan = styled.span`
 
 interface WebcertUserDetailsProps {
   user: User
-  label: string
-  status: RoleInfo['status']
-  editLinkEnabled: boolean
 }
 
-export function WebcertUserDetails({ user, label, status, editLinkEnabled }: WebcertUserDetailsProps) {
-  if (status === 'normal') {
-    return (
-      <>
-        <div className="flex items-center gap-1.5">
-          <span>{user.name}</span>
-          <span>- {label}</span>
-        </div>
-        {editLinkEnabled && (
-          <div>
-            <Link to="/edit">Ändra uppgifter</Link>
-          </div>
-        )}
-      </>
-    )
-  }
+export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
+  const notAuthorizedLink = useAppSelector(getUserResourceLink(ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER))
+  const registerLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER))
+  const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
+  const editLinkEnabled = !!editLink?.enabled
 
-  if (status === 'notAuthorized') {
+  if (notAuthorizedLink?.enabled) {
     return (
       <>
         <div>
           <span>{user.name}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <StyledSpan>{label}</StyledSpan>
+          <StyledSpan>Ej behörig</StyledSpan>
           {editLinkEnabled && (
             <>
               <span>|</span>
@@ -54,16 +42,30 @@ export function WebcertUserDetails({ user, label, status, editLinkEnabled }: Web
     )
   }
 
-  if (status === 'notRegistered') {
+  if (registerLink?.enabled) {
     return (
       <>
         <div>
           <span>{user.name}</span>
         </div>
         <div>
-          <StyledSpan>{label}</StyledSpan>
+          <StyledSpan>Ej registrerad</StyledSpan>
         </div>
       </>
     )
   }
+
+  return (
+    <>
+      <div className="flex items-center gap-1.5">
+        <span>{user.name}</span>
+        <span>- {user.role}</span>
+      </div>
+      {editLinkEnabled && (
+        <div>
+          <Link to="/edit">Ändra uppgifter</Link>
+        </div>
+      )}
+    </>
+  )
 }

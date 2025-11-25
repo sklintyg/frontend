@@ -10,7 +10,6 @@ import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 import ExpandableBox from '../utils/ExpandableBox'
-import { useRoleHeading } from '../../utils/RoleHeading'
 import { WebcertUserDetails } from './WebcertUserDetails'
 
 const Wrapper = styled.div`
@@ -46,8 +45,6 @@ const WebcertHeaderUser = () => {
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
   const [isExpanded, setIsExpanded] = useState(false)
-  const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
-  const { label, status } = useRoleHeading()
 
   const handleClick = () => {
     setIsExpanded(!isExpanded)
@@ -73,7 +70,7 @@ const WebcertHeaderUser = () => {
           onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}
         >
           <UserWrapper>
-            <WebcertUserDetails user={user} label={label} status={status} editLinkEnabled={!!editLink?.enabled} />
+            <WebcertUserDetails user={user} />
           </UserWrapper>
           {privatePractitionerPortal && (
             <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />

@@ -1,51 +1,81 @@
+import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
-import { fakeUser } from '../../faker'
+import { fakeResourceLink, fakeUser } from '../../faker'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import { ResourceLinkType } from '../../types'
 import { WebcertUserDetails } from './WebcertUserDetails'
 
-const renderComponent = (status: 'normal' | 'notAuthorized' | 'notRegistered', editLinkEnabled: boolean) => {
-  const user = fakeUser({ name: 'Test Testsson', role: 'Läkare' })
+let testStore: EnhancedStore
+
+const renderComponent = () => {
   render(
-    <MemoryRouter>
-      <WebcertUserDetails user={user} label="Läkare" status={status} editLinkEnabled={editLinkEnabled} />
-    </MemoryRouter>
+    <Provider store={testStore}>
+      <MemoryRouter>
+        <WebcertUserDetails user={fakeUser({ name: 'Test Testsson', role: 'Läkare' })} />
+      </MemoryRouter>
+    </Provider>
   )
 }
 
 describe('WebcertUserDetails', () => {
+  beforeEach(() => {
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
+  })
+
   describe('Normal status', () => {
     it('displays user name and role on same line', () => {
-      renderComponent('normal', false)
+      testStore.dispatch(updateUser(fakeUser({ name: 'Test Testsson', role: 'Läkare' })))
+      renderComponent()
       expect(screen.getByText('Test Testsson')).toBeInTheDocument()
       expect(screen.getByText('- Läkare')).toBeInTheDocument()
     })
 
     it('displays edit link when enabled', () => {
-      renderComponent('normal', true)
+      testStore.dispatch(updateUser(fakeUser()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER })]))
+      renderComponent()
       expect(screen.getByRole('link', { name: /Ändra uppgifter/i })).toBeInTheDocument()
     })
 
     it('does not display edit link when disabled', () => {
-      renderComponent('normal', false)
+      testStore.dispatch(updateUser(fakeUser()))
+      renderComponent()
       expect(screen.queryByRole('link', { name: /Ändra uppgifter/i })).not.toBeInTheDocument()
     })
   })
 
   describe('Not authorized status', () => {
     it('displays user name and label separately', () => {
-      renderComponent('notAuthorized', false)
+      testStore.dispatch(updateUser(fakeUser({ name: 'Test Testsson' })))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER })]))
+      renderComponent()
       expect(screen.getByText('Test Testsson')).toBeInTheDocument()
-      expect(screen.getByText('Läkare')).toBeInTheDocument()
+      expect(screen.getByText('Ej behörig')).toBeInTheDocument()
     })
 
     it('displays edit link with separator when enabled', () => {
-      renderComponent('notAuthorized', true)
+      testStore.dispatch(updateUser(fakeUser()))
+      testStore.dispatch(
+        updateUserResourceLinks([
+          fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER }),
+          fakeResourceLink({ type: ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER }),
+        ])
+      )
+      renderComponent()
       expect(screen.getByText('|')).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /Ändra uppgifter/i })).toBeInTheDocument()
     })
 
     it('does not display edit link or separator when disabled', () => {
-      renderComponent('notAuthorized', false)
+      testStore.dispatch(updateUser(fakeUser()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER })]))
+      renderComponent()
       expect(screen.queryByText('|')).not.toBeInTheDocument()
       expect(screen.queryByRole('link', { name: /Ändra uppgifter/i })).not.toBeInTheDocument()
     })
@@ -53,18 +83,29 @@ describe('WebcertUserDetails', () => {
 
   describe('Not registered status', () => {
     it('displays user name and label separately', () => {
-      renderComponent('notRegistered', false)
+      testStore.dispatch(updateUser(fakeUser({ name: 'Test Testsson' })))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER })]))
+      renderComponent()
       expect(screen.getByText('Test Testsson')).toBeInTheDocument()
-      expect(screen.getByText('Läkare')).toBeInTheDocument()
+      expect(screen.getByText('Ej registrerad')).toBeInTheDocument()
     })
 
     it('does not display edit link even when enabled', () => {
-      renderComponent('notRegistered', true)
+      testStore.dispatch(updateUser(fakeUser()))
+      testStore.dispatch(
+        updateUserResourceLinks([
+          fakeResourceLink({ type: ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER }),
+          fakeResourceLink({ type: ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER }),
+        ])
+      )
+      renderComponent()
       expect(screen.queryByRole('link', { name: /Ändra uppgifter/i })).not.toBeInTheDocument()
     })
 
     it('does not display edit link when disabled', () => {
-      renderComponent('notRegistered', false)
+      testStore.dispatch(updateUser(fakeUser()))
+      testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER })]))
+      renderComponent()
       expect(screen.queryByRole('link', { name: /Ändra uppgifter/i })).not.toBeInTheDocument()
     })
   })
