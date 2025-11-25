@@ -9,11 +9,11 @@ import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
 import ErrorPage from './page/ErrorPage'
 import { PPRegistrationDone } from './page/PPRegistration/PPRegistrationDone'
+import { PPRegistrationPreview } from './page/PPRegistration/PPRegistrationPreview'
 import { PPRegistrationStart } from './page/PPRegistration/PPRegistrationStart'
 import { PPRegistrationStep01 } from './page/PPRegistration/PPRegistrationStep01'
 import { PPRegistrationStep02 } from './page/PPRegistration/PPRegistrationStep02'
 import { PPRegistrationStep03 } from './page/PPRegistration/PPRegistrationStep03'
-import { PPRegistrationStep04 } from './page/PPRegistration/PPRegistrationStep04'
 import { PPLayout } from './page/PPRegistration/components/PPLayout'
 import { SearchPageWithRedirect } from './page/SearchPage'
 import { SelectUnitPage } from './page/SelectUnitPage'
@@ -73,10 +73,10 @@ export function Router() {
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
         <Route path="register" element={<PPLayout />}>
           <Route index element={<PPRegistrationStart />} />
-          <Route path="step-1" element={<PPRegistrationStep01 />} />
-          <Route path="step-2" element={<PPRegistrationStep02 />} />
-          <Route path="step-3" element={<PPRegistrationStep03 />} />
-          <Route path="step-4" element={<PPRegistrationStep04 />} />
+          <Route path="steg-1" element={<PPRegistrationStep01 />} />
+          <Route path="steg-2" element={<PPRegistrationStep02 />} />
+          <Route path="steg-3" element={<PPRegistrationStep03 />} />
+          <Route path="granska" element={<PPRegistrationPreview />} />
           <Route path="done" element={<PPRegistrationDone />} />
         </Route>
       </Route>

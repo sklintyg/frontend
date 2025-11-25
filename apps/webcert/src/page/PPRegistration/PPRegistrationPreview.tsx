@@ -2,6 +2,7 @@ import { isEqual } from 'lodash-es'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { useAppSelector } from '../../store/store'
+import WCDynamicLink from '../../utils/WCDynamicLink'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
 import { PPForm } from './components/PPForm'
 import { PPPage } from './components/PPPage'
@@ -9,12 +10,12 @@ import { PPRegistrationAction } from './components/PPRegistrationActions'
 import { PPResultPart } from './components/PPResultPart'
 import { StatusBox } from './components/StatusBox'
 
-export function PPRegistrationStep04() {
-  const [trigger, { isLoading: isLoadingRegistration }] = useRegisterPrivatePractitionerMutation()
+export function PPRegistrationPreview() {
+  const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
   const navigate = useNavigate()
 
-  const { personId, name, occupation, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
+  const { personId, name, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
@@ -29,13 +30,23 @@ export function PPRegistrationStep04() {
         att redigera.
       </StatusBox>
       <PPForm
-        actions={<PPRegistrationAction prevStep={3} continueText="Skapa konto" />}
-        onSubmit={async (event) => {
+        actions={
+          <>
+            {isRegistrationError && (
+              <StatusBox type="ERROR">
+                Ett tekniskt fel har uppstått. Kontot kan inte skapas. Försök igen senare. Om problemet kvarstår, kontakta{' '}
+                <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+              </StatusBox>
+            )}
+            <PPRegistrationAction prevStep={3} continueText="Skapa konto" />
+          </>
+        }
+        onSubmit={(event) => {
           event.preventDefault()
           if (isLoadingRegistration) {
             return null
           }
-          await trigger({
+          trigger({
             address,
             careUnitName,
             city,
@@ -49,19 +60,22 @@ export function PPRegistrationStep04() {
             workplaceCode,
             zipCode,
           })
-          navigate('/register/done')
+            .unwrap()
+            .then(() => navigate('/register/done'))
+            .catch(() => {
+              // Error is handled by isRegistrationError state
+            })
         }}
       >
         <div>
           <h4>Dina och verksamhetens uppgifter</h4>
           <div className="mb-3 text-sm">
-            <Link to="/register/step-1">Ändra</Link>
+            <Link to="/register/steg-1">Ändra</Link>
           </div>
           <PPResultPart title="Personnummer" value={personId} />
           <PPResultPart title="Namn" value={name} />
-          <PPResultPart title="Befattning" value={occupation} />
+          <PPResultPart title="Befattning" value={position} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
-          <PPResultPart title="Ägarform" value={position} />
           <PPResultPart title="Vårdform" value={typeOfCare} />
           <PPResultPart title="Verksamhetstyp" value={healthcareServiceType} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
@@ -71,7 +85,7 @@ export function PPRegistrationStep04() {
         <div>
           <h4>Kontaktuppgifter till verksamheten</h4>
           <div className="mb-3 text-sm">
-            <Link to="/register/step-2">Ändra</Link>
+            <Link to="/register/steg-2">Ändra</Link>
           </div>
           <PPResultPart title="Telefonnummer" value={phoneNumber} />
           <PPResultPart title="E-postadress" value={email} />

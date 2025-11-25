@@ -9,7 +9,7 @@ import { useAppSelector } from '../../../store/store'
 import { selectIsLoadingUser } from '../../../store/user/userSelectors'
 import { PPSubHeader } from './PPSubHeader'
 
-const steps = ['', 'step-1', 'step-2', 'step-3', 'step-4', 'done']
+const steps = ['', 'steg-1', 'steg-2', 'steg-3', 'granska', 'done']
 
 export function PPLayout() {
   useGetHOSPInformationQuery()
@@ -23,9 +23,9 @@ export function PPLayout() {
   useEffect(() => {
     if (path) {
       if (steps.indexOf(path) > 1 && !hasSomeStepOneData) {
-        navigate('/register/step-1')
+        navigate('/register/steg-1')
       } else if (steps.indexOf(path) > 2 && !hasSomeStepTwoData) {
-        navigate('/register/step-2')
+        navigate('/register/steg-2')
       }
     }
   }, [hasSomeStepOneData, hasSomeStepTwoData, location.pathname, navigate, path])

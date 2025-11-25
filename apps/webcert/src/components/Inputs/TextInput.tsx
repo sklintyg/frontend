@@ -9,21 +9,23 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   hasValidationError?: boolean
   css?: FlattenSimpleInterpolation
   tooltip?: ReactNode
+  showAsterix?: boolean
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, ...props }, ref) => {
+  ({ label, id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, showAsterix, required, ...props }, ref) => {
     const uncontrolledId = useId()
     const id = controlledId ?? uncontrolledId
 
     return (
       <div>
-        {label && <FieldLabel id={id} label={label} tooltip={tooltip} />}
+        {label && <FieldLabel id={id} label={label} tooltip={tooltip} required={showAsterix && required} />}
         <input
           ref={ref}
           className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
           maxLength={limit ? limit : 3500}
           autoComplete={autoComplete ?? 'off'}
+          required={required}
           id={id}
           css={css}
           {...props}

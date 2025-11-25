@@ -15,7 +15,7 @@ export function PPRegistrationStep01() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { data: ppConfig, isLoading } = useGetPPConfigQuery()
-  const { personId, name, occupation, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
+  const { personId, name, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
@@ -33,7 +33,7 @@ export function PPRegistrationStep01() {
           event.preventDefault()
           dispatch(validateData())
           if (!store.getState().ui.pp.step01.errors) {
-            navigate('/register/step-2')
+            navigate('/register/steg-2')
           }
         }}
         actions={<PPRegistrationAction />}
@@ -44,6 +44,7 @@ export function PPRegistrationStep01() {
             value={personId}
             onChange={(event) => dispatch(updateField({ field: 'personId', value: event.currentTarget.value }))}
             required
+            showAsterix
             disabled
           />
           <ValidationError>{errors?.personId}</ValidationError>
@@ -63,8 +64,8 @@ export function PPRegistrationStep01() {
           <PPDropdown
             label="Befattning"
             required
-            value={occupation}
-            onChange={(event) => dispatch(updateField({ field: 'occupation', value: event.currentTarget.value }))}
+            value={position}
+            onChange={(event) => dispatch(updateField({ field: 'position', value: event.currentTarget.value }))}
             tooltip="Välj din huvudsakliga befattning enligt AID-etikett (Arbetsidentifikation kommuner och regioner)."
           >
             <option value="">Välj befattning</option>
@@ -74,27 +75,19 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.occupation}</ValidationError>
+          <ValidationError>{errors?.position}</ValidationError>
         </div>
 
         <div>
           <TextInput
             label="Namn på din verksamhet"
             required
+            showAsterix
             value={careUnitName}
             onChange={(event) => dispatch(updateField({ field: 'careUnitName', value: event.currentTarget.value }))}
             tooltip="Namnet på din verksamhet visas i Webcert och i signerade intyg."
           />
           <ValidationError>{errors?.careUnitName}</ValidationError>
-        </div>
-
-        <div>
-          <TextInput
-            label="Ägarform"
-            value={position}
-            onChange={(event) => dispatch(updateField({ field: 'position', value: event.currentTarget.value }))}
-          />
-          <ValidationError>{errors?.position}</ValidationError>
         </div>
 
         <div>

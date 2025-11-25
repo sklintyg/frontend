@@ -34,10 +34,10 @@ let fakeAxios: MockAdapter
 const renderComponent = () =>
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/register/step-1']}>
+      <MemoryRouter initialEntries={['/register/steg-1']}>
         <Routes>
-          <Route path="/register/step-1" element={<PPRegistrationStep01 />} />
-          <Route path="/register/step-2" element={<div data-testid="step-02">Step 2</div>} />
+          <Route path="/register/steg-1" element={<PPRegistrationStep01 />} />
+          <Route path="/register/steg-2" element={<div data-testid="step-02">Step 2</div>} />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -90,8 +90,8 @@ describe('PPRegistrationStep01', () => {
     it('should render dropdown options from API config', () => {
       renderComponent()
 
-      const occupationDropdown = screen.getByLabelText(/befattning/i)
-      fireEvent.click(occupationDropdown)
+      const positionDropdown = screen.getByLabelText('Befattning')
+      fireEvent.click(positionDropdown)
 
       expect(screen.getByText('Välj befattning')).toBeInTheDocument()
       expect(screen.getByText('Överläkare')).toBeInTheDocument()
@@ -112,7 +112,7 @@ describe('PPRegistrationStep01', () => {
       const user = userEvent.setup()
       renderComponent()
 
-      const careUnitNameInput = screen.getByLabelText(/namn på din verksamhet/i)
+      const careUnitNameInput = screen.getByLabelText('Namn på din verksamhet')
       await user.type(careUnitNameInput, 'Test Clinic')
 
       await waitFor(() => {
@@ -124,11 +124,11 @@ describe('PPRegistrationStep01', () => {
       const user = userEvent.setup()
       renderComponent()
 
-      const occupationDropdown = screen.getByLabelText(/befattning/i)
-      await user.selectOptions(occupationDropdown, 'overlakare')
+      const positionDropdown = screen.getByLabelText(/befattning/i)
+      await user.selectOptions(positionDropdown, 'overlakare')
 
       await waitFor(() => {
-        expect(store.getState().ui.pp.step01.data.occupation).toBe('overlakare')
+        expect(store.getState().ui.pp.step01.data.position).toBe('overlakare')
       })
     })
 
@@ -172,8 +172,6 @@ describe('PPRegistrationStep01', () => {
     it('should navigate to next step when form is valid', async () => {
       store.dispatch(updateField({ field: 'personId', value: '19901010-1234' }))
       store.dispatch(updateField({ field: 'name', value: 'Test User' }))
-      store.dispatch(updateField({ field: 'occupation', value: 'Överlakare' }))
-      store.dispatch(updateField({ field: 'position', value: 'Specialist' }))
       store.dispatch(updateField({ field: 'careUnitName', value: 'Test Clinic' }))
       store.dispatch(updateField({ field: 'typeOfCare', value: 'Öppenvard' }))
       store.dispatch(updateField({ field: 'healthcareServiceType', value: 'Medicinsk Verksamhet' }))

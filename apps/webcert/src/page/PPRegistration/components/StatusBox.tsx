@@ -10,6 +10,7 @@ export function StatusBox({ type, children }: { type: 'INFO' | 'ERROR'; children
         type === 'INFO' && 'border-[#01A5A3] bg-[#E6F1F1]',
         type === 'ERROR' && 'border-[#DB0F00] bg-[#FFDAD7]'
       )}
+      role={type === 'ERROR' ? 'alert' : undefined}
     >
       <div className="w-5 h-5 shrink-0">
         <AttentionIcon className="w-full h-full" />

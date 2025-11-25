@@ -68,7 +68,7 @@ export function PPRegistrationStart() {
         <CustomButton type="submit" onClick={logout}>
           Avbryt och logga ut
         </CustomButton>
-        <CustomButton className="" buttonStyle="primary" onClick={() => navigate('/register/step-1')}>
+        <CustomButton className="" buttonStyle="primary" onClick={() => navigate('/register/steg-1')}>
           Skapa konto
         </CustomButton>
       </div>

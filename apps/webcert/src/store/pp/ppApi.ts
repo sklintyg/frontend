@@ -12,6 +12,7 @@ export const ppApi = api.injectEndpoints({
     registerPrivatePractitioner: builder.mutation<void, RegisterPrivatePractitionerData>({
       query: (data) => ({
         url: 'private-practitioner/register-private-practitioner',
+        method: 'POST',
         data,
       }),
     }),

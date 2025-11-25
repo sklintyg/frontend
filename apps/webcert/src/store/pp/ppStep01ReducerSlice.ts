@@ -7,8 +7,7 @@ import { requiredAlternative, requiredAnswer } from './ppConstants'
 const step01FormDataSchema = z.object({
   personId: z.string(),
   name: z.string(),
-  occupation: z.string().check(z.minLength(1, requiredAlternative)),
-  position: z.string().check(z.minLength(1, requiredAnswer)),
+  position: z.string().check(z.minLength(1, requiredAlternative)),
   careUnitName: z.string().check(z.minLength(1, requiredAnswer)),
   typeOfCare: z.string().check(z.minLength(1, requiredAlternative)),
   healthcareServiceType: z.string().check(z.minLength(1, requiredAlternative)),
@@ -24,7 +23,6 @@ const initialState: {
   data: {
     personId: '',
     name: '',
-    occupation: '',
     position: '',
     careUnitName: '',
     typeOfCare: '',
