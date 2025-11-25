@@ -100,22 +100,19 @@ const Welcome = () => {
     if (!navigateToCertificate) {
       return
     }
+    if (isUnauthorizedPrivatePractitioner) {
+      navigate('/register')
+    }
 
     if (certificateId.length === 0) {
-      if (isUnauthorizedPrivatePractitioner) {
-        navigate('/register')
-      } else if (!jsonUser.legitimeradeYrkesgrupper) {
+      if (!jsonUser.legitimeradeYrkesgrupper) {
         navigate('/list/unhandledcertificates')
       } else {
         navigate('/search')
       }
     } else if (isFreestanding) {
-      if (isUnauthorizedPrivatePractitioner) {
-        navigate('/register')
-      } else {
-        navigate(`/certificate/${certificateId}`)
-        dispatch(clearWelcome())
-      }
+      navigate(`/certificate/${certificateId}`)
+      dispatch(clearWelcome())
     }
   }, [
     certificateId,
