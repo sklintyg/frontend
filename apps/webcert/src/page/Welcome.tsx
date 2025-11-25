@@ -110,8 +110,12 @@ const Welcome = () => {
         navigate('/search')
       }
     } else if (isFreestanding) {
-      navigate(`/certificate/${certificateId}`)
-      dispatch(clearWelcome())
+      if (isUnauthorizedPrivatePractitioner) {
+        navigate('/register')
+      } else {
+        navigate(`/certificate/${certificateId}`)
+        dispatch(clearWelcome())
+      }
     }
   }, [
     certificateId,
