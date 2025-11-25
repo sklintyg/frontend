@@ -2,11 +2,12 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
-import { fakeUser } from '../faker'
+import { fakeResourceLink, fakeUser } from '../faker'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { updateUser } from '../store/user/userActions'
+import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { updateDynamicLinks } from '../store/utils/utilsActions'
+import { ResourceLinkType } from '../types'
 import { UnauthorizedPage } from './UnauthorizedPage'
 
 let testStore: EnhancedStore
@@ -25,6 +26,8 @@ describe('UnauthorizedPage', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware])
     testStore.dispatch(updateUser(fakeUser()))
+    testStore.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER })]))
+    testStore.dispatch(updateIsLoadingUser(false))
     testStore.dispatch(
       updateDynamicLinks({
         ineraNationellaKundservice: {
