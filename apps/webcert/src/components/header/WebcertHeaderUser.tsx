@@ -10,9 +10,8 @@ import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 import ExpandableBox from '../utils/ExpandableBox'
-import type { RoleInfo } from '../../utils/RoleHeading'
 import { useRoleHeading } from '../../utils/RoleHeading'
-import { Link } from 'react-router-dom'
+import { WebcertUserDetails } from './WebcertUserDetails'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,65 +35,8 @@ const UserWrapper = styled.div`
   flex-direction: column;
 `
 
-const StyledSpan = styled.span`
-  white-space: nowrap;
-
-  button {
-    font-style: italic;
-  }
-`
-
 interface Props {
   changeLinkPointer?: boolean
-}
-
-const renderUserRole = (user: User, label: string, status: RoleInfo['status'], editLinkEnabled: boolean) => {
-  switch (status) {
-    case 'normal':
-      return (
-        <>
-          <div className="flex items-center gap-1.5">
-            <span>{user.name}</span>
-            <span>- {label}</span>
-          </div>
-          {editLinkEnabled && (
-            <div>
-              <Link to="/edit">Ändra uppgifter</Link>
-            </div>
-          )}
-        </>
-      )
-    case 'notAuthorized':
-      return (
-        <>
-          <div>
-            <span>{user.name}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <StyledSpan>{label}</StyledSpan>
-            {editLinkEnabled && (
-              <>
-                <span>|</span>
-                <Link to="/edit">Ändra uppgifter</Link>
-              </>
-            )}
-          </div>
-        </>
-      )
-    case 'notRegistered':
-      return (
-        <>
-          <div>
-            <span>{user.name}</span>
-          </div>
-          <div>
-            <StyledSpan>{label}</StyledSpan>
-          </div>
-        </>
-      )
-    default:
-      return null
-  }
 }
 
 const WebcertHeaderUser = () => {
@@ -130,7 +72,9 @@ const WebcertHeaderUser = () => {
           tabIndex={privatePractitionerPortal ? 0 : -1}
           onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}
         >
-          <UserWrapper>{renderUserRole(user, label, status, !!editLink?.enabled)}</UserWrapper>
+          <UserWrapper>
+            <WebcertUserDetails user={user} label={label} status={status} editLinkEnabled={!!editLink?.enabled} />
+          </UserWrapper>
           {privatePractitionerPortal && (
             <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />
           )}
