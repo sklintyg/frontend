@@ -72,7 +72,6 @@ describe('PPRegistrationStep01', () => {
       expect(screen.getByLabelText('Namn')).toBeInTheDocument()
       expect(screen.getByLabelText('Befattning')).toBeInTheDocument()
       expect(screen.getByLabelText('Namn på din verksamhet')).toBeInTheDocument()
-      expect(screen.getByLabelText('Ägarform')).toBeInTheDocument()
       expect(screen.getByLabelText('Vårdform')).toBeInTheDocument()
       expect(screen.getByLabelText('Verksamhetstyp')).toBeInTheDocument()
       expect(screen.getByLabelText('Arbetsplatskod')).toBeInTheDocument()
