@@ -46,9 +46,6 @@ const ppStep01ReducerSlice = createSlice({
       const zodError = step01FormDataSchema.safeParse(state.data).error
       state.errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
     },
-    clearAllErrors: (state) => {
-      state.errors = undefined
-    },
     resetForm: () => initialState,
   },
   extraReducers: (builder) => {
@@ -62,4 +59,4 @@ const ppStep01ReducerSlice = createSlice({
 })
 
 export const { reducer: ppStep01Reducer, name: ppStep01ReducerName } = ppStep01ReducerSlice
-export const { updateField, validateData, clearAllErrors, resetForm } = ppStep01ReducerSlice.actions
+export const { updateField, validateData, resetForm } = ppStep01ReducerSlice.actions

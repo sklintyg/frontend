@@ -6,7 +6,7 @@ import axios from 'axios'
 import type { ZipCodeInfo } from '../types/zipCode'
 import type { ErrorLogRequest } from './error/errorReducer'
 
-export enum TAG {
+enum TAG {
   CERTIFICATE = 'Certificate',
   QUESTION = 'Question',
 }

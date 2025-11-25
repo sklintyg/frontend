@@ -4,12 +4,12 @@ export interface HOSPInformation {
   specialities: Speciality[]
 }
 
-export interface LicensedHealthcareProfession {
+interface LicensedHealthcareProfession {
   code: string
   description: string
 }
 
-export interface Speciality {
+interface Speciality {
   code: string
   description: string
 }
@@ -20,17 +20,17 @@ export interface PPConfig {
   typeOfCare: TypeOfCare[]
 }
 
-export interface Position {
+interface Position {
   code: string
   description: string
 }
 
-export interface HealthcareServiceType {
+interface HealthcareServiceType {
   code: string
   description: string
 }
 
-export interface TypeOfCare {
+interface TypeOfCare {
   code: string
   description: string
 }

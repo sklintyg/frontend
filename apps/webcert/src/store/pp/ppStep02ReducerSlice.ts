@@ -82,4 +82,4 @@ const ppStep02ReducerSlice = createSlice({
 })
 
 export const { reducer: ppStep02Reducer, name: ppStep02ReducerName } = ppStep02ReducerSlice
-export const { updateField, validateData, clearAllErrors, resetForm } = ppStep02ReducerSlice.actions
+export const { updateField, validateData, resetForm } = ppStep02ReducerSlice.actions
