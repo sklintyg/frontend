@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom'
 import { CustomButton } from '../../components/Inputs/CustomButton'
+import { useLogout } from '../../hooks/useLogout'
 import { PPPage } from './components/PPPage'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationDone() {
-  const navigate = useNavigate()
+  const { logout } = useLogout()
+
   return (
     <PPPage>
       <StatusBox type="INFO">
@@ -18,7 +19,7 @@ export function PPRegistrationDone() {
           på “Ändra uppgifter” i menyn.{' '}
         </p>
       </StatusBox>
-      <CustomButton buttonStyle="primary" onClick={() => navigate('/')}>
+      <CustomButton buttonStyle="primary" onClick={() => logout()}>
         Till Webcert
       </CustomButton>
     </PPPage>
