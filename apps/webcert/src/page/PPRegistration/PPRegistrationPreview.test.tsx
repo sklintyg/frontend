@@ -51,7 +51,7 @@ describe('PPRegistrationStep04', () => {
   })
 
   it('Should display error when registration fails', async () => {
-    fakeAxios.onPost('/api/private-practitioner/register-private-practitioner').reply(400)
+    fakeAxios.onPost('/api/private-practitioner').reply(400)
 
     const user = userEvent.setup()
 
@@ -66,7 +66,7 @@ describe('PPRegistrationStep04', () => {
 
   it('Should create account when ready', async () => {
     const requestSpy = vi.fn(() => [200, {}])
-    fakeAxios.onPost('/api/private-practitioner/register-private-practitioner').reply(requestSpy)
+    fakeAxios.onPost('/api/private-practitioner').reply(requestSpy)
     const user = userEvent.setup()
 
     renderComponent()
