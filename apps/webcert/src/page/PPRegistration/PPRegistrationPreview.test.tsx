@@ -34,8 +34,6 @@ describe('PPRegistrationStep04', () => {
     })
     await store.dispatch(ppApi.endpoints.getHOSPInformation.initiate())
 
-    store.dispatch(updateStep01Field({ field: 'personId', value: '19901010-1234' }))
-    store.dispatch(updateStep01Field({ field: 'name', value: 'Test User' }))
     store.dispatch(updateStep01Field({ field: 'position', value: 'Specialist' }))
     store.dispatch(updateStep01Field({ field: 'careUnitName', value: 'Test Clinic' }))
     store.dispatch(updateStep01Field({ field: 'typeOfCare', value: 'Öppenvard' }))

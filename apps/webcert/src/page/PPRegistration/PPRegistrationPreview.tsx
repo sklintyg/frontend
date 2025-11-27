@@ -2,6 +2,7 @@ import { isEqual } from 'lodash-es'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { useAppSelector } from '../../store/store'
+import { getUser } from '../../store/user/userSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
 import { PPForm } from './components/PPForm'
@@ -15,7 +16,8 @@ export function PPRegistrationPreview() {
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
   const navigate = useNavigate()
 
-  const { personId, name, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
+  const user = useAppSelector(getUser)
+  const { position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
@@ -72,8 +74,8 @@ export function PPRegistrationPreview() {
           <div className="mb-3 text-sm">
             <Link to="/register/steg-1">Ändra</Link>
           </div>
-          <PPResultPart title="Personnummer" value={personId} />
-          <PPResultPart title="Namn" value={name} />
+          <PPResultPart title="Personnummer" value={user?.personId} />
+          <PPResultPart title="Namn" value={user?.name} />
           <PPResultPart title="Befattning" value={position} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
           <PPResultPart title="Vårdform" value={typeOfCare} />
