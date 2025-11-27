@@ -42,12 +42,10 @@ export function PPRegistrationStep01() {
       >
         <div>
           <TextInput label="Personnummer" value={user?.personId} disabled />
-          <ValidationError>{errors?.personId}</ValidationError>
         </div>
 
         <div>
           <TextInput label="Namn" value={user?.name} disabled />
-          <ValidationError>{errors?.name}</ValidationError>
         </div>
 
         <div>
