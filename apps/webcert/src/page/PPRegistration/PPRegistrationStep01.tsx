@@ -5,6 +5,7 @@ import Spinner from '../../components/utils/Spinner'
 import { useGetPPConfigQuery } from '../../store/pp/ppApi'
 import { updateField, validateData } from '../../store/pp/ppStep01ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
+import { getUser } from '../../store/user/userSelectors'
 import PPDropdown from './components/PPDropdown'
 import { PPForm } from './components/PPForm'
 import { PPPage } from './components/PPPage'
@@ -14,8 +15,9 @@ import { ValidationError } from './components/ValidationError'
 export function PPRegistrationStep01() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const user = useAppSelector(getUser)
   const { data: ppConfig, isLoading } = useGetPPConfigQuery()
-  const { personId, name, position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
+  const { position, careUnitName, typeOfCare, healthcareServiceType, workplaceCode } = useAppSelector(
     (state) => state.ui.pp.step01.data,
     isEqual
   )
@@ -39,24 +41,12 @@ export function PPRegistrationStep01() {
         actions={<PPRegistrationAction />}
       >
         <div>
-          <TextInput
-            label="Personnummer"
-            value={personId}
-            onChange={(event) => dispatch(updateField({ field: 'personId', value: event.currentTarget.value }))}
-            required
-            showAsterix
-            disabled
-          />
+          <TextInput label="Personnummer" value={user?.personId} disabled />
           <ValidationError>{errors?.personId}</ValidationError>
         </div>
 
         <div>
-          <TextInput
-            label="Namn"
-            value={name}
-            onChange={(event) => dispatch(updateField({ field: 'name', value: event.currentTarget.value }))}
-            disabled
-          />
+          <TextInput label="Namn" value={user?.name} disabled />
           <ValidationError>{errors?.name}</ValidationError>
         </div>
 

@@ -1,12 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
-import { updateUser } from '../user/userActions'
 import { requiredAlternative, requiredAnswer } from './ppConstants'
 
 const step01FormDataSchema = z.object({
-  personId: z.string(),
-  name: z.string(),
   position: z.string().check(z.minLength(1, requiredAlternative)),
   careUnitName: z.string().check(z.minLength(1, requiredAnswer)),
   typeOfCare: z.string().check(z.minLength(1, requiredAlternative)),
@@ -21,8 +18,6 @@ const initialState: {
   errors?: { [K in keyof Step01FormData]?: string[] }
 } = {
   data: {
-    personId: '',
-    name: '',
     position: '',
     careUnitName: '',
     typeOfCare: '',
@@ -47,14 +42,6 @@ const ppStep01ReducerSlice = createSlice({
       state.errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
     },
     resetForm: () => initialState,
-  },
-  extraReducers: (builder) => {
-    builder.addCase(updateUser, (state, { payload }) => {
-      state.data.name = payload.name
-      if (payload.personId) {
-        state.data.personId = payload.personId
-      }
-    })
   },
 })
 
