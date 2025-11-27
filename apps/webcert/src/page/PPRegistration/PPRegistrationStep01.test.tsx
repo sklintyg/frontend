@@ -169,8 +169,6 @@ describe('PPRegistrationStep01', () => {
 
   describe('Form Submission', () => {
     it('should navigate to next step when form is valid', async () => {
-      store.dispatch(updateField({ field: 'personId', value: '19901010-1234' }))
-      store.dispatch(updateField({ field: 'name', value: 'Test User' }))
       store.dispatch(updateField({ field: 'careUnitName', value: 'Test Clinic' }))
       store.dispatch(updateField({ field: 'typeOfCare', value: 'Öppenvard' }))
       store.dispatch(updateField({ field: 'position', value: 'Fooo' }))
