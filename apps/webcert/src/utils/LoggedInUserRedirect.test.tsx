@@ -21,6 +21,7 @@ const renderComponent = () => {
           <Route path="/search" element="you are on the search page" />
           <Route path="/list/unhandledcertificates" element="you are on the unhandled certificates page" />
           <Route path="/register" element="you are on the register private practitioner page" />
+          <Route path="/unauthorized" element="you are on the unauthorized private practitioner page" />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -98,7 +99,7 @@ describe('LoggedInUserRedirect', () => {
     expect(screen.getByText('Test')).toBeInTheDocument()
   })
 
-  it('should redirect to /register-private-practitioner if logged in as unauthorized private practitioner', () => {
+  it('should redirect to /register if logged in as unregistered private practitioner', () => {
     const privatePractitioner = getDummyUser('obehörig privatläkare')
     testStore.dispatch(updateUser(privatePractitioner))
     testStore.dispatch(
@@ -109,5 +110,18 @@ describe('LoggedInUserRedirect', () => {
     renderComponent()
 
     expect(screen.getByText(/you are on the register private practitioner page/i)).toBeInTheDocument()
+  })
+
+  it('should redirect to /unauthorized if logged in as unauthorized private practitioner', () => {
+    const privatePractitioner = getDummyUser('obehörig privatläkare')
+    testStore.dispatch(updateUser(privatePractitioner))
+    testStore.dispatch(
+      updateUserResourceLinks([
+        { type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER, name: 'Ej behörig', enabled: true, description: '' },
+      ])
+    )
+    renderComponent()
+
+    expect(screen.getByText(/you are on the unauthorized private practitioner page/i)).toBeInTheDocument()
   })
 })

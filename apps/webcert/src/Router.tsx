@@ -7,6 +7,7 @@ import { useNavigateEffect } from './hooks/useNavigateEffect'
 import { CertificateDraftsPage } from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
+import { EditPrivatePractitionerPageWithRedirect } from './page/EditPrivatePractitionerPage'
 import ErrorPage from './page/ErrorPage'
 import { PPRegistrationDone } from './page/PPRegistration/PPRegistrationDone'
 import { PPRegistrationPreview } from './page/PPRegistration/PPRegistrationPreview'
@@ -19,6 +20,7 @@ import { SearchPageWithRedirect } from './page/SearchPage'
 import { SelectUnitPage } from './page/SelectUnitPage'
 import { SignedCertificatesPage } from './page/SignedCertificatesPage'
 import { StartPage } from './page/StartPage'
+import { UnauthorizedPage } from './page/UnauthorizedPage'
 import { UnhandledCertificatesPage } from './page/UnhandledCertificatesPage'
 import Welcome from './page/Welcome'
 import { throwError } from './store/error/errorActions'
@@ -79,6 +81,8 @@ export function Router() {
           <Route path="granska" element={<PPRegistrationPreview />} />
           <Route path="done" element={<PPRegistrationDone />} />
         </Route>
+        <Route path="unauthorized" element={<UnauthorizedPage />} />
+        <Route path="edit" element={<EditPrivatePractitionerPageWithRedirect />} />
       </Route>
     </Routes>
   )

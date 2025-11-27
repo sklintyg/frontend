@@ -450,8 +450,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.2(react@18.3.1)
       inera-core-css:
-        specifier: https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz
-        version: https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz
+        specifier: ./inera-core-css.tar.gz
+        version: file:apps/webcert/inera-core-css.tar.gz
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -4882,8 +4882,8 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
-  inera-core-css@https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz:
-    resolution: {tarball: https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz}
+  inera-core-css@file:apps/webcert/inera-core-css.tar.gz:
+    resolution: {integrity: sha512-yHentqX4Z3Sq3u2KV+LxJ0Dr/Ty3/52UC+O19EHUF44leeK1+llk0KrR6yKG7XmAXDGjR483ZZQR3386FUNbmQ==, tarball: file:apps/webcert/inera-core-css.tar.gz}
     version: 0.16.0
     engines: {node: '>8.0.0'}
 
@@ -9795,8 +9795,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.46.2(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.46.2(typescript@5.9.3)
-      '@typescript-eslint/types': 8.46.2
+      '@typescript-eslint/tsconfig-utils': 8.46.4(typescript@5.9.3)
+      '@typescript-eslint/types': 8.46.4
       debug: 4.4.3(supports-color@5.5.0)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -12000,7 +12000,7 @@ snapshots:
 
   indent-string@4.0.0: {}
 
-  inera-core-css@https://bitbucket.org/ineraservices/inera-core-css/get/75f597de378ebb76d95ed2d5b4ecd649d8e57bf2.tar.gz: {}
+  inera-core-css@file:apps/webcert/inera-core-css.tar.gz: {}
 
   inflight@1.0.6:
     dependencies:
