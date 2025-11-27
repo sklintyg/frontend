@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CustomButton } from '../../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../../components/utils/Modal/ConfirmModal'
-import { useLogout } from '../../../hooks/useLogout'
+import { resetForm as resetStep01Form } from '../../../store/pp/ppStep01ReducerSlice'
+import { resetForm as resetStep02Form } from '../../../store/pp/ppStep02ReducerSlice'
+import { useAppDispatch } from '../../../store/store'
 
 export function PPRegistrationAction({ prevStep, continueText = 'Fortsätt' }: { prevStep?: number; continueText?: string }) {
   const [showCancelModal, setShowCancelModal] = useState(false)
   const navigate = useNavigate()
-  const { logout } = useLogout()
+  const dispatch = useAppDispatch()
 
   return (
     <>
@@ -16,7 +18,11 @@ export function PPRegistrationAction({ prevStep, continueText = 'Fortsätt' }: {
         confirmButtonText="Ja, lämna sidan"
         declineButtonText="Nej, stanna kvar"
         disabled={false}
-        onConfirm={logout}
+        onConfirm={() => {
+          dispatch(resetStep01Form())
+          dispatch(resetStep02Form())
+          navigate('/')
+        }}
         open={showCancelModal}
         setOpen={setShowCancelModal}
       >
