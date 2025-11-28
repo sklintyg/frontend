@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { api } from './api'
 import { requestPath, requestReducer } from './api/requestSlice'
 import certificateReducer from './certificate/certificateReducer'
 import errorReducer from './error/errorReducer'
@@ -7,6 +8,7 @@ import icfReducer from './icf/icfReducer'
 import listReducer from './list/listReducer'
 import { navigateReducer } from './navigateSlice'
 import patientReducer from './patient/patientReducer'
+import { ppReducer, ppReducerName } from './pp/ppReducer'
 import questionReducer from './question/questionReducer'
 import sessionReducer from './session/sessionReducer'
 import srsReducer from './srs/srsReducer'
@@ -16,6 +18,7 @@ import utilsReducer from './utils/utilsReducer'
 import welcomeReducer from './welcome/welcomeReducer'
 
 export const reducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   ui: combineReducers({
     uiCertificate: certificateReducer,
     uiUser: userReducer,
@@ -30,6 +33,7 @@ export const reducer = combineReducers({
     uiList: listReducer,
     uiSRS: srsReducer,
     uiNavigation: navigateReducer,
+    [ppReducerName]: ppReducer,
   }),
   [requestPath]: requestReducer,
 })

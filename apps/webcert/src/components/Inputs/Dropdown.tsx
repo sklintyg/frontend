@@ -1,6 +1,8 @@
 import classNames from 'classnames'
+import type { ReactNode } from 'react'
 import { forwardRef } from 'react'
 import styled from 'styled-components'
+import { FieldLabel } from './FieldLabel'
 
 const DropdownDiv = styled.div<{ fullWidth: boolean }>`
   min-height: 3rem !important;
@@ -19,12 +21,13 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean
   label?: string
   fullWidth?: boolean
+  tooltip?: ReactNode
 }
 
 const Dropdown = forwardRef<HTMLSelectElement, Props>(
-  ({ children, id, error, disabled, title, label, value, fullWidth, ...props }, ref) => (
-    <>
-      {label && <label htmlFor={id}>{label}</label>}
+  ({ children, id, error, disabled, title, label, tooltip, value, fullWidth, ...props }, ref) => (
+    <div>
+      {label && <FieldLabel id={id} label={label} tooltip={tooltip} />}
       <DropdownDiv
         title={title}
         className={classNames('ic-forms__select', {
@@ -38,7 +41,7 @@ const Dropdown = forwardRef<HTMLSelectElement, Props>(
           {children}
         </DropdownSelect>
       </DropdownDiv>
-    </>
+    </div>
   )
 )
 

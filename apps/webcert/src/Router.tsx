@@ -7,13 +7,21 @@ import { useNavigateEffect } from './hooks/useNavigateEffect'
 import { CertificateDraftsPage } from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
+import { EditPrivatePractitionerPageWithRedirect } from './page/EditPrivatePractitionerPage'
 import ErrorPage from './page/ErrorPage'
+import { PPRegistrationDone } from './page/PPRegistration/PPRegistrationDone'
+import { PPRegistrationPreview } from './page/PPRegistration/PPRegistrationPreview'
+import { PPRegistrationStart } from './page/PPRegistration/PPRegistrationStart'
+import { PPRegistrationStep01 } from './page/PPRegistration/PPRegistrationStep01'
+import { PPRegistrationStep02 } from './page/PPRegistration/PPRegistrationStep02'
+import { PPRegistrationStep03 } from './page/PPRegistration/PPRegistrationStep03'
+import { PPLayout } from './page/PPRegistration/components/PPLayout'
 import { SearchPageWithRedirect } from './page/SearchPage'
 import { SelectUnitPage } from './page/SelectUnitPage'
 import { SignedCertificatesPage } from './page/SignedCertificatesPage'
 import { StartPage } from './page/StartPage'
+import { UnauthorizedPage } from './page/UnauthorizedPage'
 import { UnhandledCertificatesPage } from './page/UnhandledCertificatesPage'
-import { RegisterPrivatePractitionerPage } from './page/RegisterPrivatePractitionerPage'
 import Welcome from './page/Welcome'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
@@ -65,7 +73,16 @@ export function Router() {
         <Route path="list/draft" element={<CertificateDraftsPage />} />
         <Route path="list/certificate" element={<SignedCertificatesPage />} />
         <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
-        <Route path="register" element={<RegisterPrivatePractitionerPage />} />
+        <Route path="register" element={<PPLayout />}>
+          <Route index element={<PPRegistrationStart />} />
+          <Route path="steg-1" element={<PPRegistrationStep01 />} />
+          <Route path="steg-2" element={<PPRegistrationStep02 />} />
+          <Route path="steg-3" element={<PPRegistrationStep03 />} />
+          <Route path="granska" element={<PPRegistrationPreview />} />
+          <Route path="done" element={<PPRegistrationDone />} />
+        </Route>
+        <Route path="unauthorized" element={<UnauthorizedPage />} />
+        <Route path="edit" element={<EditPrivatePractitionerPageWithRedirect />} />
       </Route>
     </Routes>
   )

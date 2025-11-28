@@ -6,7 +6,7 @@ interface Props {
 
 const Spinner = ({ text, size, className }: Props) => {
   return (
-    <div>
+    <div data-testid="spinner">
       <div className={`ic-spinner ${className}`}>
         <div className="ic-spinner__bounce1"></div>
         <div className="ic-spinner__bounce2"></div>

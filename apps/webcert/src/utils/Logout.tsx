@@ -12,13 +12,11 @@ const StyledLink = styled.button`
 `
 
 const Logout = () => {
-  const result = useLogout()
+  const { logout, link } = useLogout()
 
-  if (!result) {
+  if (!link) {
     return null
   }
-
-  const { logout, link } = result
 
   return (
     <StyledLink className="ic-link" onClick={logout}>
