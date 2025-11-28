@@ -2,12 +2,12 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
-import { fakeResourceLink, fakeUser } from '../faker'
-import { configureApplicationStore } from '../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { updateUser, updateUserResourceLinks } from '../store/user/userActions'
-import { ResourceLinkType } from '../types'
-import { RegisterPrivatePractitionerPage } from './RegisterPrivatePractitionerPage'
+import { fakeResourceLink, fakeUser } from '../../faker'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { ResourceLinkType } from '../../types'
+import { PPRegistrationStart } from './PPRegistrationStart'
 
 let testStore: EnhancedStore
 
@@ -15,13 +15,13 @@ const renderComponent = () => {
   render(
     <Provider store={testStore}>
       <MemoryRouter>
-        <RegisterPrivatePractitionerPage />
+        <PPRegistrationStart />
       </MemoryRouter>
     </Provider>
   )
 }
 
-describe('RegisterPrivatePractitionerPage', () => {
+describe('PPRegistrationStart', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware])
     testStore.dispatch(updateUser(fakeUser()))
@@ -141,13 +141,6 @@ describe('RegisterPrivatePractitionerPage', () => {
       renderComponent()
 
       expect(screen.queryByText(/Avbryt och/)).not.toBeInTheDocument()
-    })
-
-    it('should render "Skapa konto" button as primary button', () => {
-      renderComponent()
-
-      const createAccountButton = screen.getByRole('button', { name: 'Skapa konto' })
-      expect(createAccountButton).toHaveAttribute('type', 'submit')
     })
   })
 

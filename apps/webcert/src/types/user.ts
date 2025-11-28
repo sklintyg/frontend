@@ -15,6 +15,7 @@ export interface User {
   launchId?: string
   launchFromOrigin?: string
   origin: string
+  personId?: string
 }
 
 export enum SigningMethod {
