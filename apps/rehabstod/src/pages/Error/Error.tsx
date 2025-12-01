@@ -18,7 +18,7 @@ export function Error() {
           <Outlet />
         </ErrorContext.Provider>
         <div className="mb-6">
-          <ErrorIdentifier id={errorId} />
+          <ErrorIdentifier id={errorId} centerText />
         </div>
         <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
         <StartPageLink />

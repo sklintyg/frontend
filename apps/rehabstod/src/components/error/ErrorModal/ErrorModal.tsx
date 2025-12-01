@@ -54,7 +54,7 @@ export function ErrorModal({
         {description} Om problemet kvarstår, kontakta i första hand din lokala IT-support och i andra hand{' '}
         {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}.
       </p>
-      {generateError && <ErrorIdentifier id={errorId} />}
+      {generateError && <ErrorIdentifier id={errorId} centerText />}
     </Dialog>
   )
 }

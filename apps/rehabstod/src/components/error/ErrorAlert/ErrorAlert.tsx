@@ -21,7 +21,7 @@ export function ErrorAlert({
   const { data: links } = useGetLinksQuery()
 
   return (
-    <IDSAlert type={errorType} headline={heading}>
+    <IDSAlert type={errorType} headline={<h2>{heading}</h2>}>
       <p className="mb-5">
         {text} {dynamicLink && <DynamicLink link={links?.ineraNationellKundservice} />}
       </p>
