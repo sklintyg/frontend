@@ -12,6 +12,7 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
+    "@frontend/colors": "workspace:*",
     "@frontend/components": "workspace:*",
     "@frontend/fake": "workspace:*",
     "@frontend/utils": "workspace:*",
