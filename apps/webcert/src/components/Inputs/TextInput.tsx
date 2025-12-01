@@ -1,49 +1,38 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import React from 'react'
+import type { ReactNode } from 'react'
+import React, { useId } from 'react'
 import type { FlattenSimpleInterpolation } from 'styled-components'
-import styled from 'styled-components'
-import { questionImage } from '../../images'
-
-const Icon = styled.img`
-  width: 14px;
-  display: inline-block;
-`
+import { FieldLabel } from './FieldLabel'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
   limit?: number
   hasValidationError?: boolean
   css?: FlattenSimpleInterpolation
-  tooltip?: string
+  tooltip?: ReactNode
+  showAsterix?: boolean
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, id, limit, className, hasValidationError, css, autoComplete, tooltip, ...props }, ref) => (
-    <div>
-      {label && (
-        <>
-          <label htmlFor={id}>{label}</label>{' '}
-          {tooltip && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Icon src={questionImage} tabIndex={0} alt={tooltip} />
-              </TooltipTrigger>
-              <TooltipContent small>{tooltip}</TooltipContent>
-            </Tooltip>
-          )}
-        </>
-      )}
-      <input
-        ref={ref}
-        className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
-        maxLength={limit ? limit : 3500}
-        autoComplete={autoComplete ?? 'off'}
-        id={id ?? 'textinput'}
-        css={css}
-        {...props}
-      />
-    </div>
-  )
+  ({ label, id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, showAsterix, required, ...props }, ref) => {
+    const uncontrolledId = useId()
+    const id = controlledId ?? uncontrolledId
+
+    return (
+      <div>
+        {label && <FieldLabel id={id} label={label} tooltip={tooltip} required={showAsterix && required} />}
+        <input
+          ref={ref}
+          className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
+          maxLength={limit ? limit : 3500}
+          autoComplete={autoComplete ?? 'off'}
+          required={required}
+          id={id}
+          css={css}
+          {...props}
+        />
+      </div>
+    )
+  }
 )
 
 export default TextInput

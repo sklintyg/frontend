@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
-import { useAppSelector } from '../../../store/store'
-import type { ValidationError } from '../../../types'
+import { Provider } from 'react-redux'
+import { fakeCertificate, fakeCertificateMetaData, fakeResourceLink, fakeUnit } from '../../../faker'
+import { resetCertificateState, showValidationErrors, updateCertificate } from '../../../store/certificate/certificateActions'
+import store from '../../../store/store'
+import { ResourceLinkType, type ValidationError } from '../../../types'
 import UeCareUnitAddress, {
   CARE_UNIT_ADDRESS_FIELD,
   CARE_UNIT_CITY_FIELD,
@@ -19,24 +20,21 @@ const getValidationErrors = (): ValidationError[] => {
   return [address, zipCode, city, phoneNumber]
 }
 
-vi.mock('react-redux', () => ({
-  useSelector: vi.fn(),
-  useDispatch: vi.fn(),
-}))
-
-const mockedUseSelector = useAppSelector as Mock
+function renderComponent() {
+  return render(
+    <Provider store={store}>
+      <UeCareUnitAddress />
+    </Provider>
+  )
+}
 
 describe('CareUnitAddress component', () => {
   beforeEach(() => {
-    mockedUseSelector.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
-  })
-
-  afterEach(() => {
-    mockedUseSelector.mockClear()
+    store.dispatch(resetCertificateState())
   })
 
   it('display all input fields with labels, mandatory and no validation errors', (): void => {
-    render(<UeCareUnitAddress />)
+    renderComponent()
 
     expect(screen.getByRole('heading', { name: /vårdenhetens adress/i })).toBeInTheDocument()
     expect(screen.getByText(/postadress/i)).toBeInTheDocument()
@@ -52,23 +50,18 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display all validation errors', async () => {
-    mockedUseSelector.mockImplementation((callback) =>
-      callback({
-        ui: {
-          uiCertificate: {
-            showValidationErrors: true,
-            certificate: {
-              metadata: {
-                careUnitValidationErrors: getValidationErrors(),
-              },
-              links: [],
-            },
-          },
-        },
-      })
+    store.dispatch(showValidationErrors())
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            careUnitValidationErrors: getValidationErrors(),
+          }),
+        })
+      )
     )
 
-    render(<UeCareUnitAddress />)
+    renderComponent()
 
     expect(screen.queryAllByText('Valideringstext')).toHaveLength(4)
     await expect(screen.getByRole('textbox', { name: /postadress/i })).toHaveClass('ic-textarea--error')
@@ -78,55 +71,51 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display no validation errors', (): void => {
-    render(<UeCareUnitAddress />)
+    renderComponent()
 
     expect(screen.queryAllByText('Valideringstext')).toHaveLength(0)
   })
 
   it('do not display mandatory', (): void => {
-    mockedUseSelector.mockImplementation((callback) =>
-      callback({
-        ui: {
-          uiCertificate: {
-            certificate: {
-              metadata: {
-                unit: {
-                  unitId: 'unitId',
-                  unitName: 'unitName',
-                  address: 'address',
-                  zipCode: '12345',
-                  city: 'city',
-                  phoneNumber: '123456789',
-                  email: 'email',
-                },
-              },
-              links: [],
-            },
-          },
-        },
-      })
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({
+              unitId: 'unitId',
+              unitName: 'unitName',
+              address: 'address',
+              zipCode: '12345',
+              city: 'city',
+              phoneNumber: '123456789',
+              email: 'email',
+            }),
+          }),
+        })
+      )
     )
 
-    render(<UeCareUnitAddress />)
+    renderComponent()
 
     expect(screen.queryAllByText(/\*/i)).toHaveLength(0)
   })
 
   it('numeric inputs should only allow numbers', async () => {
-    mockedUseSelector.mockImplementation((callback) =>
-      callback({
-        ui: {
-          uiCertificate: {
-            certificate: {
-              metadata: {},
-              links: [{ type: 'EDIT_CERTIFICATE' }],
-            },
-          },
-        },
-      })
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({
+              phoneNumber: '',
+              zipCode: '',
+            }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
     )
 
-    render(<UeCareUnitAddress />)
+    renderComponent()
 
     const zipcodeInput = screen.getByRole('textbox', { name: /postnummer/i })
     const phoneNumberInput = screen.getByRole('textbox', { name: /telefonnummer/i })

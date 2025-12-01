@@ -23,6 +23,7 @@ import {
 } from '../store/welcome/welcomeActions'
 import type { JsonUser, MockUser } from '../store/welcome/welcomeReducer'
 import { getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner } from '../store/user/userSelectors'
 
 const StyledForm = styled.form`
   display: flex;
@@ -56,6 +57,7 @@ const Welcome = () => {
   const isSit1 = config.ppHost.includes('sit1')
   const availableUsers = isSit1 ? [...mockUserData, ...mockUserDataSit1] : mockUserData
   const navigateToCertificate = useAppSelector(getNavigateToCertificate())
+  const isUnauthorizedPrivatePractitioner = useAppSelector(selectIsUnauthorizedPrivatePractitioner)
 
   const [selectedUser, setSelectedUser] = useState(availableUsers[0])
   const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' } as JsonUser)
@@ -98,6 +100,9 @@ const Welcome = () => {
     if (!navigateToCertificate) {
       return
     }
+    if (isUnauthorizedPrivatePractitioner) {
+      navigate('/register')
+    }
 
     if (certificateId.length === 0) {
       if (!jsonUser.legitimeradeYrkesgrupper) {
@@ -105,13 +110,20 @@ const Welcome = () => {
       } else {
         navigate('/search')
       }
-    } else {
-      if (isFreestanding) {
-        navigate(`/certificate/${certificateId}`)
-        dispatch(clearWelcome())
-      }
+    } else if (isFreestanding) {
+      navigate(`/certificate/${certificateId}`)
+      dispatch(clearWelcome())
     }
-  }, [certificateId, dispatch, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigate, navigateToCertificate])
+  }, [
+    certificateId,
+    dispatch,
+    isFreestanding,
+    jsonUser.legitimeradeYrkesgrupper,
+    navigate,
+    navigateToCertificate,
+    isUnauthorizedPrivatePractitioner,
+    selectedUser,
+  ])
 
   if (navigateToCertificate && !isFreestanding) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
