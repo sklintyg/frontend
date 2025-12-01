@@ -35,7 +35,7 @@ export function MobileMenu() {
       </div>
       <div className="ids-footer-1177-admin__sub-footer-mobile">
         <div className="ids-footer-1177-admin__sub-footer-mobile-icon">
-          <div className="ids-footer-1177-admin__sub-footer-mobile-service-name">Rehabstod</div>
+          <div className="ids-footer-1177-admin__sub-footer-mobile-service-name">Rehabstöd</div>
         </div>
         <div className="ids-footer-1177-admin__sub-footer-mobile-text">
           <ServiceLink mobile />
