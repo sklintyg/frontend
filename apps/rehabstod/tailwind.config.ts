@@ -14,7 +14,14 @@ export default {
       xl: '1280px',
       xxl: '1920px',
     },
-    colors,
+    colors: {
+      ...colors,
+      srs: {
+        high: '#DB0F00',
+        medium: '#FF9517',
+        low: '#FFD748',
+      },
+    },
     extend: {
       gridTemplateColumns: {
         'table-filter': 'repeat(auto-fit, minmax(280px, 1fr))',
