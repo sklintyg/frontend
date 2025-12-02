@@ -46,6 +46,7 @@ export function DiagnosisFilter({
           description={description}
           placeholder={getDiagnosisPlaceholder(selected)}
           listBoxId={listBoxId}
+          onOpenChanged={() => setSearch('')}
         >
           <div className="mb-2">
             <Input
@@ -53,7 +54,8 @@ export function DiagnosisFilter({
               aria-labelledby={id}
               type="text"
               placeholder="Sök diagnos"
-              onChange={(event) => setSearch(event.target.value.toLowerCase())}
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
             />
           </div>
           <Divider />
@@ -61,7 +63,7 @@ export function DiagnosisFilter({
             <SelectMultipleListBox id={listBoxId}>
               {allDiagnoses &&
                 allDiagnoses
-                  .filter((diagnosis) => (search !== '' ? getDiagnosisLabel(diagnosis).toLowerCase().includes(search) : true))
+                  .filter((diagnosis) => (search.toLowerCase() !== '' ? getDiagnosisLabel(diagnosis).toLowerCase().includes(search) : true))
                   .map((diagnosis) => (
                     <SelectMultipleOption
                       key={diagnosis.id ?? diagnosis.name}
