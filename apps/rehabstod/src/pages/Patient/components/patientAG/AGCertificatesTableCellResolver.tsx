@@ -22,7 +22,7 @@ export function AGCertificatesTableCellResolver({ column, data, list }: { column
     case PatientColumn.Grad:
       return (
         <TableCell>
-          <SickLeaveDegreeInfo degrees={data.degree} />
+          <SickLeaveDegreeInfo degrees={data.degree} minimal />
         </TableCell>
       )
     default:
