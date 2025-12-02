@@ -24,7 +24,7 @@ export function TestData() {
           <br />
           Beskrivning om datat hittas här:{' '}
           <AppLink target="_blank" to="https://inera.atlassian.net/wiki/spaces/IT/pages/3174432876/Rehabst+d+-+Testdata" rel="noreferrer">
-            Rehabstod - Testdata Documentation
+            Rehabstöd - Testdata Documentation
           </AppLink>
         </IDSAlert>
       </div>
