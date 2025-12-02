@@ -22,15 +22,13 @@ export function SickLeaveDegreeInfo({
         }
 
         return (
-          <Fragment key={`degree${degree}-icon`}>
+          <Fragment key={degree}>
             {index > 0 && (
               <div className="inline-block px-0.5">
                 <Icon icon="arrow-right-small" className="pt-0.5" />
               </div>
             )}
-            <span className={classNames(activeDegree === degree && 'font-bold')} key={`degree${degree}`}>
-              {degree}%
-            </span>
+            <span className={classNames(activeDegree === degree && 'font-bold')}>{degree}%</span>
           </Fragment>
         )
       })}
