@@ -27,7 +27,7 @@ describe('RiskSignalInfo', () => {
   it('should render one colored ring and two white for category 1', () => {
     renderComponent(getRiskSignal(1))
     const riskSignals = screen.getAllByTestId('riskSignalRing')
-    expect(riskSignals[0]).toHaveClass('bg-attention-40')
+    expect(riskSignals[0]).toHaveClass('bg-srs-low')
     expect(riskSignals[1]).toHaveClass('bg-white')
     expect(riskSignals[2]).toHaveClass('bg-white')
   })
@@ -35,17 +35,17 @@ describe('RiskSignalInfo', () => {
   it('should render two colored rings and one white for category 2', () => {
     renderComponent(getRiskSignal(2))
     const riskSignals = screen.getAllByTestId('riskSignalRing')
-    expect(riskSignals[0]).toHaveClass('bg-graphic')
-    expect(riskSignals[1]).toHaveClass('bg-graphic')
+    expect(riskSignals[0]).toHaveClass('bg-srs-medium')
+    expect(riskSignals[1]).toHaveClass('bg-srs-medium')
     expect(riskSignals[2]).toHaveClass('bg-white')
   })
 
   it('should render three colored rings for category 3', () => {
     renderComponent(getRiskSignal(3))
     const riskSignals = screen.getAllByTestId('riskSignalRing')
-    expect(riskSignals[0]).toHaveClass('bg-error-40')
-    expect(riskSignals[1]).toHaveClass('bg-error-40')
-    expect(riskSignals[2]).toHaveClass('bg-error-40')
+    expect(riskSignals[0]).toHaveClass('bg-srs-high')
+    expect(riskSignals[1]).toHaveClass('bg-srs-high')
+    expect(riskSignals[2]).toHaveClass('bg-srs-high')
   })
 
   it('should render tooltip', async () => {
