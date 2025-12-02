@@ -1,8 +1,7 @@
-import { classNames, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { IDSIconCopyFile } from '@inera/ids-react'
+import { classNames, Icon, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import { useState } from 'react'
 
-export function ErrorIdentifier({ id, showTitle = true, centerText = true }: { id: string; showTitle?: boolean; centerText?: boolean }) {
+export function ErrorIdentifier({ id, centerText = false }: { id: string; centerText?: boolean }) {
   const [displayCopyMessage, setDisplayCopyMessage] = useState(false)
   return (
     <div className={classNames(centerText ? 'text-center' : '')}>
@@ -18,9 +17,9 @@ export function ErrorIdentifier({ id, showTitle = true, centerText = true }: { i
       >
         <Tooltip>
           <TooltipTrigger asChild>
-            <p className="flex justify-center gap-1 align-bottom font-bold">
-              {showTitle && <span>Fel-id: </span>} <span className={classNames(showTitle ? 'font-normal' : 'font-bold')}>{id}</span>
-              <IDSIconCopyFile size="s" colorpreset={1} />
+            <p className="flex items-center justify-center gap-1 font-bold">
+              <span>Fel-id: </span> <span className="font-normal">{id}</span>
+              <Icon icon="copy-file" size="s" />
             </p>
           </TooltipTrigger>
           <TooltipContent>Kopiera fel-id</TooltipContent>

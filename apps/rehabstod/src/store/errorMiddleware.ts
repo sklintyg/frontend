@@ -1,12 +1,15 @@
 import { randomUUID } from '@frontend/utils'
 import type { SerializedError, ThunkMiddleware } from '@reduxjs/toolkit'
-import { isPlainObject } from '@reduxjs/toolkit'
+import { isPlainObject, isRejectedWithValue } from '@reduxjs/toolkit'
 import type { ErrorData } from '../schemas/errorSchema'
 import { ErrorCodeEnum } from '../schemas/errorSchema'
 import { api, hasRequest, isRejectedEndpoint } from './api'
 import type { RootState } from './reducer'
 
-function getActionMessage(data: unknown, error?: SerializedError) {
+const hasData = (o: unknown): o is { data: unknown } => isPlainObject(o) && 'data' in o
+
+function getActionMessage(payload: unknown, error?: SerializedError) {
+  const data = hasData(payload) ? payload.data : undefined
   if (isPlainObject(data) && 'message' in data && typeof data.message === 'string') {
     return data.message
   }
@@ -16,7 +19,8 @@ function getActionMessage(data: unknown, error?: SerializedError) {
   return 'NO_MESSAGE'
 }
 
-function getActionStatus(data: unknown) {
+function getActionStatus(payload: unknown) {
+  const data = hasData(payload) ? payload.data : undefined
   if (isPlainObject(data) && 'status' in data && typeof data.status === 'string') {
     return data.status
   }
@@ -39,11 +43,15 @@ export const errorMiddleware: ThunkMiddleware<RootState> =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (!api.endpoints.logError.matchRejected(action) && isRejectedEndpoint(action) && action.payload) {
+    if (api.endpoints.logError.matchRejected(action)) {
+      return next(action)
+    }
+
+    if (isRejectedWithValue(action) && isPlainObject(action.payload)) {
       const errorData: ErrorData = {
         errorId: randomUUID(),
-        message: `${getActionMessage(action.payload.data, action.error)}${getRequestMethod(action)}`,
-        errorCode: getActionStatus(action.payload.data) ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
+        message: `${getActionMessage(action.payload, action.error)}${getRequestMethod(action)}`,
+        errorCode: getActionStatus(action.payload) ?? ErrorCodeEnum.enum.UNKNOWN_INTERNAL_ERROR,
         stackTrace: 'NO_STACK_TRACE',
       }
 

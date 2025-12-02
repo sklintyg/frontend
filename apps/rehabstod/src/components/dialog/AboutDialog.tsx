@@ -60,8 +60,7 @@ export function AboutDialog() {
           <Heading level={2} size="s">
             Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?
           </Heading>
-          <p className="ids-body" />
-          <p>
+          <p className="ids-body">
             Om du vill se mer information om SRS, t.ex. hur prediktionen räknas ut, fler åtgärder, mer nationell statistik så kan du gå till
             SRS webbplats. När du klickar på länken nedan öppnas SRS webbplats i ett nytt fönster.
           </p>

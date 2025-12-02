@@ -15,7 +15,9 @@ const fakeLink = fakerFromSchema(linkSchema)
 export const handlers = [
   rest.post('/api/testability/logout', (_, res, ctx) => res(ctx.status(302))),
 
-  rest.get('/api/user', (_, res, ctx) => res(ctx.status(200), ctx.json(fakeUser({ pdlConsentGiven: true })))),
+  rest.get('/api/user', (_, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakeUser({ pdlConsentGiven: true, features: { SRS: { global: true } } })))
+  ),
 
   rest.post('/api/user/preferences', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(userPreferencesSchema)()))),
 
