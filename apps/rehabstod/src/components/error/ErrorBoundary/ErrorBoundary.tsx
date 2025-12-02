@@ -58,7 +58,7 @@ export function ErrorBoundary() {
           <p className="ids-preamble">{message}</p>
           {import.meta.env.MODE === 'development' && stackTrace !== null && <ErrorBoundryStacktrace stackTrace={stackTrace} />}
         </div>
-        <ErrorIdentifier id={errorId} />
+        <ErrorIdentifier id={errorId} centerText />
         <div className="mb-5 block h-px w-12 bg-neutral-40 md:hidden" />
         <StartPageLink />
       </PageHero>

@@ -11,7 +11,7 @@ export function LayoutFooter() {
       <div className="ids-footer-1177-admin__inner-wrapper">
         <div className="ids-footer-1177-admin__inner">
           <div className="ids-footer-1177-admin__headline-row">
-            <h1 className="ids-footer-1177-admin__headline">Rehabstod</h1>
+            <h1 className="ids-footer-1177-admin__headline">Rehabstöd</h1>
           </div>
           <div className="ids-footer-1177-admin__content">
             <div className="ids-footer-1177-admin__text">

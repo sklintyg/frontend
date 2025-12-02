@@ -32,18 +32,20 @@ export const Select = forwardRef<
       <InputLabel htmlFor={id} description={description}>
         {label}
       </InputLabel>
-      <select
-        ref={ref}
-        id={id}
-        className={classNames('ids-select', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
-        {...props}
-      >
-        {options?.map((option) => (
-          <option key={option.label} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="ids-select-wrapper">
+        <select
+          ref={ref}
+          id={id}
+          className={classNames('ids-select', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
+          {...props}
+        >
+          {options?.map((option) => (
+            <option key={option.label} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   )
 })

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-duplicates */
+import { FloatingDelayGroup } from '@frontend/components'
 import { IDSSpinner } from '@inera/ids-react'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <I18nProvider locale="sv-SE">
       <Provider store={store}>
         <PersistGate loading={<IDSSpinner />} persistor={persistor}>
-          <RouterProvider router={router} />
+          <FloatingDelayGroup delay={200}>
+            <RouterProvider router={router} />
+          </FloatingDelayGroup>
         </PersistGate>
       </Provider>
     </I18nProvider>

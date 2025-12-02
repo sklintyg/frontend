@@ -24,6 +24,7 @@ export function SelectMultiple({
   label,
   light = false,
   placeholder,
+  onOpenChanged,
 }: {
   children: ReactNode
   description: string
@@ -33,12 +34,18 @@ export function SelectMultiple({
   label: string
   light?: boolean
   placeholder: string
+  onOpenChanged?: (open: boolean) => void
 }) {
   const [open, setOpen] = useState(false)
   const { x, y, strategy, refs, context } = useFloating({
     placement: 'bottom-start',
     open,
-    onOpenChange: setOpen,
+    onOpenChange: (o) => {
+      if (onOpenChanged) {
+        onOpenChanged(o)
+      }
+      setOpen(o)
+    },
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(1),
