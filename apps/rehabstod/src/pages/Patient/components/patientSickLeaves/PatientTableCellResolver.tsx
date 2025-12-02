@@ -23,7 +23,7 @@ export function PatientTableCellResolver({
     case PatientColumn.Grad:
       return (
         <TableCell>
-          <SickLeaveDegreeInfo degrees={certificate.grader} />
+          <SickLeaveDegreeInfo degrees={certificate.grader} minimal />
         </TableCell>
       )
     case PatientColumn.Risk:
