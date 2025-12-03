@@ -8,9 +8,6 @@ import { printImage } from '../../../images'
 import { printCertificate } from '../../../store/certificate/certificateActions'
 import type { CertificateMetadata } from '../../../types'
 import { isLocked, sanitizeText } from '../../../utils'
-import { useAppDispatch, useAppSelector } from '../../../store/store'
-import { getCertificate, getIsUnsigned } from '../../../store/certificate/certificateSelectors'
-import { autoSaveCertificate } from '../../../store/certificate/certificateThunks'
 
 interface Props {
   name: string
@@ -26,10 +23,7 @@ const IFrame = styled.iframe`
 
 const PrintCertificateButton = ({ name, description, enabled, certificateMetadata, body }: Props) => {
   const dispatch = useDispatch()
-  const appDispatch = useAppDispatch()
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
-  const certificate = useAppSelector(getCertificate)
-  const isUnsignedCertificate = useAppSelector(getIsUnsigned())
 
   return (
     <>
@@ -56,12 +50,7 @@ const PrintCertificateButton = ({ name, description, enabled, certificateMetadat
           data-testid="print-certificate-button"
           text={name}
           startIcon={<img src={printImage} alt="Skriva ut" />}
-          onClick={async () => {
-            if (certificate && isUnsignedCertificate) {
-              await appDispatch(autoSaveCertificate(certificate))
-            }
-            iframeRef.current && dispatch(printCertificate({ ...certificateMetadata, iframe: iframeRef.current }))
-          }}
+          onClick={() => iframeRef.current && dispatch(printCertificate({ ...certificateMetadata, iframe: iframeRef.current }))}
         />
       )}
     </>
