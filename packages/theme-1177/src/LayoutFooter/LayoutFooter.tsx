@@ -19,7 +19,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           external
           arrow
         >
-          Läs mer om e-tjänster
+          Tillgänglighet
         </AppLink>,
       ]}
       col2={[
