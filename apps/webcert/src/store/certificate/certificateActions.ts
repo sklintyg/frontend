@@ -396,7 +396,7 @@ export const copyCertificateSuccess = createAction<CopyCertificateSuccess>(COPY_
 
 export const copyCertificateCompleted = createAction(COPY_CERTIFICATE_COMPLETED)
 
-export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
+export const validateCertificate = createAction(VALIDATE_CERTIFICATE)
 
 export const validateCertificateStarted = createAction(VALIDATE_CERTIFICATE_STARTED)
 
@@ -496,4 +496,4 @@ export const resetCertificateState = createAction(`${CERTIFICATE} Reset certific
 
 export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)
 
-export const debouncedAutoSaveCertificate = createAction<Certificate>(`${CERTIFICATE} Debounce auto save`)
+export const debouncedAutoSaveCertificate = createAction(`${CERTIFICATE} Debounce auto save`)
