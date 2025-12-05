@@ -4,7 +4,7 @@ import axios, { isAxiosError } from 'axios'
 import type { RootState } from '../reducer'
 import { apiCallFailed } from './apiActions'
 import { createApiError, getHeaders } from './apiUtils'
-import { addRequest, isRequestLoading, removeRequest } from './requestSlice'
+import { addRequest, removeRequest, selectById } from './requestSlice'
 
 interface ApiCall {
   url: string
@@ -15,16 +15,18 @@ interface ApiCall {
 }
 
 export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, init: (args: ThunkArg) => ApiCall) {
-  return createAsyncThunk<Response, ThunkArg, { state: RootState }>(name, async (args, { rejectWithValue, dispatch, getState }) => {
-    const id = randomUUID()
-    const { url, method, headers, data, functionDisablerType } = init(args)
+  const id = randomUUID()
 
-    if (isRequestLoading({ url, method, headers, data })(getState())) {
-      return rejectWithValue('Request is already loading')
+  return createAsyncThunk<Response, ThunkArg, { state: RootState }>(name, async (args, { rejectWithValue, dispatch, getState }) => {
+    const payload = init(args)
+    const { url, method, headers, data } = payload
+
+    if (selectById(getState(), id)) {
+      return rejectWithValue({ message: `[${method}] ${url} is pending`, payload })
     }
 
     try {
-      dispatch(addRequest({ id, url, method, headers, data, functionDisablerType }))
+      dispatch(addRequest({ id, ...payload }))
       const response = await axios.request<Response>({
         url,
         method,

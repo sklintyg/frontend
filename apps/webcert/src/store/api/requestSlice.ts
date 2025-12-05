@@ -22,7 +22,7 @@ const requestSlice = createSlice({
 export const { name: requestPath, reducer: requestReducer } = requestSlice
 export const { addRequest, removeRequest } = requestSlice.actions
 
-export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<RootState>((state) => state.requests)
+export const { selectAll: selectAllRequests, selectById } = requestAdapter.getSelectors<RootState>((state) => state.requests)
 
 export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =>
   selectAllRequests(state).some(({ functionDisablerType }) => functionDisablerType === disableGroup)
