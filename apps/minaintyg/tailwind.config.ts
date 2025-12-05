@@ -3,7 +3,12 @@ import { colors } from '@frontend/colors'
 import type { Config } from 'tailwindcss'
 
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/@frontend/components/dist/*.js'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@frontend/components/dist/*.js',
+    './node_modules/@frontend/theme-1177/dist/*.js',
+  ],
   important: true,
   theme: {
     screens: {
