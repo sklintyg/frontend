@@ -150,7 +150,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> =
     dispatch(getCertificateCompleted())
     dispatch(hideSpinner())
     if (certificate.metadata.status === CertificateStatus.UNSIGNED) {
-      dispatch(validateCertificate(certificate))
+      dispatch(validateCertificate())
     }
     dispatch(getCertificateEvents(certificate.metadata.id))
     dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
@@ -276,7 +276,7 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> =
     dispatch(updateCertificate(certificate))
     dispatch(hideSpinner())
     dispatch(forwardCertificateCompleted())
-    dispatch(validateCertificate(certificate))
+    dispatch(validateCertificate())
     dispatch(getCertificateEvents(certificate.metadata.id))
   }
 
@@ -908,8 +908,8 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> =
 
         dispatch(updateCertificate(updatedCertificate))
         if (validationErrors.length === 0) {
-          dispatch(validateCertificate(updatedCertificate))
-          dispatch(debouncedAutoSaveCertificate(updatedCertificate))
+          dispatch(validateCertificate())
+          dispatch(debouncedAutoSaveCertificate())
         }
       }
     }
@@ -924,8 +924,8 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> =
     if (!certificate) {
       return
     }
-    dispatch(validateCertificate(certificate))
-    dispatch(debouncedAutoSaveCertificate(certificate))
+    dispatch(validateCertificate())
+    dispatch(debouncedAutoSaveCertificate())
   }
 
 const handleUpdateCertificatePatient: Middleware<Dispatch> =
@@ -960,10 +960,12 @@ const handleAutoSaveCertificateError: Middleware<Dispatch> =
   ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>
   () =>
   (action: AnyAction): void => {
-    if (action.payload.error.errorCode === 'UNKNOWN_INTERNAL_PROBLEM') {
-      dispatch(throwError(createConcurrencyErrorRequestFromApiError(action.payload.error)))
-    } else {
-      dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+    if (action.payload.error) {
+      if (action.payload.error.errorCode === 'UNKNOWN_INTERNAL_PROBLEM') {
+        dispatch(throwError(createConcurrencyErrorRequestFromApiError(action.payload.error)))
+      } else {
+        dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+      }
     }
   }
 
