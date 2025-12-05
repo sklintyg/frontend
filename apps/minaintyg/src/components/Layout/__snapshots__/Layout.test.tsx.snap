@@ -241,7 +241,7 @@ exports[`Should render as expected 1`] = `
                 <span
                   class="ids-icon-arrow-right-small ids-icon--text-start"
                 />
-                Läs mer om e-tjänster
+                Tillgänglighet
                 <span
                   class="ids-icon-external-link-small ids-icon--text-end"
                 />
