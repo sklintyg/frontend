@@ -45,7 +45,7 @@ export function PPRegistrationStart() {
         </div>
         <div className="flex flex-row gap-x-6">
           <div className="flex flex-col">
-            <h3 className="mb-3">Steg 2 - u ppgifter verifieras</h3>
+            <h3 className="mb-3">Steg 2 - uppgifter verifieras</h3>
             <p className="max-w-lg mb-8">
               Din yrkeslegitimation verifieras automatiskt mot Socialstyrelsens register över legitimerad hälso- och sjukvårdspersonal
               (HOSP).
