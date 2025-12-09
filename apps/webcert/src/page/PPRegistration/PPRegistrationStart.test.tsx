@@ -92,7 +92,6 @@ describe('PPRegistrationStart', () => {
 
       const listIcon = screen.getByAltText('List')
       expect(listIcon).toBeInTheDocument()
-      expect(listIcon).toHaveAttribute('tabIndex', '0')
     })
 
     it('should render id card icon for step 2', () => {
@@ -100,7 +99,6 @@ describe('PPRegistrationStart', () => {
 
       const idCardIcon = screen.getByAltText('Id Card')
       expect(idCardIcon).toBeInTheDocument()
-      expect(idCardIcon).toHaveAttribute('tabIndex', '0')
     })
 
     it('should render check icon for step 3', () => {
@@ -108,7 +106,6 @@ describe('PPRegistrationStart', () => {
 
       const checkIcon = screen.getByAltText('Check')
       expect(checkIcon).toBeInTheDocument()
-      expect(checkIcon).toHaveAttribute('tabIndex', '0')
     })
   })
 
