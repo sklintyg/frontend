@@ -7,11 +7,16 @@ import { ResourceLinkType } from '../../types'
 
 const StyledSpan = styled.span`
   white-space: nowrap;
+  font-style: italic;
 
   button {
     font-style: italic;
   }
 `
+
+const linkStyle = {
+  textDecoration: 'underline',
+}
 
 interface WebcertUserDetailsProps {
   user: User
@@ -34,7 +39,9 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
           {editLinkEnabled && (
             <>
               <span>|</span>
-              <Link to="/edit">Ändra uppgifter</Link>
+              <Link to="/edit" style={linkStyle}>
+                Ändra uppgifter
+              </Link>
             </>
           )}
         </div>
@@ -63,7 +70,9 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
       </div>
       {editLinkEnabled && (
         <div>
-          <Link to="/edit">Ändra uppgifter</Link>
+          <Link to="/edit" style={linkStyle}>
+            Ändra uppgifter
+          </Link>
         </div>
       )}
     </>
