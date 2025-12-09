@@ -32,6 +32,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
         method,
         data,
         withCredentials: true,
+        timeout: 6000,
         headers: { ...getHeaders(), ...headers },
       })
 
