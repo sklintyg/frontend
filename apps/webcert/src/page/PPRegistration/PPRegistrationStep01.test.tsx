@@ -65,6 +65,16 @@ describe('PPRegistrationStep01', () => {
   })
 
   describe('Rendering', () => {
+    it('should render heading and ingress text', () => {
+      renderComponent()
+
+      expect(screen.getByRole('heading', { name: 'Dina och verksamhetens uppgifter', level: 3 })).toBeInTheDocument()
+      expect(
+        screen.getByText('Vissa uppgifter kan inte ändras eftersom de hämtas från folkbokföringsregistret eller är förvalda.')
+      ).toBeInTheDocument()
+      expect(screen.getByText('Fält markerade med asterisk (*) är obligatoriska.')).toBeInTheDocument()
+    })
+
     it('should render all form fields with correct labels', () => {
       renderComponent()
 
