@@ -16,11 +16,12 @@ const requestSlice = createSlice({
     addRequest: requestAdapter.addOne,
     removeRequest: requestAdapter.removeOne,
     updateRequest: requestAdapter.updateOne,
+    removeAllRequests: requestAdapter.removeAll,
   },
 })
 
 export const { name: requestPath, reducer: requestReducer } = requestSlice
-export const { addRequest, removeRequest } = requestSlice.actions
+export const { addRequest, removeRequest, removeAllRequests } = requestSlice.actions
 
 export const { selectAll: selectAllRequests, selectById } = requestAdapter.getSelectors<RootState>((state) => state.requests)
 

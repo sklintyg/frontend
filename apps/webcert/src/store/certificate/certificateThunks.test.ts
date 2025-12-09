@@ -2,7 +2,7 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { fakeCertificate } from '../../faker'
 import { getCertificateToSave } from '../../utils'
-import { isFunctionDisabled } from '../api/requestSlice'
+import { isFunctionDisabled, removeAllRequests } from '../api/requestSlice'
 import store from '../store'
 import { resetCertificateState, toggleCertificateFunctionDisabler, updateCertificate } from './certificateActions'
 import { getCertificate, getCertificateVersion } from './certificateSelectors'
@@ -18,6 +18,7 @@ describe('certificateThunks', () => {
   afterEach(() => {
     fakeAxios.reset()
     store.dispatch(resetCertificateState())
+    store.dispatch(removeAllRequests())
   })
 
   describe('autoSaveCertificate', () => {
