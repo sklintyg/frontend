@@ -14,7 +14,23 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, italicLabel,  id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, showAsterix, required, ...props }, ref) => {
+  (
+    {
+      label,
+      italicLabel,
+      id: controlledId,
+      limit,
+      className,
+      hasValidationError,
+      css,
+      autoComplete,
+      tooltip,
+      showAsterix,
+      required,
+      ...props
+    },
+    ref
+  ) => {
     const uncontrolledId = useId()
     const id = controlledId ?? uncontrolledId
 

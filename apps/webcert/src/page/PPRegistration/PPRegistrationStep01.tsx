@@ -24,7 +24,6 @@ export function PPRegistrationStep01() {
 
   const errors = useAppSelector((state) => state.ui.pp.step01.errors)
 
-
   if (isLoading) {
     return <Spinner />
   }

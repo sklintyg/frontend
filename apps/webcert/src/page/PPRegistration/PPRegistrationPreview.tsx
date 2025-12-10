@@ -1,7 +1,8 @@
 import { isEqual } from 'lodash-es'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetHOSPInformationQuery, useGetPPConfigQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
-import { useAppSelector } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { getUser as getUserAction } from '../../store/user/userActions'
 import { getUser } from '../../store/user/userSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
@@ -12,6 +13,7 @@ import { PPResultPart } from './components/PPResultPart'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationPreview() {
+  const dispatch = useAppDispatch()
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
   const { data: ppConfig } = useGetPPConfigQuery()
@@ -31,7 +33,7 @@ export function PPRegistrationPreview() {
 
   return (
     <PPPage>
-      <h3 className="mb-5">Granska uppgifter</h3>
+      <h2 className="mb-5 text-secondary-95">Granska uppgifter</h2>
       <StatusBox type="INFO">
         Kontrollera att sammanfattningen av din information stämmer innan du går vidare. Du kan justera de uppgifter som du själv har
         angett. Information hämtad från folkbokföringen och från Socialstyrelsens register för Hälso- och sjukvårdspersonal (HOSP) går inte
@@ -69,9 +71,10 @@ export function PPRegistrationPreview() {
             zipCode,
           })
             .unwrap()
-            .then(
-              () => navigate('/register/done')
-            )
+            .then(() => {
+              dispatch(getUserAction())
+              return navigate('/register/done')
+            })
             .catch(() => {
               // Error is handled by isRegistrationError state
             })
