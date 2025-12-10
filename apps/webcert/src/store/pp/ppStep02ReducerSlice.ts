@@ -19,7 +19,7 @@ const step02FormDataSchema = z
         })
       ),
     city: z.string().check(z.minLength(1, requiredAnswer)),
-    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har två träffar. Ange den kommun som är rätt.')),
+    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.')),
     county: z.string().check(z.minLength(1, requiredAnswer)),
   })
   .check(

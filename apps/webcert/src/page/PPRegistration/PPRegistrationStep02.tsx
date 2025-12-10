@@ -2,7 +2,7 @@ import { isEqual } from 'lodash-es'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextInput from '../../components/Inputs/TextInput'
-import { useLazyGetZipCodeInfoQuery } from '../../store/api'
+import { api, useLazyGetZipCodeInfoQuery } from '../../store/api'
 import { updateField, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
@@ -19,6 +19,7 @@ export function PPRegistrationStep02() {
   const navigate = useNavigate()
 
   const [showPasteError, setShowPasteError] = useState(false)
+  const [previousZipCode, setPreviousZipCode] = useState<string>('')
   const { phoneNumber, email, emailRepeat, address, zipCode, city, county, municipality } = useAppSelector(
     (state) => state.ui.pp.step02.data,
     isEqual
@@ -28,12 +29,50 @@ export function PPRegistrationStep02() {
 
   useEffect(() => {
     if (`${zipCode}`.length === 5 && zipCodeInfo?.at(0)?.zipCode !== zipCode) {
+      const zipCodeChanged = previousZipCode !== zipCode && previousZipCode !== ''
+      if (zipCodeChanged) {
+        dispatch(updateField({ field: 'city', value: '' }))
+        dispatch(updateField({ field: 'municipality', value: '' }))
+        dispatch(updateField({ field: 'county', value: '' }))
+      }
+      setPreviousZipCode(zipCode)
       getZipCodeInfo(zipCode)
     }
-  }, [getZipCodeInfo, zipCode, zipCodeInfo])
+  }, [getZipCodeInfo, zipCode, zipCodeInfo, dispatch, previousZipCode])
 
+  useEffect(() => {
+    if (zipCodeInfo && zipCodeInfo.length === 1) {
+      const data = zipCodeInfo[0]
+      dispatch(updateField({ field: 'municipality', value: data.municipality }))
+      dispatch(updateField({ field: 'city', value: data.city }))
+      dispatch(updateField({ field: 'county', value: data.county }))
+    }
+  }, [zipCodeInfo, dispatch])
+
+  const sanatizeInput = () => {
+    return (event: { currentTarget: { value: string } }) => {
+      event.currentTarget.value = event.currentTarget.value.replace(/\D+/g, '')
+    }
+  }
+
+  const checkEmptyField = (newZipCode: string) => {
+    if (!newZipCode || newZipCode.length === 0) {
+      dispatch(updateField({ field: 'city', value: '' }))
+      dispatch(updateField({ field: 'municipality', value: '' }))
+      dispatch(updateField({ field: 'county', value: '' }))
+      setPreviousZipCode('')
+    }
+  }
   return (
     <PPPage>
+      <div className="flex flex-col">
+        <h3 className="mb-5">Kontaktuppgifter till verksamheten</h3>
+        <p className="max-w-xl mb-4">
+          Ange de kontaktuppgifter du vill ska användas när Inera eller intygsmottagare behöver kontakta dig. Uppgifter om postort, kommun
+          och län fylls i automatiskt.
+        </p>
+        <p className="max-w-xl mb-4">Fält markerade med asterisk (*) är obligatoriska.</p>
+      </div>
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
@@ -48,8 +87,12 @@ export function PPRegistrationStep02() {
           <TextInput
             label="Telefonnummer"
             required
+            showAsterix
             tooltip="Telefonnummer fylls i med siffror 0-9."
             type="number"
+            inputMode="numeric"
+            onInput={sanatizeInput()}
+            hasValidationError={!!errors?.phoneNumber}
             value={phoneNumber}
             onChange={(event) => dispatch(updateField({ field: 'phoneNumber', value: event.currentTarget.value }))}
           />
@@ -60,6 +103,8 @@ export function PPRegistrationStep02() {
           <TextInput
             label="E-postadress"
             required
+            showAsterix
+            hasValidationError={!!errors?.email}
             value={email}
             onChange={(event) => dispatch(updateField({ field: 'email', value: event.currentTarget.value }))}
           />
@@ -70,6 +115,8 @@ export function PPRegistrationStep02() {
           <TextInput
             label="Upprepa e-postadress"
             required
+            showAsterix
+            hasValidationError={!!errors?.emailRepeat || showPasteError}
             value={emailRepeat}
             onChange={(event) => {
               setShowPasteError(false)
@@ -91,6 +138,8 @@ export function PPRegistrationStep02() {
           <TextInput
             label="Postadress"
             required
+            showAsterix
+            hasValidationError={!!errors?.address}
             value={address}
             onChange={(event) => dispatch(updateField({ field: 'address', value: event.currentTarget.value }))}
           />
@@ -101,6 +150,7 @@ export function PPRegistrationStep02() {
           <TextInput
             label="Postnummer"
             required
+            showAsterix
             type="number"
             min={1}
             max={99999}
@@ -108,7 +158,9 @@ export function PPRegistrationStep02() {
             value={zipCode}
             hasValidationError={errors?.zipCode != null}
             onChange={(event) => {
-              dispatch(updateField({ field: 'zipCode', value: event.currentTarget.value }))
+              const newZipCode = event.currentTarget.value
+              dispatch(updateField({ field: 'zipCode', value: newZipCode }))
+              checkEmptyField(newZipCode)
             }}
           />
           <ValidationError>{errors?.zipCode}</ValidationError>
@@ -120,12 +172,15 @@ export function PPRegistrationStep02() {
 
         <div>
           {!zipCodeInfo || zipCodeInfo.length === 0 ? (
-            <TextInput label="Kommun" disabled tooltip={municipalityTooltip} />
+            <TextInput label="Kommun" disabled value="" tooltip={municipalityTooltip} />
+          ) : zipCodeInfo.length === 1 ? (
+            <TextInput label="Kommun" disabled value={municipality} tooltip={municipalityTooltip} />
           ) : (
             <>
               <PPDropdown
                 label="Kommun"
                 value={municipality}
+                hasValidationError={!!errors?.municipality}
                 onChange={(event) => {
                   dispatch(updateField({ field: 'municipality', value: event.currentTarget.value }))
 

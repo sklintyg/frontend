@@ -2,8 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { expect } from 'vitest'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { api } from '../../store/api'
 import { resetForm, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
 import { PPRegistrationStep02 } from './PPRegistrationStep02'
@@ -38,9 +40,20 @@ describe('PPRegistrationStep02', () => {
   afterEach(() => {
     fakeAxios.restore()
     store.dispatch(resetForm())
+    store.dispatch(api.util.resetApiState())
   })
 
   describe('Rendering', () => {
+    it('should render heading and informational text', () => {
+      renderComponent()
+
+      expect(screen.getByRole('heading', { name: 'Kontaktuppgifter till verksamheten', level: 3 })).toBeInTheDocument()
+      expect(
+        screen.getByText(/Ange de kontaktuppgifter du vill ska användas när Inera eller intygsmottagare behöver kontakta dig/)
+      ).toBeInTheDocument()
+      expect(screen.getByText('Fält markerade med asterisk (*) är obligatoriska.')).toBeInTheDocument()
+    })
+
     it('should render all form fields with correct labels', () => {
       renderComponent()
 
@@ -74,6 +87,19 @@ describe('PPRegistrationStep02', () => {
   })
 
   describe('Form Interactions', () => {
+    it('should sanitize phone number input to only allow numeric characters', async () => {
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      const phoneInput = screen.getByLabelText('Telefonnummer') as HTMLInputElement
+
+      await user.type(phoneInput, '123abc456')
+
+      expect(phoneInput).toHaveAttribute('type', 'number')
+      expect(phoneInput).toHaveAttribute('inputMode', 'numeric')
+    })
+
     it('Should prevent user from pasting in repeat email field', async () => {
       const user = userEvent.setup()
 
@@ -101,16 +127,193 @@ describe('PPRegistrationStep02', () => {
       expect(screen.getByLabelText('Postort')).toHaveValue('KOLBÄCK')
       expect(screen.getByLabelText('Län')).toHaveValue('VÄSTMANLAND')
     })
+
+    it('Should clear city, municipality, and county when zip code is cleared', async () => {
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      await user.type(screen.getByLabelText('Postnummer'), '73450')
+
+      await waitFor(() => expect(screen.getByLabelText('Kommun')).toHaveValue('HALLSTAHAMMAR'))
+
+      expect(screen.getByLabelText('Postort')).toHaveValue('KOLBÄCK')
+      expect(screen.getByLabelText('Län')).toHaveValue('VÄSTMANLAND')
+
+      await user.clear(screen.getByLabelText('Postnummer'))
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Postort')).toHaveValue('')
+      })
+
+      expect(screen.getByLabelText('Kommun')).toHaveValue('')
+      expect(screen.getByLabelText('Län')).toHaveValue('')
+    })
+
+    it('Should clear old data when zip code changes to a new value', async () => {
+      fakeAxios.onGet('/api/config/area/22222').reply(200, [
+        {
+          zipCode: '22222',
+          city: 'LUND',
+          municipality: 'LUND',
+          county: 'SKÅNE',
+        },
+      ])
+
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      await user.type(screen.getByLabelText('Postnummer'), '73450')
+
+      await waitFor(() => expect(screen.getByLabelText('Kommun')).toHaveValue('HALLSTAHAMMAR'))
+
+      await user.clear(screen.getByLabelText('Postnummer'))
+      await user.type(screen.getByLabelText('Postnummer'), '22222')
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Kommun')).toHaveValue('LUND')
+      })
+
+      expect(screen.getByLabelText('Postort')).toHaveValue('LUND')
+      expect(screen.getByLabelText('Län')).toHaveValue('SKÅNE')
+    })
+
+    it('Should show disabled TextInput for municipality when there is only one option', async () => {
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      expect(screen.getByLabelText('Kommun')).toBeDisabled()
+      expect(screen.getByLabelText('Kommun')).toHaveValue('')
+
+      await user.type(screen.getByLabelText('Postnummer'), '73450')
+
+      await waitFor(() => {
+        const kommunInput = screen.getByLabelText('Kommun')
+        expect(kommunInput).toBeDisabled()
+      })
+
+      expect(screen.getByLabelText('Kommun')).toHaveValue('HALLSTAHAMMAR')
+
+      expect(screen.queryByRole('combobox', { name: 'Kommun' })).not.toBeInTheDocument()
+    })
+
+    it('Should show dropdown for municipality when there are multiple options', async () => {
+      fakeAxios.onGet('/api/config/area/83152').reply(200, [
+        {
+          zipCode: '83152',
+          city: 'ÖSTERSUND',
+          municipality: 'KROKOM',
+          county: 'JÄMTLAND',
+        },
+        {
+          zipCode: '83152',
+          city: 'ÖSTERSUND',
+          municipality: 'ÖSTERSUND',
+          county: 'JÄMTLAND',
+        },
+      ])
+
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      await user.type(screen.getByLabelText('Postnummer'), '83152')
+
+      await waitFor(() => {
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+      })
+
+      expect(screen.getByRole('option', { name: 'KROKOM' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'ÖSTERSUND' })).toBeInTheDocument()
+    })
+
+    it('Should preserve municipality selection in state after selecting from dropdown', async () => {
+      fakeAxios.onGet('/api/config/area/83152').reply(200, [
+        {
+          zipCode: '83152',
+          city: 'ÖSTERSUND',
+          municipality: 'KROKOM',
+          county: 'JÄMTLAND',
+        },
+        {
+          zipCode: '83152',
+          city: 'ÖSTERSUND',
+          municipality: 'ÖSTERSUND',
+          county: 'JÄMTLAND',
+        },
+      ])
+
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      await user.type(screen.getByLabelText('Postnummer'), '83152')
+
+      await waitFor(() => {
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+      })
+
+      await user.selectOptions(screen.getByRole('combobox', { name: 'Kommun' }), 'ÖSTERSUND')
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Kommun')).toHaveValue('ÖSTERSUND')
+      })
+
+      expect(screen.getByLabelText('Postort')).toHaveValue('ÖSTERSUND')
+      expect(screen.getByLabelText('Län')).toHaveValue('JÄMTLAND')
+
+      const state = store.getState().ui.pp.step02.data
+      expect(state.zipCode).toBe('83152')
+      expect(state.municipality).toBe('ÖSTERSUND')
+      expect(state.city).toBe('ÖSTERSUND')
+      expect(state.county).toBe('JÄMTLAND')
+    })
   })
 
   describe('Validation', () => {
+    it('should apply error styling to email fields when emails do not match', async () => {
+      const user = userEvent.setup()
+      renderComponent()
+
+      const emailInput = screen.getByLabelText('E-postadress')
+      const emailRepeatInput = screen.getByLabelText('Upprepa e-postadress')
+
+      await user.type(emailInput, 'first@test.se')
+      await user.type(emailRepeatInput, 'second@test.se')
+      await user.click(screen.getByRole('button', { name: 'Fortsätt' }))
+
+      await waitFor(() => {
+        expect(emailInput).toHaveClass('ic-textfield--error')
+      })
+
+      await waitFor(() =>{
+        expect(emailRepeatInput).toHaveClass('ic-textfield--error')
+      })
+    })
+
+    it('should remove error styling from email fields when emails match', async () => {
+      const user = userEvent.setup()
+      renderComponent()
+
+      const emailInput = screen.getByLabelText('E-postadress')
+      const emailRepeatInput = screen.getByLabelText('Upprepa e-postadress')
+
+      await user.type(emailInput, 'same@test.se')
+      await user.type(emailRepeatInput, 'same@test.se')
+
+      expect(emailInput).not.toHaveClass('ic-textfield--error')
+    })
+
     it('should display validation errors when present', () => {
       store.dispatch(validateData())
 
       renderComponent()
 
-      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(3)
+      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(2)
       expect(screen.getByText('Ange en giltig e-postadress.')).toBeInTheDocument()
+      expect(screen.getByText('Ange telefonnummer.')).toBeInTheDocument()
       expect(screen.getByText('Upprepa e-postadress')).toBeInTheDocument()
       expect(screen.getByText('Postnummer fylls i med fem siffror 0-9.')).toBeInTheDocument()
     })
@@ -139,9 +342,9 @@ describe('PPRegistrationStep02', () => {
         county: ['Ange ett svar.'],
         email: ['Ange en giltig e-postadress.'],
         emailRepeat: ['Ange ett svar.'],
-        municipality: ['Välj ett alternativ.'],
-        phoneNumber: ['Ange ett svar.'],
-        zipCode: ['Postnummer fylls i med fem siffror 0-9.'],
+        municipality: ['Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.'],
+        phoneNumber: ['Ange telefonnummer.'],
+        zipCode: ['Postnummer fylls i med fem siffror 0-9.', 'Ange ett giltigt postnummer.'],
       })
     })
 
@@ -166,9 +369,15 @@ describe('PPRegistrationStep02', () => {
 
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
+      await waitFor(() => {
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+      })
+
       await user.click(screen.getByRole('button', { name: 'Fortsätt' }))
 
-      expect(screen.getByText('Välj ett alternativ.')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText('Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.')).toBeInTheDocument()
+      })
     })
   })
 
