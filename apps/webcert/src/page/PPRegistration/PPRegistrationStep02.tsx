@@ -24,15 +24,13 @@ export function PPRegistrationStep02() {
     isEqual
   )
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
-  const [getZipCodeInfo, { data: zipCodeInfo, isError: isZipCodeError, isSuccess: isZipCodeSuccess }] = useLazyGetZipCodeInfoQuery()
+  const [getZipCodeInfo, { data: zipCodeInfo, isError: isZipCodeError }] = useLazyGetZipCodeInfoQuery()
 
   useEffect(() => {
     if (`${zipCode}`.length === 5 && zipCodeInfo?.at(0)?.zipCode !== zipCode) {
       getZipCodeInfo(zipCode)
     }
   }, [getZipCodeInfo, zipCode, zipCodeInfo])
-
-  const invalidZipCode = isZipCodeSuccess && zipCodeInfo.length === 0 ? 'Ange ett giltigt postnummer.' : undefined
 
   return (
     <PPPage>
@@ -108,13 +106,12 @@ export function PPRegistrationStep02() {
             max={99999}
             maxLength={5}
             value={zipCode}
-            hasValidationError={invalidZipCode != null || errors?.zipCode != null}
+            hasValidationError={errors?.zipCode != null}
             onChange={(event) => {
               dispatch(updateField({ field: 'zipCode', value: event.currentTarget.value }))
             }}
           />
           <ValidationError>{errors?.zipCode}</ValidationError>
-          <ValidationError>{invalidZipCode}</ValidationError>
         </div>
 
         <div>

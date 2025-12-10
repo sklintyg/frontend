@@ -2,21 +2,24 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import { api } from '../api'
-import { equalEmail, requiredAlternative, requiredAnswer } from './ppConstants'
+import { equalEmail, requiredAnswer } from './ppConstants'
 
 const step02FormDataSchema = z
   .object({
-    phoneNumber: z.string().check(z.minLength(1, requiredAnswer)),
+    phoneNumber: z.string().check(z.minLength(1, 'Ange telefonnummer.')),
     email: z.string().check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
     emailRepeat: z.string().check(z.minLength(1, requiredAnswer)),
     address: z.string().check(z.minLength(1, requiredAnswer)),
-    zipCode: z.string().check(
-      z.regex(/^\d{5}$/, {
-        message: 'Postnummer fylls i med fem siffror 0-9.',
-      })
-    ),
+    zipCode: z
+      .string()
+      .check(z.minLength(1, 'Postnummer fylls i med fem siffror 0-9.'))
+      .check(
+        z.regex(/^\d{5}$/, {
+          message: 'Ange ett giltigt postnummer.',
+        })
+      ),
     city: z.string().check(z.minLength(1, requiredAnswer)),
-    municipality: z.string().check(z.minLength(1, requiredAlternative)),
+    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har två träffar. Ange den kommun som är rätt.')),
     county: z.string().check(z.minLength(1, requiredAnswer)),
   })
   .check(

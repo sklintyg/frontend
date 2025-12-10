@@ -7,8 +7,6 @@ import Spinner from '../../../components/utils/Spinner'
 import { useGetHOSPInformationQuery } from '../../../store/pp/ppApi'
 import { useAppSelector } from '../../../store/store'
 import { selectIsLoadingUser } from '../../../store/user/userSelectors'
-import { ResourceLinkType } from '../../../types'
-import { ResourceAccess } from '../../../utils/ResourceAccess'
 import { PPSubHeader } from './PPSubHeader'
 
 const steps = ['', 'steg-1', 'steg-2', 'steg-3', 'granska', 'done']
@@ -42,10 +40,16 @@ export function PPLayout() {
   }
 
   return (
-    <ResourceAccess linkType={ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER}>
-      <CommonLayout header={<WebcertHeader />} subHeader={subHeader ? <PPSubHeader>{subHeader}</PPSubHeader> : null}>
-        {isLoadingUser ? <Spinner /> : <Outlet />}
-      </CommonLayout>
-    </ResourceAccess>
+    <CommonLayout header={<WebcertHeader />} subHeader={subHeader ? <PPSubHeader>{subHeader}</PPSubHeader> : null}>
+      {isLoadingUser ? <Spinner /> : <Outlet />}
+    </CommonLayout>
   )
+
+  // return (
+  //   <ResourceAccess linkType={ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER}>
+  //     <CommonLayout header={<WebcertHeader />} subHeader={subHeader ? <PPSubHeader>{subHeader}</PPSubHeader> : null}>
+  //       {isLoadingUser ? <Spinner /> : <Outlet />}
+  //     </CommonLayout>
+  //   </ResourceAccess>
+  // )
 }
