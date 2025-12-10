@@ -961,7 +961,7 @@ const handleAutoSaveCertificateError: Middleware<Dispatch> =
   () =>
   (action: AnyAction): void => {
     if (action.payload.error) {
-      if (action.payload.error.errorCode === 'UNKNOWN_INTERNAL_PROBLEM') {
+      if (action.payload.error.errorCode === ErrorCode.UNKNOWN_INTERNAL_PROBLEM) {
         dispatch(throwError(createConcurrencyErrorRequestFromApiError(action.payload.error)))
       } else {
         dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))

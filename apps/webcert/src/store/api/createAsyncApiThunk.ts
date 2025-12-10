@@ -11,6 +11,7 @@ interface ApiCall {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   data?: unknown
   headers?: Record<string, string>
+  timeout?: number
   functionDisablerType?: string
 }
 
@@ -19,7 +20,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
 
   return createAsyncThunk<Response, ThunkArg, { state: RootState }>(name, async (args, { rejectWithValue, dispatch, getState }) => {
     const payload = init(args)
-    const { url, method, headers, data } = payload
+    const { url, method, headers, data, timeout = 6000 } = payload
 
     if (selectById(getState(), id)) {
       return rejectWithValue({ message: `[${method}] ${url} is pending`, payload })
@@ -32,7 +33,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
         method,
         data,
         withCredentials: true,
-        timeout: 6000,
+        timeout,
         headers: { ...getHeaders(), ...headers },
       })
 
