@@ -288,7 +288,7 @@ describe('PPRegistrationStep02', () => {
         expect(emailInput).toHaveClass('ic-textfield--error')
       })
 
-      await waitFor(() =>{
+      await waitFor(() => {
         expect(emailRepeatInput).toHaveClass('ic-textfield--error')
       })
     })
