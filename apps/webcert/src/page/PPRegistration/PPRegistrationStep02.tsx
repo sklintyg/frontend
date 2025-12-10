@@ -71,7 +71,7 @@ export function PPRegistrationStep02() {
   return (
     <PPPage>
       <div className="flex flex-col">
-        <h3 className="mb-5">Kontaktuppgifter till verksamheten</h3>
+        <h2 className="mb-5 text-secondary-95">Kontaktuppgifter till verksamheten</h2>
         <p className="max-w-xl mb-4">
           Ange de kontaktuppgifter du vill ska användas när Inera eller intygsmottagare behöver kontakta dig. Uppgifter om postort, kommun
           och län fylls i automatiskt.

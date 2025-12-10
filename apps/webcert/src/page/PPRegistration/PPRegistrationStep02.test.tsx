@@ -47,7 +47,7 @@ describe('PPRegistrationStep02', () => {
     it('should render heading and informational text', () => {
       renderComponent()
 
-      expect(screen.getByRole('heading', { name: 'Kontaktuppgifter till verksamheten', level: 3 })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Kontaktuppgifter till verksamheten', level: 2 })).toBeInTheDocument()
       expect(
         screen.getByText(/Ange de kontaktuppgifter du vill ska användas när Inera eller intygsmottagare behöver kontakta dig/)
       ).toBeInTheDocument()

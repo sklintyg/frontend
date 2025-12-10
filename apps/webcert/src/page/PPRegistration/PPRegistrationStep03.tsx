@@ -14,9 +14,9 @@ export function PPRegistrationStep03() {
 
   return (
     <PPPage>
-      <div className="mb-5">
-        <h2>Socialstyrelsens uppgifter</h2>
-        <p>Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
+      <div className="flex flex-col">
+        <h2 className="mb-5 text-secondary-95">Socialstyrelsens uppgifter</h2>
+        <p className="max-w-xl mb-4">Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
       </div>
       <HOSPStatusBox />
       <PPForm
@@ -29,6 +29,8 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Legitimerad yrkesgrupp"
+            italicLabel
+            style={{ fontStyle: 'italic' }}
             value={data?.licensedHealthcareProfessions.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
             disabled
           />
@@ -37,13 +39,21 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Specialitet"
+            italicLabel
+            style={{ fontStyle: 'italic' }}
             value={data?.specialities.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
             disabled
           />
         </div>
 
         <div>
-          <TextInput label="Förskrivarkod" value={data?.personalPrescriptionCode ?? NO_INFORMATION_FETCHED} disabled />
+          <TextInput
+            label="Förskrivarkod"
+            italicLabel
+            style={{ fontStyle: 'italic' }}
+            value={data?.personalPrescriptionCode ?? NO_INFORMATION_FETCHED}
+            disabled
+          />
         </div>
       </PPForm>
     </PPPage>

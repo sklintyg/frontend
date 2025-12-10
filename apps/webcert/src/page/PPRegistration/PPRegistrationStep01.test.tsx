@@ -68,7 +68,7 @@ describe('PPRegistrationStep01', () => {
     it('should render heading and ingress text', () => {
       renderComponent()
 
-      expect(screen.getByRole('heading', { name: 'Dina och verksamhetens uppgifter', level: 3 })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Dina och verksamhetens uppgifter', level: 2 })).toBeInTheDocument()
       expect(
         screen.getByText('Vissa uppgifter kan inte ändras eftersom de hämtas från folkbokföringsregistret eller är förvalda.')
       ).toBeInTheDocument()
@@ -90,10 +90,10 @@ describe('PPRegistrationStep01', () => {
     it('should render required field indicators', () => {
       renderComponent()
 
-      expect(screen.getByLabelText(/befattning/i)).toBeRequired()
-      expect(screen.getByLabelText(/namn på din verksamhet/i)).toBeRequired()
-      expect(screen.getByLabelText(/vårdform/i)).toBeRequired()
-      expect(screen.getByLabelText(/verksamhetstyp/i)).toBeRequired()
+      expect(screen.getByRole('combobox', { name: /befattning/i })).toBeRequired()
+      expect(screen.getByRole('textbox', { name: /namn på din verksamhet/i })).toBeRequired()
+      expect(screen.getByRole('combobox', { name: /vårdform/i })).toBeRequired()
+      expect(screen.getByRole('combobox', { name: /verksamhetstyp/i })).toBeRequired()
     })
 
     it('should render dropdown options from API config', () => {
@@ -133,7 +133,7 @@ describe('PPRegistrationStep01', () => {
       const user = userEvent.setup()
       renderComponent()
 
-      const positionDropdown = screen.getByLabelText(/befattning/i)
+      const positionDropdown = screen.getByRole('combobox', { name: /befattning/i })
       await user.selectOptions(positionDropdown, 'overlakare')
 
       await waitFor(() => {

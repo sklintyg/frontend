@@ -32,7 +32,7 @@ export function PPLayout() {
 
   let subHeader: ReactNode = null
   if (path) {
-    if (steps.indexOf(path) > 0 && steps.indexOf(path) < 4) {
+    if (steps.indexOf(path) > 0 && steps.indexOf(path) <= 4) {
       subHeader = `Skapa konto: Steg ${steps.indexOf(path)} av 4`
     } else if (steps.indexOf(path) === 5) {
       subHeader = 'Skapa konto'

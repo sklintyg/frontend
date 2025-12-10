@@ -24,6 +24,7 @@ export function PPRegistrationStep01() {
 
   const errors = useAppSelector((state) => state.ui.pp.step01.errors)
 
+
   if (isLoading) {
     return <Spinner />
   }
@@ -31,7 +32,7 @@ export function PPRegistrationStep01() {
   return (
     <PPPage>
       <div className="flex flex-col">
-        <h3 className="mb-5">Dina och verksamhetens uppgifter</h3>
+        <h2 className="mb-5 text-secondary-95">Dina och verksamhetens uppgifter</h2>
         <p className="max-w-xl mb-4">Vissa uppgifter kan inte ändras eftersom de hämtas från folkbokföringsregistret eller är förvalda.</p>
         <p className="max-w-xl mb-4">Fält markerade med asterisk (*) är obligatoriska.</p>
       </div>

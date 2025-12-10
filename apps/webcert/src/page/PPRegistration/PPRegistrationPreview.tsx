@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
+import { useGetHOSPInformationQuery, useGetPPConfigQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { useAppSelector } from '../../store/store'
 import { getUser } from '../../store/user/userSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
@@ -14,6 +14,7 @@ import { StatusBox } from './components/StatusBox'
 export function PPRegistrationPreview() {
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
+  const { data: ppConfig } = useGetPPConfigQuery()
   const navigate = useNavigate()
 
   const user = useAppSelector(getUser)
@@ -22,6 +23,11 @@ export function PPRegistrationPreview() {
     isEqual
   )
   const { phoneNumber, email, address, zipCode, city, county, municipality } = useAppSelector((state) => state.ui.pp.step02.data, isEqual)
+
+  const getPositionDescription = (code: string) => ppConfig?.positions.find((p) => p.code === code)?.description || code
+  const getTypeOfCareDescription = (code: string) => ppConfig?.typeOfCare.find((t) => t.code === code)?.description || code
+  const getHealthcareServiceTypeDescription = (code: string) =>
+    ppConfig?.healthcareServiceTypes.find((h) => h.code === code)?.description || code
 
   return (
     <PPPage>
@@ -63,7 +69,9 @@ export function PPRegistrationPreview() {
             zipCode,
           })
             .unwrap()
-            .then(() => navigate('/register/done'))
+            .then(
+              () => navigate('/register/done')
+            )
             .catch(() => {
               // Error is handled by isRegistrationError state
             })
@@ -76,10 +84,11 @@ export function PPRegistrationPreview() {
           </div>
           <PPResultPart title="Personnummer" value={user?.personId} />
           <PPResultPart title="Namn" value={user?.name} />
-          <PPResultPart title="Befattning" value={position} />
+          <PPResultPart title="Befattning" value={getPositionDescription(position)} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
-          <PPResultPart title="Vårdform" value={typeOfCare} />
-          <PPResultPart title="Verksamhetstyp" value={healthcareServiceType} />
+          <PPResultPart title="Ägarform" value="Privat" />
+          <PPResultPart title="Vårdform" value={getTypeOfCareDescription(typeOfCare)} />
+          <PPResultPart title="Verksamhetstyp" value={getHealthcareServiceTypeDescription(healthcareServiceType)} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
         </div>
         <hr />
