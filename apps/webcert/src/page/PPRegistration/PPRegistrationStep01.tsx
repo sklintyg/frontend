@@ -115,7 +115,7 @@ export function PPRegistrationStep01() {
               <>
                 <p>Välj den typ av verksamhet som huvudsakligen bedrivs. </p>
                 <p>
-                  'Övrig medicinsk verksamh et' avser paramedicinsk verksamhet som bedrivs av exempelvis sjukgymnaster, arbetsterapeuter,
+                  ’Övrig medicinsk verksamhet’ avser paramedicinsk verksamhet som bedrivs av exempelvis sjukgymnaster, arbetsterapeuter,
                   kiropraktorer och logopeder.
                 </p>
                 <p>

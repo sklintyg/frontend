@@ -222,7 +222,7 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
       })
 
       expect(screen.getByRole('option', { name: 'KROKOM' })).toBeInTheDocument()
@@ -252,13 +252,13 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
       })
 
-      await user.selectOptions(screen.getByRole('combobox', { name: 'Kommun' }), 'ÖSTERSUND')
+      await user.selectOptions(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' }), 'ÖSTERSUND')
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Kommun')).toHaveValue('ÖSTERSUND')
+        expect(screen.getByLabelText('Kommun (obligatoriskt)')).toHaveValue('ÖSTERSUND')
       })
 
       expect(screen.getByLabelText('Postort')).toHaveValue('ÖSTERSUND')
@@ -311,8 +311,7 @@ describe('PPRegistrationStep02', () => {
 
       renderComponent()
 
-      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(2)
-      expect(screen.getByText('Ange en giltig e-postadress.')).toBeInTheDocument()
+      expect(screen.getAllByText('Ange ett svar.')).toHaveLength(3)
       expect(screen.getByText('Ange telefonnummer.')).toBeInTheDocument()
       expect(screen.getByText('Upprepa e-postadress')).toBeInTheDocument()
       expect(screen.getByText('Postnummer fylls i med fem siffror 0-9.')).toBeInTheDocument()
@@ -330,6 +329,16 @@ describe('PPRegistrationStep02', () => {
       expect(screen.getAllByText('E-postadresserna stämmer inte överens med varandra.')).toHaveLength(2)
     })
 
+    it('should display invalid email validation error when email format is incorrect', async () => {
+      const user = userEvent.setup()
+      renderComponent()
+
+      await user.type(screen.getByLabelText('E-postadress'), 'invalid-email')
+      await user.click(screen.getByRole('button', { name: 'Fortsätt' }))
+
+      expect(screen.getByText('Ange en giltig e-postadress.')).toBeInTheDocument()
+    })
+
     it('should validate form on submit and show errors', async () => {
       const user = userEvent.setup()
       renderComponent()
@@ -340,9 +349,9 @@ describe('PPRegistrationStep02', () => {
         address: ['Ange ett svar.'],
         city: ['Ange ett svar.'],
         county: ['Ange ett svar.'],
-        email: ['Ange en giltig e-postadress.'],
+        email: ['Ange ett svar.', 'Ange en giltig e-postadress.'],
         emailRepeat: ['Ange ett svar.'],
-        municipality: ['Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.'],
+        municipality: ['Uppgift om kommun har fler träffar. Ange den kommun som är rätt.'],
         phoneNumber: ['Ange telefonnummer.'],
         zipCode: ['Postnummer fylls i med fem siffror 0-9.', 'Ange ett giltigt postnummer.'],
       })
@@ -370,13 +379,13 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
       })
 
       await user.click(screen.getByRole('button', { name: 'Fortsätt' }))
 
       await waitFor(() => {
-        expect(screen.getByText('Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.')).toBeInTheDocument()
+        expect(screen.getByText('Uppgift om kommun har fler träffar. Ange den kommun som är rätt.')).toBeInTheDocument()
       })
     })
   })

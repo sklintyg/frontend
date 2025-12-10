@@ -5,6 +5,7 @@ import { FieldLabel } from './FieldLabel'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
+  italicLabel?: boolean
   limit?: number
   hasValidationError?: boolean
   css?: FlattenSimpleInterpolation
@@ -13,13 +14,13 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, showAsterix, required, ...props }, ref) => {
+  ({ label, italicLabel, id: controlledId, limit, className, hasValidationError, css, autoComplete, tooltip, showAsterix, required, ...props }, ref) => {
     const uncontrolledId = useId()
     const id = controlledId ?? uncontrolledId
 
     return (
       <div>
-        {label && <FieldLabel id={id} label={label} tooltip={tooltip} required={showAsterix && required} />}
+        {label && <FieldLabel id={id} label={label} tooltip={tooltip} required={showAsterix && required} italic={italicLabel} />}
         <input
           ref={ref}
           className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}

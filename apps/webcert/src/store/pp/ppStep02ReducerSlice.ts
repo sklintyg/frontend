@@ -7,7 +7,10 @@ import { equalEmail, requiredAnswer } from './ppConstants'
 const step02FormDataSchema = z
   .object({
     phoneNumber: z.string().check(z.minLength(1, 'Ange telefonnummer.')),
-    email: z.string().check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
+    email: z
+    .string()
+    .check(z.minLength(1, requiredAnswer))
+    .check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
     emailRepeat: z.string().check(z.minLength(1, requiredAnswer)),
     address: z.string().check(z.minLength(1, requiredAnswer)),
     zipCode: z
@@ -19,7 +22,7 @@ const step02FormDataSchema = z
         })
       ),
     city: z.string().check(z.minLength(1, requiredAnswer)),
-    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har två eller fler träffar. Ange den kommun som är rätt.')),
+    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har fler träffar. Ange den kommun som är rätt.')),
     county: z.string().check(z.minLength(1, requiredAnswer)),
   })
   .check(

@@ -2,14 +2,13 @@ import { isEqual } from 'lodash-es'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextInput from '../../components/Inputs/TextInput'
-import { api, useLazyGetZipCodeInfoQuery } from '../../store/api'
+import { useLazyGetZipCodeInfoQuery } from '../../store/api'
 import { updateField, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
 import { PPForm } from './components/PPForm'
 import { PPPage } from './components/PPPage'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
-import { StatusBox } from './components/StatusBox'
 import { ValidationError } from './components/ValidationError'
 
 const municipalityTooltip = 'Om systemet får fler träffar för kommun vid hämtning av uppgiften ska du ange vilken kommun som är rätt.'
@@ -20,6 +19,7 @@ export function PPRegistrationStep02() {
 
   const [showPasteError, setShowPasteError] = useState(false)
   const [previousZipCode, setPreviousZipCode] = useState<string>('')
+  const [clearZipCodeInfo, setClearZipCodeInfo] = useState(false)
   const { phoneNumber, email, emailRepeat, address, zipCode, city, county, municipality } = useAppSelector(
     (state) => state.ui.pp.step02.data,
     isEqual
@@ -27,8 +27,10 @@ export function PPRegistrationStep02() {
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
   const [getZipCodeInfo, { data: zipCodeInfo, isError: isZipCodeError }] = useLazyGetZipCodeInfoQuery()
 
+  const activeZipCodeInfo = clearZipCodeInfo ? undefined : zipCodeInfo
+
   useEffect(() => {
-    if (`${zipCode}`.length === 5 && zipCodeInfo?.at(0)?.zipCode !== zipCode) {
+    if (`${zipCode}`.length === 5 && activeZipCodeInfo?.at(0)?.zipCode !== zipCode) {
       const zipCodeChanged = previousZipCode !== zipCode && previousZipCode !== ''
       if (zipCodeChanged) {
         dispatch(updateField({ field: 'city', value: '' }))
@@ -36,18 +38,19 @@ export function PPRegistrationStep02() {
         dispatch(updateField({ field: 'county', value: '' }))
       }
       setPreviousZipCode(zipCode)
+      setClearZipCodeInfo(false)
       getZipCodeInfo(zipCode)
     }
-  }, [getZipCodeInfo, zipCode, zipCodeInfo, dispatch, previousZipCode])
+  }, [getZipCodeInfo, zipCode, activeZipCodeInfo, dispatch, previousZipCode])
 
   useEffect(() => {
-    if (zipCodeInfo && zipCodeInfo.length === 1) {
-      const data = zipCodeInfo[0]
+    if (activeZipCodeInfo && activeZipCodeInfo.length === 1) {
+      const data = activeZipCodeInfo[0]
       dispatch(updateField({ field: 'municipality', value: data.municipality }))
       dispatch(updateField({ field: 'city', value: data.city }))
       dispatch(updateField({ field: 'county', value: data.county }))
     }
-  }, [zipCodeInfo, dispatch])
+  }, [activeZipCodeInfo, dispatch])
 
   const sanatizeInput = () => {
     return (event: { currentTarget: { value: string } }) => {
@@ -61,8 +64,10 @@ export function PPRegistrationStep02() {
       dispatch(updateField({ field: 'municipality', value: '' }))
       dispatch(updateField({ field: 'county', value: '' }))
       setPreviousZipCode('')
+      setClearZipCodeInfo(true)
     }
   }
+
   return (
     <PPPage>
       <div className="flex flex-col">
@@ -82,6 +87,7 @@ export function PPRegistrationStep02() {
           }
         }}
         actions={<PPRegistrationAction prevStep={1} />}
+        isZipCodeError={isZipCodeError}
       >
         <div>
           <TextInput
@@ -167,24 +173,24 @@ export function PPRegistrationStep02() {
         </div>
 
         <div>
-          <TextInput label="Postort" disabled value={city} />
+          <TextInput label="Postort" italicLabel disabled value={city} />
         </div>
 
         <div>
-          {!zipCodeInfo || zipCodeInfo.length === 0 ? (
+          {!activeZipCodeInfo || activeZipCodeInfo.length === 0 ? (
             <TextInput label="Kommun" disabled value="" tooltip={municipalityTooltip} />
-          ) : zipCodeInfo.length === 1 ? (
+          ) : activeZipCodeInfo.length === 1 ? (
             <TextInput label="Kommun" disabled value={municipality} tooltip={municipalityTooltip} />
           ) : (
             <>
               <PPDropdown
-                label="Kommun"
+                label="Kommun (obligatoriskt)"
                 value={municipality}
                 hasValidationError={!!errors?.municipality}
                 onChange={(event) => {
                   dispatch(updateField({ field: 'municipality', value: event.currentTarget.value }))
 
-                  const data = zipCodeInfo.find(({ municipality }) => municipality === event.currentTarget.value)
+                  const data = activeZipCodeInfo.find(({ municipality }) => municipality === event.currentTarget.value)
                   if (data) {
                     dispatch(updateField({ field: 'city', value: data.city }))
                     dispatch(updateField({ field: 'county', value: data.county }))
@@ -193,7 +199,7 @@ export function PPRegistrationStep02() {
                 tooltip={municipalityTooltip}
               >
                 <option value="">Välj kommun</option>
-                {zipCodeInfo?.map(({ municipality }) => (
+                {activeZipCodeInfo?.map(({ municipality }) => (
                   <option key={municipality} value={municipality}>
                     {municipality}
                   </option>
@@ -205,12 +211,9 @@ export function PPRegistrationStep02() {
         </div>
 
         <div>
-          <TextInput label="Län" disabled value={county} />
+          <TextInput label="Län" italicLabel disabled value={county} />
         </div>
       </PPForm>
-      {isZipCodeError && (
-        <StatusBox type="ERROR">Ett tekniskt fel har uppstått. Adressuppgifter kan inte hämtas. Försök igen senare.</StatusBox>
-      )}
     </PPPage>
   )
 }

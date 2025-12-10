@@ -9,11 +9,25 @@ const Icon = styled.img`
   display: inline-block;
 `
 
-export function FieldLabel({ id, label, tooltip, required }: { id?: string; label: string; tooltip?: ReactNode; required?: boolean }) {
+export function FieldLabel({
+  id,
+  label,
+  tooltip,
+  required,
+  italic,
+}: {
+  id?: string
+  label: string
+  tooltip?: ReactNode
+  required?: boolean
+  italic?: boolean
+}) {
   return (
     <div className="flex flex-row gap-1">
       {required && <FieldLabelMandatoryAsterix />}
-      <label htmlFor={id}>{label}</label>{' '}
+      <label htmlFor={id} className={italic ? 'italic' : ''}>
+        {label}
+      </label>{' '}
       {tooltip && (
         <Tooltip>
           <TooltipTrigger asChild>
