@@ -23,7 +23,7 @@ const TextInput = React.forwardRef<HTMLInputElement, Props>(
         {label && <FieldLabel id={id} label={label} tooltip={tooltip} italic={props.disabled} required={showAsterix && required} />}
         <input
           ref={ref}
-          className={classNames(hasValidationError && 'ic-textfield--error error', 'ic-textfield',  props.disabled && 'italic', className)}
+          className={classNames(hasValidationError && 'ic-textfield--error error', 'ic-textfield', props.disabled && 'italic', className)}
           maxLength={limit ? limit : 3500}
           autoComplete={autoComplete ?? 'off'}
           required={required}
