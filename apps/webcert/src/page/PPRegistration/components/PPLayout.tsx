@@ -41,12 +41,11 @@ export function PPLayout() {
     }
   }
 
-
-   return (
-     <ResourceAccess linkType={ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER}>
-       <CommonLayout header={<WebcertHeader />} subHeader={subHeader ? <PPSubHeader>{subHeader}</PPSubHeader> : null}>
-         {isLoadingUser ? <Spinner /> : <Outlet />}
-       </CommonLayout>
-     </ResourceAccess>
-   )
+  return (
+    <ResourceAccess linkType={ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER}>
+      <CommonLayout header={<WebcertHeader />} subHeader={subHeader ? <PPSubHeader>{subHeader}</PPSubHeader> : null}>
+        {isLoadingUser ? <Spinner /> : <Outlet />}
+      </CommonLayout>
+    </ResourceAccess>
+  )
 }
