@@ -58,7 +58,7 @@ export function PPRegistrationStep01() {
             label="Befattning"
             required
             value={position}
-            hasValidationError={!!errors?.position}
+            hasValidationError={Boolean(errors?.position)}
             onChange={(event) => dispatch(updateField({ field: 'position', value: event.currentTarget.value }))}
             tooltip="Välj din huvudsakliga befattning enligt AID-etikett (Arbetsidentifikation kommuner och regioner)."
           >
@@ -78,7 +78,7 @@ export function PPRegistrationStep01() {
             required
             showAsterix
             value={careUnitName}
-            hasValidationError={!!errors?.careUnitName}
+            hasValidationError={Boolean(errors?.careUnitName)}
             onChange={(event) => dispatch(updateField({ field: 'careUnitName', value: event.currentTarget.value }))}
             tooltip="Namnet på din verksamhet visas i Webcert och i signerade intyg."
           />
@@ -90,7 +90,7 @@ export function PPRegistrationStep01() {
             label="Vårdform"
             required
             value={typeOfCare}
-            hasValidationError={!!errors?.typeOfCare}
+            hasValidationError={Boolean(errors?.typeOfCare)}
             onChange={(event) => dispatch(updateField({ field: 'typeOfCare', value: event.currentTarget.value }))}
             tooltip="Ange verksamhetens huvudsakliga vårdform enligt definition i Socialstyrelsens termbank."
           >
@@ -109,7 +109,7 @@ export function PPRegistrationStep01() {
             label="Verksamhetstyp"
             required
             value={healthcareServiceType}
-            hasValidationError={!!errors?.healthcareServiceType}
+            hasValidationError={Boolean(errors?.healthcareServiceType)}
             onChange={(event) => dispatch(updateField({ field: 'healthcareServiceType', value: event.currentTarget.value }))}
             tooltip={
               <>

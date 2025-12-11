@@ -1,5 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
 import type { ReactNode } from 'react'
+import { useId } from 'react'
 import styled from 'styled-components'
 import { questionImage } from '../../images'
 import { FieldLabelMandatoryAsterix } from './FieldLabelMandatoryAsterix'
@@ -22,6 +23,8 @@ export function FieldLabel({
   required?: boolean
   italic?: boolean
 }) {
+  const tooltipId = useId()
+
   return (
     <div className="flex flex-row gap-1">
       {required && <FieldLabelMandatoryAsterix />}
@@ -31,9 +34,11 @@ export function FieldLabel({
       {tooltip && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Icon src={questionImage} tabIndex={0} />
+            <Icon src={questionImage} tabIndex={0} aria-labelledby={tooltipId} />
           </TooltipTrigger>
-          <TooltipContent small>{tooltip}</TooltipContent>
+          <TooltipContent small>
+            <div id={tooltipId}>{tooltip}</div>
+          </TooltipContent>
         </Tooltip>
       )}
     </div>

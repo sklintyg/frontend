@@ -40,6 +40,7 @@ type Step02FormData = z.infer<typeof step02FormDataSchema>
 const initialState: {
   data: Step02FormData
   errors?: { [K in keyof Step02FormData]?: string[] }
+  lastRequestedZip?: string | null
 } = {
   data: {
     phoneNumber: '',
@@ -51,6 +52,7 @@ const initialState: {
     municipality: '',
     county: '',
   },
+  lastRequestedZip: null,
   errors: undefined,
 }
 
@@ -62,6 +64,11 @@ const ppStep02ReducerSlice = createSlice({
       state.data[action.payload.field] = action.payload.value
       if (state.errors) {
         state.errors[action.payload.field] = undefined
+      }
+      if (action.payload.field === 'zipCode' && action.payload.value === '') {
+        state.data.city = ''
+        state.data.county = ''
+        state.data.municipality = ''
       }
     },
     validateData: (state) => {
@@ -80,6 +87,17 @@ const ppStep02ReducerSlice = createSlice({
         state.data.county = payload[0].county
         state.data.municipality = payload[0].municipality
       }
+    })
+    builder.addMatcher(api.endpoints.getZipCodeInfo.matchPending, (state, payload) => {
+      const newZip = payload.meta.arg.originalArgs
+
+      if (newZip !== state.lastRequestedZip) {
+        state.data.city = ''
+        state.data.county = ''
+        state.data.municipality = ''
+      }
+
+      state.lastRequestedZip = newZip
     })
   },
 })

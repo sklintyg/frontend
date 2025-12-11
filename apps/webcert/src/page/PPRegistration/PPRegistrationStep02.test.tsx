@@ -96,7 +96,7 @@ describe('PPRegistrationStep02', () => {
 
       await user.type(phoneInput, '123abc456')
 
-      expect(phoneInput).toHaveAttribute('type', 'number')
+      expect(phoneInput).toHaveAttribute('type', 'text')
       expect(phoneInput).toHaveAttribute('inputMode', 'numeric')
     })
 

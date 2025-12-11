@@ -29,7 +29,6 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Legitimerad yrkesgrupp"
-            italicLabel
             style={{ fontStyle: 'italic' }}
             value={data?.licensedHealthcareProfessions.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
             disabled
@@ -39,7 +38,6 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Specialitet"
-            italicLabel
             style={{ fontStyle: 'italic' }}
             value={data?.specialities.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
             disabled
@@ -49,7 +47,6 @@ export function PPRegistrationStep03() {
         <div>
           <TextInput
             label="Förskrivarkod"
-            italicLabel
             style={{ fontStyle: 'italic' }}
             value={data?.personalPrescriptionCode ?? NO_INFORMATION_FETCHED}
             disabled

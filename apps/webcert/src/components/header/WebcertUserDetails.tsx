@@ -13,11 +13,6 @@ const StyledSpan = styled.span`
     font-style: italic;
   }
 `
-
-const linkStyle = {
-  textDecoration: 'underline',
-}
-
 interface WebcertUserDetailsProps {
   user: User
 }
@@ -39,7 +34,7 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
           {editLinkEnabled && (
             <>
               <span>|</span>
-              <Link to="/edit" style={linkStyle}>
+              <Link className="underline" to="/edit">
                 Ändra uppgifter
               </Link>
             </>
@@ -70,7 +65,7 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
       </div>
       {editLinkEnabled && (
         <div>
-          <Link to="/edit" style={linkStyle}>
+          <Link className="underline" to="/edit">
             Ändra uppgifter
           </Link>
         </div>

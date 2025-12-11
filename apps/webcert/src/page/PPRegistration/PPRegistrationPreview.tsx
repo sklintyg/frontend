@@ -26,10 +26,10 @@ export function PPRegistrationPreview() {
   )
   const { phoneNumber, email, address, zipCode, city, county, municipality } = useAppSelector((state) => state.ui.pp.step02.data, isEqual)
 
-  const getPositionDescription = (code: string) => ppConfig?.positions.find((p) => p.code === code)?.description || code
-  const getTypeOfCareDescription = (code: string) => ppConfig?.typeOfCare.find((t) => t.code === code)?.description || code
-  const getHealthcareServiceTypeDescription = (code: string) =>
-    ppConfig?.healthcareServiceTypes.find((h) => h.code === code)?.description || code
+  const positionDescription = ppConfig?.positions.find((p) => p.code === position)?.description || position
+  const typeOfCareDescription = ppConfig?.typeOfCare.find((t) => t.code === typeOfCare)?.description || typeOfCare
+  const healthcareServiceTypeDescription =
+    ppConfig?.healthcareServiceTypes.find((h) => h.code === healthcareServiceType)?.description || healthcareServiceType
 
   return (
     <PPPage>
@@ -87,11 +87,11 @@ export function PPRegistrationPreview() {
           </div>
           <PPResultPart title="Personnummer" value={user?.personId} />
           <PPResultPart title="Namn" value={user?.name} />
-          <PPResultPart title="Befattning" value={getPositionDescription(position)} />
+          <PPResultPart title="Befattning" value={positionDescription} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
           <PPResultPart title="Ägarform" value="Privat" />
-          <PPResultPart title="Vårdform" value={getTypeOfCareDescription(typeOfCare)} />
-          <PPResultPart title="Verksamhetstyp" value={getHealthcareServiceTypeDescription(healthcareServiceType)} />
+          <PPResultPart title="Vårdform" value={typeOfCareDescription} />
+          <PPResultPart title="Verksamhetstyp" value={healthcareServiceTypeDescription} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
         </div>
         <hr />
