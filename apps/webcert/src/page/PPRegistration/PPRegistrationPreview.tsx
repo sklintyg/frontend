@@ -33,7 +33,7 @@ export function PPRegistrationPreview() {
 
   return (
     <PPPage>
-      <h2 className="mb-5 text-secondary-95">Granska uppgifter</h2>
+      <h2 className="mb-5 text-[#5f5f5f] text-[22px]">Granska uppgifter</h2>
       <StatusBox type="INFO">
         Kontrollera att sammanfattningen av din information stämmer innan du går vidare. Du kan justera de uppgifter som du själv har
         angett. Information hämtad från folkbokföringen och från Socialstyrelsens register för Hälso- och sjukvårdspersonal (HOSP) går inte
@@ -81,7 +81,7 @@ export function PPRegistrationPreview() {
         }}
       >
         <div>
-          <h4>Dina och verksamhetens uppgifter</h4>
+          <h3>Dina och verksamhetens uppgifter</h3>
           <div className="mb-3 text-sm">
             <Link to="/register/steg-1">Ändra</Link>
           </div>
@@ -89,7 +89,6 @@ export function PPRegistrationPreview() {
           <PPResultPart title="Namn" value={user?.name} />
           <PPResultPart title="Befattning" value={positionDescription} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
-          <PPResultPart title="Ägarform" value="Privat" />
           <PPResultPart title="Vårdform" value={typeOfCareDescription} />
           <PPResultPart title="Verksamhetstyp" value={healthcareServiceTypeDescription} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
@@ -97,7 +96,7 @@ export function PPRegistrationPreview() {
         <hr />
 
         <div>
-          <h4>Kontaktuppgifter till verksamheten</h4>
+          <h3>Kontaktuppgifter till verksamheten</h3>
           <div className="mb-3 text-sm">
             <Link to="/register/steg-2">Ändra</Link>
           </div>
@@ -112,7 +111,7 @@ export function PPRegistrationPreview() {
         <hr />
 
         <div>
-          <h4>Socialstyrelsens uppgifter</h4>
+          <h3>Socialstyrelsens uppgifter</h3>
           <p className="mb-3">Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
           <HOSPStatusBox />
           <PPResultPart

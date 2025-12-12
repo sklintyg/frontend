@@ -15,6 +15,7 @@ type Step01FormData = z.infer<typeof step01FormDataSchema>
 
 const initialState: {
   data: Step01FormData
+  showValidation: boolean
   errors?: { [K in keyof Step01FormData]?: string[] }
 } = {
   data: {
@@ -24,7 +25,15 @@ const initialState: {
     healthcareServiceType: '',
     workplaceCode: '',
   },
+  showValidation: false,
   errors: undefined,
+}
+
+function validateState(state: typeof initialState) {
+  if (state.showValidation === true) {
+    const zodError = step01FormDataSchema.safeParse(state.data).error
+    return zodError ? z.flattenError(zodError).fieldErrors : undefined
+  }
 }
 
 const ppStep01ReducerSlice = createSlice({
@@ -33,13 +42,11 @@ const ppStep01ReducerSlice = createSlice({
   reducers: {
     updateField: (state, action: PayloadAction<{ field: keyof Step01FormData; value: string }>) => {
       state.data[action.payload.field] = action.payload.value
-      if (state.errors) {
-        state.errors[action.payload.field] = undefined
-      }
+      state.errors = validateState(state)
     },
     validateData: (state) => {
-      const zodError = step01FormDataSchema.safeParse(state.data).error
-      state.errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
+      state.showValidation = true
+      state.errors = validateState(state)
     },
     resetForm: () => initialState,
   },

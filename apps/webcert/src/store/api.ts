@@ -67,5 +67,3 @@ export const api = createApi({
   }),
   tagTypes: Object.values(TAG),
 })
-
-export const { useLazyGetZipCodeInfoQuery } = api

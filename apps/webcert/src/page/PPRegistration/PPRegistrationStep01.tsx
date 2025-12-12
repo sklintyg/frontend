@@ -23,6 +23,7 @@ export function PPRegistrationStep01() {
   )
 
   const errors = useAppSelector((state) => state.ui.pp.step01.errors)
+  const showValidation = useAppSelector((state) => state.ui.pp.step02.showValidation)
 
   if (isLoading) {
     return <Spinner />
@@ -31,7 +32,7 @@ export function PPRegistrationStep01() {
   return (
     <PPPage>
       <div className="flex flex-col">
-        <h2 className="mb-5 text-secondary-95">Dina och verksamhetens uppgifter</h2>
+        <h2 className="mb-5 text-[#5f5f5f] text-[22px]">Dina och verksamhetens uppgifter</h2>
         <p className="max-w-xl mb-4">Vissa uppgifter kan inte ändras eftersom de hämtas från folkbokföringsregistret eller är förvalda.</p>
         <p className="max-w-xl mb-4">Fält markerade med asterisk (*) är obligatoriska.</p>
       </div>
@@ -58,7 +59,7 @@ export function PPRegistrationStep01() {
             label="Befattning"
             required
             value={position}
-            hasValidationError={Boolean(errors?.position)}
+            hasValidationError={showValidation && Boolean(errors?.position)}
             onChange={(event) => dispatch(updateField({ field: 'position', value: event.currentTarget.value }))}
             tooltip="Välj din huvudsakliga befattning enligt AID-etikett (Arbetsidentifikation kommuner och regioner)."
           >
@@ -69,7 +70,7 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.position}</ValidationError>
+          {showValidation && <ValidationError>{errors?.position}</ValidationError>}
         </div>
 
         <div>
@@ -78,11 +79,11 @@ export function PPRegistrationStep01() {
             required
             showAsterix
             value={careUnitName}
-            hasValidationError={Boolean(errors?.careUnitName)}
+            hasValidationError={showValidation && Boolean(errors?.careUnitName)}
             onChange={(event) => dispatch(updateField({ field: 'careUnitName', value: event.currentTarget.value }))}
             tooltip="Namnet på din verksamhet visas i Webcert och i signerade intyg."
           />
-          <ValidationError>{errors?.careUnitName}</ValidationError>
+          {showValidation && <ValidationError>{errors?.careUnitName}</ValidationError>}
         </div>
 
         <div>
@@ -90,7 +91,7 @@ export function PPRegistrationStep01() {
             label="Vårdform"
             required
             value={typeOfCare}
-            hasValidationError={Boolean(errors?.typeOfCare)}
+            hasValidationError={showValidation && Boolean(errors?.typeOfCare)}
             onChange={(event) => dispatch(updateField({ field: 'typeOfCare', value: event.currentTarget.value }))}
             tooltip="Ange verksamhetens huvudsakliga vårdform enligt definition i Socialstyrelsens termbank."
           >
@@ -101,7 +102,7 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.typeOfCare}</ValidationError>
+          {showValidation && <ValidationError>{errors?.typeOfCare}</ValidationError>}
         </div>
 
         <div>
@@ -109,7 +110,7 @@ export function PPRegistrationStep01() {
             label="Verksamhetstyp"
             required
             value={healthcareServiceType}
-            hasValidationError={Boolean(errors?.healthcareServiceType)}
+            hasValidationError={showValidation && Boolean(errors?.healthcareServiceType)}
             onChange={(event) => dispatch(updateField({ field: 'healthcareServiceType', value: event.currentTarget.value }))}
             tooltip={
               <>
@@ -133,7 +134,7 @@ export function PPRegistrationStep01() {
               </option>
             ))}
           </PPDropdown>
-          <ValidationError>{errors?.healthcareServiceType}</ValidationError>
+          {showValidation && <ValidationError>{errors?.healthcareServiceType}</ValidationError>}
         </div>
 
         <div>
@@ -143,7 +144,7 @@ export function PPRegistrationStep01() {
             onChange={(event) => dispatch(updateField({ field: 'workplaceCode', value: event.currentTarget.value }))}
             tooltip="Ange verksamhetens arbetsplatskod. Arbetsplatskod används för att identifiera vid vilken arbetsplats receptutfärdaren tjänstgör i samband med läkemedelsförskrivning."
           />
-          <ValidationError>{errors?.workplaceCode}</ValidationError>
+          {showValidation && <ValidationError>{errors?.workplaceCode}</ValidationError>}
         </div>
       </PPForm>
     </PPPage>

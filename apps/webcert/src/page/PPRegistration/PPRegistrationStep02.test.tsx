@@ -2,11 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { expect } from 'vitest'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { expect } from 'vitest'
 import { api } from '../../store/api'
-import { resetForm, validateData } from '../../store/pp/ppStep02ReducerSlice'
+import { resetForm, showValidation } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
 import { PPRegistrationStep02 } from './PPRegistrationStep02'
 
@@ -307,7 +307,7 @@ describe('PPRegistrationStep02', () => {
     })
 
     it('should display validation errors when present', () => {
-      store.dispatch(validateData())
+      store.dispatch(showValidation())
 
       renderComponent()
 
@@ -433,7 +433,7 @@ describe('PPRegistrationStep02', () => {
     })
 
     it('should use proper ARIA attributes for error messages', () => {
-      store.dispatch(validateData())
+      store.dispatch(showValidation())
 
       renderComponent()
 
