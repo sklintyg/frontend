@@ -7,9 +7,9 @@ import Spinner from '../../../components/utils/Spinner'
 import { useGetHOSPInformationQuery } from '../../../store/pp/ppApi'
 import { useAppSelector } from '../../../store/store'
 import { selectIsLoadingUser } from '../../../store/user/userSelectors'
-import { ResourceLinkType } from '../../../types'
-import { ResourceAccess } from '../../../utils/ResourceAccess'
 import { PPSubHeader } from './PPSubHeader'
+import { ResourceAccess } from '../../../utils/ResourceAccess'
+import { ResourceLinkType } from '../../../types'
 
 const steps = ['', 'steg-1', 'steg-2', 'steg-3', 'granska', 'done']
 
@@ -34,7 +34,7 @@ export function PPLayout() {
 
   let subHeader: ReactNode = null
   if (path) {
-    if (steps.indexOf(path) > 0 && steps.indexOf(path) < 4) {
+    if (steps.indexOf(path) > 0 && steps.indexOf(path) <= 4) {
       subHeader = `Skapa konto: Steg ${steps.indexOf(path)} av 4`
     } else if (steps.indexOf(path) === 5) {
       subHeader = 'Skapa konto'

@@ -1,7 +1,8 @@
 import { isEqual } from 'lodash-es'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
-import { useAppSelector } from '../../store/store'
+import { useGetHOSPInformationQuery, useGetPPConfigQuery, useRegisterPrivatePractitionerMutation } from '../../store/pp/ppApi'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { getUser as getUserAction } from '../../store/user/userActions'
 import { getUser } from '../../store/user/userSelectors'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
@@ -12,8 +13,10 @@ import { PPResultPart } from './components/PPResultPart'
 import { StatusBox } from './components/StatusBox'
 
 export function PPRegistrationPreview() {
+  const dispatch = useAppDispatch()
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useRegisterPrivatePractitionerMutation()
   const { data: HOSPInfo } = useGetHOSPInformationQuery()
+  const { data: ppConfig } = useGetPPConfigQuery()
   const navigate = useNavigate()
 
   const user = useAppSelector(getUser)
@@ -23,9 +26,14 @@ export function PPRegistrationPreview() {
   )
   const { phoneNumber, email, address, zipCode, city, county, municipality } = useAppSelector((state) => state.ui.pp.step02.data, isEqual)
 
+  const positionDescription = ppConfig?.positions.find((p) => p.code === position)?.description || position
+  const typeOfCareDescription = ppConfig?.typeOfCare.find((t) => t.code === typeOfCare)?.description || typeOfCare
+  const healthcareServiceTypeDescription =
+    ppConfig?.healthcareServiceTypes.find((h) => h.code === healthcareServiceType)?.description || healthcareServiceType
+
   return (
     <PPPage>
-      <h3 className="mb-5">Granska uppgifter</h3>
+      <h2 className="mb-5 text-secondary-95">Granska uppgifter</h2>
       <StatusBox type="INFO">
         Kontrollera att sammanfattningen av din information stämmer innan du går vidare. Du kan justera de uppgifter som du själv har
         angett. Information hämtad från folkbokföringen och från Socialstyrelsens register för Hälso- och sjukvårdspersonal (HOSP) går inte
@@ -63,7 +71,10 @@ export function PPRegistrationPreview() {
             zipCode,
           })
             .unwrap()
-            .then(() => navigate('/register/done'))
+            .then(() => {
+              dispatch(getUserAction())
+              return navigate('/register/done')
+            })
             .catch(() => {
               // Error is handled by isRegistrationError state
             })
@@ -76,10 +87,11 @@ export function PPRegistrationPreview() {
           </div>
           <PPResultPart title="Personnummer" value={user?.personId} />
           <PPResultPart title="Namn" value={user?.name} />
-          <PPResultPart title="Befattning" value={position} />
+          <PPResultPart title="Befattning" value={positionDescription} />
           <PPResultPart title="Verksamhetens namn" value={careUnitName} />
-          <PPResultPart title="Vårdform" value={typeOfCare} />
-          <PPResultPart title="Verksamhetstyp" value={healthcareServiceType} />
+          <PPResultPart title="Ägarform" value="Privat" />
+          <PPResultPart title="Vårdform" value={typeOfCareDescription} />
+          <PPResultPart title="Verksamhetstyp" value={healthcareServiceTypeDescription} />
           <PPResultPart title="Arbetsplatskod" value={workplaceCode} />
         </div>
         <hr />

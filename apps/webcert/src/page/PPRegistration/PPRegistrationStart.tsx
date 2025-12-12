@@ -23,7 +23,7 @@ export function PPRegistrationStart() {
   return (
     <div className="flex flex-col">
       <div className="">
-        <h1 className="">Skapa konto i Webcert</h1>
+        <h1 className="mb-5">Skapa konto i Webcert</h1>
         <p className="max-w-xl mb-10">
           Du har genomfört en beställning av abonnemang för Webcert i Ineras kundportal. Du som har eller är på väg att få en
           läkarlegitimation kan nu skapa ett konto i Webcert.
@@ -41,7 +41,7 @@ export function PPRegistrationStart() {
               Webcert.
             </p>
           </div>
-          <Logo src={list} tabIndex={0} alt="List" />
+          <Logo src={list} alt="List" />
         </div>
         <div className="flex flex-row gap-x-6">
           <div className="flex flex-col">
@@ -51,7 +51,7 @@ export function PPRegistrationStart() {
               (HOSP).
             </p>
           </div>
-          <Logo src={id_card} tabIndex={0} alt="Id Card" />
+          <Logo src={id_card} alt="Id Card" />
         </div>
         <div className="flex flex-row gap-x-6">
           <div className="flex flex-col">
@@ -61,7 +61,7 @@ export function PPRegistrationStart() {
               använda Webcert.
             </p>
           </div>
-          <Logo src={check} tabIndex={0} alt="Check" />
+          <Logo src={check} alt="Check" />
         </div>
       </div>
       <div className="flex flex-row gap-x-5">

@@ -30,6 +30,11 @@ export function PPRegistrationStep01() {
 
   return (
     <PPPage>
+      <div className="flex flex-col">
+        <h2 className="mb-5 text-secondary-95">Dina och verksamhetens uppgifter</h2>
+        <p className="max-w-xl mb-4">Vissa uppgifter kan inte ändras eftersom de hämtas från folkbokföringsregistret eller är förvalda.</p>
+        <p className="max-w-xl mb-4">Fält markerade med asterisk (*) är obligatoriska.</p>
+      </div>
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
@@ -53,6 +58,7 @@ export function PPRegistrationStep01() {
             label="Befattning"
             required
             value={position}
+            hasValidationError={Boolean(errors?.position)}
             onChange={(event) => dispatch(updateField({ field: 'position', value: event.currentTarget.value }))}
             tooltip="Välj din huvudsakliga befattning enligt AID-etikett (Arbetsidentifikation kommuner och regioner)."
           >
@@ -72,6 +78,7 @@ export function PPRegistrationStep01() {
             required
             showAsterix
             value={careUnitName}
+            hasValidationError={Boolean(errors?.careUnitName)}
             onChange={(event) => dispatch(updateField({ field: 'careUnitName', value: event.currentTarget.value }))}
             tooltip="Namnet på din verksamhet visas i Webcert och i signerade intyg."
           />
@@ -83,6 +90,7 @@ export function PPRegistrationStep01() {
             label="Vårdform"
             required
             value={typeOfCare}
+            hasValidationError={Boolean(errors?.typeOfCare)}
             onChange={(event) => dispatch(updateField({ field: 'typeOfCare', value: event.currentTarget.value }))}
             tooltip="Ange verksamhetens huvudsakliga vårdform enligt definition i Socialstyrelsens termbank."
           >
@@ -101,12 +109,13 @@ export function PPRegistrationStep01() {
             label="Verksamhetstyp"
             required
             value={healthcareServiceType}
+            hasValidationError={Boolean(errors?.healthcareServiceType)}
             onChange={(event) => dispatch(updateField({ field: 'healthcareServiceType', value: event.currentTarget.value }))}
             tooltip={
               <>
                 <p>Välj den typ av verksamhet som huvudsakligen bedrivs. </p>
                 <p>
-                  'Övrig medicinsk verksamh et' avser paramedicinsk verksamhet som bedrivs av exempelvis sjukgymnaster, arbetsterapeuter,
+                  ’Övrig medicinsk verksamhet’ avser paramedicinsk verksamhet som bedrivs av exempelvis sjukgymnaster, arbetsterapeuter,
                   kiropraktorer och logopeder.
                 </p>
                 <p>

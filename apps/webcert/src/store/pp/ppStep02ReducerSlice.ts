@@ -2,21 +2,24 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import { api } from '../api'
-import { equalEmail, requiredAlternative, requiredAnswer } from './ppConstants'
+import { equalEmail, requiredAnswer } from './ppConstants'
 
 const step02FormDataSchema = z
   .object({
-    phoneNumber: z.string().check(z.minLength(1, requiredAnswer)),
-    email: z.string().check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
+    phoneNumber: z.string().check(z.minLength(1, 'Ange telefonnummer.')),
+    email: z.string().check(z.minLength(1, requiredAnswer)).check(z.regex(z.regexes.email, 'Ange en giltig e-postadress.')),
     emailRepeat: z.string().check(z.minLength(1, requiredAnswer)),
     address: z.string().check(z.minLength(1, requiredAnswer)),
-    zipCode: z.string().check(
-      z.regex(/^\d{5}$/, {
-        message: 'Postnummer fylls i med fem siffror 0-9.',
-      })
-    ),
+    zipCode: z
+      .string()
+      .check(z.minLength(1, 'Postnummer fylls i med fem siffror 0-9.'))
+      .check(
+        z.regex(/^\d{5}$/, {
+          message: 'Ange ett giltigt postnummer.',
+        })
+      ),
     city: z.string().check(z.minLength(1, requiredAnswer)),
-    municipality: z.string().check(z.minLength(1, requiredAlternative)),
+    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har fler träffar. Ange den kommun som är rätt.')),
     county: z.string().check(z.minLength(1, requiredAnswer)),
   })
   .check(
@@ -37,6 +40,7 @@ type Step02FormData = z.infer<typeof step02FormDataSchema>
 const initialState: {
   data: Step02FormData
   errors?: { [K in keyof Step02FormData]?: string[] }
+  lastRequestedZip?: string | null
 } = {
   data: {
     phoneNumber: '',
@@ -48,6 +52,7 @@ const initialState: {
     municipality: '',
     county: '',
   },
+  lastRequestedZip: null,
   errors: undefined,
 }
 
@@ -59,6 +64,11 @@ const ppStep02ReducerSlice = createSlice({
       state.data[action.payload.field] = action.payload.value
       if (state.errors) {
         state.errors[action.payload.field] = undefined
+      }
+      if (action.payload.field === 'zipCode' && action.payload.value === '') {
+        state.data.city = ''
+        state.data.county = ''
+        state.data.municipality = ''
       }
     },
     validateData: (state) => {
@@ -77,6 +87,17 @@ const ppStep02ReducerSlice = createSlice({
         state.data.county = payload[0].county
         state.data.municipality = payload[0].municipality
       }
+    })
+    builder.addMatcher(api.endpoints.getZipCodeInfo.matchPending, (state, payload) => {
+      const newZip = payload.meta.arg.originalArgs
+
+      if (newZip !== state.lastRequestedZip) {
+        state.data.city = ''
+        state.data.county = ''
+        state.data.municipality = ''
+      }
+
+      state.lastRequestedZip = newZip
     })
   },
 })

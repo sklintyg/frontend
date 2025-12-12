@@ -7,6 +7,7 @@ export function PPForm({
   children,
 }: {
   actions: ReactNode
+  isZipCodeError?: boolean
   onSubmit: FormEventHandler<HTMLFormElement>
   onInput?: FormEventHandler<HTMLFormElement>
   children: ReactNode
