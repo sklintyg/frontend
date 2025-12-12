@@ -25,7 +25,8 @@ export function PPRegistrationStep02() {
   )
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
   const showValidation = useAppSelector((state) => state.ui.pp.step02.showValidation)
-  const { data: zipCodeInfo, isError: isZipCodeError } = api.endpoints.getZipCodeInfo.useQueryState(zipCode)
+  const zipCodeInfo = useAppSelector((state) => state.ui.pp.step02.zipCodeInfo)
+  const { isError: isZipCodeError } = api.endpoints.getZipCodeInfo.useQueryState(zipCode)
 
   const sanitizeInput = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '')
@@ -142,7 +143,7 @@ export function PPRegistrationStep02() {
         </div>
 
         <div>
-          {!zipCodeInfo || zipCodeInfo.length === 0 ? (
+          {!zipCodeInfo || zipCodeInfo.length === 0 || zipCode === '' ? (
             <TextInput label="Kommun" disabled value="" tooltip={municipalityTooltip} />
           ) : (
             <>

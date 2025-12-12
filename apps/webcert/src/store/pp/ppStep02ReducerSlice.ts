@@ -123,9 +123,11 @@ listener.startListening({
     if (field === 'zipCode' && value !== '') {
       const { data: zipCodeInfo, isUninitialized } = ppApi.endpoints.getZipCodeInfo.select(value)(getState())
 
+      dispatch(zipCodeInfoUpdate([]))
+
       cancelActiveListeners()
 
-      await delay(500)
+      await delay(250)
 
       if (!zipCodeInfo || isUninitialized) {
         dispatch(ppApi.endpoints.getZipCodeInfo.initiate(value))
