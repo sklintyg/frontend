@@ -16,20 +16,17 @@ const requestSlice = createSlice({
     addRequest: requestAdapter.addOne,
     removeRequest: requestAdapter.removeOne,
     updateRequest: requestAdapter.updateOne,
+    removeAllRequests: requestAdapter.removeAll,
   },
 })
 
 export const { name: requestPath, reducer: requestReducer } = requestSlice
-export const { addRequest, removeRequest } = requestSlice.actions
+export const { addRequest, removeRequest, removeAllRequests } = requestSlice.actions
 
-export const { selectAll: selectAllRequests } = requestAdapter.getSelectors<RootState>((state) => state.requests)
+export const { selectAll: selectAllRequests, selectById } = requestAdapter.getSelectors<RootState>((state) => state.requests)
 
 export const isFunctionDisabled = (disableGroup: string) => (state: RootState) =>
-  Boolean(selectAllRequests(state).find((req) => req.functionDisablerType === disableGroup))
+  selectAllRequests(state).some(({ functionDisablerType }) => functionDisablerType === disableGroup)
 
-export const isRequestLoading = (payload: { url: string; method: string }) => (state: RootState) =>
-  Boolean(
-    selectAllRequests(state)
-      .filter(({ url, method }) => url === payload.url && method === payload.method)
-      .find((req) => isMatch(req, payload))
-  )
+export const isRequestLoading = (payload: Partial<ApiCall> & { url: string; method: string }) => (state: RootState) =>
+  selectAllRequests(state).some((req) => isMatch(req, payload))

@@ -25,7 +25,7 @@ const ErrorComponent = () => {
   if (!activeError) return null
 
   const getModal = () => {
-    if (messageSubstring(activeError) === NETWORK_ERROR) {
+    if (messageSubstring(activeError) === NETWORK_ERROR || activeError.message?.includes('timeout')) {
       return <GeneralErrorReload errorData={activeError} />
     }
 
