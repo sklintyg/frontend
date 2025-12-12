@@ -1,16 +1,16 @@
 import { isEqual } from 'lodash-es'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextInput from '../../components/Inputs/TextInput'
-import { useLazyGetZipCodeInfoQuery } from '../../store/api'
+import { api } from '../../store/api'
 import { updateField, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import PPDropdown from './components/PPDropdown'
 import { PPForm } from './components/PPForm'
 import { PPPage } from './components/PPPage'
 import { PPRegistrationAction } from './components/PPRegistrationActions'
-import { ValidationError } from './components/ValidationError'
 import { StatusBox } from './components/StatusBox'
+import { ValidationError } from './components/ValidationError'
 
 const municipalityTooltip = 'Om systemet får fler träffar för kommun vid hämtning av uppgiften ska du ange vilken kommun som är rätt.'
 
@@ -24,22 +24,9 @@ export function PPRegistrationStep02() {
     isEqual
   )
   const errors = useAppSelector((state) => state.ui.pp.step02.errors)
-  const [getZipCodeInfo, { data: zipCodeInfo, isError: isZipCodeError }] = useLazyGetZipCodeInfoQuery()
-
-  useEffect(() => {
-    if (`${zipCode}`.length === 5 && zipCodeInfo?.at(0)?.zipCode !== zipCode) {
-      getZipCodeInfo(zipCode)
-    }
-  }, [getZipCodeInfo, zipCode, zipCodeInfo, dispatch])
-
-  useEffect(() => {
-    if (zipCodeInfo && zipCodeInfo.length === 1) {
-      const data = zipCodeInfo[0]
-      dispatch(updateField({ field: 'municipality', value: data.municipality }))
-      dispatch(updateField({ field: 'city', value: data.city }))
-      dispatch(updateField({ field: 'county', value: data.county }))
-    }
-  }, [zipCodeInfo, dispatch])
+  const showValidation = useAppSelector((state) => state.ui.pp.step02.showValidation)
+  const zipCodeInfo = useAppSelector((state) => state.ui.pp.step02.zipCodeInfo)
+  const { isError: isZipCodeError } = api.endpoints.getZipCodeInfo.useQueryState(zipCode)
 
   const sanitizeInput = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '')
@@ -48,7 +35,7 @@ export function PPRegistrationStep02() {
   return (
     <PPPage>
       <div className="flex flex-col">
-        <h2 className="mb-5 text-secondary-95">Kontaktuppgifter till verksamheten</h2>
+        <h2 className="mb-5 text-[#5f5f5f] text-[22px]">Kontaktuppgifter till verksamheten</h2>
         <p className="max-w-xl mb-4">
           Ange de kontaktuppgifter du vill ska användas när Inera eller intygsmottagare behöver kontakta dig. Uppgifter om postort, kommun
           och län fylls i automatiskt.
@@ -71,7 +58,6 @@ export function PPRegistrationStep02() {
             <PPRegistrationAction prevStep={1} />
           </>
         }
-        isZipCodeError={isZipCodeError}
       >
         <div>
           <TextInput
@@ -82,11 +68,11 @@ export function PPRegistrationStep02() {
             type="text"
             inputMode="numeric"
             onInput={sanitizeInput}
-            hasValidationError={Boolean(errors?.phoneNumber)}
+            hasValidationError={showValidation && Boolean(errors?.phoneNumber)}
             value={phoneNumber}
             onChange={(event) => dispatch(updateField({ field: 'phoneNumber', value: event.currentTarget.value }))}
           />
-          <ValidationError>{errors?.phoneNumber}</ValidationError>
+          {showValidation && <ValidationError>{errors?.phoneNumber}</ValidationError>}
         </div>
 
         <div>
@@ -94,11 +80,11 @@ export function PPRegistrationStep02() {
             label="E-postadress"
             required
             showAsterix
-            hasValidationError={Boolean(errors?.email)}
+            hasValidationError={showValidation && Boolean(errors?.email)}
             value={email}
             onChange={(event) => dispatch(updateField({ field: 'email', value: event.currentTarget.value }))}
           />
-          <ValidationError>{errors?.email}</ValidationError>
+          {showValidation && <ValidationError>{errors?.email}</ValidationError>}
         </div>
 
         <div>
@@ -106,7 +92,7 @@ export function PPRegistrationStep02() {
             label="Upprepa e-postadress"
             required
             showAsterix
-            hasValidationError={Boolean(errors?.emailRepeat) || showPasteError}
+            hasValidationError={(showValidation && Boolean(errors?.emailRepeat)) || showPasteError}
             value={emailRepeat}
             onChange={(event) => {
               setShowPasteError(false)
@@ -120,7 +106,7 @@ export function PPRegistrationStep02() {
           {showPasteError ? (
             <ValidationError>Ange e-postadressen genom att skriva in den. </ValidationError>
           ) : (
-            <ValidationError>{errors?.emailRepeat}</ValidationError>
+            <>{showValidation && <ValidationError>{errors?.emailRepeat}</ValidationError>}</>
           )}
         </div>
 
@@ -129,11 +115,11 @@ export function PPRegistrationStep02() {
             label="Postadress"
             required
             showAsterix
-            hasValidationError={Boolean(errors?.address)}
+            hasValidationError={showValidation && Boolean(errors?.address)}
             value={address}
             onChange={(event) => dispatch(updateField({ field: 'address', value: event.currentTarget.value }))}
           />
-          <ValidationError>{errors?.address}</ValidationError>
+          {showValidation && <ValidationError>{errors?.address}</ValidationError>}
         </div>
 
         <div>
@@ -146,12 +132,10 @@ export function PPRegistrationStep02() {
             pattern="\d*"
             onInput={sanitizeInput}
             value={zipCode}
-            hasValidationError={errors?.zipCode != null}
-            onChange={(event) => {
-              dispatch(updateField({ field: 'zipCode', value: event.currentTarget.value }))
-            }}
+            hasValidationError={showValidation && errors?.zipCode != null}
+            onChange={(event) => dispatch(updateField({ field: 'zipCode', value: event.currentTarget.value }))}
           />
-          <ValidationError>{errors?.zipCode}</ValidationError>
+          {showValidation && <ValidationError>{errors?.zipCode}</ValidationError>}
         </div>
 
         <div>
@@ -159,35 +143,37 @@ export function PPRegistrationStep02() {
         </div>
 
         <div>
-          {!zipCodeInfo || zipCodeInfo.length === 0 ? (
+          {!zipCodeInfo || zipCodeInfo.length === 0 || zipCode === '' ? (
             <TextInput label="Kommun" disabled value="" tooltip={municipalityTooltip} />
-          ) : zipCodeInfo.length === 1 ? (
-            <TextInput label="Kommun" disabled value={municipality} tooltip={municipalityTooltip} />
           ) : (
             <>
-              <PPDropdown
-                label="Kommun (obligatoriskt)"
-                value={municipality}
-                hasValidationError={Boolean(errors?.municipality)}
-                onChange={(event) => {
-                  dispatch(updateField({ field: 'municipality', value: event.currentTarget.value }))
+              {zipCodeInfo.length === 1 && !errors?.municipality ? (
+                <TextInput label="Kommun" disabled value={municipality} tooltip={municipalityTooltip} />
+              ) : (
+                <PPDropdown
+                  label="Kommun (obligatoriskt)"
+                  value={municipality}
+                  hasValidationError={showValidation && Boolean(errors?.municipality)}
+                  onChange={(event) => {
+                    dispatch(updateField({ field: 'municipality', value: event.currentTarget.value }))
 
-                  const data = zipCodeInfo.find(({ municipality }) => municipality === event.currentTarget.value)
-                  if (data) {
-                    dispatch(updateField({ field: 'city', value: data.city }))
-                    dispatch(updateField({ field: 'county', value: data.county }))
-                  }
-                }}
-                tooltip={municipalityTooltip}
-              >
-                <option value="">Välj kommun</option>
-                {zipCodeInfo?.map(({ municipality }) => (
-                  <option key={municipality} value={municipality}>
-                    {municipality}
-                  </option>
-                ))}
-              </PPDropdown>
-              <ValidationError>{errors?.municipality}</ValidationError>
+                    const data = zipCodeInfo.find(({ municipality }) => municipality === event.currentTarget.value)
+                    if (data) {
+                      dispatch(updateField({ field: 'city', value: data.city }))
+                      dispatch(updateField({ field: 'county', value: data.county }))
+                    }
+                  }}
+                  tooltip={municipalityTooltip}
+                >
+                  <option value="">Välj kommun</option>
+                  {zipCodeInfo?.map(({ municipality }) => (
+                    <option key={municipality} value={municipality}>
+                      {municipality}
+                    </option>
+                  ))}
+                </PPDropdown>
+              )}
+              {showValidation && <ValidationError>{errors?.municipality}</ValidationError>}
             </>
           )}
         </div>
