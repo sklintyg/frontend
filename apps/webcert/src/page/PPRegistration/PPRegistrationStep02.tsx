@@ -103,7 +103,7 @@ export function PPRegistrationStep02() {
             }}
           />
           {showPasteError ? (
-            <>{showValidation && <ValidationError>Ange e-postadressen genom att skriva in den. </ValidationError>}</>
+            <ValidationError>Ange e-postadressen genom att skriva in den. </ValidationError>
           ) : (
             <>{showValidation && <ValidationError>{errors?.emailRepeat}</ValidationError>}</>
           )}

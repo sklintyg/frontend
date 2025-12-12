@@ -190,11 +190,8 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '73450')
 
       await waitFor(() => {
-        const kommunInput = screen.getByLabelText('Kommun')
-        expect(kommunInput).toBeDisabled()
+        expect(screen.getByLabelText('Kommun')).toHaveValue('HALLSTAHAMMAR')
       })
-
-      expect(screen.getByLabelText('Kommun')).toHaveValue('HALLSTAHAMMAR')
 
       expect(screen.queryByRole('combobox', { name: 'Kommun' })).not.toBeInTheDocument()
     })
@@ -353,7 +350,7 @@ describe('PPRegistrationStep02', () => {
         emailRepeat: ['Ange ett svar.'],
         municipality: ['Uppgift om kommun har fler träffar. Ange den kommun som är rätt.'],
         phoneNumber: ['Ange telefonnummer.'],
-        zipCode: ['Postnummer fylls i med fem siffror 0-9.', 'Ange ett giltigt postnummer.'],
+        zipCode: ['Postnummer fylls i med fem siffror 0-9.'],
       })
     })
 
@@ -379,6 +376,10 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
+        expect(store.getState().ui.pp.step02.zipCodeInfo).toHaveLength(2)
+      })
+
+      await waitFor(() => {
         expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
       })
 
@@ -402,11 +403,17 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postadress'), 'Bästvägen 12')
       await user.type(screen.getByLabelText('Postnummer'), '73450')
 
+      await waitFor(() => {
+        expect(store.getState().ui.pp.step02.zipCodeInfo).toHaveLength(1)
+      })
+
       await user.click(screen.getByRole('button', { name: 'Fortsätt' }))
 
       await waitFor(() => {
-        expect(screen.getByTestId('step-03')).toBeInTheDocument()
+        expect(store.getState().ui.pp.step02.errors).toBe(undefined)
       })
+
+      expect(screen.getByTestId('step-03')).toBeInTheDocument()
     })
 
     it('should not navigate when form has validation errors', async () => {

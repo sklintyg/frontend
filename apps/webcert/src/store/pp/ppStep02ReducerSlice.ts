@@ -15,17 +15,17 @@ const step02FormDataSchema = z
     address: z.string().check(z.minLength(1, requiredAnswer)),
     zipCode: z.string().check(z.minLength(1, 'Postnummer fylls i med fem siffror 0-9.')),
     city: z.string().check(z.minLength(1, requiredAnswer)),
-    municipality: z.string(),
+    municipality: z.string().check(z.minLength(1, 'Uppgift om kommun har fler träffar. Ange den kommun som är rätt.')),
     county: z.string().check(z.minLength(1, requiredAnswer)),
   })
   .check(
-    z.refine((obj) => obj.email === obj.emailRepeat, {
+    z.refine(({ email, emailRepeat }) => email === emailRepeat, {
       error: equalEmail,
       path: ['email'],
     })
   )
   .check(
-    z.refine((obj) => obj.email === obj.emailRepeat, {
+    z.refine(({ email, emailRepeat }) => email === emailRepeat, {
       error: equalEmail,
       path: ['emailRepeat'],
     })
