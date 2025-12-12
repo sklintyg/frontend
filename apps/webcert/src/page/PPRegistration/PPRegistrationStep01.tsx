@@ -23,7 +23,7 @@ export function PPRegistrationStep01() {
   )
 
   const errors = useAppSelector((state) => state.ui.pp.step01.errors)
-  const showValidation = useAppSelector((state) => state.ui.pp.step02.showValidation)
+  const showValidation = useAppSelector((state) => state.ui.pp.step01.showValidation)
 
   if (isLoading) {
     return <Spinner />
