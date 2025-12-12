@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { expect } from 'vitest'
 import { api } from '../../store/api'
-import { resetForm, showValidation } from '../../store/pp/ppStep02ReducerSlice'
+import { resetForm, validateData } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
 import { PPRegistrationStep02 } from './PPRegistrationStep02'
 
@@ -307,7 +307,7 @@ describe('PPRegistrationStep02', () => {
     })
 
     it('should display validation errors when present', () => {
-      store.dispatch(showValidation())
+      store.dispatch(validateData())
 
       renderComponent()
 
@@ -433,7 +433,7 @@ describe('PPRegistrationStep02', () => {
     })
 
     it('should use proper ARIA attributes for error messages', () => {
-      store.dispatch(showValidation())
+      store.dispatch(validateData())
 
       renderComponent()
 
