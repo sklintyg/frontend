@@ -57,7 +57,6 @@ export function PPRegistrationStep02() {
             <PPRegistrationAction prevStep={1} />
           </>
         }
-        isZipCodeError={isZipCodeError}
       >
         <div>
           <TextInput
