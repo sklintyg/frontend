@@ -79,8 +79,8 @@ export function Router() {
           <Route path="steg-2" element={<PPRegistrationStep02 />} />
           <Route path="steg-3" element={<PPRegistrationStep03 />} />
           <Route path="granska" element={<PPRegistrationPreview />} />
-          <Route path="done" element={<PPRegistrationDone />} />
         </Route>
+        <Route path="register/done" element={<PPRegistrationDone />} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
         <Route path="edit" element={<EditPrivatePractitionerPageWithRedirect />} />
       </Route>

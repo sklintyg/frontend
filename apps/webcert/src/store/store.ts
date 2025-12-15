@@ -10,6 +10,7 @@ import { fmbMiddleware } from './fmb/fmbMiddleware'
 import { icfMiddleware } from './icf/icfMiddleware'
 import { listMiddleware } from './list/listMiddleware'
 import { patientMiddleware } from './patient/patientMiddleware'
+import { ppStep02Middleware } from './pp/ppStep02ReducerSlice'
 import { questionMiddleware } from './question/questionMiddleware'
 import type { RootState } from './reducer'
 import { sessionMiddleware } from './session/sessionMiddleware'
@@ -33,6 +34,7 @@ const store = configureApplicationStore([
   patientMiddleware,
   listMiddleware,
   srsMiddleware,
+  ppStep02Middleware,
 ])
 
 export type AppDispatch = typeof store.dispatch
