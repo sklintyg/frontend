@@ -5,13 +5,18 @@ const NO_INFORMATION_FETCHED = 'Inga uppgifter hämtade'
 
 export function PPStep03Fields() {
   const { data } = useGetHOSPInformationQuery()
+
+  const licensedHealthcareProfessions =
+    data?.licensedHealthcareProfessions.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED
+  const specialities = data?.specialities.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED
+
   return (
     <>
       <div>
         <TextInput
           label="Legitimerad yrkesgrupp"
           style={{ fontStyle: 'italic' }}
-          value={data?.licensedHealthcareProfessions.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
+          value={licensedHealthcareProfessions.length > 0 ? licensedHealthcareProfessions : NO_INFORMATION_FETCHED}
           disabled
         />
       </div>
@@ -20,7 +25,7 @@ export function PPStep03Fields() {
         <TextInput
           label="Specialitet"
           style={{ fontStyle: 'italic' }}
-          value={data?.specialities.map(({ description }) => description).join(', ') ?? NO_INFORMATION_FETCHED}
+          value={specialities.length > 0 ? specialities : NO_INFORMATION_FETCHED}
           disabled
         />
       </div>

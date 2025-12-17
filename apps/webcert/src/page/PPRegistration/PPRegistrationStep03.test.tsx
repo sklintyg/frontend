@@ -94,4 +94,20 @@ describe('PPRegistrationStep03', () => {
       expect(screen.getByTestId('step-04')).toBeInTheDocument()
     })
   })
+
+  it('Should populate fields when HOSP information is missing', async () => {
+    fakeAxios.onGet('/api/private-practitioner/hospInformation').reply(200, {
+      personalPrescriptionCode: null,
+      licensedHealthcareProfessions: [],
+      specialities: [],
+    })
+
+    await store.dispatch(ppApi.endpoints.getHOSPInformation.initiate())
+
+    renderComponent()
+
+    expect(screen.getByLabelText('Legitimerad yrkesgrupp')).toHaveValue('Inga uppgifter hämtade')
+    expect(screen.getByLabelText('Specialitet')).toHaveValue('Inga uppgifter hämtade')
+    expect(screen.getByLabelText('Förskrivarkod')).toHaveValue('Inga uppgifter hämtade')
+  })
 })
