@@ -7,9 +7,9 @@ import { useNavigateEffect } from './hooks/useNavigateEffect'
 import { CertificateDraftsPage } from './page/CertificateDraftsPage'
 import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
-import { EditPrivatePractitionerPageWithRedirect } from './page/EditPrivatePractitionerPage'
 import ErrorPage from './page/ErrorPage'
 import { PPRegistrationDone } from './page/PPRegistration/PPRegistrationDone'
+import { PPRegistraionEditWithRedirect } from './page/PPRegistration/PPRegistrationEdit'
 import { PPRegistrationPreview } from './page/PPRegistration/PPRegistrationPreview'
 import { PPRegistrationStart } from './page/PPRegistration/PPRegistrationStart'
 import { PPRegistrationStep01 } from './page/PPRegistration/PPRegistrationStep01'
@@ -81,8 +81,8 @@ export function Router() {
           <Route path="granska" element={<PPRegistrationPreview />} />
         </Route>
         <Route path="register/done" element={<PPRegistrationDone />} />
+        <Route path="edit" element={<PPRegistraionEditWithRedirect />} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
-        <Route path="edit" element={<EditPrivatePractitionerPageWithRedirect />} />
       </Route>
     </Routes>
   )

@@ -103,9 +103,18 @@ const ppStep02ReducerSlice = createSlice({
         state.data.county = zipCodeInfo[0].county
         state.data.municipality = zipCodeInfo[0].municipality
       }
-
       state.zipCodeInfo = zipCodeInfo
       state.errors = validateState(state)
+    })
+    builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
+      state.data.phoneNumber = payload.phoneNumber
+      state.data.email = payload.email
+      state.data.emailRepeat = payload.email
+      state.data.address = payload.address
+      state.data.zipCode = payload.zipCode
+      state.data.city = payload.city
+      state.data.municipality = payload.municipality
+      state.data.county = payload.county
     })
   },
 })
