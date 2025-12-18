@@ -58,6 +58,8 @@ const ppStep01ReducerSlice = createSlice({
       state.data.typeOfCare = payload.typeOfCare
       state.data.healthcareServiceType = payload.healthcareServiceType
       state.data.workplaceCode = payload.workplaceCode
+
+      state.errors = validateState(state)
     })
   },
 })

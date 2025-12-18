@@ -22,15 +22,16 @@ export function PPStep01Fields() {
   return (
     <>
       <div>
-        <TextInput label="Personnummer" value={user?.personId} disabled />
+        <TextInput id="personId" label="Personnummer" value={user?.personId} disabled />
       </div>
 
       <div>
-        <TextInput label="Namn" value={user?.name} disabled />
+        <TextInput id="name" label="Namn" value={user?.name} disabled />
       </div>
 
       <div>
         <PPDropdown
+          id="position"
           label="Befattning"
           required
           value={position}
@@ -50,6 +51,7 @@ export function PPStep01Fields() {
 
       <div>
         <TextInput
+          id="careUnitName"
           label="Namn på din verksamhet"
           required
           showAsterix
@@ -63,6 +65,7 @@ export function PPStep01Fields() {
 
       <div>
         <PPDropdown
+          id="typeOfCare"
           label="Vårdform"
           required
           value={typeOfCare}
@@ -82,6 +85,7 @@ export function PPStep01Fields() {
 
       <div>
         <PPDropdown
+          id="healthcareServiceType"
           label="Verksamhetstyp"
           required
           value={healthcareServiceType}
@@ -114,6 +118,7 @@ export function PPStep01Fields() {
 
       <div>
         <TextInput
+          id="workplaceCode"
           label="Arbetsplatskod"
           value={workplaceCode}
           onChange={(event) => dispatch(updateField({ field: 'workplaceCode', value: event.currentTarget.value }))}

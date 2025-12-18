@@ -28,6 +28,7 @@ export function PPStep02Fields() {
     <>
       <div>
         <TextInput
+          id="phoneNumber"
           label="Telefonnummer"
           required
           showAsterix
@@ -44,6 +45,7 @@ export function PPStep02Fields() {
 
       <div>
         <TextInput
+          id="email"
           label="E-postadress"
           required
           showAsterix
@@ -56,6 +58,7 @@ export function PPStep02Fields() {
 
       <div>
         <TextInput
+          id="emailRepeat"
           label="Upprepa e-postadress"
           required
           showAsterix
@@ -79,6 +82,7 @@ export function PPStep02Fields() {
 
       <div>
         <TextInput
+          id="address"
           label="Postadress"
           required
           showAsterix
@@ -91,6 +95,7 @@ export function PPStep02Fields() {
 
       <div>
         <TextInput
+          id="zipCode"
           label="Postnummer"
           required
           showAsterix
@@ -106,12 +111,13 @@ export function PPStep02Fields() {
       </div>
 
       <div>
-        <TextInput label="Postort" disabled value={city} />
+        <TextInput id="city" label="Postort" disabled value={city} />
       </div>
 
       <div>
         {zipCodeInfo && zipCodeInfo.length > 1 && (zipCode !== '' || errors?.municipality) ? (
           <PPDropdown
+            id="municipality"
             label="Kommun (obligatoriskt)"
             value={municipality}
             hasValidationError={showValidation && Boolean(errors?.municipality)}
@@ -134,9 +140,18 @@ export function PPStep02Fields() {
             ))}
           </PPDropdown>
         ) : (
-          <TextInput label="Kommun" disabled value={municipality} tooltip={municipalityTooltip} />
+          <TextInput
+            id="municipality"
+            label="Kommun"
+            required
+            showAsterix
+            disabled
+            value={municipality}
+            hasValidationError={showValidation && Boolean(errors?.municipality)}
+            tooltip={municipalityTooltip}
+          />
         )}
-        {showValidation && <ValidationError>{errors?.municipality}</ValidationError>}
+        {showValidation && zipCodeInfo.length > 1 && <ValidationError>{errors?.municipality}</ValidationError>}
       </div>
 
       <div>

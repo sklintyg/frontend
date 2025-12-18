@@ -19,8 +19,20 @@ export const ppApi = api.injectEndpoints({
         data,
       }),
     }),
+    updatePrivatePractitioner: builder.mutation<void, Omit<PrivatePractitionerInfo, 'personId'>>({
+      query: (data) => ({
+        url: 'private-practitioner',
+        method: 'PUT',
+        data,
+      }),
+    }),
   }),
 })
 
-export const { useGetPPConfigQuery, useGetHOSPInformationQuery, useGetPrivatePractitionerQuery, useRegisterPrivatePractitionerMutation } =
-  ppApi
+export const {
+  useGetPPConfigQuery,
+  useGetHOSPInformationQuery,
+  useGetPrivatePractitionerQuery,
+  useRegisterPrivatePractitionerMutation,
+  useUpdatePrivatePractitionerMutation,
+} = ppApi
