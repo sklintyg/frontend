@@ -219,7 +219,7 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
       })
 
       expect(screen.getByRole('option', { name: 'KROKOM' })).toBeInTheDocument()
@@ -249,13 +249,13 @@ describe('PPRegistrationStep02', () => {
       await user.type(screen.getByLabelText('Postnummer'), '83152')
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
       })
 
-      await user.selectOptions(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' }), 'ÖSTERSUND')
+      await user.selectOptions(screen.getByRole('combobox', { name: 'Kommun' }), 'ÖSTERSUND')
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Kommun (obligatoriskt)')).toHaveValue('ÖSTERSUND')
+        expect(screen.getByLabelText('Kommun')).toHaveValue('ÖSTERSUND')
       })
 
       expect(screen.getByLabelText('Postort')).toHaveValue('ÖSTERSUND')
@@ -380,7 +380,7 @@ describe('PPRegistrationStep02', () => {
       })
 
       await waitFor(() => {
-        expect(screen.getByRole('combobox', { name: 'Kommun (obligatoriskt)' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: 'Kommun' })).toBeInTheDocument()
       })
 
       await user.click(screen.getByRole('button', { name: 'Fortsätt' }))

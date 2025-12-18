@@ -118,7 +118,8 @@ export function PPStep02Fields() {
         {zipCodeInfo && zipCodeInfo.length > 1 && (zipCode !== '' || errors?.municipality) ? (
           <PPDropdown
             id="municipality"
-            label="Kommun (obligatoriskt)"
+            label="Kommun"
+            required
             value={municipality}
             hasValidationError={showValidation && Boolean(errors?.municipality)}
             onChange={(event) => {
