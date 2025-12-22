@@ -1,4 +1,4 @@
-import type { HOSPInformation, PPConfig, RegisterPrivatePractitionerData } from '../../types/pp'
+import type { HOSPInformation, PPConfig, PrivatePractitionerInfo } from '../../types/pp'
 import { api } from '../api'
 
 export const ppApi = api.injectEndpoints({
@@ -9,14 +9,30 @@ export const ppApi = api.injectEndpoints({
     getPPConfig: builder.query<PPConfig, void>({
       query: () => 'private-practitioner/config',
     }),
-    registerPrivatePractitioner: builder.mutation<void, RegisterPrivatePractitionerData>({
+    getPrivatePractitioner: builder.query<PrivatePractitionerInfo, void>({
+      query: () => 'private-practitioner',
+    }),
+    registerPrivatePractitioner: builder.mutation<void, Omit<PrivatePractitionerInfo, 'personId'>>({
       query: (data) => ({
         url: 'private-practitioner',
         method: 'POST',
         data,
       }),
     }),
+    updatePrivatePractitioner: builder.mutation<void, Omit<PrivatePractitionerInfo, 'personId'>>({
+      query: (data) => ({
+        url: 'private-practitioner',
+        method: 'PUT',
+        data,
+      }),
+    }),
   }),
 })
 
-export const { useGetPPConfigQuery, useGetHOSPInformationQuery, useRegisterPrivatePractitionerMutation } = ppApi
+export const {
+  useGetPPConfigQuery,
+  useGetHOSPInformationQuery,
+  useGetPrivatePractitionerQuery,
+  useRegisterPrivatePractitionerMutation,
+  useUpdatePrivatePractitionerMutation,
+} = ppApi

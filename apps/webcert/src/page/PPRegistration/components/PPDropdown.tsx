@@ -15,8 +15,9 @@ interface PPDropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> 
 }
 
 const PPDropdown = forwardRef<HTMLSelectElement, PPDropdownProps>(
-  ({ label, tooltip, children, hasValidationError = false, disabled, className, required, ...props }, ref) => {
-    const id = useId()
+  ({ id: controlledId, label, tooltip, children, hasValidationError = false, disabled, className, required, ...props }, ref) => {
+    const uncontrolledId = useId()
+    const id = controlledId ?? uncontrolledId
 
     return (
       <div className="flex flex-col gap-1">

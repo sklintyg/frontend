@@ -95,16 +95,29 @@ const ppStep02ReducerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(zipCodeInfoUpdate, (state, { payload: zipCodeInfo }) => {
-      state.data.city = ''
-      state.data.county = ''
-      state.data.municipality = ''
-      if (zipCodeInfo.length === 1) {
-        state.data.city = zipCodeInfo[0].city
-        state.data.county = zipCodeInfo[0].county
-        state.data.municipality = zipCodeInfo[0].municipality
+      if (!zipCodeInfo.find(({ municipality }) => state.data.municipality === municipality)) {
+        state.data.city = ''
+        state.data.county = ''
+        state.data.municipality = ''
+        if (zipCodeInfo.length === 1) {
+          state.data.city = zipCodeInfo[0].city
+          state.data.county = zipCodeInfo[0].county
+          state.data.municipality = zipCodeInfo[0].municipality
+        }
       }
-
       state.zipCodeInfo = zipCodeInfo
+      state.errors = validateState(state)
+    })
+    builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
+      state.data.phoneNumber = payload.phoneNumber
+      state.data.email = payload.email
+      state.data.emailRepeat = payload.email
+      state.data.address = payload.address
+      state.data.zipCode = payload.zipCode
+      state.data.city = payload.city
+      state.data.municipality = payload.municipality
+      state.data.county = payload.county
+
       state.errors = validateState(state)
     })
   },
@@ -149,6 +162,15 @@ listener.startListening({
   matcher: api.endpoints.getZipCodeInfo.matchPending,
   effect: async (_, { dispatch }) => {
     dispatch(zipCodeInfoUpdate([]))
+  },
+})
+
+listener.startListening({
+  matcher: ppApi.endpoints.getPrivatePractitioner.matchFulfilled,
+  effect: async (action, { dispatch }) => {
+    if (action.payload.zipCode.length > 0) {
+      dispatch(api.endpoints.getZipCodeInfo.initiate(action.payload.zipCode))
+    }
   },
 })
 

@@ -1,17 +1,17 @@
-import { useGetHOSPInformationQuery } from '../../../store/pp/ppApi'
+import { useHOSP } from '../hooks/useHOSP'
 import { StatusBox } from './StatusBox'
 
 export function HOSPStatusBox() {
-  const { isError } = useGetHOSPInformationQuery()
+  const { isMissing, isError } = useHOSP()
 
-  if (!isError) {
-    return null
+  if (isError || isMissing) {
+    return (
+      <StatusBox type="INFO">
+        Inga uppgifter har hämtats från Socialstyrelsens register för Hälso- och sjukvårdspersonal (HOSP), men du kan fortsätta skapa ditt
+        konto.
+      </StatusBox>
+    )
   }
 
-  return (
-    <StatusBox type="INFO">
-      Inga uppgifter har hämtats från Socialstyrelsens register för Hälso- och sjukvårdspersonal (HOSP), men du kan fortsätta skapa ditt
-      konto.
-    </StatusBox>
-  )
+  return null
 }

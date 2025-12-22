@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
+import { ppApi } from './ppApi'
 import { requiredAlternative, requiredAnswer } from './ppConstants'
 
 const step01FormDataSchema = z.object({
@@ -49,6 +50,17 @@ const ppStep01ReducerSlice = createSlice({
       state.errors = validateState(state)
     },
     resetForm: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
+      state.data.careUnitName = payload.careUnitName
+      state.data.position = payload.position
+      state.data.typeOfCare = payload.typeOfCare
+      state.data.healthcareServiceType = payload.healthcareServiceType
+      state.data.workplaceCode = payload.workplaceCode
+
+      state.errors = validateState(state)
+    })
   },
 })
 
