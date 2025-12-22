@@ -12,6 +12,7 @@ export function PPRegistrationDone() {
   return (
     <CommonLayout header={<WebcertHeader />} subHeader={<PPSubHeader>Skapa konto</PPSubHeader>}>
       <PPPage>
+        <h2 className="mb-4 text-[#5f5f5f] text-[22px]">Ditt konto är skapat</h2>
         <StatusBox type="INFO">
           <p>Om uppgifter avseende din läkarlegitimation har hämtats från Socialstyrelsen kan du logga in och börja använda Webcert.</p>
           <p>

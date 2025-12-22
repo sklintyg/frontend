@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppSelector } from '../../store/store'
-import { getUserResourceLink } from '../../store/user/userSelectors'
+import { getUserResourceLink, isPrivatePractitioner } from '../../store/user/userSelectors'
 import type { User } from '../../types'
 import { ResourceLinkType } from '../../types'
 
@@ -22,6 +22,8 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
   const registerLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_REGISTER_PRIVATE_PRACTITIONER))
   const editLink = useAppSelector(getUserResourceLink(ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER))
   const editLinkEnabled = !!editLink?.enabled
+  const privatePractitioner = useAppSelector(isPrivatePractitioner)
+  const displayRole = privatePractitioner ? 'Läkare' : user.role
 
   if (notAuthorizedLink?.enabled) {
     return (
@@ -61,7 +63,7 @@ export function WebcertUserDetails({ user }: WebcertUserDetailsProps) {
     <>
       <div className="flex items-center gap-1.5">
         <span>{user.name}</span>
-        <span>- {user.role}</span>
+        <span>- {displayRole}</span>
       </div>
       {editLinkEnabled && (
         <div>
