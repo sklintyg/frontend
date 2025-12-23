@@ -7,10 +7,7 @@ import { CustomButton } from '../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../components/utils/Modal/ConfirmModal'
 import Spinner from '../../components/utils/Spinner'
 import { useLogout } from '../../hooks/useLogout'
-import {
-  useGetPrivatePractitionerQuery,
-  useUpdatePrivatePractitionerMutation
-} from '../../store/pp/ppApi'
+import { useGetPrivatePractitionerQuery, useUpdatePrivatePractitionerMutation } from '../../store/pp/ppApi'
 import { validateData as validateStep01Data } from '../../store/pp/ppStep01ReducerSlice'
 import { validateData as validateStep02Data } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'

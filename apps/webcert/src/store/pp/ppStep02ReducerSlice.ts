@@ -101,17 +101,22 @@ const ppStep02ReducerSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(zipCodeInfoUpdate, (state, { payload: zipCodeInfo }) => {
       if (!state.isLoadingExistingData) {
-        if (!zipCodeInfo.find(({ municipality }) => state.data.municipality === municipality)) {
+        const currentMunicipalityExists = zipCodeInfo.some(({ municipality }) => municipality === state.data.municipality)
+
+        if (!currentMunicipalityExists) {
           state.data.city = ''
           state.data.county = ''
           state.data.municipality = ''
+
           if (zipCodeInfo.length === 1) {
-            state.data.city = zipCodeInfo[0].city
-            state.data.county = zipCodeInfo[0].county
-            state.data.municipality = zipCodeInfo[0].municipality
+            const { city, county, municipality } = zipCodeInfo[0]
+            state.data.city = city
+            state.data.county = county
+            state.data.municipality = municipality
           }
         }
       }
+
       state.zipCodeInfo = zipCodeInfo
       state.errors = validateState(state)
     })
