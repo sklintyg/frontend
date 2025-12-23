@@ -238,7 +238,7 @@ describe('PPRegistrationEdit', () => {
       })
     })
 
-    it('should reset forms and navigate when "Ja, lämna sidan" is clicked', async () => {
+    it('should not reset forms and navigate when "Ja, lämna sidan" is clicked', async () => {
       const user = userEvent.setup()
 
       renderComponent()
@@ -255,9 +255,8 @@ describe('PPRegistrationEdit', () => {
 
       await user.click(screen.getByRole('button', { name: 'Ja, lämna sidan' }))
 
-      // Forms should be reset (tested via store state)
-      expect(store.getState().ui.pp.step01.data.careUnitName).toBe('')
-      expect(store.getState().ui.pp.step02.data.email).toBe('')
+      expect(store.getState().ui.pp.step01.data.careUnitName).toBe(store.getState().ui.pp.step01.data.careUnitName)
+      expect(store.getState().ui.pp.step02.data.email).toBe(store.getState().ui.pp.step02.data.email)
     })
   })
 

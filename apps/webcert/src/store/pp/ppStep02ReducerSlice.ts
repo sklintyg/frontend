@@ -37,6 +37,7 @@ const initialState: {
   data: Step02FormData
   zipCodeInfo: ZipCodeInfo[]
   showValidation: boolean
+  isLoadingExistingData: boolean
   errors?: { [K in keyof Step02FormData]?: string[] }
 } = {
   data: {
@@ -51,6 +52,7 @@ const initialState: {
   },
   zipCodeInfo: [],
   showValidation: false,
+  isLoadingExistingData: false,
   errors: undefined,
 }
 
@@ -76,11 +78,14 @@ const ppStep02ReducerSlice = createSlice({
       if (state.errors) {
         state.errors[action.payload.field] = undefined
       }
-      if (action.payload.field === 'zipCode' && action.payload.value === '') {
-        state.data.city = ''
-        state.data.county = ''
-        state.data.municipality = ''
-        state.zipCodeInfo = []
+      if (action.payload.field === 'zipCode') {
+        state.isLoadingExistingData = false
+        if (action.payload.value === '') {
+          state.data.city = ''
+          state.data.county = ''
+          state.data.municipality = ''
+          state.zipCodeInfo = []
+        }
       }
       state.errors = validateState(state)
     },
@@ -95,20 +100,28 @@ const ppStep02ReducerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(zipCodeInfoUpdate, (state, { payload: zipCodeInfo }) => {
-      if (!zipCodeInfo.find(({ municipality }) => state.data.municipality === municipality)) {
-        state.data.city = ''
-        state.data.county = ''
-        state.data.municipality = ''
-        if (zipCodeInfo.length === 1) {
-          state.data.city = zipCodeInfo[0].city
-          state.data.county = zipCodeInfo[0].county
-          state.data.municipality = zipCodeInfo[0].municipality
+      if (!state.isLoadingExistingData) {
+        const currentMunicipalityExists = zipCodeInfo.some(({ municipality }) => municipality === state.data.municipality)
+
+        if (!currentMunicipalityExists) {
+          state.data.city = ''
+          state.data.county = ''
+          state.data.municipality = ''
+
+          if (zipCodeInfo.length === 1) {
+            const { city, county, municipality } = zipCodeInfo[0]
+            state.data.city = city
+            state.data.county = county
+            state.data.municipality = municipality
+          }
         }
       }
+
       state.zipCodeInfo = zipCodeInfo
       state.errors = validateState(state)
     })
     builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
+      state.isLoadingExistingData = true
       state.data.phoneNumber = payload.phoneNumber
       state.data.email = payload.email
       state.data.emailRepeat = payload.email
