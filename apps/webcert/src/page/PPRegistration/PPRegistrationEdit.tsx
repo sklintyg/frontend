@@ -7,9 +7,12 @@ import { CustomButton } from '../../components/Inputs/CustomButton'
 import { ConfirmModal } from '../../components/utils/Modal/ConfirmModal'
 import Spinner from '../../components/utils/Spinner'
 import { useLogout } from '../../hooks/useLogout'
-import { useGetPrivatePractitionerQuery, useUpdatePrivatePractitionerMutation } from '../../store/pp/ppApi'
-import { resetForm as resetStep01Form, validateData as validateStep01Data } from '../../store/pp/ppStep01ReducerSlice'
-import { resetForm as resetStep02Form, validateData as validateStep02Data } from '../../store/pp/ppStep02ReducerSlice'
+import {
+  useGetPrivatePractitionerQuery,
+  useUpdatePrivatePractitionerMutation
+} from '../../store/pp/ppApi'
+import { validateData as validateStep01Data } from '../../store/pp/ppStep01ReducerSlice'
+import { validateData as validateStep02Data } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import { ResourceLinkType } from '../../types'
 import { ResourceAccess } from '../../utils/ResourceAccess'
@@ -51,8 +54,6 @@ function PPRegistrationEdit() {
         declineButtonText="Nej, stanna kvar"
         disabled={false}
         onConfirm={() => {
-          dispatch(resetStep01Form())
-          dispatch(resetStep02Form())
           navigate('/')
         }}
         open={showCancelModal}
