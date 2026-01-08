@@ -113,7 +113,7 @@ export function PPRegistrationPreview() {
         <div>
           <h3>Socialstyrelsens uppgifter</h3>
           <p className="mb-3">Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
-          <HOSPStatusBox />
+          <HOSPStatusBox variant />
           <PPResultPart
             title="Legitimerad yrkesgrupp"
             value={HOSPInfo?.licensedHealthcareProfessions.map(({ description }) => description).join(', ')}

@@ -24,6 +24,7 @@ import { PPStep03Fields } from './components/PPStep03/PPStep03Fields'
 import { PPStep03Intro } from './components/PPStep03/PPStep03Intro'
 import { PPSubHeader } from './components/PPSubHeader'
 import { StatusBox } from './components/StatusBox'
+import { HOSPStatusBox } from './components/HOSPStatusBox'
 
 function PPRegistrationEdit() {
   const dispatch = useAppDispatch()
@@ -68,6 +69,7 @@ function PPRegistrationEdit() {
         <PPStep02Fields />
       </PPFieldset>
       <PPStep03Intro />
+      <HOSPStatusBox />
       <PPFieldset>
         <PPStep03Fields />
       </PPFieldset>
