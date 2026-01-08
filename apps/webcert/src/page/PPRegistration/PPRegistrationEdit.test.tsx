@@ -239,10 +239,18 @@ describe('PPRegistrationEdit', () => {
       })
     })
 
-    it('should not reset forms when "Ja, lämna sidan" is clicked', async () => {
+    it('should reset forms when "Ja, lämna sidan" is clicked', async () => {
       const user = userEvent.setup()
 
       renderComponent()
+
+      const ppStep01Initial = structuredClone(store.getState().ui.pp.step01.data)
+      const ppStep02Initial = structuredClone(store.getState().ui.pp.step02.data)
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
+      expect(store.getState().ui.pp.step01.data.careUnitName).toBe(`Ändrad verksamhet`)
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
@@ -256,8 +264,8 @@ describe('PPRegistrationEdit', () => {
 
       await user.click(screen.getByRole('button', { name: 'Ja, lämna sidan' }))
 
-      expect(store.getState().ui.pp.step01.data.careUnitName).toBe(store.getState().ui.pp.step01.data.careUnitName)
-      expect(store.getState().ui.pp.step02.data.email).toBe(store.getState().ui.pp.step02.data.email)
+      expect(store.getState().ui.pp.step01.data).toEqual(ppStep01Initial)
+      expect(store.getState().ui.pp.step02.data).toEqual(ppStep02Initial)
     })
 
     it('should navigate when "Ja, lämna sidan" is clicked', async () => {
