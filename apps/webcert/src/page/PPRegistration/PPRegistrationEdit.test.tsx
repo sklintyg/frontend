@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { expect, vi } from 'vitest'
 import { fakeUser } from '../../faker'
 import { api } from '../../store/api'
@@ -239,7 +239,7 @@ describe('PPRegistrationEdit', () => {
       })
     })
 
-    it('should not reset forms and navigate when "Ja, lämna sidan" is clicked', async () => {
+    it('should not reset forms when "Ja, lämna sidan" is clicked', async () => {
       const user = userEvent.setup()
 
       renderComponent()
@@ -258,6 +258,37 @@ describe('PPRegistrationEdit', () => {
 
       expect(store.getState().ui.pp.step01.data.careUnitName).toBe(store.getState().ui.pp.step01.data.careUnitName)
       expect(store.getState().ui.pp.step02.data.email).toBe(store.getState().ui.pp.step02.data.email)
+    })
+
+    it('should navigate when "Ja, lämna sidan" is clicked', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/privatpraktiker/redigera']}>
+            <Routes>
+              <Route path="/privatpraktiker/redigera" element={<PPRegistraionEditWithRedirect />} />
+              <Route path="/" element={<div>hem</div>} />
+            </Routes>
+          </MemoryRouter>
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Avbryt' }))
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Ja, lämna sidan' }))
+
+      await waitFor(() => {
+        expect(window.location.pathname).toBe('/')
+      })
     })
   })
 
