@@ -16,6 +16,7 @@ type Step01FormData = z.infer<typeof step01FormDataSchema>
 
 const initialState: {
   data: Step01FormData
+  initialData: Step01FormData | null
   showValidation: boolean
   errors?: { [K in keyof Step01FormData]?: string[] }
 } = {
@@ -26,6 +27,7 @@ const initialState: {
     healthcareServiceType: '',
     workplaceCode: '',
   },
+  initialData: null,
   showValidation: false,
   errors: undefined,
 }
@@ -50,14 +52,25 @@ const ppStep01ReducerSlice = createSlice({
       state.errors = validateState(state)
     },
     resetForm: () => initialState,
+    resetEditForm: (state) => {
+      if (state.initialData) {
+        state.data = state.initialData
+      }
+      state.errors = validateState(state)
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
-      state.data.careUnitName = payload.careUnitName
-      state.data.position = payload.position
-      state.data.typeOfCare = payload.typeOfCare
-      state.data.healthcareServiceType = payload.healthcareServiceType
-      state.data.workplaceCode = payload.workplaceCode
+      const backendData: Step01FormData = {
+        careUnitName: payload.careUnitName,
+        position: payload.position,
+        typeOfCare: payload.typeOfCare,
+        healthcareServiceType: payload.healthcareServiceType,
+        workplaceCode: payload.workplaceCode,
+      }
+
+      state.data = backendData
+      state.initialData = backendData
 
       state.errors = validateState(state)
     })
@@ -65,4 +78,4 @@ const ppStep01ReducerSlice = createSlice({
 })
 
 export const { reducer: ppStep01Reducer, name: ppStep01ReducerName } = ppStep01ReducerSlice
-export const { updateField, validateData, resetForm } = ppStep01ReducerSlice.actions
+export const { updateField, validateData, resetForm, resetEditForm } = ppStep01ReducerSlice.actions
