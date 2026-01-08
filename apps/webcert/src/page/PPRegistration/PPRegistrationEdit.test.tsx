@@ -12,6 +12,7 @@ import { resetForm as resetStep01Form } from '../../store/pp/ppStep01ReducerSlic
 import { resetForm as resetStep02Form } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
 import { updateIsLoadingUser, updateUser } from '../../store/user/userActions'
+import { ResourceLinkType } from '../../types'
 import { PPRegistraionEditWithRedirect } from './PPRegistrationEdit'
 
 // Mock the useLogout hook
@@ -419,6 +420,21 @@ describe('PPRegistrationEdit', () => {
       await waitFor(() => {
         const dialog = screen.getByRole('dialog')
         expect(dialog).toHaveAttribute('aria-labelledby')
+      })
+    })
+
+    it('should display unauthorized status box for unauthorized user', async () => {
+      const { fakeResourceLink } = await import('../../faker')
+      const { updateUserResourceLinks } = await import('../../store/user/userActions')
+
+      store.dispatch(
+        updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER, enabled: true })])
+      )
+
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByText(/Du är inte behörig att använda Webcert/i)).toBeInTheDocument()
       })
     })
   })

@@ -1,9 +1,7 @@
 import InfoBox from '../../../components/utils/InfoBox'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { useAppSelector } from '../../../store/store'
-import {
-  isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner
-} from '../../../store/user/userSelectors'
+import { isUnauthorizedPrivatePractitioner as selectIsUnauthorizedPrivatePractitioner } from '../../../store/user/userSelectors'
 
 export function UnauthorizedStatusBox() {
   const isUnauthorizedPrivatePractitioner = useAppSelector(selectIsUnauthorizedPrivatePractitioner)
