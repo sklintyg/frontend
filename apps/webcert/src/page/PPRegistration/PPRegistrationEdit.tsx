@@ -25,6 +25,7 @@ import { PPStep03Intro } from './components/PPStep03/PPStep03Intro'
 import { PPSubHeader } from './components/PPSubHeader'
 import { StatusBox } from './components/StatusBox'
 import { HOSPStatusBox } from './components/HOSPStatusBox'
+import { UnauthorizedStatusBox } from './components/UnauthorizedStatusBox'
 
 function PPRegistrationEdit() {
   const dispatch = useAppDispatch()
@@ -137,6 +138,7 @@ export function PPRegistraionEditWithRedirect() {
   return (
     <ResourceAccess linkType={ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER}>
       <CommonLayout header={<WebcertHeader />} subHeader={<PPSubHeader type="edit">Ändra uppgifter</PPSubHeader>}>
+        <UnauthorizedStatusBox />
         <PPRegistrationEdit />
       </CommonLayout>
     </ResourceAccess>
