@@ -11,11 +11,7 @@ import { ppApi } from '../../store/pp/ppApi'
 import { resetForm as resetStep01Form } from '../../store/pp/ppStep01ReducerSlice'
 import { resetForm as resetStep02Form } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
-import {
-  updateIsLoadingUser,
-  updateUser,
-  updateUserResourceLinks
-} from '../../store/user/userActions'
+import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../../store/user/userActions'
 import { ResourceLinkType } from '../../types'
 import { PPRegistraionEditWithRedirect } from './PPRegistrationEdit'
 
