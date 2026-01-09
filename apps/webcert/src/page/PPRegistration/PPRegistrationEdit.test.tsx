@@ -5,13 +5,17 @@ import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { expect, vi } from 'vitest'
-import { fakeUser } from '../../faker'
+import { fakeResourceLink, fakeUser } from '../../faker'
 import { api } from '../../store/api'
 import { ppApi } from '../../store/pp/ppApi'
 import { resetForm as resetStep01Form } from '../../store/pp/ppStep01ReducerSlice'
 import { resetForm as resetStep02Form } from '../../store/pp/ppStep02ReducerSlice'
 import store from '../../store/store'
-import { updateIsLoadingUser, updateUser } from '../../store/user/userActions'
+import {
+  updateIsLoadingUser,
+  updateUser,
+  updateUserResourceLinks
+} from '../../store/user/userActions'
 import { ResourceLinkType } from '../../types'
 import { PPRegistraionEditWithRedirect } from './PPRegistrationEdit'
 
@@ -337,6 +341,48 @@ describe('PPRegistrationEdit', () => {
       })
     })
   })
+  describe('Navigation Functionality', () => {
+    it('should navigate to base path', async () => {
+      const user = userEvent.setup()
+      store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE })]))
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByRole('link', { name: 'Sök / skriv intyg' })).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('link', { name: 'Sök / skriv intyg' }))
+
+      await waitFor(() => {
+        expect(window.location.pathname).toBe('/')
+      })
+    })
+
+    it('should display confirmation modal when changes were made', async () => {
+      const user = userEvent.setup()
+      store.dispatch(updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE })]))
+      renderComponent()
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
+
+      await waitFor(() => {
+        expect(screen.getByRole('link', { name: 'Sök / skriv intyg' })).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('link', { name: 'Sök / skriv intyg' }))
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument()
+      })
+
+      expect(screen.getByRole('heading', { name: 'Dina uppgifter sparas inte' })).toBeInTheDocument()
+      expect(screen.getByText('Om du lämnar sidan sparas inte dina ändringar. Vill du avbryta?')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Ja, lämna sidan' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Nej, stanna kvar' })).toBeInTheDocument()
+    })
+  })
 
   describe('Form Validation', () => {
     it('should validate form and focus first error field when saving with invalid data', async () => {
@@ -505,9 +551,6 @@ describe('PPRegistrationEdit', () => {
     })
 
     it('should display unauthorized status box for unauthorized user', async () => {
-      const { fakeResourceLink } = await import('../../faker')
-      const { updateUserResourceLinks } = await import('../../store/user/userActions')
-
       store.dispatch(
         updateUserResourceLinks([fakeResourceLink({ type: ResourceLinkType.NOT_AUTHORIZED_PRIVATE_PRACTITIONER, enabled: true })])
       )
