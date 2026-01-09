@@ -1,8 +1,8 @@
 import 'inera-core-css/dist/inera-master.css'
 import { useEffect } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
-import { BrowserRouter } from 'react-router-dom'
-import { Router } from './Router'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { routes } from './routes'
 import { useAppDispatch, useAppSelector } from './store/store'
 import { cancelLogout, triggerLogout } from './store/user/userActions'
 import { getUser } from './store/user/userSelectors'
@@ -25,11 +25,7 @@ function App() {
     dispatch(initateApplication())
   }, [dispatch, origin])
 
-  return (
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
-  )
+  return <RouterProvider router={createBrowserRouter(routes)} />
 }
 
 export default App
