@@ -40,7 +40,9 @@ function PPRegistrationEdit() {
 
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useUpdatePrivatePractitionerMutation()
   const { logout } = useLogout()
-  const hasUnsavedChanges = useAppSelector((state) => state.ui.pp.step01.hasUnsavedChanges)
+  const changesStep01 = useAppSelector((state) => state.ui.pp.step01.hasUnsavedChanges)
+  const changesStep02 = useAppSelector((state) => state.ui.pp.step02.hasUnsavedChanges)
+  const hasUnsavedChanges = changesStep01 || changesStep02
 
   const blocker = useBlocker((rx) => {
     if (hasUnsavedChanges && rx.currentLocation.pathname !== rx.nextLocation.pathname) {
@@ -64,7 +66,6 @@ function PPRegistrationEdit() {
         onConfirm={() => {
           dispatch(resetStep01Form())
           dispatch(resetStep02Form())
-          navigate('/')
           if (blocker.state === 'blocked') {
             blocker.proceed()
           }
@@ -103,7 +104,7 @@ function PPRegistrationEdit() {
       )}
 
       <div className="flex gap-5">
-        <CustomButton onClick={() => setShowCancelModal(true)}>Avbryt</CustomButton>
+        <CustomButton onClick={() => navigate('/')}>Avbryt</CustomButton>
         <CustomButton
           buttonStyle="primary"
           onClick={() => {
