@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { expect, vi } from 'vitest'
 import { fakeUser } from '../../faker'
 import { api } from '../../store/api'
@@ -59,14 +59,32 @@ const mockHOSPData = {
 
 let fakeAxios: MockAdapter
 
-const renderComponent = () =>
-  render(
+const createTestRouter = () =>
+  createMemoryRouter(
+    [
+      {
+        path: '/',
+        element: <div>hem</div>,
+      },
+      {
+        path: '/privatpraktiker/redigera',
+        element: <PPRegistraionEditWithRedirect />,
+      },
+    ],
+    {
+      initialEntries: ['/privatpraktiker/redigera'],
+    }
+  )
+
+const renderComponent = () => {
+  const router = createTestRouter()
+
+  return render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/privatpraktiker/redigera']}>
-        <PPRegistraionEditWithRedirect />
-      </MemoryRouter>
+      <RouterProvider router={router} />
     </Provider>
   )
+}
 
 describe('PPRegistrationEdit', () => {
   beforeEach(async () => {
@@ -196,10 +214,15 @@ describe('PPRegistrationEdit', () => {
   })
 
   describe('Cancel functionality', () => {
-    it('should open confirmation modal when cancel button is clicked', async () => {
+    it('should open confirmation modal when cancel button is clicked and changes are made', async () => {
       const user = userEvent.setup()
 
       renderComponent()
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
+      expect(store.getState().ui.pp.step01.data.careUnitName).toBe(`Ändrad verksamhet`)
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
@@ -217,10 +240,30 @@ describe('PPRegistrationEdit', () => {
       expect(screen.getByRole('button', { name: 'Nej, stanna kvar' })).toBeInTheDocument()
     })
 
+    it('should not open confirmation modal when cancel button is clicked and no changes are made', async () => {
+      const user = userEvent.setup()
+
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Avbryt' }))
+
+      await waitFor(() => {
+        expect(window.location.pathname).toBe('/')
+      })
+    })
+
     it('should close modal when "Nej, stanna kvar" is clicked', async () => {
       const user = userEvent.setup()
 
       renderComponent()
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
@@ -271,16 +314,11 @@ describe('PPRegistrationEdit', () => {
     it('should navigate when "Ja, lämna sidan" is clicked', async () => {
       const user = userEvent.setup()
 
-      render(
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/privatpraktiker/redigera']}>
-            <Routes>
-              <Route path="/privatpraktiker/redigera" element={<PPRegistraionEditWithRedirect />} />
-              <Route path="/" element={<div>hem</div>} />
-            </Routes>
-          </MemoryRouter>
-        </Provider>
-      )
+      renderComponent()
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
