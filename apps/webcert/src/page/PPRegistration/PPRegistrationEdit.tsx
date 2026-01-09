@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useBlocker, useNavigate } from 'react-router-dom'
 import CommonLayout from '../../components/commonLayout/CommonLayout'
 import WebcertHeader from '../../components/header/WebcertHeader'
 import { CustomButton } from '../../components/Inputs/CustomButton'
@@ -40,6 +40,15 @@ function PPRegistrationEdit() {
 
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useUpdatePrivatePractitionerMutation()
   const { logout } = useLogout()
+  const hasUnsavedChanges = useAppSelector((state) => state.ui.pp.step01.hasUnsavedChanges)
+
+  const blocker = useBlocker((rx) => {
+    if (hasUnsavedChanges && rx.currentLocation.pathname !== rx.nextLocation.pathname) {
+      setShowCancelModal(true)
+      return true
+    }
+    return false
+  })
 
   if (isLoading) {
     return <Spinner />
@@ -56,7 +65,11 @@ function PPRegistrationEdit() {
           dispatch(resetStep01Form())
           dispatch(resetStep02Form())
           navigate('/')
+          if (blocker.state === 'blocked') {
+            blocker.proceed()
+          }
         }}
+        onClose={() => blocker.reset?.()}
         open={showCancelModal}
         setOpen={setShowCancelModal}
       >
