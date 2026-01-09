@@ -22,6 +22,12 @@ import { UnauthorizedPage } from './page/UnauthorizedPage'
 import { UnhandledCertificatesPage } from './page/UnhandledCertificatesPage'
 import Welcome from './page/Welcome'
 import { LoggedInUserRedirect } from './utils/LoggedInUserRedirect'
+import { useAppDispatch } from './store/store'
+import { throwError } from './store/error/errorActions'
+import { createErrorRequest } from './store/error/errorCreator'
+import { ErrorCode, ErrorType } from './store/error/errorReducer'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 
 function NavigateEffectWrapper() {
   useNavigateEffect()
@@ -34,8 +40,22 @@ function NavigateEffectWrapper() {
   )
 }
 
+function ErrorBoundaryWrapper() {
+  const dispatch = useAppDispatch()
+
+  const onError = (error: Error) => {
+    dispatch(
+      throwError(
+        createErrorRequest(ErrorType.ROUTE, ErrorCode.UNEXPECTED_ERROR, error.message, undefined, error.stack ? error.stack : undefined)
+      )
+    )
+  }
+
+  return <ErrorBoundary fallbackRender={ErrorMessage} onError={onError} />
+}
+
 export const routes = createRoutesFromChildren(
-  <Route path="/" element={<NavigateEffectWrapper />}>
+  <Route path="/" element={<NavigateEffectWrapper />} errorElement={<ErrorBoundaryWrapper />}>
     <Route
       index
       element={
