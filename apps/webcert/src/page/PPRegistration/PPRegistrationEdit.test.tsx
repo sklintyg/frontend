@@ -123,7 +123,7 @@ describe('PPRegistrationEdit', () => {
   })
 
   afterEach(() => {
-    fakeAxios.restore()
+    fakeAxios.reset()
     store.dispatch(resetStep01Form())
     store.dispatch(resetStep02Form())
     store.dispatch(api.util.resetApiState())
@@ -487,6 +487,10 @@ describe('PPRegistrationEdit', () => {
       const user = userEvent.setup()
 
       renderComponent()
+
+      await user.clear(screen.getByLabelText('Namn på din verksamhet'))
+
+      await user.type(screen.getByLabelText('Namn på din verksamhet'), 'Ändrad verksamhet')
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Avbryt' })).toBeInTheDocument()
