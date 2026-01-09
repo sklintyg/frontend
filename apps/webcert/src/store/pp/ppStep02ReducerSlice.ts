@@ -36,6 +36,7 @@ type Step02FormData = z.infer<typeof step02FormDataSchema>
 const initialState: {
   data: Step02FormData
   initialData: Step02FormData | null
+  hasUnsavedChanges: boolean
   zipCodeInfo: ZipCodeInfo[]
   showValidation: boolean
   isLoadingExistingData: boolean
@@ -52,6 +53,7 @@ const initialState: {
     county: '',
   },
   initialData: null,
+  hasUnsavedChanges: false,
   zipCodeInfo: [],
   showValidation: false,
   isLoadingExistingData: false,
@@ -59,7 +61,7 @@ const initialState: {
 }
 
 function validateState(state: typeof initialState) {
-  if (state.showValidation === true) {
+  if (state.showValidation) {
     const zodError = step02FormDataSchema.safeParse(state.data).error
     let errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
     if (state.zipCodeInfo.length === 0 && !errors?.zipCode) {
@@ -90,6 +92,7 @@ const ppStep02ReducerSlice = createSlice({
         }
       }
       state.errors = validateState(state)
+      state.hasUnsavedChanges = true
     },
     validateData: (state) => {
       state.showValidation = true
@@ -104,6 +107,7 @@ const ppStep02ReducerSlice = createSlice({
         state.data = state.initialData
       }
       state.errors = validateState(state)
+      state.hasUnsavedChanges = false
     },
   },
   extraReducers: (builder) => {
