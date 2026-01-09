@@ -17,6 +17,7 @@ type Step01FormData = z.infer<typeof step01FormDataSchema>
 const initialState: {
   data: Step01FormData
   initialData: Step01FormData | null
+  hasUnsavedChanges: boolean
   showValidation: boolean
   errors?: { [K in keyof Step01FormData]?: string[] }
 } = {
@@ -28,6 +29,7 @@ const initialState: {
     workplaceCode: '',
   },
   initialData: null,
+  hasUnsavedChanges: false,
   showValidation: false,
   errors: undefined,
 }
@@ -46,6 +48,7 @@ const ppStep01ReducerSlice = createSlice({
     updateField: (state, action: PayloadAction<{ field: keyof Step01FormData; value: string }>) => {
       state.data[action.payload.field] = action.payload.value
       state.errors = validateState(state)
+      state.hasUnsavedChanges = true
     },
     validateData: (state) => {
       state.showValidation = true
@@ -57,6 +60,7 @@ const ppStep01ReducerSlice = createSlice({
         state.data = state.initialData
       }
       state.errors = validateState(state)
+      state.hasUnsavedChanges = false
     },
   },
   extraReducers: (builder) => {
