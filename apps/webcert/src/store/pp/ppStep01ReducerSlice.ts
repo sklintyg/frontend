@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import { isEqual } from 'lodash-es'
+import { createSlice, current } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import { ppApi } from './ppApi'
 import { requiredAlternative, requiredAnswer } from './ppConstants'
@@ -35,7 +36,7 @@ const initialState: {
 }
 
 function validateState(state: typeof initialState) {
-  if (state.showValidation === true) {
+  if (state.showValidation) {
     const zodError = step01FormDataSchema.safeParse(state.data).error
     return zodError ? z.flattenError(zodError).fieldErrors : undefined
   }
@@ -48,7 +49,10 @@ const ppStep01ReducerSlice = createSlice({
     updateField: (state, action: PayloadAction<{ field: keyof Step01FormData; value: string }>) => {
       state.data[action.payload.field] = action.payload.value
       state.errors = validateState(state)
-      state.hasUnsavedChanges = true
+      const getHasUnsavedChanges = () => {
+        return state.initialData ? !isEqual(current(state.data), current(state.initialData)) : false
+      }
+      state.hasUnsavedChanges = getHasUnsavedChanges()
     },
     validateData: (state) => {
       state.showValidation = true

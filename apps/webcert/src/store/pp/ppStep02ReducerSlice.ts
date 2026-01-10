@@ -1,11 +1,12 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAction, createListenerMiddleware, createSlice } from '@reduxjs/toolkit'
+import { createAction, createListenerMiddleware, createSlice, current } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import type { ZipCodeInfo } from '../../types/zipCode'
 import { api } from '../api'
 import type { RootState } from '../reducer'
 import { ppApi } from './ppApi'
 import { equalEmail, requiredAnswer } from './ppConstants'
+import { isEqual } from 'lodash-es'
 
 const step02FormDataSchema = z
   .object({
@@ -92,7 +93,10 @@ const ppStep02ReducerSlice = createSlice({
         }
       }
       state.errors = validateState(state)
-      state.hasUnsavedChanges = true
+      const getHasUnsavedChanges = () => {
+        return state.initialData ? !isEqual(current(state.data), current(state.initialData)) : false
+      }
+      state.hasUnsavedChanges = getHasUnsavedChanges()
     },
     validateData: (state) => {
       state.showValidation = true
