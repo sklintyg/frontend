@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useBlocker, useNavigate } from 'react-router-dom'
 import CommonLayout from '../../components/commonLayout/CommonLayout'
 import WebcertHeader from '../../components/header/WebcertHeader'
 import { CustomButton } from '../../components/Inputs/CustomButton'
@@ -8,8 +8,8 @@ import { ConfirmModal } from '../../components/utils/Modal/ConfirmModal'
 import Spinner from '../../components/utils/Spinner'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetPrivatePractitionerQuery, useUpdatePrivatePractitionerMutation } from '../../store/pp/ppApi'
-import { validateData as validateStep01Data } from '../../store/pp/ppStep01ReducerSlice'
-import { validateData as validateStep02Data } from '../../store/pp/ppStep02ReducerSlice'
+import { resetEditForm as resetStep01Form, validateData as validateStep01Data } from '../../store/pp/ppStep01ReducerSlice'
+import { resetEditForm as resetStep02Form, validateData as validateStep02Data } from '../../store/pp/ppStep02ReducerSlice'
 import store, { useAppDispatch, useAppSelector } from '../../store/store'
 import { ResourceLinkType } from '../../types'
 import { ResourceAccess } from '../../utils/ResourceAccess'
@@ -24,6 +24,8 @@ import { PPStep03Fields } from './components/PPStep03/PPStep03Fields'
 import { PPStep03Intro } from './components/PPStep03/PPStep03Intro'
 import { PPSubHeader } from './components/PPSubHeader'
 import { StatusBox } from './components/StatusBox'
+import { HOSPStatusBox } from './components/HOSPStatusBox'
+import { UnauthorizedStatusBox } from './components/UnauthorizedStatusBox'
 
 function PPRegistrationEdit() {
   const dispatch = useAppDispatch()
@@ -38,6 +40,17 @@ function PPRegistrationEdit() {
 
   const [trigger, { isLoading: isLoadingRegistration, isError: isRegistrationError }] = useUpdatePrivatePractitionerMutation()
   const { logout } = useLogout()
+  const changesStep01 = useAppSelector((state) => state.ui.pp.step01.hasUnsavedChanges)
+  const changesStep02 = useAppSelector((state) => state.ui.pp.step02.hasUnsavedChanges)
+  const hasUnsavedChanges = changesStep01 || changesStep02
+
+  const blocker = useBlocker((rx) => {
+    if (hasUnsavedChanges && rx.currentLocation.pathname !== rx.nextLocation.pathname) {
+      setShowCancelModal(true)
+      return true
+    }
+    return false
+  })
 
   if (isLoading) {
     return <Spinner />
@@ -51,8 +64,13 @@ function PPRegistrationEdit() {
         declineButtonText="Nej, stanna kvar"
         disabled={false}
         onConfirm={() => {
-          navigate('/')
+          dispatch(resetStep01Form())
+          dispatch(resetStep02Form())
+          if (blocker.state === 'blocked') {
+            blocker.proceed()
+          }
         }}
+        onClose={() => blocker.reset?.()}
         open={showCancelModal}
         setOpen={setShowCancelModal}
       >
@@ -68,6 +86,7 @@ function PPRegistrationEdit() {
         <PPStep02Fields />
       </PPFieldset>
       <PPStep03Intro />
+      <HOSPStatusBox />
       <PPFieldset>
         <PPStep03Fields />
       </PPFieldset>
@@ -85,7 +104,7 @@ function PPRegistrationEdit() {
       )}
 
       <div className="flex gap-5">
-        <CustomButton onClick={() => setShowCancelModal(true)}>Avbryt</CustomButton>
+        <CustomButton onClick={() => navigate('/')}>Avbryt</CustomButton>
         <CustomButton
           buttonStyle="primary"
           onClick={() => {
@@ -135,6 +154,7 @@ export function PPRegistraionEditWithRedirect() {
   return (
     <ResourceAccess linkType={ResourceLinkType.ACCESS_EDIT_PRIVATE_PRACTITIONER}>
       <CommonLayout header={<WebcertHeader />} subHeader={<PPSubHeader type="edit">Ändra uppgifter</PPSubHeader>}>
+        <UnauthorizedStatusBox />
         <PPRegistrationEdit />
       </CommonLayout>
     </ResourceAccess>

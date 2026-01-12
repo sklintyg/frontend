@@ -26,7 +26,7 @@ export function PPRegistrationStep01() {
           event.preventDefault()
           dispatch(validateData())
           if (!store.getState().ui.pp.step01.errors) {
-            navigate('/register/steg-2')
+            navigate('/register/step-2')
           }
         }}
         actions={<PPRegistrationAction />}

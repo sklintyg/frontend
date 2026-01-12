@@ -145,7 +145,6 @@ export function PPStep02Fields() {
             id="municipality"
             label="Kommun"
             required
-            showAsterix
             disabled
             value={municipality}
             hasValidationError={showValidation && Boolean(errors?.municipality)}

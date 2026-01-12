@@ -83,7 +83,7 @@ export function PPRegistrationPreview() {
         <div>
           <h3>Dina och verksamhetens uppgifter</h3>
           <div className="mb-3 mt-3 text-sm">
-            <Link to="/register/steg-1">Ändra</Link>
+            <Link to="/register/step-1">Ändra</Link>
           </div>
           <PPResultPart title="Personnummer" value={user?.personId} />
           <PPResultPart title="Namn" value={user?.name} />
@@ -98,7 +98,7 @@ export function PPRegistrationPreview() {
         <div>
           <h3>Kontaktuppgifter till verksamheten</h3>
           <div className="mb-3 mt-3 text-sm">
-            <Link to="/register/steg-2">Ändra</Link>
+            <Link to="/register/step-2">Ändra</Link>
           </div>
           <PPResultPart title="Telefonnummer" value={phoneNumber} />
           <PPResultPart title="E-postadress" value={email} />
@@ -113,7 +113,7 @@ export function PPRegistrationPreview() {
         <div>
           <h3>Socialstyrelsens uppgifter</h3>
           <p className="mb-3">Nedanstående uppgifter är hämtade från Socialstyrelsen och kan inte ändras.</p>
-          <HOSPStatusBox />
+          <HOSPStatusBox variant />
           <PPResultPart
             title="Legitimerad yrkesgrupp"
             value={HOSPInfo?.licensedHealthcareProfessions.map(({ description }) => description).join(', ')}

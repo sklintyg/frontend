@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import { isEqual } from 'lodash-es'
+import { createSlice, current } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import { ppApi } from './ppApi'
 import { requiredAlternative, requiredAnswer } from './ppConstants'
@@ -16,6 +17,8 @@ type Step01FormData = z.infer<typeof step01FormDataSchema>
 
 const initialState: {
   data: Step01FormData
+  initialData: Step01FormData | null
+  hasUnsavedChanges: boolean
   showValidation: boolean
   errors?: { [K in keyof Step01FormData]?: string[] }
 } = {
@@ -26,12 +29,14 @@ const initialState: {
     healthcareServiceType: '',
     workplaceCode: '',
   },
+  initialData: null,
+  hasUnsavedChanges: false,
   showValidation: false,
   errors: undefined,
 }
 
 function validateState(state: typeof initialState) {
-  if (state.showValidation === true) {
+  if (state.showValidation) {
     const zodError = step01FormDataSchema.safeParse(state.data).error
     return zodError ? z.flattenError(zodError).fieldErrors : undefined
   }
@@ -44,20 +49,36 @@ const ppStep01ReducerSlice = createSlice({
     updateField: (state, action: PayloadAction<{ field: keyof Step01FormData; value: string }>) => {
       state.data[action.payload.field] = action.payload.value
       state.errors = validateState(state)
+      const getHasUnsavedChanges = () => {
+        return state.initialData ? !isEqual(current(state.data), current(state.initialData)) : false
+      }
+      state.hasUnsavedChanges = getHasUnsavedChanges()
     },
     validateData: (state) => {
       state.showValidation = true
       state.errors = validateState(state)
     },
     resetForm: () => initialState,
+    resetEditForm: (state) => {
+      if (state.initialData) {
+        state.data = state.initialData
+      }
+      state.errors = validateState(state)
+      state.hasUnsavedChanges = false
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
-      state.data.careUnitName = payload.careUnitName
-      state.data.position = payload.position
-      state.data.typeOfCare = payload.typeOfCare
-      state.data.healthcareServiceType = payload.healthcareServiceType
-      state.data.workplaceCode = payload.workplaceCode
+      const backendData: Step01FormData = {
+        careUnitName: payload.careUnitName,
+        position: payload.position,
+        typeOfCare: payload.typeOfCare,
+        healthcareServiceType: payload.healthcareServiceType,
+        workplaceCode: payload.workplaceCode,
+      }
+
+      state.data = backendData
+      state.initialData = backendData
 
       state.errors = validateState(state)
     })
@@ -65,4 +86,4 @@ const ppStep01ReducerSlice = createSlice({
 })
 
 export const { reducer: ppStep01Reducer, name: ppStep01ReducerName } = ppStep01ReducerSlice
-export const { updateField, validateData, resetForm } = ppStep01ReducerSlice.actions
+export const { updateField, validateData, resetForm, resetEditForm } = ppStep01ReducerSlice.actions

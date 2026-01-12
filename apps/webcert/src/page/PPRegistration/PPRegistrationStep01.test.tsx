@@ -34,10 +34,10 @@ let fakeAxios: MockAdapter
 const renderComponent = () =>
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/register/steg-1']}>
+      <MemoryRouter initialEntries={['/register/step-1']}>
         <Routes>
-          <Route path="/register/steg-1" element={<PPRegistrationStep01 />} />
-          <Route path="/register/steg-2" element={<div data-testid="step-02">Step 2</div>} />
+          <Route path="/register/step-1" element={<PPRegistrationStep01 />} />
+          <Route path="/register/step-2" element={<div data-testid="step-02">Step 2</div>} />
         </Routes>
       </MemoryRouter>
     </Provider>

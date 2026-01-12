@@ -1,11 +1,12 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAction, createListenerMiddleware, createSlice } from '@reduxjs/toolkit'
+import { createAction, createListenerMiddleware, createSlice, current } from '@reduxjs/toolkit'
 import * as z from 'zod/mini'
 import type { ZipCodeInfo } from '../../types/zipCode'
 import { api } from '../api'
 import type { RootState } from '../reducer'
 import { ppApi } from './ppApi'
 import { equalEmail, requiredAnswer } from './ppConstants'
+import { isEqual } from 'lodash-es'
 
 const step02FormDataSchema = z
   .object({
@@ -35,6 +36,8 @@ type Step02FormData = z.infer<typeof step02FormDataSchema>
 
 const initialState: {
   data: Step02FormData
+  initialData: Step02FormData | null
+  hasUnsavedChanges: boolean
   zipCodeInfo: ZipCodeInfo[]
   showValidation: boolean
   isLoadingExistingData: boolean
@@ -50,6 +53,8 @@ const initialState: {
     municipality: '',
     county: '',
   },
+  initialData: null,
+  hasUnsavedChanges: false,
   zipCodeInfo: [],
   showValidation: false,
   isLoadingExistingData: false,
@@ -57,7 +62,7 @@ const initialState: {
 }
 
 function validateState(state: typeof initialState) {
-  if (state.showValidation === true) {
+  if (state.showValidation) {
     const zodError = step02FormDataSchema.safeParse(state.data).error
     let errors = zodError ? z.flattenError(zodError).fieldErrors : undefined
     if (state.zipCodeInfo.length === 0 && !errors?.zipCode) {
@@ -88,6 +93,10 @@ const ppStep02ReducerSlice = createSlice({
         }
       }
       state.errors = validateState(state)
+      const getHasUnsavedChanges = () => {
+        return state.initialData ? !isEqual(current(state.data), current(state.initialData)) : false
+      }
+      state.hasUnsavedChanges = getHasUnsavedChanges()
     },
     validateData: (state) => {
       state.showValidation = true
@@ -97,6 +106,13 @@ const ppStep02ReducerSlice = createSlice({
       state.errors = undefined
     },
     resetForm: () => initialState,
+    resetEditForm: (state) => {
+      if (state.initialData) {
+        state.data = state.initialData
+      }
+      state.errors = validateState(state)
+      state.hasUnsavedChanges = false
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(zipCodeInfoUpdate, (state, { payload: zipCodeInfo }) => {
@@ -122,14 +138,19 @@ const ppStep02ReducerSlice = createSlice({
     })
     builder.addMatcher(ppApi.endpoints.getPrivatePractitioner.matchFulfilled, (state, { payload }) => {
       state.isLoadingExistingData = true
-      state.data.phoneNumber = payload.phoneNumber
-      state.data.email = payload.email
-      state.data.emailRepeat = payload.email
-      state.data.address = payload.address
-      state.data.zipCode = payload.zipCode
-      state.data.city = payload.city
-      state.data.municipality = payload.municipality
-      state.data.county = payload.county
+
+      const backendData: Step02FormData = {
+        phoneNumber: payload.phoneNumber,
+        email: payload.email,
+        emailRepeat: payload.email,
+        address: payload.address,
+        zipCode: payload.zipCode,
+        city: payload.city,
+        municipality: payload.municipality,
+        county: payload.county,
+      }
+      state.data = backendData
+      state.initialData = backendData
 
       state.errors = validateState(state)
     })
@@ -189,4 +210,4 @@ listener.startListening({
 
 export const { middleware: ppStep02Middleware } = listener
 export const { reducer: ppStep02Reducer, name: ppStep02ReducerName } = ppStep02ReducerSlice
-export const { updateField, validateData, resetForm } = ppStep02ReducerSlice.actions
+export const { updateField, validateData, resetForm, resetEditForm } = ppStep02ReducerSlice.actions

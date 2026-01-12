@@ -25,7 +25,7 @@ export function PPRegistrationStep02() {
           event.preventDefault()
           dispatch(validateData())
           if (!store.getState().ui.pp.step02.errors) {
-            navigate('/register/steg-3')
+            navigate('/register/step-3')
           }
         }}
         actions={

@@ -12,11 +12,11 @@ export function PPRegistrationStep03() {
   return (
     <PPPage>
       <PPStep03Intro />
-      <HOSPStatusBox />
+      <HOSPStatusBox variant />
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
-          navigate('/register/granska')
+          navigate('/register/preview')
         }}
         actions={<PPRegistrationAction prevStep={2} continueText="Granska uppgifter" />}
       >
