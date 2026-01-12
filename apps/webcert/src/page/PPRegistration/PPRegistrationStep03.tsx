@@ -16,7 +16,7 @@ export function PPRegistrationStep03() {
       <PPForm
         onSubmit={(event) => {
           event.preventDefault()
-          navigate('/register/granska')
+          navigate('/register/preview')
         }}
         actions={<PPRegistrationAction prevStep={2} continueText="Granska uppgifter" />}
       >

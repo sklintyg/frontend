@@ -11,7 +11,7 @@ import { ResourceLinkType } from '../../../types'
 import { ResourceAccess } from '../../../utils/ResourceAccess'
 import { PPSubHeader } from './PPSubHeader'
 
-const steps = ['', 'steg-1', 'steg-2', 'steg-3', 'granska', 'done']
+const steps = ['', 'step-1', 'step-2', 'step-3', 'preview', 'done']
 
 export function PPLayout() {
   useGetHOSPInformationQuery()
@@ -25,16 +25,16 @@ export function PPLayout() {
   useEffect(() => {
     if (path) {
       if (steps.indexOf(path) > 1 && !hasSomeStepOneData) {
-        navigate('/register/steg-1')
+        navigate('/register/step-1')
       } else if (steps.indexOf(path) > 2 && !hasSomeStepTwoData) {
-        navigate('/register/steg-2')
+        navigate('/register/step-2')
       }
     }
   }, [hasSomeStepOneData, hasSomeStepTwoData, location.pathname, navigate, path])
 
   let subHeader: ReactNode = null
   if (path) {
-    if (steps.indexOf(path) > 0 && steps.indexOf(path) <= 4) {
+    if (steps.includes(path) && steps.indexOf(path) <= 4) {
       subHeader = `Skapa konto: Steg ${steps.indexOf(path)} av 4`
     }
   }

@@ -79,10 +79,10 @@ export const routes = createRoutesFromChildren(
     <Route path="list/unhandledcertificates" element={<UnhandledCertificatesPage />} />
     <Route path="register" element={<PPLayout />}>
       <Route index element={<PPRegistrationStart />} />
-      <Route path="steg-1" element={<PPRegistrationStep01 />} />
-      <Route path="steg-2" element={<PPRegistrationStep02 />} />
-      <Route path="steg-3" element={<PPRegistrationStep03 />} />
-      <Route path="granska" element={<PPRegistrationPreview />} />
+      <Route path="step-1" element={<PPRegistrationStep01 />} />
+      <Route path="step-2" element={<PPRegistrationStep02 />} />
+      <Route path="step-3" element={<PPRegistrationStep03 />} />
+      <Route path="preview" element={<PPRegistrationPreview />} />
     </Route>
     <Route path="register/done" element={<PPRegistrationDone />} />
     <Route path="edit" element={<PPRegistraionEditWithRedirect />} />
