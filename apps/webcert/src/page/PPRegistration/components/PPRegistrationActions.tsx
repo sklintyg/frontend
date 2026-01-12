@@ -31,7 +31,7 @@ export function PPRegistrationAction({ prevStep, continueText = 'Fortsätt' }: {
 
       <div className="flex gap-5">
         <CustomButton onClick={() => setShowCancelModal(true)}>Avbryt</CustomButton>
-        <CustomButton disabled={!prevStep} onClick={() => navigate(`/register/steg-${prevStep}`)}>
+        <CustomButton disabled={!prevStep} onClick={() => navigate(`/register/step-${prevStep}`)}>
           Tillbaka
         </CustomButton>
         <CustomButton buttonStyle="primary" type="submit">
