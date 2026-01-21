@@ -26,7 +26,7 @@
     "focus-trap-react": "^10.1.0",
     "html-react-parser": "^4.2.2",
     "inera-core-css": "./inera-core-css.tar.gz",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-datepicker": "^4.10.0",
