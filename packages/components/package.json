@@ -54,7 +54,7 @@
     "@typescript-eslint/parser": "^6.18.1",
     "autoprefixer": "^10.4.13",
     "ctix": "^2.7.1",
-    "eslint": "^8.56.0",
+    "eslint": "^9.26.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
     "eslint-plugin-tailwindcss": "^3.13.1",
