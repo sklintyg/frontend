@@ -169,23 +169,29 @@ const handleGetQuestionsError: Middleware<Dispatch> =
   }
 
 const handleUpdateCertificate: Middleware<Dispatch> =
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   () =>
   (action: PayloadAction<Certificate>): void => {
-    dispatch(resetState())
+    const currentCertificateId = getState().ui.uiQuestion.certificateId
+    const newCertificateId = action.payload.metadata.id
 
+    if (currentCertificateId === newCertificateId) {
+      return
+    }
+
+    dispatch(resetState())
     const isQuestionsActive = getByType(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
 
     if (isQuestionsActive) {
       dispatch(updateIsLoadingQuestions(true))
       const isCreateQuestionsAvailable = getByType(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled ?? false
       dispatch(updateCreateQuestionsAvailable(isCreateQuestionsAvailable))
-      dispatch(updateCertificateId(action.payload.metadata.id))
+      dispatch(updateCertificateId(newCertificateId))
       if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
         dispatch(updateDisplayingCertificateDraft())
-        dispatch(getComplementQuestions(action.payload.metadata.relations.parent?.certificateId ?? action.payload.metadata.id))
+        dispatch(getComplementQuestions(action.payload.metadata.relations.parent?.certificateId ?? newCertificateId))
       } else {
-        dispatch(getQuestions(action.payload.metadata.id))
+        dispatch(getQuestions(newCertificateId))
       }
     }
   }
