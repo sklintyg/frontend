@@ -29,6 +29,7 @@ import {
   updateQuestions,
   updateSendingQuestion,
   validateQuestion,
+  updateCertificateId,
 } from './questionActions'
 import { questionMiddleware } from './questionMiddleware'
 
@@ -290,6 +291,18 @@ describe('Test question middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.isCreateQuestionsAvailable).toBeTruthy()
+    })
+
+    it('shall NOT reset state or refetch questions if certificateId is unchanged', async () => {
+      const expectedQuestion = createQuestion()
+      testStore.dispatch(updateQuestions([expectedQuestion]))
+      testStore.dispatch(updateCertificateId('certificateId'))
+
+      testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(fakeAxios.history.get.length).toBe(0)
     })
   })
 
