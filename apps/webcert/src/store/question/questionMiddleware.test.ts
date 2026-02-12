@@ -30,12 +30,13 @@ import {
   updateSendingQuestion,
   validateQuestion,
   updateCertificateId,
+  resetState,
 } from './questionActions'
 import { questionMiddleware } from './questionMiddleware'
 
-const getCertificate = (id: string, enabled: boolean) =>
+const getCertificate = (id: string, enabled: boolean, signed: boolean = true) =>
   fakeCertificate({
-    metadata: fakeCertificateMetaData({ id: 'certificateId', status: CertificateStatus.SIGNED }),
+    metadata: fakeCertificateMetaData({ id, status: signed ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED }),
     links: [
       fakeResourceLink({ enabled, type: ResourceLinkType.QUESTIONS }),
       fakeResourceLink({ enabled, type: ResourceLinkType.CREATE_QUESTIONS }),
@@ -293,16 +294,41 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.isCreateQuestionsAvailable).toBeTruthy()
     })
 
-    it('shall NOT reset state or refetch questions if certificateId is unchanged', async () => {
+    it('shall NOT reset state or refetch questions/complements if certificateId is unchanged for an unsigned certificate', async () => {
+      testStore.dispatch(updateCertificateId('certificateId'))
+      testStore.dispatch(updateCertificate(getCertificate('certificateId', true, false)))
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(0)
+      expect(dispatchedActions.find((action) => resetState.match(action))).toBeUndefined()
+    })
+
+    it('shall reset state and refetch questions if certificateId is changed and status is unsigned', async () => {
       const expectedQuestion = createQuestion()
-      testStore.dispatch(updateQuestions([expectedQuestion]))
+      const getQuestionResponse = { questions: [expectedQuestion] }
+      fakeAxios.onGet('/api/question/newId/complements').reply(200, getQuestionResponse)
+      testStore.dispatch(updateCertificateId('oldId'))
+
+      testStore.dispatch(updateCertificate(getCertificate('newId', true, false)))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/question/newId/complements')
+    })
+
+    it('shall reset state and refetch questions if certificateId is unchanged but status is signed', async () => {
+      const expectedQuestion = createQuestion()
+      const getQuestionResponse = { questions: [expectedQuestion] }
+      fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
       testStore.dispatch(updateCertificateId('certificateId'))
 
       testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
-      expect(fakeAxios.history.get.length).toBe(0)
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/question/certificateId')
     })
   })
 

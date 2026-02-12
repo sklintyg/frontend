@@ -175,7 +175,11 @@ const handleUpdateCertificate: Middleware<Dispatch> =
     const currentCertificateId = getState().ui.uiQuestion.certificateId
     const newCertificateId = action.payload.metadata.id
 
-    if (currentCertificateId === newCertificateId) {
+    if (
+      currentCertificateId &&
+      currentCertificateId === newCertificateId &&
+      action.payload.metadata.status === CertificateStatus.UNSIGNED
+    ) {
       return
     }
 
