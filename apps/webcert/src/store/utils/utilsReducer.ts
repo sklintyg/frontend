@@ -18,6 +18,7 @@ export interface Configuration {
   sakerhetstjanstIdpUrl: string
   ppHost: string
   forwardDraftOrQuestionUrl: string
+  idpConnectUrls: string[]
 }
 
 interface UtilsState {
@@ -38,6 +39,7 @@ const initialState: UtilsState = {
     sakerhetstjanstIdpUrl: '',
     ppHost: '',
     forwardDraftOrQuestionUrl: '',
+    idpConnectUrls: [],
   },
   isLoadingConfig: false,
   isLoadingDynamicLinks: false,
