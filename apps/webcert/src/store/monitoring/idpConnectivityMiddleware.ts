@@ -22,7 +22,7 @@ function canReachUrl(url: string): Promise<boolean> {
     const image = new Image()
     image.onload = () => resolve(true)
     image.onerror = () => resolve(false)
-    image.src = `${url}${Date.now()}`
+    image.src = `${url}/favicon.ico?${Date.now()}`
   })
 }
 
