@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -42,6 +43,7 @@ describe('Test idpConnectivity middleware', () => {
   let testStore: EnhancedStore
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let fetchSpy: any
+  let imageInstances: Array<{ src: string; onload: (() => void) | null; onerror: (() => void) | null }>
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
@@ -52,10 +54,42 @@ describe('Test idpConnectivity middleware', () => {
     resetIdpConnectivityCheck()
     globalThis.localStorage.removeItem('last-idp-connectivity-check-date')
     clearDispatchedActions()
+
+    // Mock Image constructor to track instances and simulate load/error events
+    imageInstances = []
+    vi.stubGlobal(
+      'Image',
+      class MockImage {
+        onload: (() => void) | null = null
+
+        onerror: (() => void) | null = null
+
+        private internalSrc = ''
+
+        constructor() {
+          imageInstances.push(this)
+        }
+
+        get src() {
+          return this.internalSrc
+        }
+
+        set src(value: string) {
+          this.internalSrc = value
+          // Trigger onload asynchronously after src is set
+          setTimeout(() => {
+            if (this.onload) {
+              this.onload()
+            }
+          }, 0)
+        }
+      }
+    )
   })
 
   afterEach(() => {
     fetchSpy.mockRestore()
+    vi.unstubAllGlobals()
     clearDispatchedActions()
   })
 
@@ -66,6 +100,7 @@ describe('Test idpConnectivity middleware', () => {
 
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
+      expect(imageInstances.length).toBe(0)
     })
 
     it('shall not perform connectivity check when idpConnectUrls is empty', async () => {
@@ -74,6 +109,7 @@ describe('Test idpConnectivity middleware', () => {
 
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
+      expect(imageInstances.length).toBe(0)
     })
 
     it('shall perform connectivity check when user is logged in and idpConnectUrls is configured', async () => {
@@ -82,7 +118,9 @@ describe('Test idpConnectivity middleware', () => {
 
       await flushPromises()
       expect(fetchSpy).toHaveBeenCalledWith('https://api.ipify.org')
-      expect(fetchSpy).toHaveBeenCalledWith(IDP_URL_1, { mode: 'no-cors' })
+      expect(imageInstances.length).toBe(1)
+      expect(imageInstances[0].src).toContain(IDP_URL_1)
+      expect(imageInstances[0].src).toContain('/favicon.ico?')
     })
 
     it('shall check all configured idp urls', async () => {
@@ -90,8 +128,9 @@ describe('Test idpConnectivity middleware', () => {
       testStore.dispatch(getUserSuccess({ user: getLoggedInUser(), links: [] as ResourceLink[] }))
 
       await flushPromises()
-      expect(fetchSpy).toHaveBeenCalledWith(IDP_URL_1, { mode: 'no-cors' })
-      expect(fetchSpy).toHaveBeenCalledWith(IDP_URL_2, { mode: 'no-cors' })
+      expect(imageInstances.length).toBe(2)
+      expect(imageInstances[0].src).toContain(IDP_URL_1)
+      expect(imageInstances[1].src).toContain(IDP_URL_2)
     })
 
     it('shall only perform connectivity check once when getUserSuccess is dispatched multiple times', async () => {
@@ -100,7 +139,8 @@ describe('Test idpConnectivity middleware', () => {
       testStore.dispatch(getUserSuccess({ user: getLoggedInUser(), links: [] as ResourceLink[] }))
 
       await flushPromises()
-      expect(fetchSpy).toHaveBeenCalledTimes(2) // 1 ipify + 1 idp url
+      expect(fetchSpy).toHaveBeenCalledTimes(1) // Only 1 ipify call
+      expect(imageInstances.length).toBe(1) // Only 1 image check
     })
   })
 
@@ -136,7 +176,7 @@ describe('Test idpConnectivity middleware', () => {
   })
 
   describe('Handle connectivity check results', () => {
-    it('shall log monitoring with connected true when fetch succeeds', async () => {
+    it('shall log monitoring with connectivity results as an array', async () => {
       testStore.dispatch(updateConfig(getConfigWithIdpUrls([IDP_URL_1])))
       testStore.dispatch(getUserSuccess({ user: getLoggedInUser(), links: [] as ResourceLink[] }))
 
@@ -147,17 +187,54 @@ describe('Test idpConnectivity middleware', () => {
       expect(monitoringRequests.length).toBeGreaterThan(0)
       const body = JSON.parse(monitoringRequests[0].data)
       const connectivity = JSON.parse(body.info.connectivity)
-      expect(connectivity.connected).toBe(true)
-      expect(connectivity.url).toBe(IDP_URL_1)
+      expect(Array.isArray(connectivity)).toBe(true)
+      expect(connectivity.length).toBeGreaterThan(0)
     })
 
-    it('shall log monitoring with connected false when fetch fails', async () => {
-      fetchSpy.mockImplementation((input: string) => {
-        if (input === 'https://api.ipify.org') {
-          return Promise.resolve(new Response('127.0.0.1'))
+    it('shall log monitoring with connected true when image loads successfully', async () => {
+      testStore.dispatch(updateConfig(getConfigWithIdpUrls([IDP_URL_1])))
+      testStore.dispatch(getUserSuccess({ user: getLoggedInUser(), links: [] as ResourceLink[] }))
+
+      await flushPromises()
+      await flushPromises()
+
+      const monitoringRequests = fakeAxios.history.post.filter((req) => req.url === '/api/jslog/monitoring')
+      expect(monitoringRequests.length).toBeGreaterThan(0)
+      const body = JSON.parse(monitoringRequests[0].data)
+      const connectivity = JSON.parse(body.info.connectivity)
+      expect(connectivity[0].connected).toBe(true)
+      expect(connectivity[0].url).toBe(IDP_URL_1)
+    })
+
+    it('shall log monitoring with connected false when image fails to load', async () => {
+      // Override Image mock to trigger onerror instead of onload
+      vi.stubGlobal(
+        'Image',
+        class MockImage {
+          onload: (() => void) | null = null
+
+          onerror: (() => void) | null = null
+
+          private internalSrc = ''
+
+          constructor() {
+            imageInstances.push(this)
+          }
+
+          get src() {
+            return this.internalSrc
+          }
+
+          set src(value: string) {
+            this.internalSrc = value
+            setTimeout(() => {
+              if (this.onerror) {
+                this.onerror()
+              }
+            }, 0)
+          }
         }
-        return Promise.reject(new Error('Network error'))
-      })
+      )
 
       testStore.dispatch(updateConfig(getConfigWithIdpUrls([IDP_URL_1])))
       testStore.dispatch(getUserSuccess({ user: getLoggedInUser(), links: [] as ResourceLink[] }))
@@ -169,8 +246,8 @@ describe('Test idpConnectivity middleware', () => {
       expect(monitoringRequests.length).toBeGreaterThan(0)
       const body = JSON.parse(monitoringRequests[0].data)
       const connectivity = JSON.parse(body.info.connectivity)
-      expect(connectivity.connected).toBe(false)
-      expect(connectivity.url).toBe(IDP_URL_1)
+      expect(connectivity[0].connected).toBe(false)
+      expect(connectivity[0].url).toBe(IDP_URL_1)
     })
 
     it('shall log error when ip lookup fails', async () => {

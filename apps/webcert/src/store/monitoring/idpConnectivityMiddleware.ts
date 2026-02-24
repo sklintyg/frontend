@@ -17,6 +17,15 @@ let hasChecked = false
 const STORAGE_KEY = 'last-idp-connectivity-check-date'
 const CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000
 
+function canReachUrl(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.onload = () => resolve(true)
+    image.onerror = () => resolve(false)
+    image.src = `${url}${Date.now()}`
+  })
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function performIdpConnectivityCheck(dispatch: (action: any) => any, idpConnectUrls: string[]): Promise<void> {
   try {
@@ -29,34 +38,26 @@ async function performIdpConnectivityCheck(dispatch: (action: any) => any, idpCo
 
     const ipResponse = await fetch('https://api.ipify.org')
     const clientIp = await ipResponse.text()
+    const connectivity: IdpConnectivity[] = []
+
     await Promise.all(
       idpConnectUrls.map(async (url) => {
-        try {
-          const response = await fetch(url, { mode: 'no-cors' })
-          const check: IdpConnectivity = { url, connected: response.status === 200 }
-
-          dispatch(
-            api.endpoints.logMonitoring.initiate({
-              info: { ip: clientIp, connectivity: JSON.stringify(check) },
-              event: MonitoringRequestEvent.IDP_CONNECTIVITY_CHECK,
-            })
-          )
-
-          if (globalThis.localStorage) {
-            globalThis.localStorage.setItem(STORAGE_KEY, new Date().toString())
-          }
-        } catch {
-          const check: IdpConnectivity = { url, connected: false }
-
-          dispatch(
-            api.endpoints.logMonitoring.initiate({
-              info: { ip: clientIp, connectivity: JSON.stringify(check) },
-              event: MonitoringRequestEvent.IDP_CONNECTIVITY_CHECK,
-            })
-          )
-        }
+        const connected = await canReachUrl(url)
+        const check: IdpConnectivity = { url, connected: connected }
+        connectivity.push(check)
       })
     )
+
+    dispatch(
+      api.endpoints.logMonitoring.initiate({
+        info: { ip: clientIp, connectivity: JSON.stringify(connectivity) },
+        event: MonitoringRequestEvent.IDP_CONNECTIVITY_CHECK,
+      })
+    )
+
+    if (globalThis.localStorage) {
+      globalThis.localStorage.setItem(STORAGE_KEY, new Date().toString())
+    }
   } catch {
     dispatch(
       api.endpoints.logError.initiate({
