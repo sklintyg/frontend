@@ -124,6 +124,7 @@ const QuestionItem = ({ question }: Props) => {
   const incommingMessage = question.answer?.message ?? ''
   const [message, setMessage] = useState(incommingMessage)
   const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
+  const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
 
   useEffect(() => {
     setMessage(incommingMessage)
@@ -354,7 +355,7 @@ const QuestionItem = ({ question }: Props) => {
       {question.answer && !question.answer.sent && (
         <>
           <div className="ic-forms__group">
-            <TextArea value={message} onChange={onTextAreaChange} />
+            <TextArea value={message} maxLength={MAX_NUMBER_OF_ALLOWED_CHARACTERS} onChange={onTextAreaChange} />
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
