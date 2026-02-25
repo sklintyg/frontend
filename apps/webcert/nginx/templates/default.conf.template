@@ -5,6 +5,11 @@ upstream wc {
 server {
   listen 8080;
 
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Content-Security-Policy "frame-ancestors 'none'" always;
+    add_header Referrer-Policy "origin-when-cross-origin" always;
+
   location / {
     root /usr/share/nginx/html;
     index index.html index.htm;
@@ -12,6 +17,12 @@ server {
   }
 
   location ~ ^/(api|moduleapi|fake|testability|visa|saml2|v1|v2|webcert|login|logout|authtestability) {
+      proxy_hide_header X-Frame-Options;
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+      add_header Content-Security-Policy "frame-ancestors 'none'" always;
+      add_header Referrer-Policy "origin-when-cross-origin" always;
+
       proxy_pass http://wc;
       proxy_set_header Host $host;
       proxy_set_header X-Real-IP $remote_addr;
