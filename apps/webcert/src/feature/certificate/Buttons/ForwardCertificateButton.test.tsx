@@ -71,6 +71,7 @@ describe('Forward certificate button', () => {
         sakerhetstjanstIdpUrl: '',
         ppHost: '',
         forwardDraftOrQuestionUrl,
+        idpConnectUrls: [],
       })
     )
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
