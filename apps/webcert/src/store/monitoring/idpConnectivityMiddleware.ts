@@ -5,7 +5,7 @@ import { api } from '../api'
 import { ErrorCode } from '../error/errorReducer'
 import type { IdpConnectivity } from './monitoringReducer'
 import { MonitoringRequestEvent } from './monitoringReducer'
-import { getUserSuccess } from '../user/userActions'
+import { getUserSuccess, setUnitSuccess } from '../user/userActions'
 import type { RootState } from '../reducer'
 
 export function resetIdpConnectivityCheck(): void {
@@ -74,7 +74,11 @@ export const idpConnectivityMiddleware: Middleware<Dispatch> =
   (next) =>
   (action: AnyAction): void => {
     next(action)
-    if (action.type === getUserSuccess.type && !hasChecked && action.payload?.user?.loggedInUnit?.unitId) {
+    if (
+      (action.type === getUserSuccess.type || action.type === setUnitSuccess.type) &&
+      !hasChecked &&
+      action.payload?.user?.loggedInUnit?.unitId
+    ) {
       const state = getState() as RootState
       const idpConnectUrls = state.ui.uiUtils.config.idpConnectUrls
 
