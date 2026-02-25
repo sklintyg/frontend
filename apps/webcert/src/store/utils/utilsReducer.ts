@@ -18,6 +18,7 @@ export interface Configuration {
   sakerhetstjanstIdpUrl: string
   ppHost: string
   forwardDraftOrQuestionUrl: string
+  idpConnectUrls: string[]
   webcertFrontendApiTimeout: number
 }
 
@@ -39,6 +40,7 @@ const initialState: UtilsState = {
     sakerhetstjanstIdpUrl: '',
     ppHost: '',
     forwardDraftOrQuestionUrl: '',
+    idpConnectUrls: [],
     webcertFrontendApiTimeout: 30000,
   },
   isLoadingConfig: false,
