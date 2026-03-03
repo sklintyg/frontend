@@ -353,6 +353,12 @@ describe('QuestionItem', () => {
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 
+    it('should have maxLength of 4999 on the text area', () => {
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('maxlength', '4999')
+    })
+
     it('hides message that answer has been saved if the user starts edit', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
