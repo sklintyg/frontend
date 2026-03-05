@@ -21,10 +21,9 @@ export default defineConfig({
     outDir,
     emptyOutDir: true,
     rollupOptions: {
+      // only a single entry, other apps no longer exist
       input: {
         root: resolve(root, 'index.html'),
-        general: resolve(root, 'general/index.html'),
-        intyg: resolve(root, 'intyg/index.html'),
       },
       onwarn(warning, warn) {
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
@@ -37,6 +36,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+      '@src': path.resolve(__dirname, './src'),
     },
   },
   server: {

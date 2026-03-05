@@ -55,6 +55,14 @@ module.exports = {
     tailwindcss: {
       config: path.resolve(__dirname, './tailwind.config.ts'),
     },
+    'import/resolver': {
+          typescript: {
+            project: [
+              './tsconfig.eslint.json',
+              './apps/testability/tsconfig.json', // eller rätt path
+            ],
+          },
+        },
   },
   env: {
     browser: true,

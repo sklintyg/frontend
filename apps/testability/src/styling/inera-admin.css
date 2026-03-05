@@ -1,11 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap');
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
-@import '@inera/ids-design/themes/inera-admin/inera-admin.css';
 
+/* IDS core styles + chosen theme tokens */
+@import '@inera/ids-design/styles.css';
+@import '@inera/ids-design/tokens/themes/inera-admin-tokens.css';
+
+/* generate Tailwind utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-}
+} */

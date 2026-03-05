@@ -1,5 +1,5 @@
 {
-  "name": "@frontend/maintenance",
+  "name": "@frontend/testability",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,12 +14,14 @@
   "dependencies": {
     "@frontend/components": "workspace:*",
     "@frontend/theme-1177": "workspace:*",
-    "@inera/ids-design": "^7.0.0",
-    "@inera/ids-react": "^7.0.0",
+    "@inera/ids-design": "^9.0.0",
+    "@inera/ids-react": "^9.0.1",
     "react": "^18.3.1",
+    "react-day-picker": "^9.14.0",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/parser": "^6.18.1",
@@ -29,11 +31,12 @@
     "eslint": "^8.56.0",
     "eslint-config-react": "workspace:*",
     "eslint-config-react-test": "workspace:*",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-jest": "^27.6.1",
     "eslint-plugin-tailwindcss": "^3.13.1",
     "jsdom": "^21.1.1",
     "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.4.14",
     "vite": "^5.4.21"
   }
 }

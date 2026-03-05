@@ -4,6 +4,9 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
   }
 }
