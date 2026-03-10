@@ -46,6 +46,7 @@ const QuestionForm = ({ questionDraft }: Props) => {
   const [message, setMessage] = useState(questionDraft.message)
   const messageTypes = useAppSelector(getCertificateMessageTypes, shallowEqual)
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
+  const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
 
   useEffect(() => {
     setMessage(questionDraft.message)
@@ -107,6 +108,7 @@ const QuestionForm = ({ questionDraft }: Props) => {
           </div>
           <div className="ic-forms__group">
             <TextArea
+              maxLength={MAX_NUMBER_OF_ALLOWED_CHARACTERS}
               data-testid="question-textarea"
               value={message}
               onChange={onTextAreaChange}

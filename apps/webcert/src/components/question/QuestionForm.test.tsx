@@ -76,6 +76,12 @@ describe('QuestionForm', () => {
       await expect(message).toHaveValue('')
     })
 
+    it('textarea has max character limit of 4999', () => {
+      renderComponent()
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).toHaveAttribute('maxlength', '4999')
+    })
+
     it('send question disabled', async () => {
       renderComponent()
       await expect(screen.getByText(/Skicka/i)).toBeDisabled()
