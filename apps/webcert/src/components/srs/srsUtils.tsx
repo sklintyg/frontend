@@ -18,29 +18,24 @@ export const SKR_DIAGNOSIS_LINK_MAP: Record<string, string> = {
   F33: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f33recidiverandedepression.33539.html',
   F41: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f41andraangestsyndrom.33541.html',
   F43: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f43anpassningsstorningarochreaktionpasvarstress.33543.html',
-  'F43.0': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f430akutstressreaktion.33545.html',
-  'F43.1':
-    'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f431posttraumatiskstressyndromptsd.33547.html',
-  'F43.2':
-    'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f432anpassningsstorninglivskrissorgreaktion.33549.html',
-  'F43.8':
-    'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f438andraspecificeradereaktionerpasvarstress.33551.html',
-  'F43.8A': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f438autmattningssyndrom.33553.html',
+  F430: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f430akutstressreaktion.33545.html',
+  F431: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f431posttraumatiskstressyndromptsd.33547.html',
+  F432: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f432anpassningsstorninglivskrissorgreaktion.33549.html',
+  F438: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f438andraspecificeradereaktionerpasvarstress.33551.html',
+  F438A: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/psykiskasjukdomarochsyndrom/f438autmattningssyndrom.33553.html',
   I63: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarihjarnanskarl/i63cerebralinfarkt.33601.html',
   G56: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/g56mononeuropatisjukdomienendaperifernerviovreextremitet.33555.html',
   M51: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m51diskbrackandrasjukdomarimellankotsskivorna.33557.html',
   M54: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m54ryggvark.33561.html',
-  'M54.2': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m542cervikalgi.33563.html',
-  'M54.4':
-    'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m544lumbagomedischias.33565.html',
-  'M54.5': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m545lumbago.33567.html',
+  M542: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m542cervikalgi.33563.html',
+  M544: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m544lumbagomedischias.33565.html',
+  M545: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m545lumbago.33567.html',
   M75: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m75sjukdomstillstandiskulderled.33569.html',
-  'M75.4':
-    'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m754impingementsyndromiaxelled.33571.html',
+  M754: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m754impingementsyndromiaxelled.33571.html',
   M77: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m77andraentesopatiersjukdomariperiferaligamentochmuskelfasten.33573.html',
   M79: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m79andrasjukdomstillstandimjukvavnadersomejklassificerasannorstades.33575.html',
-  'M79.1': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m791myalgi.33577.html',
-  'M79.7': 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m797fibromyalgi.33579.html',
+  M791: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m791myalgi.33577.html',
+  M797: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m797fibromyalgi.33579.html',
 }
 
 export const SKR_FALLBACK_LINK = 'https://extra.skr.se/rattsjukskrivning/radochatgarder'
