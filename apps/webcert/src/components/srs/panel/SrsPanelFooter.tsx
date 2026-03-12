@@ -5,6 +5,7 @@ import { logSrsInteraction } from '../../../store/srs/srsActions'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
 import { SrsEvent, SrsInformationChoice } from '../../../types'
 import ExternalLinkIcon from '../../image/image/ExternalLinkIcon'
+import { getSKRLink } from '../srsUtils'
 
 interface Props {
   informationChoice: SrsInformationChoice
@@ -13,7 +14,7 @@ const SrsPanelFooter = React.forwardRef<HTMLDivElement, Props>(({ informationCho
   const dispatch = useDispatch()
   const diagnosisDescription = useSelector(getDiagnosisDescription(informationChoice))
   const diagnosisCode = useSelector(getDiagnosisCode(informationChoice))
-  const link = `https://skr.se/${diagnosisCode ? diagnosisCode.replace('.', '').toLowerCase() : ''}`
+  const link = getSKRLink(diagnosisCode ?? '')
 
   const onClick = () => {
     if (informationChoice === SrsInformationChoice.STATISTICS) {
