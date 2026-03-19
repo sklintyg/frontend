@@ -1,5 +1,4 @@
-import { Button, Dialog, Heading } from '@frontend/components'
-import { IDSIconInformation } from '@inera/ids-react'
+import { Button, Dialog, Heading, Icon } from '@frontend/components'
 import { useState } from 'react'
 import type { Column } from '../Table/types/Column'
 
@@ -8,7 +7,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   return (
     <>
       <button className="pt-5 text-sm text-accent-40 underline print:hidden" onClick={() => setOpen(true)} type="button">
-        <IDSIconInformation size="s" className="inline-block pr-2 align-middle" />
+        <Icon icon="information" className="inline-block pr-2 align-middle" />
         Beskrivning av tabellens rubriker
       </button>
       <Dialog

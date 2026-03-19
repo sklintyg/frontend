@@ -63,7 +63,7 @@ export function DateRangePicker({
         <InputLabel {...labelProps} description={description}>
           {label}
         </InputLabel>
-        <div {...groupProps} ref={ref} className="ids-input ids-input--light flex">
+        <div {...groupProps} ref={ref} className="ids-input__input ids-input--light flex">
           <div ref={fieldRef} className="inline-flex w-full gap-1 ">
             <DateField
               {...startFieldProps}
@@ -71,7 +71,7 @@ export function DateRangePicker({
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, start: val })}
             />
             <span
-              style={{ color: value?.start && value.end ? 'inherit' : 'var(--IDS-FORM-PLACEHOLDER__COLOR)' }}
+              style={{ color: value?.start && value.end ? 'inherit' : 'var(--IDS-FORM__COLOR)' }}
               className="hidden px-1 py-1.5 sm:inline-block"
             >
               till

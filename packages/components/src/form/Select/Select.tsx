@@ -32,11 +32,11 @@ export const Select = forwardRef<
       <InputLabel htmlFor={id} description={description}>
         {label}
       </InputLabel>
-      <div className="ids-select-wrapper">
+      <div className="ids-select__wrapper">
         <select
           ref={ref}
           id={id}
-          className={classNames('ids-select', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
+          className={classNames('ids-select__select', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
           {...props}
         >
           {options?.map((option) => (

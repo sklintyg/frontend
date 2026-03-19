@@ -72,7 +72,7 @@ export function Table({
           <FixedTable scrollRef={scrollRef}>{header}</FixedTable>
           <table
             className={classNames(
-              'table-fixed m-0 w-full overflow-visible whitespace-nowrap border-none text-sm'
+              'ids-data-table table-fixed m-0 w-full overflow-visible whitespace-nowrap border-none text-sm'
               // interactive && 'ids-data-table--interactive'
             )}
           >

@@ -1,5 +1,4 @@
-import { Button, Heading } from '@frontend/components'
-import { IDSIconChevron } from '@inera/ids-react'
+import { Button, Heading, Icon } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 
@@ -13,7 +12,7 @@ export function TableFilter({ onSearch, onReset, children }: { onSearch: () => v
       </Heading>
       <div className="py-2 print:hidden">
         <Button tertiary onClick={() => setExpanded(!expanded)} className="flex py-2 align-middle">
-          <IDSIconChevron rotate={expanded ? '270' : '90'} width="0.75rem" height="0.75rem" color="currentColor" inline />
+          <Icon icon={expanded ? 'chevron-up' : 'chevron-down'} />
           <span className="font-bold">{expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}</span>
         </Button>
       </div>

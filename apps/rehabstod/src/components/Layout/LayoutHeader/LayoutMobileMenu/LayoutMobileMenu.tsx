@@ -1,4 +1,4 @@
-import '@inera/ids-design/components/mobile-menu/mobile-menu.css'
+import { IDSHeader1177AdminAvatarMobile, IDSHeader1177AdminMenuMobile } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../../hooks/useLogout'
 import { useGetConfigQuery, useGetUserQuery } from '../../../../store/api'
@@ -14,17 +14,17 @@ export function LayoutMobileMenu({ name, unit }: { name: string; unit: string })
 
   if (!user && !isLoading) {
     return (
-      <div className="ids-header-1177-admin__nav-mobile__menu-items">
+      <IDSHeader1177AdminMenuMobile>
         <nav className="ids-mobile-menu">
           <ul>
-            <li className="ids-header-1177-admin__avatar-mobile">
-              <a className="ids-header-1177-admin__avatar-mobile__login-link" href={config && config.sithsIdpUrl}>
-                Logga in
-              </a>
+            <li className="ids-mobile-menu-item">
+              <div className="ids-mobile-menu-item__inner">
+                <a href={config?.sithsIdpUrl}>Logga in</a>
+              </div>
             </li>
           </ul>
         </nav>
-      </div>
+      </IDSHeader1177AdminMenuMobile>
     )
   }
 
@@ -33,7 +33,7 @@ export function LayoutMobileMenu({ name, unit }: { name: string; unit: string })
   }
 
   return (
-    <div className="ids-header-1177-admin__nav-mobile__menu-items">
+    <IDSHeader1177AdminMenuMobile>
       <nav className="ids-mobile-menu">
         <ul>
           <MobileMenuItem to="/" title="Översikt" />
@@ -51,20 +51,16 @@ export function LayoutMobileMenu({ name, unit }: { name: string; unit: string })
               Inställningar
             </button>
           </li>
-
-          {!isLoading && user && (
-            <li className="ids-header-1177-admin__avatar-mobile">
-              <div className="ids-header-1177-admin__avatar-mobile__logged-in">
-                <div className="ids-header-1177-admin__avatar-mobile__username">{name}</div>
-                <div className="ids-header-1177-admin__avatar-mobile__unit">{unit}</div>
-              </div>
-              <button type="button" className="ids-link" onClick={logout} data-testid="mobile-logout">
-                Logga ut
-              </button>
-            </li>
-          )}
         </ul>
       </nav>
-    </div>
+
+      {!isLoading && user && (
+        <IDSHeader1177AdminAvatarMobile username={name} unit={unit}>
+          <button type="button" className="ids-link" onClick={logout} data-testid="mobile-logout">
+            Logga ut
+          </button>
+        </IDSHeader1177AdminAvatarMobile>
+      )}
+    </IDSHeader1177AdminMenuMobile>
   )
 }

@@ -13,6 +13,11 @@ import './index.css'
 import { router } from './router'
 import { persistor, store } from './store/store'
 
+// Rehydrate dark mode preference before first render
+if (localStorage.getItem('ids-dark-mode') === 'true') {
+  document.body.classList.replace('ids--light', 'ids--dark')
+}
+
 if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
   const { worker } = await import('./mocks/browser')
   worker.start()

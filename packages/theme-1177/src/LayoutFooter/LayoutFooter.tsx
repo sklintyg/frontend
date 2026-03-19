@@ -10,7 +10,7 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
       col1Size="3"
       col2Size="3"
       col1={[
-        <AppLink key="support" to="https://www.1177.se/e-tjanster-support" external arrow>
+        <AppLink key="support" to="https://www.1177.se/e-tjanster-support" external arrow footer>
           Support
         </AppLink>,
         <AppLink
@@ -18,16 +18,17 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
           to="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
           external
           arrow
+          footer
         >
           Tillgänglighet
         </AppLink>,
       ]}
       col2={[
-        <AppLink key="read-more" to="https://www.1177.se/e-tjanster" external arrow>
+        <AppLink key="read-more" to="https://www.1177.se/e-tjanster" external arrow footer>
           Läs mer om e-tjänster
         </AppLink>,
         hasSession ? (
-          <AppLink key="webbkarta" to="https://e-tjanster.1177.se/mvk/sitemap.xhtml" arrow>
+          <AppLink key="webbkarta" to="https://e-tjanster.1177.se/mvk/sitemap.xhtml" arrow footer>
             Webbkarta
           </AppLink>
         ) : (
