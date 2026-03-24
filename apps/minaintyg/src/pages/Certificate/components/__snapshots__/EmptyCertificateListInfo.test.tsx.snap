@@ -13,8 +13,8 @@ exports[`Should display information if total above 0 1`] = `
         class="ids-alert__icon_and_text"
       >
         <span
+          aria-hidden="true"
           class="ids-alert__state-icon"
-          title=""
         />
         <div
           class="ids-alert__headline"
@@ -26,11 +26,15 @@ exports[`Should display information if total above 0 1`] = `
       </div>
     </div>
     <div
-      class="ids-alert__content"
+      id="alert-content-:r0:"
     >
-      <p>
-        Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.
-      </p>
+      <div
+        class="ids-alert__content"
+      >
+        <p>
+          Testa att ändra de filter du valt. Du kan också klicka på rensa filter för att se alla dina intyg.
+        </p>
+      </div>
     </div>
   </div>
 </div>
