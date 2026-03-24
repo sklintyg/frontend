@@ -75,7 +75,7 @@ export function SelectButton({
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
             <div
-              className="ids-content z-40 rounded bg-white p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              className="ids-content z-40 rounded bg-background p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
               ref={refs.setFloating}
               style={{
                 position: strategy,

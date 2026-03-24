@@ -34,7 +34,7 @@ exports[`Should render inactive type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link ids-link--no-underline"
+            class="ids-link"
             href="/"
             target="self"
           >
@@ -44,7 +44,7 @@ exports[`Should render inactive type error 1`] = `
             Till inloggning
           </a>
           <a
-            class="ids-link ids-link--no-underline"
+            class="ids-link"
             href="https://www.1177.se/e-tjanster-support"
             rel="noreferrer"
             target="_blank"
@@ -98,7 +98,7 @@ exports[`Should render logged-out type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link ids-link--no-underline"
+            class="ids-link"
             href="/"
             target="self"
           >
@@ -108,7 +108,7 @@ exports[`Should render logged-out type error 1`] = `
             Till inloggning
           </a>
           <a
-            class="ids-link ids-link--no-underline"
+            class="ids-link"
             href="https://www.1177.se"
             rel="noreferrer"
             target="_blank"
@@ -160,18 +160,7 @@ exports[`Should render login-failed type error 1`] = `
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -210,18 +199,7 @@ exports[`Should render not-found type error 1`] = `
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -291,17 +269,7 @@ exports[`Should render underage type error 1`] = `
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-          <a
-            class="ids-link ids-link--no-underline"
+            class="ids-link"
             href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
             rel="noreferrer"
             target="_blank"
@@ -353,18 +321,7 @@ exports[`Should render unknown type error 1`] = `
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
-        >
-          <a
-            class="ids-link ids-link--no-underline"
-            href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
-          >
-            <span
-              class="ids-icon-arrow-right-small ids-icon--text-start"
-              data-testid="arrow"
-            />
-            Till startsidan
-          </a>
-        </div>
+        />
       </div>
     </div>
   </div>

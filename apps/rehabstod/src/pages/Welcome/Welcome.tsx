@@ -4,16 +4,13 @@ import { FakeLogin } from './components/FakeLogin'
 import { PatientData } from './components/PatientData'
 import { TestData } from './components/TestData'
 
-const DARK_MODE_KEY = 'ids-dark-mode'
-
 export function Welcome() {
   const [activeTab, setActiveTab] = useState(0)
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem(DARK_MODE_KEY) === 'true')
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     document.body.classList.toggle('ids--light', !darkMode)
     document.body.classList.toggle('ids--dark', darkMode)
-    localStorage.setItem(DARK_MODE_KEY, String(darkMode))
   }, [darkMode])
 
   return (

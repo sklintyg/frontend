@@ -44,7 +44,7 @@ exports[`Should render correctly 1`] = `
           <span
             class="whitespace-nowrap"
           >
-            2023-09-06 11:00
+            2023-09-06 13:00
           </span>
           <a
             class="ids-link ids-link--underlined"
@@ -71,7 +71,7 @@ exports[`Should render correctly 1`] = `
         <span
           class="whitespace-nowrap"
         >
-          2023-09-06 11:00
+          2023-09-06 13:00
         </span>
         <a
           class="ids-link ids-link--underlined"

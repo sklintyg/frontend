@@ -12,8 +12,8 @@ exports[`Should show info alert when there is info availableFunction provided 1`
       class="ids-alert__icon_and_text"
     >
       <span
+        aria-hidden="true"
         class="ids-alert__state-icon"
-        title=""
       />
       <div
         class="ids-alert__headline"
@@ -25,9 +25,13 @@ exports[`Should show info alert when there is info availableFunction provided 1`
     </div>
   </div>
   <div
-    class="ids-alert__content"
+    id="alert-content-:r0:"
   >
-    text
+    <div
+      class="ids-alert__content"
+    >
+      text
+    </div>
   </div>
 </div>
 `;

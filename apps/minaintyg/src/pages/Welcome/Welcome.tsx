@@ -1,4 +1,4 @@
-import { IDSButton, IDSContainer, IDSSpinner } from '@inera/ids-react'
+import { IDSContainer, IDSDarkmodeToggle, IDSSpinner } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
 import { useGetPersonsQuery } from '../../store/testabilityApi'
 import { FakeLoginForm } from './components/FakeLoginForm'
@@ -15,9 +15,7 @@ export function Welcome() {
   return (
     <IDSContainer>
       <div className="flex justify-end py-2">
-        <IDSButton secondary onClick={() => setDarkMode((d) => !d)}>
-          {darkMode ? 'Light mode' : 'Dark mode'}
-        </IDSButton>
+        <IDSDarkmodeToggle checked={darkMode} onChange={() => setDarkMode((d) => !d)} />
       </div>
       {isLoading && <IDSSpinner />}
       {persons && <FakeLoginForm persons={persons} />}
