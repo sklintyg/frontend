@@ -19,6 +19,21 @@ exports[`Should render as expected with one level 1`] = `
             Du är här:
           </li>
           <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
             class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
           >
             <a
@@ -37,11 +52,99 @@ exports[`Should render as expected with one level 1`] = `
             <span
               class="ids-breadcrumbs__icon"
             />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
           </li>
         </ol>
       </nav>
     </div>
     Certificates List
+  </div>
+</div>
+`;
+
+exports[`Should render as expected with three levels 1`] = `
+<div>
+  <div>
+    <div
+      class="mb-5"
+    >
+      <nav
+        aria-label="Du är här:"
+        class="ids-breadcrumbs"
+      >
+        <ol
+          class="ids-breadcrumbs__desktop"
+        >
+          <li
+            class="ids-breadcrumbs__lead"
+          >
+            Du är här:
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
+              href="/"
+            >
+              Intyg
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb ids-breadcrumbs__crumb--current"
+          >
+            <a
+              href="/12345"
+            >
+              läkares anmälan till transportstyrelsen
+            </a>
+          </li>
+        </ol>
+        <ol
+          class="ids-breadcrumbs__mobile"
+        >
+          <li
+            class="ids-breadcrumbs__mobile-links"
+          >
+            <span
+              class="ids-breadcrumbs__icon"
+            />
+            <a
+              class="ids-breadcrumbs__mobile-link"
+              href="/"
+            >
+              Intyg
+            </a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    Intyget
   </div>
 </div>
 `;
@@ -68,6 +171,21 @@ exports[`Should render as expected with two level 1`] = `
             class="ids-breadcrumbs__crumb"
           >
             <a
+              href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+            >
+              Start
+            </a>
+            <span
+              aria-hidden="true"
+              class="ids-breadcrumbs__crumb__separator"
+            >
+              /
+            </span>
+          </li>
+          <li
+            class="ids-breadcrumbs__crumb"
+          >
+            <a
               href="/"
             >
               Intyg
@@ -84,7 +202,9 @@ exports[`Should render as expected with two level 1`] = `
           >
             <a
               href="/intyg"
-            />
+            >
+              Läkarutlåtande för aktivitetsersättning vid nedsatt arbetsförmåga
+            </a>
           </li>
         </ol>
         <ol

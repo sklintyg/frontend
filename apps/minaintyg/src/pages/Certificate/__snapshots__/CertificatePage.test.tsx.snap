@@ -1,5 +1,83 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Should have article content 1`] = `
+<article
+  class="ids-certificate pt-3"
+>
+  <div
+    class="border-b border-neutral-90"
+  >
+    <div>
+      <div
+        class="ids-accordion ids-accordion--lean ids-accordion--has-children"
+      >
+        <div
+          aria-controls="accordion-content-:r3:"
+          aria-expanded="false"
+          class="ids-accordion__button ids-accordion__button--m"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+          >
+            <h2>
+              Rubrik 1
+            </h2>
+          </div>
+        </div>
+        <div
+          aria-hidden="true"
+          class="ids-accordion__content"
+          id="accordion-content-:r3:"
+        >
+          <p>
+            Test
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer
+    class="pt-7"
+  >
+    <h2
+      class="ids-heading-s !normal-case text-heading-s"
+    >
+      Intyget är skrivet av
+    </h2>
+    <address
+      class="flex flex-col gap-4 not-italic md:flex-row md:gap-[6.25rem]"
+    >
+      <div>
+        <strong>
+          Ajla Doktor
+        </strong>
+        <p>
+          123 112 1212
+        </p>
+      </div>
+      <div>
+        <strong>
+          Stockholm
+        </strong>
+        <p>
+          Vägen 12, 123 12 Söder
+        </p>
+      </div>
+    </address>
+    <hr
+      class="my-7 border-neutral-90"
+    />
+    <strong>
+      Intygs-ID:
+    </strong>
+     
+    0b295069-d03c-413c-9f4a-b6fd81ad2d87
+  </footer>
+</article>
+`;
+
 exports[`Unable to load certificate > Should render error message 1`] = `
 [
   <div
