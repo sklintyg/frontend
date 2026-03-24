@@ -7,7 +7,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & Omit<ComponentProps
 
 export const Button = forwardRef(({ children, loading, ...props }: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => (
   <IDSButton ref={ref} loading={loading} {...props}>
-    {loading ? <IDSSpinner variant="v3" /> : children}
+    {loading ? <IDSSpinner variant="3" /> : children}
   </IDSButton>
 ))
 
