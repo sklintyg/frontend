@@ -5,7 +5,7 @@ export function ServiceLink({ mobile }: { mobile?: boolean }) {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <p>
+    <p className="text-white">
       Rehabstöd drivs av{' '}
       {links?.ineraMainPage && (
         <IDSLink colorPreset={mobile ? undefined : 3} small underlined>

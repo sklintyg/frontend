@@ -1,10 +1,11 @@
-import { IDSHeader1177Admin, IDSHeader1177AdminItem, IDSHeader1177AdminMenuMobile, IDSHeader1177AdminNavItemMobile } from '@inera/ids-react'
+import { IDSHeader1177Admin, IDSHeader1177AdminItem, IDSHeader1177AdminMenuMobile, IDSMobileMenu } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useGetConfigQuery, useGetUserQuery } from '../../../store/api'
 import { isUserDoctor } from '../../../utils/isUserDoctor'
 import { AboutHeaderItem } from './AboutHeaderItem'
 import { HeaderAvatarMenu } from './HeaderAvatarMenu'
 import { LayoutHeaderNav } from './LayoutHeaderNav'
+import { MobileMenuItem } from './LayoutMobileMenu/MobileMenuItem'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -26,15 +27,11 @@ export function LayoutHeader() {
     if (!user) return <IDSHeader1177AdminMenuMobile />
     return (
       <IDSHeader1177AdminMenuMobile>
-        <IDSHeader1177AdminNavItemMobile>
-          <Link to="/">Översikt</Link>
-        </IDSHeader1177AdminNavItemMobile>
-        <IDSHeader1177AdminNavItemMobile>
-          <Link to="/pagaende-sjukfall">Pågående sjukfall</Link>
-        </IDSHeader1177AdminNavItemMobile>
-        <IDSHeader1177AdminNavItemMobile>
-          <Link to="/lakarutlatanden">Läkarutlåtanden</Link>
-        </IDSHeader1177AdminNavItemMobile>
+        <IDSMobileMenu>
+          <MobileMenuItem to="/" title="Översikt" />
+          <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
+          <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
+        </IDSMobileMenu>
       </IDSHeader1177AdminMenuMobile>
     )
   }

@@ -19,6 +19,15 @@ if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS ===
   worker.start()
 }
 
+const applyDarkMode = (darkMode: boolean) => {
+  document.body.classList.toggle('ids--dark', darkMode)
+  document.body.classList.toggle('ids--light', !darkMode)
+}
+
+store.subscribe(() => {
+  applyDarkMode(store.getState().settings.darkMode)
+})
+
 setDefaultOptions({ locale: sv })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

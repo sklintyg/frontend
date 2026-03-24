@@ -1,4 +1,4 @@
-import { IDSMobileMenu } from '@inera/ids-react'
+import { IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 import { useGetConfigQuery, useGetUserQuery } from '../../../../store/api'
 import { useAppDispatch } from '../../../../store/hooks'
@@ -13,11 +13,7 @@ export function LayoutMobileMenu() {
   if (!user && !isLoading) {
     return (
       <IDSMobileMenu>
-        <li className="ids-mobile-menu-item">
-          <div className="ids-mobile-menu-item__inner">
-            <a href={config?.sithsIdpUrl}>Logga in</a>
-          </div>
-        </li>
+        <IDSMobileMenuItem link={<a href={config?.sithsIdpUrl}>Logga in</a>} />
       </IDSMobileMenu>
     )
   }
@@ -31,18 +27,24 @@ export function LayoutMobileMenu() {
       <MobileMenuItem to="/" title="Översikt" />
       <MobileMenuItem to="/pagaende-sjukfall" title="Pågående sjukfall" />
       <MobileMenuItem to="/lakarutlatanden" title="Läkarutlåtanden" />
-
-      <li className="ids-mobile-menu-item flex items-center gap-5 border-b border-accent-40 bg-neutral-100 px-5 py-3 font-normal text-accent-40">
-        <span className="ids-icon-swap-horizontal text-2xl" />
-        <Link to="/enhet">Byt vårdenhet</Link>
-      </li>
-
-      <li className="ids-mobile-menu-item flex items-center gap-5 border-b border-accent-40 bg-neutral-100 px-5 py-3 font-normal text-accent-40">
-        <span className="ids-icon-settings text-2xl" />
-        <button type="button" onClick={() => dispatch(updateShowSettingsDialog(true))}>
-          Inställningar
-        </button>
-      </li>
+      <IDSMobileMenuItem
+        link={
+          <Link to="/enhet">
+            <span aria-hidden="true" className="ids-icon-swap-horizontal-small ids-mobile-menu-item--start-icon" />
+            Byt vårdenhet
+          </Link>
+        }
+        secondary
+      />
+      <IDSMobileMenuItem
+        link={
+          <button type="button" onClick={() => dispatch(updateShowSettingsDialog(true))}>
+            <span aria-hidden="true" className="ids-icon-settings ids-mobile-menu-item--start-icon" />
+            Inställningar
+          </button>
+        }
+        secondary
+      />
     </IDSMobileMenu>
   )
 }

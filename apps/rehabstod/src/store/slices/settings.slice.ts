@@ -8,6 +8,7 @@ interface Settings {
   preferences: Partial<UserPreferences>
   showPersonalInformation: boolean
   showAboutDialog: boolean
+  darkMode: boolean
 }
 
 const initialState: Settings = {
@@ -15,6 +16,7 @@ const initialState: Settings = {
   preferences: {},
   showPersonalInformation: true,
   showAboutDialog: false,
+  darkMode: false,
 }
 
 const settingsSlice = createSlice({
@@ -39,6 +41,9 @@ const settingsSlice = createSlice({
     updateShowAboutDialog(state, { payload }: PayloadAction<boolean>) {
       state.showAboutDialog = payload
     },
+    updateDarkMode(state, { payload }: PayloadAction<boolean>) {
+      state.darkMode = payload
+    },
   },
 })
 
@@ -49,5 +54,6 @@ export const {
   updateSettingsPreferences,
   updateShowPersonalInformation,
   updateShowAboutDialog,
+  updateDarkMode,
 } = settingsSlice.actions
 export const { name: settingsReducerPath, reducer: settingsReducer } = settingsSlice
