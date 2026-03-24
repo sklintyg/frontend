@@ -239,32 +239,34 @@ exports[`Should render html as expected 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <div
-      class="ids-accordion ids-accordion--lean"
-    >
+    <div>
       <div
-        aria-controls=":r0:"
-        aria-expanded="false"
-        class="ids-accordion__button ids-accordion__button--m"
-        role="button"
-        tabindex="0"
+        class="ids-accordion ids-accordion--lean ids-accordion--has-children"
       >
         <div
-          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+          aria-controls="accordion-content-:r0:"
+          aria-expanded="false"
+          class="ids-accordion__button ids-accordion__button--m"
+          role="button"
+          tabindex="0"
         >
-          <h2>
-            Rubrik 1
-          </h2>
+          <div
+            class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+          >
+            <h2>
+              Rubrik 1
+            </h2>
+          </div>
         </div>
-      </div>
-      <div
-        aria-hidden="true"
-        class="ids-accordion__content"
-        id=":r0:"
-      >
-        <p>
-          Test
-        </p>
+        <div
+          aria-hidden="true"
+          class="ids-accordion__content"
+          id="accordion-content-:r0:"
+        >
+          <p>
+            Test
+          </p>
+        </div>
       </div>
     </div>
   </div>

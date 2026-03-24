@@ -39,7 +39,7 @@ exports[`Should render as expected 1`] = `
                 <a
                   aria-label="Logotyp"
                   class="ids-header-1177__logo-link"
-                  href=""
+                  href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
                 />
               </div>
             </div>
@@ -82,7 +82,281 @@ exports[`Should render as expected 1`] = `
         >
           <div
             class="ids-header-1177-nav__content"
-          />
+          >
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
+                >
+                  Start
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r1:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://e-tjanster.st.1177.se/mvk/messageList.xhtml"
+                >
+                  Inkorg
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r2:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://bokadetider.st.1177.se/"
+                >
+                  Bokade tider
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r3:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://sit.journalen.inera.se/"
+                >
+                  Journalen
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r4:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://pep.omniq.se/PEP.Resident/context/"
+                >
+                  Egen provhantering
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r5:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://st.sob.1177.se/"
+                >
+                  Stöd och behandling
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r6:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item ids-header-1177-nav-item--active"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  aria-current="page"
+                  href="/"
+                >
+                  Intyg
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r7:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="ids-header-1177-nav-item"
+            >
+              <span
+                class="ids-header-1177-nav-item__link"
+              >
+                <a
+                  href="https://e-tjanster.st.1177.se/mvk/services.xhtml"
+                >
+                  Övriga tjänster
+                </a>
+              </span>
+              <div
+                class="ids-header-1177-nav-item__menu"
+                id="header-1177-item-:r8:"
+              >
+                <div
+                  class="ids-header-1177-nav-item__menu-content"
+                >
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-1"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-2"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-3"
+                  />
+                  <div
+                    class="ids-header-1177-nav-item__menu-col-4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="ids-header-1177-nav__inner-mobile"
@@ -123,9 +397,6 @@ exports[`Should render as expected 1`] = `
     </main>
     <footer
       class="ids-footer-1177 print:hidden"
-      col1size="3"
-      col2size="3"
-      cols="2"
     >
       <div
         class="ids-footer-1177__inner-wrapper"
@@ -164,7 +435,7 @@ exports[`Should render as expected 1`] = `
                 class="ids-footer-1177__link-col ids-footer-1177__link-col--50"
               >
                 <a
-                  class="ids-link ids-link--footer"
+                  class="ids-link ids-link--block ids-link--footer"
                   href="https://www.1177.se/e-tjanster-support"
                   rel="noreferrer"
                   target="_blank"
@@ -178,7 +449,7 @@ exports[`Should render as expected 1`] = `
                   />
                 </a>
                 <a
-                  class="ids-link ids-link--footer"
+                  class="ids-link ids-link--block ids-link--footer"
                   href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
                   rel="noreferrer"
                   target="_blank"
@@ -196,7 +467,7 @@ exports[`Should render as expected 1`] = `
                 class="ids-footer-1177__link-col ids-footer-1177__link-col--50"
               >
                 <a
-                  class="ids-link ids-link--footer"
+                  class="ids-link ids-link--block ids-link--footer"
                   href="https://www.1177.se/e-tjanster"
                   rel="noreferrer"
                   target="_blank"
@@ -210,7 +481,7 @@ exports[`Should render as expected 1`] = `
                   />
                 </a>
                 <a
-                  class="ids-link ids-link--footer"
+                  class="ids-link ids-link--block ids-link--footer"
                   href="https://e-tjanster.1177.se/mvk/sitemap.xhtml"
                 >
                   <span
@@ -249,7 +520,7 @@ exports[`Should render as expected 1`] = `
             </div>
             <div
               class="ids-mobile-menu-item__sub-items"
-              id="mobile-menu-sub-item-:r1:"
+              id="mobile-menu-sub-item-:r9:"
             />
           </div>
           <div
@@ -271,7 +542,7 @@ exports[`Should render as expected 1`] = `
             </div>
             <div
               class="ids-mobile-menu-item__sub-items"
-              id="mobile-menu-sub-item-:r2:"
+              id="mobile-menu-sub-item-:ra:"
             />
           </div>
           <div
@@ -293,7 +564,7 @@ exports[`Should render as expected 1`] = `
             </div>
             <div
               class="ids-mobile-menu-item__sub-items"
-              id="mobile-menu-sub-item-:r3:"
+              id="mobile-menu-sub-item-:rb:"
             />
           </div>
           <div
@@ -311,7 +582,7 @@ exports[`Should render as expected 1`] = `
             </div>
             <div
               class="ids-mobile-menu-item__sub-items"
-              id="mobile-menu-sub-item-:r4:"
+              id="mobile-menu-sub-item-:rc:"
             />
           </div>
         </div>
@@ -328,11 +599,37 @@ exports[`Should render as expected 1`] = `
             <div
               class="ids-footer-1177__sub-footer-left"
             >
+              <a
+                class="ids-link ids-link--color-3 ids-link--small"
+                href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Behandling av personuppgifter
+                <span
+                  class="ids-icon-external-link-small ids-icon--text-end"
+                />
+              </a>
+              <a
+                class="ids-link ids-link--color-3 ids-link--small"
+                href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Hantering av kakor
+                <span
+                  class="ids-icon-external-link-small ids-icon--text-end"
+                />
+              </a>
+            </div>
+            <div
+              class="ids-footer-1177__sub-footer-right"
+            >
               <p>
                 1177 drivs av
                  
                 <a
-                  class="ids-link ids-link--color-4 ids-link--small ids-link--underlined"
+                  class="ids-link ids-link--color-3 ids-link--small ids-link--underlined"
                   href="https://www.inera.se/"
                   rel="noreferrer"
                   target="_blank"
@@ -347,36 +644,10 @@ exports[`Should render as expected 1`] = `
               </p>
             </div>
             <div
-              class="ids-footer-1177__sub-footer-right"
-            >
-              <a
-                class="ids-link ids-link--underlined"
-                href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Behandling av personuppgifter
-                <span
-                  class="ids-icon-external-link-small ids-icon--text-end"
-                />
-              </a>
-              <a
-                class="ids-link ids-link--underlined"
-                href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Hantering av kakor
-                <span
-                  class="ids-icon-external-link-small ids-icon--text-end"
-                />
-              </a>
-            </div>
-            <div
               class="ids-footer-1177__mobile-links"
             >
               <a
-                class="ids-link ids-link--underlined"
+                class="ids-link ids-link--color-3"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -387,7 +658,7 @@ exports[`Should render as expected 1`] = `
                 />
               </a>
               <a
-                class="ids-link ids-link--underlined"
+                class="ids-link ids-link--color-3"
                 href="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
@@ -410,7 +681,7 @@ exports[`Should render as expected 1`] = `
               1177 drivs av
                
               <a
-                class="ids-link ids-link--color-4 ids-link--small ids-link--underlined"
+                class="ids-link ids-link--color-3 ids-link--small ids-link--underlined"
                 href="https://www.inera.se/"
                 rel="noreferrer"
                 target="_blank"
