@@ -18,7 +18,7 @@ export function SubFooter() {
             <ServiceLink />
           </div>
           <div className="ids-footer-1177-admin__sub-footer-right">
-            <DynamicLink link={links?.ineraBehandlingPersonuppgifter} small colorPreset={4} />
+            <DynamicLink link={links?.ineraBehandlingPersonuppgifter} small colorPreset={3} />
             <TertiaryButton small colorPreset={4} onClick={() => dispatch(updateShowCookieDialog(true))}>
               Hantering av kakor
             </TertiaryButton>
