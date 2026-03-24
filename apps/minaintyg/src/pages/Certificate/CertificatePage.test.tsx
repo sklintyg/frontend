@@ -91,13 +91,10 @@ it('Should display alert message when certificate is replaced', async () => {
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
     <div
       aria-live="polite"
-      class="ids-spinner"
+      class="ids-spinner ids-spinner--1"
       data-testid="spinner"
       role="alert"
     >
-      <p
-        class="ids-spinner-sr"
-      />
       <div
         class="ids-bounce-1"
       />

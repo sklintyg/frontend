@@ -2,7 +2,7 @@
 
 exports[`Should have correct heading 1`] = `
 <h1
-  class="ids-heading-xxl !normal-case"
+  class="ids-heading-xxl !normal-case text-heading-xxl"
 >
   Intyg
 </h1>
@@ -61,7 +61,7 @@ exports[`Should render error message when unable to load list 1`] = `
       </div>
     </div>
     <div
-      id="alert-content-:rc:"
+      id="alert-content-:rl:"
     >
       <div
         class="ids-alert__content"
@@ -84,6 +84,36 @@ exports[`Should render error message when unable to load list 1`] = `
             </a>
             och ange nedan fel-id:
           </p>
+          <div
+            class=""
+          >
+            <button
+              aria-label="Kopiera fel-id"
+              tabindex="0"
+              type="button"
+              value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+            >
+              <p
+                data-state="closed"
+              >
+                <span>
+                  Fel-id: 
+                </span>
+                 
+                <span
+                  class="font-normal"
+                >
+                  5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+                </span>
+                <span
+                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+                />
+              </p>
+              <p
+                class="flex justify-items-start"
+              />
+            </button>
+          </div>
           <p>
             Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
           </p>
