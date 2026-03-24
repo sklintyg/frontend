@@ -20,7 +20,7 @@ export function Home() {
       <Heading size="s" level={1}>
         Välkommen till Rehabstöd
       </Heading>
-      <p className="ids-preamble">
+      <p className="ids-preamble text-on-background">
         Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter. Har du uppdrag att
         ge koordineringsinsatser på vårdenheten får du en överblick över vårdenhetens alla pågående sjukfall. Är du läkare ser du de
         pågående sjukfall där du har skrivit det senaste intyget.

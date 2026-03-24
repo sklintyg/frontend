@@ -65,6 +65,14 @@ export const colors = {
     99: 'var(--ids-palette-neutral-20)',
   },
   'on-background': 'var(--ids-color-surface-text-on-default)',
+  heading: {
+    xxl: 'var(--ids-color-heading-text-xxl)',
+    xl: 'var(--ids-color-heading-text-xl)',
+    l: 'var(--ids-color-heading-text-l)',
+    m: 'var(--ids-color-heading-text-m)',
+    s: 'var(--ids-color-heading-text-s)',
+    xs: 'var(--ids-color-heading-text-xs)',
+  },
   'on-success': {
     40: 'var(--ids-color-feedback-text-on-success)',
     99: 'var(--ids-color-feedback-text-on-success)',
