@@ -38,5 +38,3 @@ export function LayoutHeaderNav({ name, unit }: { name: string; unit: string }) 
     </IDSHeader1177AdminNav>
   )
 }
-
-
