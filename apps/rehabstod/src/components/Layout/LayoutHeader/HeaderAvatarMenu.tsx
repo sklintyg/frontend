@@ -23,7 +23,7 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
 
       <hr className="border-t border-neutral-200 my-1" />
 
-      <HeaderAvatarMenuButton icon="user" onClick={logout}>
+      <HeaderAvatarMenuButton icon="user" onClick={logout} data-testid="logout">
         Logga ut
       </HeaderAvatarMenuButton>
     </IDSHeader1177AdminAvatar>

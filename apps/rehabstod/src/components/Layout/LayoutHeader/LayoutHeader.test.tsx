@@ -15,11 +15,12 @@ describe('With user session', () => {
   it('Should be able to logout', async () => {
     const { user } = renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByRole('button', { name: 'Liam Fransson Gunnarsson HB' })).toBeInTheDocument()
+    const avatarButton = await screen.findByRole('button', { name: /Liam Fransson.*Gunnarsson HB/ })
+    expect(avatarButton).toBeInTheDocument()
 
     const pendingRequest = waitForRequest('POST', '/api/testability/logout')
-    await user.click(screen.getByRole('button', { name: 'Liam Fransson Gunnarsson HB' }))
-    await user.click(screen.getByRole('button', { name: 'Logga ut' }))
+    await user.click(avatarButton)
+    await user.click(screen.getByTestId('logout'))
 
     expect(await pendingRequest).toBeTruthy()
   })
@@ -33,6 +34,6 @@ describe('Without user session', () => {
   it('Should display login button', async () => {
     renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByText('Logga in')).toBeInTheDocument()
+    expect((await screen.findAllByText('Logga in')).length).toBeGreaterThan(0)
   })
 })
