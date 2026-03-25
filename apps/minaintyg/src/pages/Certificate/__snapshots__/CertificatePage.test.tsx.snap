@@ -12,7 +12,7 @@ exports[`Should have article content 1`] = `
         class="ids-accordion ids-accordion--lean ids-accordion--has-children"
       >
         <div
-          aria-controls="accordion-content-:r3:"
+          aria-controls="accordion-content-:r2:"
           aria-expanded="false"
           class="ids-accordion__button ids-accordion__button--m"
           role="button"
@@ -29,7 +29,7 @@ exports[`Should have article content 1`] = `
         <div
           aria-hidden="true"
           class="ids-accordion__content"
-          id="accordion-content-:r3:"
+          id="accordion-content-:r2:"
         >
           <p>
             Test
@@ -104,7 +104,7 @@ exports[`Unable to load certificate > Should render error message 1`] = `
       </div>
     </div>
     <div
-      id="alert-content-:rf:"
+      id="alert-content-:r1:"
     >
       <div
         class="ids-alert__content"
