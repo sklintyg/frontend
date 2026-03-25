@@ -12,7 +12,7 @@ exports[`Should have article content 1`] = `
         class="ids-accordion ids-accordion--lean ids-accordion--has-children"
       >
         <div
-          aria-controls="accordion-content-:r2:"
+          aria-controls="accordion-content-:r3:"
           aria-expanded="false"
           class="ids-accordion__button ids-accordion__button--m"
           role="button"
@@ -29,7 +29,7 @@ exports[`Should have article content 1`] = `
         <div
           aria-hidden="true"
           class="ids-accordion__content"
-          id="accordion-content-:r2:"
+          id="accordion-content-:r3:"
         >
           <p>
             Test
@@ -72,7 +72,7 @@ exports[`Should have article content 1`] = `
     <strong>
       Intygs-ID:
     </strong>
-     
+
     0b295069-d03c-413c-9f4a-b6fd81ad2d87
   </footer>
 </article>
@@ -113,7 +113,7 @@ exports[`Unable to load certificate > Should render error message 1`] = `
           class="flex flex-col gap-4"
         >
           <p>
-            Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+            Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta
             <a
               class="ids-link ids-link--underlined"
               href="https://www.1177.se/e-tjanster-support"
@@ -140,9 +140,9 @@ exports[`Unable to load certificate > Should render error message 1`] = `
                 data-state="closed"
               >
                 <span>
-                  Fel-id: 
+                  Fel-id:
                 </span>
-                 
+
                 <span
                   class="font-normal"
                 >
