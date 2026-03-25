@@ -104,7 +104,7 @@ exports[`Unable to load certificate > Should render error message 1`] = `
       </div>
     </div>
     <div
-      id="alert-content-:r1:"
+      id="alert-content-:rd:"
     >
       <div
         class="ids-alert__content"
