@@ -11,4 +11,3 @@ delete globalThis.Request
 delete globalThis.Response
 // @ts-expect-error - intentionally deleting built-in globals for test environment
 delete globalThis.Headers
-

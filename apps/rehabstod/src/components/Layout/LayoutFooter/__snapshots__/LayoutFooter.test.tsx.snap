@@ -107,7 +107,9 @@ exports[`Should render footer as expected 1`] = `
           <div
             class="ids-footer-1177-admin__sub-footer-left"
           >
-            <p>
+            <p
+              class="text-white"
+            >
               Rehabstöd drivs av
                
               <a
@@ -250,7 +252,9 @@ exports[`Should render footer as expected 1`] = `
             <div
               class="ids-footer-1177-admin__sub-footer-mobile-text"
             >
-              <p>
+              <p
+                class="text-white"
+              >
                 Rehabstöd drivs av
                  
                 <a
