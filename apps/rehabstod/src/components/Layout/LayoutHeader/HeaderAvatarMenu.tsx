@@ -11,21 +11,23 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
   const { logout } = useLogout()
 
   return (
-    <IDSHeader1177AdminAvatar username={name} unit={unit}>
-      <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
-        <Icon icon="swap-horizontal" textStart />
-        Byt vårdenhet
-      </Link>
+    <div className={'my-2'}>
+      <IDSHeader1177AdminAvatar username={name} unit={unit}>
+        <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
+          <Icon icon="swap-horizontal" textStart />
+          Byt vårdenhet
+        </Link>
 
-      <HeaderAvatarMenuButton icon="settings" onClick={() => dispatch(updateShowSettingsDialog(true))}>
-        Inställningar
-      </HeaderAvatarMenuButton>
+        <HeaderAvatarMenuButton icon="settings" onClick={() => dispatch(updateShowSettingsDialog(true))}>
+          Inställningar
+        </HeaderAvatarMenuButton>
 
-      <hr className="border-t border-neutral-200 my-1" />
+        <hr className="border-t border-neutral-200 my-1" />
 
-      <HeaderAvatarMenuButton icon="user" onClick={logout} data-testid="logout">
-        Logga ut
-      </HeaderAvatarMenuButton>
-    </IDSHeader1177AdminAvatar>
+        <HeaderAvatarMenuButton icon="user" onClick={logout} data-testid="logout">
+          Logga ut
+        </HeaderAvatarMenuButton>
+      </IDSHeader1177AdminAvatar>
+    </div>
   )
 }
