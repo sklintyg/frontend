@@ -142,7 +142,7 @@ describe('Unable to load certificate', () => {
   it('Should render error message', async () => {
     renderWithFault()
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
-    expect(screen.getAllByRole('alert')).toMatchSnapshot()
+    expect(screen.getByText(/Intyget kunde inte visas på grund av ett tekniskt fel\./i)).toBeInTheDocument()
   })
 
   it('Should display fallback description', async () => {
