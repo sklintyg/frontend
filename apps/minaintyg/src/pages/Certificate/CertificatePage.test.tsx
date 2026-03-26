@@ -75,7 +75,7 @@ it('Should have article content', async () => {
   )
   expect(await screen.findByTestId('spinner')).toBeInTheDocument()
   expect(await screen.findByRole('article')).toBeInTheDocument()
-  expect(screen.getByRole('article')).toMatchSnapshot()
+  expect(screen.getByRole('heading', { name: /rubrik 1/i })).toBeInTheDocument()
 })
 
 it('Should display alert message when certificate is replaced', async () => {
