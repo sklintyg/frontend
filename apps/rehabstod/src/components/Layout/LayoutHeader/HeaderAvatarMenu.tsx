@@ -11,7 +11,7 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
   const { logout } = useLogout()
 
   return (
-    <div className={'my-2'}>
+    <div className="my-2">
       <IDSHeader1177AdminAvatar username={name} unit={unit}>
         <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
           <Icon icon="swap-horizontal" textStart />
@@ -22,7 +22,7 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
           Inställningar
         </HeaderAvatarMenuButton>
 
-        <hr className="border-t border-neutral-200 my-1" />
+        <hr className="border-neutral-200 my-1 border-t" />
 
         <HeaderAvatarMenuButton icon="user" onClick={logout} data-testid="logout">
           Logga ut
