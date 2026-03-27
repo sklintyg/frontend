@@ -2,6 +2,7 @@ import { randomUUID } from '@frontend/utils'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios, { isAxiosError } from 'axios'
 import type { RootState } from '../reducer'
+import { getConfig } from '../utils/utilsSelectors'
 import { apiCallFailed } from './apiActions'
 import { createApiError, getHeaders } from './apiUtils'
 import { addRequest, removeRequest, selectById } from './requestSlice'
@@ -20,7 +21,8 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
 
   return createAsyncThunk<Response, ThunkArg, { state: RootState }>(name, async (args, { rejectWithValue, dispatch, getState }) => {
     const payload = init(args)
-    const { url, method, headers, data, timeout = 6000 } = payload
+    const { webcertFrontendApiTimeout } = getConfig(getState())
+    const { url, method, headers, data, timeout = webcertFrontendApiTimeout || 30000 } = payload
 
     if (selectById(getState(), id)) {
       return rejectWithValue({ message: `[${method}] ${url} is pending`, payload })
