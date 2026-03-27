@@ -25,6 +25,7 @@ function getConfigWithIdpUrls(urls: string[]): Configuration {
     ppHost: '',
     forwardDraftOrQuestionUrl: '',
     idpConnectUrls: urls,
+    webcertFrontendApiTimeout: 30000
   }
 }
 
