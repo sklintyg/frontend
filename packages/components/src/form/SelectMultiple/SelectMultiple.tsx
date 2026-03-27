@@ -101,6 +101,7 @@ export function SelectMultiple({
                   left: x ?? 0,
                   minWidth: 100,
                   outline: 0,
+                  zIndex: 1000,
                 }}
                 {...getFloatingProps()}
               >
