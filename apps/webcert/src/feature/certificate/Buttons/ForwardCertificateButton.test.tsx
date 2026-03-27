@@ -72,7 +72,7 @@ describe('Forward certificate button', () => {
         ppHost: '',
         forwardDraftOrQuestionUrl,
         idpConnectUrls: [],
-        webcertFrontendApiTimeout: 30000
+        webcertFrontendApiTimeout: 30000,
       })
     )
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
