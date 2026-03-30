@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <p className="ids-preamble">
               Intygstjänster är stängd för tekniskt underhåll. <br />
               <br />
-              Torsdagen den 13 juni mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intygstjänster. Tjänsterna kommer inte vara
+              Torsdagen den 9 april mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intygstjänster. Tjänsterna kommer inte vara
               tillgängliga under tiden.
               <br />
               <br /> Välkommen åter!
