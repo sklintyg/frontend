@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('rootIntyg') as HTMLElement).render(
             <p className="ids-preamble">
               Intyg är stängd för tekniskt underhåll. <br />
               <br />
-              Torsdagen den 13 juni mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intyg. Tjänsten kommer inte vara tillgänglig under
+              Torsdagen den 9 april mellan kl. 07:00 - 08:00 görs tekniskt underhåll av Intyg. Tjänsten kommer inte vara tillgänglig under
               tiden.
               <br />
               <br /> Välkommen åter!
