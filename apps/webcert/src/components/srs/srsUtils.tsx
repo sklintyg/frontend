@@ -36,6 +36,7 @@ export const SKR_DIAGNOSIS_LINK_MAP: Record<string, string> = {
   M79: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m79andrasjukdomstillstandimjukvavnadersomejklassificerasannorstades.33575.html',
   M791: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m791myalgi.33577.html',
   M797: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m797fibromyalgi.33579.html',
+  M53: 'https://extra.skr.se/rattsjukskrivning/radochatgarder/sjukdomarimuskuloskeletalasystemetochnerver/m53andraryggsjukdomarsomejklassificerasannorstades.33559.html',
 }
 
 export const SKR_FALLBACK_LINK = 'https://extra.skr.se/rattsjukskrivning/radochatgarder'
