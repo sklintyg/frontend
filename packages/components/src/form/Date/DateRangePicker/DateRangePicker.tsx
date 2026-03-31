@@ -58,7 +58,7 @@ export function DateRangePicker({
   const segmentData = { start: value?.start.toString() || startDate, end: value?.end.toString() || endDate }
 
   return (
-    <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
+    <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end" minWidth={300}>
       <div className={classNames('inline-flex w-full ', inline ? 'flex-row gap-3' : 'flex-col')}>
         <InputLabel {...labelProps} description={description}>
           {label}
