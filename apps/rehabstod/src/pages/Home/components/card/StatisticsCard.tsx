@@ -25,7 +25,7 @@ export function StatisticsCard({
       <Heading level={3} size="s">
         {title}
       </Heading>
-      <p className="mb-4 max-w-xl">{subTitle}</p>
+      <p className="mb-4 max-w-xl text-on-background">{subTitle}</p>
       <div className="flex flex-col gap-5 xl:flex-row">
         <PieChartGraph data={parentData} />
         <div className="flex w-full flex-col gap-5 ">

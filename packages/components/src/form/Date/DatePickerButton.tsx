@@ -1,7 +1,7 @@
-import { IDSIconCalendar } from '@inera/ids-react'
 import { useRef } from 'react'
 import type { AriaButtonProps } from 'react-aria'
 import { useButton } from 'react-aria'
+import { Icon } from '../../Icon/Icon'
 import { PopoverTrigger } from '../../Popover/PopoverTrigger'
 import { classNames } from '../../utils/classNames'
 
@@ -11,7 +11,7 @@ export function DatePickerButton({ error, ...props }: AriaButtonProps & { error?
 
   return (
     <PopoverTrigger ref={ref} {...buttonProps} className={classNames('pl-3 py-1.5', error ? 'text-error-40' : 'text-accent-40')}>
-      <IDSIconCalendar width="1.25em" height="1.25em" color="currentColor" color2="currentColor" />
+      <Icon icon="calendar" />
     </PopoverTrigger>
   )
 }

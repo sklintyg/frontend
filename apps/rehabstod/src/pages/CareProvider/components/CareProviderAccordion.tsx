@@ -1,5 +1,4 @@
-import { Radio } from '@frontend/components'
-import { IDSIconChevron } from '@inera/ids-react'
+import { Icon, Radio } from '@frontend/components'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { Vardenhet } from '../../../schemas'
@@ -48,7 +47,7 @@ export function CareProviderAccordion({
             onChange={(event) => handleChooseUnit(event, unit)}
           />
           <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-            <IDSIconChevron width="100%" height="100%" className="h-full w-full" />
+            <Icon icon="chevron-right" className="h-full w-full" />
           </span>
         </div>
       </summary>

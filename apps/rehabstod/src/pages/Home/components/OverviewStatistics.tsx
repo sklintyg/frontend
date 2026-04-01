@@ -22,7 +22,7 @@ export function OverviewStatistics() {
   if (loadingSummary) {
     return (
       <>
-        Laddar översikt ... <IDSSpinner />
+        <span className="text-on-background">Laddar översikt ...</span> <IDSSpinner />
       </>
     )
   }
