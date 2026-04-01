@@ -7,32 +7,34 @@ exports[`Should have article content 1`] = `
   <div
     class="border-b border-neutral-90"
   >
-    <div
-      class="ids-accordion ids-accordion--lean"
-    >
+    <div>
       <div
-        aria-controls=":r6:"
-        aria-expanded="false"
-        class="ids-accordion__button ids-accordion__button--m"
-        role="button"
-        tabindex="0"
+        class="ids-accordion ids-accordion--lean ids-accordion--has-children"
       >
         <div
-          class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+          aria-controls="accordion-content-:r3:"
+          aria-expanded="false"
+          class="ids-accordion__button ids-accordion__button--m"
+          role="button"
+          tabindex="0"
         >
-          <h2>
-            Rubrik 1
-          </h2>
+          <div
+            class="ids-accordion__headline ids-accordion__headline-1 ids-accordion__headline--m"
+          >
+            <h2>
+              Rubrik 1
+            </h2>
+          </div>
         </div>
-      </div>
-      <div
-        aria-hidden="true"
-        class="ids-accordion__content"
-        id=":r6:"
-      >
-        <p>
-          Test
-        </p>
+        <div
+          aria-hidden="true"
+          class="ids-accordion__content"
+          id="accordion-content-:r3:"
+        >
+          <p>
+            Test
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -40,7 +42,7 @@ exports[`Should have article content 1`] = `
     class="pt-7"
   >
     <h2
-      class="ids-heading-s !normal-case"
+      class="ids-heading-s !normal-case text-heading-s"
     >
       Intyget är skrivet av
     </h2>
@@ -70,7 +72,7 @@ exports[`Should have article content 1`] = `
     <strong>
       Intygs-ID:
     </strong>
-     
+
     0b295069-d03c-413c-9f4a-b6fd81ad2d87
   </footer>
 </article>
@@ -89,8 +91,8 @@ exports[`Unable to load certificate > Should render error message 1`] = `
         class="ids-alert__icon_and_text"
       >
         <span
+          aria-hidden="true"
           class="ids-alert__state-icon"
-          title=""
         />
         <div
           class="ids-alert__headline"
@@ -102,59 +104,63 @@ exports[`Unable to load certificate > Should render error message 1`] = `
       </div>
     </div>
     <div
-      class="ids-alert__content"
+      id="alert-content-:rd:"
     >
       <div
-        class="flex flex-col gap-4"
+        class="ids-alert__content"
       >
-        <p>
-          Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-          <a
-            class="ids-link ids-link--underlined"
-            href="https://www.1177.se/e-tjanster-support"
-            rel="noreferrer"
-            target="_blank"
-          >
-            support
-            <span
-              class="ids-icon-external-link-small ids-icon--text-end"
-            />
-          </a>
-          och ange nedan fel-id:
-        </p>
         <div
-          class=""
+          class="flex flex-col gap-4"
         >
-          <button
-            aria-label="Kopiera fel-id"
-            tabindex="0"
-            type="button"
-            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
-          >
-            <p
-              data-state="closed"
+          <p>
+            Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta
+            <a
+              class="ids-link ids-link--underlined"
+              href="https://www.1177.se/e-tjanster-support"
+              rel="noreferrer"
+              target="_blank"
             >
-              <span>
-                Fel-id: 
-              </span>
-               
+              support
               <span
-                class="font-normal"
-              >
-                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
-              </span>
-              <span
-                class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+                class="ids-icon-external-link-small ids-icon--text-end"
               />
-            </p>
-            <p
-              class="flex justify-items-start"
-            />
-          </button>
+            </a>
+            och ange nedan fel-id:
+          </p>
+          <div
+            class=""
+          >
+            <button
+              aria-label="Kopiera fel-id"
+              tabindex="0"
+              type="button"
+              value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+            >
+              <p
+                data-state="closed"
+              >
+                <span>
+                  Fel-id:
+                </span>
+
+                <span
+                  class="font-normal"
+                >
+                  5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+                </span>
+                <span
+                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+                />
+              </p>
+              <p
+                class="flex justify-items-start"
+              />
+            </button>
+          </div>
+          <p>
+            Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+          </p>
         </div>
-        <p>
-          Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
-        </p>
       </div>
     </div>
   </div>,

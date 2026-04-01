@@ -1,6 +1,6 @@
 import { IDSDialog } from '@inera/ids-react'
 import type { ReactNode } from 'react'
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { Heading } from '../Heading/Heading'
 import { DialogPortal } from './DialogPortal'
 
@@ -23,23 +23,21 @@ export function Dialog({
   open?: boolean
   persistent?: boolean
 }) {
-  const id = useId()
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
+  const headlineNode = headline ? (
+    <Heading level={1} size="xl" tabIndex={-1}>
+      {headline}
+    </Heading>
+  ) : undefined
+
   return (
     <DialogPortal>
-      <IDSDialog role="dialog" aria-labelledby={id} data-open={open ? 'true' : 'false'} show={open} onVisibilityChange={setOpen} {...props}>
-        <div className="ids-content">
-          {headline && (
-            <Heading id={id} level={1} size="xl" slot="headline" tabIndex={-1}>
-              {headline}
-            </Heading>
-          )}
-          {open && children}
-        </div>
+      <IDSDialog headline={headlineNode} data-open={open ? 'true' : 'false'} show={open} onVisibilityChange={setOpen} {...props}>
+        {open && <div className="ids-content">{children}</div>}
       </IDSDialog>
     </DialogPortal>
   )

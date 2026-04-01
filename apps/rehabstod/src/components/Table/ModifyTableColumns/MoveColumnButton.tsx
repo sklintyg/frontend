@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { IDSIconArrow } from '@inera/ids-react'
+import { Icon } from '@frontend/components'
 
 export function MoveColumnButton({
   direction,
@@ -19,8 +19,8 @@ export function MoveColumnButton({
         >
           {!disabled && (
             <>
-              {direction === 'left' && <IDSIconArrow className="m-auto inline-block" rotate="270" width="14" height="14" />}
-              {direction === 'right' && <IDSIconArrow className="m-auto inline-block" rotate="90" width="14" height="14" />}
+              {direction === 'left' && <Icon icon="arrow-left" className="m-auto inline-block" />}
+              {direction === 'right' && <Icon icon="arrow-right" className="m-auto inline-block" />}
             </>
           )}
         </button>

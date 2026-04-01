@@ -37,7 +37,7 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
           'w-10 h-10 group outline-none',
           isRoundedLeft && 'rounded-l-full',
           isRoundedRight && 'rounded-r-full',
-          isSelected && 'bg-accent-40 text-white',
+          isSelected && 'bg-accent-40 text-on-accent-40',
           isDisabled && 'disabled'
         )}
       >
@@ -47,11 +47,11 @@ export function CalendarCell({ state, date }: { state: CalendarState | RangeCale
             isDisabled && 'italic text-neutral-40',
             isFocusVisible && 'ring-2 group-focus:z-2 ring-neutral-20 ring-offset-2',
             // Darker selection background for the start and end.
-            Boolean(isSelectionStart || isSelectionEnd) && 'bg-accent-30 border-2 border-white',
+            Boolean(isSelectionStart || isSelectionEnd) && 'bg-accent-30 border-2 border-background',
             // Hover state for cells in the middle of the range.
             Boolean(isSelected && !isDisabled && !(isSelectionStart || isSelectionEnd)) && 'hover:bg-accent-30',
             // Hover state for non-selected cells.
-            Boolean(!isSelected && !isDisabled) && 'hover:bg-accent-30 hover:text-white'
+            Boolean(!isSelected && !isDisabled) && 'hover:bg-accent-30'
           )}
         >
           {formattedDate}

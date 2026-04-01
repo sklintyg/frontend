@@ -12,7 +12,7 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({ level = 1
     `h${level}`,
     {
       ref,
-      className: classNames(`ids-heading-${size} !normal-case`, className),
+      className: classNames(`ids-heading-${size} !normal-case text-heading-${size}`, className),
       ...props,
     },
     children

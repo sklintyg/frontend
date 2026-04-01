@@ -12,20 +12,15 @@ export function LayoutHeaderAvatar() {
   }
 
   return (
-    <IDSHeader1177Avatar
-      username={user.personName}
-      links={
-        <>
-          {settingLink && (
-            <HeaderAvatarLink icon="settings" to={settingLink.url}>
-              {settingLink.name}
-            </HeaderAvatarLink>
-          )}
-          <HeaderAvatarLink icon="user" to="/logga-ut">
-            Logga ut
-          </HeaderAvatarLink>
-        </>
-      }
-    />
+    <IDSHeader1177Avatar username={user.personName}>
+      {settingLink && (
+        <HeaderAvatarLink icon="settings" to={settingLink.url}>
+          {settingLink.name}
+        </HeaderAvatarLink>
+      )}
+      <HeaderAvatarLink icon="user" to="/logga-ut">
+        Logga ut
+      </HeaderAvatarLink>
+    </IDSHeader1177Avatar>
   )
 }

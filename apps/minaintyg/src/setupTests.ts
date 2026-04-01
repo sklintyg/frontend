@@ -10,6 +10,9 @@ import { reset as resetCertificateFilter } from './store/slice/certificateFilter
 import { reset as resetSession } from './store/slice/session.slice'
 import { store } from './store/store'
 
+// Mock window.scrollTo which is not implemented in jsdom
+window.scrollTo = vi.fn()
+
 beforeEach(() => {
   vi.spyOn(global.crypto, 'randomUUID').mockReturnValue('5f92e947-e2ee-4238-bf29-4cdc6b6c4b54')
 })
