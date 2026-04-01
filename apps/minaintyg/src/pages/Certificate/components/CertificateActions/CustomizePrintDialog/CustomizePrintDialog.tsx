@@ -56,17 +56,11 @@ export function CustomizePrintDialog() {
     >
       <div className="max-w-3xl">
         <p className="mb-5">{customizePrintFunction.body}</p>
-        <IDSRadioGroup name="customize-print-options">
+        <IDSRadioGroup name="customize-print-options" onRadioChange={(event) => setCustomizeId(event.target.value)}>
           {customizePrintFunction.information
             .filter((info) => info.type === InformationTypeEnum.enum.OPTIONS)
             .map(({ id, text }) => (
-              <IDSRadio
-                key={text}
-                value={id || ''}
-                name="option"
-                checked={customizeId === (id || '')}
-                onChange={(event) => setCustomizeId(event.target.value)}
-              >
+              <IDSRadio key={text} value={id || ''} name="option" checked={customizeId === (id || '')}>
                 {text}
               </IDSRadio>
             ))}

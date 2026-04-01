@@ -1,5 +1,6 @@
-import { IDSAlertGlobal, IDSIconAttention, IDSIconInformation, IDSIconWarning } from '@inera/ids-react'
+import { IDSGlobalAlert } from '@inera/ids-react'
 import type { ReactNode } from 'react'
+import { Icon } from '../Icon/Icon'
 
 export enum PriorityEnum {
   'INFO',
@@ -9,11 +10,11 @@ export enum PriorityEnum {
 
 export function GlobalAlert({ children, priority }: { children: ReactNode; priority: PriorityEnum }) {
   return (
-    <IDSAlertGlobal headline="Driftmeddelande" className="print:hidden">
-      {priority === PriorityEnum.INFO && <IDSIconInformation data-testid="LOW_ICON" />}
-      {priority === PriorityEnum.OBSERVE && <IDSIconAttention data-testid="MEDIUM_ICON" />}
-      {priority === PriorityEnum.ERROR && <IDSIconWarning data-testid="HIGH_ICON" />}
+    <IDSGlobalAlert headline="Driftmeddelande" className="print:hidden">
+      {priority === PriorityEnum.INFO && <Icon icon="information" data-testid="LOW_ICON" />}
+      {priority === PriorityEnum.OBSERVE && <Icon icon="attention" data-testid="MEDIUM_ICON" />}
+      {priority === PriorityEnum.ERROR && <Icon icon="warning" data-testid="HIGH_ICON" />}
       {children}
-    </IDSAlertGlobal>
+    </IDSGlobalAlert>
   )
 }

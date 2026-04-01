@@ -15,7 +15,7 @@ exports[`Should render as expected with attention icon 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-center"
+        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
       >
         heading
       </h1>
@@ -40,7 +40,7 @@ exports[`Should render as expected with success icon 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-center"
+        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
       >
         heading
       </h1>

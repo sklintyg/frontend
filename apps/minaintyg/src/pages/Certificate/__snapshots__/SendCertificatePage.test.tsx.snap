@@ -6,7 +6,7 @@ exports[`Should render as expected 1`] = `
     class="ids-content mb-7"
   >
     <h1
-      class="ids-heading-xxl !normal-case"
+      class="ids-heading-xxl !normal-case text-heading-xxl"
     >
       Skicka intyg 
     </h1>
@@ -32,13 +32,10 @@ exports[`Should render as expected 1`] = `
   </header>
   <div
     aria-live="polite"
-    class="ids-spinner"
+    class="ids-spinner ids-spinner--1"
     data-testid="spinner"
     role="alert"
   >
-    <p
-      class="ids-spinner-sr"
-    />
     <div
       class="ids-bounce-1"
     />
@@ -65,8 +62,8 @@ exports[`Should render error message when unable to load certificate 1`] = `
         class="ids-alert__icon_and_text"
       >
         <span
+          aria-hidden="true"
           class="ids-alert__state-icon"
-          title=""
         />
         <div
           class="ids-alert__headline"
@@ -78,59 +75,63 @@ exports[`Should render error message when unable to load certificate 1`] = `
       </div>
     </div>
     <div
-      class="ids-alert__content"
+      id="alert-content-:r2:"
     >
       <div
-        class="flex flex-col gap-4"
+        class="ids-alert__content"
       >
-        <p>
-          Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-          <a
-            class="ids-link ids-link--underlined"
-            href="https://www.1177.se/e-tjanster-support"
-            rel="noreferrer"
-            target="_blank"
-          >
-            support
-            <span
-              class="ids-icon-external-link-small ids-icon--text-end"
-            />
-          </a>
-          och ange nedan fel-id:
-        </p>
         <div
-          class=""
+          class="flex flex-col gap-4"
         >
-          <button
-            aria-label="Kopiera fel-id"
-            tabindex="0"
-            type="button"
-            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
-          >
-            <p
-              data-state="closed"
+          <p>
+            Intyget kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+            <a
+              class="ids-link ids-link--underlined"
+              href="https://www.1177.se/e-tjanster-support"
+              rel="noreferrer"
+              target="_blank"
             >
-              <span>
-                Fel-id: 
-              </span>
-               
+              support
               <span
-                class="font-normal"
-              >
-                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
-              </span>
-              <span
-                class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+                class="ids-icon-external-link-small ids-icon--text-end"
               />
-            </p>
-            <p
-              class="flex justify-items-start"
-            />
-          </button>
+            </a>
+            och ange nedan fel-id:
+          </p>
+          <div
+            class=""
+          >
+            <button
+              aria-label="Kopiera fel-id"
+              tabindex="0"
+              type="button"
+              value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+            >
+              <p
+                data-state="closed"
+              >
+                <span>
+                  Fel-id: 
+                </span>
+                 
+                <span
+                  class="font-normal"
+                >
+                  5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+                </span>
+                <span
+                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
+                />
+              </p>
+              <p
+                class="flex justify-items-start"
+              />
+            </button>
+          </div>
+          <p>
+            Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+          </p>
         </div>
-        <p>
-          Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
-        </p>
       </div>
     </div>
   </div>,

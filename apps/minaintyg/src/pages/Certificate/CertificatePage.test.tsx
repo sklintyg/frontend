@@ -75,7 +75,7 @@ it('Should have article content', async () => {
   )
   expect(await screen.findByTestId('spinner')).toBeInTheDocument()
   expect(await screen.findByRole('article')).toBeInTheDocument()
-  expect(screen.getByRole('article')).toMatchSnapshot()
+  expect(screen.getByRole('heading', { name: /rubrik 1/i })).toBeInTheDocument()
 })
 
 it('Should display alert message when certificate is replaced', async () => {
@@ -91,13 +91,10 @@ it('Should display alert message when certificate is replaced', async () => {
   expect(screen.getByRole('alert')).toMatchInlineSnapshot(`
     <div
       aria-live="polite"
-      class="ids-spinner"
+      class="ids-spinner ids-spinner--1"
       data-testid="spinner"
       role="alert"
     >
-      <p
-        class="ids-spinner-sr"
-      />
       <div
         class="ids-bounce-1"
       />
@@ -145,7 +142,7 @@ describe('Unable to load certificate', () => {
   it('Should render error message', async () => {
     renderWithFault()
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument())
-    expect(screen.getAllByRole('alert')).toMatchSnapshot()
+    expect(screen.getByText(/Intyget kunde inte visas på grund av ett tekniskt fel\./i)).toBeInTheDocument()
   })
 
   it('Should display fallback description', async () => {

@@ -1,28 +1,20 @@
-import { TooltipIcon } from '@frontend/components'
-import { IDSIconInformation, IDSIconUser } from '@inera/ids-react'
+import { Icon, TooltipIcon } from '@frontend/components'
 import { differenceInDays, parseISO } from 'date-fns'
 import type { PatientSjukfall, PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
-import { useAppSelector } from '../../../../store/hooks'
 
 export function PatientHeaderInfo({
   firstCertificate: {
-    patient: { id, namn, alder, kon },
+    patient: { alder, kon },
   },
   currentSickness,
 }: {
   firstCertificate: PatientSjukfallIntyg
   currentSickness?: PatientSjukfall
 }) {
-  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
-
   return (
     <div className="flex flex-col gap-1 text-sm sm:text-base xl:flex-row">
       <div>
-        <IDSIconUser width="100%" height="100%" inline className="float-left mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />{' '}
-        {showPersonalInformation && <span className="font-bold">{namn},</span>}{' '}
-        <span className="whitespace-nowrap">
-          {showPersonalInformation && <span>{id},</span>} <span>{alder} år,</span> <span>{kon === 'F' ? 'kvinna' : 'man'}</span>
-        </span>
+        <span>{alder} år,</span> <span>{kon === 'F' ? 'kvinna' : 'man'}</span>
       </div>
       {currentSickness && (
         <>
@@ -34,7 +26,7 @@ export function PatientHeaderInfo({
             <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar </span>
             <TooltipIcon
               description="Visar antal dagar som sjukfallet pågått från första intygets startdatum till idag."
-              icon={<IDSIconInformation width="100%" height="100%" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
+              icon={<Icon icon="information" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
               alignMiddle
             />
           </div>
