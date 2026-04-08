@@ -22,7 +22,7 @@ export function createAsyncApiThunk<Response, ThunkArg = void>(name: string, ini
   return createAsyncThunk<Response, ThunkArg, { state: RootState }>(name, async (args, { rejectWithValue, dispatch, getState }) => {
     const payload = init(args)
     const { webcertFrontendApiTimeout } = getConfig(getState())
-    const { url, method, headers, data, timeout = webcertFrontendApiTimeout || 30000 } = payload
+    const { url, method, headers, data, timeout = webcertFrontendApiTimeout } = payload
 
     if (selectById(getState(), id)) {
       return rejectWithValue({ message: `[${method}] ${url} is pending`, payload })
