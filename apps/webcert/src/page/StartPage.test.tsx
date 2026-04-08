@@ -30,6 +30,7 @@ const config: Configuration = {
   sakerhetstjanstIdpUrl: '#sithsIdp',
   ppHost: '#ppHostUrl',
   forwardDraftOrQuestionUrl: '',
+  webcertFrontendApiTimeout: 30000,
 }
 
 describe('StartPage', () => {

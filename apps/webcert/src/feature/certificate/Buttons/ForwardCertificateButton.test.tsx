@@ -71,6 +71,7 @@ describe('Forward certificate button', () => {
         sakerhetstjanstIdpUrl: '',
         ppHost: '',
         forwardDraftOrQuestionUrl,
+        webcertFrontendApiTimeout: 30000,
       })
     )
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
