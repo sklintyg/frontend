@@ -21,15 +21,22 @@ export const InputLabel = forwardRef<HTMLLabelElement, LabelHTMLAttributes<HTMLL
     )
 
     return (
-      <div className="ids-label-tooltip-wrapper">
+      <div className="ids-label-wrapper">
         {label}
         {description && (
-          <Tooltip placement="bottom-start">
-            <TooltipTrigger>
-              <span role="button" className="ids-icon-information ids-icon--m ids-icon--color-preset-1" aria-labelledby={id} tabIndex={0} />
-            </TooltipTrigger>
-            <TooltipContent id={id}>{description}</TooltipContent>
-          </Tooltip>
+          <span className="ids-label__tooltip">
+            <Tooltip placement="bottom-start">
+              <TooltipTrigger>
+                <span
+                  role="button"
+                  className="ids-icon-information ids-icon--m ids-icon--color-preset-1"
+                  aria-labelledby={id}
+                  tabIndex={0}
+                />
+              </TooltipTrigger>
+              <TooltipContent id={id}>{description}</TooltipContent>
+            </Tooltip>
+          </span>
         )}
       </div>
     )

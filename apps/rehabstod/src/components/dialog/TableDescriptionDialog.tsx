@@ -1,16 +1,15 @@
-import { Button, Dialog, Heading } from '@frontend/components'
-import { IDSIconInformation } from '@inera/ids-react'
+import { Button, Dialog, Heading, Icon } from '@frontend/components'
 import { useState } from 'react'
 import type { Column } from '../Table/types/Column'
+import { TertiaryButton } from '../TertiaryButton/TertiaryButton'
 
 export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <button className="pt-5 text-sm text-accent-40 underline print:hidden" onClick={() => setOpen(true)} type="button">
-        <IDSIconInformation size="s" className="inline-block pr-2 align-middle" />
+      <TertiaryButton className="pt-5 print:hidden" onClick={() => setOpen(true)} startIcon={<Icon icon="information" size="m" />}>
         Beskrivning av tabellens rubriker
-      </button>
+      </TertiaryButton>
       <Dialog
         dismissible
         open={open}
@@ -29,7 +28,7 @@ export function TableDescriptionDialog({ columns }: { columns: Column[] }) {
               <Heading level={2} size="xs">
                 {column.name}
               </Heading>
-              <p>{column.description}</p>
+              <p className="text-on-background">{column.description}</p>
             </div>
           ))}
       </Dialog>

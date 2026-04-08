@@ -8,7 +8,6 @@ exports[`Should render as expected 1`] = `
     <button
       aria-disabled="false"
       aria-label="Till toppen av sidan"
-      aria-pressed="false"
       class="ids-button ids-button--m ids-button--fab ids-hide ids-show-1177 absolute bottom-5 right-5 select-none"
       role="button"
       tabindex="0"
