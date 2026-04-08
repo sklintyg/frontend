@@ -5,7 +5,10 @@ import { defineProject } from 'vitest/config'
 export default defineProject({
   resolve: {
     alias: {
-      '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+      '@inera/ids-design': path.resolve(
+        __dirname,
+        '../../node_modules/.pnpm/@inera+ids-design@9.0.0/node_modules/@inera/ids-design'
+      ),
     },
   },
   test: {
