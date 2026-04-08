@@ -19,6 +19,7 @@ export interface Configuration {
   ppHost: string
   forwardDraftOrQuestionUrl: string
   idpConnectUrls: string[]
+  webcertFrontendApiTimeout: number
 }
 
 interface UtilsState {
@@ -40,6 +41,7 @@ const initialState: UtilsState = {
     ppHost: '',
     forwardDraftOrQuestionUrl: '',
     idpConnectUrls: [],
+    webcertFrontendApiTimeout: 30000,
   },
   isLoadingConfig: false,
   isLoadingDynamicLinks: false,

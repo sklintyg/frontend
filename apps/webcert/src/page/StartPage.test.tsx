@@ -31,6 +31,7 @@ const config: Configuration = {
   ppHost: '#ppHostUrl',
   forwardDraftOrQuestionUrl: '',
   idpConnectUrls: [],
+  webcertFrontendApiTimeout: 30000,
 }
 
 describe('StartPage', () => {
