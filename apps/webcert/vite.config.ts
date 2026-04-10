@@ -1,7 +1,11 @@
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import { createRequire } from 'module'
+import path from 'path'
 import type { ProxyOptions, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
+
+const require = createRequire(import.meta.url)
 
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
@@ -37,6 +41,11 @@ export default ({ mode }: UserConfig) => {
   )
 
   return defineConfig({
+    resolve: {
+      alias: {
+        '@inera/ids-design': path.dirname(require.resolve('@inera/ids-design/package.json')),
+      },
+    },
     plugins: [react()].concat(
       process.env.LEGACY_SUPPORT !== 'false'
         ? legacy({

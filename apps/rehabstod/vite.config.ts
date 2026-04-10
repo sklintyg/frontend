@@ -1,9 +1,12 @@
 /* eslint-disable import/no-default-export */
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import { createRequire } from 'module'
 import path from 'path'
 import type { ProxyOptions, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
+
+const require = createRequire(import.meta.url)
 
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
@@ -39,7 +42,7 @@ export default ({ mode }: UserConfig) => {
     ),
     resolve: {
       alias: {
-        '@inera/ids-design': path.resolve(__dirname, './node_modules/@inera/ids-design'),
+        '@inera/ids-design': path.dirname(require.resolve('@inera/ids-design/package.json')),
       },
     },
     server: {
