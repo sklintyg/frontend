@@ -30,8 +30,8 @@
     "*.{js,jsx,ts,tsx}": "pnpm test -- related --run"
   },
   "dependencies": {
-    "@frontend/colors": "workspace:*",
-    "@frontend/components": "workspace:*",
+    "@frontend/colors-ids9": "workspace:*",
+    "@frontend/components-ids9": "workspace:*",
     "@inera/ids-react": "^9.0.0",
     "@inera/ids-design": "^9.0.0",
     "react": "^18.3.1",

@@ -1,4 +1,4 @@
-import type { DynamicLink } from '@frontend/components'
+import type { DynamicLink } from '@frontend/components-ids9'
 import { IDSHeader1177Nav } from '@inera/ids-react'
 import { useInRouterContext } from 'react-router-dom'
 import { LayoutDesktopNavItem } from './LayoutDesktopNavItem'

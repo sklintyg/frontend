@@ -721,9 +721,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.16
         version: 0.27.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@frontend/colors':
+      '@frontend/colors-ids9':
         specifier: workspace:*
-        version: link:../colors
+        version: link:../colors-ids9
       '@frontend/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1044,12 +1044,12 @@ importers:
 
   packages/theme-1177-ids9:
     dependencies:
-      '@frontend/colors':
+      '@frontend/colors-ids9':
         specifier: workspace:*
-        version: link:../colors
-      '@frontend/components':
+        version: link:../colors-ids9
+      '@frontend/components-ids9':
         specifier: workspace:*
-        version: link:../components
+        version: link:../components-ids9
       '@inera/ids-design':
         specifier: ^9.0.0
         version: 9.0.0
@@ -4923,6 +4923,7 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.1.6:
@@ -7232,6 +7233,7 @@ packages:
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}

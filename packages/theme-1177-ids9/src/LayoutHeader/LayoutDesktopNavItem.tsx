@@ -1,4 +1,4 @@
-import { useActivePage } from '@frontend/components'
+import { useActivePage } from '@frontend/components-ids9'
 import { IDSHeader1177NavItem } from '@inera/ids-react'
 import { Link } from 'react-router-dom'
 

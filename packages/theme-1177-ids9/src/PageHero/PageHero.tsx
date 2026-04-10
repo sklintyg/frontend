@@ -1,4 +1,4 @@
-import { Heading, Icon } from '@frontend/components'
+import { Heading, Icon } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function PageHero({ heading, type, children }: { heading: ReactNode; type: 'success' | 'error' | 'none'; children: ReactNode }) {

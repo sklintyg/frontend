@@ -1,5 +1,5 @@
-import type { DynamicLink } from '@frontend/components'
-import { MobileMenuItem } from '@frontend/components'
+import type { DynamicLink } from '@frontend/components-ids9'
+import { MobileMenuItem } from '@frontend/components-ids9'
 import { IDSHeader1177MenuMobile, IDSMobileMenu } from '@inera/ids-react'
 import { useInRouterContext } from 'react-router-dom'
 

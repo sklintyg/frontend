@@ -1,4 +1,4 @@
-import { AppLink, classNames, Icon } from '@frontend/components'
+import { AppLink, classNames, Icon } from '@frontend/components-ids9'
 import { IDSFooter1177, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
 
 export function LayoutFooter({ hasSession }: { hasSession: boolean }) {

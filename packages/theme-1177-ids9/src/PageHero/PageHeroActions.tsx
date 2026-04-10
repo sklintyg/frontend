@@ -1,4 +1,4 @@
-import { hasNoChildren } from '@frontend/components'
+import { hasNoChildren } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function PageHeroActions({ children }: { children: ReactNode }) {

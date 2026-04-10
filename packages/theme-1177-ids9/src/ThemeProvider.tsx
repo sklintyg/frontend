@@ -1,4 +1,4 @@
-import { ThemeContext } from '@frontend/components'
+import { ThemeContext } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 import './1177.css'
 
