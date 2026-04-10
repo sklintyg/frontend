@@ -1,25 +1,37 @@
 import { IDSDataPagination } from "@inera/ids-react";
 
-export function Paginator() {
+interface PaginatorProps {
+    total: number
+    page: number
+    pageSize: number
+    onPageChange: (page: number) => void
+    onPageSizeChange: (pageSize: number) => void
+}
+
+export function Paginator({ total, page, pageSize, onPageChange, onPageSizeChange }: PaginatorProps) {
+    const lastPage = Math.max(1, Math.ceil(total / pageSize))
+    const from = total === 0 ? 0 : (page - 1) * pageSize + 1
+    const to = Math.min(page * pageSize, total)
+
     return (
         <IDSDataPagination
-            defaultValue="10"
-            firstPageButton={<button type="button" aria-label="go to first page" onClick={() => { }} />}
-            from={1}
-            lastPageButton={<button type="button" aria-label="go to last page" onClick={() => { }} />}
-            nextButton={<button type="button" aria-label="go to next page" onClick={() => { }} />}
+            defaultValue={String(pageSize)}
+            firstPageButton={<button type="button" aria-label="go to first page" onClick={() => onPageChange(1)} />}
+            from={from}
+            lastPageButton={<button type="button" aria-label="go to last page" onClick={() => onPageChange(lastPage)} />}
+            nextButton={<button type="button" aria-label="go to next page" onClick={() => onPageChange(Math.min(page + 1, lastPage))} />}
             of="av"
-            previousButton={<button type="button" aria-label="go to previous page" onClick={() => { }} />}
-            to={10}
-            total={306}
+            previousButton={<button type="button" aria-label="go to previous page" onClick={() => onPageChange(Math.max(page - 1, 1))} />}
+            to={to}
+            total={total}
         >
             <label htmlFor="my-select">
                 Rader per sida
             </label>
             <select
-                defaultValue="10"
+                value={String(pageSize)}
                 id="my-select"
-                onChange={() => { }}
+                onChange={(e) => onPageSizeChange(Number(e.target.value))}
             >
                 <option
                     aria-label="10 sidor"
@@ -28,22 +40,22 @@ export function Paginator() {
                     10
                 </option>
                 <option
-                    aria-label="20 sidor"
-                    value="20"
+                    aria-label="25 sidor"
+                    value="25"
                 >
-                    20
+                    25
                 </option>
                 <option
-                    aria-label="30 sidor"
-                    value="30"
+                    aria-label="50 sidor"
+                    value="50"
                 >
-                    30
+                    50
                 </option>
                 <option
-                    aria-label="40 sidor"
-                    value="40"
+                    aria-label="100 sidor"
+                    value="100"
                 >
-                    40
+                    100
                 </option>
             </select>
         </IDSDataPagination>

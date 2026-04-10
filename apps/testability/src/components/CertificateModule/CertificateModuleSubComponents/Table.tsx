@@ -1,82 +1,91 @@
+import "@inera/ids-design/components/data-table/data-table.css";
+import { CertificateDto } from "@src/api/dataFormat";
 
-
-import { useState } from "react";
-
-interface RowData {
-    id: string;
-    col1: string;
-    col2: string;
-    col3: string;
-    col4: string;
-    col5: string;
+function HeaderRow() {
+    const headers = ["Patient", "Intygs-ID", "Intygstyp", "Skapad av", "Signerades"]
+    return (
+        <tr>
+            {headers.map((h) => (
+                <th key={h} className="px-3 py-2 text-left font-semibold">
+                    {h}
+                </th>
+            ))}
+        </tr>
+    );
 }
 
-const makeDefaultRows = (count: number): RowData[] =>
-    Array.from({ length: count }, (_, i) => ({
-        id: crypto.randomUUID(),
-        col1: `Row ${i + 1} A`,
-        col2: `Row ${i + 1} B`,
-        col3: `Row ${i + 1} C`,
-        col4: `Row ${i + 1} D`,
-        col5: `Row ${i + 1} E`,
-    }));
+function DataRow({ certificate, onSelect }: { certificate: CertificateDto; onSelect: (certificate: CertificateDto) => void }) {
+    const fields = [
+        `${certificate.patientName} - ${certificate.personNumber}`,
+        certificate.certificateId,
+        `${certificate.certificateType} v${certificate.certificateTypeVersion}`,
+        certificate.createdBy,
+        certificate.dateSigned,
+    ]
 
-function iconFor(key: keyof RowData, sortKey: keyof RowData | null, ascending: boolean) {
-  if (sortKey !== key) return '';
-  return ascending ? '▲' : '▼';
+  return (
+    <tr
+            className="cursor-pointer"
+            tabIndex={0}
+            onClick={() => onSelect(certificate)}
+            onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault()
+                    onSelect(certificate)
+                }
+            }}
+    >
+            {fields.map((field, index) => (
+                <td key={`${certificate.certificateId}-${index}`} className="px-3 py-2 text-left">
+                    {field}
+                </td>
+            ))}
+    </tr>
+  )
 }
 
-export function Table() {
-    const [rows, setRows] = useState<RowData[]>(makeDefaultRows(10));
-    const [sortKey, setSortKey] = useState<keyof RowData | null>(null);
-    const [ascending, setAscending] = useState(true);
+function EmptyRow(){
+    return (
+        <tr>
+            <td className="text-center" colSpan={5}> Vald vårdenhet har inga skickade intyg.</td>
+        </tr>
+    )
+}
 
-    const headers: { key: keyof RowData; label: string }[] = [
-        { key: "col1", label: "Patient" },
-        { key: "col2", label: "Intygs-ID" },
-        { key: "col3", label: "Intygstyp" },
-        { key: "col4", label: "Skapad av" },
-        { key: "col5", label: "Signerades" },
-    ];
+type TableProps = {
+    certificates?: CertificateDto[];
+};
 
-    const sortBy = (key: keyof RowData) => {
-        const asc = sortKey === key ? !ascending : true;
-        const sorted = [...rows].sort((a, b) => {
-            if (a[key] < b[key]) return asc ? -1 : 1;
-            if (a[key] > b[key]) return asc ? 1 : -1;
-            return 0;
-        });
-        setRows(sorted);
-        setSortKey(key);
-        setAscending(asc);
-    };
+export function Table({ certificates = [], onSelectedCertificateChange }: { certificates?: CertificateDto[]; onSelectedCertificateChange: (certificate: CertificateDto) => void }) {
+    const rows: JSX.Element[] = []
+
+    if (certificates.length === 0) {
+        rows.push(
+            <EmptyRow
+                key = {0}
+            />
+        )
+    }     
+    else {
+        certificates.forEach(c => {
+            rows.push(
+                <DataRow 
+                    certificate={c}
+                    onSelect={onSelectedCertificateChange}
+                    key = {c.certificateId}
+                />
+            );
+        })
+    }
 
     return (
-        <div className="overflow-auto">
-            <table className="w-full border-collapse">
+        <div className="border border-ids-surface-border overflow-x-auto overflow-y-hidden rounded-md">
+            <table className="ids-data-table ids-data-table--interactive w-full">
                 <thead>
-                    <tr>
-                        {headers.map(({ key, label }) => (
-                            <th
-                                key={key}
-                                className="px-4 py-2 border cursor-pointer"
-                                onClick={() => sortBy(key)}
-                            >
-                                {label} {iconFor(key, sortKey, ascending)}
-                            </th>
-                        ))}
-                    </tr>
+                    { HeaderRow() }
                 </thead>
                 <tbody>
-                    {rows.map((row) => (
-                        <tr key={row.id}>
-                            <td className="px-4 py-2 border">{row.col1}</td>
-                            <td className="px-4 py-2 border">{row.col2}</td>
-                            <td className="px-4 py-2 border">{row.col3}</td>
-                            <td className="px-4 py-2 border">{row.col4}</td>
-                            <td className="px-4 py-2 border">{row.col5}</td>
-                        </tr>
-                    ))}
+                    { rows }
                 </tbody>
             </table>
         </div>

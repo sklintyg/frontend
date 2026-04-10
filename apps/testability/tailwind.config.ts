@@ -17,31 +17,34 @@ export default {
       lg: '940px',
       xl: '1280px',
     },
-    colors: {
-      white: '#FFF',
-      main: 'var(--color-main)',
-      sky: {
-        dark: 'var(--color-sky-dark)',
-        base: 'var(--color-sky-base)',
-        clear: 'var(--color-sky-clear)',
-      },
-      stone: {
-        dark: 'var(--color-stone-dark)',
-        base: 'var(--color-stone-base)',
-        clear: 'var(--color-stone-clear)',
-        line: 'var(--color-stone-line)',
-        background: 'var(--color-stone-background)',
-      },
-      accent: {
-        30: 'var(--IDS-COLOR-ACCENT-30)',
-        40: 'var(--IDS-COLOR-ACCENT-40)',
-        90: 'var(--IDS-COLOR-ACCENT-90)',
-      },
-      legacy: {
-        main: '#00706e',
+    extend: {
+      colors: {
+        ids: {
+          input: {
+            background: 'var(--IDS-INPUT__BACKGROUND-COLOR)',
+            border: 'var(--IDS-INPUT__BORDER-COLOR)',
+          },
+          surface: {
+            background: 'var(--ids-color-surface-background-default)',
+            alternative: 'var(--ids-color-surface-background-alternative)',
+            border: 'var(--ids-color-surface-border-default)',
+            text: 'var(--ids-color-surface-text-on-default)',
+            subtle: 'var(--ids-color-surface-text-subtle-on-default)',
+          },
+          interactive: {
+            default: 'var(--ids-color-interactive-background-default)',
+            hover: 'var(--ids-color-interactive-background-hover)',
+            active: 'var(--ids-color-interactive-background-active)',
+          },
+          feedback: {
+            info: 'var(--ids-color-feedback-background-information)',
+            success: 'var(--ids-color-feedback-background-success)',
+            attention: 'var(--ids-color-feedback-background-attention)',
+            error: 'var(--ids-color-feedback-background-error)',
+          },
+        },
       },
     },
-    extend: {},
   },
   plugins: [],
 } satisfies Config
