@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { fakerFromSchema } from '@frontend/fake'
 import { render, screen } from '@testing-library/react'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'

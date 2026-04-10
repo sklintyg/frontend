@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "types": ["@types/node"],
+    "noEmit": true,
+    "allowJs": true
+  },
+  "extends": "./tsconfig.json",
+  "exclude": ["dist"],
+  "include": ["src", "*.cjs", "*.config.ts", "./rollup.config.js"]
+}

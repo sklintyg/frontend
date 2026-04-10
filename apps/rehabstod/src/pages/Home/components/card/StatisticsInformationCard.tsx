@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { DynamicLink } from '../../../../components/DynamicLink/DynamicLink'
 import { useGetLinksQuery } from '../../../../store/api'
 

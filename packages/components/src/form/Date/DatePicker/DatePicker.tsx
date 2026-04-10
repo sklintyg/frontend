@@ -39,7 +39,7 @@ export function DatePicker({ label, date, onDataChanged, ...props }: DatePickerP
     <Popover open={state.isOpen} onOpenChange={state.setOpen} placement="bottom-end">
       <div className="inline-flex w-full flex-row items-center gap-3">
         <div {...labelProps}>{label}</div>
-        <div {...groupProps} ref={ref} className="ids-input__input">
+        <div {...groupProps} ref={ref} className="ids-input">
           <span className="grow px-5" ref={fieldRef}>
             <DateField {...fieldProps} data={date} onDataChanged={(val) => onDataChanged && onDataChanged(val)} />
           </span>

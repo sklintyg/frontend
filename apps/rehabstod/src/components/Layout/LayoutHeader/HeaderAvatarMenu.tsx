@@ -1,5 +1,5 @@
 import { IDSHeader1177AdminAvatar } from '@inera/ids-react'
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useAppDispatch } from '../../../store/hooks'

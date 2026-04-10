@@ -1,4 +1,4 @@
-import { Button } from '@frontend/components'
+import { Button } from '@frontend/components-ids9'
 import { IDSHeaderPatient } from '@inera/ids-react'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'

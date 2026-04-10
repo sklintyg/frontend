@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import type { SortDirection } from 'react-stately'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'
 import { useGroupCertificateByYear } from '../hooks/useGroupCertificateByYear'

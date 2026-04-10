@@ -1,4 +1,4 @@
-import { AppLink } from '@frontend/components'
+import { AppLink } from '@frontend/components-ids9'
 
 export function SupportLink() {
   return (

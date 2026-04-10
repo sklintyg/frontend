@@ -1,4 +1,4 @@
-import { classNames, Icon, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { classNames, Icon, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components-ids9'
 import { useState } from 'react'
 
 export function ErrorIdentifier({ id, centerText = false }: { id: string; centerText?: boolean }) {

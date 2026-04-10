@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Checkbox } from '@frontend/components'
+import { Checkbox } from '@frontend/components-ids9'
 import { type ReactEventHandler } from 'react'
 import { type DropPosition } from 'react-aria'
 import type { TableColumn } from '../../../schemas/tableSchema'

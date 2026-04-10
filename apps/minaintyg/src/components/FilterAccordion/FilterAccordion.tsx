@@ -1,4 +1,4 @@
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function FilterAccordion({ total, listed, noun, children }: { noun: string; total: number; listed: number; children: ReactNode }) {

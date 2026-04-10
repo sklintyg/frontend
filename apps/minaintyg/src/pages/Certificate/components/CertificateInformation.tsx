@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { useFormat } from '../../../hooks/useFormat'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'
 

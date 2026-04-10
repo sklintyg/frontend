@@ -1,4 +1,4 @@
-import { Dialog } from '@frontend/components'
+import { Dialog } from '@frontend/components-ids9'
 import { IDSButton } from '@inera/ids-react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../store/api'

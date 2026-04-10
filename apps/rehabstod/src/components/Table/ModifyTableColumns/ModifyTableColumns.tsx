@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Button, SelectMultiple, SelectMultipleActions } from '@frontend/components'
+import { Button, SelectMultiple, SelectMultipleActions } from '@frontend/components-ids9'
 import { useId } from 'react'
 import { type DropPosition, type DroppableCollectionReorderEvent } from 'react-aria'
 import { Item } from 'react-stately'

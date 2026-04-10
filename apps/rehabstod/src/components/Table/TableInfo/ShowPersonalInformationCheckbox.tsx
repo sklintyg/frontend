@@ -1,4 +1,4 @@
-import { Checkbox } from '@frontend/components'
+import { Checkbox } from '@frontend/components-ids9'
 
 export function ShowPersonalInformationCheckbox({ checked, onChange }: { checked: boolean; onChange: (checked: boolean) => void }) {
   return (

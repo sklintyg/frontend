@@ -1,4 +1,4 @@
-import { Button, Dialog, Heading } from '@frontend/components'
+import { Button, Dialog, Heading } from '@frontend/components-ids9'
 import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'

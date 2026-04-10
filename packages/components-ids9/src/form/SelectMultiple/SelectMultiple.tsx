@@ -1,0 +1,118 @@
+import {
+  autoUpdate,
+  flip,
+  FloatingFocusManager,
+  FloatingPortal,
+  offset,
+  size,
+  useDismiss,
+  useFloating,
+  useInteractions,
+} from '@floating-ui/react'
+import '@inera/ids-design/components/form/select-multiple/select-multiple.css'
+import { useId, useState, type ReactNode } from 'react'
+import { classNames } from '../../utils/classNames'
+import { hasNoChildren } from '../../utils/hasNoChildren'
+import { InputLabel } from '../InputLabel/InputLabel'
+
+export function SelectMultiple({
+  children,
+  description,
+  disabled,
+  id: controlledId,
+  listBoxId,
+  label,
+  light = false,
+  placeholder,
+  onOpenChanged,
+}: {
+  children: ReactNode
+  description: string
+  listBoxId: string
+  disabled?: boolean
+  id?: string
+  label: string
+  light?: boolean
+  placeholder: string
+  onOpenChanged?: (open: boolean) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const { x, y, strategy, refs, context } = useFloating({
+    placement: 'bottom-start',
+    open,
+    onOpenChange: (o) => {
+      if (onOpenChanged) {
+        onOpenChanged(o)
+      }
+      setOpen(o)
+    },
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset(1),
+      flip({ padding: 10 }),
+      size({
+        apply({ rects, elements }) {
+          Object.assign(elements.floating.style, {
+            width: `${Math.max(rects.reference.width, 100)}px`,
+          })
+        },
+        padding: 10,
+      }),
+    ],
+  })
+  const dismiss = useDismiss(context)
+  const { getFloatingProps } = useInteractions([dismiss])
+  const uncontrolledId = useId()
+  const id = controlledId ?? uncontrolledId
+
+  if (hasNoChildren(children)) {
+    return null
+  }
+
+  return (
+    <>
+      <InputLabel htmlFor={id} description={description}>
+        {label}
+      </InputLabel>
+      <div className="ids-select-multiple-wrapper">
+        <input
+          id={id}
+          type="button"
+          role="combobox"
+          ref={refs.setReference}
+          aria-controls={listBoxId}
+          aria-expanded={open}
+          aria-haspopup="listbox"
+          aria-label={label}
+          className={classNames('ids-select-multiple__select', light && 'ids-input--light')}
+          value={placeholder}
+          disabled={disabled}
+          onClick={() => setOpen(!open)}
+        />
+        {open && (
+          <FloatingPortal>
+            <FloatingFocusManager context={context} modal={false}>
+              <div
+                className="ids-select-multiple__dropdown-wrapper"
+                ref={refs.setFloating}
+                style={{
+                  position: strategy,
+                  top: y ?? 0,
+                  left: x ?? 0,
+                  minWidth: 100,
+                  outline: 0,
+                  zIndex: 1000,
+                }}
+                {...getFloatingProps()}
+              >
+                <div className="ids-select-multiple__dropdown ids-select-multiple__dropdown--expanded">
+                  <div className="ids-select-multiple__dropdown-scroll-area">{children}</div>
+                </div>
+              </div>
+            </FloatingFocusManager>
+          </FloatingPortal>
+        )}
+      </div>
+    </>
+  )
+}

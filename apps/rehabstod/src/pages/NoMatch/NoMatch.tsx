@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { IDSContainer } from '@inera/ids-react'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { StartPageLink } from '../../components/PageHero/StartPageLink'

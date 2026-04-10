@@ -1,4 +1,4 @@
-import { Button, Heading } from '@frontend/components'
+import { Button, Heading } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 

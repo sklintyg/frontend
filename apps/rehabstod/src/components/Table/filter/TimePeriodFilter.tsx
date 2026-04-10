@@ -1,4 +1,4 @@
-import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components-ids9'
 import { useId } from 'react'
 import type { SickLeaveLengthInterval } from '../../../schemas/sickLeaveSchema'
 import type { TimePeriodOption } from '../../../schemas/timePeriodOptionSchema'

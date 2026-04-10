@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function PageHeading({ heading, children }: { heading?: string; children?: ReactNode }) {

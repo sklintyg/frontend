@@ -1,4 +1,4 @@
-import { Dialog, Heading } from '@frontend/components'
+import { Dialog, Heading } from '@frontend/components-ids9'
 import type { ComponentProps, ReactNode } from 'react'
 
 export function ReadMoreAboutDialog({

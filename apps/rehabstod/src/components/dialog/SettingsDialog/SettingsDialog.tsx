@@ -1,4 +1,4 @@
-import { Button, Dialog } from '@frontend/components'
+import { Button, Dialog } from '@frontend/components-ids9'
 import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'

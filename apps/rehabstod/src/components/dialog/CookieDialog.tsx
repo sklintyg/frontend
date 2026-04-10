@@ -1,4 +1,4 @@
-import { Dialog, Heading } from '@frontend/components'
+import { Dialog, Heading } from '@frontend/components-ids9'
 import { useGetLinksQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowCookieDialog } from '../../store/slices/cookieDialog.slice'

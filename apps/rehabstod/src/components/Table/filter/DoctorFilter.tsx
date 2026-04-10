@@ -1,4 +1,4 @@
-import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components-ids9'
 import { useId } from 'react'
 import type { Lakare } from '../../../schemas/lakareSchema'
 import { PrintTitle } from '../print/PrintTitle'

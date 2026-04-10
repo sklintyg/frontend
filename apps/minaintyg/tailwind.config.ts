@@ -1,12 +1,12 @@
 /* eslint-disable import/no-default-export */
-import { colors } from '@frontend/colors'
+import { colors } from '@frontend/colors-ids9'
 import type { Config } from 'tailwindcss'
 
 export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/@frontend/components/dist/*.js',
+    './node_modules/@frontend/components-ids9/dist/*.js',
     './node_modules/@frontend/theme-1177/dist/*.js',
   ],
   important: true,

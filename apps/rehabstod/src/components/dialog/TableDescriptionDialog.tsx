@@ -1,4 +1,4 @@
-import { Button, Dialog, Heading, Icon } from '@frontend/components'
+import { Button, Dialog, Heading, Icon } from '@frontend/components-ids9'
 import { useState } from 'react'
 import type { Column } from '../Table/types/Column'
 import { TertiaryButton } from '../TertiaryButton/TertiaryButton'

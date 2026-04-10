@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '@frontend/components-ids9'
 import '@inera/ids-design/components/data-table/data-table.css'
 import type { ReactNode } from 'react'
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'

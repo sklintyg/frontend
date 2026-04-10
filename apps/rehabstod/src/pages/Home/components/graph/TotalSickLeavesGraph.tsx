@@ -1,4 +1,4 @@
-import { Heading, Icon, TooltipIcon } from '@frontend/components'
+import { Heading, Icon, TooltipIcon } from '@frontend/components-ids9'
 import { format } from 'date-fns'
 import type { LabelProps } from 'recharts'
 import { Pie, PieChart } from 'recharts'

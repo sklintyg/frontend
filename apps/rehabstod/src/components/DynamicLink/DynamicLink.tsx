@@ -1,4 +1,4 @@
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 import { IDSLink } from '@inera/ids-react'
 import type { ComponentProps } from 'react'
 import type { Link } from '../../schemas'

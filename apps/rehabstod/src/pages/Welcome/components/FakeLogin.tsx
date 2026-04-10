@@ -1,4 +1,4 @@
-import { Button, Input, Radio, Select } from '@frontend/components'
+import { Button, Input, Radio, Select } from '@frontend/components-ids9'
 import { IDSCard, IDSSpinner } from '@inera/ids-react'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { useFakeLoginMutation } from '../../../store/testabilityApi'

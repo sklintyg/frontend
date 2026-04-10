@@ -1,4 +1,4 @@
-import { AppLink, Button } from '@frontend/components'
+import { AppLink, Button } from '@frontend/components-ids9'
 import { IDSAlert, IDSSpinner } from '@inera/ids-react'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { useCreateDefaultTestDataMutation } from '../../../store/testabilityApi'

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
-import { FloatingDelayGroup } from '@frontend/components'
-import { ThemeProvider } from '@frontend/theme-1177'
+import { FloatingDelayGroup } from '@frontend/components-ids9'
+import { ThemeProvider } from '@frontend/theme-1177-ids9'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'
 import React from 'react'

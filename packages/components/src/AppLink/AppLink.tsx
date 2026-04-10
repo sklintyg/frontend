@@ -18,7 +18,6 @@ export const AppLink = forwardRef<
     colorPreset?: ColorPreset
     large?: boolean
     small?: boolean
-    footer?: boolean
     largeArrow?: boolean
   } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
 >(
@@ -33,7 +32,6 @@ export const AppLink = forwardRef<
       arrow,
       external,
       small,
-      footer,
       largeArrow = false,
       children,
       ...props
@@ -42,7 +40,14 @@ export const AppLink = forwardRef<
   ) => {
     const target = incommingTarget || (external ? '_blank' : undefined)
     return (
-      <IDSLink underlined={underlined} block={block} colorPreset={colorPreset} footer={footer} small={small}>
+      <IDSLink
+        underlined={underlined}
+        noUnderline={underlined != null ? !underlined : undefined}
+        block={block}
+        colorPreset={colorPreset}
+        large={large}
+        small={small}
+      >
         {external || target != null ? (
           <a ref={ref} href={to} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} {...props}>
             {arrow && <Icon icon="arrow-right-small" textStart />}

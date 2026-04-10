@@ -1,4 +1,4 @@
-import { FormattedNumberInput, InputLabel } from '@frontend/components'
+import { FormattedNumberInput, InputLabel } from '@frontend/components-ids9'
 import { useId } from 'react'
 import { PrintTitle } from '../print/PrintTitle'
 

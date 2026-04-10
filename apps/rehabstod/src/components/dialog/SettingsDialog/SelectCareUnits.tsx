@@ -1,4 +1,4 @@
-import { Select } from '@frontend/components'
+import { Select } from '@frontend/components-ids9'
 import { useId } from 'react'
 import { useGetUserQuery } from '../../../store/api'
 import { getUnitsForUser } from '../../../utils/getUnitsForUser'

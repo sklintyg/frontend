@@ -1,4 +1,4 @@
-import { Button, Heading } from '@frontend/components'
+import { Button, Heading } from '@frontend/components-ids9'
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { ProtectedRoute } from '../../components/ProtectedRoute/ProtectedRoute'

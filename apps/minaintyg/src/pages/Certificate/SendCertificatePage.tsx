@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { IDSCard, IDSSpinner } from '@inera/ids-react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router-dom'

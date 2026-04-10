@@ -1,5 +1,5 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
-import { Icon } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components-ids9'
+import { Icon } from '@frontend/components-ids9'
 
 export function MoveColumnButton({
   direction,

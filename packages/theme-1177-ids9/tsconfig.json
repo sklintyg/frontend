@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": false,
+    "jsx": "react-jsx",
+    "types": ["vitest/globals"]
+  },
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,4 +1,4 @@
-import { Icon, TooltipIcon } from '@frontend/components'
+import { Icon, TooltipIcon } from '@frontend/components-ids9'
 import { differenceInDays, parseISO } from 'date-fns'
 import type { PatientSjukfall, PatientSjukfallIntyg } from '../../../../schemas/patientSchema'
 

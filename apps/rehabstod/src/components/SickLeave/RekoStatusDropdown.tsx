@@ -1,4 +1,4 @@
-import { SelectButton } from '@frontend/components'
+import { SelectButton } from '@frontend/components-ids9'
 import { useState } from 'react'
 import type { RekoStatus, RekoStatusType } from '../../schemas/sickLeaveSchema'
 import { useAppSelector } from '../../store/hooks'

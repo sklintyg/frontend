@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { AppLink } from '@frontend/components'
+import { AppLink } from '@frontend/components-ids9'
 import type { DOMNode } from 'html-react-parser'
 import parse, { attributesToProps, domToReact } from 'html-react-parser'
 import { createElement } from 'react'

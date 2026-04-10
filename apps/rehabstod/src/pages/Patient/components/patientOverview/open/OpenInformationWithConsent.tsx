@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormattedNumberInput, Heading, Radio } from '@frontend/components'
+import { Button, Checkbox, FormattedNumberInput, Heading, Radio } from '@frontend/components-ids9'
 import { IDSErrorMessage } from '@inera/ids-react'
 import { useState } from 'react'
 import type { SjfItem } from '../../../../../schemas/patientSchema'

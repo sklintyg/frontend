@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function SettingsDialogInput({ title, description, children }: { title: string; description: string; children: ReactNode }) {

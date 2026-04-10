@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Table } from '../../../../components/Table/Table'

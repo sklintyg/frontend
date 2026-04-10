@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 
 export function PageHeading({ title, subTitle }: { title: string; subTitle?: string }) {
   return (

@@ -1,4 +1,4 @@
-import { Icon, Radio } from '@frontend/components'
+import { Icon, Radio } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { Vardenhet } from '../../../schemas'

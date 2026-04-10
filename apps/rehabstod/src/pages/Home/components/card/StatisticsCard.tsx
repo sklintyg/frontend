@@ -1,4 +1,4 @@
-import { Heading, classNames } from '@frontend/components'
+import { Heading, classNames } from '@frontend/components-ids9'
 import { IDSCard } from '@inera/ids-react'
 import { useState } from 'react'
 import type { SummaryDataPoint } from '../../../../schemas/sickLeaveSchema'

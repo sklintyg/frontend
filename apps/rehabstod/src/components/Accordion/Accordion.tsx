@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useRef, useState } from 'react'
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 
 export function Accordion({ children, title, open = false }: { children: ReactNode; title: string; open?: boolean }) {
   const ref = useRef<HTMLDetailsElement>(null)

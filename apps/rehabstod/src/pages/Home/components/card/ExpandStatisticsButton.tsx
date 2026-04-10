@@ -1,4 +1,4 @@
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 import type { MouseEventHandler } from 'react'
 
 export function ExpandStatisticsButton({ onClick, open }: { onClick: MouseEventHandler; open: boolean }) {

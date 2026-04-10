@@ -1,4 +1,4 @@
-import { Button, Dialog, Heading } from '@frontend/components'
+import { Button, Dialog, Heading } from '@frontend/components-ids9'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import { usePatient } from '../../hooks/usePatient'

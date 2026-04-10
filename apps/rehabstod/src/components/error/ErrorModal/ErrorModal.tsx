@@ -1,4 +1,4 @@
-import { Button, Dialog } from '@frontend/components'
+import { Button, Dialog } from '@frontend/components-ids9'
 import { randomUUID } from '@frontend/utils'
 import { useEffect, useState } from 'react'
 import type { ErrorCode } from '../../../schemas/errorSchema'

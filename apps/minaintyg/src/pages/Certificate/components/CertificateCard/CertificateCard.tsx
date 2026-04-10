@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { IDSButton, IDSCard } from '@inera/ids-react'
 import { useNavigate } from 'react-router-dom'
 import type { CertificateMetadata } from '../../../../schema/certificate.schema'

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Select } from '@frontend/components'
+import { Button, Checkbox, Input, Select } from '@frontend/components-ids9'
 import { IDSAlert, IDSSpinner } from '@inera/ids-react'
 import { ErrorAlert } from '../../../components/error/ErrorAlert/ErrorAlert'
 import { useCreateSickLeaveMutation, useGetTestDataOptionsQuery } from '../../../store/testabilityApi'

@@ -1,4 +1,4 @@
-import { Divider, Input, SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components'
+import { Divider, Input, SelectMultiple, SelectMultipleListBox, SelectMultipleOption } from '@frontend/components-ids9'
 import { useId, useState } from 'react'
 import type { DiagnosKapitel } from '../../../schemas/diagnosisSchema'
 import { PrintTitle } from '../print/PrintTitle'

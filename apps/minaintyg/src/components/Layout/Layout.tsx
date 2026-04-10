@@ -1,5 +1,5 @@
-import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components'
-import { LayoutFooter, LayoutHeader } from '@frontend/theme-1177'
+import { GlobalAlert, PriorityEnum, ScrollTopButton } from '@frontend/components-ids9'
+import { LayoutFooter, LayoutHeader } from '@frontend/theme-1177-ids9'
 import { skipToken } from '@reduxjs/toolkit/query'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'

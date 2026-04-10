@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import type { CertificateIssuer, CertificateUnit } from '../../../../schema/certificate.schema'
 
 export function CertificateCardInfo({ issuer, unit }: { issuer: CertificateIssuer; unit: CertificateUnit }) {

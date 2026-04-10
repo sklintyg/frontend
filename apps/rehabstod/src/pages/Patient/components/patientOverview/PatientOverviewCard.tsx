@@ -1,4 +1,4 @@
-import { Divider, Heading } from '@frontend/components'
+import { Divider, Heading } from '@frontend/components-ids9'
 import { IDSCard } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { EmptyInformation } from './EmptyInformation'

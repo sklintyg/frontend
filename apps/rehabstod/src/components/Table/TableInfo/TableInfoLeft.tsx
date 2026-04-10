@@ -1,4 +1,4 @@
-import { Button } from '@frontend/components'
+import { Button } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function TableInfoLeft({ modifyTable, printable = false }: { modifyTable: ReactNode; printable?: boolean }) {

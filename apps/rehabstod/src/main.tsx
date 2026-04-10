@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import { FloatingDelayGroup } from '@frontend/components'
+import { FloatingDelayGroup } from '@frontend/components-ids9'
 import { IDSSpinner } from '@inera/ids-react'
 import { setDefaultOptions } from 'date-fns'
 import { sv } from 'date-fns/locale'

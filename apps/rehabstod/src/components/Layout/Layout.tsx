@@ -1,4 +1,4 @@
-import { DialogPortalProvider, GlobalAlert, PriorityEnum } from '@frontend/components'
+import { DialogPortalProvider, GlobalAlert, PriorityEnum } from '@frontend/components-ids9'
 import { IDSSpinner } from '@inera/ids-react'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'

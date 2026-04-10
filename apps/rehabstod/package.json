@@ -12,8 +12,8 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@frontend/colors": "workspace:*",
-    "@frontend/components": "workspace:*",
+    "@frontend/colors-ids9": "workspace:*",
+    "@frontend/components-ids9": "workspace:*",
     "@frontend/fake": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-react": "^9.0.0",

@@ -1,4 +1,4 @@
-import { HeaderAvatarLink } from '@frontend/components'
+import { HeaderAvatarLink } from '@frontend/components-ids9'
 import { IDSHeader1177Avatar } from '@inera/ids-react'
 import { useGetUserQuery } from '../../store/hooks'
 import { useLinks } from '../../hooks/useLinks'

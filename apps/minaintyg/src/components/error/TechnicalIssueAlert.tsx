@@ -1,4 +1,4 @@
-import { ErrorIdentifier } from '@frontend/components'
+import { ErrorIdentifier } from '@frontend/components-ids9'
 import { IDSAlert } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import type { QueryError } from '../../utils/isQueryError'

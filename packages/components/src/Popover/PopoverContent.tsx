@@ -9,7 +9,7 @@ export function PopoverContent({ children }: { children: ReactNode }) {
     <FloatingPortal>
       <FloatingFocusManager context={context} modal={false}>
         <div
-          className="ids-select-multiple__dropdown-wrapper"
+          className="ids-select-multiple__dropdown__wrapper"
           ref={refs.setFloating}
           style={{
             position: strategy,
@@ -20,8 +20,8 @@ export function PopoverContent({ children }: { children: ReactNode }) {
           }}
           {...getFloatingProps()}
         >
-          <div className="ids-select-multiple__dropdown ids-select-multiple__dropdown--expanded">
-            <div className="ids-select-multiple__dropdown-scroll-area">{children}</div>
+          <div className="ids-select-multiple__dropdown relative block">
+            <div className="ids-select-multiple__dropdown__inner">{children}</div>
           </div>
         </div>
       </FloatingFocusManager>

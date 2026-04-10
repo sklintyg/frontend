@@ -1,4 +1,4 @@
-import { Icon } from '@frontend/components'
+import { Icon } from '@frontend/components-ids9'
 import type { ComponentProps, MouseEventHandler, ReactNode } from 'react'
 
 export function HeaderAvatarMenuButton({

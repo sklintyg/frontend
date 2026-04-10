@@ -1,4 +1,4 @@
-import { LinkButton } from '@frontend/components'
+import { LinkButton } from '@frontend/components-ids9'
 import { IDSButton } from '@inera/ids-react'
 import { usePrintCertificateContext } from './hooks/usePrintCertificate'
 

@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 import { Table } from '../../../../components/Table/Table'
 import { TableHeader } from '../../../../components/Table/tableHeader/TableHeader'

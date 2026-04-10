@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { Link } from 'react-router-dom'
 import type { CertificateStatus } from '../../../../schema/certificate.schema'
 import { CertificateStatusEnum } from '../../../../schema/certificate.schema'

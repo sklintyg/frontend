@@ -1,4 +1,4 @@
-import { Icon, TertiaryButton } from '@frontend/components'
+import { Icon, TertiaryButton } from '@frontend/components-ids9'
 import { IDSButton } from '@inera/ids-react'
 import { useState } from 'react'
 import { ReadMoreAboutDialog } from './ReadMoreAboutDialog'

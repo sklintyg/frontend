@@ -1,4 +1,4 @@
-import { classNames, Icon } from '@frontend/components'
+import { classNames, Icon } from '@frontend/components-ids9'
 import { Fragment } from 'react/jsx-runtime'
 
 export function SickLeaveDegreeInfo({

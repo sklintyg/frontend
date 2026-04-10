@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '@frontend/components-ids9'
 import type { ReactNode } from 'react'
 
 export function TableRow<T>({

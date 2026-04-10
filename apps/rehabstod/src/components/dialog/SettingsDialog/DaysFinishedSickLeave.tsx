@@ -1,4 +1,4 @@
-import { FormattedNumberInput } from '@frontend/components'
+import { FormattedNumberInput } from '@frontend/components-ids9'
 import type { ComponentProps } from 'react'
 import { DAYS_FINISHED_SICK_LEAVE } from '../../../schemas/userSchema'
 import { useGetUserQuery } from '../../../store/api'

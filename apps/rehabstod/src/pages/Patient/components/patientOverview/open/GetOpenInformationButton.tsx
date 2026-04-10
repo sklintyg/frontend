@@ -1,4 +1,4 @@
-import { Button, Dialog } from '@frontend/components'
+import { Button, Dialog } from '@frontend/components-ids9'
 import { useState } from 'react'
 import type { SjfItem } from '../../../../../schemas/patientSchema'
 

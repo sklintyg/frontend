@@ -1,5 +1,5 @@
 import { IDSFooter1177Admin, IDSLink, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
-import { TertiaryButton } from '@frontend/components'
+import { TertiaryButton } from '@frontend/components-ids9'
 import { useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch } from '../../../store/hooks'
 import { updateShowCookieDialog } from '../../../store/slices/cookieDialog.slice'

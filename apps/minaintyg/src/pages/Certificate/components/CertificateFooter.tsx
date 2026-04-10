@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { isTruthy } from '@frontend/utils/src'
 import { PageDivider } from '../../../components/PageDivider/PageDivider'
 import type { CertificateMetadata } from '../../../schema/certificate.schema'

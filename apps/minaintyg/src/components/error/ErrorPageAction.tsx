@@ -1,4 +1,4 @@
-import { AppLink } from '@frontend/components'
+import { AppLink } from '@frontend/components-ids9'
 import type { ErrorPageActionTypeEnum } from '../../schema/error.schema'
 import { ErrorPageActionType } from '../../schema/error.schema'
 import { useLinks } from '../../hooks/useLinks'

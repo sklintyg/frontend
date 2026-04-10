@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { ErrorCode } from '../../../schemas/errorSchema'
 import { useLogErrorEffect } from '../hooks/useLogErrorEffect'
 

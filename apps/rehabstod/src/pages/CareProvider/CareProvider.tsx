@@ -1,4 +1,4 @@
-import { Button, Checkbox } from '@frontend/components'
+import { Button, Checkbox } from '@frontend/components-ids9'
 import { IDSAlert } from '@inera/ids-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'

@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { randomUUID } from '@frontend/utils'
 import { IDSContainer } from '@inera/ids-react'
 import { useEffect, useRef } from 'react'

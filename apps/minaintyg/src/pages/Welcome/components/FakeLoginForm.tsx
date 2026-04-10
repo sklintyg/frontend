@@ -1,4 +1,4 @@
-import { Heading } from '@frontend/components'
+import { Heading } from '@frontend/components-ids9'
 import { tryCatch } from '@frontend/utils'
 import { IDSButton, IDSButtonGroup } from '@inera/ids-react'
 import { useEffect, useState } from 'react'
