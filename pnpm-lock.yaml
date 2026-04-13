@@ -44,6 +44,9 @@ importers:
       eslint-config-custom:
         specifier: workspace:*
         version: link:packages/eslint-config-custom
+      eslint-formatter-checkstyle:
+        specifier: ^9.0.1
+        version: 9.0.1
       husky:
         specifier: ^7.0.4
         version: 7.0.4
@@ -398,9 +401,6 @@ importers:
       postcss:
         specifier: ^8.4.31
         version: 8.5.9
-      prop-types:
-        specifier: ^15.6.0
-        version: 15.8.1
       tailwindcss:
         specifier: ^3.3.3
         version: 3.4.19(yaml@2.8.3)
@@ -4199,6 +4199,10 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+
+  eslint-formatter-checkstyle@9.0.1:
+    resolution: {integrity: sha512-DeD1XkqFr22ZK+KsREcW3YFUsYtS5hTZb52m+fLVeAHMnTtgtLP9xiA55b5qiNvNxDf/hbTN+9X8lZl9jHH/cQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   eslint-import-resolver-node@0.3.10:
     resolution: {integrity: sha512-tRrKqFyCaKict5hOd244sL6EQFNycnMQnBe+j8uqGNXYzsImGbGUU4ibtoaBmv5FLwJwcFJNeg1GeVjQfbMrDQ==}
@@ -10673,6 +10677,8 @@ snapshots:
   eslint-config-prettier@9.1.2(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
+
+  eslint-formatter-checkstyle@9.0.1: {}
 
   eslint-import-resolver-node@0.3.10:
     dependencies:

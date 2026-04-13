@@ -30,7 +30,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
-    "eslint-formatter-checkstyle": "^10.0.0",
+    "eslint-formatter-checkstyle": "^9.0.1",
     "husky": "^7.0.4",
     "knip": "^5.64.1",
     "lint-staged": "^15.2.0",
