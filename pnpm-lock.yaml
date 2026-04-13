@@ -721,9 +721,6 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.16
         version: 0.27.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@frontend/colors-ids9':
-        specifier: workspace:*
-        version: link:../colors-ids9
       '@frontend/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1044,9 +1041,6 @@ importers:
 
   packages/theme-1177-ids9:
     dependencies:
-      '@frontend/colors-ids9':
-        specifier: workspace:*
-        version: link:../colors-ids9
       '@frontend/components-ids9':
         specifier: workspace:*
         version: link:../components-ids9
