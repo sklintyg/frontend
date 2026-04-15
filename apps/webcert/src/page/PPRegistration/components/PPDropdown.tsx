@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '../../../commonComponents'
 import type { ReactNode } from 'react'
 import { forwardRef, useId } from 'react'
 import { FieldLabel } from '../../../components/Inputs/FieldLabel'

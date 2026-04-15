@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '../../../commonComponents'
 import type { ReactNode } from 'react'
 import { AttentionIcon } from '../../../images'
 

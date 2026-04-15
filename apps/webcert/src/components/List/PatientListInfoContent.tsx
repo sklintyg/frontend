@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../commonComponents'
 import styled from 'styled-components'
 import alertImage from '../../images/alert.svg'
 import lockClosed from '../../images/lock-closed.svg'

@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../commonComponents'
 import type { HTMLProps, MouseEventHandler } from 'react'
 import { forwardRef } from 'react'
 import styled from 'styled-components'

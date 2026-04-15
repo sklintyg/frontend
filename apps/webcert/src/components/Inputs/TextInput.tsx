@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import React, { useId } from 'react'
 import type { FlattenSimpleInterpolation } from 'styled-components'
 import { FieldLabel } from './FieldLabel'
-import { classNames } from '@frontend/components'
+import { classNames } from '../../commonComponents'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string

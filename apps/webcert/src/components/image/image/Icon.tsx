@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../commonComponents'
 import styled from 'styled-components'
 import { LightbulpIcon } from '../../../images'
 

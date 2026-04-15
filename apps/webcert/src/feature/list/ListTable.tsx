@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../commonComponents'
 import parse from 'html-react-parser'
 import styled from 'styled-components'
 import DisplayError from '../../components/error/DisplayError'
