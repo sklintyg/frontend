@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../../commonComponents'
 import styled from 'styled-components'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -10,12 +10,12 @@ const Icon = styled.img`
   display: inline-block;
 `
 
-const tooltip = `Ange hur många timmar patienten arbetar i snitt per vecka. 
-Maximal arbetstid som kan anges är 168 timmar per vecka. 
-Observera att denna funktion endast är ett stöd för att 
-tydliggöra hur många timmar per vecka patienten bedöms 
-kunna arbeta när en viss nedsättning av arbetsförmåga 
-har angivits. Uppgiften lagras inte som en del av intyget 
+const tooltip = `Ange hur många timmar patienten arbetar i snitt per vecka.
+Maximal arbetstid som kan anges är 168 timmar per vecka.
+Observera att denna funktion endast är ett stöd för att
+tydliggöra hur många timmar per vecka patienten bedöms
+kunna arbeta när en viss nedsättning av arbetsförmåga
+har angivits. Uppgiften lagras inte som en del av intyget
 då Försäkringskassan inhämtar information från annat håll.`
 
 export function WorkingHours({

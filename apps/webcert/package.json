@@ -13,8 +13,6 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@frontend/colors": "workspace:*",
-    "@frontend/components": "workspace:*",
     "@frontend/filtrex": "workspace:*",
     "@frontend/utils": "workspace:*",
     "@inera/ids-design": "^7.0.0",
@@ -23,6 +21,7 @@
     "classnames": "^2.3.2",
     "date-fns": "^2.16.1",
     "dompurify": "^3.2.4",
+    "@floating-ui/react": "^0.27.16",
     "focus-trap-react": "^10.1.0",
     "html-react-parser": "^4.2.2",
     "inera-core-css": "./inera-core-css.tar.gz",

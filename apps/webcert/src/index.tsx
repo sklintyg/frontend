@@ -1,4 +1,4 @@
-import { FloatingDelayGroup } from '@frontend/components'
+import { FloatingDelayGroup } from './commonComponents'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'

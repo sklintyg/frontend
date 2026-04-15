@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../commonComponents'
 import { getByType } from '@frontend/utils'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'

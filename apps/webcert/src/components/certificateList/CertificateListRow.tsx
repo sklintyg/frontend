@@ -1,4 +1,4 @@
-import { LinkButton, Tooltip, TooltipContent, TooltipTrigger } from '@frontend/components'
+import { LinkButton, Tooltip, TooltipContent, TooltipTrigger } from '../../commonComponents'
 import { getByType } from '@frontend/utils'
 import { useState } from 'react'
 import styled from 'styled-components'

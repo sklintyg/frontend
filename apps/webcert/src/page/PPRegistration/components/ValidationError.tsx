@@ -1,4 +1,4 @@
-import { hasNoChildren } from '@frontend/components'
+import { hasNoChildren } from '../../../commonComponents'
 import type { ReactNode } from 'react'
 
 export function ValidationError({ children }: { children: ReactNode }) {

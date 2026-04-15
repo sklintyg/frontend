@@ -1,4 +1,4 @@
-import { classNames } from '@frontend/components'
+import { classNames } from '../../../commonComponents'
 import { isEmpty } from 'lodash-es'
 
 export function PPResultPart({ title, value, fallback = 'Ej angivet' }: { title: string; value?: string; fallback?: string }) {
