@@ -71,7 +71,6 @@ describe('Forward certificate button', () => {
         sakerhetstjanstIdpUrl: '',
         ppHost: '',
         forwardDraftOrQuestionUrl,
-        idpConnectUrls: [],
         webcertFrontendApiTimeout: 30000,
       })
     )

@@ -9,7 +9,6 @@ import { errorMiddleware } from './error/errorMiddleware'
 import { fmbMiddleware } from './fmb/fmbMiddleware'
 import { icfMiddleware } from './icf/icfMiddleware'
 import { listMiddleware } from './list/listMiddleware'
-import { idpConnectivityMiddleware } from './monitoring/idpConnectivityMiddleware'
 import { patientMiddleware } from './patient/patientMiddleware'
 import { ppStep02Middleware } from './pp/ppStep02ReducerSlice'
 import { questionMiddleware } from './question/questionMiddleware'
@@ -36,7 +35,6 @@ const store = configureApplicationStore([
   listMiddleware,
   srsMiddleware,
   ppStep02Middleware,
-  idpConnectivityMiddleware,
 ])
 
 export type AppDispatch = typeof store.dispatch
