@@ -5,7 +5,6 @@ import type { AxiosError, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import type { ZipCodeInfo } from '../types/zipCode'
 import type { ErrorLogRequest } from './error/errorReducer'
-import type { MonitoringRequest } from './monitoring/monitoringReducer'
 
 enum TAG {
   CERTIFICATE = 'Certificate',
@@ -63,13 +62,6 @@ export const api = createApi({
         url: 'log/error',
         method: 'POST',
         body: error,
-      }),
-    }),
-    logMonitoring: builder.mutation<void, MonitoringRequest>({
-      query: (monitoring) => ({
-        url: 'jslog/monitoring',
-        method: 'POST',
-        data: monitoring,
       }),
     }),
   }),
