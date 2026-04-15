@@ -1,6 +1,5 @@
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
-@import '@inera/ids-design/styles.css';
-@import '@inera/ids-design/tokens/themes/1177-admin-tokens.css';
+@import '@inera/ids-design/themes/1177-pro/1177-pro.css';
 
 @tailwind base;
 @tailwind components;
@@ -29,19 +28,18 @@
 }
 
 body.ids {
-  background-color: var(--ids-color-surface-background-alternative) !important;
-  color: var(--ids-color-surface-text-on-default);
+  background-color: var(--IDS-COLOR-SECONDARY-95) !important;
 }
 
 .ids-content ::-webkit-scrollbar {
   width: 0.875rem;
   height: 0.875rem;
   border-radius: 0.625rem;
-  background-color: var(--ids-color-surface-background-default);
+  background-color: var(--IDS-COLOR-NEUTRAL-99);
 }
 
 .ids-content ::-webkit-scrollbar-thumb {
-  background-color: var(--ids-color-interactive-background-default);
+  background-color: var(--IDS-COLOR-ACCENT-40);
   border-radius: 0.625rem;
 }
 
@@ -50,9 +48,13 @@ body.ids {
 }
 
 .ids-data-table tr td {
-  background-color: var(--ids-color-surface-background-default) !important;
+  background-color: #fff !important;
 }
 
-.ids-checkbox + .ids-label-wrapper {
+.ids-checkbox + .ids-label-tooltip-wrapper {
   margin-left: 0.5rem;
+}
+
+input::placeholder {
+  color: var(--IDS-FORM-PLACEHOLDER__COLOR);
 }

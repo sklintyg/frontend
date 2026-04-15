@@ -22,7 +22,7 @@ exports[`Should render correctly 1`] = `
           Dölj händelser
         </h4>
         <div
-          class="flex h-5 w-5 items-center rounded-full bg-accent-40 p-1 text-on-accent-40"
+          class="flex h-5 w-5 items-center rounded-full bg-accent-40 p-1 text-white"
         >
           <span
             class="ids-icon-plus ids-icon--xs group-open:hidden"
@@ -33,7 +33,7 @@ exports[`Should render correctly 1`] = `
         </div>
       </summary>
       <h5
-        class="ids-heading-xs !normal-case text-heading-xs mb-0"
+        class="ids-heading-xs !normal-case mb-0"
       >
         Händelser
       </h5>
@@ -60,7 +60,7 @@ exports[`Should render correctly 1`] = `
     class="hidden md:block"
   >
     <h5
-      class="ids-heading-xs !normal-case text-heading-xs mb-0"
+      class="ids-heading-xs !normal-case mb-0"
     >
       Händelser
     </h5>

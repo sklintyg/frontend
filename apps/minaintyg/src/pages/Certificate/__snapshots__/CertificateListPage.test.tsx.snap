@@ -2,7 +2,7 @@
 
 exports[`Should have correct heading 1`] = `
 <h1
-  class="ids-heading-xxl !normal-case text-heading-xxl"
+  class="ids-heading-xxl !normal-case"
 >
   Intyg
 </h1>
@@ -19,10 +19,13 @@ exports[`Should have correct paragraph 1`] = `
 exports[`Should render alert message when list is empty 1`] = `
 <div
   aria-live="polite"
-  class="ids-spinner ids-spinner--1"
+  class="ids-spinner"
   data-testid="certificate-list-spinner"
   role="alert"
 >
+  <p
+    class="ids-spinner-sr"
+  />
   <div
     class="ids-bounce-1"
   />
@@ -48,8 +51,8 @@ exports[`Should render error message when unable to load list 1`] = `
         class="ids-alert__icon_and_text"
       >
         <span
-          aria-hidden="true"
           class="ids-alert__state-icon"
+          title=""
         />
         <div
           class="ids-alert__headline"
@@ -61,63 +64,59 @@ exports[`Should render error message when unable to load list 1`] = `
       </div>
     </div>
     <div
-      id="alert-content-:rl:"
+      class="ids-alert__content"
     >
       <div
-        class="ids-alert__content"
+        class="flex flex-col gap-4"
       >
-        <div
-          class="flex flex-col gap-4"
-        >
-          <p>
-            Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
-            <a
-              class="ids-link ids-link--underlined"
-              href="https://www.1177.se/e-tjanster-support"
-              rel="noreferrer"
-              target="_blank"
-            >
-              support
-              <span
-                class="ids-icon-external-link-small ids-icon--text-end"
-              />
-            </a>
-            och ange nedan fel-id:
-          </p>
-          <div
-            class=""
+        <p>
+          Intygen kunde inte visas på grund av ett tekniskt fel. Försök igen senare. Om felet kvarstår kontakta 
+          <a
+            class="ids-link ids-link--underlined"
+            href="https://www.1177.se/e-tjanster-support"
+            rel="noreferrer"
+            target="_blank"
           >
-            <button
-              aria-label="Kopiera fel-id"
-              tabindex="0"
-              type="button"
-              value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+            support
+            <span
+              class="ids-icon-external-link-small ids-icon--text-end"
+            />
+          </a>
+          och ange nedan fel-id:
+        </p>
+        <div
+          class=""
+        >
+          <button
+            aria-label="Kopiera fel-id"
+            tabindex="0"
+            type="button"
+            value="5f92e947-e2ee-4238-bf29-4cdc6b6c4b54"
+          >
+            <p
+              data-state="closed"
             >
-              <p
-                data-state="closed"
+              <span>
+                Fel-id: 
+              </span>
+               
+              <span
+                class="font-normal"
               >
-                <span>
-                  Fel-id: 
-                </span>
-                 
-                <span
-                  class="font-normal"
-                >
-                  5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
-                </span>
-                <span
-                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
-                />
-              </p>
-              <p
-                class="flex justify-items-start"
+                5f92e947-e2ee-4238-bf29-4cdc6b6c4b54
+              </span>
+              <span
+                class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
               />
-            </button>
-          </div>
-          <p>
-            Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
-          </p>
+            </p>
+            <p
+              class="flex justify-items-start"
+            />
+          </button>
         </div>
+        <p>
+          Om du inte kan nå ditt intyg, kontakta din mottagning för att få en kopia av intyget.
+        </p>
       </div>
     </div>
   </div>,

@@ -1,14 +1,11 @@
 import { Button } from '@frontend/components'
-import { IDSHeaderPatient } from '@inera/ids-react'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import type { Patient } from '../../../../schemas/patientSchema'
-import { useAppSelector } from '../../../../store/hooks'
 import { PatientHeaderInfo } from './PatientHeaderInfo'
 
 export function PatientHeader({ patient }: { patient?: Patient }) {
   const navigate = useNavigate()
-  const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
   const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
   const currentSickness = patient?.sjukfallList.find(({ slut }) => !isDateBeforeToday(slut))
   const firstCertificate = patient?.sjukfallList[0]?.intyg[0]
@@ -29,20 +26,16 @@ export function PatientHeader({ patient }: { patient?: Patient }) {
     return null
   }
 
-  const { id, namn } = firstCertificate.patient
-
   return (
-    <IDSHeaderPatient
-      name={showPersonalInformation ? namn : undefined}
-      ssn={showPersonalInformation ? id : undefined}
-      srLabel="Patientinformation"
-      buttons={
-        <Button onClick={handleClick} tertiary>
-          STÄNG PATIENTVYN
-        </Button>
-      }
-    >
-      {patient && <PatientHeaderInfo firstCertificate={firstCertificate} currentSickness={currentSickness} />}
-    </IDSHeaderPatient>
+    <div className="z-30 order-1 bg-white shadow-[0_2px_6px_0_rgba(0,0,0,0.15)]">
+      <div className="m-auto max-w-screen-xxl px-5 xxl:px-0">
+        <div className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+          {patient && <PatientHeaderInfo firstCertificate={firstCertificate} currentSickness={currentSickness} />}
+          <Button onClick={handleClick} tertiary>
+            STÄNG PATIENTVYN
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }

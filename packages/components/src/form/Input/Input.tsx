@@ -36,19 +36,13 @@ export const Input = forwardRef(
             {label}
           </InputLabel>
         )}
-        <div className="ids-input">
-          <div className="ids-input__wrapper">
-            <div className="ids-input__input-wrapper">
-              <input
-                id={id}
-                ref={ref}
-                disabled={disabled}
-                className={classNames('ids-input__input', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
-                {...props}
-              />
-            </div>
-          </div>
-        </div>
+        <input
+          id={id}
+          ref={ref}
+          disabled={disabled}
+          className={classNames('ids-input', light && 'ids-input--light', invalid && 'ids-input--invalid', className)}
+          {...props}
+        />
       </div>
     )
   }

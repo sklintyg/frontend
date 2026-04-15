@@ -13,20 +13,10 @@ import './index.css'
 import { router } from './router'
 import { persistor, store } from './store/store'
 
-// Rehydrate dark mode preference before first render
 if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
   const { worker } = await import('./mocks/browser')
   worker.start()
 }
-
-const applyDarkMode = (darkMode: boolean) => {
-  document.body.classList.toggle('ids--dark', darkMode)
-  document.body.classList.toggle('ids--light', !darkMode)
-}
-
-store.subscribe(() => {
-  applyDarkMode(store.getState().settings.darkMode)
-})
 
 setDefaultOptions({ locale: sv })
 

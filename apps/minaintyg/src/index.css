@@ -1,8 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body.ids {
-  background-color: var(--ids-color-surface-background-alternative);
-  color: var(--ids-color-surface-text-on-default);
-}

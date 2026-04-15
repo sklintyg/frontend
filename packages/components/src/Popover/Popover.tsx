@@ -6,7 +6,6 @@ import { createContext, useContext, useMemo, useState } from 'react'
 interface PopoverProps {
   open?: boolean
   refSized?: boolean
-  minWidth?: number
   onOpenChange?: (open: boolean) => void
   role?: 'tooltip' | 'dialog' | 'alertdialog' | 'menu' | 'listbox' | 'grid' | 'tree'
   placement?: Placement
@@ -16,7 +15,6 @@ function usePopover({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   refSized = false,
-  minWidth,
   role = 'dialog',
   placement = 'bottom-start',
 }: PopoverProps) {
@@ -41,15 +39,6 @@ function usePopover({
               })
             },
             padding: 10,
-          })
-        : null,
-      minWidth != null
-        ? size({
-            apply({ elements }) {
-              Object.assign(elements.floating.style, {
-                minWidth: `${minWidth}px`,
-              })
-            },
           })
         : null,
     ],
