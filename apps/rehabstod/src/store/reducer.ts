@@ -22,15 +22,8 @@ const persistLUConfig = {
   storage,
 }
 
-const persistSettingsConfig = {
-  key: settingsReducerPath,
-  storage,
-  allowlist: ['darkMode'],
-}
-
 const persistedSickLeaveReducer = persistReducer(persistSickLeaveConfig, sickLeaveReducer)
 const persistedLUReducer = persistReducer(persistLUConfig, luCertificatesReducer)
-const persistedSettingsReducer = persistReducer(persistSettingsConfig, settingsReducer)
 
 export const reducer = combineReducers({
   [api.reducerPath]: api.reducer,
@@ -41,7 +34,7 @@ export const reducer = combineReducers({
   [luUnitTableColumnsReducerPath]: luUnitTableColumnsSlice.reducer,
   [patientTableColumnsReducerPath]: patientTableColumnsSlice.reducer,
   [sickLeaveTableColumnsReducerPath]: sickLeaveTableColumnsSlice.reducer,
-  [settingsReducerPath]: persistedSettingsReducer,
+  [settingsReducerPath]: settingsReducer,
   [cookieDialogReducerPath]: cookieDialogReducer,
 })
 

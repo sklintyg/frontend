@@ -1,6 +1,6 @@
+import { IDSIconChevron } from '@inera/ids-react'
 import type { ReactNode } from 'react'
 import { useRef, useState } from 'react'
-import { Icon } from '@frontend/components'
 
 export function Accordion({ children, title, open = false }: { children: ReactNode; title: string; open?: boolean }) {
   const ref = useRef<HTMLDetailsElement>(null)
@@ -16,7 +16,7 @@ export function Accordion({ children, title, open = false }: { children: ReactNo
       <summary role="button" className="mb-1.5 flex cursor-pointer items-center space-x-2 ">
         <span className="m-0 text-accent-40 underline">{title}</span>
         <span className="inline-block h-3 w-3 origin-center justify-self-end">
-          <Icon icon={internalOpen ? 'chevron-up' : 'chevron-down'} className="h-full w-full" />
+          <IDSIconChevron width="100%" rotate={internalOpen ? '270' : '90'} height="100%" className="h-full w-full" />
         </span>
       </summary>
       {internalOpen && children}

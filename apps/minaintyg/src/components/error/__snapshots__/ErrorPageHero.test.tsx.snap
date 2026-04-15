@@ -15,7 +15,7 @@ exports[`Should render inactive type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Din inloggning är låst
       </h1>
@@ -28,13 +28,13 @@ exports[`Should render inactive type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="/"
             target="self"
           >
@@ -44,7 +44,7 @@ exports[`Should render inactive type error 1`] = `
             Till inloggning
           </a>
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://www.1177.se/e-tjanster-support"
             rel="noreferrer"
             target="_blank"
@@ -79,7 +79,7 @@ exports[`Should render logged-out type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du är utloggad
       </h1>
@@ -92,13 +92,13 @@ exports[`Should render logged-out type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="/"
             target="self"
           >
@@ -108,7 +108,7 @@ exports[`Should render logged-out type error 1`] = `
             Till inloggning
           </a>
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://www.1177.se"
             rel="noreferrer"
             target="_blank"
@@ -143,7 +143,7 @@ exports[`Should render login-failed type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Inloggning misslyckades
       </h1>
@@ -156,13 +156,13 @@ exports[`Should render login-failed type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
@@ -193,7 +193,7 @@ exports[`Should render not-found type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Sidan hittades inte
       </h1>
@@ -206,13 +206,13 @@ exports[`Should render not-found type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
@@ -243,7 +243,7 @@ exports[`Should render unavailable type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Tjänsten är inte tillgänglig just nu
       </h1>
@@ -272,7 +272,7 @@ exports[`Should render underage type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Du som är under 16 har inte tillgång till 1177 intyg
       </h1>
@@ -285,13 +285,13 @@ exports[`Should render underage type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span
@@ -301,7 +301,7 @@ exports[`Should render underage type error 1`] = `
             Till startsidan
           </a>
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://www.1177.se/om-1177/nar-du-loggar-in-pa-1177.se/det-har-kan-du-gora-nar-du-loggat-in/hantera-intyg/hantera-dina-lakarintyg-och-lakarutlatanden/"
             rel="noreferrer"
             target="_blank"
@@ -336,7 +336,7 @@ exports[`Should render unknown type error 1`] = `
     </div>
     <div>
       <h1
-        class="ids-heading-xxl !normal-case text-heading-xxl text-center"
+        class="ids-heading-xxl !normal-case text-center"
       >
         Någonting gick fel
       </h1>
@@ -349,13 +349,13 @@ exports[`Should render unknown type error 1`] = `
         class="mb-5 text-left md:text-center"
       >
         <div
-          class="mb-5 mt-8 w-[43px] border-b border-neutral-90 md:hidden"
+          class="mb-5 mt-8 w-[43px] border-b md:hidden"
         />
         <div
           class="mx-auto inline-flex flex-col gap-2.5 md:flex-row"
         >
           <a
-            class="ids-link"
+            class="ids-link ids-link--no-underline"
             href="https://e-tjanster.st.1177.se/mvk/start.xhtml"
           >
             <span

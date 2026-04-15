@@ -93,7 +93,7 @@ export function SelectMultiple({
           <FloatingPortal>
             <FloatingFocusManager context={context} modal={false}>
               <div
-                className="ids-select-multiple__dropdown-wrapper"
+                className="ids-select-multiple__dropdown__wrapper"
                 ref={refs.setFloating}
                 style={{
                   position: strategy,
@@ -101,12 +101,11 @@ export function SelectMultiple({
                   left: x ?? 0,
                   minWidth: 100,
                   outline: 0,
-                  zIndex: 1000,
                 }}
                 {...getFloatingProps()}
               >
-                <div className="ids-select-multiple__dropdown ids-select-multiple__dropdown--expanded">
-                  <div className="ids-select-multiple__dropdown-scroll-area">{children}</div>
+                <div className="ids-select-multiple__dropdown relative block">
+                  <div className="ids-select-multiple__dropdown__inner">{children}</div>
                 </div>
               </div>
             </FloatingFocusManager>

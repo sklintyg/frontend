@@ -19,8 +19,8 @@ it('Should render without error id', () => {
           class="ids-alert__icon_and_text"
         >
           <span
-            aria-hidden="true"
             class="ids-alert__state-icon"
+            title=""
           />
           <div
             class="ids-alert__headline"
@@ -32,18 +32,14 @@ it('Should render without error id', () => {
         </div>
       </div>
       <div
-        id="alert-content-:r0:"
+        class="ids-alert__content"
       >
         <div
-          class="ids-alert__content"
+          class="flex flex-col gap-4"
         >
-          <div
-            class="flex flex-col gap-4"
-          >
-            <p>
-              Some error text
-            </p>
-          </div>
+          <p>
+            Some error text
+          </p>
         </div>
       </div>
     </div>
@@ -69,8 +65,8 @@ it('Should render with error id', () => {
           class="ids-alert__icon_and_text"
         >
           <span
-            aria-hidden="true"
             class="ids-alert__state-icon"
+            title=""
           />
           <div
             class="ids-alert__headline"
@@ -82,47 +78,43 @@ it('Should render with error id', () => {
         </div>
       </div>
       <div
-        id="alert-content-:r1:"
+        class="ids-alert__content"
       >
         <div
-          class="ids-alert__content"
+          class="flex flex-col gap-4"
         >
+          <p>
+            Some error text
+          </p>
           <div
-            class="flex flex-col gap-4"
+            class=""
           >
-            <p>
-              Some error text
-            </p>
-            <div
-              class=""
+            <button
+              aria-label="Kopiera fel-id"
+              tabindex="0"
+              type="button"
+              value="some-error-id"
             >
-              <button
-                aria-label="Kopiera fel-id"
-                tabindex="0"
-                type="button"
-                value="some-error-id"
+              <p
+                data-state="closed"
               >
-                <p
-                  data-state="closed"
+                <span>
+                  Fel-id: 
+                </span>
+                 
+                <span
+                  class="font-normal"
                 >
-                  <span>
-                    Fel-id: 
-                  </span>
-                   
-                  <span
-                    class="font-normal"
-                  >
-                    some-error-id
-                  </span>
-                  <span
-                    class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
-                  />
-                </p>
-                <p
-                  class="flex justify-items-start"
+                  some-error-id
+                </span>
+                <span
+                  class="ids-icon-copy-file ids-icon--color-preset-1 ids-icon--text-end"
                 />
-              </button>
-            </div>
+              </p>
+              <p
+                class="flex justify-items-start"
+              />
+            </button>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ export function StatisticsInformationCard() {
         Använd Intygsstatistik för att se mer statistik
       </Heading>
       <div>
-        <p className="mb-5 text-on-background">När du klickar på länken nedan öppnas Intygsstatistik i en ny flik.</p>
+        <p className="mb-5">När du klickar på länken nedan öppnas Intygsstatistik i en ny flik.</p>
         <DynamicLink link={links?.statistiktjanstenTooltip} arrow />
       </div>
     </>

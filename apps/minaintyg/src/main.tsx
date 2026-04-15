@@ -11,14 +11,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import { routes } from './routes'
 import { store } from './store/store'
-import { applyDarkMode, readDarkModePreference } from './utils/darkMode'
 
 if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
   const { worker } = await import('./mocks/browser')
   worker.start()
 }
-
-applyDarkMode(readDarkModePreference())
 
 setDefaultOptions({ locale: sv })
 

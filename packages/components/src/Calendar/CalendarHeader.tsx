@@ -1,5 +1,5 @@
+import { IDSIconChevron } from '@inera/ids-react'
 import type { AriaButtonProps } from 'react-aria'
-import { Icon } from '../Icon/Icon'
 import { CalendarButton } from './CalendarButton'
 
 export function CalendarHeader({
@@ -15,10 +15,10 @@ export function CalendarHeader({
     <div className="mb-4 flex w-full">
       <span className="grow whitespace-nowrap px-2 text-left font-bold">{title}</span>
       <CalendarButton {...prevButtonProps}>
-        <Icon icon="chevron-left" />
+        <IDSIconChevron rotate="180" width=".75em" height=".75em" />
       </CalendarButton>
       <CalendarButton {...nextButtonProps}>
-        <Icon icon="chevron-right" />
+        <IDSIconChevron width=".75em" height=".75em" />
       </CalendarButton>
     </div>
   )

@@ -6,40 +6,41 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
     <IDSFooter1177
       headline="1177"
       subHeadline=" - tryggt om din hälsa och vård"
-      col1={
-        <>
-          <AppLink block footer arrow to="https://www.1177.se/e-tjanster-support" external>
-            Support
+      cols={2}
+      col1Size="3"
+      col2Size="3"
+      col1={[
+        <AppLink key="support" to="https://www.1177.se/e-tjanster-support" external arrow>
+          Support
+        </AppLink>,
+        <AppLink
+          key="tillgänglighet"
+          to="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
+          external
+          arrow
+        >
+          Tillgänglighet
+        </AppLink>,
+      ]}
+      col2={[
+        <AppLink key="read-more" to="https://www.1177.se/e-tjanster" external arrow>
+          Läs mer om e-tjänster
+        </AppLink>,
+        hasSession ? (
+          <AppLink key="webbkarta" to="https://e-tjanster.1177.se/mvk/sitemap.xhtml" arrow>
+            Webbkarta
           </AppLink>
-          <AppLink
-            block
-            footer
-            arrow
-            to="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
-            external
-          >
-            Tillgänglighet
-          </AppLink>
-        </>
-      }
-      col2={
-        <>
-          <AppLink block footer arrow to="https://www.1177.se/e-tjanster" external>
-            Läs mer om e-tjänster
-          </AppLink>
-          {hasSession && (
-            <AppLink block footer arrow to="https://e-tjanster.1177.se/mvk/sitemap.xhtml">
-              Webbkarta
-            </AppLink>
-          )}
-        </>
-      }
+        ) : (
+          // eslint-disable-next-line react/jsx-no-useless-fragment
+          <></>
+        ),
+      ]}
       mobileLinks={
         <>
-          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/" colorPreset={3} external>
+          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/" underlined external>
             Behandling av personuppgifter
           </AppLink>
-          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/" colorPreset={3} external>
+          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/" underlined external>
             Hantering av kakor
           </AppLink>
         </>
@@ -92,30 +93,30 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
       subFooterMobile={
         <p>
           1177 drivs av{' '}
-          <AppLink to="https://www.inera.se/" colorPreset={3} small underlined external>
+          <AppLink to="https://www.inera.se/" colorPreset={4} small underlined external>
             Inera AB
           </AppLink>{' '}
           på uppdrag av Sveriges regioner
         </p>
       }
       subFooterLeft={
-        <>
-          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/" colorPreset={3} small external>
-            Behandling av personuppgifter
-          </AppLink>
-          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/" colorPreset={3} small external>
-            Hantering av kakor
-          </AppLink>
-        </>
-      }
-      subFooterRight={
         <p>
           1177 drivs av{' '}
-          <AppLink to="https://www.inera.se/" colorPreset={3} small underlined external>
+          <AppLink to="https://www.inera.se/" colorPreset={4} small underlined external>
             Inera AB
           </AppLink>{' '}
           på uppdrag av Sveriges regioner
         </p>
+      }
+      subFooterRight={
+        <>
+          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/" underlined external>
+            Behandling av personuppgifter
+          </AppLink>
+          <AppLink to="https://www.1177.se/om-1177/1177.se/hantering-av-kakor-cookies-pa-1177.se/" underlined external>
+            Hantering av kakor
+          </AppLink>
+        </>
       }
       className="print:hidden"
     >

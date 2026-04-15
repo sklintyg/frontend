@@ -15,12 +15,7 @@ export default defineConfig({
     },
     globals: true,
     environment: 'jsdom',
-    environmentOptions: {
-      jsdom: {
-        url: 'http://localhost',
-      },
-    },
-    setupFiles: ['src/setupFetch.ts', 'src/setupTests.ts'],
+    setupFiles: ['src/setupTests.ts'],
     silent: process.env.CI === 'true',
     coverage: {
       reporter: ['text', 'json', 'lcov'],

@@ -1,5 +1,5 @@
-import { IDSHeader1177AdminAvatar } from '@inera/ids-react'
-import { Icon } from '@frontend/components'
+import { classNames, Icon } from '@frontend/components'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../../hooks/useLogout'
 import { useAppDispatch } from '../../../store/hooks'
@@ -7,27 +7,67 @@ import { updateShowSettingsDialog } from '../../../store/slices/settings.slice'
 import { HeaderAvatarMenuButton } from './HeaderAvatarMenuButton'
 
 export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string }) {
+  const [open, setOpen] = useState(false)
   const dispatch = useAppDispatch()
   const { logout } = useLogout()
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const id = useId()
+
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      if (dropdownRef?.current?.contains(event.target as Node) === false) {
+        setOpen(false)
+      }
+    }
+
+    window.addEventListener('click', onClick)
+    return () => window.removeEventListener('click', onClick)
+  }, [open])
 
   return (
-    <div className="my-2">
-      <IDSHeader1177AdminAvatar username={name} unit={unit}>
-        <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
-          <Icon icon="swap-horizontal" textStart />
-          Byt vårdenhet
-        </Link>
+    <div className="ids-header-1177-admin__avatar ids-header-1177-admin__avatar--expanded">
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation()
+          setOpen(!open)
+        }}
+        className="ids-header-1177-admin__avatar-box"
+        aria-expanded={open}
+        aria-labelledby={id}
+      >
+        <div className="ids-header-1177-admin__avatar-icon" />
+        <div id={id} className="ids-header-1177-admin__avatar-content">
+          <div className="ids-header-1177-admin__avatar-content__name">{name}</div>
+          <div className="ids-header-1177-admin__avatar-content__unit">{unit}</div>
+        </div>
+        <div className={classNames('ids-header-1177-admin__avatar-chevron', open && 'ids-header-1177-admin__avatar-chevron--expanded')} />
+      </button>
 
-        <HeaderAvatarMenuButton icon="settings" onClick={() => dispatch(updateShowSettingsDialog(true))}>
-          Inställningar
-        </HeaderAvatarMenuButton>
+      {open && (
+        <div ref={dropdownRef} className="ids-header-1177-admin__avatar-dropdown">
+          <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
+            <Icon icon="swap-horizontal" textStart />
+            Byt vårdenhet
+          </Link>
 
-        <hr className="border-neutral-200 my-1 border-t" />
+          <HeaderAvatarMenuButton
+            icon="settings"
+            onClick={() => {
+              setOpen(false)
+              dispatch(updateShowSettingsDialog(true))
+            }}
+          >
+            Inställningar
+          </HeaderAvatarMenuButton>
 
-        <HeaderAvatarMenuButton icon="user" onClick={logout} data-testid="logout">
-          Logga ut
-        </HeaderAvatarMenuButton>
-      </IDSHeader1177AdminAvatar>
+          <hr className="ids-header-1177-admin__link-separator" />
+
+          <HeaderAvatarMenuButton icon="user" onClick={logout}>
+            Logga ut
+          </HeaderAvatarMenuButton>
+        </div>
+      )}
     </div>
   )
 }
