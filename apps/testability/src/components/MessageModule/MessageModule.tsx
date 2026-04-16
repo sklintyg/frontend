@@ -256,7 +256,7 @@ function ReferenceID({ value, onChange }: { value: string; onChange: (value: str
   return (
     <IDSInput
       label="Referens-ID"
-      placeholder="Oklart vad detta används till."
+      placeholder=""
       value={value}
       onChange={(event) => onChange(event.target.value)}
     />
@@ -267,7 +267,7 @@ function Heading({ value, showValidation, onChange }: { value: string; showValid
   return (
     <IDSInput
       label="Rubrik"
-      placeholder="Ange rubrik för ärendet"
+      placeholder=""
       value={value}
       onChange={(event) => onChange(event.target.value)}
       invalid={showValidation && value.trim() === ''}
@@ -280,7 +280,7 @@ function MessageText({ value, showValidation, onChange }: { value: string; showV
   return (
     <IDSTextarea
       label="Frågetext (Obligatoriskt)"
-      placeholder="Ange meddelande"
+      placeholder=""
       value={value}
       onChange={(event) => onChange(event.target.value)}
       invalid={showValidation && value.trim() === ''}
