@@ -1,5 +1,5 @@
 import { Button, Dialog } from '@frontend/components'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { DAYS_BETWEEN_SICK_LEAVES, DAYS_FINISHED_SICK_LEAVE } from '../../../schemas'
 import { useGetUserQuery } from '../../../store/api'
@@ -16,6 +16,16 @@ export function SettingsDialog() {
   const { data: user } = useGetUserQuery()
   const { updateUserPreferences } = useUpdateUserPreferences()
   const [hasSaved, setHasSaved] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (showSettingsDialog) {
+      setTimeout(() => {
+        const first = contentRef.current?.querySelector<HTMLElement>('input, button, select, textarea, [tabindex]:not([tabindex="-1"])')
+        first?.focus()
+      }, 50)
+    }
+  }, [showSettingsDialog])
 
   const isMaxAntalDagarMellanIntygValid = z.coerce
     .number()
@@ -75,20 +85,22 @@ export function SettingsDialog() {
         </>
       }
     >
-      <DaysFinishedSickLeave
-        value={preferences.maxAntalDagarSedanSjukfallAvslut}
-        onChange={(val) => {
-          dispatch(updateSettingsPreferences({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
-        }}
-      />
-      <DaysBetweenSickLeaves
-        value={preferences.maxAntalDagarMellanIntyg}
-        onChange={(val) => dispatch(updateSettingsPreferences({ maxAntalDagarMellanIntyg: val || undefined }))}
-      />
-      <SelectCareUnits
-        standardenhet={preferences.standardenhet}
-        onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
-      />
+      <div ref={contentRef}>
+        <DaysFinishedSickLeave
+          value={preferences.maxAntalDagarSedanSjukfallAvslut}
+          onChange={(val) => {
+            dispatch(updateSettingsPreferences({ maxAntalDagarSedanSjukfallAvslut: val || undefined }))
+          }}
+        />
+        <DaysBetweenSickLeaves
+          value={preferences.maxAntalDagarMellanIntyg}
+          onChange={(val) => dispatch(updateSettingsPreferences({ maxAntalDagarMellanIntyg: val || undefined }))}
+        />
+        <SelectCareUnits
+          standardenhet={preferences.standardenhet}
+          onChange={(value) => dispatch(updateSettingsPreferences({ standardenhet: value !== 'Ingen förvald enhet' ? value : null }))}
+        />
+      </div>
     </Dialog>
   )
 }

@@ -15,7 +15,7 @@ export function LayoutFooter() {
       headline="Rehabstöd"
       col1={
         <>
-          <IDSLink block footer>
+          <IDSLink underlined block footer>
             <a
               href={links?.ineraManualRehabstod?.url}
               target={links?.ineraManualRehabstod?.target}
@@ -25,7 +25,7 @@ export function LayoutFooter() {
               {links?.ineraManualRehabstod?.text}
             </a>
           </IDSLink>{' '}
-          <IDSLink block footer>
+          <IDSLink underlined block footer>
             <a
               href={links?.ineraNationellKundservice?.url}
               target={links?.ineraNationellKundservice?.target}
@@ -38,7 +38,7 @@ export function LayoutFooter() {
         </>
       }
       col2={
-        <IDSLink block footer>
+        <IDSLink underlined block footer>
           <a
             href={links?.rehabstodTillganglighetsredogorelse?.url}
             target={links?.rehabstodTillganglighetsredogorelse?.target}

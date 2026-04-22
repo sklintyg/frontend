@@ -17,6 +17,21 @@
   --IDS__MAX-WIDTH: 1920px;
 }
 
+header.ids-header-1177-admin .ids-header-1177-admin__main,
+nav.ids-header-1177-admin-nav .ids-header-1177-admin-nav__inner {
+  max-width: 1920px !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1920px) {
+  header.ids-header-1177-admin .ids-header-1177-admin__main,
+  nav.ids-header-1177-admin-nav .ids-header-1177-admin-nav__inner {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
 @page {
   size: A4 landscape;
 }
@@ -31,6 +46,16 @@
 body.ids {
   background-color: var(--ids-color-surface-background-alternative) !important;
   color: var(--ids-color-surface-text-on-default);
+  font-family: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+}
+
+body.ids--1177-admin.ids--light,
+body.ids--1177-admin.ids--dark {
+  --ids-font-family-button: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+}
+
+.recharts-tooltip-wrapper {
+  z-index: 9999 !important;
 }
 
 .ids-content ::-webkit-scrollbar {

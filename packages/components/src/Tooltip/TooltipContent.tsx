@@ -24,7 +24,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElemen
         <div
           ref={ref}
           className={classNames(
-            'z-50 max-w-xs whitespace-normal rounded border px-5 py-2.5 text-base font-normal md:max-w-sm',
+            'max-w-xs whitespace-normal rounded border px-5 py-2.5 text-base font-normal md:max-w-sm',
             small ? 'text-sm' : 'text-base',
             !clickable && 'pointer-events-none',
             theme === 'inera-admin' && 'text-neutral-20 border-neutral-40 bg-white',
@@ -34,6 +34,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElemen
             position: strategy,
             top: y ?? 0,
             left: x ?? 0,
+            zIndex: 9999,
             boxShadow: 'rgba(0, 0, 0, 0.3) 0px 0px 10px',
             ...props.style,
           }}

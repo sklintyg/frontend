@@ -33,6 +33,7 @@ export function PatientHeader({ patient }: { patient?: Patient }) {
 
   return (
     <IDSHeaderPatient
+      className="[&_.ids-header-patient__content]:items-center [&_.ids-header-patient__id]:my-0"
       name={showPersonalInformation ? namn : undefined}
       ssn={showPersonalInformation ? id : undefined}
       srLabel="Patientinformation"

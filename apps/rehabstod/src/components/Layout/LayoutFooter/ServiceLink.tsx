@@ -14,7 +14,8 @@ export function ServiceLink({ mobile }: { mobile?: boolean }) {
             <span className="ids-icon-external-link-small ids-icon--text-end" />
           </a>
         </IDSLink>
-      )}
+      )}{' '}
+      på uppdrag av Sveriges regioner
     </p>
   )
 }

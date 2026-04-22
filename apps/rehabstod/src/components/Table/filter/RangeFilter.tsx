@@ -29,32 +29,36 @@ export function RangeFilter({
         <InputLabel htmlFor={id} description={description}>
           {title}
         </InputLabel>
-        <div className="flex grow gap-3">
-          <FormattedNumberInput
-            light
-            id={id}
-            label="Från"
-            onChange={(value) => onFromChange(value)}
-            value={from === '0' ? '' : from}
-            max={to}
-            min={min}
-            defaultValue={min}
-            aria-label={`${title} från`}
-            aria-labelledby=""
-            inline
-          />
-          <FormattedNumberInput
-            light
-            label="Till"
-            onChange={(value) => onToChange(value)}
-            value={to === '0' ? '' : to}
-            max={max}
-            min={from}
-            defaultValue={max}
-            aria-label={`${title} till`}
-            aria-labelledby=""
-            inline
-          />
+        <div className="flex gap-2">
+          <div className="w-fit">
+            <FormattedNumberInput
+              light
+              id={id}
+              label="Från"
+              onChange={(value) => onFromChange(value)}
+              value={from === '0' ? '' : from}
+              max={to}
+              min={min}
+              defaultValue={min}
+              aria-label={`${title} från`}
+              aria-labelledby=""
+              inline
+            />
+          </div>
+          <div className="w-fit">
+            <FormattedNumberInput
+              light
+              label="Till"
+              onChange={(value) => onToChange(value)}
+              value={to === '0' ? '' : to}
+              max={max}
+              min={from}
+              defaultValue={max}
+              aria-label={`${title} till`}
+              aria-labelledby=""
+              inline
+            />
+          </div>
         </div>
       </div>
       <div className="hidden print:block">
