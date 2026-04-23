@@ -40,11 +40,9 @@ export const FooterCookiesModal = ({ className }: Props) => (
     <p>Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna e-tjänst.</p>
     <p>
       Mer information om kakor kan du finna på{' '}
-      <a href="https://pts.se/sv/privat/internet/integritet/kakor-cookies/" target="_blank" rel="noreferrer">
-        Kommunikationsmyndigheten PTS sida om kakor launch
-        <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
+      <a href="https://pts.se/internet-och-telefoni/kakor-cookies/" target="_blank" rel="noreferrer">
+        Kommunikationsmyndigheten PTS sida om kakor <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
       </a>
-      .
     </p>
   </StyledTextWithInfoModal>
 )
