@@ -6,7 +6,7 @@ import { Pie, PieChart } from 'recharts'
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props
   return (
-    <text x="50%" y="50%" fill="white" textAnchor="middle" dominantBaseline="central">
+    <text x="50%" y="50%" fill="black" textAnchor="middle" dominantBaseline="central">
       {`${value} st`}
     </text>
   )

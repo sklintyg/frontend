@@ -20,8 +20,9 @@ export function LayoutFooter() {
               href={links?.ineraManualRehabstod?.url}
               target={links?.ineraManualRehabstod?.target}
               rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
+              className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
               {links?.ineraManualRehabstod?.text}
             </a>
           </IDSLink>{' '}
@@ -30,8 +31,9 @@ export function LayoutFooter() {
               href={links?.ineraNationellKundservice?.url}
               target={links?.ineraNationellKundservice?.target}
               rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
+              className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
               {links?.ineraNationellKundservice?.text}
             </a>
           </IDSLink>
@@ -43,8 +45,9 @@ export function LayoutFooter() {
             href={links?.rehabstodTillganglighetsredogorelse?.url}
             target={links?.rehabstodTillganglighetsredogorelse?.target}
             rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
+            className="inline-flex items-center"
           >
-            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
             {links?.rehabstodTillganglighetsredogorelse?.text}
           </a>
         </IDSLink>

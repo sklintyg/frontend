@@ -24,6 +24,7 @@ export function CurrentSickLeavesDateRangeFilter() {
       }}
       label="Slutdatum"
       description="Filtrerar på slutdatum för det sjukfall som det aktiva intyget ingår i."
+      iconColorPreset={1}
     />
   )
 }
