@@ -73,7 +73,7 @@ export const links = {
   },
   ptsCookiesMerOm: {
     key: 'ptsCookiesMerOm',
-    url: 'https://pts.se/sv/privat/internet/integritet/kakor-cookies/',
+    url: 'https://pts.se/internet-och-telefoni/kakor-cookies/',
     text: 'Mer om kakor (cookies) på Post- och telestyrelsens webbplats',
     target: '_blank',
   },
@@ -128,19 +128,19 @@ export const links = {
   },
   ptsCookies: {
     key: 'ptsCookies',
-    url: 'https://pts.se/sv/privat/internet/integritet/kakor-cookies/',
+    url: 'https://pts.se/internet-och-telefoni/kakor-cookies/',
     text: 'Post- och telestyrelsens webbplats (extern länk).',
     target: '_blank',
   },
   ptsCookiesBanner: {
     key: 'ptsCookiesBanner',
-    url: 'https://pts.se/sv/privat/internet/integritet/kakor-cookies/',
+    url: 'https://pts.se/internet-och-telefoni/kakor-cookies/',
     text: 'Post- och telestyrelsens webbplats',
     target: '_blank',
   },
   ptsCookiesAbout: {
     key: 'ptsCookiesAbout',
-    url: 'https://pts.se/sv/privat/internet/integritet/kakor-cookies/',
+    url: 'https://pts.se/internet-och-telefoni/kakor-cookies/',
     text: 'Kommunikationsmyndigheten PTS sida om kakor',
     target: '_blank',
   },
