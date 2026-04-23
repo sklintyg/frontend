@@ -5,7 +5,11 @@ import { Icon } from '../../Icon/Icon'
 import { PopoverTrigger } from '../../Popover/PopoverTrigger'
 import { classNames } from '../../utils/classNames'
 
-export function DatePickerButton({ error, iconColorPreset, ...props }: AriaButtonProps & { error?: boolean; iconColorPreset?: 1 | 2 | 3 | 4 }) {
+export function DatePickerButton({
+  error,
+  iconColorPreset,
+  ...props
+}: AriaButtonProps & { error?: boolean; iconColorPreset?: 1 | 2 | 3 | 4 }) {
   const ref = useRef<HTMLButtonElement>(null)
   const { buttonProps } = useButton(props, ref)
 
