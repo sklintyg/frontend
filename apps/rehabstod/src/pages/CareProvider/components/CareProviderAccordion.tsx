@@ -47,7 +47,7 @@ export function CareProviderAccordion({
             onChange={(event) => handleChooseUnit(event, unit)}
           />
           <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-            <Icon icon="chevron-right" className="h-full w-full" />
+            <Icon icon="chevron-right" className="h-full w-full" colorPreset={1} />
           </span>
         </div>
       </summary>

@@ -24,6 +24,7 @@ interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
   startDate?: string | null
   endDate?: string | null
   onDataChanged?: ({ start, end }: { start?: string | null; end?: string | null }) => void
+  iconColorPreset?: 1 | 2 | 3 | 4
 }
 
 export function DateRangePicker({
@@ -35,6 +36,7 @@ export function DateRangePicker({
   startDate,
   endDate,
   onDataChanged,
+  iconColorPreset,
   ...props
 }: DateRangePickerProps) {
   const onChange: (typeof props)['onChange'] = (val) => {
@@ -83,7 +85,7 @@ export function DateRangePicker({
               onDataChanged={(val) => onDataChanged && onDataChanged({ ...segmentData, end: val })}
             />
           </div>
-          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} error={error} />
+          <DatePickerButton {...buttonProps} onPress={() => state.setOpen(!state.isOpen)} error={error} iconColorPreset={iconColorPreset} />
         </div>
         {state.isOpen && (
           <PopoverContent {...dialogProps}>

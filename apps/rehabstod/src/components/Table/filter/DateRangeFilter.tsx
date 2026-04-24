@@ -8,6 +8,7 @@ export function DateRangeFilter({
   label,
   onDataChanged,
   toDate,
+  iconColorPreset,
 }: {
   description: string
   error: boolean
@@ -15,6 +16,7 @@ export function DateRangeFilter({
   label: string
   onDataChanged?: ({ start, end }: { start?: string | null; end?: string | null }) => void
   toDate?: string | null
+  iconColorPreset?: 1 | 2 | 3 | 4
 }) {
   return (
     <>
@@ -26,6 +28,7 @@ export function DateRangeFilter({
           label={label}
           onDataChanged={onDataChanged}
           startDate={fromDate}
+          iconColorPreset={iconColorPreset}
         />
       </div>
       <div className="hidden print:block">

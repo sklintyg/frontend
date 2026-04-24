@@ -34,7 +34,7 @@ export function AboutDialog() {
           Tjänsten kräver att JavaScript är aktiverat.
         </p>
 
-        <Heading level={2} size="s">
+        <Heading level={3} size="s">
           Vad kan jag se i Rehabstöd?
         </Heading>
         <p className="ids-body">
@@ -57,7 +57,7 @@ export function AboutDialog() {
       </div>
       {user && hasUserFeature(user, 'SRS') && (
         <div className="ids-content text-base">
-          <Heading level={2} size="s">
+          <Heading level={3} size="s">
             Var kan jag hitta mer information om Stöd för rätt sjukskrivning (SRS)?
           </Heading>
           <p className="ids-body">

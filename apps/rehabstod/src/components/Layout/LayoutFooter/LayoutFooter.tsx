@@ -15,36 +15,39 @@ export function LayoutFooter() {
       headline="Rehabstöd"
       col1={
         <>
-          <IDSLink block footer>
+          <IDSLink underlined block footer>
             <a
               href={links?.ineraManualRehabstod?.url}
               target={links?.ineraManualRehabstod?.target}
               rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
+              className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
               {links?.ineraManualRehabstod?.text}
             </a>
           </IDSLink>{' '}
-          <IDSLink block footer>
+          <IDSLink underlined block footer>
             <a
               href={links?.ineraNationellKundservice?.url}
               target={links?.ineraNationellKundservice?.target}
               rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
+              className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
               {links?.ineraNationellKundservice?.text}
             </a>
           </IDSLink>
         </>
       }
       col2={
-        <IDSLink block footer>
+        <IDSLink underlined block footer>
           <a
             href={links?.rehabstodTillganglighetsredogorelse?.url}
             target={links?.rehabstodTillganglighetsredogorelse?.target}
             rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
+            className="inline-flex items-center"
           >
-            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" />
+            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
             {links?.rehabstodTillganglighetsredogorelse?.text}
           </a>
         </IDSLink>

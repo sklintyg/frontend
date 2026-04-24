@@ -29,7 +29,7 @@ export function Dialog({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const headlineNode = headline ? (
-    <Heading level={1} size="xl" tabIndex={-1}>
+    <Heading level={2} size="xl" tabIndex={-1}>
       {headline}
     </Heading>
   ) : undefined

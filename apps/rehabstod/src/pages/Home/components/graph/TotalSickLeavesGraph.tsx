@@ -6,7 +6,7 @@ import { Pie, PieChart } from 'recharts'
 function renderCustomizedLabel(props: LabelProps) {
   const { value } = props
   return (
-    <text x="50%" y="50%" fill="white" textAnchor="middle" dominantBaseline="central">
+    <text x="50%" y="50%" fill="black" textAnchor="middle" dominantBaseline="central">
       {`${value} st`}
     </text>
   )
@@ -30,7 +30,7 @@ export function TotalSickLeavesGraph({ total }: { total: number }) {
         Antal sjukfall{' '}
         <TooltipIcon
           description={`Antal sjukfall just nu, ${format(new Date(), 'yyyy-MM-dd, HH:mm')}`}
-          icon={<Icon icon="information" className="relative top-1" data-testid="tooltipIcon" />}
+          icon={<Icon icon="information" className="relative top-1" data-testid="tooltipIcon" colorPreset={1} />}
         />
       </Heading>
       <div>

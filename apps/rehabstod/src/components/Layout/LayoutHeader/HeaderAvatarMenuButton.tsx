@@ -15,7 +15,7 @@ export function HeaderAvatarMenuButton({
   return (
     <button
       type="button"
-      className="ids-link ids-link--icon ids-link--large ids-link--block text-left"
+      className="ids-link ids-link--no-underline ids-link--icon ids-link--large ids-link--block text-left"
       onClick={onClick}
       data-testid={dataTestId}
     >

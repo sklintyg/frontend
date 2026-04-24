@@ -11,7 +11,7 @@ export function HeaderAvatarMenu({ name, unit }: { name: string; unit: string })
   const { logout } = useLogout()
 
   return (
-    <div className="my-2">
+    <div className="my-2 [&_.ids-header-1177-admin-avatar__button]:max-w-none">
       <IDSHeader1177AdminAvatar username={name} unit={unit}>
         <Link to="/enhet" className="ids-link ids-link--icon ids-link--large ids-link--block">
           <Icon icon="swap-horizontal" textStart />

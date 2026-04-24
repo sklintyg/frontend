@@ -39,27 +39,27 @@ exports[`Should render footer as expected 1`] = `
               class="ids-footer-1177-admin__link-col ids-footer-1177-admin__link-col--50"
             >
               <a
-                class="ids-link ids-link--icon ids-link--block ids-link--footer"
+                class="ids-link ids-link--icon ids-link--block ids-link--footer ids-link--underlined"
                 href="https://insecure-ophthalmologist.com"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
                 />
                 ineraManualRehabstod
               </a>
                
               <a
-                class="ids-link ids-link--icon ids-link--block ids-link--footer"
+                class="ids-link ids-link--icon ids-link--block ids-link--footer ids-link--underlined"
                 href="http://wrong-elephant.com"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
                 />
                 ineraNationellKundservice
               </a>
@@ -68,14 +68,14 @@ exports[`Should render footer as expected 1`] = `
               class="ids-footer-1177-admin__link-col ids-footer-1177-admin__link-col--50"
             >
               <a
-                class="ids-link ids-link--icon ids-link--block ids-link--footer"
+                class="ids-link ids-link--icon ids-link--block ids-link--footer ids-link--underlined"
                 href="http://new-adrenalin.info"
                 rel="noreferrer"
                 target="_blank"
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
                 />
                 Tillgänglighetsredogörelse
               </a>
@@ -202,6 +202,8 @@ exports[`Should render footer as expected 1`] = `
                   class="ids-icon-external-link-small ids-icon--text-end"
                 />
               </a>
+               
+              på uppdrag av Sveriges regioner
             </p>
           </div>
           <div
@@ -265,6 +267,8 @@ exports[`Should render footer as expected 1`] = `
                 class="ids-icon-external-link-small ids-icon--text-end"
               />
             </a>
+             
+            på uppdrag av Sveriges regioner
           </p>
         </div>
       </div>

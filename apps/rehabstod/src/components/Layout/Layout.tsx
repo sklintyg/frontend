@@ -29,7 +29,9 @@ export function Layout() {
     <DialogPortalProvider>
       <CookieDialog />
       <div className="flex min-h-screen flex-col">
-        <LayoutHeader />
+        <div className="sticky top-0 z-40 w-full">
+          <LayoutHeader />
+        </div>
         <main id="content" className="flex-1">
           <StickyContainerProvider>
             {config &&

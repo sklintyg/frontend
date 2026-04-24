@@ -1,8 +1,15 @@
+@import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+  --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+}
+
 body.ids {
-  background-color: var(--ids-color-surface-background-alternative);
+  background-color: var(--ids-color-surface-background-default);
   color: var(--ids-color-surface-text-on-default);
 }
