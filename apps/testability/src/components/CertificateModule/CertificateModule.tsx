@@ -55,11 +55,13 @@ export function CertificateModule({
 
     const handleCertificatesChange = (id: string) => {
         setPage(1)
+        setCertificates([])
+        setTotal(0)
         setHsaId(id)
     };
 
     return (
-        <IDSContainer className="gap-4">
+        <IDSContainer gutterless className="gap-4">
             <IDSRow>
                 <IDSColumn>
                     <h1 className="ids-heading-l">Välkommen till ärendesimulatorn</h1>
@@ -77,7 +79,11 @@ export function CertificateModule({
             </IDSRow>
             <IDSRow className="w-full min-w-0 overflow-hidden">
                 <IDSColumn className="w-full min-w-0 overflow-hidden">
-                    <Table certificates={certificates} onSelectedCertificateChange={onSelectedCertificateChange} />
+                    <Table
+                        certificates={certificates}
+                        hasSelectedCareUnit={Boolean(hsaId)}
+                        onSelectedCertificateChange={onSelectedCertificateChange}
+                    />
                 </IDSColumn>
             </IDSRow>
             <IDSRow>

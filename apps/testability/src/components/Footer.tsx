@@ -1,5 +1,6 @@
-import { IDSFooterIneraAdmin } from '@inera/ids-react'
+import { IDSDialog, IDSContainer, IDSRow, IDSColumn, IDSButton } from '@inera/ids-react'
 import '@inera/ids-design/components/footer-inera-admin/footer-inera-admin.css'
+import { useState } from 'react';
 
 type FooterProps = {
   isDarkMode: boolean;
@@ -7,6 +8,9 @@ type FooterProps = {
 };
 
 export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
+
+  const [isCookieModalOpen, setIsCookieModalOpen] = useState(false)
+
   return (
     <footer className="ids-footer-inera-admin">
       <div className="ids-footer-inera-admin__inner-wrapper">
@@ -40,11 +44,10 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
                 <ul>
                   <li>
                     <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
+                      href="https://inera.atlassian.net/wiki/x/hYFi"
                       className="ids-link ids-link--icon ids-link--footer ids-link--block ids-link--color-1"
                     >
-                      <span className="ids-icon-arrow-right-small ids-icon--text-start" aria-hidden="true"></span>Link 1
+                      <span className="ids-icon-arrow-right-small ids-icon--text-start" aria-hidden="true"></span>Intygtjänster
                     </a>
                   </li>
                   <li>
@@ -53,7 +56,7 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
                       onClick={(e) => e.preventDefault()}
                       className="ids-link ids-link--icon ids-link--footer ids-link--block ids-link--color-1"
                     >
-                      <span className="ids-icon-arrow-right-small ids-icon--text-start" aria-hidden="true"></span>Link 2
+                      <span className="ids-icon-arrow-right-small ids-icon--text-start" aria-hidden="true"></span>Tillgänglighetredogörelse
                     </a>
                   </li>
                 </ul>
@@ -69,17 +72,12 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
           <ul>
             <li className="ids-mobile-menu-item">
               <div className="ids-mobile-menu-item__inner">
-                <a href="#">Mobile link 1</a>
+                <a href="https://inera.atlassian.net/wiki/x/hYFi">Intygtjänster</a>
               </div>
             </li>
             <li className="ids-mobile-menu-item">
               <div className="ids-mobile-menu-item__inner">
-                <a href="#">Mobile link 2</a>
-              </div>
-            </li>
-            <li className="ids-mobile-menu-item">
-              <div className="ids-mobile-menu-item__inner">
-                <a href="#">Mobile link 3</a>
+                <a href="#">Tillgänglighetredogörelse</a>
               </div>
             </li>
           </ul>
@@ -90,21 +88,19 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
         <div className="ids-footer-inera-admin__sub-footer-container">
           <div className="ids-footer-inera-admin__sub-footer-inner">
             <div className="ids-footer-inera-admin__sub-footer-left">
-              <a href="#" onClick={(e) => e.preventDefault()} className="ids-link ids-link--small ids-link--color-3">
+              <a href="https://www.1177.se/om-1177/1177.se/hantering-av-personuppgifter-pa-1177.se/" className="ids-link ids-link--small ids-link--color-3">
                 Behandling av personuppgifter
               </a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="ids-link ids-link--small ids-link--color-3">
+              <button type="button" onClick={() => setIsCookieModalOpen(true)} className="ids-link ids-link--small ids-link--color-3">
                 Hantering av kakor
-              </a>
-              <button>Inställningar för kakor</button>
+              </button>
             </div>
             <div className="ids-footer-inera-admin__sub-footer-right">
               <p>
                 {' '}
                 Tjänsten drivs av{' '}
                 <a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href="https://www.inera.se/"
                   className="ids-link ids-link--icon ids-link--underlined ids-link--small ids-link--color-3"
                 >
                   <span>
@@ -116,13 +112,12 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
             </div>
 
             <div className="ids-footer-inera-admin__mobile-links">
-              <a href="#" onClick={(e) => e.preventDefault()} className="ids-link ids-link--color-3">
+              <a href="https://www.inera.se/om-webbplatsen/behandling-av-personuppgifter/" className="ids-link ids-link--color-3">
                 Behandling av personuppgifter
               </a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="ids-link ids-link--color-3">
+              <button type="button" onClick={() => setIsCookieModalOpen(true)} className="ids-link ids-link--color-3">
                 Hantering av kakor
-              </a>
-              <button>Inställningar för kakor</button>
+              </button>
             </div>
           </div>
         </div>
@@ -133,8 +128,7 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
               {' '}
               Tjänsten drivs av{' '}
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href="https://www.inera.se/"
                 className="ids-link ids-link--icon ids-link--underlined ids-link--small ids-link--color-3"
               >
                 <span>
@@ -146,6 +140,40 @@ export function Footer({ isDarkMode, onThemeChange }: FooterProps) {
           </div>
         </div>
       </div>
+      <IDSDialog role="dialog" show={isCookieModalOpen} onVisibilityChange={setIsCookieModalOpen}>
+        <IDSContainer className="flex flex-col gap-4">
+          <IDSRow>
+            <IDSColumn>
+              <h1 className="ids-heading-xl">Om kakor (cookies)</h1>
+              <p>Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår användning av kakor.</p>
+            </IDSColumn>
+          </IDSRow>
+          <IDSRow>
+            <IDSColumn>
+              <h2 className="ids-heading-s">Såhär använder vi kakor</h2>
+              <p>Den typ av kakor som används på den här webbplatsen kallas för sessionskakor. De lagras temporärt i din dators minne under tiden du är inne på webbplatsen. Sessionskakor sparar ingen personlig information om dig, och de försvinner när du stänger din webbläsare. I Rehabstöd används sessionskakor för att du ska kunna navigera i tjänsten utan att behöva logga in på nytt varje gång du går till en ny sida. De används också för att de filterinställningar du gör ska finnas kvar under hela tiden du är inloggad. För att vara säker på att kakorna inte sparas i din dator efter avslutad session måste du stänga webbläsaren när du har loggat ut.</p>
+            </IDSColumn>
+          </IDSRow>
+          <IDSRow>
+            <IDSColumn>
+              <h2 className="ids-heading-s">Undvika kakor</h2>
+              <p>Vill du inte acceptera kakor kan din webbläsare ställas in så att du automatiskt nekar till lagring av kakor eller informeras varje gång en webbplats begär att få lagra en kaka. Genom webbläsaren kan också tidigare lagrade kakor raderas. Se webbläsarens hjälpsidor för mer information. Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna e-tjänst.
+Mer information om kakor kan du finna på <a className='ids-anchor ids-ml-2' href=" https://pts.se/internet-och-telefoni/kakor-cookies/">Post- och telestyrelsens sida om kakor</a></p>
+            </IDSColumn>
+          </IDSRow>
+          <IDSRow>
+            <IDSColumn className='flex justify-center'>
+              <IDSButton
+                type='button'
+                onClick={() => setIsCookieModalOpen(false)}
+              >
+                Stäng
+              </IDSButton>
+            </IDSColumn>
+          </IDSRow>
+        </IDSContainer>
+      </IDSDialog>
     </footer>
+    
   )
 }
