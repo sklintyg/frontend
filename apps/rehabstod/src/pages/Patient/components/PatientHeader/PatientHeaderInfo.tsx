@@ -12,24 +12,20 @@ export function PatientHeaderInfo({
   currentSickness?: PatientSjukfall
 }) {
   return (
-    <div className="flex flex-col gap-1 text-sm sm:text-base xl:flex-row">
-      <div>
-        <span>{alder} år,</span> <span>{kon === 'F' ? 'kvinna' : 'man'}</span>
-      </div>
+    <div className="whitespace-nowrap text-sm sm:text-base">
+      <span>{alder} år,</span> <span>{kon === 'F' ? 'kvinna' : 'man'}</span>
       {currentSickness && (
         <>
-          <div role="separator" color="neutral-20" className="hidden space-x-2 xl:inline-block">
-            |
-          </div>
-          <div>
+          <span className="mx-1">|</span>
+          <span>
             Uppskattad dag i sjukfallet:{' '}
             <span className="font-bold">{differenceInDays(Date.now(), parseISO(currentSickness.start))} dagar </span>
             <TooltipIcon
               description="Visar antal dagar som sjukfallet pågått från första intygets startdatum till idag."
-              icon={<Icon icon="information" className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
+              icon={<Icon icon="information" className="ml-1 h-4 w-4 align-middle sm:ml-2 sm:h-5 sm:w-5" />}
               alignMiddle
             />
-          </div>
+          </span>
         </>
       )}
     </div>

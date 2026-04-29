@@ -78,6 +78,52 @@ body.ids--1177-admin.ids--dark {
   background-color: var(--ids-color-surface-background-default) !important;
 }
 
+.ids-footer-1177-admin .ids-footer-1177-admin__mobile-links {
+  gap: 1rem;
+}
+
+.ids-footer-1177-admin .ids-footer-1177-admin__sub-footer-mobile .ids-footer-1177-admin__sub-footer-mobile-logo:before {
+  right: 0;
+  font-size: 3.875rem;
+}
+
 .ids-checkbox + .ids-label-wrapper {
   margin-left: 0.5rem;
 }
+
+.ids-header-patient .ids-patient-header__inner {
+  align-items: center !important;
+}
+
+.ids-header-patient .ids-header-patient__content {
+  align-items: center !important;
+  margin-top: 0 !important;
+}
+
+.ids-header-patient .ids-header-patient__id {
+  margin: 0 !important;
+  align-items: center !important;
+  align-self: center !important;
+}
+
+.ids-header-patient .ids-header-patient__id::before {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.ids-header-patient .ids-header-patient__name,
+.ids-header-patient .ids-header-patient__ssn {
+  line-height: 1.5 !important;
+  align-self: center !important;
+}
+
+.ids-header-patient .ids-header-patient__info {
+  margin: 0 0 0 1.5rem !important;
+  align-self: center !important;
+}
+
+.ids-header-patient .ids-header-patient__buttons {
+  align-items: center !important;
+  align-self: center !important;
+}
+
