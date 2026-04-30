@@ -10,6 +10,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+Source - https://stackoverflow.com/a/62163664
+Posted by apollovishwas, modified by community. See post 'Timeline' for change history
+Retrieved 2026-04-30, License - CC BY-SA 4.0
+*/
+
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 /* :root {
   --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
