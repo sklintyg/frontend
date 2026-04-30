@@ -29,7 +29,7 @@ export function Dialog({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const headlineNode = headline ? (
-    <Heading level={2} size="l" tabIndex={-1}>
+    <Heading level={2} size="l" tabIndex={-1} className="ids-focus-anchor">
       {headline}
     </Heading>
   ) : undefined

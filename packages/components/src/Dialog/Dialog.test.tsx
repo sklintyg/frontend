@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { useState } from 'react'
 import { Dialog } from './Dialog'
 
@@ -30,4 +30,10 @@ it('Should have correct headline', () => {
 it('Should have headline as label', () => {
   render(<DialogWrapper intialOpen />)
   expect(screen.getByRole('dialog', { name: 'The Dialog Headline' })).toBeInTheDocument()
+})
+
+it('Should move focus to headline when opened', async () => {
+  render(<DialogWrapper intialOpen />)
+  const heading = await screen.findByRole('heading', { name: 'The Dialog Headline', level: 2 })
+  await waitFor(() => expect(heading).toHaveFocus())
 })
