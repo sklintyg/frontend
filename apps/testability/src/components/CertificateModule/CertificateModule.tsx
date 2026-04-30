@@ -61,7 +61,7 @@ export function CertificateModule({
     };
 
     return (
-        <IDSContainer gutterless className="gap-4">
+        <IDSContainer gutterless className="gap-4 relative">
             <IDSRow>
                 <IDSColumn>
                     <h1 className="ids-heading-l">Välkommen till ärendesimulatorn</h1>
@@ -77,8 +77,8 @@ export function CertificateModule({
                     <Select onCertificatesChange={handleCertificatesChange} onSelectedCareUnitChange={onSelectedCareUnitChange} />
                 </IDSColumn>
             </IDSRow>
-            <IDSRow className="w-full min-w-0 overflow-hidden">
-                <IDSColumn className="w-full min-w-0 overflow-hidden">
+            <IDSRow className="min-w-0">
+                <IDSColumn>
                     <Table
                         certificates={certificates}
                         hasSelectedCareUnit={Boolean(hsaId)}

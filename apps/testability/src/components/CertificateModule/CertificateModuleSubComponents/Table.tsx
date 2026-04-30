@@ -205,7 +205,7 @@ export function Table({
     }
 
     return (
-        <div className="border border-ids-surface-border overflow-x-auto overflow-y-hidden rounded-md">
+        <div className="border border-ids-surface-border w-full overflow-x-auto overflow-y-hidden rounded-md">
             <table className={`ids-data-table w-full ${hasCertificates ? "ids-data-table--interactive" : ""}`}>
                 <thead>
                     <HeaderRow
