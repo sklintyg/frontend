@@ -75,7 +75,7 @@ exports[`Should render as expected 1`] = `
       </div>
       <nav
         aria-label="Huvudmeny"
-        class="ids-header-1177-nav"
+        class="ids-header-1177-nav ids-header-1177-nav--hide-on-tablet"
       >
         <div
           class="ids-header-1177-nav__inner"
