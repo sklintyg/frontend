@@ -74,7 +74,7 @@ export function SelectMultiple({
       <InputLabel htmlFor={id} description={description}>
         {label}
       </InputLabel>
-        <div className="ids-select-multiple__select-wrapper">
+      <div className="ids-select-multiple__select-wrapper">
         <input
           id={id}
           type="button"
