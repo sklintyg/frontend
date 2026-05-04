@@ -12,9 +12,7 @@ exports[`Should render as expected 1`] = `
     </h1>
     <div
       class="ids-preamble mb-2 text-lg md:text-[1.375rem]/[2.25rem]"
-    >
-      Skicka intyget body
-    </div>
+    />
     <div>
       <button
         aria-label="Läs mer om vad du kan göra i Intyg"
@@ -32,97 +30,21 @@ exports[`Should render as expected 1`] = `
       </button>
     </div>
   </header>
-  <div>
-    <h2
-      class="ids-heading-m !normal-case text-heading-m"
-    >
-      Intyg som ska skickas
-    </h2>
-    <div
-      class="mb-5"
-    >
-      <div
-        class="ids-card"
-      >
-        <div
-          class="ids-card__content"
-        >
-          <h2
-            class="ids-heading-s !normal-case text-heading-s"
-          >
-            Dr. Robert Svensson
-          </h2>
-          <div
-            class="flex flex-col gap-5 md:flex-row md:gap-10"
-          >
-            <div>
-              <h3
-                class="ids-heading-xs !normal-case text-heading-xs mb-0"
-              >
-                Gäller intygsperiod
-              </h3>
-              2021-04-22 - 2021-07-19
-            </div>
-            <div>
-              <h3
-                class="ids-heading-xs !normal-case text-heading-xs mb-0 whitespace-nowrap"
-              >
-                Intyg utfärdat
-              </h3>
-              2023-10-10
-            </div>
-            <div>
-              <h3
-                class="ids-heading-xs !normal-case text-heading-xs mb-0"
-              >
-                Skrivet av
-              </h3>
-              Jenny Ström
-              , 
-              Tommy Claesson
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div
-    class="mb-5"
+    aria-live="polite"
+    class="ids-spinner ids-spinner--1"
+    data-testid="spinner"
+    role="alert"
   >
-    <h2
-      class="ids-heading-m !normal-case text-heading-m"
-    >
-      Mottagare
-    </h2>
     <div
-      class="ids-card"
-    >
-      <div
-        class="ids-card__content"
-      >
-        Transportstyrelsen
-      </div>
-    </div>
-  </div>
-  <div
-    class="flex flex-col gap-5 py-5 sm:flex-row"
-  >
-    <button
-      aria-disabled="false"
-      class="ids-button ids-button--m ids-button--s-block ids-button--secondary"
-      role="button"
-      tabindex="0"
-    >
-      Tillbaka till intyget
-    </button>
-    <button
-      aria-disabled="false"
-      class="ids-button ids-button--m ids-button--s-block"
-      role="button"
-      tabindex="0"
-    >
-      Skicka
-    </button>
+      class="ids-bounce-1"
+    />
+    <div
+      class="ids-bounce-2"
+    />
+    <div
+      class="ids-bounce-3"
+    />
   </div>
 </div>
 `;
