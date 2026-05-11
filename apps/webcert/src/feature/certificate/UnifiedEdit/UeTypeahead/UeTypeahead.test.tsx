@@ -14,7 +14,6 @@ import UeTypeahead from './UeTypeahead'
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
 let testStore: EnhancedStore
-let modalRoot: HTMLDivElement
 
 const renderDefaultComponent = () => {
   render(
@@ -45,13 +44,6 @@ describe('Typeahead component', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { '1': question } })))
-    modalRoot = document.createElement('div')
-    modalRoot.setAttribute('id', 'modalRoot')
-    document.body.appendChild(modalRoot)
-  })
-
-  afterEach(() => {
-    document.body.removeChild(modalRoot)
   })
 
   it('renders without crashing', () => {
@@ -139,27 +131,5 @@ describe('Typeahead component', () => {
 
     await userEvent.keyboard('{Tab}')
     expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: 'ORSA' } })
-  })
-
-  it('should remove unsupported characters and show the warning InfoBox', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.type(input, 'text 😀')
-
-    // Emoji is removed during typing; blur auto-clears the field (typeahead behavior),
-    // which also resets the sanitization warning — no warning expected after field is cleared
-    await userEvent.tab()
-    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
-    expect(input).toHaveValue('')
-  })
-
-  it('should hide the warning InfoBox when the field is cleared', async () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    await userEvent.type(input, 'text 😀')
-    await userEvent.tab()
-
-    // Field is auto-cleared on blur (typeahead behavior), which resets the warning
-    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

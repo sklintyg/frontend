@@ -9,8 +9,6 @@ import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeTypeahead, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import { GetFilteredSuggestions } from '../../../../utils'
-import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
-import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 interface Props {
   question: CertificateDataElement
@@ -27,8 +25,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
-
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
       const oldValue = question.value as ValueText
@@ -43,7 +39,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     const newText = event.currentTarget.value
 
     if (newText !== text) {
-      resetWarning()
       setText(newText)
 
       if (newText === undefined || newText === null || newText === '') {
@@ -68,7 +63,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   }
 
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
-    sanitize(text ?? '') // Trigger showWarning if unsupported chars present
     dispatchEditDraft.cancel()
 
     const oldValue = question.value as ValueText
@@ -79,7 +73,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     }
 
     setText('')
-    resetWarning() // Auto-clear resets any sanitization warning
     const updatedValue = getUpdatedValue(question, null)
     dispatch(updateCertificateDataElement(updatedValue))
   }
@@ -120,9 +113,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
           onSuggestionSelected={onSuggestionSelected}
         />
         <QuestionValidationTexts validationErrors={validationErrors} />
-      </div>
-      <div className="iu-grid-span-12">
-        <InvalidCharactersInfoBox visible={showWarning} />
       </div>
     </div>
   )
