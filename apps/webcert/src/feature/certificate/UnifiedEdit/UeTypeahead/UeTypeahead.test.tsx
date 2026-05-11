@@ -14,6 +14,7 @@ import UeTypeahead from './UeTypeahead'
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
 let testStore: EnhancedStore
+let modalRoot: HTMLDivElement
 
 const renderDefaultComponent = () => {
   render(
@@ -44,16 +45,13 @@ describe('Typeahead component', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { '1': question } })))
-    const modalRoot = document.createElement('div')
+    modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modalRoot')
     document.body.appendChild(modalRoot)
   })
 
   afterEach(() => {
-    const modalRoot = document.getElementById('modalRoot')
-    if (modalRoot) {
-      document.body.removeChild(modalRoot)
-    }
+    document.body.removeChild(modalRoot)
   })
 
   it('renders without crashing', () => {

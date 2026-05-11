@@ -7,17 +7,16 @@ const renderComponent = (visible: boolean) => {
 }
 
 describe('InvalidCharactersInfoBox', () => {
+  let modalRoot: HTMLDivElement
+
   beforeEach(() => {
-    const modalRoot = document.createElement('div')
+    modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modalRoot')
     document.body.appendChild(modalRoot)
   })
 
   afterEach(() => {
-    const modalRoot = document.getElementById('modalRoot')
-    if (modalRoot) {
-      document.body.removeChild(modalRoot)
-    }
+    document.body.removeChild(modalRoot)
   })
 
   it('should not render when visible is false', () => {

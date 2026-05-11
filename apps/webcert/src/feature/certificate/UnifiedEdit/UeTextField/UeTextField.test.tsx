@@ -11,6 +11,7 @@ import UeTextField from './UeTextField'
 const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 
 let testStore: EnhancedStore
+let modalRoot: HTMLDivElement
 
 const renderDefaultComponent = (props: ComponentProps<typeof UeTextField>) => {
   render(
@@ -23,16 +24,13 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeTextField>) => {
 describe('UeTextField', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
-    const modalRoot = document.createElement('div')
+    modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modalRoot')
     document.body.appendChild(modalRoot)
   })
 
   afterEach(() => {
-    const modalRoot = document.getElementById('modalRoot')
-    if (modalRoot) {
-      document.body.removeChild(modalRoot)
-    }
+    document.body.removeChild(modalRoot)
   })
 
   it('renders component with correct default values', async () => {

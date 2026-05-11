@@ -9,6 +9,7 @@ import { configureApplicationStore } from '../../../../store/configureApplicatio
 import UeIcf from './UeIcf'
 
 let testStore: EnhancedStore
+let modalRoot: HTMLDivElement
 
 const renderDefaultComponent = (props: ComponentProps<typeof UeIcf>) => {
   render(
@@ -21,16 +22,13 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeIcf>) => {
 describe('UeIcf', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
-    const modalRoot = document.createElement('div')
+    modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modalRoot')
     document.body.appendChild(modalRoot)
   })
 
   afterEach(() => {
-    const modalRoot = document.getElementById('modalRoot')
-    if (modalRoot) {
-      document.body.removeChild(modalRoot)
-    }
+    document.body.removeChild(modalRoot)
   })
 
   it('renders a textarea', () => {
