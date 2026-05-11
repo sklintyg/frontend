@@ -1,4 +1,5 @@
 import { Button, Dialog, Heading } from '@frontend/components'
+import { useEffect, useRef } from 'react'
 import { useGetConfigQuery, useGetLinksQuery, useGetUserQuery } from '../../store/api'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateShowAboutDialog } from '../../store/slices/settings.slice'
@@ -11,6 +12,16 @@ export function AboutDialog() {
   const { data: config } = useGetConfigQuery()
   const showAboutDialog = useAppSelector((state) => state.settings.showAboutDialog)
   const dispatch = useAppDispatch()
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (showAboutDialog) {
+      setTimeout(() => {
+        const scrollArea = contentRef.current?.closest<HTMLElement>('.ids-dialog__body')
+        scrollArea?.focus()
+      }, 50)
+    }
+  }, [showAboutDialog])
 
   return (
     <Dialog
@@ -24,7 +35,7 @@ export function AboutDialog() {
         </Button>
       }
     >
-      <div className="ids-content text-base [&:not(:last-child)]:mb-8">
+      <div ref={contentRef} className="ids-content text-base [&:not(:last-child)]:mb-8">
         <p className="ids-body">
           Rehabstöd är en tjänst för dig som arbetar med att koordinera rehabiliteringsinsatser för sjukskrivna patienter.
         </p>

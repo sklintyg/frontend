@@ -11,7 +11,7 @@ export function LayoutDesktopNav({ activeLink, links }: { activeLink?: string; l
   }
 
   return (
-    <IDSHeader1177Nav>
+    <IDSHeader1177Nav hideOnTablet>
       {links.map((item) => (
         <LayoutDesktopNavItem key={item.id} to={item.url} title={item.name} active={activeLink === item.name} />
       ))}

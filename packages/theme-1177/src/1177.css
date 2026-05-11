@@ -44,7 +44,7 @@ summary::marker {
 
 .ids table.ids-table {
   border-bottom: 0;
-  border-radius: 0;
+  border-radius: var(--IDS-TABLE__BORDER-RADIUS);
 }
 
 .ids table.ids-table tbody tr:last-child td {

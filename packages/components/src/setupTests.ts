@@ -11,6 +11,8 @@ beforeEach(() => {
       disconnect: vi.fn(),
     }))
   )
+  // jsdom does not implement scrollIntoView, but @inera/ids-react calls it on focus anchors.
+  Element.prototype.scrollIntoView = vi.fn()
 })
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
