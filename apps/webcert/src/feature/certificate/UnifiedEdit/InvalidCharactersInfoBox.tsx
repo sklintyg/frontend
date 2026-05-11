@@ -8,9 +8,8 @@ const MoreInfoButton = styled.button`
   border: none;
   padding: 0;
   cursor: pointer;
-  font-weight: bold;
   font-size: inherit;
-  color: inherit;
+  color: #00706e;
   text-decoration: underline;
 `
 
@@ -25,7 +24,7 @@ const InfoBoxWrapper = styled.div`
 
 const MODAL_BODY_TEXT =
   'När text klistras in omvandlas den till ren text och alla otillåtna symboler och dold formatering rensas bort. ' +
-  'Detta för att säkerställa att intyget går att signera och hanteras av intygsmottagaren.\n' +
+  'Detta för att säkerställa att intyget går att signera och hanteras av intygsmottagaren.\n\n' +
   'Exempel på otillåtna symboler och dold formatering är exempelvis emojis, dolda mellanslag och tabb (indrag). '
 
 interface Props {
@@ -44,8 +43,7 @@ const InvalidCharactersInfoBox = ({ visible }: Props) => {
       <InfoBoxWrapper>
         <InfoBox type="observe">
           Tecken som inte stöds (dold formatering och symboler) har rensats bort. Granska texten och säkerställ att den är korrekt innan du
-          signerar.{' '}
-          <MoreInfoButton onClick={() => setModalOpen(true)}>Visa mer information</MoreInfoButton>
+          signerar. <MoreInfoButton onClick={() => setModalOpen(true)}>Visa mer information</MoreInfoButton>
         </InfoBox>
       </InfoBoxWrapper>
       <ConfirmModal
