@@ -65,6 +65,7 @@ describe('UeTextArea', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Hello 😀')
+    await userEvent.tab()
 
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
   })
@@ -75,6 +76,7 @@ describe('UeTextArea', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Hello 😀')
+    await userEvent.tab()
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
 
     await userEvent.clear(input)

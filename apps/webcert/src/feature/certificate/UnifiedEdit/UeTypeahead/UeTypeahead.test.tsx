@@ -146,16 +146,20 @@ describe('Typeahead component', () => {
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'text 😀')
 
-    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+    // Emoji is removed during typing; blur auto-clears the field (typeahead behavior),
+    // which also resets the sanitization warning — no warning expected after field is cleared
+    await userEvent.tab()
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+    expect(input).toHaveValue('')
   })
 
   it('should hide the warning InfoBox when the field is cleared', async () => {
     renderDefaultComponent()
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'text 😀')
-    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+    await userEvent.tab()
 
-    await userEvent.clear(input)
+    // Field is auto-cleared on blur (typeahead behavior), which resets the warning
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

@@ -38,7 +38,13 @@ const UeTextArea = ({ question, disabled }: Props) => {
   }
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
-    const sanitized = sanitize(event.currentTarget.value)
+    const value = event.currentTarget.value
+    setText(value)
+    dispatchEditDraft(question, value)
+  }
+
+  const handleBlur = () => {
+    const sanitized = sanitize(text ?? '')
     setText(sanitized)
     dispatchEditDraft(question, sanitized)
   }
@@ -52,6 +58,7 @@ const UeTextArea = ({ question, disabled }: Props) => {
         rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={handleChange}
+        onBlur={handleBlur}
         name={questionConfig.id}
         value={text === null ? '' : text}
         maxLength={textValidation ? textValidation.limit : 3500}

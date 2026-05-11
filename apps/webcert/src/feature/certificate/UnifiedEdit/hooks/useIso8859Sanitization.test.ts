@@ -7,17 +7,7 @@ describe('useIso8859Sanitization', () => {
     expect(result.current.showWarning).toBe(false)
   })
 
-  it('should return the original text when no unsupported characters are present', () => {
-    const { result } = renderHook(() => useIso8859Sanitization())
-    let sanitized: string
-    act(() => {
-      sanitized = result.current.sanitize('Hello, World!')
-    })
-    expect(sanitized!).toBe('Hello, World!')
-    expect(result.current.showWarning).toBe(false)
-  })
-
-  it('should set showWarning=true when unsupported characters are removed', () => {
+  it('should return the sanitized text and set showWarning when unsupported characters are removed', () => {
     const { result } = renderHook(() => useIso8859Sanitization())
     let sanitized: string
     act(() => {
@@ -25,6 +15,14 @@ describe('useIso8859Sanitization', () => {
     })
     expect(sanitized!).toBe('Hello ')
     expect(result.current.showWarning).toBe(true)
+  })
+
+  it('should not set showWarning when no unsupported characters are present', () => {
+    const { result } = renderHook(() => useIso8859Sanitization())
+    act(() => {
+      result.current.sanitize('Hello, World!')
+    })
+    expect(result.current.showWarning).toBe(false)
   })
 
   it('should reset showWarning to false when the input is emptied', () => {

@@ -43,6 +43,7 @@ describe('UeIcf', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
+    await userEvent.tab()
 
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
   })
@@ -53,6 +54,7 @@ describe('UeIcf', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
+    await userEvent.tab()
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
 
     await userEvent.clear(input)

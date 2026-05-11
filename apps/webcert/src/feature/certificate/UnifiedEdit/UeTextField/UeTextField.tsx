@@ -34,7 +34,13 @@ const UeTextField = ({ question, disabled }: Props) => {
   ).current
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const sanitized = sanitize(event.currentTarget.value)
+    const value = event.currentTarget.value
+    setText(value)
+    dispatchEditDraft(question, value)
+  }
+
+  const handleBlur = () => {
+    const sanitized = sanitize(text ?? '')
     setText(sanitized)
     dispatchEditDraft(question, sanitized)
   }
@@ -48,6 +54,7 @@ const UeTextField = ({ question, disabled }: Props) => {
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}
           onChange={handleChange}
+          onBlur={handleBlur}
           name={questionConfig.id}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}

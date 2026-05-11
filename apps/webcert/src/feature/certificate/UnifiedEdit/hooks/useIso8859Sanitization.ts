@@ -8,8 +8,8 @@ interface UseIso8859SanitizationResult {
 
 /**
  * Hook that sanitizes text input to only contain ISO-8859-1 compatible characters.
- * Tracks whether unsupported characters have been removed and exposes a warning flag.
- * The warning is cleared when the field is emptied.
+ * Call sanitize() on blur to clean the value and show the warning if needed.
+ * Call sanitize('') when the field is emptied to clear the warning.
  */
 const useIso8859Sanitization = (): UseIso8859SanitizationResult => {
   const [showWarning, setShowWarning] = useState(false)
@@ -31,3 +31,4 @@ const useIso8859Sanitization = (): UseIso8859SanitizationResult => {
 }
 
 export default useIso8859Sanitization
+

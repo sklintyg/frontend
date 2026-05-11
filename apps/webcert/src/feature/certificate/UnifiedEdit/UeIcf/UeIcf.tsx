@@ -49,7 +49,12 @@ const UeIcf = ({ question, disabled }: Props) => {
   }, [currentValue.icfCodes, icfData, previousIcfCodes, updateValue])
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const sanitized = sanitize(event.currentTarget.value)
+    const value = event.currentTarget.value
+    updateValue({ text: value })
+  }
+
+  const handleTextBlur = () => {
+    const sanitized = sanitize(currentValue.text ?? '')
     updateValue({ text: sanitized })
   }
 
@@ -74,6 +79,7 @@ const UeIcf = ({ question, disabled }: Props) => {
         rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={handleTextChange}
+        onBlur={handleTextBlur}
         name={questionConfig.id}
         value={currentValue.text ?? ''}
         maxLength={textValidation ? textValidation.limit : 3500}

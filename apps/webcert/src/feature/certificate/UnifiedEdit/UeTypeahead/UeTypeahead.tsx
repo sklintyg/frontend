@@ -40,7 +40,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   ).current
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newText = sanitize(event.currentTarget.value)
+    const newText = event.currentTarget.value
 
     if (newText !== text) {
       setText(newText)
@@ -67,6 +67,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   }
 
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+    sanitize(text ?? '') // Trigger showWarning if unsupported chars present
     dispatchEditDraft.cancel()
 
     const oldValue = question.value as ValueText
