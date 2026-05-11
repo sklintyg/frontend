@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeTypeahead, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
 import { GetFilteredSuggestions } from '../../../../utils'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 interface Props {
   question: CertificateDataElement
@@ -25,6 +27,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -37,7 +40,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   ).current
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newText = event.currentTarget.value
+    const newText = sanitize(event.currentTarget.value)
 
     if (newText !== text) {
       setText(newText)
@@ -113,6 +116,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
         />
+        <InvalidCharactersInfoBox visible={showWarning} />
         <QuestionValidationTexts validationErrors={validationErrors} />
       </div>
     </div>

@@ -44,6 +44,16 @@ describe('Typeahead component', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { '1': question } })))
+    const modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    const modalRoot = document.getElementById('modalRoot')
+    if (modalRoot) {
+      document.body.removeChild(modalRoot)
+    }
   })
 
   it('renders without crashing', () => {
@@ -131,5 +141,23 @@ describe('Typeahead component', () => {
 
     await userEvent.keyboard('{Tab}')
     expect(getQuestion('1')(testStore.getState())).toMatchObject({ value: { text: 'ORSA' } })
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox', async () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    await userEvent.type(input, 'text 😀')
+
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the field is cleared', async () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    await userEvent.type(input, 'text 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(input)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

@@ -3,24 +3,22 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { fakeTextFieldElement } from '../../../../faker'
+import { fakeICFDataElement } from '../../../../faker'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import UeTextField from './UeTextField'
-
-const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
+import UeIcf from './UeIcf'
 
 let testStore: EnhancedStore
 
-const renderDefaultComponent = (props: ComponentProps<typeof UeTextField>) => {
+const renderDefaultComponent = (props: ComponentProps<typeof UeIcf>) => {
   render(
     <Provider store={testStore}>
-      <UeTextField {...props} />
+      <UeIcf {...props} />
     </Provider>
   )
 }
 
-describe('UeTextField', () => {
+describe('UeIcf', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
     const modalRoot = document.createElement('div')
@@ -35,30 +33,15 @@ describe('UeTextField', () => {
     }
   })
 
-  it('renders component with correct default values', async () => {
+  it('renders a textarea', () => {
+    const mockQuestion = fakeICFDataElement({ id: '1', value: { text: null } })['1']
     renderDefaultComponent({ question: mockQuestion, disabled: false })
-    const input = screen.getByRole('textbox')
-    await expect(input).toHaveValue('Text')
-  })
-
-  it('renders a text which has correct value after typing in it', async () => {
-    renderDefaultComponent({ question: mockQuestion, disabled: false })
-    const inputString = 'Hello, World'
-    const input = screen.getByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, inputString)
-    await expect(input).toHaveValue(inputString)
-  })
-
-  it('disables component if disabled is set', async () => {
-    renderDefaultComponent({ question: mockQuestion, disabled: true })
-    const input = screen.getByRole('textbox')
-    await expect(input).toBeDisabled()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('should remove unsupported characters and show the warning InfoBox', async () => {
-    const emptyQuestion = fakeTextFieldElement({ id: '1', value: { text: null } })['1']
-    renderDefaultComponent({ question: emptyQuestion, disabled: false })
+    const mockQuestion = fakeICFDataElement({ id: '1', value: { text: null } })['1']
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
@@ -67,14 +50,24 @@ describe('UeTextField', () => {
   })
 
   it('should hide the warning InfoBox when the field is cleared', async () => {
-    const emptyQuestion = fakeTextFieldElement({ id: '1', value: { text: null } })['1']
-    renderDefaultComponent({ question: emptyQuestion, disabled: false })
+    const mockQuestion = fakeICFDataElement({ id: '1', value: { text: null } })['1']
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
 
     await userEvent.clear(input)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('should preserve valid text without triggering the warning', async () => {
+    const mockQuestion = fakeICFDataElement({ id: '1', value: { text: null } })['1']
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
+
+    const input = screen.getByRole('textbox')
+    await userEvent.type(input, 'Patienten har nedsatt rörlighet åäö')
+
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })
