@@ -24,7 +24,7 @@ const UeTextField = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -35,6 +35,9 @@ const UeTextField = ({ question, disabled }: Props) => {
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.currentTarget.value
+    if (value === '') {
+      resetWarning()
+    }
     setText(value)
     dispatchEditDraft(question, value)
   }

@@ -27,7 +27,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -43,6 +43,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     const newText = event.currentTarget.value
 
     if (newText !== text) {
+      resetWarning()
       setText(newText)
 
       if (newText === undefined || newText === null || newText === '') {
@@ -78,6 +79,7 @@ const UeTypeahead = ({ question, disabled }: Props) => {
     }
 
     setText('')
+    resetWarning() // Auto-clear resets any sanitization warning
     const updatedValue = getUpdatedValue(question, null)
     dispatch(updateCertificateDataElement(updatedValue))
   }

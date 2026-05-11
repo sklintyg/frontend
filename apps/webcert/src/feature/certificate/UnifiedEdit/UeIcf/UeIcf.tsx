@@ -29,7 +29,7 @@ const UeIcf = ({ question, disabled }: Props) => {
   const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
 
   const dispatchValue = useRef(debounce((value: ValueIcf) => dispatch(updateCertificateDataElement({ ...question, value })), 1000)).current
 
@@ -50,6 +50,9 @@ const UeIcf = ({ question, disabled }: Props) => {
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.currentTarget.value
+    if (value === '') {
+      resetWarning()
+    }
     updateValue({ text: value })
   }
 

@@ -3,23 +3,19 @@ import { filterUnsupportedCharacters } from '../../../../utils/textUtils'
 
 interface UseIso8859SanitizationResult {
   sanitize: (input: string) => string
+  resetWarning: () => void
   showWarning: boolean
 }
 
 /**
  * Hook that sanitizes text input to only contain ISO-8859-1 compatible characters.
- * Call sanitize() on blur to clean the value and show the warning if needed.
- * Call sanitize('') when the field is emptied to clear the warning.
+ * Call sanitize() on blur to clean the value and show the warning if chars were removed.
+ * Call resetWarning() in onChange to hide the warning as soon as the user starts editing.
  */
 const useIso8859Sanitization = (): UseIso8859SanitizationResult => {
   const [showWarning, setShowWarning] = useState(false)
 
   const sanitize = (input: string): string => {
-    if (input === '') {
-      setShowWarning(false)
-      return ''
-    }
-
     const { sanitized, hasRemovedCharacters } = filterUnsupportedCharacters(input)
     if (hasRemovedCharacters) {
       setShowWarning(true)
@@ -27,7 +23,9 @@ const useIso8859Sanitization = (): UseIso8859SanitizationResult => {
     return sanitized
   }
 
-  return { sanitize, showWarning }
+  const resetWarning = () => setShowWarning(false)
+
+  return { sanitize, resetWarning, showWarning }
 }
 
 export default useIso8859Sanitization
