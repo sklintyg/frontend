@@ -52,8 +52,10 @@ const UeTextField = ({ question, disabled }: Props) => {
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
         />
-        <InvalidCharactersInfoBox visible={showWarning} />
         <QuestionValidationTexts validationErrors={validationErrors} />
+      </div>
+      <div className="iu-grid-span-12">
+        <InvalidCharactersInfoBox visible={showWarning} />
       </div>
     </div>
   )

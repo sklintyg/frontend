@@ -116,8 +116,10 @@ const UeTypeahead = ({ question, disabled }: Props) => {
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
         />
-        <InvalidCharactersInfoBox visible={showWarning} />
         <QuestionValidationTexts validationErrors={validationErrors} />
+      </div>
+      <div className="iu-grid-span-12">
+        <InvalidCharactersInfoBox visible={showWarning} />
       </div>
     </div>
   )
