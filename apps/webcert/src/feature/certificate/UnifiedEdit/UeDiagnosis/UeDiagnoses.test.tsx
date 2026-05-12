@@ -14,6 +14,7 @@ import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelect
 import { UeDiagnoses } from './UeDiagnoses'
 
 let testStore: EnhancedStore
+let modalRoot: HTMLDivElement
 
 const DIAGNOSES = [
   { kod: 'F501', beskrivning: 'Ätstörningar' },
@@ -64,6 +65,13 @@ describe('Diagnoses component', () => {
     testStore = configureApplicationStore([certificateMiddleware, utilsMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: { id: question } })))
     testStore.dispatch(updateDiagnosisTypeahead({ diagnoser: DIAGNOSES, resultat: 'OK', moreResults: false }))
+    modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(modalRoot)
   })
 
   it('Should renders without crashing', () => {
@@ -226,5 +234,22 @@ describe('Diagnoses component', () => {
     await userEvent.clear(screen.getByTestId('id-diagnos'))
     expect(screen.getByTestId('id-code')).toHaveValue('')
     expect(getQuestion('id')(testStore.getState())).toMatchObject({ value: { list: [] } })
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox for description field', async () => {
+    renderComponent({})
+    const descInput = screen.getByTestId('id-diagnos')
+    await userEvent.type(descInput, 'Diagnos 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the description field is cleared', async () => {
+    renderComponent({})
+    const descInput = screen.getByTestId('id-diagnos')
+    await userEvent.type(descInput, 'Diagnos 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(descInput)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

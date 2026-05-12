@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { ValidationError, ValueDiagnosis } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 import { getDiagnosisItemText, getDiagnosisParts, type useDiagnosisTypeahead } from './hooks/useDiagnosisTypeahead'
 
 const DiagnosisWrapper = styled.div`
@@ -55,6 +57,7 @@ export function UeDiagnosis({
   onChange: (value: ValueDiagnosis) => void
 } & ReturnType<typeof useDiagnosisTypeahead>) {
   const [{ code, description }, setValue] = useState(value)
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const onDiagnosisSelected = (diagnosis: string) => {
     const { code, description } = getDiagnosisParts(diagnosis)
@@ -70,7 +73,8 @@ export function UeDiagnosis({
   }
 
   return (
-    <DiagnosisWrapper key={`${id}-wrapper`}>
+    <>
+      <DiagnosisWrapper key={`${id}-wrapper`}>
       <Typeahead
         suggestions={suggestions}
         css={codeAdditionalStyles}
@@ -99,9 +103,9 @@ export function UeDiagnosis({
           onSuggestionSelected={onDiagnosisSelected}
           value={description}
           onChange={(event) => {
-            const newDescription = event.currentTarget.value
-            handleUpdate({ ...value, code: newDescription === '' ? '' : code, description: newDescription })
-            updateTypeaheadResult(newDescription, false, selectedCodeSystem)
+            const sanitized = sanitize(event.currentTarget.value)
+            handleUpdate({ ...value, code: sanitized === '' ? '' : code, description: sanitized })
+            updateTypeaheadResult(sanitized, false, selectedCodeSystem)
           }}
           onClose={() => resetDiagnosisTypeahead()}
           getItemText={getDiagnosisItemText}
@@ -112,6 +116,8 @@ export function UeDiagnosis({
       <ValidationErrorWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationErrorWrapper>
-    </DiagnosisWrapper>
+      </DiagnosisWrapper>
+      <InvalidCharactersInfoBox visible={showWarning} />
+    </>
   )
 }

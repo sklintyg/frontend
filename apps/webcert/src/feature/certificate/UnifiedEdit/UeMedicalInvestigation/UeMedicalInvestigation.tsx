@@ -13,6 +13,8 @@ import type {
   ValueMedicalInvestigation,
 } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 const Row = styled.div`
   display: flex;
@@ -67,6 +69,7 @@ export function UeMedicalInvestigation({
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
@@ -136,12 +139,13 @@ export function UeMedicalInvestigation({
           <TextInput
             label={questionConfig.informationSourceText}
             onChange={(event) => {
+              const sanitized = sanitize(event.currentTarget.value)
               onChange({
                 ...value,
                 informationSource: {
                   ...value.informationSource,
                   id: config.informationSourceId,
-                  text: event.currentTarget.value || null,
+                  text: sanitized || null,
                 },
               })
             }}
@@ -153,6 +157,7 @@ export function UeMedicalInvestigation({
             tooltip={questionConfig.informationSourceDescription}
           />
           <QuestionValidationTexts validationErrors={informationSourceErrors} />
+          <InvalidCharactersInfoBox visible={showWarning} />
         </div>
       </div>
     </Root>
